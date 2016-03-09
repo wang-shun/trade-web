@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.team.repository.TsTeamPropertyMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.team.entity.TsTeamProperty" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="YU_TEAM_NAME" property="yuTeamName" jdbcType="NVARCHAR" />
+    <result column="YU_TEAM_CODE" property="yuTeamCode" jdbcType="NVARCHAR" />
+    <result column="IS_RESPONSE_TEAM" property="isResponseTeam" jdbcType="CHAR" />
+    <result column="FREE_SELECT" property="freeSelect" jdbcType="CHAR" />
+    <result column="TEAM_PROPERTY" property="teamProperty" jdbcType="VARCHAR" />
+    <result column="fin_team_code" property="finTeamCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, YU_TEAM_CODE, YU_TEAM_NAME,IS_RESPONSE_TEAM, TEAM_PROPERTY,FREE_SELECT,fin_team_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_PROPERTY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_TEAM_PROPERTY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamProperty" >
+    insert into sctrans.T_TS_TEAM_PROPERTY (PKID, YU_TEAM_CODE, IS_RESPONSE_TEAM, 
+      TEAM_PROPERTY,FREE_SELECT)
+    values (#{pkid,jdbcType=BIGINT}, #{yuTeamCode,jdbcType=NVARCHAR}, #{isResponseTeam,jdbcType=CHAR}, 
+      #{teamProperty,jdbcType=VARCHAR}, #{freeSelect,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.team.entity.TsTeamProperty" >
+    insert into sctrans.T_TS_TEAM_PROPERTY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="yuTeamCode != null" >
+        YU_TEAM_CODE,
+      </if>
+      <if test="isResponseTeam != null" >
+        IS_RESPONSE_TEAM,
+      </if>
+      <if test="teamProperty != null" >
+        TEAM_PROPERTY,
+      </if>
+      <if test="freeSelect != null" >
+        FREE_SELECT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="yuTeamCode != null" >
+        #{yuTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="isResponseTeam != null" >
+        #{isResponseTeam,jdbcType=CHAR},
+      </if>
+      <if test="teamProperty != null" >
+        #{teamProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="freeSelect != null" >
+         #{freeSelect,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.team.entity.TsTeamProperty" >
+    update sctrans.T_TS_TEAM_PROPERTY
+    <set >
+      <if test="yuTeamCode != null" >
+        YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="isResponseTeam != null" >
+        IS_RESPONSE_TEAM = #{isResponseTeam,jdbcType=CHAR},
+      </if>
+      <if test="teamProperty != null" >
+        TEAM_PROPERTY = #{teamProperty,jdbcType=VARCHAR},
+      </if>
+       <if test="freeSelect != null" >
+         FREE_SELECT = #{freeSelect,jdbcType=CHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.team.entity.TsTeamProperty" >
+    update sctrans.T_TS_TEAM_PROPERTY
+    set YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR},
+      IS_RESPONSE_TEAM = #{isResponseTeam,jdbcType=CHAR},
+         FREE_SELECT = #{freeSelect,jdbcType=CHAR},
+      TEAM_PROPERTY = #{teamProperty,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="findTeamPropertyByTeamCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_PROPERTY
+    where YU_TEAM_CODE = #{yuTeamCode,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="findTeamPropertyCooperation" parameterType="com.centaline.trans.team.entity.TsTeamProperty" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_PROPERTY 
+    where YU_TEAM_CODE = #{yuTeamCode,jdbcType=VARCHAR} 
+    <if test="isResponseTeam">	
+    	and IS_RESPONSE_TEAM = #{isResponseTeam,jdbcType=VARCHAR}  
+    	</if>
+    <if test="teamProperty!=null">
+   		and TEAM_PROPERTY &lt;&gt; '0' and TEAM_PROPERTY &lt;&gt; #{teamProperty,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
+  <!-- 功能：交易顾问查询   作者：zhangxb16 -->
+  <select id="selectTeamPropertyByTeamCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_PROPERTY
+    	where YU_TEAM_CODE = #{yuTeamCode,jdbcType=VARCHAR} and IS_RESPONSE_TEAM=1
+  </select>
+  
+  
+  <!-- 功能：变更合作对象  作者：zhangxb16 描述：找出非组办组的 -->
+  <select id="selectTeamPropertyByNoTeamCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_PROPERTY
+    	where YU_TEAM_CODE = #{yuTeamCode,jdbcType=VARCHAR} and IS_RESPONSE_TEAM=0 
+  </select>
+  
+   <select id="getTsTeamPropertyListByProperty" parameterType="com.centaline.trans.team.entity.TsTeamProperty" resultMap="BaseResultMap">
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from sctrans.T_TS_TEAM_PROPERTY
+	    <where>
+	        <if test="isResponseTeam != null">
+	            AND IS_RESPONSE_TEAM = #{isResponseTeam}
+	        </if>
+	         <if test="yuTeamCode != null">
+	            AND YU_TEAM_CODE = #{yuTeamCode}
+	        </if>
+	    </where>
+  </select>
+  
+  <select id="recoveryTeamScope" statementType="CALLABLE" resultMap="CallAbleMap">
+	<![CDATA[  
+	  {call sctrans.P_LOST_CASE_RECOVER()}
+	]]> 
+  </select>  
+  
+   <resultMap id="CallAbleMap" type="com.centaline.trans.team.vo.CaseInfoVO" >
+       <result column="PROPERTY_ADDR" property="propertyAddr" javaType="java.lang.String" jdbcType="VARCHAR"/>
+       <result column="AGENT_NAME" property="agentName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+       <result column="GRP_NAME" property="grpName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+       <result column="IMPORT_TIME" property="importTime" jdbcType="TIMESTAMP"/>
+       <result column="ORG_ID" property="orgId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+       <result column="LEADING_PROCESS_ID" property="leadingProcessId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/jsp/common">
+	<excludes>
+<!-- 		<pattern>/mobile/*</pattern> -->
+		<pattern>/static/*</pattern>
+		<pattern>/cxf/*</pattern>
+		<pattern>/api/*</pattern>
+		<pattern>/rest/*</pattern>
+		<pattern>/admin/*</pattern>
+		<pattern>/remote/*</pattern>
+		<pattern>/media/*</pattern>
+		<pattern>/login.jsp</pattern>
+		<pattern>/index.jsp</pattern>
+		<pattern>/mobile/case/box/*</pattern>
+		<pattern>/mobile/dashboard/box/*</pattern>
+	</excludes>
+
+	<decorator name="default" page="INSPINIA_template.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+	<decorator name="box" page="box_template.jsp">
+		<pattern>/*/box/*</pattern>
+	</decorator>
+	<decorator name="mobile"  page="m_INSPINIA_template.jsp" webapp="../mobile/common">
+		<pattern>/*/mobile/*</pattern>
+	</decorator>
+	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
+		<pattern>/mobile/property/box/*</pattern>
+	</decorator>
+</decorators>

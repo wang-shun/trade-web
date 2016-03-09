@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.ToCloseMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.ToClose" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PART_APPROVER" property="partApprover" jdbcType="VARCHAR" />
+    <result column="APPROVE_TIME" property="approveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.cases.entity.ToClose" extends="BaseResultMap" >
+    <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
+    <result column="APPROVE_COMMET" property="approveCommet" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PART_CODE, CASE_CODE, PART_APPROVER, APPROVE_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    COMMENT, APPROVE_COMMET
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_CLOSE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_CLOSE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToClose" >
+    insert into sctrans.T_TO_CLOSE (PKID, PART_CODE, CASE_CODE, 
+      PART_APPROVER, APPROVE_TIME, COMMENT, 
+      APPROVE_COMMET)
+    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{partApprover,jdbcType=VARCHAR}, #{approveTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=LONGVARCHAR}, 
+      #{approveCommet,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToClose" >
+    insert into sctrans.T_TO_CLOSE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="partApprover != null" >
+        PART_APPROVER,
+      </if>
+      <if test="approveTime != null" >
+        APPROVE_TIME,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+      <if test="approveCommet != null" >
+        APPROVE_COMMET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partApprover != null" >
+        #{partApprover,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="approveCommet != null" >
+        #{approveCommet,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToClose" >
+    update sctrans.T_TO_CLOSE
+    <set >
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partApprover != null" >
+        PART_APPROVER = #{partApprover,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="approveCommet != null" >
+        APPROVE_COMMET = #{approveCommet,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.cases.entity.ToClose" >
+    update sctrans.T_TO_CLOSE
+    set PART_CODE = #{partCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PART_APPROVER = #{partApprover,jdbcType=VARCHAR},
+      APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},
+      COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      APPROVE_COMMET = #{approveCommet,jdbcType=LONGVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToClose" >
+    update sctrans.T_TO_CLOSE
+    set PART_CODE = #{partCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PART_APPROVER = #{partApprover,jdbcType=VARCHAR},
+      APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findToCloseByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CLOSE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="countToCloseById" parameterType="java.lang.String" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+    SELECT 
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0 
+	AND  CASE_CODE IN(
+	(
+		select CASE_CODE from sctrans.T_TO_CASE
+		WHERE 1=1			
+		AND LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}	
+			)UNION(
+			SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+			WHERE 1=1
+			AND PROCESSOR_ID = #{userId,jdbcType=VARCHAR}					  	
+		)
+
+	)
+  </select>
+  
+  <select id="countToCloseByOrgId" parameterType="java.lang.String" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+    SELECT 
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0
+    <if test="startDate != null">
+     	AND   CREATE_TIME &gt;= #{startDate,jdbcType=VARCHAR}  
+    </if>
+	<if test="endDate != null">
+      	AND  CREATE_TIME  &lt;= #{endDate,jdbcType=VARCHAR}  
+    </if> 
+	<if test="orgId != null" >
+		 AND  CASE_CODE IN(
+		(
+			select CASE_CODE from sctrans.T_TO_CASE
+			WHERE 1=1			
+			AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+				)UNION(
+				SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+				WHERE 1=1
+				AND  ORG_ID = #{orgId,jdbcType=VARCHAR}				  	
+			)
+	
+		)
+    </if>
+	
+  </select>
+  
+   <select id="queryCountToCloseById"  parameterType="com.centaline.trans.cases.entity.ToCase" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+   	
+	SELECT 
+		COUNT(CASE_CODE) AS countJAS
+	FROM sctrans.T_TO_CASE 
+	where   convert(char(7) ,Close_Time , 120) = #{time,jdbcType=VARCHAR} 
+	AND LEADING_PROCESS_ID = #{leadingProcessId,jdbcType=VARCHAR} 
+
+  </select>
+  
+   <select id="queryCountToCloseByOrg"  parameterType="com.centaline.trans.cases.entity.ToCase" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+	SELECT 
+		COUNT(CASE_CODE) AS countJAS
+	FROM sctrans.T_TO_CASE
+	where   convert(char(7) ,Close_Time , 120) = #{time,jdbcType=VARCHAR} 
+	<if test="orgId != null" >
+		AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+    </if>
+  </select>
+  
+   <select id="countToCloseListByOrgId"  parameterType="com.centaline.trans.cases.entity.ToCase" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+	<!--  SELECT 
+		convert(char(7) ,CREATE_TIME , 120) as createTime,
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0 
+	<if test="orgId != null" >
+		AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+    </if>
+	GROUP BY convert(char(7) ,CREATE_TIME , 120) -->
+	SELECT
+				CONVERT (CHAR(7), CREATE_TIME, 120) AS createTime,
+				COUNT (CASE_CODE) AS countJDS
+			FROM
+				sctrans.T_TO_CASE
+			WHERE
+				datediff(MONTH, Close_Time, getdate()) = 0
+			AND CASE_CODE IN (
+				SELECT
+					CASE_CODE
+				FROM
+					sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+				WHERE
+					1 = 1
+				 <if test="orgId != null" >
+					AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+   				 </if>
+			)
+			GROUP BY
+				CONVERT (CHAR(7), CREATE_TIME, 120)
+  </select>
+  
+   <select id="countToCloseListByOrgList"  resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+			SELECT
+				CONVERT (CHAR(7), CREATE_TIME, 120) AS createTime,
+				COUNT (CASE_CODE) AS countJDS
+			FROM
+				sctrans.T_TO_CASE
+			WHERE
+				datediff(MONTH, Close_Time, getdate()) = 0
+			AND CASE_CODE IN (
+				SELECT
+					CASE_CODE
+				FROM
+					sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+				WHERE
+					1 = 1
+				AND ORG_ID IN  
+				<foreach collection="list" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+			)
+			GROUP BY
+				CONVERT (CHAR(7), CREATE_TIME, 120)
+  </select>
+  
+  
+   <select id="countToCloseListByIdList"  resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+	 SELECT 
+		convert(char(7) ,CREATE_TIME , 120) as createTime,
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0 
+	AND  LEADING_PROCESS_ID IN
+    <foreach collection="list" item="item" index="index" open="(" separator="," close=")">#{item}</foreach>
+	GROUP BY convert(char(7) ,CREATE_TIME , 120)
+  </select>
+  
+   <select id="countToCloseByOrgList" resultType="java.lang.Integer">
+	 SELECT 
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0 
+	AND  CASE_CODE  IN(
+	(
+		select CASE_CODE from sctrans.T_TO_CASE
+		WHERE 1=1			
+		AND ORG_ID IN 
+		<foreach collection="param1" item="item1" index="index1" open="(" separator="," close=")">#{item1}</foreach>
+		<if test="param2 != null">
+	      AND   CREATE_TIME &gt;= #{param2,jdbcType=VARCHAR}   
+	    </if>
+		<if test="param3 != null">
+	      AND  CREATE_TIME  &lt;= #{param3,jdbcType=VARCHAR}  
+	    </if>
+			)UNION(
+			SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+			WHERE 1=1
+			AND  ORG_ID IN 
+		<foreach collection="param1" item="item1" index="index1" open="(" separator="," close=")">#{item1}</foreach>
+		<if test="param2 != null">
+	      AND   CREATE_TIME &gt;= #{param2,jdbcType=VARCHAR}   
+	    </if>
+		<if test="param3 != null">
+	      AND  CREATE_TIME  &lt;= #{param3,jdbcType=VARCHAR}  
+	    </if>
+		)
+	)
+   
+  </select>
+   <select id="countToCloseByIdList" resultType="java.lang.Integer">
+	 SELECT 
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0 
+	AND  CASE_CODE  IN(
+	(
+		select CASE_CODE from sctrans.T_TO_CASE
+		WHERE 1=1			
+		AND LEADING_PROCESS_ID IN 
+		<foreach collection="param1" item="item1" index="index1" open="(" separator="," close=")">#{item1}</foreach>
+		<if test="param2 != null">
+	      AND   CREATE_TIME &gt;= #{param2,jdbcType=VARCHAR}   
+	    </if>
+		<if test="param3 != null">
+	      AND  CREATE_TIME  &lt;= #{param3,jdbcType=VARCHAR}  
+	    </if>
+			)UNION(
+			SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+			WHERE 1=1
+			AND  LEADING_PROCESS_ID IN 
+		<foreach collection="param1" item="item1" index="index1" open="(" separator="," close=")">#{item1}</foreach>
+		<if test="param2 != null">
+	      AND   CREATE_TIME &gt;= #{param2,jdbcType=VARCHAR}   
+	    </if>
+		<if test="param3 != null">
+	      AND  CREATE_TIME  &lt;= #{param3,jdbcType=VARCHAR}  
+	    </if>
+		)
+	)
+   
+  </select>
+  
+   <select id="initCountToCloseByOrgId" parameterType="com.centaline.trans.cases.entity.ToCase" resultType="java.lang.Integer">
+	 SELECT 
+    	COUNT(CASE_CODE) AS countJAS
+    FROM sctrans.T_TO_CASE 
+    where  datediff(month,Close_Time,getdate())=0 
+	AND  CASE_CODE IN (
+		(SELECT
+				DISTINCT c.CASE_CODE
+			FROM sctrans.T_TO_CASE c
+			INNER JOIN scpf_dev.dbo.SYS_ORG o
+			ON  c.ORG_ID=o.ID 
+			WHERE  datediff(month,CREATE_TIME,getdate())=0
+			<if test="orgId != null">
+			AND o.PARENT_ID= #{orgId,jdbcType=VARCHAR}   
+			</if>
+			<!-- AND o.ID='1762F675CE17459EA9B696F90AEB74F5' -->
+		)
+		UNION
+		(SELECT
+				DISTINCT s.case_code
+			FROM sctrans.T_TO_CASE c
+			LEFT JOIN scpf_dev.dbo.SYS_ORG o
+			<if test="orgId != null">
+			ON o.PARENT_ID=#{orgId,jdbcType=VARCHAR}  
+			</if>
+			<!-- ON o.ID='1762F675CE17459EA9B696F90AEB74F5' -->
+			LEFT JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s
+			ON s.ORG_ID=o.ID
+			WHERE datediff(month,CREATE_TIME,getdate())=0 
+		)
+	 ) 
+	 <if test="time != null">
+		AND convert(char(7) ,CREATE_TIME , 120) = #{time,jdbcType=VARCHAR} 
+	</if>
+   
+  </select>
+  
+</mapper>

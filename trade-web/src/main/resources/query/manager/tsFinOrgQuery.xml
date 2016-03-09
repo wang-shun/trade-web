@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryFinOrgPage">
+		<searchCondition>
+            <condition field="TFO.FIN_ORG_CODE" name="orgCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TFO.FIN_ORG_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					TFO.PKID,
+					TFO.FIN_ORG_CODE,
+					TFO.FIN_ORG_NAME,
+					TFO.FA_FIN_ORG_CODE,
+					TF.FIN_ORG_NAME FA_FIN_ORG_NAME
+					FROM sctrans.T_TS_FIN_ORG TFO
+					LEFT JOIN sctrans.T_TS_FIN_ORG TF ON TFO.FA_FIN_ORG_CODE=TF.FIN_ORG_CODE
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox="" display="金融机构编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="金融机构名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" display="父机构编码" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_NAME" index="" checkbox="" display="父机构名称" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

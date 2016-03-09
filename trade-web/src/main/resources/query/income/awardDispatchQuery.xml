@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryAwardDispatchList">
+		<searchCondition>
+            <condition field="TAD.PARTICIPANT" name="participant" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						TAD.PKID,
+						TAD.CASE_CODE,
+						TAD.PARTICIPANT,
+						TAD.BASE_AMOUNT,
+						TAD.PHONE_ACCURACY,
+						TAD.SATISFY_RATING,
+						TAD.EPLUS_CURRENT_MONTH,
+						TAD.KPI,
+						TAD.FINAL_AMOUNT,
+						TAD.IMPORT_TIME,
+						TAD.DISPATCH_TIME,
+						TPI.PROPERTY_ADDR
+					FROM
+						sctrans.T_TS_AWARD_DISPATCH TAD LEFT JOIN sctrans.T_TO_PROPERTY_INFO TPI 
+						ON TAD.CASE_CODE = TPI.CASE_CODE
+						WHERE 1=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY TAD.DISPATCH_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="BASE_AMOUNT" index="" checkbox="" title="基本奖金" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="KPI"  index="" checkbox="" title="KPI" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="FINAL_AMOUNT" index="" checkbox="" title="最终金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="DISPATCH_TIME" index="" checkbox="" title="记佣归属月份" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

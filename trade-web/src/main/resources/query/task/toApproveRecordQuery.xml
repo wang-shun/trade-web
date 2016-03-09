@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getUserNameByCode" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+		
+ 	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryLoanlostApproveList">
+		<searchCondition>
+            <condition field="TR.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="TR.APPROVE_TYPE" name="approveType" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="TR.PROCESS_INSTANCE" name="processInstanceId" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					PART_CODE, 
+					OPERATOR, 
+					OPERATOR_TIME,
+					CONTENT  
+					FROM sctrans.T_TO_APPROVE_RECORD TR
+					where 1 = 1 
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PART_CODE" index="" display="环节编码" customDict="getDictPartName"/>
+				<column type="both" name="OPERATOR" index="" checkbox="" display="操作人" customDict="getUserNameByCode" />
+				<column type="both" name="OPERATOR_TIME" index="" checkbox="true" display="操作时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="0" align="" halign="" order="asc" resizable=""/>
+				<column type="both" name="CONTENT" index="" checkbox="" display="内容" />
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

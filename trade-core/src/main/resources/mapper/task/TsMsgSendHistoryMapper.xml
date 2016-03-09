@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.TsMsgSendHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.TsMsgSendHistory">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="PART_CODE" jdbcType="VARCHAR" property="partCode" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="MSG_CAT" jdbcType="VARCHAR" property="msgCat" />
+    <result column="SENDER_ID" jdbcType="VARCHAR" property="senderId" />
+    <result column="RECEIVER_NAME" jdbcType="NVARCHAR" property="receiverName" />
+    <result column="RECEIVER_PHONE" jdbcType="VARCHAR" property="receiverPhone" />
+    <result column="RECEIVER_CAT" jdbcType="VARCHAR" property="receiverCat" />
+    <result column="IS_SUCCESS" jdbcType="CHAR" property="isSuccess" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, PART_CODE, SEND_TIME, MSG_CAT, SENDER_ID, RECEIVER_NAME, RECEIVER_PHONE, 
+    RECEIVER_CAT, IS_SUCCESS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_MSG_SEND_HISTORY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TS_MSG_SEND_HISTORY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.TsMsgSendHistory">
+    insert into sctrans.T_TS_MSG_SEND_HISTORY (CASE_CODE, PART_CODE, 
+      SEND_TIME, MSG_CAT, SENDER_ID, 
+      RECEIVER_NAME, RECEIVER_PHONE, RECEIVER_CAT, 
+      IS_SUCCESS)
+    values (#{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{msgCat,jdbcType=VARCHAR}, #{senderId,jdbcType=VARCHAR}, 
+      #{receiverName,jdbcType=NVARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverCat,jdbcType=VARCHAR}, 
+      #{isSuccess,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.TsMsgSendHistory">
+    insert into sctrans.T_TS_MSG_SEND_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="partCode != null">
+        PART_CODE,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="msgCat != null">
+        MSG_CAT,
+      </if>
+      <if test="senderId != null">
+        SENDER_ID,
+      </if>
+      <if test="receiverName != null">
+        RECEIVER_NAME,
+      </if>
+      <if test="receiverPhone != null">
+        RECEIVER_PHONE,
+      </if>
+      <if test="receiverCat != null">
+        RECEIVER_CAT,
+      </if>
+      <if test="isSuccess != null">
+        IS_SUCCESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null">
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgCat != null">
+        #{msgCat,jdbcType=VARCHAR},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        #{receiverName,jdbcType=NVARCHAR},
+      </if>
+      <if test="receiverPhone != null">
+        #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCat != null">
+        #{receiverCat,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuccess != null">
+        #{isSuccess,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.TsMsgSendHistory">
+    update sctrans.T_TS_MSG_SEND_HISTORY
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null">
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgCat != null">
+        MSG_CAT = #{msgCat,jdbcType=VARCHAR},
+      </if>
+      <if test="senderId != null">
+        SENDER_ID = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        RECEIVER_NAME = #{receiverName,jdbcType=NVARCHAR},
+      </if>
+      <if test="receiverPhone != null">
+        RECEIVER_PHONE = #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCat != null">
+        RECEIVER_CAT = #{receiverCat,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuccess != null">
+        IS_SUCCESS = #{isSuccess,jdbcType=CHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.TsMsgSendHistory">
+    update sctrans.T_TS_MSG_SEND_HISTORY
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      MSG_CAT = #{msgCat,jdbcType=VARCHAR},
+      SENDER_ID = #{senderId,jdbcType=VARCHAR},
+      RECEIVER_NAME = #{receiverName,jdbcType=NVARCHAR},
+      RECEIVER_PHONE = #{receiverPhone,jdbcType=VARCHAR},
+      RECEIVER_CAT = #{receiverCat,jdbcType=VARCHAR},
+      IS_SUCCESS = #{isSuccess,jdbcType=CHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 功能：根据caseCode 去查询，是否给客户已经发送过短信    作者：zhangxb16  -->
+  <select id="countMsghistory" resultType="java.lang.Integer" parameterType="com.centaline.trans.task.entity.TsMsgSendHistory">
+  		SELECT count(1) FROM sctrans.T_TS_MSG_SEND_HISTORY 
+  			where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and RECEIVER_NAME=#{receiverName,jdbcType=NVARCHAR} and PART_CODE=#{partCode,jdbcType=VARCHAR}  
+  </select>
+  
+  
+</mapper>

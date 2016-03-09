@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getSrvNameByCode" beanName="qqcdDict30004"></customDict>
+
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCaseTrueCountList">
+		<searchCondition>
+            <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="US.REAL_NAME" name="proName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.CLOSE_TIME" name="approveTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.CLOSE_TIME" name="approveTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+            <condition field="O.ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						A.PKID,
+						A.CASE_CODE,
+					    A.ClOSE_TIME,
+                        D.SRV_CODE,
+						D.PROCESSOR_ID,
+                        US.REAL_NAME AS PROCESSOR_NAME,
+                        US.EMPLOYEE_CODE,
+						E.PROPERTY_ADDR
+					FROM
+						sctrans.T_TO_CASE AS A
+						INNER JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE
+						LEFT JOIN sctrans.V_USER_ORG_JOB AS O ON O.user_id = B.AGENT_CODE
+						LEFT JOIN  sctrans.T_TG_SERV_ITEM_AND_PROCESSOR D ON A.CASE_CODE = D.CASE_CODE  AND D.SRV_CODE IN ('3000401001','3000401002','3000400101','3000400201')
+		                LEFT JOIN sctrans.sys_user US ON US.ID = D.PROCESSOR_ID
+						LEFT JOIN (
+						   SELECT 
+						       TG1.CASE_CODE, 
+						       SELLER = stuff(
+									(
+										SELECT 
+											'/' + GUEST_NAME
+										FROM
+											sctrans.T_TG_GUEST_INFO
+										WHERE
+											TG1.CASE_CODE = CASE_CODE
+						         AND TRANS_POSITION = '30006001'
+						
+										ORDER BY
+											GUEST_NAME FOR xml path ('')
+									),
+									1,
+									1,
+									''
+								)
+						  FROM sctrans.T_TG_GUEST_INFO TG1
+						  WHERE 1=1
+						    GROUP BY
+								TG1.CASE_CODE
+						          )  C ON A.CASE_CODE = C.CASE_CODE
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
+						LEFT JOIN (
+						   SELECT 
+						       TG1.CASE_CODE, 
+						       BUYER = stuff(
+									(
+										SELECT 
+											'/' + GUEST_NAME
+										FROM
+											sctrans.T_TG_GUEST_INFO
+										WHERE
+											TG1.CASE_CODE = CASE_CODE
+						         AND TRANS_POSITION = '30006002'
+						
+										ORDER BY
+											GUEST_NAME FOR xml path ('')
+									),
+									1,
+									1,
+									''
+								)
+						
+						   FROM sctrans.T_TG_GUEST_INFO TG1
+						   WHERE 1=1
+						   GROUP BY
+								TG1.CASE_CODE
+						          ) F ON A.CASE_CODE = F.CASE_CODE
+					WHERE 1=1
+					AND A.CASE_PROPERTY = '30003002'
+     				<ifNotNull guestname>
+							AND (C.SELLER  LIKE '%'+#guestname#+'%' OR F.BUYER LIKE '%'+#guestname#+'%') 
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY B.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+			
+			
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SRV_CODE"  index="" checkbox="" title="服务名称" customDict="getSrvNameByCode" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_NAME" index="" checkbox="" title="服务执行人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EMPLOYEE_CODE" index="" checkbox="" title="员工编号" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ClOSE_TIME" index="" checkbox="" title="结案时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

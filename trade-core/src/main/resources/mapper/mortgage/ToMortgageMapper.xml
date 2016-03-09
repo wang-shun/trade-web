@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mortgage.repository.ToMortgageMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mortgage.entity.ToMortgage" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="MORT_TYPE" property="mortType" jdbcType="VARCHAR" />
+    <result column="MORT_TOTAL_AMOUNT" property="mortTotalAmount" jdbcType="DECIMAL" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
+    <result column="CUST_CODE" property="custCode" jdbcType="VARCHAR" />
+    <result column="COM_AMOUNT" property="comAmount" jdbcType="DECIMAL" />
+    <result column="COM_YEAR" property="comYear" jdbcType="INTEGER" />
+    <result column="COM_DISCOUNT" property="comDiscount" jdbcType="DECIMAL" />
+    <result column="PRF_AMOUNT" property="prfAmount" jdbcType="DECIMAL" />
+    <result column="PRF_YEAR" property="prfYear" jdbcType="INTEGER" />
+    <result column="LEND_WAY" property="lendWay" jdbcType="VARCHAR" />
+    <result column="HOUSE_NUM" property="houseNum" jdbcType="INTEGER" />
+    <result column="IS_LOANER_ARRIVE" property="isLoanerArrive" jdbcType="CHAR" />
+    <result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+    <result column="APPR_DATE" property="apprDate" jdbcType="TIMESTAMP" />
+    <result column="TAZHENG_ARR_DATE" property="tazhengArrDate" jdbcType="TIMESTAMP" />
+    <result column="LEND_DATE" property="lendDate" jdbcType="TIMESTAMP" />
+    <result column="CUST_COMPANY" property="custCompany" jdbcType="VARCHAR" />
+    <result column="IF_REPORT_BEFORE_LEND" property="ifReportBeforeLend" jdbcType="CHAR" />
+    <result column="LOANER_NAME" property="loanerName" jdbcType="VARCHAR" />
+    <result column="LOANER_PHONE" property="loanerPhone" jdbcType="VARCHAR" />
+    <result column="LAST_LOAN_BANK" property="lastLoanBank" jdbcType="VARCHAR" />
+    <result column="PRF_APPLY_DATE" property="prfApplyDate" jdbcType="TIMESTAMP" />
+    <result column="IF_REQUIRE_RECONSIDER" property="ifRequireReconsider" jdbcType="VARCHAR" />
+    <result column="IS_DELEGATE_YUCUI" property="isDelegateYucui" jdbcType="VARCHAR" />
+    <result column="IS_MAIN_LOAN_BANK" property="isMainLoanBank" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
+    <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, MORT_TYPE, MORT_TOTAL_AMOUNT, FIN_ORG_CODE, CUST_CODE, COM_AMOUNT, 
+    COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, LEND_WAY, HOUSE_NUM, IS_LOANER_ARRIVE, 
+    SIGN_DATE, APPR_DATE, TAZHENG_ARR_DATE, LEND_DATE, CUST_COMPANY, IF_REPORT_BEFORE_LEND, 
+    LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
+    IS_MAIN_LOAN_BANK,CUST_NAME
+  </sql>
+  <sql id="Blob_Column_List" >
+    REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_MORTGAGE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_MORTGAGE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+ 
+  <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
+    <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	</selectKey>
+    insert into sctrans.T_TO_MORTGAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="mortType != null" >
+        MORT_TYPE,
+      </if>
+      <if test="mortTotalAmount != null" >
+        MORT_TOTAL_AMOUNT,
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE,
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE,
+      </if>
+      <if test="comAmount != null" >
+        COM_AMOUNT,
+      </if>
+      <if test="comYear != null" >
+        COM_YEAR,
+      </if>
+      <if test="comDiscount != null" >
+        COM_DISCOUNT,
+      </if>
+      <if test="prfAmount != null" >
+        PRF_AMOUNT,
+      </if>
+      <if test="prfYear != null" >
+        PRF_YEAR,
+      </if>
+      <if test="lendWay != null" >
+        LEND_WAY,
+      </if>
+      <if test="houseNum != null" >
+        HOUSE_NUM,
+      </if>
+      <if test="isLoanerArrive != null" >
+        IS_LOANER_ARRIVE,
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE,
+      </if>
+      <if test="apprDate != null" >
+        APPR_DATE,
+      </if>
+      <if test="tazhengArrDate != null" >
+        TAZHENG_ARR_DATE,
+      </if>
+      <if test="lendDate != null" >
+        LEND_DATE,
+      </if>
+      <if test="custCompany != null" >
+        CUST_COMPANY,
+      </if>
+      <if test="ifReportBeforeLend != null" >
+        IF_REPORT_BEFORE_LEND,
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME,
+      </if>
+      <if test="loanerPhone != null" >
+        LOANER_PHONE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="lastLoanBank != null" >
+        LAST_LOAN_BANK,
+      </if>
+      <if test="prfApplyDate != null" >
+        PRF_APPLY_DATE,
+      </if>
+      <if test="ifRequireReconsider != null" >
+        IF_REQUIRE_RECONSIDER,
+      </if>
+      <if test="isDelegateYucui != null" >
+        IS_DELEGATE_YUCUI,
+      </if>
+      <if test="isMainLoanBank != null" >
+        IS_MAIN_LOAN_BANK,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mortType != null" >
+        #{mortType,jdbcType=VARCHAR},
+      </if>
+      <if test="mortTotalAmount != null" >
+        #{mortTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="finOrgCode != null" >
+        #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comAmount != null" >
+        #{comAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comYear != null" >
+        #{comYear,jdbcType=INTEGER},
+      </if>
+      <if test="comDiscount != null" >
+        #{comDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfAmount != null" >
+        #{prfAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfYear != null" >
+        #{prfYear,jdbcType=INTEGER},
+      </if>
+      <if test="lendWay != null" >
+        #{lendWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNum != null" >
+        #{houseNum,jdbcType=INTEGER},
+      </if>
+      <if test="isLoanerArrive != null" >
+        #{isLoanerArrive,jdbcType=CHAR},
+      </if>
+      <if test="signDate != null" >
+        #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apprDate != null" >
+        #{apprDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tazhengArrDate != null" >
+        #{tazhengArrDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lendDate != null" >
+        #{lendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custCompany != null" >
+        #{custCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ifReportBeforeLend != null" >
+        #{ifReportBeforeLend,jdbcType=CHAR},
+      </if>
+      <if test="loanerName != null" >
+        #{loanerName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerPhone != null" >
+        #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lastLoanBank != null" >
+        #{lastLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="prfApplyDate != null" >
+        #{prfApplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ifRequireReconsider != null" >
+        #{ifRequireReconsider,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelegateYucui != null" >
+        #{isDelegateYucui,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null" >
+        #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
+    update sctrans.T_TO_MORTGAGE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mortType != null" >
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      </if>
+      <if test="mortTotalAmount != null" >
+        MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comAmount != null" >
+        COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comYear != null" >
+        COM_YEAR = #{comYear,jdbcType=INTEGER},
+      </if>
+      <if test="comDiscount != null" >
+        COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfAmount != null" >
+        PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfYear != null" >
+        PRF_YEAR = #{prfYear,jdbcType=INTEGER},
+      </if>
+      <if test="lendWay != null" >
+        LEND_WAY = #{lendWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNum != null" >
+        HOUSE_NUM = #{houseNum,jdbcType=INTEGER},
+      </if>
+      <if test="isLoanerArrive != null" >
+        IS_LOANER_ARRIVE = #{isLoanerArrive,jdbcType=CHAR},
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apprDate != null" >
+        APPR_DATE = #{apprDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tazhengArrDate != null" >
+        TAZHENG_ARR_DATE = #{tazhengArrDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lendDate != null" >
+        LEND_DATE = #{lendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custCompany != null" >
+        CUST_COMPANY = #{custCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ifReportBeforeLend != null" >
+        IF_REPORT_BEFORE_LEND = #{ifReportBeforeLend,jdbcType=CHAR},
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerPhone != null" >
+        LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lastLoanBank != null" >
+        LAST_LOAN_BANK = #{lastLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="prfApplyDate != null" >
+        PRF_APPLY_DATE = #{prfApplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ifRequireReconsider != null" >
+        IF_REQUIRE_RECONSIDER = #{ifRequireReconsider,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelegateYucui != null" >
+        IS_DELEGATE_YUCUI = #{isDelegateYucui,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null" >
+        IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+ 
+ <select id="findToMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and last_loan_bank is not null and IS_ACTIVE='1'
+ </select>
+ 
+ <select id="findToMortgageByCaseCodeNoBlank" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_ACTIVE='1'
+ </select>
+ 
+ <select id="findToMortgageByCaseCodeAndBankType" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} 
+ 	<if test="isMainLoanBank != null">
+ 	 	and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
+ 	</if>
+ </select>
+  <select id="findToMortgageByCondition" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} 
+ 	<if test="mortType != null">
+ 	 	and mort_Type=#{mortType,jdbcType=VARCHAR}
+ 	</if>
+ 	 <if test="isDelegateYucui != null">
+ 	 	and is_Delegate_Yucui=#{isDelegateYucui,jdbcType=VARCHAR}
+ 	</if>
+ </select>
+</mapper>

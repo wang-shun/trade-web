@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryTeamScopePage">
+		<searchCondition>
+            <condition field="TS.YU_AGENT_TEAM_CODE" name="agentTeamCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.YU_TEAM_CODE" name="teamCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.YU_AGENT_TEAM_NAME" name="agentTeamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.YU_TEAM_NAME" name="teamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					TS.PKID,
+					TS.YU_AGENT_TEAM_CODE,
+					TS.YU_TEAM_CODE,
+					TS.YU_AGENT_TEAM_NAME,
+					TS.YU_TEAM_NAME,
+					F.real_name AS QYJL,
+            		G.real_name AS QYZJ,
+            		F.ORG_NAME AS QYJL_ORG,
+            		G.ORG_NAME AS QYZJ_ORG
+					FROM sctrans.T_TS_TEAM_SCOPE TS
+					LEFT JOIN  sctrans.SYS_ORG AS O ON O.ORG_CODE = TS.YU_AGENT_TEAM_CODE
+					LEFT JOIN sctrans.T_sys_org_hierarchy AS D ON D.GROUP_ID = O.ID
+					LEFT JOIN  sctrans.SYS_ORG AS YCORG ON YCORG.ORG_CODE = TS.YU_TEAM_CODE
+					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  F on  F.ORG_id = D.BUSIAR_ID AND F.job_code = 'JQYJL' AND  F.is_leader = 1
+					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  G on  G.ORG_id = D.BUSISWZ_ID AND G.job_code = 'JQYZJ' AND  G.is_leader = 1
+					where 1 = 1
+					<ifNotNull oriGrpId>
+						AND (D.GROUP_ID = #oriGrpId# OR D.BUSIAR_ID = #oriGrpId# OR D.BUSISWZ_ID = #oriGrpId# OR D.BUSIWZ_ID = #oriGrpId# OR D.BUSIBA_ID = #oriGrpId#)
+					</ifNotNull>
+					<ifNotNull yuCuiOriGrpId>
+						AND (YCORG.ID = #yuCuiOriGrpId# OR YCORG.PARENT_ID = #yuCuiOriGrpId#)
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="YU_AGENT_TEAM_CODE" index="" checkbox="" display="业务组别编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="YU_AGENT_TEAM_NAME" index="" checkbox="" display="业务组别名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="誉萃组别编码" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="YU_TEAM_NAME" index="" checkbox="" display="誉萃组别名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="QYJL" index="" checkbox="" display="区经" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="QYZJ" index="" checkbox="" display="区总" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="QYJL_ORG" index="" checkbox="" display="区经组织" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="QYZJ_ORG" index="" checkbox="" display="区总组织" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

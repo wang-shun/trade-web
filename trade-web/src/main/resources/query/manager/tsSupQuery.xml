@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getSupCatByCode" beanName="qqcdDictyu_sup_cat"></customDict> 
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="querySupPage">
+		<searchCondition>
+            <condition field="SUP.SUP_CAT" name="supCat" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="SUP.FIN_ORG_CODE" name="supCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TFO.FIN_ORG_NAME" name="supName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					SUP.PKID,
+					SUP.FIN_ORG_CODE,
+					SUP.CONTACT_NAME,
+					SUP.CONTACT_PHONE,
+					SUP.SUP_CAT,
+					SUP.REL_FIN_ORG_CODE,
+					TFO.FIN_ORG_NAME
+					FROM sctrans.T_TS_SUP SUP
+					LEFT JOIN sctrans.T_TS_FIN_ORG TFO ON SUP.FIN_ORG_CODE = TFO.FIN_ORG_CODE
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox="" display="供应商编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="供应商名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONTACT_NAME" index="" checkbox="" display="联系人姓名" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONTACT_PHONE" index="" checkbox="" display="联系人电话" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SUP_CAT" index="" checkbox="" display="供应商类型" customDict="getSupCatByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

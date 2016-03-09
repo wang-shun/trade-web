@@ -1,0 +1,24 @@
+/***
+form add Page
+***/
+.budingTabClass{
+	border: 1px solid #dddddd;
+}
+
+.budingTrClass{
+	
+}
+
+.budingTdClass{
+	align:"center";
+	width:50px;
+	height:35px;
+	border: 1px solid #dddddd;
+}
+
+.active{
+
+	background-color:#d84a38;
+}
+
+

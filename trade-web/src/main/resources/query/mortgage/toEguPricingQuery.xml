@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getStatusByCode" beanName="qqcdDictass_status"></customDict>
+		<customDict id="getResultByCode" beanName="qqcdDictass_confirm_code"></customDict>
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryToEguPricingPage">
+		<searchCondition>
+            <condition field="TEP.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TEP.IS_MAIN_LOAN_BANK" name="isMainLoanBank" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="EPI.RESIDENCE_NAME" name="residenceName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="TEP.ARISER_ID" name="ariserId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					TEP.PKID,
+					TEP.CASE_CODE,
+					TEP.EVA_CODE,
+					TEP.ARISE_TIME,
+					TEP.RESPONSE_TIME,
+					TEP.STATUS,
+					TEP.RESULT,
+					TEP.RESULT RESULT_CODE,
+					TEP.UNIT_PRICE,
+					convert(decimal(18,2),TEP.TOTAL_PRICE/10000) TOTAL_PRICE,
+					TEP.IS_FINAL,
+					TEP.APPLY_CODE,
+					TEP.COMFIRM_SEQ,
+					TEP.IS_MAIN_LOAN_BANK,
+					TFO.FIN_ORG_NAME ,
+					EPI.RESIDENCE_NAME,
+					EPI.AREA,
+					EPI.BUILDING_NO,
+					EPI.ROOM_NO,
+					EPI.ROOM,
+					EPI.HALL,
+					EPI.TOILET
+					FROM sctrans.T_TO_EGU_PRICING TEP 
+					LEFT JOIN sctrans.T_TS_FIN_ORG TFO ON TEP.FIN_ORG_CODE = TFO.FIN_ORG_CODE
+					LEFT JOIN sctrans.T_TO_EGU_PROPERTY_INFO EPI ON TEP.EVA_CODE = EPI.EVA_CODE
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			    ORDER BY TEP.ARISE_TIME DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="询价ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="EVA_CODE" index="" checkbox="" display="评估编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="RESIDENCE_NAME" index="" checkbox="" display="物业地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="STATUS" index="" checkbox="" display="询价状态" customDict="getStatusByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ARISE_TIME" index="" checkbox="" display="询价时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="RESULT" index="" checkbox="" display="询价结果" customDict="getResultByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="UNIT_PRICE" index="" checkbox="" display="单价（元）" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="TOTAL_PRICE" index="" checkbox="" display="总价(万元)" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="目标银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="APPLY_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="IS_FINAL" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="COMFIRM_SEQ" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RESULT_CODE" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AREA" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="BUILDING_NO" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="ROOM_NO" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="HALL" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="TOILET" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ROOM" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+		
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

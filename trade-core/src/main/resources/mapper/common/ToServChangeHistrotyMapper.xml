@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.ToServChangeHistrotyMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.ToServChangeHistroty" >
+    <id column="pkid" property="pkid" jdbcType="BIGINT" />
+    <result column="process_instance_id" property="processInstanceId" jdbcType="VARCHAR" />
+    <result column="serv_code" property="servCode" jdbcType="VARCHAR" />
+    <result column="change_type" property="changeType" jdbcType="CHAR" />
+    <result column="result" property="result" jdbcType="CHAR" />
+    <result column="case_code" property="caseCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.common.entity.ToServChangeHistroty" extends="BaseResultMap" >
+    <result column="reason" property="reason" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pkid, process_instance_id, serv_code, change_type, result, case_code
+  </sql>
+  <sql id="Blob_Column_List" >
+    reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SERV_CHANGE_HISTROTY
+    where pkid = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SERV_CHANGE_HISTROTY
+    where pkid = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
+    insert into sctrans.T_TO_SERV_CHANGE_HISTROTY (pkid, process_instance_id, serv_code, 
+      change_type, result, case_code, 
+      reason)
+    values (#{pkid,jdbcType=BIGINT}, #{processInstanceId,jdbcType=VARCHAR}, #{servCode,jdbcType=VARCHAR}, 
+      #{changeType,jdbcType=CHAR}, #{result,jdbcType=CHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
+    insert into sctrans.T_TO_SERV_CHANGE_HISTROTY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        pkid,
+      </if>
+      <if test="processInstanceId != null" >
+        process_instance_id,
+      </if>
+      <if test="servCode != null" >
+        serv_code,
+      </if>
+      <if test="changeType != null" >
+        change_type,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="caseCode != null" >
+        case_code,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="processInstanceId != null" >
+        #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="servCode != null" >
+        #{servCode,jdbcType=VARCHAR},
+      </if>
+      <if test="changeType != null" >
+        #{changeType,jdbcType=CHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=CHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
+    update sctrans.T_TO_SERV_CHANGE_HISTROTY
+    <set >
+      <if test="processInstanceId != null" >
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="servCode != null" >
+        serv_code = #{servCode,jdbcType=VARCHAR},
+      </if>
+      <if test="changeType != null" >
+        change_type = #{changeType,jdbcType=CHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=CHAR},
+      </if>
+      <if test="caseCode != null" >
+        case_code = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where pkid = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
+    update sctrans.T_TO_SERV_CHANGE_HISTROTY
+    set process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      serv_code = #{servCode,jdbcType=VARCHAR},
+      change_type = #{changeType,jdbcType=CHAR},
+      result = #{result,jdbcType=CHAR},
+      case_code = #{caseCode,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=LONGVARCHAR}
+    where pkid = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
+    update sctrans.T_TO_SERV_CHANGE_HISTROTY
+    set process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      serv_code = #{servCode,jdbcType=VARCHAR},
+      change_type = #{changeType,jdbcType=CHAR},
+      result = #{result,jdbcType=CHAR},
+      case_code = #{caseCode,jdbcType=VARCHAR}
+    where pkid = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findToServChangeHistroty" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" resultMap = "BaseResultMap">
+  	select * from sctrans.T_TO_SERV_CHANGE_HISTROTY 
+  	where result is null  
+  	  <if test="processInstanceId != null" >
+        and process_instance_id = #{processInstanceId,jdbcType=VARCHAR}
+      </if>
+      <if test="servCode != null" >
+        and serv_code = #{servCode,jdbcType=VARCHAR}
+      </if>
+      <if test="changeType != null" >
+        and change_type = #{changeType,jdbcType=CHAR}
+      </if>
+      <if test="caseCode != null" >
+        and case_code = #{caseCode,jdbcType=VARCHAR}
+      </if>
+      <if test="reason != null" >
+        and reason = #{reason,jdbcType=LONGVARCHAR}
+      </if>
+  </select>
+  
+  <select id="isBaoDan" parameterType="java.lang.String" resultMap = "BaseResultMap">
+  	select * from sctrans.T_TO_SERV_CHANGE_HISTROTY 
+  	where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  		and change_type = '2' and result is null 
+  </select>
+  
+</mapper>

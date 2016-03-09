@@ -1,0 +1,37 @@
+/***
+form add Page
+***/
+.pic-tag-select{
+	width:50px;
+}
+
+.tile{
+	height:80px;
+}
+
+.tile .tile-body {
+	padding:0;
+}
+
+.tile .tile-body > i {
+	margin-top:0;
+}
+
+.bg-grey{
+	background-color:	#939393;
+}
+
+.bg-green{
+	background-color:	#2FA4CD;
+}
+
+.nav-tabs{
+	background-color:#d84a38;
+}
+
+.nav-tabs >li >a{
+	color:white;
+}
+.baidu-maps img {
+  max-width: none;
+}

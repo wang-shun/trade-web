@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+        <customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+        <customDict id="qqcdDictServCode" beanName="qqcdDictServCode"></customDict>
+        <customDict id="qqcdDictApplyStatus" beanName="qqcdDictApplyStatus"></customDict>
+		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="changeListQuery">
+		<searchCondition>
+            <condition field="propertyInfo.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="agent.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+					     agent.PKID,
+						 agent.LOAN_SRV_CODE,
+						 agent.CONFIRM_STATUS,
+						 agent.EXECUTOR_ID,
+						 propertyInfo.PROPERTY_ADDR,
+						 change.PKID as 'CHANGE_PKID',
+					     change.ST_FROM,
+					     change.ST_TO,
+					     change.ST_FROM AS 'ST_FROM_ID',
+					     change.ST_TO AS 'ST_TO_ID',
+					     change.CHANGE_DATE,
+					     Convert(decimal(18,2),1.0 * agent.LOAN_AMOUNT/10000) as 'LOAN_AMOUNT',
+					     agent.CUST_NAME
+					FROM sctrans.T_TO_LOAN_AGENT agent
+					INNER JOIN 
+						 sctrans.T_TO_PROPERTY_INFO propertyInfo
+					ON
+						 agent.CASE_CODE = propertyInfo.CASE_CODE
+				    INNER JOIN 
+					    SCTRANS.V_USER_ORG_JOB userOrg
+					ON  
+					    AGENT.EXECUTOR_ID = userOrg.user_id
+				    INNER JOIN
+				         sctrans.v_yucui_org_hierarchy orgHierarchy
+				    ON
+				         orgHierarchy.ORG_ID = userOrg.ORG_id
+					INNER JOIN  
+					(SELECT * FROM sctrans.T_TO_LOAN_STATUS_CHANGE c WHERE c.IS_CONFIRM = 0 AND
+					 NOT EXISTS (
+						            SELECT
+						                1
+						            FROM
+						                sctrans.T_TO_LOAN_STATUS_CHANGE
+						            WHERE
+						                PKID = c.PKID
+						            AND
+						                IS_CONFIRM=0
+						            AND PKID > c.PKID
+						       )
+					) change
+					ON
+					 agent.PKID = change.LOAN_ID
+					WHERE agent.CASE_CODE != '' 
+				]]>
+			</baseSql>
+			<orderBySql>
+			  	ORDER BY agent.CONFIRM_TIME DESC,agent.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="主键" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="LOAN_SRV_CODE" index="" checkbox="" display="产品名称" title="产品名称" customDict="qqcdDictServCode" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONFIRM_STATUS" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EXECUTOR_ID" index="" checkbox="" display="执行人" title="执行人" customDict="getUserNameByUserId" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CHANGE_PKID" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="ST_FROM" index="" checkbox="" display="变更前状态" title="变更前状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="ST_TO" index="" checkbox="" display="变更后状态" title="变更后状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ST_FROM_ID" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ST_TO_ID" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CHANGE_DATE" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" width= "90" align="" halign="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CUST_NAME" index="" checkbox="" display="客户姓名" title="客户姓名" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOAN_AMOUNT" index="" checkbox="" display="申请金额" title="申请金额" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdSrvStrCodeName" beanName="qqcdSrvStrCodeName"></customDict>
+		<customDict id="qqcdYuEplusStatus" beanName="qqcdYuEplusStatus"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getUserPhone" beanName="qqcdUserPhone"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="loanList">
+		<searchCondition>
+			<condition field="PROPERTY_ADDR" name="addr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="tla.CUST_NAME" name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="tla.apply_Status" name="applyStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			select PROPERTY_ADDR as addr,tla.LOAN_SRV_CODE as loanSrvCode,tla.CUST_NAME as custName
+	,tla.APPLY_STATUS as applyStatus,tla.CONFIRM_STATUS as confirmStatus,tla.LOAN_AMOUNT/10000 as loanAmount,tla.APPLY_TIME as applyTime,tla.executor_Id as executor
+	,tla.SIGN_TIME as signTime,tla.RELEASE_TIME as	releaseTime,tla.pkid as pkid
+ from sctrans.V_CASE_LIST_ITEM_VIEW as cliv right join sctrans.T_TO_LOAN_AGENT as tla
+	on cliv.CASE_CODE=tla.CASE_CODE
+ where (tla.executor_Id=#userId# or tla.creator_Id=#userId#)
+ 		 		<ifNotNull applyTime1>
+			 			and tla.APPLY_TIME>=#applyTime1#
+			 	</ifNotNull>
+ 				<ifNotNull applyTime2>
+			 			and tla.APPLY_TIME<=#applyTime2#+' 23:59'
+			 	</ifNotNull>
+ 		 		<ifNotNull signTime1>
+			 			and tla.SIGN_TIME>=#signTime1#
+			 	</ifNotNull>
+ 				<ifNotNull signTime2>
+			 			and tla.SIGN_TIME<=#signTime2#+' 23:59'
+			 	</ifNotNull>
+ 		 		<ifNotNull releaseTime1>
+			 			and tla.RELEASE_TIME>=#releaseTime#
+			 	</ifNotNull>
+ 				<ifNotNull releaseTime2>
+			 			and tla.RELEASE_TIME<=#releaseTime2#+' 23:59'
+			 	</ifNotNull>
+				]]>
+			</baseSql>
+
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			
+				<column type="both" name="confirmStatus" index="" checkbox="" title="产品部确认状态" customDict="qqcdYuEplusStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="pkid" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="addr" index="" checkbox="" title="物业地址" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="loanSrvCode" index="" checkbox="" title="产品类型" customDict="qqcdSrvStrCodeName" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="custName" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="applyStatus" index="" checkbox="" title="当前状态" customDict="qqcdYuEplusStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="loanAmount" index="" checkbox="" title="卖方" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="signTime" index="" checkbox="" title="买方" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="applyTime" index="" checkbox="" title="案件编号" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="executor" index="" checkbox="" title="案件归属" customDict="qqcdUserIdName" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="releaseTime" index="" checkbox="" title="案件编号" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

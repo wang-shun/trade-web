@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+
+		<customDict id="getUserNameByUsername" beanName="qqcdUserUsernameName"></customDict>
+		<customDict id="getTaskStatus" beanName="qqcdTaskStatus"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryTaskHistoryItemListForMobile">
+	    <searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					   SELECT  A.ID,
+								A.CASE_CODE,
+		 						A.DATELAMP,
+								A.NAME,
+								A.PART_CODE,
+								A.INST_CODE,
+								A.ASSIGNEE,
+								A.EST_PART_TIME,
+								A.RED_LOCK,
+								A.END_TIME,
+								A.status,
+								A.create_Time,
+								b.real_time
+					   FROM ((SELECT
+							    ART.ID_ AS ID,
+								TW.CASE_CODE,
+		 						DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
+								ART.NAME_ AS NAME,
+								ART.TASK_DEF_KEY_ AS PART_CODE,
+								ART.PROC_INST_ID_ AS INST_CODE,
+								ART.ASSIGNEE_ AS ASSIGNEE,
+								TP.EST_PART_TIME,
+								TP.RED_LOCK,
+								NULL AS END_TIME,
+								'RUN' as status,
+								art.CREATE_TIME_ as create_Time
+							FROM
+							    sctrans.T_TO_WORKFLOW TW
+								INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
+								LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
+							
+							WHERE 1=1
+	     				<ifNotNull casecode>	
+	     						AND TW.CASE_CODE = #casecode#
+						</ifNotNull>
+							)UNION(
+							SELECT
+							    AHT.ID_ AS ID,
+								TW.CASE_CODE,
+							 	DATEDIFF(DAY, TP.EST_PART_TIME, AHT.END_TIME_) AS DATELAMP,
+								AHT.NAME_ AS NAME,
+								AHT.TASK_DEF_KEY_ AS PART_CODE,
+								AHT.PROC_INST_ID_ AS INST_CODE,
+								AHT.ASSIGNEE_ AS ASSIGNEE,
+								TP.EST_PART_TIME,
+								TP.RED_LOCK,
+								AHT.END_TIME_ AS END_TIME
+								,AHT.DELETE_REASON_ as status
+								,AHT.START_TIME_ as createTime
+							FROM
+							 	sctrans.T_TO_WORKFLOW TW
+								INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED')
+								LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
+							
+							WHERE 1=1
+     				<ifNotNull casecode>	
+     						AND TW.CASE_CODE = #casecode#
+					</ifNotNull>
+						)) A left join sctrans.V_AGENT_PROCESS_QUERY_VIEW b on a.case_code=b.case_code and a.PART_CODE=b.part_code
+						where b.CASE_CODE is not null
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY B.real_time ASC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="INST_CODE" index="" checkbox="" display="INSTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="NAME" index="" checkbox="" display="任务名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ASSIGNEE" index="" checkbox="" display="执行人" customDict="getUserNameByUsername" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EST_PART_TIME" index="" checkbox="" display="预计执行时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RED_LOCK" index="" checkbox="" display="红灯记录" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="END_TIME" index="" checkbox="" display="执行时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="real_time" index="" checkbox="" display="实际时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="status" index="" checkbox="" display="状态" customDict="getTaskStatus" sysDict="" beanFormatter=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>

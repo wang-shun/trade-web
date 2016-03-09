@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+.glyphicons.no-js.camera{width:5px;height:20px;display:none;}
+.glyphicons.no-js.e-mail{width:5px;height:30px;display:none;}
+.glyphicons.no-js.calendar{width:5px;height:30px;display:none;}
+.glyphicons.no-js.fire{width:5px;height:30px;display:none;}
+.glyphicons.no-js.edit{width:5px;height:30px;display:none;}
+.glyphicons.no-js.group{width:5px;height:30px;display:none;}
+
+.glyphicons.no-js.camera.active.various{display:inline-block;}
+.glyphicons.no-js.e-mail.active.various{display:inline-block;}
+.glyphicons.no-js.calendar.active.various{display:inline-block;}
+.glyphicons.no-js.fire.active.various{display:inline-block;}
+.glyphicons.no-js.edit.active.various{display:inline-block;}
+.glyphicons.no-js.group.active.various{display:inline-block;}
+
+.hou-list-icon{height:30px;}
+
+.row-fluid.span4.tags{margin-top:10px;margin-left:-0.5%;float:left;"}
+
+.tag{float:left; border-radius:34px!important;padding-left:2px;width:70px;height:18px;
+     line-heigh:18px;color:#fff;margin-right:5%;background-color:#d84a38;}
+
+.text-left.red{color:#f00!important;font-size:22px;float:left;"}
+
+.fa.fa-tags{color:#fff;margin-right:12%;}
+
+.text-left.red > strong{color:#d84a38;;font-size:22px;}

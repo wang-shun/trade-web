@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.VCaseTradeInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.VCaseTradeInfo" >
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="RES_DATE" property="resDate" jdbcType="TIMESTAMP" />
+    <result column="CON_PRICE" property="conPrice" jdbcType="DECIMAL" />
+    <result column="REAL_PRICE" property="realPrice" jdbcType="DECIMAL" />
+    <result column="IS_HUKOU" property="isHukou" jdbcType="CHAR" />
+    <result column="IS_CON_CERT" property="isConCert" jdbcType="CHAR" />
+    <result column="REAL_CON_TIME" property="realConTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_NAME1" property="payName1" jdbcType="NVARCHAR" />
+    <result column="PAY_TYPE1" property="payType1" jdbcType="NVARCHAR" />
+    <result column="PAY_TIME1" property="payTime1" jdbcType="TIMESTAMP" />
+    <result column="AMOUNT1" property="amount1" jdbcType="DECIMAL" />
+    <result column="PAY_NAME2" property="payName2" jdbcType="NVARCHAR" />
+    <result column="PAY_TYPE2" property="payType2" jdbcType="NVARCHAR" />
+    <result column="PAY_TIME2" property="payTime2" jdbcType="TIMESTAMP" />
+    <result column="AMOUNT2" property="amount2" jdbcType="DECIMAL" />
+    <result column="PAY_NAME3" property="payName3" jdbcType="NVARCHAR" />
+    <result column="PAY_TYPE3" property="payType3" jdbcType="NVARCHAR" />
+    <result column="PAY_TIME3" property="payTime3" jdbcType="TIMESTAMP" />
+    <result column="AMOUNT3" property="amount3" jdbcType="DECIMAL" />
+    <result column="PAY_NAME4" property="payName4" jdbcType="NVARCHAR" />
+    <result column="PAY_TYPE4" property="payType4" jdbcType="NVARCHAR" />
+    <result column="PAY_TIME4" property="payTime4" jdbcType="TIMESTAMP" />
+    <result column="AMOUNT4" property="amount4" jdbcType="DECIMAL" />
+    <result column="UNCLOSE_MONEY" property="uncloseMoney" jdbcType="DECIMAL" />
+    <result column="UPBANK" property="upBank" jdbcType="VARCHAR" />
+    <result column="CLOSE_TYPE" property="closeType" jdbcType="VARCHAR" />
+    <result column="LOAN_CLOSE_CODE" property="loanCloseCode" jdbcType="TIMESTAMP" />
+    <result column="HOUSE_HODING_TAX" property="houseHodingTax" jdbcType="DECIMAL" />
+    <result column="PERSONAL_INCOME_TAX" property="personalIncomeTax" jdbcType="DECIMAL" />
+    <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
+    <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
+    <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
+    <result column="REAL_HT_TIME" property="realHtTime" jdbcType="TIMESTAMP" />
+    <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
+    <result column="IS_UNIQUE_HOME" property="isUniqueHome" jdbcType="CHAR" />
+    <result column="TAX_TIME" property="taxTime" jdbcType="TIMESTAMP" />
+    <result column="HOUSE_PROPERTY" property="houseProperty" jdbcType="NVARCHAR" />
+    <result column="PRICING_TIME" property="pricingTime" jdbcType="TIMESTAMP" />
+    <result column="TAX_PRICING" property="taxPricing" jdbcType="DECIMAL" />
+    <result column="REAL_PLS_TIME" property="realPlsTime" jdbcType="TIMESTAMP" />
+    <result column="REAL_PROPERTY_GET_TIME" property="realPropertyGetTime" jdbcType="TIMESTAMP" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CASE_CODE, CREATE_TIME, RES_DATE, IS_HUKOU, IS_CON_CERT, REAL_CON_TIME, PAY_NAME1, 
+    PAY_TYPE1, PAY_TIME1, PAY_NAME2, PAY_TYPE2, PAY_TIME2, PAY_NAME3, PAY_TYPE3, PAY_TIME3, 
+    PAY_NAME4, PAY_TYPE4, PAY_TIME4, UNCLOSE_MONEY, CLOSE_TYPE, LOAN_CLOSE_CODE, HOUSE_HODING_TAX, 
+    PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX, REAL_HT_TIME, 
+    HOLD_YEAR, IS_UNIQUE_HOME, TAX_TIME, HOUSE_PROPERTY, PRICING_TIME, TAX_PRICING, REAL_PLS_TIME, 
+    REAL_PROPERTY_GET_TIME, CLOSE_TIME,CON_PRICE,REAL_PRICE,AMOUNT1,AMOUNT3,AMOUNT2,AMOUNT4,UPBANK
+  </sql>
+  
+<select id="queryCaseTradeInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.V_CASE_TRADE_INFO_VIEW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

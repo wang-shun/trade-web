@@ -1,0 +1,307 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-border-sizing: border-box;
+    tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    focus-ring-color: rgba(0, 0, 0, 0);
+}
+
+html {
+    -ms-touch-action: none;
+}
+
+body, ul, li {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
+    /* this is important to prevent the whole page to bounce */
+    font: 14px/1.428 '微软雅黑';
+    color: #888;
+    background: #fff
+}
+
+#header {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    background: #CD235C;
+    padding: 0;
+    color: #eee;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#wrapper {
+    position: absolute;
+    z-index: 1;
+    top: 98px;
+    bottom: 48px;
+    left: 9999px;
+    /* Not a must - can be 0 - but it makes the appearance of the content a bit nicer */
+    width: 100%;
+    /*background: #ccc;*/
+    overflow: hidden;
+}
+
+#scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+
+ul, li {
+    list-style: none;
+}
+/*style for index.html*/
+.search-box,header {
+    background: #f8ac59;
+    padding: 5% 2%;
+    overflow: hidden;
+}
+
+.search-txt {
+    float: left;
+    border: 1px solid #fff;
+    background: #fff;
+    height: 30px;
+    width: 75%;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding-left: 5px
+}
+
+.search-btn {
+    float: right;
+    height: 30px;
+    background: inherit;
+    background-size: 80%;
+    -webkit-background-size: 80%;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #fff
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+h2,header+ul {
+    background: #f5f5f5;
+    text-indent: 1em;
+    font: 12px/30px '微软雅黑';
+    height: 30px;
+    color: #9a9a9a;
+    border-bottom: 1px solid #bbb;
+}
+
+h2 em {
+    color: #ed5565;
+    font-style: normal;
+    font-weight: bold;
+}
+
+#scroller li {
+    padding: 2%;
+    overflow: hidden;
+    border-bottom: 1px solid #bbb;
+}
+
+#scroller li span {
+    display: inline-block;
+    float: left;
+    line-height: 26px;
+}
+
+[class^=icon] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+
+#scroller li div span:first-child {
+    color: #555;
+    width: 68%
+}
+
+#scroller li div span:nth-child(2) {
+    width: 32%;
+    text-align: right;
+}
+
+.icon-search {
+    background-image: url(../images/icon-search.png);
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.icon-date {
+    background-image: url(../images/icon-date.png);
+}
+.icon-date-white {
+    background-image: url(../images/icon-date-white.png);
+}
+.icon-label {
+    background-image: url(../images/icon-label.png);
+}
+.icon-label-white {
+    background-image: url(../images/icon-label-white.png);
+}
+.icon-person {
+    background-image: url(../images/icon-person.png);
+}
+.icon-person-active {
+    background-image: url(../images/icon-person-active.png);
+}
+.icon-phone {
+    background-image: url(../images/icon-phone.png);
+}
+.icon-phone-active {
+    background-image: url(../images/icon-phone-active.png);
+}
+#scroller li p {
+    width: 100%;
+}
+
+#scroller li p span:nth-child(2) {
+    float: right;
+    margin-left: 3%
+}
+
+#scroller li p span:last-child {
+    float: right;
+    margin-left: 2%
+}
+
+.pullDownLabel, .pullUpLabel {
+    color: #999
+}
+
+.pullDown, .pullUp {
+    background: #fff;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    font-size: 0.8em;
+    color: #888
+}
+
+.pullDown .pullDownIcon, .pullUp .pullUpIcon {
+    display: block;
+    float: left;
+    opacity: 0.4;
+    width: 40px;
+    height: 40px;
+    background: url(../images/pull_to_refresh.png) 0 0 no-repeat;
+    -webkit-background-size: 40px 80px;
+    -ms-background-size: 40px 80px;
+    background-size: 40px 80px;
+    -webkit-transition-property: -webkit-transform;
+    -ms-transition-property: -webkit-transform;
+    -webkit-transition-duration: 250ms;
+    -ms-transition-duration: 250ms
+}
+
+.pullDown .pullDownIcon {
+    -webkit-transform: rotate(0deg) translateZ(0);
+    -ms-transform: rotate(0deg) translateZ(0)
+}
+
+.pullUp .pullUpIcon {
+    -webkit-transform: rotate(-180deg) translateZ(0);
+    -ms-transform: rotate(-180deg) translateZ(0)
+}
+
+.pullDown.flip .pullDownIcon {
+    -webkit-transform: rotate(-180deg) translateZ(0);
+    -ms-transform: rotate(-180deg) translateZ(0)
+}
+
+.pullUp.flip .pullUpIcon {
+    -webkit-transform: rotate(0deg) translateZ(0);
+    -ms-transform: rotate(0deg) translateZ(0)
+}
+
+.pullDown.loading .pullDownIcon, .pullUp.loading .pullUpIcon {
+    background-position: 0 100%;
+    -webkit-transform: rotate(0deg) translateZ(0);
+    -ms-transform: rotate(0deg) translateZ(0);
+    -webkit-transition-duration: 0ms;
+    -ms-transition-duration: 0ms;
+    -webkit-animation-name: loading;
+    -ms-animation-name: loading;
+    -webkit-animation-duration: 1s;
+    -ms-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -ms-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -ms-animation-timing-function: linear
+}
+
+@-webkit-keyframes loading {
+    from {
+        -webkit-transform: rotate(0deg) translateZ(0)
+    }
+    to {
+        -webkit-transform: rotate(360deg) translateZ(0)
+    }
+}
+
+@-ms-keyframes loading {
+    from {
+        -ms-transform: rotate(0deg) translateZ(0)
+    }
+    to {
+        -ms-transform: rotate(360deg) translateZ(0)
+    }
+}
+
+/*style for detail.html*/
+header{color: #fff;padding: 2% 0;text-indent: 1em}
+h1{font-size: 16px}
+header+ul{height: auto;padding: 10px 0}
+ul.desc li{line-height: 25px;text-indent: 1em;background: #f5f5f5;}
+.timeline,header p{margin-top: 10px}
+.timeline-item{overflow: hidden;}
+.timeline-item .date{float: left; position: relative;width: 35px;height: 1px; text-align: right;}
+.timeline-item .date i{display: inline-block; position: absolute;top: 0;right: 0;padding: 5px;width: 24px;height: 24px; text-align: center;border: 1px solid #e7eaec;border-right: 0;background-size: 85%;
+    -webkit-background-size: 72%;background-color: #f8f8f8;background-position: center; }
+.timeline-item .content{float: left;border-left: 1px solid #e7eaec;min-height: 65px;width: 80%}
+.timeline .timeline-item:not(:first-child) .content{border-top: 1px solid #e7eaec;}
+.timeline-item p{text-indent: 1em;line-height: 25px}
+.timeline-item p span{margin-left: 3%}
+.timeline-item p strong{display: inline-block;width: 140px;text-indent: 0;  line-height: 32px;}
+.btn-back{display: block; width: 98%;height: 40px;line-height: 40px;border:1px solid #c8c8c8;border-radius: 3px;-webkit-border-radius:3px; margin: 20px auto;background: #c8c8c8;text-align: center;color: #fff;text-decoration: none;font-size: 16px}
+.active .date i{background-color: #1ab394}
+.active .content p:first-child{color: #1ab394}

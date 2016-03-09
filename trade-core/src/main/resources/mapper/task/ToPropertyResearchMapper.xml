@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.ToPropertyResearchMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToPropertyResearch">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="PART_CODE" jdbcType="VARCHAR" property="partCode" />
+    <result column="PR_CAT" jdbcType="NVARCHAR" property="prCat" />
+    <result column="PR_APPLIANT" jdbcType="VARCHAR" property="prAppliant" />
+    <result column="PR_EXECUTOR" jdbcType="VARCHAR" property="prExecutor" />
+    <result column="PR_APPLY_TIME" jdbcType="TIMESTAMP" property="prApplyTime" />
+    <result column="PR_ACCPET_TIME" jdbcType="TIMESTAMP" property="prAccpetTime" />
+    <result column="PR_COMPLETE_TIME" jdbcType="TIMESTAMP" property="prCompleteTime" />
+    <result column="PR_STATUS" jdbcType="NVARCHAR" property="prStatus" />
+    <result column="PR_CHANNEL" jdbcType="VARCHAR" property="prChannel" />
+    <result column="IS_SUCCESS" jdbcType="BIGINT" property="isSuccess" />
+    <result column="PR_CODE" jdbcType="VARCHAR" property="prCode" />
+    <result column="same_Pr_Code" jdbcType="VARCHAR" property="samePRCode" />
+    <result column="pr_District_Id" jdbcType="VARCHAR" property="prDistrictId" />
+    <result column="UNSUCCESS_REASON" jdbcType="VARCHAR" property="unSuccessReason" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, PART_CODE, PR_CAT, PR_APPLIANT, PR_EXECUTOR, PR_APPLY_TIME, PR_ACCPET_TIME, 
+    PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS,PR_CODE,same_Pr_Code,pr_District_Id,UNSUCCESS_REASON
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+    <select id="selectByForSamePrCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select    res.PKID, res.CASE_CODE, res.PART_CODE, PR_CAT, PR_APPLIANT, PR_EXECUTOR, PR_APPLY_TIME, PR_ACCPET_TIME, res.PR_CODE,same_Pr_Code,pr_District_Id,
+    PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS
+    from sctrans.T_TO_PROPERTY_INFO inf left join sctrans.T_TO_PROPERTY_RESEARCH res
+	 on inf.case_code =res.case_code or inf.case_code =res.pr_code
+	  where datediff(day,res.PR_APPLY_TIME,getdate())=0 and inf.PROPERTY_ADDR=#{0} and res.same_pr_code is null
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TO_PROPERTY_RESEARCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
+    insert into sctrans.T_TO_PROPERTY_RESEARCH (PKID, CASE_CODE, PART_CODE, 
+      PR_CAT, PR_APPLIANT, PR_EXECUTOR, 
+      PR_APPLY_TIME, PR_ACCPET_TIME, PR_COMPLETE_TIME, 
+      PR_STATUS, PR_CHANNEL,PR_CODE,SAME_PR_CODE)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
+      #{prCat,jdbcType=NVARCHAR}, #{prAppliant,jdbcType=VARCHAR}, #{prExecutor,jdbcType=VARCHAR}, 
+      #{prApplyTime,jdbcType=TIMESTAMP}, #{prAccpetTime,jdbcType=TIMESTAMP}, #{prCompleteTime,jdbcType=TIMESTAMP}, 
+      #{prStatus,jdbcType=NVARCHAR}, #{prChannel,jdbcType=VARCHAR}, #{prCode,jdbcType=VARCHAR}, #{samePRCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
+    insert into sctrans.T_TO_PROPERTY_RESEARCH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="partCode != null">
+        PART_CODE,
+      </if>
+      <if test="prCat != null">
+        PR_CAT,
+      </if>
+      <if test="prAppliant != null">
+        PR_APPLIANT,
+      </if>
+      <if test="prExecutor != null">
+        PR_EXECUTOR,
+      </if>
+      <if test="prApplyTime != null">
+        PR_APPLY_TIME,
+      </if>
+      <if test="prAccpetTime != null">
+        PR_ACCPET_TIME,
+      </if>
+      <if test="prCompleteTime != null">
+        PR_COMPLETE_TIME,
+      </if>
+      <if test="prStatus != null">
+        PR_STATUS,
+      </if>
+      <if test="prChannel != null">
+        PR_CHANNEL,
+      </if>
+      <if test="samePRCode != null">
+        same_Pr_Code,
+      </if>
+      <if test="prDistrictId != null">
+        pr_District_Id,
+      </if>
+      <if test="prCode != null">
+        Pr_Code ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null">
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prCat != null">
+        #{prCat,jdbcType=NVARCHAR},
+      </if>
+      <if test="prAppliant != null">
+        #{prAppliant,jdbcType=VARCHAR},
+      </if>
+      <if test="prExecutor != null">
+        #{prExecutor,jdbcType=VARCHAR},
+      </if>
+      <if test="prApplyTime != null">
+        #{prApplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prAccpetTime != null">
+        #{prAccpetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prCompleteTime != null">
+        #{prCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prStatus != null">
+        #{prStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="prChannel != null">
+        #{prChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="samePRCode != null">
+        #{samePRCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prDistrictId != null">
+        #{prDistrictId,jdbcType=VARCHAR},
+      </if>
+      <if test="prCode != null">
+        #{prCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null">
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prCat != null">
+        PR_CAT = #{prCat,jdbcType=NVARCHAR},
+      </if>
+      <if test="prAppliant != null">
+        PR_APPLIANT = #{prAppliant,jdbcType=VARCHAR},
+      </if>
+      <if test="prExecutor != null">
+        PR_EXECUTOR = #{prExecutor,jdbcType=VARCHAR},
+      </if>
+      <if test="prApplyTime != null">
+        PR_APPLY_TIME = #{prApplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prAccpetTime != null">
+        PR_ACCPET_TIME = #{prAccpetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prCompleteTime != null">
+        PR_COMPLETE_TIME = #{prCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prStatus != null">
+        PR_STATUS = #{prStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="prChannel != null">
+        PR_CHANNEL = #{prChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="prCode != null">
+        PR_CODE = #{prCode,jdbcType=VARCHAR},
+      </if>
+      <if test="samePRCode != null">
+        SAME_PR_CODE= #{samePRCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      PR_CODE = #{prCode,jdbcType=VARCHAR},
+      PR_CAT = #{prCat,jdbcType=NVARCHAR},
+      PR_APPLIANT = #{prAppliant,jdbcType=VARCHAR},
+      PR_EXECUTOR = #{prExecutor,jdbcType=VARCHAR},
+      PR_APPLY_TIME = #{prApplyTime,jdbcType=TIMESTAMP},
+      PR_ACCPET_TIME = #{prAccpetTime,jdbcType=TIMESTAMP},
+      PR_COMPLETE_TIME = #{prCompleteTime,jdbcType=TIMESTAMP},
+      PR_STATUS = #{prStatus,jdbcType=NVARCHAR},
+      PR_CHANNEL = #{prChannel,jdbcType=VARCHAR},
+      SAME_PR_CODE= #{samePRCode,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateProcessWaitListStatus" parameterType="java.lang.String">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set 
+      PR_STATUS =  1
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateProcessingListStatus" parameterType="java.lang.String">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set 
+      PR_STATUS = 2
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+    <update id="updatePropertyToComplete" >
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set 
+      PR_STATUS = 2,  
+      PR_COMPLETE_TIME = GETDATE(),
+      PR_EXECUTOR = #{1}
+    where PKID = #{0}
+  </update>
+  
+  <update id="updateProcessWaitListPrAccpetTime" parameterType="java.lang.Long">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set 
+      PR_ACCPET_TIME = GETDATE()
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateProcessingListPrCompleteTime" parameterType="java.lang.Long">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set 
+      PR_COMPLETE_TIME = GETDATE()
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findToPropertyResearchById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="findToPropertyResearchAddressById" parameterType="java.lang.Long" resultType="com.centaline.trans.task.entity.ToPropertyResearchVo">
+	SELECT 
+	    C.PROPERTY_ADDR AS propertyAddr
+	FROM 
+		sctrans.T_TO_PROPERTY_RESEARCH AS A
+	LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON (C.CASE_CODE = A.CASE_CODE) or (A.CASE_CODE is null and A.PR_CODE= C.CASE_CODE)
+	WHERE A.PKID =#{pkid,jdbcType=BIGINT}
+  </select>
+    <select id="queryUnClosePropertyResearchsByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND PR_STATUS &lt;&gt; 2
+  </select>
+    <select id="findToPropertyResearchsByCaseCode" parameterType="com.centaline.trans.task.entity.ToPropertyResearch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where PR_CODE = #{prCode,jdbcType=VARCHAR}
+    AND IS_SUCCESS = #{isSuccess,jdbcType=VARCHAR}
+  </select>
+  <select id="getToPropertyResearchsByPrCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where pr_code = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  <select id="getBasePRConsult" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where 1=1
+    AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND DateDiff(dd,PR_APPLY_TIME,getdate())=0
+    AND SAME_PR_CODE IS　NULL
+  </select>
+  <select id="getBasePRAgent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+    where 1=1
+    AND DateDiff(dd,PR_APPLY_TIME,getdate())=0
+    AND CASE_CODE IS NULL
+    AND SAME_PR_CODE IS　NULL
+  </select>
+  <select id="getUnProcessListByDistrict" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select * FROM 
+					sctrans.T_TO_PROPERTY_RESEARCH AS A
+					WHERE A.SAME_PR_CODE IS NULL
+					and A.PR_STATUS='0'
+					and A.PR_DISTRICT_ID = #{prDistrictId,jdbcType=VARCHAR}
+  
+  
+  </select>
+  <update id="processWaitListByDistrict" parameterType="java.lang.String">
+update sctrans.T_TO_PROPERTY_RESEARCH  set  
+      PR_STATUS =  1,PR_ACCPET_TIME = GETDATE()
+					WHERE SAME_PR_CODE IS NULL
+					and PR_STATUS='0'
+					and PR_DISTRICT_ID = #{prDistrictId,jdbcType=VARCHAR}
+  
+  </update>
+  
+  <update id="nullityTag" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
+    update sctrans.T_TO_PROPERTY_RESEARCH
+    set 
+      IS_SUCCESS = #{isSuccess,jdbcType=VARCHAR},
+      UNSUCCESS_REASON = #{unSuccessReason,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

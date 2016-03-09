@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToApproveRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToApproveRecord" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PROCESS_INSTANCE" property="processInstance" jdbcType="VARCHAR" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="APPROVE_TYPE" property="approveType" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OPERATOR_TIME" property="operatorTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToApproveRecord" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, PROCESS_INSTANCE, PART_CODE, APPROVE_TYPE, OPERATOR, OPERATOR_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_APPROVE_RECORD
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_APPROVE_RECORD
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+    insert into sctrans.T_TO_APPROVE_RECORD (PKID, CASE_CODE, PROCESS_INSTANCE, 
+      PART_CODE, APPROVE_TYPE, OPERATOR, 
+      OPERATOR_TIME, CONTENT)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{processInstance,jdbcType=VARCHAR}, 
+      #{partCode,jdbcType=VARCHAR}, #{approveType,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{operatorTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+    insert into sctrans.T_TO_APPROVE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="processInstance != null" >
+        PROCESS_INSTANCE,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="approveType != null" >
+        APPROVE_TYPE,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstance != null" >
+        #{processInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="approveType != null" >
+        #{approveType,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+    update sctrans.T_TO_APPROVE_RECORD
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstance != null" >
+        PROCESS_INSTANCE = #{processInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="approveType != null" >
+        APPROVE_TYPE = #{approveType,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+    update sctrans.T_TO_APPROVE_RECORD
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PROCESS_INSTANCE = #{processInstance,jdbcType=VARCHAR},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      APPROVE_TYPE = #{approveType,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      CONTENT = #{content,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+    update sctrans.T_TO_APPROVE_RECORD
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PROCESS_INSTANCE = #{processInstance,jdbcType=VARCHAR},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      APPROVE_TYPE = #{approveType,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findApproveRecordByRecord" resultMap="ResultMapWithBLOBs" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+	    from sctrans.T_TO_APPROVE_RECORD
+	    where 1=1 
+	    <if test="caseCode != null" >
+	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	    </if>
+      <if test="approveType != null" >
+        and APPROVE_TYPE = #{approveType,jdbcType=VARCHAR}
+      </if>
+      <if test="operator != null" >
+        and OPERATOR = #{operator,jdbcType=VARCHAR}
+      </if>
+      <if test="partCode != null" >
+        and PART_CODE = #{partCode,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <select id="findApproveRecordByList" resultType="java.lang.String" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+	    select OPERATOR
+	    from sctrans.T_TO_APPROVE_RECORD
+	    where 1=1 
+	    <if test="caseCode != null" >
+	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+	    </if>
+      <if test="approveType != null" >
+        and APPROVE_TYPE = #{approveType,jdbcType=VARCHAR} 
+      </if>
+      group by OPERATOR
+  </select>
+</mapper>

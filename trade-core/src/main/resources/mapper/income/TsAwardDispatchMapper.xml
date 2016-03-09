@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.income.repository.TsAwardDispatchMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.income.entity.TsAwardDispatch" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PARTICIPANT" property="participant" jdbcType="VARCHAR" />
+    <result column="BASE_AMOUNT" property="baseAmount" jdbcType="DECIMAL" />
+    <result column="PHONE_ACCURACY" property="phoneAccuracy" jdbcType="DOUBLE" />
+    <result column="SATISFY_RATING" property="satisfyRating" jdbcType="INTEGER" />
+    <result column="EPLUS_CURRENT_MONTH" property="eplusCurrentMonth" jdbcType="INTEGER" />
+    <result column="KPI" property="kpi" jdbcType="DOUBLE" />
+    <result column="FINAL_AMOUNT" property="finalAmount" jdbcType="DECIMAL" />
+    <result column="IMPORT_TIME" property="importTime" jdbcType="TIMESTAMP" />
+    <result column="DISPATCH_TIME" property="dispatchTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, PARTICIPANT, BASE_AMOUNT, PHONE_ACCURACY, SATISFY_RATING, EPLUS_CURRENT_MONTH, 
+    KPI, FINAL_AMOUNT, IMPORT_TIME, DISPATCH_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_AWARD_DISPATCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_AWARD_DISPATCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.income.entity.TsAwardDispatch" >
+    insert into sctrans.T_TS_AWARD_DISPATCH (PKID, CASE_CODE, PARTICIPANT, 
+      BASE_AMOUNT, PHONE_ACCURACY, SATISFY_RATING, 
+      EPLUS_CURRENT_MONTH, KPI, FINAL_AMOUNT, 
+      IMPORT_TIME, DISPATCH_TIME)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{participant,jdbcType=VARCHAR}, 
+      #{baseAmount,jdbcType=DECIMAL}, #{phoneAccuracy,jdbcType=DOUBLE}, #{satisfyRating,jdbcType=INTEGER}, 
+      #{eplusCurrentMonth,jdbcType=INTEGER}, #{kpi,jdbcType=DOUBLE}, #{finalAmount,jdbcType=DECIMAL}, 
+      #{importTime,jdbcType=TIMESTAMP}, #{dispatchTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.income.entity.TsAwardDispatch" >
+    insert into sctrans.T_TS_AWARD_DISPATCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT,
+      </if>
+      <if test="baseAmount != null" >
+        BASE_AMOUNT,
+      </if>
+      <if test="phoneAccuracy != null" >
+        PHONE_ACCURACY,
+      </if>
+      <if test="satisfyRating != null" >
+        SATISFY_RATING,
+      </if>
+      <if test="eplusCurrentMonth != null" >
+        EPLUS_CURRENT_MONTH,
+      </if>
+      <if test="kpi != null" >
+        KPI,
+      </if>
+      <if test="finalAmount != null" >
+        FINAL_AMOUNT,
+      </if>
+      <if test="importTime != null" >
+        IMPORT_TIME,
+      </if>
+      <if test="dispatchTime != null" >
+        DISPATCH_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="participant != null" >
+        #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="baseAmount != null" >
+        #{baseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneAccuracy != null" >
+        #{phoneAccuracy,jdbcType=DOUBLE},
+      </if>
+      <if test="satisfyRating != null" >
+        #{satisfyRating,jdbcType=INTEGER},
+      </if>
+      <if test="eplusCurrentMonth != null" >
+        #{eplusCurrentMonth,jdbcType=INTEGER},
+      </if>
+      <if test="kpi != null" >
+        #{kpi,jdbcType=DOUBLE},
+      </if>
+      <if test="finalAmount != null" >
+        #{finalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="importTime != null" >
+        #{importTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dispatchTime != null" >
+        #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.income.entity.TsAwardDispatch" >
+    update sctrans.T_TS_AWARD_DISPATCH
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="baseAmount != null" >
+        BASE_AMOUNT = #{baseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneAccuracy != null" >
+        PHONE_ACCURACY = #{phoneAccuracy,jdbcType=DOUBLE},
+      </if>
+      <if test="satisfyRating != null" >
+        SATISFY_RATING = #{satisfyRating,jdbcType=INTEGER},
+      </if>
+      <if test="eplusCurrentMonth != null" >
+        EPLUS_CURRENT_MONTH = #{eplusCurrentMonth,jdbcType=INTEGER},
+      </if>
+      <if test="kpi != null" >
+        KPI = #{kpi,jdbcType=DOUBLE},
+      </if>
+      <if test="finalAmount != null" >
+        FINAL_AMOUNT = #{finalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="importTime != null" >
+        IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dispatchTime != null" >
+        DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.income.entity.TsAwardDispatch" >
+    update sctrans.T_TS_AWARD_DISPATCH
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      BASE_AMOUNT = #{baseAmount,jdbcType=DECIMAL},
+      PHONE_ACCURACY = #{phoneAccuracy,jdbcType=DOUBLE},
+      SATISFY_RATING = #{satisfyRating,jdbcType=INTEGER},
+      EPLUS_CURRENT_MONTH = #{eplusCurrentMonth,jdbcType=INTEGER},
+      KPI = #{kpi,jdbcType=DOUBLE},
+      FINAL_AMOUNT = #{finalAmount,jdbcType=DECIMAL},
+      IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
+      DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findTsAwardDispatchByParticipant" parameterType="com.centaline.trans.income.entity.TsAwardDispatch"   resultMap="BaseResultMap">
+      select * from sctrans.T_TS_AWARD_DISPATCH where PARTICIPANT = #{participant,jdbcType=VARCHAR} 
+      and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

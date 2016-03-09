@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="userDict" beanName="qqcdUserIdName" />
+		
+		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
+		<customDict id="getDistCode" beanName="qqDistCode" />
+		<customDict id="getIsSuccess" beanName="qqisSuccess" />
+		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryProcessingList">
+		<searchCondition>
+	            <condition field="A.PR_DISTRICT_ID" name="prDistrictId" label="区域ID" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="A.PR_STATUS" name="prStatus" label="状态" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="C.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	    </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT 
+					A.PKID,
+					A.CASE_CODE,
+					A.PR_CODE,
+					A.PART_CODE,
+					A.PR_CAT,
+					A.PR_APPLIANT,
+					A.PR_EXECUTOR,
+					A.PR_APPLY_TIME,
+					A.PR_ACCPET_TIME,
+					A.PR_COMPLETE_TIME,
+					A.PR_STATUS,
+					A.IS_SUCCESS,
+					A.UNSUCCESS_REASON,
+				    C.PROPERTY_ADDR,
+				    C.DIST_CODE ,
+					(CASE When a.PR_CHANNEL='1' then a.PR_APPLIANT
+						else tc.AGENT_CODE end) as orgName    
+				FROM 
+					sctrans.T_TO_PROPERTY_RESEARCH AS A
+				LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON (C.CASE_CODE = A.CASE_CODE) or (A.CASE_CODE is null and A.PR_CODE= C.CASE_CODE)
+				left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=a.CASE_CODE
+				WHERE A.SAME_PR_CODE IS NULL
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column type="both" name="orgName" index="" checkbox="" display="分行信息" customDict="qqcdUserOrgName" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PR_CODE" index="" checkbox="" display="产调编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编号" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_CAT" index="" checkbox="" display="产调项目" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="产调申请人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_EXECUTOR" index="" checkbox="" display="产调执行人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_STATUS" index="" checkbox="" display="状态" customDict="getPrStatusCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" customDict="getIsSuccess" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" display="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="DIST_CODE" index="" checkbox="" display="所在区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>

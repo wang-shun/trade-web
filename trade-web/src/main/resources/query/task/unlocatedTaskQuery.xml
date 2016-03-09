@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryUnlocatedTask">
+		<searchCondition>
+            <condition field="owner" name="owner" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode, ut.task_Job_Code as taskJobCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
+					,ut.TASK_DEFINATION_KEY as taskDfKey,tca.pkid as caseId
+					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
+						on ut.case_code =tca.case_code
+					 where 
+					 <ifNotNull orgId>
+					 ut.candidate_Id=#candidateId# or (ut.candidate_Id is null and tca.org_id=#orgId#)
+			 		</ifNotNull>
+			 		<ifNotNull managerFlag>
+			 			ut.candidate_Id=#candidateId#
+			 		</ifNotNull>
+ 
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="caseCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="instCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="taskJobCode" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="candidateId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="taskDfKey" index="" checkbox="" display="" customDict="" sysDict="getDictPartName"  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="caseId" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>						
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

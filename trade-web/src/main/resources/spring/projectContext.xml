@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<description>跟当前项目相关配置，跟平台和部署无关</description>
+	
+	<!-- 扫描注解Bean -->
+    <context:component-scan base-package="com.centaline.trans.**.service,com.centaline.trans.**.remote,com.aist.message.**.remote,com.aist.common.quickQuery,com.centaline.trans.auth.aop">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <bean name="variableSql" class="com.aist.common.quickQuery.sqlBuild.VariableSql"/>
+    
+	<bean name="qqcdFinOrgNameDict" class="com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl">
+		<property name="sql" value="select FIN_ORG_CODE [KEY], FIN_ORG_NAME_YC VALUE from sctrans.T_TS_FIN_ORG"></property>
+	</bean>
+	<bean name="qqcdFaFinOrgNameDict" class="com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl">
+		<property name="sql" value="select O.FIN_ORG_CODE [KEY], FO.FIN_ORG_NAME_YC VALUE from sctrans.T_TS_FIN_ORG O INNER JOIN sctrans.T_TS_FIN_ORG FO ON O.FA_FIN_ORG_CODE=FO.FIN_ORG_CODE"></property>
+	</bean>
+	
+	<bean name="qqcdDictPrStatusCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="pr_status_code"></property>
+    </bean>
+    	<bean name="qqcdDict30001" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="30001"></property>
+    </bean>
+	<bean name="qqcdDict30003" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="30003"></property>
+    </bean>
+	<bean name="qqcdDict30004" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_serv_cat_code_tree"></property>
+    </bean>
+    
+	<bean name="qqcdDictYucuiTeamCat" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yucui_team_cat"></property>
+    </bean>
+    
+     <bean name="qqDistCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_shanghai_district"></property>
+    </bean>
+     <bean name="qqisSuccess" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="nullityTag"></property>
+    </bean>
+    
+    <bean name="qqcdDictIsFeeGet" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="IS_EVAL_FEE_GET "></property>
+    </bean>
+     <bean name="qqcdDictPartName" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="part_code "></property>
+    </bean>
+     <bean name="qqcdYuEplusStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_eplus_status "></property>
+    </bean>
+    <bean name="qqcdConfirmStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="confirm_status "></property>
+    </bean>
+    <bean name="qqcdTaskStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_task_status "></property>
+    </bean>
+    <bean name="qqcdUserEmployeeCode" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
+    	<property name="prop" value="employeeCode"></property>
+    </bean>
+    <bean name="qqcdUserOrgName" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
+    	<property name="prop" value="orgName"></property>
+    </bean>
+    <bean name="qqcdUserPhone" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
+    	<property name="prop" value="mobile"></property>
+    </bean>
+    <bean name="qqcdUserIdName" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
+    	<property name="prop" value="realName"></property>
+    </bean>
+
+    <bean name="qqcdUserUsernameName" class="com.centaline.trans.common.service.impl.QuickQueryUserByUsernameCustomDictServiceImpl">
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdUserIdMobile" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
+    	<property name="prop" value="mobile"></property>
+    </bean>
+    <bean name="qqcdSrvStrCodeName" class="com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl">
+        <property name="dictType" value="yu_serv_cat_code_tree"></property>
+    </bean>
+    <bean name="qqcdSrvStrCaseCode" class="com.centaline.trans.common.service.impl.QuickQuerySrvCaseCodeCustomDictServiceImpl">
+    </bean>
+    
+    <bean name="qqcdMortStrCodeName" class="com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl">
+        <property name="dictType" value="30016"></property>
+    </bean>
+    <bean name="qqcdProStrCodeName" class="com.centaline.trans.common.service.impl.QuickQueryProsUserCustomDictServiceImpl">
+    	<property name="prop" value="realName"></property>
+    	<property name="flag" value="false"></property>
+    </bean>
+    <bean name="qqcdProDistStrCodeName" class="com.centaline.trans.common.service.impl.QuickQueryProsUserCustomDictServiceImpl">
+    	<property name="prop" value="realName"></property>
+    	<property name="flag" value="true"></property>
+    </bean>
+    
+    <bean name="qqcdDicTaskDelegateStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="TASK_DELEGATE_STATUS"></property>
+    </bean>
+    <!-- 询价状态 -->
+    <bean name="qqcdDictass_status" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="ass_status"></property>
+    </bean>
+    <!-- 询价结果 -->
+    <bean name="qqcdDictass_confirm_code" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="ass_confirm_code"></property>
+    </bean>
+    <!-- 报告单类型 -->
+    <bean name="qqcdDictreport_type" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="report_type"></property>
+    </bean> 
+    <bean name="qqcdDictreport_status_code" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="report_status_code"></property>
+    </bean>
+    <!-- 供应商类型 --> 
+    <bean name="qqcdDictyu_sup_cat" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_sup_cat"></property>
+    </bean>  
+    <!-- 贷款服务编码 -->
+    <bean name="qqcdDictServCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_serv_cat_code_tree"></property>
+    </bean>
+    <!-- 金融产品申请状态  -->
+    <bean name="qqcdDictApplyStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_eplus_status"></property>
+    </bean>
+
+    <!-- 进出账方向 -->
+    <bean name="qqcdDictyu_cash_direction" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_cash_direction"></property>
+    </bean> 
+
+	<bean name="qqcdOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl">
+    	<property name="prop" value="orgName"></property>
+    </bean>
+    <!-- 查询组织的分行经理 -->
+    <bean name="qqcdFhjlName" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+    	<property name="jobCode" value="JFHJL"></property>
+    	<property name="deptId" value="BUSIGRP"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdFhjlNameByOrgCode" class="com.centaline.trans.common.service.impl.QuickQueryUOJByOrgCodeCustomDictServiceImpl">
+    	<property name="jobCode" value="JFHJL"></property>
+    	<property name="deptId" value="BUSIGRP"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    
+    <bean name="qqcdQyjlNameByOrgCode" class="com.centaline.trans.common.service.impl.QuickQueryUOJByOrgCodeCustomDictServiceImpl">
+    	<property name="jobCode" value="JQYJL"></property>
+    	<property name="deptId" value="BUSIAR"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdQyzjNameByOrgCode" class="com.centaline.trans.common.service.impl.QuickQueryUOJByOrgCodeCustomDictServiceImpl">
+    	<property name="jobCode" value="JQYZJ"></property>
+    	<property name="deptId" value="BUSISWZ"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdJlOrZjOrNameByOrgCode" class="com.centaline.trans.common.service.impl.QuickQueryUOJByOrgCodeCustomDictServiceImpl">
+    	<property name="jobCode" value="JQYZJ"></property>
+    	<property name="deptId" value="BUSIARORBUSISWZ"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdQydsNameByOrgCode" class="com.centaline.trans.common.service.impl.QuickQueryUOJByOrgCodeCustomDictServiceImpl">
+    	<property name="jobCode" value="JQYDS"></property>
+    	<property name="deptId" value="BUSIWZ"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    
+    <!-- 查询交易组织的分行经理 -->
+    <bean name="qqcdYuCuiFhjlName" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+    	<property name="jobCode" value="Manager"></property>
+    	<property name="deptId" value="yucui_team"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdYuCuiTSName" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+    	<property name="jobCode" value="TeamAssistant"></property>
+    	<property name="deptId" value="yucui_team"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>
+    <bean name="qqcdYuCuiFhjlPhone" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+    	<property name="jobCode" value="Manager"></property>
+    	<property name="deptId" value="yucui_team"></property>
+    	<property name="prop" value="mobile"></property>
+    </bean>
+    <bean name="qqcdYuCuiOrgName" class="com.centaline.trans.common.service.impl.QuickQueryParentOrgCustomDictServiceImpl">
+    	<property name="type" value="yucui_district"></property>
+    	<property name="prop" value="orgName"></property>
+    </bean>  
+    
+    <bean name="qqcdFhjlPhone" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+    	<property name="jobCode" value="JFHJL"></property>
+    	<property name="deptId" value="BUSIGRP"></property>
+    	<property name="prop" value="mobile"></property>
+    </bean>
+    
+    <!-- 查询组织的区董 -->
+    <bean name="qqcdJqydsName" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+    	<property name="jobCode" value="JQYDS"></property>
+    	<property name="deptId" value="BUSIWZ"></property>
+    	<property name="prop" value="realName"></property>
+    </bean>  
+    
+    <!-- 查询组织 -->
+    <bean name="qqcdOrgName" class="com.centaline.trans.common.service.impl.QuickQueryParentOrgCustomDictServiceImpl">
+    	<property name="type" value="BUSIWZ"></property>
+    	<property name="prop" value="orgName"></property>
+    </bean>
+
+    <bean name="qqcdOrgNameByCode" class="com.centaline.trans.common.service.impl.QuickQueryOrgCodeCustomDictServiceImpl">
+    	<property name="prop" value="orgName"></property>
+    </bean>
+    
+    <bean name="qqcdAreaIdManager" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
+         <property name="jobCode" value="JQYJL"></property>
+         <property name="prop" value="realName"></property>
+    </bean>
+    
+    <bean name="qqcdUojByUserId" class="com.centaline.trans.common.service.impl.QuickQueryUOJByUserIdCustomerDictServiceImpl">
+    	<property name="prop" value="orgName"></property>
+    </bean>
+    <bean name="qqcdProcessorName" class="com.centaline.trans.common.service.impl.QuickQueryProcessorNameCustomDictServiceImpl">
+    </bean>
+
+	<bean name="qqcdSeller" class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoCustomDictServiceImpl">
+    	<property name="transPosition" value="30006001"></property>
+    </bean>
+    <bean name="qqcdSellerPhone" class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
+    	<property name="transPosition" value="30006001"></property>
+    </bean>
+    <bean name="qqcdBuyer"  class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoCustomDictServiceImpl">
+    	<property name="transPosition" value="30006002"></property>
+    </bean>
+     <bean name="qqcdBuyerPhone"  class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
+    	<property name="transPosition" value="30006002"></property>
+    </bean>
+
+    <aop:aspectj-autoproxy expose-proxy="true"/>
+</beans>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToFirstFollowMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToFirstFollow" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="IS_PERCHASE_RESERACH_NEED" property="isPerchaseReserachNeed" jdbcType="CHAR" />
+    <result column="IS_LOAN_CLOSE" property="isLoanClose" jdbcType="CHAR" />
+    <result column="COMMENT" property="comment" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, PART_CODE, IS_PERCHASE_RESERACH_NEED, IS_LOAN_CLOSE, COMMENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_FIRST_FOLLOW
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_FIRST_FOLLOW
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
+    insert into sctrans.T_TO_FIRST_FOLLOW (PKID, CASE_CODE, PART_CODE, 
+      IS_PERCHASE_RESERACH_NEED, IS_LOAN_CLOSE, COMMENT
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
+      #{isPerchaseReserachNeed,jdbcType=CHAR}, #{isLoanClose,jdbcType=CHAR}, #{comment,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
+    insert into sctrans.T_TO_FIRST_FOLLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="isPerchaseReserachNeed != null" >
+        IS_PERCHASE_RESERACH_NEED,
+      </if>
+      <if test="isLoanClose != null" >
+        IS_LOAN_CLOSE,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isPerchaseReserachNeed != null" >
+        #{isPerchaseReserachNeed,jdbcType=CHAR},
+      </if>
+      <if test="isLoanClose != null" >
+        #{isLoanClose,jdbcType=CHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
+    update sctrans.T_TO_FIRST_FOLLOW
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isPerchaseReserachNeed != null" >
+        IS_PERCHASE_RESERACH_NEED = #{isPerchaseReserachNeed,jdbcType=CHAR},
+      </if>
+      <if test="isLoanClose != null" >
+        IS_LOAN_CLOSE = #{isLoanClose,jdbcType=CHAR},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
+    update sctrans.T_TO_FIRST_FOLLOW
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      IS_PERCHASE_RESERACH_NEED = #{isPerchaseReserachNeed,jdbcType=CHAR},
+      IS_LOAN_CLOSE = #{isLoanClose,jdbcType=CHAR},
+      COMMENT = #{comment,jdbcType=NVARCHAR}
+      ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from sctrans.T_TO_FIRST_FOLLOW
+	    	where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </select>
+  
+  
+  <select id="isExistCasecode" parameterType="java.lang.String" resultType="java.lang.Integer">
+  		select count(1) from sctrans.T_TO_FIRST_FOLLOW where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </select>
+  
+  
+  <update id="updateByCaseCode" parameterType="com.centaline.trans.task.entity.ToFirstFollow">
+  		update sctrans.T_TO_FIRST_FOLLOW set IS_PERCHASE_RESERACH_NEED=#{isPerchaseReserachNeed,jdbcType=CHAR}, IS_LOAN_CLOSE=#{isLoanClose,jdbcType=CHAR},IS_ACTIVE='1' where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </update>
+  
+  
+</mapper>

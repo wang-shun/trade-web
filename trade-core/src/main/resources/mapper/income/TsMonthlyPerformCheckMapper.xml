@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.income.repository.TsMonthlyPerformCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.income.entity.TsMonthlyPerformCheck" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PARTICIPANT_ID" property="participantId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="JOB_ID" property="jobId" jdbcType="VARCHAR" />
+    <result column="LOAN_LOST_NO" property="loanLostNo" jdbcType="INTEGER" />
+    <result column="EPLUS_CASE_NO_ALL" property="eplusCaseNoAll" jdbcType="INTEGER" />
+    <result column="BELONG_MONTH" property="belongMonth" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PARTICIPANT_ID,ORG_ID,JOB_ID, LOAN_LOST_NO, EPLUS_CASE_NO_ALL, BELONG_MONTH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_MONTHLY_PERFORM_CHECK
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_MONTHLY_PERFORM_CHECK
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.income.entity.TsMonthlyPerformCheck" >
+    insert into sctrans.T_TS_MONTHLY_PERFORM_CHECK (PKID, PARTICIPANT_ID,ORG_ID,JOB_ID, LOAN_LOST_NO, 
+      EPLUS_CASE_NO_ALL, BELONG_MONTH)
+    values (#{pkid,jdbcType=BIGINT}, #{participantId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{loanLostNo,jdbcType=INTEGER}, 
+      #{eplusCaseNoAll,jdbcType=INTEGER}, #{belongMonth,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.income.entity.TsMonthlyPerformCheck" >
+    insert into sctrans.T_TS_MONTHLY_PERFORM_CHECK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="participantId != null" >
+        PARTICIPANT_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="jobId != null" >
+        JOB_ID,
+      </if>
+      <if test="loanLostNo != null" >
+        LOAN_LOST_NO,
+      </if>
+      <if test="eplusCaseNoAll != null" >
+        EPLUS_CASE_NO_ALL,
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="participantId != null" >
+        #{participantId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobId != null" >
+        #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanLostNo != null" >
+        #{loanLostNo,jdbcType=INTEGER},
+      </if>
+      <if test="eplusCaseNoAll != null" >
+        #{eplusCaseNoAll,jdbcType=INTEGER},
+      </if>
+      <if test="belongMonth != null" >
+        #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.income.entity.TsMonthlyPerformCheck" >
+    update sctrans.T_TS_MONTHLY_PERFORM_CHECK
+    <set >
+      <if test="participantId != null" >
+        PARTICIPANT_ID = #{participantId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobId != null" >
+        JOB_ID = #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanLostNo != null" >
+        LOAN_LOST_NO = #{loanLostNo,jdbcType=INTEGER},
+      </if>
+      <if test="eplusCaseNoAll != null" >
+        EPLUS_CASE_NO_ALL = #{eplusCaseNoAll,jdbcType=INTEGER},
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.income.entity.TsMonthlyPerformCheck" >
+    update sctrans.T_TS_MONTHLY_PERFORM_CHECK
+    set PARTICIPANT_ID = #{participantId,jdbcType=VARCHAR},
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+        JOB_ID = #{jobId,jdbcType=VARCHAR},
+      LOAN_LOST_NO = #{loanLostNo,jdbcType=INTEGER},
+      EPLUS_CASE_NO_ALL = #{eplusCaseNoAll,jdbcType=INTEGER},
+      BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

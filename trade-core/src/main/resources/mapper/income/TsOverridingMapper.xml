@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.income.repository.TsOverridingMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.income.entity.TsOverriding" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="INCOME_ID" property="incomeId" jdbcType="BIGINT" />
+    <result column="OR_OWNER_NAME" property="orOwnerName" jdbcType="VARCHAR" />
+    <result column="OR_OWNER_ID" property="orOwnerId" jdbcType="VARCHAR" />
+    <result column="OR_PAR" property="orPar" jdbcType="VARCHAR" />
+    <result column="OR_AMOUNT" property="orAmount" jdbcType="VARCHAR" />
+    <result column="IMPORT_NO" property="importNo" jdbcType="INTEGER" />
+    <result column="OR_OWNER_JOB_ID" property="orOwnerJobId" jdbcType="VARCHAR" />
+    <result column="OR_OWNER_ORG_ID" property="orOwnerOrgId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, INCOME_ID, OR_OWNER_NAME, OR_OWNER_ID, OR_PAR, OR_AMOUNT, IMPORT_NO, OR_OWNER_JOB_ID, OR_OWNER_ORG_ID 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_OVERRIDING
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_OVERRIDING
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.income.entity.TsOverriding" >
+    insert into sctrans.T_TS_OVERRIDING (CASE_CODE, INCOME_ID, 
+      OR_OWNER_NAME, OR_OWNER_ID, OR_PAR, 
+      OR_AMOUNT, IMPORT_NO, OR_OWNER_JOB_ID, OR_OWNER_ORG_ID)
+    values (#{caseCode,jdbcType=VARCHAR}, #{incomeId,jdbcType=BIGINT}, 
+      #{orOwnerName,jdbcType=VARCHAR}, #{orOwnerId,jdbcType=VARCHAR}, #{orPar,jdbcType=VARCHAR}, 
+      #{orAmount,jdbcType=VARCHAR}, #{importNo,jdbcType=INTEGER}, #{orOwnerJobId,jdbcType=VARCHAR}, #{orOwnerOrgId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.income.entity.TsOverriding" >
+    insert into sctrans.T_TS_OVERRIDING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="incomeId != null" >
+        INCOME_ID,
+      </if>
+      <if test="orOwnerName != null" >
+        OR_OWNER_NAME,
+      </if>
+      <if test="orOwnerId != null" >
+        OR_OWNER_ID,
+      </if>
+      <if test="orPar != null" >
+        OR_PAR,
+      </if>
+      <if test="orAmount != null" >
+        OR_AMOUNT,
+      </if>
+      <if test="importNo != null" >
+        IMPORT_NO,
+      </if>
+      <if test="orOwnerJobId != null" >
+        OR_OWNER_JOB_ID,
+      </if>
+      <if test="orOwnerOrgId != null" >
+        OR_OWNER_ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeId != null" >
+        #{incomeId,jdbcType=BIGINT},
+      </if>
+      <if test="orOwnerName != null" >
+        #{orOwnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="orOwnerId != null" >
+        #{orOwnerId,jdbcType=VARCHAR},
+      </if>
+      <if test="orPar != null" >
+        #{orPar,jdbcType=VARCHAR},
+      </if>
+      <if test="orAmount != null" >
+        #{orAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="importNo != null" >
+        #{importNo,jdbcType=INTEGER},
+      </if>
+      <if test="orOwnerJobId != null" >
+        #{orOwnerJobId,jdbcType=VARCHAR},
+      </if>
+      <if test="orOwnerOrgId != null" >
+        #{orOwnerOrgId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.income.entity.TsOverriding" >
+    update sctrans.T_TS_OVERRIDING
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeId != null" >
+        INCOME_ID = #{incomeId,jdbcType=BIGINT},
+      </if>
+      <if test="orOwnerName != null" >
+        OR_OWNER_NAME = #{orOwnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="orOwnerId != null" >
+        OR_OWNER_ID = #{orOwnerId,jdbcType=VARCHAR},
+      </if>
+      <if test="orPar != null" >
+        OR_PAR = #{orPar,jdbcType=VARCHAR},
+      </if>
+      <if test="orAmount != null" >
+        OR_AMOUNT = #{orAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="importNo != null" >
+        IMPORT_NO = #{importNo,jdbcType=INTEGER},
+      </if>
+      <if test="orOwnerJobId != null" >
+        OR_OWNER_JOB_ID = #{orOwnerJobId,jdbcType=INTEGER},
+      </if>
+      <if test="orOwnerOrgId != null" >
+        OR_OWNER_ORG_ID = #{orOwnerOrgId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.income.entity.TsOverriding" >
+    update sctrans.T_TS_OVERRIDING
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      INCOME_ID = #{incomeId,jdbcType=BIGINT},
+      OR_OWNER_NAME = #{orOwnerName,jdbcType=VARCHAR},
+      OR_OWNER_ID = #{orOwnerId,jdbcType=VARCHAR},
+      OR_PAR = #{orPar,jdbcType=VARCHAR},
+      OR_AMOUNT = #{orAmount,jdbcType=VARCHAR},
+      IMPORT_NO = #{importNo,jdbcType=INTEGER},
+      OR_OWNER_JOB_ID = #{orOwnerName,jdbcType=VARCHAR},
+      OR_OWNER_ORG_ID = #{orOwnerName,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

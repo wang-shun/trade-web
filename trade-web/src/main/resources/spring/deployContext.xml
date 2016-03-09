@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<description>跟平台和部署相关，便于根据不同平台替换的，只能放跟平台和部署相关的Bean</description>
+	
+	<beans profile="development">
+		<context:property-placeholder ignore-resource-not-found="true" 
+			location="classpath:properties/resources.development.properties"/>
+		<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+			<property name="driverClassName"><value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value></property> 
+            <property name="url"><value>jdbc:sqlserver://10.4.19.22:1433;databaseName=sctrans_dev</value></property> 
+            <property name="username"><value>dev</value></property> 
+            <property name="password"><value>dev.good</value></property>
+            <!--maxActive: 最大连接数量 -->
+			<property name="maxActive" value="30" />
+			<!--initialSize: 初始化连接 -->
+			<property name="initialSize" value="3" />
+			<property name="poolPreparedStatements" value="true"/>
+			<property name="maxPoolPreparedStatementPerConnectionSize" value="100"/>
+		</bean>
+		<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+	       	<property name="targetDataSource" ref="dataSource"/>
+	   </bean>
+	</beans>
+    <beans profile="production">
+        <context:property-placeholder ignore-resource-not-found="true"
+                                      location="classpath:properties/resources.production.properties"/>
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"> 
+            <property name="driverClassName"><value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value></property> 
+            <property name="url"><value>jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=tradeprod</value></property> 
+            <property name="username"><value>#{systemProperties['dbuid']}</value></property> 
+            <property name="password"><value>#{systemProperties['dbpass']}</value></property>
+            <!--maxActive: 最大连接数量 -->
+			<property name="maxActive" value="250" />
+			<!--initialSize: 初始化连接 -->
+			<property name="initialSize" value="50" />
+			<property name="poolPreparedStatements" value="true"/>
+			<property name="maxPoolPreparedStatementPerConnectionSize" value="100"/>
+        </bean>
+        <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+            <property name="targetDataSource" ref="dataSource"/>
+        </bean>
+    </beans>
+    <beans profile="junit">
+    	<context:property-placeholder ignore-resource-not-found="true"
+			location="classpath:properties/resources.development.properties"/>
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+              <property name="driverClassName"><value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value></property> 
+              <property name="url"><value>jdbc:sqlserver://10.4.19.203:1433;databaseName=scpf</value></property> 
+              <property name="username"><value>jira</value></property> 
+              <property name="password"><value>jira.good</value></property> 
+        </bean>
+		<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+	       	<property name="targetDataSource" ref="dataSource"/>
+	    </bean>
+    </beans>
+</beans>

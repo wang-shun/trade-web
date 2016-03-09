@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getPropertyNameByCode" beanName="qqcdDictYucuiTeamCat"></customDict>
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryTsTeamPropertyList">
+		<searchCondition>
+            <condition field="A.YU_TEAM_CODE" name="yuTeamCode" label="组别编码" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="B.ORG_NAME" name="orgName" label="组别名称" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="A.IS_RESPONSE_TEAM" name="isResponseTeam" label="主组别" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="A.FREE_SELECT" name="freeSelect" label="自行选择" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="A.TEAM_PROPERTY" name="teamProperty" label="组别类型" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					   A.PKID,
+					   A.YU_TEAM_CODE,
+					   B.ORG_NAME,
+					   A.IS_RESPONSE_TEAM,
+					   A.IS_RESPONSE_TEAM AS IS_RESPONSE_TEAM_NAME,
+					   A.FREE_SELECT,
+					   A.FREE_SELECT AS FREE_SELECT_NAME,
+					   A.TEAM_PROPERTY,
+					   A.TEAM_PROPERTY AS TEAM_PROPERTY_NAME
+					FROM 
+					  sctrans.T_TS_TEAM_PROPERTY A
+					  LEFT JOIN sctrans.SYS_ORG B ON B.ORG_CODE = A.YU_TEAM_CODE
+					WHERE 1=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY A.PKID DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="组别编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="IS_RESPONSE_TEAM" index="" checkbox="" display="主组别" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="IS_RESPONSE_TEAM_NAME" index="" checkbox="" display="主组别" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="FREE_SELECT" index="" checkbox="" display="自行选择" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="FREE_SELECT_NAME" index="" checkbox="" display="自行选择" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="TEAM_PROPERTY" index="" checkbox="" display="组别类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="TEAM_PROPERTY_NAME" index="" checkbox="" display="组别类型名称" customDict="getPropertyNameByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.cases.repository.ToCaseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.ToCaseInfo">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CTM_CODE" jdbcType="VARCHAR" property="ctmCode" />
+    <result column="AGENT_CODE" jdbcType="VARCHAR" property="agentCode" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="REQUIRE_PROCESSOR_ID" jdbcType="VARCHAR" property="requireProcessorId" />
+    <result column="IS_RESPONSED" jdbcType="CHAR" property="isResponsed" />
+    <result column="RES_DATE" property="resDate" jdbcType="TIMESTAMP" />
+    <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR" />    
+    <result column="DISPATCH_TIME" jdbcType="TIMESTAMP" property="dispatchTime" />
+    <result column="IMPORT_TIME" jdbcType="TIMESTAMP" property="importTime" />
+    <result column="GRP_CODE" jdbcType="VARCHAR" property="grpCode" />
+    <result column="GRP_NAME" jdbcType="VARCHAR" property="grpName" />
+    <result column="AGENT_USERNAME" jdbcType="VARCHAR" property="agentUserName" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
+    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TO_CASE_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
+    insert into sctrans.T_TO_CASE_INFO (PKID, CTM_CODE, AGENT_CODE, 
+      CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
+    AGENT_NAME,DISPATCH_TIME, AGENT_USERNAME
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{ctmCode,jdbcType=VARCHAR}, #{agentCode,jdbcType=VARCHAR}, 
+      #{caseCode,jdbcType=VARCHAR}, #{requireProcessorId,jdbcType=VARCHAR}, #{isResponsed,jdbcType=CHAR}, 
+      #{resDate,jdbcType=TIMESTAMP}, #{agentName,jdbcType=VARCHAR}, #{dispatchTime,jdbcType=TIMESTAMP},
+      #{agentUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
+    insert into sctrans.T_TO_CASE_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="ctmCode != null">
+        CTM_CODE,
+      </if>
+      <if test="agentCode != null">
+        AGENT_CODE,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="requireProcessorId != null">
+        REQUIRE_PROCESSOR_ID,
+      </if>
+      <if test="isResponsed != null">
+        IS_RESPONSED,
+      </if>
+      <if test="resDate != null" >
+        RES_DATE,
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME,
+      </if>
+      <if test="dispatchTime != null" >
+        DISPATCH_TIME,
+      </if>
+      <if test="importTime != null" >
+        IMPORT_TIME,
+      </if>
+      <if test="grpCode != null" >
+        GRP_CODE,
+      </if>
+      <if test="grpName != null" >
+        GRP_NAME,
+      </if>
+      <if test="agentUserName != null" >
+        AGENT_USERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="ctmCode != null">
+        #{ctmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCode != null">
+        #{agentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requireProcessorId != null">
+        #{requireProcessorId,jdbcType=VARCHAR},
+      </if>
+      <if test="isResponsed != null">
+        #{isResponsed,jdbcType=CHAR},
+      </if>
+      <if test="resDate != null" >
+        #{resDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentName != null" >
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchTime != null" >
+        #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importTime != null" >
+        #{importTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grpCode != null" >
+        #{grpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="grpName != null" >
+        #{grpName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserName != null" >
+        #{agentUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
+    update sctrans.T_TO_CASE_INFO
+    set CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      REQUIRE_PROCESSOR_ID = #{requireProcessorId,jdbcType=VARCHAR},
+      IS_RESPONSED = #{isResponsed,jdbcType=CHAR},
+      RES_DATE = #{resDate,jdbcType=TIMESTAMP},
+      DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
+      AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      AGENT_USERNAME = #{agentUserName,jdbcType=VARCHAR},
+      IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
+      GRP_CODE = #{grpCode,jdbcType=VARCHAR},
+      GRP_NAME = #{grpName,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+ 
+<select id="findToCaseInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_INFO
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+   
+<select id="queryCountCasesByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select 
+       COUNT(CASE_CODE) 
+    from sctrans.T_TO_CASE
+    where LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
+    GROUP BY LEADING_PROCESS_ID
+  </select>
+<select id="queryCountMonthCasesByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select 
+       COUNT(A.CASE_CODE) 
+    from sctrans.T_TO_CASE A,
+    sctrans.T_TO_CASE_INFO B
+    where A.LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
+    AND A.CASE_CODE = B.CASE_CODE
+    and datediff(month,B.RES_DATE,getdate())=0
+    GROUP BY A.LEADING_PROCESS_ID
+  </select>
+<select id="queryCountUnTransCasesByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select 
+       COUNT(CASE_CODE) 
+    from sctrans.T_TO_CASE
+    where LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
+	AND STATUS &lt; '30001004'
+	AND STATUS &gt; '30001001'
+    GROUP BY LEADING_PROCESS_ID
+  </select>
+  
+<select id="countToCaseInfoById" parameterType="java.lang.String" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
+	SELECT 
+   	COUNT(CASE_CODE) AS countJDS
+   	FROM sctrans.T_TO_CASE WHERE 
+		 datediff(month,sctrans.T_TO_CASE.CREATE_TIME,getdate())=0
+		AND  CASE_CODE IN(
+		(
+			select CASE_CODE from sctrans.T_TO_CASE
+			WHERE 1=1			
+			AND LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
+				)UNION(
+				SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+				WHERE 1=1
+				AND PROCESSOR_ID = #{userId,jdbcType=VARCHAR}				  	
+			)
+
+		)
+  </select>
+  
+  <!-- 功能：交易单编号查询  -->
+  <select id="findcaseCodeByctmCode" parameterType="java.lang.String" resultType="java.lang.String">
+  		select CASE_CODE from sctrans.T_TO_CASE_INFO where CTM_CODE=#{ctmCode,jdbcType=VARCHAR} 
+  </select>
+  
+ 
+ 
+  <!-- 根据ctm 推送过来的编号来判断是否已经存在   -->
+  <select id="isExistCaseCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+  		select count(1) from sctrans.T_TO_CASE_INFO where CTM_CODE=#{ctmCode,jdbcType=VARCHAR} 
+  </select>
+  
+  
+</mapper>

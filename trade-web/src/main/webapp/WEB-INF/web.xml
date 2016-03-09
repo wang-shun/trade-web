@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>trade-web</display-name>
+	<description>交易作业平台</description>
+	
+	<context-param>
+    	<description>应用名</description>
+    	<param-name>appName</param-name>
+    	<param-value>trade-web</param-value>
+    </context-param>
+	
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:spring/applicationContext.xml,
+            classpath*:com/aist/common/**/META-INF/beans.xml,
+			classpath*:com/aist/uam/**/META-INF/beans.xml,
+            classpath*:com/aist/uam/auth/META-INF/shiro-beans.xml,
+            classpath*:com/centaline/trans/**/META-INF/core-beans.xml,
+            classpath*:com/centaline/trans/**/META-INF/web-beans.xml,
+            classpath*:com/aist/message/**/META-INF/beans.xml
+		</param-value>
+	</context-param>
+
+    <filter>
+        <filter-name>loggingFilter</filter-name>
+        <filter-class>com.github.isrsal.logging.LoggingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>loggingFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/mobile/property/box/apply</url-pattern>
+    </filter-mapping>
+	
+	<!-- 設定Spring Context的默认Profile -->
+	<context-param>
+    	<param-name>spring.profiles.default</param-name>
+    	<param-value>development</param-value>
+	</context-param>
+
+	<!-- SingleSignOut -->
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>CAS Single Sign Out Filter</filter-name>
+		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CAS Single Sign Out Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- shiro 安全过滤器 -->
+    <!-- The filter-name matches name of a 'shiroFilter' bean inside applicationContext.xml -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    
+    <!-- Make sure any request you want accessible to Shiro is filtered. /* catches all -->
+    <!-- requests.  Usually this filter mapping is defined first (before all others) to -->
+    <!-- ensure that Shiro works in subsequent filters in the filter chain:             -->
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- 设置servlet编码开始 -->
+    <filter>
+        <filter-name>Set Character Encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>Set Character Encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>Set Character Encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+	 <!-- 启用Session Scope -->
+	<listener>
+	  <listener-class>
+	    org.springframework.web.context.request.RequestContextListener
+	  </listener-class>
+	</listener>
+	
+	<!--Spring ApplicationContext 载入 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Spring MVC Servlet -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- SiteMesh Web-Page Layout filter -->
+	<filter>
+		<filter-name>sitemeshFilter</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sitemeshFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Filter 定义 -->
+	<!-- Character Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<filter>
+		<filter-name>AccessLogFilter</filter-name>
+		<filter-class>com.aist.common.web.filter.AccessLogFilter</filter-class>
+		<!-- url分隔符可以是 换行 空格 分号 逗号 白名单和黑名单都是可选 -->
+		<init-param>
+			<param-name>blackListURL</param-name> <!-- 配置黑名单url 表示不走过滤器的url order：1 -->
+			<param-value>
+		      /static/**
+		      /js/**
+		      /media/**
+		      /css/**
+		      /images/**
+		    </param-value>
+		</init-param>
+		<init-param>
+			<param-name>whiteListURL</param-name> <!-- 配置白名单url 表示走过滤器的url order：2 -->
+			<param-value>
+		      /**
+		    </param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessLogFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>DebugLogFilter</filter-name>
+		<filter-class>com.aist.common.web.filter.DebugRequestAndResponseFilter</filter-class>
+		<!-- url分隔符可以是 换行 空格 分号 逗号 白名单和黑名单都是可选 -->
+		<init-param>
+			<param-name>blackListURL</param-name> <!-- 配置黑名单url 表示不走过滤器的url order：1 -->
+			<param-value>
+		      /static/**
+		      /js/**
+		      /media/**
+		      /css/**
+		      /images/**
+		    </param-value>
+		</init-param>
+		<init-param>
+			<param-name>whiteListURL</param-name> <!-- 配置白名单url 表示走过滤器的url order：2 -->
+			<param-value>
+		      /mobile/property/box/apply
+		    </param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DebugLogFilter</filter-name>
+		<url-pattern>/mobile/property/box/apply</url-pattern>
+	</filter-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

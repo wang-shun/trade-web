@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mortgage.repository.ToEvaReportMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mortgage.entity.ToEvaReport" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="REPORT_TYPE" property="reportType" jdbcType="NVARCHAR" />
+    <result column="REPORT_ARISE_TIME" property="reportAriseTime" jdbcType="TIMESTAMP" />
+    <result column="REPORT_RESPONSE_TIME" property="reportResponseTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
+    <result column="IS_EVAL_FEE_GET" property="isEvalFeeGet" jdbcType="CHAR" />
+    <result column="IS_FINAL_REPORT" property="isFinalReport" jdbcType="CHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="SERIAL_NUMBER" property="serialNumber" jdbcType="VARCHAR" />
+    <result column="IS_MAIN_LOAN_BANK" property="isMainLoanBank" jdbcType="VARCHAR" />
+    <result column="EVA_PROCESS_ID" property="evaProcessId" jdbcType="VARCHAR" />
+    <result column="EXPECT_RATE" property="expectRate" jdbcType="DECIMAL" />
+    <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToEvaReport" extends="BaseResultMap" >
+    <result column="FEEDBACK" property="feedback" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    FEEDBACK
+  </sql>
+  <insert id="insert" parameterType="com.centaline.trans.mortgage.entity.ToEvaReport" >
+    insert into sctrans.T_TO_EVA_REPORT (CASE_CODE, REPORT_TYPE, 
+      REPORT_ARISE_TIME, REPORT_RESPONSE_TIME, 
+      STATUS, FIN_ORG_CODE, IS_EVAL_FEE_GET, 
+      IS_FINAL_REPORT, EVA_CODE, SERIAL_NUMBER, 
+      FEEDBACK,IS_MAIN_LOAN_BANK,EVA_PROCESS_ID,EXPECT_RATE,COMMENT)
+    values (#{caseCode,jdbcType=VARCHAR}, #{reportType,jdbcType=NVARCHAR}, 
+      #{reportAriseTime,jdbcType=TIMESTAMP}, #{reportResponseTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=NVARCHAR}, #{finOrgCode,jdbcType=VARCHAR}, #{isEvalFeeGet,jdbcType=CHAR}, 
+      #{isFinalReport,jdbcType=CHAR}, #{evaCode,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, 
+      #{feedback,jdbcType=LONGVARCHAR},#{isMainLoanBank,jdbcType=VARCHAR},#{evaProcessId,jdbcType=VARCHAR},
+      #{expectRate,jdbcType=DECIMAL},#{comment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToEvaReport" >
+    insert into sctrans.T_TO_EVA_REPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE,
+      </if>
+      <if test="reportAriseTime != null" >
+        REPORT_ARISE_TIME,
+      </if>
+      <if test="reportResponseTime != null" >
+        REPORT_RESPONSE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE,
+      </if>
+      <if test="isEvalFeeGet != null" >
+        IS_EVAL_FEE_GET,
+      </if>
+      <if test="isFinalReport != null" >
+        IS_FINAL_REPORT,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="serialNumber != null" >
+        SERIAL_NUMBER,
+      </if>
+      <if test="feedback != null" >
+        FEEDBACK,
+      </if>
+      <if test="isMainLoanBank != null" >
+        IS_MAIN_LOAN_BANK,
+      </if>
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID,
+      </if>
+      <if test="expectRate != null" >
+        EXPECT_RATE,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        #{reportType,jdbcType=NVARCHAR},
+      </if>
+      <if test="reportAriseTime != null" >
+        #{reportAriseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportResponseTime != null" >
+        #{reportResponseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isEvalFeeGet != null" >
+        #{isEvalFeeGet,jdbcType=CHAR},
+      </if>
+      <if test="isFinalReport != null" >
+        #{isFinalReport,jdbcType=CHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null" >
+        #{feedback,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="isMainLoanBank != null" >
+        #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="evaProcessId != null" >
+        #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+      <if test="expectRate != null" >
+        #{expectRate,jdbcType=DECIMAL},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="findToEvaReportByEvaCode" resultMap="BaseResultMap" parameterType="com.centaline.trans.mortgage.entity.ToEvaReport">
+  	SELECT * FROM sctrans.T_TO_EVA_REPORT WHERE EVA_CODE=#{evaCode,jdbcType=VARCHAR} 
+  	<if test="reportType != null">
+  		AND REPORT_TYPE=#{reportType,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
+  <update id="update" parameterType="com.centaline.trans.mortgage.entity.ToEvaReport">
+     update sctrans.T_TO_EVA_REPORT
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE = #{reportType,jdbcType=VARCHAR},
+      </if>
+      <if test="reportAriseTime != null" >
+        REPORT_ARISE_TIME = #{reportAriseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportResponseTime != null" >
+        REPORT_RESPONSE_TIME = #{reportResponseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedback != null" >
+        FEEDBACK = #{feedback,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isEvalFeeGet != null" >
+        IS_EVAL_FEE_GET = #{isEvalFeeGet,jdbcType=VARCHAR},
+      </if>
+      <if test="isFinalReport != null" >
+        IS_FINAL_REPORT = #{isFinalReport,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null" >
+        SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR},
+      </if> 
+      <if test="serialNumber != null" >
+        IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
+      </if> 
+      <if test="expectRate != null" >
+        EXPECT_RATE = #{expectRate,jdbcType=DECIMAL},
+      </if> 
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=VARCHAR},
+      </if> 
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findFinalComByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT * FROM sctrans.T_TO_EVA_REPORT WHERE CASE_CODE=#{caseCode,jdbcType=VARCHAR} AND IS_FINAL_REPORT = '1'
+  </select>
+  
+  <select id="findToEvaReportById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	SELECT * FROM sctrans.T_TO_EVA_REPORT WHERE PKID=#{pkid,jdbcType=BIGINT} 
+  </select>
+  
+  <select id="findByProcessId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT * FROM sctrans.T_TO_EVA_REPORT WHERE EVA_PROCESS_ID=#{evaProcessId,jdbcType=VARCHAR} 
+  </select>
+</mapper>

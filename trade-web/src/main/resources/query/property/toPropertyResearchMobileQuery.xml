@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryPropertyResearchPage">
+		<searchCondition>
+            <condition field="PI.PROPERTY_ADDR" name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>   
+            <condition field="PR.PR_STATUS" name="prStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>   
+            
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					PR.PKID,
+					PR.CASE_CODE,
+					PR.PR_CODE,
+					PR.PART_CODE,
+					SU.REAL_NAME PR_APPLIANT,
+					PR.PR_APPLY_TIME,
+					PI.PROPERTY_ADDR
+					FROM sctrans.T_TO_PROPERTY_RESEARCH PR  
+					LEFT JOIN sctrans.SYS_USER SU ON PR.PR_APPLIANT = SU.ID 
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO PI ON ((PR.CASE_CODE=PI.CASE_CODE AND PR.CASE_CODE IS NOT NULL)
+					OR (PR.PR_CODE=PI.CASE_CODE )) 
+					where 1 = 1 and (PR.SAME_PR_CODE IS NULL) and
+					(PR.PR_DISTRICT_ID in (select parent_id from sctrans.sys_org org where org.id=#orgId#) or PR.PR_DISTRICT_ID =#orgId#)
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="环节编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_CODE" index="" checkbox="" display="环节编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>				
+				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="申请人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="申请时间" customDict="" beanFormatter="dateFormatter" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

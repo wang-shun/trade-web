@@ -1,0 +1,31 @@
+\.gray-bg{ min-height:982px !important; }
+ .nav-tabs  li a{
+	padding: 8px 8px 8px 8px !important;
+	border-radius: 1px 4px 0 0 !important;
+} 
+.fc-header{border:1000px !important;}
+/*  .fc th, .fc td{ border-style: dotted;} */
+.fc td{ border-style: dotted;}
+ .fc th{border-style: none;}
+ .font-bold{margin-top: 2px;}
+ /*������ť*/
+ .btn-d{
+ margin-top: 35px;
+ margin-left: -202px;}
+ /*ѡ��ť*/
+ .d-btn-select{margin-top: 35px;
+   margin-left: 134px;
+   width: 175px !important;
+   height: 35px !important;
+   }
+   
+
+/*report.jsp*/
+.btn-select{  
+   	margin-top: -5px;
+ 	margin-left: 800px;
+ 	font-size: 9px !important;
+  	width: 134px !important;}
+.ibox-title{min-height: 58px !important;}  	
+
+  

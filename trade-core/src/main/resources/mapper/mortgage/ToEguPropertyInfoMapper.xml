@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mortgage.repository.ToEguPropertyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mortgage.entity.ToEguPropertyInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_NAME" property="residenceName" jdbcType="NVARCHAR" />
+    <result column="BUILDING_NO" property="buildingNo" jdbcType="VARCHAR" />
+    <result column="ROOM_NO" property="roomNo" jdbcType="VARCHAR" />
+    <result column="AREA" property="area" jdbcType="DECIMAL" />
+    <result column="AREA_GROUND" property="areaGround" jdbcType="DECIMAL" />
+    <result column="AREA_BASEMENT" property="areaBasement" jdbcType="DECIMAL" />
+    <result column="ROOM" property="room" jdbcType="INTEGER" />
+    <result column="HALL" property="hall" jdbcType="INTEGER" />
+    <result column="TOILET" property="toilet" jdbcType="INTEGER" />
+    <result column="FLOOR" property="floor" jdbcType="INTEGER" />
+    <result column="TOTAL_FLOOR" property="totalFloor" jdbcType="INTEGER" />
+    <result column="PROP_TYPE" property="propType" jdbcType="VARCHAR" />
+    <result column="PLANE_TYPE" property="planeType" jdbcType="VARCHAR" />
+    <result column="TOWARDS" property="towards" jdbcType="VARCHAR" />
+    <result column="SCAPE" property="scape" jdbcType="VARCHAR" />
+    <result column="NEAR_STREET" property="nearStreet" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, EVA_CODE, RESIDENCE_NAME, BUILDING_NO, ROOM_NO, AREA, AREA_GROUND, AREA_BASEMENT, 
+    ROOM, HALL, TOILET, FLOOR, TOTAL_FLOOR, PROP_TYPE, PLANE_TYPE, TOWARDS, SCAPE, NEAR_STREET, 
+    REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EGU_PROPERTY_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EGU_PROPERTY_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+ 
+  <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToEguPropertyInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	</selectKey>
+      insert into sctrans.T_TO_EGU_PROPERTY_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="residenceName != null" >
+        RESIDENCE_NAME,
+      </if>
+      <if test="buildingNo != null" >
+        BUILDING_NO,
+      </if>
+      <if test="roomNo != null" >
+        ROOM_NO,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="areaGround != null" >
+        AREA_GROUND,
+      </if>
+      <if test="areaBasement != null" >
+        AREA_BASEMENT,
+      </if>
+      <if test="room != null" >
+        ROOM,
+      </if>
+      <if test="hall != null" >
+        HALL,
+      </if>
+      <if test="toilet != null" >
+        TOILET,
+      </if>
+      <if test="floor != null" >
+        FLOOR,
+      </if>
+      <if test="totalFloor != null" >
+        TOTAL_FLOOR,
+      </if>
+      <if test="propType != null" >
+        PROP_TYPE,
+      </if>
+      <if test="planeType != null" >
+        PLANE_TYPE,
+      </if>
+      <if test="towards != null" >
+        TOWARDS,
+      </if>
+      <if test="scape != null" >
+        SCAPE,
+      </if>
+      <if test="nearStreet != null" >
+        NEAR_STREET,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="residenceName != null" >
+        #{residenceName,jdbcType=NVARCHAR},
+      </if>
+      <if test="buildingNo != null" >
+        #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNo != null" >
+        #{roomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=DECIMAL},
+      </if>
+      <if test="areaGround != null" >
+        #{areaGround,jdbcType=DECIMAL},
+      </if>
+      <if test="areaBasement != null" >
+        #{areaBasement,jdbcType=DECIMAL},
+      </if>
+      <if test="room != null" >
+        #{room,jdbcType=INTEGER},
+      </if>
+      <if test="hall != null" >
+        #{hall,jdbcType=INTEGER},
+      </if>
+      <if test="toilet != null" >
+        #{toilet,jdbcType=INTEGER},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="totalFloor != null" >
+        #{totalFloor,jdbcType=INTEGER},
+      </if>
+      <if test="propType != null" >
+        #{propType,jdbcType=VARCHAR},
+      </if>
+      <if test="planeType != null" >
+        #{planeType,jdbcType=VARCHAR},
+      </if>
+      <if test="towards != null" >
+        #{towards,jdbcType=VARCHAR},
+      </if>
+      <if test="scape != null" >
+        #{scape,jdbcType=VARCHAR},
+      </if>
+      <if test="nearStreet != null" >
+        #{nearStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.mortgage.entity.ToEguPropertyInfo" >
+    update sctrans.T_TO_EGU_PROPERTY_INFO
+    <set >
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="residenceName != null" >
+        RESIDENCE_NAME = #{residenceName,jdbcType=NVARCHAR},
+      </if>
+      <if test="buildingNo != null" >
+        BUILDING_NO = #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNo != null" >
+        ROOM_NO = #{roomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        AREA = #{area,jdbcType=DECIMAL},
+      </if>
+      <if test="areaGround != null" >
+        AREA_GROUND = #{areaGround,jdbcType=DECIMAL},
+      </if>
+      <if test="areaBasement != null" >
+        AREA_BASEMENT = #{areaBasement,jdbcType=DECIMAL},
+      </if>
+      <if test="room != null" >
+        ROOM = #{room,jdbcType=INTEGER},
+      </if>
+      <if test="hall != null" >
+        HALL = #{hall,jdbcType=INTEGER},
+      </if>
+      <if test="toilet != null" >
+        TOILET = #{toilet,jdbcType=INTEGER},
+      </if>
+      <if test="floor != null" >
+        FLOOR = #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="totalFloor != null" >
+        TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
+      </if>
+      <if test="propType != null" >
+        PROP_TYPE = #{propType,jdbcType=VARCHAR},
+      </if>
+      <if test="planeType != null" >
+        PLANE_TYPE = #{planeType,jdbcType=VARCHAR},
+      </if>
+      <if test="towards != null" >
+        TOWARDS = #{towards,jdbcType=VARCHAR},
+      </if>
+      <if test="scape != null" >
+        SCAPE = #{scape,jdbcType=VARCHAR},
+      </if>
+      <if test="nearStreet != null" >
+        NEAR_STREET = #{nearStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+ <select id="findByEvaCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select * from sctrans.T_TO_EGU_PROPERTY_INFO where EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+ </select>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvDeCondMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvDeCond" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="DE_AMOUNT" property="deAmount" jdbcType="DECIMAL" />
+    <result column="DE_PRE_TIME" property="dePreTime" jdbcType="TIMESTAMP" />
+    
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.spv.entity.ToSpvDeCond" extends="BaseResultMap" >
+    <result column="DE_CONDITION" property="deCondition" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, SPV_CODE, DE_AMOUNT,DE_PRE_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    DE_CONDITION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SPV_DE_COND
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_DE_COND
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvDeCond" >
+    insert into sctrans.T_TO_SPV_DE_COND (SPV_CODE, DE_AMOUNT, 
+      DE_CONDITION,DE_PRE_TIME)
+    values (#{spvCode,jdbcType=VARCHAR}, #{deAmount,jdbcType=DECIMAL}, 
+      #{deCondition,jdbcType=LONGVARCHAR},#{dePreTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeCond" >
+    insert into sctrans.T_TO_SPV_DE_COND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="spvCode != null" >
+        SPV_CODE,
+      </if>
+      <if test="deAmount != null" >
+        DE_AMOUNT,
+      </if>
+      <if test="deCondition != null" >
+        DE_CONDITION,
+      </if>
+      <if test="dePreTime != null" >
+        DE_PRE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="spvCode != null" >
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deAmount != null" >
+        #{deAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="deCondition != null" >
+        #{deCondition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dePreTime != null" >
+        #{dePreTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeCond" >
+    update sctrans.T_TO_SPV_DE_COND
+    <set >
+      <if test="spvCode != null" >
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deAmount != null" >
+        DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="deCondition != null" >
+        DE_CONDITION = #{deCondition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dePreTime != null" >
+        DE_PRE_TIME = #{dePreTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.spv.entity.ToSpvDeCond" >
+    update sctrans.T_TO_SPV_DE_COND
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      DE_CONDITION = #{deCondition,jdbcType=LONGVARCHAR},
+      DE_PRE_TIME = #{dePreTime,jdbcType=TIMESTAMP},
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvDeCond" >
+    update sctrans.T_TO_SPV_DE_COND
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      DE_PRE_TIME = #{dePreTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findBySpvCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  	select * from sctrans.T_TO_SPV_DE_COND where SPV_CODE=#{spvCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

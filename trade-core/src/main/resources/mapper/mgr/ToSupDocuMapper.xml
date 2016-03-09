@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mgr.repository.ToSupDocuMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mgr.entity.ToSupDocu" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="REMIND_TIME" property="remindTime" jdbcType="TIMESTAMP" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mgr.entity.ToSupDocu" extends="BaseResultMap" >
+    <result column="SUP_CONTENT" property="supContent" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, REMIND_TIME, PART_CODE, CASE_CODE
+  </sql>
+  <sql id="Blob_Column_List" >
+    SUP_CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SUP_DOCU
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SUP_DOCU
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.mgr.entity.ToSupDocu" >
+    insert into sctrans.T_TO_SUP_DOCU ( REMIND_TIME, PART_CODE, 
+      CASE_CODE, SUP_CONTENT)
+    values ( #{remindTime,jdbcType=TIMESTAMP}, #{partCode,jdbcType=VARCHAR}, 
+      #{caseCode,jdbcType=VARCHAR}, #{supContent,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.mgr.entity.ToSupDocu" >
+    insert into sctrans.T_TO_SUP_DOCU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="remindTime != null" >
+        REMIND_TIME,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="supContent != null" >
+        SUP_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="remindTime != null" >
+        #{remindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supContent != null" >
+        #{supContent,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.mgr.entity.ToSupDocu" >
+    update sctrans.T_TO_SUP_DOCU
+    <set >
+      <if test="remindTime != null" >
+        REMIND_TIME = #{remindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supContent != null" >
+        SUP_CONTENT = #{supContent,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.mgr.entity.ToSupDocu" >
+    update sctrans.T_TO_SUP_DOCU
+    set REMIND_TIME = #{remindTime,jdbcType=TIMESTAMP},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      SUP_CONTENT = #{supContent,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.mgr.entity.ToSupDocu" >
+    update sctrans.T_TO_SUP_DOCU
+    set REMIND_TIME = #{remindTime,jdbcType=TIMESTAMP},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByCaseCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+  	    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SUP_DOCU
+    where case_code = #{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToCashFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToCashFlow" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="CASH_FLOW_TYPE" property="cashFlowType" jdbcType="NVARCHAR" />
+    <result column="FLOW_DIRECTION" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="FLOW_AMOUNT" property="flowAmount" jdbcType="DECIMAL" />
+    <result column="FLOW_TIME" property="flowTime" jdbcType="TIMESTAMP" />
+    <result column="CASH_ITEM" property="cashItem" jdbcType="NVARCHAR" />
+    <result column="INITIATOR" property="initiator" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, CASH_FLOW_TYPE, FLOW_DIRECTION, FLOW_AMOUNT, FLOW_TIME, CASH_ITEM, INITIATOR
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASH_FLOW
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_CASH_FLOW
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToCashFlow" >
+    insert into sctrans.T_TO_CASH_FLOW (CASE_CODE, CASH_FLOW_TYPE, 
+      FLOW_DIRECTION, FLOW_AMOUNT, FLOW_TIME, CASH_ITEM, INITIATOR
+      )
+    values ( #{caseCode,jdbcType=VARCHAR}, #{cashFlowType,jdbcType=NVARCHAR}, 
+      #{flowDirection,jdbcType=VARCHAR}, #{flowAmount,jdbcType=DECIMAL}, #{flowTime,jdbcType=TIMESTAMP}, 
+      #{cashItem,jdbcType=NVARCHAR}, #{initiator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToCashFlow" >
+    insert into sctrans.T_TO_CASH_FLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="cashFlowType != null" >
+        CASH_FLOW_TYPE,
+      </if>
+      <if test="flowDirection != null" >
+        FLOW_DIRECTION,
+      </if>
+      <if test="flowAmount != null" >
+        FLOW_AMOUNT,
+      </if>
+      <if test="flowTime != null" >
+        FLOW_TIME,
+      </if>
+      <if test="cashItem != null" >
+        CASH_ITEM,
+      </if>
+      <if test="initiator != null" >
+        INITIATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFlowType != null" >
+        #{cashFlowType,jdbcType=NVARCHAR},
+      </if>
+      <if test="flowDirection != null" >
+        #{flowDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="flowAmount != null" >
+        #{flowAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="flowTime != null" >
+        #{flowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashItem != null" >
+        #{cashItem,jdbcType=NVARCHAR},
+      </if>
+      <if test="initiator != null" >
+       #{initiator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToCashFlow" >
+    update sctrans.T_TO_CASH_FLOW
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFlowType != null" >
+        CASH_FLOW_TYPE = #{cashFlowType,jdbcType=NVARCHAR},
+      </if>
+      <if test="flowDirection != null" >
+        FLOW_DIRECTION = #{flowDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="flowAmount != null" >
+        FLOW_AMOUNT = #{flowAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="flowTime != null" >
+        FLOW_TIME = #{flowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashItem != null" >
+        CASH_ITEM = #{cashItem,jdbcType=NVARCHAR},
+      </if>
+      <if test="initiator != null" >
+        INITIATOR = #{initiator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToCashFlow" >
+    update sctrans.T_TO_CASH_FLOW
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      CASH_FLOW_TYPE = #{cashFlowType,jdbcType=NVARCHAR},
+      FLOW_DIRECTION = #{flowDirection,jdbcType=VARCHAR},
+      FLOW_AMOUNT = #{flowAmount,jdbcType=DECIMAL},
+      FLOW_TIME = #{flowTime,jdbcType=TIMESTAMP},
+      CASH_ITEM = #{cashItem,jdbcType=NVARCHAR},
+      INITIATOR = #{initiator,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="queryCashFlowsByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASH_FLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findCashFlowByCaseCodeAndDirection" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASH_FLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and FLOW_DIRECTION=#{flowDirection,jdbcType=VARCHAR}
+  </select>
+</mapper>

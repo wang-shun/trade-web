@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.OrgMapper" >
+  <select id="getOrgListByDept" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.OrgVO">
+    SELECT
+       ID AS 'orgId',
+       ORG_NAME AS 'orgName'
+    FROM 
+      scpf_dev.dbo.SYS_ORG 
+    WHERE DEP_HIERARCHY = #{dept,jdbcType=VARCHAR}
+  </select>
+</mapper>

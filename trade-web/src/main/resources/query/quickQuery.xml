@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<queryConfig  debug="false">
+	<description></description>
+	<import resource="query/mortgage/toEguPricingQuery.xml" />
+	<import resource="query/mortgage/toEvaReportQuery.xml" />
+	<import resource="query/common/toReminderListQuery.xml" />
+	<import resource="query/common/tsTaskPlanSetQuery.xml" />
+	<import resource="query/common/lampRuleQuery.xml" />
+	<import resource="query/common/tsTeamPropertyListQuery.xml" />
+	<import resource="query/case/toCaseListQuery.xml" />
+	<import resource="query/case/toCaseListUnDistributeQuery.xml" />
+	<import resource="query/case/toCaseListUnLocatedQuery.xml" />
+	<import resource="query/task/toTaskListQuery.xml" />
+	<import resource="query/task/toMobileTaskListQuery.xml" />
+	<import resource="query/task/toTaskHistoryListQuery.xml" />
+	<import resource="query/case/toCaseExcelListQuery.xml" />
+	<import resource="query/task/taskDelegateQuery.xml"></import>
+	<import resource="query/eval/toEvalListQuery.xml" />
+	<import resource="query/trans/toTransPlanHistoryListQuery.xml" />
+	
+	<!-- 佣金管理 -->
+	<import resource="query/income/toCaseCountAmountListQuery.xml" />
+	<import resource="query/income/toCaseExcelTrueCountListQuery.xml" />
+	<import resource="query/income/incomeDetailQuery.xml" />
+	<import resource="query/income/awardDispatchQuery.xml" />
+		
+	<import resource="query/income/toCaseExcelMortageStatementListQuery.xml" />
+
+	<!-- 未处理产调 -->
+	<import resource="query/property/toProcessWaitListQuery.xml" />
+	<!-- 已受理产调 -->
+	<import resource="query/property/toProcessingListQuery.xml" />
+	<!-- 已完成产调 -->
+	<import resource="query/property/toSuccessListQuery.xml" />
+	<!-- 我的产调 -->
+	<import resource="query/property/toResultGetListQuery.xml" />
+	
+	<!-- 知识库 -->
+	<import resource="query/knowledge/knowledgeListQuery.xml" />
+	<import resource="query/knowledge/knowledgeListQuery1.xml" />
+	
+	<!-- E贷款 -->
+	<import resource="query/eloan/warnListQuery.xml" />
+	<import resource="query/eloan/changeListQuery.xml" />
+	
+	<!-- 审批记录 -->
+	<import resource="query/task/toApproveRecordQuery.xml" />
+	
+	<import resource="query/task/followPicListQuery.xml" />
+	<!-- 供应商 -->
+	<import resource="query/manager/tsSupQuery.xml" />
+		
+	<!-- 金融机构 -->
+	<import resource="query/manager/tsFinOrgQuery.xml" />
+	
+	<!-- 考勤记录 -->
+	<import resource="query/manager/tsAttendanceQuery.xml" />
+	
+	<!--  未分陪组织列表 -->
+	<import resource="query/manager/unlocatedAgentTeamScopeQuery.xml" />
+	
+	<import resource="query/task/unlocatedTaskQuery.xml" />
+	
+	<!-- 业务组别和誉萃组别关联查询 -->
+	<import resource="query/manager/tsTeamScopeQuery.xml" />
+	
+	<import resource="query/task/tsPrResearchMapQuery.xml" />
+	
+	<import resource="query/spv/toCashFlowQuery.xml" />
+	
+	<!-- 手机端查询产调 -->
+	<import resource="query/property/toPropertyResearchMobileQuery.xml" />
+	<import resource="query/case/CaseListWithLoan.xml"></import>
+	<import resource="query/loan/LoanListQuery.xml"></import>
+	
+
+	<import resource="query/loan/LoanManageListQuery.xml"></import>
+
+	<!-- 放款监管信息 -->
+	<import resource="query/case/CaseFlowListQuery.xml" />
+	<import resource="query/setting/unsettingTeamScopeQuery.xml"></import>
+	<!-- loan agent status change list -->
+	<import resource="query/loan/LoanStatusChangeQuery.xml"></import>
+	<import resource="query/perform/eplusQuery.xml"></import>
+	
+	
+	<!-- 各个环节的备注信息  -->
+	<import resource="query/case/CaseCommentListQuery.xml" />
+	<import resource="query/perform/gustFollowQuery.xml"></import>
+	<import resource="query/award/baseImportQuery.xml"></import>
+	<import resource="query/task/RyLightListQuery.xml"></import>
+	<import resource="query/case/toCaseListForMobile.xml"></import>
+	<import resource="query/task/toTaskHistoryListQueryForMobile.xml"></import>
+	
+</queryConfig>

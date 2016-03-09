@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.perform.repository.EplusMapper">
+	
+	
+	<select id="getLastOrders" parameterType="com.centaline.trans.perform.entity.EplusEntity" >
+		select kpi_Orders from sctrans.T_TS_EPLUS_PERFORM_MONTH 
+		where PARTICIPANT_NAME = #{participantName,jdbcType=VARCHAR}
+		and job_Id = #{jobId,jdbcType=VARCHAR}
+		and org_Id = #{orgId,jdbcType=VARCHAR}
+		and DATEDIFF(m, belong_Month, #{belongMonth,jdbcType=TIMESTAMP})=-1
+	</select>
+	<delete id="deleteByBizKey"
+		parameterType="com.centaline.trans.perform.entity.EplusEntity">
+		delete
+		from sctrans.T_TS_EPLUS_PERFORM_MONTH
+		where PARTICIPANT_NAME = #{participantName,jdbcType=VARCHAR}
+		and job_Id = #{jobId,jdbcType=VARCHAR}
+		and org_Id = #{orgId,jdbcType=VARCHAR}
+		and belong_Month = #{belongMonth,jdbcType=TIMESTAMP}
+	</delete>
+	<insert id="insertSelective" parameterType="com.centaline.trans.perform.entity.EplusEntity">
+		insert into sctrans.T_TS_EPLUS_PERFORM_MONTH
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="participantName != null">
+				participant_Name,
+			</if>
+			<if test="participantId != null">
+				participant_Id,
+			</if>
+			<if test="jobId != null">
+				job_Id,
+			</if>
+			<if test="orgId != null">
+				org_Id,
+			</if>
+			<if test="orders != null">
+				orders,
+			</if>
+			<if test="kpiOrders != null">
+				kpi_Orders,
+			</if>
+			<if test="belongMonth != null">
+				belong_Month,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkid != null">
+				#{pkid,jdbcType=BIGINT},
+			</if>
+			<if test="participantName != null">
+				#{participantName,jdbcType=BIGINT},
+			</if>
+			<if test="participantId != null">
+				#{participantId,jdbcType=VARCHAR},
+			</if>
+			<if test="jobId != null">
+				#{particijobIdpantName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="orders != null">
+				#{orders,jdbcType=VARCHAR},
+			</if>
+			<if test="kpiOrders != null">
+				#{kpiOrders,jdbcType=VARCHAR},
+			</if>
+			<if test="belongMonth != null">
+				#{belongMonth,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+</mapper>

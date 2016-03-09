@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.loan.repository.LoanStatusChangeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.centaline.trans.loan.entity.LoanStatusChange">
+		<id column="PKID" property="pkid" jdbcType="BIGINT" />
+	 	<result column="LOAN_ID" property="loanId" jdbcType="BIGINT" />
+		<result column="ST_FROM" property="sfFrom" jdbcType="VARCHAR" />
+		<result column="ST_TO" property="stTo" jdbcType="VARCHAR" />
+		<result column="CHANGE_DATE" property="changeDate" jdbcType="TIMESTAMP" />
+		<result column="CHANGE_USER" property="changeUser" jdbcType="VARCHAR" /> 
+	</resultMap>
+	 <sql id="Base_Column_List">
+		PKID, LOAN_ID, ST_FROM, ST_TO,CHANGE_DATE,CHANGE_USER
+	</sql>
+	<select id="listByLoanId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sctrans.T_TO_LOAN_STATUS_CHANGE
+		where LOAN_ID =
+		#{loanId,jdbcType=BIGINT} 
+	</select>
+	
+<delete id="deleteUnConfirm" 
+		parameterType="java.lang.Long">
+		delete
+		from sctrans.T_TO_LOAN_STATUS_CHANGE
+		where LOAN_ID =
+		#{loanId,jdbcType=BIGINT} and is_confirm=0
+	</delete>
+	<insert id="insertSelective" parameterType="com.centaline.trans.loan.entity.LoanStatusChange">
+		insert into sctrans.T_TO_LOAN_STATUS_CHANGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkid != null">
+				PKID,
+			</if>
+			<if test="loanId != null">
+				LOAN_ID,
+			</if>
+			<if test="stFrom != null">
+				ST_FROM,
+			</if>
+			<if test="stTo != null">
+				ST_TO,
+			</if>
+			<if test="changeDate != null">
+				CHANGE_DATE,
+			</if>
+			<if test="changeUser != null">
+				CHANGE_USER,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkid != null">
+				#{pkid,jdbcType=BIGINT},
+			</if>
+			<if test="loanId != null">
+				#{loanId,jdbcType=BIGINT},
+			</if>
+			<if test="stFrom != null">
+				#{stFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="stTo != null">
+				#{stTo,jdbcType=VARCHAR},
+			</if>
+			<if test="changeDate != null">
+				#{changeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="changeUser != null">
+				#{changeUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.loan.entity.LoanStatusChange">
+		update sctrans.T_TO_LOAN_STATUS_CHANGE
+		<set>
+			<if test="isConfirm != null">
+				IS_CONFIRM = #{isConfirm,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where PKID = #{pkid,jdbcType=BIGINT}
+	</update>
+</mapper>

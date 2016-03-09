@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+        "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>first</shortname>
+	<uri></uri>
+	<info>A simple tab library for the examples</info>
+
+	<tag>
+		<name>init</name>
+		<tagclass>org.abel.webapp.tags.TagInit</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>Say Hi</info>
+	</tag>
+	<tag>
+		<name>createURI</name>
+		<tagclass>org.abel.webapp.tags.TagCreatURI</tagclass>
+		<bodycontent>JSP</bodycontent>
+  		<info>create a URL</info>
+	</tag>
+	<tag>
+		<name>createReturnURI</name>
+		<tagclass>org.abel.webapp.tags.TagCreatReturnURI</tagclass>
+		<bodycontent>JSP</bodycontent>
+  		<info>create a URL</info>
+	</tag>	
+	<tag>
+		<name>URIAction</name>
+		<tagclass>org.abel.webapp.tags.TagAction</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>create a Action</info>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>URIParameter</name>
+		<tagclass>org.abel.webapp.tags.TagParameter</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>create a Action</info>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>encodeNamespace</name>
+		<tagclass>org.abel.webapp.tags.TagNamespace</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>create a Action</info>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>encodeURI</name>
+		<tagclass>org.abel.webapp.tags.TagEncodeURI</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>create a URI</info>
+		<attribute>
+			<name>path</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>	
+</taglib>
+

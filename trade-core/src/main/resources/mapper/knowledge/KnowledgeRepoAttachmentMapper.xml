@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.knowledge.repository.KnowledgeRepoAttachmentMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.knowledge.entity.KnowledgeRepoAttachment" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="KNOWLEDGE_CODE" property="knowledgeCode" jdbcType="VARCHAR" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
+    <result column="KNOWLEDGE_FILE_CODE" property="knowledgeFileCode" jdbcType="VARCHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, KNOWLEDGE_CODE, FILE_TYPE, KNOWLEDGE_FILE_CODE, FILE_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.knowledge.entity.KnowledgeRepoAttachment" >
+    insert into sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT ( KNOWLEDGE_CODE, FILE_TYPE, 
+      KNOWLEDGE_FILE_CODE, FILE_NAME)
+    values ( #{knowledgeCode,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, 
+      #{knowledgeFileCode,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.knowledge.entity.KnowledgeRepoAttachment" >
+    insert into sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="knowledgeCode != null" >
+        KNOWLEDGE_CODE,
+      </if>
+      <if test="fileType != null" >
+        FILE_TYPE,
+      </if>
+      <if test="knowledgeFileCode != null" >
+        KNOWLEDGE_FILE_CODE,
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="knowledgeCode != null" >
+        #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeFileCode != null" >
+        #{knowledgeFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.knowledge.entity.KnowledgeRepoAttachment" >
+    update sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    <set >
+      <if test="knowledgeCode != null" >
+        KNOWLEDGE_CODE = #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeFileCode != null" >
+        KNOWLEDGE_FILE_CODE = #{knowledgeFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.knowledge.entity.KnowledgeRepoAttachment" >
+    update sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    set KNOWLEDGE_CODE = #{knowledgeCode,jdbcType=VARCHAR},
+      FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      KNOWLEDGE_FILE_CODE = #{knowledgeFileCode,jdbcType=VARCHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据知识编码查询知识库附件  yumin1 -->
+  <select id="selectByKnowledgeCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT 
+  	where KNOWLEDGE_CODE= #{knowledgeCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据知识编码删除知识库附件  yumin1 -->
+  <delete id="deleteByKnowledgeCode" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    where KNOWLEDGE_CODE= #{knowledgeCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 根据知识编码修改知识库附件 yumin1 -->
+  <update id="updateByKnowledgeCode" parameterType="com.centaline.trans.knowledge.entity.KnowledgeRepoAttachment" >
+    update sctrans.T_TO_KNOWLEDGE_REPO_ATTACHMENT
+    set KNOWLEDGE_CODE = #{knowledgeCode,jdbcType=VARCHAR},
+      FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      KNOWLEDGE_FILE_CODE = #{knowledgeFileCode,jdbcType=VARCHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    where KNOWLEDGE_CODE= #{knowledgeCode,jdbcType=VARCHAR}
+  </update>
+  
+  
+</mapper>

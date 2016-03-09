@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToPurchaseLimitSearchMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PART_ID" property="partId" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="REAL_PLS_TIME" property="realPlsTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToPurchaseLimitSearch" extends="BaseResultMap" >
+    <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PART_ID, CASE_CODE, REAL_PLS_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    COMMENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
+    insert into sctrans.T_TO_PURCHASE_LIMIT_SEARCH (PKID, PART_ID, CASE_CODE, 
+      REAL_PLS_TIME, COMMENT)
+    values (#{pkid,jdbcType=BIGINT}, #{partId,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{realPlsTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
+    insert into sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="partId != null" >
+        PART_ID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="realPlsTime != null" >
+        REAL_PLS_TIME,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="partId != null" >
+        #{partId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realPlsTime != null" >
+        #{realPlsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
+    update sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+    <set >
+      <if test="partId != null" >
+        PART_ID = #{partId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realPlsTime != null" >
+        REAL_PLS_TIME = #{realPlsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
+    update sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+    set PART_ID = #{partId,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      REAL_PLS_TIME = #{realPlsTime,jdbcType=TIMESTAMP},
+      COMMENT = #{comment,jdbcType=LONGVARCHAR}
+      ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
+    update sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+    set PART_ID = #{partId,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      REAL_PLS_TIME = #{realPlsTime,jdbcType=TIMESTAMP}
+      ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="findToPlsByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />,<include refid="Blob_Column_List"/>
+
+    from sctrans.T_TO_PURCHASE_LIMIT_SEARCH
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
+  </select>
+</mapper>

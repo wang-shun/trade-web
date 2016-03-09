@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToTaxMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToTax" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="TAX_TIME" property="taxTime" jdbcType="TIMESTAMP" />
+    <result column="IS_UNIQUE_HOME" property="isUniqueHome" jdbcType="CHAR" />
+    <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToTax" extends="BaseResultMap" >
+    <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, TAX_TIME, IS_UNIQUE_HOME, HOLD_YEAR
+  </sql>
+  <sql id="Blob_Column_List" >
+    COMMENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_TAX
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_TAX
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToTax" >
+    insert into sctrans.T_TO_TAX (PKID, CASE_CODE, TAX_TIME, 
+      IS_UNIQUE_HOME, HOLD_YEAR, COMMENT
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{taxTime,jdbcType=TIMESTAMP}, 
+      #{isUniqueHome,jdbcType=CHAR}, #{holdYear,jdbcType=NVARCHAR}, #{comment,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToTax" >
+    insert into sctrans.T_TO_TAX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="taxTime != null" >
+        TAX_TIME,
+      </if>
+      <if test="isUniqueHome != null" >
+        IS_UNIQUE_HOME,
+      </if>
+      <if test="holdYear != null" >
+        HOLD_YEAR,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxTime != null" >
+        #{taxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isUniqueHome != null" >
+        #{isUniqueHome,jdbcType=CHAR},
+      </if>
+      <if test="holdYear != null" >
+        #{holdYear,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToTax" >
+    update sctrans.T_TO_TAX
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxTime != null" >
+        TAX_TIME = #{taxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isUniqueHome != null" >
+        IS_UNIQUE_HOME = #{isUniqueHome,jdbcType=CHAR},
+      </if>
+      <if test="holdYear != null" >
+        HOLD_YEAR = #{holdYear,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.task.entity.ToTax" >
+    update sctrans.T_TO_TAX
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      TAX_TIME = #{taxTime,jdbcType=TIMESTAMP},
+      IS_UNIQUE_HOME = #{isUniqueHome,jdbcType=CHAR},
+      HOLD_YEAR = #{holdYear,jdbcType=NVARCHAR},
+      COMMENT = #{comment,jdbcType=LONGVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToTax" >
+    update sctrans.T_TO_TAX
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      TAX_TIME = #{taxTime,jdbcType=TIMESTAMP},
+      IS_UNIQUE_HOME = #{isUniqueHome,jdbcType=CHAR},
+      HOLD_YEAR = #{holdYear,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="findToTaxByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />,<include refid="Blob_Column_List"/>
+
+    from sctrans.T_TO_TAX
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
+  </select>
+</mapper>

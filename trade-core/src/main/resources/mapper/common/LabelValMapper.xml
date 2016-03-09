@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.LabelValMapper" >
+  <select id="queryUserInfo" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.LabelVal">
+   SELECT
+       ID AS 'value',
+       REAL_NAME AS 'label'
+    FROM 
+      sctrans.SYS_USER where  REAL_NAME like #{keyword}+'%' and IS_DELETED='0'
+  </select>
+    <select id="queryOrgInfo" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.LabelVal">
+   SELECT
+       ID AS 'value',
+       ORG_NAME AS 'label'
+    FROM 
+      sctrans.SYS_ORG where  ORG_NAME like #{keyword}+'%' and IS_DELETED='0'
+  </select>
+</mapper>

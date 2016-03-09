@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryEvalItemList">
+		<searchCondition>
+            <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.ORG_ID" name="orgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT DISTINCT
+					    A.PKID AS ID,
+						A.CASE_CODE,
+						A.CTM_CODE,
+						B.AGENT_CODE,
+						B.AGENT_NAME,
+						C.SELLER,
+						E.PROPERTY_ADDR,
+						F.BUYER,
+						G.PKID AS EVALID,
+						G.EVAL_FEE,
+						G.IS_EVAL_FEE_GET,
+						G.RECORD_TIME
+					
+					FROM
+					sctrans.T_TO_CASE AS A 
+					INNER JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE
+					LEFT JOIN (
+					   SELECT DISTINCT 
+					       TG1.CASE_CODE, 
+					       SELLER = stuff(
+								(
+									SELECT 
+										'/' + GUEST_NAME
+									FROM
+										sctrans.T_TG_GUEST_INFO
+									WHERE
+										TG1.CASE_CODE = CASE_CODE
+					         AND TRANS_POSITION = '30006001'
+					
+									ORDER BY
+										GUEST_NAME FOR xml path ('')
+								),
+								1,
+								1,
+								''
+							)
+					 FROM sctrans.T_TG_GUEST_INFO TG1
+					WHERE 1=1
+					GROUP BY
+							TG1.CASE_CODE
+					          ) C ON A.CASE_CODE = C.CASE_CODE
+					FULL OUTER JOIN (
+						SELECT DISTINCT
+							tb.CASE_CODE
+						FROM
+							sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tb
+						WHERE 1=1
+						
+     				<ifNotNull queryorg>
+					AND tb.ORG_ID = #queryorg#
+     				</ifNotNull>
+						GROUP BY
+							tb.CASE_CODE
+					) AS D ON A.CASE_CODE = D.CASE_CODE
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
+					LEFT JOIN (
+					   SELECT DISTINCT 
+					       TG1.CASE_CODE, 
+					       BUYER = stuff(
+								(
+									SELECT 
+										'/' + GUEST_NAME
+									FROM
+										sctrans.T_TG_GUEST_INFO
+									WHERE
+										TG1.CASE_CODE = CASE_CODE
+					         AND TRANS_POSITION = '30006002'
+					
+									ORDER BY
+										GUEST_NAME FOR xml path ('')
+								),
+								1,
+								1,
+								''
+							)
+					
+					 FROM sctrans.T_TG_GUEST_INFO TG1
+					WHERE 1=1
+					GROUP BY
+							TG1.CASE_CODE,
+							TG1.GUEST_NAME
+					          ) F ON A.CASE_CODE = F.CASE_CODE
+					LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD G ON A.CASE_CODE = G.CASE_CODE
+					where  1=1
+					 AND A.CASE_CODE = B.CASE_CODE	
+     				<ifNotNull guestname>
+							AND (C.SELLER  LIKE '%'+#guestname#+'%' OR F.BUYER LIKE '%'+#guestname#+'%') 
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY G.RECORD_TIME DESC,A.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="EVALID" index="" checkbox="" display="EVALID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SELLER" index="" checkbox="" display="上家" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="BUYER" index="" checkbox="" display="下家" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="EVAL_FEE" index="" checkbox="" display="评估费" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="IS_EVAL_FEE_GET" index="" checkbox="" display="足额收取" customDict="getIsFeeGetNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RECORD_TIME" index="" checkbox="" display="最后收取时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>

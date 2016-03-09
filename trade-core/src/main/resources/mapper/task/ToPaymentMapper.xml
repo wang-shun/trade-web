@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToPaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToPayment" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PAY_NAME" property="payName" jdbcType="NVARCHAR" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_TYPE" property="payType" jdbcType="NVARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PAY_NAME, PAY_TIME, PAY_TYPE, CASE_CODE, AMOUNT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToPayment" >
+    insert into sctrans.T_TO_PAYMENT (PKID, PAY_NAME, PAY_TIME, 
+      PAY_TYPE, CASE_CODE, AMOUNT
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{payName,jdbcType=NVARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{payType,jdbcType=NVARCHAR}, #{caseCode,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPayment" >
+    insert into sctrans.T_TO_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="payName != null" >
+        PAY_NAME,
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="payName != null" >
+        #{payName,jdbcType=NVARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=NVARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToPayment" >
+    update sctrans.T_TO_PAYMENT
+    <set >
+      <if test="payName != null" >
+        PAY_NAME = #{payName,jdbcType=NVARCHAR},
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=NVARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToPayment" >
+    update sctrans.T_TO_PAYMENT
+    set PAY_NAME = #{payName,jdbcType=NVARCHAR},
+      PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      PAY_TYPE = #{payType,jdbcType=NVARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL}
+      ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+   <select id="findToPaymentByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TO_PAYMENT
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
+  </select>
+  
+   <select id="findToPaymentByPayment" parameterType="com.centaline.trans.task.entity.ToPayment" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TO_PAYMENT
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    	and PAY_NAME = #{payName,jdbcType=NVARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getUserNameById" beanName="qqcdUserIdName"></customDict> 
+		<customDict id="getOrgNameById" beanName="qqcdOrgIdName"></customDict> 
+	</dicts>
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryAttendancePage">
+		<searchCondition>
+            <condition field="TA.STAFF_ID" name="userId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="SU.REAL_NAME" name="userName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
+            <condition field="SO.ORG_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
+            <condition field="TA.ATTEND_TIME" name="attendTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/> 
+            <condition field="TA.ATTEND_TIME" name="attendTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/> 
+        
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					TA.PKID,
+					TA.REASON,
+					TA.ADDRESS,
+					TA.LONGITUDE,
+					TA.LATITUDE,
+					TA.ATTEND_TIME,
+					TA.STAFF_ID,
+					TA.ORG_ID,
+					SU.REAL_NAME USER_NAME,
+					SO.ORG_NAME
+					FROM sctrans.T_TS_ATTENDANCE TA LEFT JOIN sctrans.SYS_USER SU ON TA.STAFF_ID=SU.ID
+					LEFT JOIN sctrans.SYS_ORG SO ON TA.ORG_ID=SO.ID
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="REASON" index="" checkbox="" display="事由" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="ADDRESS" index="" checkbox="" display="所在地" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="USER_NAME" index="" checkbox="" display="考勤人" customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_NAME" index="" checkbox="" display="所在部门" customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ATTEND_TIME" index="" checkbox="" display="日期" customDict="" sysDict="" format="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable="" />
+
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

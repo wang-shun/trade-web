@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.income.repository.TsOrTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.income.entity.TsOrTemplate" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" />
+    <result column="SERV_CAT" property="servCat" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="PERCENTAGE" property="percentage" jdbcType="DOUBLE" />
+    <result column="TEAM_NO_START" property="teamNoStart" jdbcType="INTEGER" />
+    <result column="TEAM_NO_END" property="teamNoEnd" jdbcType="INTEGER" />
+    <result column="IS_TEAM_RELATED" property="isTeamRelated" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, ROLE_CODE, SERV_CAT, AMOUNT, PERCENTAGE, TEAM_NO_START, TEAM_NO_END, IS_TEAM_RELATED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_OR_TEMPLATE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_OR_TEMPLATE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.income.entity.TsOrTemplate" >
+    insert into sctrans.T_TS_OR_TEMPLATE (PKID, ROLE_CODE, SERV_CAT, 
+      AMOUNT, PERCENTAGE, TEAM_NO_START, 
+      TEAM_NO_END, IS_TEAM_RELATED)
+    values (#{pkid,jdbcType=BIGINT}, #{roleCode,jdbcType=VARCHAR}, #{servCat,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{percentage,jdbcType=DOUBLE}, #{teamNoStart,jdbcType=INTEGER}, 
+      #{teamNoEnd,jdbcType=INTEGER}, #{isTeamRelated,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.income.entity.TsOrTemplate" >
+    insert into sctrans.T_TS_OR_TEMPLATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="roleCode != null" >
+        ROLE_CODE,
+      </if>
+      <if test="servCat != null" >
+        SERV_CAT,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="percentage != null" >
+        PERCENTAGE,
+      </if>
+      <if test="teamNoStart != null" >
+        TEAM_NO_START,
+      </if>
+      <if test="teamNoEnd != null" >
+        TEAM_NO_END,
+      </if>
+      <if test="isTeamRelated != null" >
+        IS_TEAM_RELATED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="servCat != null" >
+        #{servCat,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="percentage != null" >
+        #{percentage,jdbcType=DOUBLE},
+      </if>
+      <if test="teamNoStart != null" >
+        #{teamNoStart,jdbcType=INTEGER},
+      </if>
+      <if test="teamNoEnd != null" >
+        #{teamNoEnd,jdbcType=INTEGER},
+      </if>
+      <if test="isTeamRelated != null" >
+        #{isTeamRelated,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.income.entity.TsOrTemplate" >
+    update sctrans.T_TS_OR_TEMPLATE
+    <set >
+      <if test="roleCode != null" >
+        ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="servCat != null" >
+        SERV_CAT = #{servCat,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="percentage != null" >
+        PERCENTAGE = #{percentage,jdbcType=DOUBLE},
+      </if>
+      <if test="teamNoStart != null" >
+        TEAM_NO_START = #{teamNoStart,jdbcType=INTEGER},
+      </if>
+      <if test="teamNoEnd != null" >
+        TEAM_NO_END = #{teamNoEnd,jdbcType=INTEGER},
+      </if>
+      <if test="isTeamRelated != null" >
+        IS_TEAM_RELATED = #{isTeamRelated,jdbcType=CHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.income.entity.TsOrTemplate" >
+    update sctrans.T_TS_OR_TEMPLATE
+    set ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+      SERV_CAT = #{servCat,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      PERCENTAGE = #{percentage,jdbcType=DOUBLE},
+      TEAM_NO_START = #{teamNoStart,jdbcType=INTEGER},
+      TEAM_NO_END = #{teamNoEnd,jdbcType=INTEGER},
+      IS_TEAM_RELATED = #{isTeamRelated,jdbcType=CHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 功能：收益  作者：zhangxb16 -->
+  <select id="selectByroleCodeandServcat" resultMap="BaseResultMap">
+  		SELECT ROLE_CODE, SERV_CAT, PERCENTAGE, TEAM_NO_START, TEAM_NO_END, IS_TEAM_RELATED FROM sctrans.T_TS_OR_TEMPLATE 
+  			where ROLE_CODE=#{roleCode,jdbcType=VARCHAR} and SERV_CAT=#{servCat,jdbcType=VARCHAR} 
+  			<if test="teamNoStart != null" >
+	        	and TEAM_NO_START BETWEEN #{teamNoStart,jdbcType=INTEGER} and #{teamNoStart,jdbcType=INTEGER} 
+	        </if>
+  </select>
+  
+</mapper>

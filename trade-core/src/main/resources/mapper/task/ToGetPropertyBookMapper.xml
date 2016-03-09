@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToGetPropertyBookMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToGetPropertyBook" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="REAL_PROPERTY_GET_TIME" property="realPropertyGetTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToGetPropertyBook" extends="BaseResultMap" >
+    <result column="COMMET" property="commet" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PART_CODE, CASE_CODE, REAL_PROPERTY_GET_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    COMMET
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_GET_PROPERTY_BOOK
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_GET_PROPERTY_BOOK
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
+    insert into sctrans.T_TO_GET_PROPERTY_BOOK (PKID, PART_CODE, CASE_CODE, 
+      REAL_PROPERTY_GET_TIME, COMMET)
+    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{realPropertyGetTime,jdbcType=TIMESTAMP}, #{commet,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
+    insert into sctrans.T_TO_GET_PROPERTY_BOOK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="realPropertyGetTime != null" >
+        REAL_PROPERTY_GET_TIME,
+      </if>
+      <if test="commet != null" >
+        COMMET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realPropertyGetTime != null" >
+        #{realPropertyGetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commet != null" >
+        #{commet,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
+    update sctrans.T_TO_GET_PROPERTY_BOOK
+    <set >
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="realPropertyGetTime != null" >
+        REAL_PROPERTY_GET_TIME = #{realPropertyGetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commet != null" >
+        COMMET = #{commet,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
+    update sctrans.T_TO_GET_PROPERTY_BOOK
+    set PART_CODE = #{partCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      REAL_PROPERTY_GET_TIME = #{realPropertyGetTime,jdbcType=TIMESTAMP},
+      COMMET = #{commet,jdbcType=LONGVARCHAR}
+      ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
+    update sctrans.T_TO_GET_PROPERTY_BOOK
+    set PART_CODE = #{partCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      REAL_PROPERTY_GET_TIME = #{realPropertyGetTime,jdbcType=TIMESTAMP}
+      ,IS_ACTIVE='1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="findGetPropertyBookByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />,<include refid="Blob_Column_List"/>
+
+    from sctrans.T_TO_GET_PROPERTY_BOOK
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
+  </select>
+</mapper>

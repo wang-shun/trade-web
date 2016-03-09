@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+	<customDict id="getItemNameByCode" beanName="qqcdDict30004"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="incomeDetailList">
+		<searchCondition>
+            <condition field="TTO.OR_OWNER_ID" name="orOwnverId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						TIS.PKID,
+						TIS.CASE_CODE,
+						TIS.INCOME_CAT,
+						TIS.INCOME_ITEM,
+						TIS.INCOME_AMOUNT,
+						TIS.IMPORT_TIME,
+						TIS.IMPORT_NO,
+						TIS.INCOME_BELONG_DAY,
+						TIS.FIN_CASE_CODE,
+						TIS.FIN_CODE,
+						TIS.IS_CHANGE,
+						TTO.OR_AMOUNT,
+						TTO.OR_PAR,
+						TPI.PROPERTY_ADDR
+					FROM
+						sctrans.T_TS_INCOME_STATISTICS TIS LEFT JOIN sctrans.T_TS_OVERRIDING TTO 
+						ON TIS.PKID = TTO.INCOME_ID LEFT JOIN sctrans.T_TO_PROPERTY_INFO TPI 
+						ON TIS.CASE_CODE = TPI.CASE_CODE
+					WHERE 1=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY TIS.IMPORT_TIME DESC 
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="INCOME_ITEM" index="" checkbox="" title="收入名目" customDict="getItemNameByCode" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="INCOME_AMOUNT"  index="" checkbox="" title="收入总数" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="OR_PAR" index="" checkbox="" title="获得比例" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="OR_AMOUNT" index="" checkbox="" title="最终金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="INCOME_BELONG_DAY" index="" checkbox="" title="记佣归属月份" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

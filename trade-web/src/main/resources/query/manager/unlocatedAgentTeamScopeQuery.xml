@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryUnlocatedAgentTeamScope">
+		<searchCondition>
+<!--             <condition field="TS.YU_AGENT_TEAM_CODE" name="agentTeamCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.YU_TEAM_CODE" name="teamCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.YU_AGENT_TEAM_NAME" name="agentTeamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.YU_TEAM_NAME" name="teamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+ -->
+            <condition field="OH.BUSIAR_ID" name="oriGrpId" label="" searchType="IN" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						O.ORG_CODE,
+						O.ORG_NAME,
+					  	O.ID,
+						OH.BUSIAR_ID,
+						AR.ORG_NAME AS AR_ORG_NAME,
+						SWZ.ORG_NAME AS SWZ_ORG_NAME
+					FROM
+						SCTRANS.SYS_ORG O
+					INNER JOIN SCTRANS.v_sys_org_hierarchy OH ON O.ID = OH.ORG_ID
+					AND O.DEP_HIERARCHY = 'BUSIGRP'
+					AND O.IS_DELETED = '0'
+					AND O.AVAILABLE = '1'
+					INNER JOIN SCTRANS.SYS_ORG AR ON OH.BUSIAR_ID = AR.ID
+					INNER JOIN SCTRANS.SYS_ORG SWZ ON OH.BUSISWZ_ID = SWZ.ID
+					INNER JOIN SCTRANS.SYS_ORG WZ ON OH.BUSIWZ_ID = WZ.ID
+					WHERE
+						O.ORG_CODE NOT IN (
+							SELECT
+								YU_AGENT_TEAM_CODE
+							FROM
+								[sctrans].[T_TS_TEAM_SCOPE]
+						)
+					  AND O.ORG_CODE !=''
+					  and WZ.ORG_NAME not in ('测试区域(区董)','黄浦区域','长宁区域','静安区域','卢湾区域','徐汇5区域','徐汇1区域','徐汇2区域','普陀中心片区','普陀西1区','普陀西2区','普陀西片区','闸北区域','松江区域')
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ORG_CODE" index="" checkbox="" display="组织CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide=""/>
+				<column type="both" name="ORG_NAME" index="" checkbox="" display="组织名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ID" index="" checkbox="" display="组织ID" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="BUSIAR_ID" index="" checkbox="" display="片区ID" customDict="" sysDict="" beanFormatter="" width="150" isSort="true" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="AR_ORG_NAME" index="" checkbox="" display="片区名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SWZ_ORG_NAME" index="" checkbox="" display="战区名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

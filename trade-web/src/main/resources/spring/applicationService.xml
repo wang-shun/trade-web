@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<description>定义项目对外提供的HTTP Invoker 接口</description>
+	
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="1"/>
+         <property name="mappings">
+            <props>
+                  <prop key="/remote/TaskOutTimeJob">/remote/TaskOutTimeJob</prop>
+                  <prop key="/remote/SubCommissionJob">/remote/SubCommissionJob</prop>
+                  <prop key="/remote/unlocateGrpAdisedJob">/remote/unlocateGrpAdisedJob</prop>
+            </props>
+        </property>
+    </bean>
+    
+    	<!--Http client Factory-->  
+        <bean id="httpClientFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">  
+            <property name="connectTimeout" value="100000"/>
+            <property name="readTimeout" value="100000"/>
+        </bean>  
+           
+        <!--RestTemplate-->  
+        <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">  
+            <constructor-arg ref="httpClientFactory"/>  
+        </bean>
+    
+</beans>

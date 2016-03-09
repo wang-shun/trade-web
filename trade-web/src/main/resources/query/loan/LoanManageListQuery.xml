@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+	    <customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+        <customDict id="qqcdDictServCode" beanName="qqcdDictServCode"></customDict>
+        <customDict id="qqcdDictApplyStatus" beanName="qqcdDictApplyStatus"></customDict>
+        <customDict id="qqcdFhjlName" beanName="qqcdFhjlName"></customDict>
+        <customDict id="qqcdJqydsName" beanName="qqcdJqydsName"></customDict>
+        <customDict id="qqcdOrgName" beanName="qqcdOrgName"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="loanManageList">
+		<searchCondition>
+			<condition field="caseInfo.AGENT_NAME" name="agentName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.CUST_NAME" name="customerName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="sysUser.USERNAME" name="loanName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="propertyInfo.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			
+			<condition field="agent.LOAN_AMOUNT" name="applyMoneyStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.LOAN_AMOUNT" name="applyMoneyEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.SIGN_AMOUNT" name="signMoneyStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.SIGN_AMOUNT" name="signMoneyEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.ACTUAL_AMOUNT" name="loadMoneyStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.ACTUAL_AMOUNT" name="loadMoneyEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+	
+			<condition field="agent.APPLY_STATUS" name="applyStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.CONFIRM_STATUS" name="confirmStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.LOAN_SRV_CODE" name="loanSrvCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="finOrg.FIN_ORG_CODE" name="operOrg" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.CREATE_TIME" name="createTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.CREATE_TIME" name="createTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.APPLY_TIME" name="resDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.APPLY_TIME" name="resDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.SIGN_TIME" name="signDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.SIGN_TIME" name="signDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.RELEASE_TIME" name="lendDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.RELEASE_TIME" name="lendDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+					    agent.PKID as 'pkId',
+						agent.LOAN_SRV_CODE as 'loanSrvCode',
+						finOrg.FIN_ORG_NAME as 'finOrgName',
+						propertyInfo.PROPERTY_ADDR as 'propertyAddr',
+						agent.EXECUTOR_ID as 'executorId',
+						agent.APPLY_STATUS as 'applyStatus',
+						agent.CONFIRM_STATUS as 'confirmStatus',
+						agent.LOAN_AMOUNT as 'loanAmount',
+						agent.APPLY_TIME as 'applyTime',
+						agent.ACTUAL_AMOUNT as 'actualAmount',
+						agent.RELEASE_TIME as 'releaseTime',
+						caseInfo.AGENT_CODE as 'agentCode',
+						caseInfo.AGENT_NAME as 'agentName',
+						agent.CREATE_TIME as 'createTime',
+						orgJob.org_name as 'orgName',
+						orgJob.ORG_id as 'jfhjlName',
+						orgJob.ORG_id as 'jqydsName',
+						orgJob.ORG_id as 'belogDistrict'
+					FROM 
+					   sctrans.T_TO_LOAN_AGENT  agent 
+					INNER JOIN 
+					   sctrans.T_TO_PROPERTY_INFO propertyInfo
+					ON
+					   agent.CASE_CODE = propertyInfo.CASE_CODE
+					INNER JOIN
+					    sctrans_dev.sctrans.T_TO_CASE_INFO caseInfo
+					ON
+					    caseInfo.CASE_CODE =  agent.CASE_CODE
+					INNER JOIN
+					    sctrans_dev.sctrans.T_TS_FIN_ORG finOrg
+					ON
+					   finOrg.FIN_ORG_CODE = agent.FIN_ORG_CODE
+					INNER JOIN
+					   sctrans_dev.sctrans.V_USER_ORG_JOB orgJob
+					ON
+					   orgJob.user_id = caseInfo.AGENT_CODE
+					INNER JOIN
+		               scpf_dev.dbo.SYS_USER sysUser
+			        ON
+			           sysUser.ID  = agent.EXECUTOR_ID
+			        WHERE
+				]]>
+			</baseSql>
+
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkId" index="" checkbox="" display="主键" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="loanSrvCode" index="" checkbox="" display="产品名称" title="产品名称" customDict="qqcdDictServCode" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="finOrgName" index="" checkbox="" title="合作机构" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="propertyAddr" index="" checkbox="" title="物业地址" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="executorId" index="" checkbox="" title="案件负责人" customDict="getUserNameByUserId" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="applyStatus" index="" checkbox="" title="自填状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="confirmStatus" index="" checkbox="" title="案件已确认状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="loanAmount" index="" checkbox="" title="申请金额" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="applyTime" index="" checkbox="" title="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="actualAmount" index="" checkbox="" title="放款金额" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="releaseTime" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="agentName" index="" checkbox="" title="业务员姓名" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="jfhjlName" index="" checkbox="" title="经理姓名" customDict="qqcdFhjlName" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" title="分行组别" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="jqydsName" index="" checkbox="" title="所属区董" customDict="qqcdJqydsName" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="belogDistrict" index="" checkbox="" title="所属区域" customDict="qqcdOrgName" sysDict="" beanFormatter="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="createTime" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

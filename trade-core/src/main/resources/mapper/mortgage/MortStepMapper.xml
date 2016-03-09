@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.mortgage.repository.MortStepMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mortgage.entity.MortStep">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="IS_MAIN_LOAN_BANK" jdbcType="CHAR" property="isMainLoanBank" />
+    <result column="STEP" jdbcType="INTEGER" property="step" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, IS_MAIN_LOAN_BANK, STEP
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.MORT_STEP
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.MORT_STEP
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.mortgage.entity.MortStep">
+    insert into sctrans.MORT_STEP (PKID, CASE_CODE, IS_MAIN_LOAN_BANK, 
+      STEP)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{isMainLoanBank,jdbcType=CHAR}, 
+      #{step,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.MortStep">
+    insert into sctrans.MORT_STEP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="isMainLoanBank != null">
+        IS_MAIN_LOAN_BANK,
+      </if>
+      <if test="step != null">
+        STEP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null">
+        #{isMainLoanBank,jdbcType=CHAR},
+      </if>
+      <if test="step != null">
+        #{step,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.mortgage.entity.MortStep">
+    update sctrans.MORT_STEP
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null">
+        IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=CHAR},
+      </if>
+      <if test="step != null">
+        STEP = #{step,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.mortgage.entity.MortStep">
+    update sctrans.MORT_STEP
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=CHAR},
+      STEP = #{step,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findMortStep" parameterType="com.centaline.trans.mortgage.entity.MortStep" resultMap="BaseResultMap">
+    select * from sctrans.MORT_STEP 
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and  IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=CHAR}
+  </select>
+    <select id="listByCaseCode" parameterType="com.centaline.trans.mortgage.entity.MortStep" resultMap="BaseResultMap">
+    select * from sctrans.MORT_STEP 
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+  </select>
+  
+  
+  
+  	<!-- 根据casecode 去删除  -->
+  	<delete id="deleteCaseCode" parameterType="java.lang.String">
+  		delete from sctrans.MORT_STEP where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  	</delete>
+  	
+  	
+  	<!-- 根据 caseCode 到MORT_STEP 表中去查询是否存在记录  -->
+  	<select id="isExistCaseCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+  		select count(1) from sctrans.MORT_STEP where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  	</select>
+  
+</mapper>
+

@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+.innerselect select{
+   width:100px!important;
+	float:left;
+}
+
+.innerlabel{
+	width:70px;
+	float:left;
+	text-align:center;
+}
+.innerselect{float:left;}
+
+.innerinput textarea{height:100px;}
+
+.innerinput input{width:50px!important}
+#gbox_keyList{margin:0 auto;}
+.container-fluid{margin-left:1.7%}
+.ui-jqgrid tr.jqgrow a:hover{color:#000;}
+.ui-jqgrid tr.jqgrow a:visited{color:#000;}
+#firstsentence{color:#999;margin-left:3%;}
+#lastsentence{color:#999;}
+table tr{height:45px;}
+
+

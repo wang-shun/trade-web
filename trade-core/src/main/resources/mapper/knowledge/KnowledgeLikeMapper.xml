@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.knowledge.repository.KnowledgeLikeMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.knowledge.entity.KnowledgeLike" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="KNOWLEDGE_CODE" property="knowledgeCode" jdbcType="VARCHAR" />
+    <result column="LIKER_ID" property="likerId" jdbcType="NVARCHAR" />
+    <result column="IS_LIKE" property="isLike" jdbcType="NVARCHAR" />
+    
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    PKID, KNOWLEDGE_CODE, LIKER_ID, IS_LIKE
+  </sql>
+ 
+  <select id="selectByKnowCodeAndUser" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TS_KNOWLEDGE_LIKE_RECORD
+    where KNOWLEDGE_CODE = #{0}
+    	  and LIKER_ID=#{1}
+  </select>
+  
+  <insert id="insert" parameterType="com.centaline.trans.knowledge.entity.KnowledgeLike" >
+    insert into sctrans.T_TS_KNOWLEDGE_LIKE_RECORD ( KNOWLEDGE_CODE, LIKER_ID, 
+       IS_LIKE
+      )
+    values ( #{knowledgeCode,jdbcType=VARCHAR},
+      #{likerId,jdbcType=VARCHAR}, #{isLike,jdbcType=VARCHAR}      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.knowledge.entity.KnowledgeLike" >
+    insert into sctrans.T_TS_KNOWLEDGE_LIKE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="knowledgeCode != null" >
+        KNOWLEDGE_CODE,
+      </if>
+      <if test="likerId != null" >
+        liker_Id,
+      </if>
+      <if test="isLike != null" >
+        IS_LIKE,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="knowledgeCode != null" >
+        #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="likerId != null" >
+        #{likerId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLike != null" >
+        #{isLike,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateLike" parameterType="com.centaline.trans.knowledge.entity.KnowledgeLike" >
+    update sctrans.T_TS_KNOWLEDGE_LIKE_RECORD
+    <set >
+      <if test="knowledgeCode != null" >
+        KNOWLEDGE_CODE = #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="likerId != null" >
+        liker_Id = #{likerId,jdbcType=NVARCHAR},
+      </if>
+      <if test="isLike != null" >
+        is_Like = #{isLike,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+
+</mapper>

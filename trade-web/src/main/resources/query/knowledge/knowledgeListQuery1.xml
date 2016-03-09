@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getUserEmployeeCodeByUserId" beanName="qqcdUserEmployeeCode"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="knowledgeListQuery1">
+		<searchCondition>
+	            <condition field="knowledge.KNOWLEDGE_CODE" name="knowledgeCode" label="知识编码" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="knowledge.TITLE" name="knowledgeTitle" label="知识标题" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="knowledge.PUBLISHER" name="publisher" label="发布人" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+	    </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						knowledge.PKID,
+						knowledge.KNOWLEDGE_CODE,
+						knowledge.TITLE,
+						knowledge.CONTENT,
+						knowledge.PB_TIME,
+						knowledge.PUBLISHER as employeeCode,
+						knowledge.PUBLISHER as pubisher,
+						knowledge.click_sum as clickSum,
+						knowledge.is_top as isTop,
+						knowledge.is_recommand as isRecommand,
+						knowledge.like_sum as likeSum,
+						lk.KNOWLEDGE_CODE as isLiked
+					FROM 
+						sctrans.T_TO_KNOWLEDGE_REPO AS knowledge
+						left join sctrans.T_TS_KNOWLEDGE_LIKE_RECORD lk
+						on lk.liker_id=#userId# and lk.is_like='1' and lk.KNOWLEDGE_CODE=knowledge.KNOWLEDGE_CODE
+					WHERE 
+					
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY knowledge.IS_TOP DESC,knowledge.is_recommand DESC,knowledge.pb_time desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>likeSum
+				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="KNOWLEDGE_CODE" index="" checkbox="" display="知识编码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="TITLE" index="" checkbox="" display="知识标题" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONTENT" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="likeSum" index="" checkbox="" display="点赞量" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="clickSum" index="" checkbox="" display="点击量" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="isRecommand" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="isTop" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="isLiked" index="" checkbox="" display="是否点赞" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="employeeCode" index="" checkbox="" display="发布人" customDict="getUserEmployeeCodeByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pubisher" index="" checkbox="" display="发布人" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

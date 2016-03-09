@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvDeRecMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvDeRec" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="COND_ID" property="condId" jdbcType="BIGINT" />
+    <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="DE_AMOUNT" property="deAmount" jdbcType="DECIMAL" />
+    <result column="OPER_ID" property="operId" jdbcType="NVARCHAR" />
+    <result column="PROCESS_INSTANCE_ID" property="processInstanceId" jdbcType="NVARCHAR" />
+
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.spv.entity.ToSpvDeRec" extends="BaseResultMap" >
+    <result column="DE_COND" property="deCond" jdbcType="LONGVARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, COND_ID, SPV_CODE, DE_AMOUNT, OPER_ID,PROCESS_INSTANCE_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    DE_COND, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SPV_DE_REC
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_DE_REC
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvDeRec" >
+    insert into sctrans.T_TO_SPV_DE_REC (PKID, COND_ID, SPV_CODE, 
+      DE_AMOUNT, OPER_ID, DE_COND, 
+      REMARK,PROCESS_INSTANCE_ID)
+    values (#{pkid,jdbcType=BIGINT}, #{condId,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, 
+      #{deAmount,jdbcType=DECIMAL}, #{operId,jdbcType=NVARCHAR}, #{deCond,jdbcType=LONGVARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR},#{processInstanceId,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeRec" >
+    insert into sctrans.T_TO_SPV_DE_REC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="condId != null" >
+        COND_ID,
+      </if>
+      <if test="spvCode != null" >
+        SPV_CODE,
+      </if>
+      <if test="deAmount != null" >
+        DE_AMOUNT,
+      </if>
+      <if test="operId != null" >
+        OPER_ID,
+      </if>
+      <if test="deCond != null" >
+        DE_COND,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="processInstanceId != null" >
+        PROCESS_INSTANCE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="condId != null" >
+        #{condId,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null" >
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deAmount != null" >
+        #{deAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="operId != null" >
+        #{operId,jdbcType=NVARCHAR},
+      </if>
+      <if test="deCond != null" >
+        #{deCond,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="processInstanceId != null" >
+        #{processInstanceId,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeRec" >
+    update sctrans.T_TO_SPV_DE_REC
+    <set >
+      <if test="condId != null" >
+        COND_ID = #{condId,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null" >
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deAmount != null" >
+        DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=NVARCHAR},
+      </if>
+      <if test="deCond != null" >
+        DE_COND = #{deCond,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="processInstanceId != null" >
+        PROCESS_INSTANCE_ID = #{processInstanceId,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.spv.entity.ToSpvDeRec" >
+    update sctrans.T_TO_SPV_DE_REC
+    set COND_ID = #{condId,jdbcType=BIGINT},
+      SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      OPER_ID = #{operId,jdbcType=NVARCHAR},
+      DE_COND = #{deCond,jdbcType=LONGVARCHAR},
+      REMARK = #{remark,jdbcType=LONGVARCHAR},
+      PROCESS_INSTANCE_ID = #{processInstanceId,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvDeRec" >
+    update sctrans.T_TO_SPV_DE_REC
+    set COND_ID = #{condId,jdbcType=BIGINT},
+      SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      OPER_ID = #{operId,jdbcType=NVARCHAR},
+      PROCESS_INSTANCE_ID = #{processInstanceId,jdbcType=NVARCHAR}  
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findBySpvCodeAndCondId" parameterType="com.centaline.trans.spv.entity.ToSpvDeRec" resultMap="ResultMapWithBLOBs">
+  	select * from sctrans.T_TO_SPV_DE_REC where SPV_CODE = #{spvCode,jdbcType=VARCHAR} AND COND_ID=#{condId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByProcessInstanceId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  	select * from sctrans.T_TO_SPV_DE_REC where PROCESS_INSTANCE_ID = #{processInstanceId,jdbcType=NVARCHAR} 
+  </select> 
+</mapper>

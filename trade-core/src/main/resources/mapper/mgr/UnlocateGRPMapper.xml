@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mgr.repository.UnlocateGRPMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mgr.entity.UnlocateGRP" >
+    <result column="count" property="count"  jdbcType="BIGINT" />
+    <result column="orgName" property="orgName" jdbcType="NVARCHAR" />
+  </resultMap>
+  <select id="groupByCount" resultMap="BaseResultMap" 	 >
+    SELECT wz.ORG_NAME as orgName,count(O.ID) as count FROM SCTRANS.SYS_ORG O INNER JOIN SCTRANS.v_sys_org_hierarchy OH ON O.ID = OH.ORG_ID AND O.DEP_HIERARCHY='BUSIGRP'  AND O.IS_DELETED='0' AND O.AVAILABLE='1'
+	INNER JOIN SCTRANS.SYS_ORG AR ON OH.BUSIAR_ID = AR.ID
+	INNER JOIN SCTRANS.SYS_ORG SWZ ON OH.BUSISWZ_ID = SWZ.ID
+	INNER JOIN SCTRANS.SYS_ORG WZ ON OH.BUSIWZ_ID = WZ.ID
+	INNER JOIN SCTRANS.SYS_ORG BA ON OH.BUSIBA_ID = BA.ID
+	WHERE O.ORG_CODE NOT IN (select YU_AGENT_TEAM_CODE from [sctrans].[T_TS_TEAM_SCOPE]) 
+	and WZ.ORG_NAME not in ('测试区域(区董)','黄浦区域','长宁区域','静安区域','卢湾区域','徐汇5区域','徐汇1区域','徐汇2区域','普陀中心片区','普陀西1区','普陀西2区','普陀西片区','闸北区域','松江区域')
+	group by WZ.ORG_NAME
+  </select>
+    <select id="count" resultType="java.lang.Integer" >
+    SELECT count(O.ID) as count FROM SCTRANS.SYS_ORG O INNER JOIN SCTRANS.v_sys_org_hierarchy OH ON O.ID = OH.ORG_ID AND O.DEP_HIERARCHY='BUSIGRP'  AND O.IS_DELETED='0' AND O.AVAILABLE='1'
+	INNER JOIN SCTRANS.SYS_ORG AR ON OH.BUSIAR_ID = AR.ID
+	INNER JOIN SCTRANS.SYS_ORG SWZ ON OH.BUSISWZ_ID = SWZ.ID
+	INNER JOIN SCTRANS.SYS_ORG WZ ON OH.BUSIWZ_ID = WZ.ID
+	INNER JOIN SCTRANS.SYS_ORG BA ON OH.BUSIBA_ID = BA.ID
+	WHERE O.ORG_CODE NOT IN (select YU_AGENT_TEAM_CODE from [sctrans].[T_TS_TEAM_SCOPE]) 
+	and WZ.ORG_NAME not in ('测试区域(区董)','黄浦区域','长宁区域','静安区域','卢湾区域','徐汇5区域','徐汇1区域','徐汇2区域','普陀中心片区','普陀西1区','普陀西2区','普陀西片区','闸北区域','松江区域')
+  </select>
+</mapper>

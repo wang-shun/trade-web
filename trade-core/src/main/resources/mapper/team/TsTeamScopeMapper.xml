@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.team.repository.TsTeamScopeMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.team.entity.TsTeamScope" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="YU_AGENT_TEAM_CODE" property="yuAgentTeamCode" jdbcType="NVARCHAR" />
+    <result column="YU_TEAM_CODE" property="yuTeamCode" jdbcType="NVARCHAR" />
+    <result column="YU_AGENT_TEAM_NAME" property="yuAgentTeamName" jdbcType="NVARCHAR" />
+    <result column="YU_TEAM_NAME" property="yuTeamName" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, YU_AGENT_TEAM_CODE, YU_TEAM_CODE, YU_AGENT_TEAM_NAME, YU_TEAM_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_SCOPE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_TEAM_SCOPE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteTeamScopeByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScope" >
+    delete from sctrans.T_TS_TEAM_SCOPE
+    <where>
+       <if test="yuAgentTeamCode != null">
+           AND YU_AGENT_TEAM_CODE = #{yuAgentTeamCode}
+       </if>
+   </where>
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamScope" >
+    insert into sctrans.T_TS_TEAM_SCOPE (YU_AGENT_TEAM_CODE, YU_TEAM_CODE, YU_AGENT_TEAM_NAME, YU_TEAM_NAME
+      )
+    values (#{yuAgentTeamCode,jdbcType=NVARCHAR}, #{yuTeamCode,jdbcType=NVARCHAR}
+      , #{yuAgentTeamName,jdbcType=NVARCHAR}, #{yuTeamName,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.team.entity.TsTeamScope" >
+    insert into sctrans.T_TS_TEAM_SCOPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="yuAgentTeamCode != null" >
+        YU_AGENT_TEAM_CODE,
+      </if>
+      <if test="yuTeamCode != null" >
+        YU_TEAM_CODE,
+      </if>
+      <if test="yuAgentTeamName != null" >
+        YU_AGENT_TEAM_NAME,
+      </if>
+      <if test="yuTeamName != null" >
+        YU_TEAM_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="yuAgentTeamCode != null" >
+        #{yuAgentTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamCode != null" >
+        #{yuTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuAgentTeamName != null" >
+        #{yuAgentTeamName,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamName != null" >
+        #{yuTeamName,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.team.entity.TsTeamScope" >
+    update sctrans.T_TS_TEAM_SCOPE
+    <set >
+      <if test="yuAgentTeamCode != null" >
+        YU_AGENT_TEAM_CODE = #{yuAgentTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamCode != null" >
+        YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuAgentTeamName != null" >
+        YU_AGENT_TEAM_NAME = #{yuAgentTeamName,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamName != null" >
+        YU_TEAM_NAME = #{yuTeamName,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.team.entity.TsTeamScope" >
+    update sctrans.T_TS_TEAM_SCOPE
+    set YU_AGENT_TEAM_CODE = #{yuAgentTeamCode,jdbcType=NVARCHAR},
+      YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR},
+      YU_AGENT_TEAM_NAME = #{yuAgentTeamName,jdbcType=NVARCHAR},
+      YU_TEAM_NAME = #{yuTeamName,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="findTeamScope" parameterType="com.centaline.trans.team.entity.TsTeamScope" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_SCOPE
+    where 1=1 
+    <if test="yuAgentTeamCode != null" >
+      and YU_AGENT_TEAM_CODE = #{yuAgentTeamCode,jdbcType=VARCHAR}
+    </if>
+    <if test="yuTeamCode != null" >
+      and YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR}
+    </if>
+    <if test="yuAgentTeamName != null" >
+      and YU_AGENT_TEAM_NAME = #{yuAgentTeamName,jdbcType=NVARCHAR}
+    </if>
+    <if test="yuTeamName != null" >
+      and YU_TEAM_NAME = #{yuTeamName,jdbcType=NVARCHAR}
+    </if>
+  </select>
+  
+  
+   <!-- 功能：根据店组查询 誉萃的orgid  作者：zhangxb16 -->
+   <select id="selectByYuagentTeamCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from sctrans.T_TS_TEAM_SCOPE
+   			 where YU_AGENT_TEAM_CODE = #{yuAgentTeamCode,jdbcType=NVARCHAR} 
+  </select>
+  
+   <select id="selectCooperativeOrganization" resultMap="BaseResultMap" parameterType="com.centaline.trans.team.entity.TsTeamScope" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from sctrans.T_TS_TEAM_SCOPE
+		where YU_AGENT_TEAM_CODE = #{yuAgentTeamCode,jdbcType=NVARCHAR} 
+		<if test="yuTeamCode != null">
+			and YU_TEAM_CODE &lt;&gt; #{yuTeamCode,jdbcType=NVARCHAR}
+		</if>
+  </select>
+  
+  
+  <!-- 根据orgCode 到 T_TS_TEAM_SCOPE 表中去查询合作组的 orgCode  -->
+  <select id="selectByOrgCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  		SELECT distinct t2.YU_TEAM_NAME, t2.YU_TEAM_CODE FROM sctrans.T_TS_TEAM_SCOPE t1
+  			inner join sctrans.T_TS_TEAM_SCOPE t2 on t1.YU_AGENT_TEAM_CODE=t2.YU_AGENT_TEAM_CODE
+		where  t1.YU_TEAM_CODE=#{yuTeamCode,jdbcType=NVARCHAR} 
+  </select>
+  
+  
+  <select id="getTeamScopeListByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScope" resultType="com.centaline.trans.team.vo.TsTeamScopePropertyVO">
+	    select 
+	    	scope.YU_AGENT_TEAM_CODE AS 'tsTeamScope.yuAgentTeamCode',
+			scope.YU_AGENT_TEAM_NAME AS 'tsTeamScope.yuAgentTeamName',
+			scope.YU_TEAM_CODE AS 'tsTeamScope.yuTeamCode',
+			scope.YU_TEAM_NAME AS 'tsTeamScope.yuTeamName',
+			property.IS_RESPONSE_TEAM AS 'tsTeamProperty.isResponseTeam'
+	    from sctrans.T_TS_TEAM_SCOPE scope
+			INNER JOIN sctrans.T_TS_TEAM_PROPERTY property ON property.YU_TEAM_CODE = scope.YU_TEAM_CODE
+	    <where>
+	        <if test="yuAgentTeamCode != null">
+	            AND scope.YU_AGENT_TEAM_CODE = #{yuAgentTeamCode}
+	        </if>
+	    </where>
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getReportType" beanName="qqcdDictreport_type"></customDict>
+		<customDict id="getReportStatus" beanName="qqcdDictreport_status_code"></customDict>
+
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryToEvaReportPage">
+		<searchCondition>
+		    <condition field="TER.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TER.EVA_CODE" name="evaCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>       
+            <condition field="TER.IS_MAIN_LOAN_BANK" name="isMainLoanBank" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>       
+            <condition field="TFO.ARISER_ID" name="ariserId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>       
+            <condition field="EPI.RESIDENCE_NAME" name="residenceName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					TER.PKID,
+					TER.CASE_CODE,
+					TER.REPORT_TYPE,
+					TER.REPORT_ARISE_TIME,
+					TER.REPORT_RESPONSE_TIME,
+					TER.FEEDBACK,
+					TER.STATUS,
+					TER.FIN_ORG_CODE,
+					TER.IS_EVAL_FEE_GET,
+					TER.IS_FINAL_REPORT,
+					TER.EVA_CODE,
+					TER.SERIAL_NUMBER,
+					TFO.FIN_ORG_NAME,
+					EPI.RESIDENCE_NAME,
+					EPI.BUILDING_NO,
+					EPI.ROOM_NO,
+					TM.LOANER_NAME,
+					TM.LOANER_PHONE
+					FROM sctrans.T_TO_EVA_REPORT TER 
+					LEFT JOIN (select distinct FIN_ORG_NAME,EVA_CODE,ARISER_ID from sctrans.T_TO_EGU_PRICING PRICING LEFT JOIN sctrans.T_TS_FIN_ORG ORG ON PRICING.FIN_ORG_CODE=ORG.FIN_ORG_CODE ) TFO
+					ON TER.EVA_CODE=TFO.EVA_CODE LEFT JOIN sctrans.T_TO_EGU_PROPERTY_INFO EPI 
+					ON TER.EVA_CODE = EPI.EVA_CODE LEFT JOIN sctrans.T_TO_MORTGAGE TM 
+					ON TM.CASE_CODE=TER.CASE_CODE AND TM.IS_MAIN_LOAN_BANK = TER.IS_MAIN_LOAN_BANK
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			    ORDER BY TER.REPORT_ARISE_TIME DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="报告ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="EVA_CODE" index="" checkbox="" display="评估编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="SERIAL_NUMBER" index="" checkbox="" display="报告序列" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REPORT_TYPE" index="" checkbox="" display="报告类型" customDict="getReportType" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FEEDBACK" index="" checkbox="" display="当前状态" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="REPORT_RESPONSE_TIME" index="" checkbox="" display="状态时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="IS_FINAL_REPORT" index="" checkbox="" display="是否最终报告" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="目标银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="REPORT_ARISE_TIME" index="" checkbox="" display="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RESIDENCE_NAME" index="" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="LOANER_NAME" index="" checkbox="" display="信贷员姓名" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="LOANER_PHONE" index="" checkbox="" display="信贷员电话" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="BUILDING_NO" index="" checkbox="" display="楼栋号" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="ROOM_NO" index="" checkbox="" display="室号" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

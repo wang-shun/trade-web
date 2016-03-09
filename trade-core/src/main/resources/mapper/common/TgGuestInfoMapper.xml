@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.TgGuestInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.TgGuestInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="GUEST_CODE" property="guestCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="GUEST_NAME" property="guestName" jdbcType="NVARCHAR" />
+    <result column="GUEST_PHONE" property="guestPhone" jdbcType="NVARCHAR" />
+    <result column="IDENTIFY_TYPE" property="identifyType" jdbcType="NVARCHAR" />
+    <result column="IDENTIFY_NUMBER" property="identifyNumber" jdbcType="VARCHAR" />
+    <result column="WORK_UNIT" property="workUnit" jdbcType="NVARCHAR" />
+    <result column="TRANS_POSITION" property="transPosition" jdbcType="NVARCHAR" />
+    <result column="CTM_CODE" property="ctmCode" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, GUEST_CODE, CASE_CODE, GUEST_NAME, GUEST_PHONE, IDENTIFY_TYPE, IDENTIFY_NUMBER, 
+    WORK_UNIT, TRANS_POSITION, CTM_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TG_GUEST_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TG_GUEST_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.TgGuestInfo" >
+    insert into sctrans.T_TG_GUEST_INFO (PKID, GUEST_CODE, CASE_CODE, 
+      GUEST_NAME, GUEST_PHONE, IDENTIFY_TYPE, 
+      IDENTIFY_NUMBER, WORK_UNIT, TRANS_POSITION, 
+      CTM_CODE)
+    values (#{pkid,jdbcType=BIGINT}, #{guestCode,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, 
+      #{guestName,jdbcType=NVARCHAR}, #{guestPhone,jdbcType=NVARCHAR}, #{identifyType,jdbcType=NVARCHAR}, 
+      #{identifyNumber,jdbcType=VARCHAR}, #{workUnit,jdbcType=NVARCHAR}, #{transPosition,jdbcType=NVARCHAR}, 
+      #{ctmCode,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.TgGuestInfo" >
+    insert into sctrans.T_TG_GUEST_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="guestCode != null" >
+        GUEST_CODE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="guestName != null" >
+        GUEST_NAME,
+      </if>
+      <if test="guestPhone != null" >
+        GUEST_PHONE,
+      </if>
+      <if test="identifyType != null" >
+        IDENTIFY_TYPE,
+      </if>
+      <if test="identifyNumber != null" >
+        IDENTIFY_NUMBER,
+      </if>
+      <if test="workUnit != null" >
+        WORK_UNIT,
+      </if>
+      <if test="transPosition != null" >
+        TRANS_POSITION,
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="guestCode != null" >
+        #{guestCode,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="guestName != null" >
+        #{guestName,jdbcType=NVARCHAR},
+      </if>
+      <if test="guestPhone != null" >
+        #{guestPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="identifyType != null" >
+        #{identifyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="identifyNumber != null" >
+        #{identifyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="workUnit != null" >
+        #{workUnit,jdbcType=NVARCHAR},
+      </if>
+      <if test="transPosition != null" >
+        #{transPosition,jdbcType=NVARCHAR},
+      </if>
+      <if test="ctmCode != null" >
+        #{ctmCode,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.TgGuestInfo" >
+    update sctrans.T_TG_GUEST_INFO
+    <set >
+      <if test="guestCode != null" >
+        GUEST_CODE = #{guestCode,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="guestName != null" >
+        GUEST_NAME = #{guestName,jdbcType=NVARCHAR},
+      </if>
+      <if test="guestPhone != null" >
+        GUEST_PHONE = #{guestPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="identifyType != null" >
+        IDENTIFY_TYPE = #{identifyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="identifyNumber != null" >
+        IDENTIFY_NUMBER = #{identifyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="workUnit != null" >
+        WORK_UNIT = #{workUnit,jdbcType=NVARCHAR},
+      </if>
+      <if test="transPosition != null" >
+        TRANS_POSITION = #{transPosition,jdbcType=NVARCHAR},
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE = #{ctmCode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.TgGuestInfo" >
+    update sctrans.T_TG_GUEST_INFO
+    set GUEST_CODE = #{guestCode,jdbcType=BIGINT},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      GUEST_NAME = #{guestName,jdbcType=NVARCHAR},
+      GUEST_PHONE = #{guestPhone,jdbcType=NVARCHAR},
+      IDENTIFY_TYPE = #{identifyType,jdbcType=NVARCHAR},
+      IDENTIFY_NUMBER = #{identifyNumber,jdbcType=VARCHAR},
+      WORK_UNIT = #{workUnit,jdbcType=NVARCHAR},
+      TRANS_POSITION = #{transPosition,jdbcType=NVARCHAR},
+      CTM_CODE = #{ctmCode,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <select id="findTgGuestInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TG_GUEST_INFO
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
+  </select>
+  
+   <select id="findTgGuestInfosByCaseCode" parameterType="com.centaline.trans.common.entity.TgGuestInfo" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TG_GUEST_INFO
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    <if test="transPosition != null" >
+    	and TRANS_POSITION = #{transPosition,jdbcType=NVARCHAR}
+	</if>
+	<if test="guestName != null" >
+        and GUEST_NAME = #{guestName,jdbcType=NVARCHAR}
+      </if>
+      <if test="guestPhone != null" >
+        and GUEST_PHONE = #{guestPhone,jdbcType=NVARCHAR}
+      </if>
+  </select>
+  <select id="findTgGuestInfoByGuestCode" parameterType="java.lang.String" resultMap = "BaseResultMap">
+  	select * from sctrans.T_TG_GUEST_INFO where GUEST_CODE = #{guestCode,jdbcType=VARCHAR}
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryRyLightList">
+		<searchCondition>
+            <condition field="color" name="color" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select color, caseCode, taskName,propertyAddress,realName,estPartTime,ID_ as taskId,PROC_INST_ID_ as instId,taskName as taskDfKey from (
+					  SELECT min(l.color) as color,t.CASE_CODE as caseCode,t.PART_CODE as taskName,tp.PROPERTY_ADDR as propertyAddress,u.REAL_NAME as realName
+					  	  ,t.EST_PART_TIME as estPartTime,ta.ID_,ta.PROC_INST_ID_
+							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
+							 left join sctrans.T_TO_PROPERTY_INFO as tp
+							 on t.case_code=tp.case_code
+							  left join sctrans.t_to_workflow as w
+							  on w.case_code=t.CASE_CODE 
+							   left join sctrans.act_ru_task ta
+							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
+							  left join sctrans.LAMP_RULE l
+							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
+							  left join sctrans.SYS_USER as u 
+							  on ta.ASSIGNEE_=u.USERNAME
+							  left join sctrans.SYS_USER_ORG_JOB as uoj
+							  on uoj.[USER_ID]=u.ID
+							  left join sctrans.SYS_ORG as sysOrg
+							  on sysOrg.ID=uoj.org_id
+							  where u.id is not null
+							  	  <ifNotNull uid>
+									and u.id=#uid#
+							  	  </ifNotNull>
+							 	 <ifNotNull orgId>
+									and uoj.org_id=#orgId#
+							  	</ifNotNull>
+							  	<ifNotNull parentOrgId>
+									and sysOrg.PARENT_ID=#parentOrgId#
+							 	 </ifNotNull>
+							  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_
+						
+							  
+							  )as a where color <> '2'
+				]]>
+			</baseSql>
+			<groupSql>
+				
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			
+				<column type="both" name="estPartTime" index="" checkbox="true" display="" customDict="" sysDict="" beanFormatter="dateFormatter" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="color" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="caseCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="taskName" index="" checkbox="" display=""  customDict="getDictPartName"  sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="propertyAddress" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="realName" index="" checkbox="" display="" customDict="" sysDict="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="instId" index="" checkbox="" display="" customDict="" sysDict="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="taskDfKey" index="" checkbox="" display="" customDict="" sysDict="" width="60" isSort="true" align="" halign="" order="" resizable=""/>						
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

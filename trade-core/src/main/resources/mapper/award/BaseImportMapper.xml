@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.award.repository.BaseImportMapper">
+	
+	<delete id="deleteByBizKey"
+		parameterType="com.centaline.trans.award.entity.BaseImportEntity">
+		delete
+		from sctrans.T_TS_AWARD_BASE
+		where PARTICIPANT = #{participant,jdbcType=VARCHAR}
+		and case_code =#{caseCode,jdbcType=VARCHAR}
+		and belong_Month = #{belongMonth,jdbcType=TIMESTAMP}
+	</delete>
+	<insert id="insertSelective" parameterType="com.centaline.trans.award.entity.BaseImportEntity">
+		insert into sctrans.T_TS_AWARD_BASE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="participant != null">
+				participant,
+			</if>
+			<if test="jobId != null">
+				job_Id,
+			</if>
+			<if test="orgId != null">
+				org_Id,
+			</if>
+			<if test="baseAmount != null">
+				base_Amount,
+			</if>
+			<if test="createTime != null">
+				create_Time,
+			</if>
+			<if test="belongMonth != null">
+				belong_Month,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="participant != null">
+				#{participant,jdbcType=VARCHAR},
+			</if>
+			<if test="jobId != null">
+				#{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="baseAmount != null">
+				#{baseAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="belongMonth != null">
+				#{belongMonth,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+</mapper>

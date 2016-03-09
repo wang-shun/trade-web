@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdAreaIdManager" beanName="qqcdAreaIdManager"></customDict>
+</dicts>
+<formatters>
+	</formatters>
+	<query id="unsettingTeamScope">
+
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT O.ORG_CODE, O.ORG_NAME, OH.BUSIAR_ID FROM SCTRANS.SYS_ORG O INNER JOIN SCTRANS.T_sys_org_hierarchy OH ON O.ID = OH.ORG_ID AND O.DEP_HIERARCHY='BUSIGRP' AND OH.BUSIBA_ID='BA378B64CE8045318B8177B0C96CE192' 
+AND OH.BUSIWZ_ID NOT IN ('32348D46E2FA42C2B19FEBABF5CDE359' , '2BDD0490CC6643F084C0D46BCFEB02F0','545DFF6E52D94E258E1D599E23CD3074') AND O.IS_DELETED='0' AND O.AVAILABLE='1'
+WHERE O.ORG_CODE NOT IN (select YU_AGENT_TEAM_CODE from [sctrans].[T_TS_TEAM_SCOPE])
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ORG_CODE" index="" checkbox="" display="组织编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ORG_NAME" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="BUSIAR_ID" index="" checkbox="" display="环节编号" customDict="qqcdAreaIdManager" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.TgServItemAndProcessorMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="SRV_CODE" property="srvCode" jdbcType="VARCHAR" />    
+    <result column="SRV_CAT" property="srvCat" jdbcType="VARCHAR" />
+    <result column="PROCESSOR_ID" property="processorId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+    <parameterMap type="com.centaline.trans.common.entity.TgServItemAndProcessor" id="TgServItemAndProcessor"></parameterMap>
+  
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, SRV_CODE, PROCESSOR_ID, ORG_ID,SRV_CAT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+    insert into sctrans.T_TG_SERV_ITEM_AND_PROCESSOR (PKID, CASE_CODE, SRV_CODE,SRV_CAT 
+      PROCESSOR_ID, ORG_ID)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{srvCode,jdbcType=VARCHAR}, #{srvCat,jdbcType=VARCHAR}, 
+      #{processorId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+    insert into sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="srvCode != null" >
+        SRV_CODE,
+      </if>
+      <if test="srvCat != null" >
+        SRV_CAT,
+      </if>
+      <if test="processorId != null" >
+        PROCESSOR_ID,
+      </if>
+      <if test="orgId != null">
+      	ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCode != null" >
+        #{srvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCat != null" >
+        #{srvCat,jdbcType=VARCHAR},
+      </if>
+      <if test="processorId != null" >
+        #{processorId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+      	#{orgId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+    update sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCode != null" >
+        SRV_CODE = #{srvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCat != null" >
+        SRV_CAT = #{srvCat,jdbcType=VARCHAR},
+      </if>
+      <if test="processorId != null" >
+        PROCESSOR_ID = #{processorId,jdbcType=VARCHAR},
+      </if>
+       <if test="orgId != null">
+      	ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByCaseCode" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+    update sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    <set >
+      <if test="srvCode != null" >
+        SRV_CODE = #{srvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCat != null" >
+        SRV_CAT = #{srvCat,jdbcType=VARCHAR},
+      </if>
+      <if test="processorId != null" >
+        PROCESSOR_ID = #{processorId,jdbcType=VARCHAR},
+      </if>
+       <if test="orgId != null">
+      	ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND PROCESSOR_ID =#{preProcessorId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+    update sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      SRV_CODE = #{srvCode,jdbcType=VARCHAR},
+      SRV_CAT = #{srvCat,jdbcType=VARCHAR},
+      PROCESSOR_ID = #{processorId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR} 
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+<select id="findTgServItemAndProcessor" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where 1=1 
+    <if test="caseCode != null" >
+        and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="srvCode != null" >
+        and SRV_CODE = #{srvCode,jdbcType=VARCHAR}
+    </if>
+    <if test="srvCat != null" >
+        and SRV_CAT = #{srvCat,jdbcType=VARCHAR}
+    </if>
+</select>
+ <select id="findTgServItemAndProcessorByUserId"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where PROCESSOR_ID = #{0} 
+  </select>
+<select id="findTgServItemAndProcessorByUserIdAndCaseCode"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where PROCESSOR_ID = #{0} and CASE_CODE =#{1}
+  </select>
+  
+<select id="findTgServItemAndProcessorByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+<select id="findCaseCodesByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    select distinct
+    CASE_CODE AS caseCode
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where PROCESSOR_ID = #{processorId,jdbcType=VARCHAR}
+</select>
+
+<select id="findCaseCodesByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+</select>
+
+<delete id="deleteByUser" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
+   delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+   where 1=1 
+	  <if test="caseCode != null" >
+        and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+      </if>
+      <if test="srvCode != null" >
+        and SRV_CODE = #{srvCode,jdbcType=VARCHAR}
+      </if>
+      <if test="srvCat != null" >
+        and SRV_CAT = #{srvCat,jdbcType=VARCHAR}
+      </if>
+</delete>
+
+<delete id="deleteByPrimaryCaseCode" parameterType="java.lang.String" >
+    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+</delete>
+  
+<select id="findProcessorsByCaseCode" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" resultType="java.lang.String">
+    select distinct
+    PROCESSOR_ID AS processorId
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    and PROCESSOR_ID &lt;&gt; #{processorId,jdbcType=VARCHAR}
+  </select>
+  
+<select id="findSrvsByCaseCode" parameterType="java.lang.String" resultType="java.lang.String">
+    select 
+    SRV_CODE AS srvCode
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+<select id="findSrvCatsByCaseCode" parameterType="java.lang.String" resultType="java.lang.String">
+    select distinct
+    SRV_CAT AS srvCat
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    order by srvCat
+  </select>
+  
+  
+  <!-- 变更合作对象 -->
+  <select id="selectBycasecodeandProcessorid" resultMap="BaseResultMap">
+  		SELECT <include refid="Base_Column_List" /> FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR 
+  			where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and 
+  			(PROCESSOR_ID !=#{processorId,jdbcType=VARCHAR} or PROCESSOR_ID is null)
+  </select>
+  
+  
+  <!-- 修改变更合作对象 -->
+  <update id="updateCoope" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor">
+  	 update sctrans.T_TG_SERV_ITEM_AND_PROCESSOR set 
+  	 	PROCESSOR_ID=#{processorId,jdbcType=VARCHAR}, ORG_ID=#{orgId,jdbcType=VARCHAR} 
+	     where SRV_CODE=#{srvCode,jdbcType=VARCHAR} and CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </update>
+  
+  
+  <!-- 功能：收益  作者：zhangxb16 -->
+  <select id="selectServItem" resultMap="BaseResultMap">
+  		SELECT PROCESSOR_ID, ORG_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR 
+  			where case_code=#{caseCode,jdbcType=VARCHAR} and srv_code=#{srvCode,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <delete id="deleteByCaseCode" parameterType="java.lang.String">
+	    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and SRV_CODE in('3000401001','3000401002','3000400201','3000400101') 
+  </delete>
+  
+</mapper>

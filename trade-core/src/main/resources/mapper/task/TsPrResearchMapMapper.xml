@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.TsPrResearchMapMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.TsPrResearchMap">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="dist_name" jdbcType="VARCHAR" property="distName" />
+    <result column="dist_code" jdbcType="VARCHAR" property="distCode" />
+    <result column="yu_dist_name" jdbcType="NVARCHAR" property="yuDistName" />
+    <result column="yu_dist_code" jdbcType="VARCHAR" property="yuDistCode" />
+  </resultMap>
+  <resultMap id="resultMap" type="com.centaline.trans.task.entity.TsPrResearchMap">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="DIST_NAME" jdbcType="VARCHAR" property="distName" />
+    <result column="DIST_CODE" jdbcType="VARCHAR" property="distCode" />
+    <result column="YU_DIST_NAME" jdbcType="NVARCHAR" property="yuDistName" />
+    <result column="YU_DIST_CODE" jdbcType="VARCHAR" property="yuDistCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, dist_name, dist_code, yu_dist_name, yu_dist_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="resultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PR_RESEARCH_MAP
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+ 
+  <select id="selectByDistCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PR_RESEARCH_MAP
+    where dist_code = #{districtCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PR_RESEARCH_MAP
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.TsPrResearchMap" >
+    insert into sctrans.T_TS_PR_RESEARCH_MAP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="distName != null" >
+        dist_name,
+      </if>
+      <if test="distCode != null" >
+        dist_code,
+      </if>
+      <if test="yuDistName != null" >
+        yu_dist_name,
+      </if>
+      <if test="yuDistCode != null" >
+        yu_dist_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="distName != null" >
+        #{distName,jdbcType=NVARCHAR},
+      </if>
+      <if test="distCode != null" >
+        #{distCode,jdbcType=VARCHAR},
+      </if>
+      <if test="yuDistName != null" >
+        #{yuDistName,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuDistCode != null" >
+        #{yuDistCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.TsPrResearchMap" >
+    update sctrans.T_TS_PR_RESEARCH_MAP
+    <set >
+      <if test="distName != null" >
+        dist_name = #{distName,jdbcType=NVARCHAR},
+      </if>
+      <if test="distCode != null" >
+        dist_code = #{distCode,jdbcType=VARCHAR},
+      </if>
+      <if test="yuDistName != null" >
+        yu_dist_name = #{yuDistName,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuDistCode != null" >
+        yu_dist_code = #{yuDistCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update> 
+  <select id="findByDistCodeAndYuDistCode"  resultMap="resultMap">
+  	select * from sctrans.T_TS_PR_RESEARCH_MAP where 1=1
+  	<if test="distCode != null">
+  		and DIST_CODE=#{distCode,jdbcType=VARCHAR}
+  	</if>
+  	<if test="yuDistCode != null">
+  		and YU_DIST_CODE=#{yuDistCode,jdbcType=VARCHAR}
+  	</if>
+  	<if test="pkid != null">
+  		<![CDATA[and PKID <> #{pkid,jdbcType=BIGINT} ]]>
+  	</if>
+  </select>
+</mapper>

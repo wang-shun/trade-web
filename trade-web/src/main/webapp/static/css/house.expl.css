@@ -1,0 +1,46 @@
+/* CSS Document */
+
+#readInfo{
+	width:90%;
+	margin:0 auto;
+}
+
+.conclude{
+	height:60px;
+    padding-top:20px;
+	padding-bottom:20px;
+}
+
+.part{
+	height:150px;
+	border-bottom:1px solid #ccc;
+}
+
+.foot{
+	float:right;
+	margin-top:20px;
+	margin-bottom:10px;
+}
+
+.realbtn{
+	margin-right:20px;
+}
+
+#readInfo img{
+	height:100px;
+	width:100%;
+	border:1px solid #ccc;
+	border-radius:3px;
+}
+
+#readInfo input{
+	border:1px solid #ccc;
+	border-radius:3px;
+}
+
+.part .btnimg{
+	border:1px solid #ccc;
+	border-radius:3px;
+	height:100px;
+	width:100%;
+}

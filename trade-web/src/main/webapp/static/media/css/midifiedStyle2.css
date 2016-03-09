@@ -1,0 +1,27 @@
+/* CSS Document */
+.glyphicons.no-js.camera{width:5px;height:30px;display:none;}
+.glyphicons.no-js.e-mail{width:5px;height:30px;display:none;}
+.glyphicons.no-js.calendar{width:5px;height:30px;display:none;}
+.glyphicons.no-js.fire{width:5px;height:30px;display:none;}
+.glyphicons.no-js.edit{width:5px;height:30px;display:none;}
+.glyphicons.no-js.group{width:5px;height:30px;display:none;}
+.glyphicons.no-js.keys{width:5px;height:30px;display:none;}
+
+.glyphicons.no-js.keys.active.various{display:inline-block;}
+.glyphicons.no-js.camera.active{display:inline-block;}
+.glyphicons.no-js.e-mail.active.various{display:inline-block;}
+.glyphicons.no-js.calendar.active.various{display:inline-block;}
+.glyphicons.no-js.fire.active.various{display:inline-block;}
+.glyphicons.no-js.edit.active.various{display:inline-block;}
+.glyphicons.no-js.group.active.various{display:inline-block;}
+
+.hou-list-icon{height:30px;margin-top:15px;}
+.unstyled.span2{margin-top:12px;margin-left:2%;}
+
+.row-fluid.span4.tags{margin-top:13px;margin-left:-0.5%;float:left;"}
+
+.text-left.red{color:#f00!important;font-size:22px;float:left;"}
+
+.text-left.red > strong{color:#d84a38;;font-size:22px;}/* CSS Document */
+.innerlabel{float:left;text-align:center;width:70px;}
+.innerselect select{width:100px!important}

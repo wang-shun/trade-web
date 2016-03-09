@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- 跨应用服务 -->
+	<bean id="unlocateGrpAdisedJob" class="com.centaline.trans.mgr.remote.UnlocateGRPAdvisedJob"/>
+	<bean name="/remote/unlocateGrpAdisedJob" 
+		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	     <property name="service" ref="unlocateGrpAdisedJob"/>
+	     <property name="serviceInterface" value="com.aist.scheduler.execution.remote.Job"/>
+	</bean>
+	
+</beans>

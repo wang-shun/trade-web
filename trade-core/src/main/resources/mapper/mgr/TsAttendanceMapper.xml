@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mgr.repository.TsAttendanceMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mgr.entity.TsAttendance" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="LONGITUDE" property="longitude" jdbcType="DECIMAL" />
+    <result column="LATITUDE" property="latitude" jdbcType="DECIMAL" />
+    <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="ATTEND_TIME" property="attendTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, REASON, ADDRESS, LONGITUDE, LATITUDE, STAFF_ID, ORG_ID, ATTEND_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_ATTENDANCE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_ATTENDANCE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.centaline.trans.mgr.entity.TsAttendance" >
+    insert into sctrans.T_TS_ATTENDANCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="longitude != null" >
+        LONGITUDE,
+      </if>
+      <if test="latitude != null" >
+        LATITUDE,
+      </if>
+
+      <if test="staffId != null" >
+        STAFF_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="attendTime != null" >
+        ATTEND_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+
+      <if test="staffId != null" >
+        #{staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendTime != null" >
+        #{attendTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.mgr.entity.TsAttendance" >
+    update sctrans.T_TS_ATTENDANCE
+    <set >
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        LONGITUDE = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        LATITUDE = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="staffId != null" >
+        STAFF_ID = #{staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendTime != null" >
+        ATTEND_TIME = #{attendTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+
+</mapper>

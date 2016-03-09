@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mortgage.repository.ToEguPricingMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mortgage.entity.ToEguPricing" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="ARISE_TIME" property="ariseTime" jdbcType="TIMESTAMP" />
+    <result column="RESPONSE_TIME" property="responseTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="RESULT" property="result" jdbcType="NVARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="IS_FINAL" property="isFinal" jdbcType="CHAR" />
+    <result column="APPLY_CODE" property="applyCode" jdbcType="VARCHAR" />
+    <result column="COMFIRM_SEQ" property="comfirmSeq" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
+    <result column="IS_MAIN_LOAN_BANK" property="isMainLoanBank" jdbcType="VARCHAR" />
+    <result column="EXPECT_RATE" property="expectRate" jdbcType="DECIMAL" />
+    <result column="ARISER_ID" property="ariserId" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <insert id="insert" parameterType="com.centaline.trans.mortgage.entity.ToEguPricing" keyProperty="pkid">
+    insert into sctrans.T_TO_EGU_PRICING (CASE_CODE, EVA_CODE, 
+      ARISE_TIME, RESPONSE_TIME, STATUS, 
+      RESULT, UNIT_PRICE, TOTAL_PRICE, 
+      IS_FINAL, APPLY_CODE, COMFIRM_SEQ,FIN_ORG_CODE,IS_MAIN_LOAN_BANK,EXPECT_RATE,ARISER_ID
+      )
+    values (#{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{ariseTime,jdbcType=TIMESTAMP}, #{responseTime,jdbcType=TIMESTAMP}, #{status,jdbcType=NVARCHAR}, 
+      #{result,jdbcType=NVARCHAR}, #{unitPrice,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{isFinal,jdbcType=CHAR}, #{applyCode,jdbcType=VARCHAR}, #{comfirmSeq,jdbcType=VARCHAR},
+      #{finOrgCode,jdbcType=VARCHAR},#{isMainLoanBank,jdbcType=VARCHAR},#{expectRate,jdbcType=DECIMAL},
+      #{ariserId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToEguPricing" >
+    insert into sctrans.T_TO_EGU_PRICING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="ariseTime != null" >
+        ARISE_TIME,
+      </if>
+      <if test="responseTime != null" >
+        RESPONSE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="result != null" >
+        RESULT,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="isFinal != null" >
+        IS_FINAL,
+      </if>
+      <if test="applyCode != null" >
+        APPLY_CODE,
+      </if>
+      <if test="comfirmSeq != null" >
+        COMFIRM_SEQ,
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE,
+      </if>
+      <if test="isMainLoanBank != null" >
+        IS_MAIN_LOAN_BANK,
+      </if>
+      <if test="expectRate != null" >
+        EXPECT_RATE,
+      </if>
+      <if test="ariserId != null" >
+        ARISER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ariseTime != null" >
+        #{ariseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseTime != null" >
+        #{responseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isFinal != null" >
+        #{isFinal,jdbcType=CHAR},
+      </if>
+      <if test="applyCode != null" >
+        #{applyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comfirmSeq != null" >
+        #{comfirmSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null" >
+        #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="expectRate != null" >
+        #{expectRate,jdbcType=DECIMAL},
+      </if>
+      <if test="ariserId != null" >
+        #{ariserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="findToEguPricingByEvaCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT * FROM SCTRANS.T_TO_EGU_PRICING WHERE EVA_CODE = #{evaCode,jdbcType=VARCHAR} order by pkid desc
+  </select>
+  
+  <update id="update" parameterType = "com.centaline.trans.mortgage.entity.ToEguPricing">
+    update sctrans.T_TO_EGU_PRICING
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ariseTime != null" >
+        ARISE_TIME = #{ariseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseTime != null" >
+        RESPONSE_TIME = #{responseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        RESULT = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isFinal != null" >
+        IS_FINAL = #{isFinal,jdbcType=VARCHAR},
+      </if>
+      <if test="applyCode != null" >
+        APPLY_CODE = #{applyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comfirmSeq != null" >
+        COMFIRM_SEQ = #{comfirmSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null" >
+        IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="expectRate != null" >
+        EXPECT_RATE = #{expectRate,jdbcType=DECIMAL},
+      </if>
+      <if test="ariserId != null" >
+        ARISER_ID = #{ariserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select * from sctrans.T_TO_EGU_PRICING where pkid = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findIsFinalEguPricing" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from sctrans.T_TO_EGU_PRICING where case_code = #{caseCode,jdbcType=VARCHAR} 
+  	AND IS_FINAL = '1'
+  </select>
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mgr.repository.TsFinOrgMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mgr.entity.TsFinOrg" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="FIN_ORG_NAME" property="finOrgName" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_NAME_YC" property="finOrgNameYc" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
+    <result column="FA_FIN_ORG_CODE" property="faFinOrgCode" jdbcType="VARCHAR" />
+    <result column="FA_FIN_ORG_NAME" property="faFinOrgName" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <insert id="insert" parameterType="com.centaline.trans.mgr.entity.TsFinOrg" >
+    insert into sctrans.T_TS_FIN_ORG (FIN_ORG_NAME, FIN_ORG_CODE, 
+      FA_FIN_ORG_CODE)
+    values (#{finOrgName,jdbcType=VARCHAR}, #{finOrgCode,jdbcType=VARCHAR}, 
+      #{faFinOrgCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.mgr.entity.TsFinOrg" >
+    insert into sctrans.T_TS_FIN_ORG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="finOrgName != null" >
+        FIN_ORG_NAME,
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE,
+      </if>
+      <if test="faFinOrgCode != null" >
+        FA_FIN_ORG_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="finOrgName != null" >
+        #{finOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="faFinOrgCode != null" >
+        #{faFinOrgCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.centaline.trans.mgr.entity.TsFinOrg" >
+    update sctrans.T_TS_FIN_ORG
+    <set >
+      <if test="finOrgName != null" >
+        FIN_ORG_NAME = #{finOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="faFinOrgCode != null" >
+        FA_FIN_ORG_CODE = #{faFinOrgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="delete" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_FIN_ORG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findEguParentBankList" resultMap="BaseResultMap" >
+    select * from sctrans.T_TS_FIN_ORG where fin_org_code in(
+  	select fa_fin_org_code from sctrans.T_TS_FIN_ORG where fin_org_code in(
+  	select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR}))
+  </select> 
+ 
+  <select id="findEguBankListByParentCode"  resultMap="BaseResultMap">
+    select * from sctrans.T_TS_FIN_ORG where fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
+    and fin_org_code in(select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR})
+  </select>
+  
+  <select id="findParentBankList" resultMap="BaseResultMap" >
+    select * from sctrans.T_TS_FIN_ORG where fin_org_code in 
+    (select distinct FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE 
+    in(select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0'))
+  </select> 
+  
+  <select id="findAllFinOrg" resultMap="BaseResultMap" >
+    select * from sctrans.T_TS_FIN_ORG
+  </select> 
+ 
+  <select id="findByPkid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select TFO.*,TF.FIN_ORG_NAME FA_FIN_ORG_NAME from sctrans.T_TS_FIN_ORG TFO LEFT JOIN sctrans.T_TS_FIN_ORG TF ON 
+    TFO.FA_FIN_ORG_CODE=TF.FIN_ORG_CODE where TFO.PKID=#{pkid,jdbcType=BIGINT}
+  </select>
+   
+  <select id="findBankListByParentCode"  resultMap="BaseResultMap">
+    select * from sctrans.T_TS_FIN_ORG where fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findParentBank" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from sctrans.T_TS_FIN_ORG where fin_org_code in (select fa_fin_org_code from sctrans.T_TS_FIN_ORG 
+    where fin_org_code=#{finOrgCode,jdbcType=VARCHAR}) 
+  </select>
+  
+  <select id="findBankByFinOrg" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findTsFinOrgByFinOrgCode" resultMap="BaseResultMap">
+  	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
+  	<if test="pkid != null">
+  	  	<![CDATA[and PKID <> #{pkid,jdbcType=BIGINT} ]]>
+  	</if>
+  </select>
+  
+  <select id="findBySupCat" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE in (select fin_org_code from sctrans.T_TS_SUP 
+  	where SUP_CAT=#{supCat,jdbcType=VARCHAR})
+  </select>
+  <select id="findBranchBank" resultMap="BaseResultMap">
+  	select * from sctrans.T_TS_FIN_ORG where fin_org_code in 
+    (select FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE 
+    in(select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0')) 
+  </select>
+</mapper>

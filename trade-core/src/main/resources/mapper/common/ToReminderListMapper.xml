@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.ToReminderListMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.ToReminderList" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="REMIND_ITEM" property="remindItem" jdbcType="NVARCHAR" />
+    <result column="COMMENT" property="comment" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PART_CODE, REMIND_ITEM, COMMENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_REMINDER_LIST
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_REMINDER_LIST
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.ToReminderList" >
+    insert into sctrans.T_TO_REMINDER_LIST (PKID, PART_CODE, REMIND_ITEM, 
+      COMMENT)
+    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{remindItem,jdbcType=NVARCHAR}, 
+      #{comment,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToReminderList" >
+    insert into sctrans.T_TO_REMINDER_LIST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="remindItem != null" >
+        REMIND_ITEM,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remindItem != null" >
+        #{remindItem,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToReminderList" >
+    update sctrans.T_TO_REMINDER_LIST
+    <set >
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remindItem != null" >
+        REMIND_ITEM = #{remindItem,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToReminderList" >
+    update sctrans.T_TO_REMINDER_LIST
+    set PART_CODE = #{partCode,jdbcType=VARCHAR},
+      REMIND_ITEM = #{remindItem,jdbcType=NVARCHAR},
+      COMMENT = #{comment,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+   <select id="queryToReminderLists" resultMap="BaseResultMap" parameterType="com.centaline.trans.common.entity.ToReminderList" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_REMINDER_LIST
+    where 1=1
+    <if test="partCode!=null">
+    	and PART_CODE = #{partCode,jdbcType=VARCHAR}
+    </if>
+    <if test="remindItem!=null">
+    	and REMIND_ITEM = #{remindItem,jdbcType=NVARCHAR}
+    </if>
+  </select>
+</mapper>

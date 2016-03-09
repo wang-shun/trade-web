@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.ToLoanAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.ToLoanAgent" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="LOAN_SRV_CODE" property="loanSrvCode" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="NVARCHAR" />
+    <result column="CUST_PHONE" property="custPhone" jdbcType="VARCHAR" />
+    <result column="LOAN_AMOUNT" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="ACTUAL_AMOUNT" property="actualAmount" jdbcType="DECIMAL" />
+    <result column="MONTH" property="month" jdbcType="INTEGER" />
+    <result column="ZJ_NAME" property="zjName" jdbcType="NVARCHAR" />
+    <result column="ZJ_CODE" property="zjCode" jdbcType="VARCHAR" />
+    <result column="CO_NAME" property="coName" jdbcType="NVARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="AWARD_PER" property="awardPer" jdbcType="DOUBLE" />
+    <result column="APPLY_STATUS" property="applyStatus" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TIME" property="confirmTime" jdbcType="TIMESTAMP" />
+    <result column="CONFIRM_STATUS" property="confirmStatus" jdbcType="VARCHAR" />
+    <result column="LAST_EXCEED_EXPORT_TIME" property="lastExceedExportTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="RELEASE_TIME" property="releaseTime" jdbcType="TIMESTAMP" />
+    <result column="INCOME_CONFIRM_TIME" property="incomeConfirmTime" jdbcType="TIMESTAMP" />
+    <result column="INCOME_ARRIVE_TIME" property="incomeArriveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, CUST_PHONE, LOAN_AMOUNT, 
+    ACTUAL_AMOUNT, MONTH, ZJ_NAME, ZJ_CODE, CO_NAME, CO_CODE, AWARD_PER, APPLY_STATUS, 
+    CONFIRM_TIME, CONFIRM_STATUS, LAST_EXCEED_EXPORT_TIME, APPLY_TIME, SIGN_TIME, RELEASE_TIME, 
+    INCOME_CONFIRM_TIME, INCOME_ARRIVE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_LOAN_AGENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_LOAN_AGENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToLoanAgent" >
+    insert into sctrans.T_TO_LOAN_AGENT (PKID, CASE_CODE, LOAN_SRV_CODE, 
+      FIN_ORG_CODE, CUST_NAME, CUST_PHONE, 
+      LOAN_AMOUNT, ACTUAL_AMOUNT, MONTH, 
+      ZJ_NAME, ZJ_CODE, CO_NAME, 
+      CO_CODE, AWARD_PER, APPLY_STATUS, 
+      CONFIRM_TIME, CONFIRM_STATUS, LAST_EXCEED_EXPORT_TIME, 
+      APPLY_TIME, SIGN_TIME, RELEASE_TIME, 
+      INCOME_CONFIRM_TIME, INCOME_ARRIVE_TIME
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{loanSrvCode,jdbcType=VARCHAR}, 
+      #{finOrgCode,jdbcType=VARCHAR}, #{custName,jdbcType=NVARCHAR}, #{custPhone,jdbcType=VARCHAR}, 
+      #{loanAmount,jdbcType=DECIMAL}, #{actualAmount,jdbcType=DECIMAL}, #{month,jdbcType=INTEGER}, 
+      #{zjName,jdbcType=NVARCHAR}, #{zjCode,jdbcType=VARCHAR}, #{coName,jdbcType=NVARCHAR}, 
+      #{coCode,jdbcType=VARCHAR}, #{awardPer,jdbcType=DOUBLE}, #{applyStatus,jdbcType=VARCHAR}, 
+      #{confirmTime,jdbcType=TIMESTAMP}, #{confirmStatus,jdbcType=VARCHAR}, #{lastExceedExportTime,jdbcType=TIMESTAMP}, 
+      #{applyTime,jdbcType=TIMESTAMP}, #{signTime,jdbcType=TIMESTAMP}, #{releaseTime,jdbcType=TIMESTAMP}, 
+      #{incomeConfirmTime,jdbcType=TIMESTAMP}, #{incomeArriveTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToLoanAgent" >
+    insert into sctrans.T_TO_LOAN_AGENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="loanSrvCode != null" >
+        LOAN_SRV_CODE,
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="custPhone != null" >
+        CUST_PHONE,
+      </if>
+      <if test="loanAmount != null" >
+        LOAN_AMOUNT,
+      </if>
+      <if test="actualAmount != null" >
+        ACTUAL_AMOUNT,
+      </if>
+      <if test="month != null" >
+        MONTH,
+      </if>
+      <if test="zjName != null" >
+        ZJ_NAME,
+      </if>
+      <if test="zjCode != null" >
+        ZJ_CODE,
+      </if>
+      <if test="coName != null" >
+        CO_NAME,
+      </if>
+      <if test="coCode != null" >
+        CO_CODE,
+      </if>
+      <if test="awardPer != null" >
+        AWARD_PER,
+      </if>
+      <if test="applyStatus != null" >
+        APPLY_STATUS,
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME,
+      </if>
+      <if test="confirmStatus != null" >
+        CONFIRM_STATUS,
+      </if>
+      <if test="lastExceedExportTime != null" >
+        LAST_EXCEED_EXPORT_TIME,
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME,
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME,
+      </if>
+      <if test="releaseTime != null" >
+        RELEASE_TIME,
+      </if>
+      <if test="incomeConfirmTime != null" >
+        INCOME_CONFIRM_TIME,
+      </if>
+      <if test="incomeArriveTime != null" >
+        INCOME_ARRIVE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSrvCode != null" >
+        #{loanSrvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=NVARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAmount != null" >
+        #{loanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null" >
+        #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="zjName != null" >
+        #{zjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="zjCode != null" >
+        #{zjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coName != null" >
+        #{coName,jdbcType=NVARCHAR},
+      </if>
+      <if test="coCode != null" >
+        #{coCode,jdbcType=VARCHAR},
+      </if>
+      <if test="awardPer != null" >
+        #{awardPer,jdbcType=DOUBLE},
+      </if>
+      <if test="applyStatus != null" >
+        #{applyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTime != null" >
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmStatus != null" >
+        #{confirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastExceedExportTime != null" >
+        #{lastExceedExportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releaseTime != null" >
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="incomeConfirmTime != null" >
+        #{incomeConfirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="incomeArriveTime != null" >
+        #{incomeArriveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToLoanAgent" >
+    update sctrans.T_TO_LOAN_AGENT
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSrvCode != null" >
+        LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAmount != null" >
+        LOAN_AMOUNT = #{loanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null" >
+        ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        MONTH = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="zjName != null" >
+        ZJ_NAME = #{zjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="zjCode != null" >
+        ZJ_CODE = #{zjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coName != null" >
+        CO_NAME = #{coName,jdbcType=NVARCHAR},
+      </if>
+      <if test="coCode != null" >
+        CO_CODE = #{coCode,jdbcType=VARCHAR},
+      </if>
+      <if test="awardPer != null" >
+        AWARD_PER = #{awardPer,jdbcType=DOUBLE},
+      </if>
+      <if test="applyStatus != null" >
+        APPLY_STATUS = #{applyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmStatus != null" >
+        CONFIRM_STATUS = #{confirmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastExceedExportTime != null" >
+        LAST_EXCEED_EXPORT_TIME = #{lastExceedExportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releaseTime != null" >
+        RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="incomeConfirmTime != null" >
+        INCOME_CONFIRM_TIME = #{incomeConfirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="incomeArriveTime != null" >
+        INCOME_ARRIVE_TIME = #{incomeArriveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToLoanAgent" >
+    update sctrans.T_TO_LOAN_AGENT
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR},
+      FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      LOAN_AMOUNT = #{loanAmount,jdbcType=DECIMAL},
+      ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      MONTH = #{month,jdbcType=INTEGER},
+      ZJ_NAME = #{zjName,jdbcType=NVARCHAR},
+      ZJ_CODE = #{zjCode,jdbcType=VARCHAR},
+      CO_NAME = #{coName,jdbcType=NVARCHAR},
+      CO_CODE = #{coCode,jdbcType=VARCHAR},
+      AWARD_PER = #{awardPer,jdbcType=DOUBLE},
+      APPLY_STATUS = #{applyStatus,jdbcType=VARCHAR},
+      CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      CONFIRM_STATUS = #{confirmStatus,jdbcType=VARCHAR},
+      LAST_EXCEED_EXPORT_TIME = #{lastExceedExportTime,jdbcType=TIMESTAMP},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
+      INCOME_CONFIRM_TIME = #{incomeConfirmTime,jdbcType=TIMESTAMP},
+      INCOME_ARRIVE_TIME = #{incomeArriveTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_LOAN_AGENT
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

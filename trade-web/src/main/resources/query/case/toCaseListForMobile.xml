@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName"></customDict>
+		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCastListItemListForMobile" cacheCount="true">
+		<searchCondition>
+           <condition field="B.AGENT_CODE"     name="agentId" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					    B.PKID, 
+					    B.STATUS,
+					    B.RED_COUNT,
+                        B.PROPERTY_ADDR,
+                        B.CASE_CODE,
+                        B.AGENT_NAME,
+                        B.AGENT_CODE AGENT_ORG_NAME,
+                         B.create_time
+					FROM sctrans.V_CASE_LIST_BASE B 
+					where 1=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY B.STATUS,B.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RED_COUNT" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="create_time"  index="" checkbox="" display="案件创建时间" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

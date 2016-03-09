@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ------------------------------------------ reset --------------------------------------------------*/
+html {background: #f3f3f3; font-size:62.5%; line-height:1.5em;}
+*, body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td 
+{margin:0;padding:0;}
+/* tables still need 'cellspacing="0"' in the markup */
+table {border-collapse: collapse;border-spacing: 0; font-size:12px;}
+th{font-weight:normal; text-align:center;}
+caption,th {text-align: left;}
+fieldset,img {border: 0;}
+address,caption,cite,code,dfn,em,strong,th,var,optgroup {font-style: inherit;font-weight: inherit;}
+ins {text-decoration: none;}
+del {text-decoration: line-through;}
+ol,ul {list-style-type:none; }
+h1,h2,h3,h4,h5,h6 {	font-size: 100%;font-weight: normal;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+abbr,acronym {border: 0;font-variant: normal;}
+sup,sub {font-size: 100%;vertical-align: baseline;}
+/*because legend doesn't inherit in IE */
+legend {color: #000;}
+body, input,button,textarea,select,optgroup,option {font-family:"Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;font-size:1.4rem;font-style:inherit;font-weight:inherit; color:#404040;}
+/*@purpose To enable resizing for IE */
+/*@branch For IE6-Win, IE7-Win */
+a:link,a:visited,a:active,a:hover{text-decoration: none;}
+article, aside, dialog, figure, footer, header, hgroup, menu, nav, section { display: block; }
+/* --------------------------------- layout ----------------------------------------------------------*/
+.fl{float:left;}
+.fr{float:right;}
+hr{-moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-right-colors: none;-moz-border-top-colors: none;border-color: #eee -moz-use-text-color -moz-use-text-color; border-image: none; border-style: solid; border-width: 1px 0 0; box-sizing: content-box; display: block; height: 0; padding: 0; clear:both; margin:1.2rem 0;}
+.mr1{margin-right:1rem;}
+.color-8{color:#888;}
+.width50{width:49.999%;}
+.banner img{width:100%;}
+.module-box{background:#fff; margin-bottom:0.8rem; padding:1rem; overflow:hidden; zoom:1;}
+.module-box p{margin:0.6rem 0; overflow:hidden; clear:both;}
+h2{font-size:1.6rem; clear:both; overflow:hidden;}
+.red{color:#d84a38;}
+.icon-check-ok{background:url(../images/icon-checkok.png) no-repeat; width:1.4rem; height:1.4rem; background-size:100% 100%; display:inline-block; vertical-align:middle; margin:0 0.4rem;}
+.m-box label{color:#888;}
+.bottom-1{position:fixed; bottom:0; left:0; width:100%; background:#d84a38; height:3rem; padding:0.5rem; color:#fff;}
+.user-img-b{width:3rem; height:3rem; float:left; margin-right:0.8rem;}
+.star-o, .star-r{background:url(../images/icon-star-o.png) no-repeat; background-size:100% 100%; width:1rem; height:1rem; display:inline-block; margin:0 0.2rem;}
+.star-r{background-image:url(../images/icon-star-r.png);}
+.icon-wechat, .icon-tel{background:url(../images/icon-wechat.png) no-repeat; background-size:100% 100%; width:2.4rem; height:2.4rem; display:inline-block;}
+.icon-tel{background-image: url(../images/icon-tle.png);}
+.bottom-1 a i{margin:0 2rem; margin-top:0.5rem;}
+.bottom-1 a{display:inline-block;}
+.bottom-1 a.b-r{border-right:1px solid #cacad0;}

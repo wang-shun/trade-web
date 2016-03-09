@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.perform.repository.GustFollowMapper">
+
+	<delete id="deleteByBizKey"
+		parameterType="com.centaline.trans.perform.entity.GustFollowEntity">
+		delete
+		from sctrans.T_TS_BACK_VISIT
+		where PARTICIPANT_ID = #{participantId,jdbcType=VARCHAR}
+		and case_code = #{caseCode,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.centaline.trans.perform.entity.GustFollowEntity">
+		insert into sctrans.T_TS_BACK_VISIT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="participantId != null">
+				PARTICIPANT_ID,
+			</if>
+			<if test="caseCode != null">
+				case_code,
+			</if>
+			<if test="jobId != null">
+				job_Id,
+			</if>
+			<if test="orgId != null">
+				org_Id,
+			</if>
+			<if test="phoneAccuracy != null">
+				phone_accuracy,
+			</if>
+			<if test="satisfyDegree != null">
+				satisfy_degree,
+			</if>
+			<if test="createTime != null">
+				create_Time,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="participantId != null">
+				#{participantId,jdbcType=VARCHAR},
+			</if>
+			<if test="caseCode != null">
+				#{caseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="jobId != null">
+				#{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneAccuracy != null">
+				#{phoneAccuracy,jdbcType=DECIMAL},
+			</if>
+			<if test="satisfyDegree != null">
+				#{satisfyDegree,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			
+		</trim>
+	</insert>
+</mapper>

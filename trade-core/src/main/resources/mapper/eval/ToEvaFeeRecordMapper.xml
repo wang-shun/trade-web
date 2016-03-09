@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvaFeeRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvaFeeRecord" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="RECORD_TIME" property="recordTime" jdbcType="TIMESTAMP" />
+    <result column="EVAL_FEE" property="evalFee" jdbcType="DECIMAL" />
+    <result column="IS_EVAL_FEE_GET" property="isEvalFeeGet" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, RECORD_TIME, EVAL_FEE, IS_EVAL_FEE_GET
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_FEE_RECORD
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EVA_FEE_RECORD
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaFeeRecord" >
+    insert into sctrans.T_TO_EVA_FEE_RECORD (PKID, CASE_CODE, RECORD_TIME, 
+      EVAL_FEE, IS_EVAL_FEE_GET)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{recordTime,jdbcType=TIMESTAMP}, 
+      #{evalFee,jdbcType=DECIMAL}, #{isEvalFeeGet,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaFeeRecord" >
+    insert into sctrans.T_TO_EVA_FEE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="recordTime != null" >
+        RECORD_TIME,
+      </if>
+      <if test="evalFee != null" >
+        EVAL_FEE,
+      </if>
+      <if test="isEvalFeeGet != null" >
+        IS_EVAL_FEE_GET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evalFee != null" >
+        #{evalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="isEvalFeeGet != null" >
+        #{isEvalFeeGet,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaFeeRecord" >
+    update sctrans.T_TO_EVA_FEE_RECORD
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        RECORD_TIME = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evalFee != null" >
+        EVAL_FEE = #{evalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="isEvalFeeGet != null" >
+        IS_EVAL_FEE_GET = #{isEvalFeeGet,jdbcType=CHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaFeeRecord" >
+    update sctrans.T_TO_EVA_FEE_RECORD
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      RECORD_TIME = #{recordTime,jdbcType=TIMESTAMP},
+      EVAL_FEE = #{evalFee,jdbcType=DECIMAL},
+      IS_EVAL_FEE_GET = #{isEvalFeeGet,jdbcType=CHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findToEvaFeeRecordByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from sctrans.T_TO_EVA_FEE_RECORD where case_code=#{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>
