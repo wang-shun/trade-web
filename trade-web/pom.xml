@@ -300,7 +300,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<tomcat.url>http://10.4.19.211:8083/manager/text</tomcat.url>
+				<tomcat.url>http://10.4.19.211:18015/manager/text</tomcat.url>
 				<tomcat.username>admin</tomcat.username>
 				<tomcat.password>admin</tomcat.password>
 			</properties>
@@ -311,7 +311,7 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<tomcat.url>http://10.4.19.212:8083/manager/text</tomcat.url>
+				<tomcat.url>http://10.4.19.212:18015/manager/text</tomcat.url>
 				<tomcat.username>admin</tomcat.username>
 				<tomcat.password>admin</tomcat.password>
 				<tomcat.warFile>/jenkins/deploy/dev/${project.build.finalName}.war</tomcat.warFile>
