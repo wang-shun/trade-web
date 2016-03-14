@@ -21,7 +21,7 @@
                 区域：${org.orgName }
             </h2>
             <!-- 委派單數=4 -->
-            <div style="display:block" id="div_main">
+            <div style="display:block;height:82.35%;overflow:hidden;" id="div_main">
             	<div class="item-1 pull-left">
                 <div class="panel panel-danger">
                     <div class="panel-heading">

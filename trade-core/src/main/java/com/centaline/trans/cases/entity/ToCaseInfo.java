@@ -29,6 +29,10 @@ public class ToCaseInfo {
     
     private String agentUserName;
     
+    private String agentPhone;
+    private String arCode;
+    private String arName;
+    
     public String getOrgId() {
 		return orgId;
 	}
@@ -144,6 +148,30 @@ public class ToCaseInfo {
 
 	public void setAgentUserName(String agentUserName) {
 		this.agentUserName = agentUserName;
+	}
+
+	public String getAgentPhone() {
+		return agentPhone;
+	}
+
+	public void setAgentPhone(String agentPhone) {
+		this.agentPhone = agentPhone;
+	}
+
+	public String getArCode() {
+		return arCode;
+	}
+
+	public void setArCode(String arCode) {
+		this.arCode = arCode;
+	}
+
+	public String getArName() {
+		return arName;
+	}
+
+	public void setArName(String arName) {
+		this.arName = arName;
 	}
 	
 	

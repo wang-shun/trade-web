@@ -628,15 +628,18 @@
 
 							<h1>询价</h1>
 						    <div style="width:100%">
-							<div class="step-content">
-
+							<div class="step-content" style="margin-top: -25px;">
+								<div class="ibox">
 								<div class="ibox-title">
 									<h5>询价结果查看</h5>
 								</div>
-
-								<table id="table_list_1"></table>
-								<div id="pager_list_1"></div>
-
+									<div class="ibox-content">
+										<div class="jqGrid_wrapper">
+											<table id="table_list_1"></table>
+											<div id="pager_list_1" ></div>
+										</div>
+									</div>
+								</div>
 								<div class="col-lg-4">
 									<div class="text-center">
 										<div style="margin-top: 20px">
@@ -951,7 +954,7 @@
 							</div>
 							<h1>有收费评估报告发起</h1>
 							<div style="width:100%">							
-							<div class="step-content">
+							<div class="step-content" style="margin-top: -25px;">
 								<div class="col-lg-12">
 									<div class="ibox">
 										<div class="ibox-title">
@@ -1015,15 +1018,18 @@
 
 							<h1>询价</h1>
 						   <div style="width:100%">
-							<div class="step-content">
-
-								<div class="ibox-title">
-									<h5>询价结果查看</h5>
+							<div class="step-content" style="margin-top: -25px;">
+								<div class="ibox">
+									<div class="ibox-title">
+										<h5>询价结果查看</h5>
+									</div>
+									<div class="ibox-content" >
+										<div class="jqGrid_wrapper">
+											<table id="table_list_3"></table>
+											<div id="pager_list_3"></div>
+										</div>
+									</div>
 								</div>
-
-								<table id="table_list_3"></table>
-								<div id="pager_list_3"></div>
-
 								<div class="col-lg-4">
 									<div class="text-center">
 										<div style="margin-top: 20px">
@@ -1347,13 +1353,13 @@
 
 							<h1>有收费评估报告发起</h1>
 							<div style="width:100%">							
-							<div class="step-content">
+							<div class="step-content" style="margin-top: -25px;">
 								<div class="col-lg-12">
 									<div class="ibox">
 										<div class="ibox-title">
 											<h5>报告查看</h5>
 										</div>
-										<div class="ibox-content" style="display: none;">
+										<div class="ibox-content" >
 											<div class="jqGrid_wrapper">
 												<table id="table_list_6"></table>
 												<div id="pager_list_6"></div>
@@ -1366,7 +1372,7 @@
 
 							<h1>完成</h1>
 							<div class="step-content" >
-								<div class="ibox-content" style="height:300px;display: none;">
+								<div class="ibox-content" style="height:300px;">
 							<form id="completeForm1">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
@@ -1622,7 +1628,7 @@ function checkInt(obj){
 
 	 		} */
 		});
-		$("#secBank i").click(function(){
+	/* 	$("#secBank i").click(function(){
 			if($("#isMainLoanBank").val() == "0"){
 				$("#isMainLoanBank").val("1");
 				getPricingList("table_list_1","pager_list_1");
@@ -1633,7 +1639,7 @@ function checkInt(obj){
 
 	 		}
 			
-		}); 
+		});  */
 	});
 	
 	var attachmentList = null;

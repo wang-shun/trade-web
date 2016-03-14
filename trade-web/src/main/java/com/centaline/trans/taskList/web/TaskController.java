@@ -3,6 +3,7 @@
  * Copyright (c) 2015-2015 All Rights Reserved.
  */
 package com.centaline.trans.taskList.web;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,24 +23,39 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.EditCaseDetailService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.service.VCaseTradeInfoService;
+import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToAttachment;
+import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
+import com.centaline.trans.common.enums.TransDictEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToAttachmentService;
+import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.eval.entity.ToEvaFeeRecord;
+import com.centaline.trans.eval.service.ToEvaFeeRecordService;
 import com.centaline.trans.loan.service.ToCloseLoanService;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.MortStep;
 import com.centaline.trans.mortgage.entity.ToEguPricing;
+import com.centaline.trans.mortgage.entity.ToEvaReport;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToEguPricingService;
@@ -145,6 +161,19 @@ public class TaskController {
 	
 	@Autowired
     private UamPermissionService       uamPermissionService;
+	
+	@Autowired(required = true)
+	TsFinOrgService tsFinOrgService;
+	@Autowired(required = true)
+	ToEvaFeeRecordService toEvaFeeRecordService;
+	@Autowired(required = true)
+	TgGuestInfoService tgGuestInfoService;
+	@Autowired(required = true)
+	ToCaseInfoService toCaseInfoService;
+	@Autowired
+	private ToPropertyInfoService toPropertyInfoService;
+	@Autowired(required = true)
+	VCaseTradeInfoService vCaseTradeInfoService;
 	
     @RequestMapping(value="/{taskitem}")   
     public String taskPageRoute(Model model, HttpServletRequest request,@PathVariable String taskitem,
@@ -273,6 +302,16 @@ public class TaskController {
     		initApproveRecord(request, caseCode, "0");/*无效审批*/
     	} else if(taskitem.equals("GuohuApprove")) {
     		initApproveRecord(request, caseCode, "2");/*过户审批*/
+    		
+    		//交易信息
+    		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(caseCode);
+    		//贷款信息
+    		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
+    		CaseDetailShowVO reVo  = getCaseDetailShowVO(caseCode,toMortgage);
+    		request.setAttribute("toMortgage", toMortgage);
+    		request.setAttribute("caseDetailVO", reVo);
+    		request.setAttribute("caseInfo", caseInfo);
+    		
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
@@ -324,6 +363,132 @@ public class TaskController {
         return "task/task"+taskitem;
   
     }
+    
+    /****
+	 *  查询案件详情
+	 * 
+	 *  @param caseCode
+	 *  @return
+	 */
+	private CaseDetailShowVO getCaseDetailShowVO(String caseCode,ToMortgage toMortgage) {
+		CaseDetailShowVO reVo = new CaseDetailShowVO();
+		
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
+		if(null!=te){
+			reVo.setCaseProperty(te.getCaseProperty());
+		}
+		
+		//物业信息
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		User agentUser=null;
+		//经纪人
+		if(!StringUtils.isBlank(toCaseInfo.getAgentCode())){
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		if(agentUser!=null){
+			reVo.setAgentId(agentUser.getId());
+			reVo.setAgentName(agentUser.getRealName());
+			reVo.setAgentMobile(agentUser.getMobile());
+			reVo.setAgentOrgId(agentUser.getOrgId());
+			reVo.setAgentOrgName(agentUser.getOrgName());
+			//分行经理
+			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(), TransJobs.TFHJL.getCode());
+			if(mcList!=null && mcList.size()>0){
+
+				User mcUser = mcList.get(0);
+				reVo.setMcId(mcUser.getId());
+				reVo.setMcName(mcUser.getRealName());
+				reVo.setMcMobile(mcUser.getMobile());
+			}
+		}
+		
+		//交易顾问
+		User consultUser = uamUserOrgService.getUserById(te.getLeadingProcessId());
+		if(consultUser!=null){
+			reVo.setCpId(consultUser.getId());
+			reVo.setCpName(consultUser.getRealName());
+			reVo.setCpMobile(consultUser.getMobile());
+		}
+		//助理
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(), TransJobs.TJYZL.getCode());
+		if(asList!=null && asList.size()>0){
+			User assistUser = asList.get(0);
+			reVo.setAsId(assistUser.getId());
+			reVo.setAsName(assistUser.getRealName());
+			reVo.setAsMobile(assistUser.getMobile());
+		}
+		
+		if(toMortgage!=null){
+			//贷款类型
+			if(!StringUtils.isEmpty(toMortgage.getMortType())){
+				String mortTypeString = uamBasedataService.getDictValue(TransDictEnum.TDKLX.getCode(), toMortgage.getMortType());
+				reVo.setMortTypeName(mortTypeString);
+			}
+	    	//放款方式
+	    	if(toMortgage.getLendWay()!=null){				
+	    		String lendWay = uamBasedataService.getDictValue(TransDictEnum.TLENDWAY.getCode(), toMortgage.getLendWay());
+				reVo.setLendWay(lendWay);
+	    	}
+			//分行支行
+			String finOrgCodeString = toMortgage.getFinOrgCode();
+			if(!StringUtils.isEmpty(finOrgCodeString)){
+				TsFinOrg bank=tsFinOrgService.findBankByFinOrg(finOrgCodeString);
+				reVo.setBankName(bank.getFinOrgName());
+				if(!StringUtils.isEmpty(bank.getFaFinOrgCode())){
+					TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
+					reVo.setParentBankName(faBank.getFinOrgName());
+				}
+			}
+			//评估公司
+			ToEvaReport evaReport = toEvaReportService.findFinalComByCaseCode(caseCode);
+			if(evaReport!=null&& !StringUtils.isEmpty(evaReport.getFinOrgCode())){
+				TsFinOrg reportCom = tsFinOrgService.findBankByFinOrg(evaReport.getFinOrgCode());
+				reVo.setEvaName(reportCom.getFinOrgName());
+			}
+			//评估费金额
+			ToEvaFeeRecord evaFeeReport = toEvaFeeRecordService.findToEvaFeeRecordByCaseCode(caseCode);
+			if(evaFeeReport!=null&& evaFeeReport.getEvalFee()!=null){
+				reVo.setEvaFee(evaFeeReport.getEvalFee());
+			}
+			//主贷人
+			if(null !=toMortgage.getCustCode()){
+				// update zhangxb16 2016-2-16 
+				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+				if(null !=guest){
+					reVo.setBuyerWork(guest.getWorkUnit());
+					reVo.setMortBuyer(guest.getGuestName());
+				}
+			}
+			
+			//签约时间
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			if(toMortgage.getSignDate()!=null){
+				String signDate = format.format(toMortgage.getSignDate());
+				reVo.setSignDate(signDate);
+			}//批贷时间
+			if(toMortgage.getApprDate()!=null){
+				String apprDate = format.format(toMortgage.getApprDate());
+				reVo.setApprDate(apprDate);
+			}//他证送达时间
+			if(toMortgage.getTazhengArrDate()!=null){
+				String tazhengArrDate = format.format(toMortgage.getTazhengArrDate());
+				reVo.setTazhengArrString(tazhengArrDate);
+			}//放款时间
+			if(toMortgage.getLendDate()!=null){
+				String lendDate = format.format(toMortgage.getLendDate());
+				reVo.setLendDate(lendDate);
+			}//申请时间
+			if(toMortgage.getPrfApplyDate()!=null){
+				String applyDate = format.format(toMortgage.getPrfApplyDate());
+				reVo.setPrfApplyDate(applyDate);
+			}
+		}
+		
+		
+		return reVo;
+	}
+	
     
     @RequestMapping(value="/mobile/{taskitem}")   
     public String taskMobilePageRoute(Model model, HttpServletRequest request,@PathVariable String taskitem,

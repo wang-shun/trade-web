@@ -82,7 +82,7 @@
 		<!-- 组别 -->
 		<mapper resource="mapper/team/TsTeamPropertyMapper.xml" />
 		<mapper resource="mapper/team/TsTeamScopeMapper.xml" />
-		
+		<mapper resource="mapper/team/TsTeamTransferMapper.xml" />
 		<!-- 监管 -->
 		<mapper resource="mapper/spv/ToSpvMapper.xml" />
 		<mapper resource="mapper/spv/ToCashFlowMapper.xml" />

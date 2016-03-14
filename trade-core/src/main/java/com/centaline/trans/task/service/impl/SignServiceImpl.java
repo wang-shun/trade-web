@@ -206,8 +206,9 @@ public class SignServiceImpl implements SignService {
 		
 		// 功能：根据 casecode 到T_TO_FIRST_FOLLOW表中去查询，如果存在则做update，否则做insert, 作者：zhangxb16 时间 2016-1-27
 		int isExist=tofirstFollowMapper.isExistCasecode(transSignVO.getCaseCode());
-		ToFirstFollow ff=new ToFirstFollow();
+		ToFirstFollow ff=null;
 		if(isExist>0){
+			ff=new ToFirstFollow();
 			if("true".equals(transSignVO.getIsLoanClose())){ // 有抵押
 				ff.setIsLoanClose("1");
 			}else{
@@ -222,13 +223,14 @@ public class SignServiceImpl implements SignService {
 			ff.setCaseCode(transSignVO.getCaseCode());
 			tofirstFollowMapper.updateByCaseCode(ff);
 		}else{
-			if(ff.getIsLoanClose().equals(true)){ // 有抵押
+			ff=new ToFirstFollow();
+			if("true".equals(ff.getIsLoanClose())){ // 有抵押
 				ff.setIsLoanClose("1");
 			}else{
 				ff.setIsLoanClose("0");
 			}
 			
-			if(ff.getIsPerchaseReserachNeed().equals(true)){  // 是否需要查限购
+			if("true".equals(ff.getIsPerchaseReserachNeed())){  // 是否需要查限购
 				ff.setIsPerchaseReserachNeed("1");
 			}else{
 				ff.setIsPerchaseReserachNeed("0");

@@ -83,44 +83,7 @@
 				<div class="col-lg-2"></div>
 			</div>
 		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form class="form-horizontal" id="guohuApproveForm">
-					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<%-- <input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }"> --%>
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批结果</label>
-						<div class="radio i-checks radio-inline">
-							<label> 
-								<input type="radio" checked="checked" value="true" id="optionsRadios1" name="GuohuApprove">审批通过
-							</label>
-						</div>
-						<div class="radio i-checks radio-inline">
-							<label> 
-								<input type="radio" value="false" id="optionsRadios2" name="GuohuApprove">审批未通过
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批意见</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="GuohuApprove_response" name="GuohuApprove_response">
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>	
-		<div class="ibox-title">
+		<%-- <div class="ibox-title">
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
 		<h5>上传备件<br>${accesoryList[0].accessoryName }</h5>
@@ -233,7 +196,144 @@
 		<h5>上传备件<br>无需上传备件</h5>
 	    </c:otherwise>  
 		</c:choose> 
+		</div> --%>
+		
+		<div class="ibox-title">
+			   <h5>成交信息</h5> 
+               <div class="panel-body ibox-content">
+                 <div class="row ">
+                     <label class="col-sm-3 control-label">合同价：
+                      	<c:if test="${!empty caseInfo.conPrice}">
+                     		${caseInfo.conPrice/10000}  &nbsp&nbsp万元
+                 		</c:if>
+                     </label> 
+                   <%--   <label class="col-sm-3 control-label">成交价：
+                        <c:if test="${!empty caseInfo.realPrice}">
+                     		${caseInfo.realPrice/10000}&nbsp&nbsp万元
+                 		</c:if>
+                     </label> --%>
+                     <label class="col-sm-3 control-label">核定价格：
+                          <c:if test="${!empty caseInfo.taxPricing}">
+                     		${caseInfo.taxPricing/10000}&nbsp&nbsp万元
+                 		  </c:if>
+                      </label>
+                 </div>
+             </div>
 		</div>
+		
+		<div class="ibox-title">
+		 		<c:if test="${!empty toMortgage}">
+                   <h5>案件贷款情况 : 有贷款</h5> 
+                </c:if>
+               	<c:if test="${empty toMortgage}">
+                    <h5>案件贷款情况 : 无贷款</h5> 
+                </c:if>
+			  
+               <div class="panel-body ibox-content">
+                 <div class="row ">
+                     <label class="col-sm-3 control-label">签约时间：${caseDetailVO.signDate}</label>
+                     <label class="col-sm-3 control-label">批贷时间：${caseDetailVO.apprDate}</label>
+                     <label class="col-sm-3 control-label">他证送达时间：${caseDetailVO.tazhengArrDate}</label>
+                    
+                     <label class="col-sm-3 control-label">放款时间：${caseDetailVO.lendDate}</label>
+                 </div>
+                	<div class="row ">
+                     <label class="col-sm-3 control-label">贷款类型：${caseDetailVO.mortTypeName}</label>
+                     <label class="col-sm-3 control-label">商贷金额：
+                         <c:if test="${!empty toMortgage.comAmount}">
+                    ${toMortgage.comAmount}&nbsp&nbsp万元
+                </c:if>
+                     </label>
+                     <label class="col-sm-3 control-label">商贷年限：${toMortgage.comYear}</label>
+                	    <label class="col-sm-3 control-label">商贷利率：${toMortgage.comDiscount}</label>
+                 </div>
+                	<div class="row ">
+                     <label class="col-sm-3 control-label">是否自办：<c:choose>
+                     <c:when test="${toMortgage.isDelegateYucui=='1'}">是</c:when>
+                     <c:when test="${toMortgage.isDelegateYucui=='0'}">否</c:when>
+                      <c:otherwise>
+                      ${toMortgage.isDelegateYucui}
+                      </c:otherwise>
+                     </c:choose></label>
+                     <label class="col-sm-3 control-label">公积金贷款金额：
+                         <c:if test="${!empty toMortgage.prfAmount}">
+                    ${toMortgage.prfAmount}&nbsp&nbsp万元
+                </c:if>
+                     </label>
+                     <label class="col-sm-3 control-label">公积金贷款年限：${toMortgage.prfYear}</label>
+                     <label class="col-sm-3 control-label">放款方式：${caseDetailVO.lendWay}</label>
+                 </div>
+                	<div class="row ">
+                     <label class="col-sm-3 control-label">主贷人：${caseDetailVO.mortBuyer}</label>
+                     <label class="col-sm-3 control-label">主贷人单位：${caseDetailVO.buyerWork}</label>
+                     <label class="col-sm-3 control-label">房贷套数：${toMortgage.houseNum}</label>
+                     <label class="col-sm-3 control-label">申请时间：${caseDetailVO.prfApplyDate}</label>
+                 </div>
+                 <div class="row ">
+                      <label class="col-sm-6 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
+                      <label class="col-sm-6 control-label">支       行：${caseDetailVO.bankName}</label>
+                 </div>
+                	<div class="row ">
+                     <label class="col-sm-3 control-label">信贷员：${toMortgage.loanerName}</label>
+                     <label class="col-sm-3 control-label">信贷员电话：${toMortgage.loanerPhone}</label>
+                     <label class="col-sm-3 control-label">评估公司：${caseDetailVO.evaName}</label>
+                     <label class="col-sm-3 control-label">评估费金额：
+                         <c:if test="${!empty caseDetailVO.evaFee}">
+                    ${caseDetailVO.evaFee}&nbsp&nbsp万元
+                </c:if>
+                     </label>
+                 </div>
+                 <div class="row ">
+                      <label class="col-sm-12 control-label">备注：${toMortgage.remark}</label>
+                 </div>
+             </div>
+		</div>
+			
+		<div class="ibox-title">
+			<h5>附件信息</h5>
+			<div class="">
+               <div id="imgShow" class="lightBoxGallery"></div>
+            </div>
+		</div>	
+		
+		<div class="ibox-title">
+			<h5>填写任务信息</h5>
+			<div class="ibox-content">
+				<form class="form-horizontal" id="guohuApproveForm">
+					<%--环节编码 --%>
+					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+					<!-- 交易单编号 -->
+					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<!-- 流程引擎需要字段 -->
+					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+					<%-- 设置审批类型 --%>
+					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
+					<%-- <input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }"> --%>
+					<input type="hidden" id="operator" name="operator" value="${operator }">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">审批结果</label>
+						<div class="radio i-checks radio-inline">
+							<label> 
+								<input type="radio" checked="checked" value="true" id="optionsRadios1" name="GuohuApprove">审批通过
+							</label>
+						</div>
+						<div class="radio i-checks radio-inline">
+							<label> 
+								<input type="radio" value="false" id="optionsRadios2" name="GuohuApprove">审批未通过
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">审批意见</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="GuohuApprove_response" name="GuohuApprove_response">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>	
+		
 		<div class="ibox-title">
 			<h5>审批记录</h5>
 			<div class="ibox-content">
@@ -287,6 +387,8 @@
 	<!-- 附件保存修改相关 -->
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<!-- 显示上传的附件 -->
+	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script>
@@ -333,7 +435,7 @@
 					alert("数据保存出错");
 				} 
 			});
-		}	
+		}
 	</script> 
 	</content>
 </body>

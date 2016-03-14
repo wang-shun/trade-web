@@ -117,7 +117,7 @@ from (
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;''
+	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -137,7 +137,7 @@ from (
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;''
+	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.sign_time is not null
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -158,7 +158,7 @@ from (
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;''
+	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.release_time is not null
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -185,7 +185,7 @@ from (
 	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi 
 	on tsi.CASE_CODE=tc.CASE_CODE 
 	where 
-		ts.PART_CODE is not null and datediff(year,ts.REAL_CON_TIME,getdate())=0 
+		ts.PART_CODE is not null and datediff(year,ts.REAL_CON_TIME,getdate())=0 and ts.REAL_CON_TIME is not null
 	 <if test="userId != null">
 	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -207,7 +207,7 @@ from (
 	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi 
 	on tsi.CASE_CODE=tc.CASE_CODE 
 	where 
-		datediff(year,tc.CREATE_TIME,getdate())=0 
+		datediff(year,tc.CREATE_TIME,getdate())=0 and tc.CREATE_TIME is not null
 	 <if test="userId != null">
 	 	and (tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL} or tc.LEADING_PROCESS_ID=#{userId,jdbcType=DECIMAL})
 	 </if>
@@ -233,7 +233,7 @@ from (
 	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	on tc.CASE_CODE=tsi.CASE_CODE 
 	where 
-		datediff(YYYY,tht.REAL_HT_TIME,getdate())=0
+		datediff(YYYY,tht.REAL_HT_TIME,getdate())=0 and tht.REAL_HT_TIME is not null
 	 <if test="userId != null">
 	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -254,7 +254,7 @@ from (
 	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	on tc.CASE_CODE=tsi.CASE_CODE 
 	where 
-		datediff(YYYY,tc.ClOSE_TIME,getdate())=0
+		datediff(YYYY,tc.ClOSE_TIME,getdate())=0 and tc.ClOSE_TIME is not null
 	 <if test="userId != null">
 	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -275,7 +275,7 @@ from (
 	 on tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
 	 left join sctrans.t_to_sign  as ts
 	 on tf.CASE_CODE=tsi.CASE_CODE 
-	 where tf.CASE_CODE is not null 
+	 where tf.CASE_CODE is not null and tf.RECORD_TIME is not null
 	 <if test="userId != null">
 	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -434,7 +434,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	select count(a.pkid) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
 from sctrans.T_TO_CASE a 
 right join sctrans.T_TO_SIGN b 
-on a.CASE_CODE=b.CASE_CODE and DATEDIFF(MM, b.REAL_CON_TIME,GETDATE())=0
+on a.CASE_CODE=b.CASE_CODE and DATEDIFF(MM, b.REAL_CON_TIME,GETDATE())=0 and b.REAL_CON_TIME is not null
 right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
 left join sctrans.sys_user_org_job uoj
@@ -443,15 +443,15 @@ left join sctrans.sys_job as j
 on j.id=uoj.job_id
  left join sctrans.sys_user as u on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
- and o.PARENT_ID=#{orgId,jdbcType=VARCHAR}
+ and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 order by COUNT(a.case_code) desc;	
 </select>
 <select id="staHouseTranRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select COUNT(a.case_code) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
 	from sctrans.T_TO_CASE as a 
-	left join sctrans.T_TO_HOUSE_TRANSFER as tht
-	on a.CASE_CODE=tht.CASE_CODE and datediff(MM,tht.REAL_HT_TIME,getdate())=0
+	right join sctrans.T_TO_HOUSE_TRANSFER as tht
+	on a.CASE_CODE=tht.CASE_CODE and datediff(MM,tht.REAL_HT_TIME,getdate())=0 and tht.REAL_HT_TIME is not null
 	right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
 left join sctrans.sys_user_org_job uoj
@@ -460,16 +460,16 @@ left join sctrans.sys_job as j
 on j.id=uoj.job_id
  left join sctrans.sys_user as u on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
- and o.PARENT_ID=#{orgId,jdbcType=VARCHAR}
+ and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 order by COUNT(a.case_code) desc;
 </select>
 <select id="staCpfLoanRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select COUNT(a.case_code) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
 	from sctrans.T_TO_CASE as a 
-	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg
+	right join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg
 	on tg.CASE_CODE=a.CASE_CODE and tg.SRV_CAT='3000400201'
-	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0
+	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
 	right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
 left join sctrans.sys_user_org_job uoj
@@ -478,16 +478,16 @@ left join sctrans.sys_job as j
 on j.id=uoj.job_id
  left join sctrans.sys_user as u on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
-and o.PARENT_ID=#{orgId,jdbcType=VARCHAR}
+and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 order by COUNT(a.case_code) desc;
 </select>
 <select id="staBusinessOrComLoanRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select COUNT(a.case_code) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
 	from sctrans.T_TO_CASE as a 
-	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg
+	right join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg
 	on tg.CASE_CODE=a.CASE_CODE and tg.SRV_CAT='3000400201'
-	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0
+	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
 	right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
 left join sctrans.sys_user_org_job uoj
@@ -496,7 +496,7 @@ left join sctrans.sys_job as j
 on j.id=uoj.job_id
  left join sctrans.sys_user as u on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
-and o.PARENT_ID=#{orgId,jdbcType=VARCHAR}
+and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 order by COUNT(a.case_code) desc;
 	

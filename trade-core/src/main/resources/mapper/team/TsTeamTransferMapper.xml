@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.team.repository.TsTeamTransferMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.team.entity.TsTeamTransfer" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="TEAM_ORIGIN" property="teamOrigin" jdbcType="VARCHAR" />
+    <result column="TEAM_NOW" property="teamNow" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, TEAM_ORIGIN, TEAM_NOW, CREATE_TIME, IS_DELETE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_TRANSFER
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+   <select id="getTsTeamTransferByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.team.entity.TsTeamTransfer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_TRANSFER
+    <where>
+		<if test="teamOrigin != null">
+		   TEAM_ORIGIN = #{teamOrigin}
+		</if>
+		<if test="isDelete != null">
+		   AND IS_DELETE = #{isDelete}
+		</if>
+		<if test="isDelete != null">
+		   AND CASE_CODE = #{caseCode}
+		</if>
+	</where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_TEAM_TRANSFER
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamTransfer" >
+    insert into sctrans.T_TS_TEAM_TRANSFER (PKID, CASE_CODE, TEAM_ORIGIN, 
+      TEAM_NOW, CREATE_TIME, IS_DELETE
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{teamOrigin,jdbcType=VARCHAR}, 
+      #{teamNow,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.team.entity.TsTeamTransfer" >
+    insert into sctrans.T_TS_TEAM_TRANSFER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="teamOrigin != null" >
+        TEAM_ORIGIN,
+      </if>
+      <if test="teamNow != null" >
+        TEAM_NOW,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teamOrigin != null" >
+        #{teamOrigin,jdbcType=VARCHAR},
+      </if>
+      <if test="teamNow != null" >
+        #{teamNow,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.team.entity.TsTeamTransfer" >
+    update sctrans.T_TS_TEAM_TRANSFER
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teamOrigin != null" >
+        TEAM_ORIGIN = #{teamOrigin,jdbcType=VARCHAR},
+      </if>
+      <if test="teamNow != null" >
+        TEAM_NOW = #{teamNow,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE = #{isDelete,jdbcType=CHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.team.entity.TsTeamTransfer" >
+    update sctrans.T_TS_TEAM_TRANSFER
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      TEAM_ORIGIN = #{teamOrigin,jdbcType=VARCHAR},
+      TEAM_NOW = #{teamNow,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      IS_DELETE = #{isDelete,jdbcType=CHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

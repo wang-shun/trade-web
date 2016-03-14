@@ -15,11 +15,13 @@
     <result column="GRP_CODE" jdbcType="VARCHAR" property="grpCode" />
     <result column="GRP_NAME" jdbcType="VARCHAR" property="grpName" />
     <result column="AGENT_USERNAME" jdbcType="VARCHAR" property="agentUserName" />
-
+	<result column="AR_CODE" jdbcType="VARCHAR" property="arCode" />
+	<result column="AR_NAME" jdbcType="VARCHAR" property="arName" />
+	<result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
-    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME 
+    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE 
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -34,12 +36,12 @@
   <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
     insert into sctrans.T_TO_CASE_INFO (PKID, CTM_CODE, AGENT_CODE, 
       CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
-    AGENT_NAME,DISPATCH_TIME, AGENT_USERNAME
+    AGENT_NAME,DISPATCH_TIME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE 
       )
     values (#{pkid,jdbcType=BIGINT}, #{ctmCode,jdbcType=VARCHAR}, #{agentCode,jdbcType=VARCHAR}, 
       #{caseCode,jdbcType=VARCHAR}, #{requireProcessorId,jdbcType=VARCHAR}, #{isResponsed,jdbcType=CHAR}, 
       #{resDate,jdbcType=TIMESTAMP}, #{agentName,jdbcType=VARCHAR}, #{dispatchTime,jdbcType=TIMESTAMP},
-      #{agentUserName,jdbcType=VARCHAR})
+      #{agentUserName,jdbcType=VARCHAR}, #{arCode,jdbcType=VARCHAR}, #{arName,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
     insert into sctrans.T_TO_CASE_INFO
@@ -83,6 +85,15 @@
       <if test="agentUserName != null" >
         AGENT_USERNAME,
       </if>
+      <if test="arCode != null" >
+        AR_CODE,
+      </if>
+      <if test="arName != null" >
+        AR_NAME,
+      </if>
+      <if test="agentPhone != null" >
+        AGENT_PHONE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -124,6 +135,15 @@
       <if test="agentUserName != null" >
         #{agentUserName,jdbcType=VARCHAR},
       </if>
+      <if test="arCode != null" >
+        #{arCode,jdbcType=VARCHAR},
+      </if>
+      <if test="arName != null" >
+        #{arName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null" >
+        #{agentPhone,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
@@ -139,7 +159,14 @@
       AGENT_USERNAME = #{agentUserName,jdbcType=VARCHAR},
       IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
       GRP_CODE = #{grpCode,jdbcType=VARCHAR},
-      GRP_NAME = #{grpName,jdbcType=VARCHAR}
+      GRP_NAME = #{grpName,jdbcType=VARCHAR},
+      <if test="arCode != null" >
+        AR_CODE = #{arCode,jdbcType=VARCHAR},
+      </if>
+      <if test="arName != null" >
+        AR_NAME = #{arName,jdbcType=VARCHAR},
+      </if>
+       AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
  
@@ -206,6 +233,11 @@
   <!-- 根据ctm 推送过来的编号来判断是否已经存在   -->
   <select id="isExistCaseCode" resultType="java.lang.Integer" parameterType="java.lang.String">
   		select count(1) from sctrans.T_TO_CASE_INFO where CTM_CODE=#{ctmCode,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 根据店组id查询出所属分行的名称和code -->
+  <select id="selectBusiarbyGroupid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select * from [sctrans].[v_sys_org_hierarchy] where GROUP_ID=#{groupId,jdbcType=VARCHAR} 
   </select>
   
   

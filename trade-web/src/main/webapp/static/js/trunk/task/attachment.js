@@ -82,7 +82,10 @@ $(function() {
 	
 	
 	getExplPicByhouseCode();
+	
+	getShowAttachment();
 });
+
 //
 function getExplPicByhouseCode() {
 	$.ajax({

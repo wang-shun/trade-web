@@ -1,5 +1,7 @@
 package com.centaline.trans.cases.repository;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -52,5 +54,8 @@ public interface ToCaseInfoMapper {
 	
 	
 	int isExistCaseCode(String caseCode);
+	
+	
+	List<HashMap<String, Object>> selectBusiarbyGroupid(String groupId);
 	
 }

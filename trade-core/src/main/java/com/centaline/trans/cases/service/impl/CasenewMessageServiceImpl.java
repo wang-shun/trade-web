@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -151,13 +152,14 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 			List<TsTeamScope> teamScope=tsteamScopeMapper.selectByYuagentTeamCode(groupCode); // 誉萃的店组code
 			if(null!=teamScope && teamScope.size()>0){
 				if(teamScope.size()==1){
-					yuTeamCode = teamScope.get(0).getYuTeamCode();  // 查询出誉萃的orgid
+					yuTeamCode=teamScope.get(0).getYuTeamCode();  // 查询出誉萃的orgid
 					Org oo=uamUserOrgService.getOrgByCode(yuTeamCode);
 					userList=uamUserOrgService.getUserByOrgIdAndJobCode(oo.getId(), jobCode);
 					
 					userOrgIdVo.setOrgId(oo.getId());
 					userOrgIdVo.setUserList(userList);
 				}else{
+					List<User> uList=new ArrayList<>();
 					// 如果 teamScope.size>1 则存在多个, 则从T_TS_TEAM_PROPERTY 表中找出为组办组的[IS_RESPONSE_TEAM] 的  yuTeamCode
 					for(int i=0; i<teamScope.size(); i++){
 						yuTeamCode=teamScope.get(i).getYuTeamCode();  // 查询出誉萃的orgid
@@ -167,12 +169,13 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 							if(!"".equals(yucode) || null!=yucode){
 								Org oo=uamUserOrgService.getOrgByCode(yuTeamCode);
 								userList=uamUserOrgService.getUserByOrgIdAndJobCode(oo.getId(), jobCode);
-								
+								User ur=userList.get(0);
+								uList.add(ur);
 								userOrgIdVo.setOrgId(oo.getId());
-								userOrgIdVo.setUserList(userList);
 							}
 						}
 					}
+					userOrgIdVo.setUserList(uList);
 				}
 			}
 		}
@@ -378,6 +381,18 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 		tceinfo.setAgentUserName(agentCode); // ctm 传过来的用户名称
 		if(null!=username){
 			tceinfo.setAgentCode(username.getId());  // 成交经纪人编号
+			tceinfo.setAgentPhone(username.getMobile());  // 手机号
+			if(null!=username.getOrgId()){
+				List<HashMap<String, Object>> map=toCaseInfoMapper.selectBusiarbyGroupid(username.getOrgId());
+				for(int j=0; j<map.size(); j++) {
+		        	String areaId=String.valueOf(map.get(j).get("BUSIAR_ID"));
+		        	if(null!=areaId){
+		        		Org org=uamUserOrgService.getOrgById(areaId);
+		        		tceinfo.setArCode(org.getOrgCode());
+		        		tceinfo.setArName(org.getOrgName());
+		        	}
+				}
+			}
 		}
 		tceinfo.setAgentName(agentName);  // 成交经纪人姓名
 		tceinfo.setCaseCode(caseCode);  // caseCode
@@ -406,7 +421,7 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 				
 				// 1 处理 T_TO_CASE_INFO 表 
 				UserOrgIdVo userOrgIdVo=selectByAgentCode(agentCode, TransJobs.TJYZG.getCode());
-				if(null!=userOrgIdVo){  // 无论是否找到誉萃组别经理的id, 都需要往T_TO_CASE_INFO 表中插入记录
+				if(null!=userOrgIdVo && userOrgIdVo.getUserList().size()==1){  // 无论是否找到誉萃组别经理的id, 都需要往T_TO_CASE_INFO 表中插入记录
 					if(null!=userOrgIdVo.getUserList() && userOrgIdVo.getUserList().size()>0){
 						tceinfo.setRequireProcessorId(userOrgIdVo.getUserList().get(0).getId());  // 誉萃组别经理的id
 						tceinfo.setDispatchTime(dt);  // 分单时间

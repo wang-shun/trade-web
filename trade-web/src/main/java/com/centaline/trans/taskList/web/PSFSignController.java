@@ -40,7 +40,6 @@ public class PSFSignController {
 	@ResponseBody
 	public AjaxResponse<String> savePSFSign(HttpServletRequest request, PSFSignVO psfSignVO) {
 		AjaxResponse<String> response = new AjaxResponse<String> ();
-		psfSignVO.setMortTotalAmount(NumberUtil.multiply(psfSignVO.getMortTotalAmount(), new BigDecimal(10000)));
 		psfSignService.savePSFSign(psfSignVO);
 		return response;
 	}
@@ -57,8 +56,7 @@ public class PSFSignController {
 	
 	@RequestMapping(value="submitPSFSign")
 	@ResponseBody
-	public boolean submitPSFSign(HttpServletRequest request, PSFSignVO psfSignVO) {
-		psfSignVO.setMortTotalAmount(NumberUtil.multiply(psfSignVO.getMortTotalAmount(), new BigDecimal(10000)));
+	public boolean submitPSFSign(HttpServletRequest request, PSFSignVO psfSignVO) {	
 		psfSignService.savePSFSign(psfSignVO);
 		
 		/*流程引擎相关*/

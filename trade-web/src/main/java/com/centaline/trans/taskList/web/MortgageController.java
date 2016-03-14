@@ -177,16 +177,11 @@ public class MortgageController {
 	@RequestMapping(value="submitSelfLoanApprove")
 	@ResponseBody
 	public Boolean submitSelfLoanApprove(HttpServletRequest request, ToMortgage toMortgage,
-			String taskId, String processInstanceId, String EvaReportNeedAtLoanRelease) {
+			String taskId, String processInstanceId) {
 		toMortgageService.saveToMortgage(toMortgage);
 
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		RestVariable restVariable = new RestVariable();
-		restVariable.setName("EvaReportNeedAtLoanRelease");
-		restVariable.setValue(EvaReportNeedAtLoanRelease.equals(true));
-		variables.add(restVariable);
-		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage.getCaseCode());	
 		return workFlowManager.submitTask(variables, taskId, processInstanceId, 
 				toCase.getLeadingProcessId(), toMortgage.getCaseCode());

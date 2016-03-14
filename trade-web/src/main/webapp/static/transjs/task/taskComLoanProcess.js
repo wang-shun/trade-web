@@ -687,7 +687,7 @@ function getEvaCompany(){
 		data:{},
 		success:function(data){
 			if(data != null && data.length > 0){
-				var foc = $("#reportForm").find("select[name='finOrgCode']");
+				var foc = $("#reportForm").find("select[id='orgPricing']");
 				foc.html("");
 				for(var i=0;i<data.length;i++){
 					foc.append("<option value='"+data[i].finOrgCode+"'>"+data[i].finOrgName+"</option>");
@@ -782,20 +782,20 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	        colNames: ['询价ID', '评估编号', '询价状态', '询价时间', '询价结果','单价（元）','总价（万元）','目标银行','申请编号','是否确认','确认序号','结果编码','操作'],
 	        colModel: [
 	       //     {name: 'PKID', formatter:'checkbox',formatoptions:{disabled:false},checked:false,index: 'PKID',  width: 30},
-	            {name: 'PKID',index: 'PKID',  width: 50},
-	            {name: 'EVA_CODE', index: 'EVA_CODE', width: 120},
-	            {name: 'STATUS', index: 'STATUS', width: 80},
-	            {name: 'ARISE_TIME', index: 'ARISE_TIME', width: 100},
-	            {name: 'RESULT', index: 'RESULT', width: 80},
-	            {name: 'UNIT_PRICE', index: 'UNIT_PRICE', width: 80},
-	            {name: 'TOTAL_PRICE', index: 'TOTAL_PRICE', width: 80},
-	            {name: 'FIN_ORG_NAME', index: 'FIN_ORG_NAME', width: 200},
+	            {name: 'PKID',index: 'PKID'},
+	            {name: 'EVA_CODE', index: 'EVA_CODE'},
+	            {name: 'STATUS', index: 'STATUS'},
+	            {name: 'ARISE_TIME', index: 'ARISE_TIME'},
+	            {name: 'RESULT', index: 'RESULT'},
+	            {name: 'UNIT_PRICE', index: 'UNIT_PRICE'},
+	            {name: 'TOTAL_PRICE', index: 'TOTAL_PRICE'},
+	            {name: 'FIN_ORG_NAME', index: 'FIN_ORG_NAME'},
 	            {name: 'APPLY_CODE', index: 'APPLY_CODE',hidden:true, width: 0},
 	            {name: 'IS_FINAL', index: 'IS_FINAL',hidden:true, width: 0},
 	            {name: 'COMFIRM_SEQ', index: 'COMFIRM_SEQ',hidden:true, width: 0},
 	            {name: 'RESULT_CODE', index: 'RESULT_CODE', hidden:true,width: 0},
 
-	            {name: 'act', index: 'act', width: 180}
+	            {name: 'act', index: 'act'}
 	            
 	        ],
 	        add: true,

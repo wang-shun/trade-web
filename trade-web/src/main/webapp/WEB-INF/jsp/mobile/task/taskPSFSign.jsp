@@ -82,8 +82,11 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款金额<font color="red">*</font></label>
 						<div class="col-sm-10">
+							<div class="input-group">
 							<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" onkeyup="checkNum(this)"
 								value="<fmt:formatNumber value='${ PSFSign.mortTotalAmount}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
 					</div>
 

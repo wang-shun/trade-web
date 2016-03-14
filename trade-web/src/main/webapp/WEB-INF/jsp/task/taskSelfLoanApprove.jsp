@@ -110,13 +110,7 @@
 						<div class="col-md-2">
 							<input type="text" name="houseNum" id="houseNum" class="form-control" value="${SelfLoan.houseNum}" onkeyup="checkNum2(this)">
 						</div>
-						<label class="col-sm-2 control-label">是否需要报告类评估<font color="red">*</font></label>
-						<div class="col-sm-2">
-							<select class="form-control m-b" name="EvaReportNeedAtLoanRelease" id="EvaReportNeedAtLoanRelease">
-								<option value="true">是</option>
-								<option value="false">否</option>
-							</select>
-						</div>
+						
 					</div>
 					
 					<div class="form-group">

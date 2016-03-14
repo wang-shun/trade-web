@@ -103,9 +103,13 @@
 					   </div>
                        <div class="modal-body">
                        <div class="row">
-                       <form  id="team-form" class="form-horizontal">
-                       
-                       
+                       <form  id="team-form">
+		                       <div class="form-group">
+		                            <label class="col-lg-2 control-label">请选择组别:</label>
+		                            <div class="col-lg-8" id="fontTeam">
+										
+									</div>
+		                       </div>
 			            </form>
 			            </div>
                      </div> 
@@ -132,7 +136,15 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
 	<script src="${ctx}/js/trunk/case/caseDistribute.js"></script>
-
+	<script src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script id="yuCuiFontTeamList" type="text/html">
+		 <select class="form-control" name="yuTeamCode">
+                {{each data as item}}
+                      <option value ="{{item.id}}">{{item.orgName}}</option>
+                {{/each}}
+		</select>
+	</script>	
 
 
 

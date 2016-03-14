@@ -7,10 +7,12 @@ public class ToUnlocatedTask {
 	private String caseCode;
 	private String instCode;
 	private String taskJobCode;
-	private Date crateTime;
+	private Date createTime;
 	private String candidateId;
 	private String taskId;
 	private String taskDfKey;
+	private String name;
+	private String isDelete; 
 
 	/**
 	 * @return the pkid
@@ -72,20 +74,9 @@ public class ToUnlocatedTask {
 		this.taskJobCode = taskJobCode;
 	}
 
-	/**
-	 * @return the crateTime
-	 */
-	public Date getCrateTime() {
-		return crateTime;
-	}
 
-	/**
-	 * @param crateTime
-	 *            the crateTime to set
-	 */
-	public void setCrateTime(Date crateTime) {
-		this.crateTime = crateTime;
-	}
+
+
 
 	/**
 	 * @return the candidateId
@@ -129,6 +120,30 @@ public class ToUnlocatedTask {
 	 */
 	public void setTaskDfKey(String taskDfKey) {
 		this.taskDfKey = taskDfKey;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 }

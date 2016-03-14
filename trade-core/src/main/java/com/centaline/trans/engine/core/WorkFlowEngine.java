@@ -1,4 +1,4 @@
-package com.centaline.trans.engine.service;
+package com.centaline.trans.engine.core;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

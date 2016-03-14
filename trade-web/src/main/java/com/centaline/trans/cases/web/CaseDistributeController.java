@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -56,7 +57,10 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.team.entity.TsTeamProperty;
+import com.centaline.trans.team.entity.TsTeamTransfer;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.team.service.TsTeamTransferService;
+import com.centaline.trans.team.vo.TeamTransferVO;
 import com.centaline.trans.utils.URLAvailability;
 
 @Controller
@@ -97,6 +101,8 @@ public class CaseDistributeController {
 	ToWorkFlowService toWorkFlowService;
 	@Autowired(required = true)
 	TsTeamPropertyService tsTeamPropertyService;
+	@Autowired(required = true)
+	TsTeamTransferService tsTeamTransferService;
 	
 	/**
 	 * 页面初始化
@@ -273,7 +279,7 @@ public class CaseDistributeController {
         	ProcessInstance process = new ProcessInstance();
         	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
         	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-        	/*流程引擎相关*/
+        	//流程引擎相关
         	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
     		List<RestVariable> variables = new ArrayList<RestVariable>();
     	    Iterator it = defValsMap.keySet().iterator();  
@@ -347,15 +353,43 @@ public class CaseDistributeController {
 	    	int reToWorkFlow = toWorkFlowService.insertSelective(toWorkFlow);
     		if(reToWorkFlow == 0)return AjaxResponse.fail("案件工作流表插入失败！");
 
-			/*ToTransPlan record = new ToTransPlan();
+			ToTransPlan record = new ToTransPlan();
 			record.setCaseCode(caseCode);
 			record.setPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DAY_OF_MONTH, 2);
 			record.setEstPartTime(cal.getTime());
-			toTransPlanService.insertSelective(record);*/
+			toTransPlanService.insertSelective(record);
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
+    }
+    
+    /****
+     *  案件转组日志
+     * 
+     *  @param caseCode
+     *  @return
+     */
+    private int addTeamTransferLog(ToCaseInfo toCaseInfo,String orgId)  {
+    		TsTeamTransfer teamTransfer = new TsTeamTransfer();
+        	//未被删除,更新状态
+        	teamTransfer.setIsDelete("0");
+        	teamTransfer.setCaseCode(toCaseInfo.getCaseCode());
+        	teamTransfer.setTeamOrigin(toCaseInfo.getGrpCode());
+        	TsTeamTransfer tsTeamTransferOld =  tsTeamTransferService.getTsTeamTransferByProperty(teamTransfer);
+        	if(tsTeamTransferOld != null) {
+        	  	tsTeamTransferOld.setIsDelete("1");
+            	int updateCount = tsTeamTransferService.updateByPrimaryKeySelective(tsTeamTransferOld);
+        	}
+        	Org org = uamUserOrgService.getOrgById(orgId);
+        	TsTeamTransfer teamTransferNew = new TsTeamTransfer();
+        	teamTransferNew.setCaseCode(toCaseInfo.getCaseCode());
+        	teamTransferNew.setIsDelete("0");
+        	teamTransferNew.setTeamOrigin(toCaseInfo.getGrpCode());
+        	teamTransferNew.setTeamNow(org.getOrgCode());
+        	int addCount = tsTeamTransferService.insertSelective(teamTransferNew);
+    	
+    	    return addCount;
     }
     /**
 	 * 分配组别
@@ -363,6 +397,33 @@ public class CaseDistributeController {
 	 * @throws ParseException 
 	 */
     @RequestMapping(value="/bindCaseTeam")
+    @ResponseBody
+	public AjaxResponse<?>  bindCaseTeam(@RequestBody TeamTransferVO teamTransferVO,HttpServletRequest request) {
+    	
+    	List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(teamTransferVO.getOrgId(), TransJobs.TJYZG.getCode());
+    	if(managerUsers.size()==0||managerUsers==null)return AjaxResponse.fail("未找到交易主管！");
+    	User managerUser= managerUsers.get(0);
+    	List<ToCaseInfo> caseInfoList  = teamTransferVO.getCaseInfoList();
+    	for(ToCaseInfo toCaseInfoNew:caseInfoList){	    
+    		int addTeamTrasLogCount = addTeamTransferLog(toCaseInfoNew, teamTransferVO.getOrgId());
+    		if(addTeamTrasLogCount == 0)return AjaxResponse.fail("案件信息转组记录日志失败！");
+        	//案件信息更新
+    		ToCase toCase = toCaseService.findToCaseByCaseCode(toCaseInfoNew.getCaseCode());
+    		if(toCase != null) {
+    			toCase.setLeadingProcessId(managerUser.getId());
+        		toCase.setOrgId(teamTransferVO.getOrgId());
+        		int reToCase = toCaseService.updateByPrimaryKey(toCase);
+        		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
+    		}
+    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCaseInfoNew.getCaseCode());
+    		toCaseInfo.setRequireProcessorId(managerUser.getId());
+	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
+    		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
+    	}
+    	return AjaxResponse.success("案件信息绑定成功！");
+    }
+    
+   /* @RequestMapping(value="/bindCaseTeam")
     @ResponseBody
 	public AjaxResponse<?>  bindCaseTeam(String[] caseCodes ,String orgId,HttpServletRequest request) {
     	
@@ -383,7 +444,7 @@ public class CaseDistributeController {
     		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
-    }
+    }*/
     /**
  	 * 分配组别
  	 * @return

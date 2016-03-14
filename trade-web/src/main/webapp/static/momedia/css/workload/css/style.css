@@ -1,10 +1,10 @@
 * {margin: 0; padding: 0; box-sizing: border-box; -webkit-border-sizing: border-box;-o-border-sizing: border-box; tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -o-tap-highlight-color: rgba(0, 0, 0, 0); focus-ring-color: rgba(0, 0, 0, 0); }
-
-body { font: 35px/1.428 'Microsoft Yahei'; color: #434343; background: #f3f3f4 }
+html{ font-size:10px;}
+body { font: 1.2rem/1.6 'Microsoft Yahei'; color: #434343; background: #f3f3f4 }
 ul,li{list-style: none;}
-h2,h3{font-size: 100%;font-weight: 400}
+h2,h3{font-size: 3.6rem;font-weight: 400}
 .pull-left{float: left;}.pull-right{float: right;}
-.container{width: 1879px;margin: 10px auto;margin-top:2px\0;overflow-x: auto;}
+.container{width:100%; ; position:absolute; height:100%;overflow-x: auto;}
 .badge{display: inline-block; min-width: 41px; padding: 3px 7px;line-height: 1;margin-right: 10px; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
 .badge-warning{background: #ff8042}
 .badge-danger{background: #ed5565}
@@ -13,7 +13,7 @@ h2,h3{font-size: 100%;font-weight: 400}
 .text-red{color: #ed5565}
 .text-orange{color: #ff8042}
 .text-yellow{color: #ffb400}
-.logo{text-align: right;width: 188px;height: 29px;background: url(../images/logo.png) right center no-repeat;background-size: 100%;-webkit-background-size:100%;-o-background-size:100% 100%; margin-top: 10px;margin-top: 3px\0}
+.logo{text-align: right;width: 188px;height:7.8%;background: url(../images/logo.png) right center no-repeat;background-size: 100%;-webkit-background-size:100%;-o-background-size:100% 100%; margin-top: 10px;margin-top: 3px\0}
 
 /*style for list.html*/
 .col-1,.col-2{width:572px }
@@ -24,7 +24,7 @@ h2,h3{font-size: 100%;font-weight: 400}
 .ibox-yellow{background-image: url(../images/yellow.png);}
 .panel{border:1px solid #ddd;background: #fff;border-radius: 4px;-webkit-border-radius: 4px;}
 .panel-danger .panel-heading{background: #e95354;color: #fff}
-.panel-heading{padding: 10px 15px;border-bottom: 1px solid #ddd;border-top-left-radius: 3px; -webkit-border-top-left-radius: 3px; border-top-right-radius: 3px;-webkit-border-top-right-radius: 3px;color: #ed5565;}
+.panel-heading{padding: 1rem 1.5rem;border-bottom: 1px solid #ddd; font-size:3.6rem;border-top-left-radius: 3px; -webkit-border-top-left-radius: 3px; border-top-right-radius: 3px;-webkit-border-top-right-radius: 3px;color: #ed5565;}
 .panel-body{padding: 15px}
 
 .icon-light{display: inline-block;height: 37px;padding-left: 40px; background: url(../images/light.png) 0 center no-repeat;}
@@ -45,7 +45,7 @@ h2,h3{font-size: 100%;font-weight: 400}
 .yellow{border-bottom-color: #ffb400}
 .warning{color: #fff;position: absolute;bottom: 5px;left: 15px;font-size: 30px}
 .img-circle{border-radius: 50%;-webkit-border-radius: 50%;}
-.media-body{  overflow: hidden;}
+.media-body{ font-size:3.6rem;overflow: hidden;}
 .danger{background:#fdedee url(../images/label.png) center center  no-repeat;}
 .name{line-height: 64px;padding-left: 10px}
 .col-1 .icon-light{margin-top: 5px}
@@ -85,19 +85,19 @@ h2,h3{font-size: 100%;font-weight: 400}
 
 /*style for workload.html*/
 #workload .container{margin-bottom: 0}
-#workload .logo{margin-top: 5px}
-.item-1,.item-2{height: 779px;overflow: hidden;}
-#workload h2{height: 78px;background: url(../images/title.jpg) 0 0 no-repeat #ffa7a8;color: #fff;line-height: 78px;padding-left: 15px;margin-bottom: 10px}
+#workload .logo{margin-top:0}
+.item-1,.item-2{height:100%;overflow: hidden;}
+#workload h2{height: 7.8%;background: url(../images/title.jpg) 0 0 no-repeat #ffa7a8; background-size:auto 100%;color: #fff;padding-left: 15px;margin-bottom: 1rem}
 #workload .panel-body{padding: 0}
-.item-1{width: 480px}
+.item-1{width:25%}
 #workload .img-circle{display: block;  margin-left: 10px;}
 #workload li{overflow: hidden;border-bottom: 1px solid #ddd;}
 .item-1 li{padding: 38px 15px 40px;padding-bottom:37.5px\0;}
 .item-2 li{padding: 5px 15px 5px}
 .item-1 .media-body p{width: 230px;}
 #workload .media-body p{margin-left: 15px;  overflow: hidden;}
-.item-2 .panel{width: 689px;float: left;}
-.item-2 .panel:nth-child(2n+1){margin:0 10px;}
+.item-2 .panel{width: 49%;float: left;}
+.item-2 .panel:nth-child(2n+1){margin:0 1%;}
 .item-2 .panel-heading{font-size: 24px;padding: 4px 15px}
 .item-2 .media-body p,.item-2 .media-body strong{font-size: 18px}
 .item-2 .media-body{line-height: 70px}
@@ -114,3 +114,8 @@ h2,h3{font-size: 100%;font-weight: 400}
 .box-sm .item-2 ul{overflow: hidden;width: 50%;float: left;}
 .box-sm .item-2 ul:first-child{border-right: 1px solid #ddd}
 .box-sm .panel-red,.box-sm .panel-yellow{margin-bottom: 13px}
+
+.img-circle{
+			width: 74px;
+			height: 74px;
+		}

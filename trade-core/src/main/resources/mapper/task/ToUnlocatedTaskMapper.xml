@@ -8,45 +8,47 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="task_Job_Code" jdbcType="VARCHAR" property="taskJobCode" />
     <result column="candidate_Id" jdbcType="VARCHAR" property="candidateId" />
+    <result column="IS_DELETE" jdbcType="CHAR" property="isDelete" />
     <result column="task_Id" jdbcType="VARCHAR" property="taskId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ut.pkid,ut.case_Code, ut.inst_Code, ut.task_Job_Code, ut.CREATE_TIME, ut.candidate_Id, ut.task_Id,ut.TASK_DEFINATION_KEY
+    ut.pkid,ut.case_Code, ut.inst_Code, ut.task_Job_Code, ut.CREATE_TIME, ut.candidate_Id, ut.task_Id,ut.TASK_DEFINATION_KEY,IS_DELETE
   </sql>
   <select id="listUnlocateTask" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_UNLOCATED_TASK as ut
-    where ut.candidate_Id=#{candidateId,jdbcType=VARCHAR}
+    where ut.candidate_Id=#{candidateId,jdbcType=VARCHAR} and IS_DELETE='0'	
   </select>
   
     <select id="findByTaskId" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select 
+    select top 1
     <include refid="Base_Column_List" />
     from sctrans.T_TO_UNLOCATED_TASK as ut
-    where ut.task_id=#{taskId,jdbcType=VARCHAR}
+    where ut.task_id=#{taskId,jdbcType=VARCHAR} and ut.IS_DELETE='0'	
   </select>
     <select id="listUnlocateTaskByManager" resultMap="BaseResultMap" parameterType="com.centaline.trans.task.vo.ToUnlocatedTaskVo">
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.T_TO_CASE as tc
     on ut.case_code=tc.case_code
-    where (candidate_Id is null and tc.org_id=#{orgId,jdbcType=VARCHAR})
-    or ut.candidate_Id=#{candidateId,jdbcType=VARCHAR}
+    where ut.IS_DELETE='0' and ( (candidate_Id is null and tc.org_id=#{orgId,jdbcType=VARCHAR})
+    or ut.candidate_Id=#{candidateId,jdbcType=VARCHAR})
   </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_UNLOCATED_TASK
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
       <delete id="deleteByTaskId" parameterType="java.lang.String" >
-    delete from sctrans.T_TO_UNLOCATED_TASK
+    update sctrans.T_TO_UNLOCATED_TASK set IS_DELETE='1'
     where task_Id = #{taskId,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="com.centaline.trans.task.entity.ToUnlocatedTask" >
-    insert into sctrans.T_TO_UNLOCATED_TASK (case_Code, inst_Code, task_Job_Code, CREATE_TIME, candidate_Id, task_Id,TASK_DEFINATION_KEY
+    insert into sctrans.T_TO_UNLOCATED_TASK (case_Code, inst_Code, task_Job_Code, CREATE_TIME, candidate_Id, task_Id,TASK_DEFINATION_KEY,name
       )
     values (#{caseCode,jdbcType=VARCHAR}, #{instCode,jdbcType=VARCHAR}, 
-      #{taskJobCode,jdbcType=VARCHAR}, #{crateTime,jdbcType=TIMESTAMP}, #{candidateId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR},#{taskDfKey,jdbcType=VARCHAR}
+      #{taskJobCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{candidateId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR},#{taskDfKey,jdbcType=VARCHAR}
+      ,#{name,jdbcType=VARCHAR}
       )
   </insert>
 </mapper>

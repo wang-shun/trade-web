@@ -19,6 +19,8 @@ import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.CasePropertyEnum;
+import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
@@ -26,6 +28,7 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskOperate;
+import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -118,12 +121,20 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		t.setCaseCode(vo.getCaseCode());
 		ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
 		if(mainflow!=null){
-			workFlowManager.deleteProcess(mainflow.getInstCode());
+			try{
+				workFlowManager.deleteProcess(mainflow.getInstCode());
+			} catch (WorkFlowException e) {
+				if(!e.getMessage().contains("statusCode[404]"))throw e;
+			}
 			mainflow.setStatus(WorkFlowStatus.TERMINATE.getCode());
 			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		}
 		//启动新的主流程并记录流程表
 		ToCase cas=toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+		cas.setStatus(CaseStatusEnum.YFD.getCode());
+		//更新Case表
+		toCaseService.updateByCaseCodeSelective(cas);
 		User u=uamUserOrgService.getUserById(cas.getLeadingProcessId());
 		ProcessInstance process = new ProcessInstance();
     	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());

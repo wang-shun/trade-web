@@ -5,55 +5,14 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>屏幕首页</title>
 	<link rel="stylesheet" href="${ctx}/momedia/css/carousel/style.css"> 
 	<link rel="stylesheet" href="${ctx}/momedia/css/fullpage/jquery.fullPage.css">
+	<link rel="stylesheet" href="${ctx}/momedia/css/workload/css/startPage.css">
 	<style>
-		.section { text-align: center; font: 50px "Microsoft Yahei"; color: #fff;}
-		iframe{frameborder:”no”;border:”0″ ;marginwidth:”0″ ;marginheight:”0″; allowtransparency:”yes”; height: 1424px;width: 100%;}
-		#play_mv{
-				height: 1080px;
-			width: 1920px;
-			position: absolute;
-			z-index: 9999;
-		    top: 0%;
-    		margin-top: -0px;
-    		left: 0%;
-    		margin-left: 0px;
-			color: black;
-			display: none;
-		}
-/* 		#div_none{
-		height: 1080px;
-			width: 1920px;
-			position: absolute;
-			z-index: 9998;
-			 background-color:#000000; opacity:0.5; -moz-opacity:0.5; filter:alpha(opacity=50);
 		
-		} */
-		#play_mv div{
-			display: inline-block;
-		border-color: red;
-		border: 2px;
-		}
-		
-		#play_mv div:last-child{
-		margin-left: -81px;;
-    margin-right: -250px
-
-		}
-		p{font-size: 28px;
-			width: 100%;
-		}
-		div{word-break:break-all;}
-		div p{word-break:break-all;}
-		#play_mv div.mask{position:absolute;top:0;right:0; background:rgba(0,0,0,.75);width:100%;height:100%;margin:0;}
-		#play_mv div.cont{position: absolute;z-index: 2;color: #ff0;left: 50%;margin-left: -350px;top:50%;margin-top:-300px;width:700px;height:400px; display:block; background:url(../../../momedia/images/medal.png) 0 0 no-repeat;}
-		#play_mv div.cont p{width: 80%; margin: 170px auto;color: #333;font-family: 'Microsoft Yahei';text-align: center;}
-		#play_mv div.cont em{color:#fa7c00}#play_mv div.cont strong{color:#f00}
-		#play_mv [class^=firework]{position: absolute;z-index: 3;top:50%;margin-top:-200px}
-		.firework1{left:230px;}
-		.firework2{left:1200px}
 	</style>
 </head>
   <body>

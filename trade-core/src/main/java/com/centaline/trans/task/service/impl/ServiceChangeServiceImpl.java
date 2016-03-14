@@ -217,10 +217,8 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 				tsch.setReason(null);
 				toServChangeHistrotyMapper.updateByPrimaryKeySelective(tsch);
 			}
-			List<ToMortgage> toMortgageList = toMortgageMapper.findToMortgageByCaseCodeNoBlank(caseCode);
-			if(CollectionUtils.isNotEmpty(toMortgageList)) {
-				toMortgageMapper.deleteByPrimaryKey(toMortgageList.get(0).getPkid());
-			}
+			//无效表单数据
+			toWorkFlowService.inActiveForm(caseCode);
 			
 			
 			/**

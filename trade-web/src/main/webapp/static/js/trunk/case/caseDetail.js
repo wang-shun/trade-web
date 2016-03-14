@@ -100,7 +100,7 @@ $(document).ready(
 
 						],
 						pager : "#operation_history_pager",
-						sortname:'TASKID',
+						sortname:'ID',
 		    	        sortorder:'desc',
 						viewrecords : true,
 						pagebuttions : true,

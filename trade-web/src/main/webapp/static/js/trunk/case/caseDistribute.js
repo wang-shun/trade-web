@@ -20,8 +20,15 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 20,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ '案件编号', '案件编号', '产证地址', '经纪人', '组别', '区经/区总', '案件状态', '派单时间' ],
+		colNames : [ 'YU_TEAM_CODE','案件编号', '案件编号', '产证地址', '经纪人', '组别', '区经/区总', '案件状态', '派单时间','GRP_CODE' ],
 		colModel : [ {
+			name : 'YU_TEAM_CODE',
+			index : 'YU_TEAM_CODE',
+			align : "center",
+			width : 0,
+			resizable : false,
+			hidden : true
+		},{
 			name : 'CASE_CODE',
 			index : 'CASE_CODE',
 			align : "center",
@@ -58,6 +65,12 @@ $(document).ready(function() {
 			index : 'CREATE_TIME',
 			width : 40
 		},
+		{
+			name : 'AGENT_ORG_CODE',
+			index : 'AGENT_ORG_CODE',
+			width : 0,
+			hidden : true
+		}
 		],
 		multiselect: true,
 		pager : "#pager_list_1",
@@ -135,7 +148,9 @@ function caseDistribute(){
  * 案件转组初始化
  */
 function caseChangeTeam(){
-	var url = "/case/getOrgTeamList";
+	//var url = "/case/getOrgTeamList";
+	//var url = "/setting/getYuCuiTeamList";
+	var url = "/case/getAllTeamList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	
@@ -199,7 +214,7 @@ function showModal(data){
  * @param data
  */
 function showTeamModal(data){
-	var inHtml = '';
+/*	var inHtml = '';
 	inHtml+='<div class="form-group"><label class="col-lg-3 control-label">';
 	inHtml+= '请选择组别：';
 	inHtml+='</label><div class="col-lg-9" style="text-align:left; margin-top:-10px;" >';
@@ -208,8 +223,14 @@ function showTeamModal(data){
 		inHtml+='<input type="radio" name="teamRadio" value="'+n.id+'"/>  '+n.orgName+' </label></div>';
 	})
 	inHtml+='</div></div>';
-	$("#team-form").html(inHtml);
-	$('#team-modal-form').modal("show");
+	$("#team-form").html(inHtml);*/
+	 var d = {
+		data : data	 
+	 }
+	 var fontTeam = template('yuCuiFontTeamList', d); 
+     $("#fontTeam").empty();
+     $("#fontTeam").html(fontTeam);
+	 $('#team-modal-form').modal("show");
 }
 /**
  * 案件分配
@@ -271,24 +292,43 @@ function distributeCase(index){
  * @param index
  */
 function changeCaseTeam(){
-	var orgName =$('input[name="teamRadio"]:checked').parent().text();
+	//var orgName =$('input[name="teamRadio"]:checked').parent().text();
+	var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
 	if(confirm("您是否确认分配给"+orgName+"?")){
 
-    	var orgId =$('input[name="teamRadio"]:checked').val();
+    	//var orgId =$('input[name="teamRadio"]:checked').val();
+		var orgId =$('select[name="yuTeamCode"]').val();
 		var url = "/case/bindCaseTeam";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
-		var caseCodes=$("#table_list_1").jqGrid("getGridParam","selarrrow");
-		var params='&orgId='+orgId+'&caseCodes='+caseCodes;
+		//var caseCodes=$("#table_list_1").jqGrid("getGridParam","selarrrow");
+		//var params='&orgId='+orgId+'&caseCodes='+caseCodes;
 		
+		var caseInfoList = new Array();
+		var ids = $("#table_list_1").jqGrid('getGridParam',"selarrrow");
+		//var ids = jQuery("#table_list_1").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+		   var row = $("#table_list_1").getRowData(ids[i]);
+		   var toCaseInfo = {
+			   caseCode	: row.CASE_CODE  ,
+			   grpCode :  row.YU_TEAM_CODE
+		   }
+		   caseInfoList.push(toCaseInfo);
+		}
+		var teamTransferVO = {
+		   caseInfoList	: caseInfoList,
+		   orgId : orgId
+		}
+		teamTransferVO = $.toJSON(teamTransferVO);
 		$.ajax({
 			cache : false,
 			async:true,
 			type : "POST",
 			url : url,
 			dataType : "json",
+			contentType: "application/json; charset=utf-8" ,
 			timeout: 10000,
-		    data : params, 
+		    data : teamTransferVO, 
 		    beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});

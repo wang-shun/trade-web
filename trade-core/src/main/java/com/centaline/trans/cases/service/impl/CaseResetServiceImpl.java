@@ -12,10 +12,12 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseResetVo;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.service.ToTransPlanService;
 @Service
@@ -50,6 +52,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		
 		cas.setLeadingProcessId(casInfo.getRequireProcessorId());
 		cas.setStatus(CaseStatusEnum.WFD.getCode());
+		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		casInfo.setResDate(null);
 		casInfo.setIsResponsed("0");
 		
@@ -59,11 +62,17 @@ public class CaseResetServiceImpl implements CaseResetService {
 		toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
 		//删除服务表
 		tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
-		
+		//无效掉表单数据
+		workflowService.inActiveForm(vo.getCaseCode());
 		//删除流程引擎
 		if(tfs!=null){
 			for (ToWorkFlow toWorkFlow : tfs) {
-				workflowManager.deleteProcess(toWorkFlow.getInstCode());
+				try {
+					workflowManager.deleteProcess(toWorkFlow.getInstCode());
+				} catch (WorkFlowException e) {
+					if(!e.getMessage().contains("statusCode[404]"))throw e;
+				}
+				
 			}
 		}
 	}

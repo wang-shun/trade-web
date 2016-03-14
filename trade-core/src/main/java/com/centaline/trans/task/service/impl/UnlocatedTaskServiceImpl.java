@@ -94,10 +94,10 @@ public class UnlocatedTaskServiceImpl implements UnlocatedTaskService {
 	private int doLocate(String candidateId, String taskId ) {
 		TaskOperate to = new TaskOperate(taskId, "claim");
 		to.setAssignee(candidateId);
-		TaskVo reVo= workFlowManager.operaterTask(to);
 		ToUnlocatedTask ut=toUnlocatedTaskMapper.findByTaskId(taskId);
-		workFlowManager.doOptTaskPlan(reVo.getTaskDefinitionKey(),ut.getCaseCode());
 		toUnlocatedTaskMapper.deleteByTaskId(taskId);
+		TaskVo reVo= workFlowManager.operaterTask(to);
+		workFlowManager.doOptTaskPlan(ut.getTaskDfKey(),ut.getCaseCode());
 		return 1;
 	}
 
