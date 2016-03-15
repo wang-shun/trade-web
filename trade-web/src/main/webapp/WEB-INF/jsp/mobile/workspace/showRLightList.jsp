@@ -9,16 +9,6 @@
 	<link rel="stylesheet" href="${ctx}/momedia/css/carousel/style.css">
 	<link rel="stylesheet" href="${ctx}/momedia/css/dashbord/style.css">
 	<style type="text/css">
-		.userHead{
-		width: 88px;
-		  height: 88px;
-		  display: inline-block;
-		  border-radius: 50%;
-		  background-size: 88px 130.66px;
-		  vertical-align: middle;
-		  background-image:url(../../../img/a5.png);
-	
-}
 	</style>
 	
 	

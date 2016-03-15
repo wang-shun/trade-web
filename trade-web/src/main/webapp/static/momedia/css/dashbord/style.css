@@ -1,48 +1,48 @@
 * {margin: 0; padding: 0; box-sizing: border-box; -webkit-border-sizing: border-box; tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); focus-ring-color: rgba(0, 0, 0, 0); }
-
-body { font: 35px/1.428 'Microsoft Yahei'; color: #434343; background: #f3f3f4 }
+html{ font-size:10px;}
+body { font: 1.2rem/1.428 'Î¢ÈíÑÅºÚ'; color: #434343; background: #f3f3f4 }
 ul,li{list-style: none;}
 .pull-left{float: left;}.pull-right{float: right;}
-.container{width: 1920px;margin: 10px auto;overflow-x: auto;}
-.col-1,.col-2{width:572px }
-.col-3{width:736px }
-.ibox{width: 572px;height:183px;margin-bottom:10px;text-align: right; background-position: 0 0;background-repeat: no-repeat;}
-.ibox p{color: #fff;margin-right: 20px;line-height: 70px;padding-top: 20px;}
-.ibox-red{background-image: url(../../images/red.png);}
-.ibox-yellow{background-image: url(../../images/yellow.png);}
-.panel{border:1px solid #ddd;background: #fff;border-radius: 4px;-webkit-border-radius: 4px;}
+.container{margin: 10px auto;overflow: hidden;}
+.col-1,.col-2{width:30% }
+.col-3{width:37% }
+.ibox{height:18.3rem;margin-bottom:1rem;text-align: right; background-position: 0 0;background-repeat: no-repeat;}
+.ibox p{color: #fff;margin-right: 2rem;line-height: 7rem;padding-top: 2rem; font-size:3.5rem}
+.ibox-red{background-image: url(../images/red.png);}
+.ibox-yellow{background-image: url(../images/yellow.png);}
+.panel{border:0.1rem solid #ddd;background: #fff;border-radius:0.4rem;-webkit-border-radius: 0.4rem;}
 .panel-danger .panel-heading{background: #e95354;color: #fff}
-.panel-heading{padding: 10px 15px;border-bottom: 1px solid #ddd;border-top-left-radius: 3px; -webkit-border-top-left-radius: 3px; border-top-right-radius: 3px;-webkit-border-top-right-radius: 3px;color: #ed5565;}
-.panel-body{padding: 15px}
-.badge{display: inline-block; min-width: 41px; padding: 3px 7px;line-height: 1;margin-right: 10px; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
+.panel-heading{padding: 1rem 1.5rem;border-bottom:0.1rem solid #ddd;border-top-left-radius:0.3rem; font-size:3.5rem; -webkit-border-top-left-radius:0.3rem; border-top-right-radius:0.3rem;-webkit-border-top-right-radius:0.3rem;color: #ed5565;}
+.panel-body{padding: 1.5rem; font-size:3.5rem;}
+.badge{display: inline-block; min-width: 4.1rem; padding: 0.3rem 0.7rem;line-height: 1;margin-right: 1rem; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
 .badge-warning{background: #ff8042}
 .badge-danger{background: #ed5565}
 .badge-yellow{background: #ffb400}
-.icon-light{display: inline-block;height: 37px;padding-left: 40px; background: url(../../images/light.png) 0 center no-repeat;}
-.icon-person,.icon-date{display: inline-block;height: 32px;padding-left: 40px;color:#959595  }
-.icon-person{background: url(../../images/person.png) 0 center no-repeat;width: 170px;}
-.icon-date{background: url(../../images/date.png) 0 center no-repeat;width:215px;}
-.col-2{margin:0 20px;}
+.icon-light{display: inline-block;height: 37px;padding-left: 4rem; background: url(../images/light.png) 0 center no-repeat;}
+.icon-person,.icon-date{display: inline-block;height: 3.2rem;padding-left: 4rem;color:#959595  }
+.icon-person{background: url(../images/person.png) 0 center no-repeat;width:25%;}
+.icon-date{background: url(../images/date.png) 0 center no-repeat;width:34%;}
+.col-2{margin:0 2rem;}
 .col-2 .panel-body,.col-2 ul,.col-3 .panel-body{padding: 0}
-.col-2 li,.col-3 li{overflow: hidden;border-bottom:1px solid #ddd;padding: 5px 15px 0; }
+.col-2 li,.col-3 li{overflow: hidden;border-bottom:0.1rem solid #ddd;padding:0.5rem 1.5rem 0; font-size:3.5rem;}
 .col-3 li{padding: }
 .col-2 li:last-child,.col-2 li:last-child{border:0;}
-.feed-element{position: relative;width: 98px;  text-align: center;}
-.img-circle + span{position: absolute;bottom: 12px;left: 0;}
-.triangle{display: block;content: '';width: 0;height: 0;position: absolute;bottom: 12px;left: 0; border-bottom: 30px solid #ed5565;border-right: 20px solid transparent;border-left: 20px solid transparent;}
+.feed-element{position: relative;width: 9.8rem;  text-align: center;}
+.img-circle + span{position: absolute;bottom: 1.2rem;left: 0;}
+.triangle{display: block;content: '';width: 0;height: 0;position: absolute;bottom: 12px;left: 0; border-bottom: 3rem solid #ed5565;border-right: 2rem solid transparent;border-left: 2rem solid transparent;}
 .red{border-bottom-color: #ed5565}
 .orange{border-bottom-color: #ff8042}
 .yellow{border-bottom-color: #ffb400}
-.warning{color: #fff;position: absolute;bottom: 5px;left: 15px;font-size: 30px}
+.warning{color: #fff;position: absolute;bottom: 5px;left: 1.5rem;font-size: 3rem}
 .img-circle{border-radius: 50%;-webkit-border-radius: 50%;}
 .media-body{  overflow: hidden;}
-.danger{background:#fdedee url(../../images/label.png) center center  no-repeat;}
-.name{line-height: 64px;padding-left: 10px}
-.col-1 .icon-light{margin-top: 5px}
-.col-2 .icon-light{margin-top: 18px}
-.col-2 .badge{font-size: 25px; min-width: 30px;}
-.col-3 li{padding: 25px 15px;}
-.col-3 li span{display: inline-block;font-size: 30px}
-.col-3 .icon-light{width: 285px}
-.btn{text-decoration: none;display: block; color: #ff7113;border:1px solid #ff7113;border-radius: 5px;line-height: 58px;width: 286px;margin: 20px auto; -webkit-border-radius: 5px;background: #ffeed1; text-align: center;}
-.logo{text-align: right;width: 296px;height: 49px;background: url(../../images/logo.png) right center no-repeat;margin-top: 30px}
+.danger{background:#fdedee url(../images/label.png) center center  no-repeat;}
+.name{line-height: 64px;padding-left: 1rem}
+.col-1 .icon-light{margin-top:0.5rem}
+.col-2 .icon-light{margin-top: 1.8rem}
+.col-2 .badge{font-size: 2.5rem; min-width: 3rem;}
+.col-3 li{padding: 2.5rem 1.5rem;}
+.col-3 li span{display: inline-block;font-size: 3rem}
+.col-3 .icon-light{width:36%}
+.btn{text-decoration: none;display: block; color: #ff7113;border:0.1rem solid #ff7113;border-radius: 0.5rem;line-height: 5.8rem;width: 28.6rem;margin: 2rem auto; -webkit-border-radius:0.5rem;background: #ffeed1; text-align: center;}
+.logo{text-align: right;width: 29.6rem;height: 4.9rem;background: url(../images/logo.png) right center no-repeat;margin-top: 3rem}
