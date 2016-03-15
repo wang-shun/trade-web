@@ -392,6 +392,10 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script>
+	    $(function() {
+	    	getShowAttachment();
+	    })
+	    
 		/**提交数据*/
 		function submit() {
 			if(!checkAttachment()) {
