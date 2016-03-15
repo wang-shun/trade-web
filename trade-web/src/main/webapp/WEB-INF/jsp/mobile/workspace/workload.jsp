@@ -8,11 +8,6 @@
 	<title>屏幕首页</title>
 	<link rel="stylesheet" href="${ctx}/momedia/css/workload/css/style.css">
 	<style type="text/css">
-		.img-circle{
-			width: 74px;
-			height: 74px;
-		}
-
 	</style>
 </head>
   <body id="workload">
