@@ -83,7 +83,6 @@ $(function() {
 	
 	getExplPicByhouseCode();
 	
-	getShowAttachment();
 });
 
 //
