@@ -70,7 +70,7 @@ public class PropertyCortroller {
 	 * @param model
 	 * @param request
 	 * @return  
-	 */
+	 */    
 	@RequestMapping(value="processingList")
 	public String processingList(Model model, ServletRequest request){
 		SessionUser user = uamSessionService.getSessionUser();
