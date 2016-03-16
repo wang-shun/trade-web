@@ -17,6 +17,9 @@ body {
 </head>
 
 <body>
-<h2>${msg }</h2>
+	<h2>产调申请已提交誉萃人工处理，将于24小时内回复 。</h2>
+	<c:forEach items="${userList}" var="item">
+	${item.realName }-<a href="tel:${item.mobile }">${item.mobile }</a> </br>
+	</c:forEach>
 </body>
 </html>

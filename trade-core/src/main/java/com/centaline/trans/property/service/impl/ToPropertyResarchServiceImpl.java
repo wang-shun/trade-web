@@ -1,5 +1,6 @@
 package com.centaline.trans.property.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,14 +45,46 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 	@Override
 	public int recordProperty(ToPropertyResearchVo vo) {
 
-		String caseCode = uamBasedataService.nextSeqVal("CHANDIAO_CODE",
-				new Date());
+		String caseCode = uamBasedataService.nextSeqVal("CHANDIAO_CODE", new Date());
 		vo.setCaseCode(caseCode);
 		ToPropertyResearch tpr = buildPrResearch(vo);
+		vo.setDistrictId(tpr.getPrDistrictId());
+
 		ToPropertyInfo pi = buildPropertyInfo(vo);
 		mapper.insertSelective(tpr);
 		propertyInfoService.insertSelective(pi);
 		return 1;
+	}
+
+	/**
+	 * 获取区域秘书或者各组助理
+	 * 
+	 * @param vo
+	 * @param disId
+	 */
+	@Override
+	public List<User> getZLList(String disId) {
+		if (!StringUtils.isBlank(disId)) {
+			List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(disId, TransJobs.TQYMS.getCode());
+			if (list == null || list.isEmpty()) {
+				if (list == null) {
+					list = new ArrayList<>();
+				}
+				List<Org> orgList = uamUserOrgService.getOrgByParentId(disId);
+				if (orgList != null && !orgList.isEmpty()) {
+					for (Org org : orgList) {
+						List<User> zlList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+								TransJobs.TJYZL.getCode());
+						if (zlList != null && !list.isEmpty()) {
+							list.addAll(zlList);
+						}
+					}
+				}
+
+			}
+			return list;
+		}
+		return null;
 	}
 
 	public ToPropertyInfo buildPropertyInfo(ToPropertyResearchVo vo) {
@@ -64,8 +97,7 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 
 	@Override
 	public boolean hasMapping(String districtCode) {
-		List<TsPrResearchMap> researchMaps = tsPrResearchMapper
-				.selectByDistCode(districtCode);
+		List<TsPrResearchMap> researchMaps = tsPrResearchMapper.selectByDistCode(districtCode);
 		return researchMaps != null && !researchMaps.isEmpty()
 				&& !StringUtils.isBlank(researchMaps.get(0).getYuDistCode());
 	}
@@ -74,15 +106,14 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		ToPropertyResearch record = new ToPropertyResearch();
 
 		User user = uamUserOrgService.getUserByUsername(vo.getUsername());
-		ToPropertyResearch sameOne = mapper.selectByForSamePrCode(vo
-				.getPropertyAddr());
+		ToPropertyResearch sameOne = mapper.selectByForSamePrCode(vo.getPropertyAddr());
 		if (sameOne != null) {
 			record.setSamePRCode(sameOne.getPrCode());
 		}
-		if(user==null){
-			throw new BusinessException("用户名不存在:"+vo.getUsername());
+		if (user == null) {
+			throw new BusinessException("用户名不存在:" + vo.getUsername());
 		}
-		
+
 		String appliant = user.getId();
 
 		record.setPrCode(vo.getCaseCode());
@@ -92,23 +123,25 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		record.setPrChannel(PrChannelEnum.TJJR.getCode());
 		record.setPrStatus(PropertyStatusEnum.CONTACTS.getCode());
 		record.setPrApplyTime(new Date());
-		List<TsPrResearchMap> researchMaps = tsPrResearchMapper
-				.selectByDistCode(vo.getDistrict());
+		List<TsPrResearchMap> researchMaps = tsPrResearchMapper.selectByDistCode(vo.getDistrict());
 		TsPrResearchMap rm = null;
 		if (researchMaps != null && !researchMaps.isEmpty()) {
 			rm = researchMaps.get(0);
 		}
 		if (rm != null && !StringUtils.isBlank(rm.getYuDistCode())) {
 			Org org = uamUserOrgService.getOrgByCode(rm.getYuDistCode());
+			// 秘书 优先 每个组的助理
+			//
 			if (org != null) {
 				record.setPrDistrictId(org.getId());
-/*				List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(
-						org.getId(), TransJobs.TQYMS.getCode());
-				if (users != null && !users.isEmpty()) {
-					User u = users.get(0);
-					
-					record.setPrExecutor(u.getId() + "");
-				}*/
+				/*
+				 * List<User> users =
+				 * uamUserOrgService.getUserByOrgIdAndJobCode( org.getId(),
+				 * TransJobs.TQYMS.getCode()); if (users != null &&
+				 * !users.isEmpty()) { User u = users.get(0);
+				 * 
+				 * record.setPrExecutor(u.getId() + ""); }
+				 */
 			}
 		}
 		return record;

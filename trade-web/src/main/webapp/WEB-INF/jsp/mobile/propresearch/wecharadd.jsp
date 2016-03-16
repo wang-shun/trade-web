@@ -19,6 +19,7 @@ margin-bottom: 12px;
 .checker{  float: none;
   Margin-right: 14px;
   margin-left: 13px;
+  margin-top:12px;
   display: inline-block;}
 .chkblock >div{
   display: block;
@@ -35,7 +36,7 @@ margin-bottom: 12px;
 <form action="${ctx }/mobile/property/box/doAdd" id="m_form" method="post" enctype="application/x-www-form-urlencoded; charset=UTF-8 ">
 <input type="hidden" id="txt_prCat" name="prCat">
 <input type="hidden" name="username" value="${username }">
-	<div class="row" style="margin-top: 0px; text-align: center;" ><img src="${ctx}/momedia/img/yucui_logo.png" width="80%" style="padding-top: 15px;"></div>
+	<div class="row" style="margin-top: 0px; text-align: center;" ><span style="font-size: 38px;display: block;    margin-top: 12px;">人工产调</span></div>
 	<div class="row"style="margin-top: 8px;">
 		<div class="col-lg-12">
 			<aist:dict id="sel_district" name="district"
@@ -52,6 +53,8 @@ margin-bottom: 12px;
 	</div>
 		<div class="row">
 		<div class="col-lg-12 chkblock">
+			<div class="checker">
+		<input id="select_all" type="checkbox"  class="" validate="">&nbsp;&nbsp;&nbsp;&nbsp;全选</div>
 			 <aist:dict id="sel_prCat" name="_prCat" 
 					 display="checkbox" hasEmpty="false"
 					dictType="30009" ligerui='none'></aist:dict>
@@ -100,8 +103,9 @@ margin-bottom: 12px;
 					data:$("#m_form").serialize(),
 					dataType : "json",
 					success : function(data) {
-						if(data.success&&data.success==true){
-							window.location.href=ctx+'/mobile/property/box/toResult';
+						if(data.success&&data.success==true){					
+							
+							window.location.href=ctx+'/mobile/property/box/toResult?districtId='+data.content;
 						}else{
 							if(data.message!=null&&data.message!=''){
 								alert(data.message);
@@ -133,6 +137,9 @@ margin-bottom: 12px;
 					}
 				});
 		}
+		$("#select_all").click(function () {//全选  
+            $("input[name='_prCat']").prop("checked", $(this).prop('checked'));  
+        });  
 	</script>	
 	
 	</content>
