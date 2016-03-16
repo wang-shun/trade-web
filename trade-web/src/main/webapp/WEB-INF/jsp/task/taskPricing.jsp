@@ -89,7 +89,7 @@
 					<input type="hidden" id="pkid" name="pkid" value="${pricing.pkid}">
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">核价时间<font color="red">*</font></label>
-						<div class="col-sm-2 input-group date">
+						<div class="col-sm-2 input-group date readOnly_date">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							<input type="text" class="form-control" name="pricingTime" id="pricingTime"
 								 onfocus="this.blur()" value="<fmt:formatDate  value='${pricing.pricingTime}' type='both' pattern='yyyy-MM-dd'/>">
@@ -238,7 +238,7 @@
 		</div>
 		<div class="ibox-title">
 		<a href="#" class="btn" onclick="save(false)">保存</a>
-		<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+		<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
 		</div>
 		<div id="smsPlatFrom"></div>
 	</div>
@@ -282,8 +282,24 @@
 	<script src="${ctx}/transjs/sms/sms.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
 	<script>
+	var source = "${source}";
+	function readOnlyForm(){
+		$(".readOnly_date").removeClass('date');
+		$(".readOnly_date input").attr('readOnly',true);
+		$("select[readOnlydata=1]").closest('.row').hide();
+		$("[readOnlydata=1]").attr('readonly',true);
+		$("[readOnlydata=1]").each(function(){
+			if($(this).is('a')){
+				$(this).hide();
+			}
+		});
+	}
+	
 		$(document).ready(
 			function() {
+				if('caseDetails'==source){
+					readOnlyForm();
+				}
 				$("#sendSMS").click(function(){
 					var t='';
 					var s='/';

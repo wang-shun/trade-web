@@ -985,6 +985,7 @@ function checkReportAtt(){
 var stepIndex = 0;
 
 $(document).ready(function () {
+	
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
@@ -1127,7 +1128,9 @@ $(document).ready(function () {
 	 	},
 	 	onFinished: function (event, currentIndex)
 	    {
-	 		completeMortgage($("#completeForm"));
+	 		if('caseDetails'!=source){
+	 			completeMortgage($("#completeForm"));
+	 		}
 	    }
 	});
 	
@@ -1197,7 +1200,9 @@ $(document).ready(function () {
  	},
  	onFinished: function (event, currentIndex)
     {
- 		completeMortgage($("#completeForm1"));
+ 		if('caseDetails'!=source){
+ 			completeMortgage($("#completeForm1"));
+ 		}
     }
 });
 //    $("#finOrgCode").change(function(){

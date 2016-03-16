@@ -248,6 +248,9 @@
                    			 <shiro:hasPermission name="TRADE.CASE.RESET">
 		                   	 	<a role="button" id="caseResetes" class="btn btn-primary btn-xm btn-activity" href="javascript:caseReset()">案件重置</a>
 		                   	 </shiro:hasPermission>
+		                   	 
+		                   	 <a role="button" id="showChangeFormModal" class="btn btn-primary btn-xm btn-activity" href="javascript:showChangeFormModal()">修改表单</a>
+		                   	 
                             </div>
                         </div>
                     </div>
@@ -484,7 +487,47 @@
                  </form>
              </div>    
             <!-- end 变更合作对象   --> 
-             
+              <!-- 修改表单数据-->
+            <div id="changeForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:1000px">
+	             <form  id="changeForm-form" class="form-horizontal" method="post" target="_blank">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="plan-modal-title">
+						      选择要修改的表单项目
+						   </h4>
+					   </div>
+                       <div class="modal-body">
+                       <div class="row">
+      	                 <div class="col-lg-3">
+	                       		<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+	                       		<input name="source" value="caseDetails" type="hidden">
+	                       		<select id="sel_changeFrom" name="changeFrom" class="form-control m-b" style="padding-bottom: 3px;height: 45.003px;">
+	                       			<c:forEach items="${myTasks}"  var="item">
+	                       			<option value="${item.taskDefinitionKey }">${item.name }</option>
+	                       			</c:forEach>
+	                       		</select>
+                       		</div>
+			           
+			            </div>
+                     </div> 
+                     <div class="modal-footer">
+                     
+			           
+			            <button type="button" class="btn btn-default"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="submit" class="btn btn-primary" >
+			                                提交
+			            </button>
+                     </div>
+                     </div>
+                      </form>
+                 </div>
+             </div> 
              <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
