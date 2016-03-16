@@ -75,7 +75,7 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 					for (Org org : orgList) {
 						List<User> zlList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 								TransJobs.TJYZL.getCode());
-						if (zlList != null && !list.isEmpty()) {
+						if (zlList != null && !zlList.isEmpty()) {
 							list.addAll(zlList);
 						}
 					}

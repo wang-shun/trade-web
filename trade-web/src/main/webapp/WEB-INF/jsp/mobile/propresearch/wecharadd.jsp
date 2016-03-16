@@ -37,7 +37,7 @@ margin-bottom: 12px;
 <input type="hidden" id="txt_prCat" name="prCat">
 <input type="hidden" name="username" value="${username }">
 	<div class="row" style="margin-top: 0px; text-align: center;" ><span style="font-size: 38px;display: block;    margin-top: 12px;">人工产调</span></div>
-	<div class="row"style="margin-top: 8px;">
+	<div class="row"style="margin-top: 16px;">
 		<div class="col-lg-12">
 			<aist:dict id="sel_district" name="district"
 					clazz="form-control" display="select" hasEmpty="false"
