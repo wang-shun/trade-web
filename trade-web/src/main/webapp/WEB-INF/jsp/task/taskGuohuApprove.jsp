@@ -407,7 +407,7 @@
 		/**保存数据*/
 		function save() {
 			var jsonData = $("#guohuApproveForm").serializeArray();
-			deleteAndModify();
+			/**deleteAndModify();*/
 			$.ajax({
 				cache : true,
 				async : false,//false同步，true异步
