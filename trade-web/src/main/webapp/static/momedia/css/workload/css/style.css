@@ -45,7 +45,7 @@ h2,h3{font-size: 3.6rem;font-weight: 400}
 .yellow{border-bottom-color: #ffb400}
 .warning{color: #fff;position: absolute;bottom:0.5rem;left:1.5rem;font-size:3rem}
 .img-circle{border-radius: 50%;-webkit-border-radius: 50%;}
-.media-body{ font-size:2.4rem;overflow: hidden;}
+.media-body{ font-size:2.4rem;overflow: hidden; position: relative;}
 .danger{background:#fdedee url(../images/label.png) center center  no-repeat;}
 .name{line-height:6.4rem;padding-left:1rem}
 .col-1 .icon-light{margin-top:0.5rem}
@@ -95,12 +95,13 @@ h2,h3{font-size: 3.6rem;font-weight: 400}
 .item-1 li{padding:3.8rem 1.5rem 4rem;padding-bottom:3.75rem\0;}
 .item-2 li{padding:0.5rem 1.5rem 0.5rem;}
 .item-1 .media-body p{width:23rem;}
-#workload .media-body p{margin-left: 1.5rem;  overflow: hidden;}
+#workload .media-body p{margin-left: 1.5rem;  overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.media-body strong{position: absolute; right: 0; top: 0;}
 .item-2 .panel{width: 49%;float: left;}
 .item-2 .panel:nth-child(2n+1){margin:0 1%;}
 .item-2 .panel-heading{font-size: 2.4rem;padding:0.4rem 1.5rem;}
 .item-2 .media-body p,.item-2 .media-body strong{font-size: 1.8rem;}
-.item-2 .media-body{line-height: 7rem}
+.item-2 .media-body{line-height: 7rem;}
 .panel-red,.panel-yellow{margin-bottom:1rem}
 .panel-red .panel-heading{color: #94504f;border-bottom-color:#f7e7e8 }
 .panel-yellow .panel-heading{color: #b48638;border-bottom-color:#b48638;background:#fdf8e4; }
@@ -119,4 +120,5 @@ h2,h3{font-size: 3.6rem;font-weight: 400}
 			width:7.4rem;
 			height: 7.4rem;
 		}
+
 		
