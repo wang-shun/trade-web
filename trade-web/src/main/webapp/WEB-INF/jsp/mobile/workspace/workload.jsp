@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="${ctx}/momedia/css/workload/css/style.css">
+	<link rel="stylesheet" href="../../../momedia/css/workload/css/style.css">
 	<style type="text/css">
 	</style>
 </head>
@@ -82,8 +82,8 @@
             
         </div>
    
-	<script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/template.js" type="text/javascript" ></script>
+	<script src="../../../momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
 	    <script id="rankDetils" type= "text/html">
 			{{if data.length>0}}
 				{{each data as item index}}
@@ -143,7 +143,7 @@
 		}
 		function loadData(){
 			$.ajax({
-				url : ctx+"/mobile/dashboard/box/workloadData",
+				url : "../../../mobile/dashboard/box/workloadData",
 				method:"post",
 				data: {orgId: orgId},  
 				dataType:"json",

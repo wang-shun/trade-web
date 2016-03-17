@@ -130,6 +130,7 @@ public class MortgageController {
 		toTransPlan.setEstPartTime(estPartTime);
 		toMortgage.setIsDelegateYucui("1");
 		toTransPlanService.updateTransPlan(toTransPlan);
+		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -148,6 +149,7 @@ public class MortgageController {
 		toTransPlan.setPartCode("LoanRelease");
 		toTransPlan.setEstPartTime(estPartTime==null?toMortgage.getLendDate():estPartTime);
 		toTransPlanService.updateTransPlan(toTransPlan);
+		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -202,6 +204,9 @@ public class MortgageController {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setPartCode(processInstanceVO.getPartCode());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}
 		toApproveRecordService.saveToApproveRecord(toApproveRecord);
 		
 		/*流程引擎相关*/

@@ -76,7 +76,7 @@
 					<input type="hidden" id="pkid" name="pkid" value="${PSFApprove.pkid}">
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">审批时间</label>
-						<div class="input-group date" style="margin-left: 197px;">
+						<div class="input-group date readOnly_date" style="margin-left: 197px;">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							<input type="text" class="form-control" id="apprDate" name="apprDate" style="width:127px;" 
 								value="<fmt:formatDate  value='${PSFApprove.apprDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
