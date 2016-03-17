@@ -75,13 +75,19 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款总额<font color="red">*</font></label>
 						<div class="col-md-2">
+						<div class="input-group">
 							<input type="text" name="mortTotalAmount" id="mortTotalAmount" class="form-control"  onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${SelfLoan.mortTotalAmount}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${SelfLoan.mortTotalAmount/10000}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
 						<label class="col-sm-2 control-label">商贷部分金额<font color="red">*</font></label>
 						<div class="col-md-2">
+							<div class="input-group">
 							<input type="text" name="comAmount" id="comAmount" class="form-control" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${SelfLoan.comAmount}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${SelfLoan.comAmount/10000}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
 						<label class="col-sm-2 control-label">商贷部分年限<font color="red">*</font></label>
 						<div class="col-md-2">
@@ -94,11 +100,15 @@
 						<div class="col-md-2">
 							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)" 
 								value="<fmt:formatNumber value='${SelfLoan.comDiscount}' type='number' pattern='#0.00' />">
+
 						</div>
 						<label class="col-sm-2 control-label">公积金贷款金额</label>
 						<div class="col-md-2">
+							<div class="input-group">
 							<input type="text" name="prfAmount" id="prfAmount" class="form-control" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${SelfLoan.prfAmount}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${SelfLoan.prfAmount/10000}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
 						<label class="col-sm-2 control-label">公积金贷款年限</label>
 						<div class="col-md-2">
