@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="${ctx}/momedia/css/rank/css/style.css">
+	<link rel="stylesheet" href="../../..//momedia/css/rank/css/style.css">
 	<style type="text/css">
 		.img-circle{
 			width: 74px;
@@ -284,8 +284,8 @@
 		</div>
 		<div class="logo pull-right"></div>
 	</div>
-	<script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/template.js" type="text/javascript" ></script>
+	<script src="../../..//momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
 	    <script id="rankDetils" type= "text/html">
  			{{if data!=null}}
 				{{each data as item index}}
@@ -337,7 +337,7 @@
 		}
 		function loadData(){
 			$.ajax({
-				url : ctx+"/mobile/dashboard/box/getRank",
+				url : "../../../mobile/dashboard/box/getRank",
 				method:"post",
 				dataType:"json",
 				success : function(data) {

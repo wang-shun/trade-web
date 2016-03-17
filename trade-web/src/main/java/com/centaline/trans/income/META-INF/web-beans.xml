@@ -12,12 +12,13 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
-	<!-- 跨应用服务 -->
+	<!-- 跨应用服务	 -->
 	<bean id="subCommissionJob" class="com.centaline.trans.income.remote.SubCommissionJob"/>
 	<bean name="/remote/SubCommissionJob" 
 		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 	     <property name="service" ref="subCommissionJob"/>
 	     <property name="serviceInterface" value="com.aist.scheduler.execution.remote.Job"/>
 	</bean>
+
 	
 </beans>
