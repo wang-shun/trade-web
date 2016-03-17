@@ -6,6 +6,7 @@ import java.util.Map;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.SignalEvent;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -50,7 +51,7 @@ public interface WorkFlowManager {
 	 * @param tq
 	 * @return
 	 */
-	public abstract PageableVo listHistTasks(TaskQuery tq);
+	public abstract PageableVo listHistTasks(TaskHistoricQuery tq);
 
 	public abstract TaskVo operaterTask(TaskOperate taskOperate);
 

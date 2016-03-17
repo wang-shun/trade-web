@@ -19,6 +19,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.service.FindUserLogic;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -96,7 +97,7 @@ public class FindUserLogicImpl implements FindUserLogic {
 		} else {
 			groups = new String[] { groupId };
 		}
-		TaskQuery tq = new TaskQuery(processInstanceId, true);
+		TaskHistoricQuery tq = new TaskHistoricQuery();
 		tq.setTaskDefinitionKey(taskDefinitionKey);
 		tq.setFinished(true);
 		tq.setProcessInstanceId(processInstanceId);

@@ -64,6 +64,7 @@ import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -606,9 +607,10 @@ public class CaseDetailController {
 		}
 		if(toWorkFlow!=null){
 			SessionUser sessionUser = uamSessionService.getSessionUser();
-			TaskQuery tq = new TaskQuery();
+			TaskHistoricQuery tq = new TaskHistoricQuery();
 			tq.setProcessInstanceId(toWorkFlow.getInstCode());
-			tq.setAssignee(sessionUser.getUsername());
+			tq.setTaskAssignee(sessionUser.getUsername());
+			tq.setFinished(true);
 			//本人做的任务
 			request.setAttribute("myTasks", workFlowManager.listHistTasks(tq).getData());
 		}

@@ -47,7 +47,7 @@ margin-bottom: 12px;
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<input class="form-control" type="text" name="propertyAddr"
+			<input class="form-control" type="text" name="propertyAddr" id="propertyAddr"
 				placeholder="产调地址">
 		</div>
 	</div>
@@ -89,12 +89,17 @@ margin-bottom: 12px;
 		});
 		
 		function formSubmit(){
+
 			var prCat='';
 				$("#m_form").find("input[name='_prCat']:checked").each(function(e){
 					prCat+=($(this).closest('div').parent().text()+"/");
 				});
 				if(prCat!=''){
 					prCat=prCat.substring(0,prCat.length-1);
+				}else{
+					alert('至少选择一项产调项目！');
+					$.unblockUI();
+					return false;
 				}
 				$("#txt_prCat").val(prCat);
 				$.ajax({
@@ -120,6 +125,16 @@ margin-bottom: 12px;
 		
 		
 		function formCheck(){
+			if($("#propertyAddr").val()==''){
+				alert('请输入产调地址！');
+				$.unblockUI();
+				return false;
+			}
+			if($("#m_form").find("input[name='_prCat']:checked").size()==0){
+				alert('至少选择一项产调项目！');
+				$.unblockUI();
+				return false;
+			}
 			var district=$("#sel_district").val();
 				$.ajax({
 					url : ctx + "/mobile/property/box/hasMapping",
