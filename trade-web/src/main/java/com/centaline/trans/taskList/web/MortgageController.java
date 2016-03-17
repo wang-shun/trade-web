@@ -193,6 +193,9 @@ public class MortgageController {
 	@ResponseBody
 	public Result submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, 
 			ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String partCode) {
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*保存流失申请 审核记录*/
@@ -204,9 +207,7 @@ public class MortgageController {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setPartCode(processInstanceVO.getPartCode());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
-		if(toMortgage.getMortTotalAmount()!=null){
-			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
-		}
+		
 		toApproveRecordService.saveToApproveRecord(toApproveRecord);
 		
 		/*流程引擎相关*/
