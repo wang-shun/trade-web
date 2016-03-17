@@ -110,6 +110,8 @@ function addAttachmentReadLog(ctx,ctmCode,caseCode,attachName,attachPath) {
 		}
 	});
 	
-	window.open(attachPath);
+	// window.open(attachPath);
+	var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
+	window.open(encodeURI(encodeURI(url)));
 }
 
