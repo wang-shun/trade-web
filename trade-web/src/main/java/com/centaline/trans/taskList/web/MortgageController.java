@@ -180,6 +180,16 @@ public class MortgageController {
 	@ResponseBody
 	public Boolean submitSelfLoanApprove(HttpServletRequest request, ToMortgage toMortgage,
 			String taskId, String processInstanceId) {
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}
+		if(toMortgage.getComAmount()!=null){
+			toMortgage.setComAmount(toMortgage.getComAmount().multiply(new BigDecimal(10000)));
+		}
+		if(toMortgage.getPrfAmount()!=null){
+			toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000)));
+		}
+		
 		toMortgageService.saveToMortgage(toMortgage);
 
 		/*流程引擎相关*/
