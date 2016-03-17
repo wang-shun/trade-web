@@ -177,12 +177,12 @@ public class TaskController {
 	
     @RequestMapping(value="/{taskitem}")   
     public String taskPageRoute(Model model, HttpServletRequest request,@PathVariable String taskitem,
-    		String caseCode, String taskId, String instCode) {
+    		String caseCode, String taskId, String instCode,String source) {
     	request.setAttribute("taskId", taskId);
     	request.setAttribute("processInstanceId", instCode);
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("taskitem", taskitem);
-		
+		request.setAttribute("source", source);
 		// 根据caseCode 去查询 ctmCode  作者：zhangxb16
 		String ctmCode=null;
 		ToCaseInfo caseinfo=tocaseInfoService.findToCaseInfoByCaseCode(caseCode);
