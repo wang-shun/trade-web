@@ -4,9 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -612,7 +614,7 @@ public class CaseDetailController {
 			tq.setTaskAssignee(sessionUser.getUsername());
 			tq.setFinished(true);
 			//本人做的任务
-			request.setAttribute("myTasks", workFlowManager.listHistTasks(tq).getData());
+			request.setAttribute("myTasks", taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData()));
 		}
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
@@ -631,6 +633,15 @@ public class CaseDetailController {
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
+	}
+	private List<TaskVo>taskDuplicateRemoval(List<TaskVo> oList){
+		Map<String, TaskVo>hashMap=new HashMap<>();
+		/*hashMap=oList.stream().collect(Collectors.toMap(TaskVo::getTaskDefinitionKey, (p) -> p));*/
+		for (TaskVo taskVo : oList) {
+			hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
+		}
+		List<TaskVo>result=new ArrayList<>(hashMap.values());
+		return result;
 	}
 
 	/**
