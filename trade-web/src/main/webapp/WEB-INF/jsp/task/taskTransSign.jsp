@@ -494,6 +494,7 @@ if("${idList}" != "") {
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
+										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
