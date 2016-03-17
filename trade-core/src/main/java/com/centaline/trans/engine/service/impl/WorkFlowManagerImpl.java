@@ -22,6 +22,7 @@ import com.centaline.trans.engine.WorkFlowConstant;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.SignalEvent;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.core.WorkFlowEngine;
@@ -423,7 +424,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public PageableVo listHistTasks(TaskQuery tq) {
+	public PageableVo listHistTasks(TaskHistoricQuery tq) {
 		Map<String, String> map = null;
 		try {
 			map = BeanToMapUtils.convertBean(tq);
