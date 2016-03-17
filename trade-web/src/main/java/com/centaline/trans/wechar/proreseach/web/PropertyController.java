@@ -45,12 +45,8 @@ public class PropertyController {
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
 			throws ServletException, IOException {
-		System.out.println("req_uri:" + request.getRequestURI());
-		System.out.println("ref" + request.getHeader("Referer"));
-		if(1==1){
-			request.setAttribute("username", "mahc");
-			return "mobile/propresearch/wecharadd";
-		}
+		//System.out.println("req_uri:" + request.getRequestURI());
+		//System.out.println("ref" + request.getHeader("Referer"));
 		if (code == null) {
 			String url = OAuth2Util.GetCode();
 			response.sendRedirect(url);
