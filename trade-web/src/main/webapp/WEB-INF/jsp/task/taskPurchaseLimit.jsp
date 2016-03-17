@@ -94,12 +94,14 @@
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="realPlsTime" style="width:127px;"
 									name="realPlsTime" value="<fmt:formatDate  value='${purchaseLimit.realPlsTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-						
-						<!-- <div class="col-sm-10"><input type="text" class="form-control"></div>		 -->
-						<label class="col-sm-1 control-label">备注</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" id="comment" name="comment" value="${purchaseLimit.comment}">
 						</div>
+						<!-- <div class="col-sm-10"><input type="text" class="form-control"></div>		 -->
+						
+						<div class="col-sm-10 control-label" style="margin-left:50px;">
+							<label class="col-sm-1 control-label">备注</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="comment" name="comment" value="${purchaseLimit.comment}">
+							</div>
 						</div>
 					</div>
 
