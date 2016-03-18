@@ -19,6 +19,7 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
+import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -39,6 +40,8 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
+	@Autowired
+	private AwardBaseService awardBaseService;
 	
 	@Override
 	public boolean saveToHouseTransfer(ToHouseTransfer toHouseTransfer) {
@@ -173,7 +176,8 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
 		/*保存过户申请*/
 		saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
-		
+		/*佣金分配*/
+		awardBaseService.doAwardCalculate(toHouseTransfer, processInstanceId);
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());	
