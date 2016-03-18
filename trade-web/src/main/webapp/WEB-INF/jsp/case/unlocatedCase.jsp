@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
@@ -107,7 +108,7 @@ width:160px;
 									<div class="col-md-10">
 											<input type="text" class="span12 tbsporg" id="radioOrgName" name="radioOrgName" readonly="readonly" 
 												   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-												   startOrgId:'1D29BB468F504774ACE653B946A393EE', orgType:'',departmentType:'',departmentHeriarchy:'',
+												   startOrgId:'${nonBusinessOrg.id}', orgType:'',departmentType:'',departmentHeriarchy:'',
 												   chkStyle:'radio',callBack:radioOrgSelectCallBack,
 												   expandNodeId:''})" />
 											<input class="m-wrap " type="hidden" id="oriGrpId" name="oriGrpId"> 
@@ -165,7 +166,19 @@ width:160px;
                        <div class="modal-body">
                        <div class="row">
                        <form  id="team-form" class="form-horizontal">
-                       
+                       		<div class="col-lg-12">
+								<div class="form-group ">
+									<label class="col-md-6">请选择片区：</label>
+									<div class="col-md-6">
+											<input type="text" class="span12 tbsporg" id="radioOrgName1" name="radioOrgName1" readonly="readonly" 
+												   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+												   startOrgId:'${nonBusinessOrg.id}', orgType:'',departmentType:'',departmentHeriarchy:'',
+												   chkStyle:'radio',callBack:radioOrgSelectCallBack1,
+												   expandNodeId:''})" />
+											<input class="m-wrap " type="hidden" id="oriGrpId1" name="oriGrpId1"> 
+									</div>
+								</div>
+							</div>
                        
 			            </form>
 			            </div>

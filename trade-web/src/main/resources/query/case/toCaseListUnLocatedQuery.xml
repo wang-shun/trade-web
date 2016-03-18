@@ -48,7 +48,7 @@
 						A.IMPORT_TIME,
 						--C.SELLER,
 						E.PROPERTY_ADDR,
-            C.ORG_NAME,
+            A.GRP_NAME as ORG_NAME,
             F.real_name AS QYJL,
             G.real_name AS QYZJ,
             ISNULL(F.real_name,G.real_name) AS LEADER

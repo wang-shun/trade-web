@@ -9,7 +9,8 @@ package com.centaline.trans.common.enums;
 public enum DepTypeEnum {
 	TYCZB("yucui_headquarter", "誉萃总部 "),
 	TYCTEAM("yucui_team", "组别"),
-	TYCQY("yucui_district", "区域");
+	TYCQY("yucui_district", "区域"),
+	BUSIAR("BUSIAR","片区");
     
     private String name;
 
