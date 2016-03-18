@@ -1,5 +1,5 @@
 * {margin: 0; padding: 0; box-sizing: border-box; -webkit-border-sizing: border-box; tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); focus-ring-color: rgba(0, 0, 0, 0); }
-html{ font-size:5px;}
+html{ font-size:1px;}
 body { font: 1.2rem/1.428 'Î¢ÈíÑÅºÚ'; color: #434343; background: #f3f3f4 }
 ul,li{list-style: none;}
 .pull-left{float: left;}.pull-right{float: right;}
@@ -35,11 +35,11 @@ ul,li{list-style: none;}
 .red{border-bottom-color: #ed5565}
 .orange{border-bottom-color: #ff8042}
 .yellow{border-bottom-color: #ffb400}
-.warning{color: #fff;position: absolute;bottom: 5px;left: 1.5rem;font-size: 3rem}
-.img-circle{border-radius: 50%;-webkit-border-radius: 50%; width:5rem;height: 5rem;}
+.warning{color: #fff;position: absolute;bottom:0.5rem;left: 1.5rem;font-size: 3rem}
+.img-circle{border-radius: 50%;-webkit-border-radius: 50%; width:4rem;height: 4rem;}
 .media-body{  overflow: hidden;}
 .danger{background:#fdedee url(../images/label.png) center center  no-repeat;}
-.name{line-height: 64px;padding-left: 1rem}
+.name{line-height: 6.4rem;padding-left: 1rem}
 .col-1 .icon-light{margin-top:0.5rem}
 .col-2 .icon-light{margin-top: 1.8rem}
 .col-2 .badge{font-size: 2.5rem; min-width: 3rem;}

@@ -7,8 +7,6 @@
 	<meta charset="utf-8">
 	<title>屏幕首页</title>
 	<link rel="stylesheet" href="../../../momedia/css/workload/css/style.css">
-	<style type="text/css">
-	</style>
 </head>
   <body id="workload">
         <div class="container">
@@ -16,7 +14,7 @@
                 区域：${org.orgName }
             </h2>
             <!-- 委派單數=4 -->
-            <div style="display:block;height:82.35%;overflow:hidden;" id="div_main">
+            <div id="div_main">
             	<div class="item-1 pull-left">
                 <div class="panel panel-danger">
                     <div class="panel-heading">
@@ -72,13 +70,16 @@
                        
                     </div>
                 </div>
+                <div class="logo pull-right">
             </div>
             </div>
+            
+            </div>
+            
             <!-- /委派單數=4 -->
 
            
-            <div class="logo pull-right">
-            </div>
+            
             
         </div>
    

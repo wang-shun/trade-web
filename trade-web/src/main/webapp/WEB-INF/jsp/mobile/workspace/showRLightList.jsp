@@ -8,9 +8,6 @@
 	<title>屏幕首页</title>
 	<link rel="stylesheet" href="../../../momedia/css/carousel/style.css">
 	<link rel="stylesheet" href="../../../momedia/css/dashbord/style.css">
-	<style type="text/css">
-	</style>
-	
 	
 </head>
 <body>
