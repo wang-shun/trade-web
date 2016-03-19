@@ -13,7 +13,9 @@
 		<module>trade-web</module>
 	</modules>
 	
-	<scm>git@git.centaline.com:trade-group/trade-web.git</scm>
+	<scm>
+	<developerConnection>git@git.centaline.com:trade-group/trade-web.git</developerConnection>
+	</scm>
     
     <repositories>
         <repository>
