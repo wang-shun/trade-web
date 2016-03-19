@@ -107,7 +107,7 @@
 					<input type="hidden" id="pkid" name="pkid" value="${tgpb.pkid}">
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">实际领证时间<font color="red">*</font></label>
-						<div class="input-group date" style="margin-left: 197px;">
+						<div class="input-group date readOnly_date" style="margin-left: 197px;">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="realPropertyGetTime" name="realPropertyGetTime" onfocus="this.blur()"
 									value="<fmt:formatDate  value='${tgpb.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>"  style="width:836px;">
@@ -242,7 +242,7 @@
 		
 		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a>
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
 		</div>
 	</div>
 
@@ -288,8 +288,23 @@
 
 
 	<script>
+	var source = "${source}";
+	function readOnlyForm(){
+		$(".readOnly_date").removeClass('date');
+		$(".readOnly_date input").attr('readOnly',true);
+		$("select[readOnlydata=1]").closest('.row').hide();
+		$("[readOnlydata=1]").attr('readonly',true);
+		$("[readOnlydata=1]").each(function(){
+			if($(this).is('a')){
+				$(this).hide();
+			}
+		});
+	}
 		$(document).ready(
 			function() {
+				if('caseDetails'==source){
+					readOnlyForm();
+				}
 				// Examle data for jqGrid
 				$("#reminder_list").jqGrid({
 					url:"${ctx}/quickGrid/findPage",

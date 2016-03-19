@@ -2,9 +2,35 @@
  * 案件详情
  * @wanggh
  */
-
+Array.prototype.contains = function(obj){
+	 var i = this.length;
+     while (i--) {
+         if (this[i] === obj) {
+         return true;
+         }
+     }
+     return false;
+};
+var changeTaskList=['TransSign','PurchaseLimit','Pricing','TaxReview','LoanClose','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
+                    'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
 $(document).ready(
 		function() {
+			$("#sel_changeFrom option").each(function(){
+				var _this=$(this);
+				if(!changeTaskList.contains(_this.val())){
+					_this.remove();
+				}
+			});
+			$("#sel_changeFrom").change(function(){
+				$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+			});
+			$("#sel_changeFrom").change();
+			$("#changeForm-form").submit(function(){
+				$('#changeForm-modal-form').modal("hide");
+			});
+			
+			
+			
 			//案件挂起
 			buttonActivity();
 			
@@ -875,6 +901,9 @@ function showTeamModal(data){
 	inHtml+='</div></div>';
 	$("#team-form").html(inHtml);
 	$('#team-modal-form').modal("show");
+}
+function showChangeFormModal(){
+	$('#changeForm-modal-form').modal("show");
 }
 /**
  * 案件转组

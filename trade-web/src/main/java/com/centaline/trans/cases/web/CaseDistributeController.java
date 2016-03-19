@@ -103,7 +103,7 @@ public class CaseDistributeController {
 	TsTeamPropertyService tsTeamPropertyService;
 	@Autowired(required = true)
 	TsTeamTransferService tsTeamTransferService;
-	
+
 	/**
 	 * 页面初始化
 	 * @return String    返回类型
@@ -134,7 +134,8 @@ public class CaseDistributeController {
 	 */
 	@RequestMapping(value="unlocatedCase")
 	public String unlocatedCase(Model model, ServletRequest request){
-		//TODO
+		Org o= uamUserOrgService.getOrgByCode("033F275");
+		model.addAttribute("nonBusinessOrg", o);
 		return "case/unlocatedCase";
 	}
 
@@ -467,34 +468,25 @@ public class CaseDistributeController {
    	 */
        @RequestMapping(value="/bindUnLocatedCaseTeam")
        @ResponseBody
-   	public AjaxResponse<?>  bindUnLocatedCaseTeam(String[] caseCodes ,String orgId,HttpServletRequest request) {
-       	
-       	List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZG.getCode());
-       	if(managerUsers.size()==0)return AjaxResponse.fail("未找到交易主管！");
-       	User managerUser= managerUsers.get(0);
-       	for(String caseCode:caseCodes){	    
-	    	ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-	    	ToCase oldCase = toCaseService.findToCaseByCaseCode(caseCode);
-	    	if(oldCase!=null&&oldCase.getPkid()!=null)return AjaxResponse.fail("请不要进行重复提交");
-
-           	//案件信息更新
-       		ToCase toCase = new ToCase();
-       		toCase.setLeadingProcessId(managerUser.getId());
-       		toCase.setOrgId(orgId);
-       		toCase.setCaseCode(caseCode);
-       		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-       		toCase.setCreateTime(new Date());
-       		toCase.setCtmCode(toCaseInfo.getCtmCode());
-       		toCase.setStatus(CaseStatusEnum.WFD.getCode());
-       		int reToCase = toCaseService.insertSelective(toCase);
-       		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
-   	    	toCaseInfo.setRequireProcessorId(managerUser.getId());
-   	    	toCaseInfo.setDispatchTime(new Date());
-   	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
-       		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
+   	public AjaxResponse<?>  bindUnLocatedCaseTeam(String[] caseCodes ,String orgId,String orgName,HttpServletRequest request) {
+    	 if(orgId==null){
+    		 return AjaxResponse.fail("请选择一个片区！");
+    	 }  
+    	Org org= uamUserOrgService.getOrgById(orgId);
+       	if(org!=null&&DepTypeEnum.BUSIAR.getCode().equals(org.getDepHierarchy())){
+	       	for(String caseCode:caseCodes){	    
+		    	ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		    	toCaseInfo.setArCode(org.getOrgCode());
+		    	toCaseInfo.setArName(org.getOrgName());
+	   	    	toCaseInfo.setDispatchTime(new Date());
+	   	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
+	       		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
+	       	}
+	       	return AjaxResponse.success("案件信息绑定成功！");
+       	}else{
+       		return AjaxResponse.fail("请选择一个片区！");
        	}
-       	return AjaxResponse.success("案件信息绑定成功！");
-       }
+    }
 }
 
 

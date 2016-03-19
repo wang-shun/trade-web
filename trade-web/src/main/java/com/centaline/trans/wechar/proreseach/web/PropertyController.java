@@ -43,24 +43,20 @@ public class PropertyController {
 	private ProfitService profitService;
 
 	@RequestMapping("toApply")
-	public String toApply(HttpServletRequest request,
-			HttpServletResponse response, String code, String state)
+	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
 			throws ServletException, IOException {
-		System.out.println("req_uri:" + request.getRequestURI());
-		System.out.println("ref" + request.getHeader("Referer"));
-		
+		//System.out.println("req_uri:" + request.getRequestURI());
+		//System.out.println("ref" + request.getHeader("Referer"));
 		if (code == null) {
 			String url = OAuth2Util.GetCode();
 			response.sendRedirect(url);
 			return null;
 		}
 		if (!"authdeny".equals(code)) {
-			String access_token = GetExistAccessToken.getInstance()
-					.getExistAccessToken();
+			String access_token = GetExistAccessToken.getInstance().getExistAccessToken();
 			// agentid 跳转链接时所在的企业应用ID
 			// 管理员须拥有agent的使用权限；agentid必须和跳转链接时所在的企业应用ID相同
-			String UserID = OAuth2Util.GetUserID(access_token, code,
-					ParamesAPI.NEW_AGENCE);
+			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
 			// 设置要传递的参数
 			request.setAttribute("username", UserID);
 			return "mobile/propresearch/wecharadd";
@@ -70,13 +66,13 @@ public class PropertyController {
 		}
 
 	}
-	
+
 	@RequestMapping("toResult")
-	public String toResult(HttpServletRequest request,
-			HttpServletResponse response, String msg){
-		if(StringUtils.isBlank(msg)){
-			msg="产调信息提交成功！";
+	public String toResult(HttpServletRequest request, HttpServletResponse response, String msg, String districtId) {
+		if (StringUtils.isBlank(msg)) {
+			msg = "产调信息提交成功！";
 		}
+		request.setAttribute("userList", propertyService.getZLList(districtId));
 		request.setAttribute("msg", msg);
 		return "mobile/propresearch/wecharaddResult";
 	}
@@ -85,12 +81,9 @@ public class PropertyController {
 	public String show(String prCode, HttpServletRequest request) {
 		App regApp = uamPermissionService.getAppByAppName("shcl-image-web");
 		String imgHost = regApp.genAbsoluteUrl();
-		List<ToAttachment> at = attachmentService
-				.findToAttachmentByCaseCode(prCode);
-		ToPropertyResearch propertyResearch = propertyService
-				.getToPropertyResearchsByPrCode(prCode);
-		ToPropertyInfo propertyInfo = propertyInfoService
-				.findToPropertyInfoByCaseCode(prCode);
+		List<ToAttachment> at = attachmentService.findToAttachmentByCaseCode(prCode);
+		ToPropertyResearch propertyResearch = propertyService.getToPropertyResearchsByPrCode(prCode);
+		ToPropertyInfo propertyInfo = propertyInfoService.findToPropertyInfoByCaseCode(prCode);
 		request.setAttribute("propertyResearch", propertyResearch);
 		request.setAttribute("propertyInfo", propertyInfo);
 		request.setAttribute("attachments", at);
@@ -101,24 +94,24 @@ public class PropertyController {
 
 	@RequestMapping("doApply")
 	@ResponseBody
-	public AjaxResponse doApply(ToPropertyResearchVo vo,
-			HttpServletRequest request) {
+	public AjaxResponse doApply(ToPropertyResearchVo vo, HttpServletRequest request) {
 		if (StringUtils.isBlank(vo.getUsername())) {
 			AjaxResponse result = new AjaxResponse<>(false);
 			result.setMessage("未授权用户");
 			return result;
 		}
+
 		propertyService.recordProperty(vo);
 		request.setAttribute("result", "scuess");
 		AjaxResponse result = new AjaxResponse<>(true);
+		result.setContent(vo.getDistrictId());
 		return result;
 	}
 
 	@RequestMapping("hasMapping")
 	@ResponseBody
 	public AjaxResponse hasMapping(String district) {
-		AjaxResponse result = new AjaxResponse<>(
-				propertyService.hasMapping(district));
+		AjaxResponse result = new AjaxResponse<>(propertyService.hasMapping(district));
 		return result;
 	}
 }

@@ -22,13 +22,13 @@ $(document).ready(function() {
 						url : url,
 						mtype : 'POST',
 						datatype : "json",
-						height : 250,
+						height : 390,
 						autowidth : true,
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
 						colNames : [ 'id', '案件编号','案件地址','人员', '员工编号',
-								'所在组织', '岗位','所得金额' ,'归属月份'],
+								'所在组织', '岗位','所得金额' ,'计算时间'],
 						colModel : [ {
 							name : 'pkid',
 							index : 'pkid',
@@ -66,8 +66,8 @@ $(document).ready(function() {
 							index : 'amount',
 							width : 80
 						},{
-							name : 'belongMonth',
-							index : 'belongMonth',
+							name : 'createTime',
+							index : 'createTime',
 							align : "center",
 							width : 80
 						}
@@ -133,7 +133,7 @@ function getParamsValue() {
 	var end = $('#dtEnd').val();
 	//设置查询参数
 	var params = {
-		search_userName :userName,
+		search_userNmae :userName,
 		search_orgName : orgName,
 		search_bmStart : start,
 		search_bmEnd : end,

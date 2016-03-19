@@ -67,7 +67,7 @@
 			<a class="btn btn-primary pull-right" href="#" id="sendSMS">发送短信提醒</a>
 			<div class="ibox-content">
 				<div class="jqGrid_wrapper">
-					<table id="reminder_list"></table>
+					<table id="remind_list"></table>
 					<div id="pager_list_1"></div>	
 				</div>
 			</div>
@@ -90,7 +90,7 @@
 					<input type="hidden" id="operator" name="operator" value="${operator }">
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">实际过户时间<font color="red">*</font></label>
-						<div class="input-group date">
+						<div class="input-group date readOnly_date">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="realHtTime"
 									name="realHtTime" value="<fmt:formatDate  value='${houseTransfer.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
@@ -216,7 +216,7 @@
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
 		<h5>上传备件</h5>
-		<div class="ibox-content" style="height:300px; overflow-y:scroll;">
+		<div class="ibox-content" style="height:410px; overflow-y:scroll;">
 		<h5>${accesoryList[0].accessoryName }</h5>
 		<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
                <div class="" id="fileupload_div_pic"> 
@@ -330,13 +330,24 @@
 		</div>
 		
 		<div class="ibox-title">
+			<h5>审批记录</h5>
+			<div class="ibox-content">
+				<div class="jqGrid_wrapper">
+					<table id="reminder_list"></table>
+					<div id="pager_list_1"></div>	
+				</div>
+			</div>
+		</div>
+		
+		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a>
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+			<a href="#" class="btn btn-primary" onclick="submit()"  readOnlydata="1">提交</a>
 		</div>
 		<div id="smsPlatFrom"></div>
 	</div>
 
 	<content tag="local_script"> 
+	
 	<!-- Peity --> 
 	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
 	<!-- jqGrid -->
@@ -378,13 +389,30 @@
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/sms/sms.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+	<!-- 审批记录 -->
+	<%-- <script src="${ctx}/transjs/task/loanlostApprove.js"></script> --%>
+	<%-- <script src="${ctx}/transjs/task/guohuApprove.js"></script> --%>
 	<script>
-		$(document).ready(
-			function() {
+	var source = "${source}";
+	function readOnlyForm(){
+		$(".readOnly_date").removeClass('date');
+		$(".readOnly_date input").attr('readOnly',true);
+		$("select[readOnlydata=1]").closest('.row').hide();
+		$("[readOnlydata=1]").attr('readonly',true);
+		$("[readOnlydata=1]").each(function(){
+			if($(this).is('a')){
+				$(this).hide();
+			}
+		});
+	}
+	$(document).ready(function() {
+		if('caseDetails'==source){
+			readOnlyForm();
+		}
 				$("#sendSMS").click(function(){
 					var t='';
 					var s='/';
-					$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function(){
+					$("#remind_list").find("input:checkbox:checked").closest('td').next().each(function(){
 						t+=($(this).text()+s);
 					});
 					if(t!=''){
@@ -392,7 +420,7 @@
 					}
 					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
 				});
-				$("#reminder_list").jqGrid({
+				$("#remind_list").jqGrid({
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
@@ -432,6 +460,59 @@
 					forceParse : false,
 					calendarWeeks : true,
 					autoclose : true
+				});
+				
+				//GuoHuApproveList.init('${ctx}','/quickGrid/findPage','approve_list','approve_pager');
+				var ctx = "${ctx}";
+				var taskitem = "${taskitem}";
+				var attachmentCode = "LoanlostApply";
+				var caseCode = "${caseCode}";
+				var processInstanceId = "${processInstanceId}";
+				var approveType = "${approveType }";
+				$("#reminder_list").jqGrid({
+					//data : reminderdata,
+					url:"${ctx}/quickGrid/findPage",
+					datatype : "json",
+					height:120,
+					width:1059,
+					shrinkToFit : true,
+			        rowNum:4,
+			        sortname : 'OPERATOR_TIME',
+					viewrecords : true,
+					sortorder : "desc",
+			        viewrecords:true,
+					colNames : [ '操作时间', '操作人', '环节编码', '内容' ],
+					colModel : [ {
+						name : 'OPERATOR_TIME',
+						index : 'OPERATOR_TIME',
+						width : '15%'
+					}, {
+						name : 'OPERATOR',
+						index : 'OPERATOR',
+						width : '15%'
+					}, {
+						name : 'PART_CODE',
+						index : 'PART_CODE',
+						width : '20%'
+					}, {
+						name : 'CONTENT',
+						index : 'CONTENT',
+						width : '50%'
+					}
+
+					],
+					pager : "#pager_list_1",
+					viewrecords : true,
+					pagebuttions : true,
+					hidegrid : false,
+					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+					pgtext : " {0} 共 {1} 页",
+					postData:{
+			        	queryId:"queryLoanlostApproveList",
+			        	search_caseCode: caseCode,
+			        	search_approveType: approveType,
+			        	search_processInstanceId: processInstanceId
+			        }
 				});
 
 		});

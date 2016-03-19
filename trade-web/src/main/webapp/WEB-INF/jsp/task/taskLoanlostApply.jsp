@@ -230,7 +230,7 @@
 		
 		<div class="ibox-title">
 		<a href="#" class="btn" onclick="save(false)">保存</a>
-		<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+		<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
 		</div>
 	</div>
 	<content tag="local_script"> 
@@ -275,7 +275,23 @@
 	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
 
 	<script>
+	var source = "${source}";
+	function readOnlyForm(){
+		$(".readOnly_date").removeClass('date');
+		$(".readOnly_date input").attr('readOnly',true);
+		$("select[readOnlydata=1]").closest('.row').hide();
+		$("[readOnlydata=1]").attr('readonly',true);
+		$("[readOnlydata=1]").each(function(){
+			if($(this).is('a')){
+				$(this).hide();
+			}
+		});
+	}
 		$(document).ready(function() {
+			if('caseDetails'==source){
+				readOnlyForm();
+			}
+			
 			 $("#bank").change(function(){
 				 var selectValue = $("#bank").val(); 
 				 getBranchBankList(selectValue)

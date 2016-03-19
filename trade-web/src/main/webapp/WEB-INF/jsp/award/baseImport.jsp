@@ -67,7 +67,7 @@ width:160px;
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>金融业绩筛选</h5>
+					<h5>基本奖金明细筛选</h5>
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
@@ -107,7 +107,7 @@ width:160px;
 			<div class="col-lg-12">
 				<div class="ibox ">
 					<div class="ibox-title">
-						<h5>金融产品列表</h5>
+						<h5>基本奖金明细</h5>
 					</div>
 
 					<div class="ibox-content">

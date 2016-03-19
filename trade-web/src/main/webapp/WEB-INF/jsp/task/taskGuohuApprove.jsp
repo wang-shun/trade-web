@@ -279,7 +279,7 @@
                      <label class="col-sm-3 control-label">评估公司：${caseDetailVO.evaName}</label>
                      <label class="col-sm-3 control-label">评估费金额：
                          <c:if test="${!empty caseDetailVO.evaFee}">
-                    ${caseDetailVO.evaFee}&nbsp&nbsp万元
+                    ${caseDetailVO.evaFee}&nbsp&nbsp元
                 </c:if>
                      </label>
                  </div>
@@ -407,7 +407,7 @@
 		/**保存数据*/
 		function save() {
 			var jsonData = $("#guohuApproveForm").serializeArray();
-			deleteAndModify();
+			/**deleteAndModify();*/
 			$.ajax({
 				cache : true,
 				async : false,//false同步，true异步

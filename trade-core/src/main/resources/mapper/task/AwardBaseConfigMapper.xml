@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.AwardBaseConfigMapper">
+ <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.AwardBaseConfig" >
+    <id column="PK_ID" property="pkId" jdbcType="BIGINT" />
+    <result column="JOB_CODE" property="jobCode" jdbcType="VARCHAR" />
+    <result column="SRV_ITEM_CODE" property="srvItemCode" jdbcType="VARCHAR" />
+    <result column="SRV_ITEM_NAME" property="srvItemName" jdbcType="NVARCHAR" />
+    <result column="TEAM_PROPERTY" property="teamProperty" jdbcType="VARCHAR" />
+    <result column="TEAM_NO_START" property="teamNoStart" jdbcType="INTEGER" />
+    <result column="TEAM_NO_END" property="teamNoEnd" jdbcType="INTEGER" />
+    <result column="SRV_FEE" property="srvFee" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="IS_AVAILABLE" property="isAvailable" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, JOB_CODE, SRV_ITEM_CODE, SRV_ITEM_NAME, TEAM_PROPERTY, TEAM_NO_START, TEAM_NO_END, 
+    SRV_FEE, CREATE_TIME, IS_AVAILABLE
+  </sql>
+    <select id="getConsultantConfig" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> FROM [sctrans].[T_TS_AWARD_BASE_CONFIG]
+		where [IS_AVAILABLE]='1' and job_code='consultant'
+   </select>
+       <select id="getConfig" resultMap="BaseResultMap" parameterType="com.centaline.trans.task.entity.AwardBaseConfig">
+		select <include refid="Base_Column_List" /> FROM [sctrans].[T_TS_AWARD_BASE_CONFIG]
+		where [IS_AVAILABLE]='1' and job_code=#{jobCode,jdbcType=VARCHAR}
+		<if test="teamProperty != null" >
+        and team_Property=#{teamProperty,jdbcType=VARCHAR}
+     </if>
+     <if test="teamNoEnd != null" >
+        and (team_No_start &lt;=#{teamNoEnd,jdbcType=VARCHAR} or team_No_start is null) and (team_No_End  &gt;=#{teamNoEnd,jdbcType=VARCHAR} or team_No_End is null)
+     </if>
+     order by team_Property, team_no_start,team_no_end;
+   </select>
+</mapper>

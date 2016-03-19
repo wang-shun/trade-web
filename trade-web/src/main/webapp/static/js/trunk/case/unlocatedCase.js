@@ -146,7 +146,8 @@ function clean(){
  * 案件转组初始化
  */
 function caseChangeTeam(){
-	var url = "/case/getAllTeamList";
+	showTeamModal();
+	/*var url = "/case/getAllTeamList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	
@@ -164,14 +165,14 @@ function caseChangeTeam(){
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
 	}); 
-}
+*/}
 
 /**
  * 选择组别modal
  * @param data
  */
 function showTeamModal(data){
-	var inHtml = '';
+	/*var inHtml = '';
 	inHtml+='<div class="form-group"><label class="col-lg-3 control-label">';
 	inHtml+= '请选择组别：';
 	inHtml+='</label><div class="col-lg-9" style="text-align:left; margin-top:-10px;" >';
@@ -180,7 +181,7 @@ function showTeamModal(data){
 		inHtml+='<input type="radio" name="teamRadio" value="'+n.id+'"/>  '+n.orgName+' </label></div>';
 	})
 	inHtml+='</div></div>';
-	$("#team-form").html(inHtml);
+	$("#team-form").html(inHtml);*/
 	$('#team-modal-form').modal("show");
 }
 
@@ -189,10 +190,14 @@ function showTeamModal(data){
  * @param index
  */
 function changeCaseTeam(){
-	var orgName =$('input[name="teamRadio"]:checked').parent().text();
-	if(confirm("您是否确认分配给"+orgName+"?")){
+	
 
-    	var orgId =$('input[name="teamRadio"]:checked').val();
+		var orgName=$("#radioOrgName1").val();
+		var orgId=$("#oriGrpId1").val();
+		if(orgName==''||orgId==''){
+			alert('请选择一个片区');
+			return false;
+		}
 		var url = "/case/bindUnLocatedCaseTeam";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
@@ -237,9 +242,21 @@ function changeCaseTeam(){
 				
 			}
 		}); 
-	}
 }
 
+//选组织的回调函数
+function radioOrgSelectCallBack1(array){
+    if(array && array.length >0){
+        $("#radioOrgName1").val(array[0].name);
+		$("#oriGrpId1").val(array[0].id);
+		
+/*		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
+		$("#oldactiveName").attr("onclick",userSelect);*/
+	}else{
+		$("#radioOrgName1").val("");
+		$("#oriGrpId1").val("");
+	}
+}
 //选组织的回调函数
 function radioOrgSelectCallBack(array){
     if(array && array.length >0){

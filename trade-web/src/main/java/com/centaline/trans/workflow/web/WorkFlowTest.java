@@ -14,6 +14,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.service.FindUserLogic;
@@ -56,7 +57,7 @@ public class WorkFlowTest {
 
 	@RequestMapping(value = "/test")
 	@ResponseBody
-	public PageableVo test(TaskQuery tq) {
+	public PageableVo test(TaskHistoricQuery tq) {
 
 		return workFlowManager.listHistTasks(tq);
 	}

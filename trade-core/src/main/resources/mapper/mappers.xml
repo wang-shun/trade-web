@@ -123,5 +123,9 @@
 		<!-- 查看附件日志 -->
 		<mapper resource="mapper/log/TsAttachmentReadLogMapper.xml" />
 		
+		<!--奖金分配相关  -->
+		<mapper resource="mapper/task/AwardBaseMapper.xml"/>
+		<mapper resource="mapper/task/ActHiTaskinstMapper.xml"/>
+		<mapper resource="mapper/task/AwardBaseConfigMapper.xml"/>
 	</mappers>
 </configuration>

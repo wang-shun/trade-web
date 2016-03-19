@@ -130,6 +130,7 @@ public class MortgageController {
 		toTransPlan.setEstPartTime(estPartTime);
 		toMortgage.setIsDelegateYucui("1");
 		toTransPlanService.updateTransPlan(toTransPlan);
+		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -148,6 +149,7 @@ public class MortgageController {
 		toTransPlan.setPartCode("LoanRelease");
 		toTransPlan.setEstPartTime(estPartTime==null?toMortgage.getLendDate():estPartTime);
 		toTransPlanService.updateTransPlan(toTransPlan);
+		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -178,6 +180,16 @@ public class MortgageController {
 	@ResponseBody
 	public Boolean submitSelfLoanApprove(HttpServletRequest request, ToMortgage toMortgage,
 			String taskId, String processInstanceId) {
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}
+		if(toMortgage.getComAmount()!=null){
+			toMortgage.setComAmount(toMortgage.getComAmount().multiply(new BigDecimal(10000)));
+		}
+		if(toMortgage.getPrfAmount()!=null){
+			toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000)));
+		}
+		
 		toMortgageService.saveToMortgage(toMortgage);
 
 		/*流程引擎相关*/
@@ -191,6 +203,9 @@ public class MortgageController {
 	@ResponseBody
 	public Result submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, 
 			ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String partCode) {
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*保存流失申请 审核记录*/
@@ -202,6 +217,7 @@ public class MortgageController {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setPartCode(processInstanceVO.getPartCode());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
+		
 		toApproveRecordService.saveToApproveRecord(toApproveRecord);
 		
 		/*流程引擎相关*/

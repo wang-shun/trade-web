@@ -125,9 +125,11 @@
                                            经纪人信息
                                         </div>
                                         <div class="panel-body">
-                                            <p>姓名：${caseDetailVO.agentName}</p>
+                                            <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
+                                            <p>姓名：${toCaseInfo.agentName }</p>
                                             <p>电话：${caseDetailVO.agentMobile}</p>
-                                            <p>所属分行：${caseDetailVO.agentOrgName}</p>
+                                            <%-- <p>所属分行：${caseDetailVO.agentOrgName}</p> --%>
+                                            <p>所属分行：${toCaseInfo.grpName }</p>
                                             <p>直管经理：${caseDetailVO.mcName}</p>
                                             <p>经理电话：${caseDetailVO.mcMobile}</p>
                                             <p></p>
@@ -248,6 +250,8 @@
                    			 <shiro:hasPermission name="TRADE.CASE.RESET">
 		                   	 	<a role="button" id="caseResetes" class="btn btn-primary btn-xm btn-activity" href="javascript:caseReset()">案件重置</a>
 		                   	 </shiro:hasPermission>
+		                   	 
+		                   	 
                             </div>
                         </div>
                     </div>
@@ -484,7 +488,56 @@
                  </form>
              </div>    
             <!-- end 变更合作对象   --> 
-             
+              <!-- 修改表单数据-->
+            <div id="changeForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:1000px">
+	             <form  id="changeForm-form" class="form-horizontal" method="post" target="_blank">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="plan-modal-title">
+						      选择要修改的表单项目
+						   </h4>
+					   </div>
+                        <div class="modal-body">
+                       <div class="row">
+                       <div class="col-lg-3" style=" margin-top: 9px;    margin-left: 15px;">
+                       	请选择您要修改的环节
+                       </div>
+      	                 <div class="col-lg-3">
+	                       		<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+	                       		<input name="source" value="caseDetails" type="hidden">
+	                       		<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
+	                       		<select id="sel_changeFrom" name="changeFrom" class="form-control m-b" style="padding-bottom: 3px;height: 45.003px;">
+	                       			<c:forEach items="${myTasks}"  var="item">
+	                       			<option value="${item.taskDefinitionKey }">${item.name }</option>
+	                       			</c:forEach>
+	                       		</select>
+                       		</div>
+			            </div>
+			            <div class="row">
+			            	 <div class="col-lg-12" style=" margin-top: 9px;    margin-left: 10px;"><font color="red">*</font>注1：交易顾问只能修改归属自己的、已提交的任务，未完成的任务请在待办任务中填写。</div>
+			            </div>
+			            <div class="row">
+			            	 <div class="col-lg-12" style=" margin-top: 9px;    margin-left: 10px;"><font color="red">*</font>注2：在环节表单中，凡是涉及到交易时间或变更流程走向的信息，系统不允许用户修改。</div>
+			            </div>
+                     </div> 
+                     <div class="modal-footer">
+                     
+			           
+			            <button type="button" class="btn btn-default"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="submit" class="btn btn-primary" >
+			                                去修改
+			            </button>
+                     </div>
+                     </div>
+                      </form>
+                 </div>
+             </div> 
              <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
@@ -526,7 +579,7 @@
                 <div class="col-lg-12">
                     <div class="ibox">
                         <div class="ibox-title">
-                   			 <h5>案件信息全视图</h5>
+                   			 <h5>案件信息全视图</h5><a style="float: right;margin-right: 12px;" href="javascript:showChangeFormModal();">我要修改</a>
                     	</div>
                         <div class="ibox-content">
                         	<!-- to do -->
@@ -713,7 +766,7 @@
                                                     <label class="col-sm-3 control-label">评估公司：${caseDetailVO.evaName}</label>
                                                     <label class="col-sm-3 control-label">评估费金额：
                                                         <c:if test="${!empty caseDetailVO.evaFee}">
-			                                                ${caseDetailVO.evaFee}&nbsp&nbsp万元
+			                                                ${caseDetailVO.evaFee}&nbsp&nbsp元
 			                                            </c:if>
                                                     </label>
                                                 </div>
@@ -866,3 +919,4 @@
 </content>
 </body>
 </html>
+

@@ -127,22 +127,22 @@ public class TaskOutTimeJob implements Job {
 					Integer dateLamp = task.getDateLamp();
 						//红灯
 						if(dateLamp>3){
-							taskCount ++;
-							if(taskCount <= 5) {
-								if(manager.getId().equals(task.getManagerId()) || manager.getId().equals(task.getServManagerId())){
-									inStr.append(task.getPropertyAddr());
-									inStr.append("(");
-									inStr.append(task.getUserRealName()+",");
-									inStr.append(task.getPartName());
-									inStr.append(")/");
+							if(manager.getId().equals(task.getManagerId()) || manager.getId().equals(task.getServManagerId())){
+								inStr.append(task.getPropertyAddr());
+								inStr.append("(");
+								inStr.append(task.getUserRealName()+",");
+								inStr.append(task.getPartName());
+								inStr.append(")/");
+								
+								++taskCount;
+								if(taskCount == 5) {
+									App app = uamPermissionService.getAppByAppName("trade-web");
+							        String href = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0";
+							        String hrefAdd = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0/";
+							        String hrefString = "<a href=\""+href+"\" target=\"_blank\">"+hrefAdd+"</a>/";
+									inStr.append(hrefString);
+									break;
 								}
-							} else {
-						        App app = uamPermissionService.getAppByAppName("trade-web");
-						        String href = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0";
-						        String hrefAdd = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0/";
-						        String hrefString = "<a href=\""+href+"\" target=\"_blank\">"+hrefAdd+"</a>";
-								inStr.append(hrefString);
-								break;
 							}
 						}
 				}
