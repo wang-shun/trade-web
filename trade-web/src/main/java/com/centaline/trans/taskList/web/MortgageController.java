@@ -99,7 +99,7 @@ public class MortgageController {
 	@ResponseBody
 	public AjaxResponse<String> saveMortgage(HttpServletRequest request, ToMortgage toMortgage) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()!=null?toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
 		toMortgage.setComAmount(toMortgage.getComAmount() !=null?toMortgage.getComAmount().multiply(new BigDecimal(10000)):null);
 		toMortgage.setPrfAmount(toMortgage.getPrfAmount()!=null?toMortgage.getPrfAmount().multiply(new BigDecimal(10000)):null);
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
@@ -111,7 +111,9 @@ public class MortgageController {
 	@ResponseBody
 	public AjaxResponse<String> saveLoanlostApply(HttpServletRequest request, ToMortgage toMortgage) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -144,12 +146,14 @@ public class MortgageController {
 	@ResponseBody
 	public Result submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
 			String taskId, String processInstanceId, String partCode) {
-		ToTransPlan toTransPlan = new ToTransPlan();
+/*		ToTransPlan toTransPlan = new ToTransPlan();
 		toTransPlan.setCaseCode(toMortgage.getCaseCode());
 		toTransPlan.setPartCode("LoanRelease");
 		toTransPlan.setEstPartTime(estPartTime==null?toMortgage.getLendDate():estPartTime);
 		toTransPlanService.updateTransPlan(toTransPlan);
-		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		if(toMortgage.getMortTotalAmount()!=null){
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+		}*/
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/

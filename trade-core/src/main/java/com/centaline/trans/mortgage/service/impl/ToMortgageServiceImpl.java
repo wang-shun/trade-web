@@ -84,8 +84,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					.setComAmount(toMortgage.getComAmount() != null ? toMortgage
 							.getComAmount().divide(new BigDecimal(10000))
 							: null);
-			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()
-					.divide(new BigDecimal(10000)));
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()!=null?toMortgage.getMortTotalAmount()
+					.divide(new BigDecimal(10000)):null);
 			toMortgage
 					.setPrfAmount(toMortgage.getPrfAmount() != null ? toMortgage
 							.getPrfAmount().divide(new BigDecimal(10000))

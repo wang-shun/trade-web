@@ -81,7 +81,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(toHouseTransfer.getCaseCode());
 		if(mortgage != null){
 			mortgage.setMortType(toMortgage.getMortType());
-			mortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+			mortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()!=null?toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
 			mortgage.setComAmount(toMortgage.getComAmount() != null?toMortgage.getComAmount().multiply(new BigDecimal(10000)):null);
 			mortgage.setComYear(toMortgage.getComYear());
 			mortgage.setComDiscount(toMortgage.getComDiscount());
