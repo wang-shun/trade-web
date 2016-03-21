@@ -499,7 +499,7 @@ function saveSrvItems(){
 	if (confirm("您是否确认进行服务项变更？")) {
 		var isDel = false;
 		var delSrvCheck = $("input[name='srvCode'][value="+delSrv+"]").prop('checked');
-		if(srvs.indexOf(delSrv)>0 && !delSrvCheck){
+		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){
 			isDel=true;
 		}else if(delSrvCheck && srvs.indexOf(delSrv)==-1){
 			isDel=true;
@@ -529,7 +529,7 @@ function saveSrvItems(){
 		$("input[name='srvCode']:checked").each(function() {
 			prItems.push(this.value);
 		});
-		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+ '&isDel=' + isDel+ '&isRes=' + isRes;
+		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+ '&isDel=' + isDel+ '&isRes=' + isRes+"&srvs="+srvs;
 		var confirmStr = "您的选择会进行流程重启，是否继续？";
 		if(isDel)confirmStr = "您的选择会进行案件爆单操作，是否继续？";
 

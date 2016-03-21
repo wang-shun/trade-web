@@ -607,13 +607,13 @@ public class CaseDetailController {
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
 		}
-		if(toWorkFlow!=null){
+		if (toWorkFlow != null) {
 			SessionUser sessionUser = uamSessionService.getSessionUser();
 			TaskHistoricQuery tq = new TaskHistoricQuery();
 			tq.setProcessInstanceId(toWorkFlow.getInstCode());
 			tq.setTaskAssignee(sessionUser.getUsername());
 			tq.setFinished(true);
-			//本人做的任务
+			// 本人做的任务
 			request.setAttribute("myTasks", taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData()));
 		}
 		String[] lamps = LampEnum.getCodes();
@@ -634,13 +634,17 @@ public class CaseDetailController {
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
 	}
-	private List<TaskVo>taskDuplicateRemoval(List<TaskVo> oList){
-		Map<String, TaskVo>hashMap=new HashMap<>();
-		/*hashMap=oList.stream().collect(Collectors.toMap(TaskVo::getTaskDefinitionKey, (p) -> p));*/
+
+	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
+		Map<String, TaskVo> hashMap = new HashMap<>();
+		/*
+		 * hashMap=oList.stream().collect(Collectors.toMap(TaskVo::
+		 * getTaskDefinitionKey, (p) -> p));
+		 */
 		for (TaskVo taskVo : oList) {
 			hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
 		}
-		List<TaskVo>result=new ArrayList<>(hashMap.values());
+		List<TaskVo> result = new ArrayList<>(hashMap.values());
 		return result;
 	}
 
@@ -654,7 +658,8 @@ public class CaseDetailController {
 	@RequestMapping(value = "getSrvsByCaseCode")
 	@ResponseBody
 	public AjaxResponse<?> getSrvsByCaseCode(String caseCode, ServletRequest request) {
-
+		if (true)
+			return null;
 		// 服务项
 		StringBuffer srvCodes = new StringBuffer();
 		List<TgServItemAndProcessor> tgSrvList = tgServItemAndProcessorService
@@ -847,6 +852,29 @@ public class CaseDetailController {
 	}
 
 	/**
+	 * 判断服务项是否有变更（不考虑重复项问题）
+	 * 
+	 * @param arrs1
+	 * @param arrs2
+	 * @return
+	 */
+	private boolean isChanged(List<String> arrs1, String arrs2[]) {
+		if (((arrs1 == null || arrs1.size() == 0) && (arrs2 != null && arrs2.length != 0))
+				|| (arrs2 == null || arrs2.length == 0) && (arrs1 != null && arrs1.size() != 0)
+				|| arrs1.size() != arrs2.length) {// 长度不同
+			return true;
+		} else if (arrs1 == null || arrs1.size() == 0) {
+			return false;
+		}
+		for (int i = 0; i < arrs2.length; i++) {
+			if (!arrs1.contains(arrs2[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * 变更服务项
 	 * 
 	 * @return
@@ -854,24 +882,28 @@ public class CaseDetailController {
 	 */
 	@RequestMapping(value = "/saveSrvItems")
 	@ResponseBody
-	public AjaxResponse<?> saveSrvItems(String caseCode, String[] prItems, Boolean isDel, Boolean isRes,
+	public AjaxResponse<?> saveSrvItems(String caseCode, String[] prItems, Boolean isDel, Boolean isRes, String[] srvs,
 			HttpServletRequest request) {
 
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 
-		List<String> srvs = tgServItemAndProcessorService.findSrvCatsByCaseCode(caseCode);
+		List<String> srvsd = tgServItemAndProcessorService.findSrvCatsByCaseCode(caseCode);
+		if (isChanged(srvsd, srvs)) {
+			return AjaxResponse.fail("服务变更失败，请刷新页面后重试！");
+		}
+
 		List<String> oldSrvs = new ArrayList<String>();
-		oldSrvs.addAll(srvs);
+		oldSrvs.addAll(srvsd);
 
 		// 删除项
 		for (String s : prItems) {
-			if (srvs.contains(s)) {
-				srvs.remove(s);
+			if (srvsd.contains(s)) {
+				srvsd.remove(s);
 			}
 		}
 
 		// 交易过户服务 爆单
-		if (isDel || isRes || srvs.size() > 0) {
+		if (isDel || isRes || srvsd.size() > 0) {
 			ToWorkFlow selecToWorkFlow = new ToWorkFlow();
 			selecToWorkFlow.setCaseCode(caseCode);
 			selecToWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
@@ -943,7 +975,7 @@ public class CaseDetailController {
 					toServChangeHistrotyService.insertSelective(record);
 				}
 				// delete
-				for (String oldSrv : srvs) {
+				for (String oldSrv : srvsd) {
 					if (oldSrv.equals("")) {
 						continue;
 					}
