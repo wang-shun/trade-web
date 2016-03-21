@@ -55,7 +55,7 @@
 						E.PROPERTY_ADDR,
 						tp.RED_LOCK,
 						tp.EST_PART_TIME,
-						sysUser.MOBILE
+						a.agent_phone as MOBILE
 					FROM 
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE

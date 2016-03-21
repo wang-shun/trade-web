@@ -127,7 +127,7 @@
                                         <div class="panel-body">
                                             <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
                                             <p>姓名：${toCaseInfo.agentName }</p>
-                                            <p>电话：${caseDetailVO.agentMobile}</p>
+                                            <p>电话：${toCaseInfo.agentPhone}</p>
                                             <%-- <p>所属分行：${caseDetailVO.agentOrgName}</p> --%>
                                             <p>所属分行：${toCaseInfo.grpName }</p>
                                             <p>直管经理：${caseDetailVO.mcName}</p>
