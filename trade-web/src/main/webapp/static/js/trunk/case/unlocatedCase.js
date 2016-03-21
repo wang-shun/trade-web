@@ -189,7 +189,7 @@ function showTeamModal(data){
  * 案件转组
  * @param index
  */
-function changeCaseTeam(){
+/*function changeCaseTeam(){
 	
 
 		var orgName=$("#radioOrgName1").val();
@@ -242,7 +242,7 @@ function changeCaseTeam(){
 				
 			}
 		}); 
-}
+}*/
 
 //选组织的回调函数
 function radioOrgSelectCallBack1(array){
