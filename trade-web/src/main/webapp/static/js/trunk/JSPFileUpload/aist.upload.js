@@ -37,7 +37,19 @@ var AistUpload = function () {
 	             'start': updFunction,
 	             'autoUpload' : true
 			});
-		} 
+		} , 
+		
+		init:function(picFileupload,picContainer,templateUpload,templateDownload,updFunction,acceptFileTypes){
+			$('#'+picFileupload).fileupload(
+					{    /* ... */
+				'uploadTemplateId': templateUpload,
+				'filesContainer':$('#'+picContainer),
+	            // The ID of the download template:
+	            'downloadTemplateId': templateDownload,
+	            'acceptFileTypes' : acceptFileTypes,
+	             'start': updFunction
+			});
+		}
 	};
 	
 	
