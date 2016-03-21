@@ -99,16 +99,16 @@ h2,h3{font-size: 4.5rem;font-weight: 400}
 .media-body strong{position: absolute; right: 0; top: 0;}
 #ul_unAlloate .media-body strong{top:1.6rem;}
 #workload #ul_unAlloate .media-body p{margin-top:1.6rem;}
-.item-2 .panel{width: 49%;float: left;}
-.item-2 .panel:nth-child(2n+1){margin:0 0.4rem;}
+.item-2 .panel{width: 49%;float: left;margin-bottom:0.4rem;}
+.item-2 .panel:nth-child(2n+1){margin:0 0.4rem 0.4rem;}
 .item-2 .panel-heading{font-size: 2.4rem;padding:0.4rem 1.5rem;}
 .item-2 .media-body p,.item-2 .media-body strong{font-size: 1.8rem;}
 .item-2 .media-body{line-height: 3rem;}
 .panel-red,.panel-yellow{margin-bottom:0rem}
-.panel-red .panel-heading{color: #94504f;border-bottom-color:#f7e7e8 }
+.panel-red .panel-heading{color: #94504f;border-bottom-color:#f7e7e8;background: #f7e7e8; }
 .panel-yellow .panel-heading{color: #b48638;border-bottom-color:#b48638;background:#fdf8e4; }
-.panel-green .panel-heading{color: #73916f;border-bottom-color:#73916f;background:#e8f5e4; }
-.panel-blue .panel-heading{color: #027bb4;border-bottom-color:#027bb4;background:#e2f0f9; }
+.panel-green .panel-heading{color: #73916f;border-bottom-color:#73916f;background:#e8f5e4; margin-top:0;}
+.panel-blue .panel-heading{color: #027bb4;border-bottom-color:#027bb4;background:#e2f0f9;margin-top:0; }
 .box-sm .panel-danger .panel-heading{  padding: 0.4rem 1.5rem;}
 .box-sm .item-1 .media-body p{width: auto;font: 3rem/1.428 'Microsoft Yahei';}
 .box-sm .item-1 li{padding:0.6rem 1.5rem}
