@@ -481,6 +481,7 @@ public class CaseDistributeController {
 	   	    	toCaseInfo.setDispatchTime(new Date());
 	   	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
 	       		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
+	       		
 	       	}
 	       	return AjaxResponse.success("案件信息绑定成功！");
        	}else{

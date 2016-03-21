@@ -144,7 +144,6 @@ width:160px;
 						<div id="pager_list_1"></div>
 						
 			
-				
 					</div><div class="ibox-button text-center"><a class="btn btn-primary" href="javascript:caseChangeTeam()"
 							disabled="true" id="caseChangeTeamButton">案件派单</a></div>
 				</div>
@@ -152,6 +151,41 @@ width:160px;
 		</div>
 	</div>
  <!-- 案件转组 -->
+            <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:700px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="team-modal-title">
+						      案件转组
+						   </h4>
+					   </div>
+                       <div class="modal-body">
+                       <div class="row">
+                       <form  id="team-form">
+		                       <div class="form-group">
+		                            <label class="col-lg-2 control-label">请选择组别:</label>
+		                            <div class="col-lg-8" id="fontTeam">
+										
+									</div>
+		                       </div>
+			            </form>
+			            </div>
+                     </div> 
+                     <div class="modal-footer">
+			            <button type="button" class="btn btn-default"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="button" class="btn btn-primary" onclick="javascript:changeCaseTeam()">
+			                                提交
+			            </button>
+                     </div>
+                     </div>
+                 </div>
+             </div>  
+              <!-- 案件转组 
             <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
 	             <div class="modal-dialog" style="width:700px">
 	                <div class="modal-content">
@@ -193,7 +227,8 @@ width:160px;
                      </div>
                      </div>
                  </div>
-             </div>  
+             </div> 
+             --> 
 	<content tag="local_script"> <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
 		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
@@ -207,6 +242,135 @@ width:160px;
 <%-- 	<jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include> --%>
     <script src="${ctx}/js/jquery.blockui.min.js"></script> 
     <script src="${ctx}/js/trunk/case/unlocatedCase.js"></script>
+    <script src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script id="yuCuiFontTeamList" type="text/html">
+		 <select class="form-control" name="yuTeamCode">
+                {{each data as item}}
+                      <option value ="{{item.id}}">{{item.orgName}}</option>
+                {{/each}}
+		</select>
+	</script>
+	<script>
+	/**
+	 * 选择组别modal
+	 * @param data
+	 */
+	function showTeamModal(data){
+	/*	var inHtml = '';
+		inHtml+='<div class="form-group"><label class="col-lg-3 control-label">';
+		inHtml+= '请选择组别：';
+		inHtml+='</label><div class="col-lg-9" style="text-align:left; margin-top:-10px;" >';
+		$.each(data,function(i, n){
+			inHtml+='<div class="checkbox i-checks"><label>';
+			inHtml+='<input type="radio" name="teamRadio" value="'+n.id+'"/>  '+n.orgName+' </label></div>';
+		})
+		inHtml+='</div></div>';
+		$("#team-form").html(inHtml);*/
+		 var d = {
+			data : data	 
+		 }
+		 var fontTeam = template('yuCuiFontTeamList', d); 
+	     $("#fontTeam").empty();
+	     $("#fontTeam").html(fontTeam);
+		 $('#team-modal-form').modal("show");
+	}
+	
+	/**
+	 * 案件转组初始化
+	 */
+	function caseChangeTeam(){
+		//var url = "/case/getOrgTeamList";
+		//var url = "/setting/getYuCuiTeamList";
+		var url = "/case/getAllTeamList";
+		var ctx = $("#ctx").val();
+		url = ctx + url;
+		
+		$.ajax({
+			cache : false,
+			async:true,
+			type : "POST",
+			url : url,
+			dataType : "json",
+			timeout: 10000,
+		    data : "", 
+			success : function(data) {
+				showTeamModal(data);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		}); 
+	}
+	
+	function changeCaseTeam(){
+		//var orgName =$('input[name="teamRadio"]:checked').parent().text();
+		var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
+		if(confirm("您是否确认分配给"+orgName+"?")){
+
+	    	//var orgId =$('input[name="teamRadio"]:checked').val();
+			var orgId =$('select[name="yuTeamCode"]').val();
+			var url = "/case/bindCaseTeam";
+			var ctx = $("#ctx").val();
+			url = ctx + url;
+
+			var caseInfoList = new Array();
+			var ids = $("#table_list_1").jqGrid('getGridParam',"selarrrow");
+			//var ids = jQuery("#table_list_1").jqGrid('getDataIDs');
+			for (var i = 0; i < ids.length; i++) {
+			   var row = $("#table_list_1").getRowData(ids[i]);
+			   var toCaseInfo = {
+				   caseCode	: row.CASE_CODE  ,
+				   grpCode :  ''
+			   }
+			   caseInfoList.push(toCaseInfo);
+			}
+			var teamTransferVO = {
+			   caseInfoList	: caseInfoList,
+			   orgId : orgId
+			}
+			teamTransferVO = $.toJSON(teamTransferVO);
+			$.ajax({
+				cache : false,
+				async:true,
+				type : "POST",
+				url : url,
+				dataType : "json",
+				contentType: "application/json; charset=utf-8" ,
+				timeout: 10000,
+			    data : teamTransferVO, 
+			    beforeSend:function(){  
+					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+					$(".blockOverlay").css({'z-index':'9998'});
+	            },  
+	            complete: function() {  
+	                $.unblockUI();   
+	                if(status=='timeout'){//超时,status还有success,error等值的情况
+		          	  Modal.alert(
+					  {
+					    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+					  });
+			  		 $(".btn-primary").one("click",function(){
+			  				parent.$.fancybox.close();
+			  			});	 
+			                }
+			            } , 
+				success : function(data) {
+					if(data.success){
+						alert("分配成功");
+						$('#team-modal-form').modal("hide");
+						//jqGrid reload
+						$("#table_list_1").trigger('reloadGrid');
+					}else{
+						alert(data.message);
+					}
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					
+				}
+			}); 
+		}
+	}
+	</script>	
  </content>
 </body>
 </html>
