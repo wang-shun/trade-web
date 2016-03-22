@@ -18,11 +18,11 @@
   <body>
         <div id="dowebok" >
 		    <div class="section">
-		        <div class="slide"><iframe src="workload?orgId=${orgId }" scrolling=”no” name="firstSlide"></iframe></div>
-		        <div class="slide"><iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe></div>
-		        <div class="slide"><iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe></div>
+		       <div class="slide"><iframe src="workload?orgId=${orgId }" scrolling=”no” name="firstSlide"></iframe></div>
+		       <div class="slide"><iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe></div>
+		       <div class="slide"><iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe></div>
 		        
-		        
+		        <i id="view-fullscreen"></i>
 		        <%-- <div class="slide"><jsp:include page="workload2.jsp?orgId=${orgId }"></jsp:include> </div>
 		        <div class="slide section2">222</iframe></div>
 		        <div class="slide">333</div> --%>
@@ -57,6 +57,13 @@
 	    <script>
 	    var orgId = "${orgId}";
 		$(function(){
+			$("#view-fullscreen").click(function(){
+				 var docElm = document.documentElement;
+				 docElm.webkitRequestFullScreen();
+				 
+				 $("#view-fullscreen").hide();
+			});
+			
 			var ctx = "${ctx}";
 		    $('#dowebok').fullpage({
 		        sectionsColor : ['#1bbc9b', '#4BBFC3', '#7BAABE', '#f90'],

@@ -1,3 +1,4 @@
+#view-fullscreen{display:block;bottom: 1.2rem;height: 3rem;position: fixed;right:1.2rem;width: 3rem;z-index: 1000;opacity: 0.3;background: url(../images/fullscreen.png) no-repeat scroll 0 0 / 100% 100%;}
 .section { text-align: center; font: 5rem "Microsoft Yahei"; color: #fff;}
 iframe{frameborder:¡±no¡±;border:¡±0¡å ;marginwidth:¡±0¡å ;marginheight:¡±0¡å; allowtransparency:¡±yes¡±; height: 142.4rem;width: 100%;}
 		#play_mv{

@@ -1,18 +1,18 @@
 * {margin: 0; padding: 0; box-sizing: border-box; -webkit-border-sizing: border-box; tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); focus-ring-color: rgba(0, 0, 0, 0); }
 html{ font-size:1px;}
-body { font: 18rem/1.428 'Î¢ÈíÑÅºÚ'; color: #434343; background: #f3f3f4 }
+body { font: 1.2rem/1.428 'Î¢ÈíÑÅºÚ'; color: #434343; background: #f3f3f4 }
 ul,li{list-style: none;}
 .pull-left{float: left;}.pull-right{float: right;}
 .container{overflow: hidden;padding:0.4rem 0 0 0.4rem;}
 .col-1,.col-2{width:30% }
 .col-3{width:38.4% }
 .ibox{height:6rem;margin:0 0 0.4rem;text-align: right; background-position: 0 0;background-repeat: no-repeat;background-size: 100% 100%;}
-.ibox p{color: #fff;margin-right: 2rem;line-height: 2rem;font-size:20rem;margin-top:2rem;}
+.ibox p{color: #fff;margin-right: 2rem;line-height: 2rem;margin-top:1.2rem;}
 .ibox-red{background-image: url(../../images/red.png);margin:0 0 0.4rem;border:1px solid #f3f3f4;}
 .ibox-yellow{background-image: url(../../images/yellow.png);border:1px solid #f3f3f4;}
 .panel{border:0.1rem solid #ddd;background: #fff;border-radius:0.4rem;-webkit-border-radius: 0.4rem;}
 .panel-danger .panel-heading{background: #e95354;color: #fff}
-.panel-heading{padding: 1rem 1.5rem;border-bottom:0.1rem solid #ddd;border-top-left-radius:0.3rem; font-size:10rem; -webkit-border-top-left-radius:0.3rem; border-top-right-radius:0.3rem;-webkit-border-top-right-radius:0.3rem;color: #ed5565;}
+.panel-heading{padding: 1rem 1.5rem;border-bottom:0.1rem solid #ddd;border-top-left-radius:0.3rem; -webkit-border-top-left-radius:0.3rem; border-top-right-radius:0.3rem;-webkit-border-top-right-radius:0.3rem;color: #ed5565;}
 .badge{display: inline-block; padding:0.3rem; line-height:1.2rem; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
 .badge-warning{background: #ff8042}
 .badge-danger{background: #ed5565}
@@ -32,12 +32,12 @@ ul,li{list-style: none;}
 .red{border-bottom-color: #ed5565}
 .orange{border-bottom-color: #ff8042}
 .yellow{border-bottom-color: #ffb400}
-.warning{color: #fff;position: absolute;bottom:0.4rem;left: 0.5rem;font-size: 8rem}
+.warning{color: #fff;position: absolute;bottom:0.4rem;left: 0.5rem;}
 .img-circle{border-radius: 50%;-webkit-border-radius: 50%; width:3.6rem;height: 3.6rem;}
 .media-body{  overflow: hidden;}
 .danger{background:#fdedee url(../images/label.png) center center  no-repeat;}
-.name{line-height: 3.2rem;padding-left: 1rem;}
-#userRlist .name{line-height:3.916rem;}
+.name{line-height: 3.4rem;padding-left: 1rem;}
+#userRlist .name{line-height:4rem;}
 .col-1 .icon-light{margin-top:0.5rem}
 .col-2 .icon-light{margin-top: 1rem}
 .col-2 .badge{min-width: 0;}
@@ -46,5 +46,5 @@ ul,li{list-style: none;}
 .col-3 .tips{width:28%}
 .btn{text-decoration: none;display: block; color: #ff7113;border:0.1rem solid #ff7113;border-radius: 0.5rem;line-height: 5.8rem;width: 28.6rem;margin: 2rem auto; -webkit-border-radius:0.5rem;background: #ffeed1; text-align: center;}
 .logo{text-align: right;width: 12rem;height:2rem;background: url(../../images/logo.png) right center no-repeat;margin: 0.4rem 1rem 0 0;background-size: 100% 100%;}
-.panel-body marquee{height:32.6rem;}
+.panel-body marquee{height:33.6rem;}
 .panel-body li{ padding:0.2rem 0.2rem 0;}

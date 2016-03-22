@@ -15,7 +15,7 @@
             </h2>
             <!-- 委派單數=4 -->
             <div id="div_main">
-            	<div class="item-1 pull-left">
+            	<div class="item-1 pull-left" >
                 <div class="panel panel-danger">
                     <div class="panel-heading">
                         未派单数
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="item-2">
-                <div class="panel panel-red">
+                <div class="panel panel-red" style="margin-bottom:0.4rem;">
                     <div class="panel-heading">
                         签约数
                         <strong class="pull-right" id="signCount">
@@ -39,7 +39,7 @@
                     <div class="panel-body" id="div_signCount">
                     </div>
                 </div>
-                <div class="panel panel-yellow">
+                <div class="panel panel-yellow" style="margin-bottom:0.4rem;">
                     <div class="panel-heading">
                         过户数
                         <strong class="pull-right" id="houseTranRankCount">

@@ -21,7 +21,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -31,7 +31,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -41,7 +41,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -51,7 +51,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -61,7 +61,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -71,7 +71,7 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
@@ -86,7 +86,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -96,7 +96,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -106,7 +106,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -116,7 +116,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -126,7 +126,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -136,7 +136,7 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
@@ -154,7 +154,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -164,7 +164,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -174,7 +174,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -184,7 +184,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -194,7 +194,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -204,7 +204,7 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
@@ -219,7 +219,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -229,7 +229,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -239,7 +239,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -249,7 +249,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -259,7 +259,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -269,7 +269,7 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->

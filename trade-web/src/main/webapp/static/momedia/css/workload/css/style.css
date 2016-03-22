@@ -4,7 +4,7 @@ body { font: 1.2rem/1.6 'Microsoft Yahei'; color: #434343; background: #f3f3f4 }
 ul,li{list-style: none;}
 h2,h3{font-size: 4.5rem;font-weight: 400}
 .pull-left{float: left;}.pull-right{float: right;}
-.container{width:100%; ; position:absolute; height:100%;overflow-x: auto;}
+.container{overflow: hidden;padding:0.4rem 0 0 0.4rem;}
 .badge{display: inline-block; padding:0 0.3rem; line-height:1.2rem; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
 .badge-warning{background: #ff8042}
 .badge-danger{background: #ed5565}
@@ -13,8 +13,7 @@ h2,h3{font-size: 4.5rem;font-weight: 400}
 .text-red{color: #ed5565}
 .text-orange{color: #ff8042}
 .text-yellow{color: #ffb400}
-.logo{text-align: right;width:12rem;height:2rem;background: url(../images/logo.png) right center no-repeat;background-size: 100%;-webkit-background-size:100%;-o-background-size:100% 100%; margin-top: 0.2rem;margin-top: 0.3rem\0}
-
+.logo{text-align: right;width: 12rem;height:2rem;background: url(../../../images/logo.png) right center no-repeat;margin: 0 1rem 0 0;background-size: 100% 100%;}
 /*style for list.html*/
 .col-1,.col-2{width:57.2rem }
 .col-3{width:71.3rem}
@@ -86,19 +85,19 @@ h2,h3{font-size: 4.5rem;font-weight: 400}
 /*style for workload.html*/
 #workload .container{margin-bottom: 0}
 .item-1,.item-2{overflow: hidden;}
-#workload h2{height: 2.4rem;line-height:2.4rem;background: url(../images/title.jpg) 0 0 no-repeat #ffa7a8; background-size:auto 100%;color: #fff;padding-left: 1.5rem;margin-bottom: 0.4rem}
+#workload h2{height: 2.4rem;line-height:2.4rem;margin-right:0.4rem;background: url(../images/title.jpg) 0 0 no-repeat #ffa7a8; background-size:auto 100%;color: #fff;padding-left: 1.5rem;margin-bottom: 0.4rem}
 #workload .panel-body{padding: 0}
 .item-1{width:20%}
 #workload .img-circle{display: block;}
 #workload #ul_unAlloate .img-circle{ height: 3.4rem;width: 3.4rem;}
 #workload li{overflow: hidden;border-bottom:0.1rem solid #ddd;}
 .item-1 li{padding:0.5rem;padding-bottom:3.75rem\0;}
-.item-2 li{padding:0.2rem 0.5rem;}
+.item-2 li{padding:0.25rem 0.5rem;}
 .item-1 .media-body p{width:23rem;}
 #workload .media-body p{margin-left: 0.5rem;}
 .media-body strong{position: absolute; right: 0; top: 0;}
 #ul_unAlloate .media-body strong{top:1.6rem;}
-#workload #ul_unAlloate .media-body p{margin-top:1.6rem;}
+#workload #ul_unAlloate .media-body p{margin-top:1.4rem; line-height:1;}
 .item-2 .panel{width: 49%;float: left;margin-bottom:0.4rem;}
 .item-2 .panel:nth-child(2n+1){margin:0 0.4rem 0.4rem;}
 .item-2 .panel-heading{font-size: 2.4rem;padding:0.4rem 1.5rem;}
