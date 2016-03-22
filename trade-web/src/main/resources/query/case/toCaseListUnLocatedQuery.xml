@@ -63,6 +63,7 @@
 					where 1=1
 					AND  not exists (select * from sctrans.T_TS_TEAM_SCOPE_AR AR where AR.IS_RESPONSE_TEAM = 1 AND AR.AR_CODE=A.AR_CODE)
 					AND  not exists (select * from sctrans.T_TS_TEAM_TRANSFER transfer where transfer.IS_DELETE = 0 AND transfer.CASE_CODE=A.CASE_CODE)
+					and a.is_responsed is null
 					<ifNotNull oriGrpId>
 						AND (D.GROUP_ID = #oriGrpId# OR D.BUSIAR_ID = #oriGrpId# OR D.BUSISWZ_ID = #oriGrpId# OR D.BUSIWZ_ID = #oriGrpId# OR D.BUSIBA_ID = #oriGrpId#)
 					</ifNotNull>
