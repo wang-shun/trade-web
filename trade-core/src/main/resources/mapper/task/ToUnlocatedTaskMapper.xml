@@ -43,6 +43,12 @@
     update sctrans.T_TO_UNLOCATED_TASK set IS_DELETE='1'
     where task_Id = #{taskId,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByInstCode" parameterType="java.lang.String" >
+    update sctrans.T_TO_UNLOCATED_TASK set IS_DELETE='1'
+    where INST_CODE = #{instCode,jdbcType=BIGINT}
+  </delete>
+  
+  
     <insert id="insert" parameterType="com.centaline.trans.task.entity.ToUnlocatedTask" >
     insert into sctrans.T_TO_UNLOCATED_TASK (case_Code, inst_Code, task_Job_Code, CREATE_TIME, candidate_Id, task_Id,TASK_DEFINATION_KEY,name
       )

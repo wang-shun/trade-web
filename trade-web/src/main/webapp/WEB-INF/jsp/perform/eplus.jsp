@@ -124,6 +124,7 @@ width:160px;
         <div class="ibox-content">
             <div  class="row">
                <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">金融产品单数导入 </a>
+               <a href="../template/monthly_finance_done.xlsx">月度金融产品完成单数导入模板下载</a>
             </div>
         </div>
 		<!-- 收益导入 -->

@@ -3,7 +3,7 @@
 <mapper namespace="com.centaline.trans.perform.repository.EplusMapper">
 	
 	
-	<select id="getLastOrders" parameterType="com.centaline.trans.perform.entity.EplusEntity" >
+	<select id="getLastOrders" parameterType="com.centaline.trans.perform.entity.EplusEntity" resultType="java.lang.Integer"  >
 		select kpi_Orders from sctrans.T_TS_EPLUS_PERFORM_MONTH 
 		where PARTICIPANT_NAME = #{participantName,jdbcType=VARCHAR}
 		and job_Id = #{jobId,jdbcType=VARCHAR}
@@ -56,7 +56,7 @@
 				#{participantId,jdbcType=VARCHAR},
 			</if>
 			<if test="jobId != null">
-				#{particijobIdpantName,jdbcType=VARCHAR},
+				#{jobId,jdbcType=VARCHAR},
 			</if>
 			<if test="orgId != null">
 				#{orgId,jdbcType=VARCHAR},

@@ -106,4 +106,9 @@ public class UnlocatedTaskServiceImpl implements UnlocatedTaskService {
 		return doLocate(candidateId, taskId);
 	}
 
+	@Override
+	public int deleteByInstCode(String instCode) {
+		return toUnlocatedTaskMapper.deleteByInstCode(instCode);
+	}
+
 }

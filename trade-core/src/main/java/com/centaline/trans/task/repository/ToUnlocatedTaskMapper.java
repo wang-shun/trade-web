@@ -11,6 +11,8 @@ public interface ToUnlocatedTaskMapper {
 	int insert(ToUnlocatedTask unloactedTask);
 
 	int deleteByTaskId(String taskId);
+	
+	int deleteByInstCode(String instCode);
 
 	int deleteByPrimaryKey(String taskId);
 	

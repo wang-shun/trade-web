@@ -26,6 +26,7 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.ToHouseTransferService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
 @Transactional
@@ -36,7 +37,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Autowired
 	private ToSpvService toSpvService;
-
+	@Autowired
+	
+	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private ToCaseInfoService toCaseInfoService;
 
@@ -212,6 +215,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		workflowService.deleteByCaseCode(caseCode);
 		serItemAndProcessorServce.deleteByPrimaryCaseCode(caseCode);
 		for (String icStr : instCode) {
+			unlocatedTaskService.deleteByInstCode(icStr);
 			workflowManager.deleteProcess(icStr);
 		}
 		return 1;
