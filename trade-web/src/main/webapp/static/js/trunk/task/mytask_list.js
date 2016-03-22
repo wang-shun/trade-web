@@ -169,6 +169,82 @@ for ( var selector in config) {
 $('#searchButton').click(function() {
 	searchMethod();
 });
+$('#orderByButton').click(function() {
+	//延迟天数范围
+	var minDateLamp=null;
+	var maxDateLamp=null;
+	var ownerType;
+	var dateLamp = $('input[name="lampRadios"]:checked').val();
+	if(dateLamp!=0){
+		//红灯
+		if(dateLamp == 1){
+			minDateLamp = lamp3;
+			//黄灯
+		}else if(dateLamp == 2){
+			minDateLamp = lamp2;
+			maxDateLamp = lamp3;
+			//绿灯
+		}else if(dateLamp == 3){
+			minDateLamp = lamp1;
+			maxDateLamp = lamp2;
+		}
+	}
+	//授权代办
+	var ownerType = $('input[name="ownerRadios"]:checked').val();
+	var allTypeFlag;
+	//全部
+	if(ownerType == 0){
+		ownerType=null;
+		//本身
+	}else if(ownerType == 1){
+		ownerType=null;
+		allTypeFlag = 'true';
+		//代办
+	}else if(ownerType == 2){
+		ownerType='pending';
+	}
+
+	// 客户姓名 物业地址 经纪人
+	var inTextVal = $('#inTextVal').val();
+	var hVal = $('#inTextVal').attr('hVal');
+	var guestName = "";
+	var agentName = "";
+	var propertyAddr = "";
+	var agentOrgName = "";
+	if (inTextVal != null && inTextVal.trim() != "") {
+		var inTextType = $('#inTextType').val();
+		if (inTextType == '0') {
+			guestName = inTextVal.trim();
+		} else if (inTextType == '1') {
+			propertyAddr = inTextVal.trim();
+		} else if (inTextType == '2') {
+			// 经纪人姓名
+			agentName = hVal.trim();
+		}else if (inTextType == '3') {
+			
+			agentOrgName = inTextVal.trim();
+		}
+	}
+
+	var params = {
+			search_minDateLamp : minDateLamp,
+			search_maxDateLamp : maxDateLamp,
+			search_ownerType : ownerType,
+			argu_guestname : guestName,
+			search_agentName : agentName,
+			search_agentOrgName : agentOrgName,
+			search_propertyAddr : propertyAddr,
+			argu_allType: allTypeFlag
+		};
+
+		//jqGrid reload
+		$("#table_list_1").setGridParam({
+			"postData" : params,
+			"page":1 ,
+			"sortname": "ID", // 表示用于排序的列名的参数名称 
+			"sortorder": "ASC" // 表示采用的排序方式的参数名称 
+		}).trigger('reloadGrid');
+});
 var lamp1 = $("#Lamp1").val();
 var lamp2 = $("#Lamp2").val();
 var lamp3 = $("#Lamp3").val();
@@ -258,6 +334,7 @@ function searchMethod(){
 			agentOrgName = inTextVal.trim();
 		}
 	}
+
 	var params = {
 			search_minDateLamp : minDateLamp,
 			search_maxDateLamp : maxDateLamp,

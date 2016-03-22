@@ -130,6 +130,9 @@
 				<div class="ibox ">
 					<div class="ibox-title">
 						<h5>我的任务列表</h5>
+						<shiro:hasPermission name="TRADE.TASK.RANK">  
+							<button id="orderByButton" type="button" class="btn btn-warning pull-right">排序</button>
+						</shiro:hasPermission>
 					</div>
 					<div class="ibox-content">
 						<div class="jqGrid_wrapper">

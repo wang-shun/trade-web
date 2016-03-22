@@ -257,6 +257,9 @@ function searchMethod() {
  * @returns {___anonymous6020_7175}
  */
 function getParamsValue() {
+	// caseCode与ctmCode
+	var caseCode =  $('#caseCode').val();
+	var ctmCode =   $('#ctmCode').val();
 	// 案件类型
 	var caseProperty = $('#caseProperty option:selected').val();
 	// 服务阶段选择
@@ -296,6 +299,8 @@ function getParamsValue() {
 
 	//设置查询参数
 	var params = {
+		search_caseCode : caseCode,
+		search_ctmCode : ctmCode,
 		search_caseProperty : caseProperty,
 		search_status : status,
 		argu_guestname : guestName,
