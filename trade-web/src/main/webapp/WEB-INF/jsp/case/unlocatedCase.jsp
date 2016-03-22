@@ -102,7 +102,7 @@ width:160px;
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-5">
+							<%-- <div class="col-md-5">
 								<div class="form-group ">
 									<label class="col-md-2 control-label">组织：</label>
 									<div class="col-md-10">
@@ -114,7 +114,7 @@ width:160px;
 											<input class="m-wrap " type="hidden" id="oriGrpId" name="oriGrpId"> 
 									</div>
 								</div>
-							</div>
+							</div> --%>
 							<div class="col-md-5 col-sm-12">
 							   <div class="form-group">
 							     <label class="col-md-3  col-sm-4 control-label">
