@@ -379,7 +379,7 @@
 										<label class="col-sm-2 control-label">抵押金额</label>
 										<div class="col-sm-4">
 											<div class="input-group ">
-												<input type="text" class="form-control" id="uncloseMoney" name="uncloseMoney" onkeyup="checkNum(this)"
+												<input type="text" class="form-control" id="uncloseMoney" name="uncloseMoney" onkeyup="checkNum(this)" <c:if test="${empty editCaseDetailVO.lcid}">readOnly</c:if>
 													value="<fmt:formatNumber value='${editCaseDetailVO.uncloseMoney}' type='number' pattern='#0.00' />">
 												<span class="input-group-addon">万</span>
 											</div>
@@ -393,7 +393,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">实际过户时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="realHtTime"
+											<input type="text"  class="form-control" id="realHtTime"
 												name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -831,6 +831,10 @@
 	<script>
 		$(document).ready(function() {
 			 $("#wizard").steps();
+				<c:if test="${empty editCaseDetailVO.lcid}">
+				 $("#closeType").attr("disabled","disabled");
+				</c:if>
+			
 			// showTask();
 			/**年份选择初始化*/
 			initSelectYear("finishYear", finishYear);
