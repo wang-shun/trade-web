@@ -257,9 +257,6 @@ function searchMethod() {
  * @returns {___anonymous6020_7175}
  */
 function getParamsValue() {
-	// caseCode与ctmCode
-	var caseCode =  $('#caseCode').val();
-	var ctmCode =   $('#ctmCode').val();
 	// 案件类型
 	var caseProperty = $('#caseProperty option:selected').val();
 	// 服务阶段选择
@@ -282,6 +279,9 @@ function getParamsValue() {
 	var proName = "";
 	var propertyAddr = "";
 	var agentOrgName = "";
+	// caseCode与ctmCode
+	var caseCode =  "";
+	var ctmCode = "";
 	if (inTextVal != null && inTextVal.trim() != "") {
 		var inTextType = $('#inTextType').val();
 		if (inTextType == '0') {
@@ -294,6 +294,10 @@ function getParamsValue() {
 			agentOrgName = hVal.trim();
 		}else if (inTextType == '4') {
 			proName = hVal.trim();
+		}else if (inTextType == '5') {
+			caseCode = inTextVal.trim();
+		}else if (inTextType == '6') {
+			ctmCode = inTextVal.trim();
 		}
 	}
 

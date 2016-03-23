@@ -112,6 +112,8 @@
 									<option value="1">物业地址</option>
 									<option value="2">经纪人姓名</option>
 									<option value="3">所属分行</option>
+									<option value="4">案件编号</option>
+									<option value="5">CTM编号</option>
 								</select>
 								<input id="inTextVal" type="text" class="form-control pull-left">
 								<button id="searchButton" type="button"

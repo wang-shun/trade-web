@@ -321,6 +321,9 @@ function searchMethod(){
 	var agentName = "";
 	var propertyAddr = "";
 	var agentOrgName = "";
+	// caseCode与ctmCode
+	var caseCode =  "";
+	var ctmCode = "";
 	if (inTextVal != null && inTextVal.trim() != "") {
 		var inTextType = $('#inTextType').val();
 		if (inTextType == '0') {
@@ -332,10 +335,16 @@ function searchMethod(){
 			agentName = hVal.trim();
 		}else if (inTextType == '3') {
 			agentOrgName = inTextVal.trim();
+		}else if (inTextType == '4') {
+			caseCode = inTextVal.trim();
+		}else if (inTextType == '5') {
+			ctmCode = inTextVal.trim();
 		}
 	}
 
 	var params = {
+			search_caseCode : caseCode,
+			search_ctmCode : ctmCode,
 			search_minDateLamp : minDateLamp,
 			search_maxDateLamp : maxDateLamp,
 			search_ownerType : ownerType,
