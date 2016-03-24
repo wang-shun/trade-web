@@ -99,8 +99,7 @@
         		data: tsTeamScopeArVO,
         		contentType: "application/json; charset=utf-8" ,
         		success:function(data){
-    				alert(data.message);
-
+        			//alert(data.message);
         			if(data.success){
         				$("#modal-addOrModifyForm").modal("hide");
         				
@@ -112,8 +111,10 @@
         		    		mtype:'post',
         		    		postData: data
         		    	}).trigger('reloadGrid'); 
+        			} else {
+        				alert(data.message);
         			}
-        			$("#pkid").val("");
+        			//$("#pkid").val("");
         		}
         	});
     }

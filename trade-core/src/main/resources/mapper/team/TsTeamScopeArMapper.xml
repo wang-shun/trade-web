@@ -123,6 +123,9 @@
 	         <if test="arCode != null">
 	            AND AR_CODE = #{arCode}
 	        </if>
+	         <if test="yuTeamCode != null">
+	            AND YU_TEAM_CODE = #{yuTeamCode}
+	        </if>
 	    </where>
   </select>
   

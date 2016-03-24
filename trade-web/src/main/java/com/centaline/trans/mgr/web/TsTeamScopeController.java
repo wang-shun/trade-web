@@ -180,6 +180,18 @@ public class TsTeamScopeController {
 	   			TsTeamScopeGrp tsTeamScopeGrp = new TsTeamScopeGrp();
 	   			tsTeamScopeGrp.setArCode(arCode);
 	   			tsTeamScopeGrp.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			
+	   			TsTeamScopeAr param = new TsTeamScopeAr();
+	   			param.setArCode(arCode);
+	   			param.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			List<TsTeamScopeAr> tsTeamScopeArList = tsTeamScopeArService.getTsTeamScopeArListByProperty(param);
+	   			if(tsTeamScopeArList != null && tsTeamScopeArList.size()>0) {
+	   				response.setSuccess(false);
+	   				response.setMessage(arName+"已经存在相同的组别配置");
+	   				
+	   				continue;
+	   			}
+	   			
 	   			List<TsTeamScopeGrp> tsTeamScopeGrpList = tsTeamScopeGrpService.getTsTeamScopeGrpListByProperty(tsTeamScopeGrp);
 	   			// 如果已经存在组别配置，则此条记录跳过,事物不会滚
 	   			if(tsTeamScopeGrpList != null && tsTeamScopeGrpList.size()>0) {
