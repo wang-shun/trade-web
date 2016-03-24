@@ -37,7 +37,7 @@ var AistUpload = function () {
 	             'start': updFunction,
 	             'autoUpload' : true
 			});
-		},
+		}, 
 		_init2:function(picFileupload,picContainer,templateUpload,templateDownload,updFunction,acceptFileTypes){
 			$('#'+picFileupload).fileupload(
 					{    
