@@ -186,7 +186,20 @@
     }
 
     $(function(){
+    	getAgentOrgs();
     	
+    	 $( "#arName").typeahead({
+             source: agentOrgs,
+             display: "orgName",   
+             val: "orgCode",          
+             items: 8,           
+             itemSelected: function (item, val, text) { 
+               $( "#arName").val(text);
+
+               $( "#arCode").val(val);
+             }
+           });
+
     	$("input").each(function(){
     		$(this).blur(function(){
     			if($(this).val() != ""){

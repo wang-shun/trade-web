@@ -86,7 +86,7 @@
 										<div class="col-sm-10">
 											<input type="text" name="arCode"
 												id="arCode" placeholder=""
-												class="form-control" readOnly="readonly">
+												class="form-control" data-provide ="typeahead" readOnly="readonly">
 										</div>
 									</div>
 									<div class="form-group">
@@ -195,7 +195,7 @@
 					<div class="ibox-title">
 						<a href="#" id="delBtn" class="btn btn-primary" style="float:right;margin-right:5px" >删除</a>
 						<a href="#" id="modifyBtn" class="btn btn-primary" style="float:right;margin-right:5px" >修改</a>
-						<!-- <a href="#" id="addBtn" class="btn btn-primary" style="float:right;margin-right:5px" >添加</a> -->
+						<a href="#" id="addBtn" class="btn btn-primary" style="float:right;margin-right:5px" >添加</a>
 						<h5>组别列表</h5>
 						
 					</div>
@@ -368,7 +368,7 @@
     var yuOrgs = [];
     function getAgentOrgs(){
     	$.ajax({
-            url: ctx+"/setting/getAgentTeamCodeList",
+            url: ctx+"/setting/getAgentArCodeList",
             dataType: "json",
     		async:false,
             data:{           

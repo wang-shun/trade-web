@@ -105,6 +105,18 @@ public class TsTeamScopeController {
 
     	return list;
     }
+    
+    /**
+     * 业务片区编码列表
+     * @return
+     */
+    @RequestMapping(value="getAgentArCodeList")
+    @ResponseBody
+    public List<Org> getAgentArCodeList(){
+    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.BUSIAR);
+
+    	return list;
+    }
     /**
      * 誉萃组别编码列表
      * @return
