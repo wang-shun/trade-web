@@ -66,20 +66,6 @@
 </head>
 
 <body>
-<!-- <div id="example" style="display: none; ">
-<div class="modal-header">
-<a class="close" data-dismiss="modal">×</a>
-<h3>This is a Modal Heading</h3>
-</div>
-<div class="modal-body">
-<h4>Text in a modal</h4>
-<p>You can add some text here.</p>		        
-</div>
-<div class="modal-footer">
-<a href="#" class="btn btn-success">Call to action</a>
-<a href="#" class="btn" data-dismiss="modal">Close</a>
-</div>
-</div> -->
 <div class="wrapper wrapper-content  animated fadeInRight">
 		<div id="modal-addOrModifyForm" class="modal fade" aria-labelledby="modal-title"
 			aria-hidden="true">
@@ -94,37 +80,35 @@
 						<div class="row" style="height: 520px;overflow:auto; ">
 							<div class="col-lg-12 ">
 							<form id="addOrModifyForm">
-								<input type="text" name="pkid" id="pkid" value="">
-						        <input type="hidden" name="agenTeamCode" id="agenTeamCode" value="">
-						        <input type="hidden" name="agenTeamName" id="agenTeamName" value="">
+								<input type="hidden" name="pkid" id="pkid" value="">
 									<div class="form-group">
 										<label class="col-sm-2 control-label">业务组别编码<span class="star">*</span>：</label>
 										<div class="col-sm-10">
-											<input type="text" name="yuAgentTeamCode"
-												id="yuAgentTeamCode" placeholder=""
-												class="form-control" data-provide="typeahead" readOnly="readonly">
+											<input type="text" name="arCode"
+												id="arCode" placeholder=""
+												class="form-control" readOnly="readonly">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">业务组别名称<span class="star">*</span>：</label>
-										<div class="col-sm-10" id="orgCode">
-											<input type="text" name="yuAgentTeamName"
-												id="yuAgentTeamName" placeholder=""
+										<div class="col-sm-10">
+											<input type="text" name="arName"
+												id="arName" placeholder=""
 												class="form-control" >
 										</div>
 									</div>
-									<div class="form-group">
+								<!-- <div class="form-group">
 										<label class="col-sm-2 control-label">誉萃前台组别<span class="star">*</span>：</label>
 										<div class="col-sm-10" id="fontTeam">
 											
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">誉萃后台组别<span class="star">*</span>：</label>
-										<div class="col-sm-10" id="backTeam">
+									</div> -->
+							    	<div class="form-group">
+										<label class="col-sm-2 control-label">誉萃组别<span class="star">*</span>:</label>
+										<div class="col-sm-10" id="team">
 											
 										</div>
-									</div>
+									</div> 
 							</form>
 							</div>
 						</div>
@@ -211,9 +195,7 @@
 					<div class="ibox-title">
 						<a href="#" id="delBtn" class="btn btn-primary" style="float:right;margin-right:5px" >删除</a>
 						<a href="#" id="modifyBtn" class="btn btn-primary" style="float:right;margin-right:5px" >修改</a>
-						<a href="#" id="addBtn" class="btn btn-primary" style="float:right;margin-right:5px" >添加</a>
-						<a href="#" id="recoveryBtn" class="btn btn-primary" style="float:right;margin-right:5px" >案件一键恢复</a>
-
+						<!-- <a href="#" id="addBtn" class="btn btn-primary" style="float:right;margin-right:5px" >添加</a> -->
 						<h5>组别列表</h5>
 						
 					</div>
@@ -244,57 +226,64 @@
 	
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
 	<jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include>	
-	<script src="${ctx}/transjs/manage/teamScope.js"></script> 
+	<script src="${ctx}/transjs/manage/teamScopeAR.js"></script> 
 	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script id="yuCuiFontTeamList" type="text/html">
-											<select class="form-control" name="yuTeamCode">
-                                              {{if content.tsTeamPropertyList.length>0}}
-                                              {{each content.tsTeamPropertyList as item}}
-                                                 {{if item.isResponseTeam==1}} 
-                                                       	{{if item.isSelect==1}} 
-											     			<option value ="{{item.yuTeamCode}}" selected="selected">{{item.yuTeamName}}</option>
-                                                        {{else }} 
-                                                            <option value ="{{item.yuTeamCode}}">{{item.yuTeamName}}</option> 
-														{{/if}}
-                                                 {{/if}}
-                                              {{/each}}
-                                              {{/if}}
-											</select>
-	</script>	
-	<script id="yuCuiBackTeamList" type="text/html">
-                {{if content.tsTeamScopePropertyVOList.length>0}}
-                     {{each content.tsTeamScopePropertyVOList as item1}}
- 							{{if item1.tsTeamProperty.isResponseTeam==0}} 
-											<select class="form-control" name="yuTeamCode">
-                                              {{if content.tsTeamPropertyList.length>0}}
-                                              {{each content.tsTeamPropertyList as item}}
-                                                 {{if item.isResponseTeam==0}} 
-														{{if item.isSelect==1}} 
-											     			<option value ="{{item1.tsTeamScope.yuTeamCode}}" selected="selected">{{item1.tsTeamScope.yuTeamName}}</option>
-                                                        {{else }} 
-                                                            <option value ="{{item.yuTeamCode}}">{{item.yuTeamName}}</option> 
-														{{/if}}
-                                                 {{/if}}
-                                              {{/each}}
-                                              {{/if}}
-											</select>
-                            {{/if}}
- 					{{/each}}
-				{{else }} 
-					<select class="form-control" name="yuTeamCode">
-                                           {{if content.tsTeamPropertyList.length>0}}
-                                              {{each content.tsTeamPropertyList as item}}
-                                                 {{if item.isResponseTeam==0}} 
-                                                     <option value ="{{item.yuTeamCode}}">{{item.yuTeamName}}</option> 
-                                                 {{/if}}
-                                              {{/each}}
-                                              {{/if}}
-											</select>			
+	<script type="text/javascript" src="${ctx}/static/js/jquery.json.min.js"></script>
+	<!-- 显示已经选择的组别 -->
+	<script id="yuCuiTeamList" type="text/html">
+                {{if content.length>0}}
+                     {{each content as item}}
+							{{if item.isSelect==1}}
+								<div class="row form">
+ 								<div class="col-md-5">
+                                <select class="form-control" name="yuTeamCode">
+									  <option value ="{{item.yuTeamCode}}" selected="selected">{{item.yuTeamName}}</option>
+                                      {{each content as item1}}
+											{{if item1.isSelect==null}}
+ 												<option value ="{{item1.yuTeamCode}}">{{item1.yuTeamName}}</option> 
+											{{/if}}
+									  {{/each}}
+								</select>
+ 								</div>
+								<div class="col-md-3">
+                                      <select class="form-control" name="isResponseTeam">
+											{{if item.isResponseTeam==0}}
+ 												<option value ="0" selected="selected">后台组</option>
+												<option value ="1">前台组</option>
+                                            {{else }}
+                              					<option value ="1" selected="selected">前台组</option> 
+												<option value ="0">后台组</option> 
+											{{/if}}
+									  </select>
+								</div>
+  								</div>
+							{{/if}}
+ 					{{/each}}		
                  {{/if}}
-<div id="addLine" >
-											<a href="javascript:addBackTeam();" class="btn"><font>添加后台组别</font></a>
-										</div>
-	</script>	
+				<div id="addLine">
+						<a href="javascript:addBackTeam();" class="btn"><font>添加组别类型</font></a>
+				</div>
+	</script>
+	<!-- 需要选择的组别 -->
+	<script id="newYuCuiTeamList" type="text/html">
+ 			<div class="col-md-5">
+			<select class="form-control" name="yuTeamCode">
+                {{if content.length>0}}
+                    {{each content as item}}
+                         <option value ="{{item.yuTeamCode}}">{{item.yuTeamName}}</option> 
+                    {{/each}}
+               {{/if}}
+			</select>
+			</div>
+			<div class="col-md-3">
+                  	<select class="form-control" name="isResponseTeam">
+ 							<option value ="0" selected="selected">后台组</option>
+							<option value ="1">前台组</option>
+					</select>
+				</div>
+			</div>
+	</script>		
+
 	<script id="yuCuiOtherBackTeamList" type="text/html">
 		<select class="form-control" name="yuTeamCode">
  				{{if content.length>0}}
@@ -330,10 +319,6 @@
     <script>
     var ctx = "${ctx}";
     var url = "/quickGrid/findPage";
-    function setData(d1,d2){
-    	$("#yuAgentTeamName").val(d2);
-    	$("#yuAgentTeamCode").val(d1);
-    }
 	function loadUnSettingOrg(){		
 		$("#show_unsettingList").jqGrid("GridUnload");
 		taskDelGrid=$("#show_unsettingList").jqGrid(
@@ -398,7 +383,7 @@
             url: ctx+"/setting/getTeamCodeList",
             dataType: "json",
     		async:false,
-            data:{           
+            data:{
             },
             success: function( data ) {
             	yuOrgs = data;
@@ -407,14 +392,14 @@
     }
     var divIndex = 1;
 	function addBackTeam() {
-		var txt = '<div id="div_' + divIndex + '" class="form-group">';
+		var txt = '<div id="div_' + divIndex + '" class="row form">';
 		//txt +='<label class="col-sm-2 control-label"></label>';
-		txt += '<div class="col-sm-8" id="back_' + divIndex + '">';
+		txt += '<div class="" id="back_' + divIndex + '">';
 		txt += '</div>';
 		txt += '<span class="input-group-addon"><a href="javascript:removeDiv(\'div_'
 			+ divIndex + '\');"><font>删除</font></a></span>';
 		txt += '</div>';
-		// alert(txt);
+
 		$("#addLine").before(txt);
 		var backId = 'back_'+divIndex;
 		getYuCuiTeamList(backId);
@@ -423,35 +408,6 @@
 	function removeDiv(index) {
 		$("#" + index).remove();
 	}
-    $(function(){
-    	getAgentOrgs();
-    	getYuOrgs();
-    	
-       	$("#yuAgentTeamName").typeahead({
-            source: agentOrgs,
-            display: "orgName",    
-            val: "orgCode",           
-            items: 8,            
-            itemSelected: function (item, val, text) {  
-            	$("#yuAgentTeamName").val(text);
-
-            	$("#yuAgentTeamCode").val(val);
-            }
-       	});
-       	$("#yuTeamName").typeahead({
-            source: yuOrgs,
-            display: "orgName",    
-            val: "orgCode",           
-            items: 8,            
-            itemSelected: function (item, val, text) {  
-            	$("#yuTeamName").val(text);
-
-            	$("#yuTeamCode").val(val);
-            }
-       	});
- 
-    });
-
     </script>
     
     </content>

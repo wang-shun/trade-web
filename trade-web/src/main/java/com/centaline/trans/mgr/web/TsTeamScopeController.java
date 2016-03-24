@@ -4,6 +4,7 @@
  */
 package com.centaline.trans.mgr.web;
 
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
@@ -20,12 +21,17 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.task.service.TsTeamScopeArService;
+import com.centaline.trans.task.service.TsTeamScopeGrpService;
 import com.centaline.trans.team.entity.TeamScopeAllVO;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
+import com.centaline.trans.team.entity.TsTeamScopeAr;
+import com.centaline.trans.team.entity.TsTeamScopeGrp;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.team.service.TsTeamScopeService;
 import com.centaline.trans.team.vo.CaseInfoVO;
+import com.centaline.trans.team.vo.TsTeamScopeArVO;
 import com.centaline.trans.team.vo.TsTeamScopePropertyVO;
 import com.centaline.trans.team.vo.TsTeamScopeVO;
 
@@ -53,6 +59,12 @@ public class TsTeamScopeController {
     
     @Autowired
     private QuerysParseService    querysParseService;
+    
+    @Autowired
+    private TsTeamScopeArService    tsTeamScopeArService;
+    
+    @Autowired
+    private TsTeamScopeGrpService    tsTeamScopeGrpService;
 	
     @RequestMapping(value="unlocatedAgentTeamScope")
     public String unlocatedAgentTeamScope(){
@@ -69,6 +81,17 @@ public class TsTeamScopeController {
     public String teamScope(){
         
     	return "manage/teamScope";
+    }
+    
+    /**
+	 * 片区分配前台组和后台组
+	 * 
+	 * @return
+	 */
+    @RequestMapping(value="teamScopeAR")
+    public String teamScopeAR(){
+        
+    	return "manage/teamScopeAR";
     }
     
     /**
@@ -127,6 +150,51 @@ public class TsTeamScopeController {
     	}
     	return response;
     }
+   
+   @RequestMapping(value="saveTsTeamScopeArVO")
+   @ResponseBody
+   public AjaxResponse<String> saveTsTeamScopeArVO(@RequestBody TsTeamScopeArVO tsTeamScopeArVO){
+	   	AjaxResponse<String> response = new AjaxResponse<String>();
+	   	try{
+	   		TsTeamScopeAr tsTeamScopeArNew = new TsTeamScopeAr();
+	   		tsTeamScopeArNew.setArCode(tsTeamScopeArVO.getArCode());
+	   		tsTeamScopeArService.delTsTeamScopeArByProperty(tsTeamScopeArNew);
+	   		
+	   		String arCode = tsTeamScopeArVO.getArCode();
+	   		String arName = tsTeamScopeArVO.getArName();
+	   		List<TsTeamProperty> tsTeamPropertyList = tsTeamScopeArVO.getTsTeamPropertyList();
+	   		for(TsTeamProperty tsTeamProperty : tsTeamPropertyList) {
+	   			
+	   			TsTeamScopeGrp tsTeamScopeGrp = new TsTeamScopeGrp();
+	   			tsTeamScopeGrp.setArCode(arCode);
+	   			tsTeamScopeGrp.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			List<TsTeamScopeGrp> tsTeamScopeGrpList = tsTeamScopeGrpService.getTsTeamScopeGrpListByProperty(tsTeamScopeGrp);
+	   			// 如果已经存在组别配置，则此条记录跳过,事物不会滚
+	   			if(tsTeamScopeGrpList != null && tsTeamScopeGrpList.size()>0) {
+	   				response.setSuccess(false);
+	   				response.setMessage(arName+"已经存在组别配置");
+	   				
+	   				continue;
+	   			}
+	   			
+	   			TsTeamScopeAr tsTeamScopeAr = new TsTeamScopeAr();
+	   			tsTeamScopeAr.setArCode(arCode);
+	   			tsTeamScopeAr.setArName(arName);
+	   			tsTeamScopeAr.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			tsTeamScopeAr.setYuTeamName(tsTeamProperty.getYuTeamName());
+	   			tsTeamScopeAr.setIsResponseTeam(tsTeamProperty.getIsResponseTeam());
+	   			tsTeamScopeAr.setUpdateTime(new Date());
+	   			
+	   			tsTeamScopeArService.saveTsTeamScopeAr(tsTeamScopeAr);
+	   		}
+	   	}catch(Exception e){
+	   		response.setSuccess(false);
+	   		response.setMessage(e.getMessage());
+	   		logger.error("保存失败！"+e.getCause());
+	   		e.printStackTrace();
+	   	}
+	   	return response;
+   }
     
     @RequestMapping(value="saveTeamScopeVOByOrg")
     @ResponseBody
@@ -202,6 +270,41 @@ public class TsTeamScopeController {
     	return response;
     }
     
+    @RequestMapping(value="getTeamScopeArListByArCode")
+    @ResponseBody
+    public AjaxResponse<List<TsTeamProperty>> getTeamScopeArListByArCode(String arCode){
+    	
+    	AjaxResponse<List<TsTeamProperty>> response = new AjaxResponse<List<TsTeamProperty>>();
+    	try{
+    		// 查询出所有的组别
+        	List<TsTeamProperty> tsTeamPropertyList = tsTeamPropertyService.getTsTeamPropertyListByProperty(new TsTeamProperty());
+        	
+        	
+        	// 查询出已经被选择的组别
+        	TsTeamScopeAr tsTeamScopeArNew = new TsTeamScopeAr();
+        	tsTeamScopeArNew.setArCode(arCode);
+        	List<TsTeamScopeAr> tsTeamScopeArList = tsTeamScopeArService.getTsTeamScopeArListByProperty(tsTeamScopeArNew);
+        	
+        	for(TsTeamProperty tsTeamProperty : tsTeamPropertyList) {
+        		String teamCode =  tsTeamProperty.getYuTeamCode();
+        		for(TsTeamScopeAr tsTeamScopeAr : tsTeamScopeArList) {
+        			if(teamCode.equals(tsTeamScopeAr.getYuTeamCode())) {
+        				// 被选择
+        				tsTeamProperty.setIsSelect("1");
+        				tsTeamProperty.setIsResponseTeam(tsTeamScopeAr.getIsResponseTeam());
+        				break;
+        			}
+        		}
+        	}
+    		response.setContent(tsTeamPropertyList);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage("查询组别列表失败！");
+    		logger.error("查询失败！"+e.getCause());
+    	}
+    	return response;
+    }
+    
     @RequestMapping(value="recoveryTeamScope")
     @ResponseBody
     public AjaxResponse<List<CaseInfoVO>> recoveryTeamScope(){
@@ -251,6 +354,23 @@ public class TsTeamScopeController {
     	AjaxResponse<String> response = new AjaxResponse<String>();
     	try{
     		tsTeamScopeService.deleteTsTeamScope(pkid);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage("删除组别信息失败！");
+    		logger.error("删除组别失败！"+e.getCause());
+    	}
+    	return response;
+    }
+    
+    @RequestMapping(value="delTeamScopeAr")
+    @ResponseBody
+    public AjaxResponse<String> delTeamScopeAr(Long pkid){
+        
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		TsTeamScopeAr tsTeamScopeAr = new TsTeamScopeAr();
+    		tsTeamScopeAr.setPkid(pkid);
+    		tsTeamScopeArService.delTsTeamScopeArByProperty(tsTeamScopeAr);
     	}catch(Exception e){
     		response.setSuccess(false);
     		response.setMessage("删除组别信息失败！");
