@@ -11,6 +11,38 @@ public class EplusEntity {
 	private Integer orders;
 	private Integer kpiOrders;
 	private Date belongMonth;
+	private Date createTime;
+	
+	private Boolean isCalculated;
+	private Boolean isDeleted;
+	private Integer guohuOrder;
+	private Double orderRate;
+
+	public Boolean getIsCalculated() {
+		return isCalculated;
+	}
+
+	public void setIsCalculated(Boolean isCalculated) {
+		this.isCalculated = isCalculated;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	
+
+	public Double getOrderRate() {
+		return orderRate;
+	}
+
+	public void setOrderRate(Double orderRate) {
+		this.orderRate = orderRate;
+	}
 
 	public Long getPkid() {
 		return pkid;
@@ -74,5 +106,21 @@ public class EplusEntity {
 
 	public void setBelongMonth(Date belongMonth) {
 		this.belongMonth = belongMonth;
+	}
+
+	public Integer getGuohuOrder() {
+		return guohuOrder;
+	}
+
+	public void setGuohuOrder(Integer guohuOrder) {
+		this.guohuOrder = guohuOrder;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }

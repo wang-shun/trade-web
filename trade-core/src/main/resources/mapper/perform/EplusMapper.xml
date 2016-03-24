@@ -1,23 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.centaline.trans.perform.repository.EplusMapper">
-	
-	
-	<select id="getLastOrders" parameterType="com.centaline.trans.perform.entity.EplusEntity" resultType="java.lang.Integer"  >
-		select kpi_Orders from sctrans.T_TS_EPLUS_PERFORM_MONTH 
+
+
+	<select id="getLastOrders" parameterType="com.centaline.trans.perform.entity.EplusEntity"
+		resultType="java.lang.Integer">
+		select kpi_Orders from
+		sctrans.T_TS_EPLUS_PERFORM_MONTH
 		where PARTICIPANT_NAME = #{participantName,jdbcType=VARCHAR}
-		and job_Id = #{jobId,jdbcType=VARCHAR}
+		and job_Id =
+		#{jobId,jdbcType=VARCHAR}
 		and org_Id = #{orgId,jdbcType=VARCHAR}
-		and DATEDIFF(m, belong_Month, #{belongMonth,jdbcType=TIMESTAMP})=-1
+		and
+		DATEDIFF(m, belong_Month, #{belongMonth,jdbcType=TIMESTAMP})=-1
 	</select>
-	<delete id="deleteByBizKey"
-		parameterType="com.centaline.trans.perform.entity.EplusEntity">
+	 <select id="getByBelongMonth" parameterType="java.util.Date"
+		resultType="com.centaline.trans.perform.entity.EplusEntity">
+		SELECT [PKID] as pkid
+		,[PARTICIPANT_NAME] as participantName
+		,[PARTICIPANT_ID] as participantId
+		,[JOB_ID] as jobId
+		,[ORG_ID] as orgId
+		,[ORDERS] as orders
+		,[KPI_ORDERS] as kpiOrders
+		,[GUOHU_ORDER] as guohuOrder
+		,[ORDER_RATE] as orderRate
+		,[BELONG_MONTH] as belongMonth
+		,[IS_CALCULATED] as isCalculated
+		,[CREATE_TIME] as createTime
+		,[IS_DELETED] as isDeleted
+		FROM [sctrans].[T_TS_EPLUS_PERFORM_MONTH]
+		where IS_DELETED='0' and IS_CALCULATED='0' and
+		datediff(m,BELONG_MONTH,#{belongMonth,jdbcType=TIMESTAMP})=0
+	</select> 
+
+	<select id="getTransferCount" 
+		resultType="java.lang.Integer">
+		select COUNT(tc.case_code)
+		from sctrans.T_TO_CASE as tc
+		left join sctrans.T_TO_HOUSE_TRANSFER as tht
+		on tc.CASE_CODE=tht.CASE_CODE
+		left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
+		on tc.CASE_CODE=tsi.CASE_CODE
+		where tht.REAL_HT_TIME is not null and
+		datediff(m,tht.REAL_HT_TIME,#{0})=0 and tsi.ORG_ID=#{1}
+	</select> 
+	<delete id="deleteByBizKey" parameterType="com.centaline.trans.perform.entity.EplusEntity">
 		delete
-		from sctrans.T_TS_EPLUS_PERFORM_MONTH
-		where PARTICIPANT_NAME = #{participantName,jdbcType=VARCHAR}
-		and job_Id = #{jobId,jdbcType=VARCHAR}
+		from
+		sctrans.T_TS_EPLUS_PERFORM_MONTH
+		where PARTICIPANT_NAME =
+		#{participantName,jdbcType=VARCHAR}
+		and job_Id =
+		#{jobId,jdbcType=VARCHAR}
 		and org_Id = #{orgId,jdbcType=VARCHAR}
-		and belong_Month = #{belongMonth,jdbcType=TIMESTAMP}
+		and
+		belong_Month = #{belongMonth,jdbcType=TIMESTAMP}
 	</delete>
 	<insert id="insertSelective" parameterType="com.centaline.trans.perform.entity.EplusEntity">
 		insert into sctrans.T_TS_EPLUS_PERFORM_MONTH
@@ -43,7 +81,15 @@
 			<if test="belongMonth != null">
 				belong_Month,
 			</if>
-			
+			<if test="guohuOrder != null">
+				guohu_Order,
+			</if>
+			<if test="orderRate != null">
+				order_Rate,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="pkid != null">
@@ -70,6 +116,51 @@
 			<if test="belongMonth != null">
 				#{belongMonth,jdbcType=TIMESTAMP},
 			</if>
+
+			<if test="guohuOrder != null">
+				#{guohuOrder,jdbcType=DECIMAL},
+			</if>
+			<if test="orderRate != null">
+				#{orderRate,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
 		</trim>
 	</insert>
+	<update  id="updateSelective" parameterType="com.centaline.trans.perform.entity.EplusEntity">
+		update sctrans.T_TS_EPLUS_PERFORM_MONTH 
+		<set>
+			<if test="participantName != null">
+				participant_Name=#{participantName,jdbcType=BIGINT},
+			</if>
+			<if test="participantId != null">
+				participant_Id=#{participantId,jdbcType=VARCHAR},
+			</if>
+			<if test="jobId != null">
+				job_Id=#{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				org_Id=#{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="orders != null">
+				orders=#{orders,jdbcType=VARCHAR},
+			</if>
+			<if test="kpiOrders != null">
+				kpi_Orders=#{kpiOrders,jdbcType=VARCHAR},
+			</if>
+			<if test="belongMonth != null">
+				belong_Month=#{belongMonth,jdbcType=TIMESTAMP},
+			</if>
+			<if test="guohuOrder != null">
+				guohu_Order=#{guohuOrder,jdbcType=DECIMAL},
+			</if>
+			<if test="orderRate != null">
+				order_Rate=#{orderRate,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where pkid=#{pkid,jdbcType=BIGINT};
+	</update>
+	 
+	
 </mapper>
