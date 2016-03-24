@@ -24,7 +24,7 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<%-- <link href="${ctx}/css/style.css" rel="stylesheet"> --%>
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
@@ -115,6 +115,8 @@ width:160px;
 							<table id="table_list_1"></table>
 							<div id="pager_list_1"></div>
 						</div>
+						<a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">金融产品单数导入 </a>
+						<a role="button"class="btn btn-primary btn-xm" href="javascript:showCalculatedModal()">金融产品绩效计算 </a>
 					</div>
 				</div>
 			</div>
@@ -123,11 +125,51 @@ width:160px;
 		
         <div class="ibox-content">
             <div  class="row">
-               <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">金融产品单数导入 </a>
-               <a href="../template/monthly_finance_done.xlsx">月度金融产品完成单数导入模板下载</a>
+            
+            	<div class="col-sm-12 ">
+               			<a href="../template/monthly_finance_done.xlsx">月度金融产品完成单数导入模板下载</a>
+               </div>
             </div>
         </div>
-		<!-- 收益导入 -->
+		<!-- 金融产品绩效计算  -->
+        <div id="calculated-modal-form" class="modal fade" role="dialog" aria-labelledby="calculated-modal-title" aria-hidden="true">
+          <div class="modal-dialog" style="width:750px">
+             <div class="modal-content">
+                 <div class="modal-header">
+				   <button type="button" class="close" data-dismiss="modal"
+				      aria-hidden="true">×
+				   </button>
+				   <h4 class="modal-title" id="calculated-modal-title">
+				      	请选择要计算的月份
+				   </h4>
+				</div>
+				
+                <form id="calculated-form"  method="post" action="${ctx}/perform/doCalculated"> 
+                <div class="modal-body">
+               <div id="belongMonth_div"
+								class="input-group input-medium date-picker input-daterange"
+								data-date-format="yyyy-mm-dd">
+								<input id="belongMonth" name="belongMonth" class="form-control"
+									style="font-size: 13px;" type="text" value=""
+									placeholder="选择计算月份">
+							</div>
+                </div> 
+                
+              </form>
+                <div class="modal-footer">
+		            <button type="button" class="btn btn-default"
+		               data-dismiss="modal">关闭
+		            </button>
+		            <button type="button" class="btn btn-primary" onclick="javascript:calculatedIn()">
+		                                提交
+		            </button>
+                </div>
+                
+             </div>
+          </div>
+       </div>  
+       
+       <!-- 收益导入 -->
         <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
           <div class="modal-dialog" style="width:1200px">
              <div class="modal-content">

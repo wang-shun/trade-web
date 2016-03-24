@@ -21,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.aist.common.utils.excel.ImportExcel;
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.income.entity.TsIncomeStatistics;
-import com.centaline.trans.income.vo.TsIncomeStatisticsVO;
 import com.centaline.trans.perform.service.EplusService;
 import com.centaline.trans.perform.service.GustFollowService;
 import com.centaline.trans.perform.vo.EplusVo;
@@ -84,6 +82,7 @@ public class PerformController {
 		
 		return "perform/gustFollow";
 	}
+	@SuppressWarnings("rawtypes")
 	@ResponseBody
 	@RequestMapping(value = "doCalculated")
 	public AjaxResponse doCalculated(Date belongMonth){

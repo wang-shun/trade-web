@@ -158,6 +158,9 @@
 			<if test="orderRate != null">
 				order_Rate=#{orderRate,jdbcType=DECIMAL},
 			</if>
+			<if test="isCalculated != null">
+				is_Calculated=#{isCalculated},
+			</if>
 		</set>
 		where pkid=#{pkid,jdbcType=BIGINT};
 	</update>
