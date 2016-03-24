@@ -24,13 +24,13 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['序号', '片区编码','片区名称', '誉萃组别编码','誉萃组别名称','组别类型' ],
+            colNames: ['序号', '片区编码','誉萃组别名称', '誉萃组别编码','片区名称','组别类型' ],
             colModel: [
                 {name: 'PKID', index: 'PKID',  width: 60,hidden:true},
                 {name: 'AR_CODE', index: 'AR_CODE', width: 80, hidden:true},
-                {name: 'AR_NAME', index: 'AR_NAME', width: 180},
-                {name: 'YU_TEAM_CODE', index: 'YU_TEAM_CODE', width: 80, hidden:true},
                 {name: 'YU_TEAM_NAME', index: 'YU_TEAM_NAME', width: 80},
+                {name: 'YU_TEAM_CODE', index: 'YU_TEAM_CODE', width: 80, hidden:true},
+                {name: 'AR_NAME', index: 'AR_NAME', width: 180},
                 {name: 'IS_RESPONSE_TEAM', index: 'IS_RESPONSE_TEAM', width: 80,
                 	formatter:function(value,options,rowData){
 	                    if(value==0){
