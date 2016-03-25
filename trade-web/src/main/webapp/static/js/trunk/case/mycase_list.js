@@ -599,9 +599,9 @@ function exportToExcel() {
 		var orgArray = queryOrgs==null?'':queryOrgs.split(",");
 
 		var argu_idflag = '&argu_idflag='+arguUserId;
-
+		
 		if(arguUserId==null)argu_idflag='&argu_idflag=';
-		var argu_queryorgs = '&argu_queryorgs='+orgArray;
+		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var params = getParamsValue();
 		var queryId = '&queryId=queryCaseExcelItemList';
@@ -613,6 +613,7 @@ function exportToExcel() {
 		//url= decodeURI(url);
 //		alert(url);
 		$('#excelForm').attr('action', url);
+		
 		$('#excelForm').method="post" ;
 		$('#excelForm').submit();
 	} else {
