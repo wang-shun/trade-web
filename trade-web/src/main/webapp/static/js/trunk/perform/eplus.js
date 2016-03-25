@@ -97,7 +97,7 @@ $('#datepicker').datepicker({
 //日期控件
 $('#belongMonth_div').datepicker({
 	format : 'yyyy-mm',
-	weekStart : 1,
+	startView: 1, maxViewMode: 1,minViewMode:1,
 	autoclose : true,
 	todayBtn : 'linked',
 	language : 'zh-CN'
