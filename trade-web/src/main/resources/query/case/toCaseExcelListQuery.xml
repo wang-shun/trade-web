@@ -14,11 +14,10 @@
 		<customDict id="qqcdYuCuiFhjlName" beanName="qqcdYuCuiFhjlName" />
 		<customDict id="qqcdYuCuiTSName" beanName="qqcdYuCuiTSName" />
 		<customDict id="qqcdYuCuiOrgName" beanName="qqcdYuCuiOrgName" />
-		<customDict id="qqcdFhjlNameByOrgCode" beanName="qqcdFhjlNameByOrgCode" />
-		<customDict id="qqcdQyjlNameByOrgCode" beanName="qqcdQyjlNameByOrgCode" />
-		<customDict id="qqcdQyzjNameByOrgCode" beanName="qqcdQyzjNameByOrgCode" />
-		<customDict id="qqcdQydsNameByOrgCode" beanName="qqcdQydsNameByOrgCode" />
-		<customDict id="qqcdSrvStrCaseCode" beanName="qqcdSrvStrCaseCode" />
+		<!-- <customDict id="qqcdFhjlNameByOrgCode" beanName="qqcdFhjlNameByOrgCode" /> -->
+		<!-- <customDict id="qqcdQyjlNameByOrgCode" beanName="qqcdQyjlNameByOrgCode" /> -->
+		<!-- <customDict id="qqcdQyzjNameByOrgCode" beanName="qqcdQyzjNameByOrgCode" /> -->
+		<!-- <customDict id="qqcdQydsNameByOrgCode" beanName="qqcdQydsNameByOrgCode" /> -->
 		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict" />
 		<customDict id="qqcdFaFinOrgNameDict" beanName="qqcdFaFinOrgNameDict" />
 
@@ -146,7 +145,8 @@
 						u1.REAL_NAME+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
 										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
 										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
-										   end) as OP_ID,
+										   end) as OP_NAME,
+						B.LEADING_PROCESS_ID as OP_ID,
                         B.ORG_ID OP_ORG_ID,
                         B.CREATE_TIME,
                         B.RES_DATE,
@@ -208,7 +208,10 @@
 							,1,1,'') as BUYER,
 					stuff((	select '/'+GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006002'
 							FOR xml path(''))
-							,1,1,'') as BUYER_PHONE
+							,1,1,'') as BUYER_PHONE,
+					stuff((	select distinct'/'+ SRV_CODE  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE CASE_CODE = e.CASE_CODE 
+							FOR xml path(''))
+							,1,1,'') as SRV_STR
 					FROM sctrans.V_CASE_LIST_BASE B 
 					    INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
@@ -382,8 +385,8 @@
 
 				<column type="both" name="OP_ID" title="交易顾问ID" customDict=""
 					referencecol="" hidden="" />
-				<column type="virtual" name="OP_NAME" title="交易顾问"
-					customDict="qqcdUserIdName" referencecol="OP_ID" hidden="true" />
+				<column type="both" name="OP_NAME" title="交易顾问"
+					 hidden="true" />
 				<column type="virtual" name="OP_CODE" title="员工编号"
 					customDict="qqcdUserEmployeeCode" referencecol="OP_ID" hidden="true" />
 				<column type="both" name="OP_ORG_ID" title="所属组别ID"
@@ -396,8 +399,8 @@
 					referencecol="OP_ORG_ID" hidden="true" />
 				<column type="virtual" name="OP_PARENT_ORG" title="所属区域"
 					customDict="qqcdYuCuiOrgName" referencecol="OP_ORG_ID" hidden="true" />
-				<column type="virtual" name="SRV_STR" title="合作类型"
-					customDict="qqcdSrvStrCaseCode" referencecol="CASE_CODE" hidden="true" />
+				<column type="both" name="SRV_STR" title="合作类型"
+					 hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"
 					 hidden="true" />
 
