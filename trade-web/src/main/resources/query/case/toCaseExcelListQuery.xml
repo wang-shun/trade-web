@@ -146,6 +146,7 @@
 										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
 										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
 										   end) as OP_NAME,
+					   org1.ORG_NAME as OP_ORG,
 						B.LEADING_PROCESS_ID as OP_ID,
                         B.ORG_ID OP_ORG_ID,
                         B.CREATE_TIME,
@@ -197,23 +198,26 @@
 							)as tt1 where tt1.case_code=e.case_code FOR xml path(''))
 							,1,1,'') as PROCESSOR_ID,
 					stuff((	select '/'+GUEST_NAME FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006001'
-							FOR xml path(''))
+							ORDER BY PKID FOR xml path(''))
 							,1,1,'') as SELLER,
 					stuff((	select '/'+GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006001'
-							FOR xml path(''))
+							ORDER BY PKID FOR xml path(''))
 							,1,1,'') as SELLER_PHONE,
 
 					stuff((	select '/'+GUEST_NAME FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006002'
-							FOR xml path(''))
+							ORDER BY PKID FOR xml path(''))
 							,1,1,'') as BUYER,
 					stuff((	select '/'+GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006002'
-							FOR xml path(''))
+							ORDER BY PKID FOR xml path(''))
 							,1,1,'') as BUYER_PHONE,
-					stuff((	select distinct'/'+ SRV_CODE  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE CASE_CODE = e.CASE_CODE 
+					stuff((	select distinct'/'+ d.name  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR left join sctrans.sys_dict d on d.type='yu_serv_cat_code_tree' and d.code=SRV_CODE where  CASE_CODE = e.CASE_CODE 
 							FOR xml path(''))
-							,1,1,'') as SRV_STR
+							,1,1,'') as SRV_STR,
+							uvm.REAL_NAME as OP_MANAGER,
+							uvta.REAL_NAME as OP_AS,
+							orgd.ORG_NAME as OP_PARENT_ORG
 					FROM sctrans.V_CASE_LIST_BASE B 
-					    INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
+					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AD on  AD.ORG_id = AC.ORG_id AND AD.job_code = 'JFHJL' AND AD.is_leader = 1
 					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
@@ -226,6 +230,10 @@
 					left join  sctrans.T_TS_TEAM_PROPERTY as ttp on org1.org_code = ttp.yu_team_code
 					left join  sctrans.T_TO_PRICING as tp on tp.case_code=e.case_code
 					left join  sctrans.T_TO_PROPERTY_INFO as tpi on tpi.case_code=e.case_code
+					left join sctrans.t_yucui_org_hierarchy yoh on yoh.org_id=b.ORG_ID 
+					left join sctrans.SYS_ORG orgd on orgd.id= yoh.DISTRICT_ID
+					left join sctrans.V_USER_ORG_JOB as uvm on uvm.JOB_CODE='Manager' and uvm.ORG_ID=b.ORG_ID
+					left join sctrans.V_USER_ORG_JOB as uvta on uvta.JOB_CODE='TeamAssistant' and uvta.ORG_ID=b.ORG_ID
 					
 					
 					
@@ -388,17 +396,13 @@
 				<column type="both" name="OP_NAME" title="交易顾问"
 					 hidden="true" />
 				<column type="virtual" name="OP_CODE" title="员工编号"
-					customDict="" referencecol="OP_ID" hidden="true" />
+					customDict="qqcdUserEmployeeCode" referencecol="OP_ID" hidden="true" />
 				<column type="both" name="OP_ORG_ID" title="所属组别ID"
 					customDict="" referencecol="" hidden="" />
-				<column type="virtual" name="OP_ORG" title="所属组别" customDict=""
-					referencecol="OP_ORG_ID" hidden="true" />
-				<column type="virtual" name="OP_MANAGER" title="组别主管"
-					customDict="" referencecol="OP_ORG_ID" hidden="true" />
-				<column type="virtual" name="OP_AS" title="组别助理" customDict=""
-					referencecol="OP_ORG_ID" hidden="true" />
-				<column type="virtual" name="OP_PARENT_ORG" title="所属区域"
-					customDict="" referencecol="OP_ORG_ID" hidden="true" />
+				<column type="both" name="OP_ORG" title="所属组别" hidden="true" />
+				<column name="OP_MANAGER" title="组别主管"	hidden="true" />
+				<column type="both" name="OP_AS" title="组别助理"  hidden="true" />
+				<column  name="OP_PARENT_ORG" title="所属区域" hidden="true" />
 				<column type="both" name="SRV_STR" title="合作类型"
 					 hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"
