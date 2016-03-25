@@ -53,6 +53,9 @@ public class QuickQueryUserOrgJobCustomDictServiceImpl implements CustomDictServ
     	} else {
     		
 			Org org = uamUserOrgService.getParentOrgByDepHierarchy(key, deptId);
+			if(org==null){
+				return "";
+			}
 			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), jobCode);
     	}
         if (userOrgJobs != null && !userOrgJobs.isEmpty()) {
