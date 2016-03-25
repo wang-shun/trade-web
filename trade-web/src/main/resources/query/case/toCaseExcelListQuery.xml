@@ -189,12 +189,22 @@
 												  else ''
 												  end) as LOAN_LOST_TYPE,
 						tp.TAX_PRICING as CHECK_PRICE,
-						isNUll(tpi.[SQUARE],tp.TAX_PRICING/tpi.[SQUARE])
+						CAST (tp.TAX_PRICING/tpi.[SQUARE] AS decimal (18,2))
 						 as UNIT_PRICE,
 						stuff((select '/'+tt1.REAL_NAME from(
-							SELECT  u.real_name,c.case_code FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id 
+							SELECT  u.real_name+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
+										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
+										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
+										   end) as REAL_NAME,c.case_code FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id 
+									left join sctrans.sys_org o on o.id=c.org_id 
+									left join sctrans.T_TS_TEAM_PROPERTY ttp on o.org_code= ttp.yu_team_code
 									UNION
-							SELECT u.real_name,p.case_code FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id 
+							SELECT u.real_name+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
+										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
+										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
+										   end) as REAL_NAME,p.case_code FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id 
+									left join sctrans.sys_org o on o.id=p.org_id
+									left join sctrans.T_TS_TEAM_PROPERTY ttp on o.org_code= ttp.yu_team_code
 							)as tt1 where tt1.case_code=e.case_code FOR xml path(''))
 							,1,1,'') as PROCESSOR_ID,
 					stuff((	select '/'+GUEST_NAME FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006001'
