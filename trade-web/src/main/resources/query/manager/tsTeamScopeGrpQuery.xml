@@ -27,10 +27,10 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	
-	<query id="queryTeamScopeAR">
+	<query id="queryTeamScopeGrp">
 		<searchCondition>
             <!-- <condition field="O1.ID" name="oriGrpId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
-            <condition field="TS.AR_NAME" name="agentTeamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="TS.GRP_NAME" name="agentTeamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <!--  <condition field="O2.ID" name="yuCuiOriGrpId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
             <condition field="TS.YU_TEAM_NAME" name="teamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 
@@ -45,14 +45,16 @@
 			          TS.YU_TEAM_CODE,
 			          TS.YU_TEAM_NAME,
 			          TS.IS_RESPONSE_TEAM,
+			          TS.GRP_CODE,
+              		  TS.GRP_NAME,
 			          O1.IS_DELETED
-					FROM sctrans.T_TS_TEAM_SCOPE_AR TS
-					LEFT JOIN  sctrans.SYS_ORG AS O1 ON O1.ORG_CODE = TS.AR_CODE 
-					LEFT JOIN sctrans.T_sys_org_hierarchy AS D ON D.BUSIAR_ID = O1.ID AND D.DEP_HIERARCHY = 'BUSIAR'
+					FROM sctrans.T_TS_TEAM_SCOPE_GRP TS
+					LEFT JOIN  sctrans.SYS_ORG AS O1 ON O1.ORG_CODE = TS.GRP_CODE
+					LEFT JOIN sctrans.T_sys_org_hierarchy AS D ON D.GROUP_ID = O1.ID
 					LEFT JOIN  sctrans.SYS_ORG AS O2 ON O2.ORG_CODE = TS.YU_TEAM_CODE
 					where 1 = 1
 					<ifNotNull oriGrpId>
-						AND (D.BUSIAR_ID = #oriGrpId# OR D.BUSISWZ_ID = #oriGrpId# OR D.BUSIWZ_ID = #oriGrpId# OR D.BUSIBA_ID = #oriGrpId#)
+						AND (D.GROUP_ID = #oriGrpId# OR D.BUSIAR_ID = #oriGrpId# OR D.BUSISWZ_ID = #oriGrpId# OR D.BUSIWZ_ID = #oriGrpId# OR D.BUSIBA_ID = #oriGrpId#)
 					</ifNotNull>
 					<ifNotNull yuCuiOriGrpId>
 						AND (O2.ID = #yuCuiOriGrpId# OR O2.PARENT_ID = #yuCuiOriGrpId#)
@@ -67,6 +69,8 @@
 				<column type="both" name="PKID" index="" checkbox="true" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="AR_CODE" index="" checkbox="" display="片区编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="AR_NAME" index="" checkbox="" display="片区名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GRP_CODE" index="" checkbox="" display="片区编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="GRP_NAME" index="" checkbox="" display="片区名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="誉萃组别编码" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="YU_TEAM_NAME" index="" checkbox="" display="誉萃组别名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="IS_RESPONSE_TEAM" index="" checkbox="" display="组别类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />

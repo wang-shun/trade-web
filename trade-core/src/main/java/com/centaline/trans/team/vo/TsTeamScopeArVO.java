@@ -4,12 +4,16 @@ import java.util.List;
 import com.centaline.trans.team.entity.TsTeamProperty;
 
 public class TsTeamScopeArVO {
-	
-	 private String arCode;
-	 
-	 private String arName;
-	 
-	 private List<TsTeamProperty> tsTeamPropertyList;
+
+	private String arCode;
+
+	private String arName;
+
+	private String grpCode;
+
+	private String grpName;
+
+	private List<TsTeamProperty> tsTeamPropertyList;
 
 	public String getArCode() {
 		return arCode;
@@ -34,5 +38,21 @@ public class TsTeamScopeArVO {
 	public void setTsTeamPropertyList(List<TsTeamProperty> tsTeamPropertyList) {
 		this.tsTeamPropertyList = tsTeamPropertyList;
 	}
-	 
+
+	public String getGrpCode() {
+		return grpCode;
+	}
+
+	public void setGrpCode(String grpCode) {
+		this.grpCode = grpCode;
+	}
+
+	public String getGrpName() {
+		return grpName;
+	}
+
+	public void setGrpName(String grpName) {
+		this.grpName = grpName;
+	}
+
 }

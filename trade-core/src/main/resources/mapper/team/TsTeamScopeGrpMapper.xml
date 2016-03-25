@@ -145,6 +145,9 @@
 	    	<include refid="Base_Column_List" />
 	    from sctrans.T_TS_TEAM_SCOPE_GRP
 	    <where>
+	    	<if test="grpCode != null">
+	            AND GRP_CODE = #{grpCode}
+	        </if>
 	         <if test="arCode != null">
 	            AND AR_CODE = #{arCode}
 	        </if>
@@ -153,4 +156,16 @@
 	        </if>
 	    </where>
   </select>
+  
+  <delete id="delTsTeamScopeGrpByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScopeGrp" >
+    	delete from sctrans.T_TS_TEAM_SCOPE_GRP
+     	<where>
+     	 	<if test="grpCode != null">
+	            GRP_CODE = #{grpCode,jdbcType=NVARCHAR}
+	        </if>
+	        <if test="pkid != null">
+	            PKID = #{pkid,jdbcType=BIGINT}
+	        </if>
+	    </where>
+  </delete>
 </mapper>

@@ -20,4 +20,6 @@ public interface TsTeamScopeGrpMapper {
     int updateByPrimaryKey(TsTeamScopeGrp record);
     
     List<TsTeamScopeGrp> getTsTeamScopeGrpListByProperty(TsTeamScopeGrp record);
+    
+    int delTsTeamScopeGrpByProperty(TsTeamScopeGrp record);
 }

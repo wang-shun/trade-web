@@ -20,4 +20,14 @@ public class TsTeamScopeGrpServiceImpl implements TsTeamScopeGrpService {
 		return tsTeamScopeGrpMapper.getTsTeamScopeGrpListByProperty(record);
 	}
 
+	@Override
+	public int delTsTeamScopeGrpByProperty(TsTeamScopeGrp tsTeamScopeGrp) {
+		return tsTeamScopeGrpMapper.delTsTeamScopeGrpByProperty(tsTeamScopeGrp);
+	}
+
+	@Override
+	public int saveTsTeamScopeGrp(TsTeamScopeGrp tsTeamScopeGrp) {
+		return tsTeamScopeGrpMapper.insertSelective(tsTeamScopeGrp);
+	}
+
 }

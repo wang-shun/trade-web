@@ -86,7 +86,7 @@
 										<div class="col-sm-10">
 											<input type="text" name="arCode"
 												id="arCode" placeholder=""
-												class="form-control" data-provide ="typeahead" readOnly="readonly">
+												class="form-control" readOnly="readonly">
 										</div>
 									</div>
 									<div class="form-group">
@@ -94,6 +94,22 @@
 										<div class="col-sm-10">
 											<input type="text" name="arName"
 												id="arName" placeholder=""
+												class="form-control"  readOnly="readonly">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">组别编码<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+											<input type="text" name="grpCode"
+												id="grpCode" placeholder=""
+												class="form-control" data-provide ="typeahead" readOnly="readonly">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">组别名称<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+											<input type="text" name="grpName"
+												id="grpName" placeholder=""
 												class="form-control" >
 										</div>
 									</div>
@@ -138,7 +154,7 @@
 				<div class="ibox-content" style="padding: 10px 10px 10px 10px;">
 					<form method="get" class="form-horizontal">
 							<div class="form-group">
-								<label class="col-md-2 control-label">片区编码：</label>
+								<label class="col-md-2 control-label">组别编码：</label>
 								<div class="col-md-3">
 									<!-- <input type="text" name="agentTeamCode"
 												id="agentTeamCode" placeholder=""
@@ -150,7 +166,7 @@
 										   expandNodeId:''})" />
 									<input class="m-wrap " type="hidden" id="oriGrpId" name="oriGrpId">
 								</div>
-								<label class="col-md-2 control-label">片区名称：</label>
+								<label class="col-md-2 control-label">组别名称：</label>
 								<div class="col-md-3">
 									<input type="text" name="agentTeamName"
 												id="agentTeamName" placeholder=""
@@ -226,7 +242,7 @@
 	
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
 	<jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include>	
-	<script src="${ctx}/transjs/manage/teamScopeAR.js"></script> 
+	<script src="${ctx}/transjs/manage/teamScopeGrp.js"></script> 
 	<script src="${ctx}/js/template.js" type="text/javascript"></script>
 	<script type="text/javascript" src="${ctx}/static/js/jquery.json.min.js"></script>
 	<!-- 显示已经选择的组别 -->
@@ -294,81 +310,15 @@
  					{{/each}}
                  {{/if}}
 		</select>
-	</script>
-	<script id="recoveryCaseList" type="text/html">
-			{{if content.length>0}}
- 				<div class="scroller" style="height:290px;">
-				<table class="table table-striped">
-                   <thead>
-                       <tr><th>案件地址</th><th style="width:70px;">经纪人</th><th>誉萃组别</th><th>组别主管</th></tr>
-                   </thead>
-                   <tbody>
-                       {{each content as item}}
-                            <tr> 
-                            <td>{{item.propertyAddr}}</td><td>{{item.agentName}}</td><td>{{item.orgId}}</td><td>{{item.leadingProcessId}}</td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                 </table>
-                </div>
-			{{/if}}
-			{{if content.length==0}}
- 				 无任何恢复案件!
-			{{/if}}
 	</script>		
     <script>
     var ctx = "${ctx}";
     var url = "/quickGrid/findPage";
-	function loadUnSettingOrg(){		
-		$("#show_unsettingList").jqGrid("GridUnload");
-		taskDelGrid=$("#show_unsettingList").jqGrid(
-			{
-			datatype : 'json',
-			url : ctx + url,
-			height : 250,
-			widht:1100,
-			autowidth : true,
-			shrinkToFit : true,
-			rowNum : 5,
-			colNames : [ '编组编号', '组织名','区经' ],
-			colModel : [ {
-				name : 'ORG_CODE',
-				index : 'ORG_CODE',
-				width : 333,
-				formatter : function(
-						cellvalue,
-						options,
-						rawObject) {
-					return "<a href=\"javascript:setData('"+rawObject.ORG_CODE+"','"+rawObject.ORG_NAME+"')\">"+rawObject.ORG_CODE+"</a>";
-				}
-			}, {
-				name : 'ORG_NAME',
-				index : 'ORG_NAME',
-				width : 333
-			}, {
-				name : 'BUSIAR_ID',
-				index : 'BUSIAR_ID',
-				width : 333
-			}],
-			add : true,
-			addtext : 'Add',
-			pager : "#show_unsettingList_bar",
-			viewrecords : true,
-			pagebuttions : true,
-			hidegrid : false,
-			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格										
-			pgtext : " {0} 共 {1} 页",										
-			sortname:"create_Date",sortorder:"DESC",										
-			postData : {										
-				queryId : "unsettingTeamScope"
-				}								
-			});
-	}
     var agentOrgs = [];
     var yuOrgs = [];
     function getAgentOrgs(){
     	$.ajax({
-            url: ctx+"/setting/getAgentArCodeList",
+            url: ctx+"/setting/getAgentTeamCodeList",
             dataType: "json",
     		async:false,
             data:{           

@@ -24,13 +24,15 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['序号', '片区编码','誉萃组别名称', '誉萃组别编码','片区名称','组别类型','有效状态' ],
+            colNames: ['序号', '片区编码','组别编码','誉萃组别名称', '誉萃组别编码','片区名称','组别名称','组别类型','有效状态' ],
             colModel: [
                 {name: 'PKID', index: 'PKID',  width: 60,hidden:true},
                 {name: 'AR_CODE', index: 'AR_CODE', width: 80, hidden:true},
+                {name: 'GRP_CODE', index: 'GRP_CODE', width: 80, hidden:true},
                 {name: 'YU_TEAM_NAME', index: 'YU_TEAM_NAME', width: 80},
                 {name: 'YU_TEAM_CODE', index: 'YU_TEAM_CODE', width: 80, hidden:true},
-                {name: 'AR_NAME', index: 'AR_NAME', width: 180,
+                {name: 'AR_NAME', index: 'AR_NAME', width: 180},
+                {name: 'GRP_NAME', index: 'GRP_NAME', width: 80,
                 	formatter:function(value,options,rowData){
                 		var isDeleted = rowData['IS_DELETED'];
 	                    if(isDeleted==0){
@@ -69,7 +71,7 @@
             pgtext : " {0} 共 {1} 页",
             search:false,
             postData:{
-            	queryId:"queryTeamScopeAR"
+            	queryId:"queryTeamScopeGrp"
 /*            	search_agentTeamName:$("#agentTeamName").val(),
             	search_teamName:$("#teamName").val(),
             	argu_oriGrpId : $("#oriGrpId").val(),
@@ -84,11 +86,17 @@
 				//$("#yuAgentTeamCode").val(rowData['AR_CODE']);
 				$("#arCode").val(rowData['AR_CODE']);
 				$("#arName").val(rowData['AR_NAME']);
+				$("#grpCode").val(rowData['GRP_CODE']);
+				$("#grpName").val(rowData['GRP_NAME']);
 			}
             
         });
     }
     function saveTeamScopeAr(){
+	       if($("#arCode").val() == "" || $("#grpCode").val() == ''){
+				alert("片区和组别为必选项！");
+				return;
+		   }
     	   var tsTeamPropertyList = new Array();
 	       $('.form').each(function () {
 	            var yuTeamCode = $(this).find("select[name='yuTeamCode']").val();
@@ -107,11 +115,13 @@
 	       var tsTeamScopeArVO = {
 	    		tsTeamPropertyList : tsTeamPropertyList,
 	    		arCode : $("#arCode").val(),
-	    		arName : $("#arName").val()
+	    		arName : $("#arName").val(),
+	    		grpCode : $("#grpCode").val(),
+	    		grpName : $("#grpName").val()
 	       }
 	       tsTeamScopeArVO = $.toJSON(tsTeamScopeArVO);
         	$.ajax({
-        		url:ctx+"/setting/saveTsTeamScopeArVO",
+        		url:ctx+"/setting/saveTsTeamScopeGrpVO",
         		method:"post",
         		dataType:"json",
         		data: tsTeamScopeArVO,
@@ -122,7 +132,7 @@
         				$("#modal-addOrModifyForm").modal("hide");
         				
         				var data = {};
-        		    	data.queryId="queryTeamScopeAR";
+        		    	data.queryId="queryTeamScopeGrp";
         		    	
         			 	$("#table_list_1").jqGrid('setGridParam',{
         		    		datatype:'json',
@@ -136,9 +146,9 @@
         		}
         	});
     }
-    function delTeamScopeAr(){
+    function delTeamScopeGrp(){
     	$.ajax({
-    		url:ctx+"/setting/delTeamScopeAr",
+    		url:ctx+"/setting/delTeamScopeGrp",
     		method:"post",
     		dataType:"json",
     		data:{pkid:$("#pkid").val()},
@@ -146,7 +156,7 @@
 				alert(data.message);
 
 				var data = {};
-		    	data.queryId="queryTeamScopeAR";
+		    	data.queryId="queryTeamScopeGrp";
 		    	
 			 	$("#table_list_1").jqGrid('setGridParam',{
 		    		datatype:'json',
@@ -162,10 +172,10 @@
     // 获取所有组别
     function getTeamScopeArInfo(){
        	$.ajax({
-    		url:ctx+"/setting/getTeamScopeArListByArCode",
+    		url:ctx+"/setting/getTeamScopeGrpListByGrpCode",
     		method:"post",
     		dataType:"json",
-    		data:{arCode:$("#arCode").val()},
+    		data:{grpCode:$("#grpCode").val()},
     		success:function(data){
     			if(data.success){
     				//console.log(data);
@@ -207,17 +217,45 @@
     $(function(){
     	getAgentOrgs();
     	
-    	 $( "#arName").typeahead({
+    	 $("#grpName").typeahead({
              source: agentOrgs,
              display: "orgName",   
              val: "orgCode",          
              items: 8,           
-             itemSelected: function (item, val, text) { 
-               $( "#arName").val(text);
+             itemSelected: function (item, val, text) {
+               $( "#grpName").val(text);
 
-               $( "#arCode").val(val);
+               $( "#grpCode").val(val);
+               
+               var grpCode = $("#grpCode").val();
+	     		  $.ajax({
+	           		url:ctx+"/setting/getParentOrgByCode",
+	           		method:"post",
+	           		dataType:"json",
+	           		data:{grpCode:grpCode},
+	           		success:function(data){
+	           			//console.log(data);
+	                     $( "#arCode").val(data.orgCode);
+	                     $( "#arName").val(data.orgName);
+	           		}
+	       		})
              }
            });
+    	 
+    	/* $("#grpName").change(function(){
+    		  var grpCode = $("#grpCode").val();
+    		  $.ajax({
+          		url:ctx+"/setting/getParentOrgByCode",
+          		method:"post",
+          		dataType:"json",
+          		data:{grpCode:grpCode},
+          		success:function(data){
+          			//console.log(data);
+                    $( "#arCode").val(data.orgCode);
+                    $( "#arName").val(data.orgName);
+          		}
+      		})
+    	 });*/
 
     	$("input").each(function(){
     		$(this).blur(function(){
@@ -233,7 +271,7 @@
 	    	data.search_agentTeamName =$.trim( $('#agentTeamName').val() ); 
 	    	data.argu_yuCuiOriGrpId =$.trim( $('#yuCuiOriGrpId').val() );  
 	    	data.search_teamName =$.trim( $('#teamName').val() ); 
-	    	data.queryId="queryTeamScopeAR";
+	    	data.queryId="queryTeamScopeGrp";
 	    	
 	    	$("#table_list_1").jqGrid('setGridParam',{
 	    		datatype:'json',
@@ -266,7 +304,7 @@
 				return;
     		}
     		if(confirm("确定要删除该组别！")){
-    			delTeamScopeAr();
+    			delTeamScopeGrp();
     		}
     	});
     	$("#recoveryBtn").click(function(){
