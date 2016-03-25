@@ -388,17 +388,17 @@
 				<column type="both" name="OP_NAME" title="交易顾问"
 					 hidden="true" />
 				<column type="virtual" name="OP_CODE" title="员工编号"
-					customDict="qqcdUserEmployeeCode" referencecol="OP_ID" hidden="true" />
+					customDict="" referencecol="OP_ID" hidden="true" />
 				<column type="both" name="OP_ORG_ID" title="所属组别ID"
 					customDict="" referencecol="" hidden="" />
-				<column type="virtual" name="OP_ORG" title="所属组别" customDict="qqcdOrgIdName"
+				<column type="virtual" name="OP_ORG" title="所属组别" customDict=""
 					referencecol="OP_ORG_ID" hidden="true" />
 				<column type="virtual" name="OP_MANAGER" title="组别主管"
-					customDict="qqcdYuCuiFhjlName" referencecol="OP_ORG_ID" hidden="true" />
-				<column type="virtual" name="OP_AS" title="组别助理" customDict="qqcdYuCuiTSName"
+					customDict="" referencecol="OP_ORG_ID" hidden="true" />
+				<column type="virtual" name="OP_AS" title="组别助理" customDict=""
 					referencecol="OP_ORG_ID" hidden="true" />
 				<column type="virtual" name="OP_PARENT_ORG" title="所属区域"
-					customDict="qqcdYuCuiOrgName" referencecol="OP_ORG_ID" hidden="true" />
+					customDict="" referencecol="OP_ORG_ID" hidden="true" />
 				<column type="both" name="SRV_STR" title="合作类型"
 					 hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"
