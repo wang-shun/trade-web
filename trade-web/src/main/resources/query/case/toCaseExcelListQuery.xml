@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
-<dicts>
+	<dicts>
 
 		<customDict id="qqcdMortStrCodeName" beanName="qqcdMortStrCodeName"></customDict>
 		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
@@ -8,36 +8,33 @@
 		<customDict id="getSrvNameByCode" beanName="qqcdDict30004"></customDict>
 		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName"></customDict>
 		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
-		<customDict id="qqcdSeller" beanName="qqcdSeller" />
-		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
-		<customDict id="qqcdSellerPhone" beanName="qqcdSellerPhone" />
-		<customDict id="qqcdBuyerPhone" beanName="qqcdBuyerPhone" />
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
 		<customDict id="qqcdUserEmployeeCode" beanName="qqcdUserEmployeeCode" />
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 		<customDict id="qqcdYuCuiFhjlName" beanName="qqcdYuCuiFhjlName" />
 		<customDict id="qqcdYuCuiTSName" beanName="qqcdYuCuiTSName" />
 		<customDict id="qqcdYuCuiOrgName" beanName="qqcdYuCuiOrgName" />
-		<customDict id="qqcdFhjlNameByOrgCode" beanName="qqcdFhjlNameByOrgCode" />
-		<customDict id="qqcdQyjlNameByOrgCode" beanName="qqcdQyjlNameByOrgCode" />
-		<customDict id="qqcdQyzjNameByOrgCode" beanName="qqcdQyzjNameByOrgCode" />
-		<customDict id="qqcdQydsNameByOrgCode" beanName="qqcdQydsNameByOrgCode" />
-		<customDict id="qqcdSrvStrCaseCode" beanName="qqcdSrvStrCaseCode" />
+		<!-- <customDict id="qqcdFhjlNameByOrgCode" beanName="qqcdFhjlNameByOrgCode" /> -->
+		<!-- <customDict id="qqcdQyjlNameByOrgCode" beanName="qqcdQyjlNameByOrgCode" /> -->
+		<!-- <customDict id="qqcdQyzjNameByOrgCode" beanName="qqcdQyzjNameByOrgCode" /> -->
+		<!-- <customDict id="qqcdQydsNameByOrgCode" beanName="qqcdQydsNameByOrgCode" /> -->
 		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict" />
 		<customDict id="qqcdFaFinOrgNameDict" beanName="qqcdFaFinOrgNameDict" />
-		
-		
-		
-		
-		
-</dicts>
-<formatters>
-		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+
+
+
+
+
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy/MM/dd</property>
 			</properties>
 		</formatter>
-		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
 				<property name="maximumFractionDigits">3</property>
@@ -46,53 +43,93 @@
 				<property name="minimumIntegerDigits">1</property>
 			</properties>
 		</formatter>
-		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="maximumFractionDigits">0</property>
 			</properties>
 		</formatter>
-		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
 	<query id="queryCaseExcelItemList">
 		<searchCondition>
-           <condition field="B.CASE_PROPERTY"  name="caseProperty" label="案件类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.STATUS"         name="status" label="服务阶段选择" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CLOSE_TIME"  name="approveTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CLOSE_TIME"  name="approveTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CREATE_TIME"    name="createTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CREATE_TIME"    name="createTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.AGENT_CODE"     name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            
-           <condition field="B.SRV_CAT_STR" name="srvCode1"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode2"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode3"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode4"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode5"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode6"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode7"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode8"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode9"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode11" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode12" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.PROCESSOR_NAME" name="proName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="B.CASE_PROPERTY" name="caseProperty"
+				label="案件类型" searchType="EQ" showType="" showCallback=""
+				defaultValue="" />
+			<condition field="B.STATUS" name="status" label="服务阶段选择"
+				searchType="EQ" showType="" showCallback="" defaultValue="" />
+			<condition field="B.CLOSE_TIME" name="approveTimeStart"
+				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="B.CLOSE_TIME" name="approveTimeEnd"
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+			<condition field="B.CREATE_TIME" name="createTimeStart"
+				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="B.CREATE_TIME" name="createTimeEnd"
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+			<condition field="B.RES_DATE" name="resDateStart" label=""
+				searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="B.RES_DATE" name="resDateEnd" label=""
+				searchType="LT" showType="" showCallback="" defaultValue="" />
+			<condition field="B.AGENT_CODE" name="agentName" label="经纪人"
+				searchType="EQ" showType="" showCallback="" defaultValue="" />
+			<condition field="B.PROPERTY_ADDR" name="propertyAddr"
+				label="物业地址" searchType="LIKE" showType="" showCallback=""
+				defaultValue="" />
+			<condition field="B.AGENT_ORG_NAME" name="agentOrgName"
+				label="经纪人机构" searchType="LIKE" showType="" showCallback=""
+				defaultValue="" />
 
-           <condition field="G.REAL_CON_TIME"  name="realConTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="G.REAL_CON_TIME"  name="realConTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="H.REAL_HT_TIME"   name="realHtTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="H.REAL_HT_TIME"   name="realHtTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-         
-           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-         
-           <condition field="J.SIGN_DATE"   name="signDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.SIGN_DATE"   name="signDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.LEND_DATE"   name="lendDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>		</searchCondition>
+			<condition field="B.SRV_CAT_STR" name="srvCode1" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode2" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode3" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode4" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode5" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode6" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode7" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode8" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode9" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode11" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode12" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.SRV_CAT_STR" name="srvCode13" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="B.PROCESSOR_NAME" name="proName" label="经办人"
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+
+			<condition field="G.REAL_CON_TIME" name="realConTimeStart"
+				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="G.REAL_CON_TIME" name="realConTimeEnd"
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+			<condition field="H.REAL_HT_TIME" name="realHtTimeStart"
+				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="H.REAL_HT_TIME" name="realHtTimeEnd"
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+
+			<condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart"
+				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd"
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+
+			<condition field="J.SIGN_DATE" name="signDateStart" label=""
+				searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="J.SIGN_DATE" name="signDateEnd" label=""
+				searchType="LT" showType="" showCallback="" defaultValue="" />
+			<condition field="J.LEND_DATE" name="lendDateStart" label=""
+				searchType="GT" showType="" showCallback="" defaultValue="" />
+			<condition field="J.LEND_DATE" name="lendDateEnd" label=""
+				searchType="LT" showType="" showCallback="" defaultValue="" />
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -105,7 +142,12 @@
                         B.CTM_CODE,
                         B.AGENT_NAME ,
                         B.GRP_CODE as AGENT_ORG_CODE,
-                        B.LEADING_PROCESS_ID as OP_ID,
+						u1.REAL_NAME+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
+										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
+										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
+										   end) as OP_NAME,
+					   org1.ORG_NAME as OP_ORG,
+						B.LEADING_PROCESS_ID as OP_ID,
                         B.ORG_ID OP_ORG_ID,
                         B.CREATE_TIME,
                         B.RES_DATE,
@@ -140,15 +182,71 @@
 						AD.real_name AS AGENT_FHJL,
 						AF.real_name AS AGENT_QYJL,
 						AG.real_name AS AGENT_QYZJ,
-						AH.real_name AS AGENT_QYDS
+						AH.real_name AS AGENT_QYDS,
+						AH.ORG_name as AGENT_QDORG,
+						(case mo.IS_DELEGATE_YUCUI when '1' then '收单'
+												  when '0' then '流失'
+												  else ''
+												  end) as LOAN_LOST_TYPE,
+						tp.TAX_PRICING as CHECK_PRICE,
+						CAST (tp.TAX_PRICING/tpi.[SQUARE] AS decimal (18,2))
+						 as UNIT_PRICE,
+						stuff((select '/'+tt1.REAL_NAME from(
+							SELECT  u.real_name+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
+										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
+										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
+										   end) as REAL_NAME,c.case_code FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id 
+									left join sctrans.sys_org o on o.id=c.org_id 
+									left join sctrans.T_TS_TEAM_PROPERTY ttp on o.org_code= ttp.yu_team_code
+									UNION
+							SELECT u.real_name+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
+										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
+										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
+										   end) as REAL_NAME,p.case_code FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id 
+									left join sctrans.sys_org o on o.id=p.org_id
+									left join sctrans.T_TS_TEAM_PROPERTY ttp on o.org_code= ttp.yu_team_code
+							)as tt1 where tt1.case_code=e.case_code FOR xml path(''))
+							,1,1,'') as PROCESSOR_ID,
+					stuff((	select '/'+GUEST_NAME FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006001'
+							ORDER BY PKID FOR xml path(''))
+							,1,1,'') as SELLER,
+					stuff((	select '/'+GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006001'
+							ORDER BY PKID FOR xml path(''))
+							,1,1,'') as SELLER_PHONE,
+
+					stuff((	select '/'+GUEST_NAME FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006002'
+							ORDER BY PKID FOR xml path(''))
+							,1,1,'') as BUYER,
+					stuff((	select '/'+GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006002'
+							ORDER BY PKID FOR xml path(''))
+							,1,1,'') as BUYER_PHONE,
+					stuff((	select distinct'/'+ d.name  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR left join sctrans.sys_dict d on d.type='yu_serv_cat_code_tree' and d.code=SRV_CODE where  CASE_CODE = e.CASE_CODE 
+							FOR xml path(''))
+							,1,1,'') as SRV_STR,
+							uvm.REAL_NAME as OP_MANAGER,
+							uvta.REAL_NAME as OP_AS,
+							orgd.ORG_NAME as OP_PARENT_ORG
 					FROM sctrans.V_CASE_LIST_BASE B 
-					    INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
+					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AD on  AD.ORG_id = AC.ORG_id AND AD.job_code = 'JFHJL' AND AD.is_leader = 1
 					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AF on  AF.ORG_id = AE.BUSIAR_ID AND AF.job_code = 'JQYJL' AND AF.is_leader = 1
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AG on  AG.ORG_id = AE.BUSISWZ_ID AND AG.job_code = 'JQYZJ' AND AG.is_leader = 1
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AH on  AH.ORG_id = AE.BUSIWZ_ID AND AH.job_code = 'JQYDS' AND AH.is_leader = 1
+					LEFT JOIN  sctrans.T_TO_MORTGAGE AS MO on mo.case_code=b.case_code and mo.is_active='1' and mo.LAST_LOAN_BANK is not null and (mo.mort_type='30016001' or mo.mort_type ='30016002')
+					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
+					left join  sctrans.sys_org org1 on org1.id=b.ORG_ID
+					left join  sctrans.T_TS_TEAM_PROPERTY as ttp on org1.org_code = ttp.yu_team_code
+					left join  sctrans.T_TO_PRICING as tp on tp.case_code=e.case_code
+					left join  sctrans.T_TO_PROPERTY_INFO as tpi on tpi.case_code=e.case_code
+					left join sctrans.t_yucui_org_hierarchy yoh on yoh.org_id=b.ORG_ID 
+					left join sctrans.SYS_ORG orgd on orgd.id= yoh.DISTRICT_ID
+					left join sctrans.V_USER_ORG_JOB as uvm on uvm.JOB_CODE='Manager' and uvm.ORG_ID=b.ORG_ID
+					left join sctrans.V_USER_ORG_JOB as uvta on uvta.JOB_CODE='TeamAssistant' and uvta.ORG_ID=b.ORG_ID
+					
+					
+					
 					<ifNotNull realConTime>
 						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
 					</ifNotNull>
@@ -243,7 +341,7 @@
 						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode15#)
 					</ifNotNull>
 					<ifNotNull signlendDate>
-					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE 
+					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE and is_active='1'
 					</ifNotNull>
 						<ifNotNull signDateStart>
 						  and J.SIGN_DATE > #signDateStart#
@@ -263,96 +361,155 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY B.STATUS DESC, B.CASE_CODE DESC
+				ORDER BY B.STATUS DESC, B.CASE_CODE DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="CASE_CODE"  		title="案件编号" 	customDict=""  hidden="false" />
-				<column type="both" name="CTM_CODE"   		title="CTM编号" 	    customDict=""  hidden="false" />
-                                                                                               
-				<column type="both" name="AGENT_NAME" 		title="经纪人" 	    customDict=""  hidden="true" />
-				<column type="both" name="AGENT_ORG_CODE" 	title="所属分行CODE" customDict=""  hidden="true" />
-				
-				<column type="both" name="AGENT_ORG" 	title="所属分行" customDict=""  hidden="true" />
-				<column type="both" name="AGENT_FHJL" 	title="分行经理" customDict=""  hidden="true" />
-				<column type="both" name="AGENT_QYJL" 	title="区域经理" customDict=""  hidden="true" />
-				<column type="both" name="AGENT_QYZJ" 	title="区域总监" customDict=""  hidden="true" />
-				<column type="both" name="AGENT_QYDS" 	title="区域董事" customDict=""  hidden="true" />
-				<!-- <column type="virtual" name="AGENT_ORG"  	title="所属分行" 	customDict="qqcdOrgNameByCode" referencecol="AGENT_ORG_CODE" hidden="true" />			
-				<column type="virtual" name="AGENT_FHJL"  	title="分行经理" 	customDict="qqcdFhjlNameByOrgCode" referencecol="AGENT_ORG_CODE" hidden="true" />			
-				<column type="virtual" name="AGENT_QYJL"  	title="区域经理" 	customDict="qqcdQyjlNameByOrgCode" referencecol="AGENT_ORG_CODE" hidden="true" />			
-				<column type="virtual" name="AGENT_QYZJ"  	title="区域总监" 	customDict="qqcdQyzjNameByOrgCode" referencecol="AGENT_ORG_CODE" hidden="true" />			
-				<column type="virtual" name="AGENT_QYDS"  	title="区域董事" 	customDict="qqcdQydsNameByOrgCode" referencecol="AGENT_ORG_CODE" hidden="true" /> -->			
-				
-				<column type="both"    name="OP_ID"  		title="交易顾问ID" 	customDict="" referencecol=""  hidden="" />
-				<column type="virtual" name="OP_NAME"  		title="交易顾问" 	customDict="qqcdUserIdName" referencecol="OP_ID"  hidden="true" />			
-				<column type="virtual" name="OP_CODE"  		title="员工编号" 	customDict="qqcdUserEmployeeCode" referencecol="OP_ID"  hidden="true" />			
-				<column type="both"    name="OP_ORG_ID"  	title="所属组别ID" 	customDict="" referencecol=""  hidden="" />
-				<column type="virtual" name="OP_ORG"   		title="所属组别" 	customDict="qqcdOrgIdName" referencecol="OP_ORG_ID"  hidden="true" />	
-				<column type="virtual" name="OP_MANAGER"  	title="组别主管"	    customDict="qqcdYuCuiFhjlName" referencecol="OP_ORG_ID" hidden="true" />			
-				<column type="virtual" name="OP_AS"  		title="组别助理" 	customDict="qqcdYuCuiTSName" referencecol="OP_ORG_ID" hidden="true" />	
-				<column type="virtual" name="OP_PARENT_ORG" title="所属区域" 	customDict="qqcdYuCuiOrgName" referencecol="OP_ORG_ID"  hidden="true" />	
-				<column type="virtual" name="SRV_STR"  		title="合作类型" 	customDict="qqcdSrvStrCaseCode" referencecol="CASE_CODE" hidden="true"/>			
-				<column type="virtual" name="PROCESSOR_ID"  title="合作对象" 	customDict="qqcdProcessorName" referencecol="CASE_CODE" hidden="true"  />			
-		
-				<column type="both" name="PROPERTY_ADDR" 	title="产证地址" 	customDict=""  hidden="true" />
-				<column type="virtual" name="SELLER"        title="上家" 		customDict="qqcdSeller" referencecol="CASE_CODE" hidden="true"/>
-				<column type="virtual" name="SELLER_PHONE"  title="上家电话" 	customDict="qqcdSellerPhone" referencecol="CASE_CODE" hidden="true" />
-				<column type="virtual" name="BUYER"     	title="下家" 		customDict="qqcdBuyer" referencecol="CASE_CODE" hidden="true"/>			
-				<column type="virtual" name="BUYER_PHONE" 	title="下家电话" 	customDict="qqcdBuyerPhone" referencecol="CASE_CODE" hidden="true" />			
+				<column type="both" name="CASE_CODE" title="案件编号" customDict=""
+					hidden="false" />
+				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
+					hidden="false" />
 
-				<column type="both" name="CREATE_TIME" 		title="报单日期" 	customDict=""  hidden="true"    beanFormatter="dateFormatter"/>			
+				<column type="both" name="AGENT_NAME" title="经纪人" customDict=""
+					hidden="true" />
+				<column type="both" name="AGENT_ORG_CODE" title="所属分行CODE"
+					customDict="" hidden="true" />
 
-				<column type="both" name="RES_DATE" 		title="分单日期" 	customDict=""  hidden="true"    beanFormatter="dateFormatter"/>			
+				<column type="both" name="AGENT_ORG" title="所属分行" customDict=""
+					hidden="true" />
+				<column type="both" name="AGENT_FHJL" title="分行经理"
+					customDict="" hidden="true" />
+				<column type="both" name="AGENT_QYJL" title="区域经理"
+					customDict="" hidden="true" />
+				<column type="both" name="AGENT_QYZJ" title="区域总监"
+					customDict="" hidden="true" />
+				<column type="both" name="AGENT_QYDS" title="区域董事"
+					customDict="" hidden="true" />
+				<column type="both" name="AGENT_QDORG" title="所属大区"
+					customDict="" hidden="true" />
+				<column type="both" name="LOAN_LOST_TYPE" title="贷款流失类型"
+					customDict="" hidden="true" />
+				<!-- <column type="virtual" name="AGENT_ORG" title="所属分行" customDict="qqcdOrgNameByCode" 
+					referencecol="AGENT_ORG_CODE" hidden="true" /> <column type="virtual" name="AGENT_FHJL" 
+					title="分行经理" customDict="qqcdFhjlNameByOrgCode" referencecol="AGENT_ORG_CODE" 
+					hidden="true" /> <column type="virtual" name="AGENT_QYJL" title="区域经理" customDict="qqcdQyjlNameByOrgCode" 
+					referencecol="AGENT_ORG_CODE" hidden="true" /> <column type="virtual" name="AGENT_QYZJ" 
+					title="区域总监" customDict="qqcdQyzjNameByOrgCode" referencecol="AGENT_ORG_CODE" 
+					hidden="true" /> <column type="virtual" name="AGENT_QYDS" title="区域董事" customDict="qqcdQydsNameByOrgCode" 
+					referencecol="AGENT_ORG_CODE" hidden="true" /> -->
 
-				<column type="both" name="CASE_PROPERTY" 	title="案件性质" 	customDict="getPropertyNameByCode"   />			
+				<column type="both" name="OP_ID" title="交易顾问ID" customDict=""
+					referencecol="" hidden="" />
+				<column type="both" name="OP_NAME" title="交易顾问"
+					 hidden="true" />
+				<column type="virtual" name="OP_CODE" title="员工编号"
+					customDict="qqcdUserEmployeeCode" referencecol="OP_ID" hidden="true" />
+				<column type="both" name="OP_ORG_ID" title="所属组别ID"
+					customDict="" referencecol="" hidden="" />
+				<column type="both" name="OP_ORG" title="所属组别" hidden="true" />
+				<column name="OP_MANAGER" title="组别主管"	hidden="true" />
+				<column type="both" name="OP_AS" title="组别助理"  hidden="true" />
+				<column  name="OP_PARENT_ORG" title="所属区域" hidden="true" />
+				<column type="both" name="SRV_STR" title="合作类型"
+					 hidden="true" />
+				<column  name="PROCESSOR_ID" title="合作对象"
+					 hidden="true" />
 
-				<column type="both" name="STATUS" 			title="案件状态" 	customDict="getStatusNameByCode"    hidden="true"  />			
+				<column type="both" name="PROPERTY_ADDR" title="产证地址"
+					customDict="" hidden="true" />
+				<column type="both" name="SELLER" title="上家" hidden="true" />
+				<column type="both" name="SELLER_PHONE" title="上家电话" hidden="true" />
+				<column type="both" name="BUYER" title="下家"  hidden="true" />
+				<column type="both" name="BUYER_PHONE" title="下家电话" hidden="true" />
 
-				<column type="both" name="MORT_TYPE" 		title="贷款类型" 	customDict="qqcdMortStrCodeName"   />			
+				<column type="both" name="CREATE_TIME" title="报单日期"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
 
-				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)" 	customDict="" hidden="true"    />			
-				<column type="both" name="COM_AMOUNT" 		title="商贷金额(万元)" 	customDict="" hidden="true"    />			
-				<column type="both" name="PRF_AMOUNT" 		title="公积金贷款金额(万元)" customDict="" hidden="true"   />			
+				<column type="both" name="RES_DATE" title="分单日期" customDict=""
+					hidden="true" beanFormatter="dateFormatter" />
 
-				<column type="both" name="BANK_CODE" 		title="贷款银行(支行)Code" customDict="" hidden="true"   />
-				<column type="virtual" name="BANK_NAME" 	title="贷款银行（支行）" customDict="qqcdFinOrgNameDict" referencecol="BANK_CODE" hidden="true"    />			
-				<column type="virtual" name="PARENT_BANK_NAME" title="贷款银行（分行）" customDict="qqcdFaFinOrgNameDict" referencecol="BANK_CODE" hidden="true"    />			
+				<column type="both" name="CASE_PROPERTY" title="案件性质"
+					customDict="getPropertyNameByCode" />
 
-				<column type="both" name="LOANER_NAME" 	title="信贷员" customDict="" referencecol="CASE_CODE" hidden="true" />			
-				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场" 	customDict="" referencecol="CASE_CODE" hidden="true" />			
+				<column type="both" name="STATUS" title="案件状态" customDict="getStatusNameByCode"
+					hidden="true" />
 
-				<column type="both" name="EVA_ORG_CODE" 	title="评估公司Code" customDict="" referencecol="" hidden="true" />
-				<column type="virtual" name="EVA_NAME" 		title="评估公司" 	customDict="qqcdFinOrgNameDict" referencecol="EVA_ORG_CODE" hidden="true" />			
+				<column type="both" name="MORT_TYPE" title="贷款类型"
+					customDict="qqcdMortStrCodeName" />
 
-				<column type="both" name="CUST_NAME" 	title="主贷人" 	customDict="" hidden="true"     />			
-				<column type="both" name="CUST_PHONE" 	title="主贷人电话" 	customDict="" hidden="true"     />			
+				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"
+					customDict="" hidden="true" />
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"
+					customDict="" hidden="true" />
+				<column type="both" name="PRF_AMOUNT" title="公积金贷款金额(万元)"
+					customDict="" hidden="true" />
 
-				<column type="both" name="SIGN_DATE" 	title="签贷时间" 	customDict="" hidden="true" beanFormatter="dateFormatter"    />			
-				<column type="both" name="APPR_DATE" 	title="批贷时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="LEND_DATE" 	title="放款时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
+				<column type="both" name="BANK_CODE" title="贷款银行(支行)Code"
+					customDict="" hidden="true" />
+				<column type="virtual" name="BANK_NAME" title="贷款银行（支行）"
+					customDict="qqcdFinOrgNameDict" referencecol="BANK_CODE" hidden="true" />
+				<column type="virtual" name="PARENT_BANK_NAME" title="贷款银行（分行）"
+					customDict="qqcdFaFinOrgNameDict" referencecol="BANK_CODE" hidden="true" />
 
-				<column type="both" name="COM_DISCOUNT" 	title="利率折扣" 	customDict="" hidden="true"     />			
+				<column type="both" name="LOANER_NAME" title="信贷员"
+					customDict="" referencecol="CASE_CODE" hidden="true" />
+				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"
+					customDict="" referencecol="CASE_CODE" hidden="true" />
 
-				<column type="both" name="REAL_PRICE" 	title="成交价(万元)" 	customDict="" hidden="true"     />			
-				<column type="both" name="CON_PRICE" 	title="合同价(万元)" 	customDict="" hidden="true"     />			
+				<column type="both" name="EVA_ORG_CODE" title="评估公司Code"
+					customDict="" referencecol="" hidden="true" />
+				<column type="virtual" name="EVA_NAME" title="评估公司"
+					customDict="qqcdFinOrgNameDict" referencecol="EVA_ORG_CODE" hidden="true" />
 
-				<column type="both" name="REAL_CON_TIME" title="签约时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="TAX_TIME" 		title="审税时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="PRICING_TIME" 	title="核价时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="REAL_PLS_TIME" title="查限购时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="REAL_HT_TIME" 	title="过户时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="REAL_PROPERTY_GET_TIME" title="领证时间" customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
-				<column type="both" name="CLOSE_TIME" 		title="结案时间" 	customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
+				<column type="both" name="CUST_NAME" title="主贷人" customDict=""
+					hidden="true" />
+				<column type="both" name="CUST_PHONE" title="主贷人电话"
+					customDict="" hidden="true" />
 
-				<column type="both" name="SPV_TYPE" 		title="监管类型" 	customDict="getSrvNameByCode"  hidden="true"    />			
+				<column type="both" name="SIGN_DATE" title="签贷时间" customDict=""
+					hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="APPR_DATE" title="批贷时间" customDict=""
+					hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="LEND_DATE" title="放款时间" customDict=""
+					hidden="true" beanFormatter="dateFormatter" />
 
-				<column type="both" name="AMOUNT" 			title="监管金额" 	customDict="" hidden="true"     />			
+				<column type="both" name="COM_DISCOUNT" title="利率折扣"
+					customDict="" hidden="true" />
 
-				<column type="both" name="SIGN_TIME" 		title="监管签约时间" customDict="" hidden="true"  beanFormatter="dateFormatter"   />			
+				<column type="both" name="REAL_PRICE" title="成交价(万元)"
+					customDict="" hidden="true" />
+				<column type="both" name="CON_PRICE" title="合同价(万元)"
+					customDict="" hidden="true" />
+				<column type="both" name="CHECK_PRICE" title="核定价"
+					customDict="" hidden="true" />
+				<column type="both" name="UNIT_PRICE" title="过户单价"
+					customDict="" hidden="true" />
+				<column type="both" name="REAL_CON_TIME" title="签约时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="TAX_TIME" title="审税时间" customDict=""
+					hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="PRICING_TIME" title="核价时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="REAL_PLS_TIME" title="查限购时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="REAL_HT_TIME" title="过户时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="REAL_PROPERTY_GET_TIME" title="领证时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
+				<column type="both" name="CLOSE_TIME" title="结案时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
+
+				<column type="both" name="SPV_TYPE" title="监管类型" customDict="getSrvNameByCode"
+					hidden="true" />
+
+				<column type="both" name="AMOUNT" title="监管金额" customDict=""
+					hidden="true" />
+
+				<column type="both" name="SIGN_TIME" title="监管签约时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter" />
 
 			</table-row>
 		</grid>

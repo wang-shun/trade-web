@@ -528,7 +528,7 @@ function showExcelIn() {
 //Excel显示列
 var colNames = {
 	30010001 : [ 'AGENT_NAME', 'AGENT_ORG', 'AGENT_FHJL', 'AGENT_QYJL',
-		 			'AGENT_QYZJ','AGENT_QYDS' ],
+		 			'AGENT_QYZJ','AGENT_QYDS','AGENT_QDORG' ],
 	30010002 : [ 'OP_NAME', 'OP_CODE', 'OP_ORG', 'OP_MANAGER','OP_AS',
 	             'OP_PARENT_ORG','SRV_STR','PROCESSOR_ID'],
 	30010003 : [ 'PROPERTY_ADDR', 'SELLER', 'SELLER_PHONE', 'BUYER',
@@ -545,12 +545,13 @@ var colNames = {
 	30011006 : [ 'CUST_NAME', 'CUST_PHONE' ],
 	30011007 : [ 'SIGN_DATE', 'APPR_DATE', 'LEND_DATE' ],
 	30011008 : 'COM_DISCOUNT',
-	30012001 : [ 'REAL_PRICE', 'CON_PRICE' ],
+	30012001 : [ 'REAL_PRICE', 'CON_PRICE','CHECK_PRICE','UNIT_PRICE' ],
 	30012002 : [ 'REAL_CON_TIME', 'TAX_TIME', 'PRICING_TIME', 'REAL_PLS_TIME',
 			'REAL_HT_TIME', 'REAL_PROPERTY_GET_TIME','CLOSE_TIME' ],
 	30013001 : 'SPV_TYPE',
 	30013002 : 'AMOUNT',
-	30013003 : 'SIGN_TIME'
+	30013003 : 'SIGN_TIME',
+	30011009:'LOAN_LOST_TYPE'
 };
 /**
  * Excel导出
@@ -598,9 +599,9 @@ function exportToExcel() {
 		var orgArray = queryOrgs==null?'':queryOrgs.split(",");
 
 		var argu_idflag = '&argu_idflag='+arguUserId;
-
+		
 		if(arguUserId==null)argu_idflag='&argu_idflag=';
-		var argu_queryorgs = '&argu_queryorgs='+orgArray;
+		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var params = getParamsValue();
 		var queryId = '&queryId=queryCaseExcelItemList';
@@ -612,6 +613,7 @@ function exportToExcel() {
 		//url= decodeURI(url);
 //		alert(url);
 		$('#excelForm').attr('action', url);
+		
 		$('#excelForm').method="post" ;
 		$('#excelForm').submit();
 	} else {
