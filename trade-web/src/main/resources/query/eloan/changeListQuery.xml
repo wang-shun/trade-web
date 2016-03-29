@@ -74,7 +74,7 @@
 						            FROM
 						                sctrans.T_TO_LOAN_STATUS_CHANGE
 						            WHERE
-						                PKID = c.PKID
+						                LOAN_ID = c.LOAN_ID
 						            AND
 						                IS_CONFIRM=0
 						            AND PKID > c.PKID
