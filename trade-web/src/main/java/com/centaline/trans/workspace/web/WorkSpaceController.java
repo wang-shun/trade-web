@@ -61,7 +61,7 @@ import com.centaline.trans.workspace.service.WorkSpaceService;
 /**
  * 
  * @author sstonehu
- * @version $Id: WorkSpaceController.java, v 0.1 2015年7月24日 上午9:43:30 sstonehu
+ * @version $Id: WorkSpaceController.java, v 0.1 2015年7月24日 上午9:43:30 sstonehu`
  *          Exp $
  */
 @Controller

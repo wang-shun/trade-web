@@ -12,6 +12,8 @@ public class TsSup {
     private String supCat;
 
     private String relFinOrgCode;
+    
+    private String coLevel;
 
     public Long getPkid() {
         return pkid;
@@ -60,4 +62,12 @@ public class TsSup {
     public void setRelFinOrgCode(String relFinOrgCode) {
         this.relFinOrgCode = relFinOrgCode == null ? null : relFinOrgCode.trim();
     }
+
+	public String getCoLevel() {
+		return coLevel;
+	}
+
+	public void setCoLevel(String coLevel) {
+		this.coLevel = coLevel;
+	}
 }

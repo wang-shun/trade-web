@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="getSupCatByCode" beanName="qqcdDictyu_sup_cat"></customDict> 
+		<customDict id="getSupCatByCode" beanName="qqcdDictyu_sup_cat"></customDict>
+		<customDict id="getCoLevelByCode" beanName="qqcdDictyu_bank_co_level"></customDict> 
 	</dicts>
 	
   	<formatters>
@@ -44,6 +45,7 @@
 					SUP.CONTACT_PHONE,
 					SUP.SUP_CAT,
 					SUP.REL_FIN_ORG_CODE,
+					SUP.CO_LEVEL,
 					TFO.FIN_ORG_NAME
 					FROM sctrans.T_TS_SUP SUP
 					LEFT JOIN sctrans.T_TS_FIN_ORG TFO ON SUP.FIN_ORG_CODE = TFO.FIN_ORG_CODE
@@ -61,6 +63,7 @@
 				<column type="both" name="CONTACT_NAME" index="" checkbox="" display="联系人姓名" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CONTACT_PHONE" index="" checkbox="" display="联系人电话" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="SUP_CAT" index="" checkbox="" display="供应商类型" customDict="getSupCatByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CO_LEVEL" index="" checkbox="" display="合作等级" customDict="getCoLevelByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 
 			</table-row>
 		</grid>

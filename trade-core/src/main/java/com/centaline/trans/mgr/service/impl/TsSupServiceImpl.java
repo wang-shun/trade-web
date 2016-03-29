@@ -36,7 +36,7 @@ public class TsSupServiceImpl implements TsSupService{
 			sup.setFinOrgCode(tsSup.getFinOrgCode());
 			sup.setRelFinOrgCode(tsSup.getRelFinOrgCode());
 			sup.setSupCat(tsSup.getSupCat());
-			
+			sup.setCoLevel(tsSup.getCoLevel());
 			tsSupMapper.updateByPrimaryKeySelective(sup);
 			
 		}else{
@@ -47,6 +47,7 @@ public class TsSupServiceImpl implements TsSupService{
 			sup.setFinOrgCode(tsSup.getFinOrgCode());
 			sup.setRelFinOrgCode(tsSup.getRelFinOrgCode());
 			sup.setSupCat(tsSup.getSupCat());
+			sup.setCoLevel(tsSup.getCoLevel());
 			tsSupMapper.insertSelective(sup);
 		}
 	}
@@ -62,6 +63,7 @@ public class TsSupServiceImpl implements TsSupService{
 			vo.setFinOrgCode(tsSup.getFinOrgCode());
 			vo.setRelFinOrgCode(tsSup.getRelFinOrgCode());
 			vo.setSupCat(tsSup.getSupCat());
+			vo.setCoLevel(tsSup.getCoLevel());
 			TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(tsSup.getFinOrgCode());
 			if(tsFinOrg != null){
 				vo.setFinOrgName(tsFinOrg.getFinOrgName());

@@ -19,6 +19,7 @@ public class TsSupVo {
 	private String faFinOrgCode;
 	
 	private String faFinOrgName;
+	private String coLevel;
 
 	public Long getPkid() {
 		return pkid;
@@ -90,6 +91,14 @@ public class TsSupVo {
 
 	public void setFaFinOrgName(String faFinOrgName) {
 		this.faFinOrgName = faFinOrgName;
+	}
+
+	public String getCoLevel() {
+		return coLevel;
+	}
+
+	public void setCoLevel(String coLevel) {
+		this.coLevel = coLevel;
 	}
 	
 }
