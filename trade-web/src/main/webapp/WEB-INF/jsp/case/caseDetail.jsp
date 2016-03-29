@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <div class="panel panel-success">
+                                    <div class="panel panel-success bg-red">
                                         <div class="panel-heading">
                                             买卖双方
                                         </div>
@@ -120,7 +120,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <div class="panel panel-success">
+                                    <div class="panel panel-success bg-green">
                                         <div class="panel-heading">
                                            经纪人信息
                                         </div>
@@ -138,7 +138,7 @@
                                 </div>
                                 
                                 <div class="col-lg-3">
-                                    <div class="panel panel-success">
+                                    <div class="panel panel-success bg-blue">
                                         <div class="panel-heading">
                                             经办人信息
                                         </div>

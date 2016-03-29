@@ -59,6 +59,8 @@ if(pageContext.getSession().getAttribute("ctx")==null){
     
     <link href="${ctx}/css/style.css" rel="stylesheet">
     <link href="${ctx}/css/font-awesome.min.css" rel="stylesheet">
+    
+    <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
 <script type="text/javascript">
 	try{
 		var ctx="${ctx}";
