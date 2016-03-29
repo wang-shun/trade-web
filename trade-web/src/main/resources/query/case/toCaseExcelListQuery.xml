@@ -426,7 +426,7 @@
 				<column type="both" name="BUYER_PHONE" title="下家电话" hidden="true" />
 
 				<column type="both" name="CREATE_TIME" title="报单日期"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" />
 
 				<column type="both" name="RES_DATE" title="分单日期" customDict=""
 					hidden="true" beanFormatter="dateFormatter" />
