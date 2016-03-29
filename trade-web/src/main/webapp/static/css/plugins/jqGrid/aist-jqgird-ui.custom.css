@@ -4,7 +4,7 @@
 .ui-jqgrid tr.jqgrow td {padding: 12px 6px;}
 .ui-widget-content:nth-child(2n+1){background:#f5f8fa;}
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-content:nth-child(2n+1) .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: #e5f1f9;}
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{background:#dcf2ff;}
+.ui-widget-header .ui-state-default{background:#dcf2ff;}
 .ui-widget-content{border: 1px solid #e4eaee;}
 .ui-widget-content .ui-state-default.ui-th-ltr{ background:#a0cdeb;color:#fff;text-shadow: none;}
 .ui-widget-content .ui-state-default.ui-th-ltr.ui-state-hover{background:#8bbfe2;}
