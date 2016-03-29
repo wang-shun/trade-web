@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.service.OrgService;
 import com.centaline.trans.common.vo.OrgVO;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.task.entity.ToPropertyResearch;
 
 @Controller
@@ -28,6 +31,9 @@ public class WarnListController {
 	
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
+	
+	@Autowired(required = true)
+	UamUserOrgService uamUserOrgService;
 	
 	@Autowired
 	LoanAgentService loanAgentService;
@@ -46,8 +52,7 @@ public class WarnListController {
 		String userOrgId = user.getServiceDepId();
 		request.setAttribute("queryOrg", userOrgId);
 
-		String dept = DepTypeEnum.TYCQY.getCode();
-		List<OrgVO> districtOrgList = orgService.getOrgListByDept(dept);
+		List<Org> districtOrgList = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.YU_DISTRICT);
 		request.setAttribute("districtOrgList", districtOrgList);
 		
 		return "eloan/warnList";

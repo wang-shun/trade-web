@@ -48,7 +48,7 @@
 					所属区域:	<select id="districtOrgId">
 					 			  <option value ="">请选择</option>
 								  <c:forEach items="${districtOrgList}" var="item">
-									 <option value ="${item.orgId}">${item.orgName}</option>
+									 <option value ="${item.id}">${item.orgName}</option>
 								  </c:forEach>
 							</select> 
 					<button type="button" id="searchButton" onclick="searchButton();" style="margin-left: 30px;">搜索</button>
