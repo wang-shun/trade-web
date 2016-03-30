@@ -78,9 +78,9 @@
 				<column type="both" name="PR_CAT" index="" checkbox="" display="产调项目" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="产调申请人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_EXECUTOR" index="" checkbox="" display="产调执行人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_STATUS" index="" checkbox="" display="状态" customDict="getPrStatusCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" customDict="getIsSuccess" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			

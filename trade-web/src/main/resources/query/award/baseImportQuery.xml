@@ -64,7 +64,7 @@ where tbv.IS_DELETED='0'
 				<column type="both" name="employeeCode" index="" checkbox=""
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
-				<column type="both" name="createTime"	customDict=""      beanFormatter="dateFormatter"/>
+				<column type="both" name="createTime"	customDict=""      beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
 			</table-row>
 		</grid>
 	</query>

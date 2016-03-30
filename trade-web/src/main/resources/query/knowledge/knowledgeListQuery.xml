@@ -59,7 +59,7 @@
 				<column type="both" name="KNOWLEDGE_CODE" index="" checkbox="" display="知识编码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="TITLE" index="" checkbox="" display="知识标题" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CONTENT" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PUBLISHER" index="" checkbox="" display="发布人" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>

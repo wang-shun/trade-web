@@ -63,7 +63,7 @@
 				<column type="both" name="CASH_FLOW_TYPE" index="" checkbox="" display="类型" customDict="getFlowTypeByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FLOW_DIRECTION" index="" checkbox="" display="流水方向" customDict="getFlowDirectionByCode" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FLOW_AMOUNT" index="" checkbox="" display="金额" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="FLOW_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="FLOW_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

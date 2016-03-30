@@ -51,8 +51,8 @@
 				<column type="both" name="owner" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="assignee" index="" checkbox="" display="" customDict="getUserRealNameByUsername" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="status" index="" checkbox="" display="" customDict="getStatus" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="createDate" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="closeDate" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />						
+				<column type="both" name="createDate" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="closeDate" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />						
 				<column type="both" name="statusCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 			</table-row>
 		</grid>

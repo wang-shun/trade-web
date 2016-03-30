@@ -429,7 +429,7 @@
 					customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" />
 
 				<column type="both" name="RES_DATE" title="分单日期" customDict=""
-					hidden="true" beanFormatter="dateFormatter" />
+					hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
 
 				<column type="both" name="CASE_PROPERTY" title="案件性质"
 					customDict="getPropertyNameByCode" />
@@ -470,11 +470,11 @@
 					customDict="" hidden="true" />
 
 				<column type="both" name="SIGN_DATE" title="签贷时间" customDict=""
-					hidden="true" beanFormatter="dateFormatter" />
+					hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="APPR_DATE" title="批贷时间" customDict=""
-					hidden="true" beanFormatter="dateFormatter" />
+					hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="LEND_DATE" title="放款时间" customDict=""
-					hidden="true" beanFormatter="dateFormatter" />
+					hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
 				<column type="both" name="COM_DISCOUNT" title="利率折扣"
 					customDict="" hidden="true" />
@@ -488,19 +488,19 @@
 				<column type="both" name="UNIT_PRICE" title="过户单价"
 					customDict="" hidden="true" />
 				<column type="both" name="REAL_CON_TIME" title="签约时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="TAX_TIME" title="审税时间" customDict=""
-					hidden="true" beanFormatter="dateFormatter" />
+					hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="PRICING_TIME" title="核价时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="REAL_PLS_TIME" title="查限购时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="REAL_HT_TIME" title="过户时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="REAL_PROPERTY_GET_TIME" title="领证时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="CLOSE_TIME" title="结案时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
 				<column type="both" name="SPV_TYPE" title="监管类型" customDict="getSrvNameByCode"
 					hidden="true" />
@@ -509,7 +509,7 @@
 					hidden="true" />
 
 				<column type="both" name="SIGN_TIME" title="监管签约时间"
-					customDict="" hidden="true" beanFormatter="dateFormatter" />
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
 			</table-row>
 		</grid>

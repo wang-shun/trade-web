@@ -60,7 +60,7 @@
 				<column type="both" name="caseCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="instCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="taskJobCode" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="candidateId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="taskDfKey" index="" checkbox="" display="" customDict="getDictPartName" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />

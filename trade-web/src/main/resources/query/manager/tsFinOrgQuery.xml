@@ -53,8 +53,8 @@
 				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="FIN_ORG_CODE" index="" checkbox="" display="金融机构编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="金融机构名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" display="父机构编码" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FA_FIN_ORG_NAME" index="" checkbox="" display="父机构名称" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" display="父机构编码" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_NAME" index="" checkbox="" display="父机构名称" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 
 			</table-row>
 		</grid>

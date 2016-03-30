@@ -65,7 +65,7 @@
 				<column type="both" name="ADDRESS" index="" checkbox="" display="所在地" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="USER_NAME" index="" checkbox="" display="考勤人" customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" display="所在部门" customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="ATTEND_TIME" index="" checkbox="" display="日期" customDict="" sysDict="" format="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ATTEND_TIME" index="" checkbox="" display="日期" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable="" />
 
 			</table-row>
 		</grid>

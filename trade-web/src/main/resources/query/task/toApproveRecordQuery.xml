@@ -54,7 +54,7 @@
 			<table-row>
 				<column type="both" name="PART_CODE" index="" display="环节编码" customDict="getDictPartName"/>
 				<column type="both" name="OPERATOR" index="" checkbox="" display="操作人" customDict="getUserNameByCode" />
-				<column type="both" name="OPERATOR_TIME" index="" checkbox="true" display="操作时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="0" align="" halign="" order="asc" resizable=""/>
+				<column type="both" name="OPERATOR_TIME" index="" checkbox="true" display="操作时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="0" align="" halign="" order="asc" resizable=""/>
 				<column type="both" name="CONTENT" index="" checkbox="" display="内容" />
 			</table-row>
 		</grid>
