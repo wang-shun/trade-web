@@ -86,19 +86,19 @@
 					ON
 					   agent.CASE_CODE = propertyInfo.CASE_CODE
 					INNER JOIN
-					    sctrans_dev.sctrans.T_TO_CASE_INFO caseInfo
+					   sctrans.T_TO_CASE_INFO caseInfo
 					ON
 					    caseInfo.CASE_CODE =  agent.CASE_CODE
 					INNER JOIN
-					    sctrans_dev.sctrans.T_TS_FIN_ORG finOrg
+					    sctrans.T_TS_FIN_ORG finOrg
 					ON
 					   finOrg.FIN_ORG_CODE = agent.FIN_ORG_CODE
 					INNER JOIN
-					   sctrans_dev.sctrans.V_USER_ORG_JOB orgJob
+					   sctrans.V_USER_ORG_JOB orgJob
 					ON
 					   orgJob.user_id = caseInfo.AGENT_CODE
 					INNER JOIN
-		               scpf_dev.dbo.SYS_USER sysUser
+		               sctrans.SYS_USER sysUser
 			        ON
 			           sysUser.ID  = agent.EXECUTOR_ID
 			        WHERE
