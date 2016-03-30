@@ -159,7 +159,7 @@ public class EguPricingController {
 			returnMsg.setSc(Const.SUCCESS);
 		}catch(Exception e){
 			returnMsg.setSc(Const.FAIL);
-			logger.error("推送Egu询价结果失败！"+e.getMessage());
+			logger.error("推送Egu询价结果失败！"+e.getMessage(),e);
 		}
         return returnMsg;
     }
