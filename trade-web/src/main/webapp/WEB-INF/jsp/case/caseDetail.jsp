@@ -225,12 +225,14 @@
                             <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.DAISHOU">  
                    			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="http://shs-ctm01/centalineoa/portal/frmIndex.aspx" target="_blank">代收代付</a> 
                    			 </shiro:hasPermission>
+                   			 <c:if test="${ !isBackTeam}">
                    			 <c:if test="${not empty toWorkFlow.processDefinitionId}" >
                         		<c:if test="${not empty toWorkFlow.instCode}" >
 		                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">  
 		                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showOrgCp()">责任人变更</a>
 		                   			 </shiro:hasPermission>
 	                   			 </c:if>
+                   			 </c:if>
                    			 </c:if>
                    			 <shiro:hasPermission name="TRADE.CASE.ORGC.CHANGE">  
                    			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:caseChangeTeam()">案件转组</a>

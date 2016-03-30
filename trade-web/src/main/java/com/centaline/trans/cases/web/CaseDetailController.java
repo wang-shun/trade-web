@@ -90,6 +90,8 @@ import com.centaline.trans.task.entity.TsTransPlanHistory;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
+import com.centaline.trans.team.entity.TsTeamProperty;
+import com.centaline.trans.team.service.TsTeamPropertyService;
 
 /**
  * 
@@ -153,6 +155,8 @@ public class CaseDetailController {
 	PropertyUtilsService propertyUtilsService;
 	@Autowired
 	UamBasedataService uamBasedataService;
+	@Autowired
+	private TsTeamPropertyService teamPropertyService;
 
 	@Autowired(required = true)
 	private ToHouseTransferService toHouseTransferService;
@@ -607,8 +611,8 @@ public class CaseDetailController {
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
 		}
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 		if (toWorkFlow != null) {
-			SessionUser sessionUser = uamSessionService.getSessionUser();
 			TaskHistoricQuery tq = new TaskHistoricQuery();
 			tq.setProcessInstanceId(toWorkFlow.getInstCode());
 			tq.setTaskAssignee(sessionUser.getUsername());
@@ -616,10 +620,20 @@ public class CaseDetailController {
 			// 本人做的任务
 			request.setAttribute("myTasks", taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData()));
 		}
+		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
+				.getServiceDepCode());
+		boolean isBackTeam = false;
+		if (tp != null) {
+			isBackTeam = "yu_back".equals(tp.getTeamProperty());
+		}
+
+		
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
+		
+		request.setAttribute("isBackTeam", isBackTeam);
 
 		request.setAttribute("toCase", toCase);
 		request.setAttribute("toCaseInfo", toCaseInfo);
