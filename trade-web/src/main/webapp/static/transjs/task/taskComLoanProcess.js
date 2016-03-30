@@ -317,7 +317,11 @@ function completeMortgage(form){
 		data:{pkid:pkid,caseCode:$("#caseCode").val(),apprDate:$("#apprDate").val(),lastLoanBank:lastLoanBank,partCode:$("#partCode").val()},
 		success:function(data){
 			if(data.success){
-		        submitMortgage();
+				if('caseDetails'==source){
+					alert('保存成功');
+				}else{
+					submitMortgage();
+				}
 			}else{
 				alert(data.message);
 			}
@@ -1128,9 +1132,7 @@ $(document).ready(function () {
 	 	},
 	 	onFinished: function (event, currentIndex)
 	    {
-	 		if('caseDetails'!=source){
-	 			completeMortgage($("#completeForm"));
-	 		}
+	 		completeMortgage($("#completeForm"));
 	    }
 	});
 	
@@ -1200,9 +1202,7 @@ $(document).ready(function () {
  	},
  	onFinished: function (event, currentIndex)
     {
- 		if('caseDetails'!=source){
- 			completeMortgage($("#completeForm1"));
- 		}
+ 		completeMortgage($("#completeForm1"));
     }
 });
 //    $("#finOrgCode").change(function(){
