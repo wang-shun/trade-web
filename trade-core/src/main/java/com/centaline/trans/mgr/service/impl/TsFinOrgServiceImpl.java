@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.mgr.entity.TsBankEvaRelationship;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.entity.TsSup;
@@ -28,6 +30,8 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 
 	@Autowired
 	private TsSupMapper tsSupMapper;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	@Override
 	public void saveTsFinOrg(TsFinOrg tsFinOrg) {
@@ -58,14 +62,25 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	@Override
 	public List<TsFinOrg> findBankListByParentCode(String flag,
 			String faFinOrgCode) {
+		List<TsFinOrg> result=null;
 		if (StringUtils.equals(flag, "egu")) {
 			String evaCompanyCode = "P00021";
-
-			return tsFinOrgMapper.findEguBankListByParentCode(faFinOrgCode,
+		
+			result= tsFinOrgMapper.findEguBankListByParentCode(faFinOrgCode,
 					evaCompanyCode);
 		} else {
-			return tsFinOrgMapper.findBankListByParentCode(faFinOrgCode);
+			result=tsFinOrgMapper.findBankListByParentCode(faFinOrgCode);
 		}
+		result.parallelStream().forEach(fin ->{
+			if(!StringUtils.isBlank(fin.getCoLevel())){
+				Dict dict= uamBasedataService.findDictByTypeAndCode("yu_bank_co_level", fin.getCoLevel());
+				if(dict!=null){
+					fin.setCoLevelStr(dict.getName());
+				}
+			}
+		});
+		
+		return result;
 	}
 
 	@Override

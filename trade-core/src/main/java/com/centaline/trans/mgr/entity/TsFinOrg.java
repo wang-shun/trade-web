@@ -14,6 +14,9 @@ public class TsFinOrg {
 	private String faFinOrgName;
 
 	private String faFinOrgNameYc;
+	
+	private String coLevel;
+	private String coLevelStr;
 
 	public Long getPkid() {
 		return pkid;
@@ -69,6 +72,22 @@ public class TsFinOrg {
 
 	public void setFaFinOrgNameYc(String faFinOrgNameYc) {
 		this.faFinOrgNameYc = faFinOrgNameYc;
+	}
+
+	public String getCoLevel() {
+		return coLevel;
+	}
+
+	public void setCoLevel(String coLevel) {
+		this.coLevel = coLevel;
+	}
+
+	public String getCoLevelStr() {
+		return coLevelStr;
+	}
+
+	public void setCoLevelStr(String coLevelStr) {
+		this.coLevelStr = coLevelStr;
 	}
 
 }
