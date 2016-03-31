@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.centaline</groupId>
     <artifactId>trade-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>trade-parent</name>
 	<modules>
 		<module>trade-core</module>
@@ -1016,7 +1015,7 @@
         <cxf.version>3.0.3</cxf.version>
         <poi.version>3.11</poi.version>
         <com.ibm.mq.version>7.5.0.2</com.ibm.mq.version>
-		<aist.version>1.1.0-SNAPSHOT</aist.version>
+        <aist.version>1.1.0</aist.version>
         <!-- ` 服务器配置 Begin -->
         <sonar.jdbc.url>jdbc:mysql://mgr.centaline.com:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
         <sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
@@ -1026,9 +1025,9 @@
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
         <!-- Sonar 服务器配置 End -->
         <tomcat.warFile>${project.build.directory}/${project.build.finalName}.war</tomcat.warFile>
-        <tomcat.url></tomcat.url>
-        <tomcat.username></tomcat.username>
-        <tomcat.password></tomcat.password>
+        <tomcat.url />
+        <tomcat.username />
+        <tomcat.password />
         <skipTests>true</skipTests>
     </properties>
 
