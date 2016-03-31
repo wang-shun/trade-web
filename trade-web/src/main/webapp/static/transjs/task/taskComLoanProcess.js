@@ -423,7 +423,7 @@ function subBankChange(){
 	var secoLevel=$(this).find('option:selected').attr('coLevel');
 	var levsls='01';
 	if(levsls.indexOf(secoLevel)==-1){
-		alert('选择了非A/B级服务商');
+		alert('您选择的当前银行为非入围银行，4月15日起将无法在系统内被选择！');
 	}
 }
 //查询贷款信息

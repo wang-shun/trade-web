@@ -8,7 +8,7 @@
     <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
     <result column="FA_FIN_ORG_CODE" property="faFinOrgCode" jdbcType="VARCHAR" />
     <result column="FA_FIN_ORG_NAME" property="faFinOrgName" jdbcType="VARCHAR" />
-
+    <result column="CO_LEVEL" property="coLevel" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.centaline.trans.mgr.entity.TsFinOrg" >
     insert into sctrans.T_TS_FIN_ORG (FIN_ORG_NAME, FIN_ORG_CODE, 
@@ -65,11 +65,16 @@
     select * from sctrans.T_TS_FIN_ORG where fin_org_code in(
   	select fa_fin_org_code from sctrans.T_TS_FIN_ORG where fin_org_code in(
   	select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR}))
+
   </select> 
  
   <select id="findEguBankListByParentCode"  resultMap="BaseResultMap">
-    select * from sctrans.T_TS_FIN_ORG where fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
-    and fin_org_code in(select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR})
+    select ts.*,tt.CO_LEVEL from sctrans.T_TS_FIN_ORG as ts
+    right join sctrans.T_TS_SUP as tt 
+    	on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0'
+    where ts.fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
+    and ts.fin_org_code in(select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR})
+    order by tt.CO_LEVEL asc
   </select>
   
   <select id="findParentBankList" resultMap="BaseResultMap" >
@@ -88,7 +93,10 @@
   </select>
    
   <select id="findBankListByParentCode"  resultMap="BaseResultMap">
-    select * from sctrans.T_TS_FIN_ORG where fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
+    select ts.*,tt.CO_LEVEL from sctrans.T_TS_FIN_ORG ts right join sctrans.T_TS_SUP as tt 
+    	on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0'
+     where  fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
+     	order by tt.CO_LEVEL asc
   </select>
   
   <select id="findParentBank" parameterType="java.lang.String" resultMap="BaseResultMap">

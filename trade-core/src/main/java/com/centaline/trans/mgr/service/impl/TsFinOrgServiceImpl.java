@@ -71,11 +71,15 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 		} else {
 			result=tsFinOrgMapper.findBankListByParentCode(faFinOrgCode);
 		}
+		Dict dict= uamBasedataService.findDictByType("yu_bank_co_level");
 		result.parallelStream().forEach(fin ->{
 			if(!StringUtils.isBlank(fin.getCoLevel())){
-				Dict dict= uamBasedataService.findDictByTypeAndCode("yu_bank_co_level", fin.getCoLevel());
 				if(dict!=null){
-					fin.setCoLevelStr(dict.getName());
+					dict.getChildren().stream().forEach(dic->{
+						if(fin.getCoLevel().equals(dic.getCode())){
+							fin.setCoLevelStr(dic.getName());
+						}
+					});
 				}
 			}
 		});
