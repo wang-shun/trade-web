@@ -75,13 +75,19 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款总额<font color="red">*</font></label>
 						<div class="col-md-2">
+						<div class="input-group">
 							<input type="text" name="mortTotalAmount" id="mortTotalAmount" class="form-control"  onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${SelfLoan.mortTotalAmount}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${SelfLoan.mortTotalAmount/10000}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
 						<label class="col-sm-2 control-label">商贷部分金额<font color="red">*</font></label>
 						<div class="col-md-2">
+							<div class="input-group">
 							<input type="text" name="comAmount" id="comAmount" class="form-control" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${SelfLoan.comAmount}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${SelfLoan.comAmount/10000}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
 						<label class="col-sm-2 control-label">商贷部分年限<font color="red">*</font></label>
 						<div class="col-md-2">
@@ -94,13 +100,17 @@
 						<div class="col-md-2">
 							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)" 
 								value="<fmt:formatNumber value='${SelfLoan.comDiscount}' type='number' pattern='#0.00' />">
+
 						</div>
-						<label class="col-sm-2 control-label">公积金贷款金额<font color="red">*</font></label>
+						<label class="col-sm-2 control-label">公积金贷款金额</label>
 						<div class="col-md-2">
+							<div class="input-group">
 							<input type="text" name="prfAmount" id="prfAmount" class="form-control" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${SelfLoan.prfAmount}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${SelfLoan.prfAmount/10000}' type='number' pattern='#0.00' />">
+								<span class="input-group-addon">万</span>
+								</div>
 						</div>
-						<label class="col-sm-2 control-label">公积金贷款年限<font color="red">*</font></label>
+						<label class="col-sm-2 control-label">公积金贷款年限</label>
 						<div class="col-md-2">
 							<input type="text" name="prfYear" id="prfYear" class="form-control" value="${SelfLoan.prfYear}" onkeyup="checkNum2(this)">
 						</div>
@@ -134,7 +144,7 @@
 		
 		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a>
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata='1'>提交</a>
 		</div>
 	</div>
 
@@ -153,7 +163,22 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 
 	<script>
+	var source = "${source}";
+	function readOnlyForm(){
+		$(".readOnly_date").removeClass('date');
+		$(".readOnly_date input").attr('readOnly',true);
+		$("select[readOnlydata=1]").closest('.row').hide();
+		$("[readOnlydata=1]").attr('readonly',true);
+		$("[readOnlydata=1]").each(function(){
+			if($(this).is('a')){
+				$(this).hide();
+			}
+		});
+	}
 		$(document).ready(function() {
+			if('caseDetails'==source){
+				readOnlyForm();
+			}
 			$('#data_1 .input-group.date').datepicker({
 				todayBtn : "linked",
 				keyboardNavigation : false,
@@ -334,16 +359,16 @@
                 $('input[name=comDiscount]').focus();
                 return false;
            }
-			if($('input[name=prfAmount]').val()=='') {
+			/* if($('input[name=prfAmount]').val()=='') {
                 alert("公积金贷款金额为必填项!");
                 $('input[name=prfAmount]').focus();
                 return false;
-           }
-			if($('input[name=prfYear]').val()=='') {
+           } */
+		/* 	if($('input[name=prfYear]').val()=='') {
                 alert("公积金贷款年限为必填项!");
                 $('input[name=prfYear]').focus();
                 return false;
-           }
+           } */
 			if($('input[name=houseNum]').val()=='') {
                 alert("认定套数为必填项!");
                 $('input[name=houseNum]').focus();

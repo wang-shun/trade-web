@@ -63,7 +63,7 @@
 				<column type="both" name="BASE_AMOUNT" index="" checkbox="" title="基本奖金" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="KPI"  index="" checkbox="" title="KPI" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="FINAL_AMOUNT" index="" checkbox="" title="最终金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="DISPATCH_TIME" index="" checkbox="" title="记佣归属月份" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="DISPATCH_TIME" index="" checkbox="" title="记佣归属月份" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

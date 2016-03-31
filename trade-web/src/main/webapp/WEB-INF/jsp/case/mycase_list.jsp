@@ -94,6 +94,24 @@
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
+						<!-- <div class="row">
+							<div class="col-md-7 col-sm-12">
+								<div class="form-group ">
+									<label class="col-md-2  col-sm-4 control-label">案件编号</label>
+									<div class="col-md-8">
+										<input id="caseCode" name="caseCode" type="text" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-5 col-sm-12">
+								<div class="form-group">
+									<label class="col-md-3  col-sm-4 control-label">CTM编号</label>
+									<div class="col-md-8">
+									    <input id="ctmCode" type="text"  name="ctmCode" class="form-control">
+									</div>
+								</div>
+							</div>
+						</div> -->
 						<div class="row">
 							<div class="col-md-7 col-sm-12">
 								<div class="form-group ">
@@ -149,6 +167,8 @@
 									<option value="2">经纪人姓名</option>
 									<option value="4">经办人姓名</option>
 									<option value="3">所属分行</option>
+									<option value="5">案件编号</option>
+									<option value="6">CTM编号</option>
 								</select>
 								<input id="inTextVal" type="text" class="form-control pull-left">
 							</div>

@@ -249,28 +249,30 @@ public class TgGuestInfoServiceImpl implements TgGuestInfoService {
 			if(null!=caseinfo){
 				agentCode=caseinfo.getAgentCode();
 			}
-			User uu=uamUserOrgService.getUserById(agentCode);
-			if(null!=uu){
-				weixin=sendWeixinMessage(agentCode, uu.getRealName(), uu.getMobile(), address, partcode);  // 发送微信
-				// 根据 caseCode 到T_TS_MSG_SEND_HISTORY 表中去查询, 如果已经发过了则不在发送, 如果没有则发送
-				TsMsgSendHistory msghist=new TsMsgSendHistory();
-				msghist.setCaseCode(caseCode);
-				msghist.setReceiverName(uu.getRealName());
-				msghist.setPartCode(partcode);
-				int countMsg=tsmsgSendHistoryMapper.countMsghistory(msghist);
-				if(countMsg==0){
-					// 往 T_TS_MSG_SEND_HISTORY 表中写入数据
-					TsMsgSendHistory msgsend=new TsMsgSendHistory();
-					msgsend.setCaseCode(caseCode);  // 案件编号
-					msgsend.setPartCode(partCode);  // 环节编码
-					msgsend.setSendTime(date);  // 发送时间
-					msgsend.setMsgCat("SITE");  // 消息类型
-					msgsend.setSenderId(user.getId());  // 发送人[当前系统登录人的userid]
-					msgsend.setReceiverName(uu.getRealName());  // 接收人
-					msgsend.setReceiverPhone(uu.getMobile());
-					msgsend.setReceiverCat("30006003");  // 接收人类型
-					msgsend.setIsSuccess(Integer.toString(weixin)); // 是否成功[1代表成功, 0代表失败]
-					int msghistory=tsmsgSendHistoryMapper.insert(msgsend);
+			if(agentCode != null) {
+				User uu=uamUserOrgService.getUserById(agentCode);
+				if(null!=uu){
+					weixin=sendWeixinMessage(agentCode, uu.getRealName(), uu.getMobile(), address, partcode);  // 发送微信
+					// 根据 caseCode 到T_TS_MSG_SEND_HISTORY 表中去查询, 如果已经发过了则不在发送, 如果没有则发送
+					TsMsgSendHistory msghist=new TsMsgSendHistory();
+					msghist.setCaseCode(caseCode);
+					msghist.setReceiverName(uu.getRealName());
+					msghist.setPartCode(partcode);
+					int countMsg=tsmsgSendHistoryMapper.countMsghistory(msghist);
+					if(countMsg==0){
+						// 往 T_TS_MSG_SEND_HISTORY 表中写入数据
+						TsMsgSendHistory msgsend=new TsMsgSendHistory();
+						msgsend.setCaseCode(caseCode);  // 案件编号
+						msgsend.setPartCode(partCode);  // 环节编码
+						msgsend.setSendTime(date);  // 发送时间
+						msgsend.setMsgCat("SITE");  // 消息类型
+						msgsend.setSenderId(user.getId());  // 发送人[当前系统登录人的userid]
+						msgsend.setReceiverName(uu.getRealName());  // 接收人
+						msgsend.setReceiverPhone(uu.getMobile());
+						msgsend.setReceiverCat("30006003");  // 接收人类型
+						msgsend.setIsSuccess(Integer.toString(weixin)); // 是否成功[1代表成功, 0代表失败]
+						int msghistory=tsmsgSendHistoryMapper.insert(msgsend);
+					}
 				}
 			}
 		}

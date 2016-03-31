@@ -62,7 +62,7 @@
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
 				<column type="both" name="belongMonth" index="" checkbox=""
-					display="" customDict="" beanFormatter="dateFormatter" sysDict=""
+					display="" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict=""
 					format="" width="90" isSort="true" align="" halign="" order="desc"
 					resizable="" />
 			</table-row>

@@ -40,6 +40,7 @@ import com.centaline.trans.mortgage.repository.MortStepMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.task.service.ServiceChangeService;
 import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
 public class ServiceChangeServiceImpl implements ServiceChangeService {
@@ -63,7 +64,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	@Autowired
 	private ToTransPlanService toTransPlanService;
 	@Autowired
-	private ToMortgageMapper toMortgageMapper;
+	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private PropertyUtilsService propertyUtilsService;
 	
@@ -107,6 +108,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 			}
     		for(ToWorkFlow toWorkFlow : tfs){
     			try {
+    				unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
             		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
 				} catch (WorkFlowException e) {
 					if(!e.getMessage().contains("statusCode[404]"))throw e;

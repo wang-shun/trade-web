@@ -70,7 +70,7 @@
 				<column type="both" name="clickSum" index="" checkbox="" display="点击量" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="isRecommand" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="isTop" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="isLiked" index="" checkbox="" display="是否点赞" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="employeeCode" index="" checkbox="" display="发布人" customDict="getUserEmployeeCodeByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="pubisher" index="" checkbox="" display="发布人" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>

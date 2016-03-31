@@ -82,6 +82,8 @@
 		<!-- 组别 -->
 		<mapper resource="mapper/team/TsTeamPropertyMapper.xml" />
 		<mapper resource="mapper/team/TsTeamScopeMapper.xml" />
+		<mapper resource="mapper/team/TsTeamScopeArMapper.xml" />
+		<mapper resource="mapper/team/TsTeamScopeGrpMapper.xml" />
 		<mapper resource="mapper/team/TsTeamTransferMapper.xml" />
 		<!-- 监管 -->
 		<mapper resource="mapper/spv/ToSpvMapper.xml" />
@@ -123,5 +125,9 @@
 		<!-- 查看附件日志 -->
 		<mapper resource="mapper/log/TsAttachmentReadLogMapper.xml" />
 		
+		<!--奖金分配相关  -->
+		<mapper resource="mapper/task/AwardBaseMapper.xml"/>
+		<mapper resource="mapper/task/ActHiTaskinstMapper.xml"/>
+		<mapper resource="mapper/task/AwardBaseConfigMapper.xml"/>
 	</mappers>
 </configuration>

@@ -110,7 +110,11 @@ public class EguPricingController {
 				if(assessResult.getAss_status() != null){
 					eguPricing.setStatus(assessResult.getAss_status().toString());
 				}
-				eguPricing.setTotalPrice(assessResult.getTotal_price()*10000);
+				if(assessResult.getTotal_price() == null) {
+					eguPricing.setTotalPrice(0d);
+				} else {
+					eguPricing.setTotalPrice(assessResult.getTotal_price()*10000);
+				}
 				eguPricing.setUnitPrice(assessResult.getUnit_price());
 				User user = uamUserOrgService.getUserByUsername(assessResult.getUn());
 				if(user != null){
@@ -124,7 +128,11 @@ public class EguPricingController {
 				if(assessResult.getAss_status() != null){
 					toEguPricing.setStatus(assessResult.getAss_status().toString());
 				}
-				toEguPricing.setTotalPrice(assessResult.getTotal_price()*10000);
+				if(assessResult.getTotal_price() == null) {
+					toEguPricing.setTotalPrice(0d);
+				} else {
+					toEguPricing.setTotalPrice(assessResult.getTotal_price()*10000);
+				}
 				toEguPricing.setUnitPrice(assessResult.getUnit_price());
 				toEguPricingService.updateToEguPricing(toEguPricing);
 			}
@@ -151,7 +159,7 @@ public class EguPricingController {
 			returnMsg.setSc(Const.SUCCESS);
 		}catch(Exception e){
 			returnMsg.setSc(Const.FAIL);
-			logger.error("推送Egu询价结果失败！"+e.getMessage());
+			logger.error("推送Egu询价结果失败！"+e.getMessage(),e);
 		}
         return returnMsg;
     }

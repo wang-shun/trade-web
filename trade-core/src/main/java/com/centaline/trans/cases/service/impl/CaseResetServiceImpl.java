@@ -20,10 +20,13 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 @Service
 public class CaseResetServiceImpl implements CaseResetService {
 	@Autowired
 	private ToWorkFlowService workflowService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private ToCaseService caseService;
 	@Autowired
@@ -68,6 +71,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		if(tfs!=null){
 			for (ToWorkFlow toWorkFlow : tfs) {
 				try {
+					unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
 					workflowManager.deleteProcess(toWorkFlow.getInstCode());
 				} catch (WorkFlowException e) {
 					if(!e.getMessage().contains("statusCode[404]"))throw e;

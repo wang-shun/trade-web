@@ -151,7 +151,8 @@
 	<mvc:resources mapping="/transjs/**" location="/static/transjs/**" /> 	
 	<mvc:resources mapping="/mobilejs/**" location="/static/mobilejs/**" /> 	
 	<mvc:resources mapping="/image/**" location="/static/image/**" />
-	<mvc:resources mapping="/momedia/**" location="/static/momedia/**" /> 	
+	<mvc:resources mapping="/momedia/**" location="/static/momedia/**" />
+	<mvc:resources mapping="/template/**" location="/static/template/**" /> 	
 	<mvc:resources mapping="/static/tbsp/**" location="/WEB-INF/static/tbsp/**" />
 	
     <!-- ========================= VIEW定义 ========================= -->

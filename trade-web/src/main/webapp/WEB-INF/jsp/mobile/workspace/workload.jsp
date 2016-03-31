@@ -6,14 +6,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="${ctx}/momedia/css/workload/css/style.css">
-	<style type="text/css">
-		.img-circle{
-			width: 74px;
-			height: 74px;
-		}
-
-	</style>
+	<link rel="stylesheet" href="../../../momedia/css/workload/css/style.css">
 </head>
   <body id="workload">
         <div class="container">
@@ -21,8 +14,8 @@
                 区域：${org.orgName }
             </h2>
             <!-- 委派單數=4 -->
-            <div style="display:block;height:82.35%;overflow:hidden;" id="div_main">
-            	<div class="item-1 pull-left">
+            <div id="div_main">
+            	<div class="item-1 pull-left" >
                 <div class="panel panel-danger">
                     <div class="panel-heading">
                         未派单数
@@ -36,7 +29,7 @@
                 </div>
             </div>
             <div class="item-2">
-                <div class="panel panel-red">
+                <div class="panel panel-red" style="margin-bottom:0.4rem;">
                     <div class="panel-heading">
                         签约数
                         <strong class="pull-right" id="signCount">
@@ -46,7 +39,7 @@
                     <div class="panel-body" id="div_signCount">
                     </div>
                 </div>
-                <div class="panel panel-yellow">
+                <div class="panel panel-yellow" style="margin-bottom:0.4rem;">
                     <div class="panel-heading">
                         过户数
                         <strong class="pull-right" id="houseTranRankCount">
@@ -77,18 +70,21 @@
                        
                     </div>
                 </div>
+                <div class="logo pull-right">
             </div>
             </div>
+            
+            </div>
+            
             <!-- /委派單數=4 -->
 
            
-            <div class="logo pull-right">
-            </div>
+            
             
         </div>
    
-	<script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/template.js" type="text/javascript" ></script>
+	<script src="../../../momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
 	    <script id="rankDetils" type= "text/html">
 			{{if data.length>0}}
 				{{each data as item index}}
@@ -148,7 +144,7 @@
 		}
 		function loadData(){
 			$.ajax({
-				url : ctx+"/mobile/dashboard/box/workloadData",
+				url : "../../../mobile/dashboard/box/workloadData",
 				method:"post",
 				data: {orgId: orgId},  
 				dataType:"json",

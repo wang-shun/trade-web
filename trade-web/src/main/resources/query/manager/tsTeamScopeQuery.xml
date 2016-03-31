@@ -71,7 +71,7 @@
 				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="YU_AGENT_TEAM_CODE" index="" checkbox="" display="业务组别编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="YU_AGENT_TEAM_NAME" index="" checkbox="" display="业务组别名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="誉萃组别编码" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="誉萃组别编码" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="YU_TEAM_NAME" index="" checkbox="" display="誉萃组别名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="QYJL" index="" checkbox="" display="区经" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="QYZJ" index="" checkbox="" display="区总" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />

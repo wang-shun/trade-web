@@ -81,10 +81,10 @@
 				<column type="both" name="SERIAL_NUMBER" index="" checkbox="" display="报告序列" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REPORT_TYPE" index="" checkbox="" display="报告类型" customDict="getReportType" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FEEDBACK" index="" checkbox="" display="当前状态" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="REPORT_RESPONSE_TIME" index="" checkbox="" display="状态时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REPORT_RESPONSE_TIME" index="" checkbox="" display="状态时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_FINAL_REPORT" index="" checkbox="" display="是否最终报告" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="目标银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
-				<column type="both" name="REPORT_ARISE_TIME" index="" checkbox="" display="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="REPORT_ARISE_TIME" index="" checkbox="" display="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="RESIDENCE_NAME" index="" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="LOANER_NAME" index="" checkbox="" display="信贷员姓名" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="LOANER_PHONE" index="" checkbox="" display="信贷员电话" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			

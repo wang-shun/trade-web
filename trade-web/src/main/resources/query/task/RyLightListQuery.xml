@@ -76,7 +76,7 @@
 		<grid>
 			<table-row>
 			
-				<column type="both" name="estPartTime" index="" checkbox="true" display="" customDict="" sysDict="" beanFormatter="dateFormatter" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="estPartTime" index="" checkbox="true" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="color" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="caseCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="taskName" index="" checkbox="" display=""  customDict="getDictPartName"  sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>

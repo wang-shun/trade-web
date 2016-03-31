@@ -116,6 +116,7 @@
 			<div class="row">
 				<a role="button" class="btn btn-primary btn-xm"
 					href="javascript:showExcelModal(1)">案件评分导入 </a>
+					 <a href="../template/customer_visit_score.xlsx">客户回访评分导入模板下载</a>
 			</div>
 		</div>
 		<!-- 收益导入 -->

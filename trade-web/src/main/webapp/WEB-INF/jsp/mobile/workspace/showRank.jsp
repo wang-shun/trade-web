@@ -6,20 +6,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="${ctx}/momedia/css/rank/css/style.css">
-	<style type="text/css">
-		.img-circle{
-			width: 74px;
-			height: 74px;
-		}
-	</style>
+	<link rel="stylesheet" href="../../..//momedia/css/rank/css/style.css">
 </head>
 <body id="rank">
 	<div class="container">
 		<div class="part pull-left">
 			<h2>各组金融产品转化率排名</h2>
 			<div class="monthly-rank">
-				<h3>月排名</h3>
+				<h3><i class="icon-month"></i>月排名</h3>
 				<ul id="rateRankM">
 					<!-- <li class="danger">
 							<div class="feed-element pull-left">
@@ -27,7 +21,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -37,7 +31,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -47,7 +41,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -57,7 +51,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -67,7 +61,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -77,14 +71,14 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
 				</ul>
 			</div>
 			<div class="weekly-rank">
-				<h3>周排名</h3>
+				<h3><i class="icon-week"></i>周排名</h3>
 				<ul id="rateRankW">
 					<!-- <li class="danger">
 							<div class="feed-element pull-left">
@@ -92,7 +86,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -102,7 +96,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -112,7 +106,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -122,7 +116,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -132,7 +126,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -142,7 +136,7 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
@@ -152,7 +146,7 @@
 		<div class="part pull-right">
 			<h2>金融产品个人申请额度龙虎榜</h2>
 			<div class="monthly-rank">
-				<h3>月排名</h3>
+				<h3><i class="icon-month"></i>月排名</h3>
 				<ul id="amountRankM">
 					<!-- <li class="danger">
 							<div class="feed-element pull-left">
@@ -160,7 +154,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -170,7 +164,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -180,7 +174,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -190,7 +184,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -200,7 +194,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -210,14 +204,14 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
 				</ul>
 			</div>
 			<div class="weekly-rank">
-				<h3>周排名</h3>
+				<h3><i class="icon-week"></i>周排名</h3>
 				<ul id="amountRankW">
 					<!-- <li class="danger">
 							<div class="feed-element pull-left">
@@ -225,7 +219,7 @@
 								<span class="medal"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-red">50.20%</p>
 							</div>
 					</li>
@@ -235,7 +229,7 @@
 								<span class="medal medal-2"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-orange">50.20%</p>
 							</div>
 					</li>
@@ -245,7 +239,7 @@
 								<span class="medal medal-3"></span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text-yellow">50.20%</p>
 							</div>
 					</li>
@@ -255,7 +249,7 @@
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -265,7 +259,7 @@
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li>
@@ -275,7 +269,7 @@
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
-								<p class="">浦东贵宾服务A组</p>
+								<p class="mt">浦东贵宾服务A组</p>
 								<p class="text">50.20%</p>
 							</div>
 					</li> -->
@@ -284,8 +278,8 @@
 		</div>
 		<div class="logo pull-right"></div>
 	</div>
-	<script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/template.js" type="text/javascript" ></script>
+	<script src="../../..//momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
 	    <script id="rankDetils" type= "text/html">
  			{{if data!=null}}
 				{{each data as item index}}
@@ -337,7 +331,7 @@
 		}
 		function loadData(){
 			$.ajax({
-				url : ctx+"/mobile/dashboard/box/getRank",
+				url : "../../../mobile/dashboard/box/getRank",
 				method:"post",
 				dataType:"json",
 				success : function(data) {

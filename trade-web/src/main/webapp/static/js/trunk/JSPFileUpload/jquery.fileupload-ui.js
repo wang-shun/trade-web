@@ -477,7 +477,8 @@
             // only browsers with support for the File API report the type:
             if (!(this.options.acceptFileTypes.test(file.type) ||
                     this.options.acceptFileTypes.test(file.name))) {
-                return 'Filetype not allowed';
+                //return 'Filetype not allowed';
+            	return '文件格式不支持';
             }
             if (this.options.maxFileSize &&
                     file.size > this.options.maxFileSize) {

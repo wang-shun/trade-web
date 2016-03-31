@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.team.repository.TsTeamScopeArMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.team.entity.TsTeamScopeAr" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="AR_CODE" property="arCode" jdbcType="NVARCHAR" />
+    <result column="YU_TEAM_CODE" property="yuTeamCode" jdbcType="NVARCHAR" />
+    <result column="AR_NAME" property="arName" jdbcType="NVARCHAR" />
+    <result column="YU_TEAM_NAME" property="yuTeamName" jdbcType="NVARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IS_RESPONSE_TEAM" property="isResponseTeam" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, AR_CODE, YU_TEAM_CODE, AR_NAME, YU_TEAM_NAME, UPDATE_TIME, IS_RESPONSE_TEAM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_SCOPE_AR
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_TEAM_SCOPE_AR
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" >
+    insert into sctrans.T_TS_TEAM_SCOPE_AR (PKID, AR_CODE, YU_TEAM_CODE, 
+      AR_NAME, YU_TEAM_NAME, UPDATE_TIME, 
+      IS_RESPONSE_TEAM)
+    values (#{pkid,jdbcType=BIGINT}, #{arCode,jdbcType=NVARCHAR}, #{yuTeamCode,jdbcType=NVARCHAR}, 
+      #{arName,jdbcType=NVARCHAR}, #{yuTeamName,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isResponseTeam,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" >
+    insert into sctrans.T_TS_TEAM_SCOPE_AR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="arCode != null" >
+        AR_CODE,
+      </if>
+      <if test="yuTeamCode != null" >
+        YU_TEAM_CODE,
+      </if>
+      <if test="arName != null" >
+        AR_NAME,
+      </if>
+      <if test="yuTeamName != null" >
+        YU_TEAM_NAME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="isResponseTeam != null" >
+        IS_RESPONSE_TEAM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="arCode != null" >
+        #{arCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamCode != null" >
+        #{yuTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="arName != null" >
+        #{arName,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamName != null" >
+        #{yuTeamName,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isResponseTeam != null" >
+        #{isResponseTeam,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" >
+    update sctrans.T_TS_TEAM_SCOPE_AR
+    <set >
+      <if test="arCode != null" >
+        AR_CODE = #{arCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamCode != null" >
+        YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="arName != null" >
+        AR_NAME = #{arName,jdbcType=NVARCHAR},
+      </if>
+      <if test="yuTeamName != null" >
+        YU_TEAM_NAME = #{yuTeamName,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isResponseTeam != null" >
+        IS_RESPONSE_TEAM = #{isResponseTeam,jdbcType=CHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" >
+    update sctrans.T_TS_TEAM_SCOPE_AR
+    set AR_CODE = #{arCode,jdbcType=NVARCHAR},
+      YU_TEAM_CODE = #{yuTeamCode,jdbcType=NVARCHAR},
+      AR_NAME = #{arName,jdbcType=NVARCHAR},
+      YU_TEAM_NAME = #{yuTeamName,jdbcType=NVARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_RESPONSE_TEAM = #{isResponseTeam,jdbcType=CHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="getTsTeamScopeArListByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" resultMap="BaseResultMap">
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from sctrans.T_TS_TEAM_SCOPE_AR
+	    <where>
+	         <if test="arCode != null">
+	            AND AR_CODE = #{arCode}
+	        </if>
+	         <if test="yuTeamCode != null">
+	            AND YU_TEAM_CODE = #{yuTeamCode}
+	        </if>
+	    </where>
+  </select>
+  
+  <delete id="delTsTeamScopeArByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" >
+    	delete from sctrans.T_TS_TEAM_SCOPE_AR
+     	<where>
+	         <if test="arCode != null">
+	            AND AR_CODE = #{arCode}
+	        </if>
+	        <if test="pkid != null">
+	            PKID = #{pkid,jdbcType=BIGINT}
+	        </if>
+	    </where>
+  </delete>
+</mapper>

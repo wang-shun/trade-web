@@ -10,6 +10,10 @@ public class Consts {
 	
 	public static final String BUSIGRP = "BUSIGRP";
 	
+	public static final String BUSISWZ = "BUSISWZ";
+	
+	public static final String BUSIAR = "BUSIAR";
+	
 	public static final String YU_TEAM = "yucui_team";
 
 	public static final String PART_CODE_SPV_OUT_APPLY = "spvOutApply";

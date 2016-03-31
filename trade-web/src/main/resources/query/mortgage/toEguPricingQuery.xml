@@ -79,7 +79,7 @@
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="评估编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="RESIDENCE_NAME" index="" checkbox="" display="物业地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="STATUS" index="" checkbox="" display="询价状态" customDict="getStatusByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ARISE_TIME" index="" checkbox="" display="询价时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ARISE_TIME" index="" checkbox="" display="询价时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="RESULT" index="" checkbox="" display="询价结果" customDict="getResultByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="UNIT_PRICE" index="" checkbox="" display="单价（元）" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="TOTAL_PRICE" index="" checkbox="" display="总价(万元)" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />

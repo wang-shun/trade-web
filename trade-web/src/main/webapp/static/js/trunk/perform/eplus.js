@@ -94,6 +94,14 @@ $('#datepicker').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN'
 });
+//日期控件
+$('#belongMonth_div').datepicker({
+	format : 'yyyy-mm',
+	startView: 1, maxViewMode: 1,minViewMode:1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
 
 // 查询
 $('#searchButton').click(function() {
@@ -165,6 +173,9 @@ var excelInUrl = "";
 function showExcelModal(inType){
 	$('#excel-modal-form').modal("show");
 }
+function showCalculatedModal(){
+	$('#calculated-modal-form').modal("show");
+}
 // Excel 导入
 function excelIn(){
 	if(!checkFileTypeExcel())return false;
@@ -174,6 +185,26 @@ function excelIn(){
 	$('#excelInForm').submit();
 }
 
+function calculatedIn(){
+	if($("#belongMonth").val()=='')
+	{alert('请先选择计算月份！');return false;}
+	$.ajax({
+		cache:false,
+		async:true,
+		type:"POST",
+		url:ctx+"/perform/doCalculated",
+		dataType:'json',
+		data:{belongMonth:$("#belongMonth").val()+'-01'},
+		success:function(data){
+			if(data.success){
+				alert('计算成功');
+				$('#calculated-modal-form').modal("close");
+			}else{
+				alert('计算失败');
+			}			
+		}
+	});
+}
 function checkFileTypeExcel()
 {
 	var obj = $("#file")[0];

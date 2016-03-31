@@ -104,6 +104,10 @@ public class DashboardController {
 		resutlMap.put("lightList",workSpaceService.getLightListGroupByOrg(orgId));
 		return resutlMap;
 	}
+	@RequestMapping(value = "login")
+	public String login(Model model){
+		return "mobile/workspace/login";
+	}
 	@RequestMapping(value = "select")
 	public String select(Model model){
 		Org org=uamUserOrgService.getOrgByCode(TsTaskDelegateServiceImpl.YC_ORG_CODE);

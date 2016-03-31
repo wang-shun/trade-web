@@ -4,6 +4,7 @@
  */
 package com.centaline.trans.mgr.web;
 
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
@@ -20,12 +21,17 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.task.service.TsTeamScopeArService;
+import com.centaline.trans.task.service.TsTeamScopeGrpService;
 import com.centaline.trans.team.entity.TeamScopeAllVO;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
+import com.centaline.trans.team.entity.TsTeamScopeAr;
+import com.centaline.trans.team.entity.TsTeamScopeGrp;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.team.service.TsTeamScopeService;
 import com.centaline.trans.team.vo.CaseInfoVO;
+import com.centaline.trans.team.vo.TsTeamScopeArVO;
 import com.centaline.trans.team.vo.TsTeamScopePropertyVO;
 import com.centaline.trans.team.vo.TsTeamScopeVO;
 
@@ -53,6 +59,12 @@ public class TsTeamScopeController {
     
     @Autowired
     private QuerysParseService    querysParseService;
+    
+    @Autowired
+    private TsTeamScopeArService    tsTeamScopeArService;
+    
+    @Autowired
+    private TsTeamScopeGrpService    tsTeamScopeGrpService;
 	
     @RequestMapping(value="unlocatedAgentTeamScope")
     public String unlocatedAgentTeamScope(){
@@ -72,6 +84,28 @@ public class TsTeamScopeController {
     }
     
     /**
+	 * 片区分配前台组和后台组
+	 * 
+	 * @return
+	 */
+    @RequestMapping(value="teamScopeAR")
+    public String teamScopeAR(){
+        
+    	return "manage/teamScopeAR";
+    }
+    
+    /**
+	 * 片区分配前台组和后台组
+	 * 
+	 * @return
+	 */
+    @RequestMapping(value="teamScopeGRP")
+    public String teamScopeGRP(){
+        
+    	return "manage/teamScopeGrp";
+    }
+    
+    /**
      * 业务组别编码列表
      * @return
      */
@@ -79,6 +113,18 @@ public class TsTeamScopeController {
     @ResponseBody
     public List<Org> getAgentTeamCodeList(){
     	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.BUSIGRP);
+
+    	return list;
+    }
+    
+    /**
+     * 业务片区编码列表
+     * @return
+     */
+    @RequestMapping(value="getAgentArCodeList")
+    @ResponseBody
+    public List<Org> getAgentArCodeList(){
+    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.BUSIAR);
 
     	return list;
     }
@@ -90,8 +136,20 @@ public class TsTeamScopeController {
     @ResponseBody
     public List<Org> getTeamCodeList(){
     	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.YU_TEAM);
-
+    	
     	return list;
+    }
+    
+    /**
+     * Code获取组织
+     * @return
+     */
+    @RequestMapping(value="getParentOrgByCode")
+    @ResponseBody
+    public Org getParentOrgByCode(String grpCode){
+    	Org  org = uamUserOrgService.getOrgByCode(grpCode);
+
+    	return uamUserOrgService.getParentOrgByDepHierarchy(org.getId(), "BUSIAR");
     }
     /**
      * 保存誉萃组别
@@ -127,6 +185,122 @@ public class TsTeamScopeController {
     	}
     	return response;
     }
+   
+   @RequestMapping(value="saveTsTeamScopeArVO")
+   @ResponseBody
+   public AjaxResponse<String> saveTsTeamScopeArVO(@RequestBody TsTeamScopeArVO tsTeamScopeArVO){
+	   	AjaxResponse<String> response = new AjaxResponse<String>();
+	   	try{
+	   		TsTeamScopeAr tsTeamScopeArNew = new TsTeamScopeAr();
+	   		tsTeamScopeArNew.setArCode(tsTeamScopeArVO.getArCode());
+	   		tsTeamScopeArService.delTsTeamScopeArByProperty(tsTeamScopeArNew);
+	   		
+	   		String arCode = tsTeamScopeArVO.getArCode();
+	   		String arName = tsTeamScopeArVO.getArName();
+	   		List<TsTeamProperty> tsTeamPropertyList = tsTeamScopeArVO.getTsTeamPropertyList();
+	   		for(TsTeamProperty tsTeamProperty : tsTeamPropertyList) {
+	   			
+	   			TsTeamScopeGrp tsTeamScopeGrp = new TsTeamScopeGrp();
+	   			tsTeamScopeGrp.setArCode(arCode);
+	   			tsTeamScopeGrp.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			
+	   			TsTeamScopeAr param = new TsTeamScopeAr();
+	   			param.setArCode(arCode);
+	   			param.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			List<TsTeamScopeAr> tsTeamScopeArList = tsTeamScopeArService.getTsTeamScopeArListByProperty(param);
+	   			if(tsTeamScopeArList != null && tsTeamScopeArList.size()>0) {
+	   				response.setSuccess(false);
+	   				response.setMessage(arName+"已经存在相同的组别配置");
+	   				
+	   				continue;
+	   			}
+	   			
+	   			List<TsTeamScopeGrp> tsTeamScopeGrpList = tsTeamScopeGrpService.getTsTeamScopeGrpListByProperty(tsTeamScopeGrp);
+	   			// 如果已经存在组别配置，则此条记录跳过,事物不会滚
+	   			if(tsTeamScopeGrpList != null && tsTeamScopeGrpList.size()>0) {
+	   				response.setSuccess(false);
+	   				response.setMessage(arName+"已经存在组别配置");
+	   				
+	   				continue;
+	   			}
+	   			
+	   			TsTeamScopeAr tsTeamScopeAr = new TsTeamScopeAr();
+	   			tsTeamScopeAr.setArCode(arCode);
+	   			tsTeamScopeAr.setArName(arName);
+	   			tsTeamScopeAr.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			tsTeamScopeAr.setYuTeamName(tsTeamProperty.getYuTeamName());
+	   			tsTeamScopeAr.setIsResponseTeam(tsTeamProperty.getIsResponseTeam());
+	   			tsTeamScopeAr.setUpdateTime(new Date());
+	   			
+	   			tsTeamScopeArService.saveTsTeamScopeAr(tsTeamScopeAr);
+	   		}
+	   	}catch(Exception e){
+	   		response.setSuccess(false);
+	   		response.setMessage(e.getMessage());
+	   		logger.error("保存失败！"+e.getCause());
+	   		e.printStackTrace();
+	   	}
+	   	return response;
+   }
+   
+   @RequestMapping(value="saveTsTeamScopeGrpVO")
+   @ResponseBody
+   public AjaxResponse<String> saveTsTeamScopeGrpVO(@RequestBody TsTeamScopeArVO tsTeamScopeArVO){
+	   	AjaxResponse<String> response = new AjaxResponse<String>();
+	   	try{
+	   		TsTeamScopeGrp tsTeamScopeGrpNew = new TsTeamScopeGrp();
+	   		tsTeamScopeGrpNew.setGrpCode(tsTeamScopeArVO.getGrpCode());
+	   		tsTeamScopeGrpService.delTsTeamScopeGrpByProperty(tsTeamScopeGrpNew);
+	   		
+	   		String arCode = tsTeamScopeArVO.getArCode();
+	   		String arName = tsTeamScopeArVO.getArName();
+	   		List<TsTeamProperty> tsTeamPropertyList = tsTeamScopeArVO.getTsTeamPropertyList();
+	   		for(TsTeamProperty tsTeamProperty : tsTeamPropertyList) {
+	   			
+	   			TsTeamScopeGrp tsTeamScopeGrp = new TsTeamScopeGrp();
+	   			tsTeamScopeGrp.setGrpCode(tsTeamScopeArVO.getGrpCode());
+	   			tsTeamScopeGrp.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			
+	   			TsTeamScopeAr param = new TsTeamScopeAr();
+	   			param.setArCode(arCode);
+	   			param.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			List<TsTeamScopeAr> tsTeamScopeArList = tsTeamScopeArService.getTsTeamScopeArListByProperty(param);
+	   			if(tsTeamScopeArList != null && tsTeamScopeArList.size()>0) {
+	   				response.setSuccess(false);
+	   				response.setMessage(arName+"已经存在相同的组别配置");
+	   				
+	   				continue;
+	   			}
+	   			
+	   			List<TsTeamScopeGrp> tsTeamScopeGrpList = tsTeamScopeGrpService.getTsTeamScopeGrpListByProperty(tsTeamScopeGrp);
+	   			// 如果已经存在组别配置，则此条记录跳过,事物不会滚
+	   			if(tsTeamScopeGrpList != null && tsTeamScopeGrpList.size()>0) {
+	   				response.setSuccess(false);
+	   				response.setMessage(arName+"已经存在组别配置");
+	   				
+	   				continue;
+	   			}
+	   			
+	   			TsTeamScopeGrp tsTeamScopeGrpN = new TsTeamScopeGrp();
+	   			tsTeamScopeGrpN.setArCode(arCode);
+	   			tsTeamScopeGrpN.setArName(arName);
+	   			tsTeamScopeGrpN.setGrpCode(tsTeamScopeArVO.getGrpCode());
+	   			tsTeamScopeGrpN.setGrpName(tsTeamScopeArVO.getGrpName());
+	   			tsTeamScopeGrpN.setYuTeamCode(tsTeamProperty.getYuTeamCode());
+	   			tsTeamScopeGrpN.setYuTeamName(tsTeamProperty.getYuTeamName());
+	   			tsTeamScopeGrpN.setIsResponseTeam(tsTeamProperty.getIsResponseTeam());
+	   			tsTeamScopeGrpN.setUpdateTime(new Date());
+	   			
+	   			tsTeamScopeGrpService.saveTsTeamScopeGrp(tsTeamScopeGrpN);
+	   		}
+	   	}catch(Exception e){
+	   		response.setSuccess(false);
+	   		response.setMessage(e.getMessage());
+	   		logger.error("保存失败！"+e.getCause());
+	   		e.printStackTrace();
+	   	}
+	   	return response;
+   }
     
     @RequestMapping(value="saveTeamScopeVOByOrg")
     @ResponseBody
@@ -202,6 +376,76 @@ public class TsTeamScopeController {
     	return response;
     }
     
+    @RequestMapping(value="getTeamScopeArListByArCode")
+    @ResponseBody
+    public AjaxResponse<List<TsTeamProperty>> getTeamScopeArListByArCode(String arCode){
+    	
+    	AjaxResponse<List<TsTeamProperty>> response = new AjaxResponse<List<TsTeamProperty>>();
+    	try{
+    		// 查询出所有的组别
+        	List<TsTeamProperty> tsTeamPropertyList = tsTeamPropertyService.getTsTeamPropertyListByProperty(new TsTeamProperty());
+        	
+        	
+        	// 查询出已经被选择的组别
+        	TsTeamScopeAr tsTeamScopeArNew = new TsTeamScopeAr();
+        	tsTeamScopeArNew.setArCode(arCode);
+        	List<TsTeamScopeAr> tsTeamScopeArList = tsTeamScopeArService.getTsTeamScopeArListByProperty(tsTeamScopeArNew);
+        	
+        	for(TsTeamProperty tsTeamProperty : tsTeamPropertyList) {
+        		String teamCode =  tsTeamProperty.getYuTeamCode();
+        		for(TsTeamScopeAr tsTeamScopeAr : tsTeamScopeArList) {
+        			if(teamCode.equals(tsTeamScopeAr.getYuTeamCode())) {
+        				// 被选择
+        				tsTeamProperty.setIsSelect("1");
+        				tsTeamProperty.setIsResponseTeam(tsTeamScopeAr.getIsResponseTeam());
+        				break;
+        			}
+        		}
+        	}
+    		response.setContent(tsTeamPropertyList);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage("查询组别列表失败！");
+    		logger.error("查询失败！"+e.getCause());
+    	}
+    	return response;
+    }
+    
+    @RequestMapping(value="getTeamScopeGrpListByGrpCode")
+    @ResponseBody
+    public AjaxResponse<List<TsTeamProperty>> getTeamScopeGrpListByGrpCode(String grpCode){
+    	
+    	AjaxResponse<List<TsTeamProperty>> response = new AjaxResponse<List<TsTeamProperty>>();
+    	try{
+    		// 查询出所有的组别
+        	List<TsTeamProperty> tsTeamPropertyList = tsTeamPropertyService.getTsTeamPropertyListByProperty(new TsTeamProperty());
+        	
+        	
+        	// 查询出已经被选择的组别
+        	TsTeamScopeGrp tsTeamScopeGrpNew = new TsTeamScopeGrp();
+        	tsTeamScopeGrpNew.setGrpCode(grpCode);
+        	List<TsTeamScopeGrp> tsTeamScopeGrpList = tsTeamScopeGrpService.getTsTeamScopeGrpListByProperty(tsTeamScopeGrpNew);
+        	
+        	for(TsTeamProperty tsTeamProperty : tsTeamPropertyList) {	
+        		String teamCode =  tsTeamProperty.getYuTeamCode();
+        		for(TsTeamScopeGrp tsTeamScopeGrp : tsTeamScopeGrpList) {
+        			if(teamCode.equals(tsTeamScopeGrp.getYuTeamCode())) {
+        				// 被选择
+        				tsTeamProperty.setIsSelect("1");
+        				tsTeamProperty.setIsResponseTeam(tsTeamScopeGrp.getIsResponseTeam());
+        				break;
+        			}
+        		}
+        	}
+    		response.setContent(tsTeamPropertyList);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage("查询组别列表失败！");
+    		logger.error("查询失败！"+e.getCause());
+    	}
+    	return response;
+    }
+    
     @RequestMapping(value="recoveryTeamScope")
     @ResponseBody
     public AjaxResponse<List<CaseInfoVO>> recoveryTeamScope(){
@@ -251,6 +495,40 @@ public class TsTeamScopeController {
     	AjaxResponse<String> response = new AjaxResponse<String>();
     	try{
     		tsTeamScopeService.deleteTsTeamScope(pkid);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage("删除组别信息失败！");
+    		logger.error("删除组别失败！"+e.getCause());
+    	}
+    	return response;
+    }
+    
+    @RequestMapping(value="delTeamScopeAr")
+    @ResponseBody
+    public AjaxResponse<String> delTeamScopeAr(Long pkid){
+        
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		TsTeamScopeAr tsTeamScopeAr = new TsTeamScopeAr();
+    		tsTeamScopeAr.setPkid(pkid);
+    		tsTeamScopeArService.delTsTeamScopeArByProperty(tsTeamScopeAr);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage("删除组别信息失败！");
+    		logger.error("删除组别失败！"+e.getCause());
+    	}
+    	return response;
+    }
+    
+    @RequestMapping(value="delTeamScopeGrp")
+    @ResponseBody
+    public AjaxResponse<String> delTeamScopeGrp(Long pkid){
+        
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		TsTeamScopeGrp tsTeamScopeGrp = new TsTeamScopeGrp();
+    		tsTeamScopeGrp.setPkid(pkid);
+    		tsTeamScopeGrpService.delTsTeamScopeGrpByProperty(tsTeamScopeGrp);
     	}catch(Exception e){
     		response.setSuccess(false);
     		response.setMessage("删除组别信息失败！");

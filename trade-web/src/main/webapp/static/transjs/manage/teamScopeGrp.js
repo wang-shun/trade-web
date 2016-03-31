@@ -1,0 +1,360 @@
+  function checkform(){
+    	if($("#yuAgentTeamCode").val() == ""){
+    		$("#yuAgentTeamCode").css("border-color","red");
+    		return false;
+    	}else if($("#yuAgentTeamName").val() == ""){
+    		$("#yuAgentTeamName").css("border-color","red");
+    		return false;
+    	}else if($("#yuTeamCode").val() == ""){
+    		$("#yuTeamCode").css("border-color","red");
+    		return false;
+    	}else if($("#yuTeamName").val() == ""){
+    		$("#yuTeamName").css("border-color","red");
+    		return false;
+    	}
+
+    	return true;
+    }
+    function getTeamScopeList(){
+    	$("#table_list_1").jqGrid("GridUnload");
+    	$("#table_list_1").jqGrid({
+        	url:ctx+"/quickGrid/findPage",
+            datatype: "json",
+            height: 350,
+            autowidth: true,
+            shrinkToFit: true,
+            rowNum: 10,
+            colNames: ['序号', '片区编码','组别编码','誉萃组别名称', '誉萃组别编码','片区名称','组别名称','组别类型','有效状态' ],
+            colModel: [
+                {name: 'PKID', index: 'PKID',  width: 60,hidden:true},
+                {name: 'AR_CODE', index: 'AR_CODE', width: 80, hidden:true},
+                {name: 'GRP_CODE', index: 'GRP_CODE', width: 80, hidden:true},
+                {name: 'YU_TEAM_NAME', index: 'YU_TEAM_NAME', width: 80},
+                {name: 'YU_TEAM_CODE', index: 'YU_TEAM_CODE', width: 80, hidden:true},
+                {name: 'AR_NAME', index: 'AR_NAME', width: 180},
+                {name: 'GRP_NAME', index: 'GRP_NAME', width: 80,
+                	formatter:function(value,options,rowData){
+                		var isDeleted = rowData['IS_DELETED'];
+	                    if(isDeleted==0){
+	                        return value;
+	                    }else{
+	                    	return '<p style="text-decoration:line-through;color:red;">'+value+"</p>";
+	                    }
+                	}
+                },
+                {name: 'IS_RESPONSE_TEAM', index: 'IS_RESPONSE_TEAM', width: 80,
+                	formatter:function(value,options,rowData){
+	                    if(value==0){
+	                        return '后台组';
+	                    }else{
+	                         return '前台组';
+	                    }
+                	}
+                }, 
+                {name: 'IS_DELETED', index: 'IS_DELETED', width: 80,
+                	formatter:function(value,options,rowData){
+	                    if(value==0){
+	                        return '有效';
+	                    }else{
+	                         return '无效';
+	                    }
+                	}
+                }
+            ], 
+            add: true,
+            addtext: 'Add',
+            pager: "#pager_list_1",
+            viewrecords: true,
+            pagebuttions: true,
+            hidegrid: false,
+            recordtext: "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+            pgtext : " {0} 共 {1} 页",
+            search:false,
+            postData:{
+            	queryId:"queryTeamScopeGrp"
+/*            	search_agentTeamName:$("#agentTeamName").val(),
+            	search_teamName:$("#teamName").val(),
+            	argu_oriGrpId : $("#oriGrpId").val(),
+            	argu_yuCuiOriGrpId : $("#yuCuiOriGrpId").val()*/
+            },
+            gridComplete : function() { 
+
+            },
+            onSelectRow : function(rowid,status) {
+				var rowData = $("#table_list_1").jqGrid('getRowData', rowid);
+				$("#pkid").val(rowData['PKID']);
+				//$("#yuAgentTeamCode").val(rowData['AR_CODE']);
+				$("#arCode").val(rowData['AR_CODE']);
+				$("#arName").val(rowData['AR_NAME']);
+				$("#grpCode").val(rowData['GRP_CODE']);
+				$("#grpName").val(rowData['GRP_NAME']);
+			}
+            
+        });
+    }
+    function saveTeamScopeAr(){
+	       if($("#arCode").val() == "" || $("#grpCode").val() == ''){
+				alert("片区和组别为必选项！");
+				return;
+		   }
+    	   var tsTeamPropertyList = new Array();
+	       $('.form').each(function () {
+	            var yuTeamCode = $(this).find("select[name='yuTeamCode']").val();
+	            var yuTeamName = $(this).find("select[name='yuTeamCode'] option:selected").text();
+	            var isResponseTeam = $(this).find("select[name='isResponseTeam']").val();
+	            
+	            var tsTeamScopeAr = {
+            		yuTeamCode : yuTeamCode,
+            		yuTeamName : yuTeamName,
+            		isResponseTeam : isResponseTeam
+	            }
+	            
+	       	    tsTeamPropertyList.push(tsTeamScopeAr);
+	       });
+	       //console.log(tsTeamPropertyList);
+	       var tsTeamScopeArVO = {
+	    		tsTeamPropertyList : tsTeamPropertyList,
+	    		arCode : $("#arCode").val(),
+	    		arName : $("#arName").val(),
+	    		grpCode : $("#grpCode").val(),
+	    		grpName : $("#grpName").val()
+	       }
+	       tsTeamScopeArVO = $.toJSON(tsTeamScopeArVO);
+        	$.ajax({
+        		url:ctx+"/setting/saveTsTeamScopeGrpVO",
+        		method:"post",
+        		dataType:"json",
+        		data: tsTeamScopeArVO,
+        		contentType: "application/json; charset=utf-8" ,
+        		success:function(data){
+        			//alert(data.message);
+        			if(data.success){
+        				$("#modal-addOrModifyForm").modal("hide");
+        				
+        				var data = {};
+        		    	data.queryId="queryTeamScopeGrp";
+        		    	
+        			 	$("#table_list_1").jqGrid('setGridParam',{
+        		    		datatype:'json',
+        		    		mtype:'post',
+        		    		postData: data
+        		    	}).trigger('reloadGrid'); 
+        			} else {
+        				alert(data.message);
+        			}
+        			//$("#pkid").val("");
+        		}
+        	});
+    }
+    function delTeamScopeGrp(){
+    	$.ajax({
+    		url:ctx+"/setting/delTeamScopeGrp",
+    		method:"post",
+    		dataType:"json",
+    		data:{pkid:$("#pkid").val()},
+    		success:function(data){
+				alert(data.message);
+
+				var data = {};
+		    	data.queryId="queryTeamScopeGrp";
+		    	
+			 	$("#table_list_1").jqGrid('setGridParam',{
+		    		datatype:'json',
+		    		mtype:'post',
+		    		postData: data
+		    	}).trigger('reloadGrid'); 
+			 	
+				$("#pkid").val("");
+    		}
+    	});
+    }
+    
+    // 获取所有组别
+    function getTeamScopeArInfo(){
+       	$.ajax({
+    		url:ctx+"/setting/getTeamScopeGrpListByGrpCode",
+    		method:"post",
+    		dataType:"json",
+    		data:{grpCode:$("#grpCode").val()},
+    		success:function(data){
+    			if(data.success){
+    				//console.log(data);
+    		        var tempTeam= template('yuCuiTeamList', data); 
+    		        $("#team").empty();
+    		        $("#team").html(tempTeam);
+    		        
+    		        $("#modal-addOrModifyForm").modal("show");
+    			}else{
+    				alert(data.message);
+    			}
+    		}
+    		
+    	});
+    }
+    
+    function getYuCuiTeamList(backId){
+       	$.ajax({
+    		url:ctx+"/setting/getYuCuiTeamList",
+    		method:"post",
+    		dataType:"json",
+    		data:'',
+    		success:function(data){
+    			if(data.success){
+    				//console.log(data);
+    				
+    		        var tempTeam= template('newYuCuiTeamList', data); 
+    		        
+    		        $("#"+backId).empty();
+    		        $("#"+backId).html(tempTeam);
+    			}else{
+    				alert(data.message);
+    			}
+    		}
+    		
+    	});
+    }
+
+    $(function(){
+    	getAgentOrgs();
+    	
+    	 $("#grpName").typeahead({
+             source: agentOrgs,
+             display: "orgName",   
+             val: "orgCode",          
+             items: 8,           
+             itemSelected: function (item, val, text) {
+               $( "#grpName").val(text);
+
+               $( "#grpCode").val(val);
+               
+               var grpCode = $("#grpCode").val();
+	     		  $.ajax({
+	           		url:ctx+"/setting/getParentOrgByCode",
+	           		method:"post",
+	           		dataType:"json",
+	           		data:{grpCode:grpCode},
+	           		success:function(data){
+	           			//console.log(data);
+	                     $( "#arCode").val(data.orgCode);
+	                     $( "#arName").val(data.orgName);
+	           		}
+	       		})
+             }
+           });
+    	 
+    	/* $("#grpName").change(function(){
+    		  var grpCode = $("#grpCode").val();
+    		  $.ajax({
+          		url:ctx+"/setting/getParentOrgByCode",
+          		method:"post",
+          		dataType:"json",
+          		data:{grpCode:grpCode},
+          		success:function(data){
+          			//console.log(data);
+                    $( "#arCode").val(data.orgCode);
+                    $( "#arName").val(data.orgName);
+          		}
+      		})
+    	 });*/
+
+    	$("input").each(function(){
+    		$(this).blur(function(){
+    			if($(this).val() != ""){
+					$(this).css("border-color","#e5e6e7");
+    			}
+    		});
+    	});
+
+    	$("#searchButton").click(function(){
+	    	var data = {};
+	    	data.argu_oriGrpId =$.trim( $('#oriGrpId').val() );  
+	    	data.search_agentTeamName =$.trim( $('#agentTeamName').val() ); 
+	    	data.argu_yuCuiOriGrpId =$.trim( $('#yuCuiOriGrpId').val() );  
+	    	data.search_teamName =$.trim( $('#teamName').val() ); 
+	    	data.queryId="queryTeamScopeGrp";
+	    	
+	    	$("#table_list_1").jqGrid('setGridParam',{
+	    		datatype:'json',
+	    		mtype:'post',
+	    		postData:data
+	    	}).trigger('reloadGrid'); 
+    	});
+    	$("#cleanButton").click(function(){
+    		$("input").val("");
+    	});
+    	getTeamScopeList();
+    	$("#addBtn").click(function(){
+    		$("#modal-addOrModifyForm input").val("");
+    		$("#modal-addOrModifyForm input[type='hidden']").val("");
+
+    		$("#modal-addOrModifyForm").modal("show");
+    		getTeamScopeArInfo();
+    	});
+    	$("#modifyBtn").click(function(){
+    		if($("#pkid").val()==""){
+    			alert("请选择要修改的记录！");
+    			return;
+    		}
+    		getTeamScopeArInfo();
+
+    	});
+    	$("#delBtn").click(function(){
+    		if($("#pkid").val() == ""){
+    			alert("请选择要删除的记录！");
+				return;
+    		}
+    		if(confirm("确定要删除该组别！")){
+    			delTeamScopeGrp();
+    		}
+    	});
+    	$("#recoveryBtn").click(function(){
+    		$.ajax({
+        		url:ctx+"/setting/recoveryTeamScope",
+        		method:"post",
+        		dataType:"json",
+        		data:'',
+        		success:function(data){
+        		   //alert(data.message);
+        			//console.log(data);
+    		        var recoveryCaseList= template('recoveryCaseList', data); 
+    		        $(".modal-body").empty();
+    		        $(".modal-body").html(recoveryCaseList);
+    		        
+    				Modal.alert();
+        		}
+    		})
+    	});
+    	$("#saveOrModifyBtn").click(function(){
+    		saveTeamScopeAr();
+    	});
+
+    });
+    
+    //选业务组织的回调函数
+    function radioOrgSelectCallBack(array){
+        if(array && array.length >0){
+            $("#agentTeamCode").val(array[0].name);
+    		$("#oriGrpId").val(array[0].id);
+    		
+    /*		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
+    		$("#oldactiveName").attr("onclick",userSelect);*/
+    	}else{
+    		$("#agentTeamCode").val("");
+    		$("#oriGrpId").val("");
+    	}
+    }
+    
+    //选业务组织的回调函数
+    function radioYuCuiOrgSelectCallBack(array){
+        if(array && array.length >0){
+            $("#teamCode").val(array[0].name);
+    		$("#yuCuiOriGrpId").val(array[0].id);
+    		
+    /*		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
+    		$("#oldactiveName").attr("onclick",userSelect);*/
+    	}else{
+    		$("#teamCode").val("");
+    		$("#yuCuiOriGrpId").val("");
+    	}
+    }
+    

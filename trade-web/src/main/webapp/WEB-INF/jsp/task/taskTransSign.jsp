@@ -41,6 +41,7 @@
 var ctx = "${ctx}";
 var taskitem = "${taskitem}";
 var caseCode = "${caseCode}";
+var source = "${source}";
 var finishYear = "${transSign.finishYear}";
 if("${idList}" != "") {
 	var idList = eval("("+"${idList}"+")");
@@ -106,7 +107,7 @@ if("${idList}" != "") {
 							<div class="form-group"  name="isYouXiao">
 								<label class="col-md-4 control-label"><font color="red">*</font>抵押情况</label>
 								<div class="col-md-8">
-									<select class="form-control" name="isLoanClose" id="diya">
+									<select class="form-control" readOnlydata='1' name="isLoanClose" id="diya">
 										<option value="">请选择</option>
 										<option value="true" ${transSign.isLoanClose=="1"?'selected':''}>有抵押</option>
 										<option value="false" ${transSign.isLoanClose=="0"?'selected':''}>无抵押</option>
@@ -118,7 +119,7 @@ if("${idList}" != "") {
 							<div class="form-group" id="data_1" name="isYouXiao">
 								<label class="col-md-2 control-label"><font color="red">*</font>是否需要查限购</label>
 								<div class="col-md-4">
-									<select class="form-control" name="isPerchaseReserachNeed" id="chaxiangou">
+									<select class="form-control" readOnlydata='1' name="isPerchaseReserachNeed" id="chaxiangou">
 										<option value="">请选择</option>
 										<option value="true" ${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
 										<option value="false" ${transSign.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
@@ -133,7 +134,7 @@ if("${idList}" != "") {
 							<div class="form-group" id="data_1">
 								<label class="col-md-4 control-label"><font color="red">*</font>实际签约时间</label>
 								<div class="col-md-8">
-									<div class="input-group date">
+									<div class="input-group date readOnly_date">
 									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 										<input type="text" class="form-control" id="realConTime"
 											name="realConTime" value="<fmt:formatDate  value='${transSign.realConTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
@@ -493,6 +494,7 @@ if("${idList}" != "") {
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
+										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
@@ -531,7 +533,7 @@ if("${idList}" != "") {
 		</div>
 		<div class="ibox-title">
 		<a href="#" class="btn btn-primary" onclick="save(false)">保存</a>&nbsp;&nbsp;
-		<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+		<a href="#" class="btn btn-primary" readOnlydata='1' onclick="submit()">提交</a>
 		</div>
 <div id="smsPlatFrom"></div>
 	</div>
@@ -589,12 +591,26 @@ if("${idList}" != "") {
 		}
 		$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
 	});
-		
+	
+		function readOnlyForm(){
+			$(".readOnly_date").removeClass('date');
+			$(".readOnly_date input").attr('readOnly',true);
+			$("select[readOnlydata=1]").closest('.row').hide();
+			$("[readOnlydata=1]").attr('readonly',true);
+			$("[readOnlydata=1]").each(function(){
+				if($(this).is('a')){
+					$(this).hide();
+				}
+			});
+		}
 		$(function() {
 			// Examle data for jqGrid
 			//AistUpload.initHouAddPicUpload();
-			//AistUpload.initHouTapeInfoUpload();  
-
+			//AistUpload.initHouTapeInfoUpload();
+			if('caseDetails'==source){
+				readOnlyForm();
+			}
+			
 			$("#reminder_list").jqGrid({
 				//data : reminderdata,
 				url:"${ctx}/quickGrid/findPage",

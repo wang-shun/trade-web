@@ -13,24 +13,24 @@
 	</formatters>
 	<query id="baseImportQuery">
 		<searchCondition>
-			<condition field="org.ORG_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="orj.ORG_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 			<condition field="u.REAL_NAME" name="userNmae" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-			<condition field="tbv.BELONG_MONTH" name="bmStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-            <condition field="tbv.BELONG_MONTH" name="bmEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="tbv.CREATE_TIME" name="bmStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+            <condition field="tbv.CREATE_TIME" name="bmEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					select tbv.pkid as pkid
 ,tbv.CASE_CODE as caseCode,u.REAL_NAME as userName,u.EMPLOYEE_CODE as employeeCode
-,jb.JOB_NAME as jobName,orj.ORG_NAME as orgName,ttp.PROPERTY_ADDR as caseAddress,tbv.base_amount as amount,tbv.belong_Month as belongMonth
+,jb.JOB_NAME as jobName,orj.ORG_NAME as orgName,ttp.PROPERTY_ADDR as caseAddress,tbv.base_amount as amount,tbv.CREATE_TIME as createTime
   from sctrans.T_TS_AWARD_BASE  tbv
 left join sctrans.SYS_USER u on u.ID=tbv.PARTICIPANT
 left join sctrans.T_TO_PROPERTY_INFO as ttp
 on tbv.CASE_CODE=ttp.CASE_CODE
 left join sctrans.SYS_JOB jb on jb.id = tbv.job_id
 left join sctrans.SYS_ORG orj on orj.ID= tbv.ORG_ID
-where 1=1
+where tbv.IS_DELETED='0'
 
    
 				]]>
@@ -64,6 +64,7 @@ where 1=1
 				<column type="both" name="employeeCode" index="" checkbox=""
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="createTime"	customDict=""      beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
 			</table-row>
 		</grid>
 	</query>

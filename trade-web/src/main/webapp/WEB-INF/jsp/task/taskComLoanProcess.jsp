@@ -780,7 +780,7 @@
 										
 										<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
 										<div class="col-md-2" style="width:18%">
-										<div class="input-group date" id="date_4">
+										<div class="input-group date readOnly_date" id="date_4">
 											<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
 										</div>
 											
@@ -988,7 +988,7 @@
 								<div class="form-group"  >
 									<label class="col-sm-3 control-label">审批时间<span class="star" >*</span>：</label>
 									<div class="col-sm-4" style="padding-left:0px">
-									<div class="input-group date" id="date_2">
+									<div class="input-group date readOnly_date" id="date_2">
 										<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="apprDate" id="apprDate" readonly >
 									</div>
 									</div>
@@ -1170,7 +1170,7 @@
 										
 										<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
 										<div class="col-md-2" style="width:18%">
-										<div class="input-group date" id="date_44">
+										<div class="input-group date readOnly_date" id="date_44">
 											<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
 										</div>
 											
@@ -1388,7 +1388,7 @@
 								<div class="form-group"  >
 									<label class="col-sm-3 control-label">审批时间<span class="star">*</span>：</label>
 									<div class="col-sm-4">
-									<div class="input-group date" id="date_22">
+									<div class="input-group date readOnly_date" id="date_22">
 										<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="apprDate" id="apprDate" readonly >
 									</div>
 									</div>
@@ -1443,6 +1443,21 @@
 	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
 	
 	<script>
+	var source = "${source}";
+	function readOnlyForm(){
+		$(".readOnly_date").removeClass('date');
+		$(".readOnly_date input").attr('readOnly',true);
+		$("select[readOnlydata=1]").closest('.row').hide();
+		$("[readOnlydata=1]").attr('readonly',true);
+		$("[readOnlydata=1]").each(function(){
+			if($(this).is('a')){
+				$(this).hide();
+			}
+		});
+	}
+	if('caseDetails'==source){
+		readOnlyForm();
+	}
 function checknum(obj){
 	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
 	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
@@ -1539,7 +1554,7 @@ function checkInt(obj){
 			}
 		});
 		
-		$("#date_1").datepicker({
+		/* $("#date_1").datepicker({
             keyboardNavigation: false,
             forceParse: false,
             autoclose: true
@@ -1564,6 +1579,7 @@ function checkInt(obj){
             forceParse: false,
             autoclose: true
         });
+		
 		$("#date_4").datepicker({
             keyboardNavigation: false,
             forceParse: false,
@@ -1573,7 +1589,15 @@ function checkInt(obj){
             keyboardNavigation: false,
             forceParse: false,
             autoclose: true
-        });
+        }); */
+		/**日期组件*/
+		$('.input-group.date').datepicker({
+			todayBtn : "linked",
+			keyboardNavigation : false,
+			forceParse : false,
+			calendarWeeks : false,//显示年日历周
+			autoclose : true
+		});
 		//getPricingList("table_list_1","pager_list_1");
 		//设置初始操作步骤
 		getPricingList("table_list_3","pager_list_3",0);

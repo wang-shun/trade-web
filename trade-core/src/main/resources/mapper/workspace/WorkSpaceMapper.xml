@@ -274,7 +274,7 @@ from (
 	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	 on tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
 	 left join sctrans.t_to_sign  as ts
-	 on tf.CASE_CODE=tsi.CASE_CODE 
+	 on tf.CASE_CODE=ts.CASE_CODE 
 	 where tf.CASE_CODE is not null and tf.RECORD_TIME is not null
 	 <if test="userId != null">
 	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}

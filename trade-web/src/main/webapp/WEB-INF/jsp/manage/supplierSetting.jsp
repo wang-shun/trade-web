@@ -99,7 +99,7 @@
 										<div class="col-sm-8">
 											<input type="text" name="contactName"
 												id="contactName" placeholder=""
-												class="form-control" >
+												class="form-control m-b" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -110,7 +110,13 @@
 												class="form-control" >
 										</div>
 									</div>
-	
+									<div class="form-group">
+										<label class="col-sm-3 control-label">合作等级：</label>
+										<div class="col-sm-8">
+											<aist:dict id="coLevel" name="coLevel" display="select" clazz="form-control m-b"
+									defaultvalue="" dictType="yu_bank_co_level"  />
+										</div>
+									</div>
 								</div>
 							</form>
 						</div>

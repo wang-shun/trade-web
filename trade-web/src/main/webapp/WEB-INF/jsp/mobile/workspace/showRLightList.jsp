@@ -6,42 +6,29 @@
 <head>
 	<meta charset="utf-8">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="${ctx}/momedia/css/carousel/style.css">
-	<link rel="stylesheet" href="${ctx}/momedia/css/dashbord/style.css">
-	<style type="text/css">
-		.userHead{
-		width: 88px;
-		  height: 88px;
-		  display: inline-block;
-		  border-radius: 50%;
-		  background-size: 88px 130.66px;
-		  vertical-align: middle;
-		  background-image:url(../../../img/a5.png);
-	
-}
-	</style>
-	
+	<link rel="stylesheet" href="../../../momedia/css/carousel/style.css">
+	<link rel="stylesheet" href="../../../momedia/css/dashbord/style.css">
 	
 </head>
 <body>
 	<div class="container">
 		<div class="col col-1 pull-left">
 			<div class="ibox ibox-red">
-				<p class="pull-right">红灯任务<br><p id="redCount"></p></p>
+				<p class="pull-right">红灯任务<br>67<p id="redCount"></p></p>
 			</div>
 			<div class="ibox ibox-yellow">
-				<p class="pull-right">黄灯任务<br><p id="yellowCount"></p></p>
+				<p class="pull-right">黄灯任务<br>32<p id="yellowCount"></p></p>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">组别排名</div>
-				<div class="panel-body orgRedColorRemainList" style="height:414px;background:#ffffff;">
+				<div class="panel-body orgRedColorRemainList">
 					<ul>
-						<li><span class="name"><span class="badge badge-danger">1</span>浦东贵宾服务A组</span><span class="icon-light pull-right">201</span></li>
-						<li><span class="name"><span class="badge badge-warning">2</span>浦东贵宾服务A组</span><span class="icon-light pull-right">201</span></li>
-						<li><span class="name"><span class="badge badge-yellow">3</span>浦东贵宾服务A组</span><span class="icon-light pull-right">201</span></li>
-						<li><span class="name"><span class="badge">4</span>浦东贵宾服务A组</span><span class="icon-light pull-right">201</span></li>
-						<li><span class="name"><span class="badge">5</span>浦东贵宾服务A组</span><span class="icon-light pull-right">201</span></li>
-						<li><span class="name"><span class="badge">6</span>浦东贵宾服务A组</span><span class="icon-light pull-right">201</span></li>
+						<li><span class="name"><span class="badge badge-danger">1</span>浦东贵宾服务A组</span><span class="pull-right"><i class="icon-light"></i>201</span></li>
+						<li><span class="name"><span class="badge badge-warning">2</span>浦东贵宾服务A组</span><span class="pull-right"><i class="icon-light"></i>201</span></li>
+						<li><span class="name"><span class="badge badge-yellow">3</span>浦东贵宾服务A组</span><span class="pull-right"><i class="icon-light"></i>201</span></li>
+						<li><span class="name"><span class="badge">4</span>浦东贵宾服务A组</span><span class="pull-right"><i class="icon-light"></i>201</span></li>
+						<li><span class="name"><span class="badge">5</span>浦东贵宾服务A组</span><span class="pull-right"><i class="icon-light"></i>201</span></li>
+						<li><span class="name"><span class="badge">6</span>浦东贵宾服务A组</span><span class="pull-right"><i class="icon-light"></i>201</span></li>
 					</ul>
 				</div>
 			</div>
@@ -49,89 +36,89 @@
 		<div class="col col-2 pull-left">
 			<div class="panel panel-danger">
 				<div class="panel-heading">红灯员工通报</div>
-				<div class="panel-body " style="height:800px;">
+				<div class="panel-body ">
 					<ul id="userRlist">
 						<li class="danger">
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-big.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="triangle red"></span>
 								<span class="warning">!</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li class="danger">
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-big.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="triangle orange"></span>
 								<span class="warning">!</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li class="danger">
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-big.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="triangle yellow"></span>
 								<span class="warning">!</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li>
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-small.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="badge">4</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li>
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-small.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="badge">5</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li>
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-small.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="badge">6</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li>
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-small.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="badge">7</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 						<li>
 							<div class="feed-element pull-left">
-								<img class="img-circle" src="images/pic-small.jpg" alt="img">
+								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
 								<span class="badge">8</span>
 							</div>
 							<div class="media-body">
 								<p class="name pull-left">张三萨</p>
-								<span class="icon-light pull-right">21</span>
+								<span class="pull-right"><i class="icon-light"></i>21</span>
 							</div>
 						</li>
 					</ul>
@@ -141,8 +128,58 @@
 		<div class="col col-3 pull-left">
 			<div class="panel">
 				<div class="panel-heading">红灯任务项提醒</div>
-				<div class="panel-body redColorRemain" style="height:800px;">
-				          正在加载数据。。。
+				<div class="panel-body redColorRemain">
+				         <marquee direction="up" behavior="scroll" scrollamount="6" scrolldelay="0" loop="-1" width="" height="" bgcolor="" hspace="10" vspace="10">
+							<ul>
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+									 
+				                    <li>
+										<span class="tips"><i class="icon-light"></i>审税</span>
+										<span class="person"><i class="icon-person"></i>美七七</span>
+									    <span class="date-box"><i class="icon-date"></i>2016-02-17</span>
+									 </li>
+							</ul>
+							</marquee>
 					<!-- <ul>
 						<li>
 							<span class="tips icon-light">审税</span>
@@ -244,14 +281,14 @@
            {{/if}}
 	   </script>
 	    
-	    <script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/template.js" type="text/javascript" ></script>
+	    <script src="../../..//momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
        	<script>
         function imgLoad(img){
 	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
 	   	 }
 			jQuery(document).ready(function() {
-				var ctx = "${ctx}";
+				/* var ctx = "http://10.28.6.66:8083/trade-web";
 				var orgId = "${orgId}";
 				//红灯任务项提醒列表
 				$.ajax({
@@ -295,7 +332,7 @@
 		                  $( "#userRlist").empty();
 		                  $( "#userRlist").html(html);
 					}
-				});
+				}); */
 				
 				
 			});

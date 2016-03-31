@@ -2,6 +2,7 @@ package com.centaline.trans.perform.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aist.common.utils.excel.ImportExcel;
-import com.centaline.trans.income.entity.TsIncomeStatistics;
-import com.centaline.trans.income.vo.TsIncomeStatisticsVO;
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.perform.service.EplusService;
 import com.centaline.trans.perform.service.GustFollowService;
 import com.centaline.trans.perform.vo.EplusVo;
@@ -80,6 +81,16 @@ public class PerformController {
 		}
 		
 		return "perform/gustFollow";
+	}
+	@SuppressWarnings("rawtypes")
+	@ResponseBody
+	@RequestMapping(value = "doCalculated")
+	public AjaxResponse doCalculated(Date belongMonth){
+		if(eplusService.doCalculated(belongMonth)){
+			return AjaxResponse.success();
+		}else{
+			return AjaxResponse.fail();
+		}
 	}
 	
 	@RequestMapping(value = "uploadEplus")

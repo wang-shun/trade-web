@@ -94,7 +94,7 @@
 						<div class="row" style="height: 520px;overflow:auto; ">
 							<div class="col-lg-12 ">
 							<form id="addOrModifyForm">
-								<input type="hidden" name="pkid" id="pkid" value="">
+								<input type="text" name="pkid" id="pkid" value="">
 						        <input type="hidden" name="agenTeamCode" id="agenTeamCode" value="">
 						        <input type="hidden" name="agenTeamName" id="agenTeamName" value="">
 									<div class="form-group">

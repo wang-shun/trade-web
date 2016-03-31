@@ -112,6 +112,8 @@
 									<option value="1">物业地址</option>
 									<option value="2">经纪人姓名</option>
 									<option value="3">所属分行</option>
+									<option value="4">案件编号</option>
+									<option value="5">CTM编号</option>
 								</select>
 								<input id="inTextVal" type="text" class="form-control pull-left">
 								<button id="searchButton" type="button"
@@ -130,6 +132,9 @@
 				<div class="ibox ">
 					<div class="ibox-title">
 						<h5>我的任务列表</h5>
+						<shiro:hasPermission name="TRADE.TASK.RANK">  
+							<button id="orderByButton" type="button" class="btn btn-warning pull-right">排序</button>
+						</shiro:hasPermission>
 					</div>
 					<div class="ibox-content">
 						<div class="jqGrid_wrapper">

@@ -67,7 +67,7 @@
 				<column type="both" name="INCOME_AMOUNT"  index="" checkbox="" title="收入总数" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="OR_PAR" index="" checkbox="" title="获得比例" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="OR_AMOUNT" index="" checkbox="" title="最终金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="INCOME_BELONG_DAY" index="" checkbox="" title="记佣归属月份" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="INCOME_BELONG_DAY" index="" checkbox="" title="记佣归属月份" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

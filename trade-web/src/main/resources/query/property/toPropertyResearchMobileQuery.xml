@@ -61,7 +61,7 @@
 				<column type="both" name="PR_CODE" index="" checkbox="" display="环节编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>				
 				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="申请人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="申请时间" customDict="" beanFormatter="dateFormatter" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="申请时间" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 
 			</table-row>

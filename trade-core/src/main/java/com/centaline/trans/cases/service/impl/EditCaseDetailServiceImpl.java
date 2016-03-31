@@ -403,9 +403,6 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService {
 		if(editCaseDetailVO.getLcid()!=null) {
 			toCloseLoan.setPkid(editCaseDetailVO.getLcid());
 			toCloseLoanMapper.updateByPrimaryKeySelective(toCloseLoan);
-		} else {
-			toCloseLoan.setCaseCode(editCaseDetailVO.getCaseCode());
-			toCloseLoanMapper.insertSelective(toCloseLoan);
 		}
 		
 		/*过户*/

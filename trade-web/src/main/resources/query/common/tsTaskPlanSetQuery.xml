@@ -55,7 +55,7 @@
 				<column type="both" name="PART_NAME" index="" checkbox="" display="提醒任务" customDict="getPartNameByCode" sysDict="" format="" width="0" isSort="true" align="" halign="" order="desc" resizable="" />
 				<column type="both" name="PLAN_DAYS" index="" checkbox="" display="计划天数" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_MANUAL_SET" index="" checkbox="" display="是否人工设置" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" beanFormatter="dateFormatter" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

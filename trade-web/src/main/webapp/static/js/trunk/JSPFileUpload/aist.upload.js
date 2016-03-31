@@ -26,8 +26,8 @@ var AistUpload = function () {
 	            downloadTemplateId: 'template-download-pic'
 			});
 		},
-		//houDelAdd 中文件上传
-		init:function(picFileupload,picContainer,templateUpload,templateDownload,updFunction){
+		
+		_init1:function(picFileupload,picContainer,templateUpload,templateDownload,updFunction){
 			$('#'+picFileupload).fileupload(
 					{    /* ... */
 				'uploadTemplateId': templateUpload,
@@ -37,7 +37,39 @@ var AistUpload = function () {
 	             'start': updFunction,
 	             'autoUpload' : true
 			});
-		} 
+		}, 
+		_init2:function(picFileupload,picContainer,templateUpload,templateDownload,updFunction,acceptFileTypes){
+			$('#'+picFileupload).fileupload(
+					{    
+				'uploadTemplateId': templateUpload,
+				'filesContainer':$('#'+picContainer),
+	            // The ID of the download template:
+	            'downloadTemplateId': templateDownload,
+	            'acceptFileTypes' : acceptFileTypes,
+	             'start': updFunction
+			});
+		},
+		//houDelAdd 中文件上传
+		init:function(){
+			var len= arguments.length; 
+			if(len==6){
+				this._init2(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4],arguments[5]);
+			}else{
+				this._init1(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4]);
+			}
+		} /*, 
+		
+		init:function(picFileupload,picContainer,templateUpload,templateDownload,updFunction,acceptFileTypes){
+			$('#'+picFileupload).fileupload(
+					{     ... 
+				'uploadTemplateId': templateUpload,
+				'filesContainer':$('#'+picContainer),
+	            // The ID of the download template:
+	            'downloadTemplateId': templateDownload,
+	            'acceptFileTypes' : acceptFileTypes,
+	             'start': updFunction
+			});
+		}*/
 	};
 	
 	

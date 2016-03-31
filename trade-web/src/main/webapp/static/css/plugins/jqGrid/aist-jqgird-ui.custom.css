@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+
+.ui-jqgrid tr.jqgrow td {padding: 12px 6px;}
+.ui-widget-content:nth-child(2n+1){background:#f5f8fa;}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-content:nth-child(2n+1) .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: #e5f1f9;}
+.ui-widget-header .ui-state-default{background:#dcf2ff;}
+.ui-widget-content{border: 1px solid #e4eaee;}
+.ui-widget-content .ui-state-default.ui-th-ltr{ background:#a0cdeb;color:#fff;text-shadow: none;}
+.ui-widget-content .ui-state-default.ui-th-ltr.ui-state-hover{background:#8bbfe2;}
+.ui-jqgrid tr.ui-row-ltr td{ border-color:#eee;border-right: 1px solid #eee;}
+
+
+.panel-success{border-color: #e0eaf1;}
+.panel-success > .panel-heading {background-color:#8fc5e9; border-color:#e4eaee;}
+.panel-success.bg-red { border-color: #efdfdf;}
+.panel-success.bg-red .panel-heading { background:#f5847e; border-color: #f5847e;}
+.panel.panel-success.bg-green {border-color: #cfe5d4;}
+.panel-success.bg-green .panel-heading {background-color:#8eeda5;border-color:#8eeda5;}
+.panel.panel-success.bg-blue {border-color: #e4ecd8;}
+.panel-success.bg-blue .panel-heading {background-color:#bde87f; border-color:#bde87f;}

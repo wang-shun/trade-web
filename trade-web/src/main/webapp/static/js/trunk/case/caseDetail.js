@@ -2,9 +2,35 @@
  * 案件详情
  * @wanggh
  */
-
+Array.prototype.contains = function(obj){
+	 var i = this.length;
+     while (i--) {
+         if (this[i] === obj) {
+         return true;
+         }
+     }
+     return false;
+};
+var changeTaskList=['TransSign','PurchaseLimit','Pricing','TaxReview','LoanClose','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
+                    'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
 $(document).ready(
 		function() {
+			$("#sel_changeFrom option").each(function(){
+				var _this=$(this);
+				if(!changeTaskList.contains(_this.val())){
+					_this.remove();
+				}
+			});
+			$("#sel_changeFrom").change(function(){
+				$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+			});
+			$("#sel_changeFrom").change();
+			$("#changeForm-form").submit(function(){
+				$('#changeForm-modal-form').modal("hide");
+			});
+			
+			
+			
 			//案件挂起
 			buttonActivity();
 			
@@ -473,7 +499,7 @@ function saveSrvItems(){
 	if (confirm("您是否确认进行服务项变更？")) {
 		var isDel = false;
 		var delSrvCheck = $("input[name='srvCode'][value="+delSrv+"]").prop('checked');
-		if(srvs.indexOf(delSrv)>0 && !delSrvCheck){
+		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){
 			isDel=true;
 		}else if(delSrvCheck && srvs.indexOf(delSrv)==-1){
 			isDel=true;
@@ -503,7 +529,7 @@ function saveSrvItems(){
 		$("input[name='srvCode']:checked").each(function() {
 			prItems.push(this.value);
 		});
-		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+ '&isDel=' + isDel+ '&isRes=' + isRes;
+		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+ '&isDel=' + isDel+ '&isRes=' + isRes+"&srvs="+srvs;
 		var confirmStr = "您的选择会进行流程重启，是否继续？";
 		if(isDel)confirmStr = "您的选择会进行案件爆单操作，是否继续？";
 
@@ -875,6 +901,9 @@ function showTeamModal(data){
 	inHtml+='</div></div>';
 	$("#team-form").html(inHtml);
 	$('#team-modal-form').modal("show");
+}
+function showChangeFormModal(){
+	$('#changeForm-modal-form').modal("show");
 }
 /**
  * 案件转组

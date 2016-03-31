@@ -122,7 +122,11 @@
     <!-- 供应商类型 --> 
     <bean name="qqcdDictyu_sup_cat" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_sup_cat"></property>
-    </bean>  
+    </bean> 
+        <!-- 合作等级 --> 
+    <bean name="qqcdDictyu_bank_co_level" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="yu_bank_co_level"></property>
+    </bean>   
     <!-- 贷款服务编码 -->
     <bean name="qqcdDictServCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_serv_cat_code_tree"></property>

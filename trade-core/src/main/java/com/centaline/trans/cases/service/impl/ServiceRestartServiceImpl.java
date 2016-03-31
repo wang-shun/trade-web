@@ -34,6 +34,7 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 @Service
 @Transactional(readOnly=true)
 public class ServiceRestartServiceImpl implements ServiceRestartService {
@@ -51,6 +52,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToTransPlanService toTransPlanService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
 	@Override
 	@Transactional(readOnly=false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
@@ -122,6 +125,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
 		if(mainflow!=null){
 			try{
+				unlocatedTaskService.deleteByInstCode(mainflow.getInstCode());
 				workFlowManager.deleteProcess(mainflow.getInstCode());
 			} catch (WorkFlowException e) {
 				if(!e.getMessage().contains("statusCode[404]"))throw e;

@@ -38,6 +38,7 @@
             <condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="O.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="tw.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -55,7 +56,7 @@
 						E.PROPERTY_ADDR,
 						tp.RED_LOCK,
 						tp.EST_PART_TIME,
-						sysUser.MOBILE
+						a.agent_phone as MOBILE
 					FROM 
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
@@ -75,7 +76,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY  case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,ART.ID_  DESC
+			  		ORDER BY  case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,ART.ID_  DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

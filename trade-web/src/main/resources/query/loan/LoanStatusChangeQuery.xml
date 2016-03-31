@@ -45,7 +45,7 @@
 				<column type="both" name="stTo" index="" checkbox="" title="状态(到)" customDict="qqcdYuEplusStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="pkid" index="" checkbox="" title="pkid" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="loanId" index="" checkbox="" title="LoanID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="changeDate" index="" checkbox="" title="变成时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="changeDate" index="" checkbox="" title="变成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="isConfirm" index="" checkbox="" title="产品部是否确认" customDict="qqcdConfirmStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 			</table-row>
 		</grid>

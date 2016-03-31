@@ -63,6 +63,8 @@
 	
 	<!-- 业务组别和誉萃组别关联查询 -->
 	<import resource="query/manager/tsTeamScopeQuery.xml" />
+	<import resource="query/manager/tsTeamScopeARQuery.xml" />
+	<import resource="query/manager/tsTeamScopeGrpQuery.xml" />
 	
 	<import resource="query/task/tsPrResearchMapQuery.xml" />
 	

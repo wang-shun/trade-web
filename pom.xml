@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.centaline</groupId>
     <artifactId>trade-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.3</version>
     <name>trade-parent</name>
 	<modules>
 		<module>trade-core</module>
 		<module>trade-web</module>
 	</modules>
+	
+	<scm>
+	<developerConnection>git@git.centaline.com:trade-group/trade-web.git</developerConnection>
+	</scm>
     
     <repositories>
         <repository>
@@ -92,6 +95,24 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.4</version>
             </plugin>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m5.1</version>
+				<configuration>
+					<!-- https://bitbucket.org/atlassian/jgit-flow/wiki/Home -->
+					<flowInitContext>
+						<masterBranchName>master</masterBranchName>
+						<developBranchName>develop</developBranchName>
+						<featureBranchPrefix>feature/</featureBranchPrefix>
+						<releaseBranchPrefix>release/</releaseBranchPrefix>
+						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+						<versionTagPrefix>v</versionTagPrefix>
+				    </flowInitContext>
+					<arguments>-Dmaven.javadoc.skip=true</arguments>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -104,7 +125,7 @@
                             <!--<addClasspath>true</addClasspath>-->
                         </manifest>
                         <manifestEntries>
-                            <SVN-Revision>${svn.revision}</SVN-Revision>    
+                            <commit>${svn.revision}</commit>    
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -117,41 +138,29 @@
                     <warName>${project.artifactId}</warName>
                     <archive>    
                         <manifestEntries>    
-                            <SVN-Revision>${svn.revision}</SVN-Revision>    
+                            <commit>${svn.revision}</commit>    
                         </manifestEntries>    
                     </archive>  
                 </configuration>
             </plugin>
-            <plugin>  
-                <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>  
-                <artifactId>maven-svn-revision-number-plugin</artifactId>  
-                <version>1.7</version>  
-                <configuration>  
-                    <verbose>true</verbose>  
-                    <entries>  
-                        <entry>  
-                            <prefix>svn</prefix>  
-                            <depth>empty</depth>  
-                        </entry>  
-                    </entries>
-                </configuration>  
-                <executions>  
-                    <execution>  
-                        <phase>validate</phase>  
-                        <goals>  
-                            <goal>revision</goal>  
-                        </goals>  
-                    </execution>  
-                </executions>  
-                <dependencies>  
-                    <dependency>  
-                        <groupId>org.tmatesoft.svnkit</groupId>  
-                        <artifactId>svnkit</artifactId>  
-                        <version>1.8.11</version>  
-                    </dependency>  
-                </dependencies>  
-            </plugin>  
-            <plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+						<goal>perform</goal>
+						</goals>
+						<configuration>
+							<pomFileName>./pom.xml</pomFileName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>2.4</version>
@@ -164,7 +173,24 @@
                     </execution>
                 </executions>
             </plugin>
-
+			<!-- plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<configuration>
+					<pushFeatures>true</pushFeatures>
+					<pushHotfixes>true</pushHotfixes>
+					<pushReleases>true</pushReleases>
+					<enableSshAgent>true</enableSshAgent>
+					<flowInitContext>
+						<masterBranchName>master</masterBranchName>
+						<developBranchName>develop</developBranchName>
+						<featureBranchPrefix>feature/</featureBranchPrefix>
+						<releaseBranchPrefix>release/</releaseBranchPrefix>
+						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+						<versionTagPrefix>v</versionTagPrefix>
+					</flowInitContext>
+				</configuration>
+			</plugin -->
             <!-- 单元测试 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -989,7 +1015,7 @@
         <cxf.version>3.0.3</cxf.version>
         <poi.version>3.11</poi.version>
         <com.ibm.mq.version>7.5.0.2</com.ibm.mq.version>
-		<aist.version>0.0.1-SNAPSHOT</aist.version>
+        <aist.version>1.1.0</aist.version>
         <!-- ` 服务器配置 Begin -->
         <sonar.jdbc.url>jdbc:mysql://mgr.centaline.com:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
         <sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
@@ -999,9 +1025,9 @@
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
         <!-- Sonar 服务器配置 End -->
         <tomcat.warFile>${project.build.directory}/${project.build.finalName}.war</tomcat.warFile>
-        <tomcat.url></tomcat.url>
-        <tomcat.username></tomcat.username>
-        <tomcat.password></tomcat.password>
+        <tomcat.url />
+        <tomcat.username />
+        <tomcat.password />
         <skipTests>true</skipTests>
     </properties>
 

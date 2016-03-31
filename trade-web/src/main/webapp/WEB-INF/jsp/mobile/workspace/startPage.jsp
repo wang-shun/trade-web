@@ -8,9 +8,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="${ctx}/momedia/css/carousel/style.css"> 
-	<link rel="stylesheet" href="${ctx}/momedia/css/fullpage/jquery.fullPage.css">
-	<link rel="stylesheet" href="${ctx}/momedia/css/workload/css/startPage.css">
+	<link rel="stylesheet" href="../../../momedia/css/carousel/style.css"> 
+	<link rel="stylesheet" href="../../../momedia/css/fullpage/jquery.fullPage.css">
+	<link rel="stylesheet" href="../../../momedia/css/workload/css/startPage.css">
 	<style>
 		
 	</style>
@@ -18,11 +18,11 @@
   <body>
         <div id="dowebok" >
 		    <div class="section">
-		        <div class="slide"><iframe src="workload?orgId=${orgId }" scrolling=”no” name="firstSlide"></iframe></div>
-		        <div class="slide"><iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe></div>
-		        <div class="slide"><iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe></div>
+		       <div class="slide"><iframe src="workload?orgId=${orgId }" scrolling=”no” name="firstSlide"></iframe></div>
+		       <div class="slide"><iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe></div>
+		       <div class="slide"><iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe></div>
 		        
-		        
+		        <i id="view-fullscreen"></i>
 		        <%-- <div class="slide"><jsp:include page="workload2.jsp?orgId=${orgId }"></jsp:include> </div>
 		        <div class="slide section2">222</iframe></div>
 		        <div class="slide">333</div> --%>
@@ -50,13 +50,20 @@
 		<audio id="aaa" src="../../../momedia/mp3/fireworks.mp3"  controls style="
     display: none;"></audio>
 		
-	    <script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/plugins/carousel/script.js" type="text/javascript" ></script>
-	    <script src= "${ctx}/momedia/js/plugins/fullpage/jquery.fullPage.min.js" type="text/javascript" ></script>
+	    <script src="../../../momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/plugins/carousel/script.js" type="text/javascript" ></script>
+	    <script src= "../../../momedia/js/plugins/fullpage/jquery.fullPage.min.js" type="text/javascript" ></script>
 	     
 	    <script>
 	    var orgId = "${orgId}";
 		$(function(){
+			$("#view-fullscreen").click(function(){
+				 var docElm = document.documentElement;
+				 docElm.webkitRequestFullScreen();
+				 
+				 $("#view-fullscreen").hide();
+			});
+			
 			var ctx = "${ctx}";
 		    $('#dowebok').fullpage({
 		        sectionsColor : ['#1bbc9b', '#4BBFC3', '#7BAABE', '#f90'],
@@ -118,7 +125,7 @@
 		
 		setInterval(function(){
 			$.ajax({
-				url :"${ctx}/mobile/dashboard/box/getNewAgent",
+				url :"../../../mobile/dashboard/box/getNewAgent",
 				method:"post",
 				dataType:"json",
 				data: {orgId: orgId}, 
