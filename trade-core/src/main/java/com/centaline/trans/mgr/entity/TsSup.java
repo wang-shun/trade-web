@@ -14,6 +14,7 @@ public class TsSup {
     private String relFinOrgCode;
     
     private String coLevel;
+    private String tags;
 
     public Long getPkid() {
         return pkid;
@@ -69,5 +70,13 @@ public class TsSup {
 
 	public void setCoLevel(String coLevel) {
 		this.coLevel = coLevel;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 }
