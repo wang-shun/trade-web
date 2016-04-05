@@ -337,7 +337,7 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 		method:"post",
 		dataType:"json",
 		async:false,
-		data:{},
+		data:{tag:'cl'},
 		success:function(data){
 			if(data != null){
 				for(var i = 0;i<data.length;i++){
@@ -381,7 +381,7 @@ function getBranchBankList(selector,pcode,finOrgCode,flag){
 	    method:"post",
 	    dataType:"json",
 		async:false,
-	    data:{faFinOrgCode:pcode,flag:flag},
+	    data:{faFinOrgCode:pcode,flag:flag,tag:'cl'},
 	    	success:function(data){
 	    		if(data != null){
 	    			for(var i = 0;i<data.length;i++){

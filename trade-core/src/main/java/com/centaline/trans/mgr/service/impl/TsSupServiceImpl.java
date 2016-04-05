@@ -37,6 +37,7 @@ public class TsSupServiceImpl implements TsSupService{
 			sup.setRelFinOrgCode(tsSup.getRelFinOrgCode());
 			sup.setSupCat(tsSup.getSupCat());
 			sup.setCoLevel(tsSup.getCoLevel());
+			sup.setTags(tsSup.getTags());
 			tsSupMapper.updateByPrimaryKeySelective(sup);
 			
 		}else{
@@ -48,6 +49,7 @@ public class TsSupServiceImpl implements TsSupService{
 			sup.setRelFinOrgCode(tsSup.getRelFinOrgCode());
 			sup.setSupCat(tsSup.getSupCat());
 			sup.setCoLevel(tsSup.getCoLevel());
+			sup.setTags(tsSup.getTags());
 			tsSupMapper.insertSelective(sup);
 		}
 	}
