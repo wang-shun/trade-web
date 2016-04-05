@@ -97,6 +97,13 @@ public class InvalidCaseApproveController {
 			tc.setCaseCode(processInstanceVO.getCaseCode());
 			tc.setCaseProperty("30003001");  // 无效
 			int updateApprove=toCaseService.updateByCaseCodeSelective(tc);
+			
+			ToWorkFlow t=new ToWorkFlow();
+			t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			t.setCaseCode(processInstanceVO.getCaseCode());
+			ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
+			mainflow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		}else{  // 审批不通过
 			ToCase tc=new ToCase();
 			tc.setCaseCode(processInstanceVO.getCaseCode());
@@ -109,12 +116,7 @@ public class InvalidCaseApproveController {
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 		
 		// add zhangxb16 2016-2-19
-		ToWorkFlow t=new ToWorkFlow();
-		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-		t.setCaseCode(processInstanceVO.getCaseCode());
-		ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
-		mainflow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-		toWorkFlowService.updateByPrimaryKeySelective(mainflow);
+		
 		
 		return wfm;
 	}
