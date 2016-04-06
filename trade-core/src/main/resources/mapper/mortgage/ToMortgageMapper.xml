@@ -337,18 +337,22 @@
  </select>
  
  <select id="findToMortgageByCaseCodeAndBankType" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
- 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} 
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_ACTIVE='1'
  	<if test="isMainLoanBank != null">
  	 	and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
  	</if>
  </select>
   <select id="findToMortgageByCondition" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} 
+ 	
  	<if test="mortType != null">
  	 	and mort_Type=#{mortType,jdbcType=VARCHAR}
  	</if>
  	 <if test="isDelegateYucui != null">
  	 	and is_Delegate_Yucui=#{isDelegateYucui,jdbcType=VARCHAR}
+ 	</if>
+ 	<if test="isActive != null">
+ 		and IS_ACTIVE=#{isActive,jdbcType=VARCHAR}
  	</if>
  </select>
 </mapper>

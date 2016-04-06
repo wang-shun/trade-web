@@ -202,6 +202,11 @@
 			   <h5>成交信息</h5> 
                <div class="panel-body ibox-content">
                  <div class="row ">
+                 	<label class="col-sm-12 control-label">案件地址：${caseDetailVO.propertyAddress }
+                      	
+                     </label> 
+                 </div>
+                 <div class="row ">
                      <label class="col-sm-3 control-label">合同价：
                       	<c:if test="${!empty caseInfo.conPrice}">
                      		${caseInfo.conPrice/10000}  &nbsp&nbsp万元

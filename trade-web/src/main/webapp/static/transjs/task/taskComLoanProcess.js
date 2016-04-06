@@ -344,7 +344,7 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 					if((data[i].finOrgCode!='1032900'&&data[i].finOrgCode!='3082900')||flag!='egu'){//不作农业银行的讯价
 						var coLevelStr='';
 						if(data[i].coLevelStr&&data[i].coLevel){
-							coLevelStr='('+data[i].coLevelSt+')';
+							coLevelStr='(入围银行)';
 						}
 						bankHtml+="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
 					}
@@ -387,7 +387,7 @@ function getBranchBankList(selector,pcode,finOrgCode,flag){
 	    			for(var i = 0;i<data.length;i++){
 						var coLevelStr='';
 						if(data[i].coLevelStr&&data[i].coLevel){
-							coLevelStr='('+data[i].coLevelStr+')';
+							coLevelStr='(入围银行)';
 						}
 	    				html +="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
 	    			}
