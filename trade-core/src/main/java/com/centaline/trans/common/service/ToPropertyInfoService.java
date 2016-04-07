@@ -2,6 +2,7 @@ package com.centaline.trans.common.service;
 
 import java.util.List;
 
+import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 
 public interface ToPropertyInfoService {
@@ -18,4 +19,6 @@ public interface ToPropertyInfoService {
 	int insertSelective(ToPropertyInfo record);
 
     ToPropertyInfo findToPropertyInfoByCaseCodeAndAddr(ToPropertyInfo record);
+    
+    ViHouseDelBaseVo getHouseBaseByHoudelCode(String delCode);
 }
