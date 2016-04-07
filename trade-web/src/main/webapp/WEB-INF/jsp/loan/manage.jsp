@@ -61,6 +61,7 @@
 		
 	<!-- title end -->
 	<input type="hidden" id="ctx" value="${ctx}"/>
+	<input type="hidden" id="adminOrg" value="${adminOrg}"/>
 	<%-- 
 	<input type="hidden" id="userId" value="${userId}"/> --%>
 	<!-- content start  -->
@@ -240,7 +241,7 @@
 						}
 					});
 				 
-				   LoanManageList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager');
+				   LoanManageList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${adminOrg}');
 				   
 				   $('#searchLoanManageButton').click(function() {
 					   if (getSearchDateValues() && getSearchMoneyValues()) {
@@ -290,6 +291,8 @@
 				var applyStatus = $('#applyStatus').val();
 				var confirmStatus = $('#confirmStatus').val();
 				
+				var districtOrgId = $("#adminOrg").val();
+				
 				//设置查询参数
 				var params = {
 					search_customerName : customerName,
@@ -313,7 +316,8 @@
 					search_signMoneyStart : signMoneyStart,
 					search_applyMoneyEnd : applyMoneyEnd,
 					search_loadMoneyEnd : loadMoneyEnd,
-					search_signMoneyEnd : signMoneyEnd
+					search_signMoneyEnd : signMoneyEnd,
+					search_districtOrgId : districtOrgId
 				};
 				return params;
 			}
@@ -423,6 +427,7 @@
 		    		displayColomn.push('jqydsName');
 		    		displayColomn.push('belogDistrict');
 		    		displayColomn.push('createTime');
+		    		displayColomn.push('PARENT_ORG_NAME');
 		    		
 		    		var params;
 		    		if (getSearchDateValues() && getSearchMoneyValues()) {

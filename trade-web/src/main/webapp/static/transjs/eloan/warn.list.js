@@ -1,6 +1,6 @@
 var EloanWarnList = (function(){    
     return {    
-       init : function(ctx,url,gridTableId,gridPagerId){    
+       init : function(ctx,url,gridTableId,gridPagerId,adminOrg){    
     	 //jqGrid 初始化
     		$("#"+gridTableId).jqGrid({
     			url : ctx+url,
@@ -11,7 +11,7 @@ var EloanWarnList = (function(){
     			shrinkToFit : true,
     			rowNum : 8,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ 'PKID','产品名称','执行人','执行人电话','经理姓名','经理电话','所属区域','状态', '超期天数', '最后导出时间','产证地址' ],
+    			colNames : [ 'PKID','产品名称','执行人','执行人电话','经理姓名','经理电话','所属服务部','状态', '超期天数', '最后导出时间','产证地址' ],
     			colModel : [ {
     				name : 'PKID',
     				index : 'PKID',
@@ -102,7 +102,8 @@ var EloanWarnList = (function(){
     				
     			},
     			postData : {
-    				queryId : "warnListQuery"
+    				queryId : "warnListQuery",
+                    search_districtOrgId : adminOrg
     			}
 
     		});

@@ -1,9 +1,11 @@
 package com.centaline.trans.eloan.web;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,9 +53,27 @@ public class WarnListController {
 		SessionUser user = uamSessionService.getSessionUser();
 		String userOrgId = user.getServiceDepId();
 		request.setAttribute("queryOrg", userOrgId);
+		
+		String adminOrg = "";
+		if(StringUtils.isNotBlank(user.getAdminOrg())) {
+			adminOrg = user.getAdminOrg().trim();
+		}
+		request.setAttribute("adminOrg", adminOrg);
 
 		List<Org> districtOrgList = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.YU_DISTRICT);
-		request.setAttribute("districtOrgList", districtOrgList);
+		List<Org> showOrgList = new ArrayList<Org>();
+		if(StringUtils.isNotBlank(adminOrg)) {
+			for(Org org : districtOrgList) {
+			     String[] adminOrgs = adminOrg.split(",");
+				 for(int i = 0 ;i< adminOrgs.length;i++) {
+					 String adminO = adminOrgs[i];
+					 if(org.getId().equals(adminO)) {
+						 showOrgList.add(org);
+					 }
+				 }
+			}
+		}
+		request.setAttribute("districtOrgList", showOrgList);
 		
 		return "eloan/warnList";
 	}
