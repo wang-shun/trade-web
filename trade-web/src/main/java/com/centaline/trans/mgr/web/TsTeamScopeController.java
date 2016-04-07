@@ -112,7 +112,7 @@ public class TsTeamScopeController {
     @RequestMapping(value="getAgentTeamCodeList")
     @ResponseBody
     public List<Org> getAgentTeamCodeList(){
-    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.BUSIGRP);
+    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.ZY_SH_ORG_ROOT, Consts.BUSIGRP);
 
     	return list;
     }
@@ -124,7 +124,7 @@ public class TsTeamScopeController {
     @RequestMapping(value="getAgentArCodeList")
     @ResponseBody
     public List<Org> getAgentArCodeList(){
-    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.BUSIAR);
+    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.ZY_SH_ORG_ROOT, Consts.BUSIAR);
 
     	return list;
     }

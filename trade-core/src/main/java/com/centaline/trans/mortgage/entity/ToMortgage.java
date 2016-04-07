@@ -73,7 +73,8 @@ public class ToMortgage {
     private String isMainLoanBank;
     
     private String custName;
-
+    
+    private String isActive;
     public Long getPkid() {
         return pkid;
     }
@@ -320,6 +321,14 @@ public class ToMortgage {
 
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
+	}
+
+	public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
     
 }

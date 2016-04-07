@@ -175,6 +175,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		ToMortgage toMortgage=new ToMortgage();
 		toMortgage.setCaseCode(caseCode);
 		toMortgage.setIsDelegateYucui("0");
+		toMortgage.setIsActive("1");
 		List<ToMortgage> list=toMortgageMapper.findToMortgageByCondition(toMortgage);
 		if(list!=null&&!list.isEmpty()){
 			return list.get(0);

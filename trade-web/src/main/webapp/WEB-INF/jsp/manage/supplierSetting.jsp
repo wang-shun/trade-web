@@ -117,6 +117,14 @@
 									defaultvalue="" dictType="yu_bank_co_level"  />
 										</div>
 									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">标签：</label>
+										<div class="col-sm-8">
+											<input type="text" name="tags"
+												id="tags" placeholder=""
+												class="form-control" >
+										</div>
+									</div>
 								</div>
 							</form>
 						</div>

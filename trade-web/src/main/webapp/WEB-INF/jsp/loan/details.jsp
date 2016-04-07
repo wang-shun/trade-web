@@ -301,7 +301,7 @@
 					if(caseCode&&caseCode!=''){
 						postData.search_caseCode=caseCode;
 						postData.search_addr='';
-						caseList.jqGrid("setGridParam", { postData: postData,datatype:'json', }).trigger("reloadGrid");
+						caseList.jqGrid("setGridParam", { postData: postData,datatype:'json',mtype:'POST' }).trigger("reloadGrid");
 					}
 					
 					$("#btn_save").click(function(){
@@ -422,8 +422,8 @@
 				});
 			}
 			function initStatusChangeGrid(){
-				postData={queryId : "loanStatusChangeQuery",search_loanId:$("#pkid").val()};
-				caseList = $("#table_list_3").jqGrid(
+				var postData1={queryId : "loanStatusChangeQuery",search_loanId:$("#pkid").val()};
+				$("#table_list_3").jqGrid(
 					{datatype : "json",
 					url :ctx + "/quickGrid/findPage",
 					height : 92,
@@ -456,7 +456,7 @@
 					hidegrid : false,
 					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
 					pgtext : " {0} 共 {1} 页",
-					postData :postData
+					postData :postData1
 				});
 			}
 			//得到事件

@@ -50,26 +50,26 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	}
 
 	@Override
-	public List<TsFinOrg> findParentBankList(String flag) {
+	public List<TsFinOrg> findParentBankList(String flag,String tag) {
 		if (StringUtils.equals(flag, "egu")) {
 			String evaCompanyCode = "P00021";
-			return tsFinOrgMapper.findEguParentBankList(evaCompanyCode);
+			return tsFinOrgMapper.findEguParentBankList(evaCompanyCode,tag);
 		} else {
-			return tsFinOrgMapper.findParentBankList();
+			return tsFinOrgMapper.findParentBankList(tag);
 		}
 	}
 
 	@Override
 	public List<TsFinOrg> findBankListByParentCode(String flag,
-			String faFinOrgCode) {
+			String faFinOrgCode,String tag) {
 		List<TsFinOrg> result=null;
 		if (StringUtils.equals(flag, "egu")) {
 			String evaCompanyCode = "P00021";
 		
 			result= tsFinOrgMapper.findEguBankListByParentCode(faFinOrgCode,
-					evaCompanyCode);
+					evaCompanyCode,tag);
 		} else {
-			result=tsFinOrgMapper.findBankListByParentCode(faFinOrgCode);
+			result=tsFinOrgMapper.findBankListByParentCode(faFinOrgCode,tag);
 		}
 		Dict dict= uamBasedataService.findDictByType("yu_bank_co_level");
 		result.parallelStream().forEach(fin ->{

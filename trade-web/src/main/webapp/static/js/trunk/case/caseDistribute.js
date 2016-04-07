@@ -237,19 +237,18 @@ function showTeamModal(data){
  * @param index
  */
 function distributeCase(index){
-	var userName =$("#userName_"+index).val();
-	if(confirm("您是否确认分配给"+userName+"?")){
+		var userName =$("#userName_"+index).val();
 		var ids=$("#table_list_1").jqGrid("getGridParam","selarrrow");
 		var userId =$("#user_"+index).val();
 		
-		var url = "/case/bindCaseDist";
+		var url = "/case/isTransferOtherDistrict";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
 		var params='&userId='+userId+'&caseCodes='+ids;
 		
-		$.ajax({
+		$.ajax({	
 			cache : false,
-			async:true,
+			async: false,
 			type : "POST",
 			url : url,
 			dataType : "json",
@@ -259,7 +258,7 @@ function distributeCase(index){
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});
             },  
-          complete: function() {  
+            complete: function() {  
                 $.unblockUI();   
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
@@ -273,19 +272,58 @@ function distributeCase(index){
 		            } , 
             
 			success : function(data) {
-				if(data.success){
-					alert("分配成功");
-					$('#modal-form').modal("hide");
-					//jqGrid reload
-					$("#table_list_1").trigger('reloadGrid');
-				}else{
-					alert(data.message);
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				 var confrimMsg = '';
+				 if(data.content == false){
+					 confrimMsg = "您是否确认分配给"+userName+"?";
+				 } else {
+					 confrimMsg = "案件所属区域与主办或合作对象不匹配,您是否确认分配给"+userName+"?";
+				 }
+				 if(confirm(confrimMsg)){
+					var url = "/case/bindCaseDist";
+					var ctx = $("#ctx").val();
+					url = ctx + url;
+					var params='&userId='+userId+'&caseCodes='+ids;
+					 $.ajax({
+							cache : false,
+							async: true,
+							type : "POST",
+							url : url,
+							dataType : "json",
+							timeout: 10000,
+						    data : params, 
+						    beforeSend:function(){  
+								$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+								$(".blockOverlay").css({'z-index':'9998'});
+				            },  
+				          complete: function() {  
+				                $.unblockUI();   
+				                if(status=='timeout'){//超时,status还有success,error等值的情况
+					          	  Modal.alert(
+								  {
+								    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+								  });
+						  		 $(".btn-primary").one("click",function(){
+						  				parent.$.fancybox.close();
+						  			});	 
+						                }
+						            } , 
+				            
+							success : function(data) {
+								if(data.success){
+									alert("分配成功");
+									$('#modal-form').modal("hide");
+									//jqGrid reload
+									$("#table_list_1").trigger('reloadGrid');
+								}else{
+									alert(data.message);
+								}
+							},
+							error : function(XMLHttpRequest, textStatus, errorThrown) {
+							}
+						});
+				 }
 			}
 		}); 
-	}
 }
 /**
  * 案件转组

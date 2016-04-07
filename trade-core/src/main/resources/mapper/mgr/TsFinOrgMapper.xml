@@ -63,8 +63,15 @@
   
   <select id="findEguParentBankList" resultMap="BaseResultMap" >
     select * from sctrans.T_TS_FIN_ORG where fin_org_code in(
-  	select fa_fin_org_code from sctrans.T_TS_FIN_ORG where fin_org_code in(
-  	select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR}))
+  	select tfo.fa_fin_org_code from sctrans.T_TS_FIN_ORG tfo inner join
+  		sctrans.T_TS_BANK_EVA_RELATIONSHIP tbe
+  		on tfo.fin_org_code=tbe.bank_code and tbe.EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR}  
+  		
+  		<if test="tag != null" >
+        	inner join sctrans.T_TS_SUP ts on ts.fin_org_code=tfo.fin_org_code
+        	and (ts.tags like '%'+#{tag,jdbcType=VARCHAR}+'%')
+      	</if>
+ 	 )	
 
   </select> 
  
@@ -74,13 +81,20 @@
     	on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0'
     where ts.fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
     and ts.fin_org_code in(select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR})
+         <if test="tag != null" >
+        	and (tt.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' )
+      		</if>
     order by tt.CO_LEVEL asc
   </select>
   
   <select id="findParentBankList" resultMap="BaseResultMap" >
     select * from sctrans.T_TS_FIN_ORG where fin_org_code in 
     (select distinct FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE 
-    in(select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0'))
+    in(select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' 
+             <if test="tag != null" >
+        	and (ts.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' )
+      		</if>
+    ))
   </select> 
   
   <select id="findAllFinOrg" resultMap="BaseResultMap" >
@@ -96,6 +110,9 @@
     select ts.*,tt.CO_LEVEL from sctrans.T_TS_FIN_ORG ts right join sctrans.T_TS_SUP as tt 
     	on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0'
      where  fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
+              <if test="tag != null" >
+        			and (tt.tags like '%'+#{tag,jdbcType=VARCHAR}+'%')
+      		</if>
      	order by tt.CO_LEVEL asc
   </select>
   

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
@@ -61,6 +62,7 @@
 		
 	<!-- title end -->
 	<input type="hidden" id="ctx" value="${ctx}"/>
+	<input type="hidden" id="adminOrg" value="${adminOrg}"/>
 	<%-- 
 	<input type="hidden" id="userId" value="${userId}"/> --%>
 	<!-- content start  -->
@@ -240,7 +242,9 @@
 						}
 					});
 				 
-				   LoanManageList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager');
+				   var districtOrgId = $("#adminOrg").val();
+				   var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+				   LoanManageList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager',districtArray);
 				   
 				   $('#searchLoanManageButton').click(function() {
 					   if (getSearchDateValues() && getSearchMoneyValues()) {
@@ -290,6 +294,8 @@
 				var applyStatus = $('#applyStatus').val();
 				var confirmStatus = $('#confirmStatus').val();
 				
+				var districtOrgId = $("#adminOrg").val();
+				var districtArray = districtOrgId==null?null:districtOrgId.split(",");
 				//设置查询参数
 				var params = {
 					search_customerName : customerName,
@@ -313,7 +319,8 @@
 					search_signMoneyStart : signMoneyStart,
 					search_applyMoneyEnd : applyMoneyEnd,
 					search_loadMoneyEnd : loadMoneyEnd,
-					search_signMoneyEnd : signMoneyEnd
+					search_signMoneyEnd : signMoneyEnd,
+					search_districtOrgId : districtArray
 				};
 				return params;
 			}
@@ -423,6 +430,7 @@
 		    		displayColomn.push('jqydsName');
 		    		displayColomn.push('belogDistrict');
 		    		displayColomn.push('createTime');
+		    		displayColomn.push('PARENT_ORG_NAME');
 		    		
 		    		var params;
 		    		if (getSearchDateValues() && getSearchMoneyValues()) {

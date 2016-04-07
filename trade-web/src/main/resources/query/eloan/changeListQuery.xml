@@ -5,6 +5,7 @@
         <customDict id="qqcdDictServCode" beanName="qqcdDictServCode"></customDict>
         <customDict id="qqcdDictApplyStatus" beanName="qqcdDictApplyStatus"></customDict>
 		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+		<customDict id="getParentOrgNameByOrgId" beanName="qqcdYuCuiOrgName"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -34,7 +35,7 @@
 		<searchCondition>
             <condition field="propertyInfo.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="agent.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="IN" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -44,6 +45,7 @@
 						 agent.LOAN_SRV_CODE,
 						 agent.CONFIRM_STATUS,
 						 agent.EXECUTOR_ID,
+						 userOrg.ORG_id as 'PARENT_ORG_NAME',
 						 propertyInfo.PROPERTY_ADDR,
 						 change.PKID as 'CHANGE_PKID',
 					     change.ST_FROM,
@@ -97,12 +99,13 @@
 				<column type="both" name="LOAN_SRV_CODE" index="" checkbox="" display="产品名称" title="产品名称" customDict="qqcdDictServCode" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CONFIRM_STATUS" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EXECUTOR_ID" index="" checkbox="" display="执行人" title="执行人" customDict="getUserNameByUserId" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PARENT_ORG_NAME" index="" checkbox="" display="所属服务部" title="所属服务部" customDict="getParentOrgNameByOrgId" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CHANGE_PKID" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="ST_FROM" index="" checkbox="" display="变更前状态" title="变更前状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="ST_TO" index="" checkbox="" display="变更后状态" title="变更后状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ST_FROM_ID" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ST_TO_ID" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CHANGE_DATE" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width= "90" align="" halign="" resizable=""/>
+				<column type="both" name="CHANGE_DATE" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width= "90" align="" halign="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CUST_NAME" index="" checkbox="" display="客户姓名" title="客户姓名" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="LOAN_AMOUNT" index="" checkbox="" display="申请金额" title="申请金额" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>

@@ -9,9 +9,10 @@
     <result column="SUP_CAT" property="supCat" jdbcType="NVARCHAR" />
     <result column="REL_FIN_ORG_CODE" property="relFinOrgCode" jdbcType="VARCHAR" />
     <result column="CO_LEVEL" property="coLevel" jdbcType="VARCHAR" />
+    <result column="TAGS" property="tags" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, FIN_ORG_CODE, CONTACT_NAME, CONTACT_PHONE, SUP_CAT, REL_FIN_ORG_CODE,CO_LEVEL
+    PKID, FIN_ORG_CODE, CONTACT_NAME, CONTACT_PHONE, SUP_CAT, REL_FIN_ORG_CODE,CO_LEVEL,TAGS
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -25,10 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.mgr.entity.TsSup" >
     insert into sctrans.T_TS_SUP (FIN_ORG_CODE, CONTACT_NAME, 
-      CONTACT_PHONE, SUP_CAT, REL_FIN_ORG_CODE,CO_LEVEL
+      CONTACT_PHONE, SUP_CAT, REL_FIN_ORG_CODE,CO_LEVEL,TAGS
       )
     values ( #{finOrgCode,jdbcType=VARCHAR}, #{contactName,jdbcType=NVARCHAR}, 
       #{contactPhone,jdbcType=NVARCHAR}, #{supCat,jdbcType=NVARCHAR}, #{relFinOrgCode,jdbcType=VARCHAR}, #{coLevel,jdbcType=VARCHAR}
+      , #{tags,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.mgr.entity.TsSup" >
@@ -53,6 +55,9 @@
       <if test="coLevel != null" >
         CO_LEVEL,
       </if>
+      <if test="tags != null" >
+        TAGS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
 
@@ -73,6 +78,9 @@
       </if>
       <if test="coLevel != null" >
         #{coLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -97,6 +105,9 @@
       <if test="coLevel != null" >
         CO_LEVEL = #{coLevel,jdbcType=VARCHAR},
       </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -107,7 +118,8 @@
       CONTACT_PHONE = #{contactPhone,jdbcType=NVARCHAR},
       SUP_CAT = #{supCat,jdbcType=NVARCHAR},
       REL_FIN_ORG_CODE = #{relFinOrgCode,jdbcType=VARCHAR},
-      CO_LEVEL=#{coLevel,jdbcType=VARCHAR}
+      CO_LEVEL=#{coLevel,jdbcType=VARCHAR},
+      tags=#{tags,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

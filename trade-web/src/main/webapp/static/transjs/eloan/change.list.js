@@ -1,6 +1,6 @@
 var ChangeList = (function(){    
     return {    
-       init : function(ctx,url,gridTableId,gridPagerId){    
+       init : function(ctx,url,gridTableId,gridPagerId,adminOrg){    
     	 //jqGrid 初始化
     		$("#"+gridTableId).jqGrid({
     			url : ctx+url,
@@ -11,7 +11,7 @@ var ChangeList = (function(){
     			shrinkToFit : true,
     			rowNum : 8,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ 'PKID','产品名称','','执行人','','变更前状态', '变更后状态','','','变更时间', '产证地址','客户姓名','申请金额(万元)','操作' ],
+    			colNames : [ 'PKID','产品名称','','执行人','所属服务部','','变更前状态', '变更后状态','','','变更时间', '产证地址','客户姓名','申请金额(万元)','操作' ],
     			colModel : [ {
     				name : 'PKID',
     				index : 'PKID',
@@ -38,6 +38,13 @@ var ChangeList = (function(){
     			},{
     				name : 'EXECUTOR_ID',
     				index : 'EXECUTOR_ID',
+    				align : "center",
+    				width : 20,
+    				key : true,
+    				resizable : false
+    			},{
+    				name : 'PARENT_ORG_NAME',
+    				index : 'PARENT_ORG_NAME',
     				align : "center",
     				width : 20,
     				key : true,
@@ -133,7 +140,8 @@ var ChangeList = (function(){
     				}
     			},
     			postData : {
-    				queryId : "changeListQuery"
+    				queryId : "changeListQuery",
+    				search_districtOrgId : adminOrg
     			}
     		});
        }   

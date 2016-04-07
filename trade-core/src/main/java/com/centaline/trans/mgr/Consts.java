@@ -4,7 +4,10 @@ public class Consts {
 
 	public static final String YU_SH_DISTRICT = "yu_shanghai_district";
 	
-	public static final String YU_SH_ORG_ROOT = "105DB2C289397D50E0532429030A3DE0";
+	// 营业部组织
+	public static final String ZY_SH_ORG_ROOT = "1D29BB468F504774ACE653B946A393EE";
+	// 誉萃组织
+	public static final String YU_SH_ORG_ROOT = "ff8080814f459a78014f45a73d820006";
 
 	public static final String YU_DISTRICT = "yucui_district";
 	

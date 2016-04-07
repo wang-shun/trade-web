@@ -19,7 +19,7 @@ public interface TsFinOrgService {
 	 * @param flag
 	 * @return
 	 */
-	List<TsFinOrg> findParentBankList(String flag);
+	List<TsFinOrg> findParentBankList(String flag,String tag);
 
 	/**
 	 * 根据分行查询egu或非egu的支行列表
@@ -28,7 +28,7 @@ public interface TsFinOrgService {
 	 * @param faFinOrgCode
 	 * @return
 	 */
-	List<TsFinOrg> findBankListByParentCode(String flag, String faFinOrgCode);
+	List<TsFinOrg> findBankListByParentCode(String flag, String faFinOrgCode,String tag);
 
 	/**
 	 * 根据金融机构编码查询金融机构

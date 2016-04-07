@@ -7,6 +7,7 @@
         <customDict id="qqcdFhjlName" beanName="qqcdFhjlName"></customDict>
         <customDict id="qqcdJqydsName" beanName="qqcdJqydsName"></customDict>
         <customDict id="qqcdOrgName" beanName="qqcdOrgName"></customDict>
+        <customDict id="getParentOrgNameByOrgId" beanName="qqcdYuCuiOrgName"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -56,6 +57,7 @@
 			<condition field="agent.SIGN_TIME" name="signDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.RELEASE_TIME" name="lendDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.RELEASE_TIME" name="lendDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="" searchType="IN" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -63,6 +65,7 @@
 					SELECT 
 					    agent.PKID as 'pkId',
 						agent.LOAN_SRV_CODE as 'loanSrvCode',
+						userOrg.ORG_id as 'PARENT_ORG_NAME',
 						finOrg.FIN_ORG_NAME as 'finOrgName',
 						propertyInfo.PROPERTY_ADDR as 'propertyAddr',
 						agent.EXECUTOR_ID as 'executorId',
@@ -101,6 +104,14 @@
 		               sctrans.SYS_USER sysUser
 			        ON
 			           sysUser.ID  = agent.EXECUTOR_ID
+	           		INNER JOIN 
+					    SCTRANS.V_USER_ORG_JOB userOrg
+					ON  
+					    agent.EXECUTOR_ID = userOrg.user_id
+		           	INNER JOIN
+				       sctrans.v_yucui_org_hierarchy orgHierarchy
+				    ON
+				       orgHierarchy.ORG_ID = userOrg.ORG_id
 			        WHERE
 				]]>
 			</baseSql>
@@ -118,15 +129,16 @@
 				<column type="both" name="applyStatus" index="" checkbox="" title="自填状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="confirmStatus" index="" checkbox="" title="案件已确认状态" customDict="qqcdDictApplyStatus" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="loanAmount" index="" checkbox="" title="申请金额" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="applyTime" index="" checkbox="" title="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="applyTime" index="" checkbox="" title="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="actualAmount" index="" checkbox="" title="放款金额" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="releaseTime" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="releaseTime" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="agentName" index="" checkbox="" title="业务员姓名" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="jfhjlName" index="" checkbox="" title="经理姓名" customDict="qqcdFhjlName" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="orgName" index="" checkbox="" title="分行组别" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="jqydsName" index="" checkbox="" title="所属区董" customDict="qqcdJqydsName" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="belogDistrict" index="" checkbox="" title="所属区域" customDict="qqcdOrgName" sysDict="" beanFormatter="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="createTime" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="PARENT_ORG_NAME" index="" checkbox="" display="所属服务部" title="所属服务部" customDict="getParentOrgNameByOrgId" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="createTime" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

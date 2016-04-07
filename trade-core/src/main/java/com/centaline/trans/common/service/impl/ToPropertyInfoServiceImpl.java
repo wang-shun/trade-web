@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.ToPropertyInfoService;
@@ -36,6 +37,11 @@ public class ToPropertyInfoServiceImpl implements ToPropertyInfoService {
 			ToPropertyInfo record) {
 		// TODO Auto-generated method stub
 		return toPropertyInfoMapper.findToPropertyInfoByCaseCodeAndAddr(record);
+	}
+
+	@Override
+	public ViHouseDelBaseVo getHouseBaseByHoudelCode(String delCode) {
+		return toPropertyInfoMapper.selectByHoudelCode(delCode);
 	}
 
 }

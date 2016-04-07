@@ -30,6 +30,7 @@
 		
 	<!-- title end -->
 	<input type="hidden" id="ctx" value="${ctx}"/>
+	<input type="hidden" id="adminOrg" value="${adminOrg}"/>
 	<%-- 
 	<input type="hidden" id="userId" value="${userId}"/> --%>
 	<!-- content start  -->
@@ -45,7 +46,7 @@
 				<div>
 					案件地址 :<input type="text" id="propertyAddr" name="propertyAddr" />  
 					产品名称 : <aist:dict clazz="span6" id="loanSrvCode" name="loanSrvCode" display="select" dictType = "yu_serv_cat_code_tree" tag="eplus" defaultvalue=""/>
-					所属区域:	<select id="districtOrgId">
+					所属服务部:	<select id="districtOrgId">
 					 			  <option value ="">请选择</option>
 								  <c:forEach items="${districtOrgList}" var="item">
 									 <option value ="${item.id}">${item.orgName}</option>
@@ -147,8 +148,10 @@
 						}
 					});
 				 
-				    EloanWarnList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager');
-				    ChangeList.init('${ctx}','/quickGrid/findPage','changeGridTable','changeGridPager');
+				    var districtOrgId = $("#adminOrg").val();
+				    var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+				    EloanWarnList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager',districtArray);
+				    ChangeList.init('${ctx}','/quickGrid/findPage','changeGridTable','changeGridPager',districtArray);
 				    
 			});
 			
@@ -157,7 +160,14 @@
 		    	
 		    	data.search_propertyAddr =$.trim( $('#propertyAddr').val() );  //知识编码
 		    	data.search_loanSrvCode =$.trim( $('#loanSrvCode').val() );  //知识标题
-		    	data.search_districtOrgId =$.trim( $('#districtOrgId').val() ); 
+		    	// 如果没有选择任何值
+		    	if($.trim($('#districtOrgId').val()) == '') {
+		    		var districtOrgId = $("#adminOrg").val();
+					var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+		    		data.search_districtOrgId = districtArray; 
+		    	} else {
+		    		data.search_districtOrgId = $.trim($('#districtOrgId').val()); 
+		    	}
 		    	data.queryId="warnListQuery";
 		    	
  		    	$("#gridTable").jqGrid('setGridParam',{
@@ -170,7 +180,13 @@
 		    	
 		    	data1.search_propertyAddr =$.trim( $('#propertyAddr').val() );  //知识编码
 		    	data1.search_loanSrvCode =$.trim( $('#loanSrvCode').val() );  //知识标题
-		    	data1.search_districtOrgId =$.trim( $('#districtOrgId').val() ); 
+		    	if($.trim($('#districtOrgId').val()) == '') {
+		    		var districtOrgId = $("#adminOrg").val();
+					var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+		    		data1.search_districtOrgId = districtArray; 
+		    	} else {
+		    		data1.search_districtOrgId = $.trim($('#districtOrgId').val()); 
+		    	}
 		    	data1.queryId="changeListQuery";
 		    	$("#changeGridTable").jqGrid('setGridParam',{
 		    		datatype:'json',

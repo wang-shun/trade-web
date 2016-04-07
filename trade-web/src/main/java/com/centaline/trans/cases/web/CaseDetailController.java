@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletRequest;
@@ -290,6 +292,7 @@ public class CaseDetailController {
 		// 服务项
 		StringBuffer srvCodes = new StringBuffer();
 		List<String> tgSrvList = tgServItemAndProcessorService.findSrvCatsByCaseCode(toCase.getCaseCode());
+
 		for (String sp : tgSrvList) {
 			if (!StringUtils.isEmpty(sp)) {
 				srvCodes.append(sp);
@@ -615,10 +618,11 @@ public class CaseDetailController {
 		if (toWorkFlow != null) {
 			TaskHistoricQuery tq = new TaskHistoricQuery();
 			tq.setProcessInstanceId(toWorkFlow.getInstCode());
-			tq.setTaskAssignee(sessionUser.getUsername());
 			tq.setFinished(true);
 			// 本人做的任务
-			request.setAttribute("myTasks", taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData()));
+			List<TaskVo>tasks=taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
 				.getServiceDepCode());
@@ -649,6 +653,28 @@ public class CaseDetailController {
 		return "case/caseDetail";
 	}
 
+	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
+		if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
+		Set<String>taskDfKeys=new HashSet<>();
+		mySerivceItems.parallelStream().forEach(item->{
+			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
+			if(d!=null&&d.getChildren()!=null){
+				d.getChildren().parallelStream().forEach(sc->{
+					if(!taskDfKeys.contains(sc.getCode())){
+						taskDfKeys.add(sc.getCode());
+					}
+				});
+			}
+		});
+		Iterator<TaskVo> it=tasks.iterator();
+		while (it.hasNext()) {
+			TaskVo task=it.next();
+			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
+				it.remove();
+			}
+		}
+		return tasks;
+	}
 	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
 		Map<String, TaskVo> hashMap = new HashMap<>();
 		/*

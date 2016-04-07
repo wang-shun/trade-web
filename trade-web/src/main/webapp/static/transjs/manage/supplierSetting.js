@@ -21,7 +21,7 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['序号', '供应商编号', '供应商名称', '联系人姓名', '联系人电话','供应商类型','合作等级'],
+            colNames: ['序号', '供应商编号', '供应商名称', '联系人姓名', '联系人电话','供应商类型','合作等级','标签'],
             colModel: [
                 {name: 'PKID', index: 'PKID',  width: 60,hidden : true},
                 {name: 'FIN_ORG_CODE', index: 'FIN_ORG_CODE', width: 140},
@@ -29,7 +29,8 @@
                 {name: 'CONTACT_NAME', index: 'CONTACT_NAME', width: 140},
                 {name: 'CONTACT_PHONE', index: 'CONTACT_PHONE', width: 140},
                 {name: 'SUP_CAT', index: 'SUP_CAT', width: 140},
-                {name: 'CO_LEVEL', index: 'CO_LEVEL', width: 140}
+                {name: 'CO_LEVEL', index: 'CO_LEVEL', width: 140},
+                {name: 'TAGS', index: 'CO_LEVEL', width: 140}
             ], 
             add: true,
             addtext: 'Add',
@@ -106,6 +107,7 @@
     				$("#relFinOrgCode").val(data.content.relFinOrgCode);
     				$("#relFinOrgCode").val(data.content.relFinOrgCode);
     				$("#coLevel").val(data.content.coLevel);
+    				$("#tags").val(data.content.tags);
     			}else{
     				alert(data.message);
     			}

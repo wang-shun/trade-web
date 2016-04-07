@@ -230,9 +230,9 @@
 				<ul>
           		{{each content as item}}
 	                    <li>
-							<span class="tips icon-light">{{item.taskName}}</span>
-							<span class="icon-person">{{item.realName}}</span>
-						    <span class="icon-date">{{item.estPartTime}}</span>
+							<span class="tips"><i class="icon-light"></i>{{item.taskName}}</span>
+							<span class="person "><i class="icon-person"></i>{{item.realName}}</span>
+						    <span class="date-box "><i class="icon-date"></i>{{item.estPartTime}}</span>
 						</li>
            		{{/each}}
 				</ul>
@@ -245,15 +245,9 @@
 	   <script id="userRedColorRemainList" type= "text/html">
 	   {{if redLight.length>0}}
 	  	 {{each redLight as item index}}
-         <li class=" 
-		{{if index < 3}}
-				danger
-         {{/if}}
-		">  
+         <li class="{{if index < 3}}danger{{/if}}">  
 			<div class="feed-element pull-left">
-				<span class="userHead">
-					<img style="width:88px;height:88px;display:none;" src="{{fileSer}}{{item.eCode}}.jpg" onload="javascript:imgLoad(this)" >
-
+					<img class="img-circle" src="{{fileSer}}{{item.eCode}}.jpg" onerror="showDefImg();" alt="img">		
 				</span>	
 				<span class="triangle orange"></span>
 				<span class="warning">!</span>
@@ -262,7 +256,7 @@
 			<div class="media-body">
 				<p class="name pull-left">{{item.realName}}</p>
       
-				<span class="icon-light pull-right">{{item.count}}</span>
+				<span class="pull-right"><i class="icon-light">{{item.count}}</i></span>
 			</div>
 		</li>
 		{{/each}}
@@ -272,7 +266,7 @@
           {{if lightList.length>0}}
 				<ul>
           		{{each lightList as item index}}
-						<li><span class="name"><span class="badge badge-danger">{{index+1}}</span>{{item.orgName}}</span><span class="icon-light pull-right">{{item.count}}</span></li>
+						<li><span class="name"><span class="badge badge-danger">{{index+1}}</span>{{item.orgName}}</span><span class="pull-right"><i class="icon-light">{{item.count}}</i></span></li>
            		{{/each}}
 				</ul>
            {{/if}}
@@ -284,11 +278,11 @@
 	    <script src="../../..//momedia/js/jquery-2.1.1.js"></script>
 	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
        	<script>
-        function imgLoad(img){
-	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
-	   	 }
+		function showDefImg(){
+			event.target.src="../../../momedia/img/a5.png";
+		}
 			jQuery(document).ready(function() {
-				/* var ctx = "http://10.28.6.66:8083/trade-web";
+				var ctx = "${ctx}";
 				var orgId = "${orgId}";
 				//红灯任务项提醒列表
 				$.ajax({
@@ -330,9 +324,9 @@
 						data.fileSer="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/";
 						  var html= template('userRedColorRemainList' , data);
 		                  $( "#userRlist").empty();
-		                  $( "#userRlist").html(html);
+		                  $( "#userRlist").append($(html));
 					}
-				}); */
+				}); 
 				
 				
 			});

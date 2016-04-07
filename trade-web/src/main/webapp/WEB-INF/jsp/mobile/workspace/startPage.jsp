@@ -75,7 +75,6 @@
 		    var i = 0;
 		    setInterval(function(){
 		         $.fn.fullpage.moveSlideRight();
-		         i = (i+1)%3;
 		         if(i==0) {
 		        	 thirdSlide.window.loadData(); 
 		         } else if(i==1) {
@@ -83,7 +82,8 @@
 		         } else {
 		        	 secondSlide.location.reload(true); 
 		         } 
-		    }, 15000);
+		         i = (i+1)%3;
+		    }, 15000); 
 		});
 		var playQueue=new Array();
 		function doPlay(e){

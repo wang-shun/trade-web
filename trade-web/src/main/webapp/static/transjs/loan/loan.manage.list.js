@@ -1,6 +1,6 @@
 var LoanManageList = (function(){    
     return {    
-       init : function(ctx,url,gridTableId,gridPagerId){    
+       init : function(ctx,url,gridTableId,gridPagerId,adminOrg){    
     	 //jqGrid 初始化
     		$("#"+gridTableId).jqGrid({
     			url : ctx+url,
@@ -11,7 +11,7 @@ var LoanManageList = (function(){
     			shrinkToFit : true,
     			rowNum : 8,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ 'pkId','产品名称','合作机构','物业地址', '案件负责人', '自填状态','案件已确认状态','申请金额','申请时间','放款金额','放款时间','业务员姓名','经理姓名','分行组别','所属区董','所属区域','创建时间','操作' ],
+    			colNames : [ 'pkId','产品名称','合作机构','物业地址', '案件负责人', '自填状态','案件已确认状态','申请金额','申请时间','放款金额','放款时间','业务员姓名','经理姓名','分行组别','所属区董','所属区域','所属服务部','创建时间','操作' ],
     			colModel : [ {
     				name : 'pkId',
     				index : 'pkId',
@@ -118,6 +118,12 @@ var LoanManageList = (function(){
     				resizable : true,
     				width : 20
     			}, {
+    				name : 'PARENT_ORG_NAME',
+    				index : 'PARENT_ORG_NAME',
+    				align:'center',
+    				resizable : true,
+    				width : 20
+    			}, {
     				name : 'createTime',
     				index : 'createTime',
     				align:'center',
@@ -154,7 +160,8 @@ var LoanManageList = (function(){
     				
     			},
     			postData : {
-    				queryId : "loanManageList"
+    				queryId : "loanManageList",
+    				search_districtOrgId : adminOrg
     			}
 
     		});
