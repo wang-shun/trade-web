@@ -51,4 +51,9 @@ public class TsPrResearchMapServiceImpl implements TsPrResearchMapService{
 		
 	}
 
+	@Override
+	public List<TsPrResearchMap> getTsPrResearchMapByProperty(TsPrResearchMap tsPrResearchMap) {
+		return tsPrResearchMapMapper.getTsPrResearchMapByProperty(tsPrResearchMap);
+	}
+
 }

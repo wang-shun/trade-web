@@ -35,6 +35,7 @@ import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
+import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
@@ -55,7 +56,9 @@ import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.task.entity.ToTransPlan;
+import com.centaline.trans.task.entity.TsPrResearchMap;
 import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.task.service.TsPrResearchMapService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamTransfer;
 import com.centaline.trans.team.service.TsTeamPropertyService;
@@ -103,7 +106,9 @@ public class CaseDistributeController {
 	TsTeamPropertyService tsTeamPropertyService;
 	@Autowired(required = true)
 	TsTeamTransferService tsTeamTransferService;
-
+	@Autowired(required = true)
+	TsPrResearchMapService tsPrResearchMapService;
+	
 	/**
 	 * 页面初始化
 	 * @return String    返回类型
@@ -235,6 +240,50 @@ public class CaseDistributeController {
     	res.removeAll(noResponseTeamList);
     	return res;
     }
+    
+	/**
+	 * 案件是否转给了其他服务区域
+	 * 
+	 * @return
+	 * @throws  
+	 */
+    @RequestMapping(value="/isTransferOtherDistrict")
+    @ResponseBody
+	public AjaxResponse<Boolean>  isTransferOtherDistrict(String[] caseCodes ,String userId,HttpServletRequest request) {
+    	boolean isTransferOther = false;
+    	
+    	// 查找转给的用户能够服务的区域
+    	SessionUser distributeUser = uamSessionService.getSessionUserById(userId);
+    	Org parentOrg = uamUserOrgService.getParentOrgByDepHierarchy(distributeUser.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+    	TsPrResearchMap param = new TsPrResearchMap();
+    	param.setYuDistCode(parentOrg.getOrgCode());
+    	List<TsPrResearchMap> tsPrResearchMapList = tsPrResearchMapService.getTsPrResearchMapByProperty(param);
+    	
+    	for(String caseCode : caseCodes){
+    		ToPropertyInfo propertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+    		//房源编号
+    		String delCode = propertyInfo.getPropertyAgentId();
+    		if(StringUtils.isBlank(delCode)){
+    			continue;
+    		}
+    		// 当前案件属于的区域
+    		String districtCode = "";
+    		ViHouseDelBaseVo housevo = toPropertyInfoService.getHouseBaseByHoudelCode(delCode);
+    		if(housevo != null && StringUtils.isNotBlank(housevo.getDISTRICT_CODE())) {
+    			districtCode = housevo.getDISTRICT_CODE();
+    			for(TsPrResearchMap tsPrResearchMap :tsPrResearchMapList) {
+    				if(districtCode.equals(tsPrResearchMap.getDistCode())) {
+    					isTransferOther = true;
+    					break;
+    				}
+    			}
+    		}
+    	}
+    	AjaxResponse ajaxResponse = new AjaxResponse();
+    	ajaxResponse.setContent(isTransferOther);
+    	return ajaxResponse;
+    }
+    
 	/**
 	 * 分配案件
 	 * @return

@@ -102,4 +102,13 @@
   		<![CDATA[and PKID <> #{pkid,jdbcType=BIGINT} ]]>
   	</if>
   </select>
+  
+   <select id="getTsPrResearchMapByProperty"  resultMap="resultMap" parameterType="com.centaline.trans.task.entity.TsPrResearchMap">
+	    select * from sctrans.T_TS_PR_RESEARCH_MAP
+	    <where>
+			<if test="yuDistCode != null">
+				YU_DIST_CODE = #{yuDistCode}
+			</if>
+		</where>
+   </select>
 </mapper>

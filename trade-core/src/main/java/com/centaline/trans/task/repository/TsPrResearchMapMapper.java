@@ -20,5 +20,7 @@ public interface TsPrResearchMapMapper {
     int updateByPrimaryKeySelective(TsPrResearchMap record);
     
 	List<TsPrResearchMap> findByDistCodeAndYuDistCode(@Param("pkid") Long pkid,@Param("distCode") String distCode,@Param("yuDistCode") String yuDistCode);
+	
+	List<TsPrResearchMap> getTsPrResearchMapByProperty(TsPrResearchMap record);
 
 }
