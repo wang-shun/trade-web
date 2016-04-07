@@ -1,5 +1,6 @@
 package com.centaline.trans.loan.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +22,13 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Job;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
 import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.mgr.Consts;
 
 @Controller
 @RequestMapping("/loan")
@@ -45,7 +48,15 @@ public class LoanAgentController {
 	}
 	
 	@RequestMapping("manage")
-	public String manage() {
+	public String manage(Model model, ServletRequest request) {
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		String adminOrg = "";
+		if(StringUtils.isNotBlank(user.getAdminOrg())) {
+			adminOrg = user.getAdminOrg().trim();
+		}
+		request.setAttribute("adminOrg", adminOrg);
+
 		return "/loan/manage";
 	}
 
