@@ -58,7 +58,7 @@
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
 						LEFT JOIN sctrans.T_TS_TEAM_TRANSFER transfer
 						ON
-						  transfer.CASE_CODE = A.CASE_CODE
+						  transfer.CASE_CODE = A.CASE_CODE AND TRANSFER.IS_DELETE = 0
 			            INNER JOIN
 			               [SCTRANS].SYS_ORG org
 			            ON
@@ -71,8 +71,8 @@
                			   [SCTRANS].SYS_JOB SJOB
             			ON
                 		   SJOB.ID = JOB.JOB_ID AND SJOB.JOB_CODE = 'Manager'
-					where 1=1
-					AND ((transfer.TEAM_ORIGIN != org.ORG_CODE AND transfer.IS_DELETE = 0) OR (transfer.TEAM_ORIGIN IS NULL))
+					where 
+					  (transfer.TEAM_NOW = org.ORG_CODE or transfer.PKID IS NULL )
 					AND (B.STATUS = '30001001' or B.STATUS IS NULL)
 					AND job.USER_ID =  #queryuserid#
 					AND job.ORG_ID =  #queryorgid#
