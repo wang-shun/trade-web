@@ -148,8 +148,10 @@
 						}
 					});
 				 
-				    EloanWarnList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${adminOrg}');
-				    ChangeList.init('${ctx}','/quickGrid/findPage','changeGridTable','changeGridPager','${adminOrg}');
+				    var districtOrgId = $("#adminOrg").val();
+				    var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+				    EloanWarnList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager',districtArray);
+				    ChangeList.init('${ctx}','/quickGrid/findPage','changeGridTable','changeGridPager',districtArray);
 				    
 			});
 			
@@ -158,8 +160,11 @@
 		    	
 		    	data.search_propertyAddr =$.trim( $('#propertyAddr').val() );  //知识编码
 		    	data.search_loanSrvCode =$.trim( $('#loanSrvCode').val() );  //知识标题
+		    	// 如果没有选择任何值
 		    	if($.trim($('#districtOrgId').val()) == '') {
-		    		data.search_districtOrgId = $("#adminOrg").val(); 
+		    		var districtOrgId = $("#adminOrg").val();
+					var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+		    		data.search_districtOrgId = districtArray; 
 		    	} else {
 		    		data.search_districtOrgId = $.trim($('#districtOrgId').val()); 
 		    	}
@@ -176,7 +181,9 @@
 		    	data1.search_propertyAddr =$.trim( $('#propertyAddr').val() );  //知识编码
 		    	data1.search_loanSrvCode =$.trim( $('#loanSrvCode').val() );  //知识标题
 		    	if($.trim($('#districtOrgId').val()) == '') {
-		    		data1.search_districtOrgId = $("#adminOrg").val(); 
+		    		var districtOrgId = $("#adminOrg").val();
+					var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+		    		data1.search_districtOrgId = districtArray; 
 		    	} else {
 		    		data1.search_districtOrgId = $.trim($('#districtOrgId').val()); 
 		    	}

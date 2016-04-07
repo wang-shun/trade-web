@@ -242,14 +242,50 @@ function distributeCase(index){
 		var ids=$("#table_list_1").jqGrid("getGridParam","selarrrow");
 		var userId =$("#user_"+index).val();
 		
-		var url = "/case/bindCaseDist";
+		var url = "/case/isTransferOtherDistrict";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
 		var params='&userId='+userId+'&caseCodes='+ids;
 		
-		$.ajax({
+		$.ajax({	
 			cache : false,
-			async:true,
+			async: false,
+			type : "POST",
+			url : url,
+			dataType : "json",
+			timeout: 10000,
+		    data : params, 
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+            },  
+            complete: function() {  
+                $.unblockUI();   
+                if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+				  });
+		  		 $(".btn-primary").one("click",function(){
+		  				parent.$.fancybox.close();
+		  			});	 
+		                }
+		            } , 
+            
+			success : function(data) {
+				console.log(data);
+				 if(data.content == false){
+				 Modal.alert(
+						  {
+						    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+						  });
+				 }
+			}
+		}); 
+		
+		/*$.ajax({
+			cache : false,
+			async: false,
 			type : "POST",
 			url : url,
 			dataType : "json",
@@ -284,7 +320,7 @@ function distributeCase(index){
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			}
-		}); 
+		}); */
 	}
 }
 /**

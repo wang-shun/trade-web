@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
@@ -241,7 +242,9 @@
 						}
 					});
 				 
-				   LoanManageList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${adminOrg}');
+				   var districtOrgId = $("#adminOrg").val();
+				   var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+				   LoanManageList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager',districtArray);
 				   
 				   $('#searchLoanManageButton').click(function() {
 					   if (getSearchDateValues() && getSearchMoneyValues()) {
@@ -292,7 +295,7 @@
 				var confirmStatus = $('#confirmStatus').val();
 				
 				var districtOrgId = $("#adminOrg").val();
-				
+				var districtArray = districtOrgId==null?null:districtOrgId.split(",");
 				//设置查询参数
 				var params = {
 					search_customerName : customerName,
@@ -317,7 +320,7 @@
 					search_applyMoneyEnd : applyMoneyEnd,
 					search_loadMoneyEnd : loadMoneyEnd,
 					search_signMoneyEnd : signMoneyEnd,
-					search_districtOrgId : districtOrgId
+					search_districtOrgId : districtArray
 				};
 				return params;
 			}
