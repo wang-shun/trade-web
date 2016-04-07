@@ -381,6 +381,9 @@ public class TaskController {
 		
 		//物业信息
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		if(toPropertyInfo!=null){
+			reVo.setPropertyAddress(toPropertyInfo.getPropertyAddr());
+		}
 		User agentUser=null;
 		//经纪人
 		if(!StringUtils.isBlank(toCaseInfo.getAgentCode())){

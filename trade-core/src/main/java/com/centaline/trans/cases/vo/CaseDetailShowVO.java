@@ -78,6 +78,8 @@ public class CaseDetailShowVO {
     
     private String caseProperty; // 案件属性
     
+    private String propertyAddress;//物业地址
+    
     public String getHoldYear() {
 		return holdYear;
 	}
@@ -498,6 +500,14 @@ public class CaseDetailShowVO {
 
 	public void setCaseProperty(String caseProperty) {
 		this.caseProperty = caseProperty;
+	}
+
+	public String getPropertyAddress() {
+		return propertyAddress;
+	}
+
+	public void setPropertyAddress(String propertyAddress) {
+		this.propertyAddress = propertyAddress;
 	}
 
 	
