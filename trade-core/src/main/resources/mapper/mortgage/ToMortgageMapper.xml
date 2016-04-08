@@ -356,6 +356,6 @@
  	</if>
  	<if test="isMainLoanBank != null">
  		and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
- 	</if>>
+ 	</if>
  </select>
 </mapper>
