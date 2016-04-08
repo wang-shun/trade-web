@@ -886,10 +886,16 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
+    				if($("#input[name='optionsRadios']:checked").val()==0){
+    					$("#direct_launch_div").hide();
+    				}else{
+    					$("#direct_launch_div").show();
+    				}
     				if(popInited)return true;
     				popInited=true;
     				$("input[name='optionsRadios']").click(function(){
     					 if($(this).val()==0){
+    						 $("#direct_launch_div").hide();
     						 $("#addToEguPricingForm").find("input").each(function(){
     							 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
                 					 $(this).attr("disabled","disabled");
@@ -899,6 +905,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
             					 $(this).attr("disabled","disabled");
             				 });
     					 }else{
+    						 $("#direct_launch_div").show();
     						 $("#addToEguPricingForm").find("input").each(function(){
                 				 $(this).removeAttr("disabled");
             				 });
@@ -942,6 +949,14 @@ function bindEvaCode(){
 			if(data.message != ""){
 				alert(data.message);
 				$("#modal-form").modal("hide");
+				var isMainLoanBank = $("#isMainLoanBank").val();
+				if(isMainLoanBank == 1){
+					searchPricingList("table_list_1");
+	    		//	getPricingList("table_list_1","pager_list_1");
+				}else{
+					searchPricingList("table_list_3");
+	    		//	getPricingList("table_list_3","pager_list_3");
+				}
 			}
 		}
 	});
@@ -1095,6 +1110,7 @@ $(document).ready(function () {
 	 		$("#winzard").find("li").css("width","16%");
 	 	},
 		startIndex:step,
+		showFinishButtonAlways:false,
 	 	enableCancelButton:false,
 	 	onStepChanging: function (event, currentIndex, newIndex){
 	 		if(currentIndex == 0){
@@ -1103,21 +1119,15 @@ $(document).ready(function () {
 	 				return false;
 	 			}
 	 			$("#eva_code").val(accPricing['EVA_CODE']);
-//	 			if(accPricingIds.length != 0 && accPricing == null){
-//	 				alert("请先接受询价结果！");
-//	 				return false;
-//	 			}else if(accPricing != null){
-//					$("#eva_code").val(accPricing['EVA_CODE']);
-//	 			}
 	
-	 		}else if(currentIndex == 2 && newIndex == 3){
+	 		}else if(currentIndex == 2){
 	 			var flag = false;
 	 			if(checkMortgageForm($("#mortgageForm"))){
 		 			saveMortgage($("#mortgageForm"));
 		 			flag = true;
 	 			}
 	 			return flag;
-	 		}else if(currentIndex == 3 && newIndex == 4){
+	 		}else if(currentIndex == 3 ){
 		 		var rowId=$("#table_list_1").jqGrid("getGridParam","selrow");
 				var rowData = $("#table_list_1").jqGrid('getRowData', rowId);
 				if(rowData['TOTAL_PRICE'] == ""){
@@ -1153,8 +1163,8 @@ $(document).ready(function () {
 	 		}
 	 	},
 	 	onFinished: function (event, currentIndex)
-	    {
-	 		completeMortgage($("#completeForm"));
+		{
+	 		completeMortgage($("#completeForm"));	
 	    }
 	});
 	
@@ -1163,6 +1173,7 @@ $(document).ready(function () {
 		previous:"上一步",
 		finish:"完成"
  	},
+ 	showFinishButtonAlways:false,
  	enableCancelButton:false,
  	startIndex:step1,
  	onInit:function(event, currentIndex){
@@ -1182,14 +1193,14 @@ $(document).ready(function () {
 				$("#eva_code").val(accPricing['EVA_CODE']);
  			}*/
 
- 		}else if(currentIndex == 2 && newIndex == 3){
+ 		}else if(currentIndex == 2 ){
  			var flag = false;
  			if(checkMortgageForm($("#mortgageForm1"))){
 	 			saveMortgage($("#mortgageForm1"));
 	 			flag = true;
  			}
  			return flag;
- 		}else if(currentIndex == 3 && newIndex == 4){
+ 		}else if(currentIndex == 3 ){
 	 		var rowId=$("#table_list_3").jqGrid("getGridParam","selrow");
 			var rowData = $("#table_list_3").jqGrid('getRowData', rowId);
 			if(rowData['TOTAL_PRICE'] == ""){
@@ -1225,6 +1236,7 @@ $(document).ready(function () {
  	onFinished: function (event, currentIndex)
     {
  		completeMortgage($("#completeForm1"));
+ 		return true;
     }
 });
 //    $("#finOrgCode").change(function(){
