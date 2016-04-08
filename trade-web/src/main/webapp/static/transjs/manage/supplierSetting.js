@@ -30,7 +30,7 @@
                 {name: 'CONTACT_PHONE', index: 'CONTACT_PHONE', width: 140},
                 {name: 'SUP_CAT', index: 'SUP_CAT', width: 140},
                 {name: 'CO_LEVEL', index: 'CO_LEVEL', width: 140},
-                {name: 'TAGS', index: 'CO_LEVEL', width: 140}
+                {name: 'TAGS', index: 'TAGS', width: 140}
             ], 
             add: true,
             addtext: 'Add',
