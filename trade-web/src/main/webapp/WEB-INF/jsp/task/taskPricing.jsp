@@ -449,9 +449,9 @@
                 $('input[name=commet]').focus();
                 return false;
            } */
-			if($('input[name=houseProperty]').val()=='') {
+			if($("#houseProperty").val()=='') {
                 alert("房屋性质为必填项!");
-                $('input[name=houseProperty]').focus();
+                //$('select[name=houseProperty]').focus();
                 return false;
            }
 			return true;
