@@ -14,10 +14,10 @@
 	<div class="container">
 		<div class="col col-1 pull-left">
 			<div class="ibox ibox-red">
-				<p class="pull-right">红灯任务<br>67<p id="redCount"></p></p>
+				<p class="pull-right">红灯任务<br><span id="redCount"></span></p>
 			</div>
 			<div class="ibox ibox-yellow">
-				<p class="pull-right">黄灯任务<br>32<p id="yellowCount"></p></p>
+				<p class="pull-right">黄灯任务<br><span id="yellowCount"></span></p>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">组别排名</div>
