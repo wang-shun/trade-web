@@ -354,5 +354,8 @@
  	<if test="isActive != null">
  		and IS_ACTIVE=#{isActive,jdbcType=VARCHAR}
  	</if>
+ 	<if test="isMainLoanBank != null">
+ 		and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
+ 	</if>>
  </select>
 </mapper>

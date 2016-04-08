@@ -32,7 +32,7 @@ ul,li{list-style: none;}
 .red{border-bottom-color: #ed5565}
 .orange{border-bottom-color: #ff8042}
 .yellow{border-bottom-color: #ffb400}
-.warning{color: #fff;position: absolute;bottom:0.4rem;left: 0.5rem;}
+.warning{color: #fff;position: absolute;bottom:0.8rem;left: 0.6rem;}
 .img-circle{border-radius: 50%;-webkit-border-radius: 50%; width:3.6rem;height: 3.6rem;}
 .media-body{  overflow: hidden;}
 .danger{background:#fdedee url(../images/label.png) center center  no-repeat;}

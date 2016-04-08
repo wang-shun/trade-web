@@ -66,6 +66,7 @@ public class TsSupServiceImpl implements TsSupService{
 			vo.setRelFinOrgCode(tsSup.getRelFinOrgCode());
 			vo.setSupCat(tsSup.getSupCat());
 			vo.setCoLevel(tsSup.getCoLevel());
+			vo.setTags(tsSup.getTags());
 			TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(tsSup.getFinOrgCode());
 			if(tsFinOrg != null){
 				vo.setFinOrgName(tsFinOrg.getFinOrgName());

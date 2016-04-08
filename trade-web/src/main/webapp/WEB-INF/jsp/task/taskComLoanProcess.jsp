@@ -163,7 +163,7 @@
 											</div>
 										</div>
 									</div>
-
+								<div id="direct_launch_div">
 									<div class="form-group row">
 										<label class="col-sm-2 control-label">小区：</label>
 										<div class="col-sm-10">
@@ -359,6 +359,7 @@
 											</div>
 										</div>
 										</div>
+									</div>
 									</div>
 								</div>
 							</form>
@@ -1433,7 +1434,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.0.3"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
