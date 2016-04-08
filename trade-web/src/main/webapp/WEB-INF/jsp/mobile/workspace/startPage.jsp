@@ -60,8 +60,9 @@
 			$("#view-fullscreen").click(function(){
 				 var docElm = document.documentElement;
 				 docElm.webkitRequestFullScreen();
-				 
+				
 				 $("#view-fullscreen").hide();
+				 window.onresize();
 			});
 			
 			var ctx = "${ctx}";
