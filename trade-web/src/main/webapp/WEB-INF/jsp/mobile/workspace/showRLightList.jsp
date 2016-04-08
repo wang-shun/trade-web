@@ -226,7 +226,7 @@
 	<content tag="local_script"> 
 		<script id="redColorRemainList" type= "text/html">
           {{if content.length>0}}
-				<marquee direction="up" behavior="scroll" scrollamount="6" scrolldelay="0" loop="-1" width="734" height="768" bgcolor="" hspace="10" vspace="10">
+				<marquee direction="up" behavior="scroll" scrollamount="6" scrolldelay="0" loop="-1" width="" height="" bgcolor="" hspace="10" vspace="10">
 				<ul>
           		{{each content as item}}
 	                    <li>
@@ -256,7 +256,7 @@
 			<div class="media-body">
 				<p class="name pull-left">{{item.realName}}</p>
       
-				<span class="pull-right"><i class="icon-light">{{item.count}}</i></span>
+				<span class="pull-right"><i class="icon-light"></i>{{item.count}}</span>
 			</div>
 		</li>
 		{{/each}}
@@ -266,7 +266,7 @@
           {{if lightList.length>0}}
 				<ul>
           		{{each lightList as item index}}
-						<li><span class="name"><span class="badge badge-danger">{{index+1}}</span>{{item.orgName}}</span><span class="pull-right"><i class="icon-light">{{item.count}}</i></span></li>
+						<li><span class="name"><span class="badge badge-danger">{{index+1}}</span>{{item.orgName}}</span><span class="pull-right"><i class="icon-light"></i>{{item.count}}</span></li>
            		{{/each}}
 				</ul>
            {{/if}}
@@ -286,7 +286,7 @@
 				var orgId = "${orgId}";
 				//红灯任务项提醒列表
 				$.ajax({
-					url : ctx+"/mobile/dashboard/box/queryRyLightList",
+					url : "../../../mobile/dashboard/box/queryRyLightList",
 					method:"post",
 					dataType:"json",
 					data: {orgId: orgId},  
@@ -299,7 +299,7 @@
 				});
 				//红灯与黄灯数量
 				$.ajax({
-					url : ctx+"/mobile/dashboard/box/firstPage",
+					url : "../../../mobile/dashboard/box/firstPage",
 					method:"post",
 					dataType:"json",
 					data: {orgId: orgId},  
@@ -316,7 +316,7 @@
 					}
 				});
 				$.ajax({
-					url : ctx+"/mobile/dashboard/box/rLightList",
+					url : "../../../mobile/dashboard/box/rLightList",
 					method:"post",
 					dataType:"json",
 					data: {orgId: orgId},  
