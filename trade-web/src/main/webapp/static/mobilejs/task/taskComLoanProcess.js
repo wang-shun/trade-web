@@ -53,6 +53,17 @@ function checkMortgageForm(formId){
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
 	}
+	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
+	var prfAmount=prfAmoutStr==''?0:~~prfAmoutStr;
+	var mortTotalAmount=~~formId.find("input[name='mortTotalAmount']").val();
+	var comAmount=~~formId.find("input[name='comAmount']").val();
+	if(mortTotalAmount-prfAmount!=comAmount){
+		alert('贷款总额必须等于商贷和公积金之和');
+		return false;
+	}
+	
+	
+	
 	return true;
 }
 
