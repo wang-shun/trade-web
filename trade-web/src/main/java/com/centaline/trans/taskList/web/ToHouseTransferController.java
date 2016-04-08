@@ -93,8 +93,8 @@ public class ToHouseTransferController {
 			return rs;
 		}
 		// 1 调用validCtmDeal接口
-		SalesApiResponse canHouseTransResult=salesdealApiService.checkCanHouseTransfer(ctmCode);
-		if(canHouseTransResult.getSuccess() || !parentId.equals(pid)){// 成功
+		//SalesApiResponse canHouseTransResult=salesdealApiService.checkCanHouseTransfer(ctmCode);
+		//if(canHouseTransResult.getSuccess() || !parentId.equals(pid)){// 成功
 			
 			//2
 			toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
@@ -113,9 +113,10 @@ public class ToHouseTransferController {
 			if(result<=0){
 				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
 			}
-		}else{ // 失败
-			rs.setMessage("房源过户检查失败，原因为："+canHouseTransResult.getMessage());
-		}
+		//}
+		//else{ // 失败
+			//rs.setMessage("房源过户检查失败，原因为："+canHouseTransResult.getMessage());
+		//}
 			
 		return rs;
 	}
