@@ -36,8 +36,8 @@
 		<div class="col col-2 pull-left">
 			<div class="panel panel-danger">
 				<div class="panel-heading">红灯员工通报</div>
-				<div class="panel-body ">
-					<ul id="userRlist">
+				<div class="panel-body " id="userRlist">
+					<ul>
 						<li class="danger">
 							<div class="feed-element pull-left">
 								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
@@ -244,6 +244,7 @@
 	   </script>
 	   <script id="userRedColorRemainList" type= "text/html">
 	   {{if redLight.length>0}}
+		<ul>
 	  	 {{each redLight as item index}}
          <li class="{{if index < 3}}danger{{/if}}">  
 			<div class="feed-element pull-left">
@@ -260,6 +261,10 @@
 			</div>
 		</li>
 		{{/each}}
+			</ul>
+		{{/if}}
+		{{if redLight.length<=0}}
+			<img class='nodata' src='../../../momedia/img/nodata.png'>
 		{{/if}}
 	   </script>
 	   <script id="orgRedColorRemainList" type= "text/html">
@@ -324,7 +329,7 @@
 						data.fileSer="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/";
 						  var html= template('userRedColorRemainList' , data);
 		                  $( "#userRlist").empty();
-		                  $( "#userRlist").append($(html));
+		                  $( "#userRlist").html(html);
 					}
 				}); 
 				
