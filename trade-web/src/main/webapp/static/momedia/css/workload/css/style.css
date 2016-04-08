@@ -96,7 +96,7 @@ h2,h3{font-size: 4.5rem;font-weight: 400}
 .item-1 .media-body p{width:23rem;}
 #workload .media-body p{margin-left: 0.5rem;}
 .media-body strong{position: absolute; right: 0; top: 0;}
-#ul_unAlloate .media-body strong{top:1.6rem;}
+#ul_unAlloate .media-body strong{top:1rem;}
 #workload #ul_unAlloate .media-body p{margin-top:1.4rem; line-height:1;}
 .item-2 .panel{width: 49%;float: left;margin-bottom:0.4rem;}
 .item-2 .panel:nth-child(2n+1){margin:0 0.4rem 0.4rem;}
