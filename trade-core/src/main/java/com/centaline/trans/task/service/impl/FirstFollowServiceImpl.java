@@ -116,7 +116,7 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 		/*服务项目和经办人*/
 		TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
 		String[] srvCodes = null;
-		if(firstFollowVO.getSrvCode() != null) {
+		if(StringUtils.isNotBlank(firstFollowVO.getSrvCode())) {
 			srvCodes = firstFollowVO.getSrvCode().split(","); 
 		}
 		tgServItemAndProcessorMapper.deleteByPrimaryCaseCode(firstFollowVO.getCaseCode());
