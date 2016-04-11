@@ -94,7 +94,7 @@
 					    sctrans.T_TS_FIN_ORG finOrg
 					ON
 					   finOrg.FIN_ORG_CODE = agent.FIN_ORG_CODE
-					INNER JOIN
+					LEFT JOIN
 					   sctrans.V_USER_ORG_JOB orgJob
 					ON
 					   orgJob.user_id = caseInfo.AGENT_CODE
