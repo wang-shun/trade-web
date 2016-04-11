@@ -563,9 +563,11 @@ function saveSrvItems(){
 					if(data.success){
 
 						if(data.message!="变更成功！"){
+							window.location.reload();
 							window.location.href=ctx+"/task/ServiceChangeApply?&caseCode="+caseCode +"&taskId="+data.content;
 						}else{
 							alert("保存成功");
+							window.location.reload();
 							changeSrvsHidden();
 							$('#srv-modal-form').modal("hide");
 						}
