@@ -260,6 +260,7 @@ public class CaseDistributeController {
     	List<TsPrResearchMap> tsPrResearchMapList = tsPrResearchMapService.getTsPrResearchMapByProperty(param);
     	
     	for(String caseCode : caseCodes){
+    		
     		ToPropertyInfo propertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
     		//房源编号
     		String delCode = propertyInfo.getPropertyAgentId();
@@ -267,16 +268,22 @@ public class CaseDistributeController {
     			continue;
     		}
     		// 当前案件属于的区域
+    		boolean isExistNoPatter = true ;
     		String districtCode = "";
     		ViHouseDelBaseVo housevo = toPropertyInfoService.getHouseBaseByHoudelCode(delCode);
     		if(housevo != null && StringUtils.isNotBlank(housevo.getDISTRICT_CODE())) {
     			districtCode = housevo.getDISTRICT_CODE();
     			for(TsPrResearchMap tsPrResearchMap :tsPrResearchMapList) {
     				if(districtCode.equals(tsPrResearchMap.getDistCode())) {
-    					isTransferOther = true;
-    					break;
+    					isExistNoPatter = false;
+    					continue;
     				}
     			}
+    		}
+    		
+    		if(isExistNoPatter) {
+    			isTransferOther = true;
+    			break;
     		}
     	}
     	AjaxResponse ajaxResponse = new AjaxResponse();
