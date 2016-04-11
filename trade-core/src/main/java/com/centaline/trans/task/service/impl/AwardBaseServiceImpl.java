@@ -3,6 +3,7 @@ package com.centaline.trans.task.service.impl;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -60,10 +61,9 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		getAwardToSet(orgsArr,TransJobs.TSJYZG.getCode(), awardSet);
 		getAwardToSet(orgsArr, TransJobs.TJYZG.getCode(), awardSet);
 		
-		
-		
-
-		for (AwardBase ab : awardSet) {
+		Iterator<AwardBase>abs= awardSet.iterator();
+		while (abs.hasNext()) {
+			AwardBase ab=abs.next();
 			Job j=uamUserOrgService.getJobByCode(ab.getJobCode());
 			ab.setJobId(j.getId());
 			ab.setCreateTime(new Date());
@@ -72,6 +72,10 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 				continue;
 			}
 			AwardBaseConfig conf = getAwardBaseConfig(ab);
+			if(conf==null){//找不到该人员配置，从分金人员中移除
+				abs.remove();
+				continue;
+			}
 			ab.setBaseAmount(conf.getSrvFee());
 			ab.setConfigId(conf.getPkId());
 			

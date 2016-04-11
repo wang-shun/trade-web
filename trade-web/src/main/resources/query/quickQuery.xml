@@ -93,5 +93,8 @@
 	<import resource="query/task/RyLightListQuery.xml"></import>
 	<import resource="query/case/toCaseListForMobile.xml"></import>
 	<import resource="query/task/toTaskHistoryListQueryForMobile.xml"></import>
+	<!-- 案件追踪 -->
+	<import resource="query/case/toCaseListTrackingQuery.xml"></import>
+	
 	
 </queryConfig>

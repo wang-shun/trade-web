@@ -159,7 +159,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	public void doDelete(LoanAgent loanAgent) {
 		LoanAgent obj = loanAgentMapper.selectByPkid(loanAgent.getPkid());
 		TgServItemAndProcessor p = new TgServItemAndProcessor();
-		if (obj.getLoanSrvCode() != null) {
+		if (obj.getLoanSrvCode() != null&&!StringUtils.isBlank(obj.getCaseCode())) {
 			p.setCaseCode(obj.getCaseCode());
 			p.setSrvCat(obj.getLoanSrvCode());
 			TgServItemAndProcessor ts = servItemMapper

@@ -334,6 +334,7 @@
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 	
 	<script src="${ctx}/transjs/task/follow.pic.list.js"></script>
+	<script type="text/javascript" src="${ctx}/static/js/jquery.json.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
@@ -375,9 +376,13 @@
 			/*加载默认基础服务和合作项目*/
 			
 			
-			$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
+			/* $("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
 			$("input:checkbox[name='srvCode'][value='30004002']").parent().parent().parent().hide();
-			$("input:checkbox[name='srvCode'][value='30004001']").parent().parent().parent().hide();
+			$("input:checkbox[name='srvCode'][value='30004001']").parent().parent().parent().hide(); */
+			$("span[value='30004010']").attr("disabled","disabled");
+			$("span[value='30004002']").attr("disabled","disabled");
+			$("span[value='30004001']").attr("disabled","disabled");
+			
 			FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
 			
 			$("span[name='srvCode']").click(function(){
@@ -481,6 +486,13 @@
 				return;
 			}
 			var jsonData = $("#firstFollowform").serializeArray();
+			var result = ''
+			$("span.selected[name='srvCode']").each(function(){ 
+				result += $(this).attr('value')+',';
+			});
+			var obj = {name:'srvCode',value:result.substring(0, result.length-1)};
+			jsonData.push(obj);
+			
 			var url = "${ctx}/task/firstFollow/saveFirstFollow";
 			if(b) {
 				url = "${ctx}/task/firstFollow/submit";
@@ -492,6 +504,7 @@
 				type : "POST",
 				url : url,
 				dataType : "json",
+				//contentType:"application/json",  
 				data : jsonData,
     		    beforeSend:function(){  
     				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 

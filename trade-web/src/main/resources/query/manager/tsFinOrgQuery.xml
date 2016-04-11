@@ -39,7 +39,8 @@
 					TFO.FIN_ORG_CODE,
 					TFO.FIN_ORG_NAME,
 					TFO.FA_FIN_ORG_CODE,
-					TF.FIN_ORG_NAME FA_FIN_ORG_NAME
+					TF.FIN_ORG_NAME FA_FIN_ORG_NAME,
+					TFO.FIN_ORG_NAME_YC
 					FROM sctrans.T_TS_FIN_ORG TFO
 					LEFT JOIN sctrans.T_TS_FIN_ORG TF ON TFO.FA_FIN_ORG_CODE=TF.FIN_ORG_CODE
 					where 1 = 1
@@ -55,6 +56,7 @@
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="金融机构名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" display="父机构编码" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FA_FIN_ORG_NAME" index="" checkbox="" display="父机构名称" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME_YC" index="" checkbox="" display="别名" customDict="" sysDict="" isSort="true" align="" halign="" order="" resizable=""/>
 
 			</table-row>
 		</grid>
