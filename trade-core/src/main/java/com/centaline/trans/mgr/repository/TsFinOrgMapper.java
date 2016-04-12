@@ -78,4 +78,6 @@ public interface TsFinOrgMapper {
      * @return
      */
     List<TsFinOrg> findAllFinOrg();
+    
+    List<TsFinOrg> queryFinOrgNameLike(@Param("finOrgName")String finOrgName) ;
 }

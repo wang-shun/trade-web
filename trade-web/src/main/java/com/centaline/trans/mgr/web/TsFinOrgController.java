@@ -139,7 +139,13 @@ public class TsFinOrgController {
 		List<TsFinOrg> finOrgList = tsFinOrgService.findAllFinOrg();
 		return finOrgList;
 	}
-
+	@RequestMapping(value = "queryFinOrgNameLike")
+	@ResponseBody
+	public List<TsFinOrg>queryFinOrgNameLike(String finOrgName){
+		List<TsFinOrg> finOrgList = tsFinOrgService.queryFinOrgNameLike(finOrgName);
+		return finOrgList;
+	}
+	
 	@RequestMapping(value = "queryParentBankInfo")
 	@ResponseBody
 	public AjaxResponse<String> queryParentBankInfo(String finOrgCode) {

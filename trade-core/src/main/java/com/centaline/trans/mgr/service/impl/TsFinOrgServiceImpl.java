@@ -45,7 +45,7 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 			tsFinOrgMapper.update(tsFinOrg);
 		} else {
 
-			tsFinOrgMapper.insert(tsFinOrg);
+			tsFinOrgMapper.insertSelective(tsFinOrg);
 		}
 	}
 
@@ -147,5 +147,10 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	public List<TsFinOrg> findFinCompany() {
 		return tsFinOrgMapper.findBySupCat(SupCatEnum.FINANCE_LOAN_SUPPLIER
 				.getCode());
+	}
+
+	@Override
+	public List<TsFinOrg> queryFinOrgNameLike(String finOrgName) {
+			return tsFinOrgMapper.queryFinOrgNameLike(finOrgName);
 	}
 }
