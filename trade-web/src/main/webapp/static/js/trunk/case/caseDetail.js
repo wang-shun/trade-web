@@ -28,7 +28,12 @@ $(document).ready(
 			$("#changeForm-form").submit(function(){
 				$('#changeForm-modal-form').modal("hide");
 			});
-			
+			$("#changeForm-form").submit(function(){
+				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
+					alert('请选择要修改的项目！');
+					return false;
+				}
+			});
 			
 			
 			//案件挂起

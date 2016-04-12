@@ -18,13 +18,14 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['序号', '金融机构编号', '金融机构名称', '父机构编码','父机构名称'],
+            colNames: ['序号', '金融机构编号', '金融机构名称', '父机构编码','父机构名称','别名'],
             colModel: [
                 {name: 'PKID', index: 'PKID',  width: 60},
                 {name: 'FIN_ORG_CODE', index: 'FIN_ORG_CODE', width: 140},
                 {name: 'FIN_ORG_NAME', index: 'FIN_ORG_NAME', width: 180},
                 {name: 'FA_FIN_ORG_CODE', index: 'FA_FIN_ORG_CODE', width: 140},
-                {name: 'FA_FIN_ORG_NAME', index: 'FA_FIN_ORG_NAME', width: 140}
+                {name: 'FA_FIN_ORG_NAME', index: 'FA_FIN_ORG_NAME', width: 140},
+                {name: 'FIN_ORG_NAME_YC', index: 'FIN_ORG_NAME_YC', width: 140}
 
             ], 
             add: true,
