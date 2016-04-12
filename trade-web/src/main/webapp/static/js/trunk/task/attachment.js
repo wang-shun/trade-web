@@ -106,6 +106,7 @@ function getExplPicByhouseCode() {
 			//将返回的数据进行包装
 			$.each(data.accList, function(indexAcc, accValue){
 				//实勘描述
+				if(!$("#picContainer"+accValue.pkid)[0])return true;
 				var trStr = "";
 				$.each(data.attList,function(index, value) {
 					if(value.preFileCode==accValue.accessoryCode){
