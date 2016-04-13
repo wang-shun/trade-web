@@ -77,5 +77,5 @@ h2,h3{font-weight: 400}
 .part .rank-2{background-image:url(../images/second.png); }
 .part .rank-3{background-image:url(../images/third.png); }
 #rank .badge{left: 0.8rem}
-.img-circle{width:4rem; height:4rem;}
-#rank p:first-child{margin-top:1rem;}
+.img-circle{width:4.6rem; height:4.6rem;}
+#rank p:first-child{margin-top:1.5rem;}
