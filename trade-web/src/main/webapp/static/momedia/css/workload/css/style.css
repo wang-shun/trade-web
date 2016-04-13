@@ -1,6 +1,6 @@
 * {margin: 0; padding: 0; box-sizing: border-box; -webkit-border-sizing: border-box;-o-border-sizing: border-box; tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -o-tap-highlight-color: rgba(0, 0, 0, 0); focus-ring-color: rgba(0, 0, 0, 0); }
 html{ font-size:1px;background: #f3f3f4;}
-body { font: 1.2rem/1.6 'Microsoft Yahei'; color: #434343; background: #f3f3f4 }
+body { font: 1.2rem/1.6 'Microsoft Yahei'; color: #434343; background: #f3f3f4 ;height:100%;}
 ul,li{list-style: none;}
 h2,h3{font-size: 4.5rem;font-weight: 400}
 .pull-left{float: left;}.pull-right{float: right;}

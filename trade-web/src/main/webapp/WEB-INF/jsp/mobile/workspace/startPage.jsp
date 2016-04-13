@@ -6,76 +6,64 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>屏幕首页</title>
-	<link rel="stylesheet" href="../../../momedia/css/carousel/style.css"> 
-	<link rel="stylesheet" href="../../../momedia/css/fullpage/jquery.fullPage.css">
+	<link rel="stylesheet" href="../../../momedia/css/plugins/superslides/superslides.css">
 	<link rel="stylesheet" href="../../../momedia/css/workload/css/startPage.css">
 	<style>
 		
 	</style>
 </head>
-  <body>
-        <div id="dowebok" >
-		    <div class="section">
-		       <div class="slide"><iframe src="workload?orgId=${orgId }" scrolling=”no” name="firstSlide"></iframe></div>
-		       <div class="slide"><iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe></div>
-		       <div class="slide"><iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe></div>
-		        
-		        <i id="view-fullscreen"></i>
-		        <%-- <div class="slide"><jsp:include page="workload2.jsp?orgId=${orgId }"></jsp:include> </div>
-		        <div class="slide section2">222</iframe></div>
-		        <div class="slide">333</div> --%>
+  <body>  
+	   <div id="slides">
+		    <div class="slides-container">
+		    	<iframe src="http://10.4.19.211:8083/trade-web/mobile/dashboard/box/workload?orgId=FF5BC56E0E4B45289DAA5721A494C7C5" scrolling=”no” name="firstSlide" id="firstSlide" style="width:400rem;height:300rem"></iframe>
+		      	<iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe>
+		        <iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe>
 		    </div>
-		</div> 
+		    
+		    <i id="view-fullscreen"></i>
+		
+		   <nav class="slides-navigation">
+		      <a href="#" class="next">Next</a>
+		      <a href="#" class="prev">Previous</a>
+		    </nav> 
+		</div>
+        
 		<div id="play_mv">
 			<div class="firework1"><img alt="1" src="../../../momedia/images/fireworks.gif" class="fireworks"></div>
 			<div class="mask"></div>
 			<div class="cont"><p id="play_content"> 浦东贵宾服务部A组顾问 王小毛 攻榜成功！目前在E+金融周榜中排名第一，金融产品申请金额总计1000万 </p></div>
 			<div  class="firework2"><img alt="1" src="../../../momedia/images/fireworks.gif"class="fireworks"></div>
 		</div>
-		<!-- <div id="div_none"></div> -->
-		<%--<div id="dowebok">
-		    <div class="section">
-		        <iframe src="workload?orgId=${orgId }" scrolling=”no” ></iframe>
-		    </div>
-		     <div class="section">
-		       <iframe src="showRLightList?orgId=${orgId }" scrolling=”no” ></iframe>
-		    </div>
-		    <div class="section">
-		       <iframe src="showRank?orgId=${orgId }" scrolling=”no” ></iframe>
-		    </div> 
-		</div>
-		--%>
-		<audio id="aaa" src="../../../momedia/mp3/fireworks.mp3"  controls style="
-    display: none;"></audio>
+		<audio id="aaa" src="../../../momedia/mp3/fireworks.mp3"  controls style="display: none;"></audio>
 		
 	    <script src="../../../momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "../../../momedia/js/plugins/carousel/script.js" type="text/javascript" ></script>
-	    <script src= "../../../momedia/js/plugins/fullpage/jquery.fullPage.min.js" type="text/javascript" ></script>
+	    <script src= "../../../momedia/js/plugins/superslides/jquery.easing.1.3.js" type="text/javascript" ></script>
+	    <script src= "../../../momedia/js/plugins/superslides/jquery.animate-enhanced.min.js" type="text/javascript" ></script>
+	    <script src= "../../../momedia/js/plugins/superslides/jquery.superslides.js" type="text/javascript" ></script>
 	     
 	    <script>
 	    var orgId = "${orgId}";
 		$(function(){
 			$("#view-fullscreen").click(function(){
-				 var docElm = document.documentElement;
-				 docElm.webkitRequestFullScreen();
+				 //var docElm = document.documentElement;
+				 var slides = document.getElementById('slides'); 
+				 slides.webkitRequestFullScreen();
 				
 				 $("#view-fullscreen").hide();
 				 window.onresize();
 			});
 			
 			var ctx = "${ctx}";
-		    $('#dowebok').fullpage({
-		        sectionsColor : ['#1bbc9b', '#4BBFC3', '#7BAABE', '#f90'],
-		        continuousVertical: true,
-		        slidesNavigation:true,
-		        controlArrowColor:"transparent"
-		    });
+			$('#slides').superslides({
+			     hashchange: true
+	        });
 		
 		    var i = 0;
-		    setInterval(function(){
-		         $.fn.fullpage.moveSlideRight();
+		   /*  setInterval(function(){
+		    	 Superslides slide = new Superslides();
+		    	 slide.animate('next');
 		         if(i==0) {
 		        	 thirdSlide.window.loadData(); 
 		         } else if(i==1) {
@@ -84,7 +72,7 @@
 		        	 secondSlide.location.reload(true); 
 		         } 
 		         i = (i+1)%3;
-		    }, 15000); 
+		    }, 15000);  */
 		});
 		var playQueue=new Array();
 		function doPlay(e){
