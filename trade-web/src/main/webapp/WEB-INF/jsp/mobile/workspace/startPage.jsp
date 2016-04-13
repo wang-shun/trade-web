@@ -17,6 +17,7 @@
   <body>  
 	   <div id="slides">
 		    <div class="slides-container">
+		    
 		    	<iframe src="http://10.4.19.211:8083/trade-web/mobile/dashboard/box/workload?orgId=FF5BC56E0E4B45289DAA5721A494C7C5" scrolling=”no” name="firstSlide" id="firstSlide" style="width:400rem;height:300rem"></iframe>
 		      	<iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide"></iframe>
 		        <iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide"></iframe>
@@ -57,7 +58,8 @@
 			
 			var ctx = "${ctx}";
 			$('#slides').superslides({
-			     hashchange: true
+			     hashchange: true,
+			     interTime : 200
 	        });
 		
 		    var i = 0;
