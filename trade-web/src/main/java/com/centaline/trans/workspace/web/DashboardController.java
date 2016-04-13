@@ -120,6 +120,14 @@ public class DashboardController {
 		model.addAttribute("orgId", orgId);
 		return "mobile/workspace/startPage";
 	}
+	@RequestMapping(value = "test")
+	public String test(Model model,String orgId){
+		return "mobile/workspace/test";
+	}
+	@RequestMapping(value = "test2")
+	public String test2(Model model,String orgId){
+		return "mobile/workspace/test2";
+	}
 	@RequestMapping(value = "getRank")
 	public Map getRank() {
 		

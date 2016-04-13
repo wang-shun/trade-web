@@ -13,7 +13,7 @@ ul,li{list-style: none;}
 .panel{border:0.1rem solid #ddd;background: #fff;border-radius:0.4rem;-webkit-border-radius: 0.4rem;}
 .panel-danger .panel-heading{background: #e95354;color: #fff}
 .panel-heading{padding: 1rem 1.5rem;border-bottom:0.1rem solid #ddd;border-top-left-radius:0.3rem; -webkit-border-top-left-radius:0.3rem; border-top-right-radius:0.3rem;-webkit-border-top-right-radius:0.3rem;color: #ed5565;}
-.badge{display: inline-block; padding:0.3rem; line-height:1.2rem; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
+.badge{display: inline-block; padding:0 0.3rem; line-height:1rem;padding-top:0.2rem; text-align: center;white-space: nowrap;vertical-align: baseline;border-radius: 50%;-webkit-border-radius: 50%; background: #ddd;color: #fff;}
 .badge-warning{background: #ff8042}
 .badge-danger{background: #ed5565}
 .badge-yellow{background: #ffb400}
@@ -27,7 +27,7 @@ ul,li{list-style: none;}
 .col-2 li,.col-3 li{overflow: hidden;border-bottom:0.1rem solid #ddd;}
 .col-2 li:last-child,.col-2 li:last-child{border:0;}
 .feed-element{position: relative;text-align: center;line-height:0.5;}
-.img-circle + span{position: absolute;bottom: 0.6rem;left: 0;}
+.img-circle + span{position: absolute;bottom: 0.4rem;left: 0;}
 .triangle{display: block;content: '';width: 0;height: 0;position: absolute;bottom: 0.2rem;left: 0; border-bottom: 1.6rem solid #ed5565;border-right: 0.8rem solid transparent;border-left: 0.8rem solid transparent;}
 .red{border-bottom-color: #ed5565}
 .orange{border-bottom-color: #ff8042}
@@ -48,3 +48,8 @@ ul,li{list-style: none;}
 .logo{text-align: right;width: 12rem;height:2rem;background: url(../../images/logo.png) right center no-repeat;margin: 0.4rem 1rem 0 0;background-size: 100% 100%;}
 .panel-body marquee{height:33.6rem;}
 .panel-body li{ padding:0.2rem 0.2rem 0;}
+.panel-body.redColorRemain{min-height:38rem;}
+.panel.panel-default{min-height:29rem;}
+.panel.panel-danger{min-height:41.8rem;background:#fdedee;}
+#userRlist .media-body .pull-right .icon-light, .panel-body.orgRedColorRemainList .icon-light{vertical-align: bottom;}
+.nodata{width:100%;height:100%;}

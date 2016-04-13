@@ -77,6 +77,7 @@ Superslides = function(el, options) {
     });
 
     if (that.options.hashchange) {
+      console.log('come here');
       $(window).on('hashchange', function() {
         var hash = that._parseHash(), index;
 

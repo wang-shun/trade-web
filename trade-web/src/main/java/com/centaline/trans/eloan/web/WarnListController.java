@@ -42,6 +42,12 @@ public class WarnListController {
 	
 	@Autowired
 	OrgService orgService;
+	
+	@RequestMapping(value="test1")
+	public String test1(ServletRequest request){
+
+		return "eloan/test1";
+	}
 	/**
 	 * 警示列表
 	 * @param model
