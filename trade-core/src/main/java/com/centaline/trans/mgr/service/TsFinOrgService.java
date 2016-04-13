@@ -5,6 +5,13 @@ import java.util.List;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 
 public interface TsFinOrgService {
+	/**
+	 * 根据finOrgname模糊查询
+	 * 
+	 * @param orgCode
+	 * @return
+	 */
+	List<TsFinOrg> queryFinOrgNameLike(String finOrgName);
 
 	/**
 	 * 保存金融机构

@@ -152,4 +152,8 @@
     (select FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE 
     in(select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0')) 
   </select>
+    <select id="queryFinOrgNameLike" resultMap="BaseResultMap">
+  	select * from sctrans.T_TS_FIN_ORG where fin_org_Name like '%'+#{finOrgName,jdbcType=VARCHAR}+'%';
+  </select>
+  
 </mapper>

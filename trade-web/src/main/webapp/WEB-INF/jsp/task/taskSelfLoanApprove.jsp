@@ -32,7 +32,7 @@
 		var idList = [];
 	}
 	var custCode = "${SelfLoan.custCode}";
-	var finOrgCode = "${SelfLoan.finOrgCode}";
+	var finOrgCode = "${SelfLoan.lastLoanBank}";
 </script>
 </head>
 <body>
@@ -60,7 +60,7 @@
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					
+					<input type="hidden" id ="lastLoanBank" name="lastLoanBank" value="${SelfLoan.lastLoanBank}">
 					
 					<input type="hidden" id="pkid" name="pkid" value="${SelfLoan.pkid}">
 					<div class="form-group">
@@ -263,6 +263,7 @@
 			if(!checkForm()) {
 				return;
 			}
+			$("#SelfLoan.lastLoanBank").val($("#finOrgCode").val());
 			var jsonData = $("#selfLoanForm").serializeArray();
 			
 			var url = "${ctx}/task/mortgage/saveSelfLoanApprove";

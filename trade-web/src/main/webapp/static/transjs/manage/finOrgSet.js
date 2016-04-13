@@ -99,7 +99,8 @@
     				$("#finOrgName").val(data.content.finOrgName);
     				$("#faFinOrgCode").val(data.content.faFinOrgCode);
     				$("#faFinOrgName").val(data.content.faFinOrgName);
-
+    				$("#faFinOrgNameYc").val(data.content.faFinOrgNameYc);
+    				
     			}else{
     				alert(data.message);
     			}
@@ -124,10 +125,22 @@
     };*/
  
     $(function(){
-    	getFinOrgs();
        	$("#faFinOrgName").typeahead({
-            source: finOrgs,
-            display: "finOrgName",    
+       	  ajax: {
+              url: ctx+"/manage/queryFinOrgNameLike",
+              timeout: 300,                   // 延时
+              method: 'post',
+              triggerLength: 3,    // 输入几个字符之后，开始请求
+              loadingClass: null,             //
+              preDispatch: function (query) {
+                  var para = {datatype: "json"};
+                  para.finOrgName = query;
+                  return para;
+              },
+              preProcess: function (result) {
+                  return result;
+              }
+          }, display: "finOrgName",    
             val: "finOrgCode",           
             items: 8,            
             itemSelected: function (item, val, text) {  

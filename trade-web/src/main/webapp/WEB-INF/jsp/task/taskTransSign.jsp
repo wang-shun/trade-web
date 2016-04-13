@@ -906,7 +906,7 @@ if("${idList}" != "") {
                 $('input[name=conPrice]').focus();
                 return false;
             }
-			if($('input[name=picName]').val()==undefined) {
+			if($('input[name=picName]').val()==undefined&&$('input[name=pic]').val()==undefined) {
                 alert("产调为必填项!");
                 return false;
             }
