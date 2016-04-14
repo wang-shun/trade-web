@@ -24,12 +24,14 @@
 <link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
 <!-- 备件相关结束 -->
 <!-- jdGrid相关 -->
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<!-- datepikcer -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 
@@ -512,16 +514,22 @@
 										</div>
 										<label class="col-sm-2 control-label">贷款金额</label>
 										<div class="col-sm-4">
+											<div class="input-group">
 											<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />">
+												<span class="input-group-addon">万</span>
+												</div>
 										</div>
 									</div>
 									
 									<div class="form-group">
 										<label class="col-sm-2 control-label">商贷金额</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
-												value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />">
+											<div class="input-group">
+												<input type="text" class="form-control" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
+													value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />">
+													<span class="input-group-addon">万</span>
+											</div>
 										</div>
 										<label class="col-sm-2 control-label">商贷年限</label>
 										<div class="col-sm-4">
@@ -532,8 +540,11 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">公积金贷款金额</label>
 										<div class="col-sm-4">
+											<div class="input-group">
 											<input type="text" class="form-control" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.prfAmount}' type='number' pattern='#0.00' />">
+												<span class="input-group-addon">万</span>
+											</div>
 										</div>
 										<label class="col-sm-2 control-label">公积金贷款年限</label>
 										<div class="col-sm-4">

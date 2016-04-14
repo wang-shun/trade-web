@@ -38,7 +38,7 @@
 	        </div>
      </div>
 </div>
-  <form action="${ctx }/quickGrid/findPage?xlsx=xxx" class="form-horizontal" method="post">
+  <form action="${ctx }/quickGrid/findPage?xlsx=xxx" class="form-horizontal" method="post" id ='myForm'>
 <div class="ibox-content">
     <div class="jqGrid_wrapper">
      <input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
@@ -154,12 +154,12 @@
         	</div>
 		</div>
 		
-		<div class="row"><button type="button" id="addrSearchButton" style="margin-left: 30px;">搜索</button></div>
+		<div class="row"><a class='btn btn-primary' id='addrSearchButton' style='margin-left: 30px;'>搜索</a></div>
 		     
 		<hr>
          <table id="table_property_list"></table>
          <div id="pager_property_list"></div>
-    	<button style="margin-left: 30px;">导出</button>
+    	<a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
      </div>                         
 </div>
 </form>    

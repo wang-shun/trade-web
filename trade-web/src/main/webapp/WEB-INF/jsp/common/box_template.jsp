@@ -127,6 +127,7 @@
 		type="text/javascript"></script>
 	<script type="text/javascript">
 	try{
+		var ctx="${ctx}";
 		var productCtx = ctx;
 		if(productCtx.value){
 			productCtx=productCtx.value;
@@ -137,7 +138,7 @@
 			domain = domain.substr(3);
 		}
 		document.domain = domain;
- 		//document.domain = '${application["etax"].domain}';
+ 		//document.domain = '';
  	}catch(e){}
 	</script>
 	<!-- END CORE PLUGINS -->
