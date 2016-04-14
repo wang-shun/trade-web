@@ -15,22 +15,33 @@
      body { font: 1.2rem/1.428 '微软雅黑'; color: #434343; background: #f3f3f4 }
 	</style>
 </head>
-  <body>  
-	   <div id="slides">
+  <body style="width:100%;height:100%;">  
+	  <div id="slides">
 		    <div class="slides-container">
 		    
-		    	<iframe src="workload?orgId=${orgId }" scrolling=”no” name="firstSlide" id="firstSlide"></iframe>
-		      	<iframe src="showRLightList?orgId=${orgId }" scrolling=”no” name="secondSlide" id="secondSlide"></iframe>
-		        <iframe src="showRank?orgId=${orgId }" scrolling=”no”  name="thirdSlide" id="thirdSlide"></iframe>
+		    	<iframe src="workload?orgId=${orgId }" scrolling="no" name="firstSlide" id="firstSlide"></iframe>
+		      	<iframe src="showRLightList?orgId=${orgId }" scrolling="no" name="secondSlide" id="secondSlide"></iframe>
+		        <iframe src="showRank?orgId=${orgId }" scrolling="no"  name="thirdSlide" id="thirdSlide"></iframe>
 		    </div>
 		    
 		    <i id="view-fullscreen"></i>
 		
-		   <nav class="slides-navigation">
+		   <nav class="slides-navigation" style="display:none;">
 		      <a href="#" class="next">Next</a>
 		      <a href="#" class="prev">Previous</a>
 		    </nav> 
+		</div> 
+		<%--
+		<div class="picScroll-left" id="slides">
+		  <div class="bdd" style="height:400px;">
+			<iframe src="workload?orgId=${orgId }" scrolling="no" name="firstSlide" id="firstSlide" style="width:100%;" onLoad="iFrameHeight();"></iframe>
+			<iframe src="showRLightList?orgId=${orgId }" scrolling="no" name="secondSlide" id="secondSlide" style="width:100%;" onLoad="iFrameHeight();"></iframe>
+			<iframe src="showRank?orgId=${orgId }" scrolling="no" name="thirdSlide" id="thirdSlide" style="width:100%;" onLoad="iFrameHeight();"></iframe>
+		  </div>
+		  <i id="view-fullscreen"></i>
 		</div>
+		--%>
+		
         
 		<!-- <div id="play_mv">
 			<div class="firework1"><img alt="1" src="../../../momedia/images/fireworks.gif" class="fireworks"></div>
@@ -59,23 +70,45 @@
 			
 			$('#slides').superslides({
 			     hashchange: true,
-			     interTime : 200
-	        });
+			     intervalSuccess : function(j,iframeId) {
+			    	if(j=0) {
+			   		    iframeId.eq(2).window.loadData(); 
+			   	  	} else if(j=1) {
+			   			iframeId.eq(0).attr("src","workload?orgId=${orgId }");
+			      	} else {
+			      		iframeId.eq(1).attr("src","showRLightList?orgId=${orgId }");
+			      	} 
+			     }
+	        });  
+			
+	       /*  $('.picScroll-left').slide({
+	        	mainCell:".bdd",
+	        	autoPage:true,
+	        	effect:"leftLoop",
+	        	autoPlay:true
+	        }) */
 		
-		    /* var i = 0; */
-		   /*  setInterval(function(){
-		    	 Superslides slide = new Superslides();
-		    	 slide.animate('next');
+	      
+		   /* ar i = 0; 
+		   setInterval(function(){
 		         if(i==0) {
 		        	 thirdSlide.window.loadData(); 
 		         } else if(i==1) {
-		        	 firstSlide.location.reload(true);
+		        	 $("iframe#firstSlide").attr("src","workload?orgId=${orgId }");
+		        	 //s.location.reload(true);
 		         } else {
 		        	 secondSlide.location.reload(true); 
 		         } 
 		         i = (i+1)%3;
 		    }, 15000);  */
 		});
+		function iFrameHeight() { 
+			var ifm= document.getElementById("firstSlide"); 
+			var subWeb = document.frames ? document.frames["firstSlide"].document : ifm.contentDocument; 
+			if(ifm != null && subWeb != null) { 
+			ifm.height = subWeb.body.scrollHeight; 
+			} 
+			} 
 		/* var playQueue=new Array();
 		function doPlay(e){
 			if($("#play_mv").attr("play")=="play"){

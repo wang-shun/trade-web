@@ -16,6 +16,7 @@ Superslides = function(el, options) {
     pagination: true,
     hashchange: false,
     scrollable: true,
+    intervalTime: 10000,
     elements: {
       preserve: '.preserve',
       nav: '.slides-navigation',
@@ -30,11 +31,12 @@ Superslides = function(el, options) {
 
   this.$el        = $(el);
   this.$container = this.$el.find(this.options.elements.container);
+  this.$intervalTime = this.options.intervalTime;
 
+  
   // Private Methods
   var initialize = function() {
     multiplier = that._findMultiplier();
-
     that.$el.on('click', that.options.elements.nav + " a", function(e) {
       e.preventDefault();
 
@@ -58,6 +60,14 @@ Superslides = function(el, options) {
         that.animate('next');
       }
     });
+    
+    var j = 0;
+    setInterval(function(){
+   	  var $children = that.$container.children();
+   	  that.options.intervalSuccess(j, $children); 
+   	  that.animate('next'); 
+      j = (j+1)%3;
+    }, that.$intervalTime);
 
     $(window).on('resize', function() {
       setTimeout(function() {
