@@ -232,6 +232,8 @@
     <bean name="qqcdProcessorName" class="com.centaline.trans.common.service.impl.QuickQueryProcessorNameCustomDictServiceImpl">
     </bean>
 
+	<bean name="qqcdCaseManager" class="com.centaline.trans.common.service.impl.QuickQueryCaseManagerServiceImpl">
+    </bean>
 	<bean name="qqcdSeller" class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoCustomDictServiceImpl">
     	<property name="transPosition" value="30006001"></property>
     </bean>

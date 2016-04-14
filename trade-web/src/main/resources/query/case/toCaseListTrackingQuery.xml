@@ -7,6 +7,7 @@
 		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="qqcdCaseManager" beanName="qqcdCaseManager" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -32,30 +33,31 @@
 	</formatters>
 	<query id="queryCastTrackingListItemList" cacheCount="true">
 		<searchCondition>
-           <condition field="A.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="tp.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT
 					    A.PKID, 
-					    A.STATUS,
-					    A.RED_COUNT,
-                        A.PROPERTY_ADDR,
+					    case A.IS_RESPONSED 
+					    	when '1' then '已分单'
+							else  '未分单'
+						end 
+					    as STATUS,
+						tp.PROPERTY_ADDR,
                         A.CASE_CODE,
                         A.AGENT_NAME,
                         A.AGENT_CODE,
-                        B.ORG_NAME as AGENT_ORG_NAME,
-                        C.ORG_NAME,
-                        C.REAL_NAME as MANAGER
-					FROM SCTRANS.V_CASE_LIST_BASE A 
+                        B.ORG_NAME as AGENT_ORG_NAME
+					FROM SCTRANS.T_TO_CASE_INFO A 
+					LEFT JOIN SCTRANS.T_TO_PROPERTY_INFO tp ON tp.CASE_CODE=A.CASE_CODE 
 					LEFT JOIN SCTRANS.V_USER_ORG_JOB B ON A.AGENT_CODE=B.USER_ID
-					LEFT JOIN SCTRANS.V_USER_ORG_JOB C ON A.ORG_ID=C.ORG_ID AND C.JOB_CODE='Manager'	
 					WHERE 1=1
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY A.STATUS,A.CASE_CODE DESC
+			  ORDER BY A.IS_RESPONSED,A.CASE_CODE DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -69,11 +71,9 @@
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="RED_COUNT" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />						
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行"  sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="ORG_NAME"  index="" checkbox="" display="所属贵宾服务部"  sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="MANAGER"  index="" checkbox="" display="主管"  sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="MANAGER" referencecol="CASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
 		</grid>
 	</query>
