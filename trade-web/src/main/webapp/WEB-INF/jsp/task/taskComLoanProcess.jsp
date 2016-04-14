@@ -34,6 +34,9 @@
 	rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
 	rel="stylesheet" />
+	<!-- datepikcer -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;

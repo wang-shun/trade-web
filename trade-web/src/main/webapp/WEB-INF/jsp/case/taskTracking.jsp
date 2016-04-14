@@ -214,10 +214,10 @@
 					pgtext : " {0} 共 {1} 页",
 
 					onSelectRow : function(rowid, status) {
-						var rowData = $("#table_list_1")
+						/* var rowData = $("#table_list_1")
 								.jqGrid('getRowData', rowid);
 						window.location.href = ctx+"/case/caseDetail?&caseId="
-								+ rowData.PKID;
+								+ rowData.PKID; */
 					},
 					postData : {
 						queryId : "queryCastTrackingListItemList",

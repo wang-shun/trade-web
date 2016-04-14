@@ -127,6 +127,7 @@ function exportToExcel() {
 		displayColomn.push('PROPERTY_ADDR');//物业地址
 		displayColomn.push('PR_CAT');//产调项目
 		displayColomn.push('orgName');//分行信息
+		displayColomn.push('PR_APPLY_TIME');//分行信息
 		
 		var params = getParamsValue(pkid);
 		var queryId = '&queryId=queryProcessWaitList';
