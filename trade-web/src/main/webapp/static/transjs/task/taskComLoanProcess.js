@@ -88,10 +88,10 @@ function checkMortgageForm(formId){
 	var prfAmount=prfAmoutStr==''?0:~~prfAmoutStr;
 	var mortTotalAmount=~~formId.find("input[name='mortTotalAmount']").val();
 	var comAmount=~~formId.find("input[name='comAmount']").val();
-	if(mortTotalAmount-prfAmount!=comAmount){
-		alert('贷款总额必须等于商贷和公积金之和');
-		return false;
-	}
+	//if(mortTotalAmount-prfAmount!=comAmount){
+	//	alert('贷款总额必须等于商贷和公积金之和');
+    //	return false;
+	//}
 	return true;
 }
 //询价	
