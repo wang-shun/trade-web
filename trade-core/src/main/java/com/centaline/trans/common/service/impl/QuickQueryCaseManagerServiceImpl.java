@@ -14,8 +14,10 @@ import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.repository.ToCaseInfoMapper;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.enums.TransJobs;
 
 public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
@@ -25,6 +27,9 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToCaseInfoMapper toCaseInfoMapper;
+	
+	@Autowired
+	private ToCaseMapper toCaseMapper;
 
 	private static String sql = "select TEAM_NOW from sctrans.T_TS_TEAM_TRANSFER where IS_DELETE='0' and CASE_CODE=?";
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -38,7 +43,8 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 		List<User> users = null;
  		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(key);
 		if("1".equals(caseInfo.getIsResponsed())){
-			users = uamUserOrgService.getUserByOrgIdAndJobCode(caseInfo.getOrgId(), TransJobs.TJYZG.getCode());
+			ToCase toCase = toCaseMapper.findToCaseByCaseCode(key);
+			users = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZG.getCode());
 			return getJoinUserInfo(users);
 		}
 		List<String> guestNameList = jdbcTemplate.queryForList(sql, String.class, key);
