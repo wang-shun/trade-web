@@ -33,6 +33,7 @@
             pager: "#pager_list_1",
             viewrecords: true,
             pagebuttions: true,
+            cellEdit:true,
             hidegrid: false,
             recordtext: "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
             pgtext : " {0} 共 {1} 页",
