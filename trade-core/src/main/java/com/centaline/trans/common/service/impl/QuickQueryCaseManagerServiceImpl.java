@@ -44,7 +44,9 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
  		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(key);
 		if("1".equals(caseInfo.getIsResponsed())){
 			ToCase toCase = toCaseMapper.findToCaseByCaseCode(key);
+			Org org = uamUserOrgService.getOrgById(toCase.getOrgId());
 			users = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZG.getCode());
+			setUserOrgName(users,org.getOrgName());
 			return getJoinUserInfo(users);
 		}
 		List<String> guestNameList = jdbcTemplate.queryForList(sql, String.class, key);
@@ -52,6 +54,7 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 			String teamNow = guestNameList.get(0);
 			Org org = uamUserOrgService.getOrgByCode(teamNow);
 			users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYZG.getCode());
+			setUserOrgName(users,org.getOrgName());
 			return getJoinUserInfo(users);
 		}
 		sql = "select  YU_TEAM_CODE from sctrans.T_TS_TEAM_SCOPE_GRP where IS_RESPONSE_TEAM='1' and GRP_CODE=?;";
@@ -60,7 +63,9 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 			users=new ArrayList<>(1);
 			for (String teamCode : yuTeamCode) {
 				Org org = uamUserOrgService.getOrgByCode(teamCode);
-				users.addAll(uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYZG.getCode()));
+				List<User> us=uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYZG.getCode());
+				setUserOrgName(us,org.getOrgName());
+				users.addAll(us);
 			}
 			return getJoinUserInfo(users);
 		} 
@@ -70,11 +75,18 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 			users=new ArrayList<>(1);
 			for (String teamCode : yuTeamCode) {
 				Org org = uamUserOrgService.getOrgByCode(teamCode);
-				users.addAll(uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYZG.getCode()));
+				List<User> us=uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYZG.getCode());
+				setUserOrgName(us,org.getOrgName());
+				users.addAll(us);
 			}
 			return getJoinUserInfo(users);
 		} 
 		return "";
+	}
+	private void setUserOrgName(List<User>users,String orgName){
+		if(users!=null&&!users.isEmpty()){
+			users.forEach(u->u.setOrgName(orgName));
+		}
 	}
 
 	private String getJoinUserInfo(List<User> users) {
