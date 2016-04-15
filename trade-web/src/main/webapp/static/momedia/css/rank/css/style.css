@@ -32,7 +32,7 @@ h2,h3{font-weight: 400}
 .col-2{margin:0 1rem;}
 .col-2 .panel-body,.col-2 ul,.col-3 .panel-body{padding: 0}
 .col-2 li,.col-3 li{overflow: hidden;border-bottom:0.1rem solid #ddd;padding:0.5rem 1.5rem 0; }
-.col-2 li:last-child,.col-2 li:last-child{border:0;}
+/* .col-2 li:last-child,.col-2 li:last-child{border:0;} */
 .feed-element{position: relative; text-align: center;}
 .img-circle + span{position: absolute;bottom: 0.6rem;left: 0;}
 .triangle{display: block;content: '';width: 0;height: 0;position: absolute;bottom: 1.2rem;left: 0; border-bottom: 3rem solid #ed5565;border-right: 2rem solid transparent;border-left: 2rem solid transparent;}
