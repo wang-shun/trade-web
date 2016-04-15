@@ -98,7 +98,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">别名：</label>
 										<div class="col-sm-8">
-											<input type="text" id="faFinOrgNameYc" name="faFinOrgNameYc" class="form-control" />
+											<input type="text" id="faFinOrgNameYc" name="finOrgNameYc" class="form-control" />
 										</div>
 									</div>
 	

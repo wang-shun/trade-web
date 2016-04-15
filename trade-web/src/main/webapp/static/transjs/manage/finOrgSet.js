@@ -99,7 +99,7 @@
     				$("#finOrgName").val(data.content.finOrgName);
     				$("#faFinOrgCode").val(data.content.faFinOrgCode);
     				$("#faFinOrgName").val(data.content.faFinOrgName);
-    				$("#faFinOrgNameYc").val(data.content.faFinOrgNameYc);
+    				$("#finOrgNameYc").val(data.content.finOrgNameYc);
     				
     			}else{
     				alert(data.message);
