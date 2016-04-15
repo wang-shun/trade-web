@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -60,8 +61,10 @@ public class ToGetPropertyBookController {
 	
 	@RequestMapping(value="saveToGetPropertyBook")
 	@ResponseBody
-	public void saveToGetPropertyBook(HttpServletRequest request, ToGetPropertyBook toGetPropertyBook) {
-		toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
+	public AjaxResponse<Boolean> saveToGetPropertyBook(HttpServletRequest request, ToGetPropertyBook toGetPropertyBook) {
+		boolean isSuccess = toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
+		
+		return new AjaxResponse<Boolean>(isSuccess,"保存出错");
 	}
 	
 
