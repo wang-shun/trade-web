@@ -146,7 +146,8 @@
 				{
 					url : "../quickGrid/findPage",
 					mtype : 'POST',
-					datatype : "json",
+				
+					datatype:'local',
 					height : 550,
 					autowidth : true,
 					shrinkToFit : true,
@@ -154,7 +155,7 @@
 					rowNum : 20,
 					/* rowList: [10, 20, 30], */
 					colNames : [ 'id', '案件编号', '产证地址',
-							'经纪人','所属分行', '上家', '下家','案件状态','经办人','主管','所属贵宾服务部' ],
+							'经纪人','所属分行', '上家', '下家','案件状态','经办人','主管'],
 					colModel : [ {
 						name : 'PKID',
 						index : 'PKID',
@@ -198,11 +199,7 @@
 					},  {
 						name : 'MANAGER',
 						index : 'MANAGER',
-						width : 30
-					},{
-						name : 'ORG_NAME',
-						index : 'ORG_NAME',
-						width : 90
+						width : 120
 					}
 
 					],
@@ -231,7 +228,8 @@
 					queryId : "queryCastTrackingListItemList",
 					search_propertyAddr: $('#caseAddress').val()
 				},
-				"page":1 
+				"page":1 ,
+				datatype : "json"
 			}).trigger('reloadGrid');
 	 });
     </script> </content>

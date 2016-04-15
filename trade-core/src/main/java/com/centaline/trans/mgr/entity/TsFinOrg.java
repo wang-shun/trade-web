@@ -13,7 +13,6 @@ public class TsFinOrg {
 
 	private String faFinOrgName;
 
-	private String faFinOrgNameYc;
 	
 	private String coLevel;
 	private String coLevelStr;
@@ -64,14 +63,6 @@ public class TsFinOrg {
 
 	public void setFinOrgNameYc(String finOrgNameYc) {
 		this.finOrgNameYc = finOrgNameYc;
-	}
-
-	public String getFaFinOrgNameYc() {
-		return faFinOrgNameYc;
-	}
-
-	public void setFaFinOrgNameYc(String faFinOrgNameYc) {
-		this.faFinOrgNameYc = faFinOrgNameYc;
 	}
 
 	public String getCoLevel() {
