@@ -379,9 +379,9 @@
 			/* $("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
 			$("input:checkbox[name='srvCode'][value='30004002']").parent().parent().parent().hide();
 			$("input:checkbox[name='srvCode'][value='30004001']").parent().parent().parent().hide(); */
-			$("span[value='30004010']").attr("disabled","disabled");
-			$("span[value='30004002']").attr("disabled","disabled");
-			$("span[value='30004001']").attr("disabled","disabled");
+			$("span[value='30004010']").hide();
+			$("span[value='30004002']").hide();
+			$("span[value='30004001']").hide();
 			
 			FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
 			
