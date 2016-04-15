@@ -45,13 +45,15 @@
             },
             gridComplete : function() { 
 
-            },
-            onSelectRow : function(rowid,status) {
-				var rowData = $("#table_list_1").jqGrid('getRowData', rowid);
-				$("#pkid").val(rowData['PKID']);
-			}
+            }
             
         });
+    }
+    function getSelectPkid(){
+    	var id=$("#table_list_1").jqGrid('getGridParam','selrow');
+    	var rowData = $("#table_list_1").jqGrid('getRowData', id);
+		$("#pkid").val(rowData['PKID']);
+		return rowData['PKID'];
     }
     function saveFinOrg(){
     	
@@ -78,7 +80,7 @@
     		url:ctx+"/setting/delFinOrg",
     		method:"post",
     		dataType:"json",
-    		data:{pkid:$("#pkid").val()},
+    		data:{pkid:getSelectPkid()},
     		success:function(data){
 				alert(data.message);
 
@@ -92,7 +94,7 @@
     		url:ctx+"/setting/getFinOrgInfo",
     		method:"post",
     		dataType:"json",
-    		data:{pkid:$("#pkid").val()},
+    		data:{pkid:getSelectPkid()},
     		success:function(data){
     			if(data.success){
     				$("#modal-addOrModifyForm").modal("show");
@@ -182,6 +184,7 @@
     	});
     	getFinOrgList();
     	$("#addBtn").click(function(){
+    		$("#finOrgCode").removeAttr("readonly");
     		$("#modal-addOrModifyForm input[type='text']").val("");
     		$("#modal-addOrModifyForm input[type='hidden']").val("");
 
@@ -189,7 +192,7 @@
     		$("#modal-addOrModifyForm").modal("show");
     	});
     	$("#modifyBtn").click(function(){
-    		if($("#pkid").val()==""){
+    		if(getSelectPkid()==""){
     			alert("请选择要修改的记录！");
     			return;
     		}
@@ -198,7 +201,7 @@
 
     	});
     	$("#delBtn").click(function(){
-    		if($("#pkid").val() == ""){
+    		if(getSelectPkid() == ""){
     			alert("请选择要删除的记录！");
 				return;
     		}
