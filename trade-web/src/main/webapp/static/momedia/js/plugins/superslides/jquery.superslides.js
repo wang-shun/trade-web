@@ -32,7 +32,7 @@ Superslides = function(el, options) {
   this.$el        = $(el);
   this.$container = this.$el.find(this.options.elements.container);
   this.$intervalTime = this.options.intervalTime;
-
+  this.$j = 0;
   
   // Private Methods
   var initialize = function() {
@@ -61,12 +61,15 @@ Superslides = function(el, options) {
       }
     });
     
-    var j = 0;
     setInterval(function(){
    	  var $children = that.$container.children();
-   	  that.options.intervalSuccess(j, $children); 
+   	  var data = {
+   		 j : that.$j,
+   		children : $children
+   	  }
+   	  that.options.intervalSuccess(data); 
    	  that.animate('next'); 
-      j = (j+1)%3;
+   	  that.$j = (that.$j+1)%3;
     }, that.$intervalTime);
 
     $(window).on('resize', function() {
