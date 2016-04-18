@@ -11,7 +11,7 @@ var caseflowListitem = (function(){
     			shrinkToFit : true,
     			rowNum : 10,
     			/*   rowList: [10, 20, 30], */
-    			colNames : ['发起人','款项名','流水类型','流水方向','流水金额','时间'],
+    			colNames : ['发起人','款项名','流水类型','流水方向','流水金额(万元)','时间'],
     			colModel : [{
     				name : 'INITIATOR',
     				index : 'INITIATOR',
