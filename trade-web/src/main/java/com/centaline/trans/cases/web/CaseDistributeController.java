@@ -303,9 +303,20 @@ public class CaseDistributeController {
     	for(String caseCode:caseCodes){	    
         	//案件信息更新
     		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+    		
+    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+    		if("1".equals(toCaseInfo.getIsResponsed())){
+    			return AjaxResponse.fail("数据已经被修改！");
+    		}
+	    	toCaseInfo.setIsResponsed("1");
+	    	toCaseInfo.setRequireProcessorId(sessionUser.getId());
+	    	toCaseInfo.setResDate(new Date());
+	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
+	    	if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
+    		
+    		
     		// 如果是无主案件分配,需要维护案件负责人
     		if(toCase == null) {
-    			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
     			toCase = new ToCase();
     			toCase.setCaseCode(caseCode);
     			toCase.setCtmCode(toCaseInfo.getCtmCode());
@@ -360,7 +371,7 @@ public class CaseDistributeController {
 	    		String propAddrString = "";
 	    		String agentMobile = "";
 	    		String agentName = "";
-	    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+
 	    		//物业信息
 	    		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 	    		if(toPropertyInfo!=null){
@@ -399,13 +410,7 @@ public class CaseDistributeController {
 				return AjaxResponse.fail(e.getMessage());
 			}
         	
-        	ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-	    	toCaseInfo.setIsResponsed("1");
-	    	toCaseInfo.setRequireProcessorId(sessionUser.getId());
-	    	toCaseInfo.setResDate(new Date());
-	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
-    		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
-	    		toWorkFlow.setCaseCode(toCase.getCaseCode());
+	    	toWorkFlow.setCaseCode(toCase.getCaseCode());
 	    		
 	    	int reToWorkFlow = toWorkFlowService.insertSelective(toWorkFlow);
     		if(reToWorkFlow == 0)return AjaxResponse.fail("案件工作流表插入失败！");
