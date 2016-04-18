@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.kpi.repository.TsKpiPsnMonthMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="BELONG_MONTH" property="belongMonth" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PARTICIPANT" property="participant" jdbcType="VARCHAR" />
+    <result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
+    <result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
+    <result column="FIN_ORDER" property="finOrder" jdbcType="INTEGER" />
+    <result column="FIN_ORDER_ROLL" property="finOrderRoll" jdbcType="INTEGER" />
+    <result column="NET_SIGN_CASE" property="netSignCase" jdbcType="INTEGER" />
+    <result column="FIN_ORDER_RATE" property="finOrderRate" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, BELONG_MONTH, TYPE, PARTICIPANT, TEAM_ID, DISTRICT_ID, FIN_ORDER, FIN_ORDER_ROLL, 
+    NET_SIGN_CASE, FIN_ORDER_RATE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_KPI_PSN_MONTH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_KPI_PSN_MONTH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    insert into sctrans.T_TS_KPI_PSN_MONTH (PKID, BELONG_MONTH, TYPE, 
+      PARTICIPANT, TEAM_ID, DISTRICT_ID, 
+      FIN_ORDER, FIN_ORDER_ROLL, NET_SIGN_CASE, 
+      FIN_ORDER_RATE, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{belongMonth,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{participant,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, 
+      #{finOrder,jdbcType=INTEGER}, #{finOrderRoll,jdbcType=INTEGER}, #{netSignCase,jdbcType=INTEGER}, 
+      #{finOrderRate,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    insert into sctrans.T_TS_KPI_PSN_MONTH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT,
+      </if>
+      <if test="teamId != null" >
+        TEAM_ID,
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID,
+      </if>
+      <if test="finOrder != null" >
+        FIN_ORDER,
+      </if>
+      <if test="finOrderRoll != null" >
+        FIN_ORDER_ROLL,
+      </if>
+      <if test="netSignCase != null" >
+        NET_SIGN_CASE,
+      </if>
+      <if test="finOrderRate != null" >
+        FIN_ORDER_RATE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="belongMonth != null" >
+        #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="participant != null" >
+        #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrder != null" >
+        #{finOrder,jdbcType=INTEGER},
+      </if>
+      <if test="finOrderRoll != null" >
+        #{finOrderRoll,jdbcType=INTEGER},
+      </if>
+      <if test="netSignCase != null" >
+        #{netSignCase,jdbcType=INTEGER},
+      </if>
+      <if test="finOrderRate != null" >
+        #{finOrderRate,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    update sctrans.T_TS_KPI_PSN_MONTH
+    <set >
+      <if test="belongMonth != null" >
+        BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        TEAM_ID = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrder != null" >
+        FIN_ORDER = #{finOrder,jdbcType=INTEGER},
+      </if>
+      <if test="finOrderRoll != null" >
+        FIN_ORDER_ROLL = #{finOrderRoll,jdbcType=INTEGER},
+      </if>
+      <if test="netSignCase != null" >
+        NET_SIGN_CASE = #{netSignCase,jdbcType=INTEGER},
+      </if>
+      <if test="finOrderRate != null" >
+        FIN_ORDER_RATE = #{finOrderRate,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    update sctrans.T_TS_KPI_PSN_MONTH
+    set BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=VARCHAR},
+      PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      TEAM_ID = #{teamId,jdbcType=VARCHAR},
+      DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      FIN_ORDER = #{finOrder,jdbcType=INTEGER},
+      FIN_ORDER_ROLL = #{finOrderRoll,jdbcType=INTEGER},
+      NET_SIGN_CASE = #{netSignCase,jdbcType=INTEGER},
+      FIN_ORDER_RATE = #{finOrderRate,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
