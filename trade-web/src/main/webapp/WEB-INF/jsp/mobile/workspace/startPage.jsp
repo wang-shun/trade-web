@@ -20,7 +20,14 @@
 		    <div class="slides-container">
 		    
 		    	<iframe src="workload?orgId=${orgId }" scrolling="no" name="firstSlide" id="firstSlide"></iframe>
-		      	<iframe src="showRLightList?orgId=${orgId }" scrolling="no" name="secondSlide" id="secondSlide"></iframe>
+		    	 <c:choose>
+                  <c:when test="${isExistLight==true}">
+                      <iframe src="showRLightList?orgId=${orgId }" scrolling="no" name="secondSlide" id="secondSlide"></iframe>
+                  </c:when>
+                  <c:otherwise>
+                  	  <img class="nodata-img" src="../../../momedia/images/nodata1.jpg"/>   
+                  </c:otherwise>
+                 </c:choose>
 		        <iframe src="showRank?orgId=${orgId }" scrolling="no"  name="thirdSlide" id="thirdSlide"></iframe>
 		    </div>
 		    
@@ -64,19 +71,20 @@
 				 var slides = document.getElementById('slides'); 
 				 slides.webkitRequestFullScreen();
 				
-				 $("#view-fullscreen").hide();
+				 //$("#view-fullscreen").hide();
 				 //window.onresize();
 			});
 			
 			$('#slides').superslides({
 			     hashchange: true,
-			     intervalSuccess : function(j,iframeId) {
-			    	if(j=0) {
-			   		    iframeId.eq(2).window.loadData(); 
-			   	  	} else if(j=1) {
-			   			iframeId.eq(0).attr("src","workload?orgId=${orgId }");
+			     intervalSuccess : function(data) {
+			    	 var j = data.j;
+			    	if(j==0) {
+			    		//data.children.eq(2).window.loadData(); 
+			   	  	} else if(j==1) {
+			   	  	 	data.children.eq(0).attr("src","workload?orgId=${orgId }");
 			      	} else {
-			      		iframeId.eq(1).attr("src","showRLightList?orgId=${orgId }");
+			      		 data.children.eq(1).attr("src","showRLightList?orgId=${orgId }");
 			      	} 
 			     }
 	        });  

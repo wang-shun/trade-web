@@ -255,7 +255,7 @@
 							<div class="form-group"  name="isYouXiao">
 						<label class="col-md-1 control-label m-l">产品需求</label>
 						<div class="col-md-10">
-							<aist:dict id="srvCode" name="srvCode" clazz="btn btn-white" display="checkboxcustom" defaultvalue="${firstFollow.srvCode }" dictType="yu_serv_cat_code_tree" />
+							<aist:dict id="srvCode" name="srvCode" clazz="btn btn-white" display="checkboxcustom" defaultvalue="${firstFollow.srvCode }" dictType="yu_serv_cat_code_tree" tag="FIRST_FOLLOW"/>
 						</div>
 					</div>
 						</div>
@@ -379,9 +379,9 @@
 			/* $("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
 			$("input:checkbox[name='srvCode'][value='30004002']").parent().parent().parent().hide();
 			$("input:checkbox[name='srvCode'][value='30004001']").parent().parent().parent().hide(); */
-			$("span[value='30004010']").attr("disabled","disabled");
-			$("span[value='30004002']").attr("disabled","disabled");
-			$("span[value='30004001']").attr("disabled","disabled");
+			/* $("span[value='30004010']").hide();
+			$("span[value='30004002']").hide();
+			$("span[value='30004001']").hide(); */
 			
 			FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
 			

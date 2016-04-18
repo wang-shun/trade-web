@@ -39,8 +39,15 @@ public class DashboardController {
     private QuerysParseService  querysParseService;
 	
 	@RequestMapping("showRLightList")
-	public String showRLightList(String orgId,Model model) {
+	public String showRLightList(HttpServletRequest request, HttpServletResponse response,String orgId,Model model) {
 		model.addAttribute("orgId", orgId);
+		
+		Page<Map<String, Object>> lightList = queryRyLightList(request,response,orgId);
+		if(lightList.getContent()!=null && lightList.getContent().size() > 0) {
+			model.addAttribute("isExistLight", true);
+		} else {
+			model.addAttribute("isExistLight", false);
+		}
 		return "mobile/workspace/showRLightList";
 	}
 	@RequestMapping("showRank")

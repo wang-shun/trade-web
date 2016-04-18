@@ -34,7 +34,7 @@ h2,h3{font-size: 4.5rem;font-weight: 400}
 .col-2 .panel-body,.col-2 ul,.col-3 .panel-body{padding: 0}
 .col-2 li,.col-3 li{overflow: hidden;border-bottom:0.1rem solid #ddd;padding: 0.5rem 1.5rem 0; }
 .col-3 li{padding: }
-.col-2 li:last-child,.col-2 li:last-child,#workload li:last-child{border:0;}
+/* .col-2 li:last-child,.col-2 li:last-child,#workload li:last-child{border:0;} */
 .feed-element{position: relative;width:9.8rem;  text-align: center;}
 #workload #ul_unAlloate .feed-element{width:3.4rem}
 #workload .feed-element{width:3.1rem}

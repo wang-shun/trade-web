@@ -361,22 +361,20 @@ function checkAttachment() {
 }
 
 function checkAttachment2() {
+	var succcess = false;
 	$.each(idList, function(index, value){
 		var length = $("#picContainer"+value).find("img").length;
-		if(length == 0) {
-			alert("请上传备件！");
-			checkAtt = false;
-		} else {
-			checkAtt = true;
+		if(length > 0) {
+			succcess = true;
 			return false;
 		}
 	});
-	/*var picDiv=$("div[name='allPicDiv1']");
-	var input=$("input[name='pic']");
-	if(picDiv.length == 0 && input.length == 0) {
+    if(!succcess) {
 		alert("请上传备件！");
-		return false;
-	}*/
+		checkAtt = false;
+    } else {
+    	checkAtt = true;
+    }
 	return checkAtt;
 }
 
