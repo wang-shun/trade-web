@@ -33,6 +33,9 @@
 <link
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
+<!-- 弹出框插件 -->
+<link href="${ctx}/css/plugins/layer/layer.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/layer/layer.ext.css" rel="stylesheet">
 <style type="text/css">
 .radio.radio-inline>label {
 	margin-left: 10px;
@@ -123,11 +126,23 @@ width:160px;
 		
         <div class="ibox-content">
             <div  class="row">
-               <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">基本奖金分配导入 </a>
+               <!-- <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">基本奖金分配导入 </a> -->
+               <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal();">基本奖金分配导入 </a>
             </div>
         </div>
+        <div style="display:none;" id="test">
+         <form id="excelInForm"  method="post" enctype="multipart/form-data" action="${ctx}/award/uploadBaseImport"> 
+                <div class="modal-body">
+                <input type="hidden" id="inType" value="" />
+           		    <label class="col-sm-7 control-label">
+           		    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
+           		    </label>
+          <div class="col-sm-3"></div>
+                </div> 
+              </form>
+        </div>
 		<!-- 收益导入 -->
-        <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
+       <%--  <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
           <div class="modal-dialog" style="width:1200px">
              <div class="modal-content">
                  <div class="modal-header">
@@ -160,7 +175,7 @@ width:160px;
                 
              </div>
           </div>
-       </div>  
+       </div>   --%>
        <!-- 失败数据 -->
         <div id="error-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
           <div class="modal-dialog" style="width:1200px">
@@ -224,7 +239,11 @@ width:160px;
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  <!-- iCheck --> <script
 		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-		
+     <!-- 弹出框插件 -->
+    <script src="${ctx}/js/plugins/layer/layer.js"></script>
+    <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+    
+	 <script src="${ctx}/js/trunk/award/baseImport.js"></script> 	
     <script src="${ctx}/js/jquery.blockui.min.js"></script>
     <script src="${ctx}/js/trunk/award/baseImport.js"></script> 
     <script>
@@ -235,7 +254,6 @@ width:160px;
 		var hasError=false;
 	</c:if>
  	
-    
     </script>
  </content>
 </body>
