@@ -20,7 +20,7 @@
 		    <div class="slides-container">
 		    
 		    	<iframe src="workload?orgId=${orgId }" scrolling="no" name="firstSlide" id="firstSlide"></iframe>
-		    	 <c:choose>
+		       <c:choose>
                   <c:when test="${isExistLight==true}">
                       <iframe src="showRLightList?orgId=${orgId }" scrolling="no" name="secondSlide" id="secondSlide"></iframe>
                   </c:when>
@@ -65,6 +65,7 @@
 	     
 	    <script>
 	    var orgId = "${orgId}";
+	    var isExistLight = ${isExistLight};
 		$(function(){
 			$("#view-fullscreen").click(function(){
 				 //var docElm = document.documentElement;
@@ -81,10 +82,14 @@
 			    	 var j = data.j;
 			    	if(j==0) {
 			    		//data.children.eq(2).window.loadData(); 
+			    		thirdSlide.window.loadData(); 
 			   	  	} else if(j==1) {
-			   	  	 	data.children.eq(0).attr("src","workload?orgId=${orgId }");
+			   	  	 	//data.children.eq(0).attr("src","workload?orgId=${orgId }");
+			   	  		firstSlide.window.loadData(); 
 			      	} else {
-			      		 data.children.eq(1).attr("src","showRLightList?orgId=${orgId }");
+			            if(isExistLight==true) {
+			      			secondSlide.window.loadData(); 
+			      		}
 			      	} 
 			     }
 	        });  
