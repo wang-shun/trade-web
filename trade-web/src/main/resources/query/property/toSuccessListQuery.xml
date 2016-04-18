@@ -55,8 +55,9 @@
 					A.CASE_CODE,
 					A.PART_CODE,
 					A.PR_CAT,
-					acu.real_name as PR_APPLIANT,
-					au.real_name as PR_EXECUTOR,
+					acu.real_name as PR_EXECUTOR,
+					au.real_name as PR_APPLIANT,
+					au.employee_code as APPLIANT_EMPLOYEE_CODE,
 					A.PR_APPLY_TIME,
 					A.PR_ACCPET_TIME,
 					A.PR_COMPLETE_TIME,
@@ -109,6 +110,7 @@
 				<column type="both" name="DIST_CODE" index="" checkbox="" display="行政区域" title="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="QUDS" index="" checkbox="" display="区董" title="区董" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CHANNEL" index="" checkbox="" display="来源" title="来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="APPLIANT_EMPLOYEE_CODE" index="" checkbox="" display="申请人员工编号" title="申请人员工编号" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				
 			</table-row>
 		</grid>
