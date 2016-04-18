@@ -286,9 +286,12 @@
 		function showDefImg(){
 			event.target.src="../../../momedia/img/a5.png";
 		}
+		var ctx = "${ctx}";
+		var orgId = "${orgId}";
 			jQuery(document).ready(function() {
-				var ctx = "${ctx}";
-				var orgId = "${orgId}";
+				loadData();
+			});
+			function loadData(){
 				//红灯任务项提醒列表
 				$.ajax({
 					url : "../../../mobile/dashboard/box/queryRyLightList",
@@ -331,10 +334,8 @@
 		                  $( "#userRlist").empty();
 		                  $( "#userRlist").html(html);
 					}
-				}); 
-				
-				
-			});
+				});
+			}
 		</script>
 	</content>
 </body>
