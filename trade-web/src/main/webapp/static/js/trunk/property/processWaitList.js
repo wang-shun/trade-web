@@ -19,7 +19,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ '所在区域','物业地址', '产调项目','所属分行',
+		colNames : [ '行政区域','物业地址', '产调项目','所属分行',
 		             '产调申请人',  '产调申请时间',
 		             '状态' ],
 		colModel : [{
