@@ -46,7 +46,7 @@
     <input type="hidden" id="ctx" value="${ctx}"/>
 <input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}"/>
 <input type="hidden" id="prStatus"name="search_prStatus" value="2"/>
-    <input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,PR_CAT,PR_APPLIANT,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
+    <input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
     	<div class="row">
     		<div class="col-md-4">
     			<div class="form-group">
