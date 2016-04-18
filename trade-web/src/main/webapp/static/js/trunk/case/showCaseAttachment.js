@@ -3,9 +3,9 @@ function downLoad(fileId, fileName) {
 		+ fileId+"&name="+fileName;
 }
 
-/*function show(fileId) {
+function show(fileId) {
 	window.open(appCtx['shcl-image-web']+"/image/"+fileId+"/__f.jpg");
-}*/
+}
 
 
 function getShowAttachment() {
