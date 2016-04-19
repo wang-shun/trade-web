@@ -862,9 +862,9 @@
 				 var selectValue = $("#bank").val(); 
 				 getBranchBankList(selectValue)
 			 });
-			
-		 	getBankList(finOrgCode);	
-		 	
+			if(finOrgCode!=''){
+		 		getBankList(finOrgCode);	
+			}
 		 	/*主贷人*/
 		 	initSelectCustCode(custCode);
 		 	
