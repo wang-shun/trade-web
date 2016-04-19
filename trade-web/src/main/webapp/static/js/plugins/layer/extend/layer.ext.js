@@ -1,7 +1,7 @@
 /*! layer弹层组件拓展类 */
 ; !
 function() {
-    layer.use("skin/layer.ext.css",
+    layer.use("../../../css/plugins/layer/layer.ext.css",
     function() {
         layer.layui_layer_extendlayerextjs = !0
     });

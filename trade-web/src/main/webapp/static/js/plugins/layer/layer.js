@@ -28,7 +28,7 @@ function(a, b) {
             f.cache = e.config = c.extend(e.config, a),
             f.path = e.config.path || f.path,
             "string" == typeof a.extend && (a.extend = [a.extend]),
-            f.use("skin/layer.css", a.extend && a.extend.length > 0 ?
+            f.use("../../../css/plugins/layer/layer.css", a.extend && a.extend.length > 0 ?
             function g() {
                 var c = a.extend;
                 f.use(c[c[d] ? d: d - 1], d < c.length ?
@@ -624,6 +624,6 @@ function(a, b) {
         f
     }) : function() {
         e.run(),
-        f.use("skin/layer.css")
+        f.use("../../../css/plugins/layer/layer.css")
     } ()
 } (window);

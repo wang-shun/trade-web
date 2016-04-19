@@ -196,4 +196,112 @@
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
+  <select id="getTsKpiPsnMonthListByPro" resultMap="BaseResultMap" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_KPI_PSN_MONTH
+    <where>
+		<if test="employeeCode != null">
+			employeeCode = #{employeeCode}
+		</if>
+		<if test="belongMonth!= null">
+			AND belongMonth <![CDATA[ >=  ]]> DATEADD(mm, DATEDIFF(mm,0,#{belongMonth})-1, 0) 
+			AND belongMonth <![CDATA[ <  ]]> DATEADD(mm, DATEDIFF(mm,0,#{belongMonth}), 0) 
+		</if>
+	</where>
+  </select>
+  
+    <insert id="insertTsKpiPsnMonthList" useGeneratedKeys="true" parameterType="java.util.List" > 
+         insert into sctrans.T_TS_KPI_PSN_MONTH
+         <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="pkid != null" >
+	        PKID,
+	      </if>
+	      <if test="belongMonth != null" >
+	        BELONG_MONTH,
+	      </if>
+	      <if test="type != null" >
+	        TYPE,
+	      </if>
+	      <if test="participant != null" >
+	        PARTICIPANT,
+	      </if>
+	      <if test="teamId != null" >
+	        TEAM_ID,
+	      </if>
+	      <if test="districtId != null" >
+	        DISTRICT_ID,
+	      </if>
+	      <if test="finOrder != null" >
+	        FIN_ORDER,
+	      </if>
+	      <if test="finOrderRoll != null" >
+	        FIN_ORDER_ROLL,
+	      </if>
+	      <if test="guohuCase != null" >
+	        GUOHU_CASE,
+	      </if>
+	      <if test="finOrderRate != null" >
+	        FIN_ORDER_RATE,
+	      </if>
+	      <if test="createTime != null" >
+	        CREATE_TIME,
+	      </if>
+	      <if test="createBy != null" >
+	        CREATE_BY,
+	      </if>
+	      <if test="updateTime != null" >
+	        UPDATE_TIME,
+	      </if>
+	      <if test="updateBy != null" >
+	        UPDATE_BY,
+	      </if>
+	    </trim>
+	     values
+         <foreach collection="list" item="item" index="index" open="(" separator="," close=")" > 
+	          <if test="pkid != null" >
+		        PKID,
+		      </if>
+		      <if test="belongMonth != null" >
+		        BELONG_MONTH,
+		      </if>
+		      <if test="type != null" >
+		        TYPE,
+		      </if>
+		      <if test="participant != null" >
+		        PARTICIPANT,
+		      </if>
+		      <if test="teamId != null" >
+		        TEAM_ID,
+		      </if>
+		      <if test="districtId != null" >
+		        DISTRICT_ID,
+		      </if>
+		      <if test="finOrder != null" >
+		        FIN_ORDER,
+		      </if>
+		      <if test="finOrderRoll != null" >
+		        FIN_ORDER_ROLL,
+		      </if>
+		      <if test="guohuCase != null" >
+		        GUOHU_CASE,
+		      </if>
+		      <if test="finOrderRate != null" >
+		        FIN_ORDER_RATE,
+		      </if>
+		      <if test="createTime != null" >
+		        CREATE_TIME,
+		      </if>
+		      <if test="createBy != null" >
+		        CREATE_BY,
+		      </if>
+		      <if test="updateTime != null" >
+		        UPDATE_TIME,
+		      </if>
+		      <if test="updateBy != null" >
+		        UPDATE_BY,
+		      </if>
+        </foreach> 
+   </insert>
 </mapper>
