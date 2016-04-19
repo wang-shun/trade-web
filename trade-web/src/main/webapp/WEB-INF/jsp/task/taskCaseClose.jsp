@@ -849,7 +849,7 @@
 			$("#bank").attr("disabled","disabled");
 		}
 		$(document).ready(function() {
-			isAccumulation=$('#').val()=='30016003';
+			isAccumulation=$('#mortType').val()=='30016003';
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">
 				 $("#closeType").attr("disabled","disabled");
@@ -862,9 +862,9 @@
 				 var selectValue = $("#bank").val(); 
 				 getBranchBankList(selectValue)
 			 });
-			
-		 	getBankList(finOrgCode);	
-		 	
+			if(finOrgCode!=''){
+		 		getBankList(finOrgCode);	
+			}
 		 	/*主贷人*/
 		 	initSelectCustCode(custCode);
 		 	
@@ -912,7 +912,7 @@
 			    data:{"pcode":pcode},
 		    	success:function(data){
 		    		if(data.bankList != null){
-		    			var selectBank=isAccumulation?pccode:data.bankCode;//公积金的话选的直接是分行
+		    			var selectBank=isAccumulation?pcode:data.bankCode;//公积金的话选的直接是分行
 		    			for(var i = 0;i<data.bankList.length;i++){
 		    				if(selectBank == data.bankList[i].finOrgCode) {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"+data.bankList[i].finOrgName+"</option>");
