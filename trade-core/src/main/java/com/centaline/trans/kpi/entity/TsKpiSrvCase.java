@@ -1,5 +1,6 @@
 package com.centaline.trans.kpi.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TsKpiSrvCase {
@@ -11,9 +12,21 @@ public class TsKpiSrvCase {
 
     private String srvCode;
 
-    private Integer satisfaction;
+    private BigDecimal salerSatis;
+
+    private BigDecimal buyerSatis;
+
+    private BigDecimal satisfaction;
+
+    private String salerCallback;
+
+    private String buyerCallback;
 
     private String canCallback;
+
+    private String salerComment;
+
+    private String buyerComment;
 
     private String teamId;
 
@@ -61,12 +74,44 @@ public class TsKpiSrvCase {
         this.srvCode = srvCode == null ? null : srvCode.trim();
     }
 
-    public Integer getSatisfaction() {
+    public BigDecimal getSalerSatis() {
+        return salerSatis;
+    }
+
+    public void setSalerSatis(BigDecimal salerSatis) {
+        this.salerSatis = salerSatis;
+    }
+
+    public BigDecimal getBuyerSatis() {
+        return buyerSatis;
+    }
+
+    public void setBuyerSatis(BigDecimal buyerSatis) {
+        this.buyerSatis = buyerSatis;
+    }
+
+    public BigDecimal getSatisfaction() {
         return satisfaction;
     }
 
-    public void setSatisfaction(Integer satisfaction) {
+    public void setSatisfaction(BigDecimal satisfaction) {
         this.satisfaction = satisfaction;
+    }
+
+    public String getSalerCallback() {
+        return salerCallback;
+    }
+
+    public void setSalerCallback(String salerCallback) {
+        this.salerCallback = salerCallback == null ? null : salerCallback.trim();
+    }
+
+    public String getBuyerCallback() {
+        return buyerCallback;
+    }
+
+    public void setBuyerCallback(String buyerCallback) {
+        this.buyerCallback = buyerCallback == null ? null : buyerCallback.trim();
     }
 
     public String getCanCallback() {
@@ -75,6 +120,22 @@ public class TsKpiSrvCase {
 
     public void setCanCallback(String canCallback) {
         this.canCallback = canCallback == null ? null : canCallback.trim();
+    }
+
+    public String getSalerComment() {
+        return salerComment;
+    }
+
+    public void setSalerComment(String salerComment) {
+        this.salerComment = salerComment == null ? null : salerComment.trim();
+    }
+
+    public String getBuyerComment() {
+        return buyerComment;
+    }
+
+    public void setBuyerComment(String buyerComment) {
+        this.buyerComment = buyerComment == null ? null : buyerComment.trim();
     }
 
     public String getTeamId() {

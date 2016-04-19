@@ -20,7 +20,7 @@ public class TsKpiPsnMonth {
 
     private Integer finOrderRoll;
 
-    private Integer netSignCase;
+    private Integer guohuCase;
 
     private BigDecimal finOrderRate;
 
@@ -96,12 +96,12 @@ public class TsKpiPsnMonth {
         this.finOrderRoll = finOrderRoll;
     }
 
-    public Integer getNetSignCase() {
-        return netSignCase;
+    public Integer getGuohuCase() {
+        return guohuCase;
     }
 
-    public void setNetSignCase(Integer netSignCase) {
-        this.netSignCase = netSignCase;
+    public void setGuohuCase(Integer guohuCase) {
+        this.guohuCase = guohuCase;
     }
 
     public BigDecimal getFinOrderRate() {
