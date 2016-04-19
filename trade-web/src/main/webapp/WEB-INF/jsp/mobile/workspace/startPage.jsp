@@ -50,13 +50,13 @@
 		--%>
 		
         
-		<!-- <div id="play_mv">
+	   <div id="play_mv">
 			<div class="firework1"><img alt="1" src="../../../momedia/images/fireworks.gif" class="fireworks"></div>
 			<div class="mask"></div>
 			<div class="cont"><p id="play_content"> 浦东贵宾服务部A组顾问 王小毛 攻榜成功！目前在E+金融周榜中排名第一，金融产品申请金额总计1000万 </p></div>
 			<div  class="firework2"><img alt="1" src="../../../momedia/images/fireworks.gif"class="fireworks"></div>
 		</div>
-		<audio id="aaa" src="../../../momedia/mp3/fireworks.mp3"  controls style="display: none;"></audio>-->
+		<audio id="aaa" src="../../../momedia/mp3/fireworks.mp3"  controls style="display: none;"></audio>
 		
 	    <script src="../../../momedia/js/jquery-2.1.1.js"></script>
 	    <script src= "../../../momedia/js/plugins/superslides/jquery.easing.1.3.js" type="text/javascript" ></script>
@@ -122,7 +122,8 @@
 			ifm.height = subWeb.body.scrollHeight; 
 			} 
 			} 
-		/* var playQueue=new Array();
+		
+		var playQueue=new Array();
 		function doPlay(e){
 			if($("#play_mv").attr("play")=="play"){
 				playQueue.unshift(e);
@@ -158,9 +159,9 @@
 		$("body").click(function(){
 			//doPlay("<em>浦东贵宾服务部A组</em> 顾问 <em>王小毛</em> 攻榜成功！目前在E+金融周榜中排名第一，金融产品申请金额总计 <strong>1000万</strong> ");
 			//doPlay("<em>浦东贵宾服务部A组</em> 顾问 <em>王小毛</em> 签约一单 <em>E+首付贷/换房贷</em>，金额<strong>50万</strong>，为E+金融产品推波助澜");
-		}); */
+		}); 
 		
-		/* setInterval(function(){
+		 setInterval(function(){
 			$.ajax({
 				url :"../../../mobile/dashboard/box/getNewAgent",
 				method:"post",
@@ -178,7 +179,7 @@
 	                  
 				}
 			});
-		    }, 60000); */
+		    }, 60000); 
 
 		</script> 
 		

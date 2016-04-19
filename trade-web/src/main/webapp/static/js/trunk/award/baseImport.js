@@ -152,8 +152,30 @@ function cleanForm() {
 }
 var excelInUrl = "";
 //Excel modal
-function showExcelModal(inType){
+/*function showExcelModal(inType){
 	$('#excel-modal-form').modal("show");
+}*/
+function showExcelModal() {
+	//iframe层
+	layer.open({
+	  type: 1,
+	  title: '导入奖金明细页',
+	  shadeClose: true,
+	  shade: 0.8,
+	  area: ['50%', '40%'],	
+	  content: $('#test'), //捕获的元素
+	  btn: ['提交','关闭'],
+	  yes: function(index){
+		  excelIn();
+		  if(checkFileTypeExcel()){
+			 layer.close(index);
+		  }
+	  },
+	  cancel: function(index){
+	    layer.close(index);
+	    //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
+	  }
+	});
 }
 // Excel 导入
 function excelIn(){
@@ -176,7 +198,10 @@ function checkFileTypeExcel()
     //判断文件类型是否允许上传
     if(AllowExt!=0&&AllowExt.indexOf(FileExt)==-1) {
         ErrMsg="\n该文件类型不允许上传。请上传 "+AllowExt+" 类型的文件，当前文件类型为"+FileExt;
-        alert(ErrMsg);
+        //alert(ErrMsg);
+    	layer.alert(ErrMsg, {
+  		  icon: 2
+  		}) 
         return false;
   	}
 

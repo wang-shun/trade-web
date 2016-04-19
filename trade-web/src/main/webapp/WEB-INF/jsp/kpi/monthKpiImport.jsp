@@ -27,15 +27,16 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">	
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
 	rel="stylesheet">
+<link href="${ctx}/css/plugins/switch/bootstrap-switch.min.css" rel="stylesheet">
 <link
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
 <!-- 弹出框插件 -->
-<link href="${ctx}/css/plugins/layer/layer.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/layer/layer.ext.css" rel="stylesheet">
+<%-- <link href="${ctx}/css/plugins/layer/layer.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/layer/layer.ext.css" rel="stylesheet"> --%>
 <style type="text/css">
 .radio.radio-inline>label {
 	margin-left: 10px;
@@ -65,105 +66,83 @@ width:160px;
 
 <body>
 
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/excelImport.jsp"></jsp:include>
+<!-- 	<div style="display:none;" id="excelImport">
+   <form id="excelInForm"  method="post" enctype="multipart/form-data" action=""> 
+        <div class="form-group">
+        	<label for="file" class="col-sm-2 control-label">导入表格文件 : </label>
+  			<div class="col-sm-10">
+  			    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
+      		</div>
+        </div> 
+  </form>
+</div> -->
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>基本奖金明细筛选</h5>
+					<h5>个人月度KPI导入</h5>
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						
-						<div id="dateDiv" class="form-group m-b">
-							<label class="col-sm-2 control-label" id="case_date">归属月份</label>
-							<div id="datepicker"
-								class="input-group input-medium date-picker input-daterange"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期"> <span class="input-group-addon">到</span>
-								<input id="dtEnd" name="dtEnd" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="结束日期" />
+					 	<div class="row">
+							<div class="switch col-md-2" data-on-label="上月" data-off-label="当月">
+	    						<input id="moSwitch" type="checkbox" checked />
 							</div>
-						</div>
-						<div  class="form-group m-b">
-								<label class="col-sm-2 control-label" id="case_date">所在组</label>
-								<input id="orgName" type="text" class="form-control" style="width:400px">
-						</div>
-						<div  class="form-group m-b">
-							<label class="col-sm-2 control-label" id="case_date">人员</label>
-							<input id="userName" type="text" class="form-control" style="width:400px">
-						</div>
-						<span class="input-group-btn ">
-							<button id="searchButton" type="button"
-								class="btn btn-primary pull-right">查询</button>
-						</span>
+						
+		            		<div class="col-md-4">
+		            		   <label class="col-md-2 control-label" id="case_date">所在组</label>
+		            		   <input id="orgName" type="text" class="form-control" style="width:400px">
+		            		</div>
+		            		<div class="col-md-4">
+		            		    <label class="col-md-2 control-label" id="case_date">人员</label>
+		            		    <input id="userName" type="text" class="form-control" style="width:400px">
+		            		</div>
+			             </div>
+			             <div class="row">
+		            		<div class="col-md-8">
+		            		</div>
+		            		<div class="col-md-1">
+	            		    	<button id="searchButton" type="button" class="btn btn-primary">查询</button>
+		            		</div>
+		            		<div class="col-md-1">
+								 <a id="importButton" class="btn btn-primary">个人月度Kpi导入 </a>
+		            		</div>
+			             </div>
 					</form>
 				</div>
 			</div>
 		</div>
+	 </div>
+	 <div class="row">
+		<div class="col-lg-12">
+			<div class="ibox ">
+				<div class="ibox-title">
+					<h5>月度KPI指标明细</h5>
+				</div>
 
-		<div class="wrapper wrapper-content  animated fadeInRight">
-
-			<div class="col-lg-12">
-				<div class="ibox ">
-					<div class="ibox-title">
-						<h5>基本奖金明细</h5>
-					</div>
-
-					<div class="ibox-content">
-						<div class="jqGrid_wrapper">
-							<table id="table_list_1"></table>
-							<div id="pager_list_1"></div>
-						</div>
+				<div class="ibox-content">
+					<div class="jqGrid_wrapper">
+						<table id="table_list_1"></table>
+						<div id="pager_list_1"></div>
 					</div>
 				</div>
 			</div>
-
 		</div>
-		
-        <div class="ibox-content">
-            <div  class="row">
-               <!-- <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">基本奖金分配导入 </a> -->
-               <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal();">基本奖金分配导入 </a>
-            </div>
-        </div>
-        <div style="display:none;" id="test">
-         <form id="excelInForm"  method="post" enctype="multipart/form-data" action="${ctx}/award/uploadBaseImport"> 
-                <div class="modal-body">
-                <input type="hidden" id="inType" value="" />
-           		    <label class="col-sm-7 control-label">
-           		    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
-           		    </label>
-          <div class="col-sm-3"></div>
-                </div> 
-              </form>
-        </div>
+	</div>
 		<!-- 收益导入 -->
-       <%--  <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
+        <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
           <div class="modal-dialog" style="width:1200px">
              <div class="modal-content">
                  <div class="modal-header">
 				   <button type="button" class="close" data-dismiss="modal"
-				      aria-hidden="true">×
+				      aria-hidden="Rbtrue">×
 				   </button>
 				   <h4 class="modal-title" id="excel-modal-title">
 				      	请上传附件
 				   </h4>
 				</div>
-				
-                <form id="excelInForm"  method="post" enctype="multipart/form-data" action="${ctx}/award/uploadBaseImport"> 
-                <div class="modal-body">
-                <input type="hidden" id="inType" value="" />
-           		    <label class="col-sm-7 control-label">
-           		    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
-           		    </label>
-          <div class="col-sm-3"></div>
-                </div> 
-                
-              </form>
                 <div class="modal-footer">
 		            <button type="button" class="btn btn-default"
 		               data-dismiss="modal">关闭
@@ -175,7 +154,7 @@ width:160px;
                 
              </div>
           </div>
-       </div>   --%>
+       </div>  
        <!-- 失败数据 -->
         <div id="error-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
           <div class="modal-dialog" style="width:1200px">
@@ -221,7 +200,6 @@ width:160px;
                                 </div>
                             </div>
                 </div>
-                
              </div>
           </div>
        </div>
@@ -239,21 +217,49 @@ width:160px;
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  <!-- iCheck --> <script
 		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-     <!-- 弹出框插件 -->
+		<script	src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script>
+    <script src="${ctx}/js/jquery.blockui.min.js"></script> 
+       <!-- 弹出框插件 -->
     <script src="${ctx}/js/plugins/layer/layer.js"></script>
     <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
-    
-	 <script src="${ctx}/js/trunk/award/baseImport.js"></script> 	
-    <script src="${ctx}/js/jquery.blockui.min.js"></script>
-    <script src="${ctx}/js/trunk/award/baseImport.js"></script> 
     <script>
-    <c:if test="${not empty fList}">
-    	var hasError=true;
- 	</c:if>
-    <c:if test="${empty fList}">
-		var hasError=false;
-	</c:if>
- 	
+    var ctx = "${ctx}";
+    $(document).ready(function(){
+    	// 滑块
+    	$("#moSwitch").bootstrapSwitch({
+    		'onText':"上月",
+    		'offText':'当月'
+    	}).on('switchChange.bootstrapSwitch', function(event, state) {
+        }); 
+    	
+    	 $("#importButton").click(function(){
+    		//iframe层
+        	layer.open({
+        	  type: 1,
+        	  title: '导入奖金明细页',
+        	  shadeClose: true,
+        	  shade: 0.8,
+        	  area: ['50%', '40%'],	
+        	  content: $('#excelImport'), //捕获的元素
+        	  btn: ['提交','关闭'],
+        	  yes: function(index){
+        		  if(checkFileTypeExcel()){
+        			 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+       		    	 $(".blockOverlay").css({'z-index':'9998'});
+       		    	 $("#excelInForm").attr("action",ctx+"/kpi/doMonthKpiImport"); 
+       		    	 $("#excelInForm").attr("method","POST"); 
+       		    	 $('#excelInForm').submit();
+       		    	 
+        			 layer.close(index);
+        		  }
+        	  },
+        	  cancel: function(index){
+        	    layer.close(index);
+        	    //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
+        	  }
+        	});
+    	}) 
+    });
     </script>
  </content>
 </body>

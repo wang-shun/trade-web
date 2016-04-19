@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.kpi.repository.TsKpiSrvCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="BELONG_MONTH" property="belongMonth" jdbcType="TIMESTAMP" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="SRV_CODE" property="srvCode" jdbcType="VARCHAR" />
+    <result column="SALER_SATIS" property="salerSatis" jdbcType="DECIMAL" />
+    <result column="BUYER_SATIS" property="buyerSatis" jdbcType="DECIMAL" />
+    <result column="SATISFACTION" property="satisfaction" jdbcType="DECIMAL" />
+    <result column="SALER_CALLBACK" property="salerCallback" jdbcType="CHAR" />
+    <result column="BUYER_CALLBACK" property="buyerCallback" jdbcType="CHAR" />
+    <result column="CAN_CALLBACK" property="canCallback" jdbcType="CHAR" />
+    <result column="SALER_COMMENT" property="salerComment" jdbcType="NVARCHAR" />
+    <result column="BUYER_COMMENT" property="buyerComment" jdbcType="NVARCHAR" />
+    <result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
+    <result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, BELONG_MONTH, CASE_CODE, SRV_CODE, SALER_SATIS, BUYER_SATIS, SATISFACTION, 
+    SALER_CALLBACK, BUYER_CALLBACK, CAN_CALLBACK, SALER_COMMENT, BUYER_COMMENT, TEAM_ID, 
+    DISTRICT_ID, TYPE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_KPI_SRV_CASE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_KPI_SRV_CASE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
+    insert into sctrans.T_TS_KPI_SRV_CASE (PKID, BELONG_MONTH, CASE_CODE, 
+      SRV_CODE, SALER_SATIS, BUYER_SATIS, 
+      SATISFACTION, SALER_CALLBACK, BUYER_CALLBACK, 
+      CAN_CALLBACK, SALER_COMMENT, BUYER_COMMENT, 
+      TEAM_ID, DISTRICT_ID, TYPE, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{belongMonth,jdbcType=TIMESTAMP}, #{caseCode,jdbcType=VARCHAR}, 
+      #{srvCode,jdbcType=VARCHAR}, #{salerSatis,jdbcType=DECIMAL}, #{buyerSatis,jdbcType=DECIMAL}, 
+      #{satisfaction,jdbcType=DECIMAL}, #{salerCallback,jdbcType=CHAR}, #{buyerCallback,jdbcType=CHAR}, 
+      #{canCallback,jdbcType=CHAR}, #{salerComment,jdbcType=NVARCHAR}, #{buyerComment,jdbcType=NVARCHAR}, 
+      #{teamId,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
+    insert into sctrans.T_TS_KPI_SRV_CASE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="srvCode != null" >
+        SRV_CODE,
+      </if>
+      <if test="salerSatis != null" >
+        SALER_SATIS,
+      </if>
+      <if test="buyerSatis != null" >
+        BUYER_SATIS,
+      </if>
+      <if test="satisfaction != null" >
+        SATISFACTION,
+      </if>
+      <if test="salerCallback != null" >
+        SALER_CALLBACK,
+      </if>
+      <if test="buyerCallback != null" >
+        BUYER_CALLBACK,
+      </if>
+      <if test="canCallback != null" >
+        CAN_CALLBACK,
+      </if>
+      <if test="salerComment != null" >
+        SALER_COMMENT,
+      </if>
+      <if test="buyerComment != null" >
+        BUYER_COMMENT,
+      </if>
+      <if test="teamId != null" >
+        TEAM_ID,
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="belongMonth != null" >
+        #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCode != null" >
+        #{srvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salerSatis != null" >
+        #{salerSatis,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerSatis != null" >
+        #{buyerSatis,jdbcType=DECIMAL},
+      </if>
+      <if test="satisfaction != null" >
+        #{satisfaction,jdbcType=DECIMAL},
+      </if>
+      <if test="salerCallback != null" >
+        #{salerCallback,jdbcType=CHAR},
+      </if>
+      <if test="buyerCallback != null" >
+        #{buyerCallback,jdbcType=CHAR},
+      </if>
+      <if test="canCallback != null" >
+        #{canCallback,jdbcType=CHAR},
+      </if>
+      <if test="salerComment != null" >
+        #{salerComment,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerComment != null" >
+        #{buyerComment,jdbcType=NVARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
+    update sctrans.T_TS_KPI_SRV_CASE
+    <set >
+      <if test="belongMonth != null" >
+        BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="srvCode != null" >
+        SRV_CODE = #{srvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salerSatis != null" >
+        SALER_SATIS = #{salerSatis,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerSatis != null" >
+        BUYER_SATIS = #{buyerSatis,jdbcType=DECIMAL},
+      </if>
+      <if test="satisfaction != null" >
+        SATISFACTION = #{satisfaction,jdbcType=DECIMAL},
+      </if>
+      <if test="salerCallback != null" >
+        SALER_CALLBACK = #{salerCallback,jdbcType=CHAR},
+      </if>
+      <if test="buyerCallback != null" >
+        BUYER_CALLBACK = #{buyerCallback,jdbcType=CHAR},
+      </if>
+      <if test="canCallback != null" >
+        CAN_CALLBACK = #{canCallback,jdbcType=CHAR},
+      </if>
+      <if test="salerComment != null" >
+        SALER_COMMENT = #{salerComment,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerComment != null" >
+        BUYER_COMMENT = #{buyerComment,jdbcType=NVARCHAR},
+      </if>
+      <if test="teamId != null" >
+        TEAM_ID = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
+    update sctrans.T_TS_KPI_SRV_CASE
+    set BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      SRV_CODE = #{srvCode,jdbcType=VARCHAR},
+      SALER_SATIS = #{salerSatis,jdbcType=DECIMAL},
+      BUYER_SATIS = #{buyerSatis,jdbcType=DECIMAL},
+      SATISFACTION = #{satisfaction,jdbcType=DECIMAL},
+      SALER_CALLBACK = #{salerCallback,jdbcType=CHAR},
+      BUYER_CALLBACK = #{buyerCallback,jdbcType=CHAR},
+      CAN_CALLBACK = #{canCallback,jdbcType=CHAR},
+      SALER_COMMENT = #{salerComment,jdbcType=NVARCHAR},
+      BUYER_COMMENT = #{buyerComment,jdbcType=NVARCHAR},
+      TEAM_ID = #{teamId,jdbcType=VARCHAR},
+      DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
