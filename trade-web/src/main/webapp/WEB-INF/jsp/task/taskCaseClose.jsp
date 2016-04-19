@@ -849,7 +849,7 @@
 			$("#bank").attr("disabled","disabled");
 		}
 		$(document).ready(function() {
-			isAccumulation=$('#').val()=='30016003';
+			isAccumulation=$('#mortType').val()=='30016003';
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">
 				 $("#closeType").attr("disabled","disabled");
