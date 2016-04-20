@@ -415,6 +415,7 @@
 		    		displayColomn.push('loanSrvCode');
 		    		displayColomn.push('finOrgName');
 		    		displayColomn.push('propertyAddr');
+		    		displayColomn.push('ST_TO');
 		    		displayColomn.push('executorId');
 		    		displayColomn.push('applyStatus');
 		    		displayColomn.push('confirmStatus');
@@ -431,7 +432,7 @@
 		    		displayColomn.push('belogDistrict');
 		    		displayColomn.push('createTime');
 		    		displayColomn.push('PARENT_ORG_NAME');
-		    		
+		    		displayColomn.push('yuOrgName');
 		    		var params;
 		    		if (getSearchDateValues() && getSearchMoneyValues()) {
 						params = getParamsValues();
