@@ -101,7 +101,7 @@
 					LEFT JOIN
 					   sctrans.V_USER_ORG_JOB orgJob
 					ON
-					   orgJob.user_id = caseInfo.AGENT_CODE
+					   orgJob.user_id = caseInfo.AGENT_CODE and orgJob.ismain='1'
 					INNER JOIN
 		               sctrans.SYS_USER sysUser
 			        ON
@@ -109,7 +109,7 @@
 	           		INNER JOIN 
 					    SCTRANS.V_USER_ORG_JOB userOrg
 					ON  
-					    agent.EXECUTOR_ID = userOrg.user_id
+					    agent.EXECUTOR_ID = userOrg.user_id and userOrg.ismain='1'
 		           	INNER JOIN
 				       sctrans.v_yucui_org_hierarchy orgHierarchy
 				    ON
