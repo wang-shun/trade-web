@@ -415,7 +415,7 @@
 		    		displayColomn.push('loanSrvCode');
 		    		displayColomn.push('finOrgName');
 		    		displayColomn.push('propertyAddr');
-		    		displayColomn.push('ST_TO');
+		    		displayColomn.push('custName');
 		    		displayColomn.push('executorId');
 		    		displayColomn.push('applyStatus');
 		    		displayColomn.push('confirmStatus');
