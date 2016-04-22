@@ -96,13 +96,15 @@ public class EguPricingController {
 			if(CollectionUtils.isNotEmpty(toEguPricingList)){
 				toEguPricing = toEguPricingList.get(0);
 			}
+			
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(assessResult.getCase_id());
 			/** 1.根据评估编号查询，如果没有查到记录，为手机端发送的
 				2.已经存在询价信息，修改询价信息
 			**/
 			if(toEguPricing == null){
 				ToEguPricing eguPricing = new ToEguPricing();
 				eguPricing.setAriseTime(new Date());
-				eguPricing.setCaseCode(assessResult.getCase_id());
+				eguPricing.setCaseCode(toPropertyInfo==null?null:assessResult.getCase_id());
 				eguPricing.setEvaCode(code);
 				eguPricing.setApplyCode(assessResult.getApply_code());
 				eguPricing.setResponseTime(new Date());
@@ -137,8 +139,7 @@ public class EguPricingController {
 				toEguPricingService.updateToEguPricing(toEguPricing);
 			}
 			//推送过来的案件Id为空不发送提醒
-			if(StringUtils.isNotEmpty(assessResult.getCase_id())){
-				ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(assessResult.getCase_id());
+			if(StringUtils.isNotEmpty(assessResult.getCase_id()) && toPropertyInfo!=null){
 				Map<String,Object> param = new HashMap<String,Object>();
 				param.put("eva_code", code);
 				param.put("property", toPropertyInfo.getPropertyAddr());
