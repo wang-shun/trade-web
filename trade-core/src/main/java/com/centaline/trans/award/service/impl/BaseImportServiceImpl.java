@@ -1,5 +1,6 @@
 package com.centaline.trans.award.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class BaseImportServiceImpl implements BaseImportService {
 				entity.setOrgId(userOrgJob.getOrgId());
 				entity.setParticipant(u.getId());
 				entity.setBelongMonth(vo.getBelongMonth());
-				entity.setBaseAmount(vo.getAmount());
+				entity.setBaseAmount(new BigDecimal(vo.getAmount()));
 				entity.setCaseCode(vo.getCaseCode());
 				entity.setCreateTime(new Date());
 				return entity;

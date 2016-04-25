@@ -17,26 +17,43 @@ import com.aist.common.utils.excel.ImportExcel;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.centaline.trans.kpi.service.KpiSrvCaseService;
 import com.centaline.trans.kpi.vo.KpiMonthVO;
+import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
 @Controller
-@RequestMapping(value = "kpi") 
+@RequestMapping(value = "kpi")
 public class KpiImportController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-	
+	@Autowired
+	private UamSessionService uamSesstionService;
+	@Autowired
+	private KpiSrvCaseService kpiSrvCaseService;
+
 	@RequestMapping(value = "/import")
 	public String kpiImport() {
-		return "kpi/kpiInport";
+		return "kpi/kpiImport";
 	}
 
 	@RequestMapping(value = "/doImport")
-	public String doKpiImport() {
+	public String doKpiImport(@RequestParam("fileupload") MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response,Boolean currentMonth)
+					throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
+		ImportExcel ie = new ImportExcel(file, 0, 0);
+		List<KpiSrvCaseVo> list = ie.getDataList(KpiSrvCaseVo.class);
+		SessionUser user= uamSesstionService.getSessionUser();
+		for (KpiSrvCaseVo kpiSrvCaseVo : list) {
+			kpiSrvCaseVo.setCurrentMonth(currentMonth);
+			kpiSrvCaseVo.setCreateBy(user.getId());
+		}
+	
+		kpiSrvCaseService.importBatch(list,currentMonth);
 		return "kpi/kpiImport";
 	}
-	
+
 	@RequestMapping(value = "/monthKpiImport")
 	public String monthKpiImport() {
 		return "kpi/monthKpiImport";
@@ -44,14 +61,15 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/doMonthKpiImport")
 	public String doMonthKpiImport(@RequestParam("fileupload") MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response) throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+			HttpServletResponse response)
+					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 		ImportExcel ie = new ImportExcel(file, 0, 0);
 		List<KpiMonthVO> list = ie.getDataList(KpiMonthVO.class);
-		
+
 		uamUserOrgService.getUserByEmployeeCode("");
-		
-		//uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
-		
+
+		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
+
 		return "kpi/monthKpiImport";
 	}
 }

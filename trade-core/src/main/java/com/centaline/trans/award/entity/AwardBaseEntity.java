@@ -3,7 +3,7 @@ package com.centaline.trans.award.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BaseImportEntity {
+public class AwardBaseEntity {
     private Long pkid;
 
     private String caseCode;
