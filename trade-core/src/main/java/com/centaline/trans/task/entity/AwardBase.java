@@ -1,6 +1,5 @@
 package com.centaline.trans.task.entity;
 
-import java.util.Date;
 
 import com.centaline.trans.award.entity.AwardBaseEntity;
 
@@ -65,3 +64,4 @@ public class AwardBase extends AwardBaseEntity {
 		this.jobCode = jobCode;
 	}
 }
+

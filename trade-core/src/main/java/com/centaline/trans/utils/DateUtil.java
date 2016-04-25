@@ -2,6 +2,7 @@ package com.centaline.trans.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -41,5 +42,30 @@ public class DateUtil {
 			e.printStackTrace();
 		}
 		return date;
+	}
+	
+	
+	/**
+	 *  加上多少个月
+	 * 
+	 * 
+	 */
+	public static Date plusMonth(Date date ,int month) {
+		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");//格式化对象
+		  Calendar calendar = Calendar.getInstance();//日历对象
+		  calendar.setTime(date);//设置当前日期
+		  calendar.add(Calendar.MONTH, month);//月份减一
+		  
+		  String str =  sdf.format(calendar.getTime());
+		  try {
+			return sdf.parse(str);
+		  } catch (ParseException e) {
+			e.printStackTrace();
+		  }
+		  return null;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(DateUtil.plusMonth(new Date(), -1));
 	}
 }
