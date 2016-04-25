@@ -256,4 +256,9 @@
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+    <delete id="deleteByBelongMonth" parameterType="java.util.Date" >
+    delete from sctrans.T_TS_KPI_SRV_CASE
+    where BELONG_MONTH = #{0,jdbcType=TIMESTAMP}
+  </delete>
+  
 </mapper>

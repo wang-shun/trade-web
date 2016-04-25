@@ -1,8 +1,6 @@
 package com.centaline.trans.kpiImport.web;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,16 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.aist.common.utils.excel.ImportExcel;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
+import com.centaline.trans.kpi.service.KpiSrvCaseService;
 import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
-
 import org.apache.commons.lang3.StringUtils;
+import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
 @Controller
-@RequestMapping(value = "kpi") 
+@RequestMapping(value = "kpi")
 public class KpiImportController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
@@ -36,23 +36,39 @@ public class KpiImportController {
 	private TsKpiPsnMonthService tsKpiPsnMonthService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-	
+	@Autowired
+	private UamSessionService uamSesstionService;
+	@Autowired
+	private KpiSrvCaseService kpiSrvCaseService;
+
 	@RequestMapping(value = "/import")
 	public String kpiImport() {
-		return "kpi/kpiInport";
+		return "kpi/kpiImport";
 	}
 
 	@RequestMapping(value = "/doImport")
-	public String doKpiImport() {
+	public String doKpiImport(@RequestParam("fileupload") MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response,Boolean currentMonth)
+					throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
+		ImportExcel ie = new ImportExcel(file, 0, 0);
+		List<KpiSrvCaseVo> list = ie.getDataList(KpiSrvCaseVo.class);
+		SessionUser user= uamSesstionService.getSessionUser();
+		for (KpiSrvCaseVo kpiSrvCaseVo : list) {
+			kpiSrvCaseVo.setCurrentMonth(currentMonth);
+			kpiSrvCaseVo.setCreateBy(user.getId());
+		}
+	
+		kpiSrvCaseService.importBatch(list,currentMonth);
 		return "kpi/kpiImport";
 	}
-	
+
 	@RequestMapping(value = "/monthKpiImport")
 	public String monthKpiImport() {
 		return "kpi/monthKpiImport";
 	}
 
 	@RequestMapping(value = "/doMonthKpiImport")
+
 	public String doMonthKpiImport(@RequestParam("fileupload") MultipartFile file,String belongMonth,HttpServletRequest request,
 			HttpServletResponse response) throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 		ImportExcel ie = new ImportExcel(file, 0, 0);
@@ -66,12 +82,11 @@ public class KpiImportController {
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(createBy, list);
 		// 上月
 		if("0".equals(belongMonth)) {
-			
 			tsKpiPsnMonthService.getPMonthKpiStastic(DateUtil.plusMonth(new Date(), -1));
 		} else {
 			tsKpiPsnMonthService.getPMonthKpiStastic(new Date());
 		}
-	
+		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
 		return "kpi/monthKpiImport";
 	}
 	
