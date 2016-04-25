@@ -281,7 +281,8 @@ public class TaskController {
     		
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
     		getAccesoryList(request, taskitem);
-    		request.setAttribute("mortgage", toMortgageService.findToMortgageByCaseCode2(caseCode));
+    		/**这里应该和自办贷款一样*/
+    		request.setAttribute("mortgage", toMortgageService.findToSelfLoanMortgage(caseCode));
         	/*贷款流失初始信息*/
         	initApproveRecord(request, caseCode, "1");
     	}else if(taskitem.equals("EvaReportArise")){
