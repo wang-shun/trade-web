@@ -88,7 +88,7 @@ width:160px;
 					<form method="get" class="form-horizontal">
 					 	<div class="row">
 							<div class="switch col-md-2" data-on-label="上月" data-off-label="当月">
-	    						<input id="moSwitch" type="checkbox" checked />
+	    						<input id="moSwitch" type="checkbox"  />
 							</div>
 						
 		            		<div class="col-md-10">
@@ -172,23 +172,19 @@ width:160px;
                                     <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                	<th>案件编号</th>
-                                	<th>案件地址</th>
                                     <th>人员</th>
                                     <th>员工编号</th>
-                                    <th>所有组织</th>
-                                    <th>岗位</th>
+                                    <th>金融产品数</th>
+                                    <th>错误信息</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${fList}"  var="item">
+                                <c:forEach items="${errorList}"  var="item">
                                 <tr>
-                                	<td>${item.caseCode }</td>
-                                	<td>${item.caseAddress }</td>
                                     <td>${item.userName }</td>
                                     <td>${item.employeeCode }</td>
-                                    <td>${item.orgName }</td>
-                                    <td>${item.jobName }</td>
+                                    <td>${item.finOrder }</td>
+                                    <td>${item.errorMessage }</td>
                                 </tr>
                                 </c:forEach>
                                  
@@ -223,16 +219,51 @@ width:160px;
     <script src="${ctx}/transjs/kpi/monthkpi.list.js"></script>
     <script>
     var ctx = "${ctx}";
+    var belongM = "${belongM}";
+    var belongLastM = "${belongLastM}";
+ 	// 是否显示错误信息
+	<c:if test="${not empty errorList}">
+    	var hasError=true;
+ 	</c:if>
+    <c:if test="${empty errorList}">
+		var hasError=false;
+	</c:if>
+	var sw;
     $(document).ready(function(){
     	// 初始化列表
-    	MonthKpiImportList.init('${ctx}','/quickGrid/findPage','table_list_1','pager_list_1','123');
+    	MonthKpiImportList.init('${ctx}','/quickGrid/findPage','table_list_1','pager_list_1','${belongM}');
     	// 滑块
-    	$("#moSwitch").bootstrapSwitch({
+    	sw=$('#moSwitch').bootstrapSwitch({
     		'onText':"上月",
     		'offText':'当月'
-    	}).on('switchChange.bootstrapSwitch', function(event, state) {
-        }); 
-    	
+    	}).on('switchChange.bootstrapSwitch', function(e, data) {
+    		var i =sw.bootstrapSwitch('state')?'0':'1';
+    		if(i=='0') {
+    			var data = {
+   					queryId:"monthKpiList",
+   					argu_belongMonth : belongLastM
+    			};
+    		 	$("#table_list_1").jqGrid('setGridParam',{
+		    		datatype:'json',
+		    		mtype:'post',
+		    		postData:data
+		    	}).trigger('reloadGrid'); 
+    		}else {
+    			var data = {
+       					queryId:"monthKpiList",
+       					argu_belongMonth : belongM
+        			};
+        		 	$("#table_list_1").jqGrid('setGridParam',{
+    		    		datatype:'json',
+    		    		mtype:'post',
+    		    		postData:data
+    		    	}).trigger('reloadGrid'); 
+    		}
+		});
+    	// 是否显示错误信息
+    	if(!!hasError){
+    		$('#error-modal-form').modal("show");
+    	}
     	 $("#importButton").click(function(){
     		//iframe层
         	layer.open({

@@ -78,8 +78,8 @@ var MonthKpiImportList = (function(){
     				
     			},
     			postData : {
-    				queryId : "monthKpiList"
-                    //search_belongMonth : belongMonth
+    				queryId : "monthKpiList",
+                    argu_belongMonth : belongMonth
     			}
 
     		});

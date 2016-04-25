@@ -24,4 +24,6 @@ public interface TsKpiPsnMonthMapper {
     int insertTsKpiPsnMonthList(List<TsKpiPsnMonth> list);
     
     void getPMonthKpiStastic(Date belongMonth);
+    
+    int deleteTsKpiPsnMonthByProperty(TsKpiPsnMonth record);
 }
