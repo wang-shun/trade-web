@@ -20,8 +20,6 @@ public class TsKpiPsnMonth {
 
     private Integer finOrderRoll;
 
-    private Integer guohuCase;
-
     private BigDecimal finOrderRate;
 
     private Date createTime;
@@ -31,6 +29,10 @@ public class TsKpiPsnMonth {
     private Date updateTime;
 
     private String updateBy;
+
+    private Integer orgOrder;
+
+    private Integer totalCase;
 
     public Long getPkid() {
         return pkid;
@@ -96,14 +98,6 @@ public class TsKpiPsnMonth {
         this.finOrderRoll = finOrderRoll;
     }
 
-    public Integer getGuohuCase() {
-        return guohuCase;
-    }
-
-    public void setGuohuCase(Integer guohuCase) {
-        this.guohuCase = guohuCase;
-    }
-
     public BigDecimal getFinOrderRate() {
         return finOrderRate;
     }
@@ -142,5 +136,21 @@ public class TsKpiPsnMonth {
 
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
+    }
+
+    public Integer getOrgOrder() {
+        return orgOrder;
+    }
+
+    public void setOrgOrder(Integer orgOrder) {
+        this.orgOrder = orgOrder;
+    }
+
+    public Integer getTotalCase() {
+        return totalCase;
+    }
+
+    public void setTotalCase(Integer totalCase) {
+        this.totalCase = totalCase;
     }
 }

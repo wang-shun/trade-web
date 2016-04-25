@@ -222,9 +222,13 @@ width:160px;
        <!-- 弹出框插件 -->
     <script src="${ctx}/js/plugins/layer/layer.js"></script>
     <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+    <!-- 列表 -->
+    <script src="${ctx}/transjs/kpi/monthkpi.list.js"></script>
     <script>
     var ctx = "${ctx}";
     $(document).ready(function(){
+    	// 初始化列表
+    	MonthKpiImportList.init('${ctx}','/quickGrid/findPage','table_list_1','pager_list_1','123');
     	// 滑块
     	$("#moSwitch").bootstrapSwitch({
     		'onText':"上月",
@@ -236,7 +240,7 @@ width:160px;
     		//iframe层
         	layer.open({
         	  type: 1,
-        	  title: '导入奖金明细页',
+        	  title: '导入月度KPI明细页',
         	  shadeClose: true,
         	  shade: 0.8,
         	  area: ['50%', '40%'],	
@@ -248,6 +252,11 @@ width:160px;
        		    	 $(".blockOverlay").css({'z-index':'9998'});
        		    	 $("#excelInForm").attr("action",ctx+"/kpi/doMonthKpiImport"); 
        		    	 $("#excelInForm").attr("method","POST"); 
+       		    	 
+       		    	 $("#belongMonth").remove();
+       		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
+       		    	 inputMonth.val($("#moSwitch").val());
+       		    	 $('#excelInForm').append(inputMonth);
        		    	 $('#excelInForm').submit();
        		    	 
         			 layer.close(index);

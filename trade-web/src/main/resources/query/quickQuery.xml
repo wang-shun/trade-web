@@ -95,6 +95,7 @@
 	<import resource="query/task/toTaskHistoryListQueryForMobile.xml"></import>
 	<!-- 案件追踪 -->
 	<import resource="query/case/toCaseListTrackingQuery.xml"></import>
-	
+	<!--  Kpi模块 -->
+	<import resource="query/kpi/MonthKpiQuery.xml"></import>
 	
 </queryConfig>

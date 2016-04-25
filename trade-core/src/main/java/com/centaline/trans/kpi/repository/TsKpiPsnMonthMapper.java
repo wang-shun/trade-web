@@ -1,5 +1,6 @@
 package com.centaline.trans.kpi.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
@@ -21,4 +22,6 @@ public interface TsKpiPsnMonthMapper {
     List<TsKpiPsnMonth> getTsKpiPsnMonthListByPro(TsKpiPsnMonth record);
     
     int insertTsKpiPsnMonthList(List<TsKpiPsnMonth> list);
+    
+    void getPMonthKpiStastic(Date belongMonth);
 }

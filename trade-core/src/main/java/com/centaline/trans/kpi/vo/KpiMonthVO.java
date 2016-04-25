@@ -17,6 +17,8 @@ public class KpiMonthVO {
 	private Long finOrder;
 	@ExcelField(title = "归属月份")
 	private Date belongMonth;
+	
+	private String errorMessage;
 
 	public String getEmployeeCode() {
 		return employeeCode;
@@ -64,6 +66,14 @@ public class KpiMonthVO {
 
 	public void setBelongMonth(Date belongMonth) {
 		this.belongMonth = belongMonth;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
 }
