@@ -17,6 +17,8 @@
 		<result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
 		<result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
 		<result column="SRV_PART" property="srvPart" jdbcType="DECIMAL" />
+		<result column="SRV_PART_IN" property="srvPartIn" jdbcType="DECIMAL" />
+		
 		<result column="PAID" property="paid" jdbcType="CHAR" />
 		<result column="GUOHU_TIME" property="guohuTime" jdbcType="TIMESTAMP" />
 		<result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
@@ -30,7 +32,7 @@
 		BELONG_MONTH,
 		CONFIG_ID, IS_DELETED, SRV_CODE, TEAM_ID, DISTRICT_ID, SRV_PART, PAID,
 		GUOHU_TIME,
-		CLOSE_TIME, PAID_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+		CLOSE_TIME, PAID_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,SRV_PART_IN
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -50,7 +52,7 @@
 		IS_DELETED, SRV_CODE, TEAM_ID,
 		DISTRICT_ID, SRV_PART, PAID,
 		GUOHU_TIME, CLOSE_TIME, PAID_TIME,
-		CREATE_BY, UPDATE_TIME, UPDATE_BY
+		CREATE_BY, UPDATE_TIME, UPDATE_BY,SRV_PART_IN
 		)
 		values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR},
 		#{participant,jdbcType=VARCHAR},
@@ -62,7 +64,7 @@
 		#{paid,jdbcType=CHAR},
 		#{guohuTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, #{paidTime,jdbcType=TIMESTAMP},
 		#{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
-		#{updateBy,jdbcType=VARCHAR}
+		#{updateBy,jdbcType=VARCHAR},#{srvPartIn,jdbcType=DECIMAL}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.centaline.trans.award.entity.AwardBaseEntity">
@@ -131,6 +133,9 @@
 			<if test="updateBy != null">
 				UPDATE_BY,
 			</if>
+			<if test="srvPartIn !=null">
+				srv_Part_In,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="pkid != null">
@@ -195,6 +200,9 @@
 			</if>
 			<if test="updateBy != null">
 				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="srvPartIn !=null">
+				#{srvPartIn,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -261,6 +269,9 @@
 			<if test="updateBy != null">
 				UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
 			</if>
+			<if test="srvPartIn !=null">
+				srv_Part_In=#{srvPartIn,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where PKID = #{pkid,jdbcType=BIGINT}
 	</update>
@@ -285,7 +296,8 @@
 		PAID_TIME = #{paidTime,jdbcType=TIMESTAMP},
 		CREATE_BY = #{createBy,jdbcType=VARCHAR},
 		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-		UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+		UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+		srv_Part_In=#{srvPartIn,jdbcType=VARCHAR}
 		where PKID = #{pkid,jdbcType=BIGINT}
 	</update>
 	<select id="selectByCaseCodeAndSrvCode" resultMap="BaseResultMap">

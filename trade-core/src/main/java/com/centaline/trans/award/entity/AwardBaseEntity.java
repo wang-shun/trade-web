@@ -31,6 +31,7 @@ public class AwardBaseEntity {
     private String districtId;
 
     private BigDecimal srvPart;
+    private BigDecimal srvPartIn;
 
     private String paid;
 
@@ -213,4 +214,12 @@ public class AwardBaseEntity {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public BigDecimal getSrvPartIn() {
+		return srvPartIn;
+	}
+
+	public void setSrvPartIn(BigDecimal srvPartIn) {
+		this.srvPartIn = srvPartIn;
+	}
 }
