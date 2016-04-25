@@ -34,6 +34,9 @@ import com.centaline.trans.task.repository.ActHiTaskinstMapper;
 import com.centaline.trans.task.repository.AwardBaseConfigMapper;
 import com.centaline.trans.task.service.AwardBaseService;
 
+/**
+ * @author dead on requirements;
+ */
 @Service
 public class AwardBaseServiceImpl implements AwardBaseService {
 	@Autowired
@@ -53,6 +56,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	static final Set<String> QZJD;
 	static final String zbjr = "zbjr";
 	static final String qzjd = "qzjd";
+	static final Set<String> ALL;
 
 	static {
 		ZBJR = new HashSet<>();
@@ -65,6 +69,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		SRV_CODE_MAPPING = new HashMap<>();
 		SRV_CODE_MAPPING.put("ZBJR", ZBJR);
 		SRV_CODE_MAPPING.put("QZJD", QZJD);
+		ALL = new HashSet<>(ZBJR);
+		ALL.addAll(QZJD);
 	}
 
 	private int countManagerTeam(String userId) {
@@ -95,7 +101,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	/**
 	 * 奖金计算入口
 	 */
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void doAwardCalculate(ToHouseTransfer toHouseTransfer, String processInstanceId) {
 		List<AwardBaseConfig> list = awardBaseConfigMapper.getConsultantConfig();
@@ -107,10 +113,12 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		ToCase caseDetails = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
 		Set<String> mOrgs = new HashSet<>();// 主办组别
 		mOrgs.add(caseDetails.getOrgId());
-		
+
 		Map<String, Integer> qzjdMap = groupSrvByOrg(tasks, QZJD);
+		Map<String, Integer> allMap = groupSrvByOrg(tasks, ALL);
 		// 有多少权证金融的任务
 		Integer countQzjd = qzjdMap.values().stream().reduce(0, Integer::sum);
+		Integer countAll = allMap.values().stream().reduce(0, Integer::sum);
 		// 非主办组别
 		Set<String> nmOrgs = new HashSet<>(qzjdMap.keySet());
 
@@ -119,7 +127,11 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		// 总经理
 		addToList(awardList, getAwardToList(orgsArr, TransJobs.TZJL.getCode()));
 		// 总监
-		addToList(awardList, getAwardToList(orgsArr, TransJobs.TZJ.getCode()));
+		List<AwardBase> dManager = getAwardToList(orgsArr, TransJobs.TZJ.getCode());
+		// 计算总监SrvPart
+		calculateSrvPart(allMap, dManager, countAll);
+		// 将总管数据添加到集合
+		addToListB(awardList, dManager);
 		// 主办主管
 		List<AwardBase> mManager = getAwardToList(mOrgs, TransJobs.TJYZG.getCode());
 		setSrvCode(mManager, zbjr);// 设置对应的SrvCode
@@ -201,9 +213,11 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param l2
 	 */
 	private void addToListB(List<AwardBase> l1, List<AwardBase> l2) {
+		List<AwardBase> t = new ArrayList<>();
 		l2.stream().filter(x -> (!l1.contains(x))).forEach(c -> {
-			l1.add(c);
+			t.add(c);
 		});
+		l1.addAll(t);
 	}
 
 	/**
@@ -256,10 +270,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 */
 	private void calculateSrvPart(Map<String, Integer> orgSrvCountMap, List<AwardBase> nmManager, Integer tCount) {
 		nmManager.forEach(x -> {
-			int c = orgSrvCountMap.get(x.getOrgId());
-			if (c != tCount) {
-				x.setSrvPart(dToB(tCount / c + 0d));
-			}
+			x.setSrvPart(dToB(tCount.doubleValue()));
+			x.setSrvPartIn(dToB(Double.valueOf(orgSrvCountMap.get(x.getOrgId()).intValue())));
 		});
 	}
 
@@ -273,10 +285,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	private List<AwardBase> getConsultantAwradSet(List<AwardBaseConfig> confs, List<ActHiTaskinst> tasks) {
 		List<AwardBase> awardSet = new ArrayList<AwardBase>();
 		for (ActHiTaskinst task : tasks) {
-			Org org = uamUserOrgService.getOrgById(task.getOrgId());
 			Org district = uamUserOrgService.getParentOrgByDepHierarchy(task.getOrgId(), DepTypeEnum.TYCQY.getCode());
-			AwardBase ab = new AwardBase(task.getUserId(), TransJobs.TJYGW.getCode(), task.getOrgId(),
-					org.getOrgCode());
+			AwardBase ab = new AwardBase(task.getUserId(), TransJobs.TJYGW.getCode(), task.getOrgId());
 			AwardBaseConfig conf = getByDfKey(confs, task.getTaskDefKey());
 			ab.setConfigId(conf.getPkId());
 			ab.setBaseAmount(dToB(conf.getSrvFee()));
@@ -284,6 +294,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			ab.setDistrictId(district.getId());
 			ab.setTeamId(task.getOrgId());
 			ab.setSrvPart(dToB(1d));
+			ab.setSrvPartIn(dToB(1d));
 			ab.setSrvCode(conf.getSrvItemCode());
 			awardSet.add(ab);
 		}
@@ -329,7 +340,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			// 总经理和总监根据所带组
 			Integer orgSize = this.countManagerTeam(ab.getParticipant());
 			conf.setTeamNoEnd(orgSize);
-			//conf.setSrvItemCode(ab.getSrvCode());
+			// conf.setSrvItemCode(ab.getSrvCode());
 		}
 		List<AwardBaseConfig> confs = awardBaseConfigMapper.getConfig(conf);
 		if (confs != null && !confs.isEmpty()) {
@@ -347,15 +358,18 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param awardSet
 	 */
 	private List<AwardBase> getAwardToList(Set<String> orgsArr, String jobCode) {
-		
-		Set<AwardBase>awardSet=new HashSet<>();
+		List<AwardBase> result = null;
+		Set<AwardBase> awardSet = null;
 		for (String orgId : orgsArr) {
 			Org org = null;
 			Org district = uamUserOrgService.getParentOrgByDepHierarchy(orgId, DepTypeEnum.TYCQY.getCode());
 			if (TransJobs.TZJ.getCode().equals(jobCode)) {
 				org = district;
-			} else if (TransJobs.TZJL.getCode().equals(jobCode)) {
+			} else if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理这里要特殊处理
 				org = uamUserOrgService.getParentOrgByDepHierarchy(orgId, DepTypeEnum.TYCZB.getCode());
+				if (awardSet == null) {
+					awardSet = new HashSet<>();
+				}
 			} else {
 				org = uamUserOrgService.getOrgById(orgId);
 			}
@@ -365,16 +379,33 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 
 			if (users != null && !users.isEmpty()) {
 				for (User user : users) {
-					AwardBase ab = new AwardBase(user.getId(), jobCode, org.getId(), org.getOrgCode());
-					ab.setTeamId(orgId);
-					ab.setDistrictId(district.getId());
+					AwardBase ab = new AwardBase(user.getId(), jobCode, orgId);
+					/**
+					 * 这里将SrvPart和SrvPartIn设置成1，后面会到所有不为100%的数据作处理
+					 */
 					ab.setSrvPart(dToB(1d));
+					ab.setSrvPartIn(dToB(1d));
+
 					ab.setGuohuTime(new Date());
-					awardSet.add(ab);
+					if (!TransJobs.TZJL.getCode().equals(jobCode)) {// 除了总经理都要设置
+						if (!TransJobs.TZJ.getCode().equals(jobCode)) {// 总监的话teamId不用设置
+							ab.setTeamId(orgId);
+						}
+						ab.setDistrictId(district.getId());
+						if (result == null) {
+							result = new ArrayList<>();
+						}
+						result.add(ab);
+					} else {
+						awardSet.add(ab);
+					}
 				}
 			}
 		}
-		return new ArrayList<>(awardSet);
+		if (TransJobs.TZJL.getCode().equals(jobCode)) {
+			result = new ArrayList<>(awardSet);
+		}
+		return result;
 	}
 
 	/**
