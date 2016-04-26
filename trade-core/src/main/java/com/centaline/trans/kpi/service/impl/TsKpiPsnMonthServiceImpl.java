@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +38,15 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 	public int insertTsKpiPsnMonthList(List<TsKpiPsnMonth> list) {
 		return tsKpiPsnMonthMapper.insertTsKpiPsnMonthList(list);
 	}
-
+	
 	@Override
 	public int importExcelTsKpiPsnMonthList(String createBy, List<KpiMonthVO> list) {
 		List<TsKpiPsnMonth> record = new ArrayList<TsKpiPsnMonth>();
 		for(KpiMonthVO kpiMonthVO : list) {
 			String employeeCode = kpiMonthVO.getEmployeeCode();
+			if(StringUtils.isBlank(employeeCode)) {
+				continue;
+			}
 			User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
 		    //List<UserOrgJob> uoj  = uamUserOrgService.getUserOrgJobByUserId(user.getId());
 
@@ -65,6 +69,11 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 	@Override
 	public void getPMonthKpiStastic(Date belongMonth) {
 		tsKpiPsnMonthMapper.getPMonthKpiStastic(belongMonth);
+	}
+
+	@Override
+	public int deleteTsKpiPsnMonthByProperty(TsKpiPsnMonth record) {
+		return tsKpiPsnMonthMapper.deleteTsKpiPsnMonthByProperty(record);
 	}
 	
 

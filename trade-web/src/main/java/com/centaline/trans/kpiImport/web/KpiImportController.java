@@ -1,6 +1,8 @@
 package com.centaline.trans.kpiImport.web;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
+import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
 import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
@@ -71,7 +74,11 @@ public class KpiImportController {
 	}
 
 	@RequestMapping(value = "/monthKpiImport")
-	public String monthKpiImport() {
+	public String monthKpiImport(HttpServletRequest request,
+			HttpServletResponse response) {
+		// 默认是当月
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		return "kpi/monthKpiImport";
 	}
 
@@ -81,6 +88,19 @@ public class KpiImportController {
 			MultipartHttpServletRequest request, HttpServletResponse response)
 					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 
+		Date belongM = null;
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		// 上月
+		if("0".equals(belongMonth)) {
+			belongM = DateUtil.plusMonth(new Date(), -1);
+		} else {
+			belongM = new Date();
+		}
+		TsKpiPsnMonth record = new TsKpiPsnMonth();
+		record.setBelongMonth(belongM);
+		tsKpiPsnMonthService.deleteTsKpiPsnMonthByProperty(record);
+		
 		ImportExcel ie = new ImportExcel(file, 0, 0);
 		List<KpiMonthVO> list = ie.getDataList(KpiMonthVO.class);
 		List<KpiMonthVO> errorList = checkImportData(list);
@@ -90,12 +110,8 @@ public class KpiImportController {
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(createBy, list);
-		// 上月
-		if ("0".equals(belongMonth)) {
-			tsKpiPsnMonthService.getPMonthKpiStastic(DateUtil.plusMonth(new Date(), -1));
-		} else {
-			tsKpiPsnMonthService.getPMonthKpiStastic(new Date());
-		}
+		
+		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
 		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
 		return "kpi/monthKpiImport";
 	}
@@ -108,12 +124,12 @@ public class KpiImportController {
 			Long finOrder = kpiMonthVO.getFinOrder();
 
 			if (StringUtils.isBlank(employeeCode) || StringUtils.isBlank(userName) || (finOrder == null)) {
-				kpiMonthVO.setErrorMessage("数据不完整");
-				errorList.add(kpiMonthVO);
+				/*kpiMonthVO.setErrorMessage("数据不完整");
+				errorList.add(kpiMonthVO);*/
 				continue;
 			}
 			User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
-			if (!user.getRealName().equals(userName)) {
+			if(user==null || !userName.equals(user.getRealName())) {
 				kpiMonthVO.setErrorMessage("员工编号与姓名不对应");
 				errorList.add(kpiMonthVO);
 				continue;

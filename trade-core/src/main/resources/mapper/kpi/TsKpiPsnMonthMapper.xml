@@ -32,6 +32,7 @@
     delete from sctrans.T_TS_KPI_PSN_MONTH
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
     insert into sctrans.T_TS_KPI_PSN_MONTH (PKID, BELONG_MONTH, TYPE, 
       PARTICIPANT, TEAM_ID, DISTRICT_ID, 
@@ -219,8 +220,9 @@
 			PARTICIPANT = #{participant}
 		</if>
 		<if test="belongMonth!= null">
-			AND BELONG_MONTH <![CDATA[ >=  ]]> DATEADD(mm, DATEDIFF(mm,0,#{belongMonth})-1, 0) 
-			AND BELONG_MONTH <![CDATA[ <  ]]> DATEADD(mm, DATEDIFF(mm,0,#{belongMonth}), 0) 
+			<!-- AND BELONG_MONTH <![CDATA[ >=  ]]> DATEADD(mm, DATEDIFF(mm,0,#{belongMonth})-1, 0) 
+			AND BELONG_MONTH <![CDATA[ <  ]]> DATEADD(mm, DATEDIFF(mm,0,#{belongMonth}), 0)  -->
+			AND DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0
 		</if>
 	</where>
   </select>
@@ -243,4 +245,16 @@
    <select id="getPMonthKpiStastic" parameterType="java.util.Date" statementType="CALLABLE"> 
         {CALL [sctrans].[P_MONTH_KPI_STASTIC](#{belongMonth,jdbcType=TIMESTAMP})}
    </select>
+   
+   <delete id="deleteTsKpiPsnMonthByProperty" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+    delete from sctrans.T_TS_KPI_PSN_MONTH
+   <where>
+		<if test="participant != null">
+			PARTICIPANT = #{participant}
+		</if>
+		<if test="belongMonth!= null">
+			AND DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0
+		</if>
+	</where>
+  </delete>
 </mapper>

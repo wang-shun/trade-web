@@ -30,6 +30,7 @@
 		<searchCondition>
 			<condition field="PARTICIPANT" name="participant" label="人员" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="TEAM_ID" name="teamId" label="组别" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		<!--<condition field="BELONG_MONTH" name="belongMonth" label="开始时间" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -44,7 +45,10 @@
 					  FIN_ORDER_ROLL,
 					  FIN_ORDER_RATE
  					FROM sctrans.T_TS_KPI_PSN_MONTH	
-			        WHERE
+			        WHERE 1=1
+			        	<ifNotNull belongMonth>
+			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
+			 			</ifNotNull>
 				]]>
 			</baseSql>
 			<groupSql>
