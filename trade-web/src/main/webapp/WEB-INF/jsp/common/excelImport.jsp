@@ -6,8 +6,8 @@
 <div style="display:none;" id="excelImport">
    <form id="excelInForm"  method="post" enctype="multipart/form-data" action=""> 
         <div class="form-group">
-        	<label for="file" class="col-sm-2 control-label">导入表格文件 : </label>
-  			<div class="col-sm-10">
+        	<label for="file" class="col-sm-3 control-label">导入表格文件 : </label>
+  			<div class="col-sm-8">
   			    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
       		</div>
         </div> 
