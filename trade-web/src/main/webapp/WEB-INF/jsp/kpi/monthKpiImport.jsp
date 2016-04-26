@@ -283,7 +283,8 @@ width:160px;
        		    	 
        		    	 $("#belongMonth").remove();
        		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
-       		    	 inputMonth.val($("#moSwitch").val());
+       		    	 var i =sw.bootstrapSwitch('state')?'0':'1';
+       		    	 inputMonth.val(i);
        		    	 $('#excelInForm').append(inputMonth);
        		    	 $('#excelInForm').submit();
        		    	 

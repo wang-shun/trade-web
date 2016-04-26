@@ -40,7 +40,7 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 	}
 	
 	@Override
-	public int importExcelTsKpiPsnMonthList(String createBy, List<KpiMonthVO> list) {
+	public int importExcelTsKpiPsnMonthList(Date belongM, String createBy, List<KpiMonthVO> list) {
 		List<TsKpiPsnMonth> record = new ArrayList<TsKpiPsnMonth>();
 		for(KpiMonthVO kpiMonthVO : list) {
 			String employeeCode = kpiMonthVO.getEmployeeCode();
@@ -53,7 +53,7 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 			TsKpiPsnMonth monthKpi = new TsKpiPsnMonth();
 			monthKpi.setCreateTime(new Date());
 			monthKpi.setCreateBy(createBy);
-			monthKpi.setBelongMonth(new Date());
+			monthKpi.setBelongMonth(belongM);
 			monthKpi.setType("导入");
 			monthKpi.setParticipant(user.getId());
 			monthKpi.setFinOrder(Integer.parseInt(String.valueOf(kpiMonthVO.getFinOrder())));

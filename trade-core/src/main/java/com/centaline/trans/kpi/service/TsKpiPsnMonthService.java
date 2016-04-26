@@ -11,7 +11,7 @@ public interface TsKpiPsnMonthService {
 	
 	int insertTsKpiPsnMonthList(List<TsKpiPsnMonth> list);
 	
-	int importExcelTsKpiPsnMonthList(String createBy, List<KpiMonthVO> list);
+	int importExcelTsKpiPsnMonthList(Date belongM, String createBy, List<KpiMonthVO> list);
 	
 	void getPMonthKpiStastic(Date belongMonth);
 	

@@ -37,7 +37,8 @@ var MonthKpiImportList = (function(){
     				index : 'DISTRICT_ID',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : false,
+    				hidden : true
     			},{
     				name : 'TYPE',
     				index : 'TYPE',
