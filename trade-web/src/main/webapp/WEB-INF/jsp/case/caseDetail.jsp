@@ -619,11 +619,13 @@
 			                                                ${caseInfo.conPrice/10000}  &nbsp&nbsp万元
 			                                            </c:if>
                                                     </label> 
-                                                    <label class="col-sm-3 control-label">成交价：
-                                                        <c:if test="${!empty caseInfo.realPrice}">
-			                                                ${caseInfo.realPrice/10000}&nbsp&nbsp万元
-			                                            </c:if>
-                                                    </label>
+                                                    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
+	                                                    <label class="col-sm-3 control-label">成交价：
+	                                                        <c:if test="${!empty caseInfo.realPrice}">
+				                                                ${caseInfo.realPrice/10000}&nbsp&nbsp万元
+				                                            </c:if>
+	                                                    </label>
+                                                    </shiro:hasPermission>
                                                     <label class="col-sm-3 control-label">核定价格：
                                                         <c:if test="${!empty caseInfo.taxPricing}">
 			                                                ${caseInfo.taxPricing/10000}&nbsp&nbsp万元
@@ -889,7 +891,6 @@
             		</div>
             	</div>
             </div>
-        
 
 <content tag="local_script">
 
@@ -908,7 +909,7 @@
 	 <script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 	 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	 
-	<script src="${ctx}/transjs/task/follow.pic.list.js"></script>
+	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
 	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.2"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
 	
@@ -917,6 +918,131 @@
 	
 	<!-- 各个环节的备注信息  -->
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
+	
+	<script>
+		var caseCode = $("#caseCode").val();
+		var ctmCode = $("#ctm").val();
+		var url = "/quickGrid/findPage";
+		var ctx = $("#ctx").val();
+	    var r1 =false;
+	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
+			r1 = true;
+		</shiro:hasPermission>
+		
+		//jqGrid 初始化
+		$("#gridTable").jqGrid({
+			url : ctx+url,
+			mtype : 'GET',
+			datatype : "json",
+			height : 250,
+			autowidth : true,
+			shrinkToFit : true,
+			rowNum : 20,
+			/*   rowList: [10, 20, 30], */
+			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
+			colModel : [ {
+				name : 'ATT_TYPE',
+				index : 'ATT_TYPE',
+				align : "center",
+				width : 20,
+				resizable : false
+			},{
+				name : 'ATT_NAME',
+				index : 'ATT_NAME',
+				align : "center",
+				width : 20,
+				resizable : false
+			}, {
+				name : 'ATT_PATH',
+				index : 'ATT_PATH',
+				align : "center",
+				width : 20,
+				resizable : false
+				//formatter : linkhouseInfo
+			}, {
+				name : 'UPLOAD_DATE',
+				index : 'UPLOAD_DATE',
+				align : "center",
+				width : 20,
+				resizable : false
+			},{
+				name : 'READ',
+				index : 'READ',
+				align : "center",
+				width : 20,
+				resizable : false
+			}],
+			multiselect: true,
+			pager : "#gridPager",
+			//sortname:'UPLOAD_DATE',
+	        //sortorder:'desc',
+			viewrecords : true,
+			pagebuttions : true,
+			multiselect:false,
+			hidegrid : false,
+			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+			pgtext : " {0} 共 {1} 页",
+			gridComplete:function(){
+				var ids = jQuery("#gridTable").jqGrid('getDataIDs');
+				for (var i = 0; i < ids.length; i++) {
+    				var id = ids[i];
+    				var rowDatas = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
+    				
+    				var link = "<button  class='btn red' onclick='addAttachmentReadLog(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['ATT_PATH']+"\")'>查看附件</a>";
+    				
+    				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
+    				
+    				jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
+    				
+    				var attType = rowDatas["ATT_TYPE"];
+    				if(!r1 && attType =='买卖居间协议') {
+   					   $("#gridTable").jqGrid("delRowData", id);      
+    				} 
+				}
+			},
+			postData : {
+				queryId : "followPicListQuery",
+				argu_ctmCode : ctmCode
+			}
+			 
+		});
+		
+		//附件连接
+		function linkhouseInfo(cellvalue, options, rowObject){
+			 var link = '<a href="" target="_black" onclick="addAttachmentReadLog('+cellvalue+')">'+cellvalue+'</a>';
+			 return link;
+		}
+
+		function addAttachmentReadLog(ctx,ctmCode,caseCode,attachName,attachPath) {
+			var tsAttachmentReadLog = {
+				 	'caseCode':caseCode,
+				 	'ctmCode':ctmCode,
+				 	'attachmentName':attachName,
+				 	'attachmentAddress':attachPath
+			};
+			//tsAttachmentReadLog=$.toJSON(tsAttachmentReadLog);
+			
+			$.ajax({
+				type : 'post',
+				cache : false,
+				async : true,
+				url : ctx+'/log/addAttachmentReadLog',
+				data : tsAttachmentReadLog,
+				dataType : "json",
+				success : function(data) {
+					//alert("记录日志成功");
+				},
+				error : function(errors) {
+					//alert("记录日志失败");
+					return false;
+				}
+			});
+			
+			window.open(attachPath);
+			/*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
+			window.open(encodeURI(encodeURI(url)));*/
+		}
+	</script>
 	
 </content>
 </body>
