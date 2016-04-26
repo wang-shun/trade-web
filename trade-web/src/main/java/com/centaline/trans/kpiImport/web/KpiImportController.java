@@ -84,10 +84,16 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/doMonthKpiImport")
 
-	public String doMonthKpiImport(@RequestParam("fileupload") MultipartFile file, String belongMonth,
+	public String doMonthKpiImport( String belongMonth,
 			MultipartHttpServletRequest request, HttpServletResponse response)
 					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
-
+		MultipartFile file = null;
+		if (request instanceof MultipartHttpServletRequest) {
+			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+			file = mRequest.getMultiFileMap().getFirst("fileupload");
+		} else {
+			return "kpi/monthKpiImport";
+		}
 		Date belongM = null;
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
