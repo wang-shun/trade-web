@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aist.common.utils.excel.ImportExcel;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -47,18 +48,25 @@ public class KpiImportController {
 	}
 
 	@RequestMapping(value = "/doImport")
-	public String doKpiImport(@RequestParam("fileupload") MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response,Boolean currentMonth)
-					throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
+	public String doKpiImport(HttpServletRequest request, HttpServletResponse response, Boolean currentMonth)
+			throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
+		MultipartFile file = null;
+		if (request instanceof MultipartHttpServletRequest) {
+			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+			file = mRequest.getMultiFileMap().getFirst("fileupload");
+		} else {
+			return "kpi/kpiImport";
+		}
+
 		ImportExcel ie = new ImportExcel(file, 0, 0);
 		List<KpiSrvCaseVo> list = ie.getDataList(KpiSrvCaseVo.class);
-		SessionUser user= uamSesstionService.getSessionUser();
+		SessionUser user = uamSesstionService.getSessionUser();
 		for (KpiSrvCaseVo kpiSrvCaseVo : list) {
 			kpiSrvCaseVo.setCurrentMonth(currentMonth);
 			kpiSrvCaseVo.setCreateBy(user.getId());
 		}
-	
-		kpiSrvCaseService.importBatch(list,currentMonth);
+
+		kpiSrvCaseService.importBatch(list, currentMonth);
 		return "kpi/kpiImport";
 	}
 
@@ -69,19 +77,21 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/doMonthKpiImport")
 
-	public String doMonthKpiImport(@RequestParam("fileupload") MultipartFile file,String belongMonth,HttpServletRequest request,
-			HttpServletResponse response) throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+	public String doMonthKpiImport(@RequestParam("fileupload") MultipartFile file, String belongMonth,
+			MultipartHttpServletRequest request, HttpServletResponse response)
+					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+
 		ImportExcel ie = new ImportExcel(file, 0, 0);
 		List<KpiMonthVO> list = ie.getDataList(KpiMonthVO.class);
 		List<KpiMonthVO> errorList = checkImportData(list);
-		if(errorList != null && errorList.size() > 0) {
+		if (errorList != null && errorList.size() > 0) {
 			request.setAttribute("errorList", errorList);
 			return "kpi/monthKpiImport";
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(createBy, list);
 		// 上月
-		if("0".equals(belongMonth)) {
+		if ("0".equals(belongMonth)) {
 			tsKpiPsnMonthService.getPMonthKpiStastic(DateUtil.plusMonth(new Date(), -1));
 		} else {
 			tsKpiPsnMonthService.getPMonthKpiStastic(new Date());
@@ -89,21 +99,21 @@ public class KpiImportController {
 		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
 		return "kpi/monthKpiImport";
 	}
-	
+
 	private List<KpiMonthVO> checkImportData(List<KpiMonthVO> list) {
-		List<KpiMonthVO> errorList = new ArrayList<KpiMonthVO>(); 
-		for(KpiMonthVO kpiMonthVO : list) {
+		List<KpiMonthVO> errorList = new ArrayList<KpiMonthVO>();
+		for (KpiMonthVO kpiMonthVO : list) {
 			String employeeCode = kpiMonthVO.getEmployeeCode();
 			String userName = kpiMonthVO.getUserName();
 			Long finOrder = kpiMonthVO.getFinOrder();
-			
-			if(StringUtils.isBlank(employeeCode) || StringUtils.isBlank(userName) || (finOrder == null)){
+
+			if (StringUtils.isBlank(employeeCode) || StringUtils.isBlank(userName) || (finOrder == null)) {
 				kpiMonthVO.setErrorMessage("数据不完整");
 				errorList.add(kpiMonthVO);
 				continue;
 			}
 			User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
-			if(!user.getRealName().equals(userName)) {
+			if (!user.getRealName().equals(userName)) {
 				kpiMonthVO.setErrorMessage("员工编号与姓名不对应");
 				errorList.add(kpiMonthVO);
 				continue;
