@@ -85,13 +85,15 @@ public class KpiImportController {
 	@RequestMapping(value = "/doMonthKpiImport")
 
 	public String doMonthKpiImport( String belongMonth,
-			MultipartHttpServletRequest request, HttpServletResponse response)
+			HttpServletRequest request, HttpServletResponse response)
 					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 		MultipartFile file = null;
 		if (request instanceof MultipartHttpServletRequest) {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			file = mRequest.getMultiFileMap().getFirst("fileupload");
 		} else {
+			request.setAttribute("belongM", LocalDate.now());
+			request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 			return "kpi/monthKpiImport";
 		}
 		Date belongM = null;
@@ -115,7 +117,7 @@ public class KpiImportController {
 			return "kpi/monthKpiImport";
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
-		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(createBy, list);
+		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM,createBy, list);
 		
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
 		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
