@@ -228,7 +228,7 @@
 									$("#excelInForm").attr("action",
 											ctx + "/kpi/doImport");
 									$("#excelInForm").find("input[name='currentMonth']").remove();
-									$("#excelInForm").append($("<input>").attr({type:'hidden',name:'currentMonth'}).val($("#moSwitch").attr('checked')=='checked'));
+									$("#excelInForm").append($("<input>").attr({type:'hidden',name:'currentMonth'}).val(!sw.bootstrapSwitch('state')));
 									$("#excelInForm").attr("method", "POST");
 									$('#excelInForm').submit();
 

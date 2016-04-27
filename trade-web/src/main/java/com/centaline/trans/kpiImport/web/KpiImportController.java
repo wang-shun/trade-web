@@ -69,7 +69,10 @@ public class KpiImportController {
 			kpiSrvCaseVo.setCreateBy(user.getId());
 		}
 
-		kpiSrvCaseService.importBatch(list, currentMonth);
+		boolean res = kpiSrvCaseService.importBatch(list, currentMonth);
+		if (res) {
+			kpiSrvCaseService.callKpiStastic(currentMonth);
+		}
 		return "kpi/kpiImport";
 	}
 

@@ -35,7 +35,7 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
-	@Cacheable(value="QuickQueryCaseManagerServiceImpl",key="#key")
+	//@Cacheable(value="QuickQueryCaseManagerServiceImpl",key="#key")
 	public String getValue(String key) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("QuickQueryCaseManagerServiceImpl Dict : " + key);

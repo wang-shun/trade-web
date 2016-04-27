@@ -109,13 +109,14 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 				processInstanceId);
 
 		List<AwardBase> awardList = getConsultantAwradSet(list, tasks);
+		Set<String> districtId = getValueList(awardList, "districtId");
 		Set<String> orgsArr = getValueList(tasks, "orgId");
 		ToCase caseDetails = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
 		Set<String> mOrgs = new HashSet<>();// 主办组别
 		mOrgs.add(caseDetails.getOrgId());
 
 		Map<String, Integer> qzjdMap = groupSrvByOrg(tasks, QZJD);
-		Map<String, Integer> allMap = groupSrvByOrg(tasks, ALL);
+		Map<String, Integer> allMap = groupSrvByDistrictId(awardList);//<区域Id,任务数>
 		// 有多少权证金融的任务
 		Integer countQzjd = qzjdMap.values().stream().reduce(0, Integer::sum);
 		Integer countAll = allMap.values().stream().reduce(0, Integer::sum);
@@ -127,7 +128,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		// 总经理
 		addToList(awardList, getAwardToList(orgsArr, TransJobs.TZJL.getCode()));
 		// 总监
-		List<AwardBase> dManager = getAwardToList(orgsArr, TransJobs.TZJ.getCode());
+		List<AwardBase> dManager = getAwardToList(districtId, TransJobs.TZJ.getCode());
 		// 计算总监SrvPart
 		calculateSrvPart(allMap, dManager, countAll);
 		// 将总管数据添加到集合
@@ -256,6 +257,24 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 				} else {
 					result.put(orgId, 1);
 				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param task
+	 * @param qzjd
+	 * @return
+	 */
+	private Map<String, Integer> groupSrvByDistrictId(List<AwardBase> awards) {
+		Map<String, Integer> result = new HashMap<>();
+		for (AwardBase awardBase : awards) {
+			String orgId = awardBase.getDistrictId();
+			if (result.containsKey(orgId)) {
+				result.put(orgId, result.get(orgId) + Integer.valueOf(awardBase.getSrvPartIn().toString()));
+			} else {
+				result.put(orgId, Integer.valueOf(awardBase.getSrvPartIn().toString()));
 			}
 		}
 		return result;
