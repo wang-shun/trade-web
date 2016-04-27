@@ -86,8 +86,8 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/doMonthKpiImport")
 
-	public String doMonthKpiImport(String belongMonth, MultipartHttpServletRequest request,
-			HttpServletResponse response)
+	public String doMonthKpiImport( String belongMonth,
+			HttpServletRequest request, HttpServletResponse response)
 					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 		MultipartFile file = null;
 		if (request instanceof MultipartHttpServletRequest) {
