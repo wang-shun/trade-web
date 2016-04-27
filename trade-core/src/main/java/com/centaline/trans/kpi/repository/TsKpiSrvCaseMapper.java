@@ -1,6 +1,7 @@
 package com.centaline.trans.kpi.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.kpi.entity.TsKpiSrvCase;
@@ -20,4 +21,8 @@ public interface TsKpiSrvCaseMapper {
 	int updateByPrimaryKey(TsKpiSrvCase record);
 	
 	int deleteByBelongMonth(Date belongMoht);
+	
+	int batchInsert(List<TsKpiSrvCase> list);
+	
+	void callKpiStastic(Date date);
 }

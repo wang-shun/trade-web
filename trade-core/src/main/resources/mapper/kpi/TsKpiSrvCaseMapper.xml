@@ -21,11 +21,13 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="srv_Part" property="srvPart" jdbcType="DECIMAL" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, BELONG_MONTH, CASE_CODE, SRV_CODE, SALER_SATIS, BUYER_SATIS, SATISFACTION, 
     SALER_CALLBACK, BUYER_CALLBACK, CAN_CALLBACK, SALER_COMMENT, BUYER_COMMENT, TEAM_ID, 
-    DISTRICT_ID, TYPE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    DISTRICT_ID, TYPE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,srv_Part
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -37,6 +39,30 @@
     delete from sctrans.T_TS_KPI_SRV_CASE
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+     <insert id="batchInsert" parameterType="java.util.List"> 
+	     <selectKey resultType="java.lang.Long" order="AFTER" >
+	       select @@IDENTITY as  PKID
+	     </selectKey>
+        insert into sctrans.T_TS_KPI_SRV_CASE ( BELONG_MONTH, CASE_CODE, 
+      SRV_CODE, SALER_SATIS, BUYER_SATIS, 
+      SATISFACTION, SALER_CALLBACK, BUYER_CALLBACK, 
+      CAN_CALLBACK, SALER_COMMENT, BUYER_COMMENT, 
+      TEAM_ID, DISTRICT_ID, TYPE, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY,srv_Part)
+	     values
+         <foreach collection="list" item="item" index="index" separator=","> 
+	  (#{item.belongMonth,jdbcType=TIMESTAMP}, #{item.caseCode,jdbcType=VARCHAR}, 
+      #{item.srvCode,jdbcType=VARCHAR}, #{item.salerSatis,jdbcType=DECIMAL}, #{item.buyerSatis,jdbcType=DECIMAL}, 
+      #{item.satisfaction,jdbcType=DECIMAL}, #{item.salerCallback,jdbcType=CHAR}, #{item.buyerCallback,jdbcType=CHAR}, 
+      #{item.canCallback,jdbcType=CHAR}, #{item.salerComment,jdbcType=NVARCHAR}, #{item.buyerComment,jdbcType=NVARCHAR}, 
+      #{item.teamId,jdbcType=VARCHAR}, #{item.districtId,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, 
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+      #{item.updateBy,jdbcType=VARCHAR},#{item.srvPart,jdbcType=DECIMAL})
+        </foreach> 
+   </insert>
+  
+  
   <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
     insert into sctrans.T_TS_KPI_SRV_CASE (PKID, BELONG_MONTH, CASE_CODE, 
       SRV_CODE, SALER_SATIS, BUYER_SATIS, 
@@ -44,14 +70,14 @@
       CAN_CALLBACK, SALER_COMMENT, BUYER_COMMENT, 
       TEAM_ID, DISTRICT_ID, TYPE, 
       CREATE_TIME, CREATE_BY, UPDATE_TIME, 
-      UPDATE_BY)
+      UPDATE_BY,srv_Part)
     values (#{pkid,jdbcType=BIGINT}, #{belongMonth,jdbcType=TIMESTAMP}, #{caseCode,jdbcType=VARCHAR}, 
       #{srvCode,jdbcType=VARCHAR}, #{salerSatis,jdbcType=DECIMAL}, #{buyerSatis,jdbcType=DECIMAL}, 
       #{satisfaction,jdbcType=DECIMAL}, #{salerCallback,jdbcType=CHAR}, #{buyerCallback,jdbcType=CHAR}, 
       #{canCallback,jdbcType=CHAR}, #{salerComment,jdbcType=NVARCHAR}, #{buyerComment,jdbcType=NVARCHAR}, 
       #{teamId,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=VARCHAR})
+      #{updateBy,jdbcType=VARCHAR},#{srvPart,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >
     insert into sctrans.T_TS_KPI_SRV_CASE
@@ -113,6 +139,9 @@
       <if test="updateBy != null" >
         UPDATE_BY,
       </if>
+      <if test="srvPart != null" >
+        SRV_PART,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -171,6 +200,9 @@
       </if>
       <if test="updateBy != null" >
         #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="srvPart != null" >
+        #{srvPart,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -231,6 +263,9 @@
       <if test="updateBy != null" >
         UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       </if>
+      <if test="srvPart != null" >
+        srv_Part=#{srvPart,jdbcType=DECIMAL},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -253,12 +288,15 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      srv_Part=#{srvPart,jdbcType=DECIMAL}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
     <delete id="deleteByBelongMonth" parameterType="java.util.Date" >
     delete from sctrans.T_TS_KPI_SRV_CASE
     where BELONG_MONTH = #{0,jdbcType=TIMESTAMP}
   </delete>
-  
+     <select id="callKpiStastic" parameterType="java.util.Date" statementType="CALLABLE"> 
+        {CALL [sctrans].[P_KPI_STASTIC](#{belongMonth,jdbcType=TIMESTAMP})}
+   </select>
 </mapper>

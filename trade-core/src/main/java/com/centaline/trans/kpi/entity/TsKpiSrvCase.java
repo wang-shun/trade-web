@@ -33,6 +33,7 @@ public class TsKpiSrvCase {
     private String districtId;
 
     private String type;
+	private BigDecimal srvPart;
 
     private Date createTime;
 
@@ -193,4 +194,12 @@ public class TsKpiSrvCase {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public BigDecimal getSrvPart() {
+		return srvPart;
+	}
+
+	public void setSrvPart(BigDecimal srvPart) {
+		this.srvPart = srvPart;
+	}
 }
