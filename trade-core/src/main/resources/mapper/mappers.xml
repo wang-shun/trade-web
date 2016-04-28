@@ -131,7 +131,8 @@
 		<mapper resource="mapper/task/AwardBaseConfigMapper.xml"/>
 		<mapper resource="mapper/kpi/TsKpiPsnMonthMapper.xml"/>
 		<mapper resource="mapper/kpi/TsKpiSrvCaseMapper.xml"/>
-		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/> 
+		<mapper resource="mapper/kpi/TsAwardKpiPayDetailMapper.xml"/>
+		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
 		
 	</mappers>
 </configuration>

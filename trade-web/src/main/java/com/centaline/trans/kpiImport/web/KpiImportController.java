@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +16,12 @@ import org.apache.commons.compress.archivers.dump.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aist.common.utils.excel.ImportExcel;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -26,10 +29,13 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
 import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
+import com.centaline.trans.kpi.service.TsAwardKpiPayDetailService;
 import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
+import com.centaline.trans.loan.entity.LoanAgent;
+import com.centaline.trans.loan.entity.LoanStatusChange;
 
 @Controller
 @RequestMapping(value = "kpi")
@@ -44,6 +50,9 @@ public class KpiImportController {
 	private UamSessionService uamSesstionService;
 	@Autowired
 	private KpiSrvCaseService kpiSrvCaseService;
+	@Autowired
+	private TsAwardKpiPayDetailService tsAwardKpiPayDetailService;
+	
 
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
@@ -153,5 +162,29 @@ public class KpiImportController {
 			}
 		}
 		return errorList;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/stasticsAwardKpiRate")
+	@ResponseBody
+	public AjaxResponse stasticsAwardKpiRate(HttpServletRequest request,HttpServletResponse response) {
+		AjaxResponse result = new AjaxResponse();
+		// 取上一个月份
+		SessionUser user = uamSesstionService.getSessionUser();
+		try {
+			Map map = new HashMap();
+			//map.put("belongMonth", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+			map.put("belongMonth", DateUtil.plusMonth(new Date(), -1));
+			map.put("createBy", user.getId());
+			map.put("createTime", new Date());
+			
+			tsAwardKpiPayDetailService.getPAwardKpiRate(map);
+			//result.setContent(count);
+			
+			result.success("统计个人案件环节KPI成功");
+		} catch (Exception e) {
+			result.fail("统计个人案件环节KPI失败");
+		}
+		return result;
 	}
 }
