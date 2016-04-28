@@ -319,10 +319,13 @@ function ChangeModal(data) {
 	var addHtml = '';
 	var aa=0;
 	$.each(data.servitemList, function(index, value){
+		addHtml+='<div class="row">';
 		addHtml += '<div class="col-md-6">';
 		addHtml += '<div class="form-group">';
-			addHtml += "<input type='hidden' name='caseCode' value='"+$('#caseCode').val()+"' />";
-			addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
+			if(value.users !=""&&value.users.length!=0){
+				addHtml += "<input type='hidden' name='caseCode' value='"+$('#caseCode').val()+"' />";
+				addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
+			}
 			addHtml += "<label class='col-md-3 control-label'>合作项目</label>";
 			addHtml += "<div class='col-md-9'><p class='form-control-static'>"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
@@ -346,8 +349,11 @@ function ChangeModal(data) {
 				}
 			});
 			addHtml += "</select>";
+		}else{
+			
 		}
 		addHtml += "</div></div>";
+		addHtml += '</div>';
 		addHtml += '</div>';
 	});
 	
