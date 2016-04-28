@@ -46,7 +46,9 @@ public class KpiImportController {
 	private KpiSrvCaseService kpiSrvCaseService;
 
 	@RequestMapping(value = "/import")
-	public String kpiImport() {
+	public String kpiImport(HttpServletRequest request) {
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		return "kpi/kpiImport";
 	}
 
@@ -54,6 +56,8 @@ public class KpiImportController {
 	public String doKpiImport(HttpServletRequest request, HttpServletResponse response, Boolean currentMonth)
 			throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
 		MultipartFile file = null;
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		if (request instanceof MultipartHttpServletRequest) {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			file = mRequest.getMultiFileMap().getFirst("fileupload");

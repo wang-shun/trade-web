@@ -104,6 +104,13 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void doAwardCalculate(ToHouseTransfer toHouseTransfer, String processInstanceId) {
+		
+		if(awardBaseMapper.countAward(toHouseTransfer.getCaseCode())>0){
+			
+			return ;
+		}
+		
+		
 		List<AwardBaseConfig> list = awardBaseConfigMapper.getConsultantConfig();
 		List<ActHiTaskinst> tasks = actHiTaskinstMapper.getConsultantTask(getValueList(list, "srvItemCode"),
 				processInstanceId);
@@ -147,8 +154,6 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		addToListB(awardList, mManager);
 		// 设置AwardBase共同字段
 		setAwardBaseCommInfo(awardList, toHouseTransfer.getCaseCode());
-		// 先删除奖金数据
-		awardBaseMapper.deleteByCaseCode(toHouseTransfer.getCaseCode());
 		// 插入奖金数据
 		batchInsert(awardList);
 	}

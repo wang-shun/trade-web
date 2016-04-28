@@ -326,4 +326,9 @@
 		not null) and yd.TEAM_ID is not null;
 		;
 	</select>
+	<select id="countAward" resultType="java.lang.Integer">
+		select count(*) from sctrans.T_TS_AWARD_BASE
+		where case_code = #{caseCode,jdbcType=VARCHAR} and IS_DELETED='0'
+	</select>
+	
 </mapper>

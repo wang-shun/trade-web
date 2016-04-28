@@ -24,7 +24,6 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
@@ -61,6 +60,9 @@
 	margin-top: 10px;
 	width: 160px;
 }
+.fixWidth{
+	width:140px!important;
+}
 </style>
 </head>
 
@@ -89,17 +91,14 @@
 							</div>
 							<div class="col-md-3">
 								<label class="col-sm-5 control-label" id="case_date">环节</label>
-								<input id="srvCode" type="text" class="form-control"
-									style="width: 140px">
-							</div>
-							<div class="col-md-3">
-								<label class="col-sm-5 control-label" id="case_date">所在级别</label>
-								<input id="orgCode" type="text" class="form-control"
-									style="width: 140px">
+								<aist:dict id="srvCode" name="srvCode" clazz="col-sm-5 form-control fixWidth"
+						display="select"  dictType="KPI_SRV_CODE" 
+						ligerui='none' ></aist:dict>
+
 							</div>
 							<span class="col-md-3 ">
 								<button id="searchButton" type="button"
-									class="btn btn-primary pull-right">导入</button>
+									class="btn btn-primary pull-lefe">查询</button> <a role="" class="btn btn-primary " id="importButton">个人案件KPI导入 </a>
 							</span>
 						</div>
 
@@ -125,12 +124,6 @@
 				</div>
 			</div>
 
-		</div>
-
-		<div class="ibox-content">
-			<div class="row">
-				<a role="" class="btn btn-primary btn-xm" id="importButton">个人案件KPI导入 </a>
-			</div>
 		</div>
 		
 		<!-- 失败数据 -->
@@ -196,12 +189,115 @@
 		src="${ctx}/js/jquery.blockui.min.js"></script> <script
 		src="${ctx}/js/plugins/layer/layer.js"></script> <script
 		src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> <script>
+		  var belongM = "${belongM}";
+		    var belongLastM = "${belongLastM}";
 			sw = $("#moSwitch").bootstrapSwitch({
 				'onText' : "上月",
 				'offText' : '当月',
 				state : false
 			}).on('switchChange.bootstrapSwitch', function(event, state) {
 			});
+			
+			//jqGrid 初始化
+    		$("#table_list_1").jqGrid({
+    			url : ctx+"/quickGrid/findPage",
+    			mtype : 'GET',
+    			datatype : "json",
+    			height : 550,
+    			autowidth : true,
+    			shrinkToFit : true,
+    			rowNum : 8,
+    			/*   rowList: [10, 20, 30], */
+    			colNames : [ '主键','案件编码','环节','所在组别','所属贵宾服务部','类型','满意度','是否接通'],
+    			colModel : [ {
+    				name : 'pkid',
+    				index : 'pkid',
+    				align : "center",
+    				width : 0,
+    				key : true,
+    				resizable : false,
+    				hidden : true
+    			}, {
+    				name : 'CASE_CODE',
+    				index : 'CASE_CODE',
+    				align : "center",
+    				width : 300,
+    				resizable : false
+    			}, {
+    				name : 'SRV_CODE',
+    				index : 'SRV_CODE',
+    				align : "center",
+    				width : 100,
+    				resizable : false
+    			},{
+    				name : 'tName',
+    				index : 'tName',
+    				align : "center",
+    				width : 300,
+    				resizable : true,
+    				
+    			},{
+    				name : 'dName',
+    				index : 'dName',
+    				align : "center",
+    				width : 300,
+    				resizable : true
+    			},{
+    				name : 'type',
+    				index : 'type',
+    				align : "center",
+    				formatter : function(cellvalue,
+							options, rawObject) {
+    					if(cellvalue=='IMP'){
+    						return '导入';
+    					}else if(cellvalue=='GEN'){
+    						return '生成';
+    					}
+    					return cellvalue;
+    				}
+    			},{
+    				name : 'SATISFACTION',
+    				index : 'SATISFACTION',
+    				align : "center",
+    				width : 80,
+    				resizable : false
+    			}, {
+    				name : 'CAN_CALLBACK',
+    				index : 'CAN_CALLBACK',
+    				align:'center',
+    				resizable : true,
+    				formatter : function(cellvalue,
+							options, rawObject) {
+    					if(cellvalue=='0'){
+    						return '不通';
+    					}else if(cellvalue=='1'){
+    						return '通';
+    					}
+    					return '';
+    				}
+    			}],
+    			multiselect: true,
+    			pager : "#pager_list_1",
+    			sortname:'PKID',
+    	        sortorder:'desc',
+    	        viewrecords : true,
+    			pagebuttions : true,
+    			multiselect:false,
+    			hidegrid : false,
+    			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+    			pgtext : " {0} 共 {1} 页",
+
+    			gridComplete:function(){
+    				
+    			},
+    			postData : {
+    				queryId : "kpiList",
+                    argu_belongMonth : belongM
+    			}
+
+    		});
+			
+			
 			$("#importButton").click(
 					function() {
 						//iframe层
@@ -241,6 +337,28 @@
 							}
 						});
 					})
+					
+		$("#searchButton").click(function(){
+			reloadGrid();
+		});
+		function reloadGrid(){
+			var bm=belongLastM;
+			if(!sw.bootstrapSwitch('state')){
+				bm=belongM;
+			}
+			var data = {
+   					queryId:"kpiList",
+   					argu_belongMonth : bm,
+   					search_caseCode:$('#caseCode').val(),
+   					search_srvCode:$('#srvCode').val()
+    			};
+    		 	$("#table_list_1").jqGrid('setGridParam',{
+		    		datatype:'json',
+		    		mtype:'post',
+		    		postData:data
+		    	}).trigger('reloadGrid'); 
+		}
+			
 		</script> </content>
 </body>
 </html>

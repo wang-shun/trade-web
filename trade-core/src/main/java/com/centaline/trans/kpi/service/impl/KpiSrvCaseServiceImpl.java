@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -48,10 +50,13 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	@Override
 	public boolean importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
 		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
+		if(checkVo(listVOs)){
+			return false;
+		}
 		List<TsKpiSrvCase> vos = new ArrayList<>();
 		if (listVOs != null && !listVOs.isEmpty()) {
 			for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
-				if(StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())){
+				if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
 					continue;
 				}
 				vos.addAll(importOne(kpiSrvCaseVo));
@@ -61,6 +66,23 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		} else {
 			return false;
 		}
+	}
+
+	private boolean checkVo(List<KpiSrvCaseVo> listVOs) {
+		if (listVOs == null || listVOs.isEmpty())
+			return false;
+		Set<String> set = new HashSet<>();
+		int count=0;
+		for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
+			if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
+				continue;
+			}
+			set.add(kpiSrvCaseVo.getCaseCode());
+			count++;
+		}
+	
+		
+		return count==set.size();
 	}
 
 	private List<TsKpiSrvCase> voToEntity(KpiSrvCaseVo vo) {
