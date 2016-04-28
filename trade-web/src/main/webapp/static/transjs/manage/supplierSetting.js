@@ -192,6 +192,7 @@
 
     		$("#modal-addOrModifyForm select").val("");
     		$("pkid").val("");
+    		$("#finOrgCode").removeAttr('readonly');
     		$("#modal-addOrModifyForm").modal("show");
     	});
     	$("#modifyBtn").click(function(){
@@ -200,6 +201,7 @@
     			alert("请选择要修改的记录！");
     			return;
     		}
+    		$("#finOrgCode").attr('readonly','readonly');
     		getSupInfo();
 
     	});
