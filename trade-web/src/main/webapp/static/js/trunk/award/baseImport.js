@@ -28,7 +28,7 @@ $(document).ready(function() {
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
 						colNames : [ 'id', '案件编号','案件地址','人员', '员工编号',
-								'所在组织', '岗位','所得金额' ,'计算时间'],
+								'所在组织', '岗位','服务项','所得金额' ,'服务占比','计算时间'],
 						colModel : [ {
 							name : 'pkid',
 							index : 'pkid',
@@ -62,8 +62,16 @@ $(document).ready(function() {
 							index : 'jboNmae',
 							width : 80
 						}, {
+							name : 'srvCode',
+							index : 'srvCode',
+							width : 80
+						},  {
 							name : 'amount',
 							index : 'amount',
+							width : 80
+						},  {
+							name : 'srvPart',
+							index : 'srvPart',
 							width : 80
 						},{
 							name : 'createTime',
@@ -126,7 +134,8 @@ function getParamsValue() {
 	// 客户姓名 物业地址 经纪人
 	var userName = $('#userName').val();
 	var orgName = $('#orgName').val();
-	
+	var caseCode=$("#caseCode").val();
+	var caseAddr=$('#caseAddr').val();
 	//结案日期
 
 	var start = $('#dtBegin').val();
@@ -135,6 +144,8 @@ function getParamsValue() {
 	var params = {
 		search_userNmae :userName,
 		search_orgName : orgName,
+		search_caseCode : caseCode,
+		search_caseAddr : caseAddr,
 		search_bmStart : start,
 		search_bmEnd : end,
 		queryId : "baseImportQuery"
