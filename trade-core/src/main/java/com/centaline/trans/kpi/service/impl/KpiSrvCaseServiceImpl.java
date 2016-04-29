@@ -107,6 +107,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			List<KpiSrvCaseVo> t = new ArrayList<>();
 			listVOs.forEach(x -> {
 				if (colls.contains(x.getCaseCode())) {
+					x.setMsg(msg);
 					t.add(x);
 				}
 			});

@@ -104,13 +104,12 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void doAwardCalculate(ToHouseTransfer toHouseTransfer, String processInstanceId) {
-		
-		if(awardBaseMapper.countAward(toHouseTransfer.getCaseCode())>0){
-			
-			return ;
+
+		if (awardBaseMapper.countAward(toHouseTransfer.getCaseCode()) > 0) {
+
+			return;
 		}
-		
-		
+
 		List<AwardBaseConfig> list = awardBaseConfigMapper.getConsultantConfig();
 		List<ActHiTaskinst> tasks = actHiTaskinstMapper.getConsultantTask(getValueList(list, "srvItemCode"),
 				processInstanceId);
@@ -123,7 +122,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		mOrgs.add(caseDetails.getOrgId());
 
 		Map<String, Integer> qzjdMap = groupSrvByOrg(tasks, QZJD);
-		Map<String, Integer> allMap = groupSrvByDistrictId(awardList);//<区域Id,任务数>
+		Map<String, Integer> allMap = groupSrvByDistrictId(awardList);// <区域Id,任务数>
 		// 有多少权证金融的任务
 		Integer countQzjd = qzjdMap.values().stream().reduce(0, Integer::sum);
 		Integer countAll = allMap.values().stream().reduce(0, Integer::sum);
@@ -233,8 +232,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param srvCode
 	 */
 	private void setSrvCode(List<AwardBase> l, String srvCode) {
-		if(l!=null)
-		l.forEach(x -> x.setSrvCode(srvCode));
+		if (l != null)
+			l.forEach(x -> x.setSrvCode(srvCode));
 	}
 
 	/**
@@ -295,7 +294,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 */
 	private void calculateSrvPart(Map<String, Integer> orgSrvCountMap, List<AwardBase> nmManager, Integer tCount) {
 		nmManager.forEach(x -> {
-			x.setSrvPart(dToB(tCount.doubleValue()));
+			x.setSrvPartTotal(dToB(tCount.doubleValue()));
 			x.setSrvPartIn(dToB(Double.valueOf(orgSrvCountMap.get(x.getOrgId()).intValue())));
 		});
 	}

@@ -158,6 +158,7 @@
 											<th>上家电话接通</th>
 											<th>下家备注</th>
 											<th>上家备注</th>
+											<th>错误信息</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -167,8 +168,19 @@
 												<td>${item.caseCode }</td>
 												<td>${item.signScore }</td>
 												<td>${item.salesSignScore }</td>
-												<td>${item.orgName }</td>
-												<td>${item.jobName }</td>
+												<td>${item.transferScore }</td>
+												<td>${item.salesTransferScore }</td>
+												<td>${item.comLoanScore }</td>
+												<td>${item.accuFundScore }</td>
+												<td>${item.accompanyRepayLoanScore }</td>
+												<td>${item.salesCallBack }</td>
+												<td>${item.callBack }</td>
+												<td>${item.buyerComment }</td>
+												<td>${item.salerComment }</td>
+												<td>${item.msg }</td>
+										
+												
+												
 											</tr>
 										</c:forEach>
 
@@ -198,12 +210,16 @@
 		src="${ctx}/js/plugins/layer/layer.js"></script> <script
 		src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> <script>
 	 	// 是否显示错误信息
-		<c:if test="${not empty errorList}">
+		<c:if test="${not empty fList}">
 	    	var hasError=true;
 	 	</c:if>
-	    <c:if test="${empty errorList}">
+	    <c:if test="${empty fList}">
 			var hasError=false;
 		</c:if>
+    	// 是否显示错误信息
+    	if(!!hasError){
+    		$('#error-modal-form').modal("show");
+    	}
 		  var belongM = "${belongM}";
 		    var belongLastM = "${belongLastM}";
 			sw = $("#moSwitch").bootstrapSwitch({
