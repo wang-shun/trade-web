@@ -384,12 +384,12 @@
 						index : 'addr',
 						width : 90
 						},{ 
-							name : 'agent',
-							index : 'agent',
-							width : 90
-						},{ 
 							name : 'caseCode',
 							index : 'caseCode',
+							width : 90
+						},{ 
+							name : 'agent',
+							index : 'agent',
 							width : 90
 						},{
 							name : 'consultant',
