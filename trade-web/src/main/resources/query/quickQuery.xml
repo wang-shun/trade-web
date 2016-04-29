@@ -97,5 +97,6 @@
 	<import resource="query/case/toCaseListTrackingQuery.xml"></import>
 	<!--  Kpi模块 -->
 	<import resource="query/kpi/MonthKpiQuery.xml"></import>
+	<import resource="query/kpi/kpiQuery.xml"></import>
 	
 </queryConfig>

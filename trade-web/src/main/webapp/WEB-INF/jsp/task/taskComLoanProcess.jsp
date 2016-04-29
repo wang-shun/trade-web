@@ -76,6 +76,10 @@
 	background-color:#B4D5F5;
 }
 .star{color:red}
+.chosen-drop {
+    height: 120px;
+    overflow-y: scroll;
+}
 
 </style>
 <script language="javascript">

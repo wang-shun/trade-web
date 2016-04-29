@@ -74,31 +74,54 @@ width:160px;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						
-						<div id="dateDiv" class="form-group m-b">
-							<label class="col-sm-2 control-label" id="case_date">归属月份</label>
-							<div id="datepicker"
-								class="input-group input-medium date-picker input-daterange"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期"> <span class="input-group-addon">到</span>
-								<input id="dtEnd" name="dtEnd" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="结束日期" />
+						<div class="row">
+							<div class="col-lg-6">		
+								<div class="form-group m-b">
+									<label class="col-sm-2 control-label" id="case_date">归属月份</label>
+									<div id="datepicker"
+										class="input-group input-medium date-picker input-daterange"
+										data-date-format="yyyy-mm-dd">
+										<input id="dtBegin" name="dtBegin" class="form-control"
+											style="font-size: 13px;" type="text" value=""
+											placeholder="起始日期"> <span class="input-group-addon">到</span>
+										<input id="dtEnd" name="dtEnd" class="form-control"
+											style="font-size: 13px;" type="text" value=""
+											placeholder="结束日期" />
+									</div>
+								</div>
 							</div>
 						</div>
-						<div  class="form-group m-b">
-								<label class="col-sm-2 control-label" id="case_date">所在组</label>
-								<input id="orgName" type="text" class="form-control" style="width:400px">
+						<div class="row">
+							<div class="col-lg-6">						
+								<div  class="form-group m-b">
+									<label class="col-sm-2 control-label" id="case_date">所在组</label>
+									<input id="orgName" type="text" class="form-control" style="width:200px">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div  class="form-group m-b">
+									<label class="col-sm-2 control-label" id="case_date">人员</label>
+									<input id="userName" type="text" class="form-control" style="width:200px">
+								</div>
+							</div>
 						</div>
-						<div  class="form-group m-b">
-							<label class="col-sm-2 control-label" id="case_date">人员</label>
-							<input id="userName" type="text" class="form-control" style="width:400px">
+						<div class="row">
+						<div class="col-lg-6">
+							<div  class="form-group m-b">
+								<label class="col-sm-2 control-label" id="case_date">案件地址</label>
+								<input id="caseAddr" type="text" class="form-control" style="width:200px">
+							</div>
+							</div>
+							<div class="col-lg-6">
+							<div  class="form-group m-b">
+								<label class="col-sm-2 control-label" id="case_date">案件编号</label>
+								<input id="caseCode" type="text" class="form-control" style="width:200px">
+							</div>
+							</div>
 						</div>
 						<span class="input-group-btn ">
 							<button id="searchButton" type="button"
-								class="btn btn-primary pull-right">查询</button>
+								class="btn btn-primary pull-left">查询</button>
 						</span>
 					</form>
 				</div>
@@ -124,12 +147,6 @@ width:160px;
 
 		</div>
 		
-        <div class="ibox-content">
-            <div  class="row">
-               <!-- <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal(1)">基本奖金分配导入 </a> -->
-               <a role="button"class="btn btn-primary btn-xm" href="javascript:showExcelModal();">基本奖金分配导入 </a>
-            </div>
-        </div>
         <div style="display:none;" id="test">
          <form id="excelInForm"  method="post" enctype="multipart/form-data" action="${ctx}/award/uploadBaseImport"> 
                 <div class="modal-body">
@@ -141,90 +158,9 @@ width:160px;
                 </div> 
               </form>
         </div>
-		<!-- 收益导入 -->
-       <%--  <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
-          <div class="modal-dialog" style="width:1200px">
-             <div class="modal-content">
-                 <div class="modal-header">
-				   <button type="button" class="close" data-dismiss="modal"
-				      aria-hidden="true">×
-				   </button>
-				   <h4 class="modal-title" id="excel-modal-title">
-				      	请上传附件
-				   </h4>
-				</div>
-				
-                <form id="excelInForm"  method="post" enctype="multipart/form-data" action="${ctx}/award/uploadBaseImport"> 
-                <div class="modal-body">
-                <input type="hidden" id="inType" value="" />
-           		    <label class="col-sm-7 control-label">
-           		    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
-           		    </label>
-          <div class="col-sm-3"></div>
-                </div> 
-                
-              </form>
-                <div class="modal-footer">
-		            <button type="button" class="btn btn-default"
-		               data-dismiss="modal">关闭
-		            </button>
-		            <button type="button" class="btn btn-primary" onclick="javascript:excelIn()">
-		                                提交
-		            </button>
-                </div>
-                
-             </div>
-          </div>
-       </div>   --%>
+		
        <!-- 失败数据 -->
-        <div id="error-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
-          <div class="modal-dialog" style="width:1200px">
-             <div class="modal-content">
-                 <div class="modal-header">
-				   <button type="button" class="close" data-dismiss="modal"
-				      aria-hidden="true">×
-				   </button>
-				   <h4 class="modal-title" id="excel-modal-title">
-				      	导入失败数据
-				   </h4>
-				</div>
-                
-                <div class="modal-footer">
-		            <div class="ibox float-e-margins">
-
-                                <div class="ibox-content">
-                                    <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                	<th>案件编号</th>
-                                	<th>案件地址</th>
-                                    <th>人员</th>
-                                    <th>员工编号</th>
-                                    <th>所有组织</th>
-                                    <th>岗位</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${fList}"  var="item">
-                                <tr>
-                                	<td>${item.caseCode }</td>
-                                	<td>${item.caseAddress }</td>
-                                    <td>${item.userName }</td>
-                                    <td>${item.employeeCode }</td>
-                                    <td>${item.orgName }</td>
-                                    <td>${item.jobName }</td>
-                                </tr>
-                                </c:forEach>
-                                 
-                                </tbody>
-                            </table>
-                                </div>
-                            </div>
-                </div>
-                
-             </div>
-          </div>
-       </div>
+     
        
 	</div>
 	<input type="hidden" id="ctx" value="${ctx}" />
@@ -245,7 +181,6 @@ width:160px;
     
 	 <script src="${ctx}/js/trunk/award/baseImport.js"></script> 	
     <script src="${ctx}/js/jquery.blockui.min.js"></script>
-    <script src="${ctx}/js/trunk/award/baseImport.js"></script> 
     <script>
     <c:if test="${not empty fList}">
     	var hasError=true;

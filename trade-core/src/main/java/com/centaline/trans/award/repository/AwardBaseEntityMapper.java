@@ -22,5 +22,7 @@ public interface AwardBaseEntityMapper {
 	
 	int deleteByCaseCode(String caseCode);
 	
+	int countAward(@Param("caseCode")String caseCode);
+	
 	int countManagerTeam(String userId);
 }

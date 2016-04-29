@@ -3,9 +3,13 @@ package com.centaline.trans.kpi.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,15 +38,9 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	 * maybe propagation set to REQUIRED_NEW will be better
 	 */
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	@Override
-	public boolean importOne(KpiSrvCaseVo vo) {
+	public List<TsKpiSrvCase> importOne(KpiSrvCaseVo vo) {
 		List<TsKpiSrvCase> kpiSrvCaseEntity = voToEntity(vo);
-		for (TsKpiSrvCase tsKpiSrvCase : kpiSrvCaseEntity) {
-			if (kpiSrvCaseMapper.insertSelective(tsKpiSrvCase) <= 0) {
-				throw new BaseException("导入失败");
-			}
-		}
-		return true;
+		return kpiSrvCaseEntity;
 	}
 
 	public int deleteKpiSrvCaseByBelongMonth(Date belongMoht) {
@@ -51,18 +49,72 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 
 	@Transactional(readOnly = false)
 	@Override
-	public boolean importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
+	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
 		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
+		List<KpiSrvCaseVo> errList = checkVo(listVOs);
+		if (errList != null) {
+			return errList;
+		}
+		Set<String>caseCodes=kpiSrvCaseMapper.getCaseCodeByCaseCode(listVOs);
+		errList=filterByCaseCodeSetMsg(listVOs, caseCodes, "该案件数据已经存在");
+		if (errList != null) {
+			return errList;
+		}
+		List<TsKpiSrvCase> vos = new ArrayList<>();
 		if (listVOs != null && !listVOs.isEmpty()) {
 			for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
-				if (!importOne(kpiSrvCaseVo)) {
-					throw new BaseException("导入失败");
+				if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
+					continue;
 				}
+				vos.addAll(importOne(kpiSrvCaseVo));
 			}
-			return true;
+			kpiSrvCaseMapper.batchInsert(vos);
+			return null;
 		} else {
-			return false;
+			return null;
 		}
+	}
+
+	/**
+	 * 校验Case在当前文件中是否重复
+	 * 
+	 * @param listVOs
+	 * @return
+	 */
+	private List<KpiSrvCaseVo> checkVo(List<KpiSrvCaseVo> listVOs) {
+		if (listVOs == null || listVOs.isEmpty())
+			return null;
+		Set<String> set = new HashSet<>();
+		Set<String> tSet = new HashSet<>();
+
+		for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
+			if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
+				continue;
+			}
+			if (set.contains(kpiSrvCaseVo.getCaseCode())) {
+				tSet.add(kpiSrvCaseVo.getCaseCode());
+			}
+			set.add(kpiSrvCaseVo.getCaseCode());
+		}
+		return filterByCaseCodeSetMsg(listVOs, tSet, "案件编号重复");
+	}
+
+	private List<KpiSrvCaseVo> filterByCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs, Collection<String> colls,
+			String msg) {
+		if (colls == null || colls.isEmpty() || listVOs == null || listVOs.isEmpty()) {
+			return null;
+		} else {
+			List<KpiSrvCaseVo> t = new ArrayList<>();
+			listVOs.forEach(x -> {
+				if (colls.contains(x.getCaseCode())) {
+					t.add(x);
+				}
+			});
+			if (!t.isEmpty())
+				return t;
+		}
+
+		return null;
 	}
 
 	private List<TsKpiSrvCase> voToEntity(KpiSrvCaseVo vo) {
@@ -70,15 +122,17 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		TsKpiSrvCase entity = new TsKpiSrvCase();
 		entity.setBelongMonth(getFirstDay(vo.isCurrentMonth()));
 		entity.setCreateBy(vo.getCreateBy());
+		entity.setCaseCode(vo.getCaseCode());
+		entity.setSrvPart(DoubleToBigDecimal(1d));
 		Boolean salesCallBack = false;
 		Boolean buyerCallBack = false;
 		// 下家
 		if ("通".equals(vo.getCallBack())) {
-			entity.setCanCallback("1");
+			entity.setBuyerCallback("1");
 			entity.setBuyerComment(vo.getBuyerComment());
 			buyerCallBack = true;
 		} else {
-			entity.setCanCallback("0");
+			entity.setBuyerCallback("0");
 		}
 
 		// 上家字段
@@ -94,14 +148,14 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 
 		listEntity.add(generateNewEntity(entity, "TransSign", salesCallBack ? vo.getSalesSignScore() : null,
 				buyerCallBack ? vo.getSignScore() : null, true,
-				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getSalerCallback())));// 签约
+				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 签约
 
 		listEntity.add(generateNewEntity(entity, "LoanClose", salesCallBack ? vo.getAccompanyRepayLoanScore() : null,
 				null, false, StrToBo(entity.getSalerCallback())));// 上家贷款结清
 
 		listEntity.add(generateNewEntity(entity, "Guohu", salesCallBack ? vo.getSalesTransferScore() : null,
 				buyerCallBack ? vo.getTransferScore() : null, true,
-				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getSalerCallback())));// 过户
+				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 过户
 		listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, buyerCallBack ? vo.getComLoanScore() : null,
 				false, StrToBo(entity.getBuyerCallback())));// 下家贷款
 		listEntity.add(generateNewEntity(entity, "PSFSign", null, buyerCallBack ? vo.getAccuFundScore() : null, false,
@@ -115,7 +169,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	}
 
 	private Boolean StrToBo(String str) {
-		return new Boolean(str);
+		return new Boolean("1".equals(str));
 	}
 
 	/**
@@ -166,5 +220,10 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
+	}
+
+	@Override
+	public void callKpiStastic(Boolean currentMonth) {
+		kpiSrvCaseMapper.callKpiStastic(getFirstDay(currentMonth));
 	}
 }

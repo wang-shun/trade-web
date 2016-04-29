@@ -8,6 +8,8 @@ public class KpiSrvCaseVo {
 	 */
 	private boolean currentMonth;
 	
+	private String msg;
+	
 	private String createBy;
 
 	@ExcelField(title = "序号")
@@ -185,6 +187,14 @@ public class KpiSrvCaseVo {
 
 	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
 }

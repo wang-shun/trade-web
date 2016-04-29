@@ -351,14 +351,18 @@ function getParamsValue() {
 		argu_lendDateEnd : lendDateEnd,
 		argu_signlendDate : (signDateStart == null && signDateEnd == null && lendDateStart == null && lendDateEnd == null ? null : true),
 		
+		argu_guohuApproveTimeStart : guohuApproveTimeStart,
+		argu_guohuApproveTimeEnd : guohuApproveTimeEnd,
+		argu_guohuApproveTime : (guohuApproveTimeStart == null && guohuApproveTimeEnd == null ? null : true),
+		
 		argu_yuCuiOriGrpId : yuCuiOriGrpId
 
 	};
 	return params;
 }
 // 日期类型
-var createTimeStart, resDateStart, realHtTimeStart, realPropertyGetTimeStart, realConTimeStart, signDateStart, lendDateStart, approveTimeStart;
-var createTimeEnd, resDateEnd, realHtTimeEnd, realPropertyGetTimeEnd, realConTimeEnd, signDateEnd, lendDateEnd, approveTimeEnd;
+var createTimeStart, resDateStart, realHtTimeStart, realPropertyGetTimeStart, realConTimeStart, signDateStart, lendDateStart, approveTimeStart,guohuApproveTimeStart;
+var createTimeEnd, resDateEnd, realHtTimeEnd, realPropertyGetTimeEnd, realConTimeEnd, signDateEnd, lendDateEnd, approveTimeEnd,guohuApproveTimeEnd;
 
 // 日期控件取值
 function getSearchDateValues() {
@@ -378,6 +382,8 @@ function getSearchDateValues() {
 	signDateEnd = null;
 	lendDateEnd = null;
 	approveTimeEnd = null;
+	guohuApproveTimeStart = null;
+	guohuApproveTimeEnd = null;
 	var codeStr = "";
 	for (var r = 0; r < divIndex; r++) {
 		var val = $('#case_date_' + r + ' option:selected').val();
@@ -406,6 +412,8 @@ function getSearchDateValues() {
 				lendDateStart = start;
 			} else if (val == '30005008') {
 				approveTimeStart = start;
+			} else if (val == '30005009') {
+				guohuApproveTimeStart = start;
 			}
 		}
 		if (end != "") {
@@ -425,6 +433,8 @@ function getSearchDateValues() {
 				lendDateEnd = end;
 			} else if (val == '30005008') {
 				approveTimeEnd = end;
+			} else if (val == '30005009') {
+				guohuApproveTimeEnd = end;
 			}
 		}
 	}
