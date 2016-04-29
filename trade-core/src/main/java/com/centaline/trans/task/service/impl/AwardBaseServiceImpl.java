@@ -233,6 +233,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param srvCode
 	 */
 	private void setSrvCode(List<AwardBase> l, String srvCode) {
+		if(l!=null)
 		l.forEach(x -> x.setSrvCode(srvCode));
 	}
 
@@ -382,7 +383,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param awardSet
 	 */
 	private List<AwardBase> getAwardToList(Set<String> orgsArr, String jobCode) {
-		List<AwardBase> result = null;
+		List<AwardBase> result = new ArrayList<>();
 		Set<AwardBase> awardSet = null;
 		for (String orgId : orgsArr) {
 			Org org = null;
