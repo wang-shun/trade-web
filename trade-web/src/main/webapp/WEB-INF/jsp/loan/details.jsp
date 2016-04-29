@@ -378,14 +378,18 @@
 					autowidth : true,
 					shrinkToFit : true,
 					rowNum : 2,
-					colNames : [ '物业地址','经纪人', '交易顾问(主办)',
-					             '交易顾问(电话)', '上家姓名','下家姓名','操作' ],
+					colNames : [ '物业地址','案件编号','经纪人', '交易顾问(主办)',
+					             '交易顾问(电话)', '上家姓名','下家姓名','案件状态','操作' ],
 					colModel : [{name : 'addr',
 						index : 'addr',
 						width : 90
 						},{ 
 							name : 'agent',
 							index : 'agent',
+							width : 90
+						},{ 
+							name : 'caseCode',
+							index : 'caseCode',
 							width : 90
 						},{
 							name : 'consultant',
@@ -403,6 +407,10 @@
 							name : 'buyer',
 							index : 'buyer',
 							width : 60
+						},{ 
+							name : 'caseProperty',
+							index : 'caseProperty',
+							width : 90
 						},{	width:60,
 							formatter : function(cellvalue,options,rawObject) {
 								var btn2 = "<button name='btn_buld' data='"+rawObject.caseCode+"'onclick=\"doBindCase(\'"
