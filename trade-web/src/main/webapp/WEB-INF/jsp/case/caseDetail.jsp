@@ -740,8 +740,8 @@
                                                 </div>
                                                	<div class="row ">
                                                     <label class="col-sm-3 control-label">是否自办：<c:choose>
-                                                    <c:when test="${toMortgage.isDelegateYucui=='1'}">是</c:when>
-                                                    <c:when test="${toMortgage.isDelegateYucui=='0'}">否</c:when>
+                                                    <c:when test="${toMortgage.isDelegateYucui=='1'}">否</c:when>
+                                                    <c:when test="${toMortgage.isDelegateYucui=='0'}">是</c:when>
                                                      <c:otherwise>
                                                      ${toMortgage.isDelegateYucui}
                                                      </c:otherwise>
