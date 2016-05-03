@@ -147,15 +147,14 @@
 											<th>序号</th>
 											<th>誉萃编号</th>
 											<th>上家签约</th>
-											<th>上家陪同还贷</th>
-											<th>上家过户</th>
 											<th>下家签约</th>
+											<th>上家陪同还贷</th>
 											<th>下家贷款</th>
 											<th>下家纯公积金</th>
 											<th>下家过户</th>
 											<th>上家过户</th>
 											<th>上家电话接通</th>
-											<th>上家电话接通</th>
+											<th>下家电话接通</th>
 											<th>下家备注</th>
 											<th>上家备注</th>
 											<th>错误信息</th>
@@ -166,13 +165,13 @@
 											<tr>
 												<td>${item.snNo }</td>
 												<td>${item.caseCode }</td>
-												<td>${item.signScore }</td>
 												<td>${item.salesSignScore }</td>
-												<td>${item.transferScore }</td>
-												<td>${item.salesTransferScore }</td>
+												<td>${item.signScore }</td>
+												<td>${item.accompanyRepayLoanScore }</td>
 												<td>${item.comLoanScore }</td>
 												<td>${item.accuFundScore }</td>
-												<td>${item.accompanyRepayLoanScore }</td>
+												<td>${item.transferScore }</td>
+												<td>${item.salesTransferScore }</td>
 												<td>${item.salesCallBack }</td>
 												<td>${item.callBack }</td>
 												<td>${item.buyerComment }</td>
