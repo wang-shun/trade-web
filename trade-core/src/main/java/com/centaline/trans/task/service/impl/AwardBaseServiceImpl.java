@@ -317,7 +317,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			ab.setGuohuTime(new Date());
 			ab.setDistrictId(district.getId());
 			ab.setTeamId(task.getOrgId());
-			ab.setSrvPart(dToB(1d));
+			ab.setSrvPartTotal(dToB(1d));
 			ab.setSrvPartIn(dToB(1d));
 			ab.setSrvCode(conf.getSrvItemCode());
 			awardSet.add(ab);
@@ -407,9 +407,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 					/**
 					 * 这里将SrvPart和SrvPartIn设置成1，后面会到所有不为100%的数据作处理
 					 */
-					ab.setSrvPart(dToB(1d));
 					ab.setSrvPartIn(dToB(1d));
-
+					ab.setSrvPartTotal(dToB(1d));
 					ab.setGuohuTime(new Date());
 					if (!TransJobs.TZJL.getCode().equals(jobCode)) {// 除了总经理都要设置
 						if (!TransJobs.TZJ.getCode().equals(jobCode)) {// 总监的话teamId不用设置

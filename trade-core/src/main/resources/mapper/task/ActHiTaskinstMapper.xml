@@ -5,13 +5,13 @@
    <select id="getConsultantTask" resultType="com.centaline.trans.task.entity.ActHiTaskinst">
 
 select aht.id_ as pkid,aht.TASK_DEF_KEY_ as taskDefKey,aht.PROC_INST_ID_ as procInstId
-,aht.NAME_ as name,aht.ASSIGNEE_ as assignee,tsi.ORG_ID as orgId,u.id as userId
+,aht.NAME_ as name,aht.ASSIGNEE_ as assignee,u.ORG_ID as orgId,u.USER_ID as userId
  from sctrans.ACT_HI_TASKINST aht 
  left join sctrans.T_TO_WORKFLOW tf 
  on tf.INST_CODE=aht.PROC_INST_ID_
  left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi on tsi.CASE_CODE=tf.CASE_CODE 
  left join sctrans.SYS_DICT d on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
- left join sctrans.SYS_USER u on u.USERNAME=aht.ASSIGNEE_
+ left join sctrans.V_USER_ORG_JOB u on u.USERNAME=aht.ASSIGNEE_
  where d.id is not null and aht.ID_ in (
  
  select max(aht.ID_)
@@ -20,6 +20,7 @@ select aht.id_ as pkid,aht.TASK_DEF_KEY_ as taskDefKey,aht.PROC_INST_ID_ as proc
  on tf.INST_CODE=aht.PROC_INST_ID_ 
  left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi on tsi.CASE_CODE=tf.CASE_CODE 
  left join sctrans.SYS_DICT d on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
+ 
 where d.id is not null  and TASK_DEF_KEY_ in <foreach collection="taskDfs" item="df" index="index1" open="(" separator="," close=")">#{df}</foreach> 
 and aht.PROC_INST_ID_=#{processInstanceId,jdbcType=VARCHAR} group by aht.TASK_DEF_KEY_
 )
