@@ -55,18 +55,31 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		if (errList != null) {
 			return errList;
 		}
-		Set<String>caseCodes=kpiSrvCaseMapper.getCaseCodeByCaseCode(listVOs);
-		errList=filterByCaseCodeSetMsg(listVOs, caseCodes, "该案件数据已经存在");
+		Set<String> caseCodes = kpiSrvCaseMapper.getCaseCodeByCaseCode(listVOs);
+		errList = filterByCaseCodeSetMsg(listVOs, caseCodes, "该案件数据已经存在");
 		if (errList != null) {
 			return errList;
 		}
 		List<TsKpiSrvCase> vos = new ArrayList<>();
 		if (listVOs != null && !listVOs.isEmpty()) {
+			int i = 0;// 每条数据插入有19个参数 每导入一条数据会被拆分成五条 每导入一条数据大概100个参数
+						// 2100个参数就是最多能导入21条数据左右
+			int pSize = 20;// 插入一条数据有多少个参数
+			int maxSize = 2100;// 数据库限制最多只有2100个参数
 			for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
 				if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
 					continue;
 				}
-				vos.addAll(importOne(kpiSrvCaseVo));
+				List<TsKpiSrvCase> t = importOne(kpiSrvCaseVo);
+				if (i + t.size() * pSize > maxSize) {
+					i = t.size() * pSize;
+					kpiSrvCaseMapper.batchInsert(vos);
+					vos.clear();
+					vos.addAll(t);
+				} else {
+					vos.addAll(t);
+					i += (t.size() * pSize);
+				}
 			}
 			kpiSrvCaseMapper.batchInsert(vos);
 			return null;
