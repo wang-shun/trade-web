@@ -38,7 +38,7 @@
 	            <condition field="C.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="PR_CAT" name="prCat" label="产调项目" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="fh.org_name" name="grpOrgName" label="所属分行" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>	            
-	            <condition field="A.REAL_NAME" name="quds" label="区董" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="AH.REAL_NAME" name="quds" label="区董" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="au.REAL_NAME" name="auUser" label="申请人" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="acu.REAL_NAME" name="acuUser" label="执行人" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.pr_complete_time" name="completeTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue="" />
