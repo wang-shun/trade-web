@@ -86,17 +86,18 @@ public class KpiImportController {
 			kpiSrvCaseVo.setCurrentMonth(currentMonth);
 			kpiSrvCaseVo.setCreateBy(user.getId());
 		}
-
-		boolean res = kpiSrvCaseService.importBatch(list, currentMonth);
+		List<KpiSrvCaseVo> fList = kpiSrvCaseService.importBatch(list, currentMonth);
+		boolean res = fList == null;
 		if (res) {
 			kpiSrvCaseService.callKpiStastic(currentMonth);
+		} else {
+			request.setAttribute("fList", fList);
 		}
 		return "kpi/kpiImport";
 	}
 
 	@RequestMapping(value = "/monthKpiImport")
-	public String monthKpiImport(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String monthKpiImport(HttpServletRequest request, HttpServletResponse response) {
 		// 默认是当月
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
@@ -105,9 +106,8 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/doMonthKpiImport")
 
-	public String doMonthKpiImport( String belongMonth,
-			HttpServletRequest request, HttpServletResponse response)
-					throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+	public String doMonthKpiImport(String belongMonth, HttpServletRequest request, HttpServletResponse response)
+			throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 		MultipartFile file = null;
 		if (request instanceof MultipartHttpServletRequest) {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
@@ -121,7 +121,7 @@ public class KpiImportController {
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		// 上月
-		if("0".equals(belongMonth)) {
+		if ("0".equals(belongMonth)) {
 			belongM = DateUtil.plusMonth(new Date(), -1);
 		} else {
 			belongM = new Date();
@@ -129,7 +129,7 @@ public class KpiImportController {
 		TsKpiPsnMonth record = new TsKpiPsnMonth();
 		record.setBelongMonth(belongM);
 		tsKpiPsnMonthService.deleteTsKpiPsnMonthByProperty(record);
-		
+
 		ImportExcel ie = new ImportExcel(file, 0, 0);
 		List<KpiMonthVO> list = ie.getDataList(KpiMonthVO.class);
 		List<KpiMonthVO> errorList = checkImportData(list);
@@ -138,8 +138,8 @@ public class KpiImportController {
 			return "kpi/monthKpiImport";
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
-		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM,createBy, list);
-		
+		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);
+
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
 		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
 		return "kpi/monthKpiImport";
@@ -153,12 +153,14 @@ public class KpiImportController {
 			Long finOrder = kpiMonthVO.getFinOrder();
 
 			if (StringUtils.isBlank(employeeCode) || StringUtils.isBlank(userName) || (finOrder == null)) {
-				/*kpiMonthVO.setErrorMessage("数据不完整");
-				errorList.add(kpiMonthVO);*/
+				/*
+				 * kpiMonthVO.setErrorMessage("数据不完整");
+				 * errorList.add(kpiMonthVO);
+				 */
 				continue;
 			}
 			User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
-			if(user==null || !userName.equals(user.getRealName())) {
+			if (user == null || !userName.equals(user.getRealName())) {
 				kpiMonthVO.setErrorMessage("员工编号与姓名不对应");
 				errorList.add(kpiMonthVO);
 				continue;

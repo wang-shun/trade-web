@@ -18,7 +18,7 @@
 		<result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
 		<result column="SRV_PART" property="srvPart" jdbcType="DECIMAL" />
 		<result column="SRV_PART_IN" property="srvPartIn" jdbcType="DECIMAL" />
-		
+		<result column="srv_Part_Total" property="srvPartTotal" jdbcType="DECIMAL" />
 		<result column="PAID" property="paid" jdbcType="CHAR" />
 		<result column="GUOHU_TIME" property="guohuTime" jdbcType="TIMESTAMP" />
 		<result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
@@ -26,13 +26,15 @@
 		<result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
 		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+		
+		
 	</resultMap>
 	<sql id="Base_Column_List">
 		PKID, CASE_CODE, PARTICIPANT, JOB_ID, ORG_ID, BASE_AMOUNT, CREATE_TIME,
 		BELONG_MONTH,
 		CONFIG_ID, IS_DELETED, SRV_CODE, TEAM_ID, DISTRICT_ID, SRV_PART, PAID,
 		GUOHU_TIME,
-		CLOSE_TIME, PAID_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,SRV_PART_IN
+		CLOSE_TIME, PAID_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,SRV_PART_IN,srv_Part_Total
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -52,7 +54,7 @@
 		IS_DELETED, SRV_CODE, TEAM_ID,
 		DISTRICT_ID, SRV_PART, PAID,
 		GUOHU_TIME, CLOSE_TIME, PAID_TIME,
-		CREATE_BY, UPDATE_TIME, UPDATE_BY,SRV_PART_IN
+		CREATE_BY, UPDATE_TIME, UPDATE_BY,SRV_PART_IN,srv_Part_Total
 		)
 		values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR},
 		#{participant,jdbcType=VARCHAR},
@@ -64,7 +66,7 @@
 		#{paid,jdbcType=CHAR},
 		#{guohuTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, #{paidTime,jdbcType=TIMESTAMP},
 		#{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
-		#{updateBy,jdbcType=VARCHAR},#{srvPartIn,jdbcType=DECIMAL}
+		#{updateBy,jdbcType=VARCHAR},#{srvPartIn,jdbcType=DECIMAL},#{srvPartTotal,jdbcType=DECIMAL}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.centaline.trans.award.entity.AwardBaseEntity">
@@ -136,6 +138,10 @@
 			<if test="srvPartIn !=null">
 				srv_Part_In,
 			</if>
+			<if test="srvPartTotal !=null">
+				srv_Part_Total,
+			</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="pkid != null">
@@ -203,6 +209,9 @@
 			</if>
 			<if test="srvPartIn !=null">
 				#{srvPartIn,jdbcType=VARCHAR},
+			</if>
+			<if test="srvPartTotal !=null">
+				#{srvPartTotal,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -272,6 +281,9 @@
 			<if test="srvPartIn !=null">
 				srv_Part_In=#{srvPartIn,jdbcType=VARCHAR},
 			</if>
+			<if test="srvPartTotal !=null">
+				srv_Part_Total=#{srvPartTotal,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where PKID = #{pkid,jdbcType=BIGINT}
 	</update>
@@ -297,7 +309,8 @@
 		CREATE_BY = #{createBy,jdbcType=VARCHAR},
 		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
 		UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-		srv_Part_In=#{srvPartIn,jdbcType=VARCHAR}
+		srv_Part_In=#{srvPartIn,jdbcType=VARCHAR},
+		srv_Part_Total=#{srvPartTotal,jdbcType=VARCHAR}
 		where PKID = #{pkid,jdbcType=BIGINT}
 	</update>
 	<select id="selectByCaseCodeAndSrvCode" resultMap="BaseResultMap">
@@ -324,7 +337,6 @@
 		uoj2.USER_ID=#{0}
 		where (uoj.ORG_ID is not null or uoj1.ORG_ID is not null or uoj2.ORG_ID is
 		not null) and yd.TEAM_ID is not null;
-		;
 	</select>
 	<select id="countAward" resultType="java.lang.Integer">
 		select count(*) from sctrans.T_TS_AWARD_BASE

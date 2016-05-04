@@ -104,13 +104,12 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void doAwardCalculate(ToHouseTransfer toHouseTransfer, String processInstanceId) {
-		
-		if(awardBaseMapper.countAward(toHouseTransfer.getCaseCode())>0){
-			
-			return ;
+
+		if (awardBaseMapper.countAward(toHouseTransfer.getCaseCode()) > 0) {
+
+			return;
 		}
-		
-		
+
 		List<AwardBaseConfig> list = awardBaseConfigMapper.getConsultantConfig();
 		List<ActHiTaskinst> tasks = actHiTaskinstMapper.getConsultantTask(getValueList(list, "srvItemCode"),
 				processInstanceId);
@@ -123,7 +122,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		mOrgs.add(caseDetails.getOrgId());
 
 		Map<String, Integer> qzjdMap = groupSrvByOrg(tasks, QZJD);
-		Map<String, Integer> allMap = groupSrvByDistrictId(awardList);//<区域Id,任务数>
+		Map<String, Integer> allMap = groupSrvByDistrictId(awardList);// <区域Id,任务数>
 		// 有多少权证金融的任务
 		Integer countQzjd = qzjdMap.values().stream().reduce(0, Integer::sum);
 		Integer countAll = allMap.values().stream().reduce(0, Integer::sum);
@@ -233,7 +232,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param srvCode
 	 */
 	private void setSrvCode(List<AwardBase> l, String srvCode) {
-		l.forEach(x -> x.setSrvCode(srvCode));
+		if (l != null)
+			l.forEach(x -> x.setSrvCode(srvCode));
 	}
 
 	/**
@@ -294,7 +294,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 */
 	private void calculateSrvPart(Map<String, Integer> orgSrvCountMap, List<AwardBase> nmManager, Integer tCount) {
 		nmManager.forEach(x -> {
-			x.setSrvPart(dToB(tCount.doubleValue()));
+			x.setSrvPartTotal(dToB(tCount.doubleValue()));
 			x.setSrvPartIn(dToB(Double.valueOf(orgSrvCountMap.get(x.getOrgId()).intValue())));
 		});
 	}
@@ -317,7 +317,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			ab.setGuohuTime(new Date());
 			ab.setDistrictId(district.getId());
 			ab.setTeamId(task.getOrgId());
-			ab.setSrvPart(dToB(1d));
+			ab.setSrvPartTotal(dToB(1d));
 			ab.setSrvPartIn(dToB(1d));
 			ab.setSrvCode(conf.getSrvItemCode());
 			awardSet.add(ab);
@@ -382,7 +382,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 * @param awardSet
 	 */
 	private List<AwardBase> getAwardToList(Set<String> orgsArr, String jobCode) {
-		List<AwardBase> result = null;
+		List<AwardBase> result = new ArrayList<>();
 		Set<AwardBase> awardSet = null;
 		for (String orgId : orgsArr) {
 			Org org = null;
@@ -407,9 +407,8 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 					/**
 					 * 这里将SrvPart和SrvPartIn设置成1，后面会到所有不为100%的数据作处理
 					 */
-					ab.setSrvPart(dToB(1d));
 					ab.setSrvPartIn(dToB(1d));
-
+					ab.setSrvPartTotal(dToB(1d));
 					ab.setGuohuTime(new Date());
 					if (!TransJobs.TZJL.getCode().equals(jobCode)) {// 除了总经理都要设置
 						if (!TransJobs.TZJ.getCode().equals(jobCode)) {// 总监的话teamId不用设置

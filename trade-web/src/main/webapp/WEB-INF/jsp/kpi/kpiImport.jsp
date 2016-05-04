@@ -144,23 +144,42 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th>案件编号</th>
-											<th>案件地址</th>
-											<th>人员</th>
-											<th>员工编号</th>
-											<th>所有组织</th>
-											<th>岗位</th>
+											<th>序号</th>
+											<th>誉萃编号</th>
+											<th>上家签约</th>
+											<th>下家签约</th>
+											<th>上家陪同还贷</th>
+											<th>下家贷款</th>
+											<th>下家纯公积金</th>
+											<th>下家过户</th>
+											<th>上家过户</th>
+											<th>上家电话接通</th>
+											<th>下家电话接通</th>
+											<th>下家备注</th>
+											<th>上家备注</th>
+											<th>错误信息</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${fList}" var="item">
 											<tr>
+												<td>${item.snNo }</td>
 												<td>${item.caseCode }</td>
-												<td>${item.caseAddress }</td>
-												<td>${item.userName }</td>
-												<td>${item.employeeCode }</td>
-												<td>${item.orgName }</td>
-												<td>${item.jobName }</td>
+												<td>${item.salesSignScore }</td>
+												<td>${item.signScore }</td>
+												<td>${item.accompanyRepayLoanScore }</td>
+												<td>${item.comLoanScore }</td>
+												<td>${item.accuFundScore }</td>
+												<td>${item.transferScore }</td>
+												<td>${item.salesTransferScore }</td>
+												<td>${item.salesCallBack }</td>
+												<td>${item.callBack }</td>
+												<td>${item.buyerComment }</td>
+												<td>${item.salerComment }</td>
+												<td>${item.msg }</td>
+										
+												
+												
 											</tr>
 										</c:forEach>
 
@@ -189,6 +208,17 @@
 		src="${ctx}/js/jquery.blockui.min.js"></script> <script
 		src="${ctx}/js/plugins/layer/layer.js"></script> <script
 		src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> <script>
+	 	// 是否显示错误信息
+		<c:if test="${not empty fList}">
+	    	var hasError=true;
+	 	</c:if>
+	    <c:if test="${empty fList}">
+			var hasError=false;
+		</c:if>
+    	// 是否显示错误信息
+    	if(!!hasError){
+    		$('#error-modal-form').modal("show");
+    	}
 		  var belongM = "${belongM}";
 		    var belongLastM = "${belongLastM}";
 			sw = $("#moSwitch").bootstrapSwitch({

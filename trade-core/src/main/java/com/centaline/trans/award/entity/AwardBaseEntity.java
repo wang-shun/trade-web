@@ -32,6 +32,7 @@ public class AwardBaseEntity {
 
 	private BigDecimal srvPart;
 	private BigDecimal srvPartIn;
+	private BigDecimal srvPartTotal;
 
 	private String paid;
 
@@ -221,5 +222,13 @@ public class AwardBaseEntity {
 
 	public void setSrvPartIn(BigDecimal srvPartIn) {
 		this.srvPartIn = srvPartIn;
+	}
+
+	public BigDecimal getSrvPartTotal() {
+		return srvPartTotal;
+	}
+
+	public void setSrvPartTotal(BigDecimal srvPartTotal) {
+		this.srvPartTotal = srvPartTotal;
 	}
 }

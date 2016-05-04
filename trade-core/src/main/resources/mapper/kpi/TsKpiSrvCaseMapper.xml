@@ -61,6 +61,15 @@
       #{item.updateBy,jdbcType=VARCHAR},#{item.srvPart,jdbcType=DECIMAL})
         </foreach> 
    </insert>
+     <select id="getCaseCodeByCaseCode" resultType="java.lang.String" parameterType="java.util.List" >
+    select 
+    case_code
+    from sctrans.T_TS_KPI_SRV_CASE
+    where case_code in 
+    (<foreach collection="list" item="item" index="index" separator=","> 
+    #{item.caseCode,jdbcType=VARCHAR}
+    </foreach>)
+  </select>
   
   
   <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsKpiSrvCase" >

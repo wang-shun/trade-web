@@ -119,6 +119,9 @@ function caseDistribute(){
 }
 //导出Excel
 function exportToExcel() {
+		if(!confirm('是否导出/处理?')){
+			return false;
+		}
 		var pkid ;
 		pkid = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
 		var url = "/quickGrid/findPage?xlsx&";

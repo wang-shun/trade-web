@@ -1,3 +1,7 @@
+v1.0.6
+    feat: 案件追踪
+    feat: 隐藏成交价
+    feat: 计件奖金
 v1.0.5
     feat:  YCJYPT-102	过户审批页面增加案件地址信息
     feat:  YCJYPT-101	前端AB级银行显示为入围银行

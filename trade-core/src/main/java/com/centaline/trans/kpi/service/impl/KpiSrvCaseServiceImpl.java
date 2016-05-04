@@ -3,6 +3,7 @@ package com.centaline.trans.kpi.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -48,41 +49,86 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 
 	@Transactional(readOnly = false)
 	@Override
-	public boolean importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
+	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
 		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
-		if(checkVo(listVOs)){
-			return false;
+		List<KpiSrvCaseVo> errList = checkVo(listVOs);
+		if (errList != null) {
+			return errList;
+		}
+		Set<String> caseCodes = kpiSrvCaseMapper.getCaseCodeByCaseCode(listVOs);
+		errList = filterByCaseCodeSetMsg(listVOs, caseCodes, "该案件数据已经存在");
+		if (errList != null) {
+			return errList;
 		}
 		List<TsKpiSrvCase> vos = new ArrayList<>();
 		if (listVOs != null && !listVOs.isEmpty()) {
+			int i = 0;// 每条数据插入有19个参数 每导入一条数据会被拆分成五条 每导入一条数据大概100个参数
+						// 2100个参数就是最多能导入21条数据左右
+			int pSize = 20;// 插入一条数据有多少个参数
+			int maxSize = 2100;// 数据库限制最多只有2100个参数
 			for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
 				if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
 					continue;
 				}
-				vos.addAll(importOne(kpiSrvCaseVo));
+				List<TsKpiSrvCase> t = importOne(kpiSrvCaseVo);
+				if (i + t.size() * pSize > maxSize) {
+					i = t.size() * pSize;
+					kpiSrvCaseMapper.batchInsert(vos);
+					vos.clear();
+					vos.addAll(t);
+				} else {
+					vos.addAll(t);
+					i += (t.size() * pSize);
+				}
 			}
 			kpiSrvCaseMapper.batchInsert(vos);
-			return true;
+			return null;
 		} else {
-			return false;
+			return null;
 		}
 	}
 
-	private boolean checkVo(List<KpiSrvCaseVo> listVOs) {
+	/**
+	 * 校验Case在当前文件中是否重复
+	 * 
+	 * @param listVOs
+	 * @return
+	 */
+	private List<KpiSrvCaseVo> checkVo(List<KpiSrvCaseVo> listVOs) {
 		if (listVOs == null || listVOs.isEmpty())
-			return false;
+			return null;
 		Set<String> set = new HashSet<>();
-		int count=0;
+		Set<String> tSet = new HashSet<>();
+
 		for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
 			if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
 				continue;
 			}
+			if (set.contains(kpiSrvCaseVo.getCaseCode())) {
+				tSet.add(kpiSrvCaseVo.getCaseCode());
+			}
 			set.add(kpiSrvCaseVo.getCaseCode());
-			count++;
 		}
-	
-		
-		return count==set.size();
+		return filterByCaseCodeSetMsg(listVOs, tSet, "案件编号重复");
+	}
+
+	private List<KpiSrvCaseVo> filterByCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs, Collection<String> colls,
+			String msg) {
+		if (colls == null || colls.isEmpty() || listVOs == null || listVOs.isEmpty()) {
+			return null;
+		} else {
+			List<KpiSrvCaseVo> t = new ArrayList<>();
+			listVOs.forEach(x -> {
+				if (colls.contains(x.getCaseCode())) {
+					x.setMsg(msg);
+					t.add(x);
+				}
+			});
+			if (!t.isEmpty())
+				return t;
+		}
+
+		return null;
 	}
 
 	private List<TsKpiSrvCase> voToEntity(KpiSrvCaseVo vo) {

@@ -41,8 +41,8 @@
 						on ut.case_code =tca.case_code
 						left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
 					 where ut.IS_DELETE='0'
-					 <ifNotNull orgId>
-						and (ut.candidate_Id=#candidateId# or (ut.candidate_Id is null and tca.org_id=#orgId#))
+					 <ifNotNull mOrgId>
+						and (ut.candidate_Id=#candidateId# or (ut.candidate_Id is null and tca.org_id=#mOrgId#))
 			 		</ifNotNull>
 			 		<ifNotNull managerFlag>
 			 			and ut.candidate_Id=#candidateId#

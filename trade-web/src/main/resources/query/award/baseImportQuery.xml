@@ -27,7 +27,7 @@
 					select tbv.pkid as pkid
 ,tbv.CASE_CODE as caseCode,u.REAL_NAME as userName,u.EMPLOYEE_CODE as employeeCode
 ,jb.JOB_NAME as jobName,orj.ORG_NAME as orgName,ttp.PROPERTY_ADDR as caseAddress,tbv.base_amount as amount,tbv.CREATE_TIME as createTime
- ,LTRIM(STR(tbv.SRV_PART_IN))+'/'+LTRIM(STR(tbv.SRV_PART)) as srvPart,tbv.SRV_CODE as srvCode
+ ,LTRIM(STR(tbv.SRV_PART_IN))+'/'+LTRIM(STR(tbv.SRV_PART_TOTAL)) as srvPart,tbv.SRV_CODE as srvCode
   from sctrans.T_TS_AWARD_BASE  tbv
 left join sctrans.SYS_USER u on u.ID=tbv.PARTICIPANT
 left join sctrans.T_TO_PROPERTY_INFO as ttp
