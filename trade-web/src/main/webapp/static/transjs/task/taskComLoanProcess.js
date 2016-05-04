@@ -357,7 +357,8 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 			}
 		}
      });
-	 selector.html(bankHtml);
+    selector.find('option').remove();
+	 selector.append($(bankHtml));
 	 $.ajax({
 		    url:ctx+"/manage/queryParentBankInfo",
 		    method:"post",
@@ -370,7 +371,7 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 	    		}
 	    	}
 		});
-	 selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+	 //selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 	 
 	 getBranchBankList(selectorBranch,selector.val(),finOrgCode,flag);
 
@@ -397,9 +398,10 @@ function getBranchBankList(selector,pcode,finOrgCode,flag){
 	    		}
 	    	}
 	 });
-	 selector.html(html);
+    selector.find('option').remove();
+	 selector.append($(html));
 	 selector.val(finOrgCode);
-	 selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+	// selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 
 	return html;
 }
@@ -449,7 +451,7 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 	  				getParentBank($("#mortgageForm").find("select[name='bank_type']"),$("#mortgageForm").find("select[name='finOrgCode']"),finOrgCode);
 	  				
 	  				$("#mortgageForm").find("select[name='bank_type']").change(function(){
-	  					$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");
+	  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
 				    	getBranchBankList($("#mortgageForm").find("select[name='finOrgCode']"),$("#mortgageForm").find("select[name='bank_type']").val(),"");
 				    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
 				    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
@@ -460,7 +462,7 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 					getParentBank($("#mortgageForm1").find("select[name='bank_type']"),$("#mortgageForm1").find("select[name='finOrgCode']"),finOrgCode);
 	  				
 	  				$("#mortgageForm1").find("select[name='bank_type']").change(function(){
-	  					$("#mortgageForm1").find("select[name='finOrgCode']").chosen("destroy");
+	  					/*$("#mortgageForm1").find("select[name='finOrgCode']").chosen("destroy");*/
 				    	getBranchBankList($("#mortgageForm1").find("select[name='finOrgCode']"),$("#mortgageForm1").find("select[name='bank_type']").val(),"");
 				    	/*$("#mortgageForm1").find("select[name='finOrgCode']").unbind('change');
 				    	$("#mortgageForm1").find("select[name='finOrgCode']").bind('change',subBankChange);*/
@@ -924,7 +926,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
   				getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"","egu");
   				
   				$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
-  					$("#bank_branch_id").chosen("destroy");
+  					/*$("#bank_branch_id").chosen("destroy");*/
 			    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"","egu");
 			    }); 
     		}
