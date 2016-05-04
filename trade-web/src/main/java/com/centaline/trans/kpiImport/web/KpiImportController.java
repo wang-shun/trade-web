@@ -60,6 +60,11 @@ public class KpiImportController {
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		return "kpi/kpiImport";
 	}
+	
+	@RequestMapping(value = "/bonus")
+	public String bonus(HttpServletRequest request) {
+		return "kpi/bonus";
+	}
 
 	@RequestMapping(value = "/doImport")
 	public String doKpiImport(HttpServletRequest request, HttpServletResponse response, Boolean currentMonth)

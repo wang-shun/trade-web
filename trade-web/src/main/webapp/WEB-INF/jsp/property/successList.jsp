@@ -38,7 +38,7 @@
 	        </div>
      </div>
 </div>
-  <form action="${ctx }/quickGrid/findPage?xlsx=xxx" class="form-horizontal" method="post" id ='myForm'>
+  <form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id ='myForm'>
 <div class="ibox-content">
     <div class="jqGrid_wrapper">
      <input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
@@ -131,7 +131,7 @@
         		<div class="form-group">
         			<label class="col-md-3  control-label">所属区董</label>
     				<div class="col-md-8">
-    					<input type="text" id="quds" name="search_quds"class="form-control"/>
+    					<input type="text" id="quds" name="search_quds" class="form-control"/>
     				</div>
     			</div>
         	</div>
