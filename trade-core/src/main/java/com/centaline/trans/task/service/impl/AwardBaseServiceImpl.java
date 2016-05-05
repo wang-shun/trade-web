@@ -21,6 +21,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Job;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.AwardBaseEntity;
 import com.centaline.trans.award.repository.AwardBaseEntityMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -455,6 +456,17 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		}
 		return new HashSet<String>();
 
+	}
+
+	/**
+	 * 设置结案时候
+	 */
+	@Override
+	public void setAwradCaseCloseDate(String caseCode, Date closeDate) {
+		AwardBaseEntity e = new AwardBaseEntity();
+		e.setCaseCode(caseCode);
+		e.setCloseTime(closeDate);
+		awardBaseMapper.setCloseDateByCaseCode(e);
 	}
 
 }

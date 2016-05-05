@@ -19,6 +19,7 @@ public interface AwardBaseEntityMapper {
 	int updateByPrimaryKey(AwardBaseEntity record);
 
 	AwardBaseEntity selectByCaseCodeAndSrvCode(@Param("caseCode") String caseCode, @Param("srvCode") String srvCode);
+	void setCloseDateByCaseCode(AwardBaseEntity record);
 	
 	int deleteByCaseCode(String caseCode);
 	
