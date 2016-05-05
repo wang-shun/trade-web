@@ -98,5 +98,5 @@
 	<!--  Kpi模块 -->
 	<import resource="query/kpi/MonthKpiQuery.xml"></import>
 	<import resource="query/kpi/kpiQuery.xml"></import>
-	
+	<import resource="query/kpi/TsAwardBase.xml"></import>
 </queryConfig>
