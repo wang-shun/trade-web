@@ -179,7 +179,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	}
 
 	private BigDecimal DoubleToBigDecimal(Double d) {
-		return d == null ? null : new BigDecimal(d);
+		return d == null ? null :  BigDecimal.valueOf(d).setScale(2);
 	}
 
 	private Boolean StrToBo(String str) {
@@ -211,7 +211,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		}
 
 		if (ssc != null && bsc != null) {
-			newEntity.setSatisfaction(new BigDecimal((ssc + bsc) / (bothHave ? 2 : 1)));
+			newEntity.setSatisfaction(BigDecimal.valueOf((ssc + bsc) / (bothHave ? 2 : 1)));
 		} else if (!bothHave) {
 			if (ssc != null) {
 				newEntity.setSatisfaction(DoubleToBigDecimal(ssc));

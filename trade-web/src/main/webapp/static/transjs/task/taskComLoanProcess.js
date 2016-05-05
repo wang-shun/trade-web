@@ -378,9 +378,10 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 	 return bankHtml;
 }
 //查询支行信息
-function getBranchBankList(selector,pcode,finOrgCode,flag){
-
-	var html = "<option value=''>请选择</option>";
+function getBranchBankList(selectorBranch,pcode,finOrgCode,flag){
+	selectorBranch.find('option').empty();
+	selectorBranch[0];
+	selectorBranch.append($("<option value=''>请选择</option>"));
 	$.ajax({
 		cache:true,
 	    url:ctx+"/manage/queryBankListByParentCode",
@@ -392,18 +393,24 @@ function getBranchBankList(selector,pcode,finOrgCode,flag){
 	    		if(data != null){
 	    			for(var i = 0;i<data.length;i++){
 						var coLevelStr='('+data[i].coLevelStr+')';
+			
+						var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
+						if(data[i].finOrgCode==finOrgCode){
+							option.attr("selected",true);
+						}
 						
-	    				html +="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
+						selectorBranch.append(option);
 	    			}
 	    		}
 	    	}
 	 });
-    selector.find('option').remove();
-	 selector.append($(html));
-	 selector.val(finOrgCode);
+	selectorBranch[0].value=finOrgCode;
+	// selector.append($(html));
+	//selector.val(finOrgCode);
+	 
 	// selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 
-	return html;
+	return true;
 }
 
 //给贷款银行赋值
@@ -495,7 +502,7 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				$("#mortgageForm").find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			$("#mortgageForm").find("select[name='finOrgCode']").val($("#finOrgCode").val(data.content.finOrgCode));
+		    			$("#finOrgCode").val(data.content.finOrgCode).val();
 		    			$("#mortgageForm").find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			$("#mortgageForm").find("input[name='remark']").val(data.content.remark);
 		    			if(data.content.toSupDocu != null){
@@ -528,7 +535,7 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				$("#mortgageForm1").find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			$("#mortgageForm1").find("select[name='finOrgCode']").val($("#finOrgCode").val(data.content.finOrgCode));
+		    			$("#finOrgCode").val(data.content.finOrgCode);
 		    			$("#mortgageForm1").find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			$("#mortgageForm1").find("input[name='remark']").val(data.content.remark);
 		    			if(data.content.toSupDocu != null){
