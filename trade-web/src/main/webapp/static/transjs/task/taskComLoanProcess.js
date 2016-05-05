@@ -379,7 +379,7 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 }
 //查询支行信息
 function getBranchBankList(selectorBranch,pcode,finOrgCode,flag){
-	selectorBranch.find('option').empty();
+	selectorBranch.find('option').remove();
 	selectorBranch[0];
 	selectorBranch.append($("<option value=''>请选择</option>"));
 	$.ajax({
