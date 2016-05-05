@@ -56,7 +56,7 @@ public class EguController {
 	private UamSessionService uamSessionService;
 	
 	
-	@RequestMapping(value="/assess")  
+	@RequestMapping(value="/test")  
 	@ResponseBody
     public AjaxResponse<String> test() throws ClientProtocolException, IOException {
 		
