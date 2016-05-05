@@ -359,8 +359,6 @@ public class EguServiceImpl implements EguService {
 
 		String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 		String url = code+"/disagree?token="+token+"&"+SignUtil.createLinkString(paramMap);
-		url = url.replaceAll("&", "%26");
-		url = url.replaceAll(" ", "%20");
 		HttpResponse httpResponse = executeGet(url);
 		HttpEntity entity = httpResponse.getEntity();
 		String returnStr = EntityUtils.toString(entity, "UTF-8");
@@ -489,7 +487,6 @@ public class EguServiceImpl implements EguService {
 
 			String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 			String url = evaCode +"/upload?token=" + token +"&"+ SignUtil.createLinkString(paramMap);
-			url = url.replaceAll("&", "%26");
 			url = url.replaceAll(" ", "%20");
 			HttpResponse httpResponse = executeGet(url);
 
