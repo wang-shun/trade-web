@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.aist.common.utils.excel.ImportExcel;
 import com.centaline.trans.award.service.BaseImportService;
 import com.centaline.trans.award.vo.BaseImportVo;
-  //jjm
-@Controller
+  //jjm budf
+@Controller  
 @RequestMapping(value = "/award")
 public class BaseImporController {
 	@Autowired
