@@ -8,4 +8,5 @@ public interface AwardBaseService {
 	void doAwardCalculate(ToHouseTransfer toHouseTransfer,String processInstanceId);
 	
 	void setAwradCaseCloseDate(String caseCode,Date closeDate);
+	
 }

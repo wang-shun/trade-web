@@ -713,12 +713,16 @@
                         if (this.is_multiple) {
                             this.search_field.val("");
                         }
+                        console.log('this.active_fiedl11');
                         $(this.container[0].ownerDocument).bind('click.chosen', this.click_test_action);
                         this.results_show();
+                        console.log('this.results_show()');
                     } else if (!this.is_multiple && evt && (($(evt.target)[0] === this.selected_item[0]) || $(evt.target).parents("a.chosen-single").length)) {
                         evt.preventDefault();
                         this.results_toggle();
+                        console.log('this.results_toggle()');
                     }
+                    console.log('this.activate_field()');
                     return this.activate_field();
                 }
             }
