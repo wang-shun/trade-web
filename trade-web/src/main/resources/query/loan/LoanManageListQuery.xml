@@ -41,24 +41,24 @@
 			<condition field="propertyInfo.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 			
 			<condition field="agent.LOAN_AMOUNT" name="applyMoneyStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.LOAN_AMOUNT" name="applyMoneyEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.LOAN_AMOUNT" name="applyMoneyEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.SIGN_AMOUNT" name="signMoneyStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.SIGN_AMOUNT" name="signMoneyEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.SIGN_AMOUNT" name="signMoneyEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.ACTUAL_AMOUNT" name="loadMoneyStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.ACTUAL_AMOUNT" name="loadMoneyEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.ACTUAL_AMOUNT" name="loadMoneyEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 	
 			<condition field="agent.APPLY_STATUS" name="applyStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.CONFIRM_STATUS" name="confirmStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.LOAN_SRV_CODE" name="loanSrvCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="finOrg.FIN_ORG_CODE" name="operOrg" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.CREATE_TIME" name="createTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.CREATE_TIME" name="createTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.CREATE_TIME" name="createTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.APPLY_TIME" name="resDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.APPLY_TIME" name="resDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.APPLY_TIME" name="resDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.SIGN_TIME" name="signDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.SIGN_TIME" name="signDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.SIGN_TIME" name="signDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="agent.RELEASE_TIME" name="lendDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="agent.RELEASE_TIME" name="lendDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+			<condition field="agent.RELEASE_TIME" name="lendDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 			<condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="" searchType="IN" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>

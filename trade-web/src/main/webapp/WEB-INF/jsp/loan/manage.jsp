@@ -112,9 +112,13 @@
 							</select>
 					    </div>
 						<div id="research_money_div_0" class="input-group input-medium date-picker input-daterange">
-							<input type="number" id="start_money_0" name="start_money_0" value="" size="16" class="form-control" style="font-size: 13px;float:left;" placeholder="">
+							<div class="input-group"><input type="number" id="start_money_0" name="start_money_0" value="" size="16" class="form-control" style="font-size: 13px;float:left;" placeholder="">
+							<span class="input-group-addon">万</span>
+							</div
 							<span class="input-group-addon">到</span>
-							<input type="number" id="end_money_0" value="" size="16" name="end_money_0" class="form-control" style="font-size: 13px;float:left;" placeholder="">
+							<div class="input-group"><input type="number" id="end_money_0" value="" size="16" name="end_money_0" class="form-control" style="font-size: 13px;float:left;" placeholder="">
+							<span class="input-group-addon">万</span>
+							</div>
 						</div>
 					</div>
 					
@@ -346,6 +350,7 @@
 			 			return false;
 			 		codeStr += val;
 			 		if (start != "") {
+			 			start=parseFloat(start)*10000;
 			 			// 申请
 			 			if (val == '30005002') {
 			 				applyMoneyStart = start;
@@ -359,6 +364,7 @@
 			 		}
 			 		if (end != "") {
 			 			// 申请
+			 			end=parseFloat(end)*10000;
 			 			if (val == '30005002') {
 			 				applyMoneyEnd = end;
 			 			// 面签

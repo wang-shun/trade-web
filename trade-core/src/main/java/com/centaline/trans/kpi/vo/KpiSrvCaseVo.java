@@ -17,26 +17,28 @@ public class KpiSrvCaseVo {
 
 	@ExcelField(title = "誉萃编号")
 	private String caseCode;
-	/**
-	 * 下家签约
-	 */
-	@ExcelField(title = "下家签约")
-	private Double signScore;
+	
 	/**
 	 * 上家签约
 	 */
 	@ExcelField(title = "上家签约")
 	private Double salesSignScore;
 	/**
-	 * 下家过户
+	 * 上家陪同还贷
 	 */
-	@ExcelField(title = "下家过户")
-	private Double transferScore;
+	@ExcelField(title = "上家陪同还贷")
+	private Double accompanyRepayLoanScore;
 	/**
 	 * 上家过户
 	 */
 	@ExcelField(title = "上家过户")
 	private Double salesTransferScore;
+
+	/**
+	 * 下家签约
+	 */
+	@ExcelField(title = "下家签约")
+	private Double signScore;
 	/**
 	 * 下家贷款
 	 */
@@ -47,11 +49,13 @@ public class KpiSrvCaseVo {
 	 */
 	@ExcelField(title = "下家纯公积金")
 	private Double accuFundScore;
+
+
 	/**
-	 * 上家陪同还贷
+	 * 下家过户
 	 */
-	@ExcelField(title = "上家陪同还贷")
-	private Double accompanyRepayLoanScore;
+	@ExcelField(title = "下家过户")
+	private Double transferScore;
 	/**
 	 * 上家电话接通
 	 */
@@ -63,11 +67,11 @@ public class KpiSrvCaseVo {
 	 */
 	@ExcelField(title = "下家电话接通")
 	private String callBack;
-	
-	@ExcelField(title = "下家备注")
-	private String buyerComment;
 	@ExcelField(title = "上家备注")
 	private String salerComment;
+
+	@ExcelField(title = "下家备注")
+	private String buyerComment;
 
 	public String getCaseCode() {
 		return caseCode;
