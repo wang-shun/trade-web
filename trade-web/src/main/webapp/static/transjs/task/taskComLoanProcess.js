@@ -404,7 +404,7 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,flag){
 	    		}
 	    	}
 	 });
-	selectorBranch[0].value=finOrgCode;
+	//selectorBranch[0].value=finOrgCode;
 	// selector.append($(html));
 	//selector.val(finOrgCode);
 	 
