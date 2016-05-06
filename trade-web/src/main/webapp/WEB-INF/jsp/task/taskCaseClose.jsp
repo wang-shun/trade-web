@@ -24,12 +24,14 @@
 <link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
 <!-- 备件相关结束 -->
 <!-- jdGrid相关 -->
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<!-- datepikcer -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 
@@ -495,12 +497,12 @@
                                     <div class="form-group">
 										<label class="col-sm-2 control-label">签约时间</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="signDate" name="signDate" 
+											<input type="text" class="form-control" id="signDate" name="signDate" readonly="readonly"
 											value="<fmt:formatDate  value='${editCaseDetailVO.signDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 										<label class="col-sm-2 control-label">批贷时间</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="apprDate" name="apprDate" 
+											<input type="text" class="form-control" id="apprDate" name="apprDate" readonly="readonly"
 											value="<fmt:formatDate  value='${editCaseDetailVO.apprDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -512,16 +514,22 @@
 										</div>
 										<label class="col-sm-2 control-label">贷款金额</label>
 										<div class="col-sm-4">
+											<div class="input-group">
 											<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />">
+												<span class="input-group-addon">万</span>
+												</div>
 										</div>
 									</div>
 									
 									<div class="form-group">
 										<label class="col-sm-2 control-label">商贷金额</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
-												value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />">
+											<div class="input-group">
+												<input type="text" class="form-control" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
+													value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />">
+													<span class="input-group-addon">万</span>
+											</div>
 										</div>
 										<label class="col-sm-2 control-label">商贷年限</label>
 										<div class="col-sm-4">
@@ -532,8 +540,11 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">公积金贷款金额</label>
 										<div class="col-sm-4">
+											<div class="input-group">
 											<input type="text" class="form-control" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.prfAmount}' type='number' pattern='#0.00' />">
+												<span class="input-group-addon">万</span>
+											</div>
 										</div>
 										<label class="col-sm-2 control-label">公积金贷款年限</label>
 										<div class="col-sm-4">
@@ -571,7 +582,7 @@
 										</div>
 										<label class="col-sm-2 control-label">他证送达时间</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
+											<input type="text" class="form-control" readonly="readonly" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${editCaseDetailVO.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
 										</div>
 									</div>
@@ -579,13 +590,13 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">主贷人</label>
 										<div class="col-sm-4">
-											<select class="form-control m-b" name="custCode" id="custCode">
+											<select class="form-control m-b" name="custCode" id="custCode" >
 											</select>
 											<%-- <input type="text" class="form-control" id="custName" name="custName" value="${ editCaseDetailVO.custName}"> --%>
 										</div>
 										<label class="col-sm-2 control-label">申请时间</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="prfApplyDate" name="prfApplyDate" onfocus="this.blur()"
+											<input type="text" class="form-control" id="prfApplyDate" name="prfApplyDate" readonly="readonly" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${editCaseDetailVO.prfApplyDate}' type='both' pattern='yyyy-MM-dd'/>">
 										</div>
 									</div>
@@ -593,19 +604,19 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">信贷员</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="loanerName" name="loanerName" value="${ editCaseDetailVO.loanerName}">
+											<input type="text" class="form-control" id="loanerName" readonly="readonly" name="loanerName" value="${ editCaseDetailVO.loanerName}">
 										</div>
 										<label class="col-sm-2 control-label">放款时间</label>
 										<div class="col-sm-4" id="data_1">
 											<%-- <input type="text" class="form-control" id="lendDate" name="lendDate" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${editCaseDetailVO.lendDate}' type='both' pattern='yyyy-MM-dd'/>">
 											 --%>
-											<div class="input-group date">
-												<span class="input-group-addon">
+											<div class="">
+											<!--input-group date 	<span class="input-group-addon">
 													<i class="fa fa-calendar"></i>
-												</span>
+												</span> -->
 												<input type="text" value="<fmt:formatDate  value='${editCaseDetailVO.lendDate }' type='both' pattern='yyyy-MM-dd' />" 
-													class="form-control" id="lendDate" name="lendDate" onfocus="this.blur()">
+													class="form-control" id="lendDate" name="lendDate" readonly="readonly" onfocus="this.blur()">
 											</div>
 										</div>
 									</div>
@@ -624,26 +635,26 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">信贷员电话</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
+											<input type="text" class="form-control" readonly="readonly" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
 										</div>
 										<label class="col-sm-2 control-label">评估公司</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
+											<input type="text" class="form-control" readonly="readonly" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
 										</div>
 									</div>
 									
 									<div class="form-group">
 										<label class="col-sm-2 control-label">承办银行</label>
 										<div class="col-sm-4">
-											<select class="form-control m-b chosen-select" name="bank" id="bank">
+											<select class="form-control m-b chosen-select" name="bank" id="bank" >
 											</select>
 										</div>
 										
 										<label class="col-sm-2 control-label">支行名称</label>
 										<div class="col-sm-4">
-											<select class="form-control m-b chosen-select" name="lastLoanBank" id="lastLoanBank">
+											<select class="form-control m-b chosen-select" id="lastLoanBank" >
 											</select>
-										</div>
+											<input name="lastLoanBank" type="hidden" value="${editCaseDetailVO.lastLoanBank }"/>							</div>
 									</div>
 
                                 </div>
@@ -829,12 +840,20 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
 	<script>
+		var isAccumulation=false;
+		function readOnlyF(){
+			$("#mortType").attr("disabled","disabled");
+			$("#isDelegateYucui").attr("disabled","disabled");
+			$("#lastLoanBank").attr("disabled","disabled");
+			$("#custCode").attr("disabled","disabled");
+			$("#bank").attr("disabled","disabled");
+		}
 		$(document).ready(function() {
+			isAccumulation=$('#mortType').val()=='30016003';
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">
 				 $("#closeType").attr("disabled","disabled");
 				</c:if>
-			
 			// showTask();
 			/**年份选择初始化*/
 			initSelectYear("finishYear", finishYear);
@@ -843,15 +862,15 @@
 				 var selectValue = $("#bank").val(); 
 				 getBranchBankList(selectValue)
 			 });
-			
-		 	getBankList(finOrgCode);	
-		 	
+			if(finOrgCode!=''){
+		 		getBankList(finOrgCode);	
+			}
 		 	/*主贷人*/
 		 	initSelectCustCode(custCode);
 		 	
 			initGuestInfo("30006002");
 			initGuestInfo("30006001")
-			
+			readOnlyF();
 			/**日期组件*/
 	        $('#data_1 .input-group.date').datepicker({
 	            todayBtn: "linked",
@@ -893,14 +912,16 @@
 			    data:{"pcode":pcode},
 		    	success:function(data){
 		    		if(data.bankList != null){
+		    			var selectBank=isAccumulation?pcode:data.bankCode;//公积金的话选的直接是分行
 		    			for(var i = 0;i<data.bankList.length;i++){
-		    				if(data.bankCode == data.bankList[i].finOrgCode) {
+		    				if(selectBank == data.bankList[i].finOrgCode) {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"+data.bankList[i].finOrgName+"</option>");
 		    				} else {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"+data.bankList[i].finOrgName+"</option>");
 		    				}
 		    			}
 						friend.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+						if(isAccumulation)return ;
 	    				if(pcode == null || pcode == "" || pcode == undefined) {
 	    					getBranchBankList(data.bankList[0].finOrgCode);
 	    				} else {

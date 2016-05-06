@@ -59,8 +59,8 @@ margin-right: auto;text-align: center;">
         	</br>
         	<input type="button" value="确定" class="btn3" onclick="">
           </div>
-	<script src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-	    <script src= "${ctx}/momedia/js/template.js" type="text/javascript" ></script>
+	<script src="../../../momedia/js/jquery-2.1.1.js"></script>
+	    <script src= "../../../momedia/js/template.js" type="text/javascript" ></script>
 	    <script>
 	    	$(".btn3").click(function(){
 	    		window.location.href="startPage?orgId="+$("#sel_org").find("option:selected").val();

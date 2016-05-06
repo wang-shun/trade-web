@@ -32,7 +32,7 @@ public class NumberUtil {
 		if(d1 == null||d2==null) {
 			return null;
 		} else {
-			return new BigDecimal(d1).multiply(new BigDecimal(d2)).doubleValue();
+			return  BigDecimal.valueOf(d1).multiply(BigDecimal.valueOf(d2)).doubleValue();
 		}
 	}
 	/**

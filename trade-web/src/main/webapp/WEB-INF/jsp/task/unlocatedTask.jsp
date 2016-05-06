@@ -231,7 +231,7 @@
 													postData : {
 														queryId : "queryUnlocatedTask",
 														argu_candidateId : "${candidateId}",
-														argu_orgId:"${orgId}",
+														argu_mOrgId:"${orgId}",
 														argu_managerFlag:"${managerFlag}"
 													}
 												});

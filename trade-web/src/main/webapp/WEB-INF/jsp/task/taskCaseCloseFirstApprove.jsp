@@ -75,10 +75,10 @@
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
 								<label> 
-									<input type="radio" value="true" id="optionsRadios1" name="CaseCloseFirstCheck">审批通过
+									<input type="radio" checked="checked" value="true" id="optionsRadios1" name="CaseCloseFirstCheck">审批通过
 								</label>
 								<label> 
-									<input type="radio" checked="checked" value="false" id="optionsRadios2" name="CaseCloseFirstCheck">审批不通过
+									<input type="radio" value="false" id="optionsRadios2" name="CaseCloseFirstCheck">审批不通过
 								</label>
 							</div>
 						</div>

@@ -20,15 +20,20 @@
     <select id="getConsultantConfig" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List" /> FROM [sctrans].[T_TS_AWARD_BASE_CONFIG]
 		where [IS_AVAILABLE]='1' and job_code='consultant'
+				and (EFFECTIVE_TIME &lt; GETDATE() and EFFECTIVE_TIME is not null) and( EXPIRED_TIME &gt; getDate() or EXPIRED_TIME is null)
    </select>
        <select id="getConfig" resultMap="BaseResultMap" parameterType="com.centaline.trans.task.entity.AwardBaseConfig">
-		select <include refid="Base_Column_List" /> FROM [sctrans].[T_TS_AWARD_BASE_CONFIG]
+	select <include refid="Base_Column_List" /> FROM [sctrans].[T_TS_AWARD_BASE_CONFIG]
 		where [IS_AVAILABLE]='1' and job_code=#{jobCode,jdbcType=VARCHAR}
+		and (EFFECTIVE_TIME &lt; GETDATE() and EFFECTIVE_TIME is not null) and( EXPIRED_TIME &gt; getDate() or EXPIRED_TIME is null)
 		<if test="teamProperty != null" >
         and team_Property=#{teamProperty,jdbcType=VARCHAR}
      </if>
      <if test="teamNoEnd != null" >
         and (team_No_start &lt;=#{teamNoEnd,jdbcType=VARCHAR} or team_No_start is null) and (team_No_End  &gt;=#{teamNoEnd,jdbcType=VARCHAR} or team_No_End is null)
+     </if>
+     <if test="srvItemCode != null" >
+        and SRV_ITEM_CODE=#{srvItemCode,jdbcType=VARCHAR}
      </if>
      order by team_Property, team_no_start,team_no_end;
    </select>

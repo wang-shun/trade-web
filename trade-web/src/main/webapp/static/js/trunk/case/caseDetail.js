@@ -28,7 +28,12 @@ $(document).ready(
 			$("#changeForm-form").submit(function(){
 				$('#changeForm-modal-form').modal("hide");
 			});
-			
+			$("#changeForm-form").submit(function(){
+				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
+					alert('请选择要修改的项目！');
+					return false;
+				}
+			});
 			
 			
 			//案件挂起
@@ -146,7 +151,7 @@ $(document).ready(
 
 			var ctm = $("#ctm").val();
 			var caseCode=$("#caseCode").val();
-			FollowPicList.init(ctx,'/quickGrid/findPage','gridTable','gridPager',ctm,caseCode);
+			//FollowPicList.init(ctx,'/quickGrid/findPage','gridTable','gridPager',ctm,caseCode);
 			caseflowListitem.init(ctx,'/quickGrid/findPage','gridTable1','gridPager1',caseCode);  // 显示房款监管信息列表
 			caseremarkList.init(ctx,'/quickGrid/findPage','caseCommenTable','caseCommenPager',caseCode);  // 显示各个流程的备注信息列表
 			
@@ -314,10 +319,13 @@ function ChangeModal(data) {
 	var addHtml = '';
 	var aa=0;
 	$.each(data.servitemList, function(index, value){
+		addHtml+='<div class="row">';
 		addHtml += '<div class="col-md-6">';
 		addHtml += '<div class="form-group">';
-			addHtml += "<input type='hidden' name='caseCode' value='"+$('#caseCode').val()+"' />";
-			addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
+			if(value.users !=""&&value.users.length!=0){
+				addHtml += "<input type='hidden' name='caseCode' value='"+$('#caseCode').val()+"' />";
+				addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
+			}
 			addHtml += "<label class='col-md-3 control-label'>合作项目</label>";
 			addHtml += "<div class='col-md-9'><p class='form-control-static'>"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
@@ -341,8 +349,11 @@ function ChangeModal(data) {
 				}
 			});
 			addHtml += "</select>";
+		}else{
+			
 		}
 		addHtml += "</div></div>";
+		addHtml += '</div>';
 		addHtml += '</div>';
 	});
 	
@@ -563,9 +574,11 @@ function saveSrvItems(){
 					if(data.success){
 
 						if(data.message!="变更成功！"){
+							window.location.reload();
 							window.location.href=ctx+"/task/ServiceChangeApply?&caseCode="+caseCode +"&taskId="+data.content;
 						}else{
 							alert("保存成功");
+							window.location.reload();
 							changeSrvsHidden();
 							$('#srv-modal-form').modal("hide");
 						}

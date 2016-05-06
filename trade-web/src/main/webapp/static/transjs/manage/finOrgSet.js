@@ -18,13 +18,14 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['序号', '金融机构编号', '金融机构名称', '父机构编码','父机构名称'],
+            colNames: ['序号', '金融机构编号', '金融机构名称', '父机构编码','父机构名称','别名'],
             colModel: [
                 {name: 'PKID', index: 'PKID',  width: 60},
                 {name: 'FIN_ORG_CODE', index: 'FIN_ORG_CODE', width: 140},
                 {name: 'FIN_ORG_NAME', index: 'FIN_ORG_NAME', width: 180},
                 {name: 'FA_FIN_ORG_CODE', index: 'FA_FIN_ORG_CODE', width: 140},
-                {name: 'FA_FIN_ORG_NAME', index: 'FA_FIN_ORG_NAME', width: 140}
+                {name: 'FA_FIN_ORG_NAME', index: 'FA_FIN_ORG_NAME', width: 140},
+                {name: 'FIN_ORG_NAME_YC', index: 'FIN_ORG_NAME_YC', width: 140}
 
             ], 
             add: true,
@@ -32,6 +33,7 @@
             pager: "#pager_list_1",
             viewrecords: true,
             pagebuttions: true,
+            cellEdit:true,
             hidegrid: false,
             recordtext: "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
             pgtext : " {0} 共 {1} 页",
@@ -43,13 +45,15 @@
             },
             gridComplete : function() { 
 
-            },
-            onSelectRow : function(rowid,status) {
-				var rowData = $("#table_list_1").jqGrid('getRowData', rowid);
-				$("#pkid").val(rowData['PKID']);
-			}
+            }
             
         });
+    }
+    function getSelectPkid(){
+    	var id=$("#table_list_1").jqGrid('getGridParam','selrow');
+    	var rowData = $("#table_list_1").jqGrid('getRowData', id);
+		$("#pkid").val(rowData['PKID']);
+		return rowData['PKID'];
     }
     function saveFinOrg(){
     	
@@ -76,7 +80,7 @@
     		url:ctx+"/setting/delFinOrg",
     		method:"post",
     		dataType:"json",
-    		data:{pkid:$("#pkid").val()},
+    		data:{pkid:getSelectPkid()},
     		success:function(data){
 				alert(data.message);
 
@@ -90,7 +94,7 @@
     		url:ctx+"/setting/getFinOrgInfo",
     		method:"post",
     		dataType:"json",
-    		data:{pkid:$("#pkid").val()},
+    		data:{pkid:getSelectPkid()},
     		success:function(data){
     			if(data.success){
     				$("#modal-addOrModifyForm").modal("show");
@@ -98,7 +102,8 @@
     				$("#finOrgName").val(data.content.finOrgName);
     				$("#faFinOrgCode").val(data.content.faFinOrgCode);
     				$("#faFinOrgName").val(data.content.faFinOrgName);
-
+    				$("#finOrgNameYc").val(data.content.finOrgNameYc);
+    				
     			}else{
     				alert(data.message);
     			}
@@ -123,10 +128,22 @@
     };*/
  
     $(function(){
-    	getFinOrgs();
        	$("#faFinOrgName").typeahead({
-            source: finOrgs,
-            display: "finOrgName",    
+       	  ajax: {
+              url: ctx+"/manage/queryFinOrgNameLike",
+              timeout: 300,                   // 延时
+              method: 'post',
+              triggerLength: 3,    // 输入几个字符之后，开始请求
+              loadingClass: null,             //
+              preDispatch: function (query) {
+                  var para = {datatype: "json"};
+                  para.finOrgName = query;
+                  return para;
+              },
+              preProcess: function (result) {
+                  return result;
+              }
+          }, display: "finOrgName",    
             val: "finOrgCode",           
             items: 8,            
             itemSelected: function (item, val, text) {  
@@ -167,6 +184,7 @@
     	});
     	getFinOrgList();
     	$("#addBtn").click(function(){
+    		$("#finOrgCode").removeAttr("readonly");
     		$("#modal-addOrModifyForm input[type='text']").val("");
     		$("#modal-addOrModifyForm input[type='hidden']").val("");
 
@@ -174,7 +192,7 @@
     		$("#modal-addOrModifyForm").modal("show");
     	});
     	$("#modifyBtn").click(function(){
-    		if($("#pkid").val()==""){
+    		if(getSelectPkid()==""){
     			alert("请选择要修改的记录！");
     			return;
     		}
@@ -183,7 +201,7 @@
 
     	});
     	$("#delBtn").click(function(){
-    		if($("#pkid").val() == ""){
+    		if(getSelectPkid() == ""){
     			alert("请选择要删除的记录！");
 				return;
     		}

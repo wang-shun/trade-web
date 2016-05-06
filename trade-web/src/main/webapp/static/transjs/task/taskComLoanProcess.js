@@ -84,6 +84,14 @@ function checkMortgageForm(formId){
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
 	}
+	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
+	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
+	var mortTotalAmount=parseFloat(formId.find("input[name='mortTotalAmount']").val());
+	var comAmount=parseFloat(formId.find("input[name='comAmount']").val());
+	if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount){
+		alert('贷款总额必须等于商贷和公积金之和');
+    	return false;
+	}
 	return true;
 }
 //询价	
@@ -343,16 +351,14 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 				for(var i = 0;i<data.length;i++){
 					if((data[i].finOrgCode!='1032900'&&data[i].finOrgCode!='3082900')||flag!='egu'){//不作农业银行的讯价
 						var coLevelStr='';
-						if(data[i].coLevelStr&&data[i].coLevel){
-							coLevelStr='(入围银行)';
-						}
 						bankHtml+="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
 					}
 				}
 			}
 		}
      });
-	 selector.html(bankHtml);
+    selector.find('option').remove();
+	 selector.append($(bankHtml));
 	 $.ajax({
 		    url:ctx+"/manage/queryParentBankInfo",
 		    method:"post",
@@ -365,16 +371,17 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 	    		}
 	    	}
 		});
-	 selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+	 //selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 	 
 	 getBranchBankList(selectorBranch,selector.val(),finOrgCode,flag);
 
 	 return bankHtml;
 }
 //查询支行信息
-function getBranchBankList(selector,pcode,finOrgCode,flag){
-
-	var html = "<option value=''>请选择</option>";
+function getBranchBankList(selectorBranch,pcode,finOrgCode,flag){
+	selectorBranch.find('option').remove();
+	selectorBranch[0];
+	selectorBranch.append($("<option value=''>请选择</option>"));
 	$.ajax({
 		cache:true,
 	    url:ctx+"/manage/queryBankListByParentCode",
@@ -385,20 +392,25 @@ function getBranchBankList(selector,pcode,finOrgCode,flag){
 	    	success:function(data){
 	    		if(data != null){
 	    			for(var i = 0;i<data.length;i++){
-						var coLevelStr='';
-						if(data[i].coLevelStr&&data[i].coLevel){
-							coLevelStr='(入围银行)';
+						var coLevelStr='('+data[i].coLevelStr+')';
+			
+						var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
+						if(data[i].finOrgCode==finOrgCode){
+							option.attr("selected",true);
 						}
-	    				html +="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
+						
+						selectorBranch.append(option);
 	    			}
 	    		}
 	    	}
 	 });
-	 selector.html(html);
-	 selector.val(finOrgCode);
-	 selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+	//selectorBranch[0].value=finOrgCode;
+	// selector.append($(html));
+	//selector.val(finOrgCode);
+	 
+	// selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 
-	return html;
+	return true;
 }
 
 //给贷款银行赋值
@@ -420,11 +432,11 @@ function getParentBankInfo(finOrgCode,formId){
  * 选择支行事件
  */
 function subBankChange(){
-	var secoLevel=$(this).find('option:selected').attr('coLevel');
+	/*var secoLevel=$(this).find('option:selected').attr('coLevel');
 	var levsls='01';
 	if(levsls.indexOf(secoLevel)==-1){
 		alert('您选择的当前银行为非入围银行，4月15日起将无法在系统内被选择！');
-	}
+	}*/
 }
 //查询贷款信息
 function getMortgageInfo(caseCode,isMainLoanBank){
@@ -446,10 +458,10 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 	  				getParentBank($("#mortgageForm").find("select[name='bank_type']"),$("#mortgageForm").find("select[name='finOrgCode']"),finOrgCode);
 	  				
 	  				$("#mortgageForm").find("select[name='bank_type']").change(function(){
-	  					$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");
+	  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
 				    	getBranchBankList($("#mortgageForm").find("select[name='finOrgCode']"),$("#mortgageForm").find("select[name='bank_type']").val(),"");
-				    	$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
-				    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);
+				    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
+				    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
 				    }); 
 				}else{
     				getGuestInfo("mortgageForm1");
@@ -457,10 +469,10 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 					getParentBank($("#mortgageForm1").find("select[name='bank_type']"),$("#mortgageForm1").find("select[name='finOrgCode']"),finOrgCode);
 	  				
 	  				$("#mortgageForm1").find("select[name='bank_type']").change(function(){
-	  					$("#mortgageForm1").find("select[name='finOrgCode']").chosen("destroy");
+	  					/*$("#mortgageForm1").find("select[name='finOrgCode']").chosen("destroy");*/
 				    	getBranchBankList($("#mortgageForm1").find("select[name='finOrgCode']"),$("#mortgageForm1").find("select[name='bank_type']").val(),"");
-				    	$("#mortgageForm1").find("select[name='finOrgCode']").unbind('change');
-				    	$("#mortgageForm1").find("select[name='finOrgCode']").bind('change',subBankChange);
+				    	/*$("#mortgageForm1").find("select[name='finOrgCode']").unbind('change');
+				    	$("#mortgageForm1").find("select[name='finOrgCode']").bind('change',subBankChange);*/
 				    }); 
 				}
 				  
@@ -490,7 +502,7 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				$("#mortgageForm").find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			$("#mortgageForm").find("select[name='finOrgCode']").val($("#finOrgCode").val(data.content.finOrgCode));
+		    			$("#finOrgCode").val(data.content.finOrgCode).val();
 		    			$("#mortgageForm").find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			$("#mortgageForm").find("input[name='remark']").val(data.content.remark);
 		    			if(data.content.toSupDocu != null){
@@ -523,7 +535,7 @@ function getMortgageInfo(caseCode,isMainLoanBank){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				$("#mortgageForm1").find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			$("#mortgageForm1").find("select[name='finOrgCode']").val($("#finOrgCode").val(data.content.finOrgCode));
+		    			$("#finOrgCode").val(data.content.finOrgCode);
 		    			$("#mortgageForm1").find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			$("#mortgageForm1").find("input[name='remark']").val(data.content.remark);
 		    			if(data.content.toSupDocu != null){
@@ -886,10 +898,16 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
+    				if($("#input[name='optionsRadios']:checked").val()==0){
+    					$("#direct_launch_div").hide();
+    				}else{
+    					$("#direct_launch_div").show();
+    				}
     				if(popInited)return true;
     				popInited=true;
     				$("input[name='optionsRadios']").click(function(){
     					 if($(this).val()==0){
+    						 $("#direct_launch_div").hide();
     						 $("#addToEguPricingForm").find("input").each(function(){
     							 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
                 					 $(this).attr("disabled","disabled");
@@ -899,6 +917,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
             					 $(this).attr("disabled","disabled");
             				 });
     					 }else{
+    						 $("#direct_launch_div").show();
     						 $("#addToEguPricingForm").find("input").each(function(){
                 				 $(this).removeAttr("disabled");
             				 });
@@ -914,7 +933,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
   				getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"","egu");
   				
   				$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
-  					$("#bank_branch_id").chosen("destroy");
+  					/*$("#bank_branch_id").chosen("destroy");*/
 			    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"","egu");
 			    }); 
     		}
@@ -942,6 +961,14 @@ function bindEvaCode(){
 			if(data.message != ""){
 				alert(data.message);
 				$("#modal-form").modal("hide");
+				var isMainLoanBank = $("#isMainLoanBank").val();
+				if(isMainLoanBank == 1){
+					searchPricingList("table_list_1");
+	    		//	getPricingList("table_list_1","pager_list_1");
+				}else{
+					searchPricingList("table_list_3");
+	    		//	getPricingList("table_list_3","pager_list_3");
+				}
 			}
 		}
 	});
@@ -1011,7 +1038,7 @@ function checkReportAtt(){
 var stepIndex = 0;
 
 $(document).ready(function () {
-	$("#bank_branch_id").change(subBankChange);
+	/*$("#bank_branch_id").change(subBankChange);*/
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
@@ -1095,6 +1122,7 @@ $(document).ready(function () {
 	 		$("#winzard").find("li").css("width","16%");
 	 	},
 		startIndex:step,
+		showFinishButtonAlways:false,
 	 	enableCancelButton:false,
 	 	onStepChanging: function (event, currentIndex, newIndex){
 	 		if(currentIndex == 0){
@@ -1103,21 +1131,15 @@ $(document).ready(function () {
 	 				return false;
 	 			}
 	 			$("#eva_code").val(accPricing['EVA_CODE']);
-//	 			if(accPricingIds.length != 0 && accPricing == null){
-//	 				alert("请先接受询价结果！");
-//	 				return false;
-//	 			}else if(accPricing != null){
-//					$("#eva_code").val(accPricing['EVA_CODE']);
-//	 			}
 	
-	 		}else if(currentIndex == 2 && newIndex == 3){
+	 		}else if(currentIndex == 2){
 	 			var flag = false;
 	 			if(checkMortgageForm($("#mortgageForm"))){
 		 			saveMortgage($("#mortgageForm"));
 		 			flag = true;
 	 			}
 	 			return flag;
-	 		}else if(currentIndex == 3 && newIndex == 4){
+	 		}else if(currentIndex == 3 ){
 		 		var rowId=$("#table_list_1").jqGrid("getGridParam","selrow");
 				var rowData = $("#table_list_1").jqGrid('getRowData', rowId);
 				if(rowData['TOTAL_PRICE'] == ""){
@@ -1153,8 +1175,8 @@ $(document).ready(function () {
 	 		}
 	 	},
 	 	onFinished: function (event, currentIndex)
-	    {
-	 		completeMortgage($("#completeForm"));
+		{
+	 		completeMortgage($("#completeForm"));	
 	    }
 	});
 	
@@ -1163,6 +1185,7 @@ $(document).ready(function () {
 		previous:"上一步",
 		finish:"完成"
  	},
+ 	showFinishButtonAlways:false,
  	enableCancelButton:false,
  	startIndex:step1,
  	onInit:function(event, currentIndex){
@@ -1182,14 +1205,14 @@ $(document).ready(function () {
 				$("#eva_code").val(accPricing['EVA_CODE']);
  			}*/
 
- 		}else if(currentIndex == 2 && newIndex == 3){
+ 		}else if(currentIndex == 2 ){
  			var flag = false;
  			if(checkMortgageForm($("#mortgageForm1"))){
 	 			saveMortgage($("#mortgageForm1"));
 	 			flag = true;
  			}
  			return flag;
- 		}else if(currentIndex == 3 && newIndex == 4){
+ 		}else if(currentIndex == 3 ){
 	 		var rowId=$("#table_list_3").jqGrid("getGridParam","selrow");
 			var rowData = $("#table_list_3").jqGrid('getRowData', rowId);
 			if(rowData['TOTAL_PRICE'] == ""){
@@ -1225,6 +1248,7 @@ $(document).ready(function () {
  	onFinished: function (event, currentIndex)
     {
  		completeMortgage($("#completeForm1"));
+ 		return true;
     }
 });
 //    $("#finOrgCode").change(function(){

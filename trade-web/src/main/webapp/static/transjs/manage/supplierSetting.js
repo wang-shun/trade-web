@@ -12,6 +12,12 @@
 
     	return true;
     }
+  function getSelectPkid(){
+  	var id=$("#table_list_1").jqGrid('getGridParam','selrow');
+  	var rowData = $("#table_list_1").jqGrid('getRowData', id);
+		$("#pkid").val(rowData['PKID']);
+		return rowData['PKID'];
+  }
     function getSupList(){
     	$("#table_list_1").jqGrid("GridUnload");
     	$("#table_list_1").jqGrid({
@@ -30,12 +36,13 @@
                 {name: 'CONTACT_PHONE', index: 'CONTACT_PHONE', width: 140},
                 {name: 'SUP_CAT', index: 'SUP_CAT', width: 140},
                 {name: 'CO_LEVEL', index: 'CO_LEVEL', width: 140},
-                {name: 'TAGS', index: 'CO_LEVEL', width: 140}
+                {name: 'TAGS', index: 'TAGS', width: 140}
             ], 
             add: true,
             addtext: 'Add',
             pager: "#pager_list_1",
             viewrecords: true,
+            cellEdit:true,
             pagebuttions: true,
             hidegrid: false,
             recordtext: "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
@@ -49,15 +56,12 @@
             },
             gridComplete : function() { 
 
-            },
-            onSelectRow : function(rowid,status) {
-				var rowData = $("#table_list_1").jqGrid('getRowData', rowid);
-				$("#pkid").val(rowData['PKID']);
-			}
+            }
             
         });
     }
     function saveSup(){
+    	
     	if(checkform()){
         	$.ajax({
         		url:ctx+"/setting/saveTsSup",
@@ -188,17 +192,21 @@
 
     		$("#modal-addOrModifyForm select").val("");
     		$("pkid").val("");
+    		$("#finOrgCode").removeAttr('readonly');
     		$("#modal-addOrModifyForm").modal("show");
     	});
     	$("#modifyBtn").click(function(){
+    		getSelectPkid();
     		if($("#pkid").val()==""){
     			alert("请选择要修改的记录！");
     			return;
     		}
+    		$("#finOrgCode").attr('readonly','readonly');
     		getSupInfo();
 
     	});
     	$("#delBtn").click(function(){
+    		getSelectPkid();
     		if($("#pkid").val() == ""){
     			alert("请选择要删除的记录！");
 				return;

@@ -28,7 +28,7 @@ $(document).ready(function() {
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
 						colNames : [ 'id', '案件编号','案件地址','人员', '员工编号',
-								'所在组织', '岗位','所得金额' ,'计算时间'],
+								'所在组织', '岗位','服务项','所得金额' ,'服务占比','计算时间'],
 						colModel : [ {
 							name : 'pkid',
 							index : 'pkid',
@@ -62,8 +62,16 @@ $(document).ready(function() {
 							index : 'jboNmae',
 							width : 80
 						}, {
+							name : 'srvCode',
+							index : 'srvCode',
+							width : 80
+						},  {
 							name : 'amount',
 							index : 'amount',
+							width : 80
+						},  {
+							name : 'srvPart',
+							index : 'srvPart',
 							width : 80
 						},{
 							name : 'createTime',
@@ -126,7 +134,8 @@ function getParamsValue() {
 	// 客户姓名 物业地址 经纪人
 	var userName = $('#userName').val();
 	var orgName = $('#orgName').val();
-	
+	var caseCode=$("#caseCode").val();
+	var caseAddr=$('#caseAddr').val();
 	//结案日期
 
 	var start = $('#dtBegin').val();
@@ -135,6 +144,8 @@ function getParamsValue() {
 	var params = {
 		search_userNmae :userName,
 		search_orgName : orgName,
+		search_caseCode : caseCode,
+		search_caseAddr : caseAddr,
 		search_bmStart : start,
 		search_bmEnd : end,
 		queryId : "baseImportQuery"
@@ -152,8 +163,30 @@ function cleanForm() {
 }
 var excelInUrl = "";
 //Excel modal
-function showExcelModal(inType){
+/*function showExcelModal(inType){
 	$('#excel-modal-form').modal("show");
+}*/
+function showExcelModal() {
+	//iframe层
+	layer.open({
+	  type: 1,
+	  title: '导入奖金明细页',
+	  shadeClose: true,
+	  shade: 0.8,
+	  area: ['50%', '40%'],	
+	  content: $('#test'), //捕获的元素
+	  btn: ['提交','关闭'],
+	  yes: function(index){
+		  excelIn();
+		  if(checkFileTypeExcel()){
+			 layer.close(index);
+		  }
+	  },
+	  cancel: function(index){
+	    layer.close(index);
+	    //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
+	  }
+	});
 }
 // Excel 导入
 function excelIn(){
@@ -176,7 +209,10 @@ function checkFileTypeExcel()
     //判断文件类型是否允许上传
     if(AllowExt!=0&&AllowExt.indexOf(FileExt)==-1) {
         ErrMsg="\n该文件类型不允许上传。请上传 "+AllowExt+" 类型的文件，当前文件类型为"+FileExt;
-        alert(ErrMsg);
+        //alert(ErrMsg);
+    	layer.alert(ErrMsg, {
+  		  icon: 2
+  		}) 
         return false;
   	}
 

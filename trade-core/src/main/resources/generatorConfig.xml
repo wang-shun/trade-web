@@ -32,7 +32,7 @@
 		</javaTypeResolver>
 
 		<!-- targetProject:自动生成代码的位置 -->
-		<javaModelGenerator targetPackage="com.centaline.trans.api.entity"
+		<javaModelGenerator targetPackage="com.centaline.trans.kpi.entity"
 			targetProject="src\main\java">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
@@ -40,14 +40,14 @@
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
-		<sqlMapGenerator targetPackage="api" targetProject="src\main\resources\mapper">
+		<sqlMapGenerator targetPackage="kpi" targetProject="src\main\resources\mapper">
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
 		
-		<javaClientGenerator targetPackage="com.centaline.trans.api.repository" targetProject="src\main\java" type="XMLMAPPER" />
+		<javaClientGenerator targetPackage="com.centaline.trans.kpi.repository" targetProject="src\main\java" type="XMLMAPPER" />
 		
 		<!-- <table domainObjectName="TsApiLog" tableName="T_TS_API_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" /> -->
-		<table domainObjectName="TsAttachmentReadLog" tableName="T_TS_ATTACHMENT_READ_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
+		<table domainObjectName="TsAwardKpiPayDetail" tableName="T_TS_AWARD_KPI_PAY_DETAIL" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
 	</context>
 
 </generatorConfiguration>  

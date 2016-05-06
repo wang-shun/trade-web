@@ -1,7 +1,6 @@
 package com.centaline.trans.remote.service.impl;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,11 +28,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import sun.misc.BASE64Encoder;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -41,6 +37,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.api.service.ApiLogService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -53,7 +50,6 @@ import com.centaline.trans.mortgage.entity.ToEguPricing;
 import com.centaline.trans.mortgage.entity.ToEguPropertyInfo;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
 import com.centaline.trans.mortgage.entity.ToMortgage;
-import com.centaline.trans.mortgage.enums.ConfirmCode;
 import com.centaline.trans.mortgage.enums.Whether;
 import com.centaline.trans.mortgage.service.ToEguPricingService;
 import com.centaline.trans.mortgage.service.ToEguPropertyInfoService;
@@ -81,10 +77,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import sun.misc.BASE64Encoder;
+
 @Service
 public class EguServiceImpl implements EguService {
 	
 	Logger logger = LoggerFactory.getLogger(EguServiceImpl.class);
+	private final String EGU_MODULE ="EGU";
+	
 
 	@Autowired
 	private ToAttachmentService toAttachmentService;
@@ -116,6 +116,9 @@ public class EguServiceImpl implements EguService {
 	@Autowired
 	private ToEguPropertyInfoService toEguPropertyInfoService;
 	
+	@Autowired
+	private ApiLogService apiLogService;
+	
 	private HttpClient createHttpClient(){
 		// 设置Base Auth验证信息
 		CredentialsProvider provider = new BasicCredentialsProvider();
@@ -136,6 +139,9 @@ public class EguServiceImpl implements EguService {
 		HttpClient client = createHttpClient();
 		//HttpGet get = new HttpGet("http://stage.vcainfo.com/v1/" + queryUrl);
 		HttpGet get = new HttpGet("http://www.asscol.com/api/v1/" + queryUrl);
+		if(logger.isInfoEnabled()){
+			logger.info("QueryEgu:"+"http://www.asscol.com/api/v1/" + queryUrl);
+		}
 
 		get.addHeader("vc-user-key","20918");
 		return client.execute(get);
@@ -242,7 +248,9 @@ public class EguServiceImpl implements EguService {
 				json.deleteCharAt(json.lastIndexOf(","));
 			}
 			json.append("]");
-			logger.info(json.toString());
+			if(logger.isDebugEnabled()){
+				logger.debug(json.toString());
+			}
 		}
 		return json.toString();
 	}
@@ -272,6 +280,7 @@ public class EguServiceImpl implements EguService {
 		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		Header header = entity.getContentType();
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "0", returnStr);
 			throw new BusinessException("-1",null,"egu接口访问出错！");
 		}
 		JSONObject object = JSONObject.parseObject(returnStr);
@@ -283,13 +292,14 @@ public class EguServiceImpl implements EguService {
 				if(CollectionUtils.isNotEmpty(list)){
 					sb = JSONObject.toJSONString(list);
 				}
-				
+				apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "0", returnStr);
 				throw new BusinessException(SC.MULTI_ADDRESS.getCode(),null,sb);
 			}else{
-
+				apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "0", returnStr);
 				throw new BusinessException(object.getString("sc"),null,SC.getValueByCode(object.getString("sc")));
 			}
 		}
+		apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "1", null);
 		BaseResult<PricingResultVo> result = mapper.readValue(returnStr,new TypeReference<BaseResult<PricingResultVo>>(){});
 		ToEguPropertyInfo toEguPropertyInfo = new ToEguPropertyInfo();
 		toEguPropertyInfo.setArea(houseInfo.getArea());
@@ -354,6 +364,7 @@ public class EguServiceImpl implements EguService {
 		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		Header header = entity.getContentType();
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/disagree", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口访问出错！");
 		}
 		JSONObject object = JSONObject.parseObject(returnStr);
@@ -361,11 +372,14 @@ public class EguServiceImpl implements EguService {
 		//失败
 		if(!object.getString("sc").equals(SC.SUCCESS.getCode())){
 			if(StringUtils.isNotBlank(object.getString("msg"))){
+				apiLogService.apiLog(EGU_MODULE, "/disagree", url, returnStr, "0", returnStr);
 				throw new BusinessException(object.getString("msg"));	
 			}else{
+				apiLogService.apiLog(EGU_MODULE, "/disagree", url, returnStr, "0", returnStr);
 				throw new BusinessException(SC.getValueByCode(object.getString("sc")));	
 			}
 		}
+		apiLogService.apiLog(EGU_MODULE, "/disagree", url, returnStr, "1", null);
 
 		List<ToEguPricing> toEguPricingList = toEguPricingService.findToEguPricingByEvaCode(code);
 		ToEguPricing toEguPricing = toEguPricingList.get(0);
@@ -420,21 +434,25 @@ public class EguServiceImpl implements EguService {
 		HttpResponse httpResponse = executeGet(url);
 		HttpEntity entity = httpResponse.getEntity();
 		Header header = entity.getContentType();
+		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/confirm", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口访问出错！");
 		}
-		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		JSONObject object = JSONObject.parseObject(returnStr);
 
 		ObjectMapper mapper = new ObjectMapper(); 
 		//失败
 		if(!object.getString("sc").equals(SC.SUCCESS.getCode())){
 			if(StringUtils.isNotBlank(object.getString("msg"))){
+				apiLogService.apiLog(EGU_MODULE, "/confirm", url, returnStr, "0", returnStr);
 				throw new BusinessException(object.getString("msg"));	
 			}else{
+				apiLogService.apiLog(EGU_MODULE, "/confirm", url, returnStr, "0", returnStr);
 				throw new BusinessException(SC.getValueByCode(object.getString("sc")));	
 			}
 		}
+		apiLogService.apiLog(EGU_MODULE, "/confirm", url, returnStr, "1", null);
 		BaseResult<PricingConfirmResultVo> result = mapper.readValue(returnStr,new TypeReference<BaseResult<PricingConfirmResultVo>>(){});
 
 		toEguPricing.setResult(result.getResult().getConfirm_code());
@@ -469,20 +487,24 @@ public class EguServiceImpl implements EguService {
 
 			String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 			String url = evaCode +"/upload?token=" + token +"&"+ SignUtil.createLinkString(paramMap);
+			url = url.replaceAll(" ", "%20");
 			HttpResponse httpResponse = executeGet(url);
 
-			HttpEntity entity = httpResponse.getEntity(); 
+			HttpEntity entity = httpResponse.getEntity();
+			String returnStr = EntityUtils.toString(entity, "UTF-8");
 			Header header = entity.getContentType();
 			if(header.getValue().indexOf("html") != -1){
+				apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "0", returnStr);
 				throw new BusinessException("egu接口访问出错！");
 			}
 			ObjectMapper mapper = new ObjectMapper(); 
-			BaseResult<UploadFileResultVo> result = mapper.readValue(EntityUtils.toString(entity, "UTF-8"),new TypeReference<BaseResult<UploadFileResultVo>>(){});
+			BaseResult<UploadFileResultVo> result = mapper.readValue(returnStr,new TypeReference<BaseResult<UploadFileResultVo>>(){});
 			//失败
 			if(!result.getSc().equals(SC.SUCCESS.getCode())){
+				apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "0", returnStr);
 				throw new BusinessException("上传文件操作失败！");
 			}	
-			
+			apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "1", null);
 			//保存附件信息
 			saveAttachment(mortgageAttament);
 
@@ -535,25 +557,30 @@ public class EguServiceImpl implements EguService {
 		String url = code+"/prereport?token="+token+"&"+SignUtil.createLinkString(paramMap);
 		HttpResponse httpResponse = executeGet(url);
 		HttpEntity entity = httpResponse.getEntity();
+		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		Header header = entity.getContentType();
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/prereport", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口访问出错！");
 		}
-		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		JSONObject object = JSONObject.parseObject(returnStr);
 
 		if(!object.getString("sc").equals(SC.SUCCESS.getCode())){
 			if(StringUtils.isNotBlank(object.getString("msg"))){
+				apiLogService.apiLog(EGU_MODULE, "/prereport", url, returnStr, "0", returnStr);
 				throw new BusinessException(object.getString("msg"));	
 			}else{
+				apiLogService.apiLog(EGU_MODULE, "/prereport", url, returnStr, "0", returnStr);
 				throw new BusinessException(SC.getValueByCode(object.getString("sc")));	
 			}
 
 		}
 		JSONObject result = object.getJSONObject("result");
 		if(result == null || StringUtils.isBlank(result.getString("serial_no"))){
+			apiLogService.apiLog(EGU_MODULE, "/prereport", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口返回数据错误！");
 		}
+		apiLogService.apiLog(EGU_MODULE, "/prereport", url, returnStr, "1", null);
 		ToEvaReport report = new ToEvaReport();
 		report.setEvaCode(evaReport.getEvaCode());
 		report.setReportType(evaReport.getReportType());
@@ -618,24 +645,29 @@ public class EguServiceImpl implements EguService {
 		String url = code+"/inquiryreport?token="+token+"&"+SignUtil.createLinkString(paramMap);
 		HttpResponse httpResponse = executeGet(url);
 		HttpEntity entity = httpResponse.getEntity();
+		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		Header header = entity.getContentType();
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/inquiryreport", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口访问出错！");
 		}
-		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		JSONObject object = JSONObject.parseObject(returnStr);
 
 		if(!object.getString("sc").equals(SC.SUCCESS.getCode())){
 			if(StringUtils.isNotBlank(object.getString("msg"))){
+				apiLogService.apiLog(EGU_MODULE, "/inquiryreport", url, returnStr, "0", returnStr);
 				throw new BusinessException(object.getString("msg"));	
 			}else{
+				apiLogService.apiLog(EGU_MODULE, "/inquiryreport", url, returnStr, "0", returnStr);
 				throw new BusinessException(SC.getValueByCode(object.getString("sc")));	
 			}
 		}
 		JSONObject result = object.getJSONObject("result");
 		if(result == null || StringUtils.isBlank(result.getString("serial_no"))){
+			apiLogService.apiLog(EGU_MODULE, "/inquiryreport", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口返回数据错误！");
 		}
+		apiLogService.apiLog(EGU_MODULE, "/inquiryreport", url, returnStr, "1", null);
 		ToEvaReport report = new ToEvaReport();
 		report.setEvaCode(evaReport.getEvaCode());
 		report.setReportType(evaReport.getReportType());
@@ -703,24 +735,29 @@ public class EguServiceImpl implements EguService {
 		String url = code+"/report?token="+token+"&"+SignUtil.createLinkString(paramMap);
 		HttpResponse httpResponse = executeGet(url);
 		HttpEntity entity = httpResponse.getEntity();
+		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		Header header = entity.getContentType();
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口访问出错！");
 		}
-		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		JSONObject object = JSONObject.parseObject(returnStr);
 
 		if(!object.getString("sc").equals(SC.SUCCESS.getCode())){
 			if(StringUtils.isNotBlank(object.getString("msg"))){
+				apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "0", returnStr);
 				throw new BusinessException(object.getString("msg"));	
 			}else{
+				apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "0", returnStr);
 				throw new BusinessException(SC.getValueByCode(object.getString("sc")));	
 			}
 		}
 		JSONObject result = object.getJSONObject("result");
 		if(result == null || StringUtils.isBlank(result.getString("serial_no"))){
+			apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口返回数据错误！");
 		}
+		apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "1", returnStr);
 		ToEvaReport report = new ToEvaReport();
 		report.setEvaCode(evaReport.getEvaCode());
 		report.setReportType(evaReport.getReportType());
@@ -754,16 +791,20 @@ public class EguServiceImpl implements EguService {
 		String url = "bank?token="+token+"&"+SignUtil.createLinkString(paramMap);
 		HttpResponse httpResponse = executeGet(url);
 		HttpEntity entity = httpResponse.getEntity();
+		String returnStr = EntityUtils.toString(entity, "UTF-8");
 		Header header = entity.getContentType();
 		if(header.getValue().indexOf("html") != -1){
+			apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口访问出错！");
 		}
 		ObjectMapper mapper = new ObjectMapper(); 
 		
-		BankResultVo result = mapper.readValue(EntityUtils.toString(entity, "UTF-8"),BankResultVo.class);
+		BankResultVo result = mapper.readValue(returnStr,BankResultVo.class);
 		if(!result.getSc().equals(SC.SUCCESS.getCode())){
+			apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "0", returnStr);
 			throw new BusinessException(SC.getValueByCode(result.getSc()));
 		}
+		apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "1", null);
 		if(CollectionUtils.isNotEmpty(result.getResult())){
 			for(BankInfo bankInfo : result.getResult()){
 				paramMap.put("parent", bankInfo.getType());
@@ -774,11 +815,13 @@ public class EguServiceImpl implements EguService {
 				httpResponse = executeGet(url);
 				entity = httpResponse.getEntity();
 				mapper = new ObjectMapper(); 
-				
-				result = mapper.readValue(EntityUtils.toString(entity, "UTF-8"),BankResultVo.class);
+				returnStr = EntityUtils.toString(entity, "UTF-8");
+				result = mapper.readValue(returnStr,BankResultVo.class);
 				if(!result.getSc().equals(SC.SUCCESS.getCode())){
+					apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "0", returnStr);
 					throw new BusinessException(SC.getValueByCode(result.getSc()));
 				}
+				apiLogService.apiLog(EGU_MODULE, "/bank", url, returnStr, "1", null);
 				TsBankEvaRelationship tsBankEvaRelationship = null;
 				for(BankInfo bi : result.getResult()){
 					tsBankEvaRelationship = new TsBankEvaRelationship();

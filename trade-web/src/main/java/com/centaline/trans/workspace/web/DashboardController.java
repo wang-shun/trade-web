@@ -39,8 +39,9 @@ public class DashboardController {
     private QuerysParseService  querysParseService;
 	
 	@RequestMapping("showRLightList")
-	public String showRLightList(String orgId,Model model) {
+	public String showRLightList(HttpServletRequest request, HttpServletResponse response,String orgId,Model model) {
 		model.addAttribute("orgId", orgId);
+		
 		return "mobile/workspace/showRLightList";
 	}
 	@RequestMapping("showRank")
@@ -116,9 +117,24 @@ public class DashboardController {
 		return "mobile/workspace/select";
 	}
 	@RequestMapping(value = "startPage")
-	public String startPage(Model model,String orgId){
+	public String startPage(HttpServletRequest request, HttpServletResponse response,Model model,String orgId){
 		model.addAttribute("orgId", orgId);
+		
+		Page<Map<String, Object>> lightList = queryRyLightList(request,response,orgId);
+		if(lightList.getContent()!=null && lightList.getContent().size() > 0) {
+			model.addAttribute("isExistLight", true);
+		} else {
+			model.addAttribute("isExistLight", false);
+		}
 		return "mobile/workspace/startPage";
+	}
+	@RequestMapping(value = "test")
+	public String test(Model model,String orgId){
+		return "mobile/workspace/test";
+	}
+	@RequestMapping(value = "test2")
+	public String test2(Model model,String orgId){
+		return "mobile/workspace/test2";
 	}
 	@RequestMapping(value = "getRank")
 	public Map getRank() {

@@ -34,6 +34,9 @@
 	rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
 	rel="stylesheet" />
+	<!-- datepikcer -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -73,6 +76,10 @@
 	background-color:#B4D5F5;
 }
 .star{color:red}
+/* .chosen-drop {
+    height: 120px;
+    overflow-y: scroll;
+} */
 
 </style>
 <script language="javascript">
@@ -163,7 +170,7 @@
 											</div>
 										</div>
 									</div>
-
+								<div id="direct_launch_div">
 									<div class="form-group row">
 										<label class="col-sm-2 control-label">小区：</label>
 										<div class="col-sm-10">
@@ -185,7 +192,7 @@
 										<label class="col-sm-2 control-label">贷款银行：</label>
 										<div class="col-sm-10">
 										
-											<select class="chosen-select" name="bank_type"
+											<select  name="bank_type" class="form-control"
 												id="bank_type" >
 											</select>
 											
@@ -195,7 +202,7 @@
 									<div class="form-group row">
 										<label class="col-sm-2 control-label">支行<span class="star">*</span>：</label>
 										<div class="col-sm-10">
-											<select class="chosen-select" name="bank_branch_id"
+											<select  name="bank_branch_id" class="form-control"
 												id="bank_branch_id">
 
 											</select>
@@ -359,6 +366,7 @@
 											</div>
 										</div>
 										</div>
+									</div>
 									</div>
 								</div>
 							</form>
@@ -799,7 +807,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">贷款银行：</label>
 										<div class="col-md-4" style="height:38px">																										
-											<select class="chosen-select" name="bank_type"
+											<select  name="bank_type" class="form-control"
 												id="bank_type" >
 											</select>
 											
@@ -807,7 +815,7 @@
 									
 										<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
 										<div class="col-md-4" style="height:38px">
-											<select class="chosen-select" name="finOrgCode"
+											<select  name="finOrgCode" class="form-control"
 																	id="finOrgCode"  >
 
 											</select>
@@ -1189,7 +1197,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">贷款银行：</label>
 										<div class="col-md-4" style="height:38px">																										
-											<select class="chosen-select" name="bank_type"
+											<select  name="bank_type" class="form-control"
 												id="bank_type" >
 											</select>
 											
@@ -1197,7 +1205,7 @@
 									
 										<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
 										<div class="col-md-4" style="height:38px">
-											<select class="chosen-select" name="finOrgCode"
+											<select name="finOrgCode" class="form-control"
 																	id="finOrgCode"  >
 
 											</select>
@@ -1412,7 +1420,7 @@
 	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 	<script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js?v=1.01"></script> 
 	<!-- 上传附件相关 --> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
@@ -1433,7 +1441,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.0.20"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	

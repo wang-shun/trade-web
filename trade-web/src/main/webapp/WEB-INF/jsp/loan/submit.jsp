@@ -329,6 +329,10 @@
 				$("#alertOper").trigger('click');
 			}
 			function deleteLoan(pkid) {
+				if(!confirm("是否确定删除？")){
+					return false;	
+				}
+				
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$.ajax({
 					cache:false,

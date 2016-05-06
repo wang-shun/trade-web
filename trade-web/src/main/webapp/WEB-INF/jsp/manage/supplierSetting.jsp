@@ -91,7 +91,7 @@
 										<div class="col-sm-8" >
 											<input type="text" name="finOrgCode"
 												id="finOrgCode" placeholder=""
-												class="form-control" readonly>	
+												class="form-control" >	
 										</div>
 									</div>
 									<div class="form-group">

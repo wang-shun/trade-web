@@ -429,8 +429,15 @@
 		function checkForm() {
 			if($('input[name=taxTime]').val()=='') {
                 alert("实际审税时间为必填项!");
-                $('input[name=taxTime]').focus();
                 return false;
+           }
+		   if($("#isUniqueHome").val()=='') {
+                alert("是否唯一住房为必填项!");
+                return false;
+           }
+		   if($("#holdYear").val()=='') {
+               alert("购房年代为必填项!");
+               return false;
            }
 			/* if($('input[name=commet]').val()=='') {
                 alert("备注为必填项!");

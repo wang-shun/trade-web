@@ -95,6 +95,12 @@
 										
 										</div>
 									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">别名：</label>
+										<div class="col-sm-8">
+											<input type="text" id="finOrgNameYc" name="finOrgNameYc" class="form-control" />
+										</div>
+									</div>
 	
 								</div>
 							</form>
@@ -175,7 +181,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 
-	<script src="${ctx}/transjs/manage/finOrgSet.js"></script> 
+	<script src="${ctx}/transjs/manage/finOrgSet.js?v=1.0.3"></script> 
 
     <script>
     var ctx = "${ctx}";

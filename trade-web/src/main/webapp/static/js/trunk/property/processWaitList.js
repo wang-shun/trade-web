@@ -19,7 +19,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ '所在区域','物业地址', '产调项目','所属分行',
+		colNames : [ '行政区域','物业地址', '产调项目','所属分行',
 		             '产调申请人',  '产调申请时间',
 		             '状态' ],
 		colModel : [{
@@ -119,6 +119,9 @@ function caseDistribute(){
 }
 //导出Excel
 function exportToExcel() {
+		if(!confirm('是否导出/处理?')){
+			return false;
+		}
 		var pkid ;
 		pkid = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
 		var url = "/quickGrid/findPage?xlsx&";
@@ -127,6 +130,7 @@ function exportToExcel() {
 		displayColomn.push('PROPERTY_ADDR');//物业地址
 		displayColomn.push('PR_CAT');//产调项目
 		displayColomn.push('orgName');//分行信息
+		displayColomn.push('PR_APPLY_TIME');//分行信息
 		
 		var params = getParamsValue(pkid);
 		var queryId = '&queryId=queryProcessWaitList';

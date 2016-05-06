@@ -1,5 +1,5 @@
 * {margin: 0; padding: 0; box-sizing: border-box; -webkit-border-sizing: border-box;-o-border-sizing: border-box; tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -o-tap-highlight-color: rgba(0, 0, 0, 0); focus-ring-color: rgba(0, 0, 0, 0); }
-html{font-size:1px;}
+html{font-size:1px;background: #f3f3f4;}
 body { font: 1.2rem/1.428 'Microsoft Yahei'; color: #434343; background: #f3f3f4;}
 ul,li{list-style: none;}
 h2,h3{font-weight: 400}
@@ -32,7 +32,7 @@ h2,h3{font-weight: 400}
 .col-2{margin:0 1rem;}
 .col-2 .panel-body,.col-2 ul,.col-3 .panel-body{padding: 0}
 .col-2 li,.col-3 li{overflow: hidden;border-bottom:0.1rem solid #ddd;padding:0.5rem 1.5rem 0; }
-.col-2 li:last-child,.col-2 li:last-child{border:0;}
+/* .col-2 li:last-child,.col-2 li:last-child{border:0;} */
 .feed-element{position: relative; text-align: center;}
 .img-circle + span{position: absolute;bottom: 0.6rem;left: 0;}
 .triangle{display: block;content: '';width: 0;height: 0;position: absolute;bottom: 1.2rem;left: 0; border-bottom: 3rem solid #ed5565;border-right: 2rem solid transparent;border-left: 2rem solid transparent;}
@@ -77,5 +77,5 @@ h2,h3{font-weight: 400}
 .part .rank-2{background-image:url(../images/second.png); }
 .part .rank-3{background-image:url(../images/third.png); }
 #rank .badge{left: 0.8rem}
-.img-circle{width:4rem; height:4rem;}
-#rank p:first-child{margin-top:1rem;}
+.img-circle{width:4.6rem; height:4.6rem;}
+#rank p:first-child{margin-top:1.5rem;}

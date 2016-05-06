@@ -1,5 +1,5 @@
 package com.centaline.trans.award.web;
-
+    
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.aist.common.utils.excel.ImportExcel;
 import com.centaline.trans.award.service.BaseImportService;
 import com.centaline.trans.award.vo.BaseImportVo;
-  //jjm
-@Controller
+  //jjm budf
+@Controller  
 @RequestMapping(value = "/award")
 public class BaseImporController {
 	@Autowired
@@ -28,6 +28,7 @@ public class BaseImporController {
 	public String baseImport(){
 		return "award/baseImport";
 	}
+	
 	@RequestMapping(value = "uploadBaseImport")
 	public String uploadEplus(@RequestParam("fileupload") MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response)

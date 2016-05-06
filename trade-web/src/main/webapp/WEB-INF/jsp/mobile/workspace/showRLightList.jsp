@@ -14,10 +14,10 @@
 	<div class="container">
 		<div class="col col-1 pull-left">
 			<div class="ibox ibox-red">
-				<p class="pull-right">红灯任务<br>67<p id="redCount"></p></p>
+				<p class="pull-right">红灯任务<br><span id="redCount"></span></p>
 			</div>
 			<div class="ibox ibox-yellow">
-				<p class="pull-right">黄灯任务<br>32<p id="yellowCount"></p></p>
+				<p class="pull-right">黄灯任务<br><span id="yellowCount"></span></p>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">组别排名</div>
@@ -36,8 +36,8 @@
 		<div class="col col-2 pull-left">
 			<div class="panel panel-danger">
 				<div class="panel-heading">红灯员工通报</div>
-				<div class="panel-body ">
-					<ul id="userRlist">
+				<div class="panel-body " id="userRlist">
+					<ul>
 						<li class="danger">
 							<div class="feed-element pull-left">
 								<img class="img-circle" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/E1560.jpg" alt="img">
@@ -226,7 +226,7 @@
 	<content tag="local_script"> 
 		<script id="redColorRemainList" type= "text/html">
           {{if content.length>0}}
-				<marquee direction="up" behavior="scroll" scrollamount="6" scrolldelay="0" loop="-1" width="734" height="768" bgcolor="" hspace="10" vspace="10">
+				<marquee direction="up" behavior="scroll" scrollamount="6" scrolldelay="0" loop="-1" width="" height="" bgcolor="" hspace="10" vspace="10">
 				<ul>
           		{{each content as item}}
 	                    <li>
@@ -244,6 +244,7 @@
 	   </script>
 	   <script id="userRedColorRemainList" type= "text/html">
 	   {{if redLight.length>0}}
+		<ul>
 	  	 {{each redLight as item index}}
          <li class="{{if index < 3}}danger{{/if}}">  
 			<div class="feed-element pull-left">
@@ -256,17 +257,21 @@
 			<div class="media-body">
 				<p class="name pull-left">{{item.realName}}</p>
       
-				<span class="pull-right"><i class="icon-light">{{item.count}}</i></span>
+				<span class="pull-right"><i class="icon-light"></i>{{item.count}}</span>
 			</div>
 		</li>
 		{{/each}}
+			</ul>
+		{{/if}}
+		{{if redLight.length<=0}}
+			<img class='nodata' src='../../../momedia/img/nodata.png'>
 		{{/if}}
 	   </script>
 	   <script id="orgRedColorRemainList" type= "text/html">
           {{if lightList.length>0}}
 				<ul>
           		{{each lightList as item index}}
-						<li><span class="name"><span class="badge badge-danger">{{index+1}}</span>{{item.orgName}}</span><span class="pull-right"><i class="icon-light">{{item.count}}</i></span></li>
+						<li><span class="name"><span class="badge badge-danger">{{index+1}}</span>{{item.orgName}}</span><span class="pull-right"><i class="icon-light"></i>{{item.count}}</span></li>
            		{{/each}}
 				</ul>
            {{/if}}
@@ -281,12 +286,15 @@
 		function showDefImg(){
 			event.target.src="../../../momedia/img/a5.png";
 		}
+		var ctx = "${ctx}";
+		var orgId = "${orgId}";
 			jQuery(document).ready(function() {
-				var ctx = "${ctx}";
-				var orgId = "${orgId}";
+				loadData();
+			});
+			function loadData(){
 				//红灯任务项提醒列表
 				$.ajax({
-					url : ctx+"/mobile/dashboard/box/queryRyLightList",
+					url : "../../../mobile/dashboard/box/queryRyLightList",
 					method:"post",
 					dataType:"json",
 					data: {orgId: orgId},  
@@ -299,7 +307,7 @@
 				});
 				//红灯与黄灯数量
 				$.ajax({
-					url : ctx+"/mobile/dashboard/box/firstPage",
+					url : "../../../mobile/dashboard/box/firstPage",
 					method:"post",
 					dataType:"json",
 					data: {orgId: orgId},  
@@ -316,7 +324,7 @@
 					}
 				});
 				$.ajax({
-					url : ctx+"/mobile/dashboard/box/rLightList",
+					url : "../../../mobile/dashboard/box/rLightList",
 					method:"post",
 					dataType:"json",
 					data: {orgId: orgId},  
@@ -324,12 +332,10 @@
 						data.fileSer="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/";
 						  var html= template('userRedColorRemainList' , data);
 		                  $( "#userRlist").empty();
-		                  $( "#userRlist").append($(html));
+		                  $( "#userRlist").html(html);
 					}
-				}); 
-				
-				
-			});
+				});
+			}
 		</script>
 	</content>
 </body>

@@ -46,7 +46,7 @@
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
 							  left join sctrans.SYS_USER as u 
 							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.SYS_USER_ORG_JOB as uoj
+							  left join sctrans.v_user_org_job as uoj
 							  on uoj.[USER_ID]=u.ID
 							  left join sctrans.SYS_ORG o
 							  on uoj.ORG_ID=o.ID
@@ -69,7 +69,7 @@
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
 							  left join sctrans.SYS_USER as u 
 							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.SYS_USER_ORG_JOB as uoj
+							  left join sctrans.v_user_org_job as uoj
 							  on uoj.[USER_ID]=u.ID
 							  left join sctrans.SYS_ORG o
 							  on uoj.ORG_ID=o.ID
@@ -95,7 +95,7 @@ from (
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
 							  left join sctrans.SYS_USER as u 
 							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.SYS_USER_ORG_JOB as uoj
+							  left join sctrans.v_user_org_job as uoj
 							  on uoj.[USER_ID]=u.ID
 							  where u.id is not null
   	 <if test="userId != null">
@@ -313,7 +313,7 @@ from (
 		 on ttp.CASE_CODE =tf.CASE_CODE and ttp.PART_CODE=at.TASK_DEF_KEY_
 		 left join sctrans.sys_user as u 
 		 on u.username=at.ASSIGNEE_ 
-		 left join sctrans.sys_user_org_job as uoj
+		 left join sctrans.v_user_org_job as uoj
 		 on u.ID = uoj.USER_ID 
 		 where ttp.CASE_CODE is not null
 		   and (DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=0 or DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=-1)
@@ -420,7 +420,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	 from sctrans.T_TO_CASE a 
 	right join sctrans.SYS_ORG o
 	on o.id=a.ORG_ID and a.STATUS = '30001001'
-	left join sctrans.sys_user_org_job uoj
+	left join sctrans.v_user_org_job uoj
 	on uoj.org_id=o.id  
 	left join sctrans.sys_job as j
 	on j.id=uoj.job_id
@@ -437,7 +437,7 @@ right join sctrans.T_TO_SIGN b
 on a.CASE_CODE=b.CASE_CODE and DATEDIFF(MM, b.REAL_CON_TIME,GETDATE())=0 and b.REAL_CON_TIME is not null
 right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
-left join sctrans.sys_user_org_job uoj
+left join sctrans.v_user_org_job uoj
 on uoj.org_id=o.id  
 left join sctrans.sys_job as j
 on j.id=uoj.job_id
@@ -454,7 +454,7 @@ order by COUNT(a.case_code) desc;
 	on a.CASE_CODE=tht.CASE_CODE and datediff(MM,tht.REAL_HT_TIME,getdate())=0 and tht.REAL_HT_TIME is not null
 	right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
-left join sctrans.sys_user_org_job uoj
+left join sctrans.v_user_org_job uoj
 on uoj.org_id=o.id  
 left join sctrans.sys_job as j
 on j.id=uoj.job_id
@@ -472,7 +472,7 @@ order by COUNT(a.case_code) desc;
 	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
 	right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
-left join sctrans.sys_user_org_job uoj
+left join sctrans.v_user_org_job uoj
 on uoj.org_id=o.id  
 left join sctrans.sys_job as j
 on j.id=uoj.job_id
@@ -490,7 +490,7 @@ order by COUNT(a.case_code) desc;
 	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
 	right join sctrans.SYS_ORG o
 on o.id=a.ORG_ID
-left join sctrans.sys_user_org_job uoj
+left join sctrans.v_user_org_job uoj
 on uoj.org_id=o.id  
 left join sctrans.sys_job as j
 on j.id=uoj.job_id

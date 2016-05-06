@@ -32,20 +32,22 @@
 	
 	<query id="queryCaseFlowList">
 		<searchCondition>
-			<condition field="CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue="" />
+			<condition field="f.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue="" />
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						CASE_CODE, 
-						CASH_FLOW_TYPE,
-						FLOW_DIRECTION, 
-						FLOW_AMOUNT, 
-						FLOW_TIME,
-						CASH_ITEM, 
-						INITIATOR 
-					FROM sctrans.T_TO_CASH_FLOW 
+						f.CASE_CODE, 
+						f.CASH_FLOW_TYPE,
+						f.FLOW_DIRECTION, 
+						f.FLOW_AMOUNT, 
+						f.FLOW_TIME,
+						f.CASH_ITEM, 
+						u.REAL_NAME as INITIATOR
+					FROM sctrans.T_TO_CASH_FLOW as f
+					left join sctrans.sys_user as u
+					on u.USERNAME=f.INITIATOR
 						where 
 				]]>
 			</baseSql>
@@ -60,7 +62,7 @@
 				<column type="both" name="FLOW_AMOUNT" index="" checkbox="" title="流水金额" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column type="both" name="FLOW_TIME" index="" checkbox="" title="时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column type="both" name="CASH_ITEM" index="" checkbox="" title="款项名" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column type="both" name="INITIATOR" index="" checkbox="" title="发起人" customDict="userName" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="INITIATOR" index="" checkbox="" title="发起人"  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

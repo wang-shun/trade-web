@@ -82,7 +82,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 		TgServItemAndProcessor p = new TgServItemAndProcessor();
 
 		LoanAgent obj = loanAgentMapper.selectByPkid(loanAgent.getPkid());
-		if (obj.getLoanSrvCode() != null
+		if (!StringUtils.isBlank(obj.getCaseCode())&& obj.getLoanSrvCode() != null
 				&& !obj.getLoanSrvCode().equals(loanAgent.getLoanSrvCode())) {
 			p.setCaseCode(obj.getCaseCode());
 			p.setSrvCat(obj.getLoanSrvCode());
@@ -91,7 +91,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			if (ts != null) {
 				ts.setProcessorId(null);
 				ts.setOrgId(null);
-				servItemMapper.updateByPrimaryKeySelective(ts);
+				servItemMapper.updateByPrimaryKey(ts);
 			}
 		}
 		if (loanAgent.getTempServId() != null) {
@@ -159,7 +159,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	public void doDelete(LoanAgent loanAgent) {
 		LoanAgent obj = loanAgentMapper.selectByPkid(loanAgent.getPkid());
 		TgServItemAndProcessor p = new TgServItemAndProcessor();
-		if (obj.getLoanSrvCode() != null) {
+		if (obj.getLoanSrvCode() != null&&!StringUtils.isBlank(obj.getCaseCode())) {
 			p.setCaseCode(obj.getCaseCode());
 			p.setSrvCat(obj.getLoanSrvCode());
 			TgServItemAndProcessor ts = servItemMapper

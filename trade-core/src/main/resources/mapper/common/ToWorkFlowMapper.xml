@@ -223,6 +223,7 @@
   INNER JOIN sctrans.T_TO_CASE TC ON TC.CASE_CODE = TW.CASE_CODE
   LEFT JOIN sctrans.V_USER_ORG_JOB V1 ON V1.job_code = 'Manager' AND V1.ORG_id = TC.ORG_ID
   LEFT JOIN sctrans.V_USER_ORG_JOB V2 ON V2.job_code = 'Manager' AND V2.ORG_id = SU.ORG_ID
+  WHERE ART.SUSPENSION_STATE_ = 1
   </select>
   <select id="inActiveForm" parameterType="java.lang.String" >
   	update sctrans.t_to_close_loan set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};

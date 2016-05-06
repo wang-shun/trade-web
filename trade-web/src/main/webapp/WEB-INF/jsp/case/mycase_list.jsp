@@ -25,7 +25,6 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">

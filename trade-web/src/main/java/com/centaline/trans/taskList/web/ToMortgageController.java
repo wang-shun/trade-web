@@ -69,7 +69,7 @@ public class ToMortgageController {
     public AjaxResponse<ToMortgage> getMortgageInfo(ToMortgage toMortgage,HttpServletRequest request) {
 		AjaxResponse<ToMortgage> response = new AjaxResponse<ToMortgage>();
 		try{
-			ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode(toMortgage);
+			ToMortgage mortgage = toMortgageService.findToMortgageByCondition(toMortgage);
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);

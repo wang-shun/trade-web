@@ -29,6 +29,14 @@ public enum TransJobs {
 		}
 		return null;
 	}
+	
+	public static String getCode(String name) {
+		for (TransJobs cte : TransJobs.values()) {
+			if (cte.getName().equalsIgnoreCase(name))
+				return cte.getCode();
+		}
+		return null;
+	}
 
 	/**
 	 * Getter method for property <tt>name</tt>.

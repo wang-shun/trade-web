@@ -1,6 +1,5 @@
-#view-fullscreen{display:block;bottom: 1.2rem;height: 3rem;position: fixed;right:1.2rem;width: 3rem;z-index: 1000;opacity: 0.3;background: url(../images/fullscreen.png) no-repeat scroll 0 0 / 100% 100%;}
-.section { text-align: center; font: 5rem "Microsoft Yahei"; color: #fff;}
-iframe{frameborder:¡±no¡±;border:¡±0¡å ;marginwidth:¡±0¡å ;marginheight:¡±0¡å; allowtransparency:¡±yes¡±; height: 142.4rem;width: 100%;}
+#view-fullscreen{display:block;bottom: 1.2rem;height: 2rem;position: fixed;right:1.2rem;width: 12rem;z-index: 1000;opacity: 0.3;background: url(../images/fullscreen.png) no-repeat scroll 0 0 / 100% 100%;}
+.slides-container { text-align: center; font: 5rem "Microsoft Yahei"; color: #fff;}
 		#play_mv{
 				height: 108rem;
 			width: 192rem;
@@ -44,3 +43,4 @@ iframe{frameborder:¡±no¡±;border:¡±0¡å ;marginwidth:¡±0¡å ;marginheight:¡±0¡å; a
 		#play_mv [class^=firework]{position: absolute;z-index: 3;top:50%;margin-top:-20rem}
 		.firework1{left:23rem;}
 		.firework2{left:120rem}
+		.nodata-img{display:block;width:100%; height:100%;}
