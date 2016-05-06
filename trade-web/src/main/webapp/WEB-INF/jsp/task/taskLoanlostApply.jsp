@@ -96,7 +96,7 @@
 						<label class="col-sm-2 control-label">贷款流失金额<span class="star">*</span></label>
 						<div class="col-sm-2">
 						<div class="input-group">
-							<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" value="${mortgage.mortTotalAmount}">
+							<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" value="${mortgage.mortTotalAmount/10000}">
 							<span class="input-group-addon">万</span>						
 						</div>
 						</div>
