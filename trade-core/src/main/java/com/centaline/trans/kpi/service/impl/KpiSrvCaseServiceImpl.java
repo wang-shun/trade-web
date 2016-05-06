@@ -1,6 +1,7 @@
 package com.centaline.trans.kpi.service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -23,6 +24,7 @@ import com.centaline.trans.kpi.entity.TsKpiSrvCase;
 import com.centaline.trans.kpi.repository.TsKpiSrvCaseMapper;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
+import com.centaline.trans.utils.NumberUtil;
 
 @Service(value = "kpiSrvCaseService")
 @Transactional(readOnly = true)
@@ -211,7 +213,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		}
 
 		if (ssc != null && bsc != null) {
-			newEntity.setSatisfaction(BigDecimal.valueOf((ssc + bsc) / (bothHave ? 2 : 1)));
+			newEntity.setSatisfaction(NumberUtil.add(ssc, bsc).divide(DoubleToBigDecimal(bothHave ? 2d : 1d),2,RoundingMode.HALF_UP));
 		} else if (!bothHave) {
 			if (ssc != null) {
 				newEntity.setSatisfaction(DoubleToBigDecimal(ssc));
