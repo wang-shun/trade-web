@@ -17,4 +17,9 @@ public class TsAwardKpiPayDetailServiceImpl implements TsAwardKpiPayDetailServic
 		tsAwardKpiPayDetailMapper.getPAwardKpiRate(map);
 	}
 
+	@Override
+	public void getPAwardKpiRateStatic(Map map) {
+		tsAwardKpiPayDetailMapper.getPAwardKpiRateStatic(map);
+	}
+
 }

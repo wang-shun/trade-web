@@ -90,22 +90,26 @@ width:160px;
 							<div class="switch col-md-2" data-on-label="上月" data-off-label="当月">
 	    						<input id="moSwitch" type="checkbox"  />
 							</div>
-						
-		            		<div class="col-md-10">
-			            	   <div style="float: left; width: 200px">
-			            	      <input type="text" class=" form-control"
-										id="orgName" placeholder="所在组" style="width: 200px">
-			            	   </div>
-			            	   <div style="float: left; width: 200px">
-			            	      <input type="text" class=" form-control"
-										id="userName" placeholder="人员" style="width: 200px">
-			            	   </div>
-			            	   <div style="float: left; width: 200px">
-			            	      <button id="searchButton" type="button" class="btn btn-primary">查询</button>
-			            	      <a id="importButton" class="btn btn-primary">个人月度Kpi导入 </a>
-			            	   </div>
-			            	    
-		            		</div>
+							<div class="col-lg-3 col-md-4">
+                                   <div class="form-group">
+                                       <label class="col-lg-3 col-md-3 control-label">所在组 :</label>
+                                       <div class="col-lg-9 col-md-9">
+                                          <input type="text" class=" form-control" id="orgName" placeholder="" style="width: 200px">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-lg-3 col-md-4">
+                                   <div class="form-group">
+                                       <label class="col-lg-3 col-md-3 control-label">人员 :</label>
+                                       <div class="col-lg-9 col-md-9">
+                                           <input type="text" class=" form-control" id="userName" placeholder="" style="width: 200px">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-lg-3 col-md-4">                                   
+                                  <button id="searchButton" type="button" class="btn btn-primary">查询</button>
+		            	       <a id="importButton" class="btn btn-primary">个人月度Kpi导入 </a>
+                               </div>
 			             </div>
 					</form>
 				</div>
