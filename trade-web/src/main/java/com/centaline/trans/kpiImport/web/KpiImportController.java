@@ -102,7 +102,7 @@ public class KpiImportController {
 		List<KpiSrvCaseVo> fList = kpiSrvCaseService.importBatch(list, currentMonth);
 		boolean res = fList == null;
 		if (res) {
-			//kpiSrvCaseService.callKpiStastic(currentMonth);
+			kpiSrvCaseService.callKpiStastic(currentMonth);
 		} else {
 			request.setAttribute("fList", fList);
 		}
