@@ -293,7 +293,7 @@ public class TaskController {
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
-    		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply"));
+    		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		String approveType = "1";/*流失审批*/
     		initApproveRecord(request, caseCode, approveType);
     	} else if(taskitem.equals("CaseCloseThirdApprove") || 
