@@ -650,7 +650,7 @@ public class TaskController {
 		for(ToAccesoryList tal:list) {
 			if((toMortgage == null || toMortgage.getMortType() == null) && (tal.getAccessoryName().equals("抵押登记表") || tal.getAccessoryName().equals("商贷利率页"))) {/*无贷款*/
 				removeList.add(tal);
-			} else if(toMortgage != null && toMortgage.getMortType().equals("30016003") && tal.getAccessoryName().equals("商贷利率页")) {
+			} else if(toMortgage != null && "30016003".equals(toMortgage.getMortType()) && "商贷利率页".equals(tal.getAccessoryName())) {
 				removeList.add(tal);
 			}
 		}
