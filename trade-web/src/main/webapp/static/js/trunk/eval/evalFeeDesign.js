@@ -97,7 +97,7 @@ $(document).ready(function() {
 						postData : {
 							queryId : "queryEvalItemList",
 							argu_queryorg:queryOrg,
-							search_orgId:queryOrg
+							search_caseOrgId:queryOrg
 						},
 						gridComplete: function(){
 			                var ids = $("#table_list_1").getDataIDs();//jqGrid('getDataIDs');
