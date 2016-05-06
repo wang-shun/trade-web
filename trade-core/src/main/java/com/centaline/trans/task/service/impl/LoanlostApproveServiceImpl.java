@@ -49,12 +49,13 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 	}
 
 	@Override
-	public Map<String, Object> queryCaseInfo(String caseCode, String partCode) {
+	public Map<String, Object> queryCaseInfo(String caseCode, String partCode,String instCode) {
 		ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCode(caseCode);
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		toApproveRecord.setCaseCode(caseCode);
 		toApproveRecord.setPartCode(partCode);
+		toApproveRecord.setProcessInstance(instCode);
 		toApproveRecord = toApproveRecordMapper.findApproveRecordByRecord(toApproveRecord);
 		Map<String, Object> caseDetail = new HashMap<String, Object>();
 		caseDetail.put("caseCode", caseCode);

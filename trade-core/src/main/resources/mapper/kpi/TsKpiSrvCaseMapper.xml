@@ -53,8 +53,8 @@
 	     values
          <foreach collection="list" item="item" index="index" separator=","> 
 	  (#{item.belongMonth,jdbcType=TIMESTAMP}, #{item.caseCode,jdbcType=VARCHAR}, 
-      #{item.srvCode,jdbcType=VARCHAR}, #{item.salerSatis,jdbcType=DECIMAL}, #{item.buyerSatis,jdbcType=DECIMAL}, 
-      #{item.satisfaction,jdbcType=DECIMAL}, #{item.salerCallback,jdbcType=CHAR}, #{item.buyerCallback,jdbcType=CHAR}, 
+      #{item.srvCode,jdbcType=VARCHAR}, #{item.salerSatis}, #{item.buyerSatis}, 
+      #{item.satisfaction}, #{item.salerCallback,jdbcType=CHAR}, #{item.buyerCallback,jdbcType=CHAR}, 
       #{item.canCallback,jdbcType=CHAR}, #{item.salerComment,jdbcType=NVARCHAR}, #{item.buyerComment,jdbcType=NVARCHAR}, 
       #{item.teamId,jdbcType=VARCHAR}, #{item.districtId,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, 
       #{item.createTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, 

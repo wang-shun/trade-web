@@ -162,6 +162,10 @@
       <if test="partCode != null" >
         and PART_CODE = #{partCode,jdbcType=VARCHAR}
       </if>
+      <if test="processInstance != null" >
+        and process_instance = #{processInstance,jdbcType=VARCHAR}
+      </if>
+      
   </select>
   <select id="findApproveRecordByList" resultType="java.lang.String" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
 	    select OPERATOR
