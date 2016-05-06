@@ -1,6 +1,8 @@
 package com.centaline.trans.remote.service.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -487,7 +489,7 @@ public class EguServiceImpl implements EguService {
 
 			String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 			String url = evaCode +"/upload?token=" + token +"&"+ SignUtil.createLinkString(paramMap);
-			url = url.replaceAll(" ", "%20");
+			url = URLEncoder.encode(url);
 			HttpResponse httpResponse = executeGet(url);
 
 			HttpEntity entity = httpResponse.getEntity();
@@ -509,6 +511,16 @@ public class EguServiceImpl implements EguService {
 			saveAttachment(mortgageAttament);
 
 		}
+	}
+	
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		String files = "[{'type':'1','file_ids':[{'file_id':'8a8493d4543ddd6e01547fdb9b121dfa','file_type':'bmp','add_or_del':1}]},{'type':'2','file_ids':[{'file_id':'8a8493d5538c9ac801547fdb9f356e2b','file_type':'jpg','add_or_del':1},{'file_id':'8a8493d4538c988701547fdbbc85700f','file_type':'jpg','add_or_del':1},{'file_id':'8a8493d4538c988701547fdbd7037010','file_type':'jpg','add_or_del':1}]},{'type':'3','file_ids':[{'file_id':'8a8493d4543ddd6e01547fdbee9b1dfb','file_type':'jpg','add_or_del':1},{'file_id':'8a8493d5538c9ac801547fdc0ab06e2c','file_type':'jpg','add_or_del':1}]}]";
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("un", "huxinxin");
+		paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace("\r\n", ""));
+		String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
+		String url = "/upload?token=" + token +"&"+ SignUtil.createLinkString(paramMap);
+		System.out.println(url);
 	}
 	
 	@Override
