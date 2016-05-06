@@ -1,6 +1,7 @@
 package com.centaline.trans.remote.web;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,7 +61,17 @@ public class EguController {
 	@ResponseBody
     public AjaxResponse<String> test(String token, String code) throws ClientProtocolException, IOException {
 		
-		String url = "http://www.asscol.com/api/v1/110213-160504-007 /upload?token=de57ac3356536bb82fbab351552edf1d167a6595&case_id=ZY-AJ-201604-1014 &code=110213-160504-007 &files=W3sidHlwZSI6IjEiLCJmaWxlX2lkcyI6W3siZmlsZV9pZCI6IjhhODQ5M2Q0NTQzZGRkNmUwMTU0N2ZkYjliMTIxZGZhIiwiZmlsZV90eXBlIjoiYm1wIiwiYWRkX29yX2RlbCI6MX1dfSx7InR5cGUiOiIyIiwiZmlsZV9pZHMiOlt7ImZpbGVfaWQiOiI4YTg0OTNkNTUzOGM5YWM4MDE1NDdmZGI5ZjM1NmUyYiIsImZpbGVfdHlwZSI6ImpwZyIsImFkZF9vcl9kZWwiOjF9LHsiZmlsZV9pZCI6IjhhODQ5M2Q0NTM4Yzk4ODcwMTU0N2ZkYmJjODU3MDBmIiwiZmlsZV90eXBlIjoianBnIiwiYWRkX29yX2RlbCI6MX0seyJmaWxlX2lkIjoiOGE4NDkzZDQ1MzhjOTg4NzAxNTQ3ZmRiZDcwMzcwMTAiLCJmaWxlX3R5cGUiOiJqcGciLCJhZGRfb3JfZGVsIjoxfV19LHsidHlwZSI6IjMiLCJmaWxlX2lkcyI6W3siZmlsZV9pZCI6IjhhODQ5M2Q0NTQzZGRkNmUwMTU0N2ZkYmVlOWIxZGZiIiwiZmlsZV90eXBlIjoianBnIiwiYWRkX29yX2RlbCI6MX0seyJmaWxlX2lkIjoiOGE4NDkzZDU1MzhjOWFjODAxNTQ3ZmRjMGFiMDZlMmMiLCJmaWxlX3R5cGUiOiJqcGciLCJhZGRfb3JfZGVsIjoxfV19XQ==&nonce=4044&timestamp=1462435101984&un=qianll03";
+		String url = "110213-160504-007/upload?token=de57ac3356536bb82fbab351552edf1d167a6595&case_id=ZY-AJ-201604-1014&code=110213-160504-007&files=W3sidHlwZSI6IjEiLCJmaWxlX2lkcyI6W3siZmlsZV9pZCI6IjhhODQ5M2Q0NTQzZGRkNmUwMTU0\n"+
+				"N2ZkYjliMTIxZGZhIiwiZmlsZV90eXBlIjoiYm1wIiwiYWRkX29yX2RlbCI6MX1dfSx7InR5cGUi\n"+
+				"OiIyIiwiZmlsZV9pZHMiOlt7ImZpbGVfaWQiOiI4YTg0OTNkNTUzOGM5YWM4MDE1NDdmZGI5ZjM1\n"+
+				"NmUyYiIsImZpbGVfdHlwZSI6ImpwZyIsImFkZF9vcl9kZWwiOjF9LHsiZmlsZV9pZCI6IjhhODQ5\n"+
+				"M2Q0NTM4Yzk4ODcwMTU0N2ZkYmJjODU3MDBmIiwiZmlsZV90eXBlIjoianBnIiwiYWRkX29yX2Rl\n"+
+				"bCI6MX0seyJmaWxlX2lkIjoiOGE4NDkzZDQ1MzhjOTg4NzAxNTQ3ZmRiZDcwMzcwMTAiLCJmaWxl\n"+
+				"X3R5cGUiOiJqcGciLCJhZGRfb3JfZGVsIjoxfV19LHsidHlwZSI6IjMiLCJmaWxlX2lkcyI6W3si\n"+
+				"ZmlsZV9pZCI6IjhhODQ5M2Q0NTQzZGRkNmUwMTU0N2ZkYmVlOWIxZGZiIiwiZmlsZV90eXBlIjoi\n"+
+				"anBnIiwiYWRkX29yX2RlbCI6MX0seyJmaWxlX2lkIjoiOGE4NDkzZDU1MzhjOWFjODAxNTQ3ZmRj\n"+
+				"MGFiMDZlMmMiLCJmaWxlX3R5cGUiOiJqcGciLCJhZGRfb3JfZGVsIjo9XQ==&nonce=4044&timestamp=1462435101984&un=qianll03";
+		url = URLEncoder.encode(url);
 		HttpResponse httpResponse = executeGet(url);
 		return AjaxResponse.success();
     }

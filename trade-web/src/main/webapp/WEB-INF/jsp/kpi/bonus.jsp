@@ -184,9 +184,14 @@
                                     <td>{{item.GUOHU_TIME}}</td>
                                     <td>{{item.CLOSE_TIME}}</td>
                                     <td>{{item.BASE_CASE_AMOUNT}}</td>
-                                    <td><div class="expand" id="{{index}}">收起</div></td>
+                                    <td><div class="expand" id="{{item.CASE_CODE}}">展开</div></td>
                                 </tr>
-                                <tr class="toogle-show border-e7" id="toggle{{index}}">
+                                <tr class="toogle-show border-e7" id="toggle{{item.CASE_CODE}}" style="display:none;">
+                                    
+                                </tr>
+						{{/each}}
+	    </script>
+	    <script id="tsAwardSrvList" type= "text/html">
                                     <td colspan="7" class="two-td">
                                         <table class="two-table">
                                             <thead>
@@ -203,33 +208,22 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                               {{each rows as item index}}
                                                 <tr> 
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-													<td></td>
-                                                    <td></td>
+                                                    <td>{{item.PARTICIPANT}}</td>
+                                                    <td>{{item.SRV_CODE}}</td>
+                                                    <td>{{item.BASE_AMOUNT}}</td>
+                                                    <td>{{item.SATISFACTION}}</td>
+                                                    <td>{{item.FIN_ORDER_RATE}}</td>
+                                                    <td>{{item.KPI_RATE_SUM}}</td>
+                                                    <td>{{item.SRV_PART_IN}}</td>
+													<td>{{item.SRV_PART}}</td>
+                                                    <td>{{item.AWARD_KPI_MONEY}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-													<td></td>
-                                                    <td></td>
-                                                </tr>
+												{{/each}}
                                             </tbody>
                                         </table>
                                     </td>
-                                </tr>
-						{{/each}}
 	    </script>
 	    <script>
 	        var ctx = "${ctx}";
@@ -255,6 +249,24 @@
 	    			  var id = this.id;
 	    			  if($(this).html() == "展开") {
 	    				  $(this).html("收起");
+	    				  // 发出请求
+	    				    var data = {};
+				    	    data.queryId = "tsAwardBaseDetailList";
+				    	    data.rows = 8;
+				    	    data.page = 1;
+				    	    data.search_caseCode = id;
+				    		$.ajax({
+				    			  async: false,
+				    	          url:ctx+ "/quickGrid/findPage" ,
+				    	          method: "post",
+				    	          dataType: "json",
+				    	          data: data,
+				    	          success: function(data){
+				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
+				    				  $("#toggle"+id).empty();
+				    				  $("#toggle"+id).html(tsAwardSrvList);
+				    	          }
+				    	     });
 	    			  } else {
 	    				  $(this).html("展开");
 	    			  }
