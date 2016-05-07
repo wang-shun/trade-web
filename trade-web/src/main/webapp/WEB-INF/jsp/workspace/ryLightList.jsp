@@ -201,7 +201,7 @@
 		var params = {
 			search_color : dateLamp,
 			argu_parentOrgId : $("#parentOrgId").val(),
-			argu_orgId : $("#orgId").val(),
+			argu_myOrgId : $("#orgId").val(),
 			argu_uid :  $("#userId").val(),
 			sortname :"COLOR"
 		};
