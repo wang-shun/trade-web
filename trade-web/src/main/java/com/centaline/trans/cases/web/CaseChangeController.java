@@ -121,6 +121,7 @@ public class CaseChangeController {
 					String orgCode=ttps.getYuTeamCode();
 					if (orgUserMap.get(orgCode) == null) {
 						Org org = uamUserOrgService.getOrgByCode(orgCode);
+						if(org==null) continue;
 						List<User> uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 								TransJobs.TJYGW.getCode());
 						orgUserMap.put(orgCode, uList);
