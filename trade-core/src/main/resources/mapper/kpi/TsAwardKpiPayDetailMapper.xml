@@ -213,7 +213,11 @@
   <select id="getPAwardKpiRate" parameterMap="getUserMap" statementType="CALLABLE">
         {CALL [sctrans].[P_AWARD_KPI_RATE](#{belongMonth},#{createBy},#{createTime})}
   </select>
-
+  
+  <select id="getPAwardKpiRateStatic" parameterMap="getUserMap" statementType="CALLABLE">
+        {CALL [sctrans].[P_AWARD_KPI_RATE_STATIC](#{belongMonth},#{createBy},#{createTime})}
+  </select>
+  
   <parameterMap type="java.util.Map" id="getUserMap">
      <parameter property="belongMonth" mode="IN" jdbcType="TIMESTAMP"/>
      <parameter property="createBy" mode="IN" jdbcType="VARCHAR"/>
