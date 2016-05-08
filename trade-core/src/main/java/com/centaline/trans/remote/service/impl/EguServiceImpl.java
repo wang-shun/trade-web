@@ -87,6 +87,8 @@ public class EguServiceImpl implements EguService {
 	Logger logger = LoggerFactory.getLogger(EguServiceImpl.class);
 	private final String EGU_MODULE ="EGU";
 	
+	private final String LINE_SEPERATOR = System.getProperty("line.separator");
+	
 
 	@Autowired
 	private ToAttachmentService toAttachmentService;
@@ -483,7 +485,7 @@ public class EguServiceImpl implements EguService {
 			paramMap.put("nonce", String.valueOf(new Random().nextInt(9000)+1000));
 			paramMap.put("un", user.getUsername());
 			paramMap.put("case_id", mortgageAttament.getCaseCode());
-			paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace("\r\n", ""));
+			paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace(LINE_SEPERATOR, ""));
 
 			paramMap = SignUtil.pathFilter(paramMap);
 
@@ -758,7 +760,7 @@ public class EguServiceImpl implements EguService {
 			apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口返回数据错误！");
 		}
-		apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "1", returnStr);
+		apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "1", null);
 		ToEvaReport report = new ToEvaReport();
 		report.setEvaCode(evaReport.getEvaCode());
 		report.setReportType(evaReport.getReportType());
@@ -774,6 +776,7 @@ public class EguServiceImpl implements EguService {
 			toEvaReport.setEvaCode(code);
 			toEvaReport.setSerialNumber(result.getString("serial_no"));
 			toEvaReport.setReportType(evaReport.getReportType());
+			toEvaReport.setIsMainLoanBank(mortgageAttament.getIsMainLoanBank());
 			toEvaReportService.saveToEvaReport(toEvaReport);	
 		}
 	}

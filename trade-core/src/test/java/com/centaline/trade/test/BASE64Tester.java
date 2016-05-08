@@ -21,7 +21,7 @@ public class BASE64Tester {
 		paramMap.put("nonce", String.valueOf(new Random().nextInt(9000)+1000));
 		paramMap.put("un", "huxinin");
 		paramMap.put("case_id", "ZY-AJ-201604-1014");
-		paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace("\r\n", ""));
+		paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace(System.getProperty("line.separator"), ""));
 		
 		String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 		String url = "evaCode" +"/upload?token=" + token +"&"+ SignUtil.createLinkString(paramMap);
