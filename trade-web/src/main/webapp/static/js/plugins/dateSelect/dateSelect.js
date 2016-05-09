@@ -60,7 +60,7 @@
 				break;
 			case 'dd':
 			default:
-				cDate.setMonth(cDate.getMonth()+rl);
+				cDate.setDate(cDate.getDate()+rl);
 				break;
 			}
 			this._setDate(cDate);
