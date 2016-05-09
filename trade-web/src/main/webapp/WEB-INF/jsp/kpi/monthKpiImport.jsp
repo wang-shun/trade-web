@@ -61,6 +61,18 @@ margin-left: 10px;
 margin-top: 10px;
 width:160px;
 }
+.org-form-control {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}
 </style>
 </head>
 
@@ -94,7 +106,12 @@ width:160px;
                                    <div class="form-group">
                                        <label class="col-lg-3 col-md-3 control-label">所在组 :</label>
                                        <div class="col-lg-9 col-md-9">
-                                          <input type="text" class=" form-control" id="orgName" placeholder="" style="width: 200px">
+                                         <input type="text" class="span12 tbsporg org-form-control" id="teamCode" name="teamCode" readonly="readonly" 
+										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
+										   expandNodeId:''})" />
+										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
                                        </div>
                                    </div>
                                </div>
@@ -102,7 +119,7 @@ width:160px;
                                    <div class="form-group">
                                        <label class="col-lg-3 col-md-3 control-label">人员 :</label>
                                        <div class="col-lg-9 col-md-9">
-                                           <input type="text" class=" form-control" id="userName" placeholder="" style="width: 200px">
+                                           <input type="text" class=" form-control" id="userName" name="userName" placeholder="" style="width: 200px">
                                        </div>
                                    </div>
                                </div>
@@ -215,8 +232,10 @@ width:160px;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  <!-- iCheck --> <script
 		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 		<script	src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script>
-    <script src="${ctx}/js/jquery.blockui.min.js"></script> 
-       <!-- 弹出框插件 -->
+    <script src="${ctx}/js/jquery.blockui.min.js"></script>
+    <!-- 组织控件 --> 
+    <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+    <!-- 弹出框插件 -->
     <script src="${ctx}/js/plugins/layer/layer.js"></script>
     <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
     <!-- 列表 -->
@@ -301,7 +320,33 @@ width:160px;
         	  }
         	});
     	}) 
+    	
+    	// 查询
+		$('#searchButton').click(function() {
+		 	var data = {};
+	    	
+	    	data.search_teamId =$.trim( $('#yuCuiOriGrpId').val() ); 
+	    	data.search_participant =$.trim( $('#userName').val() );  
+	    	data.queryId="monthKpiList";
+	    	
+		    $("#table_list_1").jqGrid('setGridParam',{
+	    		datatype:'json',
+	    		mtype:'post',
+	    		postData:data
+	    	}).trigger('reloadGrid'); 
+		})
     });
+    //选业务组织的回调函数
+    function radioYuCuiOrgSelectCallBack(array){
+        if(array && array.length >0){
+            $("#teamCode").val(array[0].name);
+    		$("#yuCuiOriGrpId").val(array[0].id);
+    		
+    	}else{
+    		$("#teamCode").val("");
+    		$("#yuCuiOriGrpId").val("");
+    	}
+    }
     </script>
  </content>
 </body>
