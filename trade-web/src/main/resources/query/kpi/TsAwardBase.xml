@@ -28,7 +28,8 @@
 	</formatters>
 	<query id="tsAwardBaseList">
 		<searchCondition>
-
+		<!--<condition field="T_TS_AWARD_BASE.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -42,10 +43,11 @@
 					FROM 
 					  (SELECT BASE.* FROM sctrans.T_TS_AWARD_BASE BASE INNER JOIN sctrans.T_TS_AWARD_KPI_RATE KPI_RETE ON BASE.CASE_CODE = KPI_RETE.CASE_CODE AND DATEDIFF(m, KPI_RETE.BELONG_MONTH, '2016-04-03') = 0) T_TS_AWARD_BASE
 					GROUP BY 
-					  T_TS_AWARD_BASE.CASE_CODE
+					   T_TS_AWARD_BASE.CASE_CODE
 				]]>
 			</baseSql>
 			<groupSql>
+			  
 			</groupSql>
 		</searchSql>
 		<grid>
