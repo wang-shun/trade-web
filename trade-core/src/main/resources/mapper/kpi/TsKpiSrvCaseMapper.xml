@@ -308,4 +308,18 @@
      <select id="callKpiStastic" parameterType="java.util.Date" statementType="CALLABLE"> 
         {CALL [sctrans].[P_KPI_STASTIC](#{belongMonth,jdbcType=TIMESTAMP})}
    </select>
+        <select id="getNoneAwardCase" resultType="java.lang.String" parameterType="java.util.List" >
+        truncate table sctrans.T_TT_KPI_TEMP;
+        insert into sctrans.T_TT_KPI_TEMP(case_code) values
+            <foreach collection="list" item="item" index="index" separator=","> 
+    		(#{item.caseCode})
+    	</foreach>;
+    select 
+    t.case_code
+    from sctrans.T_TT_KPI_TEMP as t 
+    left join sctrans.T_TS_AWARD_BASE as a
+    on t.case_code=a.case_code
+    where a.case_code is null;
+  </select>
+   
 </mapper>
