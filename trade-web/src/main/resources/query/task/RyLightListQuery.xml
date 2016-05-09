@@ -35,8 +35,8 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select color, caseCode, taskName,propertyAddress,realName,estPartTime,ID_ as taskId,PROC_INST_ID_ as instId,taskName as taskDfKey from (
-					  SELECT min(l.color) as color,t.CASE_CODE as caseCode,t.PART_CODE as taskName,tp.PROPERTY_ADDR as propertyAddress,u.REAL_NAME as realName
+				select color, caseCode, taskName,propertyAddress, realName,estPartTime,ID_ as taskId,PROC_INST_ID_ as instId,taskName as taskDfKey from (
+					  SELECT min(l.color) as color,t.CASE_CODE as caseCode,t.PART_CODE as taskName,tp.PROPERTY_ADDR as propertyAddress,uoj.REAL_NAME as realName
 					  	  ,t.EST_PART_TIME as estPartTime,ta.ID_,ta.PROC_INST_ID_
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
 							 left join sctrans.T_TO_PROPERTY_INFO as tp
@@ -47,23 +47,21 @@
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
 							  left join sctrans.LAMP_RULE l
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
-							  left join sctrans.SYS_USER as u 
-							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.SYS_USER_ORG_JOB as uoj
-							  on uoj.[USER_ID]=u.ID
+							  left join sctrans.v_USER_ORG_JOB as uoj
+							  on ta.ASSIGNEE_=uoj.USERNAME
 							  left join sctrans.SYS_ORG as sysOrg
 							  on sysOrg.ID=uoj.org_id
-							  where u.id is not null
+							  where uoj.user_id is not null
 							  	  <ifNotNull uid>
-									and u.id=#uid#
+									and uoj.user_id=#uid#
 							  	  </ifNotNull>
 							 	 <ifNotNull orgId>
-									and uoj.org_id=#orgId#
+									and uoj.org_id=#myOrgId#
 							  	</ifNotNull>
 							  	<ifNotNull parentOrgId>
 									and sysOrg.PARENT_ID=#parentOrgId#
 							 	 </ifNotNull>
-							  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_
+							  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,uoj.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_
 						
 							  
 							  )as a where color <> '2'

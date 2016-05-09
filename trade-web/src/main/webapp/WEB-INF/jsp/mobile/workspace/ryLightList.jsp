@@ -152,7 +152,7 @@ background-color: red;
 			color=sw.bootstrapSwitch('state')?'0':'1';
 			postData.search_color = color,
 			postData.argu_parentOrgId = $("#parentOrgId").val(),
-			postData.argu_orgId = $("#orgId").val(),
+			postData.argu_myOrgId = $("#orgId").val(),
 			postData.argu_uid =  $("#userId").val(),
 			postData.sortname ="COLOR"
 		postData.page=1;
