@@ -29,4 +29,6 @@ public interface TsKpiSrvCaseMapper {
 	void callKpiStastic(Date date);
 
 	Set<String> getCaseCodeByCaseCode(List<KpiSrvCaseVo> list);
+	Set<String> getNoneAwardCase(List<KpiSrvCaseVo> list);
+	
 }

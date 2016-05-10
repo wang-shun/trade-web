@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -49,10 +50,21 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		return kpiSrvCaseMapper.deleteByBelongMonth(belongMoht);
 	}
 
+	private void removeBlankCaseCode(List<KpiSrvCaseVo> listVOs) {
+		Iterator<KpiSrvCaseVo> it = listVOs.iterator();
+		while (it.hasNext()) {
+			KpiSrvCaseVo kpiSrvCaseVo = (KpiSrvCaseVo) it.next();
+			if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
+				it.remove();
+			}
+		}
+	}
+
 	@Transactional(readOnly = false)
 	@Override
 	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
 		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
+		removeBlankCaseCode(listVOs);
 		List<KpiSrvCaseVo> errList = checkVo(listVOs);
 		if (errList != null) {
 			return errList;
@@ -111,7 +123,13 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			}
 			set.add(kpiSrvCaseVo.getCaseCode());
 		}
-		return filterByCaseCodeSetMsg(listVOs, tSet, "案件编号重复");
+		List<KpiSrvCaseVo> list = filterByCaseCodeSetMsg(listVOs, tSet, "案件编号重复");
+		if (list != null) {
+			return list;
+		}
+
+		tSet = kpiSrvCaseMapper.getNoneAwardCase(listVOs);
+		return filterByCaseCodeSetMsg(listVOs, tSet, "案件基本奖金尚未生成");
 	}
 
 	private List<KpiSrvCaseVo> filterByCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs, Collection<String> colls,
@@ -181,7 +199,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	}
 
 	private BigDecimal DoubleToBigDecimal(Double d) {
-		return d == null ? null :  BigDecimal.valueOf(d).setScale(2);
+		return d == null ? null : BigDecimal.valueOf(d).setScale(2);
 	}
 
 	private Boolean StrToBo(String str) {
@@ -213,7 +231,8 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		}
 
 		if (ssc != null && bsc != null) {
-			newEntity.setSatisfaction(NumberUtil.add(ssc, bsc).divide(DoubleToBigDecimal(bothHave ? 2d : 1d),2,RoundingMode.HALF_UP));
+			newEntity.setSatisfaction(
+					NumberUtil.add(ssc, bsc).divide(DoubleToBigDecimal(bothHave ? 2d : 1d), 2, RoundingMode.HALF_UP));
 		} else if (!bothHave) {
 			if (ssc != null) {
 				newEntity.setSatisfaction(DoubleToBigDecimal(ssc));
