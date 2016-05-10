@@ -19,6 +19,8 @@
         <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet">
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+        <!-- 分页控件 -->
+        <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     </head>
     <body class="pace-done">
         <div id="wrapper" class="Index">
@@ -29,7 +31,7 @@
                         <div class="bonus-m">
                             <div class="ibox-title">
                                 <input type="button" class="btn btn-warning m-r-sm" value="&lt;">
-                                <h5 class="month">2015/3月</h5>
+                                <h5 class="month">yyyy/MM月</h5>
                                 <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
                             </div>
                             <div class="ibox-tools">
@@ -44,7 +46,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">案件编号</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" id="caseCode" name="caseCode">
                                         </div>
                                     </div>
                                 </div>
@@ -52,12 +54,12 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">物业地址</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" >
+                                            <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4">                                   
-                                    <button class="btn btn-warning"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
+                                    <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
                                     <button class="btn btn-warning" type="submit">提交</button>
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button>
                                 </div>
@@ -68,6 +70,13 @@
                         </div>
                     </div>
                     </div>
+                    <!-- <div id="pagerfront" class="pagination my-pagination"></div>
+             		<div id="pagesize" class="show-records overflow">
+						<div id="currentTotalPage" class="pull-left"><strong class="bold"></strong></div>
+						<span class="ml15">共<strong class="bold" id="houListID"></strong>条</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                   		<label class="label" onclick="selectPageSize(this)">10</label>
+                   		<label class="label" onclick="selectPageSize(this)">20</label><label class="label label-important" onclick="selectPageSize(this)">30</label>
+                    </div> -->
                     <div class="bonus-table">
                         <table>
                             <thead>
@@ -161,19 +170,25 @@
                             </tbody>
                         </table>                     
                     </div>
+                    <!-- <div id="pageBar" class="pagination  my-pagination text-center m0"></div> -->
                 </div>
             </div>
             <!-- /Main view -->
         </div>
+        
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+         <!-- 日期控件 -->
+    	<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
         <!-- Custom and plugin javascript -->
         <script src="${ctx}/js/inspinia.js"></script>
         <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+        <!-- 分页控件  -->
+        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 		<script id="tsAwardBaseList" type= "text/html">
                            {{each rows as item index}}
@@ -228,10 +243,15 @@
 	    <script>
 	        var ctx = "${ctx}";
 	    	$(document).ready(function(){
+	    		//初始化日期控件
+	        	var monthSel=new DateSelect($('.bonus-m'),{max:new Date()});
+	    		
 	    		var data = {};
 	    	    data.queryId = "tsAwardBaseList";
 	    	    data.rows = 8;
 	    	    data.page = 1;
+	    	    data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
+	    	    // data.argu_belongMonth = '2016-04-09';
 	    		$.ajax({
 	    			  async: false,
 	    	          url:ctx+ "/quickGrid/findPage" ,
@@ -242,41 +262,112 @@
 	    	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
     	                  $("#TsAwardBaseList").empty();
     	                  $("#TsAwardBaseList").html(tsAwardBaseList);
+    	                  
+    	                  // 显示分页
+    	                  //initpage(data.total,data.pagesize,data.page);
 	    	          }
 	    	     });
-	    		
-	    		  $(".expand").click(function(){
-	    			  var id = this.id;
-	    			  if($(this).html() == "展开") {
-	    				  $(this).html("收起");
-	    				  // 发出请求
-	    				    var data = {};
-				    	    data.queryId = "tsAwardBaseDetailList";
-				    	    data.rows = 8;
-				    	    data.page = 1;
-				    	    data.search_caseCode = id;
-				    		$.ajax({
-				    			  async: false,
-				    	          url:ctx+ "/quickGrid/findPage" ,
-				    	          method: "post",
-				    	          dataType: "json",
-				    	          data: data,
-				    	          success: function(data){
-				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
-				    				  $("#toggle"+id).empty();
-				    				  $("#toggle"+id).html(tsAwardSrvList);
-				    	          }
-				    	     });
-	    			  } else {
-	    				  $(this).html("展开");
-	    			  }
-	    			  $("#toggle"+id).toggle();
-    			  });
-	    		  
-	    		  $("#test").click(function(){
-	    			 alert('ok');
-    			  });
+	    	    
+	    	 	// 查询
+    			$('#searchButton').click(function() {
+    			    var data = {};
+    	    	    data.queryId = "tsAwardBaseList";
+    	    	    data.rows = 8;
+    	    	    data.page = 1;
+    	    	    data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
+    	    	    data.argu_caseCode = $.trim( $('#caseCode').val() );
+    	    	    data.argu_propertyAddr = $.trim( $('#propertyAddr').val() );
+    	    		$.ajax({
+    	    			  async: false,
+    	    	          url:ctx+ "/quickGrid/findPage" ,
+    	    	          method: "post",
+    	    	          dataType: "json",
+    	    	          data: data,
+    	    	          success: function(data){
+    	    	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
+        	                  $("#TsAwardBaseList").empty();
+        	                  $("#TsAwardBaseList").html(tsAwardBaseList);
+        	              	  // 显示分页
+        	                  //initpage(data.total,data.pagesize,data.page);
+    	    	          }
+    	    	    });
+    			});
+	    	 	
+	    		$(document).on("click",".expand",function(){
+    				var id = this.id;
+   	  			  	if($(this).html() == "展开") {
+   	  				  $(this).html("收起");
+   	  				  // 发出请求
+   	  				    var data = {};
+   				    	    data.queryId = "tsAwardBaseDetailList";
+   				    	    data.rows = 8;
+   				    	    data.page = 1;
+   				    	    data.search_caseCode = id;
+   				    		$.ajax({
+   				    			  async: false,
+   				    	          url:ctx+ "/quickGrid/findPage" ,
+   				    	          method: "post",
+   				    	          dataType: "json",
+   				    	          data: data,
+   				    	          success: function(data){
+   				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
+   				    				  $("#toggle"+id).empty();
+   				    				  $("#toggle"+id).html(tsAwardSrvList);
+   				    	          }
+   				    	     });
+	   	  			  } else {
+	   	  				  $(this).html("展开");
+	   	  			  }
+	   	  			  $("#toggle"+id).toggle();
+    			});
 	    	});
+	    	
+	    	function initpage(totalCount,pageSize,currentPage)
+	    	{
+	    		if(totalCount>1500){
+	    			totalCount = 1500;
+	    		}
+	    		var currentTotalstrong=$('#currentTotalPage').find('strong');
+	    		if (totalCount<1 || pageSize<1 || currentPage<1)
+	    		{
+	    			$(currentTotalstrong).empty();
+	    			$("#pageBar").empty();
+	    			$("#pagerfront").empty();
+	    			return;
+	    		}
+	    		$(currentTotalstrong).empty();
+	    		$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	    		
+	    		$("#pageBar").twbsPagination({
+	    			totalPages:totalCount,
+	    			visiblePages:9,
+	    			startPage:currentPage,
+	    			first:'<i class="icon-step-backward"></i>',
+	    			prev:'<i class="icon-chevron-left"></i>',
+	    			next:'<i class="icon-chevron-right"></i>',
+	    			last:'<i class="icon-step-forward"></i>',
+	    			showGoto:true,
+	    			 onPageClick: function (event, page) {
+	    				
+	    				 searchcondition(page);
+	    		        }
+	    		});
+	    		$("#pagerfront").twbsPagination({
+	    			totalPages:totalCount,
+	    			visiblePages:0,
+	    			startPage:currentPage,
+	    			first:'<i class="icon-step-backward"></i>',
+	    			prev:'<i class="icon-chevron-left"></i>',
+	    			next:'<i class="icon-chevron-right"></i>',
+	    			last:'<i class="icon-step-forward"></i>',
+	    			 onPageClick: function (event, page) {
+	    				
+	    				 searchcondition(page);
+	    		        }
+	    		});
+	    		
+	    		
+	    	}
 	    </script>
         <input type="hidden" id="ctx" value="${ctx}" />
     
