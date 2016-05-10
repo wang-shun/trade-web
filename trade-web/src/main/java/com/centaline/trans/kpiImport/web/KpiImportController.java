@@ -63,19 +63,6 @@ public class KpiImportController {
 	
 	@RequestMapping(value = "/bonus")
 	public String bonus(HttpServletRequest request) {
-		// 取上一个月份
-		SessionUser user = uamSesstionService.getSessionUser();
-		try {
-			Map map = new HashMap();
-			//map.put("belongMonth", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-			map.put("belongMonth", DateUtil.plusMonth(new Date(), -1));
-			map.put("createBy", user.getId());
-			map.put("createTime", new Date());
-			
-			tsAwardKpiPayDetailService.getPAwardKpiRate(map);
-		} catch (Exception e) {
-			
-		}
 		return "kpi/bonus";
 	}
 
@@ -154,7 +141,13 @@ public class KpiImportController {
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);
 
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
-		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
+		//统计AwardKpiRate
+		Map map = new HashMap();
+		map.put("belongMonth", belongM);
+		map.put("createBy", uamSesstionService.getSessionUser().getId());
+		map.put("createTime", new Date());
+		tsAwardKpiPayDetailService.getPAwardKpiRate(map);
+		
 		return "kpi/monthKpiImport";
 	}
 
