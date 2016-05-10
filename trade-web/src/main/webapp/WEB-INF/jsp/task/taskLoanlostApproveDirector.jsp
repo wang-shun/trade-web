@@ -66,6 +66,10 @@
                        <label class="col-sm-4 control-label">物业地址：${caseDetail.propertyAddr}</label>
                    </div>
                    <div class="row ">
+                       <label class="col-sm-5 control-label">主贷人：${mortgage.custName}</label>
+                       <label class="col-sm-4 control-label">主贷人单位：${mortgage.custCompany}</label>
+                   </div>
+                   <div class="row ">
                        <label class="col-sm-5 control-label">承办银行：${caseDetail.lastLoanBank}</label>
                        <label class="col-sm-4 control-label">贷款流失金额：${caseDetail.mortTotalAmount/10000}万</label>
                    </div>

@@ -35,6 +35,7 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -48,7 +49,8 @@ public class CaseCloseApproveController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	
+	@Autowired
+	private AwardBaseService awardBaseService;
 	/*发送消息*/
 	@Autowired(required=true)
 	@Qualifier("uamMessageServiceClient")
@@ -127,6 +129,7 @@ public class CaseCloseApproveController {
 			toCase.setCaseProperty("30003002");
 			toCase.setCloseTime(new Date());
 			toCaseService.updateByCaseCodeSelective(toCase);
+			awardBaseService.setAwradCaseCloseDate(processInstanceVO.getCaseCode(),new Date());//设置基本奖金的结案时间
 		}
 		
 		// add zhangxb16 2016-2-19

@@ -35,6 +35,7 @@
 		this._lable_date = $(el).find(".month");
 		this._max = this._opts.max;
 		this._min = this._opts.min;
+		this._moveDone=this._opts.moveDone;
 		this._stepExp = this._opts.stepExp;
 		this._formate = this._opts.formate;
 		this._move_btn = $(el).find('input[type=button]');
@@ -65,6 +66,9 @@
 			}
 			this._setDate(cDate);
 			this._render(cDate);
+			if(typeof this._moveDone=='function'){
+				this._moveDone(cDate);
+			}
 
 		},
 		getDate : function() {

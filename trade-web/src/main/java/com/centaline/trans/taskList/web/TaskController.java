@@ -294,6 +294,7 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
+    		request.setAttribute("mortgage", toMortgageService.findToSelfLoanMortgage(caseCode));
     		String approveType = "1";/*流失审批*/
     		initApproveRecord(request, caseCode, approveType);
     	} else if(taskitem.equals("CaseCloseThirdApprove") || 
