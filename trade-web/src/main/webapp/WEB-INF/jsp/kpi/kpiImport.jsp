@@ -226,7 +226,7 @@
 			sw = $("#moSwitch").bootstrapSwitch({
 				'onText' : "上月",
 				'offText' : '当月',
-				state : false
+				state : true
 			}).on('switchChange.bootstrapSwitch', function(event, state) {
 			});
 			
