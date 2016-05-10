@@ -248,7 +248,7 @@ width:160px;
 	var sw;
     $(document).ready(function(){
     	//初始化日期控件
-    	var monthSel=new DateSelect($('.bonus-m'),{max:new Date()});
+    	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
     	// 初始化列表
     	MonthKpiImportList.init('${ctx}','/quickGrid/findPage','table_list_1','pager_list_1','${belongM}');
     	// 滑块
@@ -319,7 +319,17 @@ width:160px;
     	
     	// 查询
 		$('#searchButton').click(function() {
-		 	var data = {};
+			reloadGrid();
+		});
+		
+		function reloadGrid(bm){
+ 			if(!bm){
+ 				bm=monthSel.getDate().format('yyyy-MM-dd');	
+ 			}else{
+ 				bm=bm.format('yyyy-MM-dd');
+ 			}
+ 			
+ 			var data = {};
 	    	data.search_teamId =$.trim( $('#yuCuiOriGrpId').val() ); 
 	    	data.search_participant =$.trim( $('#userName').val() ); 
 	    	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
@@ -330,7 +340,7 @@ width:160px;
 	    		mtype:'post',
 	    		postData:data
 	    	}).trigger('reloadGrid'); 
-		})
+ 		}
     });
     //选业务组织的回调函数
     function radioYuCuiOrgSelectCallBack(array){
