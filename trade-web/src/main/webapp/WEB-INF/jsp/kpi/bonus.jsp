@@ -35,9 +35,9 @@
                                 <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
                             </div>
                             <div class="ibox-tools">
-                                <span class="nav-label">案件数<i>10</i></span>
-                                <span class="nav-label">发放人员<i>31</i></span>
-                                <span class="nav-label">奖金总额<i>123,200.00</i></span>
+                                <span class="nav-label">案件数<i id="caseCount">10</i></span>
+                                <span class="nav-label">发放人员<i id="userCount">31</i></span>
+                                <span class="nav-label">奖金总额<i id="awardAmount">123,200.00</i></span>
                             </div>
                         </div>
                         <div class="ibox-content bonus-m-con">
@@ -251,7 +251,6 @@
 	    	    data.rows = 8;
 	    	    data.page = 1;
 	    	    data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
-	    	    // data.argu_belongMonth = '2016-04-09';
 	    		$.ajax({
 	    			  async: false,
 	    	          url:ctx+ "/quickGrid/findPage" ,
@@ -267,6 +266,27 @@
     	                  //initpage(data.total,data.pagesize,data.page);
 	    	          }
 	    	     });
+	    		
+	    		 $.ajax({
+	    			  async: true,
+	    	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: {belongMonth : monthSel.getDate().format('yyyy-MM-dd')},
+	    	          success: function(data){
+	    	        	  console.log(data);
+	    	        	  var d = data.content;
+	    	        	  if(!d || $.trim(d) === "") {
+	    	        		  $("#caseCount").html(0);
+    	    	        	  $("#userCount").html(0);
+    	    	        	  $("#awardAmount").html(0);
+	    	        	  } else {
+	    	        		  $("#caseCount").html(d.caseCount);
+    	    	        	  $("#userCount").html(d.userCount);
+    	    	        	  $("#awardAmount").html(d.awardKpiSum);
+	    	        	  }
+	    	          }
+	    	     });
 	    	    
 	    	 	// 查询
     			$('#searchButton').click(function() {
@@ -278,7 +298,7 @@
     	    	    data.argu_caseCode = $.trim( $('#caseCode').val() );
     	    	    data.argu_propertyAddr = $.trim( $('#propertyAddr').val() );
     	    		$.ajax({
-    	    			  async: false,
+    	    			  async: true,
     	    	          url:ctx+ "/quickGrid/findPage" ,
     	    	          method: "post",
     	    	          dataType: "json",
@@ -289,6 +309,39 @@
         	                  $("#TsAwardBaseList").html(tsAwardBaseList);
         	              	  // 显示分页
         	                  //initpage(data.total,data.pagesize,data.page);
+    	    	          }
+    	    	    });
+    	    		
+    	    		$.ajax({
+    	    			  async: true,
+    	    	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
+    	    	          method: "post",
+    	    	          dataType: "json",
+    	    	          data: {belongMonth : monthSel.getDate().format('yyyy-MM-dd')},
+    	    	          success: function(data){
+    	    	        	  //console.log(data);
+    	    	        	  var d = data.content;
+    	    	        	  if(!d || $.trim(d) === "") {
+    	    	        		  $("#caseCount").html(0);
+        	    	        	  $("#userCount").html(0);
+        	    	        	  $("#awardAmount").html(0);
+    	    	        	  } else {
+    	    	        		  if(!d.caseCount || $.trim(d.caseCount) === ""){
+    	    	        			  $("#caseCount").html(0);
+    	    	        		  } else {
+    	    	        			  $("#caseCount").html(d.caseCount);
+    	    	        		  }
+								  if(!d.userCount || $.trim(d.userCount) === ""){
+									  $("#userCount").html(0);	    	        			  
+								  } else {
+									  $("#userCount").html(d.userCount);
+								  }
+								  if(!d.awardKpiSum || $.trim(d.awardKpiSum) === ""){
+									  $("#awardAmount").html(0);
+								  } else {
+									  $("#awardAmount").html(d.awardKpiSum);
+								  }
+    	    	        	  }
     	    	          }
     	    	    });
     			});
