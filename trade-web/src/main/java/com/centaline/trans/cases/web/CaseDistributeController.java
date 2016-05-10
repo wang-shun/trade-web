@@ -315,15 +315,8 @@ public class CaseDistributeController {
 	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
 	    	if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
     		
-	    	List <UserOrgJob>uogs=uamUserOrgService.getUserOrgJobByUserId(userId);
-	    	String userMainJobDep=null;
-	    	if(uogs!=null){
-		    	for (UserOrgJob userOrgJob : uogs) {
-		    		if("1".equals(userOrgJob.getIsmain())){
-		    			userMainJobDep=userOrgJob.getOrgId();
-		    		}
-				}
-	    	}
+	   
+
     		// 如果是无主案件分配,需要维护案件负责人
     		if(toCase == null) {
     			toCase = new ToCase();
@@ -333,12 +326,12 @@ public class CaseDistributeController {
     			toCase.setStatus(CaseStatusEnum.YFD.getCode());
     			toCase.setCreateTime(new Date());
     			toCase.setLeadingProcessId(userId);
-    			toCase.setOrgId(userMainJobDep);
+    			toCase.setOrgId(sessionUser.getServiceDepId());
     			int caseCount = toCaseService.insertSelective(toCase);
     			if(caseCount == 0)return AjaxResponse.fail("无主案件基本表新增失败！");
     		} else {
         		toCase.setLeadingProcessId(userId);
-        		toCase.setOrgId(userMainJobDep);
+        		toCase.setOrgId(sessionUser.getServiceDepId());
         		if(!CaseStatusEnum.WFD.getCode().equals(toCase.getStatus())){
         			return AjaxResponse.fail("数据已经被修改！");
         		}
