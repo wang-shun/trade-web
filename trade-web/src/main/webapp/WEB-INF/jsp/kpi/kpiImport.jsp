@@ -226,7 +226,7 @@
 			sw = $("#moSwitch").bootstrapSwitch({
 				'onText' : "上月",
 				'offText' : '当月',
-				state : false
+				state : true
 			}).on('switchChange.bootstrapSwitch', function(event, state) {
 			});
 			
@@ -373,8 +373,13 @@
 		$("#searchButton").click(function(){
 			reloadGrid();
 		});
-		function reloadGrid(){
-			var bm=monthSel.getDate().format('yyyy-MM-dd');
+		function reloadGrid(bm){
+			if(!bm){
+				bm=monthSel.getDate().format('yyyy-MM-dd');	
+			}else{
+				bm=bm.format('yyyy-MM-dd');
+			}
+			
 			var data = {
    					queryId:"kpiList",
    					argu_belongMonth : bm,
@@ -387,7 +392,7 @@
 		    		postData:data
 		    	}).trigger('reloadGrid'); 
 		}
-		var monthSel=new DateSelect($('.bonus-m'),{max:new Date()});
+		var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
 		</script> </content>
 </body>
 </html>
