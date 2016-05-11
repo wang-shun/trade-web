@@ -109,7 +109,7 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>金融达标</th>
+                                                    <th>是否达标</th>
                                                     <th>考核结果</th>
                                                     <th>占比</th>
                                                     <th>绩效奖金</th>
@@ -215,7 +215,7 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>金融达标</th>
+                                                    <th>是否达标</th>
                                                     <th>考核结果</th>
                                                     <th>环节占比</th>
 													<th>满意度占比</th>
@@ -229,7 +229,7 @@
                                                     <td>{{item.SRV_CODE}}</td>
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}</td>
-                                                    <td>{{item.FIN_ORDER_RATE}}</td>
+                                                    <td>{{item.MKPI==1?"是":""}}</td>
                                                     <td>{{item.KPI_RATE_SUM}}</td>
                                                     <td>{{item.SRV_PART_IN}}</td>
 													<td>{{item.SRV_PART}}</td>
