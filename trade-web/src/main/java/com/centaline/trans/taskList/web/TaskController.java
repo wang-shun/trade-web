@@ -294,7 +294,16 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
-    		request.setAttribute("mortgage", toMortgageService.findToSelfLoanMortgage(caseCode));
+    		
+    		ToMortgage toMortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
+    		//主贷人
+			if(null !=toMortgage.getCustCode()){ 
+				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+				if(null !=guest){
+					toMortgage.setCustName(guest.getGuestName());
+				}
+			}
+			request.setAttribute("mortgage",toMortgage );
     		String approveType = "1";/*流失审批*/
     		initApproveRecord(request, caseCode, approveType);
     	} else if(taskitem.equals("CaseCloseThirdApprove") || 
@@ -461,7 +470,7 @@ public class TaskController {
 				// update zhangxb16 2016-2-16 
 				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
 				if(null !=guest){
-					reVo.setBuyerWork(guest.getWorkUnit());
+					reVo.setBuyerWork(toMortgage.getCustCompany());
 					reVo.setMortBuyer(guest.getGuestName());
 				}
 			}

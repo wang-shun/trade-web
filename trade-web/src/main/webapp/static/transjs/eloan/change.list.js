@@ -115,7 +115,7 @@ var ChangeList = (function(){
     			}],
     			multiselect: true,
     			pager : "#"+gridPagerId,
-    			sortname:'CONFIRM_TIME',
+    			sortname:'agent.CONFIRM_TIME',
     	        sortorder:'asc',
     			viewrecords : true,
     			pagebuttions : true,
