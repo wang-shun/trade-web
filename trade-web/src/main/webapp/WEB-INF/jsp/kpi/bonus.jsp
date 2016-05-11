@@ -37,7 +37,7 @@
                             <div class="ibox-tools">
                                 <span class="nav-label">案件数<i id="caseCount">10</i></span>
                                 <span class="nav-label">发放人员<i id="userCount">31</i></span>
-                                <span class="nav-label">奖金总额<i id="awardAmount">123,200.00</i></span>
+                                <span class="nav-label">绩效奖金总额<i id="awardAmount">123,200.00</i></span>
                             </div>
                         </div>
                         <div class="ibox-content bonus-m-con">
@@ -70,13 +70,13 @@
                         </div>
                     </div>
                     </div>
-                    <!-- <div id="pagerfront" class="pagination my-pagination"></div>
+                    <div id="pagerfront" class="pagination my-pagination"></div>
              		<div id="pagesize" class="show-records overflow">
 						<div id="currentTotalPage" class="pull-left"><strong class="bold"></strong></div>
 						<span class="ml15">共<strong class="bold" id="houListID"></strong>条</span>&nbsp;&nbsp;&nbsp;&nbsp;
                    		<label class="label" onclick="selectPageSize(this)">10</label>
                    		<label class="label" onclick="selectPageSize(this)">20</label><label class="label label-important" onclick="selectPageSize(this)">30</label>
-                    </div> -->
+                    </div>
                     <div class="bonus-table">
                         <table>
                             <thead>
@@ -86,7 +86,7 @@
                                     <th>物业地址</th>
                                     <th>过户时间</th>
                                     <th>结案时间</th>
-                                    <th>奖金</th>
+                                    <th>绩效奖金</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -109,7 +109,7 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>金融达标</th>
+                                                    <th>是否达标</th>
                                                     <th>考核结果</th>
                                                     <th>占比</th>
                                                     <th>绩效奖金</th>
@@ -170,7 +170,7 @@
                             </tbody>
                         </table>                     
                     </div>
-                    <!-- <div id="pageBar" class="pagination  my-pagination text-center m0"></div> -->
+                   <div id="pageBar" class="pagination  my-pagination text-center m0"></div>
                 </div>
             </div>
             <!-- /Main view -->
@@ -215,7 +215,7 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>金融达标</th>
+                                                    <th>是否达标</th>
                                                     <th>考核结果</th>
                                                     <th>环节占比</th>
 													<th>满意度占比</th>
@@ -229,7 +229,7 @@
                                                     <td>{{item.SRV_CODE}}</td>
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}</td>
-                                                    <td>{{item.FIN_ORDER_RATE}}</td>
+                                                    <td>{{item.MKPI==1?"是":""}}</td>
                                                     <td>{{item.KPI_RATE_SUM}}</td>
                                                     <td>{{item.SRV_PART_IN}}</td>
 													<td>{{item.SRV_PART}}</td>
@@ -263,7 +263,7 @@
     	                  $("#TsAwardBaseList").html(tsAwardBaseList);
     	                  
     	                  // 显示分页
-    	                  //initpage(data.total,data.pagesize,data.page);
+    	                  initpage(data.total,data.pagesize,data.page);
 	    	          }
 	    	     });
 	    		
@@ -303,6 +303,7 @@
    				    	    data.rows = 8;
    				    	    data.page = 1;
    				    	    data.search_caseCode = id;
+   				    	 	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
    				    		$.ajax({
    				    			  async: false,
    				    	          url:ctx+ "/quickGrid/findPage" ,
@@ -347,7 +348,7 @@
     	                  $("#TsAwardBaseList").empty();
     	                  $("#TsAwardBaseList").html(tsAwardBaseList);
     	              	  // 显示分页
-    	                  //initpage(data.total,data.pagesize,data.page);
+    	                  initpage(data.total,data.pagesize,data.page);
 	    	          }
 	    	    });
 	    		
@@ -410,8 +411,8 @@
 	    			last:'<i class="icon-step-forward"></i>',
 	    			showGoto:true,
 	    			 onPageClick: function (event, page) {
-	    				
-	    				 searchcondition(page);
+	    				 console.log(page);
+	    				 //searchcondition(page);
 	    		        }
 	    		});
 	    		$("#pagerfront").twbsPagination({
@@ -447,7 +448,7 @@
                                     <span class="wd88">人员</span>
                                     <span class="wd126">案件编号</span>
                                     <span class="wd88">服务</span>
-                                    <span class="wd110">奖金</span>
+                                    <span class="wd110">绩效奖金</span>
                                     <span class="wd243">备注</span>
                                 </li>
                                 <li>

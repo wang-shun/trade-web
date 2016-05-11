@@ -28,39 +28,37 @@
 	</formatters>
 	<query id="tsAwardBaseDetailList">
 		<searchCondition>
-			<condition field="AWARD_BASE.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="KPI_PAY_DETAIL.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
                   <![CDATA[
-					SELECT 
+                  SELECT 
 						AWARD_BASE.CASE_CODE,
 						AWARD_BASE.PARTICIPANT,
 						AWARD_BASE.SRV_CODE,
 						AWARD_BASE.BASE_AMOUNT,
 						convert(varchar,cast(AWARD_BASE.SRV_PART_IN as   decimal(10,   0)))+'/'+convert(varchar,cast(AWARD_BASE.SRV_PART_TOTAL as   decimal(10,   0)))  AS SRV_PART_IN,
 						KPI_SRV_CASE.SATISFACTION,
-						KPI_PSN_MONTH.FIN_ORDER_RATE,
+						KPI_RATE.MKPI,
 						KPI_RATE.KPI_RATE_SUM,
 						KPI_RATE.SRV_PART,
 						KPI_PAY_DETAIL.AWARD_KPI_MONEY
-						FROM sctrans.T_TS_AWARD_BASE AWARD_BASE
-						INNER JOIN sctrans.T_TS_KPI_SRV_CASE KPI_SRV_CASE
-						ON AWARD_BASE.CASE_CODE = KPI_SRV_CASE.CASE_CODE
-						AND AWARD_BASE.SRV_CODE = KPI_SRV_CASE.SRV_CODE
-						INNER JOIN sctrans.T_TS_KPI_PSN_MONTH KPI_PSN_MONTH
-						ON KPI_PSN_MONTH.PARTICIPANT = AWARD_BASE.PARTICIPANT
-						INNER JOIN sctrans.T_TS_AWARD_KPI_RATE KPI_RATE
-						ON AWARD_BASE.CASE_CODE = KPI_RATE.CASE_CODE
-						AND AWARD_BASE.SRV_CODE = KPI_RATE.SRV_CODE
-						AND AWARD_BASE.PARTICIPANT = KPI_RATE.PARTICIPANT
-						INNER JOIN sctrans.T_TS_AWARD_KPI_PAY_DETAIL KPI_PAY_DETAIL
-						ON KPI_PAY_DETAIL.AWARD_BASE_ID = AWARD_BASE.PKID
-						WHERE KPI_SRV_CASE.SATISFACTION IS NOT NULL
-						AND AWARD_BASE.IS_DELETED = 0
-						AND DATEDIFF(m, KPI_SRV_CASE.BELONG_MONTH,'2016-04-03') = 0
-						AND DATEDIFF(m, KPI_PSN_MONTH.BELONG_MONTH,'2016-04-03') = 0
-						AND DATEDIFF(m, KPI_RATE.BELONG_MONTH,'2016-04-03') = 0
+						FROM sctrans.T_TS_AWARD_KPI_PAY_DETAIL KPI_PAY_DETAIL
+						LEFT JOIN sctrans.T_TS_AWARD_BASE AWARD_BASE
+						ON AWARD_BASE.CASE_CODE = KPI_PAY_DETAIL.CASE_CODE
+						AND AWARD_BASE.SRV_CODE = KPI_PAY_DETAIL.SRV_CODE
+					  AND AWARD_BASE.PARTICIPANT = KPI_PAY_DETAIL.PARTICIPANT
+						LEFT JOIN sctrans.T_TS_AWARD_KPI_RATE KPI_RATE
+						ON KPI_RATE.PKID = KPI_PAY_DETAIL.KPI_RATE_ID
+						LEFT   JOIN sctrans.T_TS_KPI_SRV_CASE KPI_SRV_CASE
+						ON KPI_SRV_CASE.PKID = KPI_RATE.SRV_CASE_ID
+						LEFT  JOIN sctrans.T_TS_KPI_PSN_MONTH KPI_PSN_MONTH
+						ON KPI_PSN_MONTH.PKID = KPI_RATE.PSN_MONTH_ID
+						WHERE AWARD_BASE.IS_DELETED = 0
+						<ifNotNull belongMonth>
+					    	AND DATEDIFF(m, KPI_PAY_DETAIL.BELONG_MONTH, #belongMonth#) = 0
+					    </ifNotNull>
 				]]>
 			</baseSql>
 			<groupSql>
@@ -74,7 +72,7 @@
 				<column type="both" name="BASE_AMOUNT" index="" checkbox="" title="基础奖金" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="SRV_PART_IN" index="" checkbox="" title="环节占比" customDict="" sysDict=""  format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="SATISFACTION" index="" checkbox="" title="满意度" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="FIN_ORDER_RATE" index="" checkbox="" title="金融达标" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="MKPI" index="" checkbox="" title="是否达标" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="KPI_RATE_SUM" index="" checkbox="" title="考核结果" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="SRV_PART" index="" checkbox="" title="满意度占比" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="AWARD_KPI_MONEY" index="" checkbox="" title="绩效奖金" customDict="" sysDict=""  format="" width="90" isSort="" align="" halign="" resizable=""/>
