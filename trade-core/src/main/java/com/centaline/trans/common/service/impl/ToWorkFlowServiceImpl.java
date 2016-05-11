@@ -94,7 +94,6 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 
 	@Override
 	public ToWorkFlow queryActiveToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
-		// TODO Auto-generated method stub
 		return toWorkFlowMapper.queryActiveToWorkFlowByCaseCodeBusKey(record);
 	}
 
