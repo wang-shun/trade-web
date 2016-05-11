@@ -67,6 +67,7 @@
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<input type="hidden" id="custName" name="custName" value="" >
+					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
@@ -350,6 +351,7 @@
 			if(!checkForm()) {
 				return;
 			}
+			$("#finOrgCode").val($("#lastLoanBank").val());
 			var jsonData = $("#loanlostApplyForm").serializeArray();
 			deleteAndModify();
 			

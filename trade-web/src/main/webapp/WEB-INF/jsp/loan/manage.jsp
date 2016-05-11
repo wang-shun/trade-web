@@ -176,7 +176,7 @@
 	    	<a class="btn btn-primary" href="javascript:exportToExcel()">导出</a>
 	    </form>	
 		<!-- DataList end -->
-	
+	<div id="alertOper"></div>
 	<!-- content end  -->
 	
   	<content tag="local_script">
