@@ -10,37 +10,35 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map" %>
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-<%@ taglib prefix="sitemesh"
-           uri="http://www.opensymphony.com/sitemesh/decorator"%>
+<%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
-		Menu menu = MenuConstants.getMenu();
-String headImgUrl = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+SessionUserConstants.getSesstionUser().getEmployeeCode()+".jpg";
-		URLAvailability urlAvailability = new URLAvailability();
-		if(urlAvailability.isConnect(headImgUrl) == null) {
-			headImgUrl=null;
-		}
-request.setAttribute("headImgUrl", headImgUrl);
-
-request.setAttribute("menuVO", menu.getChildren());
-
-if(pageContext.getSession().getAttribute("ctx")==null){
-	UamPermissionService uamPermissionService = SpringUtils.getBean("uamPermissionServiceClient");
-	String appName = pageContext.getServletContext().getInitParameter("appName");
-	App app = uamPermissionService.getAppByAppName(appName);
-	pageContext.getSession().setAttribute("ctx", app.genAbsoluteUrl());
-	
-	List<App> appList = uamPermissionService.getAllApp();
-	pageContext.getSession().setAttribute("appCtxList", appList);
-	Map<String, String> appCtx = new HashMap<String,String>(appList.size());
-	for(App appitem : appList){
-		appCtx.put(appitem.getAppName(), appitem.genAbsoluteUrl());
+	Menu menu = MenuConstants.getMenu();
+	String headImgUrl = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+SessionUserConstants.getSesstionUser().getEmployeeCode()+".jpg";
+	URLAvailability urlAvailability = new URLAvailability();
+	if(urlAvailability.isConnect(headImgUrl) == null) {
+		headImgUrl=null;
 	}
-	pageContext.getSession().setAttribute("appCtx", appCtx);
-}
+	request.setAttribute("headImgUrl", headImgUrl);
+
+	request.setAttribute("menuVO", menu.getChildren());
+
+	if(pageContext.getSession().getAttribute("ctx")==null){
+		UamPermissionService uamPermissionService = SpringUtils.getBean("uamPermissionServiceClient");
+		String appName = pageContext.getServletContext().getInitParameter("appName");
+		App app = uamPermissionService.getAppByAppName(appName);
+		pageContext.getSession().setAttribute("ctx", app.genAbsoluteUrl());
+		
+		List<App> appList = uamPermissionService.getAllApp();
+		pageContext.getSession().setAttribute("appCtxList", appList);
+		Map<String, String> appCtx = new HashMap<String,String>(appList.size());
+		for(App appitem : appList){
+			appCtx.put(appitem.getAppName(), appitem.genAbsoluteUrl());
+		}
+		pageContext.getSession().setAttribute("appCtx", appCtx);
+	}
 %>
 <html>
 
@@ -61,21 +59,21 @@ if(pageContext.getSession().getAttribute("ctx")==null){
     <link href="${ctx}/css/font-awesome.min.css" rel="stylesheet">
     
     <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
-<script type="text/javascript">
-	try{
-		var ctx="${ctx}";
-		var productCtx = ctx;
-		if(productCtx.value){
-			productCtx=productCtx.value;
-		}
-        var arr = productCtx.match(/http:\/\/[a-zA-Z0-9]+\.([a-zA-Z0-9.]+)[:]*[^:^/]*/);
-		var domain = arr[1];
-		if(domain.indexOf('sh.')==0){
-			domain = domain.substr(3);
-		}
-		document.domain = domain;
- 		//document.domain = '';
- 	}catch(e){}
+	<script type="text/javascript">
+		try{
+			var ctx="${ctx}";
+			var productCtx = ctx;
+			if(productCtx.value){
+				productCtx=productCtx.value;
+			}
+	        var arr = productCtx.match(/http:\/\/[a-zA-Z0-9]+\.([a-zA-Z0-9.]+)[:]*[^:^/]*/);
+			var domain = arr[1];
+			if(domain.indexOf('sh.')==0){
+				domain = domain.substr(3);
+			}
+			document.domain = domain;
+	 		//document.domain = '';
+	 	}catch(e){}
 	</script>
 </head>
 
@@ -204,19 +202,17 @@ if(pageContext.getSession().getAttribute("ctx")==null){
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog.jsp"%> 
     <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
     <script type="text/javascript">
-    var ctx = '${ctx}';
-    window.ctx=ctx;
-         var appCtx={};
-	  <c:forEach items="${appCtxList}" var="app">
-	     appCtx['${app.appName}'] = '${app.genAbsoluteUrl()}';
-	  </c:forEach>
+    	var ctx = '${ctx}';
+    	window.ctx=ctx;
+        var appCtx={};
+	  	<c:forEach items="${appCtxList}" var="app">
+	    	appCtx['${app.appName}'] = '${app.genAbsoluteUrl()}';
+	  	</c:forEach>
 	  	orgJob.getOrgJob();	
 		message.getMessage();
 		setInterval(message.getMessage,1000*60*5);
-
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
- 
     <script>
     </script>
 </body>
