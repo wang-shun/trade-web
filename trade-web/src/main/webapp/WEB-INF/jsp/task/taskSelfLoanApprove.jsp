@@ -71,6 +71,10 @@
 								defaultvalue="${SelfLoan.mortType }" />
 
 						</div>
+						   
+                       <label class="col-sm-2 control-label">主贷人：${SelfLoan.custName}</label>
+                       <label class="col-sm-2 control-label">主贷人单位：${SelfLoan.custCompany}</label>
+                   
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款总额<font color="red">*</font></label>
