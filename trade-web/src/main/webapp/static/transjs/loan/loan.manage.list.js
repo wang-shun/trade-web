@@ -168,7 +168,7 @@ var LoanManageList = (function(){
 	    				var id = ids[i];
 	    				var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
 	    				
-	    				var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
+	    				var detailBtn = "<button  class='btn red'  onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
 	    				
 	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { CONFRIM: detailBtn});
     				}
