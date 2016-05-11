@@ -263,7 +263,7 @@
 			if(!checkForm()) {
 				return;
 			}
-			$("#SelfLoan.lastLoanBank").val($("#finOrgCode").val());
+			$("#lastLoanBank").val($("#finOrgCode").val());
 			var jsonData = $("#selfLoanForm").serializeArray();
 			
 			var url = "${ctx}/task/mortgage/saveSelfLoanApprove";
