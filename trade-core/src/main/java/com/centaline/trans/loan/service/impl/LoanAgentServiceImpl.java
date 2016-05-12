@@ -56,6 +56,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			servItemMapper.updateByPrimaryKeySelective(p);
 		}
 		loanAgentMapper.insertSelective(loanAgent);
+	
 		processLoanStatusChange(null, loanAgent,loanAgent.getOptUser());
 	}
 

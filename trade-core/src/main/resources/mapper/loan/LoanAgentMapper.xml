@@ -61,7 +61,10 @@
 			
 	</select>
 
-	<insert id="insertSelective" parameterType="com.centaline.trans.loan.entity.LoanAgent">
+	<insert id="insertSelective" parameterType="com.centaline.trans.loan.entity.LoanAgent" >
+	   <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	</selectKey>
 		insert into sctrans.T_TO_LOAN_AGENT
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="pkid != null">
