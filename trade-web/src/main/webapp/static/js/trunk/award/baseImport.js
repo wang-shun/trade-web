@@ -28,7 +28,7 @@ $(document).ready(function() {
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
 						colNames : [ 'id', '案件编号','案件地址','人员', '员工编号',
-								'所在组织', '岗位','服务项','所得金额' ,'服务占比','计算时间'],
+								'所在组别','所属宾馆服务部', '岗位','服务项','所得金额' ,'服务占比','计算时间'],
 						colModel : [ {
 							name : 'pkid',
 							index : 'pkid',
@@ -54,10 +54,14 @@ $(document).ready(function() {
 							index : 'employeeCode',
 							width : 160
 						}, {
-							name : 'orgName',
-							index : 'orgNmae',
+							name : 'teamName',
+							index : 'teamName',
 							width : 80
 						}, {
+							name : 'disName',
+							index : 'disName',
+							width : 80
+						},{
 							name : 'jobName',
 							index : 'jboNmae',
 							width : 80
@@ -134,6 +138,7 @@ function getParamsValue() {
 	// 客户姓名 物业地址 经纪人
 	var userName = $('#userName').val();
 	var orgName = $('#orgName').val();
+	var disName = $('#disName').val();
 	var caseCode=$("#caseCode").val();
 	var caseAddr=$('#caseAddr').val();
 	//结案日期
@@ -143,7 +148,8 @@ function getParamsValue() {
 	//设置查询参数
 	var params = {
 		search_userNmae :userName,
-		search_orgName : orgName,
+		search_teamName : orgName,
+		search_disName : disName,
 		search_caseCode : caseCode,
 		search_caseAddr : caseAddr,
 		search_bmStart : start,

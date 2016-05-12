@@ -94,11 +94,20 @@ width:160px;
 						<div class="row">
 							<div class="col-lg-6">						
 								<div  class="form-group m-b">
-									<label class="col-sm-2 control-label" id="case_date">所在组</label>
+									<label class="col-sm-2 control-label" id="case_date">所在组别</label>
 									<input id="orgName" type="text" class="form-control" style="width:200px">
 								</div>
 							</div>
-							<div class="col-lg-6">
+							<div class="col-lg-6">						
+								<div  class="form-group m-b">
+									<label class="col-sm-2 control-label" id="case_date">所属贵宾服务部</label>
+									<input id="disName" type="text" class="form-control" style="width:200px">
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+														<div class="col-lg-6">
 								<div  class="form-group m-b">
 									<label class="col-sm-2 control-label" id="case_date">人员</label>
 									<input id="userName" type="text" class="form-control" style="width:200px">

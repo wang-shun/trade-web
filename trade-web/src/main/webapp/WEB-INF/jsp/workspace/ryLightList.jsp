@@ -151,10 +151,10 @@
 						},{
 							name:'taskDfKey',
 							width:40,
-							formatter : function(cellvalue, options, rawObject){
+							formatter : function(cellvalue, options, rowData){
 								if(!isJygw)return '';
 								var a="<a href='"+ctx+"/task/"+rowData.taskDfKey+
-								"?taskId="+rowData.taskId+"&caseCode="+rowData.caseCode+"&instCode="+rowData.instId+" >"+处理+"</a>";
+								"?taskId="+rowData.taskId+"&caseCode="+rowData.caseCode+"&instCode="+rowData.instId+" >处理</a>";
 								return a;
 							}
 

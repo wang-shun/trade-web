@@ -57,7 +57,7 @@
 							  	  <ifNotNull uid>
 									and uoj.user_id=#uid#
 							  	  </ifNotNull>
-							 	 <ifNotNull orgId>
+							 	 <ifNotNull myOrgId>
 									and uoj.org_id=#myOrgId#
 							  	</ifNotNull>
 							  	<ifNotNull parentOrgId>
