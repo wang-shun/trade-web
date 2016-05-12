@@ -128,7 +128,7 @@
 							index : 'caseCode',
 							width : 30,
 							formatter : function(cellvalue, options, rawObject){
-								var a="<a href='"+ctx+"/case/caseDetail?caseId="+rawObject.caseId+"' target='_blank'>"+cellvalue+"</a>";
+								var a=("<a href='"+ctx+"/case/caseDetail?caseId="+rawObject.caseId+"' target='_blank'>"+cellvalue+"</a>");
 								return a;
 							}
 
@@ -154,7 +154,7 @@
 							formatter : function(cellvalue, options, rowData){
 								if(!isJygw)return '';
 								var a="<a href='"+ctx+"/task/"+rowData.taskDfKey+
-								"?taskId="+rowData.taskId+"&caseCode="+rowData.caseCode+"&instCode="+rowData.instId+" >处理</a>";
+								"?taskId="+rowData.taskId+"&caseCode="+rowData.caseCode+"&instCode="+rowData.instId+"' >处理</a>";
 								return a;
 							}
 
