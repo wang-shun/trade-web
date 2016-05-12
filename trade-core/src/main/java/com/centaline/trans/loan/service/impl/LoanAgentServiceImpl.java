@@ -107,7 +107,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 
 	private void processLoanStatusChange(LoanAgent oldObj, LoanAgent newObj,String userId) {
 		if (oldObj == null
-				|| (newObj.getApplyStatus() != null && !newObj.getApplyStatus().equals(newObj.getApplyStatus()))) {
+				|| (newObj.getApplyStatus() != null && !newObj.getApplyStatus().equals(oldObj.getApplyStatus()))) {
 			LoanStatusChange lsc = new LoanStatusChange();
 			lsc.setChangeDate(new Date());
 			lsc.setChangeUser(newObj.getExecutorId());
