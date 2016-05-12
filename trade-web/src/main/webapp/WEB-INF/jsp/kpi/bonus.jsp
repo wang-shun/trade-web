@@ -248,7 +248,7 @@
 	    		
 	    		var data = {};
 	    	    data.queryId = "tsAwardBaseList";
-	    	    data.rows = 8;
+	    	    data.rows = 50;
 	    	    data.page = 1;
 	    	    data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
 	    		$.ajax({
@@ -300,7 +300,7 @@
    	  				  // 发出请求
    	  				    var data = {};
    				    	    data.queryId = "tsAwardBaseDetailList";
-   				    	    data.rows = 8;
+   				    	    data.rows = 58;
    				    	    data.page = 1;
    				    	    data.search_caseCode = id;
    				    	 	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
@@ -332,7 +332,7 @@
 	    		
 	    		var data = {};
 	    	    data.queryId = "tsAwardBaseList";
-	    	    data.rows = 8;
+	    	    data.rows = 58;
 	    	    data.page = 1;
 	    	    data.argu_belongMonth = bm;
 	    	    data.argu_caseCode = $.trim( $('#caseCode').val() );
