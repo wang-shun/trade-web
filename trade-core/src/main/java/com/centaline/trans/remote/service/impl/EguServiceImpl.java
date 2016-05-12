@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -277,8 +278,15 @@ public class EguServiceImpl implements EguService {
 		
 		String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 		String url = "assess?token="+token+"&"+SignUtil.createLinkString(paramMap);
-		HttpResponse httpResponse = executeGet(url);
-		HttpEntity entity = httpResponse.getEntity();
+		HttpEntity entity=null;
+		try {
+			HttpResponse httpResponse = executeGet(url);
+			 entity= httpResponse.getEntity();	
+		} catch (Exception e) {
+			apiLogService.apiLog(EGU_MODULE, "/assess", url, ExceptionUtils.getStackTrace(e), "0", e.getMessage());
+			throw e;
+		}
+		
 
 		ObjectMapper mapper = new ObjectMapper(); 
 		String returnStr = EntityUtils.toString(entity, "UTF-8");

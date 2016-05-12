@@ -286,6 +286,11 @@ public class TgGuestInfoServiceImpl implements TgGuestInfoService {
 		TgGuestInfo tg=tgGuestInfoMapper.selectByPrimaryKey(pkid);
 		return tg;
 	}
+
+	@Override
+	public int updateByPrimaryKeySelective(TgGuestInfo tgGuestInfo) {
+		return tgGuestInfoMapper.updateByPrimaryKey(tgGuestInfo);
+	}
 	
 	
 }

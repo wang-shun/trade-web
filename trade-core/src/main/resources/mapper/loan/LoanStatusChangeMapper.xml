@@ -8,10 +8,17 @@
 		<result column="ST_FROM" property="sfFrom" jdbcType="VARCHAR" />
 		<result column="ST_TO" property="stTo" jdbcType="VARCHAR" />
 		<result column="CHANGE_DATE" property="changeDate" jdbcType="TIMESTAMP" />
-		<result column="CHANGE_USER" property="changeUser" jdbcType="VARCHAR" /> 
+		<result column="CHANGE_USER" property="changeUser" jdbcType="VARCHAR" />
+		<result column="IS_CONFIRM" property="isConfirm" jdbcType="VARCHAR" />
+		<result column="CONFIRM_TIME" property="confirmTime" jdbcType="TIMESTAMP" />
+		<result column="CONFIRM_USER" property="confirmUser" jdbcType="VARCHAR" /> 
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
 	</resultMap>
 	 <sql id="Base_Column_List">
-		PKID, LOAN_ID, ST_FROM, ST_TO,CHANGE_DATE,CHANGE_USER
+		PKID, LOAN_ID, ST_FROM, ST_TO,CHANGE_DATE,CHANGE_USER,IS_CONFIRM,CONFIRM_TIME,CONFIRM_USER,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
 	</sql>
 	<select id="listByLoanId" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -50,6 +57,27 @@
 			<if test="changeUser != null">
 				CHANGE_USER,
 			</if>
+			<if test="isConfirm != null">
+				IS_CONFIRM,
+			</if>
+			<if test="confirmTime != null">
+				CONFIRM_TIME,
+			</if>
+			<if test="confirmUser != null">
+				CONFIRM_USER,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createBy != null">
+				CREATE_BY,
+			</if>
+			<if test="updateTime != null">
+				update_TIME,
+			</if>
+			<if test="updateBy != null">
+				update_BY,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="pkid != null">
@@ -70,6 +98,27 @@
 			<if test="changeUser != null">
 				#{changeUser,jdbcType=VARCHAR},
 			</if>
+			<if test="isConfirm != null">
+				#{isConfirm,jdbcType=VARCHAR},
+			</if>
+			<if test="confirmTime != null">
+				#{confirmTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="confirmUser != null">
+				#{confirmUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	
@@ -78,6 +127,33 @@
 		<set>
 			<if test="isConfirm != null">
 				IS_CONFIRM = #{isConfirm,jdbcType=VARCHAR},
+			</if>
+			<if test="changeDate != null">
+				change_Date=#{changeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="changeUser != null">
+				change_User=#{changeUser,jdbcType=VARCHAR},
+			</if>
+			<if test="isConfirm != null">
+				IS_CONFIRM=#{isConfirm,jdbcType=VARCHAR},
+			</if>
+			<if test="confirmTime != null">
+				confirm_Time=#{confirmTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="confirmUser != null">
+				confirm_User=#{confirmUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_Time=#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				create_By=#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_Time=#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_By=#{updateBy,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where PKID = #{pkid,jdbcType=BIGINT}

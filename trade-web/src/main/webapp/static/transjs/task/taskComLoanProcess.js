@@ -438,21 +438,32 @@ function subBankChange(){
 		alert('您选择的当前银行为非入围银行，4月15日起将无法在系统内被选择！');
 	}*/
 }
+var mCustCode='';
+var custCode='';
 //查询贷款信息
-function getMortgageInfo(caseCode,isMainLoanBank){
+function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	/*var isMainLoanBank = $("#isMainLoanBank").val();*/
+	if(isMainLoanBank=='0'&&!mCustCode){
+		getMortgageInfo(caseCode,'1',true);
+	}
 	 $.ajax({
 	    url:ctx+"/task/getMortgageInfo",
 	    method:"post",
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){	
+	    		if(queryCustCodeOnly){
+	    			mCustCode=data.content.custCode;
+	    			return true;
+	    		}
 	    		var finOrgCode = "";
 	    		if(data.content != null && data.content.finOrgCode != null){
 	    			finOrgCode = data.content.finOrgCode;
 	    		}
+	    		custCode=data.content.custCode;
  				 //银行下拉列表
 				if(isMainLoanBank == 1){
+					mCustCode=data.content.custCode;
     				getGuestInfo("mortgageForm");
 
 	  				getParentBank($("#mortgageForm").find("select[name='bank_type']"),$("#mortgageForm").find("select[name='finOrgCode']"),finOrgCode);
@@ -601,11 +612,25 @@ function getGuestInfo(formId){
 			if(data != null && data.length > 0){
 				$("#"+formId).find("select[name='custCode']").html("");
 				for(var i=0;i<data.length;i++){
-					$("#"+formId).find("select[name='custCode']").append("<option value='"+data[i].pkid+"'>"+data[i].guestName+"</option>");
+					if(custCode = data[i].pkid){
+						$("#"+formId).find("select[name='custCode']").append("<option cName='"+data[i].workUnit+"' value='"+data[i].pkid+"' selected >"+data[i].guestName+"</option>");
+					}else{
+						$("#"+formId).find("select[name='custCode']").append("<option cName='"+data[i].workUnit+"'value='"+data[i].pkid+"'>"+data[i].guestName+"</option>");
+					}
 				}
+				guestCompanyReadOnly();
 			}
 		}
 	});
+}
+function guestCompanyReadOnly(){
+	var custJ=$("#mortgageForm1").find("select[name='custCode']");
+	var custComJ=$("#mortgageForm1").find("input[name='custCompany']");
+	if(custJ.val()==mCustCode){
+		custComJ.val(custJ.find('option:selected').attr('cName')).attr('readonly','readonly');
+	}else{
+		custComJ.removeAttr('readonly');
+	}
 }
 
 //确认报告为最终报告

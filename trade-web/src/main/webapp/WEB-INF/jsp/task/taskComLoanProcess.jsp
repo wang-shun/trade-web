@@ -1485,6 +1485,7 @@ function checkInt(obj){
 	}
  	var index = 0;
 	jQuery(document).ready(function() {
+		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
 		
 		$("#sendSMS").click(function(){
 					var t='';

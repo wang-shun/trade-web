@@ -11,6 +11,9 @@
 
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style type="text/css">
+#page-wrapper {
+    position: inherit;
+     margin: 0 0 0 0px!important; 
 </style>
 </head>
 

@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -22,6 +24,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Autowired
 	private ToSupDocuService toSupDocuService;
+	@Autowired
+	private TgGuestInfoService tgGuestInfoService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -30,6 +34,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				toMortgageMapper.update(toMortgage);
 		} else {
 				toMortgageMapper.insertSelective(toMortgage);
+		}
+		if(null!=toMortgage.getCustCode()){
+			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+			if(guest!=null){
+				guest.setWorkUnit(toMortgage.getCustCompany());
+				guest.setGuestName(toMortgage.getCustName());
+				tgGuestInfoService.updateByPrimaryKeySelective(guest);
+			}
 		}
 		return toMortgage;
 	}
@@ -58,6 +70,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				toSupDocu.setCaseCode(toMortgage.getCaseCode());
 				toSupDocu.setPartCode("ComLoanProcess");
 				toSupDocuService.saveToSupDocu(toSupDocu);
+			}
+		}
+		if(null!=mortgage.getCustCode()){
+			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+			if(guest!=null){
+				guest.setWorkUnit(mortgage.getCustCompany());
+				guest.setGuestName(mortgage.getCustName());
+				tgGuestInfoService.updateByPrimaryKeySelective(guest);
 			}
 		}
 	}
