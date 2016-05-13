@@ -460,7 +460,9 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    		if(data.content != null && data.content.finOrgCode != null){
 	    			finOrgCode = data.content.finOrgCode;
 	    		}
-	    		custCode=data.content.custCode;
+	    		if(data.content != null && data.content.custCode != null){
+	    			custCode=data.content.custCode;
+	    		}
  				 //银行下拉列表
 				if(isMainLoanBank == 1){
 					mCustCode=data.content.custCode;
