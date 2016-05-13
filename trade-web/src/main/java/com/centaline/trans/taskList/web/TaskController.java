@@ -284,7 +284,7 @@ public class TaskController {
     		/**这里应该和自办贷款一样*/
     		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
     		request.setAttribute("mortgage", mortgage);
-    		if(mortgage!=null){
+    		if(mortgage!=null && mortgage.getCustCode()!=null){
     			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
 				if(null !=guest){
 				request.setAttribute("custCompany",guest.getWorkUnit());
