@@ -78,6 +78,7 @@
 			
 			$('#slides').superslides({
 			     hashchange: true,
+			     intervalTime: 60000,
 			     intervalSuccess : function(data) {
 			    	 var j = data.j;
 			    	if(j==0) {
