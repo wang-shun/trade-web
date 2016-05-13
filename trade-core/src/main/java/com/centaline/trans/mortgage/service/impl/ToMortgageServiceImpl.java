@@ -72,11 +72,11 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				toSupDocuService.saveToSupDocu(toSupDocu);
 			}
 		}
-		if(null!=mortgage.getCustCode()){
-			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+		if(null!=toMortgage.getCustCode()){
+			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
 			if(guest!=null){
-				guest.setWorkUnit(mortgage.getCustCompany());
-				guest.setGuestName(mortgage.getCustName());
+				guest.setWorkUnit(toMortgage.getCustCompany());
+				guest.setGuestName(toMortgage.getCustName());
 				tgGuestInfoService.updateByPrimaryKeySelective(guest);
 			}
 		}

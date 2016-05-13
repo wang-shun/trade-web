@@ -28,7 +28,7 @@
 	</formatters>
 	<query id="tsAwardBaseList">
 		<searchCondition>
-		<!--<condition field="T_TS_AWARD_BASE.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<!-- <condition field="T_TS_AWARD_BASE.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
 		</searchCondition>
 		<searchSql>

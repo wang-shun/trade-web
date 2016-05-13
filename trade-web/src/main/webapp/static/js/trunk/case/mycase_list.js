@@ -41,7 +41,7 @@ $(document).ready(function() {
 						forceFit : true,
 						rowNum : 20,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'id', '案件编号', '产证地址',
+						colNames : [ 'id', '案件编号','CTM编号', '产证地址',
 								'经纪人','所属分行', '上家', '下家', '经办人', '案件状态','红灯数' ],
 						colModel : [ {
 							name : 'PKID',
@@ -54,8 +54,18 @@ $(document).ready(function() {
 						}, {
 							name : 'CASE_CODE',
 							index : 'CASE_CODE',
-							width : 80
-						}, {
+							width : 80,
+							formatter : function(cellvalue, options, rawObject){
+								var a=("<a class='aline' href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
+								return a;
+							}
+						},{
+							name:"ctmCode",
+							index:"ctmCode",
+							align:"center",
+								width:80
+						} ,
+						{
 							name : 'PROPERTY_ADDR',
 							index : 'PROPERTY_ADDR',
 							width : 160
@@ -67,7 +77,7 @@ $(document).ready(function() {
 							name : 'AGENT_ORG_NAME',
 							index : 'AGENT_ORG_NAME',
 							width : 70
-						}, {
+						}, {	
 							name : 'SELLER',
 							index : 'SELLER',
 							width : 40
@@ -98,10 +108,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							var rowData = $("#table_list_1")
-									.jqGrid('getRowData', rowid);
-							window.location.href = ctx+"/case/caseDetail?&caseId="
-									+ rowData.PKID;
+							
 						},
 						postData : {
 							queryId : "queryCastListItemList",
@@ -391,7 +398,9 @@ function getSearchDateValues() {
 			continue;
 		var start = $('#dtBegin_' + r).val();
 		var end = $('#dtEnd_' + r).val();
-
+		if(end&&end!=''){
+			end=end+' 23:59:59';
+		}
 		if (codeStr.indexOf(val) != -1)
 			return false;
 		codeStr += val;

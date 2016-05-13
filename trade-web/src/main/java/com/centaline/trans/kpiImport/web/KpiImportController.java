@@ -69,6 +69,11 @@ public class KpiImportController {
 	public String bonus(HttpServletRequest request) {
 		return "kpi/bonus";
 	}
+	
+	@RequestMapping(value = "/testbonus")
+	public String testbonus(HttpServletRequest request) {
+		return "kpi/testbonus";
+	}
 
 	@RequestMapping(value = "/doImport")
 	public String doKpiImport(HttpServletRequest request, HttpServletResponse response, Boolean currentMonth)

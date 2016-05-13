@@ -128,7 +128,7 @@ function loadGrid(){
 			queryId : "queryUnlocatedCase",
 			search_proAddr:$("#txt_prd_addr").val(),
 			search_dtBegin:$("#dtBegin_0").val(),
-			search_dtEnd:$("#dtEnd_0").val(),
+			search_dtEnd:$("#dtEnd_0").val()?($("#dtEnd_0").val()+' 23:59:59'):$("#dtEnd_0").val(),
 			argu_oriGrpId:$("#oriGrpId").val()
 		}
 

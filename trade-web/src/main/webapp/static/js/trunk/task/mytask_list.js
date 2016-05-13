@@ -20,35 +20,11 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						rowNum : 20,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'TASKID','CASECODE','PARTCODE','INSTCODE', '红绿灯', '红灯记录', '任务名', '产证地址', '经纪人','手机',
-								'所属分行','上家', '下家', '预计执行时间' ],
+						colNames : [ 'TASKID','红绿灯', '红灯记录','案件编号','CTM编号','PARTCODE','INSTCODE' , '任务名', '产证地址', '经纪人','手机',
+								'所属分行','上家', '下家', '预计执行时间' ,'操作'],
 						colModel : [ {
 							name : 'ID',
 							index : 'ID',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						},{
-							name : 'CASE_CODE',
-							index : 'CASE_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						},{
-							name : 'PART_CODE',
-							index : 'PART_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						},{
-							name : 'INST_CODE',
-							index : 'INST_CODE',
 							align : "center",
 							width : 0,
 							key : true,
@@ -66,6 +42,40 @@ $(document).ready(function() {
 							width : 30,
 							editable : true,
 							formatter : isRedFormatter
+						},{
+							name : 'CASE_CODE',
+							index : 'CASE_CODE',
+							align : "center",
+							width : 0,
+							key : true,
+							resizable : false,
+							formatter : function(cellvalue, options, rawObject){
+								var a=("<a class='aline' href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
+								return a;
+							}
+						},{
+							name : 'CTM_CODE',
+							index : 'CTM_CODE',
+							align : "center",
+							width : 0,
+							resizable : false,
+							
+						},{
+							name : 'PART_CODE',
+							index : 'PART_CODE',
+							align : "center",
+							width : 0,
+							key : true,
+							resizable : false,
+							hidden : true
+						},{
+							name : 'INST_CODE',
+							index : 'INST_CODE',
+							align : "center",
+							width : 0,
+							key : true,
+							resizable : false,
+							hidden : true
 						}, {
 							name : 'NAME',
 							index : 'NAME',
@@ -98,7 +108,13 @@ $(document).ready(function() {
 							name : 'EST_PART_TIME',
 							index : 'EST_PART_TIME',
 							width : 50
-						},
+						},{
+							width : 30,formatter:function(cellvalue, options, rawObject){
+								var url = ctx+"/task/"+rawObject.PART_CODE+
+								"?&taskId="+rawObject.ID+"&caseCode="+rawObject.CASE_CODE+"&instCode="+rawObject.INST_CODE;
+								return "<a href='"+url+"'>处理</a>";
+							}
+						}
 
 						],
 						pager : "#pager_list_1",
@@ -110,11 +126,11 @@ $(document).ready(function() {
 
 						// rowid为grid中的行顺序
 						onSelectRow : function(rowid) {
-							var rowData = $("#table_list_1").jqGrid('getRowData',rowid);
+							/*var rowData = $("#table_list_1").jqGrid('getRowData',rowid);
 							var url = ctx+"/task/"+rowData.PART_CODE+
 							"?&taskId="+rowData.ID+"&caseCode="+rowData.CASE_CODE+"&instCode="+rowData.INST_CODE;
 //							alert(url);
-							window.location.href = url;
+							window.location.href = url;*/
 						},
 						postData : {
 							queryId : "queryTaskListItemList"
