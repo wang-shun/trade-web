@@ -50,7 +50,7 @@ $(document).ready(function() {
 							key : true,
 							resizable : false,
 							formatter : function(cellvalue, options, rawObject){
-								var a=("<a href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
+								var a=("<a class='aline' href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
 								return a;
 							}
 						},{

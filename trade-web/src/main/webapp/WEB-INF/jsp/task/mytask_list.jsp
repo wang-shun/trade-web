@@ -45,6 +45,12 @@
 .ui-state-hover{
 	cursor:pointer;
 }
+.aline{
+text-decoration: underline;
+}
+.aline:HOVER{
+text-decoration: underline !important;
+}
 #inTextVal{width:42%;}
 #inTextType_chosen{margin-left:0}
 .chosen-container{float:left;margin-right:10px}

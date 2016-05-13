@@ -70,6 +70,12 @@
     width: 45%;
     font-size: 14px;
 }
+.aline{
+text-decoration: underline;
+}
+.aline:HOVER{
+text-decoration: underline !important;
+}
 #inTextVal{width:50%}
 .chosen-container{float:left;margin-right:10px;margin-left:15px}
 #addLine{line-height:35px;}
