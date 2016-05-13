@@ -398,7 +398,9 @@ function getSearchDateValues() {
 			continue;
 		var start = $('#dtBegin_' + r).val();
 		var end = $('#dtEnd_' + r).val();
-
+		if(end&&end!=''){
+			end=end+' 23:59:59';
+		}
 		if (codeStr.indexOf(val) != -1)
 			return false;
 		codeStr += val;

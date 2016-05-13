@@ -30,7 +30,7 @@ var packData=function(){
 				'search_isSuccess' : isSuccess,
 				'search_prChannel' : prChannel,
 				'search_completeTimeStart' : completeTimeStart,
-				'search_completeTimeEnd' : completeTimeEnd,
+				'search_completeTimeEnd' : completeTimeEnd?(completeTimeEnd+' 23:59:59'):completeTimeEnd,
 				
 				'search_propertyAddr' : propertyAddr
 			};
