@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4">                                   
                                     <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
-                                    <button class="btn btn-warning" type="submit">提交</button>
+                                    <button class="btn btn-warning" type="submit" id="submitButton">提交</button>
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button>
                                 </div>
                             </div>
@@ -70,13 +70,7 @@
                         </div>
                     </div>
                     </div>
-                    <div id="pagerfront" class="pagination my-pagination"></div>
-             		<div id="pagesize" class="show-records overflow">
-						<div id="currentTotalPage" class="pull-left"><strong class="bold"></strong></div>
-						<span class="ml15">共<strong class="bold" id="houListID"></strong>条</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                   		<label class="label" onclick="selectPageSize(this)">10</label>
-                   		<label class="label" onclick="selectPageSize(this)">20</label><label class="label label-important" onclick="selectPageSize(this)">30</label>
-                    </div>
+                 
                     <div class="bonus-table">
                         <table>
                             <thead>
@@ -170,7 +164,11 @@
                             </tbody>
                         </table>                     
                     </div>
-                   <div id="pageBar" class="pagination  my-pagination text-center m0"></div>
+                    <div style="text-align:center;">
+	                     <span id="currentTotalPage" class="pull-left"><strong class="bold"></strong></span>
+						 <span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;&nbsp;&nbsp;&nbsp;
+	                     <div id="pageBar" class="pagination  my-pagination text-center m0"></div>
+                    </div>
                 </div>
             </div>
             <!-- /Main view -->
@@ -178,6 +176,7 @@
         
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
+        <content tag="local_script"> 
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -187,9 +186,13 @@
         <!-- Custom and plugin javascript -->
         <script src="${ctx}/js/inspinia.js"></script>
         <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+        <!-- 弹出框插件 -->
+	    <script src="${ctx}/js/plugins/layer/layer.js"></script>
+	    <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
         <!-- 分页控件  -->
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+        <script src="${ctx}/transjs/kpi/bonus.js"></script>
 		<script id="tsAwardBaseList" type= "text/html">
                            {{each rows as item index}}
  							  <tr class="border-e7">
@@ -229,7 +232,7 @@
                                                     <td>{{item.SRV_CODE}}</td>
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}</td>
-                                                    <td>{{item.MKPI==1?"是":""}}</td>
+                                                    <td>{{item.MKPI==1?"是":item.MKPI==0?"否":""}}</td>
                                                     <td>{{item.KPI_RATE_SUM}}</td>
                                                     <td>{{item.SRV_PART_IN}}</td>
 													<td>{{item.SRV_PART}}</td>
@@ -243,56 +246,16 @@
 	    <script>
 	        var ctx = "${ctx}";
 	  		//初始化日期控件
-        	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
-	    	$(document).ready(function(){
-	    		
-	    		var data = {};
-	    	    data.queryId = "tsAwardBaseList";
-	    	    data.rows = 50;
-	    	    data.page = 1;
-	    	    data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
-	    		$.ajax({
-	    			  async: false,
-	    	          url:ctx+ "/quickGrid/findPage" ,
-	    	          method: "post",
-	    	          dataType: "json",
-	    	          data: data,
-	    	          success: function(data){
-	    	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
-    	                  $("#TsAwardBaseList").empty();
-    	                  $("#TsAwardBaseList").html(tsAwardBaseList);
-    	                  
-    	                  // 显示分页
-    	                  initpage(data.total,data.pagesize,data.page);
-	    	          }
-	    	     });
-	    		
-	    		 $.ajax({
-	    			  async: true,
-	    	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
-	    	          method: "post",
-	    	          dataType: "json",
-	    	          data: {belongMonth : monthSel.getDate().format('yyyy-MM-dd')},
-	    	          success: function(data){
-	    	        	  console.log(data);
-	    	        	  var d = data.content;
-	    	        	  if(!d || $.trim(d) === "") {
-	    	        		  $("#caseCount").html(0);
-    	    	        	  $("#userCount").html(0);
-    	    	        	  $("#awardAmount").html(0);
-	    	        	  } else {
-	    	        		  $("#caseCount").html(d.caseCount);
-    	    	        	  $("#userCount").html(d.userCount);
-    	    	        	  $("#awardAmount").html(d.awardKpiSum);
-	    	        	  }
-	    	          }
-	    	     });
-	    	    
-	    	 	// 查询
-    			$('#searchButton').click(function() {
-    				reloadGrid();
-    			});
-    			
+        	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});	 
+    		
+        	jQuery(document).ready(function() {
+        		//初始化数据
+        	    reloadGrid();
+        	 	// 查询
+     			$('#searchButton').click(function() {
+     				reloadGrid();
+     			});
+        		
 	    		$(document).on("click",".expand",function(){
     				var id = this.id;
    	  			  	if($(this).html() == "展开") {
@@ -321,117 +284,61 @@
 	   	  			  }
 	   	  			  $("#toggle"+id).toggle();
     			});
+	    		
+	    		 $("#submitButton").click(function(){
+	    			 layer.confirm('提交之后不可修改,是否确定提交？', {
+		    			  type: 1,
+		            	  title: '提醒',
+		            	  shadeClose: true,
+		            	  shade: 0.8,
+		            	  area: ['20%', '15%'],	
+		    			  btn: ['确定','取消'] //按钮
+		    		}, function(index){
+		    			  layer.close(index);
+		    			  layer.msg('绩效奖金生成成功', {icon: 1, time: 1000});
+			    	}, function(){
+			    	});
+	    		 });
 	    	});
-	    	
-	    	function reloadGrid(bm) {
-	    		if(!bm){
+        	
+			function reloadGrid(bm) {
+				if(!bm){
 					bm=monthSel.getDate().format('yyyy-MM-dd');	
 				}else{
 					bm=bm.format('yyyy-MM-dd');
 				}
 	    		
-	    		var data = {};
-	    	    data.queryId = "tsAwardBaseList";
-	    	    data.rows = 58;
-	    	    data.page = 1;
-	    	    data.argu_belongMonth = bm;
-	    	    data.argu_caseCode = $.trim( $('#caseCode').val() );
-	    	    data.argu_propertyAddr = $.trim( $('#propertyAddr').val() );
-	    		$.ajax({
-	    			  async: true,
-	    	          url:ctx+ "/quickGrid/findPage" ,
-	    	          method: "post",
-	    	          dataType: "json",
-	    	          data: data,
-	    	          success: function(data){
-	    	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
-    	                  $("#TsAwardBaseList").empty();
-    	                  $("#TsAwardBaseList").html(tsAwardBaseList);
-    	              	  // 显示分页
-    	                  initpage(data.total,data.pagesize,data.page);
-	    	          }
-	    	    });
-	    		
-	    		$.ajax({
-	    			  async: true,
-	    	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
-	    	          method: "post",
-	    	          dataType: "json",
-	    	          data: {belongMonth : bm},
-	    	          success: function(data){
-	    	        	  //console.log(data);
-	    	        	  var d = data.content;
-	    	        	  if(!d || $.trim(d) === "") {
-	    	        		  $("#caseCount").html(0);
-    	    	        	  $("#userCount").html(0);
-    	    	        	  $("#awardAmount").html(0);
-	    	        	  } else {
-	    	        		  if(!d.caseCount || $.trim(d.caseCount) === ""){
-	    	        			  $("#caseCount").html(0);
-	    	        		  } else {
-	    	        			  $("#caseCount").html(d.caseCount);
-	    	        		  }
-							  if(!d.userCount || $.trim(d.userCount) === ""){
-								  $("#userCount").html(0);	    	        			  
-							  } else {
-								  $("#userCount").html(d.userCount);
-							  }
-							  if(!d.awardKpiSum || $.trim(d.awardKpiSum) === ""){
-								  $("#awardAmount").html(0);
-							  } else {
-								  $("#awardAmount").html(d.awardKpiSum);
-							  }
-	    	        	  }
-	    	          }
-	    	    });
+	    		var data1 = {};
+        	    data1.queryId = "tsAwardBaseList";
+        	    data1.rows = 12;
+        	    data1.page = 1;
+        	    data1.argu_belongMonth = bm;
+        	    data1.argu_caseCode = $("#caseCode").val();
+        	    data1.argu_propertyAddr = $("#propertyAddr").val();
+        	    
+        	    var data2 = {
+        	    	belongMonth : bm
+        	    }
+        	    BonusList.init(ctx,data1,data2);
 	    	}
-	    	function initpage(totalCount,pageSize,currentPage)
-	    	{
-	    		if(totalCount>1500){
-	    			totalCount = 1500;
-	    		}
-	    		var currentTotalstrong=$('#currentTotalPage').find('strong');
-	    		if (totalCount<1 || pageSize<1 || currentPage<1)
-	    		{
-	    			$(currentTotalstrong).empty();
-	    			$("#pageBar").empty();
-	    			$("#pagerfront").empty();
-	    			return;
-	    		}
-	    		$(currentTotalstrong).empty();
-	    		$(currentTotalstrong).text(currentPage+'/'+totalCount);
-	    		
-	    		$("#pageBar").twbsPagination({
-	    			totalPages:totalCount,
-	    			visiblePages:9,
-	    			startPage:currentPage,
-	    			first:'<i class="icon-step-backward"></i>',
-	    			prev:'<i class="icon-chevron-left"></i>',
-	    			next:'<i class="icon-chevron-right"></i>',
-	    			last:'<i class="icon-step-forward"></i>',
-	    			showGoto:true,
-	    			 onPageClick: function (event, page) {
-	    				 console.log(page);
-	    				 //searchcondition(page);
-	    		        }
-	    		});
-	    		$("#pagerfront").twbsPagination({
-	    			totalPages:totalCount,
-	    			visiblePages:0,
-	    			startPage:currentPage,
-	    			first:'<i class="icon-step-backward"></i>',
-	    			prev:'<i class="icon-chevron-left"></i>',
-	    			next:'<i class="icon-chevron-right"></i>',
-	    			last:'<i class="icon-step-forward"></i>',
-	    			 onPageClick: function (event, page) {
-	    				
-	    				 searchcondition(page);
-	    		        }
-	    		});
-	    		
-	    		
+        	
+	    	function goPage(page) {
+	    		var bm=monthSel.getDate().format('yyyy-MM-dd');	
+	    		var data1 = {};
+        	    data1.queryId = "tsAwardBaseList";
+        	    data1.rows = 12;
+        	    data1.page = page;
+        	    data1.argu_caseCode = $("#caseCode").val();
+        	    data1.argu_propertyAddr = $("#propertyAddr").val();
+        	    data1.argu_belongMonth = bm;
+        	    
+        	    var data2 = {
+        	    	belongMonth : bm
+        	    }
+        	    BonusList.init(ctx,data1,data2);
 	    	}
 	    </script>
+	    </content> 
         <input type="hidden" id="ctx" value="${ctx}" />
     
         <!-- 弹窗 -->
