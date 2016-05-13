@@ -19,6 +19,8 @@
         <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet">
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+        <!-- 分页控件 -->
+        <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     </head>
     <body class="pace-done">
         <div id="wrapper" class="Index">
@@ -29,13 +31,13 @@
                         <div class="bonus-m">
                             <div class="ibox-title">
                                 <input type="button" class="btn btn-warning m-r-sm" value="&lt;">
-                                <h5 class="month">2015/3月</h5>
+                                <h5 class="month">yyyy/MM月</h5>
                                 <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
                             </div>
                             <div class="ibox-tools">
-                                <span class="nav-label">案件数<i>10</i></span>
-                                <span class="nav-label">发放人员<i>31</i></span>
-                                <span class="nav-label">奖金总额<i>123,200.00</i></span>
+                                <span class="nav-label">案件数<i id="caseCount">10</i></span>
+                                <span class="nav-label">发放人员<i id="userCount">31</i></span>
+                                <span class="nav-label">绩效奖金总额<i id="awardAmount">123,200.00</i></span>
                             </div>
                         </div>
                         <div class="ibox-content bonus-m-con">
@@ -44,7 +46,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">案件编号</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" id="caseCode" name="caseCode">
                                         </div>
                                     </div>
                                 </div>
@@ -52,12 +54,12 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">物业地址</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" >
+                                            <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4">                                   
-                                    <button class="btn btn-warning"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
+                                    <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
                                     <button class="btn btn-warning" type="submit">提交</button>
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button>
                                 </div>
@@ -68,6 +70,13 @@
                         </div>
                     </div>
                     </div>
+                    <div id="pagerfront" class="pagination my-pagination"></div>
+             		<div id="pagesize" class="show-records overflow">
+						<div id="currentTotalPage" class="pull-left"><strong class="bold"></strong></div>
+						<span class="ml15">共<strong class="bold" id="houListID"></strong>条</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                   		<label class="label" onclick="selectPageSize(this)">10</label>
+                   		<label class="label" onclick="selectPageSize(this)">20</label><label class="label label-important" onclick="selectPageSize(this)">30</label>
+                    </div>
                     <div class="bonus-table">
                         <table>
                             <thead>
@@ -77,7 +86,7 @@
                                     <th>物业地址</th>
                                     <th>过户时间</th>
                                     <th>结案时间</th>
-                                    <th>奖金</th>
+                                    <th>绩效奖金</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -100,7 +109,7 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>金融达标</th>
+                                                    <th>是否达标</th>
                                                     <th>考核结果</th>
                                                     <th>占比</th>
                                                     <th>绩效奖金</th>
@@ -161,19 +170,25 @@
                             </tbody>
                         </table>                     
                     </div>
+                   <div id="pageBar" class="pagination  my-pagination text-center m0"></div>
                 </div>
             </div>
             <!-- /Main view -->
         </div>
+        
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+         <!-- 日期控件 -->
+    	<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
         <!-- Custom and plugin javascript -->
         <script src="${ctx}/js/inspinia.js"></script>
         <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+        <!-- 分页控件  -->
+        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 		<script id="tsAwardBaseList" type= "text/html">
                            {{each rows as item index}}
@@ -184,9 +199,14 @@
                                     <td>{{item.GUOHU_TIME}}</td>
                                     <td>{{item.CLOSE_TIME}}</td>
                                     <td>{{item.BASE_CASE_AMOUNT}}</td>
-                                    <td><div class="expand" id="{{index}}">收起</div></td>
+                                    <td><div class="expand" id="{{item.CASE_CODE}}">展开</div></td>
                                 </tr>
-                                <tr class="toogle-show border-e7" id="toggle{{index}}">
+                                <tr class="toogle-show border-e7" id="toggle{{item.CASE_CODE}}" style="display:none;">
+                                    
+                                </tr>
+						{{/each}}
+	    </script>
+	    <script id="tsAwardSrvList" type= "text/html">
                                     <td colspan="7" class="two-td">
                                         <table class="two-table">
                                             <thead>
@@ -195,7 +215,7 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>金融达标</th>
+                                                    <th>是否达标</th>
                                                     <th>考核结果</th>
                                                     <th>环节占比</th>
 													<th>满意度占比</th>
@@ -203,41 +223,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                               {{each rows as item index}}
                                                 <tr> 
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-													<td></td>
-                                                    <td></td>
+                                                    <td>{{item.PARTICIPANT}}</td>
+                                                    <td>{{item.SRV_CODE}}</td>
+                                                    <td>{{item.BASE_AMOUNT}}</td>
+                                                    <td>{{item.SATISFACTION}}</td>
+                                                    <td>{{item.MKPI==1?"是":""}}</td>
+                                                    <td>{{item.KPI_RATE_SUM}}</td>
+                                                    <td>{{item.SRV_PART_IN}}</td>
+													<td>{{item.SRV_PART}}</td>
+                                                    <td>{{item.AWARD_KPI_MONEY}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-													<td></td>
-                                                    <td></td>
-                                                </tr>
+												{{/each}}
                                             </tbody>
                                         </table>
                                     </td>
-                                </tr>
-						{{/each}}
 	    </script>
 	    <script>
 	        var ctx = "${ctx}";
+	  		//初始化日期控件
+        	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
 	    	$(document).ready(function(){
+	    		
 	    		var data = {};
 	    	    data.queryId = "tsAwardBaseList";
-	    	    data.rows = 8;
+	    	    data.rows = 50;
 	    	    data.page = 1;
+	    	    data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
 	    		$.ajax({
 	    			  async: false,
 	    	          url:ctx+ "/quickGrid/findPage" ,
@@ -248,23 +261,176 @@
 	    	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
     	                  $("#TsAwardBaseList").empty();
     	                  $("#TsAwardBaseList").html(tsAwardBaseList);
+    	                  
+    	                  // 显示分页
+    	                  initpage(data.total,data.pagesize,data.page);
 	    	          }
 	    	     });
 	    		
-	    		  $(".expand").click(function(){
-	    			  var id = this.id;
-	    			  if($(this).html() == "展开") {
-	    				  $(this).html("收起");
-	    			  } else {
-	    				  $(this).html("展开");
-	    			  }
-	    			  $("#toggle"+id).toggle();
-    			  });
-	    		  
-	    		  $("#test").click(function(){
-	    			 alert('ok');
-    			  });
+	    		 $.ajax({
+	    			  async: true,
+	    	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: {belongMonth : monthSel.getDate().format('yyyy-MM-dd')},
+	    	          success: function(data){
+	    	        	  console.log(data);
+	    	        	  var d = data.content;
+	    	        	  if(!d || $.trim(d) === "") {
+	    	        		  $("#caseCount").html(0);
+    	    	        	  $("#userCount").html(0);
+    	    	        	  $("#awardAmount").html(0);
+	    	        	  } else {
+	    	        		  $("#caseCount").html(d.caseCount);
+    	    	        	  $("#userCount").html(d.userCount);
+    	    	        	  $("#awardAmount").html(d.awardKpiSum);
+	    	        	  }
+	    	          }
+	    	     });
+	    	    
+	    	 	// 查询
+    			$('#searchButton').click(function() {
+    				reloadGrid();
+    			});
+    			
+	    		$(document).on("click",".expand",function(){
+    				var id = this.id;
+   	  			  	if($(this).html() == "展开") {
+   	  				  $(this).html("收起");
+   	  				  // 发出请求
+   	  				    var data = {};
+   				    	    data.queryId = "tsAwardBaseDetailList";
+   				    	    data.rows = 58;
+   				    	    data.page = 1;
+   				    	    data.search_caseCode = id;
+   				    	 	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
+   				    		$.ajax({
+   				    			  async: false,
+   				    	          url:ctx+ "/quickGrid/findPage" ,
+   				    	          method: "post",
+   				    	          dataType: "json",
+   				    	          data: data,
+   				    	          success: function(data){
+   				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
+   				    				  $("#toggle"+id).empty();
+   				    				  $("#toggle"+id).html(tsAwardSrvList);
+   				    	          }
+   				    	     });
+	   	  			  } else {
+	   	  				  $(this).html("展开");
+	   	  			  }
+	   	  			  $("#toggle"+id).toggle();
+    			});
 	    	});
+	    	
+	    	function reloadGrid(bm) {
+	    		if(!bm){
+					bm=monthSel.getDate().format('yyyy-MM-dd');	
+				}else{
+					bm=bm.format('yyyy-MM-dd');
+				}
+	    		
+	    		var data = {};
+	    	    data.queryId = "tsAwardBaseList";
+	    	    data.rows = 58;
+	    	    data.page = 1;
+	    	    data.argu_belongMonth = bm;
+	    	    data.argu_caseCode = $.trim( $('#caseCode').val() );
+	    	    data.argu_propertyAddr = $.trim( $('#propertyAddr').val() );
+	    		$.ajax({
+	    			  async: true,
+	    	          url:ctx+ "/quickGrid/findPage" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: data,
+	    	          success: function(data){
+	    	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
+    	                  $("#TsAwardBaseList").empty();
+    	                  $("#TsAwardBaseList").html(tsAwardBaseList);
+    	              	  // 显示分页
+    	                  initpage(data.total,data.pagesize,data.page);
+	    	          }
+	    	    });
+	    		
+	    		$.ajax({
+	    			  async: true,
+	    	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: {belongMonth : bm},
+	    	          success: function(data){
+	    	        	  //console.log(data);
+	    	        	  var d = data.content;
+	    	        	  if(!d || $.trim(d) === "") {
+	    	        		  $("#caseCount").html(0);
+    	    	        	  $("#userCount").html(0);
+    	    	        	  $("#awardAmount").html(0);
+	    	        	  } else {
+	    	        		  if(!d.caseCount || $.trim(d.caseCount) === ""){
+	    	        			  $("#caseCount").html(0);
+	    	        		  } else {
+	    	        			  $("#caseCount").html(d.caseCount);
+	    	        		  }
+							  if(!d.userCount || $.trim(d.userCount) === ""){
+								  $("#userCount").html(0);	    	        			  
+							  } else {
+								  $("#userCount").html(d.userCount);
+							  }
+							  if(!d.awardKpiSum || $.trim(d.awardKpiSum) === ""){
+								  $("#awardAmount").html(0);
+							  } else {
+								  $("#awardAmount").html(d.awardKpiSum);
+							  }
+	    	        	  }
+	    	          }
+	    	    });
+	    	}
+	    	function initpage(totalCount,pageSize,currentPage)
+	    	{
+	    		if(totalCount>1500){
+	    			totalCount = 1500;
+	    		}
+	    		var currentTotalstrong=$('#currentTotalPage').find('strong');
+	    		if (totalCount<1 || pageSize<1 || currentPage<1)
+	    		{
+	    			$(currentTotalstrong).empty();
+	    			$("#pageBar").empty();
+	    			$("#pagerfront").empty();
+	    			return;
+	    		}
+	    		$(currentTotalstrong).empty();
+	    		$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	    		
+	    		$("#pageBar").twbsPagination({
+	    			totalPages:totalCount,
+	    			visiblePages:9,
+	    			startPage:currentPage,
+	    			first:'<i class="icon-step-backward"></i>',
+	    			prev:'<i class="icon-chevron-left"></i>',
+	    			next:'<i class="icon-chevron-right"></i>',
+	    			last:'<i class="icon-step-forward"></i>',
+	    			showGoto:true,
+	    			 onPageClick: function (event, page) {
+	    				 console.log(page);
+	    				 //searchcondition(page);
+	    		        }
+	    		});
+	    		$("#pagerfront").twbsPagination({
+	    			totalPages:totalCount,
+	    			visiblePages:0,
+	    			startPage:currentPage,
+	    			first:'<i class="icon-step-backward"></i>',
+	    			prev:'<i class="icon-chevron-left"></i>',
+	    			next:'<i class="icon-chevron-right"></i>',
+	    			last:'<i class="icon-step-forward"></i>',
+	    			 onPageClick: function (event, page) {
+	    				
+	    				 searchcondition(page);
+	    		        }
+	    		});
+	    		
+	    		
+	    	}
 	    </script>
         <input type="hidden" id="ctx" value="${ctx}" />
     
@@ -282,7 +448,7 @@
                                     <span class="wd88">人员</span>
                                     <span class="wd126">案件编号</span>
                                     <span class="wd88">服务</span>
-                                    <span class="wd110">奖金</span>
+                                    <span class="wd110">绩效奖金</span>
                                     <span class="wd243">备注</span>
                                 </li>
                                 <li>

@@ -26,5 +26,6 @@ public interface TgGuestInfoService {
 	
 	
 	TgGuestInfo selectByPrimaryKey(Long pkid);
+	int updateByPrimaryKeySelective(TgGuestInfo tgGuestInfo);
 	
 }

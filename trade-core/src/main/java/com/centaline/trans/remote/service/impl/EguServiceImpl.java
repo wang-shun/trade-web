@@ -1,6 +1,8 @@
 package com.centaline.trans.remote.service.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -84,6 +87,8 @@ public class EguServiceImpl implements EguService {
 	
 	Logger logger = LoggerFactory.getLogger(EguServiceImpl.class);
 	private final String EGU_MODULE ="EGU";
+	
+	private final String LINE_SEPERATOR = System.getProperty("line.separator");
 	
 
 	@Autowired
@@ -273,8 +278,15 @@ public class EguServiceImpl implements EguService {
 		
 		String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 		String url = "assess?token="+token+"&"+SignUtil.createLinkString(paramMap);
-		HttpResponse httpResponse = executeGet(url);
-		HttpEntity entity = httpResponse.getEntity();
+		HttpEntity entity=null;
+		try {
+			HttpResponse httpResponse = executeGet(url);
+			 entity= httpResponse.getEntity();	
+		} catch (Exception e) {
+			apiLogService.apiLog(EGU_MODULE, "/assess", url, ExceptionUtils.getStackTrace(e), "0", e.getMessage());
+			throw e;
+		}
+		
 
 		ObjectMapper mapper = new ObjectMapper(); 
 		String returnStr = EntityUtils.toString(entity, "UTF-8");
@@ -481,13 +493,12 @@ public class EguServiceImpl implements EguService {
 			paramMap.put("nonce", String.valueOf(new Random().nextInt(9000)+1000));
 			paramMap.put("un", user.getUsername());
 			paramMap.put("case_id", mortgageAttament.getCaseCode());
-			paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace("\r\n", ""));
+			paramMap.put("files", new BASE64Encoder().encode(files.getBytes("UTF-8")).replace(LINE_SEPERATOR, ""));
 
 			paramMap = SignUtil.pathFilter(paramMap);
 
 			String token = SignUtil.buildRequestToken(paramMap, Const.TOKEN);
 			String url = evaCode +"/upload?token=" + token +"&"+ SignUtil.createLinkString(paramMap);
-			url = url.replaceAll(" ", "%20");
 			HttpResponse httpResponse = executeGet(url);
 
 			HttpEntity entity = httpResponse.getEntity();
@@ -757,7 +768,7 @@ public class EguServiceImpl implements EguService {
 			apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "0", returnStr);
 			throw new BusinessException("egu接口返回数据错误！");
 		}
-		apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "1", returnStr);
+		apiLogService.apiLog(EGU_MODULE, "/report", url, returnStr, "1", null);
 		ToEvaReport report = new ToEvaReport();
 		report.setEvaCode(evaReport.getEvaCode());
 		report.setReportType(evaReport.getReportType());
@@ -773,6 +784,7 @@ public class EguServiceImpl implements EguService {
 			toEvaReport.setEvaCode(code);
 			toEvaReport.setSerialNumber(result.getString("serial_no"));
 			toEvaReport.setReportType(evaReport.getReportType());
+			toEvaReport.setIsMainLoanBank(mortgageAttament.getIsMainLoanBank());
 			toEvaReportService.saveToEvaReport(toEvaReport);	
 		}
 	}

@@ -11,6 +11,13 @@ public class LoanStatusChange {
 	private String changeUser;
 	private String isConfirm;
 
+	private Date confirmTime;
+	private String confirmUser;
+	private Date createTime;
+	private String createBy;
+	private Date updateTime;
+	private String updateBy;
+	
 	/**
 	 * @return the pkid
 	 */
@@ -107,6 +114,54 @@ public class LoanStatusChange {
 
 	public void setIsConfirm(String isConfirm) {
 		this.isConfirm = isConfirm;
+	}
+
+	public Date getConfirmTime() {
+		return confirmTime;
+	}
+
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
+	}
+
+	public String getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(String confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
 }

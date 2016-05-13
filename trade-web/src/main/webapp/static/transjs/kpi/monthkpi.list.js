@@ -37,14 +37,23 @@ var MonthKpiImportList = (function(){
     				index : 'DISTRICT_ID',
     				align : "center",
     				width : 20,
-    				resizable : false,
-    				hidden : true
+    				resizable : false
+    				//hidden : true
     			},{
     				name : 'TYPE',
     				index : 'TYPE',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : false,
+    				formatter : function(cellvalue,
+							options, rawObject) {
+    					if(cellvalue=='IMP'){
+    						return '导入';
+    					}else if(cellvalue=='GEN'){
+    						return '生成';
+    					}
+    					return cellvalue;
+    				}
     			},{
     				name : 'FIN_ORDER',
     				index : 'FIN_ORDER',

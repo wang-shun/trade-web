@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.compress.archivers.dump.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +28,11 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
+import com.centaline.trans.kpi.entity.TsAwardKpiPay;
 import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
 import com.centaline.trans.kpi.service.TsAwardKpiPayDetailService;
+import com.centaline.trans.kpi.service.TsAwardKpiPayService;
 import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +55,8 @@ public class KpiImportController {
 	private KpiSrvCaseService kpiSrvCaseService;
 	@Autowired
 	private TsAwardKpiPayDetailService tsAwardKpiPayDetailService;
-	
+	@Autowired
+	private TsAwardKpiPayService tsAwardKpiPayService;
 
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
@@ -141,7 +145,13 @@ public class KpiImportController {
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);
 
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
-		// uamUserOrgService.getUserOrgJobByUserIdAndJobCode(arg0, arg1)
+		//统计AwardKpiRate
+		Map map = new HashMap();
+		map.put("belongMonth", belongM);
+		map.put("createBy", uamSesstionService.getSessionUser().getId());
+		map.put("createTime", new Date());
+		tsAwardKpiPayDetailService.getPAwardKpiRate(map);
+		
 		return "kpi/monthKpiImport";
 	}
 
@@ -169,26 +179,21 @@ public class KpiImportController {
 		return errorList;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/stasticsAwardKpiRate")
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getTsAwardKpiPayByProperty")
 	@ResponseBody
-	public AjaxResponse stasticsAwardKpiRate(HttpServletRequest request,HttpServletResponse response) {
+	public AjaxResponse getTsAwardKpiPayByProperty(HttpServletRequest request,HttpServletResponse response,String belongMonth) {
 		AjaxResponse result = new AjaxResponse();
-		// 取上一个月份
-		SessionUser user = uamSesstionService.getSessionUser();
 		try {
-			Map map = new HashMap();
-			//map.put("belongMonth", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-			map.put("belongMonth", DateUtil.plusMonth(new Date(), -1));
-			map.put("createBy", user.getId());
-			map.put("createTime", new Date());
-			
-			tsAwardKpiPayDetailService.getPAwardKpiRate(map);
-			//result.setContent(count);
-			
-			result.success("统计个人案件环节KPI成功");
+			TsAwardKpiPay record = new TsAwardKpiPay();
+			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+			List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record);
+			if(CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
+				result.setContent(tsAwardKpiPayList.get(0));
+			}
+			result.success("查询当前奖金总数成功");
 		} catch (Exception e) {
-			result.fail("统计个人案件环节KPI失败");
+			result.fail("查询当前奖金总数失败");
 		}
 		return result;
 	}

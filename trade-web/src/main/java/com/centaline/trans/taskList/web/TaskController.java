@@ -282,7 +282,15 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
     		getAccesoryList(request, taskitem);
     		/**这里应该和自办贷款一样*/
-    		request.setAttribute("mortgage", toMortgageService.findToSelfLoanMortgage(caseCode));
+    		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
+    		request.setAttribute("mortgage", mortgage);
+    		if(mortgage!=null){
+    			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+				if(null !=guest){
+				request.setAttribute("custCompany",guest.getWorkUnit());
+				request.setAttribute("custName",guest.getGuestName());
+				}
+			};
         	/*贷款流失初始信息*/
         	initApproveRecord(request, caseCode, "1");
     	}else if(taskitem.equals("EvaReportArise")){
@@ -293,7 +301,16 @@ public class TaskController {
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
-    		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply"));
+    		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
+    		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
+			
+			if(mortgage!=null){
+				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+				if(null !=guest){
+				request.setAttribute("custCompany",guest.getWorkUnit());
+				request.setAttribute("custName",guest.getGuestName());
+				}
+			};
     		String approveType = "1";/*流失审批*/
     		initApproveRecord(request, caseCode, approveType);
     	} else if(taskitem.equals("CaseCloseThirdApprove") || 
@@ -650,7 +667,7 @@ public class TaskController {
 		for(ToAccesoryList tal:list) {
 			if((toMortgage == null || toMortgage.getMortType() == null) && (tal.getAccessoryName().equals("抵押登记表") || tal.getAccessoryName().equals("商贷利率页"))) {/*无贷款*/
 				removeList.add(tal);
-			} else if(toMortgage != null && toMortgage.getMortType().equals("30016003") && tal.getAccessoryName().equals("商贷利率页")) {
+			} else if(toMortgage != null && "30016003".equals(toMortgage.getMortType()) && "商贷利率页".equals(tal.getAccessoryName())) {
 				removeList.add(tal);
 			}
 		}

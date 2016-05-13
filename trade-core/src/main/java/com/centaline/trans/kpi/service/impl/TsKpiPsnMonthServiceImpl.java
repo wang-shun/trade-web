@@ -54,7 +54,7 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 			monthKpi.setCreateTime(new Date());
 			monthKpi.setCreateBy(createBy);
 			monthKpi.setBelongMonth(belongM);
-			monthKpi.setType("导入");
+			monthKpi.setType("IMP");
 			monthKpi.setParticipant(user.getId());
 			monthKpi.setFinOrder(Integer.parseInt(String.valueOf(kpiMonthVO.getFinOrder())));
 			// 上月滚存数

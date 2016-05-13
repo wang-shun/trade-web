@@ -30,6 +30,7 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -314,7 +315,8 @@ public class CaseDistributeController {
 	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
 	    	if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
     		
-    		
+	   
+
     		// 如果是无主案件分配,需要维护案件负责人
     		if(toCase == null) {
     			toCase = new ToCase();
@@ -324,13 +326,12 @@ public class CaseDistributeController {
     			toCase.setStatus(CaseStatusEnum.YFD.getCode());
     			toCase.setCreateTime(new Date());
     			toCase.setLeadingProcessId(userId);
-    			
-    			SessionUser user = uamSessionService.getSessionUserById(userId);
-    			toCase.setOrgId(user.getServiceDepId());
+    			toCase.setOrgId(sessionUser.getServiceDepId());
     			int caseCount = toCaseService.insertSelective(toCase);
     			if(caseCount == 0)return AjaxResponse.fail("无主案件基本表新增失败！");
     		} else {
         		toCase.setLeadingProcessId(userId);
+        		toCase.setOrgId(sessionUser.getServiceDepId());
         		if(!CaseStatusEnum.WFD.getCode().equals(toCase.getStatus())){
         			return AjaxResponse.fail("数据已经被修改！");
         		}

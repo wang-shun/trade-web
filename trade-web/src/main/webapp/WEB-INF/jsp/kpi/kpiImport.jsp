@@ -34,6 +34,7 @@
 <link
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
+<link href="${ctx}/js/plugins/dateSelect/dateSelect.css?v=1.0.2" rel="stylesheet"></script>
 <style type="text/css">
 .radio.radio-inline>label {
 	margin-left: 10px;
@@ -61,8 +62,9 @@
 	width: 160px;
 }
 .fixWidth{
-	width:140px!important;
+	width:200px!important;
 }
+
 </style>
 </head>
 
@@ -70,33 +72,34 @@
 	<jsp:include page="/WEB-INF/jsp/common/excelImport.jsp"></jsp:include>
 
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>个人案件KPI导入</h5>
+		<div class="wrapper wrapper-content  animated fadeInRight">
+			<div class="row">
+			<div class="col-lg-12">
+			<div class="ibox">
+			<div class="ibox-title">
+				<div class="bonus-m">
+					<input type="button" class="btn btn-warning m-r-sm" value="&lt;" >
+                         <h5 class="month">yyyy/MM月</h5>
+                    <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
 				</div>
+                                
+             </div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<div class="row form-group">
-							<div class="switch " data-on-label="上月" data-off-label="当月">
-								<input id="moSwitch" type="checkbox" checked />
-							</div>
-						</div>
 						<div class="row">
-							<div class="col-md-3">
-								<label class="col-sm-5 control-label" id="case_date">案件编号</label>
+							<div class="col-md-4">
+								<label class="col-sm-4 control-label" id="case_date">案件编号</label>
 								<input id="caseCode" type="text" class="form-control"
-									style="width: 140px">
+									style="width: 200px">
 							</div>
-							<div class="col-md-3">
-								<label class="col-sm-5 control-label" id="case_date">环节</label>
+							<div class="col-md-4">
+								<label class="col-sm-3 control-label" id="case_date">环节</label>
 								<aist:dict id="srvCode" name="srvCode" clazz="col-sm-5 form-control fixWidth"
 						display="select"  dictType="KPI_SRV_CODE" 
 						ligerui='none' ></aist:dict>
 
 							</div>
-							<span class="col-md-3 ">
+							<span class="col-md-4">
 								<button id="searchButton" type="button"
 									class="btn btn-primary pull-lefe">查询</button> <a role="" class="btn btn-primary " id="importButton">个人案件KPI导入 </a>
 							</span>
@@ -106,9 +109,6 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="wrapper wrapper-content  animated fadeInRight">
-
 			<div class="col-lg-12">
 				<div class="ibox ">
 					<div class="ibox-title">
@@ -123,7 +123,7 @@
 					</div>
 				</div>
 			</div>
-
+		
 		</div>
 		
 		<!-- 失败数据 -->
@@ -192,8 +192,8 @@
 				</div>
 			</div>
 		</div>
-
-	</div>
+</div>
+	
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ex_message" value="${ex_message}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
@@ -207,7 +207,9 @@
 		src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script> <script
 		src="${ctx}/js/jquery.blockui.min.js"></script> <script
 		src="${ctx}/js/plugins/layer/layer.js"></script> <script
-		src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> <script>
+		src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+		<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
+		 <script>
 	 	// 是否显示错误信息
 		<c:if test="${not empty fList}">
 	    	var hasError=true;
@@ -224,7 +226,7 @@
 			sw = $("#moSwitch").bootstrapSwitch({
 				'onText' : "上月",
 				'offText' : '当月',
-				state : false
+				state : true
 			}).on('switchChange.bootstrapSwitch', function(event, state) {
 			});
 			
@@ -236,7 +238,7 @@
     			height : 550,
     			autowidth : true,
     			shrinkToFit : true,
-    			rowNum : 8,
+    			rowNum : 13,
     			/*   rowList: [10, 20, 30], */
     			colNames : [ '主键','案件编码','环节','所在组别','所属贵宾服务部','类型','满意度','是否接通'],
     			colModel : [ {
@@ -322,7 +324,7 @@
     			},
     			postData : {
     				queryId : "kpiList",
-                    argu_belongMonth : belongM
+                    argu_belongMonth : new Date().format('yyyy-MM-dd')
     			}
 
     		});
@@ -371,11 +373,13 @@
 		$("#searchButton").click(function(){
 			reloadGrid();
 		});
-		function reloadGrid(){
-			var bm=belongLastM;
-			if(!sw.bootstrapSwitch('state')){
-				bm=belongM;
+		function reloadGrid(bm){
+			if(!bm){
+				bm=monthSel.getDate().format('yyyy-MM-dd');	
+			}else{
+				bm=bm.format('yyyy-MM-dd');
 			}
+			
 			var data = {
    					queryId:"kpiList",
    					argu_belongMonth : bm,
@@ -388,7 +392,7 @@
 		    		postData:data
 		    	}).trigger('reloadGrid'); 
 		}
-			
+		var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
 		</script> </content>
 </body>
 </html>

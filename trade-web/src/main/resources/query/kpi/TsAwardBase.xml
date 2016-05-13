@@ -28,24 +28,36 @@
 	</formatters>
 	<query id="tsAwardBaseList">
 		<searchCondition>
-
+		<!--<condition field="T_TS_AWARD_BASE.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
 		</searchCondition>
 		<searchSql>
 			<baseSql>
                   <![CDATA[
 					SELECT 
-					  T_TS_AWARD_BASE.CASE_CODE,
-					  SUM(T_TS_AWARD_BASE.BASE_AMOUNT) BASE_CASE_AMOUNT,
-					  (SELECT TOP 1 GUOHU_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_BASE.CASE_CODE) AS GUOHU_TIME,
-					  (SELECT TOP 1 CLOSE_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_BASE.CASE_CODE) AS CLOSE_TIME,
-					  (SELECT TOP 1 PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = T_TS_AWARD_BASE.CASE_CODE) AS PROPERTY_ADDR
+					  T_TS_AWARD_DETAIL.CASE_CODE,
+					  SUM(T_TS_AWARD_DETAIL.AWARD_KPI_MONEY) BASE_CASE_AMOUNT,
+					  (SELECT TOP 1 GUOHU_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS GUOHU_TIME,
+					  (SELECT TOP 1 CLOSE_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS CLOSE_TIME,
+					  (SELECT TOP 1 PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS PROPERTY_ADDR
 					FROM 
-					  (SELECT BASE.* FROM sctrans.T_TS_AWARD_BASE BASE INNER JOIN sctrans.T_TS_AWARD_KPI_RATE KPI_RETE ON BASE.CASE_CODE = KPI_RETE.CASE_CODE AND DATEDIFF(m, KPI_RETE.BELONG_MONTH, '2016-04-03') = 0) T_TS_AWARD_BASE
+					  (SELECT detail.* FROM sctrans.T_TS_AWARD_KPI_PAY_DETAIL detail WHERE 1=1
+					  <ifNotNull belongMonth>
+					    AND DATEDIFF(m, detail.BELONG_MONTH, #belongMonth#) = 0
+					  </ifNotNull>
+					  <ifNotNull caseCode>
+					    AND detail.CASE_CODE = #caseCode#
+					  </ifNotNull>
+					  <ifNotNull propertyAddr>
+					    INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = detail.CASE_CODE AND INFO.PROPERTY_ADDR = #propertyAddr#
+					  </ifNotNull>
+                      ) T_TS_AWARD_DETAIL
 					GROUP BY 
-					  T_TS_AWARD_BASE.CASE_CODE
+					   T_TS_AWARD_DETAIL.CASE_CODE
 				]]>
 			</baseSql>
 			<groupSql>
+			  
 			</groupSql>
 		</searchSql>
 		<grid>

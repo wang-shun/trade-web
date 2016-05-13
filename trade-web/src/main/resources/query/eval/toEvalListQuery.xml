@@ -31,7 +31,7 @@
 		<searchCondition>
             <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.ORG_ID" name="orgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.ORG_ID" name="caseOrgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>

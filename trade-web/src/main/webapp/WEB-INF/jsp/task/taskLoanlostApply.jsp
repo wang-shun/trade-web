@@ -66,6 +66,8 @@
 				<form method="post" class="form-horizontal" id="loanlostApplyForm">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+					<input type="hidden" id="custName" name="custName" value="" >
+					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
@@ -73,6 +75,7 @@
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">
+					<input type="hidden" id="h_custCode"  value="${mortgage.custCode}">
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
@@ -93,15 +96,27 @@
 					</div>
 					
 					<div class="form-group">
+						<label class="col-sm-2 control-label">主贷人<span class="star">*</span></label>
+						<div class="col-sm-4">
+							<select class="form-control m-b chosen-select" name="custCode" id="custCode">
+							</select> 
+						</div>
+						<label class="col-sm-2 control-label">主贷人单位：</label>
+						<div class="col-sm-4">
+							<input type="text" name="custCompany" id="custCompany" class="form-control" value="${custCompany }">
+						</div>
+						
+
+					</div>
+					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款流失金额<span class="star">*</span></label>
 						<div class="col-sm-2">
 						<div class="input-group">
-							<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" value="${mortgage.mortTotalAmount}">
+							<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" value="${mortgage.mortTotalAmount/10000}">
 							<span class="input-group-addon">万</span>						
 						</div>
 						</div>
 					</div>
-
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款流失原因</label>
 						<div class="col-sm-10">
@@ -287,6 +302,28 @@
 			}
 		});
 	}
+	//查询客户信息
+	function getGuestInfo(){
+		$.ajax({
+			url:ctx+"/task/getGuestInfo",
+			method:"post",
+			dataType:"json",
+			data:{caseCode:$("#caseCode").val()},
+			success:function(data){
+				if(data != null && data.length > 0){
+					$("select[name='custCode']").html("");
+					for(var i=0;i<data.length;i++){
+						var selected='';
+						if($('#h_custCode').val()==data[i].pkid){
+							selected='selected';
+						}
+						$("select[name='custCode']").append("<option value='"+data[i].pkid+"' "+ selected+">"+data[i].guestName+"</option>");
+					}
+				}
+			}
+		});
+	}
+	
 		$(document).ready(function() {
 			if('caseDetails'==source){
 				readOnlyForm();
@@ -298,7 +335,7 @@
 			 });
 			
 			 getBankList(finOrgCode);
-
+			 getGuestInfo();
 		});
 		
 
@@ -314,6 +351,7 @@
 			if(!checkForm()) {
 				return;
 			}
+			$("#finOrgCode").val($("#lastLoanBank").val());
 			var jsonData = $("#loanlostApplyForm").serializeArray();
 			deleteAndModify();
 			
@@ -377,6 +415,13 @@
                 $("input[name='mortTotalAmount']").focus();
                 return false;
            }
+			if($("select[name='custCode']").val()==''){
+				alert('请选择主贷人');
+				return false;
+			}
+			
+			
+			$("input[name='custName']").val($("select[name='custCode']").text());
 			/* if($('input[name=commet]').val()=='') {
                 alert("备注为必填项!");
                 $('input[name=commet]').focus();

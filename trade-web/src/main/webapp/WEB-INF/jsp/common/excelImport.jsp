@@ -4,13 +4,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <div style="display:none;" id="excelImport">
-   <form id="excelInForm"  method="post" enctype="multipart/form-data" action=""> 
-        <div class="form-group">
-        	<label for="file" class="col-sm-3 control-label">导入表格文件 : </label>
-  			<div class="col-sm-8">
+   <form id="excelInForm"  method="post" enctype="multipart/form-data" action="" class='form-horizontal'> 
+
+   		<div class='row'>
+        
+        	 <div class="switch col-md-2" data-on-label="上月" data-off-label="当月">
+	    	<input id="moSwitch" type="checkbox"  />
+	    	</div>
+        	<label  class="col-md-3 control-label"  >导入表格文件 : </label>
+  			<div class="col-md-7">
   			    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
       		</div>
-        </div> 
+
+        </div>
   </form>
 </div>
 

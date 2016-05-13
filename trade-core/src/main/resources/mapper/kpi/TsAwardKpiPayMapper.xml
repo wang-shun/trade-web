@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.kpi.repository.TsAwardKpiPayMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="BELONG_MONTH" property="belongMonth" jdbcType="TIMESTAMP" />
+    <result column="PARTICIPANT" property="participant" jdbcType="VARCHAR" />
+    <result column="PARTICIPANT_TYPE" property="participantType" jdbcType="VARCHAR" />
+    <result column="AWARD_KPI_SUM" property="awardKpiSum" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="CASE_COUNT" property="caseCount" jdbcType="INTEGER" />
+    <result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, BELONG_MONTH, PARTICIPANT, PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, CREATE_TIME, 
+    CREATE_BY, UPDATE_TIME, UPDATE_BY, CASE_COUNT, USER_COUNT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_AWARD_KPI_PAY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_AWARD_KPI_PAY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    insert into sctrans.T_TS_AWARD_KPI_PAY (PKID, BELONG_MONTH, PARTICIPANT, 
+      PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY, CASE_COUNT, USER_COUNT
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{belongMonth,jdbcType=TIMESTAMP}, #{participant,jdbcType=VARCHAR}, 
+      #{participantType,jdbcType=VARCHAR}, #{awardKpiSum,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{caseCount,jdbcType=INTEGER}, #{userCount,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    insert into sctrans.T_TS_AWARD_KPI_PAY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH,
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT,
+      </if>
+      <if test="participantType != null" >
+        PARTICIPANT_TYPE,
+      </if>
+      <if test="awardKpiSum != null" >
+        AWARD_KPI_SUM,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="caseCount != null" >
+        CASE_COUNT,
+      </if>
+      <if test="userCount != null" >
+        USER_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="belongMonth != null" >
+        #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="participant != null" >
+        #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="participantType != null" >
+        #{participantType,jdbcType=VARCHAR},
+      </if>
+      <if test="awardKpiSum != null" >
+        #{awardKpiSum,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCount != null" >
+        #{caseCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCount != null" >
+        #{userCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    update sctrans.T_TS_AWARD_KPI_PAY
+    <set >
+      <if test="belongMonth != null" >
+        BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="participantType != null" >
+        PARTICIPANT_TYPE = #{participantType,jdbcType=VARCHAR},
+      </if>
+      <if test="awardKpiSum != null" >
+        AWARD_KPI_SUM = #{awardKpiSum,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCount != null" >
+        CASE_COUNT = #{caseCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCount != null" >
+        USER_COUNT = #{userCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    update sctrans.T_TS_AWARD_KPI_PAY
+    set BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
+      PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      PARTICIPANT_TYPE = #{participantType,jdbcType=VARCHAR},
+      AWARD_KPI_SUM = #{awardKpiSum,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      CASE_COUNT = #{caseCount,jdbcType=INTEGER},
+      USER_COUNT = #{userCount,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="getTsAwardKpiPayByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_AWARD_KPI_PAY
+    <where>
+	<if test="belongMonth != null">
+		AND DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0
+	</if>
+	</where>
+  </select>
+</mapper>

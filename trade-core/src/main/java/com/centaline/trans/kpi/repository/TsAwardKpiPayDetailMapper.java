@@ -20,4 +20,6 @@ public interface TsAwardKpiPayDetailMapper {
     int updateByPrimaryKey(TsAwardKpiPayDetail record);
     
     void getPAwardKpiRate(Map map);
+    
+    void getPAwardKpiRateStatic(Map map);
 }

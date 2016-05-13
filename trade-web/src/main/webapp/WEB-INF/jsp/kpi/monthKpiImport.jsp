@@ -37,6 +37,8 @@
 <!-- 弹出框插件 -->
 <%-- <link href="${ctx}/css/plugins/layer/layer.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/layer/layer.ext.css" rel="stylesheet"> --%>
+<!-- 时间控件 -->
+<link href="${ctx}/js/plugins/dateSelect/dateSelect.css?v=1.0.2" rel="stylesheet"></script>
 <style type="text/css">
 .radio.radio-inline>label {
 	margin-left: 10px;
@@ -61,6 +63,18 @@ margin-left: 10px;
 margin-top: 10px;
 width:160px;
 }
+.org-form-control {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}
 </style>
 </head>
 
@@ -68,50 +82,49 @@ width:160px;
 
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/excelImport.jsp"></jsp:include>
-<!-- 	<div style="display:none;" id="excelImport">
-   <form id="excelInForm"  method="post" enctype="multipart/form-data" action=""> 
-        <div class="form-group">
-        	<label for="file" class="col-sm-2 control-label">导入表格文件 : </label>
-  			<div class="col-sm-10">
-  			    <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
-      		</div>
-        </div> 
-  </form>
-</div> -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>个人月度KPI导入</h5>
+
+		<div class="row">
+			<div class="ibox">
+			<div class="ibox-title">
+				<div class="bonus-m">
+					<input type="button" class="btn btn-warning m-r-sm" value="&lt;" >
+                    <h5 class="month">yyyy/MM月</h5>
+                    <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
 				</div>
-				<div class="ibox-content">
+             </div>
+			<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 					 	<div class="row">
-							<div class="switch col-md-2" data-on-label="上月" data-off-label="当月">
-	    						<input id="moSwitch" type="checkbox"  />
-							</div>
-						
-		            		<div class="col-md-10">
-			            	   <div style="float: left; width: 200px">
-			            	      <input type="text" class=" form-control"
-										id="orgName" placeholder="所在组" style="width: 200px">
-			            	   </div>
-			            	   <div style="float: left; width: 200px">
-			            	      <input type="text" class=" form-control"
-										id="userName" placeholder="人员" style="width: 200px">
-			            	   </div>
-			            	   <div style="float: left; width: 200px">
-			            	      <button id="searchButton" type="button" class="btn btn-primary">查询</button>
-			            	      <a id="importButton" class="btn btn-primary">个人月度Kpi导入 </a>
-			            	   </div>
-			            	    
-		            		</div>
+							<div class="col-lg-3 col-md-4">
+                                   <div class="form-group">
+                                       <label class="col-lg-3 col-md-3 control-label">所在组 :</label>
+                                       <div class="col-lg-9 col-md-9">
+                                         <input type="text" class="span12 tbsporg org-form-control" id="teamCode" name="teamCode" readonly="readonly" 
+										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
+										   expandNodeId:''})" />
+										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-lg-3 col-md-4">
+                                   <div class="form-group">
+                                       <label class="col-lg-3 col-md-3 control-label">人员 :</label>
+                                       <div class="col-lg-9 col-md-9">
+                                           <input type="text" class=" form-control" id="userName" name="userName" placeholder="" style="width: 200px">
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col-lg-3 col-md-4">                                   
+                                  <button id="searchButton" type="button" class="btn btn-primary">查询</button>
+		            	       <a id="importButton" class="btn btn-primary">个人月度Kpi导入 </a>
+                               </div>
 			             </div>
 					</form>
 				</div>
 			</div>
 		</div>
-	 </div>
 	 <div class="row">
 		<div class="col-lg-12">
 			<div class="ibox ">
@@ -211,10 +224,14 @@ width:160px;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  <!-- iCheck --> <script
 		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 		<script	src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script>
-    <script src="${ctx}/js/jquery.blockui.min.js"></script> 
-       <!-- 弹出框插件 -->
+    <script src="${ctx}/js/jquery.blockui.min.js"></script>
+    <!-- 组织控件 --> 
+    <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+    <!-- 弹出框插件 -->
     <script src="${ctx}/js/plugins/layer/layer.js"></script>
     <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+    <!-- 日期控件 -->
+    <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
     <!-- 列表 -->
     <script src="${ctx}/transjs/kpi/monthkpi.list.js"></script>
     <script>
@@ -230,6 +247,8 @@ width:160px;
 	</c:if>
 	var sw;
     $(document).ready(function(){
+    	//初始化日期控件
+    	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
     	// 初始化列表
     	MonthKpiImportList.init('${ctx}','/quickGrid/findPage','table_list_1','pager_list_1','${belongM}');
     	// 滑块
@@ -237,7 +256,7 @@ width:160px;
     		'onText':"上月",
     		'offText':'当月'
     	}).on('switchChange.bootstrapSwitch', function(e, data) {
-    		var i =sw.bootstrapSwitch('state')?'0':'1';
+    	/* 	var i =sw.bootstrapSwitch('state')?'0':'1';
     		if(i=='0') {
     			var data = {
    					queryId:"monthKpiList",
@@ -258,7 +277,7 @@ width:160px;
     		    		mtype:'post',
     		    		postData:data
     		    	}).trigger('reloadGrid'); 
-    		}
+    		} */
 		});
     	// 是否显示错误信息
     	if(!!hasError){
@@ -297,7 +316,43 @@ width:160px;
         	  }
         	});
     	}) 
+    	
+    	// 查询
+		$('#searchButton').click(function() {
+			reloadGrid();
+		});
+		
+		function reloadGrid(bm){
+ 			if(!bm){
+ 				bm=monthSel.getDate().format('yyyy-MM-dd');	
+ 			}else{
+ 				bm=bm.format('yyyy-MM-dd');
+ 			}
+ 			
+ 			var data = {};
+	    	data.search_teamId =$.trim( $('#yuCuiOriGrpId').val() ); 
+	    	data.search_participant =$.trim( $('#userName').val() ); 
+	    	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
+	    	data.queryId="monthKpiList";
+	    	
+		    $("#table_list_1").jqGrid('setGridParam',{
+	    		datatype:'json',
+	    		mtype:'post',
+	    		postData:data
+	    	}).trigger('reloadGrid'); 
+ 		}
     });
+    //选业务组织的回调函数
+    function radioYuCuiOrgSelectCallBack(array){
+        if(array && array.length >0){
+            $("#teamCode").val(array[0].name);
+    		$("#yuCuiOriGrpId").val(array[0].id);
+    		
+    	}else{
+    		$("#teamCode").val("");
+    		$("#yuCuiOriGrpId").val("");
+    	}
+    }
     </script>
  </content>
 </body>

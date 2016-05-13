@@ -116,7 +116,7 @@
 						shrinkToFit : true,
 						rowNum : 20,
 						/* rowList: [10, 20, 30], */
-						colNames : [ '红绿灯', '案件编号', '任务名', '产证地址', '执行人' ,'预计执行时间','','',''],
+						colNames : [ '红绿灯', '案件编号', '任务名', '产证地址', '执行人' ,'预计执行时间','操作','',''],
 						colModel : [ {
 							name : 'color',
 							index : 'color',
@@ -127,7 +127,10 @@
 							name : 'caseCode',
 							index : 'caseCode',
 							width : 30,
-							editable : true,
+							formatter : function(cellvalue, options, rawObject){
+								var a=("<a href='"+ctx+"/case/caseDetail?caseId="+rawObject.caseId+"' target='_blank'>"+cellvalue+"</a>");
+								return a;
+							}
 
 						}, {
 							name : 'taskName',
@@ -147,7 +150,14 @@
 							width : 40
 						},{
 							name:'taskDfKey',
-							hidden:true
+							width:40,
+							formatter : function(cellvalue, options, rowData){
+								if(!isJygw)return '';
+								var a="<a href='"+ctx+"/task/"+rowData.taskDfKey+
+								"?taskId="+rowData.taskId+"&caseCode="+rowData.caseCode+"&instCode="+rowData.instId+"' >处理</a>";
+								return a;
+							}
+
 						},{name:'taskId',
 							hidden:true
 						},{name:'instId',
@@ -164,12 +174,12 @@
 						postData : {
 							queryId : "queryRyLightList"
 						},onSelectRow : function(rowid) {
-							if(!isJygw)return;
+							/* if(!isJygw)return;
 							var rowData = $("#table_list_1").jqGrid('getRowData',rowid);
 							var url = ctx+"/task/"+rowData.taskDfKey+
 							"?taskId="+rowData.taskId+"&caseCode="+rowData.caseCode+"&instCode="+rowData.instId;
 //							alert(url);
-							window.location.href = url;
+							window.location.href = url; */
 						}
 
 					});
@@ -201,7 +211,7 @@
 		var params = {
 			search_color : dateLamp,
 			argu_parentOrgId : $("#parentOrgId").val(),
-			argu_orgId : $("#orgId").val(),
+			argu_myOrgId : $("#orgId").val(),
 			argu_uid :  $("#userId").val(),
 			sortname :"COLOR"
 		};
