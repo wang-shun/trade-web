@@ -259,9 +259,18 @@ public class TaskController {
 //    		boolean tz =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue()));
     		request.setAttribute("tz", !(boolean)(psf==null?false:psf.getValue()));
     		getAccesoryList(request, taskitem);
-    		request.setAttribute("loanRelease", toMortgageService.findToMortgageByCaseCode2(caseCode));
+    		ToMortgage mortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+    		request.setAttribute("loanRelease", mortgage);
     	} else if(taskitem.equals("SelfLoanApprove")) {/*SelfLoanApprove 自办贷款审批*/
-    		request.setAttribute("SelfLoan", toMortgageService.findToSelfLoanMortgage(caseCode));
+    		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
+    		request.setAttribute("SelfLoan", mortgage);
+    		if(mortgage!=null && mortgage.getCustCode()!=null){
+    			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+				if(null !=guest){
+				request.setAttribute("custCompany",guest.getWorkUnit());
+				request.setAttribute("custName",guest.getGuestName());
+				}
+			};
     	}else if(taskitem.equals("ComLoanProcess")){
     		getAccesoryLists(request, taskitem);
     		MortStep mortStep = new MortStep();

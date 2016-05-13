@@ -63,7 +63,7 @@
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO AS A ON tw.CASE_CODE=A.CASE_CODE
-						LEFT JOIN sctrans.T_TO_CASE_INFO as b on b.case_code=a.case_code
+						LEFT JOIN sctrans.T_TO_CASE as b on b.case_code=a.case_code
             			INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
 						LEFT JOIN sctrans.T_TO_TRANS_PLAN AS tp ON A.CASE_CODE = tp.CASE_CODE AND tp.PART_CODE = ART.TASK_DEF_KEY_
 						LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
