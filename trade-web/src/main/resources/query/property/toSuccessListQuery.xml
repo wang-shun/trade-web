@@ -41,8 +41,8 @@
 	            <condition field="AH.REAL_NAME" name="quds" label="区董" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="au.REAL_NAME" name="auUser" label="申请人" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="acu.REAL_NAME" name="acuUser" label="执行人" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
-	            <condition field="A.pr_complete_time" name="completeTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue="" />
-				<condition field="A.pr_complete_time" name="completeTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+	            <condition field="A.pr_complete_time" name="completeTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue="" />
+				<condition field="A.pr_complete_time" name="completeTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue="" />
 	            <condition field="A.PR_STATUS" name="status" label="状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 	            <condition field="A.IS_SUCCESS" name="isSuccess" label="是否有效" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_CHANNEL" name="prChannel" label="来源" searchType="EQ" showType="" showCallback="" defaultValue=""/>

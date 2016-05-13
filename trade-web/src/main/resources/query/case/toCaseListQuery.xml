@@ -38,12 +38,12 @@
 
            <condition field="B.CASE_PROPERTY"  name="caseProperty" label="案件类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
            <condition field="B.STATUS"         name="status" label="服务阶段选择" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CLOSE_TIME"  name="approveTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CLOSE_TIME"  name="approveTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CREATE_TIME"    name="createTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.CREATE_TIME"    name="createTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CLOSE_TIME"  name="approveTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CLOSE_TIME"  name="approveTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CREATE_TIME"    name="createTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CREATE_TIME"    name="createTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.AGENT_CODE"     name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
            <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -64,18 +64,18 @@
 
 
          
-           <condition field="G.REAL_CON_TIME"  name="realConTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="G.REAL_CON_TIME"  name="realConTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="H.REAL_HT_TIME"   name="realHtTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="H.REAL_HT_TIME"   name="realHtTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="G.REAL_CON_TIME"  name="realConTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="G.REAL_CON_TIME"  name="realConTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="H.REAL_HT_TIME"   name="realHtTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="H.REAL_HT_TIME"   name="realHtTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
          
-           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
          
-           <condition field="J.SIGN_DATE"   name="signDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.SIGN_DATE"   name="signDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.LEND_DATE"   name="lendDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.SIGN_DATE"   name="signDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.SIGN_DATE"   name="signDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.LEND_DATE"   name="lendDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 
           </searchCondition>
 		<searchSql>
@@ -88,7 +88,8 @@
                         B.PROPERTY_ADDR,
                         B.CASE_CODE,
                         B.AGENT_NAME,
-                        B.AGENT_CODE AGENT_ORG_NAME
+                        B.AGENT_CODE AGENT_ORG_NAME,
+                        B.CTM_CODE as ctmCode
 					FROM sctrans.V_CASE_LIST_BASE B 
 					<ifNotNull realConTime>
 						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
@@ -256,7 +257,9 @@
 				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="RED_COUNT" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+							
 			</table-row>
 		</grid>
 	</query>

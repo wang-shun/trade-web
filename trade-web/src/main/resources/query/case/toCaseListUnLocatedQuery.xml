@@ -31,8 +31,8 @@
 	<searchCondition>
 			
             <condition field="E.PROPERTY_ADDR" name="proAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.IMPORT_TIME" name="dtBegin" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.IMPORT_TIME" name="dtEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.IMPORT_TIME" name="dtBegin" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.IMPORT_TIME" name="dtEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="C.ORG_ID" name="oriGrpId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
              
             </searchCondition>

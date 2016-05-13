@@ -82,7 +82,7 @@ width:160px;
 						<div class="row">
 							<div class="col-md-5 col-sm-12">
 								<div class="form-group ">
-									<label class="col-md-2 control-label">物业地址：</label>
+									<label class="col-md-3 control-label">物业地址：</label>
 									<div class="col-md-8">
 										<input type="text" id="txt_prd_addr" name="txt_prd_addr" placeholder=""class="form-control" >
 									</div>
