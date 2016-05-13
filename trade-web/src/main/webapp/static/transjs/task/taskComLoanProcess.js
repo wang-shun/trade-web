@@ -453,7 +453,9 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){	
 	    		if(queryCustCodeOnly){
-	    			mCustCode=data.content.custCode;
+	    			if(data.content != null && data.content.custCode != null){
+	    				mCustCode=data.content.custCode;
+	    			}
 	    			return true;
 	    		}
 	    		var finOrgCode = "";
