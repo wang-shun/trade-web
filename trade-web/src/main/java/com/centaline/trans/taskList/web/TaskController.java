@@ -304,7 +304,7 @@ public class TaskController {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
 			
-			if(mortgage!=null){
+			if(mortgage!=null && mortgage.getCustCode()!=null){
 				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
 				if(null !=guest){
 				request.setAttribute("custCompany",guest.getWorkUnit());
