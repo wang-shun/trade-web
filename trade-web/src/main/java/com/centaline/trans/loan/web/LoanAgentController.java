@@ -102,6 +102,7 @@ public class LoanAgentController {
 			loanAgent.setCaseCode(null);
 		}
 		doSetWanYuan(loanAgent);
+		loanAgent.setOptUser(user.getId());
 		if (loanAgent.getPkid() == null) {
 			loanAgent.setCreatorId(user.getId());
 			loanAgentService.add(loanAgent);
@@ -131,7 +132,8 @@ public class LoanAgentController {
 			HttpServletRequest req, String pkId, String changePkId,String stTo) {
 		AjaxResponse result = new AjaxResponse();
 		try {
-
+			SessionUser u=uamSessionService.getSessionUser();
+			
 			LoanAgent loanAgent = new LoanAgent();
 			loanAgent.setPkid(Long.parseLong(pkId));
 			loanAgent.setConfirmTime(new Date());
@@ -140,6 +142,12 @@ public class LoanAgentController {
 			LoanStatusChange loanStatusChange = new LoanStatusChange();
 			loanStatusChange.setPkid(Long.parseLong(changePkId));
 			loanStatusChange.setIsConfirm("1");
+			
+			loanStatusChange.setConfirmTime(new Date());
+			loanStatusChange.setConfirmUser(u.getId());
+			
+			loanStatusChange.setUpdateBy(u.getId());
+			loanStatusChange.setUpdateTime(new Date());
 
 			loanAgentService.updateStatusLoanAgent(loanAgent, loanStatusChange);
 
@@ -155,7 +163,7 @@ public class LoanAgentController {
 			HttpServletRequest req, String pkId, String changePkId,String stFrom) {
 		AjaxResponse result = new AjaxResponse();
 		try {
-
+			SessionUser u=uamSessionService.getSessionUser();
 			LoanAgent loanAgent = new LoanAgent();
 			loanAgent.setPkid(Long.parseLong(pkId));
 			loanAgent.setApplyStatus(stFrom);
@@ -164,6 +172,12 @@ public class LoanAgentController {
 			LoanStatusChange loanStatusChange = new LoanStatusChange();
 			loanStatusChange.setPkid(Long.parseLong(changePkId));
 			loanStatusChange.setIsConfirm("2");
+			
+			loanStatusChange.setConfirmTime(new Date());
+			loanStatusChange.setConfirmUser(u.getId());
+			
+			loanStatusChange.setUpdateBy(u.getId());
+			loanStatusChange.setUpdateTime(new Date());
 
 			loanAgentService.updateStatusLoanAgent(loanAgent, loanStatusChange);
 

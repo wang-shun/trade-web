@@ -66,8 +66,8 @@
                        <label class="col-sm-4 control-label">物业地址：${caseDetail.propertyAddr}</label>
                    </div>
                    <div class="row ">
-                       <label class="col-sm-5 control-label">主贷人：${mortgage.custName}</label>
-                       <label class="col-sm-4 control-label">主贷人单位：${mortgage.custCompany}</label>
+                       <label class="col-sm-5 control-label">主贷人：${custName}</label>
+                       <label class="col-sm-4 control-label">主贷人单位：${custCompany}</label>
                    </div>
                    <div class="row ">
                        <label class="col-sm-5 control-label">承办银行：${caseDetail.lastLoanBank}</label>

@@ -14,7 +14,8 @@
 	</formatters>
 	<query id="baseImportQuery">
 		<searchCondition>
-			<condition field="orj.ORG_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="orj.ORG_NAME" name="teamName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="orj1.ORG_NAME" name="disName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 			<condition field="ttp.PROPERTY_ADDR" name="caseAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 			<condition field="u.REAL_NAME" name="userNmae" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="tbv.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -26,14 +27,15 @@
 				<![CDATA[
 					select tbv.pkid as pkid
 ,tbv.CASE_CODE as caseCode,u.REAL_NAME as userName,u.EMPLOYEE_CODE as employeeCode
-,jb.JOB_NAME as jobName,orj.ORG_NAME as orgName,ttp.PROPERTY_ADDR as caseAddress,tbv.base_amount as amount,tbv.CREATE_TIME as createTime
+,jb.JOB_NAME as jobName,orj.ORG_NAME as teamName,orj1.org_name as disName,ttp.PROPERTY_ADDR as caseAddress,tbv.base_amount as amount,tbv.CREATE_TIME as createTime
  ,LTRIM(STR(tbv.SRV_PART_IN))+'/'+LTRIM(STR(tbv.SRV_PART_TOTAL)) as srvPart,tbv.SRV_CODE as srvCode
   from sctrans.T_TS_AWARD_BASE  tbv
 left join sctrans.SYS_USER u on u.ID=tbv.PARTICIPANT
 left join sctrans.T_TO_PROPERTY_INFO as ttp
 on tbv.CASE_CODE=ttp.CASE_CODE
 left join sctrans.SYS_JOB jb on jb.id = tbv.job_id
-left join sctrans.SYS_ORG orj on orj.ID= tbv.ORG_ID
+left join sctrans.SYS_ORG orj on orj.ID= tbv.team_id
+left join sctrans.SYS_ORG orj1 on orj1.ID= tbv.district_id
 where tbv.IS_DELETED='0'
 
    
@@ -53,7 +55,10 @@ where tbv.IS_DELETED='0'
 				<column type="both" name="jobName" index="" checkbox=""
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
-				<column type="both" name="orgName" index="" checkbox=""
+				<column type="both" name="teamName" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="disName" index="" checkbox=""
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
 				<column type="both" name="caseAddress" index="" checkbox=""

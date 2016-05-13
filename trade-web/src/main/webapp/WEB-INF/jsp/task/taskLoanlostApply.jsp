@@ -103,7 +103,7 @@
 						</div>
 						<label class="col-sm-2 control-label">主贷人单位：</label>
 						<div class="col-sm-4">
-							<input type="text" name="custCompany" id="custCompany" class="form-control" value="${mortgage.custCompany }">
+							<input type="text" name="custCompany" id="custCompany" class="form-control" value="${custCompany }">
 						</div>
 						
 

@@ -56,18 +56,17 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			servItemMapper.updateByPrimaryKeySelective(p);
 		}
 		loanAgentMapper.insertSelective(loanAgent);
+	
+		processLoanStatusChange(null, loanAgent,loanAgent.getOptUser());
 	}
 
 	private void buildFCaseCode(LoanAgent loanAgent) {
-		if (!StringUtils.isBlank(loanAgent.getCaseCode())
-				&& StringUtils.isBlank(loanAgent.getFinCaseCode())) {
+		if (!StringUtils.isBlank(loanAgent.getCaseCode()) && StringUtils.isBlank(loanAgent.getFinCaseCode())) {
 			if (LoanType.ZY_XD.getCode().equals(loanAgent.getLoanSrvCode())) {
-				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal(
-						"ZYDK_CODE", new Date()));
+				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("ZYDK_CODE", new Date()));
 			} else {
-				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal(
-						"WDDK_CODE", LoanCompany.getCaseValueByCode(loanAgent
-								.getFinOrgCode()), new Date()));
+				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("WDDK_CODE",
+						LoanCompany.getCaseValueByCode(loanAgent.getFinOrgCode()), new Date()));
 			}
 		}
 	}
@@ -82,12 +81,11 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 		TgServItemAndProcessor p = new TgServItemAndProcessor();
 
 		LoanAgent obj = loanAgentMapper.selectByPkid(loanAgent.getPkid());
-		if (!StringUtils.isBlank(obj.getCaseCode())&& obj.getLoanSrvCode() != null
+		if (!StringUtils.isBlank(obj.getCaseCode()) && obj.getLoanSrvCode() != null
 				&& !obj.getLoanSrvCode().equals(loanAgent.getLoanSrvCode())) {
 			p.setCaseCode(obj.getCaseCode());
 			p.setSrvCat(obj.getLoanSrvCode());
-			TgServItemAndProcessor ts = servItemMapper
-					.findTgServItemAndProcessor(p);
+			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
 			if (ts != null) {
 				ts.setProcessorId(null);
 				ts.setOrgId(null);
@@ -101,20 +99,30 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			p.setOrgId(loanAgent.getExecutorTeam());
 			servItemMapper.updateByPrimaryKeySelective(p);
 		}
-		if (obj.getApplyStatus() != null && loanAgent.getApplyStatus() != null
-				&& !obj.getApplyStatus().equals(loanAgent.getApplyStatus())) {
-			LoanStatusChange lsc = new LoanStatusChange();
-			lsc.setChangeDate(new Date());
-			lsc.setChangeUser(loanAgent.getExecutorId());
-			lsc.setStFrom(obj.getApplyStatus());
-			lsc.setStTo(loanAgent.getApplyStatus());
-			lsc.setLoanId(obj.getPkid());
-			loanStatusChangeMapper.deleteUnConfirm(obj.getPkid());
-			loanStatusChangeMapper.insertSelective(lsc);
-		}
+		processLoanStatusChange(obj, loanAgent,loanAgent.getOptUser());
 		BeanUtils.copyProperties(loanAgent, obj);
 		buildFCaseCode(obj);
 		loanAgentMapper.updateByPrimaryKeySelective(obj);
+	}
+
+	private void processLoanStatusChange(LoanAgent oldObj, LoanAgent newObj,String userId) {
+		if (oldObj == null
+				|| (newObj.getApplyStatus() != null && !newObj.getApplyStatus().equals(oldObj.getApplyStatus()))) {
+			LoanStatusChange lsc = new LoanStatusChange();
+			lsc.setChangeDate(new Date());
+			lsc.setChangeUser(newObj.getExecutorId());
+			
+			lsc.setCreateBy(userId);
+			lsc.setCreateTime(new Date());
+			
+			lsc.setStFrom(oldObj==null?null:oldObj.getApplyStatus());
+			lsc.setStTo(newObj.getApplyStatus());
+			lsc.setLoanId(newObj.getPkid());
+			if(oldObj!=null){
+				loanStatusChangeMapper.deleteUnConfirm(newObj.getPkid());
+			}
+			loanStatusChangeMapper.insertSelective(lsc);
+		}
 	}
 
 	private int doLoanCheck(LoanAgent loanAgent) {
@@ -123,12 +131,10 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			if (loanAgent.getPkid() == null) {
 				loanAgent.setPkid(-1L);
 			}
-			List<LoanAgent> agents = loanAgentMapper
-					.listByPkIdAndCaseCodeSrvCode(loanAgent.getPkid(),
-							loanAgent.getCaseCode(), loanAgent.getLoanSrvCode());
+			List<LoanAgent> agents = loanAgentMapper.listByPkIdAndCaseCodeSrvCode(loanAgent.getPkid(),
+					loanAgent.getCaseCode(), loanAgent.getLoanSrvCode());
 			if (agents != null && !agents.isEmpty()) {
-				User u = uamUserOrgService.getUserById(agents.get(0)
-						.getExecutorId());
+				User u = uamUserOrgService.getUserById(agents.get(0).getExecutorId());
 				if (u != null) {
 					loanAgent.setOptUser(u.getRealName());
 				}
@@ -137,13 +143,11 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 				return r;
 			}
 			List<TgServItemAndProcessor> servs = servItemMapper
-					.findTgServItemAndProcessorByCaseCode(loanAgent
-							.getCaseCode());
+					.findTgServItemAndProcessorByCaseCode(loanAgent.getCaseCode());
 
 			for (TgServItemAndProcessor tgServItemAndProcessor : servs) {
 				if (tgServItemAndProcessor.getSrvCat() != null
-						&& tgServItemAndProcessor.getSrvCat().equals(
-								loanAgent.getLoanSrvCode())) {
+						&& tgServItemAndProcessor.getSrvCat().equals(loanAgent.getLoanSrvCode())) {
 					loanAgent.setTempServId(tgServItemAndProcessor.getPkid());
 					r = 1;
 				}
@@ -159,19 +163,17 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	public void doDelete(LoanAgent loanAgent) {
 		LoanAgent obj = loanAgentMapper.selectByPkid(loanAgent.getPkid());
 		TgServItemAndProcessor p = new TgServItemAndProcessor();
-		if (obj.getLoanSrvCode() != null&&!StringUtils.isBlank(obj.getCaseCode())) {
+		if (obj.getLoanSrvCode() != null && !StringUtils.isBlank(obj.getCaseCode())) {
 			p.setCaseCode(obj.getCaseCode());
 			p.setSrvCat(obj.getLoanSrvCode());
-			TgServItemAndProcessor ts = servItemMapper
-					.findTgServItemAndProcessor(p);
+			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
 			if (ts != null) {
 				ts.setProcessorId(null);
 				ts.setOrgId(null);
 				servItemMapper.updateByPrimaryKeySelective(ts);
 			}
 		}
-		loanAgent.setResult(loanAgentMapper.deleteByPkid(loanAgent.getPkid())
-				+ "");
+		loanAgent.setResult(loanAgentMapper.deleteByPkid(loanAgent.getPkid()) + "");
 	}
 
 	@Override
@@ -181,8 +183,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	}
 
 	@Override
-	public void updateStatusLoanAgent(LoanAgent loanAgent,
-			LoanStatusChange loanStatusChange) {
+	public void updateStatusLoanAgent(LoanAgent loanAgent, LoanStatusChange loanStatusChange) {
 		loanAgentMapper.updateByPrimaryKeySelective(loanAgent);
 		loanStatusChangeMapper.updateByPrimaryKeySelective(loanStatusChange);
 	}

@@ -47,22 +47,22 @@
 	<div class="ibox">
 		<div class="ibox-title">
 			<div class="row">
-				<div class="col-lg-1 control-label">
+				<div class="col-xs-1 control-label">
 					产品类型
 				</div>
-				<div class="col-lg-5">
+				<div class="col-xs-5">
 					<aist:dict id="select_loanSrvCode" name="loanSrvCode" clazz="form-control"
 						display="select"  dictType="yu_serv_cat_code_tree" tag="eplus" 
 						ligerui='none' defaultvalue="${loanAgent.loanSrvCode }"></aist:dict>
 				</div>
 				
-				<div class="col-lg-1 control-label">
+				<div class="col-xs-1 control-label">
 					案件绑定
 				</div>
-				<div class="col-lg-4"><input type="text" placeholder="物业地址"
+				<div class="col-xs-4"><input type="text" placeholder="物业地址"
 						class="input-sm form-control" id="txt_address">
 				</div>
-				<div class="col-lg-1" style="text-align: right;">
+				<div class="col-xs-1" style="text-align: right;">
 					<button type="button" class="btn btn-sm btn-primary"
 						id="btn_search">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</button>
 				</div>
@@ -74,17 +74,17 @@
 				<div id="pager_list_2"></div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">客户姓名:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">客户姓名:</div>
+				<div class="col-xs-3">
 					<input type="text"
 						class="input-sm form-control" id="txt_custName" name="custName" value="${loanAgent.custName }">
 				</div>
-				<div class="col-lg-1">客户电话:</div>
-				<div class="col-lg-3"><input type="text"
+				<div class="col-xs-1">客户电话:</div>
+				<div class="col-xs-3"><input type="text"
 						class="input-sm form-control" id="txt_custPhone" name="custPhone" value="${loanAgent.custPhone }">
 				</div>
 				<shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
-				<div class="col-lg-1 control-label">案件归属</div>
+				<div class="col-xs-1 control-label">案件归属</div>
 				<div class="col-sm-3">
 					<select class="form-control m-b chosen-select" name="executorId" id="executorId">
 						<option value="">请选择</option>
@@ -102,39 +102,39 @@
 				</shiro:hasPermission>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">状态跟进:</div>
-				<div class="col-lg-3"><aist:dict id="select_loanSrvCode" name="applyStatus" clazz="form-control"
+				<div class="col-xs-1">状态跟进:</div>
+				<div class="col-xs-3"><aist:dict id="select_applyStatus" name="applyStatus" clazz="form-control"
 						display="select" hasEmpty="false" dictType="yu_eplus_status" defaultvalue="${loanAgent.applyStatus }"
 						ligerui='none'></aist:dict>
 				</div>
-				<div class="col-lg-1">产品部确认状态:</div>
-				<div class="col-lg-3">${loanAgent.confirmStatus }
+				<div class="col-xs-1">产品部确认状态:</div>
+				<div class="col-xs-3">${loanAgent.confirmStatus }
 				</div>
 				
-				<div class="col-lg-1 control-label">贷款机构</div>
+				<div class="col-xs-1 control-label">贷款机构</div>
 				<div class="col-sm-3">
 					<select class="form-control m-b chosen-select" name="finOrgCode" id="finOrgCode">
 					</select>
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">申请金额:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">申请金额:</div>
+				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
 						class="input-sm form-control" id="txt_loanAmount" name="loanAmount" value="${loanAgent.loanAmount /10000}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
-				<div class="col-lg-1">申请时间:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">申请时间:</div>
+				<div class="col-xs-3">
 					<div class="input-group date">
 						<span class="input-group-addon"><i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>
 						<input class="form-control" type="text" id="txt_applyTime" name="applyTime" value="<fmt:formatDate value="${loanAgent.applyTime }" pattern="yyyy-MM-dd"/>">
 					</div>
 				</div>
-				<div class="col-lg-1">申请期数:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">申请期数:</div>
+				<div class="col-xs-3">
 				<div class="input-group"><input type="text"
 						class="input-sm form-control" id="txt_month" name="month" value="${loanAgent.month }">
 						<span class="input-group-addon">月</span>
@@ -142,15 +142,15 @@
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">面签金额:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">面签金额:</div>
+				<div class="col-xs-3">
 					<div class="input-group"><input type="text"
 						class="input-sm form-control" id="txt_signAmount" name="signAmount" value="${loanAgent.signAmount/10000 }">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
-				<div class="col-lg-1">面签时间:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">面签时间:</div>
+				<div class="col-xs-3">
 					<div class="input-group date">
 						<span class="input-group-addon"><i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>
 						<input class="form-control" type="text" id="txt_signTime" name="signTime" value="<fmt:formatDate value="${loanAgent.signTime }" pattern="yyyy-MM-dd"/>">
@@ -158,16 +158,16 @@
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">放款金额:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">放款金额:</div>
+				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
 						class="input-sm form-control" id="txt_actualAmount" name="actualAmount" value="${loanAgent.actualAmount/10000 }">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
-				<div class="col-lg-1">放款时间:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">放款时间:</div>
+				<div class="col-xs-3">
 					<div class="input-group date">
 						<span class="input-group-addon"><i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>
 						<input class="form-control" type="text" id="txt_releaseTime" name="releaseTime" value="<fmt:formatDate value="${loanAgent.releaseTime }" pattern="yyyy-MM-dd"/>">
@@ -175,40 +175,40 @@
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">对帐时间:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">对帐时间:</div>
+				<div class="col-xs-3">
 				<fmt:formatDate value="${loanAgent.incomeConfirmTime }" pattern="yyyy-MM-dd"/>
 				</div>
-				<div class="col-lg-1">结账时间:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">结账时间:</div>
+				<div class="col-xs-3">
 					<fmt:formatDate value="${loanAgent.incomeArriveTime }" pattern="yyyy-MM-dd"/>
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">转介人姓名:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">转介人姓名:</div>
+				<div class="col-xs-3">
 					<input type="text"
 						class="input-sm form-control" id="txt_zjName" name="zjName" value="${loanAgent.zjName }">
 				</div>
-				<div class="col-lg-1">转介人员工编号:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">转介人员工编号:</div>
+				<div class="col-xs-3">
 					<input type="text"
 						class="input-sm form-control" id="txt_zjCode" name="zjCode" value="${loanAgent.zjCode }">
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">合作人姓名:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">合作人姓名:</div>
+				<div class="col-xs-3">
 					<input type="text"
 						class="input-sm form-control" id="txt_coName" name="coName" value="${loanAgent.coName }">
 				</div>
-				<div class="col-lg-1">合作人员工编号:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">合作人员工编号:</div>
+				<div class="col-xs-3">
 					<input type="text"
 						class="input-sm form-control" id="txt_coCode" name="coCode" value="${loanAgent.coCode }">
 				</div>
-				<div class="col-lg-1">分配比率:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">分配比率:</div>
+				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
 						class="input-sm form-control" id="txt_awardPer" name="awardPer" value="${loanAgent.awardPer }">
@@ -217,8 +217,8 @@
 				</div>
 			</div>
 			<div class="row form-group">
-				<div class="col-lg-1">产品部合作人:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">产品部合作人:</div>
+				<div class="col-xs-3">
 					<select id="sel_pdCode" name="pdCode" class="form-control"
 								style="width: 200px">
 								<option value="">请选择</option>
@@ -234,8 +234,8 @@
 							</select>
 							<input type="hidden" name="pdName" id="txt_pdName" value="${loanAgent.pdName }">
 				</div>
-				<div class="col-lg-1">分成比率:</div>
-				<div class="col-lg-3">
+				<div class="col-xs-1">分成比率:</div>
+				<div class="col-xs-3">
 					<div class="input-group">
 					<aist:dict id="select_pdPar" name="pdPar" clazz="form-control"
 						display="select" hasEmpty="false" dictType="pd_par" defaultvalue="${loanAgent.pdPar }"
@@ -273,6 +273,10 @@
 				}
 				if($("#select_loanSrvCode").val()==''){
 					alert('请选择产品类型');
+					return false;
+				}
+				if($("#select_applyStatus").val()==''||$("#txt_loanAmount").val()==0){
+					alert('请选择跟进状态');
 					return false;
 				}
 				if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){

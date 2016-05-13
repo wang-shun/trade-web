@@ -11,7 +11,7 @@ public interface LoanAgentMapper {
 
 	int deleteByPkid(Long pkid);
 
-	int insertSelective(LoanAgent loanAgent);
+	Long insertSelective(LoanAgent loanAgent);
 
 	int updateByPrimaryKeySelective(LoanAgent loanAgent);
 

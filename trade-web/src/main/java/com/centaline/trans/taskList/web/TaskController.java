@@ -282,7 +282,15 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
     		getAccesoryList(request, taskitem);
     		/**这里应该和自办贷款一样*/
-    		request.setAttribute("mortgage", toMortgageService.findToSelfLoanMortgage(caseCode));
+    		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
+    		request.setAttribute("mortgage", mortgage);
+    		if(mortgage!=null && mortgage.getCustCode()!=null){
+    			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+				if(null !=guest){
+				request.setAttribute("custCompany",guest.getWorkUnit());
+				request.setAttribute("custName",guest.getGuestName());
+				}
+			};
         	/*贷款流失初始信息*/
         	initApproveRecord(request, caseCode, "1");
     	}else if(taskitem.equals("EvaReportArise")){
@@ -294,16 +302,15 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
-    		
-    		ToMortgage toMortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
-    		//主贷人
-			if(null !=toMortgage.getCustCode()){ 
-				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+    		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
+			
+			if(mortgage!=null && mortgage.getCustCode()!=null){
+				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
 				if(null !=guest){
-					toMortgage.setCustName(guest.getGuestName());
+				request.setAttribute("custCompany",guest.getWorkUnit());
+				request.setAttribute("custName",guest.getGuestName());
 				}
-			}
-			request.setAttribute("mortgage",toMortgage );
+			};
     		String approveType = "1";/*流失审批*/
     		initApproveRecord(request, caseCode, approveType);
     	} else if(taskitem.equals("CaseCloseThirdApprove") || 
@@ -470,7 +477,7 @@ public class TaskController {
 				// update zhangxb16 2016-2-16 
 				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
 				if(null !=guest){
-					reVo.setBuyerWork(toMortgage.getCustCompany());
+					reVo.setBuyerWork(guest.getWorkUnit());
 					reVo.setMortBuyer(guest.getGuestName());
 				}
 			}

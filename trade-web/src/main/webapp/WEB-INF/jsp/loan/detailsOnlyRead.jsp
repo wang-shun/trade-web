@@ -240,7 +240,7 @@ background-color : #ffffff;
 			$(document).ready(
 				function() {
 					//initGrid();
-					//getBankList('');
+					getBankList('');
 					$("#sel_pdCode").change(function(){
 						$("#txt_pdName").val($("#sel_pdCode").find("option:selected").text());
 					});
