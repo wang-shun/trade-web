@@ -465,7 +465,6 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    		}
  				 //银行下拉列表
 				if(isMainLoanBank == 1){
-					mCustCode=data.content.custCode;
     				getGuestInfo("mortgageForm");
 
 	  				getParentBank($("#mortgageForm").find("select[name='bank_type']"),$("#mortgageForm").find("select[name='finOrgCode']"),finOrgCode);
