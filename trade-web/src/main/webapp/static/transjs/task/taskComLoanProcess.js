@@ -283,7 +283,7 @@ function cancelAccept(tableId,pkid){
 function saveMortgage(form){
 
 
-	form.find("input[name='custName']").val(form.find("select[name='custCode']").text());
+	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
 		$.ajax({
 			url:ctx+"/task/saveMortgage",
 			method:"post",

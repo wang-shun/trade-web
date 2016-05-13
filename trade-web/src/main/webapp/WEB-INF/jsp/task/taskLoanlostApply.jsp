@@ -421,7 +421,7 @@
 			}
 			
 			
-			$("input[name='custName']").val($("select[name='custCode']").text());
+			$("input[name='custName']").val($("select[name='custCode']").find("option:selected").text());
 			/* if($('input[name=commet]').val()=='') {
                 alert("备注为必填项!");
                 $('input[name=commet]').focus();
