@@ -70,6 +70,12 @@
     width: 45%;
     font-size: 14px;
 }
+.aline{
+text-decoration: underline;
+}
+.aline:HOVER{
+text-decoration: underline !important;
+}
 #inTextVal{width:50%}
 .chosen-container{float:left;margin-right:10px;margin-left:15px}
 #addLine{line-height:35px;}
@@ -161,8 +167,8 @@
 							<div id="select_div_1" class="">
 								<select id="inTextType" data-placeholder="搜索条件设定"
 									class="btn btn-white chosen-select form-control pull-left col-md-6" onchange="intextTypeChange()">
-									<option value="0" selected>客户姓名</option>
-									<option value="1">物业地址</option>
+									<option value="1" selected>物业地址</option>
+									<option value="0">客户姓名</option>
 									<option value="2">经纪人姓名</option>
 									<option value="4">经办人姓名</option>
 									<option value="3">所属分行</option>

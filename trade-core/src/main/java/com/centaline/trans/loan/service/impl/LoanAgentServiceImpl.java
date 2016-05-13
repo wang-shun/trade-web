@@ -48,16 +48,10 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 		}
 		loanAgent.setCreateTime(new Date());
 		buildFCaseCode(loanAgent);
-		if (loanAgent.getTempServId() != null) {
-			TgServItemAndProcessor p = new TgServItemAndProcessor();
-			p.setPkid(loanAgent.getTempServId());
-			p.setProcessorId(loanAgent.getExecutorId());
-			p.setOrgId(loanAgent.getExecutorTeam());
-			servItemMapper.updateByPrimaryKeySelective(p);
-		}
+		bindServItem(loanAgent);
 		loanAgentMapper.insertSelective(loanAgent);
-	
-		processLoanStatusChange(null, loanAgent,loanAgent.getOptUser());
+
+		processLoanStatusChange(null, loanAgent, loanAgent.getOptUser());
 	}
 
 	private void buildFCaseCode(LoanAgent loanAgent) {
@@ -78,47 +72,65 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			return;
 		}
 
-		TgServItemAndProcessor p = new TgServItemAndProcessor();
-
 		LoanAgent obj = loanAgentMapper.selectByPkid(loanAgent.getPkid());
-		if (!StringUtils.isBlank(obj.getCaseCode()) && obj.getLoanSrvCode() != null
-				&& !obj.getLoanSrvCode().equals(loanAgent.getLoanSrvCode())) {
-			p.setCaseCode(obj.getCaseCode());
-			p.setSrvCat(obj.getLoanSrvCode());
-			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
-			if (ts != null) {
-				ts.setProcessorId(null);
-				ts.setOrgId(null);
-				servItemMapper.updateByPrimaryKey(ts);
-			}
-		}
-		if (loanAgent.getTempServId() != null) {
-			p = new TgServItemAndProcessor();
-			p.setPkid(loanAgent.getTempServId());
-			p.setProcessorId(loanAgent.getExecutorId());
-			p.setOrgId(loanAgent.getExecutorTeam());
-			servItemMapper.updateByPrimaryKeySelective(p);
-		}
-		processLoanStatusChange(obj, loanAgent,loanAgent.getOptUser());
+		unbindServItem(loanAgent,obj);
+		bindServItem(loanAgent);
+		processLoanStatusChange(obj, loanAgent, loanAgent.getOptUser());
 		BeanUtils.copyProperties(loanAgent, obj);
 		buildFCaseCode(obj);
 		loanAgentMapper.updateByPrimaryKeySelective(obj);
 	}
 
-	private void processLoanStatusChange(LoanAgent oldObj, LoanAgent newObj,String userId) {
+	private void bindServItem(LoanAgent loanAgent) {
+		TgServItemAndProcessor p = new TgServItemAndProcessor();
+		if(!StringUtils.isBlank(loanAgent.getCaseCode())){
+			p.setCaseCode(loanAgent.getCaseCode());
+			p.setSrvCat(loanAgent.getLoanSrvCode());
+			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
+			boolean isNew=false;
+			if(ts==null){
+				ts=p;
+				isNew=true;
+			}
+			ts.setSrvCat(loanAgent.getLoanSrvCode());
+			ts.setSrvCode(loanAgent.getLoanSrvCode()+"01");
+			ts.setProcessorId(loanAgent.getExecutorId());
+			ts.setOrgId(loanAgent.getExecutorTeam());
+			if(isNew){
+				servItemMapper.insertSelective(ts);
+			}else{
+				servItemMapper.updateByPrimaryKeySelective(ts);
+			}
+		}
+	}
+
+	private void unbindServItem(LoanAgent newObj, LoanAgent obj) {
+		TgServItemAndProcessor p = new TgServItemAndProcessor();
+		if (!StringUtils.isBlank(obj.getCaseCode()) && obj.getLoanSrvCode() != null
+				&& !obj.getLoanSrvCode().equals(newObj.getLoanSrvCode())) {
+			p.setCaseCode(obj.getCaseCode());
+			p.setSrvCat(obj.getLoanSrvCode());
+			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
+			if (ts != null) {
+				servItemMapper.deleteByPrimaryKey(ts.getPkid());//confirmed by xiacheng 
+			}
+		}
+	}
+
+	private void processLoanStatusChange(LoanAgent oldObj, LoanAgent newObj, String userId) {
 		if (oldObj == null
 				|| (newObj.getApplyStatus() != null && !newObj.getApplyStatus().equals(oldObj.getApplyStatus()))) {
 			LoanStatusChange lsc = new LoanStatusChange();
 			lsc.setChangeDate(new Date());
 			lsc.setChangeUser(newObj.getExecutorId());
-			
+
 			lsc.setCreateBy(userId);
 			lsc.setCreateTime(new Date());
-			
-			lsc.setStFrom(oldObj==null?null:oldObj.getApplyStatus());
+
+			lsc.setStFrom(oldObj == null ? null : oldObj.getApplyStatus());
 			lsc.setStTo(newObj.getApplyStatus());
 			lsc.setLoanId(newObj.getPkid());
-			if(oldObj!=null){
+			if (oldObj != null) {
 				loanStatusChangeMapper.deleteUnConfirm(newObj.getPkid());
 			}
 			loanStatusChangeMapper.insertSelective(lsc);
@@ -142,16 +154,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 				r = 2;
 				return r;
 			}
-			List<TgServItemAndProcessor> servs = servItemMapper
-					.findTgServItemAndProcessorByCaseCode(loanAgent.getCaseCode());
-
-			for (TgServItemAndProcessor tgServItemAndProcessor : servs) {
-				if (tgServItemAndProcessor.getSrvCat() != null
-						&& tgServItemAndProcessor.getSrvCat().equals(loanAgent.getLoanSrvCode())) {
-					loanAgent.setTempServId(tgServItemAndProcessor.getPkid());
-					r = 1;
-				}
-			}
+			r=1;
 		} else {
 			r = 1;
 		}

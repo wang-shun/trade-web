@@ -453,17 +453,20 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){	
 	    		if(queryCustCodeOnly){
-	    			mCustCode=data.content.custCode;
+	    			if(data.content != null && data.content.custCode != null){
+	    				mCustCode=data.content.custCode;
+	    			}
 	    			return true;
 	    		}
 	    		var finOrgCode = "";
 	    		if(data.content != null && data.content.finOrgCode != null){
 	    			finOrgCode = data.content.finOrgCode;
 	    		}
-	    		custCode=data.content.custCode;
+	    		if(data.content != null && data.content.custCode != null){
+	    			custCode=data.content.custCode;
+	    		}
  				 //银行下拉列表
 				if(isMainLoanBank == 1){
-					mCustCode=data.content.custCode;
     				getGuestInfo("mortgageForm");
 
 	  				getParentBank($("#mortgageForm").find("select[name='bank_type']"),$("#mortgageForm").find("select[name='finOrgCode']"),finOrgCode);

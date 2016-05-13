@@ -32,7 +32,7 @@
 	<query id="queryTaskListItemList">
 	    <searchCondition>
             <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="DELEGATION_" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		    <condition field="A.AGENT_CODE" name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -56,11 +56,14 @@
 						E.PROPERTY_ADDR,
 						tp.RED_LOCK,
 						tp.EST_PART_TIME,
-						a.agent_phone as MOBILE
+						a.agent_phone as MOBILE,
+						A.CTM_CODE as CTM_CODE,
+						b.pkid as PKID
 					FROM 
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO AS A ON tw.CASE_CODE=A.CASE_CODE
+						LEFT JOIN sctrans.T_TO_CASE as b on b.case_code=a.case_code
             			INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
 						LEFT JOIN sctrans.T_TO_TRANS_PLAN AS tp ON A.CASE_CODE = tp.CASE_CODE AND tp.PART_CODE = ART.TASK_DEF_KEY_
 						LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
@@ -83,7 +86,9 @@
 		<grid>
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="TASKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="INST_CODE" index="" checkbox="" display="INSTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>

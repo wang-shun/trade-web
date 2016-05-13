@@ -72,8 +72,8 @@
 
 						</div>
 						   
-                       <label class="col-sm-2 control-label">主贷人：${SelfLoan.custName}</label>
-                       <label class="col-sm-2 control-label">主贷人单位：${SelfLoan.custCompany}</label>
+                       <label class="col-sm-2 control-label">主贷人：${custName}</label>
+                       <label class="col-sm-2 control-label">主贷人单位：${custCompany}</label>
                    
 					</div>
 					<div class="form-group">
