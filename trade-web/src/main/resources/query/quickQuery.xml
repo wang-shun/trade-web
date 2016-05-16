@@ -100,4 +100,5 @@
 	<import resource="query/kpi/kpiQuery.xml"></import>
 	<import resource="query/kpi/TsAwardBase.xml"></import>
 	<import resource="query/kpi/TsAwardBaseDetail.xml"></import>
+	<import resource="query/kpi/PersonBonus.xml"></import>
 </queryConfig>

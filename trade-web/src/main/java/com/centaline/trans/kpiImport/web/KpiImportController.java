@@ -37,8 +37,6 @@ import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
-import com.centaline.trans.loan.entity.LoanAgent;
-import com.centaline.trans.loan.entity.LoanStatusChange;
 
 @Controller
 @RequestMapping(value = "kpi")
@@ -57,6 +55,13 @@ public class KpiImportController {
 	private TsAwardKpiPayDetailService tsAwardKpiPayDetailService;
 	@Autowired
 	private TsAwardKpiPayService tsAwardKpiPayService;
+	
+	@RequestMapping(value = "/personBonus")
+	public String personBonus(HttpServletRequest request) {
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		return "kpi/personBonus";
+	}
 
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
