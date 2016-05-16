@@ -60,7 +60,7 @@
      <table id="table_property_list"></table>
      <div id="pager_property_list"></div>
      <a class="btn btn-primary" href="javascript:propertyDispose()" disabled="true" id="caseDistributeButton">处理产调</a>
-     <a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
+     <!-- <a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a> -->
 </div>       
 </form>                 
 			<jsp:include page="common/nullityTagJQResult.jsp"></jsp:include>
