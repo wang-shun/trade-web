@@ -110,22 +110,37 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-							<label class="col-md-2 control-label">请选择</label>
-							<div class="control-div">
-							       <select id="inTextType" data-placeholder= "搜索条件设定"
-                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-									<option value="1" selected>物业地址</option>
-									<option value="0" >客户姓名</option>
-									<option value="2">经纪人姓名</option>
-									<option value="3">所属分行</option>
-									<option value="4">案件编号</option>
-									<option value="5">CTM编号</option>
-								</select>
-								<input id="inTextVal" type="text" class="form-control pull-left">
-								<button id="searchButton" type="button"
-												class="btn btn-warning pull-right">查询</button>
+									<label class="col-md-2 control-label">请选择</label>
+									<div class="control-div">
+									       <select id="inTextType" data-placeholder= "搜索条件设定"
+		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
+											<option value="1" selected>物业地址</option>
+											<option value="0" >客户姓名</option>
+											<option value="2">经纪人姓名</option>
+											<option value="3">所属分行</option>
+											<option value="4">案件编号</option>
+											<option value="5">CTM编号</option>
+										</select>
+								
+									</div>
+							</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-md-2 control-label">请选择</label>
+									<div class="col-md-4">
+										<aist:dict id="taskDfKey" name="taskDfKey"
+										clazz="form-control m-b" display="select"
+										dictType="part_code" defaultvalue="" />
+								
+									</div>
+								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-12">
+										<button id="searchButton" type="button"
+														class="btn btn-warning pull-left">查询</button>
 							</div>
 						</div>
 					</form>

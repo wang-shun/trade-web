@@ -563,12 +563,12 @@
 											<select class="form-control m-b" id="isDelegateYucui" name="isDelegateYucui"> 
 											<c:choose>
 												<c:when test="${editCaseDetailVO.isDelegateYucui == '1'}">
-													<option value="1" selected="selected">是</option>
-													<option value="0">否</option>
+													<option value="0" >是</option>
+													<option value="1" selected="selected">否</option>
 												</c:when>
 												<c:otherwise>
-													<option value="1">是</option>
-													<option value="0" selected="selected">否</option>
+													<option value="0" selected="selected">是</option>
+													<option value="1" >否</option>
 												</c:otherwise>
 											</c:choose>
 											</select>

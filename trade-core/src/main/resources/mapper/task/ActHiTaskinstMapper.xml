@@ -4,7 +4,7 @@
 
    <select id="getConsultantTask" resultType="com.centaline.trans.task.entity.ActHiTaskinst">
 
-select aht.id_ as pkid,aht.TASK_DEF_KEY_ as taskDefKey,aht.PROC_INST_ID_ as procInstId
+select distinct aht.id_ as pkid,aht.TASK_DEF_KEY_ as taskDefKey,aht.PROC_INST_ID_ as procInstId
 ,aht.NAME_ as name,aht.ASSIGNEE_ as assignee,u.ORG_ID as orgId,u.USER_ID as userId
  from sctrans.ACT_HI_TASKINST aht 
  left join sctrans.T_TO_WORKFLOW tf 
