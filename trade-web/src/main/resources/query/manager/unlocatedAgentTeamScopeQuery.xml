@@ -48,7 +48,7 @@
 						SWZ.ORG_NAME AS SWZ_ORG_NAME
 					FROM
 						SCTRANS.SYS_ORG O
-					INNER JOIN SCTRANS.v_sys_org_hierarchy OH ON O.ID = OH.ORG_ID
+					INNER JOIN SCTRANS.t_sys_org_hierarchy OH ON O.ID = OH.ORG_ID
 					AND O.DEP_HIERARCHY = 'BUSIGRP'
 					AND O.IS_DELETED = '0'
 					AND O.AVAILABLE = '1'

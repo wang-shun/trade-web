@@ -34,6 +34,9 @@
 <!-- Morris -->
 <link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
 	rel="stylesheet">
+	<link
+	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
+	rel="stylesheet">
 <style type="text/css">
 #selectDiv {
 	width: 480px;
@@ -110,22 +113,37 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-							<label class="col-md-2 control-label">请选择</label>
-							<div class="control-div">
-							       <select id="inTextType" data-placeholder= "搜索条件设定"
-                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-									<option value="1" selected>物业地址</option>
-									<option value="0" >客户姓名</option>
-									<option value="2">经纪人姓名</option>
-									<option value="3">所属分行</option>
-									<option value="4">案件编号</option>
-									<option value="5">CTM编号</option>
-								</select>
+									<label class="col-md-2 control-label">请选择</label>
+									<div class="control-div">
+									       <select id="inTextType" data-placeholder= "搜索条件设定"
+		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
+											<option value="1" selected>物业地址</option>
+											<option value="0" >客户姓名</option>
+											<option value="2">经纪人姓名</option>
+											<option value="3">所属分行</option>
+											<option value="4">案件编号</option>
+											<option value="5">CTM编号</option>
+										</select>
 								<input id="inTextVal" type="text" class="form-control pull-left">
-								<button id="searchButton" type="button"
-												class="btn btn-warning pull-right">查询</button>
+									</div>
+							</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-md-2 control-label">请选择</label>
+									<div class="col-md-4">
+										<aist:dict id="taskDfKey" name="taskDfKey"
+										clazz="form-control m-b" display="select"
+										dictType="part_code" defaultvalue="" />
+								
+									</div>
+								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-12">
+										<button id="searchButton" type="button"
+														class="btn btn-warning pull-left">查询</button>
 							</div>
 						</div>
 					</form>
@@ -147,7 +165,6 @@ text-decoration: underline !important;
 							<table id="table_list_1"></table>
 							<div id="pager_list_1"></div>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -164,6 +181,7 @@ text-decoration: underline !important;
 		src="${ctx}/js/plugins/chosen/chosen.jquery.js">
 		<!-- iCheck -->
 		<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/trunk/task/mytask_list.js"></script> </content>
+		<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="${ctx}/js/trunk/task/mytask_list.js?v=1.0.3"></script> </content>
 </body>
 </html>

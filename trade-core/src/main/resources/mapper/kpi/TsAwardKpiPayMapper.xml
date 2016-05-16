@@ -180,9 +180,19 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TS_AWARD_KPI_PAY
     <where>
+   	<if test="status != null">
+		STATUS = #{status,jdbcType=VARCHAR}
+	</if>
 	<if test="belongMonth != null">
 		AND DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0
 	</if>
 	</where>
   </select>
+  
+   <update id="updateTsAwardKpiPayStatus" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+    update sctrans.T_TS_AWARD_KPI_PAY
+    set
+      STATUS = #{status,jdbcType=VARCHAR}
+    where DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0
+  </update>
 </mapper>

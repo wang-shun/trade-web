@@ -61,7 +61,7 @@
                                 <div class="col-lg-4 col-md-4">                                   
                                     <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
                                     <button class="btn btn-warning" type="submit" id="submitButton">提交</button>
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button>
+                                    <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button> -->
                                 </div>
                             </div>
                             <div class="alert">
@@ -294,8 +294,24 @@
 		            	  area: ['20%', '15%'],	
 		    			  btn: ['确定','取消'] //按钮
 		    		}, function(index){
+		    			$.ajax({
+				    			  async: false,
+				    			  url:ctx+ "/kpi/updateTsAwardKpiPayStatus" ,
+				    	          method: "post",
+				    	          dataType: "json",
+				    	          data: {belongMonth:monthSel.getDate().format('yyyy-MM-dd')},
+				    	          success: function(data){
+				    	        	  if(data.success) {
+				    	        		  $("#submitButton").attr("disabled",true);
+				    	        		  layer.msg('绩效奖金生成成功', {icon: 1, time: 1000});
+				    	        	  } else {
+				    	        		  layer.msg('绩效奖金生成失败', {icon: 1, time: 1000});
+				    	        	  }
+				    	          }
+				    	     });
+		    		
 		    			  layer.close(index);
-		    			  layer.msg('绩效奖金生成成功', {icon: 1, time: 1000});
+		    			  
 			    	}, function(){
 			    	});
 	    		 });
@@ -320,6 +336,21 @@
         	    	belongMonth : bm
         	    }
         	    BonusList.init(ctx,data1,data2);
+        	    // 如果已经提交，则不能再次提交
+        	    $.ajax({
+	    			  async: true,
+	    	          url:ctx+ "/kpi/getTsAwardKpiPayByStatus" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: {belongMonth:bm},
+	    	          success: function(data){
+	    	        	  if(data.success && data.content != null) {
+	    	        		  $("#submitButton").attr("disabled",true);
+	    	        	  } else {
+	    	        		  $("#submitButton").removeAttr("disabled");
+	    	        	  }
+	    	          }
+		    	});
 	    	}
         	
 	    	function goPage(page) {

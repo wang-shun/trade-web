@@ -32,13 +32,15 @@
 	<query id="queryTaskListItemList">
 	    <searchCondition>
             <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
             <condition field="DELEGATION_" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-		    <condition field="A.AGENT_CODE" name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		    <condition field="A.AGENT_Name" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="O.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="tw.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="A.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="ART.TASK_DEF_KEY_" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            
         </searchCondition>
 		<searchSql>
 			<baseSql>

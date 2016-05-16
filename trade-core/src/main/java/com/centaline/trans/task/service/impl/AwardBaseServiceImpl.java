@@ -400,11 +400,11 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			}
 			if (org == null)
 				continue;
-			List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), jobCode);
-
+			List<User> users = awardBaseMapper.getUserByJobCodeAndOrgId(jobCode, org.getId());
 			if (users != null && !users.isEmpty()) {
 				for (User user : users) {
 					AwardBase ab = new AwardBase(user.getId(), jobCode, orgId);
+					
 					/**
 					 * 这里将SrvPart和SrvPartIn设置成1，后面会到所有不为100%的数据作处理
 					 */

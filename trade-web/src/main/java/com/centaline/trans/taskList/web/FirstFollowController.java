@@ -287,7 +287,8 @@ public class FirstFollowController {
 	public Map<String,Object> queryMortageServiceByServiceCode(HttpServletRequest request, String serviceCode) {
 		String orgCode = null;
 		Map<String,Object>result=new HashMap<>();
-		Dict dict=null;
+		
+		Dict dict= uamBasedataService.findDictByTypeAndCode("yu_all", serviceCode);
 		SessionUser us = uamSessionService.getSessionUser();
 		if (null != us) {
 			orgCode = us.getServiceDepCode(); // 得到 orgCode
