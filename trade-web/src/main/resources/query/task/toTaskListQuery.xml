@@ -32,7 +32,7 @@
 	<query id="queryTaskListItemList">
 	    <searchCondition>
             <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
             <condition field="DELEGATION_" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		    <condition field="A.AGENT_CODE" name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
