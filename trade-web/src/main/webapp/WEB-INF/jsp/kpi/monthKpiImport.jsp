@@ -294,6 +294,25 @@ width:160px;
         	  content: $('#excelImport'), //捕获的元素
         	  btn: ['提交','关闭'],
         	  yes: function(index){
+        		  var i =sw.bootstrapSwitch('state')?'0':'1';
+        		  // 上月
+        		  var bm;
+        		  if(i=='0') {
+        			  var cDate = new Date();
+        			  cDate.setMonth(cDate.getMonth()-1);
+        			  bm = cDate.format('yyyy-MM-dd');
+        		  } else {
+        			  bm = new Date().format('yyyy-MM-dd');
+        		  }
+        		  
+        		  var isKpiMoney = isGenerKpiMoney(bm);
+        		  if(isKpiMoney) {
+       		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
+       		    		  icon: 2
+       		    	}) 
+        		    return false;
+        		  }
+        
         		  if(checkFileTypeExcel()){
         			 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
        		    	 $(".blockOverlay").css({'z-index':'9998'});
@@ -341,7 +360,9 @@ width:160px;
 	    		postData:data
 	    	}).trigger('reloadGrid'); 
  		}
+		
     });
+    
     //选业务组织的回调函数
     function radioYuCuiOrgSelectCallBack(array){
         if(array && array.length >0){
@@ -353,6 +374,25 @@ width:160px;
     		$("#yuCuiOriGrpId").val("");
     	}
     }
+    
+ 	// 判断该月份绩效奖金是否已经生成,如果已经生成，则不能导入
+    function isGenerKpiMoney(bm) {
+ 		 var isKpiMoney = false;
+    	 $.ajax({
+			  async: false,
+	          url:ctx+ "/kpi/getTsAwardKpiPayByStatus" ,
+	          method: "post",
+	          dataType: "json",
+	          data: {belongMonth:bm},
+	          success: function(data){
+	        	  if(data.success && data.content != null) {
+	        		  isKpiMoney =  true;
+	        	  }
+	          }
+   		});
+    	return isKpiMoney;
+    }
+    
     </script>
  </content>
 </body>

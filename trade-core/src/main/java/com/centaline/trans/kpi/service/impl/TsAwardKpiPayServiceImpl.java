@@ -19,4 +19,9 @@ public class TsAwardKpiPayServiceImpl implements TsAwardKpiPayService {
 		return tsAwardKpiPayMapper.getTsAwardKpiPayByProperty(record);
 	}
 
+	@Override
+	public int updateTsAwardKpiPayStatus(TsAwardKpiPay record) {
+		return tsAwardKpiPayMapper.updateTsAwardKpiPayStatus(record);
+	}
+
 }

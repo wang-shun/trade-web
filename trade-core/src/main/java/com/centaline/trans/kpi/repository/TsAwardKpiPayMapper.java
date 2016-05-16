@@ -20,4 +20,6 @@ public interface TsAwardKpiPayMapper {
     
     
     List<TsAwardKpiPay> getTsAwardKpiPayByProperty(TsAwardKpiPay record);
+    
+    int updateTsAwardKpiPayStatus(TsAwardKpiPay record);
 }

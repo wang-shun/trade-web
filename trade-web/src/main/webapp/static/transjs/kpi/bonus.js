@@ -63,6 +63,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 	if (totalCount<1 || pageSize<1 || currentPage<1)
 	{
 		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
 		$("#pageBar").empty();
 		return;
 	}

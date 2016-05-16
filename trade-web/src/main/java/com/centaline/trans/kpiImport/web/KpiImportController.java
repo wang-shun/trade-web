@@ -202,4 +202,44 @@ public class KpiImportController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value = "/getTsAwardKpiPayByStatus")
+	@ResponseBody
+	public AjaxResponse getTsAwardKpiPayByStatus(HttpServletRequest request,HttpServletResponse response,String belongMonth) {
+		AjaxResponse result = new AjaxResponse();
+		try {
+			TsAwardKpiPay record = new TsAwardKpiPay();
+			record.setStatus("1");
+			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+			List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record);
+			if(CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
+				result.setContent(tsAwardKpiPayList.get(0));
+			}
+			result.success("查询已经提交奖金成功");
+		} catch (Exception e) {
+			result.fail("查询已经提交奖金失败");
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/updateTsAwardKpiPayStatus")
+	@ResponseBody
+	public AjaxResponse updateTsAwardKpiPayStatus(HttpServletRequest request,HttpServletResponse response,String belongMonth) {
+		AjaxResponse result = new AjaxResponse();
+		try {
+			TsAwardKpiPay record = new TsAwardKpiPay();
+			// 确认状态
+			record.setStatus("1");
+			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+			int count = tsAwardKpiPayService.updateTsAwardKpiPayStatus(record);
+		    if(count >0 ) {
+		    	result.success("奖金提交成功");
+		    } else {
+		    	result.fail("奖金提交失败");
+		    }
+		} catch (Exception e) {
+			result.fail("奖金提交失败");
+		}
+		return result;
+	}
 }
