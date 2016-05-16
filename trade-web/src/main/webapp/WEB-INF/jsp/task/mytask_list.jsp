@@ -121,7 +121,7 @@ text-decoration: underline !important;
 											<option value="4">案件编号</option>
 											<option value="5">CTM编号</option>
 										</select>
-								
+								<input id="inTextVal" type="text" class="form-control pull-left">
 									</div>
 							</div>
 							</div>
