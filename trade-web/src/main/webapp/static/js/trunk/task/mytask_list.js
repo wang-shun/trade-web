@@ -235,7 +235,7 @@ $('#orderByButton').click(function() {
 			propertyAddr = inTextVal.trim();
 		} else if (inTextType == '2') {
 			// 经纪人姓名
-			agentName = hVal.trim();
+			agentName = inTextVal.trim();
 		}else if (inTextType == '3') {
 			
 			agentOrgName = inTextVal.trim();
@@ -349,7 +349,7 @@ function searchMethod(){
 			propertyAddr = inTextVal.trim();
 		} else if (inTextType == '2') {
 			// 经纪人姓名
-			agentName = hVal.trim();
+			agentName = inTextVal.trim();
 		}else if (inTextType == '3') {
 			agentOrgName = inTextVal.trim();
 		}else if (inTextType == '4') {
@@ -383,9 +383,8 @@ function searchMethod(){
 function intextTypeChange(){
 	var inTextType = $('#inTextType').val();
 	var ctx = $("#ctx").val();
-	if(inTextType=='2'){
-		initAutocomplete(ctx+"/labelVal/queryUserInfo");
-	}else if (inTextType=='3'){
+
+	if (inTextType=='3'){
 		initAutocomplete(ctx+"/labelVal/queryOrgInfo");
 	}
 }

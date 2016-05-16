@@ -34,6 +34,9 @@
 <!-- Morris -->
 <link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
 	rel="stylesheet">
+	<link
+	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
+	rel="stylesheet">
 <style type="text/css">
 #selectDiv {
 	width: 480px;
@@ -178,6 +181,7 @@ text-decoration: underline !important;
 		src="${ctx}/js/plugins/chosen/chosen.jquery.js">
 		<!-- iCheck -->
 		<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/trunk/task/mytask_list.js"></script> </content>
+		<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="${ctx}/js/trunk/task/mytask_list.js?v=1.0.3"></script> </content>
 </body>
 </html>

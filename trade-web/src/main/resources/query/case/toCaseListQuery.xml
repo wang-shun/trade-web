@@ -44,7 +44,7 @@
            <condition field="B.CREATE_TIME"    name="createTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.AGENT_CODE"     name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.AGENT_NAME"     name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             
