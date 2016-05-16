@@ -29,6 +29,14 @@
 		
 		
 	</resultMap>
+	   <resultMap id="UserResultMap" type="com.aist.uam.userorg.remote.vo.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+  </resultMap>
+		<select id="getUserByJobCodeAndOrgId" resultMap="UserResultMap"
+		parameterType="java.lang.Long">
+		select *　from sctrans.V_USER_ORG_JOB uoj where uoj.JOB_CODE=#{0} and uoj.ORG_ID=#{1} and uoj.IS_LEADER='1';
+	</select>
+	
 	<sql id="Base_Column_List">
 		PKID, CASE_CODE, PARTICIPANT, JOB_ID, ORG_ID, BASE_AMOUNT, CREATE_TIME,
 		BELONG_MONTH,
@@ -328,18 +336,8 @@
 		update [sctrans].[T_TS_AWARD_BASE] set IS_DELETED='1' where CASE_CODE=#{0};
 	</delete>
 	<select id="countManagerTeam" resultType="java.lang.Integer">
-		select count(distinct yd.TEAM_ID) from sctrans.t_yucui_org_hierarchy yd
-		left join sctrans.V_USER_ORG_JOB uoj
-		on yd.ORG_ID= uoj.ORG_ID and uoj.JOB_CODE in
-		('Senior_Manager','Manager') and uoj.USER_ID=#{0}
-		left join sctrans.V_USER_ORG_JOB uoj1
-		on yd.DISTRICT_ID= uoj1.ORG_ID and uoj1.JOB_CODE ='director' and
-		uoj1.USER_ID=#{0}
-		left join sctrans.V_USER_ORG_JOB uoj2
-		on yd.hq_id= uoj2.ORG_ID and uoj2.JOB_CODE ='GeneralManager' and
-		uoj2.USER_ID=#{0}
-		where (uoj.ORG_ID is not null or uoj1.ORG_ID is not null or uoj2.ORG_ID is
-		not null) and yd.TEAM_ID is not null;
+		select count(distinct ut.TEAM_ID) from sctrans.V_USER_TEAM ut where ut.user_id=#{0};
+		
 	</select>
 	<select id="countAward" resultType="java.lang.Integer">
 		select count(*) from sctrans.T_TS_AWARD_BASE
