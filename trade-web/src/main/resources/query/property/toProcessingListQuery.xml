@@ -70,7 +70,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="orgName" index="" checkbox="" display="分行信息" customDict="qqcdUserOrgName" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+			<column type="both" name="orgName" index="" checkbox="" display="所属分行" customDict="qqcdUserOrgName" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PR_CODE" index="" checkbox="" display="产调编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
@@ -78,14 +78,14 @@
 				<column type="both" name="PR_CAT" index="" checkbox="" display="产调项目" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="产调申请人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_EXECUTOR" index="" checkbox="" display="产调执行人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_STATUS" index="" checkbox="" display="状态" customDict="getPrStatusCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" customDict="getIsSuccess" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" display="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="DIST_CODE" index="" checkbox="" display="所在区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="DIST_CODE" index="" checkbox="" display="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
 		</grid>
 	</query>

@@ -162,7 +162,6 @@ text-decoration: underline !important;
 							<table id="table_list_1"></table>
 							<div id="pager_list_1"></div>
 						</div>
-
 					</div>
 				</div>
 			</div>
