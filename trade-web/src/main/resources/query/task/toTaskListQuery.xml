@@ -39,6 +39,8 @@
             <condition field="O.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="tw.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="A.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="ART.TASK_DEF_KEY_" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            
         </searchCondition>
 		<searchSql>
 			<baseSql>

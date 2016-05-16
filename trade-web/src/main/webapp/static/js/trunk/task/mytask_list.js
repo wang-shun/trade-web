@@ -337,6 +337,7 @@ function searchMethod(){
 	var agentName = "";
 	var propertyAddr = "";
 	var agentOrgName = "";
+	var taskDfKey=$("#taskDfKey").val();
 	// caseCode与ctmCode
 	var caseCode =  "";
 	var ctmCode = "";
@@ -368,7 +369,8 @@ function searchMethod(){
 			search_agentName : agentName,
 			search_agentOrgName : agentOrgName,
 			search_propertyAddr : propertyAddr,
-			argu_allType: allTypeFlag
+			argu_allType: allTypeFlag,
+			search_taskDfKey:taskDfKey
 		};
 
 		//jqGrid reload
