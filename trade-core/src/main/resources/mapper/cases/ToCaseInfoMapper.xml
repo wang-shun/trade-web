@@ -237,7 +237,7 @@
   
   <!-- 根据店组id查询出所属分行的名称和code -->
   <select id="selectBusiarbyGroupid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-  		select * from [sctrans].[v_sys_org_hierarchy] where GROUP_ID=#{groupId,jdbcType=VARCHAR} 
+  		select * from [sctrans].[t_sys_org_hierarchy] where GROUP_ID=#{groupId,jdbcType=VARCHAR} 
   </select>
   
   
