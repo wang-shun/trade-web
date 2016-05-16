@@ -36,7 +36,7 @@
 </head>
 
 <body>
-<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id='myForm' target="_blank">
+<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id='myForm' >
 <input type="hidden" name="queryId" value="queryProcessingList">
 <input type="hidden" id="ctx" value="${ctx}"/>
 <input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
