@@ -160,7 +160,13 @@ public class KpiImportController {
 		TsKpiPsnMonth record2 = new TsKpiPsnMonth();
 		record2.setBelongMonth(DateUtil.plusMonth(new Date(), 1));
 		List<TsKpiPsnMonth> mList = tsKpiPsnMonthService.getTsKpiPsnMonthListByPro(record2);
-		if(CollectionUtils.isNotEmpty(mList)) {
+		
+		TsAwardKpiPay record3 = new TsAwardKpiPay();
+		record3.setStatus("0");
+		record3.setBelongMonth(DateUtil.plusMonth(new Date(), 1));
+		List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record3);
+		
+		if(CollectionUtils.isNotEmpty(mList) && CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
 			staticMoneyKpi(DateUtil.plusMonth(new Date(), 1));
 		}
 		
@@ -169,7 +175,9 @@ public class KpiImportController {
 	
 	// 统计该月份的绩效奖金相关数据
 	private void staticMoneyKpi(Date belongM) {
+	
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
+		
 		//统计AwardKpiRate
 		Map map = new HashMap();
 		map.put("belongMonth", belongM);
