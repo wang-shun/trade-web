@@ -153,7 +153,22 @@ public class KpiImportController {
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);
-
+		
+		staticMoneyKpi(belongM);
+		
+		// eg : 四月份月度kpi修改，则需要重新统计五月份所有的未提交的数据
+		TsKpiPsnMonth record2 = new TsKpiPsnMonth();
+		record2.setBelongMonth(DateUtil.plusMonth(new Date(), 1));
+		List<TsKpiPsnMonth> mList = tsKpiPsnMonthService.getTsKpiPsnMonthListByPro(record2);
+		if(CollectionUtils.isNotEmpty(mList)) {
+			staticMoneyKpi(DateUtil.plusMonth(new Date(), 1));
+		}
+		
+		return "kpi/monthKpiImport";
+	}
+	
+	// 统计该月份的绩效奖金相关数据
+	private void staticMoneyKpi(Date belongM) {
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
 		//统计AwardKpiRate
 		Map map = new HashMap();
@@ -161,8 +176,6 @@ public class KpiImportController {
 		map.put("createBy", uamSesstionService.getSessionUser().getId());
 		map.put("createTime", new Date());
 		tsAwardKpiPayDetailService.getPAwardKpiRate(map);
-		
-		return "kpi/monthKpiImport";
 	}
 
 	private List<KpiMonthVO> checkImportData(List<KpiMonthVO> list) {
