@@ -400,7 +400,12 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			}
 			if (org == null)
 				continue;
-			List<User> users = awardBaseMapper.getUserByJobCodeAndOrgId(jobCode, org.getId());
+			List<User> users=null;
+			if(TransJobs.TZJ.getCode().equals(jobCode)||TransJobs.TZJL.getCode().equals(jobCode)||TransJobs.TJYZG.getCode().equals(jobCode)){//管理岗
+				users = awardBaseMapper.getUserByJobCodeAndOrgId(jobCode, org.getId());
+			}else{
+				users = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, jobCode);
+			}
 			if (users != null && !users.isEmpty()) {
 				for (User user : users) {
 					AwardBase ab = new AwardBase(user.getId(), jobCode, orgId);
