@@ -201,6 +201,16 @@
 				</div>
 				<div class="ibox-content" style="padding: 10px 10px 10px 10px;">
 					<form method="get" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">产调状态</label>
+						<div class="col-sm-10">
+							<input type="radio" value="" name="prStatus" checked="checked">全部
+							<input type="radio" value="0" name="prStatus">未受理
+							<input type="radio" value="1" name="prStatus">已处理
+							<input type="radio" value="2" name="prStatus">已完成
+						</div>
+						</div>
+					
 							<div class="form-group">
 						<label class="col-sm-2 control-label">物业地址</label>
 						<div class="col-sm-10">
@@ -289,15 +299,48 @@
 						{{ each rows as item }}
 						<li>
                         	<div>
-                            	<span  onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}');"><i class="icon-person"></i>{{item.PR_APPLIANT}}</span><span><i class="icon-calendar"></i>{{item.PR_APPLY_TIME}}</span>
+                            	<span  ><i class="icon-person"></i>{{item.PR_APPLIANT}}</span><span><i class="icon-calendar"></i>{{item.PR_APPLY_TIME}}</span>
                        		 </div>
-                        	<p class="text-ellipsis"><i class="icon-address"></i>{{item.PROPERTY_ADDR}}</p>
+                        	<p class="text-ellipsis"><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
+							<div class='text-left' style='width:120px;'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}');" class="btn btn-white btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
                     	</li>
 						{{/each}}
 					{{/if}}
 	</script>
     <script>
     var ctx = "${ctx}";
+    function doProcess(cd,pr,pc,id,st){
+    	if(st=='0'){
+    		acceptance(id);
+    	}else if (st=='1'){
+    		showAttchBox(cd,pr,pc,id);
+    	}else if (st=='2'){
+    		location.href=ctx+'/mobile/property/box/show?prCode='+pr;
+    	}
+    }
+    function acceptance(id){		
+		 $.ajax({
+				cache : false,
+				type : "POST",
+				url : ctx+'/property/updateProcessWaitListStatus',
+				dataType : "json",
+				data : [{
+					name : 'pkid',
+					value : id
+				}],
+				success : function(data) {
+					alert(data.message)
+					if(data.success){
+						initScrollPaggination();
+					}
+				},
+				error : function(errors) {
+					alert("处理出错,请刷新后再次尝试！");
+				}
+			});
+	
+}
+    
  	function showAttchBox(cd,pr,pc,id){
 
 		if(cd == null || cd ==""){
@@ -351,20 +394,12 @@
     	    	
     	  });
     }
-    function searchPropertyList(){
-    	$("#table_list_2").setGridParam({
-    		"postData" : {
-    			queryId:"queryPropertyResearchPage",
-            	search_propertyAddr:$("#propertyAddr").val(),
-            	argu_queryorgs:"${orgId}"
-            },
-    		"page":1 
-    	}).trigger('reloadGrid');
-    }
-	var postData={queryId:"queryPropertyResearchPage",search_prStatus:'1',argu_queryorgs:'${orgId}',rows:10,page:1};
+    
+	var postData={queryId:"queryPropertyResearchPage",argu_queryorgs:'${orgId}',rows:10,page:1};
 	function initScrollPaggination(){
 		postData.search_propertyAddr=$("#propertyAddr").val();
 		postData.page=1;
+		postData.search_prStatus=$('input[name="prStatus"]:checked ').val();
 		$('#content').empty();
     	$('#content').scrollPagination({
     		'contentPage': ctx+'/quickGrid/findPage',
@@ -436,7 +471,7 @@
        		$.ajax({
     			cache : false,
     			type : "GET",
-    			url : ctx+'/property/isExistFile?prCodeArray='+prCode,
+    			url : ctx+'/property/isExistFile?prCodeArray='+caseCode,
     			dataType : "json",
     			data :"",
     			success : function(data) {

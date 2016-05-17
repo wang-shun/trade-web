@@ -56,8 +56,11 @@ public interface ToPropertyService {
 
 
 	int updateProcessWaitListStatus(String district);
+	int updateProcessWaitListStatusByPkId(String pkid);
 
 	List<ToPropertyResearch> getUnProcessListByDistrict(String district);
 
 	void sendMessage(List<ToPropertyResearch> list);
+
+	ToPropertyResearch findByPKID(Long pkid);
 }

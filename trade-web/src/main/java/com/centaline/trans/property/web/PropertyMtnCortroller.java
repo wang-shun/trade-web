@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,7 +73,7 @@ public class PropertyMtnCortroller {
 	 */
 	@RequestMapping(value="updateProcessWaitListStatus")
 	@ResponseBody
-	public AjaxResponse<ToPropertyResearch> updateProcessWaitListStatus(Model model, ServletRequest request){
+	public AjaxResponse<ToPropertyResearch> updateProcessWaitListStatus(Model model, ServletRequest request,String pkid){
 		AjaxResponse<ToPropertyResearch> result = new AjaxResponse<>();
 		SessionUser user = uamSessionService.getSessionUser();
 		Org orgProWait = uamUserOrgService.getOrgById(user.getServiceDepId());
@@ -82,8 +83,18 @@ public class PropertyMtnCortroller {
 		}else{
 			prDistrictId=orgProWait.getId();
 		}
-		List<ToPropertyResearch> list=toPropertytService.getUnProcessListByDistrict(prDistrictId);
-		int proCount = toPropertytService.updateProcessWaitListStatus(prDistrictId);
+		List<ToPropertyResearch> list=null;
+		int proCount=0;
+		if(StringUtils.isBlank(pkid)){//根据district处理 
+			list=toPropertytService.getUnProcessListByDistrict(prDistrictId);
+			proCount = toPropertytService.updateProcessWaitListStatus(prDistrictId);
+		}
+		else{//处理单条
+			proCount=toPropertytService.updateProcessWaitListStatusByPkId(pkid);
+			ToPropertyResearch t=toPropertytService.findByPKID(Long.valueOf(pkid));
+			list.add(t);
+		}
+		
 		toPropertytService.sendMessage(list);
 		if(proCount>0){
 			result.setSuccess(true);

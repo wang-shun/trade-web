@@ -191,6 +191,11 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 
 		return toPropertyResearchMapper.nullityTag(property);
 	}
+	@Override
+	public ToPropertyResearch findByPKID(Long pkid) {
+
+		return toPropertyResearchMapper.findToPropertyResearchById(pkid);
+	}
 
 	@Override
 	public ToPropertyResearch findToPropertyResearchsByCaseCode(String prCode) {
@@ -211,5 +216,9 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 	public List<ToPropertyResearch> getBasePRAgent() {
 		// TODO Auto-generated method stub
 		return toPropertyResearchMapper.getBasePRAgent();
+	}
+	@Override
+	public int updateProcessWaitListStatusByPkId(String pkid) {
+		return toPropertyResearchMapper.updateProcessWaitListStatus(pkid);
 	}
 }

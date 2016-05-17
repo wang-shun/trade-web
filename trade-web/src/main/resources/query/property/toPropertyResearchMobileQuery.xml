@@ -40,6 +40,7 @@
 					PR.CASE_CODE,
 					PR.PR_CODE,
 					PR.PART_CODE,
+					PR.PR_STATUS,
 					SU.REAL_NAME PR_APPLIANT,
 					PR.PR_APPLY_TIME,
 					PI.PROPERTY_ADDR
@@ -63,7 +64,7 @@
 				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="申请人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="申请时间" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
-
+				<column type="both" name="PR_STATUS" index="" checkbox="" display="产调状态" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
