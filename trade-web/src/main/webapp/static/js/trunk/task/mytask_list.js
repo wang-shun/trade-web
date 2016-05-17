@@ -20,7 +20,7 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						rowNum : 20,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'TASKID','红绿灯', '红灯记录','案件编号','CTM编号','PARTCODE','INSTCODE' , '任务名', '产证地址', '经纪人','手机',
+						colNames : [ 'TASKID','红绿灯', '红灯记录','案件编号','CTM编号','PARTCODE','INSTCODE' , '任务名', '物业地址', '经纪人','手机',
 								'所属分行','上家', '下家', '预计执行时间' ,'操作'],
 						colModel : [ {
 							name : 'ID',
