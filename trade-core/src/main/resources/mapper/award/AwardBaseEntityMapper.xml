@@ -33,7 +33,7 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
   </resultMap>
 		<select id="getUserByJobCodeAndOrgId" resultMap="UserResultMap">
-		select *　from sctrans.V_USER_ORG_JOB uoj where uoj.JOB_CODE=#{0} and uoj.ORG_ID=#{1} and uoj.IS_LEADER='1';
+		select uoj.user_id as id　from sctrans.V_USER_ORG_JOB uoj where uoj.JOB_CODE=#{0} and uoj.ORG_ID=#{1} and uoj.IS_LEADER='1';
 	</select>
 	
 	<sql id="Base_Column_List">
