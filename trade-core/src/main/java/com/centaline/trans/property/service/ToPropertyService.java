@@ -63,4 +63,5 @@ public interface ToPropertyService {
 	void sendMessage(List<ToPropertyResearch> list);
 
 	ToPropertyResearch findByPKID(Long pkid);
+	int saveProcessingList(String pkid, String userId, String isScuess, String unSuccessReason, Boolean isSubmit);
 }

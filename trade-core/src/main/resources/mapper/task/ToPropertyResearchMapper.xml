@@ -180,6 +180,9 @@
       <if test="samePRCode != null">
         SAME_PR_CODE= #{samePRCode,jdbcType=VARCHAR},
       </if>
+      <if test="isSuccess != null">
+        is_Success= #{isSuccess,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>

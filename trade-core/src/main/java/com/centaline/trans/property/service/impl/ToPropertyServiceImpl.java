@@ -1,6 +1,7 @@
 package com.centaline.trans.property.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,26 +51,26 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 	@Autowired(required = true)
 	private ToPropertyResearchMapper toPropertyResearchMapper;
 
-	
 	@Override
-	public List<ToPropertyResearch> getUnProcessListByDistrict(String district){
+	public List<ToPropertyResearch> getUnProcessListByDistrict(String district) {
 		return toPropertyResearchMapper.getUnProcessListByDistrict(district);
 	}
+
 	@Override
 	public int updateProcessWaitListStatus(String district) {
-		int proCount =toPropertyResearchMapper.processWaitListByDistrict(district);
+		int proCount = toPropertyResearchMapper.processWaitListByDistrict(district);
 		return proCount;
 	}
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	@Override
-	public void sendMessage(List<ToPropertyResearch>list){
+	public void sendMessage(List<ToPropertyResearch> list) {
 		for (int i = 0; i < list.size(); i++) {
-			ToPropertyResearch tpr=list.get(i);
+			ToPropertyResearch tpr = list.get(i);
 			try {
 				/* 消息模版code */
-				String resourceCode = PropertyFeedbackEnum.PR_PROCESS
-						.getCode();
-				sendMessage(Long.parseLong(tpr.getPkid()+""), resourceCode);
+				String resourceCode = PropertyFeedbackEnum.PR_PROCESS.getCode();
+				sendMessage(Long.parseLong(tpr.getPkid() + ""), resourceCode);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -84,20 +85,17 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 	private void sendMessage(Long pkid, String resourceCode) {
 		/* 消息标题 */
 		String title = "";
-		ToPropertyResearch property = toPropertyResearchMapper
-				.findToPropertyResearchById(pkid);
+		ToPropertyResearch property = toPropertyResearchMapper.findToPropertyResearchById(pkid);
 		String chanel = null;
 		if (resourceCode.equals("PR_process")) {
 			if ("1".equals(property.getPrChannel())) {
-				resourceCode = PropertyFeedbackEnum.AGENT_PR_ACCEPT_NOTIFICATION
-						.getCode();
+				resourceCode = PropertyFeedbackEnum.AGENT_PR_ACCEPT_NOTIFICATION.getCode();
 				chanel = ParamesAPI.NEW_AGENCE;
 			}
 			title = FeedbackAlertEnum.PROPERTY_PROCESS.getName();// 受理
 		} else {
 			if ("1".equals(property.getPrChannel())) {
-				resourceCode = PropertyFeedbackEnum.AGENT_PR_FINISH_NOTIFICATION
-						.getCode();
+				resourceCode = PropertyFeedbackEnum.AGENT_PR_FINISH_NOTIFICATION.getCode();
 				chanel = ParamesAPI.NEW_AGENCE;
 			}
 			title = FeedbackAlertEnum.PROPERTY_SUCCESS.getName();// 完成
@@ -107,17 +105,14 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		// 放入参数
 
 		// 查询物业地址
-		ToPropertyResearchVo propertyVo = toPropertyResearchMapper
-				.findToPropertyResearchAddressById(pkid);
+		ToPropertyResearchVo propertyVo = toPropertyResearchMapper.findToPropertyResearchAddressById(pkid);
 		if (null != propertyVo) {
 			params.put("property_address", propertyVo.getPropertyAddr());
 		} else {
 			params.put("property_address", "无");
 		}
 
-		params.put("is_success",
-				Integer.valueOf(1).equals(property.getIsSuccess()) ? "成功"
-						: "失败");
+		params.put("is_success", Integer.valueOf(1).equals(property.getIsSuccess()) ? "成功" : "失败");
 		params.put("prcode", property.getPrCode());
 		// 拼接发送的字符串
 		String content = uamTemplateService.mergeTemplate(resourceCode, params);
@@ -148,15 +143,14 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 	}
 
 	@Override
-	public int updateProcessingListStatus(String[] pkidArr,String userId) {
+	public int updateProcessingListStatus(String[] pkidArr, String userId) {
 		int proCount = 0;
 		for (int i = 0; i < pkidArr.length; i++) {
-			toPropertyResearchMapper.updatePropertyToComplete(pkidArr[i],userId);
+			toPropertyResearchMapper.updatePropertyToComplete(pkidArr[i], userId);
 			// 发送消息
 			try {
 				/* 消息模版code */
-				String resourceCode = PropertyFeedbackEnum.PR_RESPONSE
-						.getCode();
+				String resourceCode = PropertyFeedbackEnum.PR_RESPONSE.getCode();
 				sendMessage(Long.parseLong(pkidArr[i]), resourceCode);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -164,7 +158,6 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		}
 		return proCount;
 	}
-
 
 	@Override
 	public int insert(ToPropertyResearch record) {
@@ -179,11 +172,9 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 	}
 
 	@Override
-	public List<ToPropertyResearch> queryUnClosePropertyResearchsByCaseCode(
-			String caseCode) {
+	public List<ToPropertyResearch> queryUnClosePropertyResearchsByCaseCode(String caseCode) {
 		// TODO Auto-generated method stub
-		return toPropertyResearchMapper
-				.queryUnClosePropertyResearchsByCaseCode(caseCode);
+		return toPropertyResearchMapper.queryUnClosePropertyResearchsByCaseCode(caseCode);
 	}
 
 	@Override
@@ -191,6 +182,7 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 
 		return toPropertyResearchMapper.nullityTag(property);
 	}
+
 	@Override
 	public ToPropertyResearch findByPKID(Long pkid) {
 
@@ -202,8 +194,7 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		ToPropertyResearch toPropertyResearch = new ToPropertyResearch();
 		toPropertyResearch.setPrCode(prCode);
 		toPropertyResearch.setIsSuccess(0);
-		return toPropertyResearchMapper
-				.findToPropertyResearchsByCaseCode(toPropertyResearch);
+		return toPropertyResearchMapper.findToPropertyResearchsByCaseCode(toPropertyResearch);
 	}
 
 	@Override
@@ -217,8 +208,33 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		// TODO Auto-generated method stub
 		return toPropertyResearchMapper.getBasePRAgent();
 	}
+
 	@Override
 	public int updateProcessWaitListStatusByPkId(String pkid) {
 		return toPropertyResearchMapper.updateProcessWaitListStatus(pkid);
+	}
+
+	@Override
+	public int saveProcessingList(String pkid, String userId, String isScuess, String unSuccessReason,
+			Boolean isSubmit) {
+		ToPropertyResearch pr = new ToPropertyResearch();
+		pr.setPkid(Long.valueOf(pkid));
+		pr.setIsSuccess(Integer.valueOf(isScuess));
+		pr.setUnSuccessReason(unSuccessReason);
+		if(isSubmit){
+			pr.setPrStatus("2");
+			pr.setPrCompleteTime(new Date());
+			pr.setPrExecutor(userId);
+		}
+		toPropertyResearchMapper.updateByPrimaryKeySelective(pr);
+		// 发送消息
+		try {
+			/* 消息模版code */
+			String resourceCode = PropertyFeedbackEnum.PR_RESPONSE.getCode();
+			sendMessage(Long.parseLong(pkid), resourceCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }
