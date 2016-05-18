@@ -56,7 +56,7 @@
 <div class="ibox-content">
 	<div>物业地址 :
 		<input type="text" id="addr" name="search_propertyAddr" />
-			<button id="addrSearchButton" style="margin-left: 30px;">搜索</button>
+			<button type='button' id="addrSearchButton" style="margin-left: 30px;">搜索</button>
 	</div>
 	<hr>
      <table id="table_property_list"></table>
@@ -90,7 +90,7 @@
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
 	<!-- toJSON -->
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
-	<script src="${ctx}/js/trunk/property/processingList.js"></script>
+	<script src="${ctx}/js/trunk/property/processingList.js?v=1.0.1"></script>
 	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script>
 	
 
