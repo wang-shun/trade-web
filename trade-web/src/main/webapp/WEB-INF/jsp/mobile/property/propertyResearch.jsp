@@ -111,7 +111,7 @@ display: none;
 										<h5>无效原因:</h5>
 									</div>
 									<div class='col-xs-10'>
-										<textarea rows="7" cols="15" name="unSuccessReason" id='unSuccessReason'></textarea>
+										<textarea rows="7" cols="25" name="unSuccessReason" id='unSuccessReason'></textarea>
 									</div>
 								</div>
 							</div>
@@ -399,7 +399,6 @@ display: none;
 			}
 			prCode = pr;
 			pkid = id;
-			idList[0] = id;
 			taskitem = pc;
 			getAttchInfo();
 			$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
@@ -429,6 +428,7 @@ display: none;
 											data.attList,
 											function(index, value) {
 												dataLength++;
+												
 												trStr += "<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 												trStr += "<div class=\"preview span12\">";
 												trStr += "<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
@@ -557,6 +557,7 @@ display: none;
 				success : function(data) {
 					alert(data.message)
 					if (data.success) {
+						$("#modal-form").modal("hide");
 						initScrollPaggination();
 					}
 				},
