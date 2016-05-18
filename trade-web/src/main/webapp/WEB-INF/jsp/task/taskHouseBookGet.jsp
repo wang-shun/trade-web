@@ -129,6 +129,7 @@
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
 		<h5>上传备件<br><br></h5>
+		<input type="hidden" id='h_need_upLoad_file' value="1">
 		<div class="ibox-content" style="height:200px; overflow-y:scroll;">
 		<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
 				
@@ -351,10 +352,14 @@
 
 		/**提交数据*/
 		function submit() {
-			if(checkAttachment2()) {
+			if($('#h_need_upLoad_file').val()){
+				if(checkAttachment2()) {
+					save(true);
+				}	
+			}else{
 				save(true);
 			}
-		}
+		} 
 
 		/**保存数据*/
 		function save(b) {
@@ -362,7 +367,9 @@
 				return;
 			}
 			var jsonData = $("#tgpbForm").serializeArray();
-			deleteAndModify();
+			if($('#h_need_upLoad_file').val()){
+				deleteAndModify();	
+			}
 			
 			var url = "${ctx}/task/tgpb/saveToGetPropertyBook";
 			if(b) {

@@ -312,6 +312,7 @@
 			success:function(data){
 				if(data != null && data.length > 0){
 					$("select[name='custCode']").html("");
+					$("select[name='custCode']").append("<option cName='' value='' >请选择</option>");
 					for(var i=0;i<data.length;i++){
 						var selected='';
 						if($('#h_custCode').val()==data[i].pkid){

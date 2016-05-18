@@ -130,7 +130,7 @@ $(document).ready(function() {
 			var ids = jQuery("#table_property_list").jqGrid('getDataIDs');
 			for ( var i = 0; i < ids.length; i++) { 
 				var rowDatas = $("#table_property_list").jqGrid('getRowData', ids[i]); //获取当前行
-				btn2="<button onclick='addFiles(\""+ctx+"\","+rowDatas.PKID+",\""+rowDatas.PR_CODE+"\")' class='btn red' >上传附件</button>";
+				btn2="<button type='button' onclick='addFiles(\""+ctx+"\","+rowDatas.PKID+",\""+rowDatas.PR_CODE+"\");' class='btn red' >上传附件</button>";
 				jQuery("#table_property_list").jqGrid('setRowData', ids[i], { act : btn2}); 
 			} 
 		},
@@ -141,7 +141,7 @@ $(document).ready(function() {
 		}
 	});
 	function nullityTag(cellvalue, options, rawObject){
-		var nullityTag = "<button onclick='nullityTag(\""+rawObject.CASE_CODE+"\","+rawObject.PKID+")' class='btn red' >标记无效</button>";
+		var nullityTag = "<button type='button' onclick='nullityTag(\""+rawObject.CASE_CODE+"\","+rawObject.PKID+");' class='btn red' >标记无效</button>";
 			return nullityTag;
 	}
 	
