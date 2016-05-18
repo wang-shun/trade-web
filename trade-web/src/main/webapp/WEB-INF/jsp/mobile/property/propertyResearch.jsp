@@ -200,7 +200,7 @@ display: none;
 										<input type="hidden" name="picTag" value="property_research_letter"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
+							                <img src="http://aimg.sh.centanet.com/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
@@ -433,7 +433,7 @@ display: none;
 												trStr += "<div class=\"preview span12\">";
 												trStr += "<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
 
-												trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
+												trStr += "<img src='"+appCtx['img-centanet'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
 												trStr += "</div>";
 												trStr += "<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
 												trStr += "<button onclick=\"romoveDiv('picContainers',"
