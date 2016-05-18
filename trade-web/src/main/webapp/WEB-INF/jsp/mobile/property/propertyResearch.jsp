@@ -111,7 +111,7 @@ display: none;
 										<h5>无效原因:</h5>
 									</div>
 									<div class='col-xs-10'>
-										<textarea rows="7" cols="55" name="unSuccessReason" id='unSuccessReason'></textarea>
+										<textarea rows="7" cols="15" name="unSuccessReason" id='unSuccessReason'></textarea>
 									</div>
 								</div>
 							</div>
@@ -255,8 +255,8 @@ display: none;
 							<label class="col-sm-2 control-label">产调状态</label>
 							<div class="col-sm-10">
 								<input type="radio" value="" name="prStatus" checked="checked">全部
-								<input type="radio" value="0" name="prStatus">未受理 <input
-									type="radio" value="1" name="prStatus">已处理 <input
+								<input type="radio" value="0" name="prStatus">待处理 <input
+									type="radio" value="1" name="prStatus">已受理 <input
 									type="radio" value="2" name="prStatus">已完成
 							</div>
 						</div>
@@ -557,7 +557,7 @@ display: none;
 				success : function(data) {
 					alert(data.message)
 					if (data.success) {
-						location.reload();
+						initScrollPaggination();
 					}
 				},
 				error : function(errors) {

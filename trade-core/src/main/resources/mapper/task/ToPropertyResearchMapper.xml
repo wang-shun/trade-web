@@ -183,6 +183,9 @@
       <if test="isSuccess != null">
         is_Success= #{isSuccess,jdbcType=VARCHAR},
       </if>
+      <if test="unSuccessReason != null">
+        unSuccess_Reason= #{unSuccessReason,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -313,8 +316,8 @@ update sctrans.T_TO_PROPERTY_RESEARCH  set
   <update id="nullityTag" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
     update sctrans.T_TO_PROPERTY_RESEARCH
     set 
-      IS_SUCCESS = #{isSuccess,jdbcType=VARCHAR},
-      UNSUCCESS_REASON = #{unSuccessReason,jdbcType=BIGINT}
+      IS_SUCCESS = #{isSuccess,jdbcType=BIGINT},
+      UNSUCCESS_REASON = #{unSuccessReason,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>
