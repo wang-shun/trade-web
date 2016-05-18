@@ -125,11 +125,11 @@ display: none;
 									<div class="form-group">
 										<div class="" id="fileupload_div_pic">
 											<form id="fileupload"
-												action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+												action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 												method="POST" enctype="multipart/form-data">
 												<noscript>
 													<input type="hidden" name="redirect"
-														value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload">
+														value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
 													<input type="hidden" id="preFileCode" name="preFileCode"
 														value="property_research_letter">
 												</noscript>
@@ -147,7 +147,7 @@ display: none;
 																	<i class="fa fa-plus"></i>
 																</div> <input id="picFileupload1" type="file" name="files[]"
 																multiple
-																data-url="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+																data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 																data-sequential-uploads="true">
 															</span>
 														</div>
@@ -334,7 +334,7 @@ display: none;
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload-m.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
@@ -390,11 +390,11 @@ display: none;
 
 		function showAttchBox(cd, pr, pc, id,isS,uns) {
 
-			/* if (cd == null || cd == "") {
+			if (cd == null || cd == "") {
 				$("#caseCode").val(pr);
 			} else {
 				$("#caseCode").val(cd);
-			} */
+			}
 			$("#caseCode").val(pr);
 			caseCode = pr;
 			prCode = pr;
