@@ -334,7 +334,7 @@ display: none;
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload-m.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
