@@ -390,13 +390,13 @@ display: none;
 
 		function showAttchBox(cd, pr, pc, id,isS,uns) {
 
-			if (cd == null || cd == "") {
+			/* if (cd == null || cd == "") {
 				$("#caseCode").val(pr);
-				caseCode = pr;
 			} else {
 				$("#caseCode").val(cd);
-				caseCode = cd;
-			}
+			} */
+			$("#caseCode").val(pr);
+			caseCode = pr;
 			prCode = pr;
 			pkid = id;
 			taskitem = pc;
