@@ -402,7 +402,7 @@ display: none;
 			idList[0] = id;
 			taskitem = pc;
 			getAttchInfo();
-			$("input[name='isScuess',value='"+isS+"']").attr('checked',true);
+			$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 			$('#unSuccessReason').val(uns);
 			$("#modal-form").modal("show");
 		}
