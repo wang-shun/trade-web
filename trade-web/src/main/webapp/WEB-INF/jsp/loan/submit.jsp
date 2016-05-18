@@ -184,30 +184,6 @@
 							calendarWeeks : true,
 							autoclose : true
 						});
-						
-
-						$('#txt_fTime').datepicker({
-							todayBtn : "linked",
-							keyboardNavigation : false,
-							forceParse : false,
-							calendarWeeks : true,
-							autoclose : true
-						});
-						$('#txt_tTime').datepicker({
-							todayBtn : "linked",
-							keyboardNavigation : false,
-							forceParse : false,
-							calendarWeeks : true,
-							autoclose : true
-						});
-						$("#txt_fTime").on("click",function(ev){
-						    $("#txt_fTime").datepicker("setEndDate", $("#txt_fTime").val());
-						});
-						$("#txt_tTime").on("click", function (ev) {
-						    $("#txt_tTime").datepicker("setStartDate", $("#txt_fTime").val());
-						});
-						
-						
 						$(".fancybox").fancybox({
 
 							fitToView : false,
