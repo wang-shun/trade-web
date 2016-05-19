@@ -34,6 +34,8 @@
 	<query id="queryCastTrackingListItemList" cacheCount="true">
 		<searchCondition>
            <condition field="tp.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.CTM_CODE"  name="ctmCode" label="CTM编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -47,6 +49,7 @@
 					    as STATUS,
 						tp.PROPERTY_ADDR,
                         A.CASE_CODE,
+                        A.CTM_CODE,
                         A.AGENT_NAME,
                         A.AGENT_CODE,
                         B.ORG_NAME as AGENT_ORG_NAME
@@ -66,6 +69,7 @@
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />

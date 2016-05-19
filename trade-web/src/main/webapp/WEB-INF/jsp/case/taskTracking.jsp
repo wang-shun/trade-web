@@ -93,26 +93,25 @@
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 						
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">案件地址</label>
+						<div class="row form-group">
+							<label class="col-md-2 control-label">案件地址</label>
 							<div class="col-md-10">
 								<input id="caseAddress" type="text" class="form-control">
-								</div>
-						</div>
 							</div>
 						</div>
-						<div class="row m-t-sm">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l-lg"></label>
-							<div>
-											<button id="searchButton" type="button"
-												class="btn btn-warning">查询</button>
-										</div>
-						</div>
+						<div class="row form-group">
+							<label class="col-md-2 control-label">案件编号</label>
+							<div class="col-md-4">
+								<input id="caseCode" type="text" class="form-control">
 							</div>
+							<label class="col-md-2 control-label">CTM编号</label>
+							<div class="col-md-4">
+								<input id="ctmCode" type="text" class="form-control">
+							</div>
+						</div>
+						
+						<div class="row form-group">
+							<div class="col-md-2"><button id="searchButton" type="button" class="btn btn-warning pull-right">查询</button></div>		
 						</div>
 					</form>
 				</div>
@@ -123,7 +122,6 @@
 					<div class="ibox-title">
 						<h5>案件列表</h5>
 					</div>
-
 					<div class="ibox-content">
 						<div class="jqGrid_wrapper">
 							<table id="table_list_1"></table>
@@ -154,7 +152,7 @@
 					forceFit : true,
 					rowNum : 20,
 					/* rowList: [10, 20, 30], */
-					colNames : [ 'id', '案件编号', '产证地址',
+					colNames : [ 'id', '案件编号', 'CTM编号','产证地址',
 							'经纪人','所属分行', '上家', '下家','案件状态','经办人','主管'],
 					colModel : [ {
 						name : 'PKID',
@@ -169,6 +167,10 @@
 						index : 'CASE_CODE',
 						width : 75
 					}, {
+						name : 'CTM_CODE',
+						index : 'CTM_CODE',
+						width : 75
+					},{
 						name : 'PROPERTY_ADDR',
 						index : 'PROPERTY_ADDR',
 						width : 150
@@ -218,7 +220,10 @@
 					},
 					postData : {
 						queryId : "queryCastTrackingListItemList",
-						search_propertyAddr: $('#caseAddress').val()
+						search_propertyAddr: $('#caseAddress').val(),
+						search_propertyAddr: $('#caseAddress').val(),
+						search_caseCode:$("#caseCode").val(),
+						search_ctmCode:$("#ctmCode").val()
 					}
 
 				});
@@ -226,7 +231,9 @@
 		 $("#table_list_1").setGridParam({
 				"postData" : {
 					queryId : "queryCastTrackingListItemList",
-					search_propertyAddr: $('#caseAddress').val()
+					search_propertyAddr: $('#caseAddress').val(),
+					search_caseCode:$("#caseCode").val(),
+					search_ctmCode:$("#ctmCode").val()
 				},
 				"page":1 ,
 				datatype : "json"
