@@ -25,67 +25,76 @@ var PersonBonusList = (function(){
     				index : 'CASE_CODE',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			}, {
     				name : 'GUOHU_TIME',
     				index : 'GUOHU_TIME',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'CLOSE_TIME',
     				index : 'CLOSE_TIME',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'PROPERTY_ADDR',
     				index : 'PROPERTY_ADDR',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'PARTICIPANT',
     				index : 'PARTICIPANT',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'SRV_CODE',
     				index : 'SRV_CODE',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'BASE_AMOUNT',
     				index : 'BASE_AMOUNT',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'SRV_PART_IN',
     				index : 'SRV_PART_IN',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'SATISFACTION',
     				index : 'SATISFACTION',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'MKPI',
     				index : 'MKPI',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : false,
+    				formatter : function(cellvalue, options, rowObject) {
+    					if(cellvalue == 1) {
+    						return '是'
+    					} else if(cellvalue == 0) {
+    						return '否'
+    					} else {
+    						return ''
+    					}
+    				}
     			},{
     				name : 'KPI_RATE_SUM',
     				index : 'KPI_RATE_SUM',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'SRV_PART',
     				index : 'SRV_PART',
