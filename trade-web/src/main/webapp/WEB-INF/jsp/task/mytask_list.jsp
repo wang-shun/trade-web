@@ -66,6 +66,7 @@ text-decoration: underline !important;
 .case-num:HOVER,case-task:HOVER{
 text-decoration: underline !important;
 }
+.slash{font-weight:bold !important;}
 </style>
 </head>
 
@@ -274,7 +275,7 @@ text-decoration: underline !important;
 						{{/if}}
 						<td class="t-left"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
 						<td class="t-left"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
-						<td colspan="2" class="t-left"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}</span></td>
+						<td colspan="2" class="t-left"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
 						<td><a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-deal" target="_blank"></a></td>
 				</tr>
 		{{/each}}
