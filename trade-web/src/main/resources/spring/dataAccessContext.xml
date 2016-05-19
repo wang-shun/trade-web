@@ -19,7 +19,7 @@
 	</bean>
 	
 	<bean id="quickQueryJdbcTemplate" class="com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate">
-		<constructor-arg ref="dataSourceProxy" />
+		<constructor-arg ref="readOnlyDataSourceProxy" />
 	</bean>
 	
 	<bean id="auditorAware" class="com.aist.common.entity.AuditorAwareImpl"></bean>

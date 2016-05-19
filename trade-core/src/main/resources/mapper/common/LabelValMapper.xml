@@ -3,10 +3,11 @@
 <mapper namespace="com.centaline.trans.common.repository.LabelValMapper" >
   <select id="queryUserInfo" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.LabelVal">
    SELECT
-       ID AS 'value',
-       REAL_NAME AS 'label'
+       u.user_id AS 'value',
+       u.REAL_NAME +'(' +u.org_name +')' AS label
     FROM 
-      sctrans.SYS_USER where  REAL_NAME like #{keyword}+'%' and IS_DELETED='0'
+      sctrans.v_user_org_job u 
+      where  u.REAL_NAME like #{keyword}+'%' and u.ismain='1'
   </select>
     <select id="queryOrgInfo" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.LabelVal">
    SELECT

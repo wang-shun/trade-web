@@ -37,6 +37,9 @@
 <link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+	<link
+	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
+	rel="stylesheet">
 <style type="text/css">
 #selectDiv {
 	width: 480px;
@@ -203,10 +206,11 @@ text-decoration: underline !important;
 	<script
 		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
 		src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js">
+		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 		<!-- iCheck -->
 		<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
 	<script src="${ctx}/js/trunk/task/mytask_list.js"></script> 
+	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	 <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>

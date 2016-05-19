@@ -71,8 +71,8 @@
 				searchType="GT" showType="" showCallback="" defaultValue="" />
 			<condition field="B.RES_DATE" name="resDateEnd" label=""
 				searchType="LT" showType="" showCallback="" defaultValue="" />
-			<condition field="B.AGENT_CODE" name="agentName" label="经纪人"
-				searchType="EQ" showType="" showCallback="" defaultValue="" />
+			<condition field="B.AGENT_NAME" name="agentName" label="经纪人"
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
 			<condition field="B.PROPERTY_ADDR" name="propertyAddr"
 				label="物业地址" searchType="LIKE" showType="" showCallback=""
 				defaultValue="" />

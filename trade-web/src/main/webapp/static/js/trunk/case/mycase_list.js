@@ -296,7 +296,7 @@ function getParamsValue() {
 		} else if (inTextType == '1') {
 			propertyAddr = inTextVal.trim();
 		} else if (inTextType == '2') {
-			agentName = hVal.trim();
+			agentName = inTextVal.trim();
 		}else if (inTextType == '3') {
 			agentOrgName = hVal.trim();
 		}else if (inTextType == '4') {
@@ -642,7 +642,7 @@ function exportToExcel() {
 function intextTypeChange(){
 	var inTextType = $('#inTextType').val();
 	var ctx = $("#ctx").val();
-	if(inTextType=='2'||inTextType=='4'){
+	if(inTextType=='4'){
 		initAutocomplete(ctx+"/labelVal/queryUserInfo");
 	}else if (inTextType=='3'){
 		initAutocomplete(ctx+"/labelVal/queryOrgInfo");

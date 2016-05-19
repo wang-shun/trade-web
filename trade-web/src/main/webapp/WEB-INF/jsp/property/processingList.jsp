@@ -39,6 +39,8 @@
 <form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id='myForm' >
 <input type="hidden" name="queryId" value="queryProcessingList">
 <input type="hidden" id="ctx" value="${ctx}"/>
+<input type="hidden" name="search_prDistrictId" value="${prDistrictId}">
+<input type="hidden" name="search_prStatus" value="1"/>
 <input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
 <input type="hidden" id="prStatus" value="1"/>
 <input type="hidden" name="colomns" value="DIST_CODE,PROPERTY_ADDR,PR_CAT,orgName,PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,PR_STATUS,IS_SUCCESS,UNSUCCESS_REASON">
@@ -53,14 +55,14 @@
 </div>
 <div class="ibox-content">
 	<div>物业地址 :
-		<input type="text" id="addr"/>
-			<button id="addrSearchButton" style="margin-left: 30px;">搜索</button>
+		<input type="text" id="addr" name="search_propertyAddr" />
+			<button type='button' id="addrSearchButton" style="margin-left: 30px;">搜索</button>
 	</div>
 	<hr>
      <table id="table_property_list"></table>
      <div id="pager_property_list"></div>
      <a class="btn btn-primary" href="javascript:propertyDispose()" disabled="true" id="caseDistributeButton">处理产调</a>
-     <a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
+      <a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
 </div>       
 </form>                 
 			<jsp:include page="common/nullityTagJQResult.jsp"></jsp:include>
@@ -88,7 +90,7 @@
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
 	<!-- toJSON -->
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
-	<script src="${ctx}/js/trunk/property/processingList.js"></script>
+	<script src="${ctx}/js/trunk/property/processingList.js?v=1.0.1"></script>
 	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script>
 	
 
