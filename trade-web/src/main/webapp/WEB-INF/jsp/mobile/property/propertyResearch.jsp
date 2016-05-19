@@ -53,11 +53,12 @@
 
 .list li span:first-child {
 	color: #555;
-	width: 75%
+	width: 70%
 }
 
 .list li span:nth-child(2) {
-	width: 25%
+	width: 30%;
+	text-align:right;
 }
 
 .list li span:nth-child(3) {
@@ -67,6 +68,14 @@
 #div_f{
 display: none;
 }
+.list li .addr{float:left;width:74%;}
+.list li .check{float:right;width:10%;}
+.list li .check button{color:#fff;}
+input[name="prStatus"]{margin-left:7px;}
+input[name="isScuess"]{margin-left:7px;}
+.ml-10{margin-left:10px;}
+.files .delete{width:25px;}
+img{ border-image-width:0px;}
 </style>
 <script type="text/javascript">
 	var idList = [ 1 ];
@@ -96,10 +105,10 @@ display: none;
 						<div class="ibox-content">
 
 							<div class='row'>
-								<div class='col-xs-2'>
+								<div class='pull-left'>
 									<h5>是否有效:</h5>
 								</div>
-								<div class='col-xs-10'>
+								<div class='pull-left'>
 									<input type="radio" name="isScuess" value="0">无效<input
 										type="radio" name="isScuess" value="1" checked="checked">有效
 								</div>
@@ -117,12 +126,12 @@ display: none;
 							</div>
 							<div id='div_s'>
 								<div class='row'>
-									<div class='col-xs-2'>
+									<div>
 										<h5>上传产调:</h5>
 									</div>
 								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
+								<div>
+									<div class="form-group" style="margin-left:-25px;">
 										<div class="" id="fileupload_div_pic">
 											<form id="fileupload"
 												action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
@@ -160,7 +169,7 @@ display: none;
 											<div class="">
 												<script id="templateUpload1" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-right:5px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
 							        <div class="preview"><span class="fade"></span></div>
 									<!--  错误信息 -->
@@ -179,7 +188,7 @@ display: none;
 							        {% } else { %}
 							            <div class="span1" colspan="2"></div>
 							        {% } %}
-							        <div class="cancel" style="margin-top:-172px;margin-left:85%;">
+							        <div class="cancel" style="margin-top:-115px;margin-left:90%;">
 									{% if (!i) { %}
 							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
 							                <i class="icon-remove"></i>
@@ -200,14 +209,14 @@ display: none;
 										<input type="hidden" name="picTag" value="property_research_letter"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.thumbnail_url) { %}
-							                <img src="http://aimg.sh.centanet.com/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
+							                <img src="http://aimg.sh.centanet.com/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 							            </div>
 							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							        <div class="delete span2" style="margin-left:85%;margin-top:-93px;line-height:0;">
+							           <button data-url="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:25px;padding:0;height:25px;text-align:center;border-radius:25px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -233,8 +242,8 @@ display: none;
 							</div>
 						</div>
 					</div>
-					<input type="button" class="btn btn-success" id="btn_save"
-						value="保存"> <input type="button" class="btn btn-success"
+					<input type="button" class="btn btn-warning" id="btn_save"
+						value="保存"> <input type="button" class="btn btn-warning"
 						id="reportSubBtn" value="完成">
 
 				</div>
@@ -246,9 +255,6 @@ display: none;
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>产调搜索</h5>
-				</div>
 				<div class="ibox-content" style="padding: 10px 10px 10px 10px;">
 					<form method="get" class="form-horizontal">
 						<div class="form-group">
@@ -349,8 +355,11 @@ display: none;
                         	<div>
                             	<span  ><i class="icon-person"></i>{{item.PR_APPLIANT}}</span><span><i class="icon-calendar"></i>{{item.PR_APPLY_TIME}}</span>
                        		 </div>
-                        	<p class="text-ellipsis"><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
-							<div class='text-left' style='width:120px;'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}');" class="btn btn-white btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
+							<div>
+								<p class="addr"><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
+								<div class='text-left check'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}');" class="btn btn-warning btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
+							</div>
+                        	
                     	</li>
 						{{/each}}
 					{{/if}}

@@ -70,7 +70,7 @@
 							</select>
 						</div>
 
-						<div class="input-group date" style="float: left; width: 200px">
+						<div id='div_fTime' class="input-group date" style="float: left; width: 200px">
 							<span class="input-group-addon"><i class="fa fa-calendar"
 								style="z-index: 2100; position: relative;"></i></span> <input
 								class="form-control" type="text" id="txt_fTime"
@@ -78,7 +78,7 @@
 						</div>
 
 
-						<div class="input-group date" style="float: left; width: 200px">
+						<div id='div_tTime' class="input-group date" style="float: left; width: 200px">
 							<span class="input-group-addon"><i class="fa fa-calendar"
 								style="z-index: 2100; position: relative;"></i></span> <input
 								class="form-control" type="text" id="txt_tTime"
@@ -183,6 +183,12 @@
 							forceParse : false,
 							calendarWeeks : true,
 							autoclose : true
+						});
+						$("#div_fTime").on("click",function(ev){
+						    $("#div_fTime").datepicker("setEndDate", $("#txt_fTime").val());
+						});
+						$("#div_tTime").on("click", function (ev) {
+						    $("#div_tTime").datepicker("setStartDate", $("#txt_fTime").val());
 						});
 						$(".fancybox").fancybox({
 

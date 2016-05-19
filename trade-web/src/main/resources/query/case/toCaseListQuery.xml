@@ -60,7 +60,7 @@
            <condition field="B.SRV_CAT_STR" name="srvCode11" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode12" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.PROCESSOR_NAME" name="proName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           
 
 
          

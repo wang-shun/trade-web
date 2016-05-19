@@ -34,6 +34,9 @@
 <!-- Morris -->
 <link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
 	rel="stylesheet">
+<link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
+<!-- 分页控件 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 	<link
 	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
 	rel="stylesheet">
@@ -54,9 +57,19 @@ text-decoration: underline;
 .aline:HOVER{
 text-decoration: underline !important;
 }
+.text-center{text-align:center;}
 #inTextVal{width:42%;}
 #inTextType_chosen{margin-left:0}
 .chosen-container{float:left;margin-right:10px}
+
+.case-num,.case-task { text-decoration: underline !important;}
+.case-num:HOVER,case-task:HOVER{
+text-decoration: underline !important;
+}
+.case-num:visited,case-task:visited{
+ text-decoration: underline !important;
+}
+.slash{font-weight:bold !important;}
 </style>
 </head>
 
@@ -152,7 +165,7 @@ text-decoration: underline !important;
 		</div>
 			<form method="get" class="form-horizontal"></form>
 
-			<div class="col-lg-12 col-md-12">
+		<!-- 	<div class="col-lg-12 col-md-12">
 				<div class="ibox ">
 					<div class="ibox-title">
 						<h5>我的任务列表</h5>
@@ -167,7 +180,32 @@ text-decoration: underline !important;
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
+			
+			<div class="data-wrap">
+		<div class="data-wrap-in">
+			<table border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="text-center">红绿灯</th>
+						<th>案件编号</th>
+						<th>当前任务</th>
+						<th>上家</th>
+						<th>上家</th>
+						<th class="text-center">预计执行时间</th>
+					</tr>
+				</thead>
+				<tbody id="myTaskList">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="text-center">
+		<span id="currentTotalPage"><strong class="bold"></strong></span>
+		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+    </div>
 		</div>
 	</div>
 
@@ -178,10 +216,72 @@ text-decoration: underline !important;
 	<script
 		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
 		src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js">
+		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 		<!-- iCheck -->
 		<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-		<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/task/mytask_list.js?v=1.0.3"></script> </content>
+	<script src="${ctx}/js/trunk/task/mytask_list.js"></script> 
+	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	 <!-- 分页控件  -->
+     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	
+	 <script id="template_myTaskList" type= "text/html">
+         {{each rows as item index}}
+                 {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+						{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
+							<td>
+               
+                             </td>
+						{{else if item.DATELAMP < lamp2}}
+                           			<td>
+                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:green"></div>
+                 <div class="sk-double-bounce2" style="background-color:green"></div>
+                 </div>
+                             </td>
+				        {{else if item.DATELAMP < lamp3}}
+							 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:yellow"></div>
+                 <div class="sk-double-bounce2" style="background-color:yellow"></div>
+                 </div>
+  						{{else}}
+   										<td>
+                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:red"></div>
+                 <div class="sk-double-bounce2" style="background-color:red"></div>
+                 </div>
+						{{/if}}
+					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+					<td class="t-left">
+						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
+                    </td>
+					<td class="t-left">{{item.SELLER}}</td>
+					<td class="t-left">{{item.BUYER}}</td>
+					<td class="t-center">{{item.EST_PART_TIME}}</td>
+				</tr>
+				{{if index%2 == 0}}
+ 				     <tr class="tr-1">
+                {{else}}
+                     <tr class="tr-2">
+                {{/if}}
+                        {{if item.RED_LOCK==1}}
+							<td><i class="time-icon"></i></td>
+						{{else}}
+                            <td><i class="time-icon time-off"></i></td>  
+						{{/if}}
+						<td class="t-left"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
+						<td class="t-left"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
+						<td colspan="2" class="t-left"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
+						<td><a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-deal" target="_blank"></a></td>
+				</tr>
+		{{/each}}
+	 </script> 
+	
+	
+	</content>
 </body>
 </html>

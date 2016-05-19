@@ -158,16 +158,16 @@ public class KpiImportController {
 		
 		// eg : 四月份月度kpi修改，则需要重新统计五月份所有的未提交的数据
 		TsKpiPsnMonth record2 = new TsKpiPsnMonth();
-		record2.setBelongMonth(DateUtil.plusMonth(new Date(), 1));
+		record2.setBelongMonth(DateUtil.plusMonth(belongM, 1));
 		List<TsKpiPsnMonth> mList = tsKpiPsnMonthService.getTsKpiPsnMonthListByPro(record2);
 		
 		TsAwardKpiPay record3 = new TsAwardKpiPay();
 		record3.setStatus("0");
-		record3.setBelongMonth(DateUtil.plusMonth(new Date(), 1));
+		record3.setBelongMonth(DateUtil.plusMonth(belongM, 1));
 		List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record3);
 		
 		if(CollectionUtils.isNotEmpty(mList) && CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
-			staticMoneyKpi(DateUtil.plusMonth(new Date(), 1));
+			staticMoneyKpi(DateUtil.plusMonth(belongM, 1));
 		}
 		
 		return "kpi/monthKpiImport";

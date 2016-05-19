@@ -5,3 +5,8 @@
 .pagination {
 	margin : 10px 0;
 }
+
+#pageBar ul{display:inline-block;vertical-align:middle;}
+#pagerGotodiv{display:inline-block;}
+.bold{font-weight:bold !important;}
+.pagination{margin:10px;}
