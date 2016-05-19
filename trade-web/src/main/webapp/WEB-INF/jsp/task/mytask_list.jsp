@@ -57,9 +57,15 @@ text-decoration: underline;
 .aline:HOVER{
 text-decoration: underline !important;
 }
+.text-center{text-align:center;}
 #inTextVal{width:42%;}
 #inTextType_chosen{margin-left:0}
 .chosen-container{float:left;margin-right:10px}
+
+.case-num,.case-task { text-decoration: underline !important;}
+.case-num:HOVER,case-task:HOVER{
+text-decoration: underline !important;
+}
 </style>
 </head>
 
@@ -177,12 +183,12 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-						<th>红绿灯</th>
+						<th class="text-center">红绿灯</th>
 						<th>案件编号</th>
 						<th>当前任务</th>
 						<th>上家</th>
 						<th>上家</th>
-						<th>预计执行时间</th>
+						<th class="text-center">预计执行时间</th>
 					</tr>
 				</thead>
 				<tbody id="myTaskList">
@@ -191,11 +197,11 @@ text-decoration: underline !important;
 			</table>
 		</div>
 	</div>
-	 				<div style="text-align:center;">
-	                     <span id="currentTotalPage" class="pull-left"><strong class="bold"></strong></span>
-						 <span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;&nbsp;&nbsp;&nbsp;
-	                     <div id="pageBar" class="pagination  my-pagination text-center m0"></div>
-                    </div>
+	<div class="text-center">
+		<span id="currentTotalPage"><strong class="bold"></strong></span>
+		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+    </div>
 		</div>
 	</div>
 
@@ -214,6 +220,7 @@ text-decoration: underline !important;
 	 <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	
 	 <script id="template_myTaskList" type= "text/html">
          {{each rows as item index}}
                  {{if index%2 == 0}}
@@ -222,19 +229,38 @@ text-decoration: underline !important;
                        <tr class="tr-2">
                    {{/if}}
 						{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
-							<td><i class=""></i></td>
+							<td>
+                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:''"></div>
+                 <div class="sk-double-bounce2" style="background-color:''"></div>
+                 </div>
+                             </td>
 						{{else if item.DATELAMP < lamp2}}
-                            <td><i class="green"></i></td>
+                           			<td>
+                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:green"></div>
+                 <div class="sk-double-bounce2" style="background-color:green"></div>
+                 </div>
+                             </td>
 				        {{else if item.DATELAMP < lamp3}}
-							<td><i class="yellow"></i></td>
+							 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:yellow"></div>
+                 <div class="sk-double-bounce2" style="background-color:yellow"></div>
+                 </div>
   						{{else}}
-   							<td><i class="red"></i></td>
+   										<td>
+                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 <div class="sk-double-bounce1" style="background-color:red"></div>
+                 <div class="sk-double-bounce2" style="background-color:red"></div>
+                 </div>
 						{{/if}}
 					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
-					<td class="t-left"><a href="javascript:;" class="case-task">{{item.NAME}}</a></td>
-					<td>{{item.SELLER}}</td>
-					<td>{{item.BUYER}}</td>
-					<td>{{item.EST_PART_TIME}}</td>
+					<td class="t-left">
+						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
+                    </td>
+					<td class="t-left">{{item.SELLER}}</td>
+					<td class="t-left">{{item.BUYER}}</td>
+					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>
 				{{if index%2 == 0}}
  				     <tr class="tr-1">
