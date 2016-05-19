@@ -8,141 +8,17 @@ $(document).ready(function() {
 			var url = "/quickGrid/findPage";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-
-			//jqGrid初始化
-			$("#table_list_1").jqGrid(
-					{
-						url : url,
-						datatype : "json",
-						mtype : "POST",
-						height : 550,
-						autowidth : true,
-						shrinkToFit : true,
-						rowNum : 20,
-						/* rowList: [10, 20, 30], */
-						colNames : [ 'TASKID','红绿灯', '红灯记录','案件编号','CTM编号','PARTCODE','INSTCODE' , '任务名', '物业地址', '经纪人','手机',
-								'所属分行','上家', '下家', '预计执行时间' ,'操作'],
-						colModel : [ {
-							name : 'ID',
-							index : 'ID',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'DATELAMP',
-							index : 'DATELAMP',
-							width : 30,
-							editable : true,
-							formatter : dateLampFormatter
-						}, {
-							name : 'RED_LOCK',
-							index : 'RED_LOCK',
-							width : 30,
-							editable : true,
-							formatter : isRedFormatter
-						},{
-							name : 'CASE_CODE',
-							index : 'CASE_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							formatter : function(cellvalue, options, rawObject){
-								var a=("<a class='aline' href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
-								return a;
-							}
-						},{
-							name : 'CTM_CODE',
-							index : 'CTM_CODE',
-							align : "center",
-							width : 0,
-							resizable : false,
-							
-						},{
-							name : 'PART_CODE',
-							index : 'PART_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						},{
-							name : 'INST_CODE',
-							index : 'INST_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'NAME',
-							index : 'NAME',
-							width : 65
-						}, {
-							name : 'PROPERTY_ADDR',
-							index : 'PROPERTY_ADDR',
-							width : 160
-						}, {
-							name : 'AGENT_NAME',
-							index : 'AGENT_NAME',
-							width : 40
-						}, {
-							name : 'MOBILE',
-							index : 'MOBILE',
-							width : 65
-						}, {
-							name : 'AGENT_ORG_NAME',
-							index : 'AGENT_ORG_NAME',
-							width : 110
-						},{
-							name : 'SELLER',
-							index : 'SELLER',
-							width : 60
-						}, {
-							name : 'BUYER',
-							index : 'BUYER',
-							width : 60
-						}, {
-							name : 'EST_PART_TIME',
-							index : 'EST_PART_TIME',
-							width : 50
-						},{
-							width : 30,formatter:function(cellvalue, options, rawObject){
-								var url = ctx+"/task/"+rawObject.PART_CODE+
-								"?&taskId="+rawObject.ID+"&caseCode="+rawObject.CASE_CODE+"&instCode="+rawObject.INST_CODE;
-								return "<a href='"+url+"'>处理</a>";
-							}
-						}
-
-						],
-						pager : "#pager_list_1",
-						viewrecords : true,
-						pagebuttions : true,
-						hidegrid : false,
-						recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-						pgtext : " {0} 共 {1} 页",
-
-						// rowid为grid中的行顺序
-						onSelectRow : function(rowid) {
-							/*var rowData = $("#table_list_1").jqGrid('getRowData',rowid);
-							var url = ctx+"/task/"+rowData.PART_CODE+
-							"?&taskId="+rowData.ID+"&caseCode="+rowData.CASE_CODE+"&instCode="+rowData.INST_CODE;
-//							alert(url);
-							window.location.href = url;*/
-						},
-						postData : {
-							queryId : "queryTaskListItemList"
-						}
-
-					});
-
-			// Add responsive to jqGrid
-			$(window).bind('resize', function() {
-				var width = $('.jqGrid_wrapper').width();
-				$('#table_list_1').setGridWidth(width);
-			});
+			
+			var lamp1 = $("#Lamp1").val();
+			var lamp2 = $("#Lamp2").val();
+			var lamp3 = $("#Lamp3").val();
+			// 初始化列表
+			var data = {};
+    	    data.queryId = "queryTaskListItemList";
+    	    data.rows = 20;
+    	    data.page = 1;
+    		reloadGrid(data);
+    		
 			//ie
 			if ($.support.msie) {
 				$('input:radio').click(function () {
@@ -250,16 +126,23 @@ $('#orderByButton').click(function() {
 			search_agentName : agentName,
 			search_agentOrgName : agentOrgName,
 			search_propertyAddr : propertyAddr,
-			argu_allType: allTypeFlag
+			argu_allType: allTypeFlag,
+			queryId : "queryTaskListItemList",
+			rows : 20,
+			page : 1,
+			sortname : "ID",
+			sortorder : "ASC"
 		};
 
 		//jqGrid reload
-		$("#table_list_1").setGridParam({
+	/*	$("#table_list_1").setGridParam({
 			"postData" : params,
 			"page":1 ,
 			"sortname": "ID", // 表示用于排序的列名的参数名称 
 			"sortorder": "ASC" // 表示采用的排序方式的参数名称 
-		}).trigger('reloadGrid');
+		}).trigger('reloadGrid');*/
+
+	 reloadGrid(params);
 });
 var lamp1 = $("#Lamp1").val();
 var lamp2 = $("#Lamp2").val();
@@ -287,6 +170,7 @@ function dateLampFormatter(cellvalue) {
 	outDiv+='</div>';
 	return outDiv;
 }
+
 function isRedFormatter(cellvalue) {
 
 	var reStr='无';
@@ -295,7 +179,7 @@ function isRedFormatter(cellvalue) {
 	return reStr;
 }
 //search
-function searchMethod(){
+function searchMethod(page){
 	//延迟天数范围
 	var minDateLamp=null;
 	var maxDateLamp=null;
@@ -359,6 +243,9 @@ function searchMethod(){
 		}
 	}
 
+	if(!page) {
+		page = 1;
+	}
 	var params = {
 			search_caseCode : caseCode,
 			search_ctmCode : ctmCode,
@@ -370,14 +257,74 @@ function searchMethod(){
 			search_agentOrgName : agentOrgName,
 			search_propertyAddr : propertyAddr,
 			argu_allType: allTypeFlag,
-			search_taskDfKey:taskDfKey
+			search_taskDfKey:taskDfKey,
+			queryId : "queryTaskListItemList",
+			rows : 20,
+			page : page
 		};
+	
+		reloadGrid(params);
 
 		//jqGrid reload
-		$("#table_list_1").setGridParam({
+		/*$("#table_list_1").setGridParam({
 			"postData" : params,
 			"page":1 
-		}).trigger('reloadGrid');
+		}).trigger('reloadGrid');*/
+}
+
+function reloadGrid(data) {
+	$.ajax({
+		async: false,
+        url:ctx+ "/quickGrid/findPage" ,
+        method: "post",
+        dataType: "json",
+        data: data,
+        success: function(data){
+      	  data.lamp1 = lamp1;
+      	  data.lamp2 = lamp2;
+      	  data.lamp3 = lamp3;
+      	  data.ctx = ctx;
+      	  var myTaskList = template('template_myTaskList' , data);
+			  $("#myTaskList").empty();
+			  $("#myTaskList").html(myTaskList);
+			  // 显示分页 
+              initpage(data.total,data.pagesize,data.page, data.records);
+        }
+  });
+}
+
+function initpage(totalCount,pageSize,currentPage,records)
+{
+	if(totalCount>1500){
+		totalCount = 1500;
+	}
+	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1)
+	{
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalP').text(records);
+	
+	
+	$("#pageBar").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="icon-step-backward"></i>',
+		prev:'<i class="icon-chevron-left"></i>',
+		next:'<i class="icon-chevron-right"></i>',
+		last:'<i class="icon-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			 //console.log(page);
+			searchMethod(page);
+	    }
+	});
 }
 
 function intextTypeChange(){
