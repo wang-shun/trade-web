@@ -5,6 +5,7 @@
 package com.centaline.trans.taskList.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -702,10 +703,13 @@ public class TaskController {
     private void getAccesoryListCaseClose(HttpServletRequest request, String caseCode) {
     	List<ToAttachment> attachments = toAttachmentService.findToAttachmentByCaseCode(caseCode);
 		List<ToAccesoryList> list = new ArrayList<ToAccesoryList>();
+	        
 		if(attachments!=null && attachments.size()>0){
-			for(ToAttachment attachment:attachments){
-				if(attachment.getPartCode().equals("property_research")){
-					attachments.remove(attachment);
+			Iterator<ToAttachment> iter = attachments.iterator() ;
+			while(iter.hasNext()){
+	        	ToAttachment attachment = iter.next();
+	        	if(attachment.getPartCode().equals("property_research")){
+	        		iter.remove();
 					continue;
 				}
 				if(!StringUtils.isEmpty(attachment.getPreFileCode())){
@@ -724,7 +728,7 @@ public class TaskController {
 						}
 					}
 				}
-			}
+	        }
 		}
 		if(list != null && list.size() > 0) {
 			int size = list.size();

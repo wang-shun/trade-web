@@ -66,6 +66,9 @@ text-decoration: underline !important;
 .case-num:HOVER,case-task:HOVER{
 text-decoration: underline !important;
 }
+.case-num:visited,case-task:visited{
+ text-decoration: underline !important;
+}
 .slash{font-weight:bold !important;}
 </style>
 </head>
@@ -231,10 +234,7 @@ text-decoration: underline !important;
                    {{/if}}
 						{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
 							<td>
-                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                 <div class="sk-double-bounce1" style="background-color:''"></div>
-                 <div class="sk-double-bounce2" style="background-color:''"></div>
-                 </div>
+               
                              </td>
 						{{else if item.DATELAMP < lamp2}}
                            			<td>
