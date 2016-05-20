@@ -13,7 +13,7 @@
 .data-wrap-in .red{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#ed5565;vertical-align:middle;}
 .data-wrap-in .yellow{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#f8ac59;vertical-align:middle;}
 .data-wrap-in .case-num,.data-wrap-in .case-task{color:#1a5f8e;}
-/**.data-wrap-in .case-num:visited,.data-wrap-in .case-task:visited{color:#000;}*/
+.data-wrap-in .case-num:visited,.data-wrap-in .case-task:visited{color:#000;}
 .data-wrap-in .case-task{font-weight:bold;}
 .data-wrap-in .time-icon{width:17px;height:16px;display:inline-block;background:url(../../../img/transimg/task/data_time_icon01.png) no-repeat center;vertical-align:middle;}
 .data-wrap-in .time-off{background-image:url(../../../img/transimg/task/data_time_icon02.png);}
