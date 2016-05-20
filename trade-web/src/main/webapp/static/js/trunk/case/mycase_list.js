@@ -1,7 +1,3 @@
-/**
- * 案件一览 wanggh
- */
-
 $(document).ready(function() {
 					// Examle data for jqGrid
 					// Configuration for jqGrid Example 1
@@ -30,7 +26,7 @@ $(document).ready(function() {
 					var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 					//queryOrgs = "'ff8080814f459a78014f45a8104c0008','ff8080814f459a78014f45a8e2ef0009'";
 					// jqGrid 初始化
-					$("#table_list_1").jqGrid(
+					/*$("#table_list_1").jqGrid(
 					{
 						url : url,
 						mtype : 'POST',
@@ -40,7 +36,7 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						forceFit : true,
 						rowNum : 20,
-						/* rowList: [10, 20, 30], */
+						 rowList: [10, 20, 30], 
 						colNames : [ 'id', '案件编号','CTM编号', '产证地址',
 								'经纪人','所属分行', '上家', '下家', '经办人', '案件状态','红灯数' ],
 						colModel : [ {
@@ -116,16 +112,22 @@ $(document).ready(function() {
 							argu_queryorgs:orgArray
 						}
 
-					});
+					});*/
 
-					// Add responsive to jqGrid
+					/*// Add responsive to jqGrid
 					$(window).bind('resize', function() {
 						var width = $('.jqGrid_wrapper').width();
 						$('#table_list_1').setGridWidth(width);
 						
 						$("#table_list_1").setGridHeight($(window).height()*0.68);
 
-					});
+					});*/
+					// 初始化列表
+					var data = {};
+		    	    data.queryId = "queryCastListItemList";
+		    	    data.rows = 12;
+		    	    data.page = 1;
+		    		reloadGrid(data);
 
 					//$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
 					$("span[name='srvCode']").click(function(){
@@ -245,24 +247,90 @@ function removeDateDiv(index) {
 }
 
  //查询
-function searchMethod() {
-
+function searchMethod(page) {
+	if(!page) {
+		page = 1;
+	}
 	if (getSearchDateValues()) {
 		var params = getParamsValue();
+		params.page = page;
+		params.rows = 12;
+		params.queryId = "queryCastListItemList";
 		// jqGrid reload
-		$("#table_list_1").setGridParam({
+		/*$("#table_list_1").setGridParam({
 			"postData" : params,
 			"page":1 
-		}).trigger('reloadGrid');
+		}).trigger('reloadGrid');*/
+		reloadGrid(params);
 	} else {
 		alert("请不要选择同样的日期类型！");
 	}
 
 };
-/**
- * 查询参数取得
- * @returns {___anonymous6020_7175}
- */
+
+function reloadGrid(data) {
+	$.ajax({
+		async: true,
+        url:ctx+ "/quickGrid/findPage" ,
+        method: "post",
+        dataType: "json",
+        data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
+        success: function(data){
+          $.unblockUI();   	 
+      	  data.ctx = ctx;
+      	  var myCaseList = template('template_myCaseList' , data);
+			  $("#myCaseList").empty();
+			  $("#myCaseList").html(myCaseList);
+			  // 显示分页 
+            initpage(data.total,data.pagesize,data.page, data.records);
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
+  });
+}
+
+
+
+function initpage(totalCount,pageSize,currentPage,records)
+{
+	if(totalCount>1500){
+		totalCount = 1500;
+	}
+	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1)
+	{
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalP').text(records);
+	
+	
+	$("#pageBar").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="icon-step-backward"></i>',
+		prev:'<i class="icon-chevron-left"></i>',
+		next:'<i class="icon-chevron-right"></i>',
+		last:'<i class="icon-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			 //console.log(page);
+			searchMethod(page);
+	    }
+	});
+}
+
+
 function getParamsValue() {
 	// 案件类型
 	var caseProperty = $('#caseProperty option:selected').val();
@@ -572,9 +640,7 @@ var colNames = {
 	30013003 : 'SIGN_TIME',
 	30011009:'LOAN_LOST_TYPE'
 };
-/**
- * Excel导出
- */
+
 function exportToExcel() {
 	if (getSearchDateValues()) {
 		var url = "/quickGrid/findPage?xlsx&";
@@ -674,8 +740,8 @@ function radioYuCuiOrgSelectCallBack(array){
         $("#teamCode").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
 		
-/*		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
-		$("#oldactiveName").attr("onclick",userSelect);*/
+		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
+		$("#oldactiveName").attr("onclick",userSelect);
 	}else{
 		$("#teamCode").val("");
 		$("#yuCuiOriGrpId").val("");
