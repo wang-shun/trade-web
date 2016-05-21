@@ -269,6 +269,24 @@ function searchMethod(page) {
 };
 
 function reloadGrid(data) {
+	var queryOrgFlag = $("#queryOrgFlag").val();
+	var isAdminFlag = $("#isAdminFlag").val();
+	var queryOrgs = $("#queryOrgs").val();
+	var arguUserId=null;
+	if(queryOrgFlag == 'true'){
+		arguUserId=null;
+		if(isAdminFlag == 'true'){
+			queryOrgs=null;
+		}
+	}else{
+		queryOrgs= null;
+		arguUserId="yes";
+	}
+
+	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
+	data.argu_idflag = arguUserId;
+    data.argu_queryorgs = orgArray;
+	
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -332,6 +350,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 
 
 function getParamsValue() {
+	
 	// 案件类型
 	var caseProperty = $('#caseProperty option:selected').val();
 	// 服务阶段选择
