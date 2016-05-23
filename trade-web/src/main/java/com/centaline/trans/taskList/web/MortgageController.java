@@ -193,19 +193,6 @@ public class MortgageController {
 		}
 		toMortgageService.saveToMortgage(toMortgage);
 		
-		/*保存流失申请 审核记录*/
-		ToApproveRecord toApproveRecord = new ToApproveRecord();
-		toApproveRecord.setPkid(lapPkid);
-		toApproveRecord.setCaseCode(toMortgage.getCaseCode());
-		toApproveRecord.setApproveType(loanlostApproveVO.getApproveType());
-		toApproveRecord.setContent(toMortgage.getSelfDelReason());
-		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
-		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setPartCode(processInstanceVO.getPartCode());
-		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
-		toApproveRecord.setTaskId(processInstanceVO.getTaskId());
-		toApproveRecordService.saveToApproveRecord(toApproveRecord);
-		
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		
