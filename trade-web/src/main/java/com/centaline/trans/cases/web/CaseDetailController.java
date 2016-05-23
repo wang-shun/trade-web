@@ -82,14 +82,11 @@ import com.centaline.trans.mortgage.entity.ToEvaReport;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
-import com.centaline.trans.property.service.impl.ToPropertyResarchServiceImpl;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.entity.ToPropertyResearch;
-import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
 import com.centaline.trans.task.service.ToHouseTransferService;
@@ -97,7 +94,6 @@ import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
-import com.centaline.trans.team.vo.CaseInfoVO;
 
 /**
  * 
@@ -173,7 +169,7 @@ public class CaseDetailController {
 	@Autowired(required = true)
 	private ToLoanAgentService toLoanAgentService;
 	@Autowired
-	private ToPropertyResearchService toPropertyResarchService;
+	private UamBasedataService dictService;
 
 	/**
 	 * 页面初始化
@@ -837,16 +833,31 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> startCasePrairses(String caseCode, String[] prItems, HttpServletRequest request) {
 		SessionUser user = uamSessionService.getSessionUser();
-	
+		String samePRCode = null;
+		ToPropertyResearch basePRItem = toPropertyService.getBasePRConsult(caseCode);
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 		if (toPropertyInfo == null || toPropertyInfo.getPkid() == null)
 			return AjaxResponse.fail("无法找到物业信息！");
-		ToCaseInfo cInfo =toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-		if(cInfo==null){
-			return AjaxResponse.fail("无法找到案件信息！");
+		if (basePRItem != null && basePRItem.getPkid() != null) {
+			samePRCode = basePRItem.getPrCode();
+		} else {
+			List<ToPropertyResearch> agentBasePRItems = toPropertyService.getBasePRAgent();
+			if (agentBasePRItems != null && agentBasePRItems.size() > 0) {
+				for (ToPropertyResearch agentBasePRItem : agentBasePRItems) {
+					ToPropertyInfo inInfo = new ToPropertyInfo();
+					inInfo.setCaseCode(agentBasePRItem.getPrCode());
+					inInfo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
+					ToPropertyInfo basePRInfo = toPropertyInfoService.findToPropertyInfoByCaseCodeAndAddr(inInfo);
+					if (basePRInfo != null && basePRInfo.getPkid() != null) {
+						samePRCode = agentBasePRItem.getPrCode();
+						break;
+					}
+				}
+			}
 		}
-		ToPropertyResearchVo vo = new ToPropertyResearchVo();
-		vo.setCaseCode(caseCode);
+		ToPropertyResearch toPropertyResearch = new ToPropertyResearch();
+		toPropertyResearch.setCaseCode(caseCode);
+		toPropertyResearch.setPartCode(ToPropertyResearchEnum.PROPERTY_RESEARCH.getCode());
 		// 产调项目
 		StringBuffer prCat = new StringBuffer();
 		for (String prCode : prItems) {
@@ -855,22 +866,25 @@ public class CaseDetailController {
 			prCat.append("/");
 		}
 		prCat.deleteCharAt(prCat.length() - 1);
-		vo.setPrCat(prCat.toString());
+		toPropertyResearch.setPrCat(prCat.toString());
 
 		// 秘书
 		Org qyOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
 		if (qyOrg != null) {
-			vo.setDistrictId(qyOrg.getId());
+			toPropertyResearch.setPrDistrictId(qyOrg.getId());
 		}
-		vo.setDistrict(toPropertyInfo.getDistCode());
-		
-		vo.setAppliant(user.getId());
-		vo.setPrApplyOrgId(user.getServiceDepId());
-		vo.setPrApplyOrgName(user.getServiceDepName());
-		vo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
-		vo.setAgentCode(cInfo.getAgentCode());
-		int reInt=toPropertyResarchService.recordProperty(vo);
-		
+
+		toPropertyResearch.setPrStatus(PropertyStatusEnum.CONTACTS.getCode());
+		toPropertyResearch.setPrAppliant(user.getId());
+		toPropertyResearch.setPrApplyTime(new Date());
+		toPropertyResearch.setPrChannel(PrChannelEnum.TJYGW.getCode());
+		toPropertyResearch.setPrCode(uamBasedataService.nextSeqVal("CHANDIAO_CODE", new Date()));
+
+		if (samePRCode != null) {
+			toPropertyResearch.setSamePRCode(samePRCode);
+		}
+
+		int reInt = toPropertyService.insertSelective(toPropertyResearch);
 		if (reInt == 0)
 			return AjaxResponse.fail("产调表更新失败！");
 
