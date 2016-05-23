@@ -58,14 +58,23 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
     		userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(keyOrg.getId(), jobCode);
     	} else if("BUSIARORBUSISWZ".equals(deptId)) {
     		Org org = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSIAR");
+    		if(org==null){
+    			return "";
+    		}
 			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), "JQYJL");
 			// 如果区域经理不存在，则取区域总监
     		if(userOrgJobs == null) {
     			Org org2 = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSISWZ");
+    			if(org2==null){
+    				return "";
+    			}
     			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org2.getId(), "JQYZJ");
     		}
     	} else {
 			Org org = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), deptId);
+			if(org==null){
+				return "";
+			}
 			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), jobCode);
     	}
         if (userOrgJobs != null && !userOrgJobs.isEmpty()) {
