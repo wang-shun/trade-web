@@ -52,11 +52,6 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 	public Map<String, Object> queryCaseInfo(String caseCode, String partCode,String instCode) {
 		ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCode(caseCode);
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
-		ToApproveRecord toApproveRecord = new ToApproveRecord();
-		toApproveRecord.setCaseCode(caseCode);
-		toApproveRecord.setPartCode(partCode);
-		toApproveRecord.setProcessInstance(instCode);
-		toApproveRecord = toApproveRecordMapper.findApproveRecordByRecord(toApproveRecord);
 		Map<String, Object> caseDetail = new HashMap<String, Object>();
 		caseDetail.put("caseCode", caseCode);
 		if(toMortgage != null) {
@@ -64,13 +59,12 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 			if(tsFinOrg != null)
 			caseDetail.put("lastLoanBank", tsFinOrg.getFinOrgName());
 			caseDetail.put("mortTotalAmount", toMortgage.getMortTotalAmount());
+			caseDetail.put("content", toMortgage.getSelfDelReason());
 		} 
 		if(toPropertyInfo != null) {
 			caseDetail.put("propertyAddr", toPropertyInfo.getPropertyAddr());
 		}
-		if(toApproveRecord != null) {
-			caseDetail.put("content", toApproveRecord.getContent());
-		}
+		
 		return caseDetail;
 	}
 

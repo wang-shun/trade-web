@@ -14,27 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.web.Result;
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.entity.TsMsgSendHistory;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
@@ -58,17 +49,6 @@ public class MortgageController {
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
 	
-	@Autowired
-	private ToPropertyInfoService topropertyInfoService;
-	
-	@Autowired
-    private UamBasedataService   uambasedataService;
-	
-	@Autowired
-	private UamSessionService uamSessionService;
-	
-	@Autowired
-	private TsMsgSendHistoryService tsmsgSendHistoryService;
 	
 	@RequestMapping(value="saveMortgage")
 	@ResponseBody
@@ -114,6 +94,7 @@ public class MortgageController {
 		if(toMortgage.getMortTotalAmount()!=null){
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}
+		
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -206,7 +187,7 @@ public class MortgageController {
 	@RequestMapping(value="submitLoanlostApply")
 	@ResponseBody
 	public Result submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, 
-			ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String partCode) {
+			ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String partCode,Long lapPkid) {
 		if(toMortgage.getMortTotalAmount()!=null){
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}
@@ -214,14 +195,15 @@ public class MortgageController {
 		
 		/*保存流失申请 审核记录*/
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
+		toApproveRecord.setPkid(lapPkid);
 		toApproveRecord.setCaseCode(toMortgage.getCaseCode());
 		toApproveRecord.setApproveType(loanlostApproveVO.getApproveType());
-		toApproveRecord.setContent(loanlostApproveVO.getContent());
+		toApproveRecord.setContent(toMortgage.getSelfDelReason());
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setPartCode(processInstanceVO.getPartCode());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
-		
+		toApproveRecord.setTaskId(processInstanceVO.getTaskId());
 		toApproveRecordService.saveToApproveRecord(toApproveRecord);
 		
 		/*流程引擎相关*/
