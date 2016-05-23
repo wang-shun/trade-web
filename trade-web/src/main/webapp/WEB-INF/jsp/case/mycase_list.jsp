@@ -11,7 +11,6 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <!-- Toastr style -->
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
@@ -38,7 +37,9 @@
 <link
 	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
 	rel="stylesheet">
-
+<link href="${ctx}/css/transcss/case/myCaseList.css" rel="stylesheet">
+<!-- 分页控件 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <style type="text/css">
 .radio label {
 	margin-left: 10px;
@@ -83,12 +84,23 @@ text-decoration: underline !important;
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
 .date-info .col-md-12 .form-group:not(first-child){margin-bottom:0}
 [id^="dateDiv_"]:not(#dateDiv_0) .chosen-container{margin-left:33px}
+.text-center{text-align:center;}
+.slash{font-weight:bold !important;}
+.case-num{
+text-decoration: underline !important;
+}
+.case-num:HOVER{
+text-decoration: underline !important;
+}
+.case-num:visited{
+ text-decoration: underline !important;
+}
 </style>
 </head>
 
 <body>
-
-	<div class="row">
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	 
+	 <div class="row">
 		
 
 		<div class="wrapper wrapper-content  animated fadeInRight">
@@ -99,24 +111,6 @@ text-decoration: underline !important;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<!-- <div class="row">
-							<div class="col-md-7 col-sm-12">
-								<div class="form-group ">
-									<label class="col-md-2  col-sm-4 control-label">案件编号</label>
-									<div class="col-md-8">
-										<input id="caseCode" name="caseCode" type="text" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-5 col-sm-12">
-								<div class="form-group">
-									<label class="col-md-3  col-sm-4 control-label">CTM编号</label>
-									<div class="col-md-8">
-									    <input id="ctmCode" type="text"  name="ctmCode" class="form-control">
-									</div>
-								</div>
-							</div>
-						</div> -->
 						<div class="row">
 							<div class="col-md-7 col-sm-12">
 								<div class="form-group ">
@@ -223,26 +217,11 @@ text-decoration: underline !important;
 						</div>
 							</div>
 						</div>
-						<!-- <div class="input-group m-b">
-							<div id="select_div_1" class="input-group-btn">
-								<select id="inTextType" data-placeholder="搜索条件设定"
-									class="btn btn-white chosen-select" onchange="intextTypeChange()">
-									<option value="0" selected>客户姓名</option>
-									<option value="1">物业地址</option>
-									<option value="2">经纪人姓名</option>
-									<option value="4">经办人姓名</option>
-									<option value="3">所属分行</option>
-								</select>
-							</div>
-							<input id="inTextVal" type="text" class="form-control">
-
-						</div> -->
-						
 					</form>
 				</div>
 			</div>
 		</div>
-			<div class="col-lg-12 col-md-12">
+			<!-- <div class="col-lg-12 col-md-12">
 				<div class="ibox ">
 					<div class="ibox-title">
 						<h5>我的案件列表</h5>
@@ -260,8 +239,36 @@ text-decoration: underline !important;
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
+			
+			<div class="data-wrap">
+		<div class="data-wrap-in">
+			<table border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="t-left pd-l">案件编号</th>
+						<th class="t-left pd-l">产证地址</th>
+						<th class="t-left pd-l">上家</th>
+						<th class="t-left pd-l">下家</th>
+						<th class="text-center">红灯数</th>
+					</tr>
+				</thead>
+				<tbody id="myCaseList">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="text-center">
+		<span id="currentTotalPage"><strong class="bold"></strong></span>
+		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+    </div>
 
+    						 <shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
+							<a data-toggle="modal" class="btn btn-primary"
+								href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
+								</shiro:hasPermission>
 		</div>
 
 		<div id="modal-form" class="modal fade" aria-hidden="true">
@@ -312,12 +319,12 @@ text-decoration: underline !important;
 									</div>
 								</div>
 								<div class="hr-line-dashed"></div>
-<!-- 								<a id="checkAll" data-toggle="modal" class="btn btn-success" -->
-<!-- 									href="javascript:void(0)" onclick="javascript:checkAllItem(true)">全选</a>  -->
-<!-- 									<a id="unCheckAll" data-toggle="modal" class="btn btn-success" -->
-<!-- 									href="javascript:void(0)" onclick="javascript:unCheckAllItem(true)">全不选</a><a -->
-<!-- 									data-toggle="modal" class="btn btn-primary" -->
-<!-- 									href="javascript:void(0)" onclick="javascript:exportToExcel()">导出至Excel</a> -->
+								<a id="checkAll" data-toggle="modal" class="btn btn-success"
+									href="javascript:void(0)" onclick="javascript:checkAllItem(true)">全选</a> 
+									<a id="unCheckAll" data-toggle="modal" class="btn btn-success"
+									href="javascript:void(0)" onclick="javascript:unCheckAllItem(true)">全不选</a><a
+									data-toggle="modal" class="btn btn-primary"
+									href="javascript:void(0)" onclick="javascript:exportToExcel()">导出至Excel</a>
 									</form>
 						</div>
 						<div class="modal-footer">
@@ -343,19 +350,55 @@ text-decoration: underline !important;
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
-	<content tag="local_script"> <script
+	<content tag="local_script"> 
+    <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
 		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+		<script src="${ctx}/js/jquery.blockui.min.js"></script>
 		 <script
 		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/case/mycase_list.js"></script>
-	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	 
-	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script>
-		
-    </script> </content>
+	 <script src="${ctx}/js/trunk/case/mycase_list.js?v=1.0"></script>
+	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	  <!-- 分页控件  -->
+     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	 <script id="template_myCaseList" type= "text/html">
+      {{each rows as item index}}
+  				  {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+						<td class="t-left pd-l"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a><span class="fd">{{item.STATUS}}</span></td>
+						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
+						<td class="t-left pd-l">{{item.SELLER}}</td>
+						<td class="t-left pd-l">{{item.BUYER}}</td>
+						<td>
+                             {{if item.RED_COUNT!=null}}
+                                <span class="red-num">{{item.RED_COUNT}}</span>
+							 {{/if}}
+                        </td>
+				  </tr>
+
+				  {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+						<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.ctmCode}}</span></td>
+						<td class="t-left pd-l"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
+						<td colspan="2" class="t-left pd-l"><span class="jbr">经办人：{{item.PROCESSOR_ID}}</span></td>
+						<td></td>
+					</tr>
+       {{/each}}
+     </script>
+     <script></script>
+
+	 </content>
 </body>
 </html>
