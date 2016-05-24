@@ -95,17 +95,8 @@ public class PropertyController {
 		String imgHost = regApp.genAbsoluteUrl();
 		List<ToAttachment> at = attachmentService.findToAttachmentByCaseCode(prCode);
 		ToPropertyResearch propertyResearch = propertyService.getToPropertyResearchsByPrCode(prCode);
-		String caseCode =null;
-		if(propertyResearch!=null){
-			if(propertyResearch.getCaseCode()!=null){
-				caseCode=propertyResearch.getCaseCode();
-			}else{
-				caseCode=prCode;
-			}
-		}
-		ToPropertyInfo propertyInfo = propertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+
 		request.setAttribute("propertyResearch", propertyResearch);
-		request.setAttribute("propertyInfo", propertyInfo);
 		request.setAttribute("attachments", at);
 		request.setAttribute("imgHost", imgHost);
 		request.setAttribute("imgHost", imgHost);
