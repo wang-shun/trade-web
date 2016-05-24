@@ -382,7 +382,13 @@
 						if(null!=data.message){
 							alert(data.message);
 						}
-						window.location.href = "${ctx }/task/myTaskList";
+						 if(window.opener)
+					     {
+							 window.close();
+							 window.opener.callback();
+					     } else {
+					    	 window.location.href = "${ctx }/task/myTaskList";
+					     }
 					} else {
 						alert("保存成功。");
 					}
