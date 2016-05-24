@@ -1154,11 +1154,13 @@ $(document).ready(function () {
 	 	enableCancelButton:false,
 	 	onStepChanging: function (event, currentIndex, newIndex){
 	 		if(currentIndex == 0){
-	 			if(accPricing == null){
+	 			/*if(accPricing == null){
 	 				alert("请先接受询价结果！");
 	 				return false;
+	 			}*/
+	 			if(accPricing){
+	 				$("#eva_code").val(accPricing['EVA_CODE']);
 	 			}
-	 			$("#eva_code").val(accPricing['EVA_CODE']);
 	
 	 		}else if(currentIndex == 2){
 	 			var flag = false;
@@ -1221,11 +1223,13 @@ $(document).ready(function () {
  	},
  	onStepChanging: function (event, currentIndex, newIndex){
  		if(currentIndex == 0){
- 			if(accPricing == null){
+ 			/*if(accPricing == null){
  				alert("请先接受询价结果！");
  				return false;
+ 			}*/
+ 			if(accPricing){
+ 				$("#eva_code").val(accPricing['EVA_CODE']);
  			}
- 			$("#eva_code").val(accPricing['EVA_CODE']);
  			/*if(accPricingIds.length != 0 && accPricing == null){
  				alert("请先接受询价结果！");
  				return false;

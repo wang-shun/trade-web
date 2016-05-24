@@ -1,3 +1,4 @@
+/* 表格2.0样式 */
 *{padding:0;margin:0;box-sizing: border-box;}
 .data-wrap{width:100%;padding:15px;}
 .data-wrap-in{width:100%;}
@@ -9,9 +10,7 @@
 .data-wrap-in tbody tr.tr-1{background-color:#f6f9fb;}
 .data-wrap-in tbody tr.tr-2{background-color:#fff;}
 .data-wrap-in tbody tr:nth-child(odd) td{border-top:1px solid #ddd;}
-.data-wrap-in .green{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#23c6c8;vertical-align:middle;}
-.data-wrap-in .red{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#ed5565;vertical-align:middle;}
-.data-wrap-in .yellow{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#f8ac59;vertical-align:middle;}
+.data-wrap-in .red-green{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#6cb723;vertical-align:middle;}
 .data-wrap-in .case-num,.data-wrap-in .case-task{color:#1a5f8e;}
 .data-wrap-in .case-num:visited,.data-wrap-in .case-task:visited{color:#000;}
 .data-wrap-in .case-task{font-weight:bold;}
@@ -21,3 +20,7 @@
 .data-wrap-in .salesman-icon{width:15px;height:16px;display:inline-block;background:url(../../../img/transimg/task/data_salary_icon.png) no-repeat center;vertical-align: -3px;margin-right:5px;}
 .data-wrap-in .salesman-info{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .data-wrap-in .case-deal{width:61px;height:25px;display:inline-block;background:url(../../../img/transimg/task/data_deal_icon.png) no-repeat center;vertical-align:-6px;}
+/* 表格4.0样式 */
+.pd-l{padding-left:15px;}
+.data-wrap-in .fd{width:61px;height:23px;line-height:23px;display:inline-block;color:#fff;background-color:#ff975f;border-radius:3px;margin-left:10px;text-align:center;}
+.data-wrap-in .red-num{width:20px;height:20px;line-height:20px;color:#fff;display:inline-block;background-color: #da342c;border-radius: 50%;}

@@ -199,7 +199,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	}
 
 	private BigDecimal DoubleToBigDecimal(Double d) {
-		return d == null ? null : BigDecimal.valueOf(d).setScale(2);
+		return d == null ? null : BigDecimal.valueOf(d);
 	}
 
 	private Boolean StrToBo(String str) {

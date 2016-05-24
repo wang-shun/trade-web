@@ -303,6 +303,11 @@ public class TaskController {
 			};
         	/*贷款流失初始信息*/
         	initApproveRecord(request, caseCode, "1");
+        	ToApproveRecord r=new ToApproveRecord();
+        	r.setCaseCode(caseCode);
+        	r.setPartCode("LoanlostApply");
+        	r.setProcessInstance(instCode);
+        	request.setAttribute("toApproveRecord", toApproveRecordService.queryToApproveRecord(r));
     	}else if(taskitem.equals("EvaReportArise")){
     		getAccesoryList(request, taskitem);
     		request.setAttribute("toEguPricing", toEguPricingService.findIsFinalEguPricing(caseCode));	

@@ -18,7 +18,8 @@ public class ToApproveRecord {
     private Date operatorTime;
 
     private String content;
-
+    
+    private String taskId;
     public Long getPkid() {
         return pkid;
     }
@@ -82,4 +83,12 @@ public class ToApproveRecord {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
 }

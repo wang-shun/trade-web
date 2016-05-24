@@ -191,7 +191,7 @@ text-decoration: underline !important;
 						<th>案件编号</th>
 						<th>当前任务</th>
 						<th>上家</th>
-						<th>上家</th>
+						<th>下家</th>
 						<th class="text-center">预计执行时间</th>
 					</tr>
 				</thead>
@@ -244,16 +244,16 @@ text-decoration: underline !important;
                  </div>
                              </td>
 				        {{else if item.DATELAMP < lamp3}}
-							 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+							<td> <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
                  <div class="sk-double-bounce1" style="background-color:yellow"></div>
                  <div class="sk-double-bounce2" style="background-color:yellow"></div>
-                 </div>
+                 </div></td>
   						{{else}}
-   										<td>
+   				 <td>
                  <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
                  <div class="sk-double-bounce1" style="background-color:red"></div>
                  <div class="sk-double-bounce2" style="background-color:red"></div>
-                 </div>
+                 </div></td>
 						{{/if}}
 					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">

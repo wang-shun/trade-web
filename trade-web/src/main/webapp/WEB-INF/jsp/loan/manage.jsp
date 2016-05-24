@@ -186,9 +186,9 @@
 		 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 		 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 		 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-		 <script src="${ctx}/js/trunk/case/mycase_list.js"></script> <!-- iCheck --> 
-	    <!-- Peity -->
+	 	    <!-- Peity -->
 	    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+
 	
 	    <!-- jqGrid -->
 	    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>

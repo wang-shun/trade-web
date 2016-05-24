@@ -74,6 +74,8 @@ public class ToMortgage {
     
     private String custName;
     
+    private String selfDelReason;
+    
     private String isActive;
     public Long getPkid() {
         return pkid;
@@ -329,6 +331,14 @@ public class ToMortgage {
 
 	public void setIsActive(String isActive) {
 		this.isActive = isActive;
+	}
+
+	public String getSelfDelReason() {
+		return selfDelReason;
+	}
+
+	public void setSelfDelReason(String selfDelReason) {
+		this.selfDelReason = selfDelReason;
 	}
     
 }
