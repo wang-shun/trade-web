@@ -38,7 +38,7 @@
     insert into sctrans.T_TO_HOUSE_TRANSFER (PKID, PART_CODE, CASE_CODE, 
       REAL_HT_TIME, HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, 
       BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX, 
-      COMMENT,CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY)
+      COMMENT,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{realHtTime,jdbcType=TIMESTAMP}, #{houseHodingTax,jdbcType=DECIMAL}, #{personalIncomeTax,jdbcType=DECIMAL}, 
       #{businessTax,jdbcType=DECIMAL}, #{contractTax,jdbcType=DECIMAL}, #{landIncrementTax,jdbcType=DECIMAL}, 
@@ -77,7 +77,7 @@
       <if test="comment != null" >
         COMMENT,
       </if>
-        CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY,
+        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

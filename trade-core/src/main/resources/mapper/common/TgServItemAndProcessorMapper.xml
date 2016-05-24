@@ -27,7 +27,7 @@
   
   <insert id="insert" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor" >
     insert into sctrans.T_TG_SERV_ITEM_AND_PROCESSOR (PKID, CASE_CODE, SRV_CODE,SRV_CAT 
-      PROCESSOR_ID, ORG_ID,CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY)
+      PROCESSOR_ID, ORG_ID,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{srvCode,jdbcType=VARCHAR}, #{srvCat,jdbcType=VARCHAR}, 
       #{processorId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
@@ -52,7 +52,7 @@
       <if test="orgId != null">
       	ORG_ID,
       </if>
-        CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY,
+        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

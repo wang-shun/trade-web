@@ -28,7 +28,7 @@
   <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCase">
     insert into sctrans.T_TO_CASE (PKID, CASE_CODE, CTM_CODE, 
       CREATE_TIME, STATUS, CASE_PROPERTY, 
-      LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY)
+      LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{ctmCode,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=NVARCHAR}, #{caseProperty,jdbcType=NVARCHAR}, 
       #{leadingProcessId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},#{closeTime,jdbcType=TIMESTAMP},GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
@@ -63,7 +63,7 @@
       <if test="closeTime != null">
         CLOSE_TIME,
       </if>
-        UPDATE_TIME,CREATY_BY,UPDATE_BY,
+        UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -515,7 +515,7 @@ FROM
       	CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
         UPDATE_TIME=GETDATE(),
-        CREATY_BY = @{SESSION_USER_ID},
+        CREATE_BY = @{SESSION_USER_ID},
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}

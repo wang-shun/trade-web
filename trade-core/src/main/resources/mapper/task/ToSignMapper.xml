@@ -35,7 +35,7 @@
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToSign" >
     insert into sctrans.T_TO_SIGN (PKID, PART_CODE, CASE_CODE, 
       REAL_CON_TIME, CON_PRICE, REAL_PRICE, 
-      IS_HUKOU, IS_CON_CERT, COMMENT, CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY
+      IS_HUKOU, IS_CON_CERT, COMMENT, CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{realConTime,jdbcType=TIMESTAMP}, #{conPrice,jdbcType=DECIMAL}, #{realPrice,jdbcType=DECIMAL}, 
@@ -72,7 +72,7 @@
       <if test="comment != null and comment != ''" >
         COMMENT,
       </if>
-        CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY,
+        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
