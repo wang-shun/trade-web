@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.ToAttachmentService;
@@ -41,12 +44,21 @@ public class PropertyController {
 	private ToPropertyInfoService propertyInfoService;
 	@Autowired
 	private ProfitService profitService;
+	@Autowired
+	private UamSessionService uamSesstionService;
 
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
 			throws ServletException, IOException {
 		//System.out.println("req_uri:" + request.getRequestURI());
 		//System.out.println("ref" + request.getHeader("Referer"));
+		
+		if("dev".equals(propertyService.getEnvironment())){
+			SessionUser u= uamSesstionService.getSessionUser();
+			request.setAttribute("username", u.getUsername());
+			return "mobile/propresearch/wecharadd";
+		}
+		
 		if (code == null) {
 			String url = OAuth2Util.GetCode();
 			response.sendRedirect(url);
@@ -83,17 +95,8 @@ public class PropertyController {
 		String imgHost = regApp.genAbsoluteUrl();
 		List<ToAttachment> at = attachmentService.findToAttachmentByCaseCode(prCode);
 		ToPropertyResearch propertyResearch = propertyService.getToPropertyResearchsByPrCode(prCode);
-		String caseCode =null;
-		if(propertyResearch!=null){
-			if(propertyResearch.getCaseCode()!=null){
-				caseCode=propertyResearch.getCaseCode();
-			}else{
-				caseCode=prCode;
-			}
-		}
-		ToPropertyInfo propertyInfo = propertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+
 		request.setAttribute("propertyResearch", propertyResearch);
-		request.setAttribute("propertyInfo", propertyInfo);
 		request.setAttribute("attachments", at);
 		request.setAttribute("imgHost", imgHost);
 		request.setAttribute("imgHost", imgHost);
