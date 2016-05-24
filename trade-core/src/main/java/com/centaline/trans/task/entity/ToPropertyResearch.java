@@ -33,6 +33,99 @@ public class ToPropertyResearch {
 
 	private String prDistrictId;
 
+	private String prApplyOrgId;
+	private String prApplyOrgName;
+	private String prCostOrgId;
+	private String prCostOrgName;
+	private String prCostOrgMgr;
+
+	private String prAddress;
+	private Date createTime;
+	private String createBy;
+	private Date updateTime;
+	private String updateBy;
+
+	private String distCode;
+	public String getPrAddress() {
+		return prAddress;
+	}
+
+	public void setPrAddress(String prAddress) {
+		this.prAddress = prAddress;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public String getPrApplyOrgId() {
+		return prApplyOrgId;
+	}
+
+	public void setPrApplyOrgId(String prApplyOrgId) {
+		this.prApplyOrgId = prApplyOrgId;
+	}
+
+	public String getPrApplyOrgName() {
+		return prApplyOrgName;
+	}
+
+	public void setPrApplyOrgName(String prApplyOrgName) {
+		this.prApplyOrgName = prApplyOrgName;
+	}
+
+	public String getPrCostOrgId() {
+		return prCostOrgId;
+	}
+
+	public void setPrCostOrgId(String prCostOrgId) {
+		this.prCostOrgId = prCostOrgId;
+	}
+
+	public String getPrCostOrgName() {
+		return prCostOrgName;
+	}
+
+	public void setPrCostOrgName(String prCostOrgName) {
+		this.prCostOrgName = prCostOrgName;
+	}
+
+	public String getPrCostOrgMgr() {
+		return prCostOrgMgr;
+	}
+
+	public void setPrCostOrgMgr(String prCostOrgMgr) {
+		this.prCostOrgMgr = prCostOrgMgr;
+	}
+
 	public Integer getIsSuccess() {
 		return isSuccess;
 	}
@@ -165,9 +258,18 @@ public class ToPropertyResearch {
 	}
 
 	/**
-	 * @param prDistrictId the prDistrictId to set
+	 * @param prDistrictId
+	 *            the prDistrictId to set
 	 */
 	public void setPrDistrictId(String prDistrictId) {
 		this.prDistrictId = prDistrictId;
+	}
+
+	public String getDistCode() {
+		return distCode;
+	}
+
+	public void setDistCode(String distCode) {
+		this.distCode = distCode;
 	}
 }

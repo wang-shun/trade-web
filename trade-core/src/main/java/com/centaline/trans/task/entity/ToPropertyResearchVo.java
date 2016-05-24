@@ -4,16 +4,75 @@ import java.util.List;
 
 import com.aist.uam.userorg.remote.vo.User;
 
-
 public class ToPropertyResearchVo {
 	private String caseCode;
 	private String prCat;
 	private String district;
 	private String districtId;
 	private String username;
+	private String prCode;
+	private String prChannel;
+
+	private String prApplyOrgId;
+	private String prApplyOrgName;
+	private String prCostOrgId;
+	private String prCostOrgName;
+	private String prCostOrgMgr;
 	
-	/**显示提示电话List*/
-	private List<User>userList;
+	private String agentCode;
+	
+	private String appliant;
+	
+	
+	public String getAgentCode(){
+		return this.agentCode;
+	}
+	public void setAgentCode(String agentCode){
+		this.agentCode=agentCode;
+	}
+
+	public String getPrApplyOrgId() {
+		return prApplyOrgId;
+	}
+
+	public void setPrApplyOrgId(String prApplyOrgId) {
+		this.prApplyOrgId = prApplyOrgId;
+	}
+
+	public String getPrApplyOrgName() {
+		return prApplyOrgName;
+	}
+
+	public void setPrApplyOrgName(String prApplyOrgName) {
+		this.prApplyOrgName = prApplyOrgName;
+	}
+
+	public String getPrCostOrgId() {
+		return prCostOrgId;
+	}
+
+	public void setPrCostOrgId(String prCostOrgId) {
+		this.prCostOrgId = prCostOrgId;
+	}
+
+	public String getPrCostOrgName() {
+		return prCostOrgName;
+	}
+
+	public void setPrCostOrgName(String prCostOrgName) {
+		this.prCostOrgName = prCostOrgName;
+	}
+
+	public String getPrCostOrgMgr() {
+		return prCostOrgMgr;
+	}
+
+	public void setPrCostOrgMgr(String prCostOrgMgr) {
+		this.prCostOrgMgr = prCostOrgMgr;
+	}
+
+	/** 显示提示电话List */
+	private List<User> userList;
 
 	/* 物业地址 */
 	private String propertyAddr;
@@ -79,7 +138,8 @@ public class ToPropertyResearchVo {
 	}
 
 	/**
-	 * @param caseCode the caseCode to set
+	 * @param caseCode
+	 *            the caseCode to set
 	 */
 	public void setCaseCode(String caseCode) {
 		this.caseCode = caseCode;
@@ -99,6 +159,30 @@ public class ToPropertyResearchVo {
 
 	public void setDistrictId(String districtId) {
 		this.districtId = districtId;
+	}
+
+	public String getPrCode() {
+		return prCode;
+	}
+
+	public void setPrCode(String prCode) {
+		this.prCode = prCode;
+	}
+
+	public String getPrChannel() {
+		return prChannel;
+	}
+
+	public void setPrChannel(String prChannel) {
+		this.prChannel = prChannel;
+	}
+
+	public String getAppliant() {
+		return appliant;
+	}
+
+	public void setAppliant(String appliant) {
+		this.appliant = appliant;
 	}
 
 }

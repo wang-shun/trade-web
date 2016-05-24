@@ -848,7 +848,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	        colNames: ['询价ID', '评估编号', '询价状态', '询价时间', '询价结果','单价（元）','总价（万元）','目标银行','申请编号','是否确认','确认序号','结果编码','操作'],
 	        colModel: [
 	       //     {name: 'PKID', formatter:'checkbox',formatoptions:{disabled:false},checked:false,index: 'PKID',  width: 30},
-	            {name: 'PKID',index: 'PKID'},
+	            {name: 'PKID',index: 'PKID',hidden:true},
 	            {name: 'EVA_CODE', index: 'EVA_CODE'},
 	            {name: 'STATUS', index: 'STATUS'},
 	            {name: 'ARISE_TIME', index: 'ARISE_TIME'},
