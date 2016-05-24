@@ -170,12 +170,18 @@ float: none;
 					$.unblockUI();
 					return false;
 				}
+				
 				if ($("#m_form").find("input[name='_prCat']:checked").size() == 0) {
 					alert('至少选择一项产调项目！');
 					$.unblockUI();
 					return false;
 				}
 				var district = $("#sel_district").val();
+				if(district==null||district==''){
+					alert('请选择行政区域');
+					$.unbolckUI();
+					return false;
+				}
 				$.ajax({
 					url : ctx + "/mobile/property/box/hasMapping",
 					method : "post",
