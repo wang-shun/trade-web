@@ -26,10 +26,12 @@ public class ToApproveRecordServiceImpl implements ToApproveRecordService {
 		if(StringUtils.isBlank(toApproveRecord.getCaseCode())) {
 			return;
 		}
+		ToApproveRecord t=new ToApproveRecord();
+		t.setTaskId(toApproveRecord.getTaskId());
 		if(toApproveRecord.getPkid() != null) {
 			toApproveRecordMapper.updateByPrimaryKeySelective(toApproveRecord);
 		} else {
-			if(toApproveRecordMapper.findApproveRecordByRecord(toApproveRecord) == null) {
+			if(toApproveRecordMapper.findApproveRecordByRecord(t) == null) {
 				toApproveRecordMapper.insertSelective(toApproveRecord);
 			}
 		}
