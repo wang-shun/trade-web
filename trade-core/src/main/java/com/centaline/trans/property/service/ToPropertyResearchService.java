@@ -18,5 +18,6 @@ public interface ToPropertyResearchService {
 	boolean hasMapping(String districtCode);
 
 	List<User> getZLList(String disId);
-
+	
+	String getEnvironment();
 }

@@ -28,10 +28,10 @@
   <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCase">
     insert into sctrans.T_TO_CASE (PKID, CASE_CODE, CTM_CODE, 
       CREATE_TIME, STATUS, CASE_PROPERTY, 
-      LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME)
+      LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{ctmCode,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=NVARCHAR}, #{caseProperty,jdbcType=NVARCHAR}, 
-      #{leadingProcessId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},#{closeTime,jdbcType=TIMESTAMP})
+      #{leadingProcessId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},#{closeTime,jdbcType=TIMESTAMP},GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCase">
     insert into sctrans.T_TO_CASE
@@ -63,6 +63,7 @@
       <if test="closeTime != null">
         CLOSE_TIME,
       </if>
+        UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -92,6 +93,7 @@
       <if test="closeTime != null">
         #{closeTime,jdbcType=TIMESTAMP},
       </if>
+        GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCase">
@@ -121,6 +123,8 @@
       <if test="closeTime != null">
         CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -133,7 +137,9 @@
       CASE_PROPERTY = #{caseProperty,jdbcType=NVARCHAR},
       LEADING_PROCESS_ID = #{leadingProcessId,jdbcType=VARCHAR},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
-      CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP} 
+      CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
@@ -508,6 +514,8 @@ FROM
       <if test="closeTime != null">
       	CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
+        UPDATE_TIME=GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>

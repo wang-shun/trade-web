@@ -35,7 +35,7 @@
 		<searchCondition>
 	            <condition field="A.PR_DISTRICT_ID" name="prDistrictId" label="区域ID" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_STATUS" name="prStatus" label="状态" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
-	            <condition field="C.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="A.PR_ADDRESS" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	    </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -54,13 +54,11 @@
 					A.PR_STATUS,
 					A.IS_SUCCESS,
 					A.UNSUCCESS_REASON,
-				    C.PROPERTY_ADDR,
-				    C.DIST_CODE ,
-					(CASE When a.PR_CHANNEL='1' then a.PR_APPLIANT
-						else tc.AGENT_CODE end) as orgName    
+				    A.PR_ADDRESS PROPERTY_ADDR,
+				    A.DIST_CODE  ,
+					a.PR_COST_ORG_NAME as orgName    
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
-				LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON (C.CASE_CODE = A.CASE_CODE) or (A.CASE_CODE is null and A.PR_CODE= C.CASE_CODE)
 				left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=a.CASE_CODE
 				WHERE A.SAME_PR_CODE IS NULL
 				]]>
@@ -70,7 +68,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="orgName" index="" checkbox="" title="所属分行" display="所属分行" customDict="qqcdUserOrgName" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+			<column type="both" name="orgName" index="" checkbox="" title="所属分行" display="所属分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="交易单编号" display="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PR_CODE" index="" checkbox="" title="产调编号" display="产调编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>

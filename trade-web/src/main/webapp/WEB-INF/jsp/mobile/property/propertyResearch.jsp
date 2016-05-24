@@ -356,7 +356,7 @@ img{ border-image-width:0px;}
                             	<span  ><i class="icon-person"></i>{{item.PR_APPLIANT}}</span><span><i class="icon-calendar"></i>{{item.PR_APPLY_TIME}}</span>
                        		 </div>
 							<div>
-								<p class="addr"><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
+								<p class="addr"><span>{{item.DIST_CODE}}&nbsp;&nbsp;&nbsp;</span><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
 								<div class='text-left check'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}');" class="btn btn-warning btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
 							</div>
                         	

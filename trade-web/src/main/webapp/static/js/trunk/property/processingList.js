@@ -171,6 +171,7 @@ function nullityTag(caseCode,pkid){
  */
 var pkidLsit ;
 function propertyDispose(){
+	if(!confirm('是否确认处理产调')){return ;}
 	 var prCodeArray = new Array();
 	
 	 pkidList = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');

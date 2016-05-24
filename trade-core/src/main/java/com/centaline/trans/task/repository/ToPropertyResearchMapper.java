@@ -107,7 +107,7 @@ public interface ToPropertyResearchMapper {
 	 */
 	ToPropertyResearch getToPropertyResearchsByPrCode(String caseCode);
 
-	ToPropertyResearch selectByForSamePrCode(String address);
+	ToPropertyResearch selectByForSamePrCode(String address,String PrCat);
 
 	/**
 	 * 查询基本产调信息 (交易顾问)
@@ -125,5 +125,7 @@ public interface ToPropertyResearchMapper {
 	
 	List<ToPropertyResearch> getUnProcessListByDistrict(String district);
 	int processWaitListByDistrict(String district);
+	String getPrCostMgrByOrgId(String orgId);
+	String getOrgIdByUserId(String userId);
 
 }

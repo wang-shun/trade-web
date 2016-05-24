@@ -1441,7 +1441,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.0.20"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.1.1"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
@@ -1613,6 +1613,7 @@ function checkInt(obj){
 		getPricingList("table_list_1","pager_list_1",1);
 		if(mainLoanBank == "0"){
 			$("#isMainLoanBank").val("0");
+			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
 			/* $("#first").css("display","none");
 			$("#second").css("display","block"); */
 			
@@ -1628,7 +1629,7 @@ function checkInt(obj){
 
 		}else{
 			$("#isMainLoanBank").val("1");
-
+			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
 			/* $("#first").css("display","block");
 			$("#second").css("display","none"); */
 			
@@ -1645,6 +1646,7 @@ function checkInt(obj){
 
 	 	$(".myDataToggle").click(function(){
 	 		$("#isMainLoanBank").val($(this).attr('data-m'));
+	 		$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val($(this).attr('data-m'));
 	 		if($("#isMainLoanBank").val() == "0"){
 	 			$("#first").removeClass("in");
 	 		}else{

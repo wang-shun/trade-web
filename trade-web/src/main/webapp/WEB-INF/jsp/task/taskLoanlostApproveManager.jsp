@@ -183,7 +183,12 @@
     		                } 
     		            } ,  
 				success : function(data) {
-					window.location.href = "${ctx }/task/myTaskList";
+					 window.close();
+					 if(window.opener)
+				     {
+						 window.opener.callback();
+				     } 
+					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
 					alert("数据保存出错");

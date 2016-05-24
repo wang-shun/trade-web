@@ -438,7 +438,13 @@
     		            } ,  
 				success : function(data) {
 				//	alert("数据已保存。");
-					window.location.href = "${ctx }/task/myTaskList";
+					if(window.opener)
+				     {
+						 window.close();
+						 window.opener.callback();
+				     } else {
+				    	 window.location.href = "${ctx }/task/myTaskList";
+				     } 
 				},
 				error : function(errors) {
 					alert("数据保存出错");

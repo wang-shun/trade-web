@@ -150,7 +150,13 @@
 				success : function(data) {
 					if(data.success) {
 						alert(data.message);
-						window.location.href = "${ctx }/task/myTaskList";
+						 if(window.opener)
+					     {
+							 window.close();
+							 window.opener.callback();
+					     } else {
+					    	 window.location.href = "${ctx }/task/myTaskList";
+					     }
 					} else {
 						alert("操作失败。");
 					}
