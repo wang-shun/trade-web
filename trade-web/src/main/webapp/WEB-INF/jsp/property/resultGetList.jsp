@@ -78,7 +78,7 @@
 
 	<script src="${ctx}/js/trunk/property/resultGetList.js"></script>
 	<%-- <script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script> --%>
-	<script src="${ctx}/js/trunk/property/resultGetListByaddr.jqgridSearch.js"></script>
+	<script src="${ctx}/js/trunk/property/resultGetListByaddr.jqgridSearch.js?v=1.0.2"></script>
 	<script>
 	jQuery(document).ready(function() {
 		 $(".fancybox").fancybox({
