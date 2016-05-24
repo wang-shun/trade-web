@@ -137,6 +137,6 @@ $(document).ready(function() {
 });
 //查看结果
 function resultGet(caseCode,pkid){
-	$('#resultGet').attr("href",ctx+"/property/box/resultGetPic?caseCode="+caseCode);
+	$('#resultGet').attr("href",ctx+"/mobile/property/box/show?prCode="+caseCode);
 	$("#resultGet").trigger('click');
 }
