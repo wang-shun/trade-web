@@ -136,12 +136,17 @@
 		<mapper resource="mapper/task/AwardBaseMapper.xml"/>
 		<mapper resource="mapper/task/ActHiTaskinstMapper.xml"/>
 		<mapper resource="mapper/task/AwardBaseConfigMapper.xml"/>
+<<<<<<< Updated upstream
 		<mapper resource="mapper/kpi/TsKpiPsnMonthMapper.xml"/>
 		<mapper resource="mapper/kpi/TsKpiSrvCaseMapper.xml"/>
 		<mapper resource="mapper/kpi/TsAwardKpiPayDetailMapper.xml"/>
 		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
 		<mapper resource="mapper/kpi/TsAwardKpiPayMapper.xml"/>
+		
+=======
+		
 		<!-- 统计报表 -->
 		<mapper resource="mapper/report/CaseProcessStatisMapper.xml"/>
+>>>>>>> Stashed changes
 	</mappers>
 </configuration>

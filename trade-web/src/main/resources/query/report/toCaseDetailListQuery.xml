@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName"></customDict>
+		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCastListItemList" cacheCount="true">
+		<searchCondition>
+		
+		   <condition field="B.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="B.CTM_CODE"  name="ctmCode" label="CTM编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+
+           <condition field="B.CASE_PROPERTY"  name="caseProperty" label="案件类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.STATUS"         name="status" label="服务阶段选择" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CLOSE_TIME"  name="approveTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CLOSE_TIME"  name="approveTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CREATE_TIME"    name="createTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CREATE_TIME"    name="createTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.AGENT_CODE"     name="agentName" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            
+           <condition field="B.SRV_CAT_STR" name="srvCode1"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode2"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode3"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode4"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode5"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode6"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode7"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode8"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode9"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode11" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode12" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.PROCESSOR_NAME" name="proName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+
+
+         
+           <condition field="G.REAL_CON_TIME"  name="realConTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="G.REAL_CON_TIME"  name="realConTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="H.REAL_HT_TIME"   name="realHtTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="H.REAL_HT_TIME"   name="realHtTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+         
+           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+         
+           <condition field="J.SIGN_DATE"   name="signDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.SIGN_DATE"   name="signDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.LEND_DATE"   name="lendDateStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					    B.PKID, 
+					    B.STATUS,
+					    B.RED_COUNT,
+                        B.PROPERTY_ADDR,
+                        B.CASE_CODE,
+                        B.AGENT_NAME,
+                        B.AGENT_CODE AGENT_ORG_NAME
+					FROM sctrans.V_CASE_LIST_BASE B 
+					<ifNotNull realConTime>
+						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
+					</ifNotNull>
+					<ifNotNull realConTimeStart>
+						AND G.REAL_CON_TIME > #realConTimeStart#
+					</ifNotNull>
+					<ifNotNull realConTimeEnd>
+						AND G.REAL_CON_TIME < #realConTimeEnd#
+					</ifNotNull>
+					
+					<ifNotNull realHtTime>
+					INNER JOIN sctrans.T_TO_HOUSE_TRANSFER AS H ON B.CASE_CODE = H.CASE_CODE
+					</ifNotNull>
+					<ifNotNull realHtTimeStart>
+						AND H.REAL_HT_TIME > #realHtTimeStart#
+					</ifNotNull>
+					<ifNotNull realHtTimeEnd>
+						AND H.REAL_HT_TIME < #realHtTimeEnd#
+					</ifNotNull>
+					
+					<ifNotNull realPropertyGetTime>
+					INNER JOIN sctrans.T_TO_GET_PROPERTY_BOOK AS I ON B.CASE_CODE = I.CASE_CODE
+					</ifNotNull>
+					<ifNotNull realPropertyGetTimeStart>
+						AND I.REAL_PROPERTY_GET_TIME > #realPropertyGetTimeStart#
+					</ifNotNull>
+					<ifNotNull realPropertyGetTimeEnd>
+						AND I.REAL_PROPERTY_GET_TIME < #realPropertyGetTimeEnd#
+					</ifNotNull>
+
+					where 
+					  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = B.CASE_CODE  
+					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
+					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
+			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = B.CASE_CODE 
+			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
+			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>))	
+     				<ifNotNull guestname>
+						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = B.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
+					</ifNotNull>
+					<ifNotNull proName>
+						AND ( EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.LEADING_PROCESS_ID = #proName# and  CASE_CODE = B.CASE_CODE)
+						    OR  
+						      EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.PROCESSOR_ID = #proName# and CASE_CODE = B.CASE_CODE) )
+					</ifNotNull>
+					<ifNotNull agentOrgName>
+						AND  EXISTS ( SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+					</ifNotNull>
+					<ifNotNull srvCode1>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode1#)
+					</ifNotNull>
+					<ifNotNull srvCode2>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode2#)
+					</ifNotNull>
+					<ifNotNull srvCode3>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode3#)
+					</ifNotNull>
+					<ifNotNull srvCode4>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode4#)
+					</ifNotNull>
+					<ifNotNull srvCode5>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode5#)
+					</ifNotNull>
+					<ifNotNull srvCode6>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode6#)
+					</ifNotNull>
+					<ifNotNull srvCode7>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode7#)
+					</ifNotNull>
+					<ifNotNull srvCode8>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode8#)
+					</ifNotNull>
+					<ifNotNull srvCode9>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode9#)
+					</ifNotNull>
+					<ifNotNull srvCode10>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode10#)
+					</ifNotNull>
+					<ifNotNull srvCode11>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode11#)
+					</ifNotNull>
+					<ifNotNull srvCode12>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode12#)
+					</ifNotNull>
+					<ifNotNull srvCode13>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode13#)
+					</ifNotNull>
+					<ifNotNull srvCode14>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode14#)
+					</ifNotNull>
+					<ifNotNull srvCode15>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode15#)
+					</ifNotNull>
+					<ifNotNull signlendDate>
+					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE 
+					</ifNotNull>
+						<ifNotNull signDateStart>
+						  and J.SIGN_DATE > #signDateStart#
+						</ifNotNull>
+						<ifNotNull signDateEnd>
+						  and J.SIGN_DATE < #signDateEnd#
+						</ifNotNull>
+						<ifNotNull lendDateStart>
+						  and J.LEND_DATE > #lendDateStart#
+						</ifNotNull>
+						<ifNotNull lendDateEnd>
+						  and J.LEND_DATE < #lendDateEnd#
+						</ifNotNull>
+					<ifNotNull signlendDate>
+					  ) 
+					</ifNotNull>
+					
+					<ifNotNull yuCuiOriGrpId>
+						AND EXISTS (
+							SELECT F.CASE_CODE,F.ORG_ID FROM (SELECT C.CASE_CODE,C.ORG_ID FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = B.CASE_CODE  
+							UNION
+							SELECT P.CASE_CODE,P.ORG_ID FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR P WHERE P.CASE_CODE = B.CASE_CODE ) F
+							INNER JOIN SCTRANS.SYS_ORG AS YCORG 
+							ON F.ORG_ID = YCORG.ID
+							WHERE (YCORG.ID = #yuCuiOriGrpId# OR YCORG.PARENT_ID = #yuCuiOriGrpId#) )
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY B.STATUS,B.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="STATUS" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="DATETIME" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ID" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ORG" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_NAME"  index="" checkbox="" display="所属分行" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_ORG"  index="" checkbox="" display="所属分行" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="TEL"  index="" checkbox="" display="所属分行" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>
