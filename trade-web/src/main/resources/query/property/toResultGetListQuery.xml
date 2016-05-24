@@ -53,9 +53,9 @@
 					A.PR_STATUS,
 					A.IS_SUCCESS,
 					A.UNSUCCESS_REASON,
-					A.PR_STATUS,
 				    A.PR_ADDRESS PROPERTY_ADDR,
-				    a.PR_COST_ORG_NAME as orgName
+				    a.PR_COST_ORG_NAME as orgName,
+				    A.DIST_CODE
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				WHERE A.SAME_PR_CODE IS NULL
