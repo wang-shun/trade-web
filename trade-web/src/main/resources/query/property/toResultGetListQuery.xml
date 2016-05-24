@@ -34,7 +34,7 @@
 		<searchCondition>
 	            <condition field="A.PR_APPLIANT" name="prAppliant" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_STATUS" name="prStatus" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
-	            <condition field="C.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="PR_ADDRESS" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	    </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -53,14 +53,11 @@
 					A.PR_STATUS,
 					A.IS_SUCCESS,
 					A.UNSUCCESS_REASON,
-				    C.PROPERTY_ADDR,
-				    C.DIST_CODE    ,
-					(CASE When a.PR_CHANNEL='0' then a.PR_APPLIANT
-						else tc.AGENT_CODE end) as orgName   
+				    A.PR_ADDRESS PROPERTY_ADDR,
+				    a.PR_COST_ORG_NAME as orgName,
+				    A.DIST_CODE
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
-				LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON C.CASE_CODE = A.CASE_CODE
-				left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=a.CASE_CODE
 				WHERE A.SAME_PR_CODE IS NULL
 				]]>
 			</baseSql>
@@ -69,7 +66,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="orgName" index="" checkbox="" display="分行信息" customDict="qqcdUserOrgName" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" display="分行信息" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_CODE" index="" checkbox="" display="PRCode" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>

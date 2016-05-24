@@ -34,11 +34,11 @@
 		<searchCondition>
 	            <condition field="A.PR_DISTRICT_ID" name="prDistrictId" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_STATUS" name="prStatus" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
-	            <condition field="C.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
-	            <condition field="C.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="A.PR_ADDRESS" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="A.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="PR_CAT" name="prCat" label="产调项目" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
-	            <condition field="fh.org_name" name="grpOrgName" label="所属分行" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>	            
-	            <condition field="AH.REAL_NAME" name="quds" label="区董" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="a.PR_COST_ORG_NAME" name="grpOrgName" label="所属分行" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>	            
+	            <condition field="a.PR_COST_ORG_MGR" name="quds" label="区董" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="au.REAL_NAME" name="auUser" label="申请人" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="acu.REAL_NAME" name="acuUser" label="执行人" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.pr_complete_time" name="completeTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue="" />
@@ -64,28 +64,18 @@
 					A.PR_STATUS,
 					A.IS_SUCCESS,
 					A.UNSUCCESS_REASON,
-				    C.PROPERTY_ADDR,
-				    C.DIST_CODE  ,
-					A.userId as orgName,
+				    A.PR_ADDRESS PROPERTY_ADDR,
+				    A.DIST_CODE  ,
+					a.PR_COST_ORG_NAME as orgName,
 					A.pr_code as prCode,
-					AH.REAL_NAME as QUDS,
+					a.PR_COST_ORG_MGR as QUDS,
 					(CASE When A.PR_CHANNEL='1' then '经纪人'
 								else '内部' end) as CHANNEL
 					
 				FROM 
-				(	select T1.*,(select max(uoj.ORG_ID) from sctrans.SYS_USER_ORG_JOB as uoj where uoj.USER_ID=userid)as orgid from(
-						select B.*,(CASE When B.PR_CHANNEL='1' then b.PR_APPLIANT
-								else tc.AGENT_CODE end)
-						 as userId from sctrans.T_TO_PROPERTY_RESEARCH AS b
-						left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=B.CASE_CODE
-					)as T1)AS A
-				LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON (C.CASE_CODE = A.CASE_CODE) or (A.CASE_CODE is null and A.PR_CODE= C.CASE_CODE)
-				left join sctrans.T_SYS_ORG_HIERARCHY AS OH ON OH.org_id=A.orgid
-				LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AH on  AH.ORG_id = OH.BUSIWZ_ID 
-				AND AH.job_code = 'JQYDS' AND AH.is_leader = 1
+				sctrans.T_TO_PROPERTY_RESEARCH AS A
 				LEFT　JOIN sctrans.sys_user as au on au.id=a.pr_appliant
 				LEFT JOIN sctrans.sys_user as acu on acu.id=a.pr_EXECUTOR
-				LEFT JOIN sctrans.SYS_ORG as fh on fh.id=a.orgid
 				WHERE A.SAME_PR_CODE IS NULL
 				]]>
 			</baseSql>
@@ -94,7 +84,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="orgName" index="" checkbox="" display="分行信息" title="分行信息" customDict="qqcdUserOrgName" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+			<column type="both" name="orgName" index="" checkbox="" display="分行信息" title="分行信息" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="交易单编号" title="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编号" title="环节编号" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>

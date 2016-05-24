@@ -24,7 +24,7 @@
 	</div>
 	<div class="row"
 		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
-		<span class="col-lg-4">产调地址： ${propertyInfo.propertyAddr }</span>
+		<span class="col-lg-4">产调地址： ${propertyResearch.prAddress }</span>
 	</div>
 	<div class="row"
 		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
