@@ -18,10 +18,24 @@
     <result column="same_Pr_Code" jdbcType="VARCHAR" property="samePRCode" />
     <result column="pr_District_Id" jdbcType="VARCHAR" property="prDistrictId" />
     <result column="UNSUCCESS_REASON" jdbcType="VARCHAR" property="unSuccessReason" />
+    
+    <result column="pr_Apply_Org_Id" jdbcType="VARCHAR" property="prApplyOrgId" />
+    <result column="pr_Apply_Org_Name" jdbcType="VARCHAR" property="prApplyOrgName" />
+    <result column="pr_Cost_Org_Id" jdbcType="VARCHAR" property="prCostOrgId" />
+    <result column="pr_Cost_Org_Name" jdbcType="VARCHAR" property="prCostOrgName" />
+    <result column="pr_Cost_Org_Mgr" jdbcType="VARCHAR" property="prCostOrgMgr" />
+    <result column="pr_Address" jdbcType="VARCHAR" property="prAddress" />
+    <result column="create_Time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_By" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_Time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_By" jdbcType="VARCHAR" property="updateBy" />
+    <result column="dist_Code" jdbcType="VARCHAR" property="distCode" />
+    
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CASE_CODE, PART_CODE, PR_CAT, PR_APPLIANT, PR_EXECUTOR, PR_APPLY_TIME, PR_ACCPET_TIME, 
-    PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS,PR_CODE,same_Pr_Code,pr_District_Id,UNSUCCESS_REASON
+    PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS,PR_CODE,same_Pr_Code,pr_District_Id,UNSUCCESS_REASON,pr_Apply_Org_Id,pr_Apply_Org_Name,pr_Cost_Org_Id,pr_Cost_Org_Name
+    pr_Cost_Org_Mgr,pr_Address,create_Time,create_By,update_Time,update_By,dist_Code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -32,9 +46,8 @@
     <select id="selectByForSamePrCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select    res.PKID, res.CASE_CODE, res.PART_CODE, PR_CAT, PR_APPLIANT, PR_EXECUTOR, PR_APPLY_TIME, PR_ACCPET_TIME, res.PR_CODE,same_Pr_Code,pr_District_Id,
     PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS
-    from sctrans.T_TO_PROPERTY_INFO inf left join sctrans.T_TO_PROPERTY_RESEARCH res
-	 on inf.case_code =res.case_code or inf.case_code =res.pr_code
-	  where datediff(day,res.PR_APPLY_TIME,getdate())=0 and inf.PROPERTY_ADDR=#{0} and res.same_pr_code is null
+    from  sctrans.T_TO_PROPERTY_RESEARCH res
+	  where datediff(day,res.PR_APPLY_TIME,getdate())=0 and res.pr_Address=#{0} and res.pr_cat=#{1} and res.same_pr_code is null
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sctrans.T_TO_PROPERTY_RESEARCH
@@ -95,6 +108,42 @@
       <if test="prCode != null">
         Pr_Code ,
       </if>
+      
+      <if test="prApplyOrgId != null">
+        pr_Apply_Org_Id ,
+      </if>
+      <if test="prApplyOrgName != null">
+        pr_Apply_Org_Name ,
+      </if>
+      <if test="prCostOrgId != null">
+        pr_Cost_Org_Id ,
+      </if>
+      <if test="prCostOrgName != null">
+        pr_Cost_Org_Name ,
+      </if>
+      <if test="prCostOrgMgr != null">
+        pr_Cost_Org_Mgr ,
+      </if>
+      <if test="prAddress != null">
+        pr_Address ,
+      </if>
+      <if test="createTime != null">
+        create_Time ,
+      </if>
+      <if test="createBy != null">
+        create_By ,
+      </if>
+      <if test="updateTime != null">
+        update_Time ,
+      </if>
+      <if test="updateBy != null">
+        update_By ,
+      </if>
+           <if test="distCode != null">
+        dist_Code ,
+      </if>
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -138,6 +187,40 @@
       </if>
       <if test="prCode != null">
         #{prCode,jdbcType=VARCHAR},
+      </if>
+      
+            <if test="prApplyOrgId != null">
+        #{prApplyOrgId,jdbcType=VARCHAR},
+      </if>
+            <if test="prApplyOrgName != null">
+        #{prApplyOrgName,jdbcType=VARCHAR},
+      </if>
+            <if test="prCostOrgId != null">
+        #{prCostOrgId,jdbcType=VARCHAR},
+      </if>
+            <if test="prCostOrgName != null">
+        #{prCostOrgName,jdbcType=VARCHAR},
+      </if>
+            <if test="prCostOrgMgr != null">
+        #{prCostOrgMgr,jdbcType=VARCHAR},
+      </if>
+            <if test="prAddress != null">
+        #{prAddress,jdbcType=VARCHAR},
+      </if>
+            <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+            <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+            <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+            <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="distCode != null">
+         #{distCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -185,6 +268,41 @@
       </if>
       <if test="unSuccessReason != null">
         unSuccess_Reason= #{unSuccessReason,jdbcType=VARCHAR},
+      </if>
+      
+      
+       <if test="prApplyOrgId != null">
+        pr_Apply_Org_Id= #{prApplyOrgId,jdbcType=VARCHAR},
+      </if>
+       <if test="prApplyOrgName != null">
+        pr_Apply_Org_Name= #{prApplyOrgName,jdbcType=VARCHAR},
+      </if>
+       <if test="prCostOrgId != null">
+        pr_Cost_Org_Id= #{prCostOrgId,jdbcType=VARCHAR},
+      </if>
+       <if test="prCostOrgName != null">
+        pr_Cost_Org_Name= #{prCostOrgName,jdbcType=VARCHAR},
+      </if>
+       <if test="prCostOrgMgr != null">
+        pr_Cost_Org_Mgr= #{prCostOrgMgr,jdbcType=VARCHAR},
+      </if>
+       <if test="prAddress != null">
+        pr_Address= #{prAddress,jdbcType=VARCHAR},
+      </if>
+       <if test="createTime != null">
+        create_Time= #{createTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="createBy != null">
+        create_By= #{createBy,jdbcType=VARCHAR},
+      </if>
+       <if test="updateTime != null">
+        update_Time= #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="updateBy != null">
+        update_By= #{updateBy,jdbcType=VARCHAR},
+      </if>
+            <if test="distCode != null">
+       dist_Code=  #{distCode,jdbcType=VARCHAR},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -251,10 +369,9 @@
   </select>
   <select id="findToPropertyResearchAddressById" parameterType="java.lang.Long" resultType="com.centaline.trans.task.entity.ToPropertyResearchVo">
 	SELECT 
-	    C.PROPERTY_ADDR AS propertyAddr
+	    A.pr_Address AS propertyAddr
 	FROM 
 		sctrans.T_TO_PROPERTY_RESEARCH AS A
-	LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON (C.CASE_CODE = A.CASE_CODE) or (A.CASE_CODE is null and A.PR_CODE= C.CASE_CODE)
 	WHERE A.PKID =#{pkid,jdbcType=BIGINT}
   </select>
     <select id="queryUnClosePropertyResearchsByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -320,4 +437,15 @@ update sctrans.T_TO_PROPERTY_RESEARCH  set
       UNSUCCESS_REASON = #{unSuccessReason,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  <select id="getPrCostMgrByOrgId" parameterType="java.lang.String" resultType="java.lang.String">
+  select AH.REAL_NAME as QUDS from 
+  	sctrans.T_SYS_ORG_HIERARCHY AS OH 
+				LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AH on  AH.ORG_id = OH.BUSIWZ_ID 
+				AND AH.job_code = 'JQYDS' AND AH.is_leader = 1
+				where OH.org_id=#{0}
+  </select>
+  <select id="getOrgIdByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+  select max(uoj.ORG_ID) from sctrans.SYS_USER_ORG_JOB as uoj where uoj.USER_ID=#{0};
+  </select>
+  
 </mapper>
