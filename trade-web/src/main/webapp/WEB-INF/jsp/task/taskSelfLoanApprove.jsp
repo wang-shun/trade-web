@@ -302,7 +302,12 @@
     		            } ,
 				success : function(data) {
 					if(b) {
-						window.location.href = "${ctx }/task/myTaskList";
+						 window.close();
+						 if(window.opener)
+					     {
+							 window.opener.callback();
+					     } 
+						 //window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						alert("保存成功。");
 					}

@@ -102,6 +102,13 @@ function caseTaskCheck(){
 
 
 function returnTaskPage(){
+	 if(window.opener)
+     {
+		 window.close();
+		 window.opener.callback();
+     } else {
+    	 window.location.href = ctx+"/task/myTaskList";
+     }
 	
-	window.location.href = ctx+"/task/myTaskList";
+	//window.location.href = ctx+"/task/myTaskList";
 }

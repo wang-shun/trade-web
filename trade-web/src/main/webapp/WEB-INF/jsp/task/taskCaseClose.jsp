@@ -1071,7 +1071,14 @@
     		            } , 
 				success : function(data) {
 					if(b) {
-						window.location.href = "${ctx }/task/myTaskList";
+						if(window.opener)
+					    {
+							 window.close();
+							 window.opener.callback();
+					    } else {
+					    	 window.location.href = "${ctx }/task/myTaskList";
+					    } 
+						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						alert("保存成功.");
 					}

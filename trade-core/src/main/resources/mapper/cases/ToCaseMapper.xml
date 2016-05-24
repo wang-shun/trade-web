@@ -515,7 +515,6 @@ FROM
       	CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
         UPDATE_TIME=GETDATE(),
-        CREATE_BY = @{SESSION_USER_ID},
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}

@@ -55,7 +55,7 @@ var config = {
 for ( var selector in config) {
 	$(selector).chosen(config[selector]);
 };
-
+var ctx = $("#ctx").val();
 
 //查询
 $('#searchButton').click(function() {
@@ -355,3 +355,12 @@ function initAutocomplete(url){
 		}
     }).AutoComplete('show');
 }
+
+/***
+ *  回调刷新的方法
+ */
+function callback() {
+	var url = ctx +'/task/myTaskList';
+	window.location.href = url;
+}
+
