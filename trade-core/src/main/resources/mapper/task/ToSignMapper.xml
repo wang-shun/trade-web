@@ -35,11 +35,11 @@
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToSign" >
     insert into sctrans.T_TO_SIGN (PKID, PART_CODE, CASE_CODE, 
       REAL_CON_TIME, CON_PRICE, REAL_PRICE, 
-      IS_HUKOU, IS_CON_CERT, COMMENT
+      IS_HUKOU, IS_CON_CERT, COMMENT, CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{realConTime,jdbcType=TIMESTAMP}, #{conPrice,jdbcType=DECIMAL}, #{realPrice,jdbcType=DECIMAL}, 
-      #{isHukou,jdbcType=CHAR}, #{isConCert,jdbcType=CHAR}, #{comment,jdbcType=LONGVARCHAR}
+      #{isHukou,jdbcType=CHAR}, #{isConCert,jdbcType=CHAR}, #{comment,jdbcType=LONGVARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToSign" >
@@ -72,6 +72,7 @@
       <if test="comment != null and comment != ''" >
         COMMENT,
       </if>
+        CREATE_TIME,UPDATE_TIME,CREATY_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -101,6 +102,7 @@
       <if test="comment != null and comment != ''" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
+        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToSign" >
@@ -130,6 +132,7 @@
       <if test="comment != null and comment != ''" >
         COMMENT = #{comment,jdbcType=LONGVARCHAR},
       </if>
+        UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>
     ,IS_ACTIVE='1'
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -143,7 +146,8 @@
       REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
       IS_HUKOU = #{isHukou,jdbcType=CHAR},
       IS_CON_CERT = #{isConCert,jdbcType=CHAR},
-      COMMENT = #{comment,jdbcType=LONGVARCHAR}
+      COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
       ,IS_ACTIVE='1'
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -156,7 +160,7 @@
       REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
       IS_HUKOU = #{isHukou,jdbcType=CHAR},
       IS_CON_CERT = #{isConCert,jdbcType=CHAR}
-      ,IS_ACTIVE='1'
+      ,IS_ACTIVE='1', UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

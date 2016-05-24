@@ -30,6 +30,13 @@
 		<property name="configLocation" value="classpath:mapper/mappers.xml" />
 		<property name="dataSource" ref="dataSourceProxy" />
 		<!-- <property name="mapperLocations" value="classpath*:mapper/**/*Mapper.xml" /> -->
+		<!-- 配置Mybatis的插件plugin-->
+	  <!-- <property name="plugins">
+	        <array>
+	            <bean class="com.centaline.trans.interceptor.InsertUserInterceptor">
+	            </bean>
+	        </array>
+	    </property>  -->
 	</bean>
 	 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.centaline.trans.**.repository" />
