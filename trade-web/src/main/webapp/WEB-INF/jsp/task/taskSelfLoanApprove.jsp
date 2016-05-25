@@ -301,16 +301,12 @@
     		                }
     		            } ,
 				success : function(data) {
-					if(b) {
 						 window.close();
 						 if(window.opener)
 					     {
 							 window.opener.callback();
 					     } 
 						 //window.location.href = "${ctx }/task/myTaskList";
-					} else {
-						alert("保存成功。");
-					}
 				},
 				error : function(errors) {
 					alert("数据保存出错" + errors);

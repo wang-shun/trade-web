@@ -390,18 +390,11 @@
     		                } 
     		            } , 
 				success : function(data) {
-					if(b) {
 						caseTaskCheck();
 						if(null!=data.message){
 							alert(data.message);
 						}
 						//window.location.href = "${ctx }/task/myTaskList";
-					} else {
-						alert("保存成功。");
-						if(data.content !=null&&data.content!=""){
-							$("#pkid").val(data.content);
-						}
-					}
 				},
 				error : function(errors) {
 					alert("数据保存出错");

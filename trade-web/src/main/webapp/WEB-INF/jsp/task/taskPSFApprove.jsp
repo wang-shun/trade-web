@@ -378,7 +378,6 @@
     		                } 
     		            } ,  
 				success : function(data) {
-					if(b) {
 						if(null!=data.message){
 							alert(data.message);
 						}
@@ -389,9 +388,6 @@
 					     } else {
 					    	 window.location.href = "${ctx }/task/myTaskList";
 					     }
-					} else {
-						alert("保存成功。");
-					}
 				},
 				error : function(errors) {
 					alert("数据保存出错");
