@@ -12,7 +12,7 @@ public class KpiMonthVO {
 	@ExcelField(title = "岗位")
 	private String jobName;*/
 	@ExcelField(title = "当月金融产品完成单数(包含外单)")
-	private Long finOrder;
+	private String finOrder;
 	/*@ExcelField(title = "归属月份")
 	private Date belongMonth;*/
 	
@@ -34,11 +34,11 @@ public class KpiMonthVO {
 		this.userName = userName;
 	}
 
-	public Long getFinOrder() {
+	public String getFinOrder() {
 		return finOrder;
 	}
 
-	public void setFinOrder(Long finOrder) {
+	public void setFinOrder(String finOrder) {
 		this.finOrder = finOrder;
 	}
 
