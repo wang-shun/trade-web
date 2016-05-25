@@ -405,15 +405,11 @@
     		                } 
     		            } ,  			
 				success : function(data) {
-					if(b) {
 						//window.location.href = "${ctx }/task/myTaskList";
 						caseTaskCheck();
 						if(null!=data.message){
 							alert(data.message);
 						}
-					} else {
-						alert("保存成功。");
-					}
 				},
 				error : function(errors) {
 					alert("数据保存出错");
