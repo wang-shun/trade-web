@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="offline_eva" isExecutable="true">
+    <startEvent id="sid-9F041D6F-84FA-4AF2-A638-75EF2315B733"></startEvent>
+    <userTask id="OfflineEva" name="线下评估发起" activiti:candidateGroups="TeamAssistant"></userTask>
+    <sequenceFlow id="sid-8293787A-59FB-4DAC-AE48-28DC5A0589F9" sourceRef="sid-9F041D6F-84FA-4AF2-A638-75EF2315B733" targetRef="OfflineEva"></sequenceFlow>
+    <endEvent id="sid-75C0D25B-5FAF-419C-B13B-A50EE96E2962"></endEvent>
+    <sequenceFlow id="sid-F1FFA11D-AF9D-4038-A074-4ED770FB4F3F" sourceRef="OfflineEva" targetRef="sid-75C0D25B-5FAF-419C-B13B-A50EE96E2962"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_offline_eva">
+    <bpmndi:BPMNPlane bpmnElement="offline_eva" id="BPMNPlane_offline_eva">
+      <bpmndi:BPMNShape bpmnElement="sid-9F041D6F-84FA-4AF2-A638-75EF2315B733" id="BPMNShape_sid-9F041D6F-84FA-4AF2-A638-75EF2315B733">
+        <omgdc:Bounds height="30.0" width="30.0" x="121.5" y="101.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="OfflineEva" id="BPMNShape_OfflineEva">
+        <omgdc:Bounds height="80.0" width="100.0" x="195.0" y="76.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-75C0D25B-5FAF-419C-B13B-A50EE96E2962" id="BPMNShape_sid-75C0D25B-5FAF-419C-B13B-A50EE96E2962">
+        <omgdc:Bounds height="28.0" width="28.0" x="340.0" y="102.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-F1FFA11D-AF9D-4038-A074-4ED770FB4F3F" id="BPMNEdge_sid-F1FFA11D-AF9D-4038-A074-4ED770FB4F3F">
+        <omgdi:waypoint x="295.0" y="116.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="116.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-8293787A-59FB-4DAC-AE48-28DC5A0589F9" id="BPMNEdge_sid-8293787A-59FB-4DAC-AE48-28DC5A0589F9">
+        <omgdi:waypoint x="151.5" y="116.0"></omgdi:waypoint>
+        <omgdi:waypoint x="195.0" y="116.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
