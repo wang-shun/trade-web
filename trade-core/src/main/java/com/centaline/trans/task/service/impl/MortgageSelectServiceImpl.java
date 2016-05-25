@@ -17,7 +17,9 @@ import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.MortgageSelectService;
+import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
 
 
@@ -33,6 +35,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private TgServItemAndProcessorMapper tgServItemAndProcessorMapper;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired
+	private ToTransPlanService toTransPlanService;
 	@Override
 	
 	public boolean submit(MortgageSelecteVo vo) {
@@ -42,6 +46,20 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		}else if("2".equals(vo.getMortageService())){
 			serivceCode="3000400201";
 		}
+		
+		if(!"0".equals(vo.getMortageService())){//有贷款
+			ToTransPlan plan=new ToTransPlan(); 
+			plan.setEstPartTime(vo.getEstPartTime());
+			if(vo.getPkid()!=null){
+				plan.setPkid(vo.getPkid());
+				toTransPlanService.updateByPrimaryKeySelective(plan);
+			}else{
+				plan.setCaseCode(vo.getCaseCode());
+				plan.setPartCode("LoanRelease");
+				toTransPlanService.insertSelective(plan);
+			}
+		}
+		
 		if(serivceCode!=null){
 			TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
 			tsiap.setCaseCode(vo.getCaseCode());

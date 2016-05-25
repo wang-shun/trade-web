@@ -1,11 +1,16 @@
 package com.centaline.trans.task.vo;
 
+import java.util.Date;
+
 public class MortgageSelecteVo {
 	private String mortageService;
 	private String partner ;
 	private String caseCode;
 	private String taskId;
 	private String processInstanceId;
+	
+	private Long pkid;
+	private Date estPartTime;
 	public String getPartner() {
 		return partner;
 	}
@@ -36,5 +41,17 @@ public class MortgageSelecteVo {
 	}
 	public void setMortageService(String mortageService) {
 		this.mortageService = mortageService;
+	}
+	public Long getPkid() {
+		return pkid;
+	}
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
+	public Date getEstPartTime() {
+		return estPartTime;
+	}
+	public void setEstPartTime(Date estPartTime) {
+		this.estPartTime = estPartTime;
 	}
 }

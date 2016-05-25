@@ -55,8 +55,8 @@ var caseCode = "${caseCode}";
 					<input type="hidden" id="pkidPc" name="pkidPc" value="${transPlan.pkidHd}">
 					<input type="hidden" id="pkidTr" name="pkidTr" value="${transPlan.pkidTr}">
 					<input type="hidden" id="pkidGh" name="pkidGh" value="${transPlan.pkidGh}">
-					<input type="hidden" id="pkidPl" name="pkidPl" value="${transPlan.pkidLz}">
-					<input type="hidden" id="pkidPl" name="pkidPl" value="${transPlan.pkidFk}">
+					<input type="hidden" id="pkidPl" name="pkidLz" value="${transPlan.pkidLz}">
+					<input type="hidden" id="pkidPl" name="pkidFk" value="${transPlan.pkidFk}">
 					<c:if test="${dy}">
 						<div class="form-group" id="data_1">
 							<label class="col-sm-2 control-label">预计还贷时间<font color="red">*</font></label>
