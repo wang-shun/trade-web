@@ -406,13 +406,14 @@
     		            } ,  			
 				success : function(data) {
 					if(b) {
-						//window.location.href = "${ctx }/task/myTaskList";
 						caseTaskCheck();
 						if(null!=data.message){
 							alert(data.message);
 						}
 					} else {
 						alert("保存成功。");
+						 window.close();
+						 window.opener.callback();
 					}
 				},
 				error : function(errors) {

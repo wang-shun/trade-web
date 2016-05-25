@@ -536,6 +536,8 @@
 							alert("请不要重复保存数据");
 						}else{
 							alert("保存成功.");
+							window.close();
+						 	window.opener.callback();
 						}
 					}
 				},

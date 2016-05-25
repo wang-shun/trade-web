@@ -2,6 +2,7 @@ package com.centaline.trans.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.regex.Pattern;
 
 public class NumberUtil {
 	
@@ -96,6 +97,23 @@ public class NumberUtil {
 		} else {
 			return d1.multiply(d2);
 		}
+	}
+	
+	/****
+	 * 判断字符串是否是整数
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean isInteger(String str) {    
+	    Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");    
+	    return pattern.matcher(str).matches();    
+	}
+	
+	
+	public static boolean isMatchesRegex(String str,String regex) {
+		Pattern pattern = Pattern.compile(regex);   
+	    return pattern.matcher(str).matches();    
 	}
 
 }

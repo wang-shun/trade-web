@@ -1070,7 +1070,6 @@
     		                } 
     		            } , 
 				success : function(data) {
-					if(b) {
 						if(window.opener)
 					    {
 							 window.close();
@@ -1079,9 +1078,6 @@
 					    	 window.location.href = "${ctx }/task/myTaskList";
 					    } 
 						//window.location.href = "${ctx }/task/myTaskList";
-					} else {
-						alert("保存成功.");
-					}
 				},
 				error : function(errors) {
 					alert("数据保存出错");

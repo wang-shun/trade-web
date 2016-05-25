@@ -146,9 +146,10 @@
 								<input id="completeTimeStart" name="search_completeTimeStart" class="form-control date-picker-input"
 									style="font-size: 13px;" type="text" value=""
 									placeholder="起始日期"> <span class="input-group-addon">到</span>
-								<input id="completeTimeEnd" name="search_completeTimeEnd" class="form-control date-picker-input"
+								<input id="completeTimeEnd"  class="form-control date-picker-input"
 									style="font-size: 13px;" type="text" value=""
 									placeholder="结束日期" />
+									<input type="hidden" name='search_completeTimeEnd' id='search_completeTimeEnd' value=''>
 							</div>
 					</div>
         	</div>
@@ -159,7 +160,7 @@
 		<hr>
          <table id="table_property_list"></table>
          <div id="pager_property_list"></div>
-    	<a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
+    	<a class='btn btn-primary' style="margin-left: 20px;" onclick="submitForm();return false" >导出产调至Excel</a>
      </div>                         
 </div>
 </form>    
@@ -178,6 +179,10 @@
 	<script>
 	function report(){
 		var data=packData();
+	}
+	function submitForm(){
+		$('#search_completeTimeEnd').val($('#completeTimeEnd').val()==''?'':$('#completeTimeEnd').val()+' 23:59:59');
+		 $('#myForm').submit();
 	}
 	jQuery(document).ready(function() {
 		$('.date-picker-input').datepicker({

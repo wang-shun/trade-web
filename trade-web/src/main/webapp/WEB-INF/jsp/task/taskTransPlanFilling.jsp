@@ -186,12 +186,13 @@ var caseCode = "${caseCode}";
     		         }
     		    } , 
 				success : function(data) {
-					if(b) {
-						caseTaskCheck();
-						//window.location.href = "${ctx }/task/myTaskList";
-					} else {
-						alert("保存成功。");
-					}
+						if(b) {
+							caseTaskCheck();
+						} else {
+						 	alert("保存成功。");
+						 	window.close();
+						 	window.opener.callback();
+						}
 				},
 				error : function(errors) {
 					alert("数据保存出错");

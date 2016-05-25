@@ -395,12 +395,10 @@
 						if(null!=data.message){
 							alert(data.message);
 						}
-						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						alert("保存成功。");
-						if(data.content !=null&&data.content!=""){
-							$("#pkid").val(data.content);
-						}
+						 window.close();
+						 window.opener.callback();
 					}
 				},
 				error : function(errors) {

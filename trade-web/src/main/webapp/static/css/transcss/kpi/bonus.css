@@ -39,7 +39,7 @@
 .bonus-table thead tr th{color:#545454;font-size:14px;font-weight:700;text-align: center;height:38px;}
 .bonus-table tbody tr{height:45px;}
 .bonus-table tbody tr td{color:#545454;}
-.bonus-table tbody .expand{color:#3f70c1;text-decoration: underline;}
+.bonus-table tbody .expand{color:#3f70c1;text-decoration: underline;cursor:pointer}
 .bonus-table tbody .td-tag{width:40px;}
 .bonus-table .toogle-show{width:100%;height:35px;}
 .bonus-table .two-td{width:100%;}
