@@ -112,13 +112,9 @@
 							</select>
 					    </div>
 						<div id="research_money_div_0" class="input-group input-medium date-picker input-daterange">
-							<div class="input-group"><input type="number" id="start_money_0" name="start_money_0" value="" size="16" class="form-control" style="font-size: 13px;float:left;" placeholder="">
-							<span class="input-group-addon">万</span>
-							</div
+							<input type="number" id="start_money_0" name="start_money_0" value="" size="16" class="form-control" style="font-size: 13px;float:left;" placeholder="">
 							<span class="input-group-addon">到</span>
-							<div class="input-group"><input type="number" id="end_money_0" value="" size="16" name="end_money_0" class="form-control" style="font-size: 13px;float:left;" placeholder="">
-							<span class="input-group-addon">万</span>
-							</div>
+							<input type="number" id="end_money_0" value="" size="16" name="end_money_0" class="form-control" style="font-size: 13px;float:left;" placeholder="">
 						</div>
 					</div>
 					
@@ -176,7 +172,7 @@
 	    	<a class="btn btn-primary" href="javascript:exportToExcel()">导出</a>
 	    </form>	
 		<!-- DataList end -->
-	<div id="alertOper"></div>
+	
 	<!-- content end  -->
 	
   	<content tag="local_script">
@@ -186,9 +182,9 @@
 		 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 		 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 		 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	 	    <!-- Peity -->
+		<%--  <script src="${ctx}/js/trunk/case/mycase_list.js"></script>  --%><!-- iCheck --> 
+	    <!-- Peity -->
 	    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
-
 	
 	    <!-- jqGrid -->
 	    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -209,6 +205,183 @@
 		<script src="${ctx}/transjs/loan/loan.manage.list.js"></script>
 
 		<script>
+		// select控件
+		var config = {
+			'.chosen-select' : {},
+			'.chosen-select-deselect' : {
+				allow_single_deselect : true
+			},
+			'.chosen-select-no-single' : {
+				disable_search_threshold : 10
+			},
+			'.chosen-select-no-results' : {
+				no_results_text : 'Oops, nothing found!'
+			},
+			'.chosen-select-width' : {
+				width : "95%"
+			}
+		};
+
+		for ( var selector in config) {
+			$(selector).chosen(config[selector]);
+		};
+		// 日期类型
+		var createTimeStart, resDateStart, realHtTimeStart, realPropertyGetTimeStart, realConTimeStart, signDateStart, lendDateStart, approveTimeStart,guohuApproveTimeStart;
+		var createTimeEnd, resDateEnd, realHtTimeEnd, realPropertyGetTimeEnd, realConTimeEnd, signDateEnd, lendDateEnd, approveTimeEnd,guohuApproveTimeEnd;
+
+		// 日期控件取值
+		function getSearchDateValues() {
+			createTimeStart = null;
+			resDateStart = null;
+			realHtTimeStart = null;
+			realPropertyGetTimeStart = null;
+			realConTimeStart = null;
+			signDateStart = null;
+			lendDateStart = null;
+			approveTimeStart = null;
+			createTimeEnd = null;
+			resDateEnd = null;
+			realHtTimeEnd = null;
+			realPropertyGetTimeEnd = null;
+			realConTimeEnd = null;
+			signDateEnd = null;
+			lendDateEnd = null;
+			approveTimeEnd = null;
+			guohuApproveTimeStart = null;
+			guohuApproveTimeEnd = null;
+			var codeStr = "";
+			for (var r = 0; r < divIndex; r++) {
+				var val = $('#case_date_' + r + ' option:selected').val();
+				if (val == undefined)
+					continue;
+				var start = $('#dtBegin_' + r).val();
+				var end = $('#dtEnd_' + r).val();
+				if(end&&end!=''){
+					end=end+' 23:59:59';
+				}
+				if (codeStr.indexOf(val) != -1)
+					return false;
+				codeStr += val;
+				if (start != "") {
+					if (val == '30005001') {
+						createTimeStart = start;
+					} else if (val == '30005002') {
+						resDateStart = start;
+					} else if (val == '30005003') {
+						realConTimeStart = start;
+					} else if (val == '30005004') {
+						realHtTimeStart = start;
+					} else if (val == '30005005') {
+						realPropertyGetTimeStart = start;
+					} else if (val == '30005006') {
+						signDateStart = start;
+					} else if (val == '30005007') {
+						lendDateStart = start;
+					} else if (val == '30005008') {
+						approveTimeStart = start;
+					} else if (val == '30005009') {
+						guohuApproveTimeStart = start;
+					}
+				}
+				if (end != "") {
+					if (val == '30005001') {
+						createTimeEnd = end;
+					} else if (val == '30005002') {
+						resDateEnd = end;
+					} else if (val == '30005003') {
+						realConTimeEnd = end;
+					} else if (val == '30005004') {
+						realHtTimeEnd = end;
+					} else if (val == '30005005') {
+						realPropertyGetTimeEnd = end;
+					} else if (val == '30005006') {
+						signDateEnd = end;
+					} else if (val == '30005007') {
+						lendDateEnd = end;
+					} else if (val == '30005008') {
+						approveTimeEnd = end;
+					} else if (val == '30005009') {
+						guohuApproveTimeEnd = end;
+					}
+				}
+			}
+			return true;
+		}
+		
+		// 添加日期查询条件
+		var divIndex = 1;
+		var count = $('#case_date_0 option:last').index();
+		function addDateDiv() {
+
+			var txt = '<div class="input-group m-b"><div id="dateDiv_' + divIndex + '" class="input-group m-b-xs m-t-xs">';
+			txt += '<div class="input-group-btn">';
+			txt += '    <select id="case_date_'
+					+ divIndex
+					+ '" class="btn btn-white chosen-select" name="case_date" ltype="select" >';
+			txt += $("#case_date_0").html()
+			txt += '</select></div>';
+			txt += '<div id="datepicker_'
+					+ divIndex
+					+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
+			txt += '    <input id="dtBegin_'
+					+ divIndex
+					+ '" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> ';
+			txt += '    <span class="input-group-addon">到</span>';
+			txt += '    <input id="dtEnd_'
+					+ divIndex
+					+ '" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期"/>';
+			txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
+					+ divIndex + ');"><font>删除</font></a></span>';
+			txt += '</div></div></div>';
+			// alert(txt);
+			$("#addLine").before(txt);
+			// 日期控件
+			$('#datepicker_' + divIndex).datepicker({
+				format : 'yyyy-mm-dd',
+				weekStart : 1,
+				autoclose : true,
+				todayBtn : 'linked',
+				language : 'zh-CN'
+			});
+			// 设置初始选中
+			var selIndex = findFirstNoCheckVal();
+			$("#case_date_" + divIndex).get(0).selectedIndex = selIndex;
+			for ( var selector in config) {
+				$(selector).chosen(config[selector]);
+			}
+			;
+
+			divIndex++;
+		}
+
+		// 查看未被选择的日期类型
+		function findFirstNoCheckVal() {
+
+			var onUseArray = new Array();
+			if (divIndex > count)
+				return 0;
+			for (var r = 0; r < divIndex; r++) {
+				var onUse = $('#case_date_' + r + ' option:selected').index();
+				onUseArray.push(onUse);
+
+			}
+			for (var s = 0; s < count; s++) {
+				var onUseFlag = false;
+				for (var m = 0; m < onUseArray.length; m++) {
+					if (s == onUseArray[m]) {
+						onUseFlag = true;
+						break;
+					}
+				}
+				if (!onUseFlag)
+					return s;
+			}
+			return 0;
+		}
+		 //删除日期控件
+		function removeDateDiv(index) {
+			$("#dateDiv_" + index).remove();
+		}
 			jQuery(document).ready(function() {
 				 $(".fancybox").fancybox({
 						maxWidth	: 650,
@@ -267,6 +440,13 @@
 					   $("input[type=text]").val();
 			    	   $("input[type=select]").attr("value","");
 				   });
+					$('#datepicker_0').datepicker({
+						format : 'yyyy-mm-dd',
+						weekStart : 1,
+						autoclose : true,
+						todayBtn : 'linked',
+						language : 'zh-CN'
+					});
 			});
 			
 			/**
@@ -315,9 +495,9 @@
 					search_signDateStart : signDateStart,
 					search_lendDateStart : lendDateStart,
 					search_createTimeEnd : createTimeEnd,
-					search_resDateEnd : resDateEnd?(resDateEnd+' 23:59:59'):resDateEnd,
-					search_signDateEnd : signDateEnd?(signDateEnd+' 23:59:59'):signDateEnd,
-					search_lendDateEnd : lendDateEnd ?(lendDateEnd+ ' 23:59:59'):lendDateEnd,
+					search_resDateEnd : resDateEnd,
+					search_signDateEnd : signDateEnd,
+					search_lendDateEnd : lendDateEnd,
 					search_applyMoneyStart : applyMoneyStart,
 					search_loadMoneyStart : loadMoneyStart,
 					search_signMoneyStart : signMoneyStart,
@@ -350,7 +530,6 @@
 			 			return false;
 			 		codeStr += val;
 			 		if (start != "") {
-			 			start=parseFloat(start)*10000;
 			 			// 申请
 			 			if (val == '30005002') {
 			 				applyMoneyStart = start;
@@ -364,7 +543,6 @@
 			 		}
 			 		if (end != "") {
 			 			// 申请
-			 			end=parseFloat(end)*10000;
 			 			if (val == '30005002') {
 			 				applyMoneyEnd = end;
 			 			// 面签
@@ -421,7 +599,6 @@
 		    		displayColomn.push('loanSrvCode');
 		    		displayColomn.push('finOrgName');
 		    		displayColomn.push('propertyAddr');
-		    		displayColomn.push('custName');
 		    		displayColomn.push('executorId');
 		    		displayColomn.push('applyStatus');
 		    		displayColomn.push('confirmStatus');
@@ -438,7 +615,7 @@
 		    		displayColomn.push('belogDistrict');
 		    		displayColomn.push('createTime');
 		    		displayColomn.push('PARENT_ORG_NAME');
-		    		displayColomn.push('yuOrgName');
+		    		
 		    		var params;
 		    		if (getSearchDateValues() && getSearchMoneyValues()) {
 						params = getParamsValues();
@@ -452,7 +629,6 @@
 
 		    		$('#excelForm').attr('action', url);
 		    		$('#excelForm').submit();
-		    		alert("导出至 Excel成功");
 		    		//caseDistribute();
 		    		//停顿2s后再执行
 		    		//var ids = jQuery("#gridTable").jqGrid('getDataIDs');
@@ -488,33 +664,7 @@
 		    	});
 		    }
 		    
-		    function exportChangeListToExcel() { 
-	    		var ctx = $("#ctx").val();
-	    		var url = "/quickGrid/findPage?xlsx&";
-	    		
-	    		var displayColomn = new Array;
-	    		displayColomn.push('LOAN_SRV_CODE');
-	    		displayColomn.push('EXECUTOR_ID');
-	    		displayColomn.push('ST_FROM');
-	    		displayColomn.push('ST_TO');
-	    		displayColomn.push('CHANGE_DATE');
-	    		displayColomn.push('PROPERTY_ADDR');
-	    		
-	    		var params =  {
-	    				search_propertyAddr : $.trim($('#propertyAddr').val()),
-	    		    	search_loanSrvCode : $.trim($('#loanSrvCode').val())
-		    	};
-	    		var queryId = '&queryId=changeListQuery';
-	    		var colomns = '&colomns=' + displayColomn;
-	    		url = ctx + url + jQuery.param(params) + queryId + colomns;
-
-	    		$('#excelChangeForm').attr('action', url);
-	    		$('#excelChangeForm').submit();
-	    		alert("导出至 Excel成功");
-	    		//caseDistribute();
-	    		//停顿2s后再执行
-	    		//setTimeout(function(){caseDistribute();},2000);
-	    	}
+		   
 		    
 		</script>
 	</content>
