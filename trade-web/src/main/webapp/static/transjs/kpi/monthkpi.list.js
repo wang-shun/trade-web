@@ -18,33 +18,33 @@ var MonthKpiImportList = (function(){
     				align : "center",
     				width : 0,
     				key : true,
-    				resizable : false,
+    				resizable : true,
     				hidden : true
     			}, {
     				name : 'PARTICIPANT',
     				index : 'PARTICIPANT',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			}, {
     				name : 'TEAM_ID',
     				index : 'TEAM_ID',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'DISTRICT_ID',
     				index : 'DISTRICT_ID',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     				//hidden : true
     			},{
     				name : 'TYPE',
     				index : 'TYPE',
     				align : "center",
     				width : 20,
-    				resizable : false,
+    				resizable : true,
     				formatter : function(cellvalue,
 							options, rawObject) {
     					if(cellvalue=='IMP'){
@@ -59,13 +59,13 @@ var MonthKpiImportList = (function(){
     				index : 'FIN_ORDER',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'FIN_ORDER_ROLL',
     				index : 'FIN_ORDER_ROLL',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			}, {
     				name : 'FIN_ORDER_RATE',
     				index : 'FIN_ORDER_RATE',
