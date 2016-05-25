@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="service_change" isExecutable="true">
+    <startEvent id="sid-0BA1C002-EA7A-4846-A4FA-D95CDAC24EF4"></startEvent>
+    <userTask id="ServiceChangeApply" name="服务变更申请" activiti:candidateGroups="consultant"></userTask>
+    <sequenceFlow id="sid-2DFF09B5-06E0-4BE0-BB44-F9EE9C9B7BE0" sourceRef="sid-0BA1C002-EA7A-4846-A4FA-D95CDAC24EF4" targetRef="ServiceChangeApply"></sequenceFlow>
+    <userTask id="ServiceChangeApprove" name="服务变更审批" activiti:candidateGroups="Manager"></userTask>
+    <sequenceFlow id="sid-B72B1A28-FFDC-43DE-AC86-CBA6CA7EB50A" sourceRef="ServiceChangeApply" targetRef="ServiceChangeApprove"></sequenceFlow>
+    <sequenceFlow id="sid-D16A0470-8050-41E0-AB0F-26B570BD6798" sourceRef="ServiceChangeApprove" targetRef="sid-D3CD07AA-769E-42BB-B619-45CBCF78702F"></sequenceFlow>
+    <endEvent id="sid-D3CD07AA-769E-42BB-B619-45CBCF78702F"></endEvent>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_service_change">
+    <bpmndi:BPMNPlane bpmnElement="service_change" id="BPMNPlane_service_change">
+      <bpmndi:BPMNShape bpmnElement="sid-0BA1C002-EA7A-4846-A4FA-D95CDAC24EF4" id="BPMNShape_sid-0BA1C002-EA7A-4846-A4FA-D95CDAC24EF4">
+        <omgdc:Bounds height="30.0" width="30.0" x="160.5" y="254.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ServiceChangeApply" id="BPMNShape_ServiceChangeApply">
+        <omgdc:Bounds height="80.0" width="100.0" x="225.0" y="225.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ServiceChangeApprove" id="BPMNShape_ServiceChangeApprove">
+        <omgdc:Bounds height="80.0" width="100.0" x="360.0" y="225.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-D3CD07AA-769E-42BB-B619-45CBCF78702F" id="BPMNShape_sid-D3CD07AA-769E-42BB-B619-45CBCF78702F">
+        <omgdc:Bounds height="28.0" width="28.0" x="510.0" y="251.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-B72B1A28-FFDC-43DE-AC86-CBA6CA7EB50A" id="BPMNEdge_sid-B72B1A28-FFDC-43DE-AC86-CBA6CA7EB50A">
+        <omgdi:waypoint x="325.0" y="265.0"></omgdi:waypoint>
+        <omgdi:waypoint x="360.0" y="265.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2DFF09B5-06E0-4BE0-BB44-F9EE9C9B7BE0" id="BPMNEdge_sid-2DFF09B5-06E0-4BE0-BB44-F9EE9C9B7BE0">
+        <omgdi:waypoint x="190.4878937658403" y="268.3974716074034"></omgdi:waypoint>
+        <omgdi:waypoint x="225.0" y="267.0100502512563"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D16A0470-8050-41E0-AB0F-26B570BD6798" id="BPMNEdge_sid-D16A0470-8050-41E0-AB0F-26B570BD6798">
+        <omgdi:waypoint x="460.0" y="265.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="265.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
