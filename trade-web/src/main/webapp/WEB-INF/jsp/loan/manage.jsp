@@ -113,8 +113,11 @@
 					    </div>
 						<div id="research_money_div_0" class="input-group input-medium date-picker input-daterange">
 							<input type="number" id="start_money_0" name="start_money_0" value="" size="16" class="form-control" style="font-size: 13px;float:left;" placeholder="">
+							<span class="input-group-addon">万 </span>						
 							<span class="input-group-addon">到</span>
 							<input type="number" id="end_money_0" value="" size="16" name="end_money_0" class="form-control" style="font-size: 13px;float:left;" placeholder="">
+							<span class="input-group-addon">万</span>
+							
 						</div>
 					</div>
 					
@@ -172,7 +175,7 @@
 	    	<a class="btn btn-primary" href="javascript:exportToExcel()">导出</a>
 	    </form>	
 		<!-- DataList end -->
-	
+	<div id="alertOper"></div>
 	<!-- content end  -->
 	
   	<content tag="local_script">
@@ -530,6 +533,7 @@
 			 			return false;
 			 		codeStr += val;
 			 		if (start != "") {
+			 			start=parseFloat(start)*10000;
 			 			// 申请
 			 			if (val == '30005002') {
 			 				applyMoneyStart = start;
@@ -543,6 +547,7 @@
 			 		}
 			 		if (end != "") {
 			 			// 申请
+			 			end=parseFloat(end)*10000;
 			 			if (val == '30005002') {
 			 				applyMoneyEnd = end;
 			 			// 面签
@@ -570,8 +575,8 @@
 				
 				div += '<div id="research_money_div_'+ researMoneyIndex +'" class="input-group input-medium date-picker input-daterange">';
 				div	+= '<input type="number" id="start_money_'+ researMoneyIndex +'" value="" size="16" class="form-control" style="font-size: 13px;float:left;" placeholder="">';
-				div += '<span class="input-group-addon">到</span>';
-			    div += '<input type="number" id="end_money_'+researMoneyIndex+'" value="" size="16" id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;float:left;" placeholder="">';
+				div += '<span class="input-group-addon">万 </span><span class="input-group-addon">到</span>';
+			    div += '<input type="number" id="end_money_'+researMoneyIndex+'" value="" size="16" id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;float:left;" placeholder=""><span class="input-group-addon">万 </span>';
 				div += '<span class="input-group-addon"><a href="javascript:removeMoneyDiv('
 					+ researMoneyIndex + ');"><font>删除</font></a></span></div></div>';
 
@@ -599,6 +604,7 @@
 		    		displayColomn.push('loanSrvCode');
 		    		displayColomn.push('finOrgName');
 		    		displayColomn.push('propertyAddr');
+		    		displayColomn.push('custName');
 		    		displayColomn.push('executorId');
 		    		displayColomn.push('applyStatus');
 		    		displayColomn.push('confirmStatus');
@@ -615,7 +621,7 @@
 		    		displayColomn.push('belogDistrict');
 		    		displayColomn.push('createTime');
 		    		displayColomn.push('PARENT_ORG_NAME');
-		    		
+		    		displayColomn.push('yuOrgName');
 		    		var params;
 		    		if (getSearchDateValues() && getSearchMoneyValues()) {
 						params = getParamsValues();
