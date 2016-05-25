@@ -179,7 +179,7 @@ float: none;
 				var district = $("#sel_district").val();
 				if(district==null||district==''){
 					alert('请选择行政区域');
-					$.unbolckUI();
+					$.unblockUI();
 					return false;
 				}
 				$.ajax({
