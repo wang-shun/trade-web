@@ -41,15 +41,16 @@
 					  (SELECT TOP 1 CLOSE_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS CLOSE_TIME,
 					  (SELECT TOP 1 PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS PROPERTY_ADDR
 					FROM 
-					  (SELECT detail.* FROM sctrans.T_TS_AWARD_KPI_PAY_DETAIL detail WHERE 1=1
+					  (SELECT detail.* FROM sctrans.T_TS_AWARD_KPI_PAY_DETAIL detail 
+					   <ifNotNull propertyAddr>
+					    INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = detail.CASE_CODE AND INFO.PROPERTY_ADDR = #propertyAddr#
+					  </ifNotNull>
+					  WHERE 1=1
 					  <ifNotNull belongMonth>
 					    AND DATEDIFF(m, detail.BELONG_MONTH, #belongMonth#) = 0
 					  </ifNotNull>
 					  <ifNotNull caseCode>
 					    AND detail.CASE_CODE = #caseCode#
-					  </ifNotNull>
-					  <ifNotNull propertyAddr>
-					    INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = detail.CASE_CODE AND INFO.PROPERTY_ADDR = #propertyAddr#
 					  </ifNotNull>
                       ) T_TS_AWARD_DETAIL
 					GROUP BY 
