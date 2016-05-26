@@ -2,6 +2,10 @@
  * 同案件任务列表
  */
 function caseTaskCheck(){
+	setTimeout('initGrid()',1000); 
+}
+
+function initGrid() {
 	var url = "/quickGrid/findPage";
 	url = ctx + url;
 	//jqGrid初始化

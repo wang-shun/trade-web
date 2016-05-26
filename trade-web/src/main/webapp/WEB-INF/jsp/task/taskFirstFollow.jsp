@@ -321,7 +321,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.1.0"></script> 
 	<!-- Custom and plugin javascript -->
 	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 
@@ -529,7 +529,7 @@
     		            } ,  
 				success : function(data) {
 					if(b) {
-						caseTaskCheck();
+						setTimeout('caseTaskCheck()',1000); 
 						//$('#case-task-modal-form').modal("show");
 					} else {
 						if(data.firstFollowVO.isrepeat==true){
