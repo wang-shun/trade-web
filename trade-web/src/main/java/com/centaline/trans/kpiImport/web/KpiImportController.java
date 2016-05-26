@@ -35,6 +35,8 @@ import com.centaline.trans.kpi.service.TsAwardKpiPayDetailService;
 import com.centaline.trans.kpi.service.TsAwardKpiPayService;
 import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
+import com.centaline.trans.utils.NumberUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
@@ -191,7 +193,7 @@ public class KpiImportController {
 		for (KpiMonthVO kpiMonthVO : list) {
 			String employeeCode = kpiMonthVO.getEmployeeCode();
 			String userName = kpiMonthVO.getUserName();
-			Long finOrder = kpiMonthVO.getFinOrder();
+			String finOrder = kpiMonthVO.getFinOrder();
 
 			if (StringUtils.isBlank(employeeCode) || StringUtils.isBlank(userName) || (finOrder == null)) {
 				/*
@@ -203,6 +205,11 @@ public class KpiImportController {
 			User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
 			if (user == null || !userName.equals(user.getRealName())) {
 				kpiMonthVO.setErrorMessage("员工编号与姓名不对应");
+				errorList.add(kpiMonthVO);
+				continue;
+			}
+			if(NumberUtil.isMatchesRegex(finOrder, "^[\\d]*$")) {
+				kpiMonthVO.setErrorMessage("金融产品需输入正整数");
 				errorList.add(kpiMonthVO);
 				continue;
 			}

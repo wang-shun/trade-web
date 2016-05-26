@@ -282,7 +282,7 @@ width:160px;
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
-    	}
+    	} 
     	 $("#importButton").click(function(){
     		//iframe层
         	layer.open({
@@ -294,40 +294,48 @@ width:160px;
         	  content: $('#excelImport'), //捕获的元素
         	  btn: ['提交','关闭'],
         	  yes: function(index){
-        		  var i =sw.bootstrapSwitch('state')?'0':'1';
-        		  // 上月
-        		  var bm;
-        		  if(i=='0') {
-        			  var cDate = new Date();
-        			  cDate.setMonth(cDate.getMonth()-1);
-        			  bm = cDate.format('yyyy-MM-dd');
-        		  } else {
-        			  bm = new Date().format('yyyy-MM-dd');
-        		  }
-        		  
-        		  var isKpiMoney = isGenerKpiMoney(bm);
-        		  if(isKpiMoney) {
-       		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
-       		    		  icon: 2
-       		    	}) 
-        		    return false;
-        		  }
-        
-        		  if(checkFileTypeExcel()){
-        			 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-       		    	 $(".blockOverlay").css({'z-index':'9998'});
-       		    	 $("#excelInForm").attr("action",ctx+"/kpi/doMonthKpiImport"); 
-       		    	 $("#excelInForm").attr("method","POST"); 
-       		    	 
-       		    	 $("#belongMonth").remove();
-       		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
-       		    	 var i =sw.bootstrapSwitch('state')?'0':'1';
-       		    	 inputMonth.val(i);
-       		    	 $('#excelInForm').append(inputMonth);
-       		    	 $('#excelInForm').submit();
-       		    	 
-        			 layer.close(index);
-        		  }
+        		  //询问框
+        		  layer.confirm('您是否确定提交？', {
+        		    btn: ['确定','取消'] 
+        		  }, function(i){
+        			  layer.close(i);
+        			  var i =sw.bootstrapSwitch('state')?'0':'1';
+            		  // 上月
+            		  var bm;
+            		  if(i=='0') {
+            			  var cDate = new Date();
+            			  cDate.setMonth(cDate.getMonth()-1);
+            			  bm = cDate.format('yyyy-MM-dd');
+            		  } else {
+            			  bm = new Date().format('yyyy-MM-dd');
+            		  }
+            		  
+            		  var isKpiMoney = isGenerKpiMoney(bm);
+            		  if(isKpiMoney) {
+           		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
+           		    		  icon: 2
+           		    	}) 
+            		    return false;
+            		  }
+            
+            		  if(checkFileTypeExcel()){
+            			 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+           		    	 $(".blockOverlay").css({'z-index':'9998'});
+           		    	 $("#excelInForm").attr("action",ctx+"/kpi/doMonthKpiImport"); 
+           		    	 $("#excelInForm").attr("method","POST"); 
+           		    	 
+           		    	 $("#belongMonth").remove();
+           		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
+           		    	 var i =sw.bootstrapSwitch('state')?'0':'1';
+           		    	 inputMonth.val(i);
+           		    	 $('#excelInForm').append(inputMonth);
+           		    	 $('#excelInForm').submit();
+           		    	 
+            			 layer.close(index);
+            		  }
+        		  }, function(){
+        		   
+        		  });
         	  },
         	  cancel: function(index){
         	    layer.close(index);

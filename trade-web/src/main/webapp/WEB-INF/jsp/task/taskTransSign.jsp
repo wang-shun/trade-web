@@ -748,11 +748,17 @@ if("${idList}" != "") {
     		                }
     		            } , 
 				success : function(data) {
-					caseTaskCheck();
-					if(null!=data.message){
-						alert(data.message);
+					if(b) {
+						caseTaskCheck();
+						if(null!=data.message){
+							alert(data.message);
+						}
+						//window.location.href = "${ctx }/task/myTaskList";
+					} else {
+						alert("保存成功。");
+						 window.close();
+						 window.opener.callback();
 					}
-					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
 					alert("数据保存出错");
