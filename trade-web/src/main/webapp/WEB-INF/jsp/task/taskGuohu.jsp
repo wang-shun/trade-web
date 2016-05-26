@@ -575,8 +575,11 @@
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						alert("保存成功。");
-						 window.close();
-						 window.opener.callback();
+						if(window.opener != null) {
+							 window.close();
+							 window.opener.callback();
+						}
+						
 					}
 				},
 				error : function(errors) {

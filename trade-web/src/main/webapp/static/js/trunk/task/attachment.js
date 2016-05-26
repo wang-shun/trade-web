@@ -177,7 +177,11 @@ function subAddFrom() {
 //					alert("附件已修改。");
 				    $(".cancel").hide();
 				    $(".btn-primary").one("click",function(){
-				    	parent.$.fancybox.close();
+				    	if(parent && parent.$ && parent.$.fancybox){
+					    	if(typeof parent.$.fancybox.close =='function'){
+					    		parent.$.fancybox.close();
+					    	}
+				    	}
 				    });
 				}else if(!data) {
 					Modal.alert({msg:data.message});
