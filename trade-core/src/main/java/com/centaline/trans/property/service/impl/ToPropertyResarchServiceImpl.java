@@ -164,6 +164,8 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		record.setPartCode(ToPropertyResearchEnum.PROPERTY_RESEARCH.getCode());
 		record.setPrCat(vo.getPrCat());
 		record.setPrStatus(PropertyStatusEnum.CONTACTS.getCode());
+		
+		record.setPrChannel(vo.getPrChannel());
 		record.setPrApplyTime(new Date());
 
 		record.setDistCode(vo.getDistrict());
