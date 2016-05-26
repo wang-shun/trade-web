@@ -612,6 +612,10 @@
 	                return false;
 	           }
 			}
+			if($('select[name="cooperationUser"]').size()==0){
+				 alert("正在加载合作项目!");
+				 return false;
+			}
 			return true;
 		}
 	</script> 
