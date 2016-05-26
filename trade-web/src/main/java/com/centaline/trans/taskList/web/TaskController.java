@@ -391,7 +391,10 @@ public class TaskController {
         	}
      		
     	}else if("MortgageSelect".equals(taskitem)){
-    		
+    		ToTransPlan plan=new ToTransPlan();
+    		plan.setCaseCode(caseCode);
+    		plan.setPartCode("LoanRelease");//放款
+    		request.setAttribute("loanReleasePlan", toTransPlanService.findTransPlan(plan));
     	}
         return "task/task"+taskitem;
   
