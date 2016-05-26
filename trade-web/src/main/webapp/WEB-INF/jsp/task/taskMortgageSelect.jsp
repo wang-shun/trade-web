@@ -312,7 +312,7 @@
 					 alert("正在加载合作项目!");
 					 return false;
 				}
-				if($('#mortageService').val()!='0'&& $('#estPartTimeFk').val()==''){
+				if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
 					alert('请选择预计放款时间');
 					return false;
 				}
