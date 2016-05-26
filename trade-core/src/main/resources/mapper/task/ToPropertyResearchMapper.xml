@@ -57,11 +57,11 @@
     insert into sctrans.T_TO_PROPERTY_RESEARCH (PKID, CASE_CODE, PART_CODE, 
       PR_CAT, PR_APPLIANT, PR_EXECUTOR, 
       PR_APPLY_TIME, PR_ACCPET_TIME, PR_COMPLETE_TIME, 
-      PR_STATUS, PR_CHANNEL,PR_CODE,SAME_PR_CODE)
+      PR_STATUS, PR_CHANNEL,PR_CODE,SAME_PR_CODE,UPDATE_BY,UPDATE_TIME)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
       #{prCat,jdbcType=NVARCHAR}, #{prAppliant,jdbcType=VARCHAR}, #{prExecutor,jdbcType=VARCHAR}, 
       #{prApplyTime,jdbcType=TIMESTAMP}, #{prAccpetTime,jdbcType=TIMESTAMP}, #{prCompleteTime,jdbcType=TIMESTAMP}, 
-      #{prStatus,jdbcType=NVARCHAR}, #{prChannel,jdbcType=VARCHAR}, #{prCode,jdbcType=VARCHAR}, #{samePRCode,jdbcType=VARCHAR})
+      #{prStatus,jdbcType=NVARCHAR}, #{prChannel,jdbcType=VARCHAR}, #{prCode,jdbcType=VARCHAR}, #{samePRCode,jdbcType=VARCHAR},@{SESSION_USER_ID},GETDATE())
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPropertyResearch">
     insert into sctrans.T_TO_PROPERTY_RESEARCH
@@ -133,12 +133,9 @@
       <if test="createBy != null">
         create_By ,
       </if>
-      <if test="updateTime != null">
-        update_Time ,
-      </if>
-      <if test="updateBy != null">
-        update_By ,
-      </if>
+       	  UPDATE_BY,
+	      UPDATE_TIME,
+
            <if test="distCode != null">
         dist_Code ,
       </if>
@@ -213,12 +210,8 @@
             <if test="createBy != null">
         #{createBy,jdbcType=VARCHAR},
       </if>
-            <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-            <if test="updateBy != null">
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
+        @{SESSION_USER_ID},
+        GETDATE(),
       <if test="distCode != null">
          #{distCode,jdbcType=VARCHAR},
       </if>
@@ -295,12 +288,8 @@
        <if test="createBy != null">
         create_By= #{createBy,jdbcType=VARCHAR},
       </if>
-       <if test="updateTime != null">
-        update_Time= #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-       <if test="updateBy != null">
-        update_By= #{updateBy,jdbcType=VARCHAR},
-      </if>
+          UPDATE_BY =  @{SESSION_USER_ID},
+	      UPDATE_TIME = GETDATE(),
             <if test="distCode != null">
        dist_Code=  #{distCode,jdbcType=VARCHAR},
       </if>
@@ -320,7 +309,9 @@
       PR_COMPLETE_TIME = #{prCompleteTime,jdbcType=TIMESTAMP},
       PR_STATUS = #{prStatus,jdbcType=NVARCHAR},
       PR_CHANNEL = #{prChannel,jdbcType=VARCHAR},
-      SAME_PR_CODE= #{samePRCode,jdbcType=VARCHAR}
+      SAME_PR_CODE= #{samePRCode,jdbcType=VARCHAR},
+      UPDATE_BY =  @{SESSION_USER_ID},
+	  UPDATE_TIME = GETDATE()
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

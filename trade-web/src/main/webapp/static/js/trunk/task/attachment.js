@@ -177,7 +177,11 @@ function subAddFrom() {
 //					alert("附件已修改。");
 				    $(".cancel").hide();
 				    $(".btn-primary").one("click",function(){
-				    	parent.$.fancybox.close();
+				    	if(parent && parent.$ && parent.$.fancybox){
+					    	if(typeof parent.$.fancybox.close =='function'){
+					    		parent.$.fancybox.close();
+					    	}
+				    	}
 				    });
 				}else if(!data) {
 					Modal.alert({msg:data.message});
@@ -312,7 +316,7 @@ function romoveDiv(type,pkid){
 function deletePicBatch(){
 	if(pkIdArr==''){
     	alert("请选择至少一张图片删除!");
-		return;
+		return false;
 	}
 		$.ajax({
 			type : 'post',
@@ -389,7 +393,7 @@ function deleteAndModify(){
 	    var spans =$("input[name='preFileAdress']");
 	    if(spans.length < picDiv.length) {
 	    	alert("你有未上传的完成的文件，请稍候再试！");
-	    	return;
+	    	return false;
 	    }
 	    //如果原来数据的长度等于复选框的长度--》调用新增的方法
 		if(dataLength==input.length && spans.length>0){
@@ -401,26 +405,22 @@ function deleteAndModify(){
 		}
     }
 	if(juage()){
-		return;
+		return false;
 	}
 	//dataLength
 	//获取复选框的长度
 	var input=$("input[name='pic']");
 	//图片的ID
     var spans =$("input[name='preFileAdress']");
-//    var oldDesc=$("#oldDesc").val();
-//	var newDesc=$("#newDesc").val();
     
 	//如果原来数据的长度大于复选框的长度且没有新的图片数据--》调用删除的方法
 	if(dataLength>input.length&&spans.length==0){
-		deletePicBatch();
+		var flag = deletePicBatch();
+		if(!flag) {
+			return false;
+		}
 	}
-//	if(dataLength==input.length && spans.length==0&&trim(oldDesc)!=trim(newDesc)){
-//		modifyExplDescr();
-//	}
-	else{
-//		alert("当前无操作！");
-	}
+	return true;
 }
 
 function juage(){

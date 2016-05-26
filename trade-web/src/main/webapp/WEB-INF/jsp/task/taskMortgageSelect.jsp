@@ -27,6 +27,7 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -83,7 +84,8 @@
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-
+					
+					<input type="hidden" id="pkid" name="pkid" value="${loanReleasePlan.pkid}">
 					<div class="row">
 						<div class="col-xs-12 col-md-5">
 							<div class="form-group" id="data_1" name="isYouXiao">
@@ -95,6 +97,21 @@
 								</div>
 						</div>
 					</div>
+					<div class="row" id='div_releasePlan'>
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group">
+								<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>预计放款时间</label>
+								<div class="col-md-8">
+									<div class=" input-group date">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<input type="text" class="form-control" name="estPartTime" id="estPartTime" disabled="disabled"
+								 value="<fmt:formatDate  value='${loanReleasePlan.estPartTime}' type='both' pattern='yyyy-MM-dd'/>">
+								 </div>
+						</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="row">
 					*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。
 					</div>
@@ -119,7 +136,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 	<!-- Custom and plugin javascript -->
 	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 
@@ -133,18 +150,35 @@
 	
 	<script src="${ctx}/transjs/task/follow.pic.list.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+		<!-- Data picker -->
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script>
 		$(document).ready(function(){
 			/*根据贷款服务项，设置默认合作项目*/
 			$("#mortageService").change(function(){
 				mortageService();
 			});
-			
+			$('#div_releasePlan').hide();
+
+			$('#div_releasePlan .input-group.date').datepicker({
+				todayBtn : "linked",
+				keyboardNavigation : false,
+				forceParse : false,
+				autoclose : true
+			});
 		});
 	
 		
         function mortageService() {
 			var value = $("#mortageService").val();
+			if(value!='0'){
+				$("#estPartTime").removeProp('disabled');
+				$("#estPartTime").removeAttr('disabled');
+				 $('#div_releasePlan').show();
+			}else{
+				$("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
+				$('#div_releasePlan').hide();
+			}
 			$("#hzxm").html("");
 			if(value=='2'){
 				var url = "${ctx}/task/firstFollow/queryMortageServiceByServiceCode";
@@ -277,6 +311,10 @@
 				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="partner"]').size()==0){
 					 alert("正在加载合作项目!");
 					 return false;
+				}
+				if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
+					alert('请选择预计放款时间');
+					return false;
 				}
 				if(flag)return false;
 				

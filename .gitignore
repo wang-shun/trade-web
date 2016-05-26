@@ -45,6 +45,6 @@ target/
 
 ## tomcat 
 catalina.base_IS_UNDEFINED
-
-## bpmn
+## Activiti
+.bpmn
 .xml

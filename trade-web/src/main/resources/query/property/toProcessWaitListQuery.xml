@@ -10,7 +10,7 @@
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+				<property name="pattern">yyyy/MM/dd</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">

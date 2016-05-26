@@ -238,6 +238,7 @@
 							ON F.ORG_ID = YCORG.ID
 							WHERE (YCORG.ID = #yuCuiOriGrpId# OR YCORG.PARENT_ID = #yuCuiOriGrpId#) )
 					</ifNotNull>
+					and B.CASE_PROPERTY != '30003002'
 				]]>
 			</baseSql>
 			<orderBySql>

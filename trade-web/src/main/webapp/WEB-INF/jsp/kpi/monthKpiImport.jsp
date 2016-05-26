@@ -118,7 +118,8 @@ width:160px;
                                </div>
                                <div class="col-lg-3 col-md-4">                                   
                                   <button id="searchButton" type="button" class="btn btn-primary">查询</button>
-		            	       <a id="importButton" class="btn btn-primary">个人月度Kpi导入 </a>
+                                  <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+		            	       <a id="importButton" class="btn btn-primary">个人月度KPI导入 </a>
                                </div>
 			             </div>
 					</form>
@@ -294,10 +295,6 @@ width:160px;
         	  content: $('#excelImport'), //捕获的元素
         	  btn: ['提交','关闭'],
         	  yes: function(index){
-        		  //询问框
-        		  layer.confirm('您是否确定提交？', {
-        		    btn: ['确定','取消'] 
-        		  }, function(i){
         			  layer.close(i);
         			  var i =sw.bootstrapSwitch('state')?'0':'1';
             		  // 上月
@@ -333,9 +330,6 @@ width:160px;
            		    	 
             			 layer.close(index);
             		  }
-        		  }, function(){
-        		   
-        		  });
         	  },
         	  cancel: function(index){
         	    layer.close(index);
@@ -348,6 +342,9 @@ width:160px;
 		$('#searchButton').click(function() {
 			reloadGrid();
 		});
+    	$('#cleanButton').click(function() {
+ 			$("input").val('');
+ 		});
 		
 		function reloadGrid(bm){
  			if(!bm){

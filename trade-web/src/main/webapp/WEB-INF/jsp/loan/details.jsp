@@ -275,8 +275,12 @@
 					alert('请选择产品类型');
 					return false;
 				}
-				if($("#select_applyStatus").val()==''||$("#txt_loanAmount").val()==0){
+				if($("#select_applyStatus").val()==''){
 					alert('请选择跟进状态');
+					return false;
+				}
+				if($("#txt_loanAmount").val()==0){
+					alert('请输入申请金额');
 					return false;
 				}
 				if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){

@@ -156,7 +156,7 @@
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 	<script src="${ctx}/transjs/sms/sms.js"></script> 
-		<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
