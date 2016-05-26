@@ -321,7 +321,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.1.0"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 	<!-- Custom and plugin javascript -->
 	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 

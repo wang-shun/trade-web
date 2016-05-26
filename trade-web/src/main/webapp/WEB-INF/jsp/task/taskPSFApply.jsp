@@ -296,7 +296,7 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/sms/sms.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){

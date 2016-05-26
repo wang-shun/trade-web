@@ -250,7 +250,7 @@
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/task/taskspvOutApply.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 
 	</content>
 </body>
