@@ -115,8 +115,8 @@ text-decoration: underline !important;
 							<div class="col-md-7 col-sm-12">
 								<div class="form-group ">
 									<label class="col-md-2  col-sm-4 control-label">案件类型</label>
-									<div class="col-md-8">
-										<aist:dict id="caseProperty" name="case_property" display="select" dictType="30003" clazz="form-control" /> 
+									<div class="col-md-8"> 	
+										<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="form-control" /> 
 									</div>
 								</div>
 							</div>
