@@ -385,6 +385,16 @@
                 $('input[name=finOrgCode]').focus();
                 return false;
            }
+			var prfAmoutStr=$("#prfAmount").val();
+			var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
+			var mortTotalAmount=parseFloat($("#mortTotalAmount").val());
+			var comAmount=parseFloat($("#comAmount").val());
+			if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount){
+				alert('贷款总额必须等于商贷和公积金之和');
+		    	return false;
+			}
+			
+			
 			return true;
 		}
 	</script> 

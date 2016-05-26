@@ -47,99 +47,64 @@
 <input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}"/>
 <input type="hidden" id="prStatus"name="search_prStatus" value="2"/>
     <input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
-    	<div class="row">
-    		<div class="col-md-4">
-    			<div class="form-group">
-    				<label class="col-md-3  control-label">行政区域</label>
-    				<div class="col-md-8">
+    	<div class="row form-group">
+    				<label class="col-md-1  control-label">行政区域</label>
+    				<div class="col-md-3">
     					<aist:dict id="distCode" clazz="form-control pull-left" name="search_distCode" display="select"  dictType = "yu_shanghai_district" />
     				</div>
-    			</div>
-    		</div>
-    		   <div class="col-md-4">
-    			<div class="form-group">
-    				<label class="col-md-3  control-label">产调项目</label>
-    				<div class="col-md-8">
+    				<label class="col-md-1  control-label">产调项目</label>
+    				<div class="col-md-3">
     					<input type="text" id="prCat" name="search_prCat"class="form-control"/>  
     				</div>
-    			</div>
     		</div>
-    	</div>
-        <div class="row">
-        	<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">所属分行</label>
-    				<div class="col-md-8">
+        <div class="row form-group">
+        			<label class="col-md-1  control-label">所属分行</label>
+    				<div class="col-md-3">
     					<input type="text" id="grpOrgName" name="search_grpOrgName" class="form-control"/>
     				</div>
-    			</div>
-        	</div>
-        	<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">物业地址 </label>
-    				<div class="col-md-8">
+
+        			<label class="col-md-1  control-label">物业地址 </label>
+    				<div class="col-md-3">
     					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
     				</div>
-    			</div>
-        	</div>
-        
 			
 		</div>
 
-		<div class="row">
-        	<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">产调执行人</label>
-    				<div class="col-md-8">
+		<div class="row form-group">
+ 
+        			<label class="col-md-1  control-label">产调执行人</label>
+    				<div class="col-md-3">
     					<input type="text" id="acuUser" name="search_acuUser" class="form-control"/>
     				</div>
-    			</div>
-        	</div>
-			<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">产调申请人 </label>
-    				<div class="col-md-8">
+
+        			<label class="col-md-1  control-label">产调申请人 </label>
+    				<div class="col-md-3">
     					<input type="text" id="auUser" name="search_auUser" class="form-control"/>
     				</div>
-    			</div>
-        	</div>
 		</div>
-		<div class="row">
-        	<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">是否有效</label>
-    				<div class="col-md-8">
+		<div class="row form-group">       		
+        			<label class="col-md-1  control-label">是否有效</label>
+    				<div class="col-md-3">
     					<aist:dict id="isSuccess" clazz="form-control pull-left" name="search_isSuccess" display="select"  dictType = "nullityTag" />
     				</div>
-    			</div>
-        	</div>
-        	<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">来源 </label>
-    				<div class="col-md-8">
+        			<label class="col-md-1  control-label">来源 </label>
+    				<div class="col-md-3">
     					<select ltype="select" id="prChannel" name="search_prChannel" class="form-control pull-left" validate="" onchange="" ligerui="">
     					<option value="" selected="selected">请选择</option>
     					<option value="0">内部</option>
     					<option value="1">经纪人</option>
     					</select>
     				</div>
-    			</div>
-        	</div>
 		</div>
-		<div class="row">
-        	<div class="col-md-4">
-        		<div class="form-group">
-        			<label class="col-md-3  control-label">所属区董</label>
-    				<div class="col-md-8">
+		<div class="row form-group">
+        			<label class="col-md-1  control-label">所属区董</label>
+    				<div class="col-md-3">
     					<input type="text" id="quds" name="search_quds" class="form-control"/>
     				</div>
-    			</div>
-        	</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group">
+		<div class="row form-group">
         			<label class="col-md-1  control-label">完成时间</label>
+    					<div class="col-md-11" style='margin-left: 0px'>
     					<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
 								data-date-format="yyyy-mm-dd">
@@ -152,15 +117,22 @@
 									<input type="hidden" name='search_completeTimeEnd' id='search_completeTimeEnd' value=''>
 							</div>
 					</div>
-        	</div>
 		</div>
 		
-		<div class="row"><a class='btn btn-primary' id='addrSearchButton' style='margin-left: 30px;'>搜索</a></div>
+		<div class="row form-group"><a class='btn btn-primary' id='addrSearchButton' style='margin-left: 30px;'>搜索</a></div>
 		     
 		<hr>
-         <table id="table_property_list"></table>
-         <div id="pager_property_list"></div>
-    	<a class='btn btn-primary' style="margin-left: 20px;" onclick="submitForm();return false" >导出产调至Excel</a>
+        <div class='row'>
+        	<div class='col-md-12'>
+			<table id="table_property_list"></table>
+         	<div id="pager_property_list"></div>
+         </div>
+         </div>
+         <div class='row form-group'>
+         	<div class='col-md-12'>
+    		<a class='btn btn-primary pull-left'  onclick="submitForm();return false" >导出产调至Excel</a>
+    		</div>
+    	</div>
      </div>                         
 </div>
 </form>    
