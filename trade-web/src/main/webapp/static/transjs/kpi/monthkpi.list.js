@@ -11,40 +11,40 @@ var MonthKpiImportList = (function(){
     			shrinkToFit : true,
     			rowNum : 8,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ '主键','人员','所在组别','所属贵宾服务部','类型','当月金融产品数','上月滚存数','金融产品产出率'],
+    			colNames : [ '主键','人员','所在组别','所属贵宾服务部','类型','当月金融产品数','上月滚存数','金融产品产出率','过户数'],
     			colModel : [ {
     				name : 'PKID',
     				index : 'PKID',
     				align : "center",
     				width : 0,
     				key : true,
-    				resizable : false,
+    				resizable : true,
     				hidden : true
     			}, {
     				name : 'PARTICIPANT',
     				index : 'PARTICIPANT',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			}, {
     				name : 'TEAM_ID',
     				index : 'TEAM_ID',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'DISTRICT_ID',
     				index : 'DISTRICT_ID',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     				//hidden : true
     			},{
     				name : 'TYPE',
     				index : 'TYPE',
     				align : "center",
     				width : 20,
-    				resizable : false,
+    				resizable : true,
     				formatter : function(cellvalue,
 							options, rawObject) {
     					if(cellvalue=='IMP'){
@@ -59,16 +59,22 @@ var MonthKpiImportList = (function(){
     				index : 'FIN_ORDER',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			},{
     				name : 'FIN_ORDER_ROLL',
     				index : 'FIN_ORDER_ROLL',
     				align : "center",
     				width : 20,
-    				resizable : false
+    				resizable : true
     			}, {
     				name : 'FIN_ORDER_RATE',
     				index : 'FIN_ORDER_RATE',
+    				align:'center',
+    				resizable : true,
+    				width : 10
+    			}, {
+    				name : 'TOTAL_CASE',
+    				index : 'TOTAL_CASE',
     				align:'center',
     				resizable : true,
     				width : 10

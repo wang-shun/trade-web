@@ -260,7 +260,7 @@
 									align : "center",
 									width : 0,
 									key : true,
-									resizable : false,
+									resizable : true,
 									hidden : true
 								},
 								{
@@ -268,14 +268,14 @@
 									index : 'CASE_CODE',
 									align : "center",
 									width : 300,
-									resizable : false
+									resizable : true
 								},
 								{
 									name : 'SRV_CODE',
 									index : 'SRV_CODE',
 									align : "center",
 									width : 100,
-									resizable : false
+									resizable : true
 								},
 								{
 									name : 'tName',
@@ -311,7 +311,7 @@
 									index : 'SATISFACTION',
 									align : "center",
 									width : 80,
-									resizable : false
+									resizable : true
 								},
 								{
 									name : 'CAN_CALLBACK',
