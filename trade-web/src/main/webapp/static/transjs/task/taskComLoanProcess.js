@@ -1144,7 +1144,7 @@ $(document).ready(function () {
 	$("#wizard").steps({labels:{
 			next:"下一步",
 			previous:"上一步",
-			finish:"完成"
+			finish:"提交"
 	 	},
 	 	onInit:function(event, currentIndex){
 	 		$("#winzard").find("li").css("width","16%");
@@ -1213,7 +1213,7 @@ $(document).ready(function () {
 	$("#wizard1").steps({labels:{
 		next:"下一步",
 		previous:"上一步",
-		finish:"完成"
+		finish:"提交"
  	},
  	showFinishButtonAlways:false,
  	enableCancelButton:false,

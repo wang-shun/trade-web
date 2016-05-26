@@ -75,7 +75,7 @@
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${PSFApprove.pkid}">
 					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">审批时间</label>
+						<label class="col-sm-2 control-label">审批时间<span class="star">*</span></label>
 						<div class="input-group date readOnly_date" style="margin-left: 197px;">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							<input type="text" class="form-control" id="apprDate" name="apprDate" style="width:127px;" 
