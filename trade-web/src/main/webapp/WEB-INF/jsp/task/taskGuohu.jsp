@@ -526,12 +526,11 @@
 
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
+			if(!checkForm() ||!deleteAndModify()) {
 				return;
 			}
 			var jsonData = $("#houseTransferForm").serializeArray();
-			deleteAndModify();
-			
+	
 			var url = "${ctx}/task/ToHouseTransfer/saveToHouseTransfer";
 			if(b) {
 				url = "${ctx}/task/ToHouseTransfer/submitToHouseTransfer";

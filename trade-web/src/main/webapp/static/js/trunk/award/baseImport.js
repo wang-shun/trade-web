@@ -145,6 +145,9 @@ function getParamsValue() {
 
 	var start = $('#dtBegin').val();
 	var end = $('#dtEnd').val();
+	if(end!=''){
+		end=(end+' 23:59:59');
+	}
 	//设置查询参数
 	var params = {
 		search_userNmae :userName,
