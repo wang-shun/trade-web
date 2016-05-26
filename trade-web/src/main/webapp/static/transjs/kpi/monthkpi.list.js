@@ -11,7 +11,7 @@ var MonthKpiImportList = (function(){
     			shrinkToFit : true,
     			rowNum : 8,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ '主键','人员','所在组别','所属贵宾服务部','类型','当月金融产品数','上月滚存数','金融产品产出率'],
+    			colNames : [ '主键','人员','所在组别','所属贵宾服务部','类型','当月金融产品数','上月滚存数','金融产品产出率','过户数'],
     			colModel : [ {
     				name : 'PKID',
     				index : 'PKID',
@@ -69,6 +69,12 @@ var MonthKpiImportList = (function(){
     			}, {
     				name : 'FIN_ORDER_RATE',
     				index : 'FIN_ORDER_RATE',
+    				align:'center',
+    				resizable : true,
+    				width : 10
+    			}, {
+    				name : 'TOTAL_CASE',
+    				index : 'TOTAL_CASE',
     				align:'center',
     				resizable : true,
     				width : 10
