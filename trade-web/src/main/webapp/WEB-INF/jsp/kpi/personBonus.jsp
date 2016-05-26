@@ -17,7 +17,7 @@
 
 <!-- Gritter -->
 <link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+	rel="stylesheet"> 
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -214,7 +214,7 @@ width:160px;
     	$.exportExcel({
 	    	ctx : "${ctx}",
 	    	queryId : 'personBonusList',
-	    	colomns : ['CASE_CODE','PARTICIPANT'],
+	    	colomns : ['CASE_CODE','PARTICIPANT','PROPERTY_ADDR','GUOHU_TIME','CLOSE_TIME','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
 	    	data : {search_caseCode:$('#caseCode').val(),search_propertyAddr:$('#propertyAddr').val()}
 	    }) 
      }
