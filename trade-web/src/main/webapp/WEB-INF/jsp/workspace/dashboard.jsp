@@ -428,7 +428,8 @@ response.setDateHeader("Expires",0);
                                                     接单数
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-danger" id="sp_receiveCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=received">${sta.receiveCount }</a>
+<%--                                                         <a href="${ctx}/report/statis/caseDetail?status=received">${sta.receiveCount }</a> --%>
+                                                        ${sta.receiveCount }
                                                         </span>
                                                     </div>
                                                 </li>
@@ -436,7 +437,8 @@ response.setDateHeader("Expires",0);
                                                     签约数
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-danger" id="sp_signCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=signed">${sta.signCount }</a>
+                                                       <%--  <a href="${ctx}/report/statis/caseDetail?status=signed">${sta.signCount }</a> --%>
+                                                        ${sta.signCount }
                                                         </span>
                                                     </div>
                                                 </li>
@@ -444,7 +446,8 @@ response.setDateHeader("Expires",0);
                                                     过户数
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-danger" id="sp_transferCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered">${sta.transferCount }</a>
+                                                        <%-- <a href="${ctx}/report/statis/caseDetail?status=transfered">${sta.transferCount }</a> --%>
+                                                        ${sta.transferCount }
                                                         </span>
                                                     </div>
                                                 </li>
@@ -452,7 +455,8 @@ response.setDateHeader("Expires",0);
                                                     结案数
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-danger" id="sp_closeCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=closed">${sta.closeCount }</a>
+                                                      <%--   <a href="${ctx}/report/statis/caseDetail?status=closed">${sta.closeCount }</a> --%>
+                                                        ${sta.closeCount }
                                                         </span>
                                                     </div>
                                                 </li>
