@@ -403,23 +403,21 @@ function deleteAndModify(){
 		if(dataLength>input.length && spans.length>0){
 			subUpdFrom();
 		}
+    } else {
+    	//dataLength
+    	//获取复选框的长度
+    	var input=$("input[name='pic']");
+    	//图片的ID
+        var spans =$("input[name='preFileAdress']");
+        
+    	//如果原来数据的长度大于复选框的长度且没有新的图片数据--》调用删除的方法
+    	if(dataLength>input.length&&spans.length==0){
+    		var flag = deletePicBatch();
+    		if(!flag) {
+    			return false;
+    		}
+    	}
     }
-	if(juage()){
-		return false;
-	}
-	//dataLength
-	//获取复选框的长度
-	var input=$("input[name='pic']");
-	//图片的ID
-    var spans =$("input[name='preFileAdress']");
-    
-	//如果原来数据的长度大于复选框的长度且没有新的图片数据--》调用删除的方法
-	if(dataLength>input.length&&spans.length==0){
-		var flag = deletePicBatch();
-		if(!flag) {
-			return false;
-		}
-	}
 	return true;
 }
 
