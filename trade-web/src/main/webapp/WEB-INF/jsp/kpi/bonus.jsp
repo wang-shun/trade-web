@@ -61,6 +61,8 @@
                                 <div class="col-lg-4 col-md-4">                                   
                                     <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
                                     <button class="btn btn-warning" type="submit" id="submitButton">提交</button>
+                                    <button id="exportBonusExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportBonusExcelButton()">导出Excel</button>
+                                    <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出Excel2</button>
                                     <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button> -->
                                 </div>
                             </div>
@@ -193,6 +195,7 @@
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
         <script src="${ctx}/transjs/kpi/bonus.js"></script>
+        <script src="${ctx}/js/plugins/jquery.custom.js"></script>
 		<script id="tsAwardBaseList" type= "text/html">
                            {{each rows as item index}}
  							  <tr class="border-e7">
@@ -368,6 +371,24 @@
         	    }
         	    BonusList.init(ctx,data1,data2);
 	    	}
+	    	
+	    	function exportToExcel() {
+	        	$.exportExcel({
+	    	    	ctx : "${ctx}",
+	    	    	queryId : 'tsAwardBaseDetailList',
+	    	    	colomns : ['CASE_CODE','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
+	    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
+	    	    }) 
+	         }
+	    	
+	    	 function exportBonusExcelButton() {
+	    		 $.exportExcel({
+		    	    	ctx : "${ctx}",
+		    	    	queryId : 'tsAwardBaseList',
+		    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','GUOHU_TIME','CLOSE_TIME','BASE_CASE_AMOUNT'],
+		    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
+	    	    }) 
+	    	 }
 	    </script>
 	    </content> 
         <input type="hidden" id="ctx" value="${ctx}" />

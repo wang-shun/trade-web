@@ -382,13 +382,13 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
-	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
+	<script	src="${ctx}/js/trunk/task/attachment.js?v=1.1.0"></script> 
 	
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/sms/sms.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 	<!-- 审批记录 -->
 	<%-- <script src="${ctx}/transjs/task/loanlostApprove.js"></script> --%>
 	<%-- <script src="${ctx}/transjs/task/guohuApprove.js"></script> --%>
@@ -526,12 +526,11 @@
 
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
+			if(!checkForm() ||!deleteAndModify()) {
 				return;
 			}
 			var jsonData = $("#houseTransferForm").serializeArray();
-			deleteAndModify();
-			
+	
 			var url = "${ctx}/task/ToHouseTransfer/saveToHouseTransfer";
 			if(b) {
 				url = "${ctx}/task/ToHouseTransfer/submitToHouseTransfer";
@@ -576,8 +575,11 @@
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						alert("保存成功。");
-						 window.close();
-						 window.opener.callback();
+						if(window.opener != null) {
+							 window.close();
+							 window.opener.callback();
+						}
+						
 					}
 				},
 				error : function(errors) {

@@ -189,7 +189,11 @@
 												  else ''
 												  end) as LOAN_LOST_TYPE,
 						tp.TAX_PRICING as CHECK_PRICE,
-						CAST (tp.TAX_PRICING/tpi.[SQUARE] AS decimal (18,2))
+						(CASE WHEN tpi.[SQUARE] = 0 THEN
+					        NULL
+					    ELSE
+					       CAST (tp.TAX_PRICING/tpi.[SQUARE] AS decimal (18,2))
+					    END)
 						 as UNIT_PRICE,
 						stuff((select '/'+tt1.REAL_NAME from(
 							SELECT  u.real_name+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'

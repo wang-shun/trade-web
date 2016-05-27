@@ -181,8 +181,9 @@ public class CaseChangeController {
 			pro.setSrvCode(srvCode);
 			
 			pro.setOrgId(orgId);
+			TgServItemAndProcessor proDb=tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 			updatecoope=tgservItemAndProcessorService.updateCoope(pro);
-			updateWorkflow(srvCode,processorId,tasks);
+			updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId());
 			
 			
 		}
@@ -198,14 +199,17 @@ public class CaseChangeController {
 		return null;
 	}
 	
-	public void updateWorkflow(String srvCode,String userId,List<TaskVo>tasks){
-		if(tasks!=null&&!tasks.isEmpty()){
+	public void updateWorkflow(String srvCode,String userId,List<TaskVo>tasks,String fUserId){
+		if(tasks!=null&&!tasks.isEmpty()&&fUserId!=null){
 			for (TaskVo taskVo : tasks) {
 				Dict dic = dictService.findDictByType(srvCode);
 				if (containsDic(dic, taskVo.getTaskDefinitionKey())) {
 					User u=uamUserOrgService.getUserById(userId);
-					taskVo.setAssignee(u.getUsername());
-					workFlowManager.updateTask(taskVo);
+					User uf=uamUserOrgService.getUserById(fUserId);
+					if(uf!=null&&u!=null&&uf.getUsername()!=null&& uf.getUsername().equals(taskVo.getAssignee())){
+						taskVo.setAssignee(u.getUsername());
+						workFlowManager.updateTask(taskVo);
+					}
 				}
 			}
 		}

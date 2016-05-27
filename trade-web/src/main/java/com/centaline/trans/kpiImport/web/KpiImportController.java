@@ -208,7 +208,7 @@ public class KpiImportController {
 				errorList.add(kpiMonthVO);
 				continue;
 			}
-			if(NumberUtil.isMatchesRegex(finOrder, "^[\\d]*$")) {
+			if(!NumberUtil.isMatchesRegex(finOrder, "^[\\d]*$")) {
 				kpiMonthVO.setErrorMessage("金融产品需输入正整数");
 				errorList.add(kpiMonthVO);
 				continue;

@@ -17,7 +17,7 @@
 
 <!-- Gritter -->
 <link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+	rel="stylesheet"> 
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -112,7 +112,8 @@ width:160px;
                                    </div>
                                </div>
                                <div class="col-lg-3 col-md-4">                                   
-                                  <button id="searchButton" type="button" class="btn btn-primary">查询</button>
+                                  <button id="searchButton" type="button" class="btn btn-primary">查询</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出至Excel</button>
                                </div>
 			             </div>
 					</form>
@@ -139,7 +140,6 @@ width:160px;
        
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ex_message" value="${ex_message}" />
-	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	
 	<content tag="local_script"> <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
@@ -160,6 +160,7 @@ width:160px;
     <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
     <!-- 列表 -->
     <script src="${ctx}/transjs/kpi/personBonus.list.js"></script>
+    <script src="${ctx}/js/plugins/jquery.custom.js"></script>
     <script>
     var ctx = "${ctx}";
     var belongM = "${belongM}";
@@ -209,6 +210,14 @@ width:160px;
  		}
 		
     });
+    function exportToExcel() {
+    	$.exportExcel({
+	    	ctx : "${ctx}",
+	    	queryId : 'personBonusList',
+	    	colomns : ['CASE_CODE','PARTICIPANT','PROPERTY_ADDR','GUOHU_TIME','CLOSE_TIME','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
+	    	data : {search_caseCode:$('#caseCode').val(),search_propertyAddr:$('#propertyAddr').val()}
+	    }) 
+     }
     </script>
  </content>
 </body>

@@ -30,7 +30,7 @@
 </head>
 
 <body>
-
+<form action="" class='form-horizontal'>
 <input type="hidden" id="ctx" value="${ctx}"/>
 <input type="hidden" id="userId" value="${userId}"/>
 <input type="hidden" id="prStatus" value="2"/>
@@ -45,9 +45,13 @@
 </div>
 <div class="ibox-content">
     <div class="jqGrid_wrapper">
-        <div>物业地址 :<input type="text" id="addr"/>
-			<button id="addrSearchButton" style="margin-left: 30px;">搜索</button>
+    	<div class='row form-group'>
+    		<label class='col-md-2 control-label'>物业地址 :</label>
+    		<div class='col-md-4'><input type="text" id="addr" class='form-control'/></div>
+			<div class='col-md-6 '><button id="addrSearchButton" class='btn btn-warning pull-left'>搜索</button></div>
 		</div>
+    	
+        
 		<hr>
          <table id="table_property_list"></table>
          <div id="pager_property_list"></div>
@@ -120,5 +124,6 @@
 	</script>
 
 </content>
+</form>
 </body>
 </html>

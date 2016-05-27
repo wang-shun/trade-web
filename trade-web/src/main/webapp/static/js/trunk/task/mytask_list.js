@@ -360,7 +360,8 @@ function initAutocomplete(url){
  *  回调刷新的方法
  */
 function callback() {
-	var url = ctx +'/task/myTaskList';
-	window.location.href = url;
+	//var url = ctx +'/task/myTaskList';
+	//window.location.href = url;
+	searchMethod();
 }
 

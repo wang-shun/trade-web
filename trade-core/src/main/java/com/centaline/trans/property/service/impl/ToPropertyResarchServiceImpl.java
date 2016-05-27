@@ -64,9 +64,9 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		if (StringUtils.isBlank(vo.getPrCostOrgId())) {
 			if (PrChannelEnum.TJJR.getCode().equals(vo.getPrChannel())) {
 
-				setPrCost(vo, vo.getAppliant());
+				setPrCostAndApplyOrg(vo, vo.getAppliant(),vo.getAppliant());
 			} else {
-				setPrCost(vo, vo.getAgentCode());
+				setPrCostAndApplyOrg(vo, vo.getAgentCode(),vo.getAppliant());
 			}
 		}
 
@@ -76,16 +76,23 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		return mapper.insertSelective(tpr);
 	}
 
-	private void setPrCost(ToPropertyResearchVo vo, String userId) {
-		String orgId = mapper.getOrgIdByUserId(userId);
+	private void setPrCostAndApplyOrg(ToPropertyResearchVo vo, String agentId,String appliant) {
+		String orgId = mapper.getOrgIdByUserId(agentId);
+		String applOrgId = mapper.getOrgIdByUserId(appliant);
+		Org prCostOrg=null;
 		Org org=null;
-		if(orgId!=null){
-			org=uamUserOrgService.getOrgById(orgId);
+		if(applOrgId!=null){
+			org=uamUserOrgService.getOrgById(applOrgId);
+			vo.setPrApplyOrgId(org.getId());
+			vo.setPrApplyOrgName(org.getOrgName());
 		}
-		if(org!=null){
-		vo.setPrCostOrgId(org.getId());
-		vo.setPrCostOrgName(org.getOrgName());
-		vo.setPrCostOrgMgr(mapper.getPrCostMgrByOrgId(org.getId()));
+		if(orgId!=null){	
+			prCostOrg=uamUserOrgService.getParentOrgByDepHierarchy(orgId, "BUSIWZ");
+			if(prCostOrg!=null){
+				vo.setPrCostOrgId(prCostOrg.getId());
+				vo.setPrCostOrgName(prCostOrg.getOrgName());
+				vo.setPrCostOrgMgr(mapper.getPrCostMgrByOrgId(org.getId()));
+			}
 		}
 	}
 
@@ -164,6 +171,7 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		record.setPartCode(ToPropertyResearchEnum.PROPERTY_RESEARCH.getCode());
 		record.setPrCat(vo.getPrCat());
 		record.setPrStatus(PropertyStatusEnum.CONTACTS.getCode());
+		record.setPrChannel(vo.getPrChannel());
 		record.setPrApplyTime(new Date());
 
 		record.setDistCode(vo.getDistrict());

@@ -7,6 +7,7 @@ var TestValidate = function () {
 	 //校验规则 数组
 	 rules = {
 			  zipCode : {
+				 required : true,
 		    	 isZipCode : true
 		      },
 		      firstname: "required",
