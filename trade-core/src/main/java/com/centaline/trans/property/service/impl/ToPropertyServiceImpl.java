@@ -19,6 +19,7 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.enums.FeedbackAlertEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.common.enums.PrChannelEnum;
 import com.centaline.trans.common.enums.PropertyFeedbackEnum;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.task.entity.ToPropertyResearch;
@@ -88,13 +89,13 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		ToPropertyResearch property = toPropertyResearchMapper.findToPropertyResearchById(pkid);
 		String chanel = null;
 		if (resourceCode.equals("PR_process")) {
-			if ("1".equals(property.getPrChannel())) {
+			if (PrChannelEnum.TJJR.getCode().equals(property.getPrChannel())) {
 				resourceCode = PropertyFeedbackEnum.AGENT_PR_ACCEPT_NOTIFICATION.getCode();
 				chanel = ParamesAPI.NEW_AGENCE;
 			}
 			title = FeedbackAlertEnum.PROPERTY_PROCESS.getName();// 受理
 		} else {
-			if ("1".equals(property.getPrChannel())) {
+			if (PrChannelEnum.TJJR.getCode().equals(property.getPrChannel())) {
 				resourceCode = PropertyFeedbackEnum.AGENT_PR_FINISH_NOTIFICATION.getCode();
 				chanel = ParamesAPI.NEW_AGENCE;
 			}
