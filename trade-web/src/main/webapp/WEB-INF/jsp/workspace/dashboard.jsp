@@ -427,25 +427,33 @@ response.setDateHeader("Expires",0);
                                                 <li class="danger-element">
                                                     接单数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_receiveCount">${sta.receiveCount }</span>
+                                                        <span class="fa-2x font-bold text-danger" id="sp_receiveCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=received">${sta.receiveCount }</a>
+                                                        </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
                                                     签约数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_signCount">${sta.signCount }</span>
+                                                        <span class="fa-2x font-bold text-danger" id="sp_signCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=signed">${sta.signCount }</a>
+                                                        </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
                                                     过户数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_transferCount">${sta.transferCount }</span>
+                                                        <span class="fa-2x font-bold text-danger" id="sp_transferCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered">${sta.transferCount }</a>
+                                                        </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
                                                     结案数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_closeCount">${sta.closeCount }</span>
+                                                        <span class="fa-2x font-bold text-danger" id="sp_closeCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=closed">${sta.closeCount }</a>
+                                                        </span>
                                                     </div>
                                                 </li>
                                             </ul>
