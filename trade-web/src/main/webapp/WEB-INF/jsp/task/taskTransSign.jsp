@@ -79,66 +79,7 @@ if("${idList}" != "") {
 			</div>
 			
 		</div>
-		<form class="cmxform" id="signupForm" method="get" action="">
-  <fieldset>
-    <legend>验证完整的表单</legend>
-    <p>
-      <label for="zipCode">邮箱编码</label>
-      <input id="zipCode" name="zipCode" type="text">
-    </p>
-    <p>
-      <label for="firstname">名字</label>
-      <input id="firstname" name="firstname" type="text">
-    </p>
-    <p>
-      <label for="lastname">姓氏</label>
-      <input id="lastname" name="lastname" type="text">
-    </p>
-    <p>
-      <label for="username">用户名</label>
-      <input id="username" name="username" type="text">
-    </p>
-    <p>
-      <label for="password">密码</label>
-      <input id="password" name="password" type="password">
-    </p>
-    <p>
-      <label for="confirm_password">验证密码</label>
-      <input id="confirm_password" name="confirm_password" type="password">
-    </p>
-    <p>
-      <label for="email">Email</label>
-      <input id="email" name="email" type="email">
-    </p>
-    <p>
-      <label for="agree">请同意我们的声明</label>
-      <input type="checkbox" class="checkbox" id="agree" name="agree">
-    </p>
-    <p>
-      <label for="newsletter">我乐意接收新信息</label>
-      <input type="checkbox" class="checkbox" id="newsletter" name="newsletter">
-    </p>
-    <fieldset id="newsletter_topics">
-      <legend>主题 (至少选择两个) - 注意：如果没有勾选“我乐意接收新信息”以下选项会隐藏，但我们这里作为演示让它可见</legend>
-      <label for="topic_marketflash">
-        <input type="checkbox" id="topic_marketflash" value="marketflash" name="topic[]">Marketflash
-      </label>
-      <label for="topic_fuzz">
-        <input type="checkbox" id="topic_fuzz" value="fuzz" name="topic[]">Latest fuzz
-      </label>
-      <label for="topic_digester">
-        <input type="checkbox" id="topic_digester" value="digester" name="topic[]">Mailing list digester
-      </label>
-     <!--  <label for="topic" class="error" style="display:none">至少选择两个</label> -->
-    </fieldset>
-    <p>
-      <input class="submit" type="submit" value="提交">
-      	<a href="#" class="btn btn-primary" onclick="save(false)">保存</a>&nbsp;&nbsp;
-		<a href="#" class="btn btn-primary" readOnlydata='1' onclick="submit()">提交</a>
-    </p>
-  </fieldset>
-   <i id="view-fullscreen">全屏</i>
-</form>
+		
 		<div class="ibox-title">
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
@@ -351,7 +292,6 @@ if("${idList}" != "") {
 							</div>
 						</div>
 					</div>
-
 					<div class="divider"><hr><label class="btn btn-warning">上家信息</label></div>
 					<div id="guestUpDiv">
 					</div>
@@ -592,7 +532,8 @@ if("${idList}" != "") {
 		</c:choose> 
 		</div>
 		<div class="ibox-title">
-		
+		<a href="#" class="btn btn-primary" onclick="save(false)">保存</a>&nbsp;&nbsp;
+		<a href="#" class="btn btn-primary" readOnlydata='1' onclick="submit()">提交</a>
 		</div>
 <div id="smsPlatFrom"></div>
 	</div>
@@ -632,15 +573,6 @@ if("${idList}" != "") {
 	<!-- 附件保存修改相关 -->
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	
-	<!-- 与校验相关 -->
-	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
-	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js"></script> 
-	<!-- -弹出层效果  -->
-	<script src="${ctx}/js/plugins/layer/layer.js"></script>
-	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
 
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/transjs/sms/sms.js"></script>
@@ -776,11 +708,10 @@ if("${idList}" != "") {
 
 		/**保存数据*/
 		function save(b) {
-		/* 	if(!checkForm()) {
+			if(!checkForm()) {
 				return;
-			} */
-			TaskTransSignValidate.init('signupForm','');
-			/* var jsonData = $("#transSignForm").serializeArray();
+			}
+			var jsonData = $("#transSignForm").serializeArray();
 			
 			deleteAndModify();
 			
@@ -817,7 +748,7 @@ if("${idList}" != "") {
     		                }
     		            } , 
 				success : function(data) {
-					/* if(b) {
+					if(b) {
 						caseTaskCheck();
 						if(null!=data.message){
 							alert(data.message);
@@ -832,7 +763,7 @@ if("${idList}" != "") {
 				error : function(errors) {
 					alert("数据保存出错");
 				}
-			});  */
+			});
 		}
 		/*double 验证*/
 	    function checkNum(obj) { 
