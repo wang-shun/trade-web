@@ -606,6 +606,7 @@ img{ border-image-width:0px;}
 				if(!!~~$(this).val()){
 					$("#div_s").show();
 					$("#div_f").hide();
+					$('#unSuccessReason').val('');
 				}else{
 					$("#div_f").show();
 					$("#div_s").hide();

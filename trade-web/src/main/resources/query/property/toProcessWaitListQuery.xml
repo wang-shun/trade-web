@@ -6,6 +6,7 @@
 		<customDict id="getDistCode" beanName="qqDistCode" />
 		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
 		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -52,7 +53,8 @@
 					A.PR_STATUS,
 				    A.PR_ADDRESS PROPERTY_ADDR,
 				    A.DIST_CODE  ,
-				    a.PR_COST_ORG_NAME as orgName
+				    a.PR_COST_ORG_NAME as orgName,
+				    A.pr_district_id as prDistrictId
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				WHERE A.SAME_PR_CODE IS NULL
@@ -68,6 +70,7 @@
 				<column type="both" name="CASE_CODE" index="" title="交易单编号" checkbox="" display="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编号" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_CAT" index="" title="产调项目" checkbox="" display="产调项目" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="prDistrictId" index="" checkbox="" display="所属贵宾服务部" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="产调申请人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_EXECUTOR" index="" checkbox="" display="产调执行人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>

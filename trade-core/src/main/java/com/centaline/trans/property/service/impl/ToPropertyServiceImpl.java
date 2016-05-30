@@ -22,8 +22,10 @@ import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.PrChannelEnum;
 import com.centaline.trans.common.enums.PropertyFeedbackEnum;
 import com.centaline.trans.property.service.ToPropertyService;
+import com.centaline.trans.task.entity.ToPrTransferLog;
 import com.centaline.trans.task.entity.ToPropertyResearch;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
+import com.centaline.trans.task.repository.ToPrTransferLogMapper;
 import com.centaline.trans.task.repository.ToPropertyResearchMapper;
 import com.centaline.trans.utils.wechat.ParamesAPI;
 
@@ -51,6 +53,8 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 
 	@Autowired(required = true)
 	private ToPropertyResearchMapper toPropertyResearchMapper;
+	@Autowired
+	private ToPrTransferLogMapper toPrTransferLogMapper;
 
 	@Override
 	public List<ToPropertyResearch> getUnProcessListByDistrict(String district) {
@@ -237,5 +241,29 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public int doChangePrDistrictId(String pkid, String prDistrictId) {
+		ToPropertyResearch property= toPropertyResearchMapper.findToPropertyResearchById(Long.valueOf(pkid));
+		if(property!=null){
+			ToPrTransferLog tLog=new ToPrTransferLog();
+			
+			tLog.setCreateTime(new Date());
+			tLog.setUpdateTime(new Date());
+			tLog.setPrCode(property.getPrCode());
+			tLog.setFromDistrictId(property.getPrDistrictId());
+			tLog.setToDistrictId(prDistrictId);
+			
+			toPrTransferLogMapper.insertSelective(tLog);
+			
+			property.setPrDistrictId(prDistrictId);
+			property.setUpdateTime(new Date());
+			
+			
+			
+			toPropertyResearchMapper.updateByPrimaryKeySelective(property);
+		}
+		return 1;
 	}
 }

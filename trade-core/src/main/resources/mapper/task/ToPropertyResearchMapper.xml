@@ -288,6 +288,9 @@
        <if test="createBy != null">
         create_By= #{createBy,jdbcType=VARCHAR},
       </if>
+       <if test="prDistrictId != null">
+     	 PR_DISTRICT_ID = #{prDistrictId,jdbcType=VARCHAR},
+      </if>
           UPDATE_BY =  @{SESSION_USER_ID},
 	      UPDATE_TIME = GETDATE(),
             <if test="distCode != null">

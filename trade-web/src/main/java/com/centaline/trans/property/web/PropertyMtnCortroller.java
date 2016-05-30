@@ -241,5 +241,23 @@ public class PropertyMtnCortroller {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value = "doChangePrDistrictId")
+	@ResponseBody
+	public AjaxResponse<ToPropertyResearch> doChangePrDistrictId(Model model, ServletRequest request,
+			String pkid,String districtId ) {
+		AjaxResponse result = new AjaxResponse();
+		
+		int succ = toPropertytService.doChangePrDistrictId(pkid,districtId);
+		if (succ > 0) {
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+		} else {
+			result.setSuccess(false);
+			result.setMessage("操作失败,请刷新后重试!");
+		}
+		return result;
+	}
+	
 
 }

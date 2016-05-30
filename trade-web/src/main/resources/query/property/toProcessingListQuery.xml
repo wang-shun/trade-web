@@ -8,6 +8,7 @@
 		<customDict id="getDistCode" beanName="qqDistCode" />
 		<customDict id="getIsSuccess" beanName="qqisSuccess" />
 		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -56,7 +57,8 @@
 					A.UNSUCCESS_REASON,
 				    A.PR_ADDRESS PROPERTY_ADDR,
 				    A.DIST_CODE  ,
-					a.PR_COST_ORG_NAME as orgName    
+					a.PR_COST_ORG_NAME as orgName    ,
+					A.pr_district_id as prDistrictId
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=a.CASE_CODE
@@ -83,7 +85,8 @@
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="物业地址" display="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="IS_SUCCESS" index="" checkbox="" title="是否有效"  display="是否有效" customDict="getIsSuccess" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" title="无效原因" display="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="DIST_CODE" index="" checkbox="" title="行政区域" display="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="DIST_CODE" index="" checkbox="" title="行政区域" display="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="prDistrictId" index="" checkbox="" display="所属贵宾服务部" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
 		</grid>
 	</query>
