@@ -32,7 +32,8 @@ var orgJob = {
 			dataType : 'json',
 			cache : false,
 			success : function(data) {
-				window.location.reload();
+				var home = ctx;
+				window.open(home,'_self');
 			}
 		});
 	}

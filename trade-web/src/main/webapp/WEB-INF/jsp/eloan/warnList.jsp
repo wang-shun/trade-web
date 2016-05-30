@@ -84,11 +84,7 @@
 	
   	<content tag="local_script">
 	    <!-- Mainly scripts -->
-	    <script src="${ctx}/js/jquery-2.1.1.js"></script>
-	
-	    <!-- Peity -->
-	    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
-	
+	   
 	    <!-- jqGrid -->
 	    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>

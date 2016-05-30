@@ -22,6 +22,7 @@ $(document).ready(function() {
 			/*$("#div_s").css('display','initial');*/
 			$("#div_s").show();
 			$("#div_f").hide();
+			$('#unSuccessReason').val('');
 		}else{
 			/*$("#div_f").css('display','initial');*/
 			$("#div_f").show();
@@ -40,7 +41,7 @@ $(document).ready(function() {
 		/*   rowList: [10, 20, 30], */
 		colNames : [ 'PKID','行政区域','交易单编号','产调编号','物业地址', '产调项目','所属分行',
 		             '产调申请人', '产调申请时间',
-		             '产调受理时间','状态','附件','是否有效','无效原因','操作'],
+		             '产调受理时间','状态','附件','是否有效','无效原因','所属贵宾服务部','操作'],
 		colModel : [ {
 			name : 'PKID',
 			index : 'PKID',
@@ -112,6 +113,19 @@ $(document).ready(function() {
 			index : 'UNSUCCESS_REASON',
 			width : 30
 		},{
+			name:'prDistrictId',
+			index :'prDistrictId',
+			width:80,
+			formatter:function(cellvalue, options, rawObject){
+				var outHtml=
+				"<input type=\"text\" class=\"span12 tbsporg org-label-control\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
+					   +"onclick=\"showOrgSelect("+rawObject.PKID+")\" value='"+rawObject.prDistrictId+"' />";
+				if(optTransferRole){return outHtml; }
+				else{
+					return cellvalue;
+				}
+					
+			}},{
 			name : 'nullityTag',
 			index : 'nullityTag',
 			align : "center",
@@ -220,10 +234,10 @@ function checkIsExistFile(isSubmit){
 		pkid = id;
 		taskitem = pc;
 		getAttchInfo();
-		if(isS=='是'){
-			isS='1';
-		}else{
+		if(isS=='否'){
 			isS='0';
+		}else{
+			isS='1';
 		}
 		
 		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
@@ -305,4 +319,55 @@ function checkIsExistFile(isSubmit){
 		}else{
 			commitDispose(isSubmit);
 		}
+	}
+	var optPkid='';
+
+	function checkOrg(o){
+		if(o.extendField!='yucui_district'){
+			alert('请选择一个贵宾服务总进行转组');
+			return false;
+		}
+		return true;
+	}
+	function showOrgSelect(id){
+		optPkid=id;
+		orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+			   startOrgId:'ff8080814f459a78014f45a73d820006',departmentHeriarchy:'yucui_district',
+			   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,});
+	}
+	function radioYuCuiOrgSelectCallBack(array){
+		if(array && array.length >0){
+			if(checkOrg(array[0])){
+				if(confirm('是否确认转组')){
+			        
+					$("#yuCuiOriGrpId").val(array[0].id);		
+					doTransfer(optPkid,array[0].id,array[0].name);
+				}
+			}else{
+				return false;
+			}
+		}
+	}
+	function doTransfer(pkid,districtId,orgName){
+		var transferData={pkid:pkid,districtId:districtId};
+		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		$(".blockOverlay").css({'z-index':'9998'});
+		$.ajax({
+			cache : false,
+			type : "POST",
+			url : ctx+'/property/doChangePrDistrictId',
+			dataType : "json",
+			data :transferData,
+			success : function(data) {
+				alert(data.message)
+				$.unblockUI();
+				if(data.success){
+					reloadGrid();
+				}
+			},
+			error : function(errors) {
+				alert("处理出错,请刷新后再次尝试！");
+				  $.unblockUI();  
+			}
+		});
 	}

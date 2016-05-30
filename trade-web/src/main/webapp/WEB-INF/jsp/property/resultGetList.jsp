@@ -80,7 +80,7 @@
     <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
     <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 
-	<script src="${ctx}/js/trunk/property/resultGetList.js"></script>
+	<script src="${ctx}/js/trunk/property/resultGetList.js?v=1.0.1"></script>
 	<%-- <script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script> --%>
 	<script src="${ctx}/js/trunk/property/resultGetListByaddr.jqgridSearch.js?v=1.0.2"></script>
 	<script>

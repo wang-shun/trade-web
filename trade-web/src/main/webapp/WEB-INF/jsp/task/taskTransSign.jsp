@@ -574,7 +574,15 @@ if("${idList}" != "") {
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 
+    <!-- 校验 -->
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js"></script>
+	<!-- 弹出框插件 -->
+	<script src="${ctx}/js/plugins/layer/layer.js"></script>
+	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+	
 	<script src="${ctx}/transjs/sms/sms.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 
@@ -604,6 +612,7 @@ if("${idList}" != "") {
 			});
 		}
 		$(function() {
+			TaskTransSignValidate.init("transSignForm","");
 			// Examle data for jqGrid
 			//AistUpload.initHouAddPicUpload();
 			//AistUpload.initHouTapeInfoUpload();
@@ -711,7 +720,10 @@ if("${idList}" != "") {
 			if(!checkForm()) {
 				return;
 			}
-			var jsonData = $("#transSignForm").serializeArray();
+			if(!$("#transSignForm").valid()){
+				return;
+			}
+			 var jsonData = $("#transSignForm").serializeArray();
 			
 			deleteAndModify();
 			
@@ -763,7 +775,7 @@ if("${idList}" != "") {
 				error : function(errors) {
 					alert("数据保存出错");
 				}
-			});
+			}); 
 		}
 		/*double 验证*/
 	    function checkNum(obj) { 

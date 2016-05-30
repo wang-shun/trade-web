@@ -72,12 +72,8 @@
 			<if test="createBy != null">
 				CREATE_BY,
 			</if>
-			<if test="updateTime != null">
 				update_TIME,
-			</if>
-			<if test="updateBy != null">
 				update_BY,
-			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="pkid != null">
@@ -113,12 +109,8 @@
 			<if test="createBy != null">
 				#{createBy,jdbcType=VARCHAR},
 			</if>
-			<if test="updateTime != null">
-				#{updateTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updateBy != null">
-				#{updateBy,jdbcType=VARCHAR},
-			</if>
+				GETDATE(),
+				@{SESSION_USER_ID},
 		</trim>
 	</insert>
 	
@@ -146,12 +138,8 @@
 			<if test="createBy != null">
 				create_By=#{createBy,jdbcType=VARCHAR},
 			</if>
-			<if test="updateTime != null">
-				update_Time=#{updateTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updateBy != null">
-				update_By=#{updateBy,jdbcType=VARCHAR},
-			</if>
+				update_Time=GETDATE(),
+				update_By=@{SESSION_USER_ID},
 		</set>
 		where PKID = #{pkid,jdbcType=BIGINT}
 	</update>

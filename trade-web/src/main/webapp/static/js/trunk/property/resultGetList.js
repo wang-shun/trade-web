@@ -122,7 +122,7 @@ $(document).ready(function() {
 		if(rawObject.PR_STATUS!='已完成'){
 			return '';
 		}
-		var resultGet = "<button onclick='resultGet(\""+rawObject.PR_CODE+"\","+rawObject.PKID+")' class='btn red' >查看</button>";
+		var resultGet = "<button type='button' onclick='resultGet(\""+rawObject.PR_CODE+"\","+rawObject.PKID+")' class='btn red' >查看</button>";
 			return resultGet;
 	}
 	// Add responsive to jqGrid
