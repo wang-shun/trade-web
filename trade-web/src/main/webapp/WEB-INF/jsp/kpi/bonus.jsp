@@ -179,8 +179,7 @@
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <content tag="local_script"> 
-        <script src="${ctx}/js/jquery-2.1.1.js"></script>
-        <script src="${ctx}/js/bootstrap.min.js"></script>
+        <%--  <script src="${ctx}/js/bootstrap.min.js"></script> --%>
         <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
          <!-- 日期控件 -->
