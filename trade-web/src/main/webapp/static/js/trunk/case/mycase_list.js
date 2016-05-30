@@ -127,6 +127,7 @@ $(document).ready(function() {
 		    	    data.queryId = "queryCastListItemList";
 		    	    data.rows = 12;
 		    	    data.page = 1;
+		    	    data.argu_isNotResearchCloseCase = "true";
 		    		reloadGrid(data);
 
 					//$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
@@ -359,6 +360,11 @@ function getParamsValue() {
 	// 全选情况
 	if (caseProperty == '30003006')
 		caseProperty = null;
+	// 如果不是选择结案
+	var isNotResearchCloseCase;
+	if(caseProperty != '30003002') {
+		isNotResearchCloseCase = "true";
+	}
 	if (status == '30001006')
 		status = null;
 
@@ -449,7 +455,8 @@ function getParamsValue() {
 		argu_guohuApproveTimeEnd : guohuApproveTimeEnd,
 		argu_guohuApproveTime : (guohuApproveTimeStart == null && guohuApproveTimeEnd == null ? null : true),
 		
-		argu_yuCuiOriGrpId : yuCuiOriGrpId
+		argu_yuCuiOriGrpId : yuCuiOriGrpId,
+		argu_isNotResearchCloseCase : isNotResearchCloseCase
 
 	};
 	return params;

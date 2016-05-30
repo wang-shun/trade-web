@@ -48,7 +48,7 @@
     	<div class='row form-group'>
     		<label class='col-md-2 control-label'>物业地址 :</label>
     		<div class='col-md-4'><input type="text" id="addr" class='form-control'/></div>
-			<div class='col-md-6 '><button id="addrSearchButton" class='btn btn-warning pull-left'>搜索</button></div>
+			<div class='col-md-6 '><button id="addrSearchButton" type='button' class='btn btn-warning pull-left'>搜索</button></div>
 		</div>
     	
         
@@ -80,7 +80,7 @@
     <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
     <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 
-	<script src="${ctx}/js/trunk/property/resultGetList.js"></script>
+	<script src="${ctx}/js/trunk/property/resultGetList.js?v=1.0.1"></script>
 	<%-- <script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script> --%>
 	<script src="${ctx}/js/trunk/property/resultGetListByaddr.jqgridSearch.js?v=1.0.2"></script>
 	<script>

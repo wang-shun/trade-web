@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+	<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCastCountDistrict" cacheCount="true">
+		<searchCondition>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						a.RECEIVED_DISTRICT_ID AS ORG,
+						a.RECEIVED_COUNT AS RECEIVED_COUNT,
+						b.SIGN_COUNT AS SIGN_COUNT,
+						c.HOUSE_TRANFER_COUNT AS HOUSE_TRANFER_COUNT,
+						d.CLOSE_COUNT AS CLOSE_COUNT
+					FROM(
+					(SELECT 
+						RECEIVED_DISTRICT_ID, 
+						COUNT(DISTINCT CASE_CODE) AS RECEIVED_COUNT
+					FROM sctrans.T_RPT_CASE_PROCESS_STATIS 
+					WHERE DATEDIFF(YYYY, RECEIVED_TIME, GETDATE())=0 AND RECEIVED_TIME IS NOT NULL
+					<ifNotNull districtId>
+						AND RECEIVED_DISTRICT_ID = #districtId#
+					</ifNotNull>
+					<ifNotNull month> 
+						AND DATEPART(m, RECEIVED_TIME) = #month#
+					</ifNotNull>
+					GROUP BY RECEIVED_DISTRICT_ID
+					) a 
+					LEFT JOIN
+					(SELECT 
+						RECEIVED_DISTRICT_ID, 
+						COUNT(DISTINCT CASE_CODE) AS SIGN_COUNT
+					FROM sctrans.T_RPT_CASE_PROCESS_STATIS 
+					WHERE DATEDIFF(YYYY, SIGN_TIME, GETDATE())=0 AND SIGN_TIME IS NOT NULL
+					<ifNotNull districtId>
+						AND RECEIVED_DISTRICT_ID = #districtId#
+					</ifNotNull>
+					<ifNotNull month> 
+						AND DATEPART(m, SIGN_TIME) = #month#
+					</ifNotNull>
+					GROUP BY RECEIVED_DISTRICT_ID
+					) b ON a.RECEIVED_DISTRICT_ID=b.RECEIVED_DISTRICT_ID
+					LEFT JOIN
+					(SELECT 
+						RECEIVED_DISTRICT_ID, 
+						COUNT(CASE_CODE) AS HOUSE_TRANFER_COUNT
+					FROM sctrans.T_RPT_CASE_PROCESS_STATIS 
+					WHERE DATEDIFF(YYYY, HOUSE_TRANFER_TIME, GETDATE())=0 AND HOUSE_TRANFER_TIME IS NOT NULL
+					<ifNotNull districtId>
+						AND RECEIVED_DISTRICT_ID = #districtId#
+					</ifNotNull>
+					<ifNotNull month> 
+						AND DATEPART(m, HOUSE_TRANFER_TIME) = #month#
+					</ifNotNull>
+					GROUP BY RECEIVED_DISTRICT_ID
+					) c ON b.RECEIVED_DISTRICT_ID=c.RECEIVED_DISTRICT_ID
+					LEFT JOIN
+					(SELECT 
+						RECEIVED_DISTRICT_ID, 
+						COUNT(CASE_CODE) AS CLOSE_COUNT
+					FROM sctrans.T_RPT_CASE_PROCESS_STATIS 
+					WHERE DATEDIFF(YYYY, CLOSE_TIME, GETDATE())=0 AND CLOSE_TIME IS NOT NULL
+					<ifNotNull districtId>
+						AND RECEIVED_DISTRICT_ID = #districtId#
+					</ifNotNull>
+					<ifNotNull month> 
+						AND DATEPART(m, CLOSE_TIME) = #month#
+					</ifNotNull>
+					GROUP BY RECEIVED_DISTRICT_ID
+					) d ON c.RECEIVED_DISTRICT_ID=d.RECEIVED_DISTRICT_ID 
+					) 
+				]]>		
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ORG"  index="" checkbox="" display="贵宾服务部" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_COUNT" index="" checkbox="" display="结案数" customDict="" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>
+<!--
+
+ -->

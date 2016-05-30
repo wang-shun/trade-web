@@ -43,7 +43,7 @@
 					SELECT
 					    A.PKID, 
 					    case A.IS_RESPONSED 
-					    	when '1' then '已分单'
+					    	when '1' then C.STATUS
 							else  '未分单'
 						end 
 					    as STATUS,
@@ -56,6 +56,7 @@
 					FROM SCTRANS.T_TO_CASE_INFO A 
 					LEFT JOIN SCTRANS.T_TO_PROPERTY_INFO tp ON tp.CASE_CODE=A.CASE_CODE 
 					LEFT JOIN SCTRANS.V_USER_ORG_JOB B ON A.AGENT_CODE=B.USER_ID
+					LEFT　JOIN　SCTRANS.T_TO_CASE AS C ON A.CASE_CODE=C.CASE_CODE
 					WHERE 1=1
 				]]>
 			</baseSql>

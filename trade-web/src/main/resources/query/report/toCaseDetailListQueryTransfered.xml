@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
+		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="qqcdUserIdMobile" beanName="qqcdUserIdMobile" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCastDetailItemListTransfered" cacheCount="true">
+		<searchCondition>
+           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeStart" label="起始日期" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeEnd" label="结束日期" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						b.PKID as PKID, 
+						a.CASE_CODE as CASE_CODE, 
+						b.CTM_CODE as CTM_CODE, 
+						b.PROPERTY_ADDR as PROPERTY_ADDR, 
+						LEFT(CONVERT(varchar(100), a.HOUSE_TRANFER_TIME, 120), 10) as CREATE_TIME, 
+						a.RECEIVED_USER as PROCESSOR_ID, 
+						a.RECEIVED_TEAM_ID as PROCESSOR_ORG_ID, 
+						b.AGENT_NAME as AGENT_NAME, 
+						b.AGENT_CODE as AGENT_CODE
+					FROM sctrans.T_RPT_CASE_PROCESS_STATIS a 
+					INNER JOIN sctrans.V_CASE_LIST_BASE b ON a.CASE_CODE=b.CASE_CODE
+					WHERE
+					DATEDIFF(year, a.HOUSE_TRANFER_TIME, GETDATE())=0 AND a.HOUSE_TRANFER_TIME IS NOT NULL
+					<ifNotNull org>
+						AND a.RECEIVED_DISTRICT_ID = #org# OR a.RECEIVED_TEAM_ID = #org#
+					</ifNotNull> 
+				]]>		
+			</baseSql>
+			<orderBySql>
+			  ORDER BY b.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CTM_CODE"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ID"  index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ORG_ID"  index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" 	sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="AGENT_CODE" index="" checkbox="" display="AGENT_CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" hide="true"/>				
+				<column type="virtual" name="AGENT_ORG" referencecol="AGENT_CODE" index="" checkbox="" display="经纪人组织" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="AGENT_TEL" referencecol="AGENT_CODE" index="" checkbox="" display="电话" customDict="qqcdUserIdMobile" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>
+<!--
+
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
+		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="qqcdUserIdMobile" beanName="qqcdUserIdMobile" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCastDetailItemListTransfered" cacheCount="true">
+		<searchCondition>
+           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeStart" label="起始日期" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeEnd" label="结束日期" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						b.PKID as PKID, 
+						a.CASE_CODE as CASE_CODE, 
+						b.CTM_CODE as CTM_CODE, 
+						b.PROPERTY_ADDR as PROPERTY_ADDR, 
+						CONVERT(varchar(100), a.HOUSE_TRANFER_TIME, 120) as CREATE_TIME, 
+						a.HOUSE_TRANFER_USER as PROCESSOR_ID, 
+						a.HOUSE_TRANFER_TEAM_ID as PROCESSOR_ORG_ID, 
+						b.AGENT_NAME as AGENT_NAME, 
+						b.AGENT_CODE as AGENT_CODE
+					FROM sctrans.T_RPT_CASE_PROCESS_STATIS a 
+					INNER JOIN sctrans.V_CASE_LIST_BASE b ON a.CASE_CODE=b.CASE_CODE
+					WHERE
+					DATEDIFF(year, a.HOUSE_TRANFER_TIME, GETDATE())=0 AND a.HOUSE_TRANFER_TIME IS NOT NULL
+					<ifNotNull orgs>
+						AND EXISTS (
+							SELECT F.CASE_CODE,F.ORG_ID FROM (SELECT cx.CASE_CODE, cx.ORG_ID FROM SCTRANS.T_TO_CASE cx WHERE cx.CASE_CODE = b.CASE_CODE  
+							UNION
+							SELECT P.CASE_CODE,P.ORG_ID FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR P WHERE P.CASE_CODE = b.CASE_CODE ) F
+							INNER JOIN SCTRANS.SYS_ORG AS YCORG 
+							ON F.ORG_ID = YCORG.ID
+							WHERE (YCORG.ID = #orgs# OR YCORG.PARENT_ID = #orgs#) )
+					</ifNotNull> 	
+				]]>		
+			</baseSql>
+			<orderBySql>
+			  ORDER BY b.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CTM_CODE"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ID"  index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ORG_ID"  index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" 	sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="AGENT_CODE" index="" checkbox="" display="AGENT_CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" hide="true"/>				
+				<column type="virtual" name="AGENT_ORG" referencecol="AGENT_CODE" index="" checkbox="" display="经纪人组织" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="AGENT_TEL" referencecol="AGENT_CODE" index="" checkbox="" display="电话" customDict="qqcdUserIdMobile" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>
+<!--
+
+>>>>>>> branch 'develop' of git@git.centaline.com:trade-group/trade-web.git
+ -->

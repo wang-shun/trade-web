@@ -141,6 +141,10 @@
 		<mapper resource="mapper/kpi/TsAwardKpiPayDetailMapper.xml"/>
 		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
 		<mapper resource="mapper/kpi/TsAwardKpiPayMapper.xml"/>
+		<!-- 统计报表 -->
+		<mapper resource="mapper/report/CaseProcessStatisMapper.xml"/>
+		<!-- 产调转组 -->
+		<mapper resource="mapper/task/ToPrTransferLogMapper.xml"/>
 		
 	</mappers>
 </configuration>

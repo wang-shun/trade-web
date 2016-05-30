@@ -20,6 +20,12 @@
     <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
     <link href="${ctx}/css/style.css" rel="stylesheet">
+    <script>
+	var optTransferRole=false;
+	<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
+	optTransferRole=true;
+	 </shiro:hasPermission>
+	</script>
 </head>
 <body><jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <form action="#" method="post" id="excelForm"></form>
@@ -54,7 +60,7 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
      <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<script src="${ctx}/js/trunk/property/processWaitList.js"></script>
-
+ <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
 
 

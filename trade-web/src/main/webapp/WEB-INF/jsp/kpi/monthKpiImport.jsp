@@ -343,7 +343,9 @@ width:160px;
 			reloadGrid();
 		});
     	$('#cleanButton').click(function() {
- 			$("input").val('');
+ 			$("input[name='teamCode']").val('');
+ 			$("input[name='yuCuiOriGrpId']").val('');
+ 			$("input[name='userName']").val('');
  		});
 		
 		function reloadGrid(bm){
