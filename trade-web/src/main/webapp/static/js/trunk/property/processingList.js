@@ -9,6 +9,25 @@ $(document).ready(function() {
 	var prDistrictId = $("#prDistrictId").val();
 	var prStatus = $("#prStatus").val();
 	url = ctx + url;
+	$("#btn_save").click(function() {
+		save(false);
+
+	});
+	$("#btn_done").click(
+			function() {
+				save(true);
+			});
+	$("input[name='isScuess']").on('click',function(){
+		if(!!~~$(this).val()){
+			/*$("#div_s").css('display','initial');*/
+			$("#div_s").show();
+			$("#div_f").hide();
+		}else{
+			/*$("#div_f").css('display','initial');*/
+			$("#div_f").show();
+			$("#div_s").hide();
+		}
+	});
 	//jqGrid 初始化
 	$("#table_property_list").jqGrid({
 		url : url,
@@ -102,47 +121,21 @@ $(document).ready(function() {
 		},
 		
 		],
-		multiselect: true,
 		pager : "#pager_property_list",
 		viewrecords : true,
 		pagebuttions : true,
 		hidegrid : false,
 		recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
 		pgtext : " {0} 共 {1} 页",
-		onSelectRow : function(rowid,status) {
-			if(status){
-    		    $("#caseDistributeButton").attr("disabled", false);
-    		}else{
-	    		var ids=$("#table_property_list").jqGrid("getGridParam","selarrrow");
-	    		if(ids.length==0){
-	        		$("#caseDistributeButton").attr("disabled", true);
-	    		}
-    		}
-		},
-		onSelectAll :function(aRowids,status) {
-			if(status){
-    		    $("#caseDistributeButton").attr("disabled", false);
-    		}else{
-	        	$("#caseDistributeButton").attr("disabled", true);
-    		}
-		},
-		gridComplete:function(){
-			var ids = jQuery("#table_property_list").jqGrid('getDataIDs');
-			for ( var i = 0; i < ids.length; i++) { 
-				var rowDatas = $("#table_property_list").jqGrid('getRowData', ids[i]); //获取当前行
-				btn2="<button type='button' onclick='addFiles(\""+ctx+"\","+rowDatas.PKID+",\""+rowDatas.PR_CODE+"\");' class='btn red' >上传附件</button>";
-				jQuery("#table_property_list").jqGrid('setRowData', ids[i], { act : btn2}); 
-			} 
-		},
 		postData : {
 			queryId : "queryProcessingList",
 			search_prDistrictId : prDistrictId,
 			search_prStatus : prStatus
 		}
 	});
-	function nullityTag(cellvalue, options, rawObject){
-		var nullityTag = "<button type='button' onclick='nullityTag(\""+rawObject.CASE_CODE+"\","+rawObject.PKID+");' class='btn red' >标记无效</button>";
-			return nullityTag;
+	function nullityTag(cellvalue, options, item){
+		var btn2="<button type='button' onclick=\"showAttchBox('"+item.CASE_CODE+"','"+item.PR_CODE+"','"+item.PART_CODE+"','"+item.PKID+"','"+item.IS_SUCCESS+"','"+(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')+"');\" class='btn btn-warning btn-xs'>处理</button>";
+			return btn2;
 	}
 	
 	// Add responsive to jqGrid
@@ -156,47 +149,49 @@ $(document).ready(function() {
      });
 });
 
-//上传附件
-function addFiles(ctx,rowid,prCode){
-	$('#addFiles').attr("href",ctx+"/property/box/addFiles?id="+rowid+"&prCode="+prCode);
-	$("#addFiles").trigger('click');
-}
-//标记无效
-function nullityTag(caseCode,pkid){
-	$('#nullityTag').attr("href",ctx+"/property/box/nullityTag?id="+pkid+"&caseCode="+caseCode);
-	$("#nullityTag").trigger('click');
-}
 /**
  * 处理已受理产调
  */
 var pkidLsit ;
-function propertyDispose(){
-	if(!confirm('是否确认处理产调')){return ;}
-	 var prCodeArray = new Array();
-	
-	 pkidList = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
-	 for(var i = 0;i<pkidList.length;i++){
-		 var list=$("#table_property_list").jqGrid('getRowData',pkidList[i]);
-		 prCodeArray.push(list.PR_CODE);
-	 }
-	/* //查询是否上传附件
-	 var ids = jQuery("#table_property_list").jqGrid('getDataIDs');
-	 for ( var i = 0; i < ids.length; i++) { 
-			var rowDatas = $("#table_property_list").jqGrid('getRowData', ids[i]); //获取当前行
-			caseArray.push(rowDatas.CASE_CODE);
-		} */
-	 
-	 $.ajax({
+function checkIsExistFile(isSubmit){
+	$.ajax({
+		cache : false,
+		type : "GET",
+		url : ctx + '/property/isExistFile?prCodeArray='
+				+ caseCode,
+		dataType : "json",
+		data : "",
+		success : function(data) {
+			if (data.success == false) {
+				alert(data.message);
+			} else {
+				commitDispose(isSubmit);
+			}
+		},
+		error : function(errors) {
+			alert("处理出错,请刷新后再次尝试！");
+		}
+	});
+	}
+	//处理产调
+	function commitDispose(isSubmit){
+		var isScuess=$('input[name="isScuess"]:checked ').val();
+		$.ajax({
 			cache : false,
-			type : "GET",
-			url : ctx+'/property/isExistFile?prCodeArray='+prCodeArray,
+			type : "POST",
+			url : ctx + '/property/saveProcessingList',
 			dataType : "json",
-			data :"",
+			data :  {
+				pkid:pkid,
+				isScuess :isScuess ,
+				unSuccessReason:$("#unSuccessReason").val(),
+				isSubmit:!!isSubmit
+			} ,
 			success : function(data) {
-				if(data.success == false){
-					alert(data.message);
-				}else{
-					commitDispose();
+				alert(data.message)
+				if (data.success) {
+					$("#modal-form").modal("hide");
+					reloadGrid();
 				}
 			},
 			error : function(errors) {
@@ -204,25 +199,110 @@ function propertyDispose(){
 			}
 		});
 	}
-	//处理产调
-	function commitDispose(){
-		$.ajax({
-			cache : false,
-			type : "POST",
-			url : ctx+'/property/updateProcessingListStatus',
-			dataType : "json",
-			data : [{
-				name : 'pkidList',
-				value : pkidList
-			}],
-			success : function(data) {
-				alert(data.message)
-				if(data.success){
-					location.reload();
-				}
-			},
-			error : function(errors) {
-				alert("处理出错,请刷新后再次尝试！");
+	function reloadGrid(){
+		$('#table_property_list').jqGrid('setGridParam',{
+			datatype:'json',  
+			mtype : 'POST',
+			postData: packData()
+		}).trigger('reloadGrid');
+	}
+	
+	function showAttchBox(cd, pr, pc, id,isS,uns) {
+
+		if (cd == null || cd == "") {
+			$("#caseCode").val(pr);
+		} else {
+			$("#caseCode").val(cd);
+		}
+		$("#caseCode").val(pr);
+		caseCode = pr;
+		prCode = pr;
+		pkid = id;
+		taskitem = pc;
+		getAttchInfo();
+		if(isS=='是'){
+			isS='1';
+		}else{
+			isS='0';
+		}
+		
+		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
+		if(uns){
+			$('#unSuccessReason').val(uns);
+		}
+		$("#modal-form").modal("show");
+	}
+	
+	function getAttchInfo() {
+	
+		$
+				.ajax({
+					url : ctx + "/attachment/quereyAttachments",
+					method : "post",
+					dataType : "json",
+					data : {
+						caseCode : caseCode
+					},
+					success : function(data) {
+
+						//将返回的数据进行包装
+						$("#picContainer1").html("");
+						var trStr = "";
+						dataLength = 0;
+						//实勘描述
+						$
+								.each(
+										data.attList,
+										function(index, value) {
+											dataLength++;
+											
+											trStr += "<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
+											trStr += "<div class=\"preview span12\">";
+											trStr += "<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
+
+											trStr += "<img src='"+appCtx['img-centanet'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='width:80px;height:80px;' alt=''>";
+											trStr += "</div>";
+											trStr += "<div class=\"delete span2\" style=\"margin-left: 75%; margin-top: -93px;line-height:0;\">";
+											trStr += "<button onclick=\"romoveDiv('picContainers',"
+													+ value.pkid
+													+ ");\" class=\"btn red\"";
+											trStr += "style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
+											trStr += "<i class=\"icon-remove\"></i>";
+											trStr += "</button>";
+											trStr += "</div>";
+											trStr += "</div>";
+
+										});
+						$("#picContainer1").append(trStr);
+
+					}
+
+				});
+	}
+	function checkForm(){
+		if(!~~$('input[name="isScuess"]:checked ').val()){
+			if($('#unSuccessReason').val()==''){
+				alert('请输入无效原因！');
+				return false;
 			}
-		});
+		}
+		return true;
+	}
+	function save(isSubmit){
+		if(isSubmit&&!!~~$('input[name="isScuess"]:checked ').val()){
+			if(!checkAttachment()){
+				return false;
+			}
+		}
+		if(!checkForm()){
+			return false;
+		}
+		if(!!~~$('input[name="isScuess"]:checked ').val()){
+			deleteAndModify();
+		}
+		if(isSubmit){
+			checkIsExistFile(isSubmit);
+		}else{
+			commitDispose(isSubmit);
+		}
 	}
