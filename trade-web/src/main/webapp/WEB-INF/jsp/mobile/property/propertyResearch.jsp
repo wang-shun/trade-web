@@ -524,7 +524,9 @@ img{ border-image-width:0px;}
 				return false;
 			}
 			if(!!~~$('input[name="isScuess"]:checked ').val()){
-				deleteAndModify();
+				if(!deleteAndModify()){
+					return false;
+				}
 			}
 			if(isSubmit){
 				$.ajax({

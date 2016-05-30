@@ -32,8 +32,7 @@ var packData=function(){
 				'search_completeTimeStart' : completeTimeStart,
 				'search_completeTimeEnd' : completeTimeEnd?(completeTimeEnd+' 23:59:59'):completeTimeEnd,
 				
-				'search_propertyAddr' : propertyAddr,
-				'page':1
+				'search_propertyAddr' : propertyAddr
 			};
 		return data;
 	}
@@ -60,7 +59,8 @@ var JQGrid_propertyByaddSearch = function() {
 	        		$('#'+table_property_list).jqGrid('setGridParam',{
 	        			datatype:'json',  
 	        			mtype : 'POST',
-	        			postData: packData()
+	        			postData: packData(),
+	        			page:1
 	        		}).trigger('reloadGrid');
 				}
 			);

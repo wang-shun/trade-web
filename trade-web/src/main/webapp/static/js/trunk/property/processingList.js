@@ -305,7 +305,9 @@ function checkIsExistFile(isSubmit){
 			return false;
 		}
 		if(!!~~$('input[name="isScuess"]:checked ').val()){
-			deleteAndModify();
+			if(!deleteAndModify()){
+				return false;
+			}
 		}
 		if(isSubmit){
 			checkIsExistFile(isSubmit);
