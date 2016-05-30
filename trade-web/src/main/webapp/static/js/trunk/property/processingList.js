@@ -41,7 +41,7 @@ $(document).ready(function() {
 		/*   rowList: [10, 20, 30], */
 		colNames : [ 'PKID','行政区域','交易单编号','产调编号','物业地址', '产调项目','所属分行',
 		             '产调申请人', '产调申请时间',
-		             '产调受理时间','状态','附件','是否有效','无效原因','所属贵宾服务部','操作'],
+		             '产调受理时间','状态','附件','是否有效','无效原因','操作'],
 		colModel : [ {
 			name : 'PKID',
 			index : 'PKID',
@@ -113,23 +113,10 @@ $(document).ready(function() {
 			index : 'UNSUCCESS_REASON',
 			width : 30
 		},{
-			name:'prDistrictId',
-			index :'prDistrictId',
-			width:80,
-			formatter:function(cellvalue, options, rawObject){
-				var outHtml=
-				"<input type=\"text\" class=\"span12 tbsporg org-label-control\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
-					   +"onclick=\"showOrgSelect("+rawObject.PKID+")\" value='"+rawObject.prDistrictId+"' />";
-				if(optTransferRole){return outHtml; }
-				else{
-					return cellvalue;
-				}
-					
-			}},{
 			name : 'nullityTag',
 			index : 'nullityTag',
 			align : "center",
-			width : 40,
+			width : 60,
 			formatter : nullityTag
 			
 		},
@@ -148,7 +135,13 @@ $(document).ready(function() {
 		}
 	});
 	function nullityTag(cellvalue, options, item){
+		var outHtml=
+			"&nbsp;<button type=\"button\" class=\"btn btn-warning btn-xs\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
+				   +"onclick=\"showOrgSelect("+item.PKID+")\" value='' >转组</button>";
+			
+			
 		var btn2="<button type='button' onclick=\"showAttchBox('"+item.CASE_CODE+"','"+item.PR_CODE+"','"+item.PART_CODE+"','"+item.PKID+"','"+item.IS_SUCCESS+"','"+(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')+"');\" class='btn btn-warning btn-xs'>处理</button>";
+		if(optTransferRole){return btn2=btn2+outHtml; }
 			return btn2;
 	}
 	

@@ -32,7 +32,8 @@ var packData=function(){
 				'search_completeTimeStart' : completeTimeStart,
 				'search_completeTimeEnd' : completeTimeEnd?(completeTimeEnd+' 23:59:59'):completeTimeEnd,
 				
-				'search_propertyAddr' : propertyAddr
+				'search_propertyAddr' : propertyAddr,
+				'page':1
 			};
 		return data;
 	}

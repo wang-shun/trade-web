@@ -21,7 +21,7 @@ $(document).ready(function() {
 		/*   rowList: [10, 20, 30], */
 		colNames : [ '行政区域','物业地址', '产调项目','所属分行',
 		             '产调申请人',  '产调申请时间',
-		             '状态','所属贵宾服务部' ],
+		             '状态','操作' ],
 		colModel : [{
 			name : 'DIST_CODE',
 			index : 'DIST_CODE',
@@ -55,11 +55,11 @@ $(document).ready(function() {
 		}	,{
 			name:'prDistrictId',
 			index :'prDistrictId',
-			width:80,
+			width:20,
 			formatter:function(cellvalue, options, rawObject){
 				var outHtml=
-				"<input type=\"text\" class=\"span12 tbsporg org-label-control\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
-					   +"onclick=\"showOrgSelect("+rawObject.PKID+")\" value='"+rawObject.prDistrictId+"' />";
+				"<button type=\"button\" class=\"btn btn-warning btn-xs\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
+					   +"onclick=\"showOrgSelect("+rawObject.PKID+")\" value='"+rawObject.prDistrictId+"' >转组</button>";
 				if(optTransferRole){return outHtml; }
 				else{
 					return cellvalue;
