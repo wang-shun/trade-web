@@ -181,7 +181,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 
-	<script src="${ctx}/transjs/manage/finOrgSet.js?v=1.0.3"></script> 
+	<script src="${ctx}/transjs/manage/finOrgSet.js?v=1.0.4"></script> 
 
     <script>
     var ctx = "${ctx}";

@@ -6,7 +6,10 @@
     		$("#finOrgName").css("border-color","red");
     		return false;
     	}
-
+    	if($("#finOrgCode").val() == $("#faFinOrgCode").val() ){
+    		alert('不能选择自己为父机构');
+    		return false;
+    	}
     	return true;
     }
     function getFinOrgList(){
