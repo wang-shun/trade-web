@@ -48,7 +48,7 @@
     	<div class='row form-group'>
     		<label class='col-md-2 control-label'>物业地址 :</label>
     		<div class='col-md-4'><input type="text" id="addr" class='form-control'/></div>
-			<div class='col-md-6 '><button id="addrSearchButton" class='btn btn-warning pull-left'>搜索</button></div>
+			<div class='col-md-6 '><button id="addrSearchButton" type='button' class='btn btn-warning pull-left'>搜索</button></div>
 		</div>
     	
         
