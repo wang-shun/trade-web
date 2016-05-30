@@ -12,20 +12,6 @@
 	<name>trade-web</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<spring.version>4.0.6.RELEASE</spring.version>
-		<org.aspectj-version>1.7.3</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
-		<hibernate.version>4.2.3.Final</hibernate.version>
-		<hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
-		<spring-data-jpa.version>1.3.2.RELEASE</spring-data-jpa.version>
-		<mybatis.version>3.2.8</mybatis.version>
-		<tomcat-jdbc.version>7.0.42</tomcat-jdbc.version>
-		<jackson.version>2.1.5</jackson.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.aist</groupId>
