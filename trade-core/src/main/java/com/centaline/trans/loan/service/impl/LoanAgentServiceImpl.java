@@ -126,9 +126,14 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 
 			lsc.setCreateBy(userId);
 			lsc.setCreateTime(new Date());
+			
+			lsc.setUpdateBy(userId);
+			lsc.setUpdateTime(new Date());
+			lsc.setIsConfirm("0");
 
 			lsc.setStFrom(oldObj == null ? null : oldObj.getApplyStatus());
 			lsc.setStTo(newObj.getApplyStatus());
+			
 			lsc.setLoanId(newObj.getPkid());
 			if (oldObj != null) {
 				loanStatusChangeMapper.deleteUnConfirm(newObj.getPkid());
