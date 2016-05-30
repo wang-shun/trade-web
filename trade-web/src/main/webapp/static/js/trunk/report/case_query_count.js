@@ -18,13 +18,21 @@ $(document).ready(function() {
 	if (orgs=="") {
 		orgs = null;
 	}
-
+	var transJob =$("#transJob").val();
+	alert(org)
+	alert(orgs)
+	alert(month)
+	
 	// 初始化列表
 	var data = {};
 	data.argu_org = org;
 	data.argu_orgs = orgs;
+	data.argu_month = month;
 	data.rows = 12;
 	data.page = 1;
+	if(transJob=="GeneralManager"||transJob=="director"){
+		data.queryId = "queryCastCountDistrict";
+	}
 	data.queryId = "queryCaseCountOrg";
 	reloadGrid(data);
 });
@@ -59,8 +67,16 @@ $('#datepicker_0').datepicker({
 	language : 'zh-CN'
 });
 
-// 查询
-$('#searchButton').click(function() {
+var flag=1;
+// 查询组织
+$('#queryOrgs').click(function() {
+	flag=0;
+	searchMethod();
+});
+
+// 查询贵宾服务部
+$('#queryDistrict').click(function() {
+	flag=1;
 	searchMethod();
 });
 
@@ -148,31 +164,31 @@ var createTimeEnd;
  * 查询参数取得
  */
 function getParamsValue() {
-	//yucu组织选择
-	var orgs =  $('#yuCuiOriGrpId').val();
-	//时间范围
-	createTimeStart = $('#dtBegin_0').val();
-	createTimeEnd = $('#dtEnd_0').val();
-	//状态
-	var status=$("#caseProperty option:selected").val();
+	
+	var org = $("#org").val();
+	if (org=="") {
+		org = null;
+	}	
+	var orgs = $("#orgs").val();
+	if (orgs=="") {
+		orgs = null;
+	}	
+	var month = $("#month").val();
+	if (month=="") {
+		month = null;
+	}
 	//queryId
 	var queryIds = "";
-	if(status=="signed"){
-		queryIds = "queryCastDetailItemListSigned";
-	}else if(status=="transfered"){
-		queryIds = "queryCastDetailItemListTransfered";
-	}else if(status=="closed"){
-		queryIds = "queryCastDetailItemListClosed";
-	}else{
-		queryIds = "queryCastDetailItemListReceived";
+	if(flag==0){
+		queryIds = "queryCaseCountOrg";
+	}else if(flag==1){
+		queryIds = "queryCastCountDistrict";
 	}
-	
 	//设置查询参数
 	var params = {
-		search_status : status,
-		search_createTimeStart : createTimeStart,
-		search_createTimeEnd : createTimeEnd,
+		argu_org : org,
 		argu_orgs : orgs,
+		argu_month : month,
 		queryId : queryIds
 	};
 	return params;

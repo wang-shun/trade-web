@@ -107,4 +107,6 @@
 	<import resource="query/report/toCaseDetailListQueryClosed.xml"></import>
 	<import resource="query/report/toCaseDetailListQuerySigned.xml"></import>
 	<import resource="query/report/toCaseDetailListQueryTransfered.xml"></import>
+	<import resource="query/report/toCaseListQueryOrg.xml"></import>
+	<import resource="query/report/toCaseListQueryDistrict.xml"></import>
 </queryConfig>
