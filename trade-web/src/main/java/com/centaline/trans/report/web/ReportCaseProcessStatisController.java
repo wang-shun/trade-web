@@ -1,6 +1,8 @@
 package com.centaline.trans.report.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,15 +51,39 @@ public class ReportCaseProcessStatisController {
 	public String caseDetail(
 			Model model,
 			ServletRequest request,
-			@RequestParam(value = "status", required = true) String status,
-			@RequestParam(value = "org", required = true) String org,
-			@RequestParam(value = "createTimeStart", required = true) String createTimeStart,
-			@RequestParam(value = "createTimeEnd", required = true) String createTimeEnd) {
+			@RequestParam(value = "status", required = false) String status,
+			@RequestParam(value = "org", required = false) String org,
+			@RequestParam(value = "createTimeStart", required = false) String createTimeStart,
+			@RequestParam(value = "createTimeEnd", required = false) String createTimeEnd) {
 
 		SessionUser user = uamSessionService.getSessionUser();
+		
+		/*url传参空值判断*/
+		if (null == status || "".equals(status)) {
+			status = "received";
+		}
+		if (null == org || "".equals(org)) {
+			org = user.getServiceDepId();
+		}
+		SimpleDateFormat format = null;
+		if (null == createTimeStart || "".equals(createTimeStart)) {
+			format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MONTH, 0);
+			c.set(Calendar.DAY_OF_MONTH, 1);
+			createTimeStart = format.format(c.getTime());
+		}
+		if (null == createTimeEnd || "".equals(createTimeEnd)) {
+			format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar ca = Calendar.getInstance();
+			ca.set(Calendar.DAY_OF_MONTH,
+					ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+			createTimeEnd = format.format(ca.getTime());
+		}
+		
 		String depId = user.getServiceDepId();
 		
-		/*验证当前用户所属组织和url传来的是否一致*/
+		/*验证当前用户所属组织和url传来的值是否一致*/
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
 			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId);
 			List<String> disOrgs = new ArrayList<String>(); // 贵宾服务组集合
