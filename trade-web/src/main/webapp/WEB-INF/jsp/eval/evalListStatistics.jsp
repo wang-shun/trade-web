@@ -212,6 +212,7 @@
 		  	          dataType: "json",
 		  	          data: p,
 		  	          success: function(data){
+		  	        	  data.ctx = ctx;
 		  	        	  var tsAwardBaseList= template('evalListTemp' , data);
 			                  $("#t_body_data_contents").empty();
 			                  $("#t_body_data_contents").html(tsAwardBaseList);
