@@ -76,7 +76,7 @@ public class ReportCaseProcessStatisController {
 			}
 			if (!depId.equals(org) && !disOrgs.contains(org)
 					&& !orgs.contains(org)) {
-				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的ID不符合!!!");
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 如果是总监
 			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId); //组织集合
@@ -87,12 +87,12 @@ public class ReportCaseProcessStatisController {
 				}
 			}
 			if (!depId.equals(org) && !orgs.contains(org)) {
-				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的ID不符合!!!");
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
 				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
 			if (!depId.equals(org)) {
-				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的ID不符合!!!");
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
 		}
 
