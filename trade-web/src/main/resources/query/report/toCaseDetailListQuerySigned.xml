@@ -32,8 +32,6 @@
 	</formatters>
 	<query id="queryCastDetailItemListSigned" cacheCount="true">
 		<searchCondition>
-           <condition field="a.SIGN_TIME"  name="createTimeStart" label="起始日期" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="a.SIGN_TIME"  name="createTimeEnd" label="结束日期" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -54,7 +52,13 @@
 					DATEDIFF(year, a.SIGN_TIME, GETDATE())=0 AND a.SIGN_TIME IS NOT NULL
 					<ifNotNull org>
 						AND (a.SIGN_DISTRICT_ID = #org# OR a.SIGN_TEAM_ID = #org#)
-					</ifNotNull> 
+					</ifNotNull>
+					<ifNotNull createTimeStart>
+						AND a.SIGN_TIME >= #createTimeStart#
+					</ifNotNull> 	
+					<ifNotNull createTimeEnd>
+						AND a.SIGN_TIME <= #createTimeEnd#
+					</ifNotNull>  
 				]]>		
 			</baseSql>
 			<orderBySql>

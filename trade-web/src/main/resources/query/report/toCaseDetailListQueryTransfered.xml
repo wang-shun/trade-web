@@ -32,8 +32,6 @@
 	</formatters>
 	<query id="queryCastDetailItemListTransfered" cacheCount="true">
 		<searchCondition>
-           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeStart" label="起始日期" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeEnd" label="结束日期" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -55,6 +53,12 @@
 					<ifNotNull org>
 						AND (a.HOUSE_TRANFER_DISTRICT_ID = #org# OR a.HOUSE_TRANFER_TEAM_ID = #org#)
 					</ifNotNull> 
+					<ifNotNull createTimeStart>
+						AND a.HOUSE_TRANFER_TIME >= #createTimeStart#
+					</ifNotNull> 	
+					<ifNotNull createTimeEnd>
+						AND a.HOUSE_TRANFER_TIME <= #createTimeEnd#
+					</ifNotNull>
 				]]>		
 			</baseSql>
 			<orderBySql>

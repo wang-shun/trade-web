@@ -20,8 +20,8 @@ $(document).ready(function() {
 	// 初始化列表
 	var cnStatus="";
 	var data = {};
-	data.search_createTimeStart=createTimeStart;
-	data.search_createTimeEnd=createTimeEnd;
+	data.argu_createTimeStart=createTimeStart;
+	data.argu_createTimeEnd=createTimeEnd;
 	data.argu_org = org;
 	data.rows = 12;
 	data.page = 1;
@@ -181,11 +181,23 @@ function getParamsValue() {
 	if(org=="ff8080814f459a78014f45a73d820006"){
 		org=null;
 	}
+	if(org==""||org==null){
+		org = $("#org").val();
+	}
 	//时间范围
 	createTimeStart = $('#dtBegin_0').val();
-	createTimeStart = createTimeStart + " 00:00:00";
+	if(""==createTimeStart||null==createTimeStart){
+		createTimeStart=null;
+	}else{
+		createTimeStart = createTimeStart + " 00:00:00";
+	}
 	createTimeEnd = $('#dtEnd_0').val();
-	createTimeEnd = createTimeEnd +" 23:59:59";
+	if(""==createTimeEnd||null==createTimeEnd){
+		createTimeEnd=null;
+	}else{
+		createTimeEnd = createTimeEnd +" 23:59:59";
+	}
+	
 	//状态
 	var status=$("#caseProperty option:selected").val();
 	//queryId
@@ -202,9 +214,8 @@ function getParamsValue() {
 	
 	//设置查询参数
 	var params = {
-		search_status : status,
-		search_createTimeStart : createTimeStart,
-		search_createTimeEnd : createTimeEnd,
+		argu_createTimeStart : createTimeStart,
+		argu_createTimeEnd : createTimeEnd,
 		argu_org : org,
 		queryId : queryIds
 	};

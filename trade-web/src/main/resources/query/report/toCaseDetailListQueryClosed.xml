@@ -32,8 +32,6 @@
 	</formatters>
 	<query id="queryCastDetailItemListClosed" cacheCount="true">
 		<searchCondition>
-           <condition field="a.CLOSE_TIME"  name="createTimeStart" label="起始日期" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="a.CLOSE_TIME"  name="createTimeEnd" label="结束日期" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -54,6 +52,12 @@
 					DATEDIFF(year, a.CLOSE_TIME, GETDATE())=0 AND a.CLOSE_TIME IS NOT NULL
 					<ifNotNull org>
 						AND (a.CLOSE_DISTRICT_ID = #org# OR a.CLOSE_TEAM_ID = #org#)
+					</ifNotNull>
+					<ifNotNull createTimeStart>
+						AND a.CLOSE_TIME >= #createTimeStart#
+					</ifNotNull> 	
+					<ifNotNull createTimeEnd>
+						AND a.CLOSE_TIME <= #createTimeEnd#
 					</ifNotNull> 	
 				]]>		
 			</baseSql>
