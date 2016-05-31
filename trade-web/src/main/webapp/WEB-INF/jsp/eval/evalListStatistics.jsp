@@ -209,7 +209,7 @@
         	    data1.argu_proOrgId =$("#h_proOrgId").val();
         	    data1.search_pUserId  =$('#inTextVal').attr('hVal');
 				data1.search_startTime=sTime;
-				data1.search_endTime = (eTime!=''?sTime+ " 23:59:59":eTime);
+				data1.search_endTime = (eTime!=''?eTime+ " 23:59:59":eTime);
         	    fetchData(data1);
 	    	}
 			function fetchData(p){
