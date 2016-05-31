@@ -195,7 +195,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="createTimeStart" value="${createTimeStart}" />
 	<input type="hidden" id="createTimeEnd" value="${createTimeEnd}" />
-	<input type="hidden" id="orgs" value="${org}" />
+	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="status" value="${status}" />
 	
 	<content tag="local_script"> 
