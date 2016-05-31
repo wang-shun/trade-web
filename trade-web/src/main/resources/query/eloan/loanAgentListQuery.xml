@@ -47,7 +47,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-					  loanAgent.PKID,
+					  c.PKID,
 					  loanAgent.CASE_CODE,
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE,
@@ -62,6 +62,7 @@
 					  loanAgent.ACTUAL_AMOUNT/10000 as 'ACTUAL_AMOUNT' 
 					FROM 
 					   sctrans.T_TO_LOAN_AGENT loanAgent
+					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
 					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN 
