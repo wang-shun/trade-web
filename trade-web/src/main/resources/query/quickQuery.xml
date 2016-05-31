@@ -84,6 +84,7 @@
 	<!-- loan agent status change list -->
 	<import resource="query/loan/LoanStatusChangeQuery.xml"></import>
 	<import resource="query/perform/eplusQuery.xml"></import>
+	<import resource="query/eloan/loanAgentListQuery.xml"></import>
 	
 	
 	<!-- 各个环节的备注信息  -->
