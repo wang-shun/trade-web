@@ -28,6 +28,15 @@
 	rel="stylesheet">
 	<style>
 		.bonus-m-con .bonus-search{margin-left:15px;}
+		.case-num{
+text-decoration: underline !important;
+}
+.case-num:HOVER{
+text-decoration: underline !important;
+}
+.case-num:visited{
+ text-decoration: underline !important;
+}
 	</style>
     </head>
     
