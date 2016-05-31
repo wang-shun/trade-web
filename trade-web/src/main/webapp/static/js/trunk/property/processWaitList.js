@@ -21,7 +21,7 @@ $(document).ready(function() {
 		/*   rowList: [10, 20, 30], */
 		colNames : [ '行政区域','物业地址', '产调项目','所属分行',
 		             '产调申请人',  '产调申请时间',
-		             '状态' ],
+		             '状态','操作' ],
 		colModel : [{
 			name : 'DIST_CODE',
 			index : 'DIST_CODE',
@@ -52,7 +52,20 @@ $(document).ready(function() {
 			name : 'PR_STATUS',
 			index : 'PR_STATUS',
 			width : 20
-		},
+		}	,{
+			name:'prDistrictId',
+			index :'prDistrictId',
+			width:20,
+			formatter:function(cellvalue, options, rawObject){
+				var outHtml=
+				"<button type=\"button\" class=\"btn btn-warning btn-xs\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
+					   +"onclick=\"showOrgSelect("+rawObject.PKID+")\" value='"+rawObject.prDistrictId+"' >转组</button>";
+				if(optTransferRole){return outHtml; }
+				else{
+					return cellvalue;
+				}
+			}
+		}
 		],
 		multiselect: false,
 		pager : "#pager_property_list",
@@ -157,7 +170,61 @@ function getParamsValue(pkid) {
 	};
 	return params;
 }
+var optPkid='';
 
+function checkOrg(o){
+	if(o.extendField!='yucui_district'){
+		alert('请选择一个贵宾服务总进行转组');
+		return false;
+	}
+	return true;
+}
+function showOrgSelect(id){
+	optPkid=id;
+	orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+		   startOrgId:'ff8080814f459a78014f45a73d820006',departmentHeriarchy:'yucui_district',
+		   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,});
+}
+function radioYuCuiOrgSelectCallBack(array){
+	if(array && array.length >0){
+		if(checkOrg(array[0])){
+			if(confirm('是否确认转组')){
+		        
+				$("#yuCuiOriGrpId").val(array[0].id);		
+				doTransfer(optPkid,array[0].id,array[0].name);
+			}
+		}else{
+			return false;
+		}
+	}
+}
+function doTransfer(pkid,districtId,orgName){
+	var transferData={pkid:pkid,districtId:districtId};
+	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	$(".blockOverlay").css({'z-index':'9998'});
+	$.ajax({
+		cache : false,
+		type : "POST",
+		url : ctx+'/property/doChangePrDistrictId',
+		dataType : "json",
+		data :transferData,
+		success : function(data) {
+			alert(data.message)
+			$.unblockUI();
+			if(data.success){
+				$('#table_property_list').jqGrid({
+					queryId : "queryProcessWaitList",
+					search_prDistrictId : prDistrictId,
+					search_prStatus : prStatus
+				}).trigger('reloadGrid');
+			}
+		},
+		error : function(errors) {
+			alert("处理出错,请刷新后再次尝试！");
+			  $.unblockUI();  
+		}
+	});
+}
 
 
 

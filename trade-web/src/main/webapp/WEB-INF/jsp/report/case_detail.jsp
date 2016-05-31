@@ -82,6 +82,7 @@ text-decoration: underline !important;
 .case-num:visited{
  text-decoration: underline !important;
 }
+.ml-15{margin-left:15px;}
 </style>
 </head>
 
@@ -97,10 +98,10 @@ text-decoration: underline !important;
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 					<div class="row">
-						<div class="col-md-5 col-sm-12">
+						<div class="col-md-12">
 							<div class="form-group">
-								<label class="col-md-3  col-sm-4 control-label">案件状态</label>
-								<div class="col-md-8">
+								<label class="col-md-1 control-label m-l">案件状态</label>
+								<div class="col-md-4">
 									<select ltype='select' id='caseProperty' name='case_property' class='form-control' validate='' onchange='' ligerui=''>
 									<option value='received'
 									    	<c:if test="${status }=='received'">SELECTED</c:if>
@@ -126,10 +127,10 @@ text-decoration: underline !important;
 									<div class="col-md-10">
 											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',
+										   startOrgId:'${org}',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
 										   expandNodeId:''})" value="${orgName}"/>
-										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${orgs}"/> 
+										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 
 									</div>
 								</div>
 							</div>
@@ -140,7 +141,7 @@ text-decoration: underline !important;
 								<div class="form-group">
 							<label class="col-md-1 control-label m-l">时间范围</label>
 							<div id="dateDiv_0">
-							<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+							<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left ml-15" data-date-format="yyyy-mm-dd">
 								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${createTimeStart}" placeholder="起始日期" /> 
 								<span class="input-group-addon">到</span>
 								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${createTimeEnd}" placeholder="结束日期" />
@@ -171,15 +172,9 @@ text-decoration: underline !important;
 					<tr>
 						<th class="t-left pd-l">案件编号</th>
 						<th class="t-left pd-l">地址</th>
-						<!-- <th class="t-left pd-l">状态</th> -->
 						<th class="t-left pd-l">时间</th>
-						<th class="t-left pd-l">经办人</th>
-						<th class="t-left pd-l">经办人组织</th>
 						<th class="t-left pd-l">上家</th>
 						<th class="t-left pd-l">下家</th>
-						<th class="t-left pd-l">经纪人</th>
-						<th class="t-left pd-l">经纪人组织</th>
-						<th class="t-left pd-l">电话</th>
 					</tr>
 				</thead>
 				<tbody id="myCaseList">
@@ -198,7 +193,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="createTimeStart" value="${createTimeStart}" />
 	<input type="hidden" id="createTimeEnd" value="${createTimeEnd}" />
-	<input type="hidden" id="orgs" value="${orgs}" />
+	<input type="hidden" id="orgs" value="${org}" />
 	<input type="hidden" id="status" value="${status}" />
 	
 	<content tag="local_script"> 
@@ -223,16 +218,11 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="t-left pd-l">{{item.CASE_CODE}}</td>
+						<td class="t-left pd-l"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a><span class="fd">{{status}}</span></td>
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
 						<td class="t-left pd-l">{{item.CREATE_TIME}}</td>
-						<td class="t-left pd-l">{{item.PROCESSOR_ID}}</td>
-						<td class="t-left pd-l">{{item.PROCESSOR_ORG_ID}}</td>
 						<td class="t-left pd-l">{{item.SELLER}}</td>
 						<td class="t-left pd-l">{{item.BUYER}}</td>
-						<td class="t-left pd-l">{{item.AGENT_NAME}}</td>
-						<td class="t-left pd-l">{{item.AGENT_ORG}}</td>
-						<td class="t-left pd-l">{{item.AGENT_TEL}}</td>
 				  </tr>
 
 				  {{if index%2 == 0}}
@@ -241,15 +231,17 @@ text-decoration: underline !important;
                        <tr class="tr-2">
                    {{/if}}
 						<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
+						<td class="t-left pd-l">
+							<i class="salesman-icon"></i>
+							<span class="salesman-info">
+								{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_TEL}}<span class="slash">/</span>{{item.AGENT_ORG}}
+							</span>
+						</td>
 						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
-						<td class="t-left pd-l"></td>
+						<td colspan="2" class="t-left pd-l">
+							<span class="jbr">经办人：{{item.PROCESSOR_ID}}</span>
+							<span class="slash">/</span>{{item.PROCESSOR_ORG_ID}}
+						</td>
 					</tr>
        {{/each}}
      </script>

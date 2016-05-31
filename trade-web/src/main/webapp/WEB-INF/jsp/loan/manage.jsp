@@ -130,13 +130,17 @@
                     <div>
                    		 合作机构 : 
                    		<!--  <aist:dict clazz="span6" id="operOrg" name="operOrg" display="select" dictType = "yu_serv_cat_code_tree" tag="eplus" defaultvalue=""/> -->
-                   		<select id="operOrg" class="btn btn-white chosen-select">
+            <!--        		<select id="operOrg" class="btn btn-white chosen-select">
                    				<option value="">请选择</option>
 								<option value="W0001">安家贷</option>
 								<option value="W0002">居易贷</option>
 								<option value="W0003">搜易贷</option>
 								<option value="W0004">及时雨</option>
+						</select> -->
+						<select class="btn btn-white "  id="operOrg">
 						</select>
+						
+						
 						产品名称 : <aist:dict clazz="btn btn-white chosen-select" id="loanSrvCode" name="loanSrvCode" display="select" dictType = "yu_serv_cat_code_tree" tag="eplus" defaultvalue=""/>
 						自填状态 : <aist:dict clazz="btn btn-white chosen-select" id="applyStatus" name="applyStatus" display="select" dictType = "yu_eplus_status" tag="" defaultvalue=""/>
 						已确认状态 :<aist:dict clazz="btn btn-white chosen-select" id="confirmStatus" name="confirmStatus" display="select" dictType = "yu_eplus_status" tag="" defaultvalue=""/>
@@ -386,6 +390,7 @@
 			$("#dateDiv_" + index).remove();
 		}
 			jQuery(document).ready(function() {
+				getBankList('');
 				 $(".fancybox").fancybox({
 						maxWidth	: 650,
 						maxHeight	: 450,
@@ -670,7 +675,27 @@
 		    	});
 		    }
 		    
-		   
+		    function getBankList(pcode){
+				var friend = $("#operOrg");
+				friend.empty();
+				 $.ajax({
+				    url:ctx+"/manage/queryFin",
+				    method:"post",
+				    dataType:"json",
+				    data:{"pcode":pcode},
+			    	success:function(data){
+			    		if(data.bankList != null){
+			    			for(var i = 0;i<data.bankList.length;i++){
+			    				if(data.bankCode == data.bankList[i].finOrgCode) {
+			    					friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"+data.bankList[i].finOrgName+"</option>");
+			    				} else {
+			    					friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"+data.bankList[i].finOrgName+"</option>");
+			    				}
+			    			}
+			    		}
+			    	}
+				  });
+			}
 		    
 		</script>
 	</content>

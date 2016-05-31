@@ -99,7 +99,10 @@ text-decoration: underline !important;
 		</div>
 		
 		<div class="data-wrap">
-		<span>贵宾服务部</span>|<span>组别</span>
+		<c:if test="${transJob}!=null">
+		<span><button id="queryDistrict" type="button" class="btn btn-warning">贵宾服务部</button></span>
+		<span><button id="queryOrgs" type="button" class="btn btn-warning">组别</button></span>
+		</c:if>
 		<div class="data-wrap-in">
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
@@ -128,6 +131,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="orgs" value="${orgs}" />
 	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="districtId" value="${districtId}" />
+	<input type="hidden" id="transJob" value="${transJob}" />
 	<input type="hidden" id="month" value="${month}" />
 	<input type="hidden" id="userId" value="${userId}" />
 	
@@ -159,6 +163,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.HOUSE_TRANFER_COUNT}}</td>
 						<td class="t-left pd-l">{{item.CLOSE_COUNT}}</td>
 				  </tr>
+
      	{{/each}}
      </script>
      <script></script>
