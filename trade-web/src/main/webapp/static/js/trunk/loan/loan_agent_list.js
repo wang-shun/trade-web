@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
-	initAutocomplete(ctx+"/labelVal/queryUserInfo");
+	//initAutocomplete(ctx+"/labelVal/queryUserInfo");
 	searchMethod();
 });
 
@@ -116,7 +116,7 @@ function searchMethod(page) {
 			end=end+' 23:59:59';
 		}
 		if(start&&start!=''){
-			start=start+' 23:59:59';
+			start=start;
 		}
 		if (start != "") {
 			if (val == '1') {
@@ -143,7 +143,7 @@ function searchMethod(page) {
 	params.search_signTimeEnd = signTimeEnd;
 	params.search_releaseTimeStart = releaseTimeStart;
 	params.search_releaseTimeEnd = releaseTimeEnd;
-	params.search_executorId = 	$("#executorId").val();
+	params.search_realName = 	$("#realName").val();
 	params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
 
 	reloadGrid(params);

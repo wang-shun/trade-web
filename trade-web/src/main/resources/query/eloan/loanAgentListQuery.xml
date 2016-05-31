@@ -33,7 +33,7 @@
 		<searchCondition>
 			<condition field="loanAgent.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="INFO.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.EXECUTOR_ID" name="executorId" label="人员" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="userOrg.REAL_NAME" name="realName" label="人员" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="IN" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
