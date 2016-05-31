@@ -84,7 +84,7 @@
 	<!-- loan agent status change list -->
 	<import resource="query/loan/LoanStatusChangeQuery.xml"></import>
 	<import resource="query/perform/eplusQuery.xml"></import>
-	
+	<import resource="query/eloan/loanAgentListQuery.xml"></import>
 	
 	<!-- 各个环节的备注信息  -->
 	<import resource="query/case/CaseCommentListQuery.xml" />
@@ -101,7 +101,8 @@
 	<import resource="query/kpi/TsAwardBase.xml"></import>
 	<import resource="query/kpi/TsAwardBaseDetail.xml"></import>
 	<import resource="query/kpi/PersonBonus.xml"></import>
-		<import resource="query/kpi/personSumBonus.xml"></import>
+	<import resource="query/kpi/personSumBonus.xml"></import>
+	
 	<!-- 案件统计 -->
 	<import resource="query/report/toCaseDetailListQueryrReceived.xml"></import>
 	<import resource="query/report/toCaseDetailListQueryClosed.xml"></import>
@@ -109,6 +110,4 @@
 	<import resource="query/report/toCaseDetailListQueryTransfered.xml"></import>
 	<import resource="query/report/toCaseListQueryOrg.xml"></import>
 	<import resource="query/report/toCaseListQueryDistrict.xml"></import>
-	
-	<import resource="query/eval/toEvalListQueryForStatistics.xml"></import>
 </queryConfig>

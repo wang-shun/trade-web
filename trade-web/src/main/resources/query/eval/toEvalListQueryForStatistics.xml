@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
@@ -77,4 +78,85 @@
 			</table-row>
 		</grid>
 	</query>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+				
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryEvalItemListForStatistics">
+		<searchCondition>
+            <condition field="tsi.PROCESSOR_ID" name="pUserId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="pif.PROPERTY_ADDR" name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ef.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="ef.RECORD_TIME" name="startTime" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+            <condition field="ef.RECORD_TIME" name="endTime" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						 select ef.pkid,ef.CASE_CODE,pif.PROPERTY_ADDR,ef.EVAL_FEE,ts.CON_PRICE,ef.RECORD_TIME,tsi.PROCESSOR_ID 
+	 from sctrans.T_TO_EVA_FEE_RECORD ef
+	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
+	 on ef.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
+	 left join sctrans.t_to_sign  as ts
+	 on ef.CASE_CODE=ts.CASE_CODE 
+	 left join sctrans.T_TO_PROPERTY_INFO pif
+	 on pif.CASE_CODE=ef.CASE_CODE
+	 <ifNotNull proOrgId>
+	 	left join sctrans.v_yucui_org_hierarchy orgHierarchy
+	 	on orgHierarchy.org_id =tsi.ORG_ID
+	</ifNotNull>
+	 where ef.CASE_CODE is not null and ef.RECORD_TIME is not null
+	<ifNotNull proOrgId>
+		and (orgHierarchy.TEAM_ID=#proOrgId# or orgHierarchy.DISTRICT_ID=#proOrgId# or orgHierarchy.hq_id=#proOrgId#)
+	</ifNotNull>
+	 
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY ef.RECORD_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>				
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="EVAL_FEE" index="" checkbox="" display="评估费" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RECORD_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ID" index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+>>>>>>> branch 'develop' of git@git.centaline.com:trade-group/trade-web.git
 </querys>
