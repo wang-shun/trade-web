@@ -36,12 +36,12 @@
             <condition field="loanAgent.EXECUTOR_ID" name="executorId" label="人员" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="IN" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GET" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LET" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GET" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LET" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GET" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LET" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -53,13 +53,13 @@
 					  loanAgent.LOAN_SRV_CODE,
 					  loanAgent.EXECUTOR_ID,
 					  userOrg.ORG_id as 'PARENT_ORG_NAME',
-					  sign.CON_PRICE,
+					  sign.CON_PRICE/10000 as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
 					  loanAgent.RELEASE_TIME,
-					  loanAgent.LOAN_AMOUNT,
-					  loanAgent.SIGN_AMOUNT,
-					  loanAgent.ACTUAL_AMOUNT 
+					  loanAgent.LOAN_AMOUNT/10000 as 'LOAN_AMOUNT',
+					  loanAgent.SIGN_AMOUNT/10000 as 'SIGN_AMOUNT',
+					  loanAgent.ACTUAL_AMOUNT/10000 as 'ACTUAL_AMOUNT' 
 					FROM 
 					   sctrans.T_TO_LOAN_AGENT loanAgent
 					INNER JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
