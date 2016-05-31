@@ -83,6 +83,8 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 .ml-15{margin-left:15px;}
+.case-state{width:150px;}
+.zuzhi{width:442px;}
 </style>
 </head>
 
@@ -101,7 +103,7 @@ text-decoration: underline !important;
 						<div class="col-md-12">
 							<div class="form-group">
 								<label class="col-md-1 control-label m-l">案件状态</label>
-								<div class="col-md-4">
+								<div class="col-md-2 case-state">
 									<select ltype='select' id='caseProperty' name='case_property' class='form-control' validate='' onchange='' ligerui=''>
 									<option value='received'
 									    	<c:if test="${status }=='received'">SELECTED</c:if>
@@ -124,10 +126,10 @@ text-decoration: underline !important;
 							<div class="col-md-12">
 								<div class="form-group ">
 									<label class="col-md-1 control-label m-l">组织范围</label>
-									<div class="col-md-10">
+									<div class="col-md-10 zuzhi">
 											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${org}',
+										   startOrgId:'${depId}',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
 										   expandNodeId:''})" value="${orgName}"/>
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 
@@ -193,7 +195,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="createTimeStart" value="${createTimeStart}" />
 	<input type="hidden" id="createTimeEnd" value="${createTimeEnd}" />
-	<input type="hidden" id="orgs" value="${org}" />
+	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="status" value="${status}" />
 	
 	<content tag="local_script"> 

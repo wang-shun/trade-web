@@ -101,7 +101,7 @@
 	<import resource="query/kpi/TsAwardBase.xml"></import>
 	<import resource="query/kpi/TsAwardBaseDetail.xml"></import>
 	<import resource="query/kpi/PersonBonus.xml"></import>
-	
+		<import resource="query/kpi/personSumBonus.xml"></import>
 	<!-- 案件统计 -->
 	<import resource="query/report/toCaseDetailListQueryrReceived.xml"></import>
 	<import resource="query/report/toCaseDetailListQueryClosed.xml"></import>

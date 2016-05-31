@@ -173,9 +173,9 @@ width:160px;
 		var hasError=false;
 	</c:if>
 	var sw;
+	//初始化日期控件
+	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
     $(document).ready(function(){
-    	//初始化日期控件
-    	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
     	// 初始化列表
     	PersonBonusList.init('${ctx}','/quickGrid/findPage','table_list_1','pager_list_1','${belongM}');
     	// 滑块
@@ -189,33 +189,33 @@ width:160px;
 			reloadGrid();
 		});
 		
-		function reloadGrid(bm){
- 			if(!bm){
- 				bm=monthSel.getDate().format('yyyy-MM-dd');	
- 			}else{
- 				bm=bm.format('yyyy-MM-dd');
- 			}
- 			
- 			var data = {};
-	    	data.search_caseCode =$.trim( $('#caseCode').val() ); 
-	    	data.search_propertyAddr =$.trim( $('#propertyAddr').val() ); 
-	    	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
-	    	data.queryId="personBonusList";
-	    	
-		    $("#table_list_1").jqGrid('setGridParam',{
-	    		datatype:'json',
-	    		mtype:'post',
-	    		postData:data
-	    	}).trigger('reloadGrid'); 
- 		}
-		
     });
+    
+    function reloadGrid(bm){
+			if(!bm){
+				bm=monthSel.getDate().format('yyyy-MM-dd');	
+			}else{
+				bm=bm.format('yyyy-MM-dd');
+			}
+			
+			var data = {};
+    	data.search_caseCode =$.trim( $('#caseCode').val() ); 
+    	data.search_propertyAddr =$.trim( $('#propertyAddr').val() ); 
+    	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
+    	data.queryId="personBonusList";
+    	
+	    $("#table_list_1").jqGrid('setGridParam',{
+    		datatype:'json',
+    		mtype:'post',
+    		postData:data
+    	}).trigger('reloadGrid'); 
+	}
     function exportToExcel() {
     	$.exportExcel({
 	    	ctx : "${ctx}",
 	    	queryId : 'personBonusList',
 	    	colomns : ['CASE_CODE','PARTICIPANT','PROPERTY_ADDR','GUOHU_TIME','CLOSE_TIME','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
-	    	data : {search_caseCode:$('#caseCode').val(),search_propertyAddr:$('#propertyAddr').val()}
+	    	data : {search_caseCode:$('#caseCode').val(),search_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
 	    }) 
      }
     </script>
