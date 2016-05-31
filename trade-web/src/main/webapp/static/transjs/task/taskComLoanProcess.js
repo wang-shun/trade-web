@@ -615,7 +615,7 @@ function getGuestInfo(formId){
 			if(data != null && data.length > 0){
 				$("#"+formId).find("select[name='custCode']").html("");
 				for(var i=0;i<data.length;i++){
-					if(custCode = data[i].pkid){
+					if(custCode == data[i].pkid){
 						$("#"+formId).find("select[name='custCode']").append("<option cName='"+data[i].workUnit+"' value='"+data[i].pkid+"' selected >"+data[i].guestName+"</option>");
 					}else{
 						$("#"+formId).find("select[name='custCode']").append("<option cName='"+data[i].workUnit+"'value='"+data[i].pkid+"'>"+data[i].guestName+"</option>");
