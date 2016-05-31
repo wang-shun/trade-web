@@ -113,15 +113,7 @@
                                 </tr>
                             </thead>
                             <tbody id="t_body_data_contents">
-                                <tr class="border-e7">
-                                    <td></td>
-                                    <td>ZY-AJ-201604-0352</td>
-                                    <td>上海虹口区临平路片区物华路246弄4号2402室</td>
-                                    <td>2016-03-21</td>
-                                    <td>2016-03-30</td>
-                                    <td>780</td>
-                                </tr>
-                                
+                                                              
                             </tbody>
                         </table>                     
                     </div>
@@ -150,7 +142,7 @@
 	    <script src="${ctx}/js/plugins/layer/layer.js"></script>
 	    <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
         <!-- 分页控件  -->
-        
+        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
         <script src="${ctx}/js/plugins/jquery.custom.js"></script>
         <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>

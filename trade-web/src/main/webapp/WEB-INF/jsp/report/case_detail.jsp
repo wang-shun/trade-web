@@ -106,16 +106,16 @@ text-decoration: underline !important;
 								<div class="col-md-2 case-state">
 									<select ltype='select' id='caseProperty' name='case_property' class='form-control' validate='' onchange='' ligerui=''>
 									<option value='received'
-									    	<c:if test="${status }=='received'">SELECTED</c:if>
+									    	<c:if test="${status=='received'}">SELECTED</c:if>
 									    >已接单</option>
 									 <option value='signed'
-									    	<c:if test="${status }=='signed'">SELECTED</c:if>
+									    	<c:if test="${status=='signed'}">SELECTED</c:if>
 									    >已签约</option>
 									 <option value='transfered'
-									    	<c:if test="${status }=='transfered'">SELECTED</c:if>
+									    	<c:if test="${status=='transfered'}">SELECTED</c:if>
 									    >已过户</option>
 									 <option value='closed'
-									    	<c:if test="${status }=='closed'">SELECTED</c:if>
+									    	<c:if test="${status=='closed'}">SELECTED</c:if>
 									    >已结案</option>
 									 </select> 
 								 </div>
@@ -174,7 +174,7 @@ text-decoration: underline !important;
 					<tr>
 						<th class="t-left pd-l">案件编号</th>
 						<th class="t-left pd-l">地址</th>
-						<th class="t-left pd-l">时间</th>
+						<th class="t-left pd-l" id="typeTime">时间</th>
 						<th class="t-left pd-l">上家</th>
 						<th class="t-left pd-l">下家</th>
 					</tr>
