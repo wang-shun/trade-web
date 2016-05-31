@@ -40,7 +40,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-						 select ef.pkid,ef.CASE_CODE,pif.PROPERTY_ADDR,ef.EVAL_FEE,ts.CON_PRICE,ef.RECORD_TIME,tsi.PROCESSOR_ID 
+						 select ef.pkid,ef.CASE_CODE,pif.PROPERTY_ADDR,ef.EVAL_FEE,ts.CON_PRICE/10000,ef.RECORD_TIME,tsi.PROCESSOR_ID 
 	 from sctrans.T_TO_EVA_FEE_RECORD ef
 	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	 on ef.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
