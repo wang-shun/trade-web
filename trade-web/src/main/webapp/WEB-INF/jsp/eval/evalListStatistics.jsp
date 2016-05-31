@@ -150,7 +150,7 @@
 	    <script src="${ctx}/js/plugins/layer/layer.js"></script>
 	    <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
         <!-- 分页控件  -->
-        
+        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
         <script src="${ctx}/js/plugins/jquery.custom.js"></script>
         <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
