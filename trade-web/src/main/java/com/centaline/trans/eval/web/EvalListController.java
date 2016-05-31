@@ -19,6 +19,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
+import com.centaline.trans.workspace.entity.WorkSpace;
 
 /**
  * 
@@ -82,5 +83,12 @@ public class EvalListController {
 		}
 		
 		return this.evalFeeDesign(request);
+	}
+	@RequestMapping("/evalListStatistics")
+	public String toEvalListStatistics(WorkSpace searchCriteria,HttpServletRequest request){
+		request.setAttribute("searchCriteria", searchCriteria);
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		return "eval/evalListStatistics";
 	}
 }
