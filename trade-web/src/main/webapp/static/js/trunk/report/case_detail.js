@@ -7,7 +7,9 @@ $(document).ready(function() {
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	var createTimeStart = $("#createTimeStart").val();
+	createTimeStart = createTimeStart + " 00:00:00";
 	var createTimeEnd = $("#createTimeEnd").val();
+	createTimeEnd = createTimeEnd +" 23:59:59";
 	var org = $("#org").val();
 	if (org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
@@ -181,7 +183,9 @@ function getParamsValue() {
 	}
 	//时间范围
 	createTimeStart = $('#dtBegin_0').val();
+	createTimeStart = createTimeStart + " 00:00:00";
 	createTimeEnd = $('#dtEnd_0').val();
+	createTimeEnd = createTimeEnd +" 23:59:59";
 	//状态
 	var status=$("#caseProperty option:selected").val();
 	//queryId

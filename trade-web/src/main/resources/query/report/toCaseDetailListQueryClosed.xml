@@ -53,7 +53,7 @@
 					WHERE
 					DATEDIFF(year, a.CLOSE_TIME, GETDATE())=0 AND a.CLOSE_TIME IS NOT NULL
 					<ifNotNull org>
-						AND a.CLOSE_DISTRICT_ID = #org# OR a.CLOSE_TEAM_ID = #org#
+						AND (a.CLOSE_DISTRICT_ID = #org# OR a.CLOSE_TEAM_ID = #org#)
 					</ifNotNull> 	
 				]]>		
 			</baseSql>

@@ -179,94 +179,80 @@ from (
   
   <select id="staSignCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
   	SELECT 
-   		COUNT(distinct tc.CASE_CODE) as countQYS
-   	FROM sctrans.T_TO_CASE tc left join sctrans.T_TO_SIGN ts
-	on ts.CASE_CODE=tc.CASE_CODE
-	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi 
-	on tsi.CASE_CODE=tc.CASE_CODE 
+   		COUNT(distinct CASE_CODE) as countQYS
+   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS
 	where 
-		ts.PART_CODE is not null and datediff(year,ts.REAL_CON_TIME,getdate())=0 and ts.REAL_CON_TIME is not null
+		datediff(year,SIGN_TIME,getdate())=0 and SIGN_TIME is not null
 	 <if test="userId != null">
-	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
+	 	and SIGN_USER=#{userId,jdbcType=DECIMAL}
 	 </if>
 	 <if test="orgId != null">
-	 	and tsi.ORG_ID=#{orgId,jdbcType=VARCHAR}
+	 	and SIGN_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and tsi.ORG_ID in
+	 	and SIGN_TEAM_ID in
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, ts.REAL_CON_TIME)=#{mo,jdbcType=VARCHAR}
+	  	and DatePart(m, SIGN_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
   <select id="staReceiveCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
   	SELECT 
-   		COUNT(distinct tc.CASE_CODE) as countQYS
-   	FROM sctrans.T_TO_CASE tc 
-	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi 
-	on tsi.CASE_CODE=tc.CASE_CODE 
+   		COUNT(distinct CASE_CODE) as countQYS
+   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS
 	where 
-		datediff(year,tc.CREATE_TIME,getdate())=0 and tc.CREATE_TIME is not null
+		datediff(year,RECEIVED_TIME,getdate())=0 and RECEIVED_TIME is not null
 	 <if test="userId != null">
-	 	and (tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL} or tc.LEADING_PROCESS_ID=#{userId,jdbcType=DECIMAL})
+	 	and RECEIVED_USER=#{userId,jdbcType=DECIMAL}
 	 </if>
 	 <if test="orgId != null">
-	 	and (tsi.ORG_ID=#{orgId,jdbcType=VARCHAR} or tc.org_id=#{orgId,jdbcType=VARCHAR}) 
+	 	and RECEIVED_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and ( tsi.ORG_ID in
+	 	and RECEIVED_TEAM_ID in
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
-	 	or tc.org_id in 
-	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
-	 	)
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, tc.CREATE_TIME)=#{mo,jdbcType=VARCHAR}
+	  	and DatePart(m, RECEIVED_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
   <select id="staTransferCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-	select COUNT(tc.case_code) 
-	from sctrans.T_TO_CASE as tc 
-	left join sctrans.T_TO_HOUSE_TRANSFER as tht
-	on tc.CASE_CODE=tht.CASE_CODE
-	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
-	on tc.CASE_CODE=tsi.CASE_CODE 
+	select COUNT(case_code) 
+	from sctrans.V_RPT_CASE_PROCESS_STATIS
 	where 
-		datediff(YYYY,tht.REAL_HT_TIME,getdate())=0 and tht.REAL_HT_TIME is not null
+		datediff(YYYY,HOUSE_TRANFER_TIME,getdate())=0 and HOUSE_TRANFER_TIME is not null
 	 <if test="userId != null">
-	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
+	 	and HOUSE_TRANFER_USER=#{userId,jdbcType=DECIMAL}
 	 </if>
 	 <if test="orgId != null">
-	 	and tsi.ORG_ID=#{orgId,jdbcType=VARCHAR}
+	 	and HOUSE_TRANFER_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and tsi.ORG_ID in
+	 	and HOUSE_TRANFER_TEAM_ID in
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, tht.REAL_HT_TIME)=#{mo,jdbcType=VARCHAR}
+	  	and DatePart(m, HOUSE_TRANFER_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
   <select id="staCloseCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-	select COUNT(tc.case_code) 
-	from sctrans.T_TO_CASE as tc 
-	left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
-	on tc.CASE_CODE=tsi.CASE_CODE 
+	select COUNT(case_code) 
+	from sctrans.V_RPT_CASE_PROCESS_STATIS
 	where 
-		datediff(YYYY,tc.ClOSE_TIME,getdate())=0 and tc.ClOSE_TIME is not null
+		datediff(YYYY,CLOSE_TIME,getdate())=0 and CLOSE_TIME is not null
 	 <if test="userId != null">
-	 	and tsi.PROCESSOR_ID=#{userId,jdbcType=DECIMAL}
+	 	and CLOSE_USER=#{userId,jdbcType=DECIMAL}
 	 </if>
 	 <if test="orgId != null">
-	 	and tsi.ORG_ID=#{orgId,jdbcType=VARCHAR}
+	 	and CLOSE_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and tsi.ORG_ID in
+	 	and CLOSE_TEAM_ID in
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, tc.ClOSE_TIME)=#{mo,jdbcType=VARCHAR}
+	  	and DatePart(m, CLOSE_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
   <select id="staEvaFee" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
