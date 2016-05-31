@@ -47,6 +47,13 @@ public class LoanAgentController {
 		return "/loan/submit";
 	}
 	
+	@RequestMapping("loanAgentList")
+	public String loanAgentList(Model model, ServletRequest request) {
+	    SessionUser sessionUser = uamSessionService.getSessionUser();
+		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		return "/loan/loanAgentList";
+	}
+	
 	@RequestMapping("manage")
 	public String manage(Model model, ServletRequest request) {
 		SessionUser user = uamSessionService.getSessionUser();

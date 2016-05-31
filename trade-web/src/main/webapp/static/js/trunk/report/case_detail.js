@@ -7,33 +7,40 @@ $(document).ready(function() {
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	var createTimeStart = $("#createTimeStart").val();
+	createTimeStart = createTimeStart + " 00:00:00";
 	var createTimeEnd = $("#createTimeEnd").val();
+	createTimeEnd = createTimeEnd +" 23:59:59";
 	var org = $("#org").val();
-	if (org==""||org=="ff8080814f459a78014f45a73d820006") {
+	if (org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
 	}
 	var status = $("#status").val();
 	
+	
 	// 初始化列表
 	var cnStatus="";
 	var data = {};
-	data.search_createTimeStart=createTimeStart;
-	data.search_createTimeEnd=createTimeEnd;
+	data.argu_createTimeStart=createTimeStart;
+	data.argu_createTimeEnd=createTimeEnd;
 	data.argu_org = org;
 	data.rows = 12;
 	data.page = 1;
 	if(status=="signed"){
 		data.queryId = "queryCastDetailItemListSigned";
 		cnStatus="已签约";
+		$("#typeTime").text("签约时间");
 	}else if(status=="transfered"){
 		data.queryId = "queryCastDetailItemListTransfered";
 		cnStatus="已过户";
+		$("#typeTime").text("过户时间");
 	}else if(status=="closed"){
 		data.queryId = "queryCastDetailItemListClosed";
 		cnStatus="已结案";
+		$("#typeTime").text("结案时间");
 	}else{
 		data.queryId = "queryCastDetailItemListReceived";
 		cnStatus="已接单";
+		$("#typeTime").text("接单时间");
 	}
 	reloadGrid(data,cnStatus);
 });
@@ -85,12 +92,16 @@ function searchMethod(page) {
 	var status=$("#caseProperty option:selected").val();
 	if(status=="signed"){
 		cnStatus="已签约";
+		$("#typeTime").text("签约时间");
 	}else if(status=="transfered"){
 		cnStatus="已过户";
+		$("#typeTime").text("过户时间");
 	}else if(status=="closed"){
 		cnStatus="已结案";
+		$("#typeTime").text("结案时间");
 	}else{
 		cnStatus="已接单";
+		$("#typeTime").text("接单时间");
 	}
 	reloadGrid(params, cnStatus);
 };
@@ -167,12 +178,26 @@ var createTimeEnd;
 function getParamsValue() {
 	//获取誉萃组织
 	var org =  $('#yuCuiOriGrpId').val();
-	if(org==""|| org=="ff8080814f459a78014f45a73d820006"){
+	if(org=="ff8080814f459a78014f45a73d820006"){
 		org=null;
+	}
+	if(org==""||org==null){
+		org = $("#org").val();
 	}
 	//时间范围
 	createTimeStart = $('#dtBegin_0').val();
+	if(""==createTimeStart||null==createTimeStart){
+		createTimeStart=null;
+	}else{
+		createTimeStart = createTimeStart + " 00:00:00";
+	}
 	createTimeEnd = $('#dtEnd_0').val();
+	if(""==createTimeEnd||null==createTimeEnd){
+		createTimeEnd=null;
+	}else{
+		createTimeEnd = createTimeEnd +" 23:59:59";
+	}
+	
 	//状态
 	var status=$("#caseProperty option:selected").val();
 	//queryId
@@ -189,9 +214,8 @@ function getParamsValue() {
 	
 	//设置查询参数
 	var params = {
-		search_status : status,
-		search_createTimeStart : createTimeStart,
-		search_createTimeEnd : createTimeEnd,
+		argu_createTimeStart : createTimeStart,
+		argu_createTimeEnd : createTimeEnd,
 		argu_org : org,
 		queryId : queryIds
 	};
