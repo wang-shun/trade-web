@@ -26,6 +26,9 @@
 	<link
 	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
 	rel="stylesheet">
+	<style>
+		.bonus-m-con .bonus-search{margin-left:15px;}
+	</style>
     </head>
     
     <body class="pace-done">
@@ -35,15 +38,15 @@
                     <div class="bonus-wrap">
                         <div class="ibox-content bonus-m-con">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4">
+                                <div class="col-lg-5 col-md-5">
                                         <label class="col-lg-3 col-md-3 control-label font_w">案件编号</label>
                                         <div class="col-lg-9 col-md-9">
                                             <input type="text" class="form-control" id="caseCode" name="caseCode">
                                         </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4">
+                                <div class="col-lg-5 col-md-5">
                                     <div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">物业地址</label>
+                                        <label class="col-lg-3 col-md-3 control-label font_w">产证地址</label>
                                         <div class="col-lg-9 col-md-9">
                                             <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
                                         </div>
@@ -52,7 +55,7 @@
 
                             </div>
                             <div class="row">
-                            	<div class="col-lg-4 col-md-4">    
+                            	<div class="col-lg-5 col-md-5">    
                             		 <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">组织</label>
                                         <div class="col-lg-9 col-md-9">
@@ -63,7 +66,7 @@
                                         </div>
                                     </div>
                             	</div>
-                            	<div class="col-lg-4 col-md-4">    
+                            	<div class="col-lg-5 col-md-5">    
                             			<div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                         <div class="col-lg-9 col-md-9">
@@ -72,30 +75,24 @@
                                     </div>
                             	</div>
                             </div>
-                            <div class='row'>
-                            	<div class='col-lg-12 col-md-12'>
-                            	 <div class="form-group">
-                            		<label class="col-lg-1 col-md-1 control-label font_w">时间</label>
-                            		<div class="form-group">
-	                            		<div id="datepicker_0"
-												class="input-group input-medium date-picker input-daterange pull-left"
-												data-date-format="yyyy-mm-dd">
-												<input id="dtBegin_0" name="dtBegin" class="form-control"
-													style="font-size: 13px;" type="text" value=""
-													placeholder="起始日期"> <span class="input-group-addon">到</span>
-												<input id="dtEnd_0" name="dtEnd" class="form-control"
-													style="font-size: 13px;" type="text" value=""
-													placeholder="结束日期" />
+                            <div class="row">                           	
+    							<div class="col-lg-5 col-md-5">
+  									<div class="form-group">
+										<label class="col-lg-3 col-md-3 control-label font_w">时间</label>
+                            			<div class="col-lg-9 col-md-9">
+	                            			<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd" style="width: 412px;">
+												<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
+												<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期">
 											</div>
 										</div>
-									</div>
+                            		</div>
                             	</div>
-                            </div>
+							</div>
                             <div class="row">
                             <div class="form-group">
-	                            	 <div class="col-lg-4 col-md-4">    
-	                            	 <label class="col-lg-1 col-md-3 control-label font_w">&nbsp;</label>                               
-	                                    <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
+	                            	 <div class="col-lg-5 col-md-5">    
+	                            	 <label class="col-lg-3 col-md-3 control-label font_w">&nbsp;</label>                               
+	                                    <button class="btn btn-warning bonus-search" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
 	                                </div>
                                 </div>
                             </div>
@@ -108,7 +105,7 @@
                             <thead>
                                 <tr>
                                     <th>案件编号</th>
-                                    <th>物业地址</th>
+                                    <th>产证地址</th>
                                     <th>评估费</th>
                                     <th>合同价</th>
                                     <th>时间</th>
@@ -212,7 +209,7 @@
         	    data1.argu_proOrgId =$("#h_proOrgId").val();
         	    data1.search_pUserId  =$('#inTextVal').attr('hVal');
 				data1.search_startTime=sTime;
-				data1.search_endTime = (eTime!=''?sTime+ " 23:59:59":eTime);
+				data1.search_endTime = (eTime!=''?eTime+ " 23:59:59":eTime);
         	    fetchData(data1);
 	    	}
 			function fetchData(p){
