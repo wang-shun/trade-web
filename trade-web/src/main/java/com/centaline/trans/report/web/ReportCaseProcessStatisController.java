@@ -1,5 +1,6 @@
 package com.centaline.trans.report.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,9 +29,9 @@ import com.centaline.trans.common.enums.TransJobs;
 public class ReportCaseProcessStatisController {
 
 	@Autowired(required = true)
-	UamSessionService uamSessionService;
+	private UamSessionService uamSessionService;
 	@Autowired(required = true)
-	UamUserOrgService uamUserOrgService;
+	private UamUserOrgService uamUserOrgService;
 
 	/**
 	 * 案件详情
@@ -48,20 +49,59 @@ public class ReportCaseProcessStatisController {
 	public String caseDetail(
 			Model model,
 			ServletRequest request,
-			@RequestParam(value = "status", required = false) String status,
-			@RequestParam(value = "org", required = false, defaultValue = "ff8080814f459a78014f45a73d820006") String org,
-			@RequestParam(value = "createTimeStart", required = false) String createTimeStart,
-			@RequestParam(value = "createTimeEnd", required = false) String createTimeEnd) {
+			@RequestParam(value = "status", required = true) String status,
+			@RequestParam(value = "org", required = true) String org,
+			@RequestParam(value = "createTimeStart", required = true) String createTimeStart,
+			@RequestParam(value = "createTimeEnd", required = true) String createTimeEnd) {
 
-		String orgName = uamUserOrgService.getOrgById(org).getOrgName();
+		SessionUser user = uamSessionService.getSessionUser();
+		String depId = user.getServiceDepId();
+		
+		/*验证当前用户所属组织和url传来的是否一致*/
+		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
+			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId);
+			List<String> disOrgs = new ArrayList<String>(); // 贵宾服务组集合
+			List<String> orgs = new ArrayList<String>(); // 组织集合
+			if (orgList != null && !orgList.isEmpty()) {
+				for (Org o : orgList) {
+					disOrgs.add(o.getId());
+					List<Org> subOrgs = uamUserOrgService.getOrgByParentId(o
+							.getId());
+					if (subOrgs != null && !subOrgs.isEmpty()) {
+						for (Org oo : subOrgs) {
+							orgs.add(oo.getId());
+						}
+					}
+				}
+			}
+			if (!depId.equals(org) && !disOrgs.contains(org)
+					&& !orgs.contains(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
+		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 如果是总监
+			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId); //组织集合
+			List<String> orgs = new ArrayList<String>();
+			if (orgList != null && !orgList.isEmpty()) {
+				for (Org o : orgList) {
+					orgs.add(o.getId());
+				}
+			}
+			if (!depId.equals(org) && !orgs.contains(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+			if (!depId.equals(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
+		}
+
+		String orgName = uamUserOrgService.getOrgById(org).getOrgName(); //获取组织名
 		request.setAttribute("createTimeStart", createTimeStart);
 		request.setAttribute("createTimeEnd", createTimeEnd);
 		request.setAttribute("org", org);
 		request.setAttribute("orgName", orgName);
-		if (!"signed".equals(status) && !"transfered".equals(status)
-				&& !"closed".equals(status)) {
-			status = "received";
-		}
+		request.setAttribute("depId", depId);
 		request.setAttribute("status", status);
 
 		return "report/case_detail";
@@ -84,7 +124,8 @@ public class ReportCaseProcessStatisController {
 		String transJob = null;
 
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
-			List<Org> orgList = uamUserOrgService.getOrgByParentId(null);
+			List<Org> orgList = uamUserOrgService.getOrgByParentId(user
+					.getServiceDepId());
 			orgs = orgListToListStr(orgList);
 			transJob = "GeneralManager";
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 如果是总监
@@ -108,45 +149,12 @@ public class ReportCaseProcessStatisController {
 		return "report/case_query_count";
 	}
 
-	// private Map<String, String> buildWorkSpaceBean(String serachId) {
-	// Map<String, String> map = new HashMap<String, String>();
-	// SessionUser user = uamSessionService.getSessionUser();
-	// String orgs = null;
-	// String org = null;
-	// String userId = null;
-	// if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
-	// if (!StringUtils.isBlank(serachId)) {
-	// List<Org> orgList = uamUserOrgService
-	// .getOrgByParentId(serachId);
-	// orgs = orgListToListStr(orgList);
-	// }
-	// } else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { //
-	// // 如果是总监
-	// if (!StringUtils.isBlank(serachId)) {
-	// org = serachId;
-	// } else {
-	// List<Org> orgList = uamUserOrgService.getOrgByParentId(user
-	// .getServiceDepId());
-	// orgs = orgListToListStr(orgList);
-	// }
-	// } else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
-	// || TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {//
-	// // 如果是交易主管
-	// if (!StringUtils.isBlank(serachId)) {
-	// userId = serachId;
-	// } else {
-	// org = user.getServiceDepId();
-	// }
-	// } else {
-	// // 交易顾问
-	// userId = user.getId();
-	// }
-	// map.put("userId", userId);
-	// map.put("org", org);
-	// map.put("orgs", orgs);
-	// return map;
-	// }
-
+	/**
+	 * 将组织转换为字符串
+	 * 
+	 * @param orgs
+	 * @return
+	 */
 	private String orgListToListStr(List<Org> orgs) {
 		StringBuffer sb = new StringBuffer();
 		if (orgs == null || orgs.isEmpty())

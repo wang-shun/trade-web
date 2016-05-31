@@ -127,7 +127,7 @@ text-decoration: underline !important;
 									<div class="col-md-10">
 											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${org}',
+										   startOrgId:'${depId}',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
 										   expandNodeId:''})" value="${orgName}"/>
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 

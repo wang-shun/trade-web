@@ -250,6 +250,10 @@
      <bean name="qqcdBuyerPhone"  class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
     	<property name="transPosition" value="30006002"></property>
     </bean>
+    
+    <!-- KPI是否达标 -->
+    <bean name="qqMKpi" class="com.centaline.trans.common.service.impl.QuickQueryMKpiCustomDictServiceImpl">
+    </bean>
 
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

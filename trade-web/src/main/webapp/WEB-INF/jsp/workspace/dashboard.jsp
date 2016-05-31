@@ -80,6 +80,7 @@ response.setDateHeader("Expires",0);
   	 function imgLoad(img){
 	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
 	   	 }
+  	 var showSta=false;
 </script>
 </head>
 
@@ -675,7 +676,7 @@ response.setDateHeader("Expires",0);
                                                         	f=${sta.staLoanApply};
                                                         	s=${sta.staLoanSign};
                                                         	l=${sta.staLoanRelease};
-                                                        	var showSta=true;
+                                                        	showSta=true;
                                                         </script>
                                                         <div class="row">
                                                             <div class="col-md-6">

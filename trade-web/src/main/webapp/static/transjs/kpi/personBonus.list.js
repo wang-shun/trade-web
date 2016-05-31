@@ -79,7 +79,8 @@ var PersonBonusList = (function(){
     				index : 'MKPI',
     				align : "center",
     				width : 20,
-    				resizable : false,
+    				resizable : false
+    				/*,
     				formatter : function(cellvalue, options, rowObject) {
     					if(cellvalue == 1) {
     						return '是'
@@ -88,7 +89,7 @@ var PersonBonusList = (function(){
     					} else {
     						return ''
     					}
-    				}
+    				}*/
     			},{
     				name : 'KPI_RATE_SUM',
     				index : 'KPI_RATE_SUM',

@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var createTimeStart = $("#createTimeStart").val();
 	var createTimeEnd = $("#createTimeEnd").val();
 	var org = $("#org").val();
-	if (org==""||org=="ff8080814f459a78014f45a73d820006") {
+	if (org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
 	}
 	var status = $("#status").val();
@@ -167,7 +167,7 @@ var createTimeEnd;
 function getParamsValue() {
 	//获取誉萃组织
 	var org =  $('#yuCuiOriGrpId').val();
-	if(org==""|| org=="ff8080814f459a78014f45a73d820006"){
+	if(org=="ff8080814f459a78014f45a73d820006"){
 		org=null;
 	}
 	//时间范围
