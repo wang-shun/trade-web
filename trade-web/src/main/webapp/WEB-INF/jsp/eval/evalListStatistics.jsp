@@ -151,7 +151,7 @@
 		<script id="evalListTemp" type= "text/html">
                            {{each rows as item index}}
  							  <tr class="border-e7">
-                                    <td>{{item.CASE_CODE}}</td>
+                                    <td><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
                                     <td>{{item.EVAL_FEE}}</td>
                                     <td>{{item.CON_PRICE}}</td>

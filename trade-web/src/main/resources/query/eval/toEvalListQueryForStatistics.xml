@@ -40,7 +40,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-						 select ef.pkid,ef.CASE_CODE,pif.PROPERTY_ADDR,ef.EVAL_FEE,ts.CON_PRICE/10000 as CON_PRICE,ef.RECORD_TIME,tsi.PROCESSOR_ID 
+						 select c.pkid,ef.CASE_CODE,pif.PROPERTY_ADDR,ef.EVAL_FEE,ts.CON_PRICE/10000 as CON_PRICE,ef.RECORD_TIME,tsi.PROCESSOR_ID 
 	 from sctrans.T_TO_EVA_FEE_RECORD ef
 	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	 on ef.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
@@ -48,6 +48,7 @@
 	 on ef.CASE_CODE=ts.CASE_CODE 
 	 left join sctrans.T_TO_PROPERTY_INFO pif
 	 on pif.CASE_CODE=ef.CASE_CODE
+	 INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ef.CASE_CODE
 	 <ifNotNull proOrgId>
 	 	left join sctrans.v_yucui_org_hierarchy orgHierarchy
 	 	on orgHierarchy.org_id =tsi.ORG_ID
@@ -67,8 +68,9 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="pkid" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>				
+				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>				
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价" customDict="" sysDict="" format="numberFormater"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="EVAL_FEE" index="" checkbox="" display="评估费" customDict="" sysDict="" format="numberFormater"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
