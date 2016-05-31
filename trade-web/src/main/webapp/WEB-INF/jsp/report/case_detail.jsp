@@ -83,6 +83,8 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 .ml-15{margin-left:15px;}
+.case-state{width:150px;}
+.zuzhi{width:442px;}
 </style>
 </head>
 
@@ -101,7 +103,7 @@ text-decoration: underline !important;
 						<div class="col-md-12">
 							<div class="form-group">
 								<label class="col-md-1 control-label m-l">案件状态</label>
-								<div class="col-md-4">
+								<div class="col-md-2 case-state">
 									<select ltype='select' id='caseProperty' name='case_property' class='form-control' validate='' onchange='' ligerui=''>
 									<option value='received'
 									    	<c:if test="${status }=='received'">SELECTED</c:if>
@@ -124,7 +126,7 @@ text-decoration: underline !important;
 							<div class="col-md-12">
 								<div class="form-group ">
 									<label class="col-md-1 control-label m-l">组织范围</label>
-									<div class="col-md-10">
+									<div class="col-md-10 zuzhi">
 											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${depId}',
