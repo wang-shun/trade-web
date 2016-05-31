@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * 案件统计详情
  */
@@ -14,6 +15,7 @@ $(document).ready(function() {
 	}
 	var status = $("#status").val();
 	
+	
 	// 初始化列表
 	var cnStatus="";
 	var data = {};
@@ -25,15 +27,19 @@ $(document).ready(function() {
 	if(status=="signed"){
 		data.queryId = "queryCastDetailItemListSigned";
 		cnStatus="已签约";
+		$("#typeTime").text("签约时间");
 	}else if(status=="transfered"){
 		data.queryId = "queryCastDetailItemListTransfered";
 		cnStatus="已过户";
+		$("#typeTime").text("过户时间");
 	}else if(status=="closed"){
 		data.queryId = "queryCastDetailItemListClosed";
 		cnStatus="已结案";
+		$("#typeTime").text("结案时间");
 	}else{
 		data.queryId = "queryCastDetailItemListReceived";
 		cnStatus="已接单";
+		$("#typeTime").text("接单时间");
 	}
 	reloadGrid(data,cnStatus);
 });
@@ -85,12 +91,16 @@ function searchMethod(page) {
 	var status=$("#caseProperty option:selected").val();
 	if(status=="signed"){
 		cnStatus="已签约";
+		$("#typeTime").text("签约时间");
 	}else if(status=="transfered"){
 		cnStatus="已过户";
+		$("#typeTime").text("过户时间");
 	}else if(status=="closed"){
 		cnStatus="已结案";
+		$("#typeTime").text("结案时间");
 	}else{
 		cnStatus="已接单";
+		$("#typeTime").text("接单时间");
 	}
 	reloadGrid(params, cnStatus);
 };

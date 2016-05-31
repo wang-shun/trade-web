@@ -429,7 +429,7 @@ response.setDateHeader("Expires",0);
                                                     接单数
                                                     <div class="agile-detail">
                                                         <span id="sp_receiveCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=received"><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=received" target="_blank"><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -437,7 +437,7 @@ response.setDateHeader("Expires",0);
                                                     签约数
                                                     <div class="agile-detail">
                                                         <span  id="sp_signCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=signed"><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=signed" target="_blank"><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -445,7 +445,7 @@ response.setDateHeader("Expires",0);
                                                     过户数
                                                     <div class="agile-detail">
                                                         <span id="sp_transferCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered"><font class="fa-2x font-bold text-danger">${sta.transferCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered" target="_blank"><font class="fa-2x font-bold text-danger">${sta.transferCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -453,7 +453,7 @@ response.setDateHeader("Expires",0);
                                                     结案数
                                                     <div class="agile-detail">
                                                         <span id="sp_closeCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=closed"><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=closed"  target="_blank"><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
