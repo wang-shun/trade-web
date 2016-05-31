@@ -101,6 +101,7 @@ public class ReportCaseProcessStatisController {
 		request.setAttribute("createTimeEnd", createTimeEnd);
 		request.setAttribute("org", org);
 		request.setAttribute("orgName", orgName);
+		request.setAttribute("depId", depId);
 		request.setAttribute("status", status);
 
 		return "report/case_detail";
