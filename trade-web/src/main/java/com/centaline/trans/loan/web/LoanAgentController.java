@@ -48,7 +48,9 @@ public class LoanAgentController {
 	}
 	
 	@RequestMapping("loanAgentList")
-	public String loanAgentList() {
+	public String loanAgentList(Model model, ServletRequest request) {
+	    SessionUser sessionUser = uamSessionService.getSessionUser();
+		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
 		return "/loan/loanAgentList";
 	}
 	

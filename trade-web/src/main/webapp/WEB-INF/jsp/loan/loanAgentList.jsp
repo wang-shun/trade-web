@@ -97,12 +97,16 @@ text-decoration: underline !important;
 								<div class="form-group ">
 									<label class="col-md-2 control-label m-l">案件组织</label>
 									<div class="col-md-8">
-											<input type="text" class="span12 tbsporg org-label-control" id="orgName" name="orgName" readonly="readonly" 
+							<!-- 				<input type="text" class="span12 tbsporg org-label-control" id="orgName" name="orgName" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
 										   expandNodeId:''})" />
-										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
+										  <input type="text" class="form-control" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" >
+                                          <input type="hidden" id="yuCuiOriGrpId" value="${serviceDepId}">
 									</div>
 								</div>
 							</div>

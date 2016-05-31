@@ -86,7 +86,6 @@
 	<import resource="query/perform/eplusQuery.xml"></import>
 	<import resource="query/eloan/loanAgentListQuery.xml"></import>
 	
-	
 	<!-- 各个环节的备注信息  -->
 	<import resource="query/case/CaseCommentListQuery.xml" />
 	<import resource="query/perform/gustFollowQuery.xml"></import>
