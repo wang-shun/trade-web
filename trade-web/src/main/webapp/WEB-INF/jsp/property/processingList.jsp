@@ -36,7 +36,12 @@
 	rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
 	rel="stylesheet">
-
+<script>
+	var optTransferRole=false;
+	<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
+	optTransferRole=true;
+	</shiro:hasPermission>
+	</script>
     <style>
     .ui-jqgrid .ui-jqgrid-bdiv{
     	    overflow-x: hidden;
@@ -94,6 +99,7 @@ img{ border-image-width:0px;}
 </head>
 
 <body>
+<body><jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id='myForm' >
 <input type="hidden" name="queryId" value="queryProcessingList">
 <input type="hidden" id="ctx" value="${ctx}"/>
@@ -324,9 +330,10 @@ img{ border-image-width:0px;}
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
 	
 	
-	<script src="${ctx}/js/trunk/property/processingList.js?v=1.1.8"></script>
-	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script>
 	
+	<script src="${ctx}/js/trunk/property/processingList.js?v=1.1.99"></script>
+	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js?v=1.0.2"></script>
+	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
 		jQuery(document).ready(function() {
 			 var addr = $("#addr").val();

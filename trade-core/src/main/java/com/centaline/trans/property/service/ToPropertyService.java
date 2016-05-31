@@ -13,7 +13,7 @@ import com.centaline.trans.task.entity.ToPropertyResearch;
  */
 public interface ToPropertyService {
 
-	
+	public int doChangePrDistrictId(String pkidArr,String prDistrictId);
 	/**
 	 * 根据caseCode修改已受理产调
 	 * @param disposeCodeArr

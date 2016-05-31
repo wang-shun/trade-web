@@ -59,7 +59,8 @@ var JQGrid_propertyByaddSearch = function() {
 	        		$('#'+table_property_list).jqGrid('setGridParam',{
 	        			datatype:'json',  
 	        			mtype : 'POST',
-	        			postData: packData()
+	        			postData: packData(),
+	        			page:1
 	        		}).trigger('reloadGrid');
 				}
 			);

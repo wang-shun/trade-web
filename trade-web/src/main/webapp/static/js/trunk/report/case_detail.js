@@ -8,29 +8,34 @@ $(document).ready(function() {
 	url = ctx + url;
 	var createTimeStart = $("#createTimeStart").val();
 	var createTimeEnd = $("#createTimeEnd").val();
-	var orgs = $("#orgs").val();
-	if (orgs=="") {
-		orgs = null;
+	var org = $("#org").val();
+	if (org==""||org=="ff8080814f459a78014f45a73d820006") {
+		org = null;
 	}
 	var status = $("#status").val();
-
+	
 	// 初始化列表
+	var cnStatus="";
 	var data = {};
 	data.search_createTimeStart=createTimeStart;
 	data.search_createTimeEnd=createTimeEnd;
-	data.argu_orgs = orgs;
+	data.argu_org = org;
 	data.rows = 12;
 	data.page = 1;
 	if(status=="signed"){
 		data.queryId = "queryCastDetailItemListSigned";
+		cnStatus="已签约";
 	}else if(status=="transfered"){
 		data.queryId = "queryCastDetailItemListTransfered";
+		cnStatus="已过户";
 	}else if(status=="closed"){
 		data.queryId = "queryCastDetailItemListClosed";
+		cnStatus="已结案";
 	}else{
 		data.queryId = "queryCastDetailItemListReceived";
+		cnStatus="已接单";
 	}
-	reloadGrid(data);
+	reloadGrid(data,cnStatus);
 });
 
 // select控件
@@ -68,11 +73,6 @@ $('#searchButton').click(function() {
 	searchMethod();
 });
 
- //删除日期控件
-function removeDateDiv(index) {
-	$("#dateDiv_" + index).remove();
-}
-
  //查询
 function searchMethod(page) {
 	if(!page) {
@@ -81,10 +81,21 @@ function searchMethod(page) {
 	var params = getParamsValue();
 	params.page = page;
 	params.rows = 12;
-	reloadGrid(params);
+	var cnStatus="";
+	var status=$("#caseProperty option:selected").val();
+	if(status=="signed"){
+		cnStatus="已签约";
+	}else if(status=="transfered"){
+		cnStatus="已过户";
+	}else if(status=="closed"){
+		cnStatus="已结案";
+	}else{
+		cnStatus="已接单";
+	}
+	reloadGrid(params, cnStatus);
 };
 
-function reloadGrid(data) {
+function reloadGrid(data, cnStatus) {
 	
 	$.ajax({
 		async: true,
@@ -99,6 +110,8 @@ function reloadGrid(data) {
         success: function(data){
           $.unblockUI();   	 
       	  data.ctx = ctx;
+      	  data.status= cnStatus;
+      	  //data.CREATE_TIME=data.CREATE_TIME.subString(0,10);
       	  var myCaseList = template('template_myCaseList' , data);
 			  $("#myCaseList").empty();
 			  $("#myCaseList").html(myCaseList);
@@ -152,8 +165,11 @@ var createTimeEnd;
  * 查询参数取得
  */
 function getParamsValue() {
-	//yucu组织选择
-	var orgs =  $('#yuCuiOriGrpId').val();
+	//获取誉萃组织
+	var org =  $('#yuCuiOriGrpId').val();
+	if(org==""|| org=="ff8080814f459a78014f45a73d820006"){
+		org=null;
+	}
 	//时间范围
 	createTimeStart = $('#dtBegin_0').val();
 	createTimeEnd = $('#dtEnd_0').val();
@@ -176,7 +192,7 @@ function getParamsValue() {
 		search_status : status,
 		search_createTimeStart : createTimeStart,
 		search_createTimeEnd : createTimeEnd,
-		argu_orgs : orgs,
+		argu_org : org,
 		queryId : queryIds
 	};
 	return params;

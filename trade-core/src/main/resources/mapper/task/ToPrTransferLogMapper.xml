@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToPrTransferLogMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToPrTransferLog" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PR_CODE" property="prCode" jdbcType="VARCHAR" />
+    <result column="TO_DISTRICT_ID" property="toDistrictId" jdbcType="VARCHAR" />
+    <result column="FROM_DISTRICT_ID" property="fromDistrictId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PR_CODE, TO_DISTRICT_ID, FROM_DISTRICT_ID, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+    UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PR_TRANSFER_LOG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_PR_TRANSFER_LOG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToPrTransferLog" >
+    insert into sctrans.T_TO_PR_TRANSFER_LOG (PKID, PR_CODE, TO_DISTRICT_ID, 
+      FROM_DISTRICT_ID, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{prCode,jdbcType=VARCHAR}, #{toDistrictId,jdbcType=VARCHAR}, 
+      #{fromDistrictId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPrTransferLog" >
+    insert into sctrans.T_TO_PR_TRANSFER_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="prCode != null" >
+        PR_CODE,
+      </if>
+      <if test="toDistrictId != null" >
+        TO_DISTRICT_ID,
+      </if>
+      <if test="fromDistrictId != null" >
+        FROM_DISTRICT_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+
+        CREATE_BY,
+
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+
+        UPDATE_BY,
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="prCode != null" >
+        #{prCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toDistrictId != null" >
+        #{toDistrictId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromDistrictId != null" >
+        #{fromDistrictId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+
+        @{SESSION_USER_ID},
+
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+         @{SESSION_USER_ID},
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToPrTransferLog" >
+    update sctrans.T_TO_PR_TRANSFER_LOG
+    <set >
+      <if test="prCode != null" >
+        PR_CODE = #{prCode,jdbcType=VARCHAR},
+      </if>
+      <if test="toDistrictId != null" >
+        TO_DISTRICT_ID = #{toDistrictId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromDistrictId != null" >
+        FROM_DISTRICT_ID = #{fromDistrictId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      
+        CREATE_BY = @{SESSION_USER_ID},
+ 
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+
+        UPDATE_BY = @{SESSION_USER_ID},
+
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToPrTransferLog" >
+    update sctrans.T_TO_PR_TRANSFER_LOG
+    set PR_CODE = #{prCode,jdbcType=VARCHAR},
+      TO_DISTRICT_ID = #{toDistrictId,jdbcType=VARCHAR},
+      FROM_DISTRICT_ID = #{fromDistrictId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

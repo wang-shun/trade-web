@@ -159,7 +159,7 @@
 		        <div class="navbar-header">
 		            <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
 		        </div>
-		        <div class="navbar-header" style="margin-left: 30%;"><h2>欢迎使用誉萃交易平台！</h2></div>
+		        <div class="navbar-header" style="margin-left: 30%;"><h2 class="welcome">欢迎使用誉萃交易平台！</h2></div>
 	            <ul class="nav navbar-top-links navbar-right">
 	                <li>
 	                    <span class="m-r-sm text-muted welcome-message">	</span>
