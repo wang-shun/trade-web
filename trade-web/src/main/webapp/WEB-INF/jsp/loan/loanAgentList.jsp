@@ -89,7 +89,7 @@ text-decoration: underline !important;
 								<div class="form-group ">
 									<label class="col-md-2 control-label m-l">人员</label>
 									<div class="col-md-8"> 
-										 <input type="text" id="executorId" name="executorId" class="form-control"> 
+										 <input type="text" id="realName" name="realName" class="form-control"> 
 									</div>
 								</div>
 							</div>
