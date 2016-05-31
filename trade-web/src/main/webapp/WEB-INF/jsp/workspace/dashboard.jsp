@@ -80,6 +80,7 @@ response.setDateHeader("Expires",0);
   	 function imgLoad(img){
 	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
 	   	 }
+  	 var showSta=false;
 </script>
 </head>
 
@@ -427,36 +428,32 @@ response.setDateHeader("Expires",0);
                                                 <li class="danger-element">
                                                     接单数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_receiveCount">
-<%--                                                         <a href="${ctx}/report/statis/caseDetail?status=received">${sta.receiveCount }</a> --%>
-                                                        ${sta.receiveCount }
+                                                        <span id="sp_receiveCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=received" target="_blank"><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
                                                     签约数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_signCount">
-                                                       <%--  <a href="${ctx}/report/statis/caseDetail?status=signed">${sta.signCount }</a> --%>
-                                                        ${sta.signCount }
+                                                        <span  id="sp_signCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=signed" target="_blank"><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
                                                     过户数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_transferCount">
-                                                        <%-- <a href="${ctx}/report/statis/caseDetail?status=transfered">${sta.transferCount }</a> --%>
-                                                        ${sta.transferCount }
+                                                        <span id="sp_transferCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered" target="_blank"><font class="fa-2x font-bold text-danger">${sta.transferCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
                                                     结案数
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-danger" id="sp_closeCount">
-                                                      <%--   <a href="${ctx}/report/statis/caseDetail?status=closed">${sta.closeCount }</a> --%>
-                                                        ${sta.closeCount }
+                                                        <span id="sp_closeCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=closed"  target="_blank"><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -675,7 +672,7 @@ response.setDateHeader("Expires",0);
                                                         	f=${sta.staLoanApply};
                                                         	s=${sta.staLoanSign};
                                                         	l=${sta.staLoanRelease};
-                                                        	var showSta=true;
+                                                        	showSta=true;
                                                         </script>
                                                         <div class="row">
                                                             <div class="col-md-6">

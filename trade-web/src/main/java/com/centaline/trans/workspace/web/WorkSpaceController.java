@@ -110,21 +110,11 @@ public class WorkSpaceController {
 	public boolean checkMobile(HttpServletRequest request) throws IOException {
 		boolean isFromMobile = false;
 
-		/*
-		 * HttpSession session = request.getSession(); // 检查是否已经记录访问方式（移动端或pc端）
-		 * if (null == session.getAttribute("ua")) { try { // 获取ua，用来判断是否为移动端访问
-		 */String userAgent = request.getHeader("USER-AGENT").toLowerCase();
+		String userAgent = request.getHeader("USER-AGENT").toLowerCase();
 		if (null == userAgent) {
 			userAgent = "";
 		}
 		isFromMobile = CheckMobileUtils.check(userAgent);
-		/*
-		 * // 判断是否为移动端访问 if (isFromMobile) { System.out.println("移动端访问");
-		 * session.setAttribute("ua", "mobile"); } else {
-		 * System.out.println("pc端访问"); session.setAttribute("ua", "pc"); } }
-		 * catch (Exception e) { } } else { isFromMobile =
-		 * session.getAttribute("ua").equals("mobile"); }
-		 */
 
 		return isFromMobile;
 	}
@@ -134,7 +124,7 @@ public class WorkSpaceController {
 			HttpServletResponse response) throws IOException {
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
-			return showWorkSpaceMoblie(model, request);
+			return mainPage(model, request);
 		}
 		SessionUser user = uamSessionService.getSessionUser();
 		List<User> uList = new ArrayList<>();
@@ -199,16 +189,6 @@ public class WorkSpaceController {
 				}
 			}
 
-			/*
-			 * if(transPlanVOList == null || transPlanVOList.size() == 0) {
-			 * TransPlanVO transPlanTest = new TransPlanVO();
-			 * transPlanTest.setEstPartTime(new Date());
-			 * transPlanTest.setPartCode("ZY-AJ-201510-0403");
-			 * transPlanTest.setDayDescription("今日");
-			 * transPlanTest.setPropertyAddr("上海浦东一区昌里片区上南三村89号0204室");
-			 * transPlanVOList.add(transPlanTest); }
-			 */
-			// String jsonArray = JSONArray.toJSONString(transPlanVOList);
 			if (transPlanVOList != null && transPlanVOList.size() > 0
 					&& !isCache(request, response)) {
 				isJygw = true;

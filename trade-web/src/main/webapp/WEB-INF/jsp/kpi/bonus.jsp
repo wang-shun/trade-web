@@ -61,9 +61,15 @@
                                 <div class="col-lg-4 col-md-4">                                   
                                     <button class="btn btn-warning" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
                                     <button class="btn btn-warning" type="submit" id="submitButton">提交</button>
-                                    <button id="exportBonusExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportBonusExcelButton()">导出Excel</button>
-                                    <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出Excel2</button>
-                                    <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#add-change">+添加调整</button> -->
+                                </div>
+                            </div>
+                            <div class="row m-t">
+                                <div class="col-lg-7">
+                                </div>
+                                <div class="col-lg-5" style="text-align:right;">
+                                	<button id="exportBonusExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportBonusExcelButton()">导出案件奖金汇总</button>
+                                    <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出案件环节明细</button>
+                                    <button id="exportAmountExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportAmountToExcel()">导出人员奖金汇总</button>               
                                 </div>
                             </div>
                             <div class="alert">
@@ -234,7 +240,7 @@
                                                     <td>{{item.SRV_CODE}}</td>
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}</td>
-                                                    <td>{{item.MKPI==1?"是":item.MKPI==0?"否":""}}</td>
+                                                    <td>{{item.MKPI}}</td>
                                                     <td>{{item.KPI_RATE_SUM}}</td>
                                                     <td>{{item.SRV_PART_IN}}</td>
 													<td>{{item.SRV_PART}}</td>
@@ -375,7 +381,7 @@
 	        	$.exportExcel({
 	    	    	ctx : "${ctx}",
 	    	    	queryId : 'tsAwardBaseDetailList',
-	    	    	colomns : ['CASE_CODE','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
+	    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
 	    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
 	    	    }) 
 	         }
@@ -385,6 +391,15 @@
 		    	    	ctx : "${ctx}",
 		    	    	queryId : 'tsAwardBaseList',
 		    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','GUOHU_TIME','CLOSE_TIME','BASE_CASE_AMOUNT'],
+		    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
+	    	    }) 
+	    	 }
+	    	 
+	    	 function exportAmountToExcel() {
+	    		 $.exportExcel({
+		    	    	ctx : "${ctx}",
+		    	    	queryId : 'personSumBonusList',
+		    	    	colomns : ['PARTICIPANT','SUMBONUS'],
 		    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
 	    	    }) 
 	    	 }
