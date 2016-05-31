@@ -144,6 +144,7 @@ function searchMethod(page) {
 	params.search_releaseTimeStart = releaseTimeStart;
 	params.search_releaseTimeEnd = releaseTimeEnd;
 	params.search_executorId = 	$("#executorId").val();
+	params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
 
 	reloadGrid(params);
 };

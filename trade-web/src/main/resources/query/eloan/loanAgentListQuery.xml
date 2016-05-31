@@ -73,6 +73,9 @@
 				    ON
 				        orgHierarchy.ORG_ID = userOrg.ORG_id
 				    WHERE 1=1
+				    <ifNotNull yuCuiOriGrpId>
+						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>

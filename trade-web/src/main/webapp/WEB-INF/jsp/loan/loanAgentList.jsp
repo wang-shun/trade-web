@@ -103,7 +103,7 @@ text-decoration: underline !important;
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
 										   expandNodeId:''})" />
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
-										  <input type="text" class="form-control" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" >
                                           <input type="hidden" id="yuCuiOriGrpId" value="${serviceDepId}">
