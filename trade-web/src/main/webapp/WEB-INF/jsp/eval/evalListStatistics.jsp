@@ -70,7 +70,7 @@ display: none;}
                             		 <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">组织</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" readonly="readonly" class="form-control" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+                                            <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
                                             <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
@@ -81,7 +81,7 @@ display: none;}
                             			<div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                         <div class="col-lg-9 col-md-9">
-                                        	<input type="text" id="inTextVal" name="radioOrgName" class="form-control" hVal="${serUserId }" value="${userInfo }"
+                                        	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${serUserId }" value="${userInfo }"
 													 readonly="readonly"
 													onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
 													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
