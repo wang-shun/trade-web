@@ -85,10 +85,13 @@ text-decoration: underline !important;
 .ml-15{margin-left:15px;}
 .case-state{width:150px;}
 .zuzhi{width:442px;}
+.bianhao{width:221px}
+.dizhi{width:430px}
 </style>
 </head>
 
-<body><jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<div class="row">
 		<div class="wrapper wrapper-content  animated fadeInRight">
@@ -122,6 +125,7 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group ">
@@ -137,7 +141,30 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+									<label class="col-md-1 control-label m-l">案件编号</label>
+									<div class="col-md-10 bianhao">
+											<input type="text" class="form-control" id="caseNo" name="caseNo" value=""/>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div>
+						
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">案件地址</label>
+								<div class="col-md-10 dizhi">
+									<input type="text" class="form-control" id="caseAddr" name="caseAddr" value=""/>
+								</div>
+							</div>
+						</div>
+					</div>						
+						
 						<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -152,7 +179,8 @@ text-decoration: underline !important;
 						</div>
 							</div>
 						</div>
-						</div>
+
+				</div>
 						
 						<div class="row m-t-sm">
 							<div class="col-md-12">
@@ -172,9 +200,9 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-						<th class="t-left pd-l">案件编号</th>
-						<th class="t-left pd-l">地址</th>
-						<th class="t-left pd-l" id="typeTime">时间</th>
+						<th class="t-left pd-l"><span class='sort' sortColumn='a.CASE_CODE' sord='desc'>案件编号</span></th>
+						<th class="t-left pd-l">产证地址</th>
+						<th class="t-left pd-l"><span id="typeTime" class='sort active' sortColumn='a.SIGN_TIME' sord='asc'>签约时间</span></th>
 						<th class="t-left pd-l">上家</th>
 						<th class="t-left pd-l">下家</th>
 					</tr>
@@ -185,6 +213,7 @@ text-decoration: underline !important;
 			</table>
 		</div>
 	</div>
+	
 	<div class="text-center">
 		<span id="currentTotalPage"><strong class="bold"></strong></span>
 		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
@@ -192,11 +221,14 @@ text-decoration: underline !important;
     </div>
 		</div>
 	</div>
+	
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="createTimeStart" value="${createTimeStart}" />
 	<input type="hidden" id="createTimeEnd" value="${createTimeEnd}" />
 	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="status" value="${status}" />
+	<input type="hidden" id="userId" value="${userId}" />
+	<input type="hidden" id="tempUser" value="${tempUser}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
@@ -207,13 +239,15 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/report/case_detail.js"></script>
-	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-	  <!-- 分页控件  -->
-     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	 <script id="template_myCaseList" type= "text/html">
+	<script src="${ctx}/js/trunk/report/case_detail.js"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<!-- 排序插件 -->
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<!-- 分页控件  -->
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script id="template_myCaseList" type= "text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">

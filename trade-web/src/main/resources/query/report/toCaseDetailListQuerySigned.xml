@@ -32,7 +32,9 @@
 	</formatters>
 	<query id="queryCastDetailItemListSigned" cacheCount="true">
 		<searchCondition>
-          </searchCondition>
+           <condition field="a.CASE_CODE"  name="caseNo" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="b.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>			
+        </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -58,11 +60,17 @@
 					</ifNotNull> 	
 					<ifNotNull createTimeEnd>
 						AND a.SIGN_TIME <= #createTimeEnd#
-					</ifNotNull>  
+					</ifNotNull>
+					<ifNotNull processorId>
+						AND a.SIGN_USER= #processorId#
+					</ifNotNull>					
+					<ifNotNull tempUser>
+						AND a.SIGN_USER= #tempUser#
+					</ifNotNull>					
 				]]>		
 			</baseSql>
 			<orderBySql>
-			  ORDER BY b.CASE_CODE DESC
+			  ORDER BY a.SIGN_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

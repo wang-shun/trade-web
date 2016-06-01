@@ -33,17 +33,17 @@ public class TsFinOrgController {
 	 */
 	@RequestMapping(value = "queryParentBankList")
 	@ResponseBody
-	public List<TsFinOrg> queryParentBankList(String flag,String tag) {
+	public List<TsFinOrg> queryParentBankList(String flag,String tag,String nowCode) {
 
-		List<TsFinOrg> bankList = tsFinOrgService.findParentBankList(flag,tag);
+		List<TsFinOrg> bankList = tsFinOrgService.findParentBankList(flag,tag,nowCode);
 		return bankList;
 	}
 
 	@RequestMapping(value = "queryBankListByPcode")
 	@ResponseBody
-	public Map<String, Object> queryBankListByPcode(String pcode, String flag,String tag) {
+	public Map<String, Object> queryBankListByPcode(String pcode, String flag,String tag,String nowCode) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<TsFinOrg> bankList = tsFinOrgService.findParentBankList(flag,tag);
+		List<TsFinOrg> bankList = tsFinOrgService.findParentBankList(flag,tag,nowCode);
 		map.put("bankList", bankList);
 		if (!StringUtils.isBlank(pcode)) {
 			TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(pcode);
@@ -66,10 +66,10 @@ public class TsFinOrgController {
 	@RequestMapping(value = "queryBankListByParentCode")
 	@ResponseBody
 	public List<TsFinOrg> findBankListByParentCode(String faFinOrgCode,
-			String flag,String tag) {
+			String flag,String tag,String nowCode) {
 
 		List<TsFinOrg> bankList = tsFinOrgService.findBankListByParentCode(
-				flag, faFinOrgCode,tag);
+				flag, faFinOrgCode,tag,nowCode);
 		return bankList;
 	}
 

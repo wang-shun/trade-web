@@ -2,6 +2,7 @@ $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	//initAutocomplete(ctx+"/labelVal/queryUserInfo");
+	
 	searchMethod();
 });
 
@@ -133,7 +134,7 @@ function searchMethod(page) {
 			} else if (val == '2') {
 				signTimeEnd = end;
 			}else if (val == '3') {
-				releaseTimeEnd = start;
+				releaseTimeEnd = end;
 			}
 		}
 	}

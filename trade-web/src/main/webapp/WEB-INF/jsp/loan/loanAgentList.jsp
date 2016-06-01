@@ -89,7 +89,7 @@ text-decoration: underline !important;
 								<div class="form-group ">
 									<label class="col-md-2 control-label m-l">人员</label>
 									<div class="col-md-8"> 
-										 <input type="text" id="realName" name="realName" class="form-control"> 
+										 <input type="text" id="realName" name="realName" class="form-control" value="${userInfo}"> 
 									</div>
 								</div>
 							</div>
@@ -105,8 +105,8 @@ text-decoration: underline !important;
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
 										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" >
-                                          <input type="hidden" id="yuCuiOriGrpId" value="${serviceDepId}">
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
+                                          <input type="hidden" id="yuCuiOriGrpId" value="${serOrgId==null?serviceDepId:serOrgId}">
 									</div>
 								</div>
 							</div>
@@ -137,16 +137,16 @@ text-decoration: underline !important;
 							<div id="select_div_0">
 								<aist:dict id="case_date_0" name="case_date"
 									clazz="btn btn-white chosen-select" display="select"
-									defaultvalue="1" dictType="loan_agent_time_type" />
+									defaultvalue="${isLoanAgentTimeType}" dictType="loan_agent_time_type" />
 							</div>
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
 								data-date-format="yyyy-mm-dd">
 								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
+									style="font-size: 13px;" type="text" value="${startTime}"
 									placeholder="起始日期"> <span class="input-group-addon">到</span>
 								<input id="dtEnd_0" name="dtEnd" class="form-control"
-									style="font-size: 13px;" type="text" value=""
+									style="font-size: 13px;" type="text" value="${endTime}"
 									placeholder="结束日期" />
 							</div>
 							<div id="addLine" class="pull-left m-l">
@@ -272,7 +272,15 @@ text-decoration: underline !important;
                     </tr>
        {{/each}}
      </script>
-     <script></script>
+     <script>
+	     var argu_applyTime = "${argu_applyTime}";
+	     var argu_signTime = "${argu_signTime}";
+	     var argu_releaseTime = "${argu_releaseTime}";
+	     var argu_yuCuiOriGrpId = "${orgId}";
+	     
+	 	 var orgName = "${sUserName}";
+		 console.log(orgName);
+     </script>
 
 	 </content>
 </body>
