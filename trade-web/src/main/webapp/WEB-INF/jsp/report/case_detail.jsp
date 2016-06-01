@@ -242,6 +242,8 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/trunk/report/case_detail.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<!-- 排序插件 -->
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<!-- 分页控件  -->
     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
