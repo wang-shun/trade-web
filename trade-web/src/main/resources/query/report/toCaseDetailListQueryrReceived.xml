@@ -64,6 +64,9 @@
 					<ifNotNull processorId>
 						AND a.RECEIVED_USER= #processorId#
 					</ifNotNull>
+					<ifNotNull tempUser>
+						AND a.RECEIVED_USER= #tempUser#
+					</ifNotNull>
 				]]>		
 			</baseSql>
 			<orderBySql>

@@ -225,6 +225,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="status" value="${status}" />
 	<input type="hidden" id="userId" value="${userId}" />
+	<input type="hidden" id="tempUser" value="${tempUser}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 

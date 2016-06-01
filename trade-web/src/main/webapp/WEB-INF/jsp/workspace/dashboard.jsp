@@ -364,7 +364,7 @@ response.setDateHeader("Expires",0);
                                     <div class="row">
                                         <div class="col-md-8">
                                        		 <div id="ionrange_4" class="ionr">
-               							</div>
+               								 </div>
                                         </div>
                                         <div class="col-md-2">
                                         <select class="form-control m-b" id="sUserId">
@@ -372,7 +372,7 @@ response.setDateHeader("Expires",0);
 								             	<c:forEach items="${uList}"  var="user">
 							                        <option value="${user.id}">${user.realName}</option>
 								             	</c:forEach>
-                                    </select>
+                                    	</select>
                                         </div>
                                         <div class="col-md-2">
                                         <button class="btn btn-warning " type="button" id="btn_sta"><i class="fa fa-search"></i> <span class="bold">搜索</span></button>
