@@ -70,18 +70,21 @@ display: none;}
                             		 <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">组织</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+                                            <input type="text" readonly="readonly" class="form-control" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
                                             <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
                                         </div>
                                     </div>
                             	</div>
-                            	<div class="col-lg-5 col-md-5" class="${isConsultant?'hideDiv':'' }">    
+                            	<div class="col-lg-5 col-md-5 ${isConsultant ? 'hideDiv' : '' }">    
                             			<div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input id="inTextVal" type="text" class="form-control pull-left" value="${userInfo }" hVal="${serUserId }" >
+                                        	<input type="text" id="inTextVal" name="radioOrgName" class="form-control" hVal="${serUserId }" value="${userInfo }"
+													 readonly="readonly"
+													onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
+													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
                                         </div>
                                     </div>
                             	</div>
@@ -179,7 +182,6 @@ display: none;}
         	jQuery(document).ready(function() {
         		//初始化数据
         	    reloadGrid();
-        	    initAutocomplete(ctx+"/labelVal/queryUserInfo");
         	 	// 查询
      			$('#searchButton').click(function() {
      				reloadGrid();
@@ -264,26 +266,7 @@ display: none;}
 				    }
 				});
 			}
-			function initAutocomplete(url){
-				$("#inTextVal").AutoComplete({
-					data:url,
-					'itemHeight': 20,
-			        'width': 280,
-			        maxItems:10,
-			        ajaxType:'POST',
-			        beforeLoadDataHandler:function(){
-			        	$("#inTextVal").attr('hVal','');
-			        	return true;
-			        },
-			        afterSelectedHandler:function(data){ 
-			        	if(data&&data.value){
-			        		$("#inTextVal").attr('hVal',data.value);
-			        	}else{
-			        		$("#inTextVal").attr('hVal','');
-			        	}
-					}
-			    }).AutoComplete('show');
-			}
+		
 			function radioYuCuiOrgSelectCallBack(array){
 			    if(array && array.length >0){
 			        $("#txt_proOrgId").val(array[0].name);
@@ -292,6 +275,16 @@ display: none;}
 				}else{
 					$("#txt_proOrgId").val("");
 					$("#h_proOrgId").val("");
+				}
+			}
+			function selectUserBack(array){
+				if(array && array.length >0){
+			        $("#inTextVal").val(array[0].username);
+					$("#inTextVal").attr('hVal',array[0].userId);
+
+				}else{
+					$("#inTextVal").val("");
+					$("#inTextVal").attr('hVal',"");
 				}
 			}
 
