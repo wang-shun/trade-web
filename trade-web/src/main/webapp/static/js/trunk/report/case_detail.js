@@ -38,22 +38,32 @@ $(document).ready(function() {
 	if(status=="signed"){
 		data.queryId = "queryCastDetailItemListSigned";
 		cnStatus="已签约";
-		$("#typeTime").text("签约时间");
+		$("#typeTime").attr('sortColumn','a.SIGN_TIME');
+		$("#typeTime").html("签约时间");
 	}else if(status=="transfered"){
 		data.queryId = "queryCastDetailItemListTransfered";
 		cnStatus="已过户";
-		$("#typeTime").text("过户时间");
+		$("#typeTime").attr('sortColumn','a.HOUSE_TRANFER_TIME');
+		$("#typeTime").html("过户时间");
 	}else if(status=="closed"){
 		data.queryId = "queryCastDetailItemListClosed";
 		cnStatus="已结案";
-		$("#typeTime").text("结案时间");
+		$("#typeTime").attr('sortColumn','a.CLOSE_TIME');
+		$("#typeTime").html("结案时间");
 	}else{
 		data.queryId = "queryCastDetailItemListReceived";
 		cnStatus="已接单";
-		$("#typeTime").text("接单时间");
+		$("#typeTime").attr('sortColumn','a.RECEIVED_TIME');
+		$("#typeTime").html("接单时间");
 	}
+	$.sort({
+		reloadGrid : searchMethod
+	});
+	//searchMethod();
 	reloadGrid(data,cnStatus);
 });
+
+
 
 // select控件
 var config = {
@@ -87,7 +97,29 @@ $('#datepicker_0').datepicker({
 
 // 查询
 $('#searchButton').click(function() {
-	searchMethod();
+	var params = getParamsValue();
+	params.page = 1;
+	params.rows = 12;
+	var cnStatus="";
+	var status=$("#caseProperty option:selected").val();
+	if(status=="signed"){
+		cnStatus="已签约";
+		$("#typeTime").attr('sortColumn','a.SIGN_TIME');
+		$("#typeTime").html("签约时间");
+	}else if(status=="transfered"){
+		cnStatus="已过户";
+		$("#typeTime").attr('sortColumn','a.HOUSE_TRANFER_TIME');
+		$("#typeTime").html("过户时间");
+	}else if(status=="closed"){
+		cnStatus="已结案";
+		$("#typeTime").attr('sortColumn','a.CLOSE_TIME');
+		$("#typeTime").html("结案时间");
+	}else{
+		cnStatus="已接单";
+		$("#typeTime").attr('sortColumn','a.RECEIVED_TIME');
+		$("#typeTime").html("接单时间");
+	}
+	reloadGrid(params, cnStatus);
 });
 
  //查询
@@ -102,22 +134,24 @@ function searchMethod(page) {
 	var status=$("#caseProperty option:selected").val();
 	if(status=="signed"){
 		cnStatus="已签约";
-		$("#typeTime").text("签约时间");
 	}else if(status=="transfered"){
 		cnStatus="已过户";
-		$("#typeTime").text("过户时间");
 	}else if(status=="closed"){
 		cnStatus="已结案";
-		$("#typeTime").text("结案时间");
 	}else{
 		cnStatus="已接单";
-		$("#typeTime").text("接单时间");
 	}
 	reloadGrid(params, cnStatus);
 };
 
 function reloadGrid(data, cnStatus) {
 	
+	var sortcolumn=$('span.active').attr("sortcolumn");
+	var sortgz=$('span.active').attr("sord");
+	
+	data.sidx=sortcolumn;
+	data.sord=sortgz;
+
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -191,8 +225,7 @@ function getParamsValue() {
 	var org =  $('#yuCuiOriGrpId').val();
 	if(org=="ff8080814f459a78014f45a73d820006"){
 		org=null;
-	}
-	if(org==""||org==null){
+	}else if(org==""||org==null){
 		org = $("#org").val();
 	}
 	

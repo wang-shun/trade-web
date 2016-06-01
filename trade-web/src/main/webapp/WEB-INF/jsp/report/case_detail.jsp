@@ -200,9 +200,9 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-						<th class="t-left pd-l">案件编号</th>
+						<th class="t-left pd-l"><span class='sort' sortColumn='a.CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l">产证地址</th>
-						<th class="t-left pd-l" id="typeTime">时间</th>
+						<th class="t-left pd-l"><span id="typeTime" class='sort active' sortColumn='a.SIGN_TIME' sord='asc'>签约时间</span></th>
 						<th class="t-left pd-l">上家</th>
 						<th class="t-left pd-l">下家</th>
 					</tr>
