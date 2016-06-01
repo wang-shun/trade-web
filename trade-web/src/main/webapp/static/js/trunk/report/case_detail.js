@@ -14,6 +14,10 @@ $(document).ready(function() {
 	if (org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
 	}
+	var userId =$("#userId").val();
+	if(userId==""||userId==null){
+		userId=null;
+	}
 	var status = $("#status").val();
 	
 	
@@ -23,6 +27,7 @@ $(document).ready(function() {
 	data.argu_createTimeStart=createTimeStart;
 	data.argu_createTimeEnd=createTimeEnd;
 	data.argu_org = org;
+	data.argu_processorId = userId;
 	data.rows = 12;
 	data.page = 1;
 	if(status=="signed"){
@@ -212,6 +217,12 @@ function getParamsValue() {
 		caseAddr=null;
 	}
 	
+	//交易顾问ID
+	var userId =$("#userId").val();
+	if(userId==""||userId==null){
+		userId=null;
+	}
+	
 	//状态
 	var status=$("#caseProperty option:selected").val();
 	//queryId
@@ -231,6 +242,7 @@ function getParamsValue() {
 		argu_createTimeStart : createTimeStart,
 		argu_createTimeEnd : createTimeEnd,
 		argu_org : org,
+		argu_processorId : userId,
 		search_caseNo : caseNo,
 		search_caseAddr : caseAddr,
 		queryId : queryIds

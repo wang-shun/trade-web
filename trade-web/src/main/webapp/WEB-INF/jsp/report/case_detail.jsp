@@ -86,6 +86,7 @@ text-decoration: underline !important;
 .case-state{width:150px;}
 .zuzhi{width:442px;}
 .bianhao{width:221px}
+.dizhi{width:430px}
 </style>
 </head>
 
@@ -156,7 +157,7 @@ text-decoration: underline !important;
 						<div class="col-md-12">
 							<div class="form-group ">
 								<label class="col-md-1 control-label m-l">案件地址</label>
-								<div class="col-md-10 zuzhi">
+								<div class="col-md-10 dizhi">
 									<input type="text" class="form-control" id="caseAddr" name="caseAddr" value=""/>
 								</div>
 							</div>
@@ -223,6 +224,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="createTimeEnd" value="${createTimeEnd}" />
 	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="status" value="${status}" />
+	<input type="hidden" id="userId" value="${userId}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 

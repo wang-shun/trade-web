@@ -82,6 +82,7 @@ public class ReportCaseProcessStatisController {
 		}
 		
 		String depId = user.getServiceDepId();
+		String userId=null;
 		
 		/*验证当前用户所属组织和url传来的值是否一致*/
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
@@ -120,6 +121,11 @@ public class ReportCaseProcessStatisController {
 			if (!depId.equals(org)) {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
+		}else { //交易顾问
+			userId = user.getId();
+			if (!depId.equals(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
 		}
 
 		String orgName = uamUserOrgService.getOrgById(org).getOrgName(); //获取组织名
@@ -129,6 +135,7 @@ public class ReportCaseProcessStatisController {
 		request.setAttribute("orgName", orgName);
 		request.setAttribute("depId", depId);
 		request.setAttribute("status", status);
+		request.setAttribute("userId", userId);
 
 		return "report/case_detail";
 	}

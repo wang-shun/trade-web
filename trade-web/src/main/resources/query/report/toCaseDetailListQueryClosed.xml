@@ -61,6 +61,9 @@
 					<ifNotNull createTimeEnd>
 						AND a.CLOSE_TIME <= #createTimeEnd#
 					</ifNotNull>
+					<ifNotNull processorId>
+						AND a.CLOSE_USER= #processorId#
+					</ifNotNull>					
 				]]>		
 			</baseSql>
 			<orderBySql>

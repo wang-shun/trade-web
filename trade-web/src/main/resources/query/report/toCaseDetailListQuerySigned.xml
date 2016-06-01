@@ -61,6 +61,9 @@
 					<ifNotNull createTimeEnd>
 						AND a.SIGN_TIME <= #createTimeEnd#
 					</ifNotNull>
+					<ifNotNull processorId>
+						AND a.SIGN_USER= #processorId#
+					</ifNotNull>					
 				]]>		
 			</baseSql>
 			<orderBySql>
