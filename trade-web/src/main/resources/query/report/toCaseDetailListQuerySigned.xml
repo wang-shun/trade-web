@@ -64,6 +64,9 @@
 					<ifNotNull processorId>
 						AND a.SIGN_USER= #processorId#
 					</ifNotNull>					
+					<ifNotNull tempUser>
+						AND a.SIGN_USER= #tempUser#
+					</ifNotNull>					
 				]]>		
 			</baseSql>
 			<orderBySql>

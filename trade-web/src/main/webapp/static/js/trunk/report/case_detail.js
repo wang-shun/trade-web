@@ -18,6 +18,10 @@ $(document).ready(function() {
 	if(userId==""||userId==null){
 		userId=null;
 	}
+	var tempUser = $("#tempUser").val();
+	if(tempUser==""||tempUser==null){
+		tempUser=null;
+	}
 	var status = $("#status").val();
 	
 	
@@ -28,6 +32,7 @@ $(document).ready(function() {
 	data.argu_createTimeEnd=createTimeEnd;
 	data.argu_org = org;
 	data.argu_processorId = userId;
+	data.argu_tempUser = tempUser;
 	data.rows = 12;
 	data.page = 1;
 	if(status=="signed"){
