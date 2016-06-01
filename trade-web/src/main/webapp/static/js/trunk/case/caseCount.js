@@ -41,22 +41,22 @@ function queryConutCaseByDate(){
 				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
 				$("#sp_receiveCount").html(
-						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.receiveCount+"</font>" +
 						"</a>"
 				);
 				$("#sp_signCount").html(
-						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=signed' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=signed&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.signCount+"</font>" +
 						"</a>"						
 				);
 				$("#sp_transferCount").html(
-						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=transfered' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=transfered&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.transferCount+"</font>" +
 						"</a>"						
 				);
 				$("#sp_closeCount").html(
-						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=closed' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=closed&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.closeCount+"</font>" +
 						"</a>"						
 				);
