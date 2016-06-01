@@ -32,9 +32,9 @@
 	</formatters>
 	<query id="queryCastDetailItemListTransfered" cacheCount="true">
 		<searchCondition>
-           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeStart" label="起始日期" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="a.HOUSE_TRANFER_TIME"  name="createTimeEnd" label="结束日期" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-          </searchCondition>
+		   <condition field="a.CASE_CODE"  name="caseNo" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="b.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>	
+        </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -53,8 +53,17 @@
 					WHERE
 					DATEDIFF(year, a.HOUSE_TRANFER_TIME, GETDATE())=0 AND a.HOUSE_TRANFER_TIME IS NOT NULL
 					<ifNotNull org>
-						AND a.HOUSE_TRANFER_DISTRICT_ID = #org# OR a.HOUSE_TRANFER_TEAM_ID = #org#
+						AND (a.HOUSE_TRANFER_DISTRICT_ID = #org# OR a.HOUSE_TRANFER_TEAM_ID = #org#)
 					</ifNotNull> 
+					<ifNotNull createTimeStart>
+						AND a.HOUSE_TRANFER_TIME >= #createTimeStart#
+					</ifNotNull> 	
+					<ifNotNull createTimeEnd>
+						AND a.HOUSE_TRANFER_TIME <= #createTimeEnd#
+					</ifNotNull>
+					<ifNotNull processorId>
+						AND a.HOUSE_TRANFER_USER= #processorId#
+					</ifNotNull>						
 				]]>		
 			</baseSql>
 			<orderBySql>

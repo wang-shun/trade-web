@@ -11,6 +11,13 @@ function queryConutCaseByDate(){
 			break;
 		}
 	}
+	
+	var d1 = new Date();
+	var year = d1.getFullYear();
+	var createTimeStart = year+"-"+month+"-"+"01";
+	var d2 = new Date(year,month,0).getDate();
+	var createTimeEnd = year+"-"+month+"-"+d2;
+	
 	 $.ajax({
 			url  : ctx+'/workspace/workSpaceSta',
 		    data : [{
@@ -30,10 +37,26 @@ function queryConutCaseByDate(){
 				$("#sp_actualAmount").text(data.actualAmount);
 				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
-				$("#sp_receiveCount").text(data.receiveCount);
-				$("#sp_signCount").text(data.signCount);
-				$("#sp_transferCount").text(data.transferCount);
-				$("#sp_closeCount").text(data.closeCount);
+				$("#sp_receiveCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.receiveCount+"</font>" +
+						"</a>"
+				);
+				$("#sp_signCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=signed' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.signCount+"</font>" +
+						"</a>"						
+				);
+				$("#sp_transferCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=transfered' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.transferCount+"</font>" +
+						"</a>"						
+				);
+				$("#sp_closeCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=closed' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.closeCount+"</font>" +
+						"</a>"						
+				);
 				setStaDetailDef();
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
    	 			var d1 =toDonutData($(data.staLoanSign),'count');
