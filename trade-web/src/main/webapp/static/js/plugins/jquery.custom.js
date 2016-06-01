@@ -59,7 +59,8 @@
 		}
 		
 		this.siblings().children("i").remove();
-		this.siblings().removeClass(active);
+		this.siblings().removeClass(
+);
 		
 		
 		var sidx = $(this).attr('sortColumn');
@@ -128,16 +129,16 @@
     			if(!$(this).has('i').length){
     				$(this).append("<i class='"+ downIcon +"'></i>");
     				data.sord = 'desc';
-    				$(this).data("sord",'desc');
+    				$(this).attr("sord",'desc');
     			} else {
     				$(this).children("i").changeClass(downIcon,upIcon);
     				
-    				if($(this).hasClass(downIcon)) {
+    				if($(this).children("i").hasClass(downIcon)) {
     					data.sord = 'desc';
-    					$(this).data("sord",'desc');
+    					$(this).attr("sord",'desc');
     				} else {
     					data.sord = 'asc';
-    					$(this).data("sord",'asc');
+    					$(this).attr("sord",'asc');
     				}
     			}
     			
