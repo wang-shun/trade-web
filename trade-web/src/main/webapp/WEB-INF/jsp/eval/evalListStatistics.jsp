@@ -37,6 +37,8 @@ text-decoration: underline !important;
 .case-num:visited{
  text-decoration: underline !important;
 }
+.hideDiv{
+display: none;}
 	</style>
     </head>
     
@@ -70,16 +72,16 @@ text-decoration: underline !important;
                                         <div class="col-lg-9 col-md-9">
                                             <input type="text" class="form-control" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" >
-                                            <input type="hidden" id="h_proOrgId" value="${serviceDepId}">
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
+                                            <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
                                         </div>
                                     </div>
                             	</div>
-                            	<div class="col-lg-5 col-md-5">    
+                            	<div class="col-lg-5 col-md-5" class="${isConsultant?'hideDiv':'' }">    
                             			<div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input id="inTextVal" type="text" class="form-control pull-left">
+                                            <input id="inTextVal" type="text" class="form-control pull-left" value="${userInfo }" hVal="${serUserId }" >
                                         </div>
                                     </div>
                             	</div>
@@ -90,8 +92,8 @@ text-decoration: underline !important;
 										<label class="col-lg-3 col-md-3 control-label font_w">时间</label>
                             			<div class="col-lg-9 col-md-9">
 	                            			<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd" style="width: 412px;">
-												<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-												<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期">
+												<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" placeholder="起始日期" value="${sTime }"> <span class="input-group-addon">到</span>
+												<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text"  placeholder="结束日期" value="${eTime }">
 											</div>
 										</div>
                             		</div>

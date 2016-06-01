@@ -28,7 +28,7 @@ function queryConutCaseByDate(){
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
 				$("#sp_actualAmount").text(data.actualAmount);
-				$("#sp_evalFee").text(data.evalFee);
+				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
 				$("#sp_receiveCount").text(data.receiveCount);
 				$("#sp_signCount").text(data.signCount);
@@ -41,4 +41,16 @@ function queryConutCaseByDate(){
    	 			setDonut(d1,d2);
 			}
 	 });
+}
+function evalFeeClick(){
+	var mo=$(this).attr('mo');
+	var serachId=$(this).attr('serachId');
+	var purl="?source=dashboard";
+	if(mo){
+		purl=purl+'&mo='+mo;
+	}
+	if(serachId){
+		purl=purl+'&serachId='+serachId;
+	}
+	window.open(ctx+'/eval/evalListStatistics'+purl);
 }
