@@ -128,13 +128,16 @@
     			if(!$(this).has('i').length){
     				$(this).append("<i class='"+ downIcon +"'></i>");
     				data.sord = 'desc';
+    				$(this).data("sord",'desc');
     			} else {
     				$(this).children("i").changeClass(downIcon,upIcon);
     				
     				if($(this).hasClass(downIcon)) {
     					data.sord = 'desc';
+    					$(this).data("sord",'desc');
     				} else {
     					data.sord = 'asc';
+    					$(this).data("sord",'asc');
     				}
     			}
     			
@@ -145,10 +148,12 @@
     			var sidx = $(this).attr('sortColumn');
     			data.sidx = sidx;
     			
+    			//$(this).data("sord",data.sord);
+    			
     			//var reloadGrid = $(this).attr('reloadGrid');
     			//reloadGrid(data);
     			if(typeof _reloadGrid=='function'){
-    				_reloadGrid(data);
+    				_reloadGrid();
     			}
     		});
 		});
