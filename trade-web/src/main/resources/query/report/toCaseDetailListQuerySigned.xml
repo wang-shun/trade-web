@@ -70,7 +70,7 @@
 				]]>		
 			</baseSql>
 			<orderBySql>
-			  ORDER BY b.CASE_CODE DESC
+			  ORDER BY a.SIGN_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

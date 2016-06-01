@@ -438,7 +438,7 @@ text-decoration: underline !important;
                                                 <li class="danger-element">
                                                     接单数
                                                     <div class="agile-detail">
-                                                        <span id="sp_receiveCount ">
+                                                        <span id="sp_receiveCount">
                                                         <a href="${ctx}/report/statis/caseDetail?status=received" target="_blank" class='case-num'><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
                                                         </span>
                                                     </div>
