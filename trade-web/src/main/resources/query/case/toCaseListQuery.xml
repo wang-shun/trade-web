@@ -46,9 +46,9 @@
            <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.AGENT_NAME"     name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <!-- <condition field="B.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
             
-           <condition field="B.SRV_CAT_STR" name="srvCode1"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+<!--            <condition field="B.SRV_CAT_STR" name="srvCode1"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode2"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode3"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode4"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -59,23 +59,23 @@
            <condition field="B.SRV_CAT_STR" name="srvCode9"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode11" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="B.SRV_CAT_STR" name="srvCode12" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
            
 
 
          
-           <condition field="G.REAL_CON_TIME"  name="realConTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <!-- <condition field="G.REAL_CON_TIME"  name="realConTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="G.REAL_CON_TIME"  name="realConTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="H.REAL_HT_TIME"   name="realHtTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="H.REAL_HT_TIME"   name="realHtTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="H.REAL_HT_TIME"   name="realHtTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
          
-           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <!-- <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
          
-           <condition field="J.SIGN_DATE"   name="signDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <!-- <condition field="J.SIGN_DATE"   name="signDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="J.SIGN_DATE"   name="signDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="J.LEND_DATE"   name="lendDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
 
           </searchCondition>
 		<searchSql>

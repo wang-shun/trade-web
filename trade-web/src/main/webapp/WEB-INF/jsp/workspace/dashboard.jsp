@@ -412,7 +412,7 @@ response.setDateHeader("Expires",0);
                                                 <li class="warning-element">
                                                     评估费
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-warning" id="sp_evalFee">${sta.evalFee }</span>
+                                                        <span class="fa-2x font-bold text-warning"  id="sp_evalFee">${sta.evalFee }</span>
                                                     </div>
                                                 </li>
                                                 <li class="warning-element">
@@ -1023,7 +1023,7 @@ response.setDateHeader("Expires",0);
     	$("#btn_sta").click(function(){//统计按钮
     		queryConutCaseByDate();
     	});
-	    
+	    $('#sp_evalFee').on('click',evalFeeClick);
     });
     </script>
  </content>

@@ -11,7 +11,15 @@ function queryConutCaseByDate(){
 			break;
 		}
 	}
-	addLinkHref(month,sUserId,'虹口贵宾服务部');
+	
+	addLinkHref(month,sUserId,'');
+	
+	
+	var d1 = new Date();
+	var year = d1.getFullYear();
+	var createTimeStart = year+"-"+month+"-"+"01";
+	var d2 = new Date(year,month,0).getDate();
+	var createTimeEnd = year+"-"+month+"-"+d2;
 	
 	 $.ajax({
 			url  : ctx+'/workspace/workSpaceSta',
@@ -30,12 +38,28 @@ function queryConutCaseByDate(){
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
 				$("#sp_actualAmount").text(data.actualAmount);
-				$("#sp_evalFee").text(data.evalFee);
+				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
-				$("#sp_receiveCount").text(data.receiveCount);
-				$("#sp_signCount").text(data.signCount);
-				$("#sp_transferCount").text(data.transferCount);
-				$("#sp_closeCount").text(data.closeCount);
+				$("#sp_receiveCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.receiveCount+"</font>" +
+						"</a>"
+				);
+				$("#sp_signCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=signed' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.signCount+"</font>" +
+						"</a>"						
+				);
+				$("#sp_transferCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=transfered' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.transferCount+"</font>" +
+						"</a>"						
+				);
+				$("#sp_closeCount").html(
+						"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=closed' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.closeCount+"</font>" +
+						"</a>"						
+				);
 				setStaDetailDef();
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
    	 			var d1 =toDonutData($(data.staLoanSign),'count');
@@ -48,7 +72,7 @@ function queryConutCaseByDate(){
 // 申请金额/面签金额/放款金额增加链接
 function addLinkHref(month,sUserId,sUserName) {
 	var d = new Date();
-	var year = d.getYear();
+	var year = d.getFullYear();
 	// 获得最后一天
 	var lastday = new Date(year,month,0).getDate();   
 	
@@ -77,4 +101,17 @@ Date.prototype.Format = function (fmt) {
     for (var k in o)
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+}
+
+function evalFeeClick(){
+	var mo=$(this).attr('mo');
+	var serachId=$(this).attr('serachId');
+	var purl="?source=dashboard";
+	if(mo){
+		purl=purl+'&mo='+mo;
+	}
+	if(serachId){
+		purl=purl+'&serachId='+serachId;
+	}
+	window.open(ctx+'/eval/evalListStatistics'+purl);
 }

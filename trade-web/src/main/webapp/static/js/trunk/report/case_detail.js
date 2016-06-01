@@ -7,10 +7,16 @@ $(document).ready(function() {
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	var createTimeStart = $("#createTimeStart").val();
+	createTimeStart = createTimeStart + " 00:00:00";
 	var createTimeEnd = $("#createTimeEnd").val();
+	createTimeEnd = createTimeEnd +" 23:59:59";
 	var org = $("#org").val();
 	if (org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
+	}
+	var userId =$("#userId").val();
+	if(userId==""||userId==null){
+		userId=null;
 	}
 	var status = $("#status").val();
 	
@@ -18,9 +24,10 @@ $(document).ready(function() {
 	// 初始化列表
 	var cnStatus="";
 	var data = {};
-	data.search_createTimeStart=createTimeStart;
-	data.search_createTimeEnd=createTimeEnd;
+	data.argu_createTimeStart=createTimeStart;
+	data.argu_createTimeEnd=createTimeEnd;
 	data.argu_org = org;
+	data.argu_processorId = userId;
 	data.rows = 12;
 	data.page = 1;
 	if(status=="signed"){
@@ -174,14 +181,48 @@ var createTimeEnd;
  * 查询参数取得
  */
 function getParamsValue() {
+	
 	//获取誉萃组织
 	var org =  $('#yuCuiOriGrpId').val();
 	if(org=="ff8080814f459a78014f45a73d820006"){
 		org=null;
 	}
+	if(org==""||org==null){
+		org = $("#org").val();
+	}
+	
 	//时间范围
 	createTimeStart = $('#dtBegin_0').val();
+	if(""==createTimeStart||null==createTimeStart){
+		createTimeStart=null;
+	}else{
+		createTimeStart = createTimeStart + " 00:00:00";
+	}
 	createTimeEnd = $('#dtEnd_0').val();
+	if(""==createTimeEnd||null==createTimeEnd){
+		createTimeEnd=null;
+	}else{
+		createTimeEnd = createTimeEnd +" 23:59:59";
+	}
+	
+	//案件编号
+	var caseNo = $("#caseNo").val();
+	if(""==caseNo || null==caseNo){
+		caseNo=null;
+	}
+	
+	//案件地址
+	var caseAddr = $("#caseAddr").val();
+	if(""==caseAddr || null==caseAddr){
+		caseAddr=null;
+	}
+	
+	//交易顾问ID
+	var userId =$("#userId").val();
+	if(userId==""||userId==null){
+		userId=null;
+	}
+	
 	//状态
 	var status=$("#caseProperty option:selected").val();
 	//queryId
@@ -198,10 +239,12 @@ function getParamsValue() {
 	
 	//设置查询参数
 	var params = {
-		search_status : status,
-		search_createTimeStart : createTimeStart,
-		search_createTimeEnd : createTimeEnd,
+		argu_createTimeStart : createTimeStart,
+		argu_createTimeEnd : createTimeEnd,
 		argu_org : org,
+		argu_processorId : userId,
+		search_caseNo : caseNo,
+		search_caseAddr : caseAddr,
 		queryId : queryIds
 	};
 	return params;
