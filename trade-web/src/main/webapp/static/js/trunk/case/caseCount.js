@@ -12,7 +12,7 @@ function queryConutCaseByDate(){
 		}
 	}
 	
-	addLinkHref(month,sUserId,'');
+	addLinkHref(month,sUserId);
 	
 	
 	var d1 = new Date();
@@ -70,7 +70,7 @@ function queryConutCaseByDate(){
 }
 
 // 申请金额/面签金额/放款金额增加链接
-function addLinkHref(month,sUserId,sUserName) {
+function addLinkHref(month,sUserId) {
 	var d = new Date();
 	var year = d.getFullYear();
 	// 获得最后一天
@@ -79,9 +79,9 @@ function addLinkHref(month,sUserId,sUserName) {
 	var startTime = d.Format("yyyy-"+month+"-01");
     var endTime = d.Format("yyyy-"+month+"-"+lastday);
 
-	var applyTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=1&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"&sUserName="+sUserName+"')";
-	var signTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=2&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"&sUserName="+sUserName+"')";
-	var releaseTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=3&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"&sUserName="+sUserName+"')";
+	var applyTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=1&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"')";
+	var signTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=2&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"')";
+	var releaseTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=3&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"')";
 	$('#sp_loanAmount').attr("onclick",applyTimeLink);
 	$('#sp_signAmount').attr("onclick",signTimeLink);
 	$('#sp_actualAmount').attr("onclick",releaseTimeLink);

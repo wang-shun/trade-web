@@ -24,6 +24,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Job;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
@@ -50,6 +51,7 @@ public class LoanAgentController {
 	@RequestMapping("loanAgentList")
 	public String loanAgentList(Model model, ServletRequest request) {
 	    SessionUser sessionUser = uamSessionService.getSessionUser();
+	    String jobCode = sessionUser.getServiceJobCode();
 		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
 		
 		request.setAttribute("isLoanAgentTimeType",request.getParameter("isLoanAgentTimeType"));
@@ -57,16 +59,45 @@ public class LoanAgentController {
 			request.setAttribute("startTime",request.getParameter("startTime"));
 			request.setAttribute("endTime",request.getParameter("endTime"));
 		}
-
-
-		if(StringUtils.isBlank(request.getParameter("sUserId"))) {
-			request.setAttribute("orgId",sessionUser.getServiceDepId());
-		} else {
-			request.setAttribute("orgId",request.getParameter("sUserId"));
+		
+		if (!StringUtils.isBlank(request.getParameter("sUserId"))) {
+			if (TransJobs.TJYZG.getCode().equals(jobCode) || TransJobs.TSJYZG.getCode().equals(jobCode)) {
+				request.setAttribute("serUserId", request.getParameter("sUserId"));
+				request.setAttribute("userInfo", getUserInfo(request.getParameter("sUserId")));
+			} else {
+				request.setAttribute("serOrgId", request.getParameter("sUserId"));
+				Org org=uamUserOrgService.getOrgById(request.getParameter("sUserId"));
+				request.setAttribute("serOrgName", org.getOrgName());
+			}
 		}
-		request.setAttribute("sUserName",request.getParameter("sUserName"));
-	
 		return "/loan/loanAgentList";
+	}
+	
+	private String getUserInfo(String userId) {
+		if (StringUtils.isBlank(userId)) {
+			return userId;
+		}
+		List<UserOrgJob> uojs = uamUserOrgService.getUserOrgJobByUserId(userId);
+		if (uojs != null && !uojs.isEmpty()) {
+			UserOrgJob uoj = null;
+			if (uojs.size() == 1) {
+				uoj = uojs.get(0);
+			} else {
+				for (UserOrgJob userOrgJob : uojs) {
+					if ("1".equals(userOrgJob.getIsmain())) {
+						uoj = userOrgJob;
+						break;
+					}
+				}
+			}
+			if (uoj == null) {
+				uoj = uojs.get(0);
+			}
+			Org org = uamUserOrgService.getOrgById(uoj.getOrgId());
+			User user = uamUserOrgService.getUserById(userId);
+			return user.getRealName() + "(" + org.getOrgName() + ")";
+		}
+		return null;
 	}
 	
 	@RequestMapping("manage")

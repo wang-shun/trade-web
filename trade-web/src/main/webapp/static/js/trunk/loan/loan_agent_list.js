@@ -4,7 +4,6 @@ $(document).ready(function() {
 	//initAutocomplete(ctx+"/labelVal/queryUserInfo");
 	
 	searchMethod();
-	reloadGrid(params);
 });
 
 //select控件
@@ -135,7 +134,7 @@ function searchMethod(page) {
 			} else if (val == '2') {
 				signTimeEnd = end;
 			}else if (val == '3') {
-				releaseTimeEnd = start;
+				releaseTimeEnd = end;
 			}
 		}
 	}
