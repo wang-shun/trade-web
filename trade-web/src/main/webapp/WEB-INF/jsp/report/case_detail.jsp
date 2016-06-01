@@ -90,7 +90,8 @@ text-decoration: underline !important;
 </style>
 </head>
 
-<body><jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<div class="row">
 		<div class="wrapper wrapper-content  animated fadeInRight">
@@ -212,6 +213,7 @@ text-decoration: underline !important;
 			</table>
 		</div>
 	</div>
+	
 	<div class="text-center">
 		<span id="currentTotalPage"><strong class="bold"></strong></span>
 		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
@@ -219,6 +221,7 @@ text-decoration: underline !important;
     </div>
 		</div>
 	</div>
+	
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="createTimeStart" value="${createTimeStart}" />
 	<input type="hidden" id="createTimeEnd" value="${createTimeEnd}" />
@@ -236,13 +239,13 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/report/case_detail.js"></script>
-	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-	  <!-- 分页控件  -->
-     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	 <script id="template_myCaseList" type= "text/html">
+	<script src="${ctx}/js/trunk/report/case_detail.js"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<!-- 分页控件  -->
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script id="template_myCaseList" type= "text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">
