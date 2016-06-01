@@ -51,6 +51,21 @@ public class LoanAgentController {
 	public String loanAgentList(Model model, ServletRequest request) {
 	    SessionUser sessionUser = uamSessionService.getSessionUser();
 		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		
+		request.setAttribute("isLoanAgentTimeType",request.getParameter("isLoanAgentTimeType"));
+		if(!StringUtils.isBlank(request.getParameter("isLoanAgentTimeType"))) {
+			request.setAttribute("startTime",request.getParameter("startTime"));
+			request.setAttribute("endTime",request.getParameter("endTime"));
+		}
+
+
+		if(StringUtils.isBlank(request.getParameter("sUserId"))) {
+			request.setAttribute("orgId",sessionUser.getServiceDepId());
+		} else {
+			request.setAttribute("orgId",request.getParameter("sUserId"));
+		}
+		request.setAttribute("sUserName",request.getParameter("sUserName"));
+	
 		return "/loan/loanAgentList";
 	}
 	
