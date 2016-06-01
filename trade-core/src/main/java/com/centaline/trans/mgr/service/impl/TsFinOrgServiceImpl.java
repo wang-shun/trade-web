@@ -48,28 +48,30 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 			tsFinOrgMapper.insertSelective(tsFinOrg);
 		}
 	}
-
+	/**
+	 * nowCode 当前选择的支行代码
+	 */
 	@Override
-	public List<TsFinOrg> findParentBankList(String flag,String tag) {
+	public List<TsFinOrg> findParentBankList(String flag,String tag,String nowCode) {
 		if (StringUtils.equals(flag, "egu")) {
 			String evaCompanyCode = "P00021";
-			return tsFinOrgMapper.findEguParentBankList(evaCompanyCode,tag);
+			return tsFinOrgMapper.findEguParentBankList(evaCompanyCode,tag,nowCode);
 		} else {
-			return tsFinOrgMapper.findParentBankList(tag);
+			return tsFinOrgMapper.findParentBankList(tag,nowCode);
 		}
 	}
 
 	@Override
 	public List<TsFinOrg> findBankListByParentCode(String flag,
-			String faFinOrgCode,String tag) {
+			String faFinOrgCode,String tag,String nowCode) {
 		List<TsFinOrg> result=null;
 		if (StringUtils.equals(flag, "egu")) {
 			String evaCompanyCode = "P00021";
 		
 			result= tsFinOrgMapper.findEguBankListByParentCode(faFinOrgCode,
-					evaCompanyCode,tag);
+					evaCompanyCode,tag,nowCode);
 		} else {
-			result=tsFinOrgMapper.findBankListByParentCode(faFinOrgCode,tag);
+			result=tsFinOrgMapper.findBankListByParentCode(faFinOrgCode,tag,nowCode);
 		}
 		Dict dict= uamBasedataService.findDictByType("yu_bank_co_level");
 		result.parallelStream().forEach(fin ->{

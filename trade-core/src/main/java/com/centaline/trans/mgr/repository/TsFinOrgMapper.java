@@ -28,7 +28,7 @@ public interface TsFinOrgMapper {
      * @param evaCompanyCode
      * @return
      */
-    List<TsFinOrg> findEguParentBankList(@Param("evaCompanyCode") String evaCompanyCode,@Param("tag")String tag);
+    List<TsFinOrg> findEguParentBankList(@Param("evaCompanyCode") String evaCompanyCode,@Param("tag")String tag,@Param("nowCode") String nowCode);
     
     /**
      * 查询egu支行列表
@@ -36,14 +36,14 @@ public interface TsFinOrgMapper {
      * @param evaCompanyCode
      * @return
      */
-    List<TsFinOrg> findEguBankListByParentCode(@Param("faFinOrgCode")String faFinOrgCode,@Param("evaCompanyCode") String evaCompanyCode,@Param("tag")String tag);
+    List<TsFinOrg> findEguBankListByParentCode(@Param("faFinOrgCode")String faFinOrgCode,@Param("evaCompanyCode") String evaCompanyCode,@Param("tag")String tag,@Param("nowCode") String nowCode);
     
     /**
      * 查询所有分行下拉列表
      * @param evaCompanyCode
      * @return
      */
-    List<TsFinOrg> findParentBankList(@Param("tag")String tag);
+    List<TsFinOrg> findParentBankList(@Param("tag")String tag,@Param("nowCode")String nowCode);
     
     /**
      * 查询支行下拉列表
@@ -51,7 +51,7 @@ public interface TsFinOrgMapper {
      * @param evaCompanyCode
      * @return
      */
-    List<TsFinOrg> findBankListByParentCode(@Param("faFinOrgCode")String faFinOrgCode,@Param("tag")String tag);
+    List<TsFinOrg> findBankListByParentCode(@Param("faFinOrgCode")String faFinOrgCode,@Param("tag")String tag,@Param("nowCode") String q);
     
     /**
      * 根据类型查询评估公司
