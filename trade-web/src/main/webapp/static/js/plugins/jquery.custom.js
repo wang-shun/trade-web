@@ -124,6 +124,16 @@
 		
 		$('span.sort').each(function(i){
     		$(this).click(function(){
+    			var sidx = $(this).attr('sortColumn');
+    			data.sidx = sidx;
+    			
+    			var sortcolumn = $('span.sort');
+    			for(var i = 0; i < sortcolumn.length ;i ++){
+    				if(sidx != $(sortcolumn[i]).attr('sortColumn')){
+    					$(sortcolumn[i]).children("i").remove();
+    					$(sortcolumn[i]).removeClass(active);
+    				}
+    			}
     			$(this).addClass(active);
     			// 如果上一次没有排序，则显示下箭头，否则上箭头
     			if(!$(this).has('i').length){
@@ -142,12 +152,7 @@
     				}
     			}
     			
-    			$(this).siblings().children("i").remove();
-    			$(this).siblings().removeClass(active);
     			
-    			
-    			var sidx = $(this).attr('sortColumn');
-    			data.sidx = sidx;
     			
     			//$(this).data("sord",data.sord);
     			
