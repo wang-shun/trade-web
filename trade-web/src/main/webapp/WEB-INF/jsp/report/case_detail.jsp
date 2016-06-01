@@ -85,6 +85,7 @@ text-decoration: underline !important;
 .ml-15{margin-left:15px;}
 .case-state{width:150px;}
 .zuzhi{width:442px;}
+.bianhao{width:221px}
 </style>
 </head>
 
@@ -122,6 +123,7 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group ">
@@ -137,7 +139,30 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+									<label class="col-md-1 control-label m-l">案件编号</label>
+									<div class="col-md-10 bianhao">
+											<input type="text" class="form-control" id="caseNo" name="caseNo" value=""/>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div>
+						
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">案件地址</label>
+								<div class="col-md-10 zuzhi">
+									<input type="text" class="form-control" id="caseAddr" name="caseAddr" value=""/>
+								</div>
+							</div>
+						</div>
+					</div>						
+						
 						<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -152,7 +177,8 @@ text-decoration: underline !important;
 						</div>
 							</div>
 						</div>
-						</div>
+
+				</div>
 						
 						<div class="row m-t-sm">
 							<div class="col-md-12">
@@ -173,7 +199,7 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th class="t-left pd-l">案件编号</th>
-						<th class="t-left pd-l">地址</th>
+						<th class="t-left pd-l">产证地址</th>
 						<th class="t-left pd-l" id="typeTime">时间</th>
 						<th class="t-left pd-l">上家</th>
 						<th class="t-left pd-l">下家</th>

@@ -176,6 +176,7 @@ var createTimeEnd;
  * 查询参数取得
  */
 function getParamsValue() {
+	
 	//获取誉萃组织
 	var org =  $('#yuCuiOriGrpId').val();
 	if(org=="ff8080814f459a78014f45a73d820006"){
@@ -184,6 +185,7 @@ function getParamsValue() {
 	if(org==""||org==null){
 		org = $("#org").val();
 	}
+	
 	//时间范围
 	createTimeStart = $('#dtBegin_0').val();
 	if(""==createTimeStart||null==createTimeStart){
@@ -196,6 +198,18 @@ function getParamsValue() {
 		createTimeEnd=null;
 	}else{
 		createTimeEnd = createTimeEnd +" 23:59:59";
+	}
+	
+	//案件编号
+	var caseNo = $("#caseNo").val();
+	if(""==caseNo || null==caseNo){
+		caseNo=null;
+	}
+	
+	//案件地址
+	var caseAddr = $("#caseAddr").val();
+	if(""==caseAddr || null==caseAddr){
+		caseAddr=null;
 	}
 	
 	//状态
@@ -217,6 +231,8 @@ function getParamsValue() {
 		argu_createTimeStart : createTimeStart,
 		argu_createTimeEnd : createTimeEnd,
 		argu_org : org,
+		search_caseNo : caseNo,
+		search_caseAddr : caseAddr,
 		queryId : queryIds
 	};
 	return params;
