@@ -95,7 +95,8 @@ public class LoanAgentController {
 			}
 			Org org = uamUserOrgService.getOrgById(uoj.getOrgId());
 			User user = uamUserOrgService.getUserById(userId);
-			return user.getRealName() + "(" + org.getOrgName() + ")";
+			return user.getRealName();
+			//return user.getRealName() + "(" + org.getOrgName() + ")";
 		}
 		return null;
 	}

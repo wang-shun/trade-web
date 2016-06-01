@@ -394,13 +394,13 @@ text-decoration: underline !important;
                                                 <li class="info-element">
                                                     E+申请金额
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-success" id="sp_loanAmount">${sta.loanAmount }</span>
+                                                        <span class="fa-2x font-bold text-success case-num" id="sp_loanAmount">${sta.loanAmount }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
                                                     E+面签金额
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-success" id="sp_signAmount">${sta.signAmount }</span>
+                                                        <span class="fa-2x font-bold text-success case-num" id="sp_signAmount">${sta.signAmount }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
@@ -412,7 +412,7 @@ text-decoration: underline !important;
                                                 <li class="info-element">
                                                     E+放款金额
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-success" id="sp_actualAmount">${sta.actualAmount }</span>
+                                                        <span class="fa-2x font-bold text-success case-num" id="sp_actualAmount">${sta.actualAmount }</span>
                                                     </div>
                                                 </li>
                                             </ul>
