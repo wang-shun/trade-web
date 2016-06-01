@@ -2,7 +2,9 @@ $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	//initAutocomplete(ctx+"/labelVal/queryUserInfo");
+	
 	searchMethod();
+	reloadGrid(params);
 });
 
 //select控件
