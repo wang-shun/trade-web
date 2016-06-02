@@ -147,8 +147,8 @@
             search:false,
             postData:{
             	queryId:"queryAttendancePage",
-            	search_orgName:$("#orgName").val(),
-            	search_userName:$("#userName").val(),
+            	search_attendOrgName:$("#orgName").val(),
+            	search_attendUserName:$("#userName").val(),
             	search_attendTimeStart:($("#attendTimeStart").val()!=""? ($("#attendTimeStart").val()+ " 00:00:00"):""),
             	search_attendTimeEnd:($("#attendTimeEnd").val()!=""? ($("#attendTimeEnd").val()+ " 23:59:59"):"")
             },
