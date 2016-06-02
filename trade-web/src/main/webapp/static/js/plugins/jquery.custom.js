@@ -1,3 +1,12 @@
+/****
+ *  自定义插件
+ *  
+ *  @param Jquery
+ *  
+ *  @author : child 
+ *  @date : 2016-6-1
+ */
+
 (function($){
 	var settings;
 	
@@ -7,6 +16,59 @@
 		} else {
 			this.addClass("selected");
 		}
+	};
+	
+	$.fn.changeClass = function(class1,class2){
+		if(this.hasClass(class1)) {
+			this.removeClass(class1);
+			this.addClass(class2);
+		} else {
+			this.removeClass(class2);
+			this.addClass(class1);
+		}
+	};
+	
+	$.fn.sort = function(options){
+		var settings = $.extend({
+			active  :  "active",
+			upIcon  :  "icon-chevron-up",
+			downIcon : "icon-chevron-down"
+		},options||{});
+		
+		var active = settings.active;
+		var upIcon = settings.upIcon;
+		var downIcon =  settings.downIcon;
+		var page = 1;
+		
+		var data = {};
+		data.page = 1;
+		
+		this.addClass(active);
+		// 如果上一次没有排序，则显示下箭头，否则上箭头
+		if(!$(this).has('i').length){
+			$(this).append("<i class='"+ downIcon +"'></i>");
+			data.sord = 'desc';
+		} else {
+			$(this).children("i").changeClass(downIcon,upIcon);
+			
+			if(this.hasClass(downIcon)) {
+				data.sord = 'desc';
+			} else {
+				data.sord = 'asc';
+			}
+		}
+		
+		this.siblings().children("i").remove();
+		this.siblings().removeClass(
+);
+		
+		
+		var sidx = $(this).attr('sortColumn');
+		data.sidx = sidx;
+		
+		var reloadGrid = $(this).attr('reloadGrid');
+		this.reloadGrid(data);
+
 	};
 	
 	$.extend({
@@ -41,7 +103,67 @@
 			}else{
 				return false;
 			}
-		}
-	});
+		},
+		
+	  sort : function(options){
+		var settings = $.extend({
+			active  :  "active",
+			upIcon  :  "icon-chevron-up",
+			downIcon : "icon-chevron-down"
+		    //reloadGrid : "reloadGrid"
+		},options||{});
+		
+		var active = settings.active;
+		var upIcon = settings.upIcon;
+		var downIcon =  settings.downIcon;
+		var _reloadGrid = settings.reloadGrid;
+		var page = 1;
+		
+		var data = {};
+		data.page = 1;
+		
+		$('span.sort').each(function(i){
+    		$(this).click(function(){
+    			var sidx = $(this).attr('sortColumn');
+    			data.sidx = sidx;
+    			
+    			var sortcolumn = $('span.sort');
+    			for(var i = 0; i < sortcolumn.length ;i ++){
+    				if(sidx != $(sortcolumn[i]).attr('sortColumn')){
+    					$(sortcolumn[i]).children("i").remove();
+    					$(sortcolumn[i]).removeClass(active);
+    				}
+    			}
+    			$(this).addClass(active);
+    			// 如果上一次没有排序，则显示下箭头，否则上箭头
+    			if(!$(this).has('i').length){
+    				$(this).append("<i class='"+ downIcon +"'></i>");
+    				data.sord = 'desc';
+    				$(this).attr("sord",'desc');
+    			} else {
+    				$(this).children("i").changeClass(downIcon,upIcon);
+    				
+    				if($(this).children("i").hasClass(downIcon)) {
+    					data.sord = 'desc';
+    					$(this).attr("sord",'desc');
+    				} else {
+    					data.sord = 'asc';
+    					$(this).attr("sord",'asc');
+    				}
+    			}
+    			
+    			
+    			
+    			//$(this).data("sord",data.sord);
+    			
+    			//var reloadGrid = $(this).attr('reloadGrid');
+    			//reloadGrid(data);
+    			if(typeof _reloadGrid=='function'){
+    				_reloadGrid();
+    			}
+    		});
+		});
+	  }
+	})
 	
 })(jQuery);

@@ -89,7 +89,7 @@ text-decoration: underline !important;
 								<div class="form-group ">
 									<label class="col-md-2 control-label m-l">人员</label>
 									<div class="col-md-8"> 
-										 <input type="text" id="realName" name="realName" class="form-control"> 
+										 <input type="text" id="realName" name="realName" class="form-control" value="${userInfo}"> 
 									</div>
 								</div>
 							</div>
@@ -105,8 +105,8 @@ text-decoration: underline !important;
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
 										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" >
-                                          <input type="hidden" id="yuCuiOriGrpId" value="${orgId}">
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
+                                          <input type="hidden" id="yuCuiOriGrpId" value="${serOrgId==null?serviceDepId:serOrgId}">
 									</div>
 								</div>
 							</div>
