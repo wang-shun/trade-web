@@ -73,7 +73,8 @@
 				        sctrans.v_yucui_org_hierarchy orgHierarchy
 				    ON
 				        orgHierarchy.ORG_ID = userOrg.ORG_id
-				    WHERE 1=1
+				    WHERE 
+				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE <>''
 				    <ifNotNull yuCuiOriGrpId>
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
 					</ifNotNull>
