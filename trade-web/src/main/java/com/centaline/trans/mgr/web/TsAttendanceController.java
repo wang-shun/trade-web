@@ -74,6 +74,7 @@ public class TsAttendanceController {
     public String attendanceList(Model model){
         SessionUser user = uamSessionService.getSessionUser();
         model.addAttribute("orgId", user.getServiceDepId()); 
+        model.addAttribute("jobCode",user.getServiceJobCode());
     	return "attendcheck/attendanceList";
     }
     /**

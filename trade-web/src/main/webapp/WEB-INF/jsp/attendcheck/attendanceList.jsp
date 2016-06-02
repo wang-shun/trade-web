@@ -119,6 +119,15 @@
     
     function getAttendanceList(){
     	$("#table_list_2").jqGrid("GridUnload");
+    	var jobCode = "${jobCode}";
+    	var manager = null;
+    	if(jobCode=='Manager' || jobCode=='Senior_Manager'){
+    		manager = jobCode;
+    	}
+    	var consultant = null;
+    	if(!(jobCode=='Manager' || jobCode=='Senior_Manager')){
+    		consultant = "consultant";
+    	}
     	$("#table_list_2").jqGrid({
         	url:ctx+"/quickGrid/findPage",
             datatype: "json",
@@ -150,7 +159,9 @@
             	search_attendOrgName:$("#orgName").val(),
             	search_attendUserName:$("#userName").val(),
             	search_attendTimeStart:($("#attendTimeStart").val()!=""? ($("#attendTimeStart").val()+ " 00:00:00"):""),
-            	search_attendTimeEnd:($("#attendTimeEnd").val()!=""? ($("#attendTimeEnd").val()+ " 23:59:59"):"")
+            	search_attendTimeEnd:($("#attendTimeEnd").val()!=""? ($("#attendTimeEnd").val()+ " 23:59:59"):""),
+            	argu_manager : manager,
+            	argu_consultant : consultant
             },
             gridComplete : function() { 
 
