@@ -118,11 +118,11 @@ display: none;}
                         <table>
                             <thead>
                                 <tr>
-                                    <th>案件编号</th>
+                                    <th><span class="sort active" sortColumn="ef.CASE_CODE" sord="desc">案件编号</span></th>
                                     <th>产证地址</th>
-                                    <th>评估费</th>
+                                    <th><span class="sort" sortColumn="ef.EVAL_FEE" sord="asc">评估费</span></th>
                                     <th>合同价(万元)</th>
-                                    <th>确认收款时间</th>
+                                    <th><span class="sort" sortColumn="ef.RECORD_TIME" sord="desc">确认收款时间</span></th>
                                     <th>经办人</th>
                                 </tr>
                             </thead>
@@ -161,6 +161,7 @@ display: none;}
         <script src="${ctx}/js/plugins/jquery.custom.js"></script>
         <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
         <script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script id="evalListTemp" type= "text/html">
                            {{each rows as item index}}
@@ -180,6 +181,10 @@ display: none;}
 	  		
     		
         	jQuery(document).ready(function() {
+        		aist.sortWrapper({
+        			reloadGrid : reloadGrid
+        		});
+
         		//初始化数据
         	    reloadGrid();
         	 	// 查询
@@ -215,6 +220,8 @@ display: none;}
         	    data1.search_pUserId  =$('#inTextVal').attr('hVal');
 				data1.search_startTime=sTime;
 				data1.search_endTime = (eTime!=''?eTime+ " 23:59:59":eTime);
+				
+				aist.wrap(data1);
         	    fetchData(data1);
 	    	}
 			function fetchData(p){

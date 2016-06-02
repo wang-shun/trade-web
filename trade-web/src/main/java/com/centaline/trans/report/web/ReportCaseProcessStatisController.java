@@ -167,6 +167,18 @@ public class ReportCaseProcessStatisController {
 		request.setAttribute("userId", userId);
 		request.setAttribute("tempUser", tempUser);
 
+		String statusVal = null;
+		if("signed".equals(status)){
+			statusVal="2";
+		}else if("transfered".equals(status)){
+			statusVal="3";
+		}else if("closed".equals(status)){
+			statusVal="4";
+		}else{
+			statusVal="1";
+		}
+		request.setAttribute("statusVal", statusVal);
+		
 		return "report/case_detail";
 	}
 

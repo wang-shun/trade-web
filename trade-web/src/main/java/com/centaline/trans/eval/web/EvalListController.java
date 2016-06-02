@@ -156,9 +156,8 @@ public class EvalListController {
 			if (uoj == null) {
 				uoj = uojs.get(0);
 			}
-			Org org = uamUserOrgService.getOrgById(uoj.getOrgId());
 			User user = uamUserOrgService.getUserById(userId);
-			return user.getRealName() + "(" + org.getOrgName() + ")";
+			return user.getRealName() ;
 		}
 		return null;
 	}
