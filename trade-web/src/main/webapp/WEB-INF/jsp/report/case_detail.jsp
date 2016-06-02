@@ -102,30 +102,8 @@ text-decoration: underline !important;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<label class="col-md-1 control-label m-l">案件状态</label>
-								<div class="col-md-2 case-state">
-									<select ltype='select' id='caseProperty' name='case_property' class='form-control' validate='' onchange='' ligerui=''>
-									<option value='received'
-									    	<c:if test="${status=='received'}">SELECTED</c:if>
-									    >已接单</option>
-									 <option value='signed'
-									    	<c:if test="${status=='signed'}">SELECTED</c:if>
-									    >已签约</option>
-									 <option value='transfered'
-									    	<c:if test="${status=='transfered'}">SELECTED</c:if>
-									    >已过户</option>
-									 <option value='closed'
-									    	<c:if test="${status=='closed'}">SELECTED</c:if>
-									    >已结案</option>
-									 </select> 
-								 </div>
-								</div>
-							</div>
-						</div>
-						
+					
+						<!-- 组织范围 -->
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group ">
@@ -152,7 +130,7 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
-						<div>
+						
 						
 					<div class="row">
 						<div class="col-md-12">
@@ -165,7 +143,7 @@ text-decoration: underline !important;
 						</div>
 					</div>						
 						
-						<div class="row date-info">
+					<!--  	<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
 							<label class="col-md-1 control-label m-l">时间范围</label>
@@ -178,9 +156,43 @@ text-decoration: underline !important;
 						</div>
 						</div>
 							</div>
+						</div>-->
+						
+					<div class="row date-info">
+						<div class="col-md-12">
+								<div class="form-group">
+							<label class="col-md-1 control-label m-l">请选择</label>
+							<div id="dateDiv_0">
+							<div id="select_div_0">
+								<aist:dict id="case_date_0" name="case_date"
+									clazz="btn btn-white chosen-select" display="select"
+									defaultvalue="caseTypeTime" dictType="caseTypeTime" />
+							</div>
+							<div id="datepicker_0"
+								class="input-group input-medium date-picker input-daterange pull-left"
+								data-date-format="yyyy-mm-dd">
+								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${createTimeStart}" placeholder="起始日期">
+								<span class="input-group-addon">到</span>
+								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${createTimeEnd}" placeholder="结束日期" />
+							</div>
+							<div id="addLine" class="pull-left m-l">
+							
 						</div>
-
-				</div>
+						</div>
+						</div>
+							</div>
+						</div>	
+						
+						
+						<div class="row m-t-sm">
+							<div class="col-md-12">
+								<div class="form-group">
+							<label class="col-md-1 control-label m-l-lg"></label>
+							<div><a class="" href="javascript:addDateDiv();"><font>添加日期检索</font></a></div>
+						</div>
+							</div>
+						</div>		
+				
 						
 						<div class="row m-t-sm">
 							<div class="col-md-12">
@@ -190,6 +202,7 @@ text-decoration: underline !important;
 						</div>
 							</div>
 						</div>
+						
 					</form>
 				</div>
 			</div>
@@ -202,9 +215,10 @@ text-decoration: underline !important;
 					<tr>
 						<th class="t-left pd-l"><span class='sort' sortColumn='a.CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l">产证地址</th>
-						<th class="t-left pd-l"><span id="typeTime" class='sort active' sortColumn='a.SIGN_TIME' sord='asc'>签约时间</span></th>
-						<th class="t-left pd-l">上家</th>
-						<th class="t-left pd-l">下家</th>
+						<th class="t-left pd-l"><span id="typeTime1" class='sort' sortColumn='a.RECEIVED_TIME' sord='desc'>接单时间</span></th>
+						<th class="t-left pd-l"><span id="typeTime2" class='sort' sortColumn='a.SIGN_TIME' sord='desc'>签约时间</span></th>
+						<th class="t-left pd-l"><span id="typeTime3" class='sort' sortColumn='a.HOUSE_TRANFER_TIME' sord='desc'>过户时间</span></th>
+						<th class="t-left pd-l"><span id="typeTime4" class='sort' sortColumn='a.CLOSE_TIME' sord='desc'>结案时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="myCaseList">
@@ -254,11 +268,12 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="t-left pd-l"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a><span class="fd">{{status}}</span></td>
+						<td class="t-left pd-l"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
-						<td class="t-left pd-l">{{item.CREATE_TIME}}</td>
-						<td class="t-left pd-l">{{item.SELLER}}</td>
-						<td class="t-left pd-l">{{item.BUYER}}</td>
+						<td class="t-left pd-l">{{item.RECEIVED_TIME}}</td>
+						<td class="t-left pd-l">{{item.SIGN_TIME}}</td>
+						<td class="t-left pd-l">{{item.HOUSE_TRANFER_TIME}}</td>
+						<td class="t-left pd-l">{{item.CLOSE_TIME}}</td>
 				  </tr>
 
 				  {{if index%2 == 0}}
@@ -273,10 +288,9 @@ text-decoration: underline !important;
 								{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_TEL}}<span class="slash">/</span>{{item.AGENT_ORG}}
 							</span>
 						</td>
-						<td class="t-left pd-l"></td>
-						<td colspan="2" class="t-left pd-l">
-							<span class="jbr">经办人：{{item.PROCESSOR_ID}}</span>
-							<span class="slash">/</span>{{item.PROCESSOR_ORG_ID}}
+						<td colspan="4" class="t-left pd-l">
+							<span class="jbr">经办人：{{item.PROCESSOR}}</span>
+							<span class="slash"> </span>{{item.TEAM_ID}}
 						</td>
 					</tr>
        {{/each}}

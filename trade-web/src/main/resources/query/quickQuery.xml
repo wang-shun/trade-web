@@ -104,10 +104,7 @@
 	<import resource="query/kpi/personSumBonus.xml"></import>
 	
 	<!-- 案件统计 -->
-	<import resource="query/report/toCaseDetailListQueryrReceived.xml"></import>
-	<import resource="query/report/toCaseDetailListQueryClosed.xml"></import>
-	<import resource="query/report/toCaseDetailListQuerySigned.xml"></import>
-	<import resource="query/report/toCaseDetailListQueryTransfered.xml"></import>
+	<import resource="query/report/toCaseDetailListQuery.xml"></import>
 	<import resource="query/report/toCaseListQueryOrg.xml"></import>
 	<import resource="query/report/toCaseListQueryDistrict.xml"></import>
 	<import resource="query/eval/toEvalListQueryForStatistics.xml"></import>

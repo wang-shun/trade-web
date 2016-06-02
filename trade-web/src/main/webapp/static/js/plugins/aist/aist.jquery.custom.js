@@ -38,6 +38,7 @@ function($, window) {
 			    			//$('span.sort').not($(this)).children("i").remove();
 			    			$('span.sort').not($(this)).removeClass(active);
 			    			$('span.sort').not($(this)).removeAttr("style");
+			    			$('span.sort').not($(this)).css("cursor","pointer");
 			    			
 			    			$(this).addClass(active);
 			    			$(this).css('color','#ed4e2a');
@@ -76,6 +77,8 @@ function($, window) {
 			 },
 			 
 			 initSort : function(settings) {
+				 // 增加小手样式
+				 $('span.sort').css("cursor","pointer");
 				 // 如果存在默认值,按照默认的排序
 				 if($('span.sort').hasClass(settings.active)) {
 					 var activing =  $('span.sort.'+ settings.active);
@@ -96,11 +99,11 @@ function($, window) {
 				 // 其他排序字段需要加上图标
 				 var other = $('span.sort').not("."+settings.active);
 				 other.each(function(i){
-					 var sord = other.attr("sord");
+					 var sord = $(this).attr("sord");
 					 if(sord='asc') {
-						 other.append("<i class='"+ settings.upIcon +"'></i>");
+						 $(this).append("<i class='"+ settings.upIcon +"'></i>");
 					 } else {
-						 other.append("<i class='"+ settings.downIcon +"'></i>");
+						 $(this).append("<i class='"+ settings.downIcon +"'></i>");
 					 }
 				 })
 			 },
