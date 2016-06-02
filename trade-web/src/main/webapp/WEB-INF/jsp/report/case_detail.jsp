@@ -166,7 +166,7 @@ text-decoration: underline !important;
 							<div id="select_div_0">
 								<aist:dict id="case_date_0" name="case_date"
 									clazz="btn btn-white chosen-select" display="select"
-									defaultvalue="caseTypeTime" dictType="caseTypeTime" />
+									defaultvalue="${statusVal}" dictType="caseTypeTime" />
 							</div>
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
@@ -251,7 +251,7 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	<script src="${ctx}/js/trunk/report/case_detail.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>

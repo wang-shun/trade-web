@@ -82,6 +82,7 @@ text-decoration: underline !important;
 .case-num:visited{
  text-decoration: underline !important;
 }
+.zuzhi{width:442px;}
 </style>
 </head>
 
@@ -95,14 +96,59 @@ text-decoration: underline !important;
 				<div class="ibox-title">
 					<h5>案件统计</h5>
 				</div>
+				<div class="ibox-content">
+					<form method="get" class="form-horizontal">
+					
+						<!-- 组织范围 -->
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+									<label class="col-md-1 control-label m-l">组织范围</label>
+									<div class="col-md-10 zuzhi">
+											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
+										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'${depId}',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
+										   expandNodeId:''})" value="${orgName}"/>
+										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 时间范围 -->
+					 	<div class="row date-info">
+							<div class="col-md-12">
+								<div class="form-group">
+							<label class="col-md-1 control-label m-l">时间范围</label>
+							<div id="dateDiv_0">
+							<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left ml-15" data-date-format="yyyy-mm-dd">
+								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${createTimeStart}" placeholder="起始日期" /> 
+								<span class="input-group-addon">到</span>
+								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${createTimeEnd}" placeholder="结束日期" />
+							</div>
+						</div>
+						</div>
+							</div>
+						</div>
+						
+						<!-- 查询 -->
+						<div class="row m-t-sm">
+							<div class="col-md-12">
+								<div class="form-group">
+							<label class="col-md-1 control-label m-l-lg"></label>
+							<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
+						</div>
+							</div>
+						</div>
+						
+					</form>
+				</div>				
 			</div>
 		</div>
 		
 		<div class="data-wrap">
-		<c:if test="${transJob}!=null">
-		<span><button id="queryDistrict" type="button" class="btn btn-warning">贵宾服务部</button></span>
-		<span><button id="queryOrgs" type="button" class="btn btn-warning">组别</button></span>
-		</c:if>
+		
 		<div class="data-wrap-in">
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>

@@ -48,7 +48,7 @@ $(document).ready(function() {
 	}
 	
 	/*加载排序查询组件*/
-	$.sort({
+	aist.sortWrapper({
 		reloadGrid : searchMethod
 	});
 	
@@ -111,9 +111,10 @@ function searchMethod(page) {
 
 function reloadGrid(data) {
 	
+	aist.wrap(data);
+	
 	var sortcolumn=$('span.active').attr("sortColumn");
 	var sortgz=$('span.active').attr("sord");
-	
 	data.sidx=sortcolumn;
 	data.sord=sortgz;
 
