@@ -367,6 +367,7 @@ text-decoration: underline !important;
 	  <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	 <script id="template_myCaseList" type= "text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}

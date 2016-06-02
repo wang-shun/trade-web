@@ -17,6 +17,7 @@ $(document).ready(function() {
     	    data.queryId = "queryTaskListItemList";
     	    data.rows = 20;
     	    data.page = 1;
+    	    aist.wrap(data);
     		reloadGrid(data);
     		
 			//ie
@@ -36,6 +37,7 @@ $(document).ready(function() {
 				searchMethod();
 			});
 		});
+
 //select控件
 var config = {
 	'.chosen-select' : {},
@@ -141,7 +143,6 @@ $('#orderByButton').click(function() {
 			"sortname": "ID", // 表示用于排序的列名的参数名称 
 			"sortorder": "ASC" // 表示采用的排序方式的参数名称 
 		}).trigger('reloadGrid');*/
-
 	 reloadGrid(params);
 });
 var lamp1 = $("#Lamp1").val();
@@ -263,6 +264,7 @@ function searchMethod(page){
 			page : page
 		};
 	
+		aist.wrap(params);
 		reloadGrid(params);
 
 		//jqGrid reload
