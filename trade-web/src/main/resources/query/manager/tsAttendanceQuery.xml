@@ -29,7 +29,7 @@
 	
 	<query id="queryAttendancePage">
 		<searchCondition>
-            <condition field="TA.STAFF_ID" name="userId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="TA.STAFF_ID" name="staffId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="SU.REAL_NAME" name="attendUserName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
             <condition field="SO.ORG_NAME" name="attendOrgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
             <condition field="TA.ATTEND_TIME" name="attendTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/> 
@@ -52,7 +52,13 @@
 					SO.ORG_NAME
 					FROM sctrans.T_TS_ATTENDANCE TA LEFT JOIN sctrans.SYS_USER SU ON TA.STAFF_ID=SU.ID
 					LEFT JOIN sctrans.SYS_ORG SO ON TA.ORG_ID=SO.ID
-					where 1 = 1
+					where 1=1 
+					<ifNotNull manager>
+						and TA.ORG_ID = #orgId#
+					</ifNotNull>
+					<ifNotNull consultant>
+						and TA.STAFF_ID = #userId#
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<groupSql>
