@@ -30,8 +30,8 @@
 	<query id="queryAttendancePage">
 		<searchCondition>
             <condition field="TA.STAFF_ID" name="userId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="SU.REAL_NAME" name="userName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
-            <condition field="SO.ORG_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
+            <condition field="SU.REAL_NAME" name="attendUserName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
+            <condition field="SO.ORG_NAME" name="attendOrgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/> 
             <condition field="TA.ATTEND_TIME" name="attendTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/> 
             <condition field="TA.ATTEND_TIME" name="attendTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/> 
         
