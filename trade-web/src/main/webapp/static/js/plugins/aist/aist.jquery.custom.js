@@ -96,11 +96,11 @@ function($, window) {
 				 // 其他排序字段需要加上图标
 				 var other = $('span.sort').not("."+settings.active);
 				 other.each(function(i){
-					 var sord = other.attr("sord");
+					 var sord = $(this).attr("sord");
 					 if(sord='asc') {
-						 other.append("<i class='"+ settings.upIcon +"'></i>");
+						 $(this).append("<i class='"+ settings.upIcon +"'></i>");
 					 } else {
-						 other.append("<i class='"+ settings.downIcon +"'></i>");
+						 $(this).append("<i class='"+ settings.downIcon +"'></i>");
 					 }
 				 })
 			 },
