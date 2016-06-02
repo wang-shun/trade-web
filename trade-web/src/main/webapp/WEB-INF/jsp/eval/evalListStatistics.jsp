@@ -92,7 +92,7 @@ display: none;}
                             <div class="row">                           	
     							<div class="col-lg-5 col-md-5">
   									<div class="form-group">
-										<label class="col-lg-3 col-md-3 control-label font_w">时间</label>
+										<label class="col-lg-3 col-md-3 control-label font_w">确认收款时间</label>
                             			<div class="col-lg-9 col-md-9">
 	                            			<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd" style="width: 412px;">
 												<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" placeholder="起始日期" value="${sTime }"> <span class="input-group-addon">到</span>
