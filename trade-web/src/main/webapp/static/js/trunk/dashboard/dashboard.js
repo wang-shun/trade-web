@@ -191,6 +191,9 @@
 	    $(".irs-single").text(maxMonths[month]);
 	    $(".irs-slider").attr("style","left: "+(month/12*100+3)+"%;");
 	    $("#ionrange_4").val(month);
+	    
+	    // 未申请，面签，放款金额加上链接
+		addLinkHref(month+1,'');
    }
    
    
