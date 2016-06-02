@@ -3,6 +3,7 @@
 <dicts>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
 		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
@@ -30,10 +31,10 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryCastDetailItemListTransfered" cacheCount="true">
+	<query id="queryCaseDetailItemList" cacheCount="true">
 		<searchCondition>
-		   <condition field="a.CASE_CODE"  name="caseNo" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="b.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>	
+           <condition field="a.CASE_CODE"  name="caseNo" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="b.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>		
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -43,34 +44,65 @@
 						a.CASE_CODE as CASE_CODE, 
 						b.CTM_CODE as CTM_CODE, 
 						b.PROPERTY_ADDR as PROPERTY_ADDR, 
-						LEFT(CONVERT(varchar(100), a.HOUSE_TRANFER_TIME, 120), 10) as CREATE_TIME, 
-						a.HOUSE_TRANFER_USER as PROCESSOR_ID, 
-						a.HOUSE_TRANFER_TEAM_ID as PROCESSOR_ORG_ID, 
+						LEFT(CONVERT(varchar(100), a.RECEIVED_TIME, 120), 10) as RECEIVED_TIME, 
+						LEFT(CONVERT(varchar(100), a.SIGN_TIME, 120), 10) as SIGN_TIME, 
+						LEFT(CONVERT(varchar(100), a.HOUSE_TRANFER_TIME, 120), 10) as HOUSE_TRANFER_TIME, 
+						LEFT(CONVERT(varchar(100), a.CLOSE_TIME, 120), 10) as CLOSE_TIME, 
+						a.TEAM_ID as TEAM_ID, 
 						b.AGENT_NAME as AGENT_NAME, 
 						b.AGENT_CODE as AGENT_CODE
 					FROM sctrans.V_RPT_CASE_PROCESS_STATIS a 
 					INNER JOIN sctrans.V_CASE_LIST_BASE b ON a.CASE_CODE=b.CASE_CODE
-					WHERE
-					DATEDIFF(year, a.HOUSE_TRANFER_TIME, GETDATE())=0 AND a.HOUSE_TRANFER_TIME IS NOT NULL
-					<ifNotNull org>
-						AND (a.HOUSE_TRANFER_DISTRICT_ID = #org# OR a.HOUSE_TRANFER_TEAM_ID = #org#)
-					</ifNotNull> 
-					<ifNotNull createTimeStart>
-						AND a.HOUSE_TRANFER_TIME >= #createTimeStart#
+					WHERE 1=1
+					<ifNotNull receivedTime>
+						AND a.RECEIVED_TIME IS NOT NULL
 					</ifNotNull> 	
-					<ifNotNull createTimeEnd>
-						AND a.HOUSE_TRANFER_TIME <= #createTimeEnd#
+					<ifNotNull receivedTimeStart>
+						AND a.RECEIVED_TIME >= #receivedTimeStart#
+					</ifNotNull> 	
+					<ifNotNull receivedTimeEnd>
+						AND a.RECEIVED_TIME <= #receivedTimeEnd#
+					</ifNotNull>
+					<ifNotNull signTime>
+						AND a.SIGN_TIME IS NOT NULL
+					</ifNotNull> 	
+					<ifNotNull signTimeStart>
+						AND a.SIGN_TIME >= #signTimeStart#
+					</ifNotNull> 	
+					<ifNotNull signTimeEnd>
+						AND a.SIGN_TIME <= #signTimeEnd#
+					</ifNotNull>
+					<ifNotNull houseTranferTime>
+						AND a.HOUSE_TRANFER_TIME IS NOT NULL
+					</ifNotNull> 	
+					<ifNotNull houseTranferTimeStart>
+						AND a.HOUSE_TRANFER_TIME >= #houseTranferTimeStart#
+					</ifNotNull> 	
+					<ifNotNull houseTranferTimeEnd>
+						AND a.HOUSE_TRANFER_TIME <= #houseTranferTimeEnd#
+					</ifNotNull>
+					<ifNotNull closeTime>
+						AND a.CLOSE_TIME IS NOT NULL
+					</ifNotNull> 	
+					<ifNotNull closeTimeStart>
+						AND a.CLOSE_TIME >= #closeTimeStart#
+					</ifNotNull> 	
+					<ifNotNull closeTimeEnd>
+						AND a.CLOSE_TIME <= #closeTimeEnd#
+					</ifNotNull>
+						<ifNotNull org>
+						AND (a.DISTRICT_ID = #org# OR a.TEAM_ID = #org#)
 					</ifNotNull>
 					<ifNotNull processorId>
-						AND a.HOUSE_TRANFER_USER= #processorId#
-					</ifNotNull>						
+						AND #processorId# IN(SELECT  PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+					</ifNotNull>
 					<ifNotNull tempUser>
-						AND a.HOUSE_TRANFER_USER= #tempUser#
-					</ifNotNull>						
+						AND #tempUser# IN(SELECT PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+					</ifNotNull>
 				]]>		
 			</baseSql>
 			<orderBySql>
-			  ORDER BY a.HOUSE_TRANFER_TIME DESC
+			  ORDER BY a.RECEIVED_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -78,14 +110,17 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CTM_CODE"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CTM_CODE"  index="" checkbox="" display="CTM编号" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CREATE_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RECEIVED_TIME" index="" checkbox="" display="接单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SIGN_TIME" index="" checkbox="" display="签约时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="HOUSE_TRANFER_TIME" index="" checkbox="" display="过户时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_TIME" index="" checkbox="" display="结案时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="PROCESSOR_ID"  index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="PROCESSOR_ORG_ID"  index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="PROCESSOR" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="TEAM_ID"  index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" 	sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />	
 				<column type="both" name="AGENT_CODE" index="" checkbox="" display="AGENT_CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" hide="true"/>				
 				<column type="virtual" name="AGENT_ORG" referencecol="AGENT_CODE" index="" checkbox="" display="经纪人组织" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			

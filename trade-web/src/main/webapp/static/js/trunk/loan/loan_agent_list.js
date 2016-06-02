@@ -146,7 +146,7 @@ function searchMethod(page) {
 	params.search_releaseTimeEnd = releaseTimeEnd;
 	params.search_realName = 	$("#realName").val();
 	params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
-
+    aist.wrap(params);
 	reloadGrid(params);
 };
 

@@ -129,16 +129,16 @@ public class CaseCloseApproveController {
 			toCase.setCaseProperty("30003002");
 			toCase.setCloseTime(new Date());
 			toCaseService.updateByCaseCodeSelective(toCase);
+			/*审批通过才能流程才会结束*/
+			ToWorkFlow t=new ToWorkFlow();
+			t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			t.setCaseCode(processInstanceVO.getCaseCode());
+			ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
+			mainflow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
+			
 			awardBaseService.setAwradCaseCloseDate(processInstanceVO.getCaseCode(),new Date());//设置基本奖金的结案时间
 		}
-		
-		// add zhangxb16 2016-2-19
-		ToWorkFlow t=new ToWorkFlow();
-		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-		t.setCaseCode(processInstanceVO.getCaseCode());
-		ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
-		mainflow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-		toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		
 		return true;
 	}
