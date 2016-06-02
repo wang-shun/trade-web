@@ -207,11 +207,11 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0" vertical="middle">
 				<thead>
 					<tr>
-						<th>案件编码</th>
+						<th><span class="sort" sortColumn="CASE_CODE" sord="desc">案件编码</span></th>
 						<th>产证地址</th>
-						<th>申请金额</th>
-						<th>面签金额</th>
-						<th class="last">放款金额</th>
+						<th><span class="sort" sortColumn="LOAN_AMOUNT" sord="desc">申请金额</span></th>
+						<th><span class="sort" sortColumn="SIGN_AMOUNT" sord="desc">面签金额</span></th>
+						<th class="last"><span class="sort" sortColumn="ACTUAL_AMOUNT" sord="desc">放款金额</span></th>
 					</tr>
 				</thead>
 				<tbody id="loanAgentList">
@@ -245,6 +245,7 @@ text-decoration: underline !important;
 	  <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	 <script id="template_loanAgentList" type= "text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
@@ -279,7 +280,10 @@ text-decoration: underline !important;
 	     var argu_yuCuiOriGrpId = "${orgId}";
 	     
 	 	 var orgName = "${sUserName}";
-		 console.log(orgName);
+	 	 
+	 	 aist.sortWrapper({
+			reloadGrid : searchMethod
+		 });
      </script>
 
 	 </content>
