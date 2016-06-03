@@ -32,8 +32,9 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
-	<div class="row">
+	<div class="">
 		<div class="row wrapper border-bottom white-bg page-heading">
 			<div class="col-lg-10">
 				<h2>无效审批</h2>

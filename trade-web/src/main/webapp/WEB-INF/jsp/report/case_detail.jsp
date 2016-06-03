@@ -85,8 +85,10 @@ text-decoration: underline !important;
 .ml-15{margin-left:15px;}
 .case-state{width:150px;}
 .zuzhi{width:442px;}
+.renyuan{width:400px;}
 .bianhao{width:221px}
 .dizhi{width:430px}
+.hideDiv{display: none;}
 </style>
 </head>
 
@@ -103,9 +105,21 @@ text-decoration: underline !important;
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 					
-						<!-- 组织范围 -->
-						<div class="row">
-							<div class="col-md-12">
+						<div class="row ${isConsultant ? 'hideDiv' : ''}">
+						
+                        	<div class="col-md-12">    
+                            	<div class="form-group">
+                                        <label class="col-md-1 control-label m-l">人员</label>
+                                        <div class="col-md-10 renyuan">
+                                        	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${tempUser }" value="${tempName }"
+													 readonly="readonly"
+													onclick="userSelect({startOrgId:'${depId}',expandNodeId:'${depId}',
+													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+                                        </div>
+                                    </div>
+                        </div>
+                        
+                        	<div class="col-md-12">
 								<div class="form-group ">
 									<label class="col-md-1 control-label m-l">组织范围</label>
 									<div class="col-md-10 zuzhi">
@@ -118,19 +132,8 @@ text-decoration: underline !important;
 									</div>
 								</div>
 							</div>
-						</div>
-						
-					<!-- 	<div class="row">
-							<div class="col-md-12">
-								<div class="form-group ">
-									<label class="col-md-1 control-label m-l">人员姓名</label>
-									<div class="col-md-10 bianhao">
-											<input type="text" class="form-control" id="proName" name="proName" value=""/>
-									</div>
-								</div>
-							</div>
-						</div>
-						 -->
+                        
+                        </div>
 						
 						<div class="row">
 							<div class="col-md-12">
@@ -254,6 +257,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="status" value="${status}" />
 	<input type="hidden" id="userId" value="${userId}" />
 	<input type="hidden" id="tempUser" value="${tempUser}" />
+	<input type="hidden" id="personalId" value="${personalId}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
