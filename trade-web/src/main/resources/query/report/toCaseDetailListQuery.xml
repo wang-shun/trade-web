@@ -99,6 +99,9 @@
 					<ifNotNull tempUser>
 						AND #tempUser# IN(SELECT PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
 					</ifNotNull>
+					<ifNotNull queryPersonId>
+						AND #queryPersonId# IN(SELECT PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+					</ifNotNull>
 				]]>		
 			</baseSql>
 			<orderBySql>
