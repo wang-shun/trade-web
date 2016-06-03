@@ -54,6 +54,9 @@
 	</formatters>
 	<query id="queryCaseExcelItemList">
 		<searchCondition>
+			<condition field="B.CASE_Code" name="caseCode"
+				label="案件编号" searchType="EQ" showType="" showCallback=""
+				defaultValue="" />
 			<condition field="B.CASE_PROPERTY" name="caseProperty"
 				label="案件类型" searchType="EQ" showType="" showCallback=""
 				defaultValue="" />
