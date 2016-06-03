@@ -220,7 +220,7 @@ text-decoration: underline !important;
 		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 		<!-- iCheck -->
 		<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/trunk/task/mytask_list.js?version=1.1.0"></script> 
+	<script src="${ctx}/js/trunk/task/mytask_list.js?version=1.1.1"></script> 
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	 <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
