@@ -41,15 +41,17 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div >
-		<div class="row wrapper border-bottom white-bg page-heading">
-			<div class="col-lg-10">
-				<h2>线下评估报告发起</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
+		<div class="wrapper border-bottom white-bg page-heading">
+			<div class="row">
+				<div class="col-lg-10">
+					<h2>线下评估报告发起</h2>
+					<ol class="breadcrumb">
+						<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
+						<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
+					</ol>
+				</div>
+				<div class="col-lg-2"></div>
 			</div>
-			<div class="col-lg-2"></div>
 		</div>
 		<div class="ibox-title">
 			<h5>评估信息</h5>
