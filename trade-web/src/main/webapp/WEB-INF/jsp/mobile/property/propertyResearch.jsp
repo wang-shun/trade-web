@@ -103,7 +103,14 @@ img{ border-image-width:0px;}
 							<h5>处理产调</h5>
 						</div>
 						<div class="ibox-content">
-
+							<div class='row'>
+								<div class='pull-left'>
+									<h5>产调项目:</h5>
+								</div>
+								<div class='pull-left'>
+									<lable id="prCat"></lable>
+								</div>
+							</div>
 							<div class='row'>
 								<div class='pull-left'>
 									<h5>是否有效:</h5>
@@ -357,7 +364,7 @@ img{ border-image-width:0px;}
                        		 </div>
 							<div>
 								<p class="addr"><span>{{item.DIST_CODE}}&nbsp;&nbsp;&nbsp;</span><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
-								<div class='text-left check'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}');" class="btn btn-warning btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
+								<div class='text-left check'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}','{{item.PR_CAT}}');" class="btn btn-warning btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
 							</div>
                         	
                     	</li>
@@ -365,11 +372,11 @@ img{ border-image-width:0px;}
 					{{/if}}
 	</script> <script>
 		var ctx = "${ctx}";
-		function doProcess(cd, pr, pc, id, st,isS,uns) {
+		function doProcess(cd, pr, pc, id, st,isS,uns,prCat) {
 			if (st == '0') {
 				acceptance(id);
 			} else if (st == '1') {
-				showAttchBox(cd, pr, pc, id,isS,uns);
+				showAttchBox(cd, pr, pc, id,isS,uns,prCat);
 			} else if (st == '2') {
 				location.href = ctx + '/mobile/property/box/show?prCode=' + pr;
 			}
@@ -397,8 +404,7 @@ img{ border-image-width:0px;}
 
 		}
 
-		function showAttchBox(cd, pr, pc, id,isS,uns) {
-
+		function showAttchBox(cd, pr, pc, id,isS,uns,prCat) {
 			if (cd == null || cd == "") {
 				$("#caseCode").val(pr);
 			} else {
@@ -412,6 +418,7 @@ img{ border-image-width:0px;}
 			getAttchInfo();
 			$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 			$('#unSuccessReason').val(uns);
+			$('#prCat').text(prCat);
 			$("#modal-form").modal("show");
 		}
 
