@@ -120,6 +120,18 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						
+					<!-- 	<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+									<label class="col-md-1 control-label m-l">人员姓名</label>
+									<div class="col-md-10 bianhao">
+											<input type="text" class="form-control" id="proName" name="proName" value=""/>
+									</div>
+								</div>
+							</div>
+						</div>
+						 -->
+						
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group ">
@@ -130,7 +142,6 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
-						
 						
 					<div class="row">
 						<div class="col-md-12">
@@ -288,9 +299,11 @@ text-decoration: underline !important;
 								{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_TEL}}<span class="slash">/</span>{{item.AGENT_ORG}}
 							</span>
 						</td>
-						<td colspan="4" class="t-left pd-l">
+						<td colspan="2" class="t-left pd-l">
+							<span class="">所属组织：</span>{{item.TEAM_ID}}
+						</td>
+						<td colspan="2" class="t-left pd-l">
 							<span class="jbr">经办人：{{item.PROCESSOR}}</span>
-							<span class="slash"> </span>{{item.TEAM_ID}}
 						</td>
 					</tr>
        {{/each}}

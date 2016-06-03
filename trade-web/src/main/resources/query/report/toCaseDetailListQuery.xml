@@ -129,3 +129,9 @@
 		</grid>
 	</query>
 </querys>
+<!-- 					<ifNotNull proName>
+						AND	#proName# LIKE SELECT temp2.USERNAME FROM(
+						(SELECT PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE) temp1 INNER JOIN
+						(SELECT USERNAME FROM sctrans.V_USER_ORG_JOB WHERE JOB_CODE ='consultant') 
+						temp2 ON temp1.PROCESSOR_ID=temp2.USER_ID) 
+					<ifNotNull> -->
