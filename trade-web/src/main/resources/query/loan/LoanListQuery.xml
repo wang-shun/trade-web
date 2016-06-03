@@ -47,19 +47,19 @@
 			 			and tla.APPLY_TIME>=#applyTime1#
 			 	</ifNotNull>
  				<ifNotNull applyTime2>
-			 			and tla.APPLY_TIME<=#applyTime2#+' 23:59'
+			 			and tla.APPLY_TIME &lt;= #applyTime2#+' 23:59'
 			 	</ifNotNull>
  		 		<ifNotNull signTime1>
 			 			and tla.SIGN_TIME>=#signTime1#
 			 	</ifNotNull>
  				<ifNotNull signTime2>
-			 			and tla.SIGN_TIME<=#signTime2#+' 23:59'
+			 			and tla.SIGN_TIME &lt;= #signTime2#+' 23:59'
 			 	</ifNotNull>
  		 		<ifNotNull releaseTime1>
 			 			and tla.RELEASE_TIME>=#releaseTime#
 			 	</ifNotNull>
  				<ifNotNull releaseTime2>
-			 			and tla.RELEASE_TIME<=#releaseTime2#+' 23:59'
+			 			and tla.RELEASE_TIME &lt;= #releaseTime2#+' 23:59'
 			 	</ifNotNull>
 				]]>
 			</baseSql>
