@@ -91,7 +91,10 @@ public class ReportCaseProcessStatisController {
 		String depId = user.getServiceDepId(); // 用户的部门
 		String userId = null; // 交易顾问id
 		String tempUser = null; // 交易主管下用户id
-
+		String tempName = null; // 交易主管下用户姓名
+		boolean isConsultant=false; //是否为交易顾问
+		String personalId = user.getId();
+		
 		/* 验证当前用户所属组织和url传来的值是否一致 */
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 总经理
 			if (arg != null && !"".equals(arg)) {
@@ -137,6 +140,7 @@ public class ReportCaseProcessStatisController {
 			}
 			if (arg != null && !"".equals(arg)) {
 				tempUser = arg;
+				tempName = uamUserOrgService.getUserById(tempUser).getRealName();
 				List<String> uList = new ArrayList<String>();
 				List<User> userList = uamUserOrgService
 						.getUserByOrgIdAndJobCode(user.getServiceDepId(),
@@ -152,6 +156,7 @@ public class ReportCaseProcessStatisController {
 			}
 		} else { // 交易顾问
 			userId = user.getId();
+			isConsultant = true;
 			if (!depId.equals(org)) {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
@@ -166,6 +171,9 @@ public class ReportCaseProcessStatisController {
 		request.setAttribute("status", status);
 		request.setAttribute("userId", userId);
 		request.setAttribute("tempUser", tempUser);
+		request.setAttribute("tempName", tempName);
+		request.setAttribute("isConsultant", isConsultant);
+		request.setAttribute("personalId", personalId);
 
 		String statusVal = null;
 		if("signed".equals(status)){

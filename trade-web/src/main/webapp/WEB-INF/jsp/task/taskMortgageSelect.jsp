@@ -61,11 +61,11 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+ <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 		<div class="row wrapper border-bottom white-bg page-heading">
 	         <div class="col-md-10">
-	             <h2>贷款需求选择</h2>
+	             <h2>贷款需求选择</h2>            
 	             <ol class="breadcrumb">
 					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>

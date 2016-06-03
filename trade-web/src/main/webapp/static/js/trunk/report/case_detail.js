@@ -24,7 +24,6 @@ $(document).ready(function() {
 	}
 	var status = $("#status").val();
 	
-	
 	// 初始化列表
 	var data = {};
 	data.argu_org = org;
@@ -284,6 +283,12 @@ function getParamsValue() {
 		userId=null;
 	}
 	
+	//人员ID
+	var queryPersonId= $("#inTextVal").attr("hVal");
+	if(queryPersonId==$("#personalId")||queryPersonId==""){
+		queryPersonId=null;
+	}
+	
 	//设置查询参数
 	var params = {
 		argu_receivedTimeStart : receivedTimeStart,
@@ -300,6 +305,7 @@ function getParamsValue() {
 		argu_closeTime : ((closeTimeStart==""&&closeTimeEnd=="")?true:null),
 		argu_org : org,
 		argu_processorId : userId,
+		argu_queryPersonId : queryPersonId,
 		search_caseNo : caseNo,
 		search_caseAddr : caseAddr,
 	};
@@ -317,6 +323,18 @@ function radioYuCuiOrgSelectCallBack(array){
 	}else{
 		$("#teamCode").val("");
 		$("#yuCuiOriGrpId").val("");
+	}
+}
+
+//选取人员的回调函数
+function selectUserBack(array){
+	if(array && array.length >0){
+        $("#inTextVal").val(array[0].username);
+		$("#inTextVal").attr('hVal',array[0].userId);
+
+	}else{
+		$("#inTextVal").val("");
+		$("#inTextVal").attr('hVal',"");
 	}
 }
 
