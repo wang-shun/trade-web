@@ -158,7 +158,7 @@ from (
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.release_time is not null
+	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.sign_time is not null
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -170,93 +170,99 @@ from (
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DATEDIFF(YYYY, la.release_time, GETDATE())=0 and DatePart(m, la.release_time)=#{mo,jdbcType=VARCHAR};
+	  	and DATEDIFF(YYYY, la.SIGN_TIME, GETDATE())=0 and DatePart(m, la.SIGN_TIME)=#{mo,jdbcType=VARCHAR};
 	  </if>
   </select>
   
   
-  
-  
-  <select id="staSignCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-  	SELECT 
-   		COUNT(distinct CASE_CODE) as countQYS
-   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS
-	where 
-		datediff(year,SIGN_TIME,getdate())=0 and SIGN_TIME is not null
-	 <if test="userId != null">
-	 	and SIGN_USER=#{userId,jdbcType=DECIMAL}
-	 </if>
-	 <if test="orgId != null">
-	 	and SIGN_TEAM_ID=#{orgId,jdbcType=VARCHAR}
-	 </if>
-	 <if test="orgs != null">
-	 	and SIGN_TEAM_ID in
-	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
-	 </if>
-	  <if test="mo != null">
-	  	and DatePart(m, SIGN_TIME)=#{mo,jdbcType=VARCHAR}
-	  </if>
-  </select>
+  <!-- 接单数 -->
   <select id="staReceiveCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
   	SELECT 
-   		COUNT(distinct CASE_CODE) as countQYS
-   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS
-	where 
-		datediff(year,RECEIVED_TIME,getdate())=0 and RECEIVED_TIME is not null
+   		COUNT(distinct a.CASE_CODE) as countQYS
+   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS a
+	WHERE
+		a.RECEIVED_TIME IS NOT NULL
 	 <if test="userId != null">
-	 	and RECEIVED_USER=#{userId,jdbcType=DECIMAL}
+	 	AND #{userId,jdbcType=DECIMAL} IN (SELECT PROCESSOR_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
 	 </if>
 	 <if test="orgId != null">
-	 	and RECEIVED_TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and RECEIVED_TEAM_ID in
+	 	AND a.TEAM_ID IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, RECEIVED_TIME)=#{mo,jdbcType=VARCHAR}
+	  	AND DatePart(m, a.RECEIVED_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
+  
+    <!-- 签约数 -->
+  <select id="staSignCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
+  	SELECT 
+   		COUNT(distinct a.CASE_CODE) as countQYS
+   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS a
+	where 
+		a.SIGN_TIME IS NOT NULL
+	 <if test="userId != null">
+	 	AND #{userId,jdbcType=DECIMAL} IN (SELECT PROCESSOR_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+	 </if>
+	 <if test="orgId != null">
+	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 </if>
+	 <if test="orgs != null">
+	 	AND a.TEAM_ID IN
+	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
+	 </if>
+	  <if test="mo != null">
+	  	AND DatePart(m, a.SIGN_TIME)=#{mo,jdbcType=VARCHAR}
+	  </if>
+  </select>
+  
+  <!-- 过户数 -->
   <select id="staTransferCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-	select COUNT(case_code) 
-	from sctrans.V_RPT_CASE_PROCESS_STATIS
-	where 
-		datediff(YYYY,HOUSE_TRANFER_TIME,getdate())=0 and HOUSE_TRANFER_TIME is not null
+	SELECT COUNT(distinct a.CASE_CODE) 
+	FROM sctrans.V_RPT_CASE_PROCESS_STATIS a
+	WHERE 
+		a.HOUSE_TRANFER_TIME is not null
 	 <if test="userId != null">
-	 	and HOUSE_TRANFER_USER=#{userId,jdbcType=DECIMAL}
+	 	AND #{userId,jdbcType=DECIMAL} IN (SELECT PROCESSOR_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
 	 </if>
 	 <if test="orgId != null">
-	 	and HOUSE_TRANFER_TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and HOUSE_TRANFER_TEAM_ID in
+	 	AND a.TEAM_ID IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, HOUSE_TRANFER_TIME)=#{mo,jdbcType=VARCHAR}
+	  	and DatePart(m, a.HOUSE_TRANFER_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
+  
+  <!-- 结案数 -->
   <select id="staCloseCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-	select COUNT(case_code) 
-	from sctrans.V_RPT_CASE_PROCESS_STATIS
-	where 
-		datediff(YYYY,CLOSE_TIME,getdate())=0 and CLOSE_TIME is not null
+	select COUNT(distinct a.CASE_CODE) 
+	from sctrans.V_RPT_CASE_PROCESS_STATIS a
+	WHERE 
+		a.CLOSE_TIME IS NOT NULL
 	 <if test="userId != null">
-	 	and CLOSE_USER=#{userId,jdbcType=DECIMAL}
+	 	AND #{userId,jdbcType=DECIMAL} IN (SELECT PROCESSOR_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
 	 </if>
 	 <if test="orgId != null">
-	 	and CLOSE_TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	and CLOSE_TEAM_ID in
+	 	AND a.TEAM_ID IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DatePart(m, CLOSE_TIME)=#{mo,jdbcType=VARCHAR}
+	  	and DatePart(m, a.CLOSE_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
   </select>
+  
   <select id="staEvaFee" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
-	 select sum(tf.EVAL_FEE) as evalFee,(sum(tf.EVAL_FEE)/sum(ts.con_price)/10)as efConvRate from sctrans.T_TO_EVA_FEE_RECORD as tf 
+	 select sum(tf.EVAL_FEE) as evalFee,(sum(tf.EVAL_FEE)/sum(ts.con_price/1000)*100)as efConvRate from sctrans.T_TO_EVA_FEE_RECORD as tf 
 	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	 on tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
 	 left join sctrans.t_to_sign  as ts

@@ -188,11 +188,12 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th class="text-center">红绿灯</th>
-						<th>案件编号</th>
+						<th><span class="sort active" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
 						<th>当前任务</th>
 						<th>上家</th>
 						<th>下家</th>
-						<th class="text-center">预计执行时间</th>
+						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
+						<th class="text-center"><span class="sort" sortColumn="tp.EST_PART_TIME" sord="asc">预计执行时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="myTaskList">
@@ -224,7 +225,7 @@ text-decoration: underline !important;
 	 <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	
+	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	 <script id="template_myTaskList" type= "text/html">
          {{each rows as item index}}
                  {{if index%2 == 0}}
@@ -261,6 +262,7 @@ text-decoration: underline !important;
                     </td>
 					<td class="t-left">{{item.SELLER}}</td>
 					<td class="t-left">{{item.BUYER}}</td>
+					<td class="t-left">{{item.CREATE_TIME}}</td>
 					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>
 				{{if index%2 == 0}}
@@ -275,11 +277,16 @@ text-decoration: underline !important;
 						{{/if}}
 						<td class="t-left"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
 						<td class="t-left"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
-						<td colspan="2" class="t-left"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
+						<td colspan="3" class="t-left"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
 						<td><a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-deal" target="_blank"></a></td>
 				</tr>
 		{{/each}}
 	 </script> 
+	 <script>
+	 	aist.sortWrapper({
+			reloadGrid : searchMethod
+		});
+	 </script>
 	
 	
 	</content>

@@ -11,6 +11,16 @@ function queryConutCaseByDate(){
 			break;
 		}
 	}
+	
+	addLinkHref(month,sUserId);
+	
+	
+	var d1 = new Date();
+	var year = d1.getFullYear();
+	var createTimeStart = year+"-"+month+"-"+"01";
+	var d2 = new Date(year,month,0).getDate();
+	var createTimeEnd = year+"-"+month+"-"+d2;
+	
 	 $.ajax({
 			url  : ctx+'/workspace/workSpaceSta',
 		    data : [{
@@ -28,12 +38,28 @@ function queryConutCaseByDate(){
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
 				$("#sp_actualAmount").text(data.actualAmount);
-				$("#sp_evalFee").text(data.evalFee);
+				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
-				$("#sp_receiveCount").text(data.receiveCount);
-				$("#sp_signCount").text(data.signCount);
-				$("#sp_transferCount").text(data.transferCount);
-				$("#sp_closeCount").text(data.closeCount);
+				$("#sp_receiveCount").html(
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received&arg="+sUserId+"' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.receiveCount+"</font>" +
+						"</a>"
+				);
+				$("#sp_signCount").html(
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=signed&arg="+sUserId+"' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.signCount+"</font>" +
+						"</a>"						
+				);
+				$("#sp_transferCount").html(
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=transfered&arg="+sUserId+"' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.transferCount+"</font>" +
+						"</a>"						
+				);
+				$("#sp_closeCount").html(
+						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=closed&arg="+sUserId+"' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.closeCount+"</font>" +
+						"</a>"						
+				);
 				setStaDetailDef();
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
    	 			var d1 =toDonutData($(data.staLoanSign),'count');
@@ -41,4 +67,51 @@ function queryConutCaseByDate(){
    	 			setDonut(d1,d2);
 			}
 	 });
+}
+
+// 申请金额/面签金额/放款金额增加链接
+function addLinkHref(month,sUserId) {
+	var d = new Date();
+	var year = d.getFullYear();
+	// 获得最后一天
+	var lastday = new Date(year,month,0).getDate();   
+	
+	var startTime = d.Format("yyyy-"+month+"-01");
+    var endTime = d.Format("yyyy-"+month+"-"+lastday);
+
+	var applyTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=1&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"')";
+	var signTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=2&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"')";
+	var releaseTimeLink = "window.open('"+ctx+"/loan/loanAgentList?isLoanAgentTimeType=3&startTime="+startTime+"&endTime="+endTime+"&sUserId="+sUserId+"')";
+	$('#sp_loanAmount').attr("onclick",applyTimeLink);
+	$('#sp_signAmount').attr("onclick",signTimeLink);
+	$('#sp_actualAmount').attr("onclick",releaseTimeLink);
+}
+
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+function evalFeeClick(){
+	var mo=$(this).attr('mo');
+	var serachId=$(this).attr('serachId');
+	var purl="?source=dashboard";
+	if(mo){
+		purl=purl+'&mo='+mo;
+	}
+	if(serachId){
+		purl=purl+'&serachId='+serachId;
+	}
+	window.open(ctx+'/eval/evalListStatistics'+purl);
 }

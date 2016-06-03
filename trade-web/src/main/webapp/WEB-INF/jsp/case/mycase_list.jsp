@@ -161,7 +161,7 @@ text-decoration: underline !important;
 							<div id="select_div_1" class="">
 								<select id="inTextType" data-placeholder="搜索条件设定"
 									class="btn btn-white chosen-select form-control pull-left col-md-6" onchange="intextTypeChange()">
-									<option value="1" selected>物业地址</option>
+									<option value="1" selected>产证地址</option>
 									<option value="0">客户姓名</option>
 									<option value="2">经纪人姓名</option>
 									<option value="4">交易顾问</option>
@@ -367,6 +367,7 @@ text-decoration: underline !important;
 	  <!-- 分页控件  -->
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	 <script id="template_myCaseList" type= "text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}

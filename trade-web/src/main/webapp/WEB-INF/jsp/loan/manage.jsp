@@ -678,6 +678,7 @@
 		    function getBankList(pcode){
 				var friend = $("#operOrg");
 				friend.empty();
+				friend.append("<option value='' selected='selected'>请选择</option>");
 				 $.ajax({
 				    url:ctx+"/manage/queryFin",
 				    method:"post",
@@ -686,11 +687,7 @@
 			    	success:function(data){
 			    		if(data.bankList != null){
 			    			for(var i = 0;i<data.bankList.length;i++){
-			    				if(data.bankCode == data.bankList[i].finOrgCode) {
-			    					friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"+data.bankList[i].finOrgName+"</option>");
-			    				} else {
-			    					friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"+data.bankList[i].finOrgName+"</option>");
-			    				}
+			    				friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"+data.bankList[i].finOrgName+"</option>");
 			    			}
 			    		}
 			    	}

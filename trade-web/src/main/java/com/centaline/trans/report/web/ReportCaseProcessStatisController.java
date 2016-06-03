@@ -18,6 +18,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.enums.TransJobs;
 
 /**
@@ -54,11 +55,17 @@ public class ReportCaseProcessStatisController {
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "org", required = false) String org,
 			@RequestParam(value = "createTimeStart", required = false) String createTimeStart,
-			@RequestParam(value = "createTimeEnd", required = false) String createTimeEnd) {
+			@RequestParam(value = "createTimeEnd", required = false) String createTimeEnd,
+			@RequestParam(value = "arg", required = false) String arg) {
 
 		SessionUser user = uamSessionService.getSessionUser();
-		
-		/*url传参空值判断*/
+
+		/* arg参数处理 */
+		if (org != null && !"".equals(org)) {
+			arg = null;
+		}
+
+		/* url传参空值处理 */
 		if (null == status || "".equals(status)) {
 			status = "received";
 		}
@@ -80,11 +87,16 @@ public class ReportCaseProcessStatisController {
 					ca.getActualMaximum(Calendar.DAY_OF_MONTH));
 			createTimeEnd = format.format(ca.getTime());
 		}
-		
-		String depId = user.getServiceDepId();
-		
-		/*验证当前用户所属组织和url传来的值是否一致*/
-		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
+
+		String depId = user.getServiceDepId(); // 用户的部门
+		String userId = null; // 交易顾问id
+		String tempUser = null; // 交易主管下用户id
+
+		/* 验证当前用户所属组织和url传来的值是否一致 */
+		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 总经理
+			if (arg != null && !"".equals(arg)) {
+				org = arg;
+			}
 			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId);
 			List<String> disOrgs = new ArrayList<String>(); // 贵宾服务组集合
 			List<String> orgs = new ArrayList<String>(); // 组织集合
@@ -104,8 +116,11 @@ public class ReportCaseProcessStatisController {
 					&& !orgs.contains(org)) {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
-		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 如果是总监
-			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId); //组织集合
+		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 誉萃总监
+			if (arg != null && !"".equals(arg)) {
+				org = arg;
+			}
+			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId); // 组织集合
 			List<String> orgs = new ArrayList<String>();
 			if (orgList != null && !orgList.isEmpty()) {
 				for (Org o : orgList) {
@@ -116,20 +131,54 @@ public class ReportCaseProcessStatisController {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
-				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 交易主管
+			if (!depId.equals(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
+			if (arg != null && !"".equals(arg)) {
+				tempUser = arg;
+				List<String> uList = new ArrayList<String>();
+				List<User> userList = uamUserOrgService
+						.getUserByOrgIdAndJobCode(user.getServiceDepId(),
+								TransJobs.TJYGW.getCode());
+				if (null != userList && !userList.isEmpty()) {
+					for (User u : userList) {
+						uList.add(u.getId());
+					}
+				}
+				if (!uList.contains(tempUser)) {
+					throw new RuntimeException("不好意思,发生错误,此交易主管下无该交易顾问!!!");
+				}
+			}
+		} else { // 交易顾问
+			userId = user.getId();
 			if (!depId.equals(org)) {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
 		}
 
-		String orgName = uamUserOrgService.getOrgById(org).getOrgName(); //获取组织名
+		String orgName = uamUserOrgService.getOrgById(org).getOrgName(); // 获取组织名
 		request.setAttribute("createTimeStart", createTimeStart);
 		request.setAttribute("createTimeEnd", createTimeEnd);
 		request.setAttribute("org", org);
 		request.setAttribute("orgName", orgName);
 		request.setAttribute("depId", depId);
 		request.setAttribute("status", status);
+		request.setAttribute("userId", userId);
+		request.setAttribute("tempUser", tempUser);
 
+		String statusVal = null;
+		if("signed".equals(status)){
+			statusVal="2";
+		}else if("transfered".equals(status)){
+			statusVal="3";
+		}else if("closed".equals(status)){
+			statusVal="4";
+		}else{
+			statusVal="1";
+		}
+		request.setAttribute("statusVal", statusVal);
+		
 		return "report/case_detail";
 	}
 

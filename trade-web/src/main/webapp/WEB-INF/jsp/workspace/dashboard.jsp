@@ -75,6 +75,16 @@ response.setDateHeader("Expires",0);
 	#div_target .ibox-content{
 		height: 160px;overflow-x:hidden;overflow-y:auto;  padding: 9px 20px;
 	}
+	
+			.case-num{
+text-decoration: underline !important;
+}
+.case-num:HOVER{
+text-decoration: underline !important;
+}
+.case-num:visited{
+ text-decoration: underline !important;
+}
 </style>
 <script type="text/javascript">
   	 function imgLoad(img){
@@ -364,7 +374,7 @@ response.setDateHeader("Expires",0);
                                     <div class="row">
                                         <div class="col-md-8">
                                        		 <div id="ionrange_4" class="ionr">
-               							</div>
+               								 </div>
                                         </div>
                                         <div class="col-md-2">
                                         <select class="form-control m-b" id="sUserId">
@@ -372,7 +382,7 @@ response.setDateHeader("Expires",0);
 								             	<c:forEach items="${uList}"  var="user">
 							                        <option value="${user.id}">${user.realName}</option>
 								             	</c:forEach>
-                                    </select>
+                                    	</select>
                                         </div>
                                         <div class="col-md-2">
                                         <button class="btn btn-warning " type="button" id="btn_sta"><i class="fa fa-search"></i> <span class="bold">搜索</span></button>
@@ -384,13 +394,13 @@ response.setDateHeader("Expires",0);
                                                 <li class="info-element">
                                                     E+申请金额
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-success" id="sp_loanAmount">${sta.loanAmount }</span>
+                                                        <span class="fa-2x font-bold text-success case-num" id="sp_loanAmount">${sta.loanAmount }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
                                                     E+面签金额
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-success" id="sp_signAmount">${sta.signAmount }</span>
+                                                        <span class="fa-2x font-bold text-success case-num" id="sp_signAmount">${sta.signAmount }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
@@ -402,7 +412,7 @@ response.setDateHeader("Expires",0);
                                                 <li class="info-element">
                                                     E+放款金额
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-success" id="sp_actualAmount">${sta.actualAmount }</span>
+                                                        <span class="fa-2x font-bold text-success case-num" id="sp_actualAmount">${sta.actualAmount }</span>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -412,7 +422,7 @@ response.setDateHeader("Expires",0);
                                                 <li class="warning-element">
                                                     评估费
                                                     <div class="agile-detail">
-                                                        <span class="fa-2x font-bold text-warning" id="sp_evalFee">${sta.evalFee }</span>
+                                                        <span class="fa-2x font-bold text-warning case-num"  id="sp_evalFee">${sta.evalFee }</span>
                                                     </div>
                                                 </li>
                                                 <li class="warning-element">
@@ -429,7 +439,7 @@ response.setDateHeader("Expires",0);
                                                     接单数
                                                     <div class="agile-detail">
                                                         <span id="sp_receiveCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=received" target="_blank"><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=received" target="_blank" class='case-num'><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -437,7 +447,7 @@ response.setDateHeader("Expires",0);
                                                     签约数
                                                     <div class="agile-detail">
                                                         <span  id="sp_signCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=signed" target="_blank"><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=signed" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -445,7 +455,7 @@ response.setDateHeader("Expires",0);
                                                     过户数
                                                     <div class="agile-detail">
                                                         <span id="sp_transferCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered" target="_blank"><font class="fa-2x font-bold text-danger">${sta.transferCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.transferCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -453,7 +463,7 @@ response.setDateHeader("Expires",0);
                                                     结案数
                                                     <div class="agile-detail">
                                                         <span id="sp_closeCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=closed"  target="_blank"><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
+                                                        <a href="${ctx}/report/statis/caseDetail?status=closed"  target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -1023,7 +1033,7 @@ response.setDateHeader("Expires",0);
     	$("#btn_sta").click(function(){//统计按钮
     		queryConutCaseByDate();
     	});
-	    
+	    $('#sp_evalFee').on('click',evalFeeClick);
     });
     </script>
  </content>

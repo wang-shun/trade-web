@@ -1,3 +1,12 @@
+/****
+ *  自定义插件
+ *  
+ *  @param Jquery
+ *  
+ *  @author : xin.hu 
+ *  @date : 2016-6-1
+ */
+
 (function($){
 	var settings;
 	
@@ -6,6 +15,16 @@
 			this.removeClass("selected");
 		} else {
 			this.addClass("selected");
+		}
+	};
+	
+	$.fn.changeClass = function(class1,class2){
+		if(this.hasClass(class1)) {
+			this.removeClass(class1);
+			this.addClass(class2);
+		} else {
+			this.removeClass(class2);
+			this.addClass(class1);
 		}
 	};
 	
@@ -42,6 +61,6 @@
 				return false;
 			}
 		}
-	});
+	})
 	
 })(jQuery);

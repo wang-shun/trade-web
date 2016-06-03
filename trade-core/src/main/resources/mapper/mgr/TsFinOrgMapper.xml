@@ -80,7 +80,9 @@
   		
   		<if test="tag != null" >
         	inner join sctrans.T_TS_SUP ts on ts.fin_org_code=tfo.fin_org_code
-        	and (ts.tags like '%'+#{tag,jdbcType=VARCHAR}+'%')
+        	and (ts.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' <if test="nowCode != null">
+        	 	or ts.FIN_ORG_CODE=#{nowCode,jdbcType=VARCHAR}
+      		</if>)
       	</if>
  	 )	
 
@@ -93,7 +95,9 @@
     where ts.fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
     and ts.fin_org_code in(select BANK_CODE from sctrans.T_TS_BANK_EVA_RELATIONSHIP WHERE EVA_COMPANY_CODE=#{evaCompanyCode,jdbcType=VARCHAR})
          <if test="tag != null" >
-        	and (tt.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' )
+        	and (tt.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' <if test="nowCode != null">
+        	 	or tt.FIN_ORG_CODE=#{nowCode,jdbcType=VARCHAR}
+      		</if> )
       		</if>
     order by tt.CO_LEVEL asc
   </select>
@@ -102,9 +106,14 @@
     select * from sctrans.T_TS_FIN_ORG where fin_org_code in 
     (select distinct FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE 
     in(select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' 
-             <if test="tag != null" >
-        	and (ts.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' )
-      		</if>
+       <if test="tag != null" >
+        	and
+        	 (ts.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' 
+        	 	<if test="nowCode != null">
+        		 	or ts.FIN_ORG_CODE=#{nowCode,jdbcType=VARCHAR}
+      			</if>
+      		)
+      	</if>
     ))
   </select> 
   
@@ -122,7 +131,9 @@
     	on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0'
      where  fa_fin_org_code=#{faFinOrgCode,jdbcType=VARCHAR}
               <if test="tag != null" >
-        			and (tt.tags like '%'+#{tag,jdbcType=VARCHAR}+'%')
+        			and (tt.tags like '%'+#{tag,jdbcType=VARCHAR}+'%' <if test="nowCode != null">
+        	 	or tt.FIN_ORG_CODE=#{nowCode,jdbcType=VARCHAR}
+      		</if>)
       		</if>
      	order by tt.CO_LEVEL asc
   </select>

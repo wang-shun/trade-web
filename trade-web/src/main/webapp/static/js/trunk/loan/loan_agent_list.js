@@ -2,6 +2,7 @@ $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	//initAutocomplete(ctx+"/labelVal/queryUserInfo");
+	
 	searchMethod();
 });
 
@@ -133,7 +134,7 @@ function searchMethod(page) {
 			} else if (val == '2') {
 				signTimeEnd = end;
 			}else if (val == '3') {
-				releaseTimeEnd = start;
+				releaseTimeEnd = end;
 			}
 		}
 	}
@@ -145,7 +146,7 @@ function searchMethod(page) {
 	params.search_releaseTimeEnd = releaseTimeEnd;
 	params.search_realName = 	$("#realName").val();
 	params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
-
+    aist.wrap(params);
 	reloadGrid(params);
 };
 
