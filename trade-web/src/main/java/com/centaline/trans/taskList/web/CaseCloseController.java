@@ -72,8 +72,8 @@ public class CaseCloseController {
 	@RequestMapping(value="submitCaseClose")
 	@ResponseBody
 	public boolean submitCaseClose(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO) {
-		
+			LoanlostApproveVO loanlostApproveVO,EditCaseDetailVO editCaseDetailVO) {
+		editCaseDetailService.saveCaseDetai(editCaseDetailVO);
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, "", "结档归案提交。");
 		/*发送消息*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
