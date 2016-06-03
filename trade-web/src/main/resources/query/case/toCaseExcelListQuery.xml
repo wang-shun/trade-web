@@ -280,30 +280,30 @@
 						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
 					</ifNotNull>
 					<ifNotNull realConTimeStart>
-						AND G.REAL_CON_TIME > #realConTimeStart#
+						AND G.REAL_CON_TIME >= #realConTimeStart#
 					</ifNotNull>
 					<ifNotNull realConTimeEnd>
-						AND G.REAL_CON_TIME < #realConTimeEnd#
+						AND G.REAL_CON_TIME <= #realConTimeEnd#
 					</ifNotNull>
 					
 					<ifNotNull realHtTime>
 					INNER JOIN sctrans.T_TO_HOUSE_TRANSFER AS H ON B.CASE_CODE = H.CASE_CODE
 					</ifNotNull>
 					<ifNotNull realHtTimeStart>
-						AND H.REAL_HT_TIME > #realHtTimeStart#
+						AND H.REAL_HT_TIME >= #realHtTimeStart#
 					</ifNotNull>
 					<ifNotNull realHtTimeEnd>
-						AND H.REAL_HT_TIME < #realHtTimeEnd#
+						AND H.REAL_HT_TIME < =#realHtTimeEnd#
 					</ifNotNull>
 					
 					<ifNotNull realPropertyGetTime>
 					INNER JOIN sctrans.T_TO_GET_PROPERTY_BOOK AS I ON B.CASE_CODE = I.CASE_CODE
 					</ifNotNull>
 					<ifNotNull realPropertyGetTimeStart>
-						AND I.REAL_PROPERTY_GET_TIME > #realPropertyGetTimeStart#
+						AND I.REAL_PROPERTY_GET_TIME >= #realPropertyGetTimeStart#
 					</ifNotNull>
 					<ifNotNull realPropertyGetTimeEnd>
-						AND I.REAL_PROPERTY_GET_TIME < #realPropertyGetTimeEnd#
+						AND I.REAL_PROPERTY_GET_TIME <= #realPropertyGetTimeEnd#
 					</ifNotNull>
 
 					where 
@@ -373,16 +373,16 @@
 					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE and is_active='1'
 					</ifNotNull>
 						<ifNotNull signDateStart>
-						  and J.SIGN_DATE > #signDateStart#
+						  and J.SIGN_DATE >= #signDateStart#
 						</ifNotNull>
 						<ifNotNull signDateEnd>
-						  and J.SIGN_DATE < #signDateEnd#
+						  and J.SIGN_DATE <= #signDateEnd#
 						</ifNotNull>
 						<ifNotNull lendDateStart>
-						  and J.LEND_DATE > #lendDateStart#
+						  and J.LEND_DATE >= #lendDateStart#
 						</ifNotNull>
 						<ifNotNull lendDateEnd>
-						  and J.LEND_DATE < #lendDateEnd#
+						  and J.LEND_DATE <= #lendDateEnd#
 						</ifNotNull>
 					<ifNotNull signlendDate>
 					  ) 
