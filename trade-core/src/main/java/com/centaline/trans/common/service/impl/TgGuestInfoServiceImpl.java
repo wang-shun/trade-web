@@ -22,9 +22,11 @@ import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.task.entity.TsMsgSendHistory;
 import com.centaline.trans.task.repository.TsMsgSendHistoryMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -290,6 +292,49 @@ public class TgGuestInfoServiceImpl implements TgGuestInfoService {
 	@Override
 	public int updateByPrimaryKeySelective(TgGuestInfo tgGuestInfo) {
 		return tgGuestInfoMapper.updateByPrimaryKey(tgGuestInfo);
+	}
+
+	@Override
+	public BuyerSellerInfo getBuerSellerInfoByCaseCode(String caseCode) {
+		// 上下家
+		List<TgGuestInfo> guestList = findTgGuestInfoByCaseCode(caseCode);
+		StringBuffer seller = new StringBuffer();
+		StringBuffer sellerMobil = new StringBuffer();
+		StringBuffer buyer = new StringBuffer();
+		StringBuffer buyerMobil = new StringBuffer();
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				seller.append(guest.getGuestName());
+				sellerMobil.append(guest.getGuestPhone());
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				buyer.append(guest.getGuestName());
+				buyerMobil.append(guest.getGuestPhone());
+				buyer.append("/");
+				buyerMobil.append("/");
+			}
+		}
+	
+		if (guestList.size() > 0) {
+			if (seller.length() > 1) {
+				seller.deleteCharAt(seller.length() - 1);
+				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+			}
+	
+			if (buyer.length() > 1) {
+				buyer.deleteCharAt(buyer.length() - 1);
+				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+			}
+		}
+	
+		BuyerSellerInfo buyerSellerInfo = new BuyerSellerInfo();
+		buyerSellerInfo.setSellerName(seller.toString());
+		buyerSellerInfo.setSellerMobile(sellerMobil.toString());
+		buyerSellerInfo.setBuyerMobile(buyerMobil.toString());
+		buyerSellerInfo.setBuyerName(buyer.toString());
+		
+		return buyerSellerInfo;
 	}
 	
 	

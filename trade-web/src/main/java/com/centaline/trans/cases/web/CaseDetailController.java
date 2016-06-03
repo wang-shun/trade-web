@@ -66,6 +66,8 @@ import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.vo.AgentManagerInfo;
+import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
@@ -656,7 +658,7 @@ public class CaseDetailController {
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
 	}
-
+	
 	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
 		if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
 		Set<String>taskDfKeys=new HashSet<>();
