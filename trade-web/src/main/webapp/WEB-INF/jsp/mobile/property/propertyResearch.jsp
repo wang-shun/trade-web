@@ -354,7 +354,7 @@ img{ border-image-width:0px;}
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/scrollpagination/scrollpagination.js"></script>
+		src="${ctx}/js/plugins/scrollpagination/scrollpagination.js?v=1.1.1"></script>
 	<script id="knowledgeListStyle1" type="text/html">
 					{{if rows.length>0}}
 						{{ each rows as item }}
