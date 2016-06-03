@@ -120,6 +120,18 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						
+					<!-- 	<div class="row">
+							<div class="col-md-12">
+								<div class="form-group ">
+									<label class="col-md-1 control-label m-l">人员姓名</label>
+									<div class="col-md-10 bianhao">
+											<input type="text" class="form-control" id="proName" name="proName" value=""/>
+									</div>
+								</div>
+							</div>
+						</div>
+						 -->
+						
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group ">
@@ -130,7 +142,6 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
-						
 						
 					<div class="row">
 						<div class="col-md-12">
