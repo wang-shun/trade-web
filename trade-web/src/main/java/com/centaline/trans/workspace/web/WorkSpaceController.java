@@ -747,6 +747,8 @@ public class WorkSpaceController {
 				List<Org> orgList = uamUserOrgService
 						.getOrgByParentId(serachId);
 				orgs = orgListToListStr(orgList);
+				orgs.add(user
+						.getServiceDepId());
 			}
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
 			if (!StringUtils.isBlank(serachId)) {
@@ -755,6 +757,8 @@ public class WorkSpaceController {
 				List<Org> orgList = uamUserOrgService.getOrgByParentId(user
 						.getServiceDepId());
 				orgs = orgListToListStr(orgList);
+				orgs.add(user
+						.getServiceDepId());
 			}
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
 			if (!StringUtils.isBlank(serachId)) {

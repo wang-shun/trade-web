@@ -76,11 +76,11 @@
 			<condition field="B.PROPERTY_ADDR" name="propertyAddr"
 				label="物业地址" searchType="LIKE" showType="" showCallback=""
 				defaultValue="" />
-			<condition field="B.AGENT_ORG_NAME" name="agentOrgName"
+			<!-- <condition field="B.AGENT_ORG_NAME" name="agentOrgName"
 				label="经纪人机构" searchType="LIKE" showType="" showCallback=""
-				defaultValue="" />
+				defaultValue="" /> -->
 
-			<condition field="B.SRV_CAT_STR" name="srvCode1" label=""
+			<!-- <condition field="B.SRV_CAT_STR" name="srvCode1" label=""
 				searchType="LIKE" showType="" showCallback="" defaultValue="" />
 			<condition field="B.SRV_CAT_STR" name="srvCode2" label=""
 				searchType="LIKE" showType="" showCallback="" defaultValue="" />
@@ -103,32 +103,32 @@
 			<condition field="B.SRV_CAT_STR" name="srvCode12" label=""
 				searchType="LIKE" showType="" showCallback="" defaultValue="" />
 			<condition field="B.SRV_CAT_STR" name="srvCode13" label=""
-				searchType="LIKE" showType="" showCallback="" defaultValue="" />
-			<condition field="B.PROCESSOR_NAME" name="proName" label="经办人"
-				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+				searchType="LIKE" showType="" showCallback="" defaultValue="" /> -->
+			<!-- <condition field="B.PROCESSOR_NAME" name="proName" label="经办人"
+				searchType="LIKE" showType="" showCallback="" defaultValue="" /> -->
 
-			<condition field="G.REAL_CON_TIME" name="realConTimeStart"
+			<!-- <condition field="G.REAL_CON_TIME" name="realConTimeStart"
 				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
-			<condition field="G.REAL_CON_TIME" name="realConTimeEnd"
-				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
-			<condition field="H.REAL_HT_TIME" name="realHtTimeStart"
+			 --><!-- <condition field="G.REAL_CON_TIME" name="realConTimeEnd"
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" /> -->
+			<!-- <condition field="H.REAL_HT_TIME" name="realHtTimeStart"
 				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
 			<condition field="H.REAL_HT_TIME" name="realHtTimeEnd"
-				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" /> -->
 
-			<condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart"
+			<!-- <condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeStart"
 				label="" searchType="GT" showType="" showCallback="" defaultValue="" />
 			<condition field="I.REAL_PROPERTY_GET_TIME" name="realPropertyGetTimeEnd"
-				label="" searchType="LT" showType="" showCallback="" defaultValue="" />
+				label="" searchType="LT" showType="" showCallback="" defaultValue="" /> -->
 
-			<condition field="J.SIGN_DATE" name="signDateStart" label=""
+			<!-- <condition field="J.SIGN_DATE" name="signDateStart" label=""
 				searchType="GT" showType="" showCallback="" defaultValue="" />
 			<condition field="J.SIGN_DATE" name="signDateEnd" label=""
 				searchType="LT" showType="" showCallback="" defaultValue="" />
 			<condition field="J.LEND_DATE" name="lendDateStart" label=""
 				searchType="GT" showType="" showCallback="" defaultValue="" />
 			<condition field="J.LEND_DATE" name="lendDateEnd" label=""
-				searchType="LT" showType="" showCallback="" defaultValue="" />
+				searchType="LT" showType="" showCallback="" defaultValue="" /> -->
 		</searchCondition>
 		<searchSql>
 			<baseSql>

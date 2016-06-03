@@ -5,6 +5,7 @@ import java.util.List;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 
 public interface ToCaseService {
 	
@@ -62,5 +63,7 @@ public interface ToCaseService {
 	
 	
 	int orgChange(String caseCode ,String orgId);
+	
+	CaseBaseVO getCaseBaseVO(Long caseId);
 	
 }

@@ -85,7 +85,7 @@ function($, window) {
 					 var sord = activing.attr("sord");
 					 // 设置样式
 					 activing.css('color','#ed4e2a');
-					 if(sord='asc') {
+					 if(sord=='asc') {
 						 activing.append("<i class='"+ settings.upIcon +"'></i>");
 					 } else {
 						 activing.append("<i class='"+ settings.downIcon +"'></i>");
@@ -100,7 +100,7 @@ function($, window) {
 				 var other = $('span.sort').not("."+settings.active);
 				 other.each(function(i){
 					 var sord = $(this).attr("sord");
-					 if(sord='asc') {
+					 if(sord=='asc') {
 						 $(this).append("<i class='"+ settings.upIcon +"'></i>");
 					 } else {
 						 $(this).append("<i class='"+ settings.downIcon +"'></i>");
