@@ -43,8 +43,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
-	<div class="row">
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+	<div class="">
 		<div class="row wrapper border-bottom white-bg page-heading">
 			<div class="col-lg-10">
 				<h2>归档确认和结案审核</h2>
