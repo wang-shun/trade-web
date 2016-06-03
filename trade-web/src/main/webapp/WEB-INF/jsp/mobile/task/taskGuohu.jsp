@@ -199,10 +199,10 @@
 		<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
                <div class="" id="fileupload_div_pic"> 
                <form id="fileupload"
-				action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+				action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 				method="POST" enctype="multipart/form-data">
 				<noscript>
-					<input type="hidden" name="redirect" value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload">
+					<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
 					<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
 				</noscript>
 				<c:if test="${status.index != 0}">
@@ -220,7 +220,7 @@
 									<i class="fa fa-plus"></i>
 								</div> 
 								<input id="picFileupload${accesory.pkid }" type="file" name="files[]" multiple
-								data-url="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+								data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 								data-sequential-uploads="true">
 							</span>
 						</div>

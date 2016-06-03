@@ -273,7 +273,20 @@ img{ border-image-width:0px;}
 									type="radio" value="2" name="prStatus">已完成
 							</div>
 						</div>
-
+						<div class="form-group">
+							<label class="col-sm-2 control-label">申请时间</label>
+							<div class="col-sm-10">
+								<input type="date" name="sTime" id="sTime"
+									class="form-control">
+							</div>
+							<div class="col-sm-2">
+								到
+							</div>
+							<div class="col-sm-10">
+								<input type="date" name="eTime" id="eTime"
+									 class="form-control">
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">物业地址</label>
 							<div class="col-sm-10">
@@ -480,6 +493,9 @@ img{ border-image-width:0px;}
 			postData.page = 1;
 			postData.search_prStatus = $('input[name="prStatus"]:checked ')
 					.val();
+			postData.search_sTime = $('#sTime').val();
+			var eTime=$('#eTime').val();
+			postData.search_eTime = (eTime==''?'':eTime+' 23:59:59');
 			$('#content').empty();
 			$('#content').scrollPagination(
 					{
