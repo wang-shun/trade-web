@@ -299,9 +299,11 @@ text-decoration: underline !important;
 								{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_TEL}}<span class="slash">/</span>{{item.AGENT_ORG}}
 							</span>
 						</td>
-						<td colspan="4" class="t-left pd-l">
+						<td colspan="2" class="t-left pd-l">
+							<span class="">所属组织：</span>{{item.TEAM_ID}}
+						</td>
+						<td colspan="2" class="t-left pd-l">
 							<span class="jbr">经办人：{{item.PROCESSOR}}</span>
-							<span class="slash"> </span>{{item.TEAM_ID}}
 						</td>
 					</tr>
        {{/each}}
