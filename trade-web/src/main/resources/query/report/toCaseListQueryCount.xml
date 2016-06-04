@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+	<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<!-- 查询贵宾服务部 -->
+	<query id="queryCaseCountDistrict" cacheCount="true">
+		<searchCondition>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						a.DISTRICT_ID AS DISTRICT_ID, 
+						ISNULL(b.recived_count,0) AS RECEIVED_COUNT, 
+						ISNULL(c.sign_count,0) AS SIGN_COUNT, 
+						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
+						ISNULL(e.close_count,0) AS CLOSE_COUNT
+					FROM(
+						(SELECT 
+							DISTRICT_ID 
+						FROM 
+							sctrans.t_yucui_org_hierarchy
+						WHERE 
+							DISTRICT_ID IS NOT NULL
+							<ifNotNull dis>
+								AND	(DISTRICT_ID=#dis#)
+							</ifNotNull>
+						) a LEFT JOIN
+						(SELECT 
+							DISTRICT_ID,
+							COUNT(DISTINCT CASE_CODE) AS recived_count	 
+						FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+						where
+							received_time IS NOT NULL
+							<ifNotNull startTime>
+								AND	received_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND	received_time<=#endTime#
+							</ifNotNull>
+						GROUP by DISTRICT_ID) b 
+						ON a.DISTRICT_ID=b.DISTRICT_ID
+						LEFT JOIN 
+						(SELECT 
+							DISTRICT_ID,
+							COUNT(DISTINCT CASE_CODE) AS sign_count	 
+						FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+						where
+							sign_time IS NOT NULL
+							<ifNotNull startTime>
+								AND	sign_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND	sign_time<=#endTime#
+							</ifNotNull>							
+						GROUP by DISTRICT_ID) c 
+						ON a.DISTRICT_ID=c.DISTRICT_ID
+						LEFT JOIN 
+						(SELECT 
+							DISTRICT_ID,
+							COUNT(DISTINCT CASE_CODE) AS house_tranfer_count 
+							FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+							where
+								house_tranfer_time IS NOT NULL
+								<ifNotNull startTime>
+									AND	house_tranfer_time>=#startTime#
+								</ifNotNull>
+								<ifNotNull endTime>
+									AND	house_tranfer_time<=#endTime#
+								</ifNotNull>
+							GROUP by DISTRICT_ID) d
+							ON a.DISTRICT_ID=d.DISTRICT_ID
+							LEFT JOIN 
+						(SELECT 
+							DISTRICT_ID,
+							COUNT(DISTINCT CASE_CODE)AS close_count	 
+						FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+						where
+							close_time IS NOT NULL
+							<ifNotNull startTime>
+								AND close_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND close_time<=#endTime#
+							</ifNotNull>
+						GROUP by DISTRICT_ID)e
+						ON a.DISTRICT_ID=e.DISTRICT_ID)
+				]]>		
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="DISTRICT_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_COUNT" index="" checkbox="" display="结案数" customDict="" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+		
+	<!-- 查询组织 -->
+	<query id="queryCaseCountOrg" cacheCount="true">
+		<searchCondition>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						a.ORG_ID AS ORG_ID, 
+						ISNULL(b.recived_count,0) AS RECEIVED_COUNT, 
+						ISNULL(c.sign_count,0) AS SIGN_COUNT, 
+						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
+						ISNULL(e.close_count,0) AS CLOSE_COUNT
+					FROM(
+						(SELECT ORG_ID 
+						FROM 
+							sctrans.t_yucui_org_hierarchy
+						WHERE 1=1
+							<ifNotNull org>
+								AND	(DISTRICT_ID=#org# OR ORG_ID=#org#)
+							</ifNotNull>
+						) a LEFT  JOIN
+						(SELECT 
+							TEAM_ID,
+							COUNT(DISTINCT CASE_CODE) AS recived_count	 
+						FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+						where
+							received_time IS NOT NULL
+							<ifNotNull startTime>
+								AND	received_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND	received_time<=#endTime#
+							</ifNotNull>
+						GROUP by TEAM_ID) b 
+						ON a.ORG_ID=b.TEAM_ID
+						LEFT JOIN 
+						(SELECT 
+							TEAM_ID,
+							COUNT(DISTINCT CASE_CODE) AS sign_count	 
+						FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+						where
+							sign_time IS NOT NULL
+							<ifNotNull startTime>
+								AND	sign_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND	sign_time<=#endTime#
+							</ifNotNull>							
+						GROUP by TEAM_ID) c 
+						ON a.ORG_ID=c.TEAM_ID
+						LEFT  JOIN 
+						(SELECT 
+							TEAM_ID,
+							COUNT(DISTINCT CASE_CODE) AS house_tranfer_count 
+							FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+							where
+								house_tranfer_time IS NOT NULL
+								<ifNotNull startTime>
+									AND	house_tranfer_time>=#startTime#
+								</ifNotNull>
+								<ifNotNull endTime>
+									AND	house_tranfer_time<=#endTime#
+								</ifNotNull>
+							GROUP by TEAM_ID) d
+							ON a.ORG_ID=d.TEAM_ID
+							LEFT  JOIN 
+						(SELECT 
+							TEAM_ID,
+							COUNT(DISTINCT CASE_CODE)AS close_count	 
+						FROM 
+							sctrans.V_RPT_CASE_PROCESS_STATIS
+						where
+							close_time IS NOT NULL
+							<ifNotNull startTime>
+								AND close_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND close_time<=#endTime#
+							</ifNotNull>
+						GROUP by TEAM_ID)e
+						ON a.ORG_ID=e.TEAM_ID)
+				]]>		
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ORG_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_COUNT" index="" checkbox="" display="结案数" customDict="" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+	
+	<!-- 查询个人 -->
+	<query id="queryCaseCountProcessor" cacheCount="true">
+		<searchCondition>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						a.USER_ID AS USER_ID, 
+						ISNULL(b.recived_count,0) AS RECEIVED_COUNT, 
+						ISNULL(c.sign_count,0) AS SIGN_COUNT, 
+						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
+						ISNULL(e.close_count,0) AS CLOSE_COUNT
+					FROM(
+						(SELECT 
+							USER_ID 
+						FROM 
+							sctrans.V_USER_ORG_JOB 
+						WHERE
+							job_code ='consultant'
+							<ifNotNull org>  
+								AND ORG_ID=#org#
+							<ifNotNull>
+							<ifNotNull uId>
+								AND USER_ID=#uId#
+							</ifNotNull>
+						) a 
+					LEFT  JOIN
+						(SELECT 
+							t2.PROCESSOR_ID,
+							COUNT(DISTINCT t1.CASE_CODE) AS recived_count	 
+						FROM 
+							(sctrans.V_RPT_CASE_PROCESS_STATIS t1 INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t2 ON t1.CASE_CODE=t2.CASE_CODE)
+						WHERE
+							t1.received_time IS NOT NULL
+							<ifNotNull startTime>
+								AND t1.received_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND t1.received_time<=#endTime#
+							</ifNotNull>
+						GROUP by 
+							t2.PROCESSOR_ID) b 
+					ON a.USER_ID=b.PROCESSOR_ID
+					LEFT  JOIN 
+						(SELECT 
+							t4.PROCESSOR_ID,
+							COUNT(DISTINCT t3.CASE_CODE) AS sign_count	 
+						FROM 
+							(sctrans.V_RPT_CASE_PROCESS_STATIS t3 INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t4 ON t3.CASE_CODE=t4.CASE_CODE)
+						WHERE
+							t3.sign_time IS NOT NULL
+							<ifNotNull startTime>
+								AND t3.sign_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND t3.sign_time<=#endTime#
+							</ifNotNull>							
+						GROUP by 
+							t4.PROCESSOR_ID) c 
+					ON a.USER_ID=c.PROCESSOR_ID
+					LEFT  JOIN 
+						(SELECT 
+							t6.PROCESSOR_ID,
+							COUNT(DISTINCT t5.CASE_CODE) AS house_tranfer_count 
+						FROM 
+							(sctrans.V_RPT_CASE_PROCESS_STATIS t5 INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t6 ON t5.CASE_CODE=t6.CASE_CODE)
+						WHERE
+							t5.house_tranfer_time IS NOT NULL
+							<ifNotNull startTime>
+								AND t5.house_tranfer_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND t5.house_tranfer_time<=#endTime#
+							</ifNotNull>							
+						GROUP by 
+							t6.PROCESSOR_ID) d
+					ON a.USER_ID=d.PROCESSOR_ID
+					LEFT  JOIN 
+						(SELECT 
+							t8.PROCESSOR_ID,
+							COUNT(DISTINCT t7.CASE_CODE)AS close_count	 
+						FROM 
+							(sctrans.V_RPT_CASE_PROCESS_STATIS t7 INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t8 ON t7.CASE_CODE=t8.CASE_CODE)
+						WHERE
+							t7.close_time IS NOT NULL
+							<ifNotNull startTime>
+								AND t7.close_time>=#startTime#
+							</ifNotNull>
+							<ifNotNull endTime>
+								AND t7.close_time<=#endTime#
+							</ifNotNull>								
+						GROUP by 
+							t8.PROCESSOR_ID) e
+					ON a.USER_ID=e.PROCESSOR_ID)
+				]]>		
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="USER_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_COUNT" index="" checkbox="" display="结案数" customDict="" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>	
+</querys>
+<!--
+
+ -->

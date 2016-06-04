@@ -32,6 +32,7 @@ import com.centaline.trans.cases.service.EditCaseDetailService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
@@ -184,6 +185,13 @@ public class TaskController {
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("taskitem", taskitem);
 		request.setAttribute("source", source);
+		
+		ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
+		if(c != null) {
+			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+			request.setAttribute("caseBaseVO", caseBaseVO);
+		}
+		
 		// 根据caseCode 去查询 ctmCode  作者：zhangxb16
 		String ctmCode=null;
 		ToCaseInfo caseinfo=tocaseInfoService.findToCaseInfoByCaseCode(caseCode);

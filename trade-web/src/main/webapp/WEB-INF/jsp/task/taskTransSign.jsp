@@ -56,6 +56,7 @@ if("${idList}" != "") {
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<div>

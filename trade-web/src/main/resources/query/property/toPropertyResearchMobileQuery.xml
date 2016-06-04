@@ -31,7 +31,8 @@
 		<searchCondition>
             <condition field="PR.PR_ADDRESS" name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>   
             <condition field="PR.PR_STATUS" name="prStatus" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>   
-            
+            <condition field="PR.PR_APPLY_TIME" name="sTime" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="PR.PR_APPLY_TIME" name="eTime" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>

@@ -3,6 +3,8 @@ package com.centaline.trans.common.service;
 import java.util.List;
 
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.TransPositionEnum;
+import com.centaline.trans.common.vo.BuyerSellerInfo;
 
 public interface TgGuestInfoService {
 	List<TgGuestInfo> findTgGuestInfoByCaseCode(String caseCode);
@@ -27,5 +29,8 @@ public interface TgGuestInfoService {
 	
 	TgGuestInfo selectByPrimaryKey(Long pkid);
 	int updateByPrimaryKeySelective(TgGuestInfo tgGuestInfo);
+	
+	
+	BuyerSellerInfo getBuerSellerInfoByCaseCode(String caseCode);
 	
 }

@@ -47,12 +47,12 @@
 		  background-image:url(../img/a5.png);
 	
 }
-[class^=mark]{position:absolute;top:8px;left:130px;width:56px;height:37px;z-index:0; background-position:left center;background-repeat:no-repeat}
+ [class^=mark]{position:absolute;top:8px;left:130px;width:56px;height:37px;z-index:0; background-position:left center;background-repeat:no-repeat}
 .mark-baodan{background-image:url(../img/mark-baodan.png);}
 .mark-guaqi{background-image:url(../img/mark-guaqi.png);}
 .mark-jiean{background-image:url(../img/mark-jiean.png);}
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
-.mark-zaitu{background-image:url(../img/mark-zaitu.png);}
+.mark-zaitu{background-image:url(../img/mark-zaitu.png);} 
 </style>
 </head>
 
@@ -79,109 +79,108 @@
 				<%}%>
 			</script>
 			
+			<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox">
-                    	
-                        <div class="ibox-title">
-                    		<h5>案件基本信息 </h5><small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
-                    	</div>
-                        <div class="ibox-content">
-                            <div  id="infoDiv" class="row">
-                                <div class="col-lg-3">
-                                    <div  class="panel panel-success">
-                                        <div class="panel-heading">
-                                            物业信息                                            
-                                        </div>
-                                        <div class="panel-body">
-                                            <p>产证地址：${toPropertyInfo.propertyAddr}</p>
-                                            <p>层高：${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</p>
-                                            <p>产证面积：${toPropertyInfo.square}平方</p>
-                                            <p>房屋类型：<aist:dict id="propertyType" name="propertyType" display="label"  dictType = "30014" dictCode="${toPropertyInfo.propertyType}"/></p>
-                                            <p></p>
-                                            <p></p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="panel panel-success bg-red">
-                                        <div class="panel-heading">
-                                            买卖双方
-                                        </div>
-                                        <div class="panel-body">
-                                            <p>上家姓名：${caseDetailVO.sellerName}</p>
-                                            <p>电话：${caseDetailVO.sellerMobile}</p>
-                                            <p>下家姓名：${caseDetailVO.buyerName}</p>
-                                            <p>电话：${caseDetailVO.buyerMobile}</p>
-                                            <p></p>
-                                            <p></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="panel panel-success bg-green">
-                                        <div class="panel-heading">
-                                           经纪人信息
-                                        </div>
-                                        <div class="panel-body">
-                                            <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
-                                            <p>姓名：${toCaseInfo.agentName }</p>
-                                            <p>电话：${toCaseInfo.agentPhone}</p>
-                                            <%-- <p>所属分行：${caseDetailVO.agentOrgName}</p> --%>
-                                            <p>所属分行：${toCaseInfo.grpName }</p>
-                                            <p>直管经理：${caseDetailVO.mcName}</p>
-                                            <p>经理电话：${caseDetailVO.mcMobile}</p>
-                                            <p></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-lg-3">
-                                    <div class="panel panel-success bg-blue">
-                                        <div class="panel-heading">
-                                            经办人信息
-                                        </div>
-                                        <div id="cpDiv" class="panel-body">
-                                            <p>交易顾问：${caseDetailVO.cpName}</p>
-                                            <p>电话：${caseDetailVO.cpMobile}</p>
-                                             <c:if test="${empty caseDetailVO.proList}">
-                                            <p>合作顾问：</p>
-                                            <p>电话：</p>
-                                            </c:if>
-                                            <c:if test="${!empty caseDetailVO.proList}">
-                                            <c:forEach items="${caseDetailVO.proList}" var="pro"> 
-                                            <p>合作顾问：${pro.processorName}</p>
-                                            <p>电话：${pro.processorMobile}</p>
-                                            </c:forEach>
-                                            </c:if>
-                                            <p>助理：${caseDetailVO.asName}</p>
-                                            <p>电话：${caseDetailVO.asMobile}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <c:if test="${caseDetailVO.caseProperty == 30003001}">
-                        	<div class="mark-wuxiao"></div>
-                        </c:if>
-                        <c:if test="${caseDetailVO.caseProperty == 30003002}">
-                        	<div class="mark-jiean"></div>
-                        </c:if>
-                        <c:if test="${caseDetailVO.caseProperty == 30003003}">
-                        	<div class="mark-zaitu"></div>
-                        </c:if>
-                        <c:if test="${caseDetailVO.caseProperty == 30003004}">
-                        	<div class="mark-guaqi"></div>
-                        </c:if>
-                        <c:if test="${caseDetailVO.caseProperty == 30003005}">
-                        	<div class="mark-baodan"></div>
-                        </c:if>
-                    </div>
-                </div>
-            </div>
-         	
+			    <div class="col-lg-12">
+			        <div class="ibox">
+			            <div class="ibox-title">
+			        		<h5>案件基本信息 </h5><small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+			        	</div>
+			            <div class="ibox-content">
+			                <div  id="infoDiv" class="row">
+			                    <div class="col-lg-3">
+			                        <div  class="panel panel-success">
+			                            <div class="panel-heading">
+			                                物业信息                                            
+			                            </div>
+			                            <div class="panel-body">
+			                                <p>产证地址：${toPropertyInfo.propertyAddr}</p>
+			                                <p>层高：${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</p>
+			                                <p>产证面积：${toPropertyInfo.square}平方</p>
+			                                <p>房屋类型：<aist:dict id="propertyType" name="propertyType" display="label"  dictType = "30014" dictCode="${toPropertyInfo.propertyType}"/></p>
+			                                <p></p>
+			                                <p></p>
+			                            </div>
+			
+			                        </div>
+			                    </div>
+			                    <div class="col-lg-3">
+			                        <div class="panel panel-success bg-red">
+			                            <div class="panel-heading">
+			                                买卖双方
+			                            </div>
+			                            <div class="panel-body">
+			                                <p>上家姓名：${caseDetailVO.sellerName}</p>
+			                                <p>电话：${caseDetailVO.sellerMobile}</p>
+			                                <p>下家姓名：${caseDetailVO.buyerName}</p>
+			                                <p>电话：${caseDetailVO.buyerMobile}</p>
+			                                <p></p>
+			                                <p></p>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-lg-3">
+			                        <div class="panel panel-success bg-green">
+			                            <div class="panel-heading">
+			                               经纪人信息
+			                            </div>
+			                            <div class="panel-body">
+			                                <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
+			                                <p>姓名：${toCaseInfo.agentName }</p>
+			                                <p>电话：${toCaseInfo.agentPhone}</p>
+			                                <%-- <p>所属分行：${caseDetailVO.agentOrgName}</p> --%>
+			                                <p>所属分行：${toCaseInfo.grpName }</p>
+			                                <p>直管经理：${caseDetailVO.mcName}</p>
+			                                <p>经理电话：${caseDetailVO.mcMobile}</p>
+			                                <p></p>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    
+			                    <div class="col-lg-3">
+			                        <div class="panel panel-success bg-blue">
+			                            <div class="panel-heading">
+			                                经办人信息
+			                            </div>
+			                            <div id="cpDiv" class="panel-body">
+			                                <p>交易顾问：${caseDetailVO.cpName}</p>
+			                                <p>电话：${caseDetailVO.cpMobile}</p>
+			                                 <c:if test="${empty caseDetailVO.proList}">
+			                                <p>合作顾问：</p>
+			                                <p>电话：</p>
+			                                </c:if>
+			                                <c:if test="${!empty caseDetailVO.proList}">
+			                                <c:forEach items="${caseDetailVO.proList}" var="pro"> 
+			                                <p>合作顾问：${pro.processorName}</p>
+			                                <p>电话：${pro.processorMobile}</p>
+			                                </c:forEach>
+			                                </c:if>
+			                                <p>助理：${caseDetailVO.asName}</p>
+			                                <p>电话：${caseDetailVO.asMobile}</p>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			                       
+					   <c:if test="${caseDetailVO.caseProperty == 30003001}">
+			           	<div class="mark-wuxiao"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003002}">
+			           	<div class="mark-jiean"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003003}">
+			           	<div class="mark-zaitu"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003004}">
+			           	<div class="mark-guaqi"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003005}">
+			           	<div class="mark-baodan"></div>
+			           </c:if>
+			        </div>
+			    </div>
+			</div>
             <%-- start 各个流程备注信息  --%>
             <div class="row">
                 <div class="col-lg-12">

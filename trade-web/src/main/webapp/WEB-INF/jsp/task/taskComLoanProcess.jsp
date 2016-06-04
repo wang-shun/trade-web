@@ -99,6 +99,7 @@
 
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 	<%--环节编码 --%>
 	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">

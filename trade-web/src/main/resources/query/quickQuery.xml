@@ -105,7 +105,6 @@
 	
 	<!-- 案件统计 -->
 	<import resource="query/report/toCaseDetailListQuery.xml"></import>
-	<import resource="query/report/toCaseListQueryOrg.xml"></import>
-	<import resource="query/report/toCaseListQueryDistrict.xml"></import>
+	<import resource="query/report/toCaseListQueryCount.xml"></import>
 	<import resource="query/eval/toEvalListQueryForStatistics.xml"></import>
 </queryConfig>
