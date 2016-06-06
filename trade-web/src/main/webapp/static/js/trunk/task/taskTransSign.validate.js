@@ -5,8 +5,8 @@
 var TaskTransSignValidate  = function () {
 	 //校验规则 数组
 	 rules = {
-			 guestNameUp : {
-				 isillegal : true
+			  guestNameUp : {
+				  isillegalUp : true
 		      },
 		      guestNameDown: {
 		    	  isillegalDown : true
@@ -16,14 +16,15 @@ var TaskTransSignValidate  = function () {
 	 messages = {
 	 };
 
-    jQuery.validator.addMethod("isillegal", function(value, element) {   
-	    var regx = /,/;
-	    return this.optional(element) || (!regx.test(value));
+    jQuery.validator.addMethod("isillegalUp", function(value, element) {   
+	    //var regx = /,/;
+    	var regx = /^[\u4e00-\u9fa5a-zA-Z]+$/;
+	    return this.optional(element) || (regx.test(value));
     }, "上家姓名不能包含特殊字符");
     
     jQuery.validator.addMethod("isillegalDown", function(value, element) {   
-	    var regx = /,/;
-	    return this.optional(element) || (!regx.test(value));
+	    var regx = /^[\u4e00-\u9fa5a-zA-Z]+$/;
+	    return this.optional(element) || (regx.test(value));
     }, "下家姓名不能包含特殊字符");
     
     //重写错误显示消息方法,以alert方式弹出错误消息   
