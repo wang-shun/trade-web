@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
@@ -302,127 +303,13 @@ public class CaseDistributeController {
 	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,HttpServletRequest request) {
     	SessionUser sessionUser = uamSessionService.getSessionUser();
     	for(String caseCode:caseCodes){	    
-        	//案件信息更新
-    		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-    		
-    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-    		if("1".equals(toCaseInfo.getIsResponsed())){
-    			return AjaxResponse.fail("数据已经被修改！");
-    		}
-	    	toCaseInfo.setIsResponsed("1");
-	    	toCaseInfo.setRequireProcessorId(sessionUser.getId());
-	    	toCaseInfo.setResDate(new Date());
-	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
-	    	if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
-    		
-	   
-
-    		// 如果是无主案件分配,需要维护案件负责人
-    		if(toCase == null) {
-    			toCase = new ToCase();
-    			toCase.setCaseCode(caseCode);
-    			toCase.setCtmCode(toCaseInfo.getCtmCode());
-    			toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-    			toCase.setStatus(CaseStatusEnum.YFD.getCode());
-    			toCase.setCreateTime(new Date());
-    			toCase.setLeadingProcessId(userId);
-    			toCase.setOrgId(sessionUser.getServiceDepId());
-    			int caseCount = toCaseService.insertSelective(toCase);
-    			if(caseCount == 0)return AjaxResponse.fail("无主案件基本表新增失败！");
-    		} else {
-        		toCase.setLeadingProcessId(userId);
-        		toCase.setOrgId(sessionUser.getServiceDepId());
-        		if(!CaseStatusEnum.WFD.getCode().equals(toCase.getStatus())){
-        			return AjaxResponse.fail("数据已经被修改！");
-        		}
-        		toCase.setStatus(CaseStatusEnum.YFD.getCode());
-        		int reToCase = toCaseService.updateByPrimaryKey(toCase);
-        		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
-    		}
-
-    		
-    		
-    		ToWorkFlow toWorkFlow = new ToWorkFlow();
-
-    		//启动流程引擎
-        	ProcessInstance process = new ProcessInstance();
-        	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-        	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-        	//流程引擎相关
-        	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-    		List<RestVariable> variables = new ArrayList<RestVariable>();
-    	    Iterator it = defValsMap.keySet().iterator();  
-    	    while (it.hasNext()) {  
-	            String key = it.next().toString();  
-	    		RestVariable restVariable = new RestVariable();
-	    		restVariable.setName(key); 
-	    		restVariable.setValue(defValsMap.get(key));
-	    		variables.add(restVariable);
-		    }
-        	process.setVariables(variables);
-        	User user = uamUserOrgService.getUserById(userId);
-        	try {
-            	StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
-
-	    		toWorkFlow.setInstCode(pIVo.getId());
-	    		toWorkFlow.setBusinessKey(pIVo.getBusinessKey());
-	    		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-	    		toWorkFlow.setProcessOwner(userId);
-	    		
-	    		String propAddrString = "";
-	    		String agentMobile = "";
-	    		String agentName = "";
-
-	    		//物业信息
-	    		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
-	    		if(toPropertyInfo!=null){
-	    			if(!StringUtils.isEmpty(toPropertyInfo.getPropertyAddr())){
-	        			propAddrString = toPropertyInfo.getPropertyAddr();
-	    			}
-	    		}
-	    		//经纪人
-				if(!StringUtils.isEmpty(toCaseInfo.getAgentCode())){
-		    		User agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
-		    		if(agentUser!=null){
-		    			if(!StringUtils.isEmpty(agentUser.getMobile())){
-		    				agentMobile = agentUser.getMobile();
-		    				agentName = agentUser.getRealName();
-		    			}
-		    		}
-				}
-	    		Message message= new Message();
-				String resourceCode = MsgLampEnum.MFOLLOW.getCode();
-	    		String title = MsgLampEnum.MFOLLOW.getName();
-	    		Map<String, Object> params = new HashMap<String, Object>();//创建map
-				params.put("case_code", caseCode);//放入参数
-			    params.put("property_address",propAddrString);
-			    params.put("agent_name",agentName);
-			    params.put("agent_phone",agentMobile);
-			    
-				String content = uamTemplateService.mergeTemplate(resourceCode, params);//拼接发送的字符串
-				message.setTitle(title);//消息标题
-				message.setType(MessageType.SITE);//消息类型  
-				message.setMsgCatagory(MsgCatagoryEnum.WORK.getCode());
-				message.setContent(content);
-				message.setSenderId(sessionUser.getId());
-				uamMessageService.sendMessageByDist(message, userId);
-			} catch (WorkFlowException e) {
-				// TODO: handle exception
-				return AjaxResponse.fail(e.getMessage());
+    		try {
+	    		toCaseService.caseAssign(caseCode, userId, sessionUser);
+	    		toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
+    		}catch (BusinessException | WorkFlowException e) {
+    			e.printStackTrace();
+    			return AjaxResponse.fail(e.getMessage());
 			}
-        	
-	    	toWorkFlow.setCaseCode(toCase.getCaseCode());
-	    		
-	    	int reToWorkFlow = toWorkFlowService.insertSelective(toWorkFlow);
-    		if(reToWorkFlow == 0)return AjaxResponse.fail("案件工作流表插入失败！");
-
-			ToTransPlan record = new ToTransPlan();
-			record.setCaseCode(caseCode);
-			record.setPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DAY_OF_MONTH, 2);
-			record.setEstPartTime(cal.getTime());
-			toTransPlanService.insertSelective(record);
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
     }

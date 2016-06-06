@@ -69,13 +69,13 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>				
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价" customDict="" sysDict="" format="numberFormater"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="EVAL_FEE" index="" checkbox="" display="评估费" customDict="" sysDict="" format="numberFormater"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="RECORD_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="PROCESSOR_ID" index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CON_PRICE" index="" checkbox="" title="合同价(万元)" customDict="" sysDict="" format="numberFormater"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="EVAL_FEE" index="" checkbox="" title="评估费" customDict="" sysDict="" format="numberFormater"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RECORD_TIME" index="" checkbox="" title="确认收款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PROCESSOR_ID" index="" checkbox="" title="经办人" customDict="qqcdUserIdName" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
 		</grid>
 	</query>
