@@ -718,9 +718,9 @@ if("${idList}" != "") {
 
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
+		    if(!checkForm()) {
 				return;
-			}
+			} 
 			if(!$("#transSignForm").valid()){
 				return;
 			}
