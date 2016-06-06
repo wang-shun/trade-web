@@ -14,7 +14,7 @@ var TaskFirstFollowValidate  = function () {
 	 };
 
     jQuery.validator.addMethod("isillegal", function(value, element) {   
-	    var regx = /|/;
+	    var regx = /\|/;
 	    return this.optional(element) || (!regx.test(value));
     }, "产证地址不能包含特殊字符");
    
