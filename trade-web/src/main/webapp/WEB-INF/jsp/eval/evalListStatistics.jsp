@@ -65,7 +65,7 @@ display: none;}
                                 </div>
 
                             </div>
-                            <div class="row">
+                            <div class="row ${isConsultant ? 'hideDiv' : '' }">
                             	<div class="col-lg-5 col-md-5">    
                             		 <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">组织</label>
@@ -77,7 +77,7 @@ display: none;}
                                         </div>
                                     </div>
                             	</div>
-                            	<div class="col-lg-5 col-md-5 ${isConsultant ? 'hideDiv' : '' }">    
+                            	<div class="col-lg-5 col-md-5 ">    
                             			<div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                         <div class="col-lg-9 col-md-9">

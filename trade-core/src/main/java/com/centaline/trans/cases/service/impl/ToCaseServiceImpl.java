@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,19 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.vo.AgentManagerInfo;
+import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -55,6 +65,14 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToWorkFlowService workflowService;
 	@Autowired
 	private TgServItemAndProcessorService serItemAndProcessorServce;
+	@Autowired(required = true)
+	ToPropertyService toPropertyService;
+	@Autowired(required = true)
+	TgGuestInfoService tgGuestInfoService;
+	@Autowired(required = true)
+	TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired(required = true)
+	ToPropertyInfoService toPropertyInfoService;
 
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -219,6 +237,83 @@ public class ToCaseServiceImpl implements ToCaseService {
 			workflowManager.deleteProcess(icStr);
 		}
 		return 1;
+	}
+
+	@Override
+	public CaseBaseVO getCaseBaseVO(Long caseId) {
+		// 基本信息
+		ToCase toCase = selectByPrimaryKey(caseId);
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+        // 物业地址
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		// 买卖双方信息
+		BuyerSellerInfo  buyerSellerInfo = tgGuestInfoService.getBuerSellerInfoByCaseCode(toCase.getCaseCode());
+		
+		// 经纪人信息,分行经理信息,交易顾问信息
+		AgentManagerInfo agentManagerInfo = new AgentManagerInfo();
+		agentManagerInfo.setAgentName(toCaseInfo.getAgentName());
+		agentManagerInfo.setAgentPhone(toCaseInfo.getAgentPhone());
+		agentManagerInfo.setGrpName(toCaseInfo.getGrpName());
+		User agentUser = null;
+		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		if (agentUser != null) {
+			// 分行经理
+			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+					TransJobs.TFHJL.getCode());
+			if (mcList != null && mcList.size() > 0) {
+
+				User mcUser = mcList.get(0);
+				agentManagerInfo.setMcId(mcUser.getId());
+				agentManagerInfo.setMcName(mcUser.getRealName());
+				agentManagerInfo.setMcMobile(mcUser.getMobile());
+			}
+		}
+		
+		// 交易顾问
+		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		if (consultUser != null) {
+			agentManagerInfo.setCpId(consultUser.getId());
+			agentManagerInfo.setCpName(consultUser.getRealName());
+			agentManagerInfo.setCpMobile(consultUser.getMobile());
+		}
+		
+		// 助理
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(),
+				TransJobs.TJYZL.getCode());
+		if (asList != null && asList.size() > 0) {
+			User assistUser = asList.get(0);
+			agentManagerInfo.setAsId(assistUser.getId());
+			agentManagerInfo.setAsName(assistUser.getRealName());
+			agentManagerInfo.setAsMobile(assistUser.getMobile());
+		}
+		
+		// 合作顾问
+		List<CaseDetailProcessorVO> proList = new ArrayList<CaseDetailProcessorVO>();
+		TgServItemAndProcessor inProcessor = new TgServItemAndProcessor();
+		inProcessor.setCaseCode(toCase.getCaseCode());
+		inProcessor.setProcessorId(toCase.getLeadingProcessId());
+		List<String> tgproList = tgServItemAndProcessorService.findProcessorsByCaseCode(inProcessor);
+		for (String sp : tgproList) {
+			if (StringUtils.isEmpty(sp))
+				continue;
+			CaseDetailProcessorVO proVo = new CaseDetailProcessorVO();
+			User processor = uamUserOrgService.getUserById(sp);
+			proVo.setProcessorId(processor.getId());
+			proVo.setProcessorName(processor.getRealName());
+			proVo.setProcessorMobile(processor.getMobile());
+			proList.add(proVo);
+		}
+		agentManagerInfo.setProList(proList);
+		
+		CaseBaseVO caseBaseVO = new CaseBaseVO();
+		caseBaseVO.setBuyerSellerInfo(buyerSellerInfo);
+		caseBaseVO.setToCase(toCase);
+		caseBaseVO.setToCaseInfo(toCaseInfo);
+		caseBaseVO.setToPropertyInfo(toPropertyInfo);
+		caseBaseVO.setAgentManagerInfo(agentManagerInfo);
+		return caseBaseVO;
 	}
 
 	

@@ -364,6 +364,6 @@ function initAutocomplete(url){
 function callback() {
 	//var url = ctx +'/task/myTaskList';
 	//window.location.href = url;
-	searchMethod();
+	setTimeout('searchMethod()',1000); 
 }
 

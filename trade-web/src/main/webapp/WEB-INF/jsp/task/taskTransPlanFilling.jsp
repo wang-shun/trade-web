@@ -27,18 +27,21 @@ var caseCode = "${caseCode}";
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="row">
-		<div class="row wrapper border-bottom white-bg page-heading">
-			<div class="col-lg-10">
-				<h2>填写交易计划</h2>
-				<ol class="breadcrumb">
+	    <div class="ibox-title">
+			<div class="row wrapper border-bottom white-bg page-heading">
+				<div class="col-lg-10">
+					<h2>填写交易计划</h2>
+					<ol class="breadcrumb">
 					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
+					</ol>
+				</div>
+				<div class="col-lg-2"></div>
 			</div>
-			<div class="col-lg-2"></div>
 		</div>
+		
 		<div class="ibox-title">
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">

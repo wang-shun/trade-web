@@ -103,7 +103,14 @@ img{ border-image-width:0px;}
 							<h5>处理产调</h5>
 						</div>
 						<div class="ibox-content">
-
+							<div class='row'>
+								<div class='pull-left'>
+									<h5>产调项目:</h5>
+								</div>
+								<div class='pull-left'>
+									<lable id="prCat"></lable>
+								</div>
+							</div>
 							<div class='row'>
 								<div class='pull-left'>
 									<h5>是否有效:</h5>
@@ -266,7 +273,20 @@ img{ border-image-width:0px;}
 									type="radio" value="2" name="prStatus">已完成
 							</div>
 						</div>
-
+						<div class="form-group">
+							<label class="col-sm-2 control-label">申请时间</label>
+							<div class="col-sm-10">
+								<input type="date" name="sTime" id="sTime"
+									class="form-control">
+							</div>
+							<div class="col-sm-2">
+								到
+							</div>
+							<div class="col-sm-10">
+								<input type="date" name="eTime" id="eTime"
+									 class="form-control">
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">物业地址</label>
 							<div class="col-sm-10">
@@ -347,7 +367,7 @@ img{ border-image-width:0px;}
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/scrollpagination/scrollpagination.js"></script>
+		src="${ctx}/js/plugins/scrollpagination/scrollpagination.js?v=1.1.1"></script>
 	<script id="knowledgeListStyle1" type="text/html">
 					{{if rows.length>0}}
 						{{ each rows as item }}
@@ -357,7 +377,7 @@ img{ border-image-width:0px;}
                        		 </div>
 							<div>
 								<p class="addr"><span>{{item.DIST_CODE}}&nbsp;&nbsp;&nbsp;</span><i class="icon-address"></i>{{item.PROPERTY_ADDR}} </p>
-								<div class='text-left check'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}');" class="btn btn-warning btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
+								<div class='text-left check'><button onclick="doProcess('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.PR_STATUS}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON}}','{{item.PR_CAT}}');" class="btn btn-warning btn-xs">{{if item.PR_STATUS==0}}受理{{/if}}{{if item.PR_STATUS==1}}处理{{/if}}{{if item.PR_STATUS==2}}查看{{/if}}</button></div>
 							</div>
                         	
                     	</li>
@@ -365,11 +385,11 @@ img{ border-image-width:0px;}
 					{{/if}}
 	</script> <script>
 		var ctx = "${ctx}";
-		function doProcess(cd, pr, pc, id, st,isS,uns) {
+		function doProcess(cd, pr, pc, id, st,isS,uns,prCat) {
 			if (st == '0') {
 				acceptance(id);
 			} else if (st == '1') {
-				showAttchBox(cd, pr, pc, id,isS,uns);
+				showAttchBox(cd, pr, pc, id,isS,uns,prCat);
 			} else if (st == '2') {
 				location.href = ctx + '/mobile/property/box/show?prCode=' + pr;
 			}
@@ -397,8 +417,7 @@ img{ border-image-width:0px;}
 
 		}
 
-		function showAttchBox(cd, pr, pc, id,isS,uns) {
-
+		function showAttchBox(cd, pr, pc, id,isS,uns,prCat) {
 			if (cd == null || cd == "") {
 				$("#caseCode").val(pr);
 			} else {
@@ -412,6 +431,7 @@ img{ border-image-width:0px;}
 			getAttchInfo();
 			$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 			$('#unSuccessReason').val(uns);
+			$('#prCat').text(prCat);
 			$("#modal-form").modal("show");
 		}
 
@@ -473,6 +493,9 @@ img{ border-image-width:0px;}
 			postData.page = 1;
 			postData.search_prStatus = $('input[name="prStatus"]:checked ')
 					.val();
+			postData.search_sTime = $('#sTime').val();
+			var eTime=$('#eTime').val();
+			postData.search_eTime = (eTime==''?'':eTime+' 23:59:59');
 			$('#content').empty();
 			$('#content').scrollPagination(
 					{
