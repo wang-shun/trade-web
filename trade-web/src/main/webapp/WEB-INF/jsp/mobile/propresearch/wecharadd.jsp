@@ -193,7 +193,7 @@ float: none;
 						if (data.success && data.success == true) {
 							formSubmit();
 						} else {
-							alert('该区域暂不能进行产调录入！');
+							alert('请先选择区域！');
 							$.unblockUI();
 							return false;
 						}
