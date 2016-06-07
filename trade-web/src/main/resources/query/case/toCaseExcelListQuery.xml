@@ -232,7 +232,9 @@
 							,1,1,'') as SRV_STR,
 							uvm.REAL_NAME as OP_MANAGER,
 							uvta.REAL_NAME as OP_AS,
-							orgd.ORG_NAME as OP_PARENT_ORG
+							orgd.ORG_NAME as OP_PARENT_ORG,
+							t.assignee_ as GUOHU_APPROVER,
+							t.end_time_ as GUOHU_APPROVER_TIME
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
@@ -253,25 +255,26 @@
 					left join sctrans.V_USER_ORG_JOB as uvta on uvta.JOB_CODE='TeamAssistant' and uvta.ORG_ID=b.ORG_ID
 					
 					
-					<ifNotNull guohuApproveTime>
-						INNER JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
+					
+						LEFT JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
 						AND w.BUSINESS_KEY = 'operation_process'
 						AND w.STATUS IN ('0', '4')
-						INNER JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
+						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
 						AND v.name_ = 'GuohuApprove'
 						AND v.long_ = 1
-						INNER JOIN (
+						LEFT JOIN (
 							SELECT
 								t.proc_inst_id_,
+								t.assignee_,
 								MAX (end_time_) end_time_
 							FROM
 								sctrans.act_hi_taskinst t
 							WHERE
 								t.task_def_key_ = 'GuohuApprove'
 							GROUP BY
-								t.proc_inst_id_
+								t.proc_inst_id_,t.assignee_
 						) t ON t.proc_inst_id_ = w.inst_code
-					</ifNotNull>
+					
 					<ifNotNull guohuApproveTimeStart>
 						AND t.end_time_ >= #guohuApproveTimeStart#
 					</ifNotNull>
@@ -544,6 +547,10 @@
 					hidden="true" />
 
 				<column type="both" name="SIGN_TIME" title="监管签约时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="GUOHU_APPROVER" title="过户审批人" customDict=""
+					hidden="true" />
+				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
 			</table-row>

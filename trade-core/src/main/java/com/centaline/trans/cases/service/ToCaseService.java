@@ -2,6 +2,7 @@ package com.centaline.trans.cases.service;
 
 import java.util.List;
 
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
@@ -65,5 +66,19 @@ public interface ToCaseService {
 	int orgChange(String caseCode ,String orgId);
 	
 	CaseBaseVO getCaseBaseVO(Long caseId);
+	/**
+	 * 案件分配
+	 * @param caseCode
+	 * @param userId
+	 * @param sessionUser
+	 */
+	void caseAssign(String caseCode, String userId, SessionUser sessionUser);
+	/**
+	 * 案件分配消息提醒
+	 * @param caseCode
+	 * @param userId
+	 * @param sessionUser
+	 */
+	void sendcaseAssignMsg(String caseCode, String userId, SessionUser sessionUser);
 	
 }
