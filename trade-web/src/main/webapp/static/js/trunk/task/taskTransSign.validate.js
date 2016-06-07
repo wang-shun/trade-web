@@ -31,7 +31,7 @@ var TaskTransSignValidate  = function () {
     showErrors = function(errorMap, errorList) {  
      var msg = "";  
      $.each(errorList, function(i, v) {  
-      msg += (v.message + "\r\n</br>");  
+      msg += (v.message + "\r\n");  
      });  
      if (msg != "")
     	alert(msg);
