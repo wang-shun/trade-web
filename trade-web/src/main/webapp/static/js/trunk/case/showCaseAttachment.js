@@ -4,7 +4,7 @@ function downLoad(fileId, fileName) {
 }
 
 function show(fileId) {
-	window.open(appCtx['shcl-image-web']+"/image/"+fileId+"/__f.jpg");
+	window.open(appCtx['shcl-image-web']+"/image/"+fileId);
 }
 
 
@@ -38,7 +38,7 @@ function getShowAttachment() {
 						trStr += '<label class="col-sm-2 control-label" style="line-height:90px;text-align:center;">'+value.preFileName+'</label>';
 						trStr += '<div class="col-sm-10 lightBoxGallery" style="text-align:left">';
 					}
-					trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/__f.jpg\")' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
+					trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/_f.jpg\")' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
 					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='padding-bottom: 5px;padding-top: 5px;'>";
 					trStr += "</a>";
 				}
