@@ -4,7 +4,7 @@ function downLoad(fileId, fileName) {
 }
 
 function show(fileId) {
-	window.open(appCtx['shcl-image-web'] + "/image/"+fileId+"/__f.jpg");
+	window.open(appCtx['shcl-image-web'] + "/image/"+fileId);
 }
 		
 function getExplPicByhouseCode() {
@@ -60,7 +60,7 @@ function getShowAttachment() {
 			//将返回的数据进行包装
 			var trStr = "";
 			$.each(data, function(indexAcc, value){
-				trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/__f.jpg\")' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
+				trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/_f.jpg\")' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
 				trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='padding-bottom: 5px;padding-top: 5px;'>";
 				trStr += "</a>";
 			});
