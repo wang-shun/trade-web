@@ -314,6 +314,7 @@
 					
 					$("#btn_save").click(function(){
 						if(!fcheck())return;
+						if(confirm("是否保存？")){
 						var fData=$("#f_main").serialize();
 						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
     				$(".blockOverlay").css({'z-index':'9998'});
@@ -336,6 +337,7 @@
 								$.unblockUI();
 							}
 						});
+					  }
 					});
 					$('.input-group.date').datepicker({
 						todayBtn: "linked",
