@@ -20,12 +20,12 @@ var TaskTransSignValidate  = function () {
 	    //var regx = /,/;
     	var regx = /^[\u4e00-\u9fa5a-zA-Z]+$/;
 	    return this.optional(element) || (regx.test(value));
-    }, "上家姓名不能包含特殊字符");
+    }, "上家姓名只能输入中文和英文");
     
     jQuery.validator.addMethod("isillegalDown", function(value, element) {   
 	    var regx = /^[\u4e00-\u9fa5a-zA-Z]+$/;
 	    return this.optional(element) || (regx.test(value));
-    }, "下家姓名不能包含特殊字符");
+    }, "下家姓名只能输入中文和英文");
     
     //重写错误显示消息方法,以alert方式弹出错误消息   
     showErrors = function(errorMap, errorList) {  
@@ -33,11 +33,12 @@ var TaskTransSignValidate  = function () {
      $.each(errorList, function(i, v) {  
       msg += (v.message + "\r\n</br>");  
      });  
-     if (msg != "")  
-     	layer.alert(msg,{
+     if (msg != "")
+    	alert(msg);
+     	/*layer.alert(msg,{
      		icon: 2
      		//time : 2000
-     	});
+     	});*/
     };
     
 
