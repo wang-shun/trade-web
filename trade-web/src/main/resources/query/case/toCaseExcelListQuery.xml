@@ -275,13 +275,6 @@
 								t.proc_inst_id_,t.assignee_
 						) t ON t.proc_inst_id_ = w.inst_code
 					
-					<ifNotNull guohuApproveTimeStart>
-						AND t.end_time_ >= #guohuApproveTimeStart#
-					</ifNotNull>
-					<ifNotNull guohuApproveTimeEnd>
-						AND t.end_time_ <= #guohuApproveTimeEnd#
-					</ifNotNull>
-					
 					<ifNotNull realConTime>
 						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
 					</ifNotNull>
@@ -395,6 +388,12 @@
 					</ifNotNull>
 					<ifNotNull isNotResearchCloseCase>
 						and B.CASE_PROPERTY != '30003002'
+					</ifNotNull>
+					<ifNotNull guohuApproveTimeStart>
+						AND t.end_time_ >= #guohuApproveTimeStart#
+					</ifNotNull>
+					<ifNotNull guohuApproveTimeEnd>
+						AND t.end_time_ <= #guohuApproveTimeEnd#
 					</ifNotNull>
 				]]>
 			</baseSql>
