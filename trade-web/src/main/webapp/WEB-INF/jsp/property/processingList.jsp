@@ -87,6 +87,8 @@ input[name="isScuess"]{margin-left:7px;}
 .ml-10{margin-left:10px;}
 .files .delete{width:25px;}
 img{ border-image-width:0px;}
+#propertyAddr{font-weight: bolder;}
+#addrSearchButton{background-color:#f8ac59;color:#fff;padding:2px 10px;border:0;border-radius:3px;}
     </style>
     
     <script type="text/javascript">
@@ -118,7 +120,7 @@ img{ border-image-width:0px;}
     </div>
 </div>
 <div class="ibox-content">
-	<div>物业地址 :
+	<div id="propertyAddr">物业地址 :
 		<input type="text" id="addr" name="search_propertyAddr" />
 			<button type='button' id="addrSearchButton" style="margin-left: 30px;">搜索</button>
 	</div>
