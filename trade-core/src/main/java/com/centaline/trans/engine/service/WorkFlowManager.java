@@ -3,12 +3,15 @@ package com.centaline.trans.engine.service;
 import java.util.List;
 import java.util.Map;
 
+import com.centaline.trans.engine.bean.ExecuteAction;
+import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.SignalEvent;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -31,11 +34,10 @@ public interface WorkFlowManager {
 	 * @param process
 	 * @return
 	 */
-	public abstract StartProcessInstanceVo startCaseWorkFlow(
-			ProcessInstance process, String userName,String caseCode);
-	
-	public abstract StartProcessInstanceVo startCaseWorkFlow2(
-			ProcessInstance process, String userName, String authUserName);
+	public abstract StartProcessInstanceVo startCaseWorkFlow(ProcessInstance process, String userName, String caseCode);
+
+	public abstract StartProcessInstanceVo startCaseWorkFlow2(ProcessInstance process, String userName,
+			String authUserName);
 
 	/**
 	 * 查询task方法
@@ -64,10 +66,8 @@ public interface WorkFlowManager {
 	 * @param activate
 	 */
 
-	void activateOrSuspendProcessInstance(String processInstanceId,
-			boolean activate);
+	void activateOrSuspendProcessInstance(String processInstanceId, boolean activate);
 
-	Map executeExecutionAction(String executionId, String action);
 
 	/**
 	 * 删除一条流程
@@ -78,19 +78,22 @@ public interface WorkFlowManager {
 
 	TaskVo getTask(String taskId);
 
-	public Boolean submitTask(List<RestVariable> variables, String taskId,
-			String processInstanceId, String caseowner, String caseCode);
+	public Boolean submitTask(List<RestVariable> variables, String taskId, String processInstanceId, String caseowner,
+			String caseCode);
 
-	void claim(List<RestVariable> variables, String taskId,
-			String processInstanceId, String caseowner, String caseCode);
+	void claim(List<RestVariable> variables, String taskId, String processInstanceId, String caseowner,
+			String caseCode);
 
-	StartProcessInstanceVo startCaseWorkFlow1(ProcessInstance process,
-			String caseCode, String caseOwner);
+	StartProcessInstanceVo startCaseWorkFlow1(ProcessInstance process, String caseCode, String caseOwner);
 
 	void reclaim(String taskId, String assignee);
 
 	TaskVo updateTask(TaskVo vo);
 
 	void doOptTaskPlan(String tsakDfkey, String caseCode);
+
+	ExecutionVo executeAction(ExecuteAction action);
+
+	PageableVo getExecute(ExecuteGet executeGet);
 
 }

@@ -253,8 +253,7 @@
                    			 <shiro:hasPermission name="TRADE.CASE.RESET">
 		                   	 	<a role="button" id="caseResetes" class="btn btn-primary btn-xm btn-activity" href="javascript:caseReset()">案件重置</a>
 		                   	 </shiro:hasPermission>
-		                   	 
-		                   	 
+		                   	 	<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
                             </div>
                         </div>
                     </div>
@@ -541,6 +540,70 @@
                       </form>
                  </div>
              </div> 
+             <!-- loanRequirementChange -->
+             <div id="loanReqmentChg-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+				<div class="modal-dialog" style="width:1000px">
+				<form method="get" class="form-horizontal" id="loan_reqment_chg_form">
+					<div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="plan-modal-title">
+						      贷款需求选择
+						   </h4>
+					   </div>
+
+					<!-- 交易单编号 -->
+					<input type="hidden" name="caseCode" value="${toCase.caseCode}">
+					<!-- 流程引擎需要字段 -->
+					<input type="hidden"  name="processInstanceId" value="${toWorkFlow.instCode}">
+					<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group" id="data_1" name="isYouXiao">
+									<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>请选择客户贷款需求</label>
+									<div class="col-md-8">
+										<aist:dict clazz="form-control" id="mortageService" name="mortageService" 
+								display="select" defaultvalue="0" dictType="mortage_service" />
+									</div>
+								</div>
+						</div>
+					</div>
+					<div class="row" id='div_releasePlan'>
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group">
+								<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>预计放款时间</label>
+								<div class="col-md-8">
+									<div class=" input-group date">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<input type="text" class="form-control" name="estPartTime" id="estPartTime" disabled="disabled"
+								 value="">
+								 </div>
+						</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+					*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。
+					</div>
+					<div class="divider"><hr></div>
+					<div id="hzxm">
+					</div>
+				</div>
+			 	<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+					    data-dismiss="modal">关闭
+					 </button>
+					<button type="button" id ="btn_loan_reqment_chg" class="btn btn-primary" >变更</button>
+				</div>
+				</div>
+				</form>
+			</div>
+			</div>
+			</
+  	        <!-- end loanRequirementChange -->   
+             
              <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
