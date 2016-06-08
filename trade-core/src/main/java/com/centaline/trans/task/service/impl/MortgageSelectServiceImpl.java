@@ -174,7 +174,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		exGet.setMessageEventSubscriptionName("StartMortgageSelectMsg");
 		PageableVo<ExecutionVo> pagebleVo = workFlowManager.getExecute(exGet);
 		List<ExecutionVo> list = pagebleVo.getData();
-		if (list != null && !list.isEmpty()) {
+		if (list != null && !list.isEmpty()) { 
 			for (ExecutionVo executionVo : list) {
 				if (!LOAN_TASK_LIST.contains(executionVo.getActivityId())) {// 判断如果不是交易流程的话直接返回当前
 					return executionVo;
