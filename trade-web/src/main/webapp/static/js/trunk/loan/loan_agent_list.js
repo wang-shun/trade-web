@@ -105,6 +105,7 @@ function searchMethod(page) {
 	
 	params.search_caseCode = $('#caseCode').val();
 	params.search_propertyAddr = $('#propertyAddr').val();
+	params.search_loanSrvCode = $('#loanSrvCode').val();
 	// 日期查询
 	var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null;
 	for (var r = 0; r < divIndex; r++) {
