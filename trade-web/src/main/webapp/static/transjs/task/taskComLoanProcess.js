@@ -1170,13 +1170,7 @@ $(document).ready(function () {
 	 			}
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
-		 		var rowId=$("#table_list_1").jqGrid("getGridParam","selrow");
-				var rowData = $("#table_list_1").jqGrid('getRowData', rowId);
-				if(rowData['TOTAL_PRICE'] == ""){
-					alert("询价结果还未返回，不能发起报告！");
-					return false;
-				}
-	 			deleteAndModify();
+		 		deleteAndModify();
 	 			return checkAttUp($(".att_first"));
 
 	 		}else if (currentIndex==4){
