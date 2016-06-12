@@ -334,8 +334,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 		inProcessor.setCaseCode(toCase.getCaseCode());
 		inProcessor.setProcessorId(toCase.getLeadingProcessId());
 		List<String> tgproList = tgServItemAndProcessorService.findProcessorsByCaseCode(inProcessor);
+		
 		for (String sp : tgproList) {
-			if (StringUtils.isEmpty(sp))
+			if (StringUtils.isEmpty(sp) || "-1".equals(sp))
 				continue;
 			CaseDetailProcessorVO proVo = new CaseDetailProcessorVO();
 			User processor = uamUserOrgService.getUserById(sp);
