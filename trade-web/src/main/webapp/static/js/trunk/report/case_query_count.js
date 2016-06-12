@@ -6,34 +6,41 @@ $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
+	//用户组织
 	var org = $("#org").val();
-	if (org=="") {
+	if (org==""||org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
-	}	
-	var month = $("#month").val();
-	if (month=="") {
-		month = null;
 	}
-	var orgs = $("#orgs").val();
-	if (orgs=="") {
-		orgs = null;
+	//起始时间 结束时间
+	var startTime = $("#startTime").val();
+	if(startTime==""||startTime==null){
+		startTime=null;
 	}
-	var transJob =$("#transJob").val();
-	alert(org)
-	alert(orgs)
-	alert(month)
+	var endTime = $("#endTime").val();
+	if(endTime==""||endTime==null){
+		endTime=null;
+	}
 	
 	// 初始化列表
-	var data = {};
-	data.argu_org = org;
-	data.argu_orgs = orgs;
-	data.argu_month = month;
+	var data = {};	
+	var transJob =$("#transJob").val();
+	if(transJob=="誉萃总经理"){
+		data.argu_dis=org;
+		data.queryId = "queryCaseCountDistrict";
+	}else if(transJob=="誉萃总监"){
+		data.argu_org=org;
+		data.queryId = "queryCaseCountOrg";
+	}else if(transJob=="交易主管"){
+		data.argu_org=org;
+		data.argu_uId=uId;
+		data.queryId = "queryCaseCountProcessor";
+	}
+	
 	data.rows = 12;
 	data.page = 1;
-	if(transJob=="GeneralManager"||transJob=="director"){
-		data.queryId = "queryCastCountDistrict";
-	}
-	data.queryId = "queryCaseCountOrg";
+	data.startTime = startTime;
+	data.endTime = endTime;
+	
 	reloadGrid(data);
 });
 

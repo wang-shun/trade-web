@@ -224,10 +224,12 @@ public class ReportCaseProcessStatisController {
 		
 		String depId = user.getServiceDepId(); // 用户的部门
 		String tempUser = null; // 交易主管下用户id
-		String org = depId;
+		String org = depId; //用户组织默认值
+		String transJob = null; //用户职位
 		
 		/* 验证当前用户所属组织和url传来的值是否一致 */
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 总经理
+			transJob = "誉萃总经理";
 			if (arg != null && !"".equals(arg)) {
 				org = arg;
 			}
@@ -251,6 +253,7 @@ public class ReportCaseProcessStatisController {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 誉萃总监
+			transJob="誉萃总监";
 			if (arg != null && !"".equals(arg)) {
 				org = arg;
 			}
@@ -266,6 +269,7 @@ public class ReportCaseProcessStatisController {
 			}
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
 				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 交易主管
+			transJob="交易主管";
 			if (arg != null && !"".equals(arg)) {
 				tempUser = arg;
 				List<String> uList = new ArrayList<String>();
@@ -283,9 +287,13 @@ public class ReportCaseProcessStatisController {
 			}
 		} 
 		
+		String orgName = uamUserOrgService.getOrgById(org).getOrgName(); // 获取组织名
+		
+		request.setAttribute("orgName", orgName);
 		request.setAttribute("org", org);
 		request.setAttribute("depId", depId);
 		request.setAttribute("tempUser", tempUser);
+		request.setAttribute("transJob", transJob);
 		request.setAttribute("createTimeStart", createTimeStart);
 		request.setAttribute("createTimeEnd", createTimeEnd);
 		

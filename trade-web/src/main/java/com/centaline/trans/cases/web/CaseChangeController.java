@@ -170,20 +170,24 @@ public class CaseChangeController {
 		}
 		
 		for (int i=0; i<processorIdList.size(); i++) {
-			String caseCode=caseCodeList.get(i);
-			String srvCode=srvCodeList.get(i);
-			String processorId=processorIdList.get(i);
-			String orgId=orgIdList.get(i);
-		
-			pro=new TgServItemAndProcessor();
-			pro.setProcessorId(processorId);
-			pro.setCaseCode(caseCode);
-			pro.setSrvCode(srvCode);
 			
-			pro.setOrgId(orgId);
-			TgServItemAndProcessor proDb=tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
-			updatecoope=tgservItemAndProcessorService.updateCoope(pro);
-			updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId());
+			if(!"-1".equals(processorIdList.get(i))){
+				
+				String caseCode=caseCodeList.get(i);
+				String srvCode=srvCodeList.get(i);
+				String processorId=processorIdList.get(i);
+				String orgId=orgIdList.get(i);
+				
+				pro=new TgServItemAndProcessor();
+				pro.setProcessorId(processorId);
+				pro.setCaseCode(caseCode);
+				pro.setSrvCode(srvCode);
+				
+				pro.setOrgId(orgId);
+				TgServItemAndProcessor proDb=tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
+				updatecoope=tgservItemAndProcessorService.updateCoope(pro);
+				updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId());
+			}
 			
 			
 		}

@@ -52,7 +52,21 @@
 .mark-guaqi{background-image:url(../img/mark-guaqi.png);}
 .mark-jiean{background-image:url(../img/mark-jiean.png);}
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
-.mark-zaitu{background-image:url(../img/mark-zaitu.png);} 
+.mark-zaitu{background-image:url(../img/mark-zaitu.png);}
+
+#corss_area0{padding:0 8px 0 0;}
+#corss_area0 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+#corss_area2{padding:0 8px 0 0;}
+#corss_area2 select{float:right;height:34px;border-radius:2px;margin-left:10px;} 
+.row:nth-child(4) .wd-31,.row:nth-child(5) .wd-31{width:31%;}
+.row:nth-child(4) .mr0,.row:nth-child(5) .mr0{margin-left:0;margin-right:0;}
+.row:nth-child(4) .wd87,.row:nth-child(5) .wd87{width:84px;margin-left: 8px;}
+.row:nth-child(4) .wd-72,.row:nth-child(5) .wd-72{width:72%;margin-left:-30px;}
+.row:nth-child(4) .wd-64,.row:nth-child(5) .wd-64{width:61%;padding-right:0;}
+.row:nth-child(4) .form-control-static,.row:nth-child(4) .form-control-static{margin-left:-2px;}
+.pd0{padding:0;}
+.wd445{width:582px;margin-bottom:15px;}
+.modal-content{width:820px;}
 </style>
 </head>
 
