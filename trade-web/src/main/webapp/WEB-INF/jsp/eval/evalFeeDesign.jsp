@@ -27,6 +27,7 @@
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 
 <style type="text/css">
+	.f-n{float:none !important;line-height:30px;}
 </style>
 </head>
 

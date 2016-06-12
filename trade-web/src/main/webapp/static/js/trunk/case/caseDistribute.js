@@ -195,7 +195,7 @@ function showModal(data){
 		addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
 		addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
 		addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
-		addHtml += '<p>联系电话：'+n.mobile+'</p>';
+		addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
 		addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
 		addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
 		addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
@@ -238,6 +238,7 @@ function showTeamModal(data){
  */
 function distributeCase(index){
 		var userName =$("#userName_"+index).val();
+		var mobile=$("#mobile_"+index).val();
 		var ids=$("#table_list_1").jqGrid("getGridParam","selarrrow");
 		var userId =$("#user_"+index).val();
 		
@@ -274,7 +275,7 @@ function distributeCase(index){
 			success : function(data) {
 				 var confrimMsg = '';
 				 if(data.content == false){
-					 confrimMsg = "您是否确认分配给"+userName+"?";
+					 confrimMsg = "您是否确认分配给"+userName+"?"+"业务员"+mobile;
 				 } else {
 					 confrimMsg = "案件所属区域与主办或合作对象不匹配,您是否确认分配给"+userName+"?";
 				 }

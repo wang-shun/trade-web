@@ -155,6 +155,7 @@ function openLoan(ctx,pkid) {
 }
 
 function confrimStatus(ctx,pkid,stTo,changePkId){
+	if(confirm("是否确认？")){
 	$.ajax({
 		url:ctx+"/loan/confirmStatus",
 		method:"post",
@@ -184,9 +185,11 @@ function confrimStatus(ctx,pkid,stTo,changePkId){
 			}
 		}
 	});
+  }
 }
 
 function cancelStatus(ctx,pkid,stFrom,changePkId) {
+	if(confirm("是否取消？")){
 	$.ajax({
 		url:ctx+"/loan/cancelStatus",
 		method:"post",
@@ -216,4 +219,5 @@ function cancelStatus(ctx,pkid,stFrom,changePkId) {
 			}
 		}
 	});
+  }
 }

@@ -56,6 +56,7 @@ if("${idList}" != "") {
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<div>
@@ -578,7 +579,7 @@ if("${idList}" != "") {
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js"></script>
+	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
 	<!-- 弹出框插件 -->
 	<script src="${ctx}/js/plugins/layer/layer.js"></script>
 	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
@@ -717,9 +718,9 @@ if("${idList}" != "") {
 
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
+		    if(!checkForm()) {
 				return;
-			}
+			} 
 			if(!$("#transSignForm").valid()){
 				return;
 			}

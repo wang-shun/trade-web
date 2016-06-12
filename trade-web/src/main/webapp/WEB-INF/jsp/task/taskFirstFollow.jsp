@@ -60,7 +60,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 		<div class="row wrapper border-bottom white-bg page-heading">
 	         <div class="col-md-10">
@@ -336,8 +336,19 @@
 	<script src="${ctx}/transjs/task/follow.pic.list.js"></script>
 	<script type="text/javascript" src="${ctx}/static/js/jquery.json.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<!-- 校验 -->
+    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+	<script src="${ctx}/js/trunk/task/taskFirstFollow.validate.js"></script>
+	<!-- 弹出框插件 -->
+	<script src="${ctx}/js/plugins/layer/layer.js"></script>
+	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
 	<script>
 		$(document).ready(function(){
+			
+			TaskFirstFollowValidate.init("firstFollowform","");
+			
 			initMortageService();
 			
 			/*  字典对应表关系
@@ -483,6 +494,9 @@
 		/**保存数据*/
 		function save(b) {
 			if(!checkForm()) {
+				return;
+			}
+			if(!$("#firstFollowform").valid()){
 				return;
 			}
 			var jsonData = $("#firstFollowform").serializeArray();

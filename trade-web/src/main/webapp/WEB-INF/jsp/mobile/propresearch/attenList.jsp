@@ -28,6 +28,10 @@
 	</div>
 	<div class="row"
 		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
+		<span class="col-lg-4">产调项目： ${propertyResearch.prCat }</span>
+	</div>
+	<div class="row"
+		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
 		<span class="col-lg-4">完成日期：<fmt:formatDate
 				value="${propertyResearch.prCompleteTime }" pattern="yyyy-MM-dd HH:mm:ss" />
 		</span>

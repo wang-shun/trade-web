@@ -91,7 +91,10 @@ public class ReportCaseProcessStatisController {
 		String depId = user.getServiceDepId(); // 用户的部门
 		String userId = null; // 交易顾问id
 		String tempUser = null; // 交易主管下用户id
-
+		String tempName = null; // 交易主管下用户姓名
+		boolean isConsultant=false; //是否为交易顾问
+		String personalId = user.getId();
+		
 		/* 验证当前用户所属组织和url传来的值是否一致 */
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 总经理
 			if (arg != null && !"".equals(arg)) {
@@ -137,6 +140,7 @@ public class ReportCaseProcessStatisController {
 			}
 			if (arg != null && !"".equals(arg)) {
 				tempUser = arg;
+				tempName = uamUserOrgService.getUserById(tempUser).getRealName();
 				List<String> uList = new ArrayList<String>();
 				List<User> userList = uamUserOrgService
 						.getUserByOrgIdAndJobCode(user.getServiceDepId(),
@@ -152,6 +156,7 @@ public class ReportCaseProcessStatisController {
 			}
 		} else { // 交易顾问
 			userId = user.getId();
+			isConsultant = true;
 			if (!depId.equals(org)) {
 				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
 			}
@@ -166,6 +171,9 @@ public class ReportCaseProcessStatisController {
 		request.setAttribute("status", status);
 		request.setAttribute("userId", userId);
 		request.setAttribute("tempUser", tempUser);
+		request.setAttribute("tempName", tempName);
+		request.setAttribute("isConsultant", isConsultant);
+		request.setAttribute("personalId", personalId);
 
 		String statusVal = null;
 		if("signed".equals(status)){
@@ -183,44 +191,104 @@ public class ReportCaseProcessStatisController {
 	}
 
 	/**
-	 * 案件状态基本统计
+	 * 案件状汇总统计
 	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "caseQuery")
-	public String caseQuery(Model model, ServletRequest request) {
+	public String caseQuery(			ServletRequest request,
+			@RequestParam(value = "createTimeStart", required = false) String createTimeStart,
+			@RequestParam(value = "createTimeEnd", required = false) String createTimeEnd,
+			@RequestParam(value = "arg", required = false) String arg) {
+		
 		SessionUser user = uamSessionService.getSessionUser();
-		String orgs = null;
-		String org = null;
-		String userId = null;
-		String districtId = null;
-		String transJob = null;
 
-		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
-			List<Org> orgList = uamUserOrgService.getOrgByParentId(user
-					.getServiceDepId());
-			orgs = orgListToListStr(orgList);
-			transJob = "GeneralManager";
-		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 如果是总监
-			districtId = user.getServiceDepId();
-			List<Org> orgList = uamUserOrgService.getOrgByParentId(districtId);
-			orgs = orgListToListStr(orgList);
-			transJob = "director";
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
-				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
-			org = user.getServiceDepId();
-		} else {// 交易顾问
-			userId = user.getId();
+		/* url传参空值处理 */
+		SimpleDateFormat format = null;
+		if (null == createTimeStart || "".equals(createTimeStart)) {
+			format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MONTH, 0);
+			c.set(Calendar.DAY_OF_MONTH, 1);
+			createTimeStart = format.format(c.getTime());
 		}
-		String month = (new Date().getMonth() + 1) + "";
+		if (null == createTimeEnd || "".equals(createTimeEnd)) {
+			format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar ca = Calendar.getInstance();
+			ca.set(Calendar.DAY_OF_MONTH,
+					ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+			createTimeEnd = format.format(ca.getTime());
+		}
+		
+		String depId = user.getServiceDepId(); // 用户的部门
+		String tempUser = null; // 交易主管下用户id
+		String org = depId;
+		
+		/* 验证当前用户所属组织和url传来的值是否一致 */
+		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 总经理
+			if (arg != null && !"".equals(arg)) {
+				org = arg;
+			}
+			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId);
+			List<String> disOrgs = new ArrayList<String>(); // 贵宾服务组集合
+			List<String> orgs = new ArrayList<String>(); // 组织集合
+			if (orgList != null && !orgList.isEmpty()) {
+				for (Org o : orgList) {
+					disOrgs.add(o.getId());
+					List<Org> subOrgs = uamUserOrgService.getOrgByParentId(o
+							.getId());
+					if (subOrgs != null && !subOrgs.isEmpty()) {
+						for (Org oo : subOrgs) {
+							orgs.add(oo.getId());
+						}
+					}
+				}
+			}
+			if (!depId.equals(org) && !disOrgs.contains(org)
+					&& !orgs.contains(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
+		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) {// 誉萃总监
+			if (arg != null && !"".equals(arg)) {
+				org = arg;
+			}
+			List<Org> orgList = uamUserOrgService.getOrgByParentId(depId); // 组织集合
+			List<String> orgs = new ArrayList<String>();
+			if (orgList != null && !orgList.isEmpty()) {
+				for (Org o : orgList) {
+					orgs.add(o.getId());
+				}
+			}
+			if (!depId.equals(org) && !orgs.contains(org)) {
+				throw new RuntimeException("不好意思,发生错误,组织ID与当前用户的不符合!!!");
+			}
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 交易主管
+			if (arg != null && !"".equals(arg)) {
+				tempUser = arg;
+				List<String> uList = new ArrayList<String>();
+				List<User> userList = uamUserOrgService
+						.getUserByOrgIdAndJobCode(user.getServiceDepId(),
+								TransJobs.TJYGW.getCode());
+				if (null != userList && !userList.isEmpty()) {
+					for (User u : userList) {
+						uList.add(u.getId());
+					}
+				}
+				if (!uList.contains(tempUser)) {
+					throw new RuntimeException("不好意思,发生错误,此交易主管下无该交易顾问!!!");
+				}
+			}
+		} 
+		
 		request.setAttribute("org", org);
-		request.setAttribute("orgs", orgs);
-		request.setAttribute("userId", userId);
-		request.setAttribute("districtId", districtId);
-		request.setAttribute("transJob", transJob);
-		request.setAttribute("month", month);
+		request.setAttribute("depId", depId);
+		request.setAttribute("tempUser", tempUser);
+		request.setAttribute("createTimeStart", createTimeStart);
+		request.setAttribute("createTimeEnd", createTimeEnd);
+		
 		return "report/case_query_count";
 	}
 

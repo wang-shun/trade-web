@@ -2,43 +2,33 @@
  * AISThink.com Inc.
  * Copyright (c) 2015-2015 All Rights Reserved.
  */
-var TaskTransSignValidate  = function () {
+var TaskFirstFollowValidate  = function () {
 	 //校验规则 数组
 	 rules = {
-			  guestNameUp : {
-				  isillegalUp : true
-		      },
-		      guestNameDown: {
-		    	  isillegalDown : true
-		      }
+			 propertyAddr : {
+				 isillegal : true
+		     }
 	 };
 	 
 	 messages = {
 	 };
 
-    jQuery.validator.addMethod("isillegalUp", function(value, element) {   
-	    //var regx = /,/;
-    	var regx = /^[\u4e00-\u9fa5a-zA-Z]+$/;
-	    return this.optional(element) || (regx.test(value));
-    }, "上家姓名只能输入中文和英文");
-    
-    jQuery.validator.addMethod("isillegalDown", function(value, element) {   
-	    var regx = /^[\u4e00-\u9fa5a-zA-Z]+$/;
-	    return this.optional(element) || (regx.test(value));
-    }, "下家姓名只能输入中文和英文");
-    
+    jQuery.validator.addMethod("isillegal", function(value, element) {   
+	    var regx = /\|/;
+	    return this.optional(element) || (!regx.test(value));
+    }, "产证地址不能包含特殊字符");
+   
     //重写错误显示消息方法,以alert方式弹出错误消息   
     showErrors = function(errorMap, errorList) {  
      var msg = "";  
-     $.each(errorList, function(i, v) {  
-      msg += (v.message + "\r\n");  
+     $.each(errorList, function(i, v) {
+      msg += (v.message + "\r\n</br>");  
      });  
-     if (msg != "")
-    	alert(msg);
-     	/*layer.alert(msg,{
+     if (msg != "")  
+     	layer.alert(msg,{
      		icon: 2
      		//time : 2000
-     	});*/
+     	});
     };
     
 

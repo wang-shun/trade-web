@@ -65,7 +65,7 @@ display: none;}
                                 </div>
 
                             </div>
-                            <div class="row">
+                            <div class="row ${isConsultant ? 'hideDiv' : '' }">
                             	<div class="col-lg-5 col-md-5">    
                             		 <div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">组织</label>
@@ -77,7 +77,7 @@ display: none;}
                                         </div>
                                     </div>
                             	</div>
-                            	<div class="col-lg-5 col-md-5 ${isConsultant ? 'hideDiv' : '' }">    
+                            	<div class="col-lg-5 col-md-5 ">    
                             			<div class="form-group">
                                         <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                         <div class="col-lg-9 col-md-9">
@@ -92,7 +92,7 @@ display: none;}
                             <div class="row">                           	
     							<div class="col-lg-5 col-md-5">
   									<div class="form-group">
-										<label class="col-lg-3 col-md-3 control-label font_w">确认收款时间</label>
+										<label class="col-lg-3 col-md-3 control-label font_w" style="padding-left: 0px;">确认收款时间</label>
                             			<div class="col-lg-9 col-md-9">
 	                            			<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd" style="width: 412px;">
 												<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" placeholder="起始日期" value="${sTime }"> <span class="input-group-addon">到</span>
@@ -135,6 +135,14 @@ display: none;}
 						<span id="currentTotalPage"><strong class="bold"></strong></span>
 						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+				    </div>
+				    <div class="row">
+				    	<div class="col-lg-12 ">    
+				    	<shiro:hasPermission name="TRADE.EVAL.RPT.EXPORT">  
+							<a data-toggle="modal" class="btn btn-primary"
+								href="javascript:void(0)" onclick="javascript:exportExcel()">案件导出</a>
+						</shiro:hasPermission>
+						</div>
 				    </div>
                 </div>
             </div>
@@ -199,12 +207,16 @@ display: none;}
      				language : 'zh-CN'
      			});
         	});
-	    		 
-        	
-			function reloadGrid(page) {
-    		
-	    		var data1 = {};
-        	    data1.queryId = "queryEvalItemListForStatistics";
+	    	function exportExcel(){
+	    		var data1=packgeData();
+	    		$.exportExcel({ctx : "${ctx}",
+		    	queryId : 'queryEvalItemListForStatistics',
+		    	colomns : ['CASE_CODE','PROPERTY_ADDR','CON_PRICE','EVAL_FEE','RECORD_TIME','PROCESSOR_ID'],
+		    	data:data1});
+	    	}
+        	function packgeData(page){
+        		var data1 = {};
+        	    
         	    data1.rows = 12;
         	    data1.page = 1;
         	    if(page){
@@ -220,7 +232,11 @@ display: none;}
         	    data1.search_pUserId  =$('#inTextVal').attr('hVal');
 				data1.search_startTime=sTime;
 				data1.search_endTime = (eTime!=''?eTime+ " 23:59:59":eTime);
-				
+				return data1;
+        	}
+			function reloadGrid(page) {
+				var data1=packgeData(page);
+				data1.queryId = "queryEvalItemListForStatistics";
 				aist.wrap(data1);
         	    fetchData(data1);
 	    	}

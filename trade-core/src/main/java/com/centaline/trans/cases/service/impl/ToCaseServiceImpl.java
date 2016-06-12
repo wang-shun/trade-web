@@ -1,15 +1,28 @@
 package com.centaline.trans.cases.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.message.core.remote.UamMessageService;
+import com.aist.message.core.remote.vo.Message;
+import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -20,12 +33,36 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.CasePropertyEnum;
+import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.vo.AgentManagerInfo;
+import com.centaline.trans.common.vo.BuyerSellerInfo;
+import com.centaline.trans.engine.bean.ProcessInstance;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.ToHouseTransferService;
+import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
@@ -55,7 +92,27 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToWorkFlowService workflowService;
 	@Autowired
 	private TgServItemAndProcessorService serItemAndProcessorServce;
-
+	@Autowired(required = true)
+	ToPropertyService toPropertyService;
+	@Autowired(required = true)
+	TgGuestInfoService tgGuestInfoService;
+	@Autowired(required = true)
+	TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired(required = true)
+	ToPropertyInfoService toPropertyInfoService;
+	@Autowired(required = true)
+	private ToTransPlanService toTransPlanService;
+	@Autowired(required = true)
+	private PropertyUtilsService propertyUtilsService;
+	@Autowired(required = true)
+	private WorkFlowManager workFlowManager;
+	@Autowired(required=true)
+	private UamTemplateService uamTemplateService;
+	@Autowired(required=true)
+	@Qualifier("uamMessageServiceClient")
+	private UamMessageService uamMessageService;
+	@Autowired(required = true)
+	private ToWorkFlowService toWorkFlowService;
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
 		// TODO Auto-generated method stub
@@ -221,5 +278,198 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return 1;
 	}
 
-	
+	@Override
+	public CaseBaseVO getCaseBaseVO(Long caseId) {
+		// 基本信息
+		ToCase toCase = selectByPrimaryKey(caseId);
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+        // 物业地址
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		// 买卖双方信息
+		BuyerSellerInfo  buyerSellerInfo = tgGuestInfoService.getBuerSellerInfoByCaseCode(toCase.getCaseCode());
+		
+		// 经纪人信息,分行经理信息,交易顾问信息
+		AgentManagerInfo agentManagerInfo = new AgentManagerInfo();
+		agentManagerInfo.setAgentName(toCaseInfo.getAgentName());
+		agentManagerInfo.setAgentPhone(toCaseInfo.getAgentPhone());
+		agentManagerInfo.setGrpName(toCaseInfo.getGrpName());
+		User agentUser = null;
+		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		if (agentUser != null) {
+			// 分行经理
+			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+					TransJobs.TFHJL.getCode());
+			if (mcList != null && mcList.size() > 0) {
+
+				User mcUser = mcList.get(0);
+				agentManagerInfo.setMcId(mcUser.getId());
+				agentManagerInfo.setMcName(mcUser.getRealName());
+				agentManagerInfo.setMcMobile(mcUser.getMobile());
+			}
+		}
+		
+		// 交易顾问
+		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		if (consultUser != null) {
+			agentManagerInfo.setCpId(consultUser.getId());
+			agentManagerInfo.setCpName(consultUser.getRealName());
+			agentManagerInfo.setCpMobile(consultUser.getMobile());
+		}
+		
+		// 助理
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(),
+				TransJobs.TJYZL.getCode());
+		if (asList != null && asList.size() > 0) {
+			User assistUser = asList.get(0);
+			agentManagerInfo.setAsId(assistUser.getId());
+			agentManagerInfo.setAsName(assistUser.getRealName());
+			agentManagerInfo.setAsMobile(assistUser.getMobile());
+		}
+		
+		// 合作顾问
+		List<CaseDetailProcessorVO> proList = new ArrayList<CaseDetailProcessorVO>();
+		TgServItemAndProcessor inProcessor = new TgServItemAndProcessor();
+		inProcessor.setCaseCode(toCase.getCaseCode());
+		inProcessor.setProcessorId(toCase.getLeadingProcessId());
+		List<String> tgproList = tgServItemAndProcessorService.findProcessorsByCaseCode(inProcessor);
+		for (String sp : tgproList) {
+			if (StringUtils.isEmpty(sp))
+				continue;
+			CaseDetailProcessorVO proVo = new CaseDetailProcessorVO();
+			User processor = uamUserOrgService.getUserById(sp);
+			proVo.setProcessorId(processor.getId());
+			proVo.setProcessorName(processor.getRealName());
+			proVo.setProcessorMobile(processor.getMobile());
+			proList.add(proVo);
+		}
+		agentManagerInfo.setProList(proList);
+		
+		CaseBaseVO caseBaseVO = new CaseBaseVO();
+		caseBaseVO.setBuyerSellerInfo(buyerSellerInfo);
+		caseBaseVO.setToCase(toCase);
+		caseBaseVO.setToCaseInfo(toCaseInfo);
+		caseBaseVO.setToPropertyInfo(toPropertyInfo);
+		caseBaseVO.setAgentManagerInfo(agentManagerInfo);
+		return caseBaseVO;
+	}
+	@Override
+	public void caseAssign(String caseCode,String userId,SessionUser sessionUser){
+		//案件信息更新
+		ToCase toCase = findToCaseByCaseCode(caseCode);
+		
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		if("1".equals(toCaseInfo.getIsResponsed())){
+			throw new BusinessException("数据已经被修改！");
+		}
+    	toCaseInfo.setIsResponsed("1");
+    	toCaseInfo.setRequireProcessorId(sessionUser.getId());
+    	toCaseInfo.setResDate(new Date());
+    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
+    	if(reToCaseInfo == 0)throw new BusinessException( "案件信息表更新失败！");
+
+		// 如果是无主案件分配,需要维护案件负责人
+		if(toCase == null) {
+			toCase = new ToCase();
+			toCase.setCaseCode(caseCode);
+			toCase.setCtmCode(toCaseInfo.getCtmCode());
+			toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+			toCase.setStatus(CaseStatusEnum.YFD.getCode());
+			toCase.setCreateTime(new Date());
+			toCase.setLeadingProcessId(userId);
+			toCase.setOrgId(sessionUser.getServiceDepId());
+			int caseCount = insertSelective(toCase);
+			if(caseCount == 0)throw new BusinessException("无主案件基本表新增失败！");
+		} else {
+    		toCase.setLeadingProcessId(userId);
+    		toCase.setOrgId(sessionUser.getServiceDepId());
+    		if(!CaseStatusEnum.WFD.getCode().equals(toCase.getStatus())){
+    			throw new BusinessException( "数据已经被修改！");
+    		}
+    		toCase.setStatus(CaseStatusEnum.YFD.getCode());
+    		int reToCase = updateByPrimaryKey(toCase);
+    		if(reToCase == 0)throw new BusinessException( "案件基本表更新失败！");
+		}
+		ToTransPlan record = new ToTransPlan();
+		record.setCaseCode(caseCode);
+		record.setPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_MONTH, 2);
+		record.setEstPartTime(cal.getTime());
+		toTransPlanService.insertSelective(record);
+		
+		ToWorkFlow toWorkFlow = new ToWorkFlow();
+
+		//启动流程引擎
+    	ProcessInstance process = new ProcessInstance();
+    	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+    	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+    	//流程引擎相关
+    	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+	    Iterator it = defValsMap.keySet().iterator();  
+	    while (it.hasNext()) {  
+            String key = it.next().toString();  
+    		RestVariable restVariable = new RestVariable();
+    		restVariable.setName(key); 
+    		restVariable.setValue(defValsMap.get(key));
+    		variables.add(restVariable);
+	    }
+    	process.setVariables(variables);
+    	User user = uamUserOrgService.getUserById(userId);
+
+        StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
+
+    	toWorkFlow.setInstCode(pIVo.getId());
+    	toWorkFlow.setBusinessKey(pIVo.getBusinessKey());
+    	toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
+    	toWorkFlow.setProcessOwner(userId);
+    	toWorkFlow.setCaseCode(toCase.getCaseCode());
+    	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+    	
+    	int reToWorkFlow = toWorkFlowService.insertSelective(toWorkFlow);
+		if(reToWorkFlow == 0)throw new BusinessException( "案件工作流表插入失败！");
+		
+	}
+	@Override
+	public void sendcaseAssignMsg(String caseCode,String userId,SessionUser sessionUser){
+		String propAddrString = "";
+		String agentMobile = "";
+		String agentName = "";
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		//物业信息
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		if(toPropertyInfo!=null){
+			if(!StringUtils.isEmpty(toPropertyInfo.getPropertyAddr())){
+    			propAddrString = toPropertyInfo.getPropertyAddr();
+			}
+		}
+		//经纪人
+		if(!StringUtils.isEmpty(toCaseInfo.getAgentCode())){
+    		User agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+    		if(agentUser!=null){
+    			if(!StringUtils.isEmpty(agentUser.getMobile())){
+    				agentMobile = agentUser.getMobile();
+    				agentName = agentUser.getRealName();
+    			}
+    		}
+		}
+		Message message= new Message();
+		String resourceCode = MsgLampEnum.MFOLLOW.getCode();
+		String title = MsgLampEnum.MFOLLOW.getName();
+		Map<String, Object> params = new HashMap<String, Object>();//创建map
+		params.put("case_code", caseCode);//放入参数
+	    params.put("property_address",propAddrString);
+	    params.put("agent_name",agentName);
+	    params.put("agent_phone",agentMobile);
+	    
+		String content = uamTemplateService.mergeTemplate(resourceCode, params);//拼接发送的字符串
+		message.setTitle(title);//消息标题
+		message.setType(MessageType.SITE);//消息类型  
+		message.setMsgCatagory(MsgCatagoryEnum.WORK.getCode());
+		message.setContent(content);
+		message.setSenderId(sessionUser.getId());
+		uamMessageService.sendMessageByDist(message, userId);
+	}
 }

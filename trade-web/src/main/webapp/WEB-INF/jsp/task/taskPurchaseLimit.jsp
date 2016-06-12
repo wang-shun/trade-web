@@ -50,9 +50,10 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<div class="row">
+	  <div class="ibox-title">
 		<div class="row wrapper border-bottom white-bg page-heading">
 			<div class="col-lg-10">
 				<h2>查限购</h2>
@@ -62,6 +63,7 @@
 				</ol>
 			</div>
 			<div class="col-lg-2"></div>
+		</div>
 		</div>
 		<div class="ibox-title">
 			<h5>完成提醒</h5>
