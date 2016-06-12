@@ -153,7 +153,7 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-						<th class="t-left pd-l">组织名</th>
+						<th class="t-left pd-l">组织/交易顾问</th>
 						<th class="t-left pd-l">接单数</th>
 						<th class="t-left pd-l">签约数</th>
 						<th class="t-left pd-l">过户数</th>
@@ -174,12 +174,11 @@ text-decoration: underline !important;
 		</div>
 	</div>
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="orgs" value="${orgs}" />
 	<input type="hidden" id="org" value="${org}" />
-	<input type="hidden" id="districtId" value="${districtId}" />
 	<input type="hidden" id="transJob" value="${transJob}" />
-	<input type="hidden" id="month" value="${month}" />
-	<input type="hidden" id="userId" value="${userId}" />
+	<input type="hidden" id="tempUser" value="${tempUser}" />
+	<input type="hidden" id="startTime" value="${createTimeStart}" />
+	<input type="hidden" id="endTime" value="${createTimeEnd}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
