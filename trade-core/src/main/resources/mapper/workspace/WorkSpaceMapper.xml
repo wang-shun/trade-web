@@ -208,10 +208,10 @@ from (
 	 	AND #{userId,jdbcType=DECIMAL} = a.SIGN_USER
 	 </if>
 	 <if test="orgId != null">
-	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 	AND a.SIGN_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	AND a.TEAM_ID IN
+	 	AND a.SIGN_TEAM_ID IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
@@ -229,10 +229,10 @@ from (
 	 	AND #{userId,jdbcType=DECIMAL} = a.HOUSE_TRANFER_USER
 	 </if>
 	 <if test="orgId != null">
-	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 	AND a.HOUSE_TRANFER_TIME=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	AND a.TEAM_ID IN
+	 	AND a.HOUSE_TRANFER_TIME IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
@@ -250,10 +250,10 @@ from (
 	 	AND #{userId,jdbcType=DECIMAL} = a.CLOSE_USER
 	 </if>
 	 <if test="orgId != null">
-	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
+	 	AND a.CLOSE_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	AND a.TEAM_ID IN
+	 	AND a.CLOSE_TEAM_ID IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
