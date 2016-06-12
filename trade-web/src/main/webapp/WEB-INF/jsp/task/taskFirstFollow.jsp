@@ -517,7 +517,7 @@
 				var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
 				var corsstxt = "";
 				corsstxt += "<div class='col-md-12' id='corss_area'>";
-				corsstxt += "<select name='CooperationUser' id='consult"+index+"'>";
+				corsstxt += "<select name='cooperationUser' id='consult"+index+"'>";
 				corsstxt += "<option value='0'>----人员----</option>";
 				corsstxt += '</select>';
 				corsstxt += "<select name='org' id='org"+index+"'>";
