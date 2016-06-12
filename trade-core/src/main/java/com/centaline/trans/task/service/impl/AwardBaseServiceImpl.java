@@ -316,7 +316,11 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			ab.setConfigId(conf.getPkId());
 			ab.setBaseAmount(dToB(conf.getSrvFee()));
 			ab.setGuohuTime(new Date());
-			ab.setDistrictId(district.getId());
+			if(district!=null){
+				ab.setDistrictId(district.getId());
+			}else{
+				ab.setDistrictId(null);
+			}
 			ab.setTeamId(task.getOrgId());
 			ab.setSrvPartTotal(dToB(1d));
 			ab.setSrvPartIn(dToB(1d));
