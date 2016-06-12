@@ -102,13 +102,13 @@
 					</ifNotNull>
 					
 					<ifNotNull guohuApproveTime>
-						INNER JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
+						LEFT JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
 						AND w.BUSINESS_KEY = 'operation_process'
 						AND w.STATUS IN ('0', '4')
-						INNER JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
+						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
 						AND v.name_ = 'GuohuApprove'
 						AND v.long_ = 1
-						INNER JOIN (
+						LEFT JOIN (
 							SELECT
 								t.proc_inst_id_,
 								MAX (end_time_) end_time_
@@ -126,7 +126,6 @@
 					<ifNotNull guohuApproveTimeEnd>
 						AND t.end_time_ &lt;= #guohuApproveTimeEnd#
 					</ifNotNull>
-		
 					<ifNotNull realHtTime>
 					INNER JOIN sctrans.T_TO_HOUSE_TRANSFER AS H ON B.CASE_CODE = H.CASE_CODE
 					</ifNotNull>
@@ -240,6 +239,13 @@
 					</ifNotNull>
 					<ifNotNull isNotResearchCloseCase>
 						and B.CASE_PROPERTY != '30003002'
+					</ifNotNull>
+					
+					<ifNotNull guohuApproveTimeStart>
+						AND t.end_time_ >= #guohuApproveTimeStart#
+					</ifNotNull>
+					<ifNotNull guohuApproveTimeEnd>
+						AND t.end_time_ <= #guohuApproveTimeEnd#
 					</ifNotNull>
 				]]>
 			</baseSql>

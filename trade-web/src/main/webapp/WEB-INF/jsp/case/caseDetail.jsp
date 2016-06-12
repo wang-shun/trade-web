@@ -615,8 +615,7 @@
                         	<!-- to do -->
                         	<c:if test="${not empty toWorkFlow.processDefinitionId}" >
                         		<c:if test="${not empty toWorkFlow.instCode}" >	
-                         	<iframe  frameborder=”no” border=”0″ marginwidth=”0″ marginheight=”0″ scrolling=”no” allowtransparency=”yes” style="height: 750px;width: 100%;
-                         	" src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
+                         			<iframe  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="auto" allowtransparency="yes" style="height: 1080px;width: 100%;" src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
                          		</c:if>
                          	</c:if>
             			</div>
