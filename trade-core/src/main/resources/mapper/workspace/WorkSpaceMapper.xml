@@ -229,10 +229,10 @@ from (
 	 	AND #{userId,jdbcType=DECIMAL} = a.HOUSE_TRANFER_USER
 	 </if>
 	 <if test="orgId != null">
-	 	AND a.HOUSE_TRANFER_TIME=#{orgId,jdbcType=VARCHAR}
+	 	AND a.HOUSE_TRANFER_TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
 	 <if test="orgs != null">
-	 	AND a.HOUSE_TRANFER_TIME IN
+	 	AND a.HOUSE_TRANFER_TEAM_ID IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
