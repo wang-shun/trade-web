@@ -49,6 +49,7 @@
 .col-md-2{
 	width:12%
 }
+.p0{padding-left:0 !important;padding-right:0 !important;}
 
 </style>
 </head>
@@ -143,22 +144,22 @@
 				<div class="ibox-title">
 					<h5>供应商查询</h5>
 				</div>
-				<div class="ibox-content" style="padding: 10px 10px 10px 10px;height:80px">
+				<div class="ibox-content" style="padding: 10px 10px 10px 10px;">
 					<form method="get" class="form-horizontal">
 						<div class="form-group ">
-							<div class="form-group">
-								<label class="col-md-2 control-label">供应商类型：</label>
-								<div class="col-md-2">
+							
+								<label class="col-md-2 control-label p0">供应商类型：</label>
+								<div class="col-md-3">
 									<aist:dict id="yuSupCat" name="yuSupCat" clazz="form-control m-b"
 										display="select" defaultvalue="" dictType="YU_SUP_CAT" />
 								</div>
-								<label class="col-md-2 control-label">供应商编号：</label>
+								<label class="col-md-2 control-label p0">供应商编号：</label>
 								<div class="col-md-2">
 									<input type="text" name="supCode"
 												id="supCode" placeholder=""
 												class="form-control" >
 								</div>
-								<label class="col-md-2 control-label">供应商名称：</label>
+								<label class="col-md-2 control-label p0">供应商名称：</label>
 								<div class="col-md-2">
 									<input type="text" name="supName"
 												id="supName" placeholder=""
@@ -167,7 +168,7 @@
 								<div class="col-sm-1">
 									<button id="searchButton" type="button" class="btn btn-primary pull-right">查询</button>
 								</div>
-							</div>
+						</div>
 					</form>
 				</div>
 			</div>
