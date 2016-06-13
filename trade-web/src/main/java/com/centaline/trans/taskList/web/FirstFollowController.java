@@ -376,7 +376,7 @@ public class FirstFollowController {
 			for (ToOrgVo toOrgVo : orgIdList) 
 			{
 				Org district = uamUserOrgService.getOrgById(toOrgVo.getId());
-				if(!myDistrict.getId().equals(district.getId()))
+				if(!myDistrict.getId().equals(district.getId())&&!"b4c490edc38c431a8dfd7dba98c73fe5".equals(district.getId())&&!"8a8493d4538a517a01539d47b51c1b02".equals(district.getId()))
 				{
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("districtId", district.getId());

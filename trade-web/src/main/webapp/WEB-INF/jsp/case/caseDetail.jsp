@@ -53,11 +53,6 @@
 .mark-jiean{background-image:url(../img/mark-jiean.png);}
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
 .mark-zaitu{background-image:url(../img/mark-zaitu.png);}
-
-#corss_area0{padding:0 8px 0 0;}
-#corss_area0 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
-#corss_area2{padding:0 8px 0 0;}
-#corss_area2 select{float:right;height:34px;border-radius:2px;margin-left:10px;} 
 .row:nth-last-child(2) .wd-31,.row:nth-last-child(1) .wd-31{width:31%;}
 .row:nth-last-child(2) .mr0,.row:nth-last-child(1) .mr0{margin-left:0;margin-right:0;}
 .row:nth-last-child(2) .wd87,.row:nth-last-child(1) .wd87{width:84px;margin-left: 8px;}
@@ -66,6 +61,7 @@
 .row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
 .pd0{padding:0;}
 .wd445{width:582px;margin-bottom:15px;}
+.wd445 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
 .modal-content{width:820px;}
 </style>
 </head>
