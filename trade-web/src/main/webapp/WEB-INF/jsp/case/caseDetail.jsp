@@ -559,11 +559,13 @@
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden"  name="processInstanceId" value="${toWorkFlow.instCode}">
 					<div class="modal-body">
+
+					<div style="padding-left: 20px; padding-right: 20px;">
 					<div class="row">
-						<div class="col-xs-12 col-md-5">
+						<div class="col-md-5">
 							<div class="form-group" id="data_1" name="isYouXiao">
-									<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>请选择客户贷款需求</label>
-									<div class="col-md-8">
+									<label class="col-md-5 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>请选择客户贷款需求</label>
+									<div class="col-md-7">
 										<aist:dict clazz="form-control" id="mortageService" name="mortageService" 
 								display="select" defaultvalue="0" dictType="mortage_service" />
 									</div>
@@ -571,10 +573,10 @@
 						</div>
 					</div>
 					<div class="row" id='div_releasePlan'>
-						<div class="col-xs-12 col-md-5">
+						<div class="col-md-5">
 							<div class="form-group">
-								<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>预计放款时间</label>
-								<div class="col-md-8">
+								<label class="col-md-5 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>预计放款时间</label>
+								<div class="col-md-7">
 									<div class=" input-group date">
 									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 									<input type="text" class="form-control" name="estPartTime" id="estPartTime" disabled="disabled"
@@ -589,6 +591,7 @@
 					</div>
 					<div class="divider"><hr></div>
 					<div id="hzxm">
+					</div>
 					</div>
 				</div>
 			 	<div class="modal-footer">
