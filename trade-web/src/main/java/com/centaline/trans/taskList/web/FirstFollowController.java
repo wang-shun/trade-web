@@ -79,16 +79,6 @@ public class FirstFollowController {
 
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
-		List<String> cooperationUsers = firstFollowVO.getCooperationUser();
-		List<String> cooperationUsers2 = new ArrayList<String>();
-		if(cooperationUsers!=null&&cooperationUsers.size()>0){
-			for (String obj : cooperationUsers) {
-				if(!"-1".equals(obj)){
-					cooperationUsers2.add(obj);
-				}
-			}
-		}
-		firstFollowVO.setCooperationUser(cooperationUsers2);
 		firstFollowService.saveFirstFollow(firstFollowVO);
 		return "task/task" + firstFollowVO.getPartCode();
 	}
@@ -386,7 +376,7 @@ public class FirstFollowController {
 			for (ToOrgVo toOrgVo : orgIdList) 
 			{
 				Org district = uamUserOrgService.getOrgById(toOrgVo.getId());
-				if(!myDistrict.getId().equals(district.getId()))
+				if(!myDistrict.getId().equals(district.getId())&&!"b4c490edc38c431a8dfd7dba98c73fe5".equals(district.getId())&&!"8a8493d4538a517a01539d47b51c1b02".equals(district.getId()))
 				{
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("districtId", district.getId());
@@ -444,16 +434,6 @@ public class FirstFollowController {
 		SessionUser user = uamSessionService.getSessionUser();
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
-		List<String> cooperationUsers = firstFollowVO.getCooperationUser();
-		List<String> cooperationUsers2 = new ArrayList<String>();
-		if(cooperationUsers!=null&&cooperationUsers.size()>0){
-			for (String obj : cooperationUsers) {
-				if(!"-1".equals(obj)){
-					cooperationUsers2.add(obj);
-				}
-			}
-		}
-		firstFollowVO.setCooperationUser(cooperationUsers2);
 		firstFollowService.saveFirstFollow(firstFollowVO);
 
 		/* 无效案件保存到审批记录表 */

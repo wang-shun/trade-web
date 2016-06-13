@@ -233,7 +233,7 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(),
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
 				TransJobs.TJYZL.getCode());
 		if (asList != null && asList.size() > 0) {
 			User assistUser = asList.get(0);

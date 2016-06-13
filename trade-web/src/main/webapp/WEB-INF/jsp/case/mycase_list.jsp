@@ -124,7 +124,7 @@ text-decoration: underline !important;
 								<div class="form-group">
 									<label class="col-md-3  col-sm-4 control-label">案件状态</label>
 									<div class="col-md-8">
-									    <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="form-control"/>
+									    <aist:dict id="status" name="case_status"  display="select" dictType="30001" clazz="form-control"/>
 									</div>
 								</div>
 							</div>
