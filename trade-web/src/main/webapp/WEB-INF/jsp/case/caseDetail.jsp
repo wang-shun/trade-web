@@ -465,7 +465,7 @@
                  </div>
              </div>  
              
-             <!-- start 变更合作对象   -->	         
+             <!-- start 变更合作对象  -->	         
 	         <div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
 				<form id="changeCooprations" action="${ctx}/case/updateCoope" method="post" class="form-horizontal">   
 				<input type="hidden" name="instCode" value="${toWorkFlow.instCode}"/>  
