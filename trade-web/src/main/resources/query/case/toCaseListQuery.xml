@@ -111,13 +111,14 @@
 						LEFT JOIN (
 							SELECT
 								t.proc_inst_id_,
+								t.assignee_,
 								MAX (end_time_) end_time_
 							FROM
 								sctrans.act_hi_taskinst t
 							WHERE
 								t.task_def_key_ = 'GuohuApprove'
 							GROUP BY
-								t.proc_inst_id_
+								t.proc_inst_id_,t.assignee_
 						) t ON t.proc_inst_id_ = w.inst_code
 					</ifNotNull>
 					<ifNotNull guohuApproveTimeStart>
