@@ -141,44 +141,46 @@ text-decoration: underline !important;
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-							</div>
-						</div>
-						<div class="row date-info">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="col-md-1 control-label"></label>
-									<div id="dateDiv_0">
-											<div id="select_div_0">
-												<aist:dict id="case_date_0" name="case_date"
-													clazz="btn btn-white chosen-select" display="select"
-													defaultvalue="${isLoanAgentTimeType}" dictType="loan_agent_time_type" />
+							<div class="col-md-6"  style="padding-left: 5.8% ">
+									<div class="row date-info">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="col-md-1 control-label"></label>
+											<div id="dateDiv_0">
+													<div id="select_div_0">
+														<aist:dict id="case_date_0" name="case_date"
+															clazz="btn btn-white chosen-select" display="select"
+															defaultvalue="${isLoanAgentTimeType}" dictType="loan_agent_time_type" />
+													</div>
+													<div id="datepicker_0" 
+														class="input-group input-medium date-picker input-daterange "
+														data-date-format="yyyy-mm-dd">
+														<input id="dtBegin_0" name="dtBegin" class="form-control"
+															style="font-size: 13px;" type="text" value="${startTime}"
+															placeholder="起始日期"> <span class="input-group-addon">到</span>
+														<input id="dtEnd_0" name="dtEnd" class="form-control"
+															style="font-size: 13px;" type="text" value="${endTime}"
+															placeholder="结束日期" />
+													</div>
+													<div id="addLine" class="pull-left m-l"></div>
 											</div>
-											<div id="datepicker_0"
-												class="input-group input-medium date-picker input-daterange pull-left"
-												data-date-format="yyyy-mm-dd">
-												<input id="dtBegin_0" name="dtBegin" class="form-control"
-													style="font-size: 13px;" type="text" value="${startTime}"
-													placeholder="起始日期"> <span class="input-group-addon">到</span>
-												<input id="dtEnd_0" name="dtEnd" class="form-control"
-													style="font-size: 13px;" type="text" value="${endTime}"
-													placeholder="结束日期" />
-											</div>
-											<div id="addLine" class="pull-left m-l"></div>
+										</div>
 									</div>
 								</div>
+									<div class="row m-t-sm">
+										<div class="col-md-12">
+											<div class="form-group">
+										<label class="col-md-1 control-label m-l-lg"></label>
+										<div><a class="" href="javascript:addDateDiv();"><font>添加日期检索</font></a></div>
+									</div>
+										</div>
+									</div>
 							</div>
 						</div>
+					
 						<div class="row m-t-sm">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l-lg"></label>
-							<div><a class="" href="javascript:addDateDiv();"><font>添加日期检索</font></a></div>
-						</div>
-							</div>
-						</div>
-						<div class="row m-t-sm">
-							<div class="col-md-12">
+						<div class="col-md-6"></div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-md-1 control-label m-l-lg"></label>
 									<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
