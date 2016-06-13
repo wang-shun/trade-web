@@ -471,7 +471,7 @@
              
              <!-- start 变更合作对象   -->	         
 	         <div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
-				<form action="${ctx}/case/updateCoope" method="post" class="form-horizontal">   
+				<form id="changeCooprations" action="${ctx}/case/updateCoope" method="post" class="form-horizontal">   
 				<input type="hidden" name="instCode" value="${toWorkFlow.instCode}"/>  
 				<input type="hidden" name="caseId" value="${toCase.pkid}"/>
 	             <div class="modal-dialog" style="width:800px">
@@ -496,7 +496,7 @@
 	                    </div> 
 	                    
 	                    <div class="modal-footer">
-				            <input type="submit" class="btn btn-primary" value="提交" onclick="return check()" />
+				            <input type="button" class="btn btn-primary" value="提交" onclick="submit_change()" />
 				            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 		                 </div>
                      </div>
