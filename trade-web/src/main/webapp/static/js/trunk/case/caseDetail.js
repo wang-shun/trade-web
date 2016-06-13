@@ -506,7 +506,7 @@ function check(){
 			}
 		});
 	}
-	return false;
+	return true;
 }
 
 /**
