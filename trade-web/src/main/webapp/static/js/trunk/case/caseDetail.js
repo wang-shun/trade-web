@@ -408,7 +408,7 @@ function mortageService() {
 				txt += "</div>";
 				txt += "<div class='col-xs-12 col-md-4'>";
 				txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
-				txt += "<label class='col-md-4 control-label'><font color='red'>*</font>合作顾问</label>";
+				txt += "<label class='col-md-5 control-label'><font color='red'>*</font>合作顾问</label>";
 				txt += "<div class='col-md-8'>";
 				txt += "<select class='form-control m-b' name='partner' id='cooperationUser0'>";
 				txt += "<option value='0'>----未选择----</option>";
