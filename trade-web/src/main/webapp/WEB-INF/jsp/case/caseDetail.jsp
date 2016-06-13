@@ -496,7 +496,7 @@
 	                    </div> 
 	                    
 	                    <div class="modal-footer">
-				            <input type="submit" class="btn btn-primary" value="提交" />
+				            <input type="submit" class="btn btn-primary" value="提交" onclick="return check()" />
 				            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 		                 </div>
                      </div>
@@ -926,6 +926,11 @@
 	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
 	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.2"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
+	
+	<!-- 校验 -->
+    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	
 	<!-- 放款监管信息  -->
 	<script src="${ctx}/transjs/task/caseflowlist.js"></script>
