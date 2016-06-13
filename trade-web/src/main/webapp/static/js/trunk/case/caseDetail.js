@@ -463,21 +463,21 @@ function ChangeModal(data) {
 	var aa=0;
 	$.each(data.servitemList, function(index, value){
 		addHtml+='<div class="row">';
-		addHtml += '<div class="col-md-6">';
-		addHtml += '<div class="form-group">';
+		addHtml += '<div class="col-md-6 wd-31">';
+		addHtml += '<div class="form-group mr0">';
 			if(value.users !=""&&value.users.length!=0){
 				addHtml += "<input type='hidden' name='caseCode' value='"+$('#caseCode').val()+"' />";
 				addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
 			}
-			addHtml += "<label class='col-md-3 control-label'>合作项目</label>";
-			addHtml += "<div class='col-md-9'><p class='form-control-static'>"+value.srvName+"</p></div>"
+			addHtml += "<label class='col-md-3 control-label wd87'>合作项目</label>";
+			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static'>"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
 		
-		addHtml += '<div class="col-md-6">';
+		addHtml += '<div class="col-md-6 wd-72">';
 			if(value.users !=""&&value.users.length!=0){
-				addHtml += "<label class='col-md-3 control-label'>合作顾问</label>";
+				addHtml += "<label class='col-md-2 control-label'>合作顾问</label>";
 			}
-		addHtml += "<div class=\"col-md-9\">";
+		addHtml += "<div class=\"col-md-10\">";
 		
 		if(value.users !=""&&value.users.length!=0){
 			addHtml += "<input type='hidden' name='orgId' value='"+value.orgId+"'/>";
@@ -491,13 +491,31 @@ function ChangeModal(data) {
 					addHtml += "<option value='"+value.id+"'>"+value.realName+"("+value.orgName+")"+"</option>";
 				}
 			});
+			addHtml += "<option value='-1'>---跨区选择---</option>";
 			addHtml += "</select>";
+			
+			/*跨区合作*/
+			/*var myProcessorId = $('select[name="processorId"]');
+			if(myProcessorId.length>0){
+				myProcessorId.bind("change", function(){
+					if(myProcessorId.find(":selected").val()=='-1'){
+						if($("#corss_area").length==0){
+							crossAreaCooperation(index);
+						}					
+					}else{
+						if($("#corss_area").length>0){
+							removeCrossAreaCooperation();
+						}					
+					}
+				});
+			}*/
 		}else{
 			
 		}
 		addHtml += "</div></div>";
 		addHtml += '</div>';
 		addHtml += '</div>';
+		
 	});
 	
 	$("#change-modal-data-show").html(addHtml);
@@ -506,6 +524,95 @@ function ChangeModal(data) {
 		animationHover(this, 'pulse');
 	});
 	$('#change-modal-form').modal("show");
+}
+
+/*点击生成或清除合作顾问下拉框*/
+$(document).on("change",'select[name="processorId"]',function(){
+	var pros=$('select[name="processorId"]');
+	$.each(pros,function(i,items){
+		if($('select[name="processorId"]:eq('+i+')').find(":selected").val()=='-1'){
+			if($("#corss_area"+i).length==0){
+				var corsstxt="";
+				corsstxt += "<div class='col-md-12 wd445' id='corss_area"+i+"'>";
+				corsstxt += "<select name='processorId' id='consult"+i+"'>";
+				corsstxt += "<option value='0'>----人员----</option>";
+				corsstxt += '</select>';
+				corsstxt += "<select name='orgId' id='org"+i+"'>";
+				corsstxt += "<option value='0'>----组别----</option>";
+				corsstxt += '</select>';				
+				corsstxt += "<select id='district"+i+"'>";
+				corsstxt += "<option value='0'>----部门----</option>";
+				corsstxt += '</select></div>';
+				$('select[name="processorId"]:eq('+i+')').parent('.col-md-10').after(corsstxt);
+				crossAreaCooperation(i);
+			}
+		}else{
+			if($("#corss_area"+i).length>0){
+				removeCrossAreaCooperation(i);
+			}					
+		}	
+	});
+});
+
+/*生成跨区合作选项框*/
+function crossAreaCooperation(i){
+	
+	var ctx = $("#ctx").val();
+	var url = ctx +"/task/firstFollow/getCrossAeraCooperationItems";
+	
+	$.ajax({
+		cache : true,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : url,
+		dataType : "json",
+		success : function(data) {
+			
+			/*三级联动*/
+			var district = $('#district'+i);
+			var org = $('#org'+i);
+			var consult = $("#consult"+i);
+			var districtStr="";
+			
+			$.each(data.cross,function(j,items){
+				districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
+			});
+			district.empty().append("<option value='0'>----部门----</option>"+districtStr);
+			
+			district.bind("change", function(){
+				var orgStr="";
+				var myIndex = district.find(":selected").index()-1;
+				$.each(data.cross[myIndex].orgs, function(i, items){
+					orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
+				})
+				org.empty().append("<option value='0'>----组别----</option>"+orgStr);
+				changeConsult();
+			});
+			
+			org.bind("change", changeConsult);
+			function changeConsult(){
+				var consultStr="";
+				var index1 = district.find(":selected").index()-1;
+				var index2 = org.find(":selected").index()-1;
+				$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
+					consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
+				});
+				consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
+				if(consultStr == ""){
+					consult.empty();
+					consult.append("<option value='0'>----人员----</option>");
+				}
+			}
+		},
+		error : function(errors) {
+			alert("数据出错。");
+		}
+	});
+}
+
+/*删除跨区合作的DOM节点*/
+function removeCrossAreaCooperation(i){
+	$("#corss_area"+i).remove();
 }
 
 

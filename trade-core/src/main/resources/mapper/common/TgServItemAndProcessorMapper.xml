@@ -199,7 +199,7 @@
     PROCESSOR_ID AS processorId
     from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    and PROCESSOR_ID &lt;&gt; #{processorId,jdbcType=VARCHAR}
+    and PROCESSOR_ID != #{processorId,jdbcType=VARCHAR}
   </select>
   
 <select id="findSrvsByCaseCode" parameterType="java.lang.String" resultType="java.lang.String">

@@ -1,6 +1,7 @@
 package com.centaline.trans.taskList.web;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.service.MortgageSelectService;
+import com.centaline.trans.task.entity.ToTransPlan;import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
 
@@ -57,6 +57,6 @@ public class MortgageSelectController {
 		} catch (BusinessException ex) {
 			return AjaxResponse.fail(ex.getMessage());
 		}
-		return AjaxResponse.success("å˜æ›´æˆåŠŸï¼");
+		return AjaxResponse.success("±ä¸ü³É¹¦£¡");
 	}
 }

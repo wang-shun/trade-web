@@ -726,6 +726,12 @@ function getReportList(tableId,pageId,isMainLoanBank){
     		{
     			caption:"新增报告",	
     			onClickButton: function (){ 
+    				var evaCode=$("#eva_code").val();
+    				if(evaCode==''){
+    					alert('请先接受询价结果！');
+    					return false;
+    				}
+    				confirmPricing();
     				getEvaCompany();
     				getAttchInfo();
     				$("#modal-form-report").modal('show');
@@ -1170,18 +1176,8 @@ $(document).ready(function () {
 	 			}
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
-		 		var rowId=$("#table_list_1").jqGrid("getGridParam","selrow");
-				var rowData = $("#table_list_1").jqGrid('getRowData', rowId);
-				if(rowData['TOTAL_PRICE'] == ""){
-					alert("询价结果还未返回，不能发起报告！");
-					return false;
-				}
-	 			deleteAndModify();
-
-	 			confirmPricing();
-
+		 		deleteAndModify();
 	 			return checkAttUp($(".att_first"));
-
 	 		}
 
 	 		return true;
@@ -1245,15 +1241,7 @@ $(document).ready(function () {
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
-	 		var rowId=$("#table_list_3").jqGrid("getGridParam","selrow");
-			var rowData = $("#table_list_3").jqGrid('getRowData', rowId);
-			if(rowData['TOTAL_PRICE'] == ""){
-				alert("询价结果还未返回，不能发起报告！");
-				return false;
-			}
  			deleteAndModify();
-
- 			confirmPricing();
  			return checkAttUp($(".att_second"));
 
  		}

@@ -54,12 +54,13 @@ text-decoration: underline;
 text-decoration: underline !important;
 }
 #inTextVal{width:50%}
-.chosen-container{float:left;margin-right:10px;margin-left:15px}
+.chosen-container{float:left;margin-right:10px;margin-left:25px}
 #addLine{line-height:35px;}
 .product-type span{margin-right:5px}	
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
 .date-info .col-md-12 .form-group:not(first-child){margin-bottom:0}
-[id^="dateDiv_"]:not(#dateDiv_0) .chosen-container{margin-left:33px}
+/* [id^="dateDiv_"]:not(#dateDiv_0) .chosen-container{margin-left:48px} */
+#loanSrvCode .chosen-container{margin-left:15px}
 .text-center{text-align:center;}
 .slash{font-weight:bold !important;}
 .case-num{
@@ -129,30 +130,43 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-2 control-label m-l">金融产品类型</label>
+									<div class="col-md-8"> 	
+										<aist:dict id="loanSrvCode" name="loanSrvCode"
+											clazz="btn btn-white " display="select"
+											defaultvalue="" dictType="yu_serv_cat_code_tree" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+							</div>
+						</div>
 						<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
-							<label class="col-md-1 control-label m-l"></label>
-							<div id="dateDiv_0">
-							<div id="select_div_0">
-								<aist:dict id="case_date_0" name="case_date"
-									clazz="btn btn-white chosen-select" display="select"
-									defaultvalue="${isLoanAgentTimeType}" dictType="loan_agent_time_type" />
-							</div>
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value="${startTime}"
-									placeholder="起始日期"> <span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control"
-									style="font-size: 13px;" type="text" value="${endTime}"
-									placeholder="结束日期" />
-							</div>
-							<div id="addLine" class="pull-left m-l">
-							</div>
-							</div>
-						</div>
+									<label class="col-md-1 control-label"></label>
+									<div id="dateDiv_0">
+											<div id="select_div_0">
+												<aist:dict id="case_date_0" name="case_date"
+													clazz="btn btn-white chosen-select" display="select"
+													defaultvalue="${isLoanAgentTimeType}" dictType="loan_agent_time_type" />
+											</div>
+											<div id="datepicker_0"
+												class="input-group input-medium date-picker input-daterange pull-left"
+												data-date-format="yyyy-mm-dd">
+												<input id="dtBegin_0" name="dtBegin" class="form-control"
+													style="font-size: 13px;" type="text" value="${startTime}"
+													placeholder="起始日期"> <span class="input-group-addon">到</span>
+												<input id="dtEnd_0" name="dtEnd" class="form-control"
+													style="font-size: 13px;" type="text" value="${endTime}"
+													placeholder="结束日期" />
+											</div>
+											<div id="addLine" class="pull-left m-l"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row m-t-sm">
@@ -207,7 +221,7 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0" vertical="middle">
 				<thead>
 					<tr>
-						<th><span class="sort" sortColumn="CASE_CODE" sord="desc">案件编码</span></th>
+						<th><span class="sort" sortColumn="CASE_CODE" sord="desc">案件编号</span></th>
 						<th>产证地址</th>
 						<th><span class="sort" sortColumn="LOAN_AMOUNT" sord="desc">申请金额</span></th>
 						<th><span class="sort" sortColumn="SIGN_AMOUNT" sord="desc">面签金额</span></th>
@@ -239,7 +253,7 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/loan/loan_agent_list.js?v=1.1"></script>
+	 <script src="${ctx}/js/trunk/loan/loan_agent_list.js?v=1.2"></script>
 	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 	  <!-- 分页控件  -->

@@ -56,6 +56,9 @@
 	margin-left:20px;}
 .product-type span{margin:0 5px 5px 0}
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
+.ibox-content-task{padding-bottom:40px !important;}
+#corss_area{padding:0 8px 0 0;}
+#corss_area select{float:right;height:34px;border-radius:2px;margin-left:20px;}
 </style>
 </head>
 <body>
@@ -73,7 +76,7 @@
  		</div>	
 		<div class="ibox-title">
 			<h5>填写任务信息</h5>
-			<div class="ibox-content">
+			<div class="ibox-content ibox-content-task">
 				<form method="get" class="form-horizontal" id="firstFollowform">
 					
 					<%--环节编码 --%>
@@ -349,7 +352,10 @@
 			
 			TaskFirstFollowValidate.init("firstFollowform","");
 			
-			initMortageService();
+			if($("cooperationUser"+index).length==0){
+				initMortageService();
+			}
+			
 			
 			/*  字典对应表关系
 				合作项目
@@ -400,7 +406,29 @@
 				var id = $(this).attr("id");
 				$("span[id='"+id+"']").changeSelect();
 			});
+			
 		});
+		
+		/*点击生成或清除合作顾问下拉框*/
+		$(document).on("click","#cooperationUser0_chosen",function(){
+			$(".chosen-single>span").each(function(){
+				if($(this).text()=="----跨区选择----"){
+					if($("#corss_area").length==0){
+						crossAreaCooperation();
+					}
+				}else{
+					if($("#corss_area").length>0){
+						removeCrossAreaCooperation();
+					}
+				}	
+			});
+		});
+		
+		/*删除跨区合作的DOM节点*/
+		function removeCrossAreaCooperation(){
+			$("#corss_area").remove();
+		}
+		
 		
 		/*设置div显示或隐藏*/
 		function isShow(divName, stats) {
@@ -433,7 +461,6 @@
 				data : {"serviceCode":'3000401002'},
 				success : function(data) {
 					
-	
 						    txt = "<div class='row'>";
 						    txt += "<div class='col-xs-12 col-md-8'>";
 						    txt += "<div class='form-group'  name='isYouXiao'>";
@@ -454,6 +481,7 @@
 									txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 								
 							});
+							txt += "<option value='-1'>----跨区选择----</option>";
 							txt += '</select></div></div>';
 							txt += "</div>";
 							txt += "</div>";
@@ -473,7 +501,6 @@
 							txt += '</select></div></div>'; */
 							$("#hzxm").append(txt);
 							
-							
 							var chaxiangou = $("#cooperationUser" + index);
 							chaxiangou.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 
@@ -484,6 +511,72 @@
 			});
 		}
 
+		 /*点击下拉框跨区合作的选项触发跨区合作的选项*/
+		function crossAreaCooperation(){
+				
+				var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
+				var corsstxt = "";
+				corsstxt += "<div class='col-md-12' id='corss_area'>";
+				corsstxt += "<select name='cooperationUser' id='consult"+index+"'>";
+				corsstxt += "<option value='0'>----人员----</option>";
+				corsstxt += '</select>';
+				corsstxt += "<select name='org' id='org"+index+"'>";
+				corsstxt += "<option value='0'>----组别----</option>";
+				corsstxt += '</select>';				
+				corsstxt += "<select id='district"+index+"'>";
+				corsstxt += "<option value='0'>----部门----</option>";
+				corsstxt += '</select></div>';
+				$("#hzxm").append(corsstxt);
+				
+				$.ajax({
+					cache : true,
+					async : false,//false同步，true异步
+					type : "POST",
+					url : url,
+					dataType : "json",
+					success : function(data) {
+						
+						/*三级联动*/
+						var district = $('#district'+index);
+						var org = $('#org'+index);
+						var consult = $("#consult"+index);
+						var districtStr="";
+						
+						$.each(data.cross,function(j,items){
+							districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
+						});
+						district.empty().append("<option value='0'>----部门----</option>"+districtStr);
+						
+						district.bind("change", function(){
+							var orgStr="";
+							var myIndex = district.find(":selected").index()-1;
+							$.each(data.cross[myIndex].orgs, function(i, items){
+								orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
+							})
+							org.empty().append("<option value='0'>----组别----</option>"+orgStr);
+							changeConsult();
+						});
+						
+						org.bind("change", changeConsult);
+						function changeConsult(){
+							var consultStr="";
+							var index1 = district.find(":selected").index()-1;
+							var index2 = org.find(":selected").index()-1;
+							$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
+								consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
+							});
+							consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
+							if(consultStr == ""){
+								consult.empty();
+								consult.append("<option value='0'>----人员----</option>");
+							}
+						}
+					},
+					error : function(errors) {
+						alert("数据出错。");
+					}
+				});
+		 }
 		
 		/**提交数据*/
 		function submit() {
@@ -591,6 +684,14 @@
 //	 					 item.focus();
 						 flag = true;
 						 return false;
+					}else if(item.value == "-1"){
+						$('#consult'+index+' option:selected').each(function(j,item2){
+							if(item2.value == "0"){
+								 alert("合作顾问为必选项!");
+								 flag = true;
+								 return false;
+							}
+						});
 					}
 				});
 				if(flag)return false;
