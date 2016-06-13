@@ -169,29 +169,22 @@ public class CaseChangeController {
 			tasks=workFlowManager.listTasks(tq).getData();
 		}
 		
-		List<String> processorIds = new ArrayList<String>();
-		for (String processorId : processorIdList) {
-			if(!"-1".equals(processorId)){
-				processorIds.add(processorId);
-			}
-		}
+		for (int i=0; i<processorIdList.size(); i++) {
+			String caseCode=caseCodeList.get(i);
+			String srvCode=srvCodeList.get(i);
+			String processorId=processorIdList.get(i);
+			String orgId=orgIdList.get(i);
 		
-		for (int i=0; i<processorIds.size(); i++) {
-				
-			String caseCode = caseCodeList.get(i);
-			String srvCode = srvCodeList.get(i);
-			String processorId = processorIdList.get(i);
-			String orgId = orgIdList.get(i);
-
-			pro = new TgServItemAndProcessor();
+			pro=new TgServItemAndProcessor();
 			pro.setProcessorId(processorId);
 			pro.setCaseCode(caseCode);
 			pro.setSrvCode(srvCode);
-
+			
 			pro.setOrgId(orgId);
-			TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
-			updatecoope = tgservItemAndProcessorService.updateCoope(pro);
-			updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId());
+			TgServItemAndProcessor proDb=tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
+			updatecoope=tgservItemAndProcessorService.updateCoope(pro);
+			updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId());
+			
 			
 		}
 		

@@ -439,13 +439,18 @@ function crossAreaCooperation(i){
 			district.bind("change", function(){
 				var orgStr="";
 				var myIndex = district.find(":selected").index()-1;
-				$.each(data.cross[myIndex].orgs, function(l, items){
-					orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
-				})
-				org.empty().append("<option value='0' selected='selected'>----组别----</option>"+orgStr);
-				var val1 = org.find(":selected").val();
-				if(val1!='0'){
-					changeConsult();
+				if(myIndex>=0){
+					$.each(data.cross[myIndex].orgs, function(l, items){
+						orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
+					})
+					org.empty().append("<option value='0' selected='selected'>----组别----</option>"+orgStr);
+					var val1 = org.find(":selected").val();
+					if(val1!='0'){
+						changeConsult();
+					}
+				}else{
+					org.empty().append("<option value='0'>----组别----</option>");
+					consult.empty().append("<option value='0'>----人员----</option>");					
 				}
 			});
 			
@@ -454,15 +459,19 @@ function crossAreaCooperation(i){
 				var consultStr="";
 				var index1 = district.find(":selected").index()-1;
 				var index2 = org.find(":selected").index()-1;
-				$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
-					consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
-				});
-				consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
-				if(consultStr == ""){
-					consult.empty();
-					consult.append("<option value='0'>----人员----</option>");
-				}
+				if(index2>=0){
+					$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
+						consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
+					});
+					consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
+					if(consultStr == ""){
+						consult.empty();
+						consult.append("<option value='0'>----人员----</option>");
+					}
 				getVals();
+				}else{
+					consult.empty().append("<option value='0'>----人员----</option>");
+				}
 			}
 			
 			consult.bind("change", getVals);
@@ -493,13 +502,12 @@ function removeCrossAreaCooperation(i){
 
 /*跨区合作表单校验*/
 function check(){
-	var crossAreas= $('.col-md-12 wd445');
+	var crossAreas= $('.wd445');
 	if(crossAreas.length==0){
 		return true;
 	}else if(crossAreas.length>0){
 		$.each(crossAreas, function(i,items){
-			 var crossProcessorId = items.children('select[name="crossProcessorId"]').find(':selected').val();
-			 alert(crossProcessorId)
+			 var crossProcessorId = $('.wd445:eq('+i+')').children('select[name="crossProcessorId"]').find(':selected').val();
 			if(crossProcessorId=='0'){
 				alert("跨区合作交易顾问不能为空!");
 				return false;
@@ -507,6 +515,13 @@ function check(){
 		});
 	}
 	return true;
+}
+
+/*提交跨区合作表单*/
+function submit_change(){
+	if(check()){
+		$('#changeCooprations').submit();
+	}
 }
 
 /**

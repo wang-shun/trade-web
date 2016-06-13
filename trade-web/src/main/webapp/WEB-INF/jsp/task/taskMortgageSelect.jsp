@@ -290,15 +290,20 @@
 					district.empty().append("<option value='0'>----部门----</option>"+districtStr);
 					
 					district.bind("change", function(){
-						var orgStr="";
-						var myIndex = district.find(":selected").index()-1;
-						$.each(data.cross[myIndex].orgs, function(i, items){
-							orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
-						})
-						org.empty().append("<option value='0'>----组别----</option>"+orgStr);
-						var val1 = org.find(":selected").val();
-						if(val1!='0'){
-							changeConsult();
+							var orgStr="";
+							var myIndex = district.find(":selected").index()-1;
+							if(myIndex>=0){
+							$.each(data.cross[myIndex].orgs, function(i, items){
+								orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
+							})
+							org.empty().append("<option value='0'>----组别----</option>"+orgStr);
+							var val1 = org.find(":selected").val();
+							if(val1!='0'){
+								changeConsult();
+							}
+						}else{
+							org.empty().append("<option value='0'>----组别----</option>");
+							consult.empty().append("<option value='0'>----人员----</option>");							
 						}
 					});
 					
@@ -307,15 +312,19 @@
 						var consultStr="";
 						var index1 = district.find(":selected").index()-1;
 						var index2 = org.find(":selected").index()-1;
-						$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
-							consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
-						});
-						consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
-						if(consultStr == ""){
-							consult.empty();
-							consult.append("<option value='0'>----人员----</option>");
+						if(index2>=0){
+							$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
+								consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
+							});
+							consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
+							if(consultStr == ""){
+								consult.empty();
+								consult.append("<option value='0'>----人员----</option>");
+							}
+							getVals();
+						}else{
+							consult.empty().append("<option value='0'>----人员----</option>");
 						}
-						getVals();
 					}
 					
 					consult.bind("change", getVals);
@@ -420,7 +429,7 @@
 					}else if(item.value == "-1"){
 						$('#consult'+index+' option:selected').each(function(j,item2){
 							if(item2.value == "0"){
-								 alert("合作顾问为必选项!");
+								 alert("跨区合作顾问未选择!");
 								 flag = true;
 								 return false;
 							}
