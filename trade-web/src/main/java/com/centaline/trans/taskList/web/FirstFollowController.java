@@ -79,16 +79,6 @@ public class FirstFollowController {
 
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
-		List<String> cooperationUsers = firstFollowVO.getCooperationUser();
-		List<String> cooperationUsers2 = new ArrayList<String>();
-		if(cooperationUsers!=null&&cooperationUsers.size()>0){
-			for (String obj : cooperationUsers) {
-				if(!"-1".equals(obj)){
-					cooperationUsers2.add(obj);
-				}
-			}
-		}
-		firstFollowVO.setCooperationUser(cooperationUsers2);
 		firstFollowService.saveFirstFollow(firstFollowVO);
 		return "task/task" + firstFollowVO.getPartCode();
 	}
@@ -444,16 +434,6 @@ public class FirstFollowController {
 		SessionUser user = uamSessionService.getSessionUser();
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
-		List<String> cooperationUsers = firstFollowVO.getCooperationUser();
-		List<String> cooperationUsers2 = new ArrayList<String>();
-		if(cooperationUsers!=null&&cooperationUsers.size()>0){
-			for (String obj : cooperationUsers) {
-				if(!"-1".equals(obj)){
-					cooperationUsers2.add(obj);
-				}
-			}
-		}
-		firstFollowVO.setCooperationUser(cooperationUsers2);
 		firstFollowService.saveFirstFollow(firstFollowVO);
 
 		/* 无效案件保存到审批记录表 */
