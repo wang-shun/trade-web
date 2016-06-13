@@ -96,4 +96,6 @@ public interface WorkFlowManager {
 
 	PageableVo getExecute(ExecuteGet executeGet);
 
+	void claimByInstCode(String instCode, String caseCode, String caseowner);
+
 }
