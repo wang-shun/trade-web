@@ -554,7 +554,6 @@
 								orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
 							})
 							org.empty().append("<option value='0'>----组别----</option>"+orgStr);
-							var val1 = org.find(":selected").val();
 							if(val1!='0'){
 								changeConsult();
 							}

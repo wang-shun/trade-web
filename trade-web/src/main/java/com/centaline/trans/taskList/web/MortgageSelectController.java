@@ -27,10 +27,10 @@ public class MortgageSelectController {
 			SessionUser u=uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
 		}
-		String crossPartner = (String)request.getParameter("crossPartner");
-		if(("-1".equals(vo.getPartner()))&&(crossPartner!=null)&&(!"".equals(crossPartner))){
-			vo.setPartner(crossPartner);
-		}
+//		String crossPartner = (String)request.getParameter("crossPartner");
+//		if(("-1".equals(vo.getPartner()))&&(crossPartner!=null)&&(!"0".equals(crossPartner))){
+//			vo.setPartner(crossPartner);
+//		}
 		return mortgageSelectService.submit(vo);
 	}
 }

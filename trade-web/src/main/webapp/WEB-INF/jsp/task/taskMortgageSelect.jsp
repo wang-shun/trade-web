@@ -208,7 +208,7 @@
 						txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
 						txt += "<label class='col-md-4 control-label'><font color='red'>*</font>合作顾问</label>";
 						txt += "<div class='col-md-8'>";
-						txt += "<select class='form-control m-b' name='partner' id='cooperationUser"+index+"'>";
+						txt += "<select class='form-control m-b' name='unCrossPartner' id='cooperationUser"+index+"'>";
 						txt += "<option value='0'>----未选择----</option>";
 						$.each(data.users, function(j, user){
 							if(cooperationUser==user.id){
@@ -216,22 +216,28 @@
 							}else{
 								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 							}
-							
 						});
 						txt += "<option value='-1'>----跨区选择----</option>";
-						txt += '</select></div></div>';
+						txt += '</select>';
+						txt += "<input type='hidden'  id='partner"+index+"' name='partner' value=''/>";
+						txt += '</div></div>';
 						txt += "</div>";
 						txt += "</div>";
 						$("#hzxm").append(txt);
+						$('#partner'+index).val($('#cooperationUser'+index).find(':selected').val());
 						
 						/*点击跨区合作选项*/
-			        	var partner = $('select[name="partner"]');
+			        	var partner = $('select[name="unCrossPartner"]');
 			        	partner.bind("change", function(){
 			        		if(partner.find(":selected").val()=="-1"){
+			        			$('#partner'+index).val('');
+			        			//alert($('#partner'+index).val());
 								if($("#corss_area").length==0){
 			        				crossAreaCooperation();
 								}
-			        		}else{ 
+			        		}else{
+			        			$('#partner'+index).val($('#cooperationUser'+index).find(':selected').val());
+			        			//alert($('#partner'+index).val());
 			        			if($("#corss_area").length>0){
 			        				removeCrossAreaCooperation();
 			        			}
@@ -309,6 +315,18 @@
 							consult.empty();
 							consult.append("<option value='0'>----人员----</option>");
 						}
+						getVals();
+					}
+					
+					consult.bind("change", getVals);
+					/*改变隐藏框的值*/
+					function getVals(){
+						var guwen=consult.find(':selected').val();
+						
+						if(guwen!='0'){
+							$('#partner'+index).val(guwen);
+						}
+						//alert($('#partner'+index).val());
 					}
 				},
 				error : function(errors) {
@@ -393,7 +411,7 @@
 		function checkForm() {
 			
 				var flag = false;
-				$('select[name="partner"] option:selected').each(function(i,item){
+				$('select[name="unCrossPartner"] option:selected').each(function(i,item){
 					if(item.value == "0"){
 						 alert("合作顾问为必选项!");
 //	 					 item.focus();
@@ -409,7 +427,7 @@
 						});						
 					}
 				});
-				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="partner"]').size()==0){
+				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="unCrossPartner"]').size()==0){
 					 alert("正在加载合作项目!");
 					 return false;
 				}
