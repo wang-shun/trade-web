@@ -594,6 +594,7 @@
 			if(!$("#firstFollowform").valid()){
 				return;
 			}
+			
 			var jsonData = $("#firstFollowform").serializeArray();
 			var result = ''
 			$("span.selected[name='srvCode']").each(function(){ 
@@ -602,6 +603,14 @@
 			var obj = {name:'srvCode',value:result.substring(0, result.length-1)};
 			jsonData.push(obj);
 			
+			for(var i=0;i<jsonData.length;i++)
+			{
+				var item = jsonData[i];
+				if(item["name"]=='cooperationUser' && (item["value"] == 0 || item["value"] == -1)){
+					delete jsonData[parseInt(i)];
+				}
+			}
+		
 			var url = "${ctx}/task/firstFollow/saveFirstFollow";
 			if(b) {
 				url = "${ctx}/task/firstFollow/submit";
@@ -670,6 +679,16 @@
 
 		//验证控件checkUI();
 		function checkForm() {
+			if($("#cooperationUser0").val()== 0){
+				alert("合作顾问未选择");
+				return false;
+			}
+			// 如果选择了跨区合作并且人员为空
+			if($("#cooperationUser0").val()== -1 && $("#consult0").val()== 0){
+				alert("跨区合作顾问未选择");
+				return false;
+			}
+			
 			var optionsRadios =  $('input[name=caseProperty]:checked').val(); 
 			
 			if(optionsRadios=='有效案件'  || (optionsRadios!='30003001' && optionsRadios!=undefined)) {
