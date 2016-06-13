@@ -113,6 +113,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		action.setMessageName("StartMortgageSelectMsg");
 		action.setVariables(variables);
 		workFlowManager.executeAction(action);
+		workFlowManager.claimByInstCode(vo.getProcessInstanceId(),vo.getCaseCode(),null);
 	}
 
 	/**
