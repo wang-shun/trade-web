@@ -259,13 +259,13 @@
 			var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
 			var corsstxt = "";
 			corsstxt += "<div class='col-md-12' id='corss_area'>";
-			corsstxt += "<select name='crossPartner' id='consult"+index+"'>";
+			corsstxt += "<select name='crossPartner' id='crossConsult"+index+"'>";
 			corsstxt += "<option value='0'>----人员----</option>";
 			corsstxt += '</select>';
-			corsstxt += "<select name='org' id='org"+index+"'>";
+			corsstxt += "<select name='crossOrg' id='crossOrg"+index+"'>";
 			corsstxt += "<option value='0'>----组别----</option>";
 			corsstxt += '</select>';				
-			corsstxt += "<select id='district"+index+"'>";
+			corsstxt += "<select id='crossDistrict"+index+"'>";
 			corsstxt += "<option value='0'>----部门----</option>";
 			corsstxt += '</select></div>';
 			$("#hzxm").append(corsstxt);
@@ -279,9 +279,9 @@
 				success : function(data) {
 					
 					/*三级联动*/
-					var district = $('#district'+index);
-					var org = $('#org'+index);
-					var consult = $("#consult"+index);
+					var district = $('#crossDistrict'+index);
+					var org = $('#crossOrg'+index);
+					var consult = $("#crossConsult"+index);
 					var districtStr="";
 					
 					$.each(data.cross,function(j,items){

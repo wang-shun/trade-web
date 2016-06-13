@@ -387,13 +387,13 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 			if($("#corss_area"+i).length==0){
 				var corsstxt="";
 				corsstxt += "<div class='col-md-12 wd445' id='corss_area"+i+"'>";
-				corsstxt += "<select name='crossProcessorId' id='consult"+i+"'>";
+				corsstxt += "<select name='crossProcessorId' id='crossConsult"+i+"'>";
 				corsstxt += "<option value='0'>----人员----</option>";
 				corsstxt += '</select>';
-				corsstxt += "<select name='crossOrgId' id='org"+i+"'>";
+				corsstxt += "<select name='crossOrgId' id='crossOrg"+i+"'>";
 				corsstxt += "<option value='0'>----组别----</option>";
 				corsstxt += '</select>';				
-				corsstxt += "<select id='district"+i+"'>";
+				corsstxt += "<select id='crossDistrict"+i+"'>";
 				corsstxt += "<option value='0'>----部门----</option>";
 				corsstxt += '</select></div>';
 				parent.after(corsstxt);
@@ -426,9 +426,9 @@ function crossAreaCooperation(i){
 		success : function(data) {
 			
 			/*三级联动*/
-			var district = $('#district'+i);
-			var org = $('#org'+i);
-			var consult = $("#consult"+i);
+			var district = $('#crossDistrict'+i);
+			var org = $('#crossOrg'+i);
+			var consult = $("#crossConsult"+i);
 			var districtStr="";
 			
 			$.each(data.cross,function(j,items){
