@@ -5,7 +5,6 @@
 package com.centaline.trans.workspace.web;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -677,48 +676,41 @@ public class WorkSpaceController {
 		Double loanAmount = workSpaceService.staLoanAgentLoanAmount(work);
 		Double signAmount = workSpaceService.staLoanAgentSignAmount(work);
 
-		NumberFormat formatter = new DecimalFormat("###,##0.00万");
-		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
-		
+		NumberFormat formatter = new DecimalFormat("###,###.00");
 		if (loanAmount == null) {
-			m.put("loanAmount", "0.00万");
+			m.put("loanAmount", "0.00");
 		} else {
-			m.put("loanAmount", formatter.format(loanAmount/10000));
+			m.put("loanAmount", formatter.format(loanAmount));
 		}
-		
 		if (signAmount == null) {
-			m.put("signAmount", "0.00万");
+			m.put("signAmount", "0.00");
 		} else {
-			m.put("signAmount", formatter.format(signAmount/10000));
+			m.put("signAmount", formatter.format(signAmount));
 		}
-		
 		if (m.get("actualAmount") == null) {
-			m.put("actualAmount", "0.00万");
+			m.put("actualAmount", "0.00");
 		} else {
-			m.put("actualAmount", formatter.format(((BigDecimal)m.get("actualAmount")).divide(new BigDecimal(10000))));
+			m.put("actualAmount", formatter.format(m.get("actualAmount")));
 		}
-		
 		if (m.get("convRate") == null) {
 			m.put("convRate", "0.00%");
 		} else {
-			m.put("convRate", formatter2.format(m.get("convRate")) + "%");
+			m.put("convRate", formatter.format(m.get("convRate")) + "%");
 		}
-		
 		Map m1 = workSpaceService.staEvaFee(work);
 		if (m1 != null) {
 			m.putAll(m1);
 		}
 		if (m.get("evalFee") == null) {
-			m.put("evalFee", "0.00万");
+			m.put("evalFee", "0.00");
 		} else {
-			m.put("evalFee", formatter.format(((BigDecimal)m.get("evalFee")).divide(new BigDecimal(10000))));
+			m.put("evalFee", formatter.format(m.get("evalFee")));
 		}
 		if (m.get("efConvRate") == null) {
 			m.put("efConvRate", "0.00%");
 		} else {
-			m.put("efConvRate", formatter2.format(m.get("efConvRate")) + "%");
+			m.put("efConvRate", formatter.format(m.get("efConvRate")) + "%");
 		}
-		
 		m.put("receiveCount", workSpaceService.staReceiveCount(work));
 		m.put("signCount", workSpaceService.staSignCount(work));
 		m.put("transferCount", workSpaceService.staTransferCount(work));
