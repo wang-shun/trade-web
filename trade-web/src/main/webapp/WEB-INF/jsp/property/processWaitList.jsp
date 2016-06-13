@@ -59,7 +59,7 @@
 
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
      <script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/js/trunk/property/processWaitList.js"></script>
+	<script src="${ctx}/js/trunk/property/processWaitList.js?v=1.0.1"></script>
  <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
 
