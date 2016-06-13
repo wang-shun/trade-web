@@ -611,7 +611,6 @@
 					delete jsonData[parseInt(i)];
 				}
 			}
-			console.log(jsonData);
 		
 			var url = "${ctx}/task/firstFollow/saveFirstFollow";
 			if(b) {
