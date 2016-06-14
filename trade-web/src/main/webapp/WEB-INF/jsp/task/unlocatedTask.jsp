@@ -286,12 +286,11 @@ text-decoration: underline !important;
         			}
         		}       		        		        		
         	    data1.rows = 5;
-        	    if(!page) {
+        	     if(!page) {
         	    	 data1.page = 1;
         	    } else {
         	    	data1.page = page;
-        	    }
-        	   
+        	    }       
         	    data1.argu_candidateId = "${candidateId}";
         	    data1.argu_mOrgId="${orgId}";
         	    data1.argu_managerFlag="${managerFlag}";

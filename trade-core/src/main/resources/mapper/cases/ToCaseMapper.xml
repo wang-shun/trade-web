@@ -123,6 +123,9 @@
       <if test="closeTime != null">
         CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
+       <if test="loanReq != null">
+        LOAN_REQ  = #{loanReq,jdbcType=VARCHAR},
+      </if>
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
@@ -513,6 +516,9 @@ FROM
       </if>
       <if test="closeTime != null">
       	CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanReq != null">
+        LOAN_REQ  = #{loanReq,jdbcType=VARCHAR},
       </if>
         UPDATE_TIME=GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
