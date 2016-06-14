@@ -610,7 +610,6 @@
 		
 		/**提交数据*/
 		function submit() {
-// 			caseTaskCheck();
 			save(true);
 		}
 
