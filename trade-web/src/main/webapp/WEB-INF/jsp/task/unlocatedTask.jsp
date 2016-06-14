@@ -85,7 +85,7 @@ text-decoration: underline !important;
 								<div class="control-div">
 							       	<select id="inTextType" data-placeholder= "搜索条件设定"
                                         class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-										<option value="0" id="propertyAddr">物业地址</option>
+										<option value="0" id="propertyAddr">产证地址</option>
 										<option value="1" id="caseCode" selected>案件编号</option>
 									</select>
 									<input id="inTextVal" type="text" class="form-control pull-left" value="${caseCode}">
@@ -120,7 +120,7 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th>案件编号</th>
-						<th>地址</th>
+						<th>产证地址</th>
 						<th><span class="sort" >服务名称</span></th>
 						<th>处理角色</th>
 						<th>开始时间</th>						
@@ -174,7 +174,7 @@ text-decoration: underline !important;
 	<script id="template_unlocatedTask" type="text/html">
          {{each rows as item index}}
  				     <tr class="tr-1">
-						<td><a href="{{item.caseId}}" target="_blank"><span class="sort active">{{item.caseCode}}</span></td>
+						<td><a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank"><span class="sort active">{{item.caseCode}}</span></td>
 						<td><span class="salesman-info">{{item.propertyAddr}}</span></td>
 						<td><span class="case-addr">{{item.taskDfKey}}</span></td>
 						<td><span class="salesman-info">{{item.taskJobCode}}</span></td>
@@ -268,7 +268,7 @@ text-decoration: underline !important;
 			function reloadGrid(page) {
 				var data1=packgeData(page);
 				data1.queryId = "queryUnlocatedTask";
-				aist.wrap(data1);
+				//aist.wrap(data1);
         	    fetchData(data1);
 	    	}
 			function packgeData(page){
@@ -286,7 +286,12 @@ text-decoration: underline !important;
         			}
         		}       		        		        		
         	    data1.rows = 5;
-        	    data1.page = 1;
+        	    if(!page) {
+        	    	 data1.page = 1;
+        	    } else {
+        	    	data1.page = page;
+        	    }
+        	   
         	    data1.argu_candidateId = "${candidateId}";
         	    data1.argu_mOrgId="${orgId}";
         	    data1.argu_managerFlag="${managerFlag}";
