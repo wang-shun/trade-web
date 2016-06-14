@@ -1,14 +1,19 @@
 package com.centaline.trans.user.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.utils.URLAvailability;
 
 @Controller
@@ -32,5 +37,15 @@ public class UserInfoController {
 		} 
 		return "user/userInfoShow";
 	}
-
+	
+	@RequestMapping(value="getUserInfo")
+	@ResponseBody
+	public UserOrgJob qureyUserInfo(HttpServletRequest request,String userId) {
+		List<UserOrgJob> userOrgList = uamUserOrgService.getUserOrgJobByUserId(userId);
+		if(!CollectionUtils.isEmpty(userOrgList)) {
+			return userOrgList.get(0);
+		} else {
+			return null;
+		}
+	}
 }
