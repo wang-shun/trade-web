@@ -32,6 +32,9 @@
             <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="A.ORG_ID" name="caseOrgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+             <condition field="G.IS_EVAL_FEE_GET" name="isEvalFeeGet" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            
+          
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -52,7 +55,7 @@
 					
 					FROM
 					sctrans.T_TO_CASE AS A 
-					INNER JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE
+					INNER JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE 
 					LEFT JOIN (
 					   SELECT DISTINCT 
 					       TG1.CASE_CODE, 
@@ -125,6 +128,16 @@
      				<ifNotNull guestname>
 							AND (C.SELLER  LIKE '%'+#guestname#+'%' OR F.BUYER LIKE '%'+#guestname#+'%') 
 					</ifNotNull>
+					<ifNotNull caseId>
+					AND D.CASE_CODE like '%'+#caseId#+'%'
+					</ifNotNull>
+					<ifNotNull  dtBegin>
+							AND G.RECORD_TIME >= #dtBegin#  
+					</ifNotNull>
+					<ifNotNull  dtEnd>
+							AND G.RECORD_TIME &lt;= #dtEnd#  
+					</ifNotNull>
+					
 				]]>
 			</baseSql>
 			<orderBySql>

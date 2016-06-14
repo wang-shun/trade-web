@@ -34,7 +34,10 @@ $(document).ready(
 					return false;
 				}
 			});
-			
+			$("#mortageService").change(function(){
+				mortageService();
+			});
+			$("#btn_loan_reqment_chg").click(chgLoanReqment);
 			
 			//案件挂起
 			buttonActivity();
@@ -284,7 +287,147 @@ function showLeadingModal(data) {
 	$('#leading-modal-form').modal("show");
 }
 
+function chgLoanReqment(){
+	if(!chgLoanReqmentCheck()){
+		return false;
+	}
+	var jsonData = $("#loan_reqment_chg_form").serializeArray();
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : ctx+"/task/mortgageSelect/loanRequirementChange",
+		dataType : "json",
+		data : jsonData,
+		beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+         },
+		success : function(data) {
+			if(data.success){
+				alert("变更成功");
+				$('#loanReqmentChg-modal-form').modal("hide");
+			}else{
+				alert(data.message);
+			}
+		},complete: function() { 
+			 $.unblockUI(); 
+		},
+		error : function(errors) {
+			alert("数据保存出错");
+			 $.unblockUI();
+		}
+	});
+}
+function chgLoanReqmentCheck() {
+	var flag = false;
+	$('select[name="partner"] option:selected').each(function(i,item){
+		if(item.value == "0"){
+			 alert("合作顾问为必选项!");
+//				 item.focus();
+			 flag = true;
+			 return false;
+		}
+	});
+	if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="partner"]').size()==0){
+		 alert("正在加载合作项目!");
+		 return false;
+	}
+	if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
+		alert('请选择预计放款时间');
+		return false;
+	}
+	if(flag)return false;
+	return true;
+}
+/*贷款需求变更*/
+function showLoanReqmentChgModal(){
+	$("#mortageService").val("0");
+	$('#div_releasePlan').hide();
+	$('#div_releasePlan .input-group.date').datepicker({
+		todayBtn : "linked",
+		keyboardNavigation : false,
+		forceParse : false,
+		autoclose : true
+	});
+	$('#loanReqmentChg-modal-form').modal("show");
+}
+/*function fetchLoanReleasePlan(){
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : ctx+"/task/mortgageSelect/getLoanReleasePlan",
+		dataType : "json",
+		data : {"caseCode":$("#caseCode").val()},
+		success : function(data) {
+			if(data){
+				$('#div_releasePlan .input-group.date').datepicker({
+					todayBtn : "linked",
+					keyboardNavigation : false,
+					forceParse : false,
+					autoclose : true,
+					defaultDate:new Date(data.estPartTime)
+				});
+				//$("#estPartTime").val();
+			}
+		}
+	});
+	
+}	*/
+function mortageService() {
+	var value = $("#mortageService").val();
+	if(value!='0'){
+		$("#estPartTime").removeProp('disabled');
+		$("#estPartTime").removeAttr('disabled');
+		 $('#div_releasePlan').show();
+	}else{
+		$("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
+		$('#div_releasePlan').hide();
+	}
+	$("#hzxm").html("");
+	if(value=='2'){
+		var url = ctx+"/task/firstFollow/queryMortageServiceByServiceCode";
+		$.ajax({
+			cache : false,
+			async : true,//false同步，true异步
+			type : "POST",
+			url : url,
+			dataType : "json",
+			data : {"serviceCode":'3000400201'},
+			success : function(data) {
+				txt = "<div class='row'>";
+			    txt += "<div class='col-xs-12 col-md-6'>";
+			    txt += "<div class='form-group'  name='isYouXiao'>";
+			    txt += "<label class='col-md-5 control-label'>合作项目</label>";
+			    txt += "<div class='col-md-7'>";
+				txt += "<input type='hidden' name='coworkService' value='"+data.dic.dicCode+"'/>";
+				txt += "<p id='' class='form-control-static'>"+data.dic.dictName+"</p>";
+				txt += "</div>";
+				txt += "</div>";
+				txt += "</div>";
+				txt += "<div class='col-xs-12 col-md-6'>";
+				txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
+				txt += "<label class='col-md-5 control-label'><font color='red'>*</font>合作顾问</label>";
+				txt += "<div class='col-md-7'>";
+				txt += "<select class='form-control m-b' name='partner' id='cooperationUser0'>";
+				txt += "<option value='0'>----未选择----</option>";
+				$.each(data.users, function(j, user){
+					txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
+				});
+				txt += '</select></div></div>';
+				txt += "</div>";
+				txt += "</div>";
+				$("#hzxm").append(txt);
 
+				},
+			
+			error : function(errors) {
+				alert("数据出错。");
+			}
+		});
+	}
+}
 /**
  * 变更合作对象
  */
@@ -314,7 +457,7 @@ function showChangeModal() {
 	});
 }
 
-// 变更合作对象
+//变更合作对象
 function ChangeModal(data) {
 	var addHtml = '';
 	var aa=0;
@@ -340,7 +483,7 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
 			aa=index;
-			$.each(value.users, function(index, value){
+			$.each(value.users, function(j, value){
 				// 让修改后的复选框默认被选中
 				if(data.servitemList[aa].processorId==value.id){
 					addHtml += "<option value='"+value.id+"' selected='selected'>"+value.realName+"("+value.orgName+")"+"</option>";
@@ -353,7 +496,7 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden'  id='processorId"+index+"' name='processorId' value=''/>";
 			addHtml += "<input type='hidden' name='oldOrgId' id='oldOrg"+index+"' value='"+value.orgId+"'/>";
 			
-			$('#processorId'+index).val($('#userChange'+index).find(":selected").val());
+			//$('#processorId'+index).val($('#userChange'+index).find(":selected").val());
 			
 		}else{
 			
@@ -365,6 +508,28 @@ function ChangeModal(data) {
 	});
 	
 	$("#change-modal-data-show").html(addHtml);
+
+	$.each(data.servitemList, function(index, value){
+		//$('#processorId'+index).val(data.servitemList[index].processorId);
+		
+		if(value.users !=""&&value.users.length!=0){
+			var isNeedDefualt = true;
+			var firstDefault = '';
+			$.each(value.users, function(j, value){
+				if(data.servitemList[index].processorId==value.id){
+					$('#processorId'+index).val(value.id);
+					isNeedDefualt = false;
+				}
+				if(j == 0) {
+					firstDefault = value.id;
+				}
+			});
+			
+			if(isNeedDefualt) {
+				$('#processorId'+index).val(firstDefault);
+			}
+		}
+    });
 
 	$('.change-box').each(function() {
 		animationHover(this, 'pulse');
@@ -382,8 +547,6 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 		var oldOrg = parent.children(':hidden:eq(2)');
 		var consult = parent.children(':hidden:eq(1)');
 		if($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val()=='-1'){
-			org.val('');
-			consult.val('');
 			if($("#corss_area"+i).length==0){
 				var corsstxt="";
 				corsstxt += "<div class='col-md-12 wd445' id='corss_area"+i+"'>";
@@ -400,9 +563,7 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 				crossAreaCooperation(i);
 			}
 		}else{
-			if(org.val()==''){
-				org.val(oldOrg.val());
-			}
+			org.val(oldOrg.val());
 			consult.val($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val());
 			if($("#corss_area"+i).length>0){
 				removeCrossAreaCooperation(i);
@@ -483,8 +644,6 @@ function crossAreaCooperation(i){
 				if(guwen!='0'){
 					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(0)').val(zuzhi);
 					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(1)').val(guwen);
-//					 alert($('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(0)').val()+""
-//							 +$('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(1)').val());
 				}
 			}
 			

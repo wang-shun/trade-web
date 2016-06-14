@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>誉萃交易进度查询</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/mobile-yc-style.css" rel="stylesheet">
+
+    <style type="text/css">
+        .headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .2s ease-in-out;}
+        .headroom--unpinned {top: -100px;}
+        .headroom--pinned {top: 0;}
+
+        .headroom {
+            will-change: transform;
+            transition: transform 200ms linear;
+        }
+        .slideDown {
+            transform: translateY(0);
+        }
+        .slideUp {
+            transform: translateY(-100%);
+        }
+
+    </style>
+
+    </head>
+
+<body>
+
+    <div id="wrapper">
+
+        <div id="page-wrapper" class="gray-bg">
+            
+            <div class="wrapper wrapper-content">
+                <div class="row animated fadeInRight">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content" id="act-filter-content">
+
+                                <div id="act-filter">
+                                    <div class="btn-group ">
+                                        <button class="btn btn-primary" type="button">全部</button>
+                                        <button class="btn btn-white" type="button">权证</button>
+                                        <button class="btn btn-white" type="button">按揭</button>
+                                        <button class="btn btn-white" type="button">e+</button>
+                                        <button class="btn btn-white" type="button">资金监管</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ibox-content case-title-content" id="">
+                                <div id="case-title" class="row">
+                                    <div class="col-lg-12">
+                                        <dl class="dl-horizontal">
+                                            <dt><strong>案件编号</strong></dt>
+                                            <dd>
+                                                <span class="label label-primary">ZY-AJ-201605-0958</span>
+                                            </dd>
+                                            <dt>地址</dt>
+                                            <dd>上海杨浦区临平路街街道（内环）鞍山八村29号</dd>
+                                            
+                                            <dt>上家</dt>
+                                            <dd>福尔摩斯、华生</dd>
+                                            <dt>下家</dt>
+                                            <dd>狄仁杰</dd>
+
+                                            <dt>经纪人</dt>
+                                            <dd></dd>
+                                            <dt>客户经理</dt>
+                                            <dd></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="ibox-content timeline-content" id="">
+                                <div id="vertical-timeline" class="vertical-container dark-timeline ">
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-qz-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4 user-pic">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u1.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 act-info">
+                                                <p>
+                                                    <span class="label label-danger" style="float:right">办理中</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>过户</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>完成时间：12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-aj-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4 user-pic">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u2.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 act-info">
+                                                <p>
+                                                    <span class="label label-primary" style="float:right">已办理</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>面签</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：陪同客户与银行信贷员进行按揭的面签</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>完成时间： 5:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-ej-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4 user-pic">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u3.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 act-info">
+                                                <p>
+                                                    <span class="label label-primary" style="float:right">已办理</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>赎楼贷放款</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：小贷公司赎楼贷款放款</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>完成时间：12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-jg-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4 user-pic">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u4.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 act-info">
+                                                <p>
+                                                    <span class="label label-primary" style="float:right">已办理</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>过户</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>完成时间：12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-qz-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u5.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p>
+                                                    <span class="label label-danger" style="float:right">办理中</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>过户</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-qz-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p>
+                                                    <span class="label label-danger" style="float:right">办理中</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>过户</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-qz-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p>
+                                                    <span class="label label-danger" style="float:right">办理中</span>
+                                                    <span style="float:left">
+                                                        <h3> <strong>过户</strong>
+                                                        </h3>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon blue-bg">
+                                            <i class="fa fa-file-text"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>Send documents to Mike</h2>
+                                            <p>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.
+                                            </p>
+                                            <a href="#" class="btn btn-sm btn-success">Download document</a>
+                                            <span class="vertical-date">
+                                                Today
+                                                <br/>
+                                                <small>Dec 24</small>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon lazur-bg">
+                                            <i class="fa fa-coffee"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>Coffee Break</h2>
+                                            <p>
+                                                Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.
+                                            </p>
+                                            <a href="#" class="btn btn-sm btn-info">Read more</a>
+                                            <span class="vertical-date">
+                                                Yesterday
+                                                <br/>
+                                                <small>Dec 23</small>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon yellow-bg">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>Phone with Jeronimo</h2>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.
+                                            </p>
+                                            <span class="vertical-date">
+                                                Yesterday
+                                                <br/>
+                                                <small>Dec 23</small>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon lazur-bg">
+                                            <i class="fa fa-user-md"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>Go to the doctor dr Smith</h2>
+                                            <p>
+                                                Find some issue and go to doctor. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                                            </p>
+                                            <span class="vertical-date">
+                                                Yesterday
+                                                <br/>
+                                                <small>Dec 23</small>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon navy-bg">
+                                            <i class="fa fa-comments"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>Chat with Monica and Sandra</h2>
+                                            <p>
+                                                Web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                            </p>
+                                            <span class="vertical-date">
+                                                Yesterday
+                                                <br/>
+                                                <small>Dec 23</small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="pull-right">
+                    10GB of
+                    <strong>250GB</strong>
+                    Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong>
+                    Example Company &copy; 2014-2015
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/demo/peity-demo.js"></script>
+
+     <!-- headroom -->
+    <script src="https://npmcdn.com/headroom.js@0.9.3"></script>
+    <script src="js/plugins/headroom/jQuery.headroom.js"></script>
+    
+
+    <script>
+        $(document).ready(function(){
+
+            // Local script for demo purpose only
+            $('#lightVersion').click(function(event) {
+                event.preventDefault()
+                $('#ibox-content').removeClass('ibox-content');
+                $('#vertical-timeline').removeClass('dark-timeline');
+                $('#vertical-timeline').addClass('light-timeline');
+            });
+
+            $('#darkVersion').click(function(event) {
+                event.preventDefault()
+                $('#ibox-content').addClass('ibox-content');
+                $('#vertical-timeline').removeClass('light-timeline');
+                $('#vertical-timeline').addClass('dark-timeline');
+            });
+
+            $('#leftVersion').click(function(event) {
+                event.preventDefault()
+                $('#vertical-timeline').toggleClass('center-orientation');
+            });
+
+            $('#act-filter-content').headroom({
+              "offset": 205,
+              "tolerance": 5,
+              "classes": {
+                "initial": "animated",
+                "pinned": "slideDown",
+                "unpinned": "slideUp"
+              }
+            });
+            
+            // var header = new Headroom(document.querySelector("#act-filter"), {
+            //     tolerance: 5,
+            //     offset : 205,
+            //     classes: {
+            //       initial: "animated",
+            //       pinned: "slideDown",
+            //       unpinned: "slideUp"
+            //     }
+            // });
+            // header.init();
+        });
+    </script>
+
+</body>
+
+</html>

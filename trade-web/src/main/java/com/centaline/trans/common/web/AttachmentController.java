@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -116,9 +117,11 @@ public class AttachmentController {
 		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
 		List<ToAccesoryList> list = new ArrayList<ToAccesoryList>();
 		if(attachments!=null && attachments.size()>0){
-			for(ToAttachment attachment:attachments){
+			Iterator<ToAttachment>it= attachments.iterator();
+			while(it.hasNext()){
+				ToAttachment attachment=it.next();
 				if(attachment.getPartCode().equals("property_research")){
-					attachments.remove(attachment);
+					it.remove();
 					continue;
 				}
 				if(!StringUtils.isEmpty(attachment.getPreFileCode())){
