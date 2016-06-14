@@ -120,7 +120,6 @@ $(document).ready(function() {
 
 });
 
-
 //日期控件
 $('#datepicker_0').datepicker({
 	format : 'yyyy-mm-dd',
