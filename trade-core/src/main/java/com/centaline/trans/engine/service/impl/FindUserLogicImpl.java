@@ -58,6 +58,7 @@ public class FindUserLogicImpl implements FindUserLogic {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private ToWorkFlowService workFlowService;
+	private List<String>psfTasks=Arrays.asList("PSFApply","PSFSign","PSFApprove");
 
 	/**
 	 * 
@@ -136,8 +137,11 @@ public class FindUserLogicImpl implements FindUserLogic {
 			String processInstanceId) {
 		String[] groups = null;
 		String tempUser = null;
-		String rejectUser = findRejectUser(groupId, taskDefinitionKey,
-				processInstanceId);
+		String rejectUser=null;
+		if(!psfTasks.contains(taskDefinitionKey)){//公积金相关任务不取上次处理人
+			rejectUser = findRejectUser(groupId, taskDefinitionKey,
+					processInstanceId);
+		}
 		if (rejectUser != null) {
 			return rejectUser;
 		}
