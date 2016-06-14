@@ -61,7 +61,7 @@
 						AND a.RECEIVED_TIME >= #receivedTimeStart#
 					</ifNotNull> 	
 					<ifNotNull receivedTimeEnd>
-						AND a.RECEIVED_TIME <= #receivedTimeEnd#
+						AND a.RECEIVED_TIME &lt;= #receivedTimeEnd#
 					</ifNotNull>
 					<ifNotNull signTime>
 						AND a.SIGN_TIME IS NOT NULL
@@ -70,7 +70,7 @@
 						AND a.SIGN_TIME >= #signTimeStart#
 					</ifNotNull> 	
 					<ifNotNull signTimeEnd>
-						AND a.SIGN_TIME <= #signTimeEnd#
+						AND a.SIGN_TIME &lt;= #signTimeEnd#
 					</ifNotNull>
 					<ifNotNull houseTranferTime>
 						AND a.HOUSE_TRANFER_TIME IS NOT NULL
@@ -79,7 +79,7 @@
 						AND a.HOUSE_TRANFER_TIME >= #houseTranferTimeStart#
 					</ifNotNull> 	
 					<ifNotNull houseTranferTimeEnd>
-						AND a.HOUSE_TRANFER_TIME <= #houseTranferTimeEnd#
+						AND a.HOUSE_TRANFER_TIME &lt;= #houseTranferTimeEnd#
 					</ifNotNull>
 					<ifNotNull closeTime>
 						AND a.CLOSE_TIME IS NOT NULL
@@ -88,7 +88,7 @@
 						AND a.CLOSE_TIME >= #closeTimeStart#
 					</ifNotNull> 	
 					<ifNotNull closeTimeEnd>
-						AND a.CLOSE_TIME <= #closeTimeEnd#
+						AND a.CLOSE_TIME &lt;= #closeTimeEnd#
 					</ifNotNull>
 						<ifNotNull org>
 						AND (a.DISTRICT_ID = #org# OR a.TEAM_ID = #org#)
