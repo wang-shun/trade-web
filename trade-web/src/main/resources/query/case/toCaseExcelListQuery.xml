@@ -282,7 +282,7 @@
 						AND G.REAL_CON_TIME >= #realConTimeStart#
 					</ifNotNull>
 					<ifNotNull realConTimeEnd>
-						AND G.REAL_CON_TIME <= #realConTimeEnd#
+						AND G.REAL_CON_TIME &lt;= #realConTimeEnd#
 					</ifNotNull>
 					
 					<ifNotNull realHtTime>
@@ -292,7 +292,7 @@
 						AND H.REAL_HT_TIME >= #realHtTimeStart#
 					</ifNotNull>
 					<ifNotNull realHtTimeEnd>
-						AND H.REAL_HT_TIME < =#realHtTimeEnd#
+						AND H.REAL_HT_TIME &lt; =#realHtTimeEnd#
 					</ifNotNull>
 					
 					<ifNotNull realPropertyGetTime>
@@ -302,7 +302,7 @@
 						AND I.REAL_PROPERTY_GET_TIME >= #realPropertyGetTimeStart#
 					</ifNotNull>
 					<ifNotNull realPropertyGetTimeEnd>
-						AND I.REAL_PROPERTY_GET_TIME <= #realPropertyGetTimeEnd#
+						AND I.REAL_PROPERTY_GET_TIME &lt;= #realPropertyGetTimeEnd#
 					</ifNotNull>
 
 					where 
@@ -375,13 +375,13 @@
 						  and J.SIGN_DATE >= #signDateStart#
 						</ifNotNull>
 						<ifNotNull signDateEnd>
-						  and J.SIGN_DATE <= #signDateEnd#
+						  and J.SIGN_DATE &lt;= #signDateEnd#
 						</ifNotNull>
 						<ifNotNull lendDateStart>
 						  and J.LEND_DATE >= #lendDateStart#
 						</ifNotNull>
 						<ifNotNull lendDateEnd>
-						  and J.LEND_DATE <= #lendDateEnd#
+						  and J.LEND_DATE &lt;= #lendDateEnd#
 						</ifNotNull>
 					<ifNotNull signlendDate>
 					  ) 
@@ -393,7 +393,7 @@
 						AND t.end_time_ >= #guohuApproveTimeStart#
 					</ifNotNull>
 					<ifNotNull guohuApproveTimeEnd>
-						AND t.end_time_ <= #guohuApproveTimeEnd#
+						AND t.end_time_ &lt;= #guohuApproveTimeEnd#
 					</ifNotNull>
 				]]>
 			</baseSql>

@@ -95,6 +95,7 @@ text-decoration: underline !important;
 .case-num:visited{
  text-decoration: underline !important;
 }
+#searchButton{margin-right:5px;}
 </style>
 </head>
 
@@ -213,7 +214,10 @@ text-decoration: underline !important;
 							<div class="col-md-12">
 								<div class="form-group">
 							<label class="col-md-1 control-label m-l-lg"></label>
-							<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
+							<div>
+								<button id="searchButton" type="button" class="btn btn-warning">查询</button>
+								<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+							</div>							
 						</div>
 							</div>
 						</div>

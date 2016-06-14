@@ -26,6 +26,9 @@
 
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+	rel="stylesheet">
 <style type="text/css">
 .f-n {
 	float: none !important;

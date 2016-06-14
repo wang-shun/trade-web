@@ -134,7 +134,7 @@ $(document).ready(
 
 						],
 						pager : "#operation_history_pager",
-						sortname:'ID',
+						sortname:'A.create_time',
 		    	        sortorder:'desc',
 						viewrecords : true,
 						pagebuttions : true,
@@ -306,7 +306,7 @@ function chgLoanReqment(){
 		success : function(data) {
 			if(data.success){
 				alert("变更成功");
-				$('#loanReqmentChg-modal-form').modal("hide");
+				location.reload();
 			}else{
 				alert(data.message);
 			}
@@ -480,9 +480,9 @@ function ChangeModal(data) {
 		addHtml += "<div class=\"col-md-10\">";
 		
 		if(value.users !=""&&value.users.length!=0){
-			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
 			aa=index;
+			var oldOrgId='';
 			$.each(value.users, function(j, value){
 				// 让修改后的复选框默认被选中
 				if(data.servitemList[aa].processorId==value.id){
@@ -490,13 +490,15 @@ function ChangeModal(data) {
 				}else{
 					addHtml += "<option value='"+value.id+"'>"+value.realName+"("+value.orgName+")"+"</option>";
 				}
+				oldOrgId=value.orgId;
 			});
 			addHtml += "<option value='-1'>---跨区选择---</option>";
 			addHtml += "</select>";
+			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<input type='hidden'  id='processorId"+index+"' name='processorId' value=''/>";
-			addHtml += "<input type='hidden' name='oldOrgId' id='oldOrg"+index+"' value='"+value.orgId+"'/>";
-			
-			//$('#processorId'+index).val($('#userChange'+index).find(":selected").val());
+			addHtml += "<input type='hidden' name='oldOrgId' id='oldOrg"+index+"' value='"+oldOrgId+"'/>";
+			addHtml += "<input type='hidden' name='otherProcessorId' id='otherProcessorId"+index+"' value='"+data.servitemList[index].processorId+"'/>";
+			addHtml += "<input type='hidden' name='otherOrgId' id='otherOrgId"+index+"' value=''/>";
 			
 		}else{
 			
@@ -510,23 +512,42 @@ function ChangeModal(data) {
 	$("#change-modal-data-show").html(addHtml);
 
 	$.each(data.servitemList, function(index, value){
-		//$('#processorId'+index).val(data.servitemList[index].processorId);
 		
 		if(value.users !=""&&value.users.length!=0){
+			$('#processorId'+index).val(data.servitemList[index].processorId); //赋值processorId的值
+			
 			var isNeedDefualt = true;
-			var firstDefault = '';
 			$.each(value.users, function(j, value){
 				if(data.servitemList[index].processorId==value.id){
-					$('#processorId'+index).val(value.id);
 					isNeedDefualt = false;
-				}
-				if(j == 0) {
-					firstDefault = value.id;
 				}
 			});
 			
 			if(isNeedDefualt) {
-				$('#processorId'+index).val(firstDefault);
+				var url = "/user/getUserInfo";
+				var ctx = $("#ctx").val();
+				var otherProcessorId=$("#otherProcessorId"+index).val();
+				url = ctx + url;
+
+				$.ajax({
+					cache : false,
+					async : true,
+					type : "POST",
+					url : url,
+					dataType : "json",
+					timeout : 10000,
+					data :[{
+						name:'userId',
+						value:otherProcessorId
+					}],
+					success : function(data) {
+						var newOption='<option value='+otherProcessorId+' selected="selected">'+data.realName+'('+data.orgName+')'+'</option>';
+						$('#userChange'+index).append(newOption);
+						$('#otherOrgId'+index).val(data.orgId);
+						$('#org'+index).val(data.orgId);					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+					}
+				});
 			}
 		}
     });
@@ -546,6 +567,8 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 		var org = parent.children(':hidden:eq(0)');
 		var oldOrg = parent.children(':hidden:eq(2)');
 		var consult = parent.children(':hidden:eq(1)');
+		var otherConsult = parent.children(':hidden:eq(3)');
+		var otherOrg = parent.children(':hidden:eq(4)');
 		if($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val()=='-1'){
 			if($("#corss_area"+i).length==0){
 				var corsstxt="";
@@ -562,6 +585,12 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 				parent.after(corsstxt);
 				crossAreaCooperation(i);
 			}
+		}else if($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val()==otherConsult.val()){
+			org.val(otherOrg.val());
+			consult.val(otherConsult.val());
+			if($("#corss_area"+i).length>0){
+				removeCrossAreaCooperation(i);
+			}				
 		}else{
 			org.val(oldOrg.val());
 			consult.val($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val());

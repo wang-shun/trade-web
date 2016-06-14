@@ -1,7 +1,6 @@
 /**
  * 评估费核实 wanggh
  */
-
 $(document).ready(function() {
 					// Examle data for jqGrid
 					// Configuration for jqGrid Example 1
@@ -121,7 +120,6 @@ $(document).ready(function() {
 
 });
 
-
 //日期控件
 $('#datepicker_0').datepicker({
 	format : 'yyyy-mm-dd',
@@ -134,9 +132,41 @@ $('#datepicker_0').datepicker({
 function rowEdit(id){
     var row = $("#table_list_1").getRowData(id);
 
+    var caseCode=row.CASE_CODE;
+    var ctx = $("#ctx").val();
+	var params=caseCode;
+	
+	$.ajax({
+		async: false,
+		cache : false,
+		type : "GET",
+		url : ctx+'/eval/findInfo?caseCode='+caseCode,
+		dataType: 'json',
+		contentType: "application/json; charset=utf-8",
+	    success:function(data) {
+//			alert(data);
+			if(data.success){
+				
+			}
+		},
+		
+		error: function(errors) {
+		}
+	}); 
+	
     var inHtml = '<input type="hidden" id="evalId" value="'+row.EVALID+'">';
     inHtml += '<input type="hidden" id="caseCode" value="'+row.CASE_CODE+'">';
     inHtml += '<div class="form-group">';
+    inHtml += '<label class="col-sm-4 control-label f-n">案件地址：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">'+row.PROPERTY_ADDR+'</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">合同价：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">成交价：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">交易顾问：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">手机号：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
     inHtml += '<label class="col-sm-4 control-label">评估费：</label>';
     inHtml += '<label class="col-sm-6"><input id="evalFee" name="evalFee" type="text" class="form-control" value="'+row.EVAL_FEE+'"></label>';
     inHtml += '</div><div class="form-group">';
