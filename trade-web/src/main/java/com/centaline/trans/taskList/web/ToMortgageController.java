@@ -69,7 +69,7 @@ public class ToMortgageController {
     public AjaxResponse<ToMortgage> getMortgageInfo(ToMortgage toMortgage,HttpServletRequest request) {
 		AjaxResponse<ToMortgage> response = new AjaxResponse<ToMortgage>();
 		try{
-			ToMortgage mortgage = toMortgageService.findToMortgageByCondition(toMortgage);
+			ToMortgage mortgage = toMortgageService.findToMortgageByCaseCodeWithAll(toMortgage);
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
@@ -187,7 +187,7 @@ public class ToMortgageController {
 			ToMortgage mortgage = new ToMortgage();
 			mortgage.setCaseCode(processInstanceVO.getCaseCode());
 			mortgage.setIsMainLoanBank(isMainLoanBank);
-			ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(mortgage);
+			ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeWithAll(mortgage);
 			if(toMortgage == null){
 				response.setMessage("未找到该案件的按揭贷款信息，请先保存按揭贷款信息！");
 				return response;
