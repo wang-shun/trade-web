@@ -473,11 +473,11 @@ function ChangeModal(data) {
 			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static'>"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
 		
-		addHtml += '<div class="col-md-6 wd-72">';
+		addHtml += '<div class="col-md-6 wd-50">';
 			if(value.users !=""&&value.users.length!=0){
-				addHtml += "<label class='col-md-2 control-label'>合作顾问</label>";
+				addHtml += "<label class='col-md-3 control-label'>合作顾问</label>";
 			}
-		addHtml += "<div class=\"col-md-10\">";
+		addHtml += "<div class=\"col-md-9\">";
 		
 		if(value.users !=""&&value.users.length!=0){
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
