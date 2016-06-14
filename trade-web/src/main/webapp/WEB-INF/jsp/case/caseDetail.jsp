@@ -54,15 +54,22 @@
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
 .mark-zaitu{background-image:url(../img/mark-zaitu.png);}
 .row:nth-last-child(2) .wd-31,.row:nth-last-child(1) .wd-31{width:31%;}
+.row:nth-last-child(2) .wd-50,.row:nth-last-child(1) .wd-50{width:50%;}
 .row:nth-last-child(2) .mr0,.row:nth-last-child(1) .mr0{margin-left:0;margin-right:0;}
 .row:nth-last-child(2) .wd87,.row:nth-last-child(1) .wd87{width:84px;margin-left: 8px;}
-.row:nth-last-child(2) .wd-72,.row:nth-last-child(1) .wd-72{width:72%;margin-left:-30px;}
+.row:nth-last-child(2) .wd-72,.row:nth-last-child(1) .wd-72{width:72%;margin-left:-8px;}
 .row:nth-last-child(2) .wd-64,.row:nth-last-child(1) .wd-64{width:61%;padding-right:0;}
 .row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
 .pd0{padding:0;}
 .wd445{width:582px;margin-bottom:15px;}
 .wd445 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
 .modal-content{width:820px;}
+.row {
+   margin-right : 0px !important;
+}
+.modal-content {
+   width : 1000px!important;
+}
 </style>
 </head>
 

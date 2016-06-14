@@ -463,7 +463,7 @@ function ChangeModal(data) {
 	var aa=0;
 	$.each(data.servitemList, function(index, value){
 		addHtml+='<div class="row">';
-		addHtml += '<div class="col-md-6 wd-31">';
+		addHtml += '<div class="col-md-6 wd-50">';
 		addHtml += '<div class="form-group mr0">';
 			if(value.users !=""&&value.users.length!=0){
 				addHtml += "<input type='hidden' name='caseCode' value='"+$('#caseCode').val()+"' />";
