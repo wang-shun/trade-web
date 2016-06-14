@@ -407,31 +407,6 @@
 			
 		});
 		
-		/*点击生成或清除合作顾问下拉框*/
-		$(document).on("click","#cooperationUser0_chosen",function(){
-			$(".chosen-single>span").each(function(){
-				if($(this).text()=="----跨区选择----"){
-					$('#coUser'+index).val('');
-					if($("#corss_area").length==0){
-						crossAreaCooperation();
-					}
-					//alert($('#coUser'+index).val());
-				}else{
-					$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
-					if($("#corss_area").length>0){
-						removeCrossAreaCooperation();
-					}
-					//alert($('#coUser'+index).val());
-				}	
-			});
-		});
-		
-		/*删除跨区合作的DOM节点*/
-		function removeCrossAreaCooperation(){
-			$("#corss_area").remove();
-		}
-		
-		
 		/*设置div显示或隐藏*/
 		function isShow(divName, stats) {
 		    var div_array = document.getElementsByName(divName);   
@@ -517,6 +492,30 @@
 			});
 		}
 
+		/*点击生成或清除合作顾问下拉框*/
+		$(document).on("click","#cooperationUser0_chosen",function(){
+			$(".chosen-single>span").each(function(){
+				if($(this).text()=="----跨区选择----"){
+					$('#coUser'+index).val('');
+					if($("#corss_area").length==0){
+						crossAreaCooperation();
+					}
+					//alert($('#coUser'+index).val());
+				}else{
+					$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
+					if($("#corss_area").length>0){
+						removeCrossAreaCooperation();
+					}
+					//alert($('#coUser'+index).val());
+				}	
+			});
+		});
+		
+		/*删除跨区合作的DOM节点*/
+		function removeCrossAreaCooperation(){
+			$("#corss_area").remove();
+		}        
+        
 		 /*点击下拉框跨区合作的选项触发跨区合作的选项*/
 		function crossAreaCooperation(){
 				

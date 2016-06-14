@@ -457,7 +457,7 @@ function showChangeModal() {
 	});
 }
 
-// 变更合作对象
+//变更合作对象
 function ChangeModal(data) {
 	var addHtml = '';
 	var aa=0;
@@ -483,7 +483,7 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
 			aa=index;
-			$.each(value.users, function(index, value){
+			$.each(value.users, function(j, value){
 				// 让修改后的复选框默认被选中
 				if(data.servitemList[aa].processorId==value.id){
 					addHtml += "<option value='"+value.id+"' selected='selected'>"+value.realName+"("+value.orgName+")"+"</option>";
@@ -496,7 +496,7 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden'  id='processorId"+index+"' name='processorId' value=''/>";
 			addHtml += "<input type='hidden' name='oldOrgId' id='oldOrg"+index+"' value='"+value.orgId+"'/>";
 			
-			$('#processorId'+index).val($('#userChange'+index).find(":selected").val());
+			//$('#processorId'+index).val($('#userChange'+index).find(":selected").val());
 			
 		}else{
 			
@@ -508,6 +508,28 @@ function ChangeModal(data) {
 	});
 	
 	$("#change-modal-data-show").html(addHtml);
+
+	$.each(data.servitemList, function(index, value){
+		//$('#processorId'+index).val(data.servitemList[index].processorId);
+		
+		if(value.users !=""&&value.users.length!=0){
+			var isNeedDefualt = true;
+			var firstDefault = '';
+			$.each(value.users, function(j, value){
+				if(data.servitemList[index].processorId==value.id){
+					$('#processorId'+index).val(value.id);
+					isNeedDefualt = false;
+				}
+				if(j == 0) {
+					firstDefault = value.id;
+				}
+			});
+			
+			if(isNeedDefualt) {
+				$('#processorId'+index).val(firstDefault);
+			}
+		}
+    });
 
 	$('.change-box').each(function() {
 		animationHover(this, 'pulse');
@@ -525,8 +547,6 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 		var oldOrg = parent.children(':hidden:eq(2)');
 		var consult = parent.children(':hidden:eq(1)');
 		if($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val()=='-1'){
-			org.val('');
-			consult.val('');
 			if($("#corss_area"+i).length==0){
 				var corsstxt="";
 				corsstxt += "<div class='col-md-12 wd445' id='corss_area"+i+"'>";
@@ -543,9 +563,7 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 				crossAreaCooperation(i);
 			}
 		}else{
-			if(org.val()==''){
-				org.val(oldOrg.val());
-			}
+			org.val(oldOrg.val());
 			consult.val($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val());
 			if($("#corss_area"+i).length>0){
 				removeCrossAreaCooperation(i);
@@ -626,8 +644,6 @@ function crossAreaCooperation(i){
 				if(guwen!='0'){
 					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(0)').val(zuzhi);
 					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(1)').val(guwen);
-//					 alert($('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(0)').val()+""
-//							 +$('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(1)').val());
 				}
 			}
 			
