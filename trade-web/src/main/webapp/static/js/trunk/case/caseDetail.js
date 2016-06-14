@@ -134,7 +134,7 @@ $(document).ready(
 
 						],
 						pager : "#operation_history_pager",
-						sortname:'ID',
+						sortname:'A.create_time',
 		    	        sortorder:'desc',
 						viewrecords : true,
 						pagebuttions : true,
@@ -306,7 +306,7 @@ function chgLoanReqment(){
 		success : function(data) {
 			if(data.success){
 				alert("变更成功");
-				$('#loanReqmentChg-modal-form').modal("hide");
+				location.reload();
 			}else{
 				alert(data.message);
 			}
