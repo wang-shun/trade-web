@@ -64,7 +64,7 @@
 								AND	received_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	received_time<=#endTime#
+								AND	received_time &lt;= #endTime#
 							</ifNotNull>
 						GROUP by DISTRICT_ID) t1 
 						ON tyoh.DISTRICT_ID=t1.DISTRICT_ID
@@ -80,7 +80,7 @@
 								AND	sign_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	sign_time<=#endTime#
+								AND	sign_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by DISTRICT_ID) c 
 						ON a.DISTRICT_ID=c.DISTRICT_ID
@@ -96,7 +96,7 @@
 									AND	house_tranfer_time>=#startTime#
 								</ifNotNull>
 								<ifNotNull endTime>
-									AND	house_tranfer_time<=#endTime#
+									AND	house_tranfer_time &lt;=#endTime#
 								</ifNotNull>
 							GROUP by DISTRICT_ID) d
 							ON a.DISTRICT_ID=d.DISTRICT_ID
@@ -112,7 +112,7 @@
 								AND close_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND close_time<=#endTime#
+								AND close_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by DISTRICT_ID)e
 						ON a.DISTRICT_ID=e.DISTRICT_ID)
@@ -169,7 +169,7 @@
 								AND	received_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	received_time<=#endTime#
+								AND	received_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by TEAM_ID) b 
 						ON a.ORG_ID=b.TEAM_ID
@@ -185,7 +185,7 @@
 								AND	sign_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	sign_time<=#endTime#
+								AND	sign_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by TEAM_ID) c 
 						ON a.ORG_ID=c.TEAM_ID
@@ -201,7 +201,7 @@
 									AND	house_tranfer_time>=#startTime#
 								</ifNotNull>
 								<ifNotNull endTime>
-									AND	house_tranfer_time<=#endTime#
+									AND	house_tranfer_time &lt;=#endTime#
 								</ifNotNull>
 							GROUP by TEAM_ID) d
 							ON a.ORG_ID=d.TEAM_ID
@@ -217,7 +217,7 @@
 								AND close_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND close_time<=#endTime#
+								AND close_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by TEAM_ID)e
 						ON a.ORG_ID=e.TEAM_ID)
@@ -278,7 +278,7 @@
 								AND t1.received_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t1.received_time<=#endTime#
+								AND t1.received_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by 
 							t2.PROCESSOR_ID) b 
@@ -295,7 +295,7 @@
 								AND t3.sign_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t3.sign_time<=#endTime#
+								AND t3.sign_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by 
 							t4.PROCESSOR_ID) c 
@@ -312,7 +312,7 @@
 								AND t5.house_tranfer_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t5.house_tranfer_time<=#endTime#
+								AND t5.house_tranfer_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by 
 							t6.PROCESSOR_ID) d
@@ -329,7 +329,7 @@
 								AND t7.close_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t7.close_time<=#endTime#
+								AND t7.close_time &lt;=#endTime#
 							</ifNotNull>								
 						GROUP by 
 							t8.PROCESSOR_ID) e
