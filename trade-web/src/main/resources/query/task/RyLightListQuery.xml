@@ -66,7 +66,7 @@
 							  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,uoj.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,tc.pkid
 						
 							  
-							  )as a where color <> '2'
+							  )as a where color &lt;&gt; '2'
 				]]>
 			</baseSql>
 			<groupSql>

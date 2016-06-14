@@ -94,11 +94,6 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isvalid}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-13B29F98-48C5-4348-A85E-A3ABFA4E2F2B" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="MortgageSelect"></sequenceFlow>
-    <inclusiveGateway id="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB"></inclusiveGateway>
-    <sequenceFlow id="sid-1C46B6E1-CF13-4550-B206-2F40F4F6EE0E" sourceRef="MortgageSelect" targetRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB"></sequenceFlow>
-    <sequenceFlow id="flow11" sourceRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed == false && PSFLoanNeed ==false && SelfLoanNeed ==false}]]></conditionExpression>
-    </sequenceFlow>
     <subProcess id="comloan_subproc" name="商贷子流程">
       <userTask id="ComLoanProcess" name="商业贷款办理" activiti:candidateGroups="consultant">
         <extensionElements>
@@ -110,11 +105,8 @@
       <sequenceFlow id="flow14" sourceRef="startevent1" targetRef="ComLoanProcess"></sequenceFlow>
       <sequenceFlow id="flow15" sourceRef="ComLoanProcess" targetRef="endevent1"></sequenceFlow>
     </subProcess>
-    <sequenceFlow id="flow12" sourceRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB" targetRef="comloan_subproc">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed}]]></conditionExpression>
-    </sequenceFlow>
     <sequenceFlow id="flow13" sourceRef="comloan_subproc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
-    <subProcess id="subprocess1" name="公积金子流程">
+    <subProcess id="PFSLoan_subproc" name="公积金子流程">
       <userTask id="PSFApply" name="纯公积金贷款申请" activiti:candidateGroups="consultant"></userTask>
       <sequenceFlow id="sid-F0D56D7E-C336-4E7C-A321-BEDE51BE7B98" sourceRef="PSFApply" targetRef="PSFSign"></sequenceFlow>
       <userTask id="PSFSign" name="纯公积金贷款签约" activiti:candidateGroups="consultant"></userTask>
@@ -125,11 +117,8 @@
       <sequenceFlow id="flow22" sourceRef="startevent3" targetRef="PSFApply"></sequenceFlow>
       <sequenceFlow id="flow23" sourceRef="PSFApprove" targetRef="endevent3"></sequenceFlow>
     </subProcess>
-    <sequenceFlow id="flow16" sourceRef="subprocess1" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
-    <sequenceFlow id="flow17" sourceRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB" targetRef="subprocess1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${PSFLoanNeed}]]></conditionExpression>
-    </sequenceFlow>
-    <subProcess id="subprocess2" name="贷款流失子流程">
+    <sequenceFlow id="flow16" sourceRef="PFSLoan_subproc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
+    <subProcess id="loanLost_subproc" name="贷款流失子流程">
       <userTask id="LoanlostApply" name="贷款流失申请" activiti:candidateGroups="consultant"></userTask>
       <sequenceFlow id="sid-0AFC0D8A-4841-4166-B1B9-D597A035D246" sourceRef="LoanlostApply" targetRef="LoanlostApproveManager"></sequenceFlow>
       <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:candidateGroups="Manager">
@@ -164,11 +153,11 @@
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_director==false}]]></conditionExpression>
       </sequenceFlow>
     </subProcess>
-    <sequenceFlow id="flow18" sourceRef="subprocess2" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="loanLost_subproc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
     <boundaryEvent id="ComLoanBoundaryMsg" name="Message" attachedToRef="comloan_subproc" cancelActivity="true">
       <messageEventDefinition messageRef="StartMortgageSelectMsg"></messageEventDefinition>
     </boundaryEvent>
-    <subProcess id="subprocess4" name="交易过户子流程(过户前)">
+    <subProcess id="tradeSubProc" name="交易过户子流程(过户前)">
       <userTask id="PurchaseLimit" name="查限购" activiti:candidateGroups="consultant"></userTask>
       <userTask id="TaxReview" name="审税" activiti:candidateGroups="consultant"></userTask>
       <userTask id="Pricing" name="核价" activiti:candidateGroups="consultant"></userTask>
@@ -195,21 +184,17 @@
       <sequenceFlow id="flow29" sourceRef="TaxReview" targetRef="inclusivegateway2"></sequenceFlow>
       <sequenceFlow id="flow30" sourceRef="LoanClose" targetRef="inclusivegateway2"></sequenceFlow>
     </subProcess>
-    <sequenceFlow id="flow25" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="subprocess4"></sequenceFlow>
-    <boundaryEvent id="TradeBoundaryMsg" name="Message" attachedToRef="subprocess4" cancelActivity="false">
+    <sequenceFlow id="flow25" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="tradeSubProc"></sequenceFlow>
+    <boundaryEvent id="PSFBoundaryMsg" name="Message" attachedToRef="PFSLoan_subproc" cancelActivity="true">
       <messageEventDefinition messageRef="StartMortgageSelectMsg"></messageEventDefinition>
     </boundaryEvent>
-    <boundaryEvent id="PSFBoundaryMsg" name="Message" attachedToRef="subprocess1" cancelActivity="true">
+    <boundaryEvent id="LoanLostBoundaryMsg" name="Message" attachedToRef="loanLost_subproc" cancelActivity="true">
       <messageEventDefinition messageRef="StartMortgageSelectMsg"></messageEventDefinition>
     </boundaryEvent>
-    <boundaryEvent id="LoanLostBoundaryMsg" name="Message" attachedToRef="subprocess2" cancelActivity="true">
-      <messageEventDefinition messageRef="StartMortgageSelectMsg"></messageEventDefinition>
-    </boundaryEvent>
-    <sequenceFlow id="flow34" sourceRef="subprocess4" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
-    <sequenceFlow id="flow35" sourceRef="ComLoanBoundaryMsg" targetRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB"></sequenceFlow>
-    <sequenceFlow id="flow36" sourceRef="TradeBoundaryMsg" targetRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB"></sequenceFlow>
-    <sequenceFlow id="flow37" sourceRef="PSFBoundaryMsg" targetRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB"></sequenceFlow>
-    <sequenceFlow id="flow38" sourceRef="LoanLostBoundaryMsg" targetRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB"></sequenceFlow>
+    <sequenceFlow id="flow34" sourceRef="tradeSubProc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
+    <sequenceFlow id="flow35" sourceRef="ComLoanBoundaryMsg" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow37" sourceRef="PSFBoundaryMsg" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow38" sourceRef="LoanLostBoundaryMsg" targetRef="exclusivegateway1"></sequenceFlow>
     <exclusiveGateway id="sid-5CDC198E-0A57-4007-947A-E3E0F76D8CE5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow39" sourceRef="InvalidCaseApprove" targetRef="sid-5CDC198E-0A57-4007-947A-E3E0F76D8CE5"></sequenceFlow>
     <sequenceFlow id="flow40" sourceRef="sid-5CDC198E-0A57-4007-947A-E3E0F76D8CE5" targetRef="FirstFollow">
@@ -218,8 +203,23 @@
     <sequenceFlow id="flow41" sourceRef="sid-5CDC198E-0A57-4007-947A-E3E0F76D8CE5" targetRef="sid-077DB997-A81D-4C18-BF7A-E5848046AE3C">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${InvalidCaseApprove}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow42" sourceRef="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB" targetRef="subprocess2">
+    <boundaryEvent id="TradeBoundaryMsg" name="Message" attachedToRef="tradeSubProc" cancelActivity="false">
+      <messageEventDefinition messageRef="StartMortgageSelectMsg"></messageEventDefinition>
+    </boundaryEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow43" sourceRef="TradeBoundaryMsg" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow44" sourceRef="exclusivegateway1" targetRef="comloan_subproc">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow45" sourceRef="exclusivegateway1" targetRef="PFSLoan_subproc">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${PSFLoanNeed}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow46" sourceRef="exclusivegateway1" targetRef="loanLost_subproc">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SelfLoanNeed}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow47" sourceRef="MortgageSelect" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow48" sourceRef="exclusivegateway1" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed == false && PSFLoanNeed == false && SelfLoanNeed ==false}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_operation_process">
@@ -287,25 +287,22 @@
       <bpmndi:BPMNShape bpmnElement="sid-79756F09-FF56-4641-9144-8A782FF1E98F" id="BPMNShape_sid-79756F09-FF56-4641-9144-8A782FF1E98F">
         <omgdc:Bounds height="40.0" width="40.0" x="41.0" y="323.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB" id="BPMNShape_sid-75C1D164-DBAA-419C-8A74-A12EC811BEBB">
-        <omgdc:Bounds height="40.0" width="40.0" x="151.0" y="638.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="comloan_subproc" id="BPMNShape_comloan_subproc">
-        <omgdc:Bounds height="98.0" width="371.0" x="385.0" y="530.0"></omgdc:Bounds>
+        <omgdc:Bounds height="98.0" width="371.0" x="389.0" y="520.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="ComLoanProcess" id="BPMNShape_ComLoanProcess">
-        <omgdc:Bounds height="55.0" width="123.0" x="513.0" y="559.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="123.0" x="517.0" y="549.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="413.0" y="569.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="417.0" y="559.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="693.0" y="569.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="697.0" y="559.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="ComLoanBoundaryMsg" id="BPMNShape_ComLoanBoundaryMsg">
-        <omgdc:Bounds height="30.0" width="30.0" x="371.0" y="590.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="375.0" y="580.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="subprocess1" id="BPMNShape_subprocess1">
+      <bpmndi:BPMNShape bpmnElement="PFSLoan_subproc" id="BPMNShape_PFSLoan_subproc">
         <omgdc:Bounds height="111.0" width="620.0" x="265.0" y="663.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="PSFApply" id="BPMNShape_PSFApply">
@@ -324,9 +321,9 @@
         <omgdc:Bounds height="35.0" width="35.0" x="839.0" y="702.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="PSFBoundaryMsg" id="BPMNShape_PSFBoundaryMsg">
-        <omgdc:Bounds height="30.0" width="30.0" x="256.0" y="650.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="250.0" y="673.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="subprocess2" id="BPMNShape_subprocess2">
+      <bpmndi:BPMNShape bpmnElement="loanLost_subproc" id="BPMNShape_loanLost_subproc">
         <omgdc:Bounds height="205.0" width="902.0" x="140.0" y="823.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="LoanlostApply" id="BPMNShape_LoanlostApply">
@@ -356,7 +353,7 @@
       <bpmndi:BPMNShape bpmnElement="LoanLostBoundaryMsg" id="BPMNShape_LoanLostBoundaryMsg">
         <omgdc:Bounds height="30.0" width="30.0" x="158.0" y="811.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="subprocess4" id="BPMNShape_subprocess4">
+      <bpmndi:BPMNShape bpmnElement="tradeSubProc" id="BPMNShape_tradeSubProc">
         <omgdc:Bounds height="228.0" width="627.0" x="223.0" y="230.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="PurchaseLimit" id="BPMNShape_PurchaseLimit">
@@ -390,10 +387,13 @@
         <omgdc:Bounds height="40.0" width="40.0" x="749.0" y="326.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="TradeBoundaryMsg" id="BPMNShape_TradeBoundaryMsg">
-        <omgdc:Bounds height="30.0" width="30.0" x="273.0" y="440.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="270.0" y="447.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="sid-5CDC198E-0A57-4007-947A-E3E0F76D8CE5" id="BPMNShape_sid-5CDC198E-0A57-4007-947A-E3E0F76D8CE5">
         <omgdc:Bounds height="40.0" width="40.0" x="211.0" y="72.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="151.0" y="641.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203" id="BPMNEdge_sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203">
         <omgdi:waypoint x="61.0" y="36.0"></omgdi:waypoint>
@@ -499,33 +499,17 @@
         <omgdi:waypoint x="61.0" y="363.0"></omgdi:waypoint>
         <omgdi:waypoint x="62.0" y="631.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="sid-1C46B6E1-CF13-4550-B206-2F40F4F6EE0E" id="BPMNEdge_sid-1C46B6E1-CF13-4550-B206-2F40F4F6EE0E">
-        <omgdi:waypoint x="123.0" y="658.0"></omgdi:waypoint>
-        <omgdi:waypoint x="151.0" y="658.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
-        <omgdi:waypoint x="171.0" y="638.0"></omgdi:waypoint>
-        <omgdi:waypoint x="320.0" y="494.0"></omgdi:waypoint>
-        <omgdi:waypoint x="625.0" y="494.0"></omgdi:waypoint>
-        <omgdi:waypoint x="904.0" y="494.0"></omgdi:waypoint>
-        <omgdi:waypoint x="904.0" y="419.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
-        <omgdi:waypoint x="448.0" y="586.0"></omgdi:waypoint>
-        <omgdi:waypoint x="513.0" y="586.0"></omgdi:waypoint>
+        <omgdi:waypoint x="452.0" y="576.0"></omgdi:waypoint>
+        <omgdi:waypoint x="517.0" y="576.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
-        <omgdi:waypoint x="636.0" y="586.0"></omgdi:waypoint>
-        <omgdi:waypoint x="693.0" y="586.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
-        <omgdi:waypoint x="171.0" y="638.0"></omgdi:waypoint>
-        <omgdi:waypoint x="293.0" y="578.0"></omgdi:waypoint>
-        <omgdi:waypoint x="385.0" y="579.0"></omgdi:waypoint>
+        <omgdi:waypoint x="640.0" y="576.0"></omgdi:waypoint>
+        <omgdi:waypoint x="697.0" y="576.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
-        <omgdi:waypoint x="756.0" y="579.0"></omgdi:waypoint>
-        <omgdi:waypoint x="904.0" y="578.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="569.0"></omgdi:waypoint>
+        <omgdi:waypoint x="904.0" y="569.0"></omgdi:waypoint>
         <omgdi:waypoint x="904.0" y="419.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-F0D56D7E-C336-4E7C-A321-BEDE51BE7B98" id="BPMNEdge_sid-F0D56D7E-C336-4E7C-A321-BEDE51BE7B98">
@@ -548,11 +532,6 @@
         <omgdi:waypoint x="885.0" y="718.0"></omgdi:waypoint>
         <omgdi:waypoint x="904.0" y="726.0"></omgdi:waypoint>
         <omgdi:waypoint x="904.0" y="419.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
-        <omgdi:waypoint x="171.0" y="678.0"></omgdi:waypoint>
-        <omgdi:waypoint x="227.0" y="721.0"></omgdi:waypoint>
-        <omgdi:waypoint x="265.0" y="718.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-0AFC0D8A-4841-4166-B1B9-D597A035D246" id="BPMNEdge_sid-0AFC0D8A-4841-4166-B1B9-D597A035D246">
         <omgdi:waypoint x="330.0" y="914.0"></omgdi:waypoint>
@@ -657,20 +636,16 @@
         <omgdi:waypoint x="904.0" y="379.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
-        <omgdi:waypoint x="386.0" y="620.0"></omgdi:waypoint>
-        <omgdi:waypoint x="171.0" y="638.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
-        <omgdi:waypoint x="288.0" y="470.0"></omgdi:waypoint>
-        <omgdi:waypoint x="171.0" y="638.0"></omgdi:waypoint>
+        <omgdi:waypoint x="390.0" y="610.0"></omgdi:waypoint>
+        <omgdi:waypoint x="171.0" y="641.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
-        <omgdi:waypoint x="256.0" y="665.0"></omgdi:waypoint>
-        <omgdi:waypoint x="191.0" y="658.0"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="688.0"></omgdi:waypoint>
+        <omgdi:waypoint x="191.0" y="661.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
         <omgdi:waypoint x="173.0" y="811.0"></omgdi:waypoint>
-        <omgdi:waypoint x="171.0" y="678.0"></omgdi:waypoint>
+        <omgdi:waypoint x="171.0" y="681.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow39" id="BPMNEdge_flow39">
         <omgdi:waypoint x="231.0" y="150.0"></omgdi:waypoint>
@@ -684,10 +659,34 @@
         <omgdi:waypoint x="251.0" y="92.0"></omgdi:waypoint>
         <omgdi:waypoint x="368.0" y="92.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
-        <omgdi:waypoint x="171.0" y="678.0"></omgdi:waypoint>
-        <omgdi:waypoint x="217.0" y="794.0"></omgdi:waypoint>
+      <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
+        <omgdi:waypoint x="285.0" y="477.0"></omgdi:waypoint>
+        <omgdi:waypoint x="171.0" y="641.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
+        <omgdi:waypoint x="171.0" y="641.0"></omgdi:waypoint>
+        <omgdi:waypoint x="277.0" y="565.0"></omgdi:waypoint>
+        <omgdi:waypoint x="389.0" y="569.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
+        <omgdi:waypoint x="171.0" y="681.0"></omgdi:waypoint>
+        <omgdi:waypoint x="218.0" y="719.0"></omgdi:waypoint>
+        <omgdi:waypoint x="265.0" y="718.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
+        <omgdi:waypoint x="171.0" y="681.0"></omgdi:waypoint>
+        <omgdi:waypoint x="220.0" y="794.0"></omgdi:waypoint>
         <omgdi:waypoint x="591.0" y="823.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
+        <omgdi:waypoint x="123.0" y="658.0"></omgdi:waypoint>
+        <omgdi:waypoint x="151.0" y="661.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
+        <omgdi:waypoint x="171.0" y="641.0"></omgdi:waypoint>
+        <omgdi:waypoint x="282.0" y="513.0"></omgdi:waypoint>
+        <omgdi:waypoint x="904.0" y="513.0"></omgdi:waypoint>
+        <omgdi:waypoint x="904.0" y="419.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

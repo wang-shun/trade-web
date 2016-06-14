@@ -19,6 +19,8 @@ import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.engine.WorkFlowConstant;
+import com.centaline.trans.engine.bean.ExecuteAction;
+import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.SignalEvent;
@@ -29,6 +31,7 @@ import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.FindUserLogic;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -227,6 +230,39 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		}
 		return sPVo;
 	}
+	@Override
+	public void claimByInstCode(String instCode,String caseCode,String caseowner){
+		TaskQuery tq = new TaskQuery(instCode, true);
+		PageableVo pageableVo = this.listTasks(tq);
+		List<T> taskList = pageableVo.getData();
+		for (Object taskObj : taskList) {
+			TaskVo vo = (TaskVo) taskObj;
+			if (StringUtils.isBlank(vo.getAssignee())) {
+				TaskOperate taskOperate1 = new TaskOperate(vo.getId().toString(), "claim");
+
+				/**/
+				String owner = findUserLogic.findWorkFlowUser(vo.getGroup(), caseowner,
+						tgServItemAndProcessorService.findServiceMap(caseCode), vo.getTaskDefinitionKey(),
+						instCode);
+				if (StringUtils.isBlank(owner) || owner.contains("-")) {
+					handleUnAlocation(owner, caseCode, instCode, vo.getGroup(), vo.getId() + "",
+							vo.getTaskDefinitionKey(),vo.getName());
+					continue;
+				}
+				// do claim
+				taskOperate1.setAssignee(owner);
+				TaskVo reVo = this.operaterTask(taskOperate1);
+				doOptTaskPlan(vo.getTaskDefinitionKey(), caseCode);
+				String agentUser = tsTaskDelegateService.getTaskAgent(owner);
+				if (!StringUtils.isBlank(agentUser)) {
+					// +-do delegate
+					TaskOperate taskOperate2 = new TaskOperate(vo.getId().toString(), "delegate");
+					taskOperate2.setAssignee(agentUser);
+					this.operaterTask(taskOperate2);
+				}
+			}
+		}
+	}
 
 	@Override
 	public void doOptTaskPlan(String tsakDfkey, String caseCode) {
@@ -370,14 +406,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	}
 
 	@Override
-	public Map executeExecutionAction(String executionId, String action) {
-		Map<String, String> vars = new HashMap<>();
-		vars.put("executionId", executionId);
-		vars.put("action", action);
-		return (Map) engine.RESTfulWorkFlow(WorkFlowConstant.EXECUTE_EXECUTION_ACTION_KEY, Map.class, vars, null);
-	}
-
-	@Override
 	public void deleteProcess(String processInstanceId) {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("processInstanceId", processInstanceId);
@@ -435,6 +463,24 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 				map);
 		convertPageableData(vo, TaskVo.class);
 
+		return vo;
+	}
+
+	@Override
+	public ExecutionVo executeAction(ExecuteAction action) {
+		return (ExecutionVo)engine.RESTfulWorkFlow(WorkFlowConstant.PUT_EXECUTE_KEY, ExecutionVo.class, action);
+	}
+	@Override
+	public PageableVo<?> getExecute(ExecuteGet executeGet) {
+		Map<String, String> map = null;
+		try {
+			map = BeanToMapUtils.convertBean(executeGet);
+		} catch (IllegalAccessException | InvocationTargetException | IntrospectionException e) {
+			e.printStackTrace();
+		}
+		PageableVo<?> vo = (PageableVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_EXECUTE_KEY, PageableVo.class,
+				map);
+		convertPageableData(vo, ExecutionVo.class);
 		return vo;
 	}
 }
