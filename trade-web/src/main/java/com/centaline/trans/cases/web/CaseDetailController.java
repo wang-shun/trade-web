@@ -633,13 +633,19 @@ public class CaseDetailController {
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
 				.getServiceDepCode());
 		boolean isBackTeam = false;
+		boolean isCaseOwner=false;
+		boolean isNewFlow=false;
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-		boolean isCaseOwner=false;
+		
 		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
 			isCaseOwner=true;
 		}
+		if("operation_process:10:445004".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
+			isNewFlow=true;
+		}
+		request.setAttribute("isNewFlow", isNewFlow);
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
