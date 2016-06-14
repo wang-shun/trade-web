@@ -23,7 +23,9 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.entity.ToTransPlan;
+import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
@@ -43,6 +45,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private ToTransPlanService toTransPlanService;
+	@Autowired
+	private ActRuEventSubScrMapper actRuEventSubScrMapper;
 
 	@Override
 	public boolean submit(MortgageSelecteVo vo) {
@@ -99,8 +103,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
-		ExecutionVo execution = getHightPriorityExecution(vo.getProcessInstanceId());
-		if (execution == null) {
+		ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
+		if (subScr == null) {
 			throw new BusinessException("当前流程下不允许变更贷款需求！");
 		}
 		doBusiness(vo);
@@ -109,7 +113,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		editRestVariables(variables, vo.getMortageService());
 		ExecuteAction action = new ExecuteAction();
 		action.setAction("messageEventReceived");
-		action.setExecutionId(execution.getId());
+		action.setExecutionId(subScr.getExecutionId());
 		action.setMessageName("StartMortgageSelectMsg");
 		action.setVariables(variables);
 		workFlowManager.executeAction(action);
@@ -169,19 +173,23 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		}
 	}
 
-	public ExecutionVo getHightPriorityExecution(String instId) {
+	public ActRuEventSubScr getHightPriorityExecution(String instId) {
 		ExecuteGet exGet = new ExecuteGet();
 		exGet.setProcessInstanceId(instId);
 		exGet.setMessageEventSubscriptionName("StartMortgageSelectMsg");
-		PageableVo<ExecutionVo> pagebleVo = workFlowManager.getExecute(exGet);
-		List<ExecutionVo> list = pagebleVo.getData();
-		if (list != null && !list.isEmpty()) { 
-			for (ExecutionVo executionVo : list) {
-				if (!LOAN_TASK_LIST.contains(executionVo.getActivityId())) {// 判断如果不是交易流程的话直接返回当前
-					return executionVo;
+		ActRuEventSubScr condition=new ActRuEventSubScr();
+		condition.setEventType("message");
+		condition.setEventName("StartMortgageSelectMsg");
+		condition.setProcInstId(instId);
+		List<ActRuEventSubScr>subScrs= actRuEventSubScrMapper.listBySelective(condition);
+		if(subScrs != null && !subScrs.isEmpty()){
+			for (ActRuEventSubScr actRuEventSubScr : subScrs) {
+				if(!"TradeBoundaryMsg".equals(actRuEventSubScr.getActivityId())){
+					return actRuEventSubScr;
 				}
+				
 			}
-			return list.get(0);// 只剩下交易流程了
+			return subScrs.get(0);// 只剩下交易流程了
 		}
 		return null;
 	}

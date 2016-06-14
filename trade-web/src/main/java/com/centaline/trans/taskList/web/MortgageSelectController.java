@@ -11,8 +11,10 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-
-import com.centaline.trans.task.service.MortgageSelectService;import com.centaline.trans.task.vo.MortgageSelecteVo;
+import com.centaline.trans.task.entity.ToTransPlan;
+import com.centaline.trans.task.service.MortgageSelectService;
+import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.task.vo.MortgageSelecteVo;
 
 @Controller
 @RequestMapping(value = "/task/mortgageSelect")
@@ -26,6 +28,7 @@ public class MortgageSelectController {
 
 	@ResponseBody
 	@RequestMapping(value = "submit")
+	public boolean submit(MortgageSelecteVo vo){
 		if (StringUtils.isBlank(vo.getPartner())) {
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
@@ -54,6 +57,6 @@ public class MortgageSelectController {
 		} catch (BusinessException ex) {
 			return AjaxResponse.fail(ex.getMessage());
 		}
-		return AjaxResponse.success("变更成功！");
+		return AjaxResponse.success("鍙樻洿鎴愬姛");
 	}
 }
