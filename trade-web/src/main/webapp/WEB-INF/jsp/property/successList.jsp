@@ -24,6 +24,9 @@
 	rel="stylesheet">
     <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
+	<style>
+		.mr5{margin:0 5px 0 30px;}
+	</style>
 </head>
 
 <body>
@@ -119,7 +122,10 @@
 					</div>
 		</div>
 		
-		<div class="row form-group"><a class='btn btn-primary' id='addrSearchButton' style='margin-left: 30px;'>搜索</a></div>
+		<div class="row form-group">
+			<a class='btn btn-primary mr5' id='addrSearchButton'>搜索</a>
+			<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+		</div>
 		     
 		<hr>
         <div class='row'>
@@ -166,6 +172,17 @@
 		});
 		 var addr = $("#addr").val();
 		 JQGrid_propertyByaddSearch.init('table_property_list','addrSearchButton',addr);
+	});
+	//清空
+	$('#cleanButton').click(function() {
+		$("input[name='search_prCat']").val('');
+		$("input[name='search_propertyAddr']").val('');
+		$("input[name='search_grpOrgName']").val('');
+		$("input[name='search_acuUser']").val('');
+		$("input[name='search_auUser']").val('');
+		$("input[name='search_quds']").val('');
+		$("input[name='search_completeTimeStart']").val('');
+		$("input[id='completeTimeEnd']").val('');
 	});
 	</script>
 

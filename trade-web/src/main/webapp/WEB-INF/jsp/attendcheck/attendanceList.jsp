@@ -75,8 +75,9 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-1">
-								<button id="searchButton" type="button"  class="btn btn-primary pull-right">查询</button>
+							<div class="col-sm-2">
+								<button id="searchButton" type="button"  class="btn btn-primary">查询</button>
+								<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
 							</div>
 						</div>
 					</form>
