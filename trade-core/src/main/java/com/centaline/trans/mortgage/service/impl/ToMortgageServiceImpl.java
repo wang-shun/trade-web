@@ -233,4 +233,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		return null;
 	}
 
+	@Override
+	public void inActiveMortageByCaseCode(String caseCode) {
+		toMortgageMapper.inActiveMortageByCaseCode(caseCode);
+	}
+
 }

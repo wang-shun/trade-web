@@ -23,6 +23,7 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
@@ -47,6 +48,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private ActRuEventSubScrMapper actRuEventSubScrMapper;
+	@Autowired
+	private ToMortgageService toMortgageService;
 
 	@Override
 	public boolean submit(MortgageSelecteVo vo) {
@@ -171,6 +174,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			}
 
 		}
+		
+		toMortgageService.inActiveMortageByCaseCode(vo.getCaseCode());
 	}
 
 	public ActRuEventSubScr getHightPriorityExecution(String instId) {
