@@ -191,6 +191,14 @@
 		$("#searchButton").click(function(){
 			getAttendanceList();
 		});
+		
+		//清空
+		$('#cleanButton').click(function() {
+			$("input[name='orgName']").val('');
+			$("input[name='userName']").val('');
+			$("input[name='attendTimeStart']").val('');
+			$("input[name='attendTimeEnd']").val('');
+		});
     });
  
     </script>
