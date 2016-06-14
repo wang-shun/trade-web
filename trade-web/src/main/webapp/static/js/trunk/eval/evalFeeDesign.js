@@ -17,7 +17,7 @@ $(document).ready(function() {
 						url : url,
 						mtype : 'POST',
 						datatype : "json",
-						height : 250,
+						height : 450,
 						autowidth : true,
 						shrinkToFit : true,
 						rowNum : 10,
@@ -122,6 +122,15 @@ $(document).ready(function() {
 });
 
 
+//日期控件
+$('#datepicker_0').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+
 function rowEdit(id){
     var row = $("#table_list_1").getRowData(id);
 
@@ -206,11 +215,22 @@ function getParamsValue() {
 		}
 	}
 
+	//案件编号
+	var caseId = $("#caseId").val().trim();
+	//是否足额收取
+	var isEvalFeeGet=$('input[name="ownerRadios"]:checked').val();
+	//最后收取时间
+	var dtBegin =$("#dtBegin_0").val()?($("#dtBegin_0").val()+' 00:00:00'):$("#dtEnd_0").val().trim();
+	var dtEnd= $("#dtEnd_0").val()?($("#dtEnd_0").val()+' 23:59:59'):$("#dtEnd_0").val().trim();	
 	//设置查询参数
 	var params = {
 		argu_guestname : guestName,
 		search_agentName : agentName,
-		search_propertyAddr : propertyAddr
+		search_propertyAddr : propertyAddr,
+		search_caseId : caseId,
+		argu_isEvalFeeGet : isEvalFeeGet,
+		search_dtBegin : dtBegin,
+		search_dtEnd : dtEnd
 	};
 	return params;
 }
@@ -221,13 +241,20 @@ function saveEvalItem(){
 	var url='/eval/saveEvalItem?';
 	var params="pkid="+$("#evalId").val()+"&caseCode="+$("#caseCode").val()+"&isEvalFeeGet="+$("input:radio[name='isEvaFeeGet']:checked").val();
 	url = ctx+url+params;
-
+    
+	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	//$(".blockOverlay").css({'z-index':'9998'});
+	$('#editForm').attr('action', url);
+	$('#commit-form').modal("show");
+	//$("#editForm").submit();
+}
+function commitItem(){
 	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	$(".blockOverlay").css({'z-index':'9998'});
-	$('#editForm').attr('action', url);
+	//$('#editForm').attr('action', url);
+	$('#commit-form').modal("hide");
 	$("#editForm").submit();
 }
-
 // 清空表单
 function cleanForm() {
 	$("#inTextVal").val("");
