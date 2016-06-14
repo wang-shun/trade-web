@@ -243,5 +243,8 @@
   <delete id="deleteByCaseCode" parameterType="java.lang.String">
 	    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and SRV_CODE in('3000401001','3000401002','3000400201','3000400101') 
   </delete>
+    <delete id="deleteMortageServItem" parameterType="java.lang.String">
+	    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and SRV_CODE in('3000400201','3000400101'); 
+  </delete>
   
 </mapper>

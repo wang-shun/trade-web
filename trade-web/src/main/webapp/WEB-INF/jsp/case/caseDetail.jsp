@@ -263,7 +263,9 @@
                    			 <shiro:hasPermission name="TRADE.CASE.RESET">
 		                   	 	<a role="button" id="caseResetes" class="btn btn-primary btn-xm btn-activity" href="javascript:caseReset()">案件重置</a>
 		                   	 </shiro:hasPermission>
+		                   	 <c:if test="${isCaseOwner }"><!-- 主办 -->
 		                   	 	<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
+		                   	 </c:if>
                             </div>
                         </div>
                     </div>

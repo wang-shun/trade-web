@@ -20,6 +20,7 @@ import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -106,6 +107,14 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
+		TaskHistoricQuery query =new TaskHistoricQuery();
+		query.setFinished(true);
+		query.setTaskDefinitionKey("MortgageSelect");
+		query.setProcessInstanceId(vo.getProcessInstanceId());
+		PageableVo pageableVo=workFlowManager.listHistTasks(query);
+		if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
+			throw new BusinessException("请先处理贷款需求选择任务！");
+		}
 		ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
 		if (subScr == null) {
 			throw new BusinessException("当前流程下不允许变更贷款需求！");
@@ -135,7 +144,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		} else if ("2".equals(vo.getMortageService())) {
 			serivceCode = "3000400201";
 		}
-
+		
+		tgServItemAndProcessorMapper.deleteMortageServItem(vo.getCaseCode());
+		
 		if (!"0".equals(vo.getMortageService())) {// 有贷款
 			ToTransPlan queryPlan = new ToTransPlan();
 			queryPlan.setCaseCode(vo.getCaseCode());
@@ -174,6 +185,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			}
 
 		}
+
 		
 		toMortgageService.inActiveMortageByCaseCode(vo.getCaseCode());
 	}
