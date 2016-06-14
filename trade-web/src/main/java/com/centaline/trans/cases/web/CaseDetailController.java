@@ -636,15 +636,17 @@ public class CaseDetailController {
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-
-		
+		boolean isCaseOwner=false;
+		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
+			isCaseOwner=true;
+		}
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
 		
 		request.setAttribute("isBackTeam", isBackTeam);
-
+		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
 		request.setAttribute("toCaseInfo", toCaseInfo);
 		request.setAttribute("toPropertyInfo", toPropertyInfo);

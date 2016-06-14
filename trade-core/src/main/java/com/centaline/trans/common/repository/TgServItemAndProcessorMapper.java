@@ -35,6 +35,8 @@ public interface TgServItemAndProcessorMapper {
     
     int deleteByCaseCode(String caseCode);
     
+    int deleteMortageServItem(String caseCode);
+    
     TgServItemAndProcessor findTgServItemAndProcessor(TgServItemAndProcessor record);
     
     
