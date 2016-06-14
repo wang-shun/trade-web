@@ -38,16 +38,19 @@ public class QuickQueryManagerInfoCustomDictServiceImpl implements CustomDictSer
 	public List<Map<String,Object>> findDicts(List<Map<String,Object>> keys){
 		 List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		for(int i = 0 ;i< keys.size(); i++){
-			 String key = keys.get(i).get("ORG_ID").toString();
-			 Map<String,Object> map = new HashMap<String,Object>();
-			 List<User> managerInfoList = uamUserOrgService.getUserByOrgIdAndJobCode(key,jobCode);
-			 User  user = null;
-				if(managerInfoList.size()>0){
+			if(keys.get(i).get("ORG_ID")==null){
+				continue;
+			}
+			String key = keys.get(i).get("ORG_ID").toString();
+			Map<String,Object> map = new HashMap<String,Object>();
+			List<User> managerInfoList = uamUserOrgService.getUserByOrgIdAndJobCode(key,jobCode);
+			User  user = null;
+			if(managerInfoList.size()>0){
 					user=managerInfoList.get(0);
-				}
-			 map.put("ORG_ID", key);
-			 map.put(CustomDictService.DICTVALCOL, JSONObject.toJSON(user));
-			 result.add(map);
+			}
+			map.put("ORG_ID", key);
+			map.put(CustomDictService.DICTVALCOL, JSONObject.toJSON(user));
+			result.add(map);
 		}
     	return result;
     }
