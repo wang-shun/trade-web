@@ -610,10 +610,13 @@
 		/**提交数据*/
 		function submit() {
 
-		if ($('input[name=invalid_reason]').val() == '') {
-				alert("无效案件必须填写失效原因!");
-				$('input[name=invalid_reason]').focus();
-				return;
+		if ($("#optionsRadios2").checked == true) {
+				if ($('input[name=invalid_reason]').val() == '') {
+					alert("无效案件必须填写失效原因!");
+					return;
+					$('input[name=invalid_reason]').focus();
+					return;
+				}
 			}
 			save(true);
 		}
