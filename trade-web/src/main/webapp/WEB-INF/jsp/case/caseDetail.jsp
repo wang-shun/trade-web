@@ -62,7 +62,7 @@
 .row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
 .pd0{padding:0;}
 .pr0{padding-right:0;}
-.wd445{width:458px;margin-bottom:15px;}
+.wd445{margin-bottom:15px;padding-right:30px;}
 .wd445 select,.kuaquselect select{float:right;height:34px;border-radius:2px;margin-left:10px;}
 #hzxm{padding-bottom:15px;}
 .kuaquselect{margin:-20px 0 0 0;padding-right:0;}

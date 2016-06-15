@@ -614,7 +614,7 @@ function ChangeModal(data) {
 			if(value.users !=""&&value.users.length!=0){
 				addHtml += "<label class='col-md-3 control-label'>合作顾问</label>";
 			}
-		addHtml += "<div id=\"my_col_md_9\" class=\"col-md-9\">";
+		addHtml += "<div class=\"col-md-9\">";
 		
 		if(value.users !=""&&value.users.length!=0){
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
@@ -700,12 +700,13 @@ function ChangeModal(data) {
 $(document).on("change",'select[name="myProcessorId"]',function(){
 	var pros=$('select[name="myProcessorId"]');
 	$.each(pros,function(i,items){
-		var parent = $('select[name="myProcessorId"]:eq('+i+')').parent('#my_col_md_9');
-		var org = parent.children(':hidden:eq(0)');
-		var oldOrg = parent.children(':hidden:eq(2)');
-		var consult = parent.children(':hidden:eq(1)');
-		var otherConsult = parent.children(':hidden:eq(3)');
-		var otherOrg = parent.children(':hidden:eq(4)');
+		var parent = $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-9').parent('.col-md-6').parent('.row');
+		var p1= $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-9');
+		var org = p1.children(':hidden:eq(0)');
+		var oldOrg = p1.children(':hidden:eq(2)');
+		var consult = p1.children(':hidden:eq(1)');
+		var otherConsult = p1.children(':hidden:eq(3)');
+		var otherOrg = p1.children(':hidden:eq(4)');
 		if($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val()=='-1'){
 			if($("#corss_area"+i).length==0){
 				var corsstxt="";
@@ -719,7 +720,7 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 				corsstxt += "<select id='crossDistrict"+i+"'>";
 				corsstxt += "<option value='0'>----部门----</option>";
 				corsstxt += '</select></div>';
-				parent.after(corsstxt);
+				parent.append(corsstxt);
 				crossAreaCooperation(i);
 			}
 		}else if($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val()==otherConsult.val()){
@@ -808,8 +809,8 @@ function crossAreaCooperation(i){
 				var zuzhi=org.find(':selected').val();
 				
 				if(guwen!='0'){
-					 $('select[name="myProcessorId"]:eq('+i+')').parent('#my_col_md_9').children(':hidden:eq(0)').val(zuzhi);
-					 $('select[name="myProcessorId"]:eq('+i+')').parent('#my_col_md_9').children(':hidden:eq(1)').val(guwen);
+					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-9').children(':hidden:eq(0)').val(zuzhi);
+					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-9').children(':hidden:eq(1)').val(guwen);
 				}
 			}
 			
