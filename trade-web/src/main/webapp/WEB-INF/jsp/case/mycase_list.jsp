@@ -211,14 +211,19 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						<div class="row m-t-sm">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
-							<label class="col-md-1 control-label m-l-lg"></label>
-							<div>
-								<button id="searchButton" type="button" class="btn btn-warning">查询</button>
-								<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
-							</div>							
-						</div>
+									<label class="col-md-2 control-label m-l-lg"></label>
+									<div>
+										<button id="searchButton" type="button" class="btn btn-warning">查询</button>
+										<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+									</div>							
+								</div>
+							</div>
+							<div class="col-md-6"  style="text-align:right;">
+							 	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
+									<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
+								</shiro:hasPermission>
 							</div>
 						</div>
 					</form>
@@ -269,10 +274,6 @@ text-decoration: underline !important;
 		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
     </div>
 
-    						 <shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-							<a data-toggle="modal" class="btn btn-primary"
-								href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
-								</shiro:hasPermission>
 		</div>
 
 		<div id="modal-form" class="modal fade" aria-hidden="true">
