@@ -179,12 +179,15 @@ text-decoration: underline !important;
 						</div>
 					
 						<div class="row m-t-sm">
-						<div class="col-md-6"></div>
-							<div class="col-md-6">
+							<div class="col-md-6"></div>
+							<div class="col-md-3">
 								<div class="form-group">
-									<label class="col-md-1 control-label m-l-lg"></label>
+									<label class="col-md-4 control-label m-l-lg"></label>
 									<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
 								</div>
+							</div>
+							<div class="col-md-3"  style="text-align:right;">
+								<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">金融产品导出</a>
 							</div>
 						</div>
 					</form>
@@ -300,6 +303,61 @@ text-decoration: underline !important;
 	 	 aist.sortWrapper({
 			reloadGrid : searchMethod
 		 });
+	 	 
+	 	function exportToExcel() {
+	 		var params = {};
+	 		params.search_caseCode = $('#caseCode').val();
+	 		params.search_propertyAddr = $('#propertyAddr').val();
+	 		params.search_loanSrvCode = $('#loanSrvCode').val();
+	 		// 日期查询
+	 		var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null;
+	 		for (var r = 0; r < divIndex; r++) {
+	 			var val = $('#case_date_' + r + ' option:selected').val();
+	 			if (val == undefined)
+	 				continue;
+	 			var start = $('#dtBegin_' + r).val();
+	 			var end = $('#dtEnd_' + r).val();
+	 			if(end&&end!=''){
+	 				end=end+' 23:59:59';
+	 			}
+	 			if(start&&start!=''){
+	 				start=start;
+	 			}
+	 			if (start != "") {
+	 				if (val == '1') {
+	 					applyTimeStart = start;
+	 				} else if (val == '2') {
+	 					signTimeStart = start;
+	 				}else if (val == '3') {
+	 					releaseTimeStart = start;
+	 				}
+	 			}
+	 			if (end != "") {
+	 				if (val == '1') {
+	 					applyTimeEnd = end;
+	 				} else if (val == '2') {
+	 					signTimeEnd = end;
+	 				}else if (val == '3') {
+	 					releaseTimeEnd = end;
+	 				}
+	 			}
+	 		}
+	 		params.search_applyTimeStart = applyTimeStart;
+	 		params.search_applyTimeEnd = applyTimeEnd;
+	 		params.search_signTimeStart = signTimeStart;
+	 		params.search_signTimeEnd = signTimeEnd;
+	 		params.search_releaseTimeStart = releaseTimeStart;
+	 		params.search_releaseTimeEnd = releaseTimeEnd;
+	 		params.search_realName = 	$("#realName").val();
+	 		params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
+	 		
+        	aist.exportExcel({
+    	    	ctx : "${ctx}",
+    	    	queryId : 'loanAgentListQuery',
+    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','LOAN_SRV_CODE','EXECUTOR_ID','PARENT_ORG_NAME','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT'],
+    	    	data : params
+    	    }) 
+        }
      </script>
 
 	 </content>

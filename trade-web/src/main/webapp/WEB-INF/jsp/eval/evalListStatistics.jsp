@@ -103,12 +103,18 @@ display: none;}
                             	</div>
 							</div>
                             <div class="row">
-                            <div class="form-group">
 	                            	 <div class="col-lg-5 col-md-5">    
+	                            	 <div class="form-group">
 	                            	 <label class="col-lg-3 col-md-3 control-label font_w">&nbsp;</label>                               
 	                                    <button class="btn btn-warning bonus-search" id="searchButton"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
 	                                </div>
-                                </div>
+                               		 </div>
+                               		 <div class="col-lg-7 col-md-5" style="text-align:right;">
+									    	<shiro:hasPermission name="TRADE.EVAL.RPT.EXPORT">  
+												<a data-toggle="modal" class="btn btn-primary"
+													href="javascript:void(0)" onclick="javascript:exportExcel()">案件导出</a>
+											</shiro:hasPermission>
+                               		 </div>   
                             </div>
                         </div>
                     </div>
@@ -135,14 +141,6 @@ display: none;}
 						<span id="currentTotalPage"><strong class="bold"></strong></span>
 						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-				    </div>
-				    <div class="row">
-				    	<div class="col-lg-12 ">    
-				    	<shiro:hasPermission name="TRADE.EVAL.RPT.EXPORT">  
-							<a data-toggle="modal" class="btn btn-primary"
-								href="javascript:void(0)" onclick="javascript:exportExcel()">案件导出</a>
-						</shiro:hasPermission>
-						</div>
 				    </div>
                 </div>
             </div>

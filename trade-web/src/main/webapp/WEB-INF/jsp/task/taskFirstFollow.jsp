@@ -609,39 +609,53 @@
 		
 		/**提交数据*/
 		function submit() {
+
+		if ($("#optionsRadios2").checked == true) {
+				if ($('input[name=invalid_reason]').val() == '') {
+					alert("无效案件必须填写失效原因!");
+					return;
+					$('input[name=invalid_reason]').focus();
+					return;
+				}
+			}
 			save(true);
 		}
 
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
+			if (!b) {
+				if (!checkForm()) {
+					return;
+				}
+			}
+			if (!$("#firstFollowform").valid()) {
 				return;
 			}
-			if(!$("#firstFollowform").valid()){
-				return;
-			}
-			
+
 			var jsonData = $("#firstFollowform").serializeArray();
 			var result = ''
-			$("span.selected[name='srvCode']").each(function(){ 
-				result += $(this).attr('value')+',';
+			$("span.selected[name='srvCode']").each(function() {
+				result += $(this).attr('value') + ',';
 			});
-			var obj = {name:'srvCode',value:result.substring(0, result.length-1)};
+			var obj = {
+				name : 'srvCode',
+				value : result.substring(0, result.length - 1)
+			};
 			jsonData.push(obj);
-			
-			for(var i=0;i<jsonData.length;i++)
-			{
+
+			for (var i = 0; i < jsonData.length; i++) {
 				var item = jsonData[i];
-				if(item["name"]=='cooperationUser' && (item["value"] == 0 || item["value"] == -1)){
+				if (item["name"] == 'cooperationUser'
+						&& (item["value"] == 0 || item["value"] == -1)) {
 					delete jsonData[parseInt(i)];
 				}
 			}
-		
+
 			var url = "${ctx}/task/firstFollow/saveFirstFollow";
-			if(b) {
+			if (b) {
 				url = "${ctx}/task/firstFollow/submit";
 			}
-			
+
 			$.ajax({
 				cache : true,
 				async : false,//false同步，true异步
@@ -650,38 +664,53 @@
 				dataType : "json",
 				//contentType:"application/json",  
 				data : jsonData,
-    		    beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-                complete: function() {  
+				beforeSend : function() {
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '9999'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '9998'
+					});
+				},
+				complete : function() {
 
-                    $.unblockUI();  
-                	if(b){ 
-                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
-    				    $(".blockOverlay").css({'z-index':'1900'});
-                	}   
-                     if(status=='timeout'){//超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  });
-    		  		 $(".btn-primary").one("click",function(){
-    		  				parent.$.fancybox.close();
-    		  			});	 
-    		                } 
-    		            } ,  
+					$.unblockUI();
+					if (b) {
+						$.blockUI({
+							message : $("#salesLoading"),
+							css : {
+								'border' : 'none',
+								'z-index' : '1900'
+							}
+						});
+						$(".blockOverlay").css({
+							'z-index' : '1900'
+						});
+					}
+					if (status == 'timeout') {//超时,status还有success,error等值的情况
+						Modal.alert({
+							msg : "抱歉，系统处理超时。"
+						});
+						$(".btn-primary").one("click", function() {
+							parent.$.fancybox.close();
+						});
+					}
+				},
 				success : function(data) {
-					if(b) {
-						setTimeout('caseTaskCheck()',1000); 
+					if (b) {
+						setTimeout('caseTaskCheck()', 1000);
 						//$('#case-task-modal-form').modal("show");
 					} else {
-						if(data.firstFollowVO.isrepeat==true){
+						if (data.firstFollowVO.isrepeat == true) {
 							alert("请不要重复保存数据");
-						}else{
+						} else {
 							alert("保存成功.");
 							window.close();
-						 	window.opener.callback();
+							window.opener.callback();
 						}
 					}
 				},
@@ -690,93 +719,95 @@
 				}
 			});
 		}
-		
+
 		/*double 验证*/
-	    function checkNum(obj) { 
-	        //先把非数字的都替换掉，除了数字和.
-	        obj.value = obj.value.replace(/[^\d.]/g,"");
-	        //必须保证第一个为数字而不是.
-	        obj.value = obj.value.replace(/^\./g,"");
-	        //保证只有出现一个.而没有多个.
-	        obj.value = obj.value.replace(/\.{2,}/g,".");
-	        //保证.只出现一次，而不能出现两次以上
-	        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-	     }  
+		function checkNum(obj) {
+			//先把非数字的都替换掉，除了数字和.
+			obj.value = obj.value.replace(/[^\d.]/g, "");
+			//必须保证第一个为数字而不是.
+			obj.value = obj.value.replace(/^\./g, "");
+			//保证只有出现一个.而没有多个.
+			obj.value = obj.value.replace(/\.{2,}/g, ".");
+			//保证.只出现一次，而不能出现两次以上
+			obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
+					.replace("$#$", ".");
+		}
 
 		//验证控件checkUI();
 		function checkForm() {
-			if($("#cooperationUser0").val()== 0){
+			if ($("#cooperationUser0").val() == 0) {
 				alert("合作顾问未选择");
 				return false;
 			}
 			// 如果选择了跨区合作并且人员为空
-			if($("#cooperationUser0").val()== -1 && $("#consult0").val()== 0){
+			if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
 				alert("跨区合作顾问未选择");
 				return false;
 			}
-			
-			var optionsRadios =  $('input[name=caseProperty]:checked').val(); 
-			
-			if(optionsRadios=='有效案件'  || (optionsRadios!='30003001' && optionsRadios!=undefined)) {
+
+			var optionsRadios = $('input[name=caseProperty]:checked').val();
+
+			if (optionsRadios == '有效案件'
+					|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
 				/*有效案件*/
-				if($('#distCode').val() == ""){
+				if ($('#distCode').val() == "") {
 					alert("所在区域为必选项!");
 					$('#distCode').focus();
-		             return false;
+					return false;
 				}
 				var flag = false;
-				$('select[name="unCrossCooperationUser"] option:selected').each(function(i,item){
-					if(item.value == "0"){
-						 alert("合作顾问为必选项!");
-//	 					 item.focus();
-						 flag = true;
-						 return false;
-					}else if(item.value == "-1"){
-						$('#consult'+index+' option:selected').each(function(j,item2){
-							if(item2.value == "0"){
-								 alert("跨区合作顾问未选择!");
-								 flag = true;
-								 return false;
-							}
-						});
-					}
-				});
-				if(flag)return false;
-				if($('input[name=realConTime]').val()=='') {
-	                alert("签约时间为必填项!");
-	                $('input[name=realConTime]').focus();
-	                return false;
-	           }
-				if($('input[name=realPrice]').val()=='') {
-	                alert("成交价为必填项!");
-	                $('input[name=realPrice]').focus();
-	                return false;
-	           }
-				if($('input[name=conPrice]').val()=='') {
-	                alert("合同价为必填项!");
-	                $('input[name=conPrice]').focus();
-	                return false;
-	           }
-				if($('input[name=propertyAddr]').val()=='') {
-	                alert("产证地址为必填项!");
-	                $('input[name=propertyAddr]').focus();
-	                return false;
-	           }
-				if($('input[name=square]').val()=='') {
-	                alert("产证面积为必填项!");
-	                $('input[name=square]').focus();
-	                return false;
-	           }
-			} else {/*无效案件*/
-				if($('input[name=invalid_reason]').val()=='') {
-	                alert("无效案件必须填写失效原因!");
-	                $('input[name=invalid_reason]').focus();
-	                return false;
-	           }
+				$('select[name="unCrossCooperationUser"] option:selected')
+						.each(
+								function(i, item) {
+									if (item.value == "0") {
+										alert("合作顾问为必选项!");
+										//	 					 item.focus();
+										flag = true;
+										return false;
+									} else if (item.value == "-1") {
+										$(
+												'#consult' + index
+														+ ' option:selected')
+												.each(function(j, item2) {
+													if (item2.value == "0") {
+														alert("跨区合作顾问未选择!");
+														flag = true;
+														return false;
+													}
+												});
+									}
+								});
+				if (flag)
+					return false;
+				if ($('input[name=realConTime]').val() == '') {
+					alert("签约时间为必填项!");
+					$('input[name=realConTime]').focus();
+					return false;
+				}
+				if ($('input[name=realPrice]').val() == '') {
+					alert("成交价为必填项!");
+					$('input[name=realPrice]').focus();
+					return false;
+				}
+				if ($('input[name=conPrice]').val() == '') {
+					alert("合同价为必填项!");
+					$('input[name=conPrice]').focus();
+					return false;
+				}
+				if ($('input[name=propertyAddr]').val() == '') {
+					alert("产证地址为必填项!");
+					$('input[name=propertyAddr]').focus();
+					return false;
+				}
+				if ($('input[name=square]').val() == '') {
+					alert("产证面积为必填项!");
+					$('input[name=square]').focus();
+					return false;
+				}
 			}
-			if($('select[name="unCrossCooperationUser"]').size()==0){
-				 alert("正在加载合作项目!");
-				 return false;
+			if ($('select[name="unCrossCooperationUser"]').size() == 0) {
+				alert("正在加载合作项目!");
+				return false;
 			}
 			return true;
 		}
