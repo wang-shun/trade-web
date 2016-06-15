@@ -784,7 +784,7 @@ text-decoration: underline !important;
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         </a>
                                                         <div class="media-body ">
-                                                            <span class="pull-right"><strong class="fa-2x text-danger">${item.rankValue }</strong></span> <!-- <fmt:formatNumber value="${item.rankValue }/10000" pattern='#,##0.00#'/>万 -->
+                                                            <span class="pull-right"><strong class="fa-2x text-danger">${item.rankValue }</strong></span> <!-- <fmt:formatNumber value="${item.rankValue/10000}" pattern='#,##0.00#'/>万 -->
                                                             <strong>${item.realName }</strong><br>
                                                             <small class="text-muted">${item.belongOrgName }</small>
                                                         </div>

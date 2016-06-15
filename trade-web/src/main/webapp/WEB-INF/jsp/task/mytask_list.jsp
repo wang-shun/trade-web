@@ -188,7 +188,7 @@ text-decoration: underline !important;
 									<div class="control-div">
 									       <select id="inTextType" data-placeholder= "搜索条件设定"
 		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-											<option value="1" selected>物业地址</option>
+											<option value="1" selected>产证地址</option>
 											<option value="0" >客户姓名</option>
 											<option value="2">经纪人姓名</option>
 											<option value="3">所属分行</option>

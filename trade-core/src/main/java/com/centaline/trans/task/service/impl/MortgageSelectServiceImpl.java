@@ -13,7 +13,11 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.enums.LoanReqEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
@@ -22,7 +26,6 @@ import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
@@ -34,7 +37,7 @@ import com.centaline.trans.task.vo.MortgageSelecteVo;
 
 @Service
 public class MortgageSelectServiceImpl implements MortgageSelectService {
-	private List<String>LOAN_TASK_LIST=Arrays.asList("TransSign", "TransPlanFilling", "PurchaseLimit", "Pricing","TaxReview","LoanClose");
+	
 	@Autowired
 	private TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
@@ -51,16 +54,38 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private ActRuEventSubScrMapper actRuEventSubScrMapper;
 	@Autowired
 	private ToMortgageService toMortgageService;
-
+	@Autowired
+	private ToCaseMapper caseMapper;
+	private String getLoanReq(String mortageService){
+		if(mortageService==null)return null;
+		switch (mortageService) {
+		case "0":
+			return LoanReqEnum.FullPay.getCode();
+		case "1":
+			return LoanReqEnum.ComLoan.getCode();
+		
+		case "2":
+			return LoanReqEnum.PSFLoan.getCode();
+		case "3":
+			return LoanReqEnum.SelfLoan.getCode();
+			default: return mortageService;
+		}
+	}
 	@Override
 	public boolean submit(MortgageSelecteVo vo) {
 		String serivceCode = null;
+	
 		if ("1".equals(vo.getMortageService()) || "3".equals(vo.getMortageService())) {
 			serivceCode = "3000400101";
 		} else if ("2".equals(vo.getMortageService())) {
 			serivceCode = "3000400201";
 		}
-
+		ToCase record=new ToCase();
+		record.setCaseCode(vo.getCaseCode());
+		record.setLoanReq(getLoanReq(vo.getMortageService()));
+		caseMapper.updateByCaseCodeSelective(record);
+		
+		
 		if (!"0".equals(vo.getMortageService())) {// 有贷款
 			ToTransPlan plan = new ToTransPlan();
 			plan.setEstPartTime(vo.getEstPartTime());
@@ -144,6 +169,11 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		} else if ("2".equals(vo.getMortageService())) {
 			serivceCode = "3000400201";
 		}
+		
+		ToCase record=new ToCase();
+		record.setCaseCode(vo.getCaseCode());
+		record.setLoanReq(getLoanReq(vo.getMortageService()));
+		caseMapper.updateByCaseCodeSelective(record);
 		
 		tgServItemAndProcessorMapper.deleteMortageServItem(vo.getCaseCode());
 		

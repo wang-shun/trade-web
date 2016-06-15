@@ -58,7 +58,8 @@ public class FindUserLogicImpl implements FindUserLogic {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private ToWorkFlowService workFlowService;
-	private List<String>psfTasks=Arrays.asList("PSFApply","PSFSign","PSFApprove");
+	private List<String>psfTasks=Arrays.asList("PSFApply","PSFSign","PSFApprove","LoanlostApply","LoanlostApproveManager","LoanlostApproveDirector","SelfLoanApprove","ComLoanProcess");
+	
 
 	/**
 	 * 

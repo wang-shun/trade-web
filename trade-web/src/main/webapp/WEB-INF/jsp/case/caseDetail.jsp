@@ -62,8 +62,11 @@
 .row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
 .pd0{padding:0;}
 .wd445{width:582px;margin-bottom:15px;}
-.wd445 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+.wd445 select,.kuaquselect select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+#hzxm{padding-bottom:15px;}
+.kuaquselect{margin:-20px 0 0 0;padding-right:0;}
 .modal-content{width:820px;}
+.text-left{text-align:left !important;margin-left:-10px;}
 .row {
    margin-right : 0px !important;
 }
@@ -995,7 +998,7 @@
 	 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	 
 	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.3"></script>
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.4"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
 	
 	<!-- 校验 -->

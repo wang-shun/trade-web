@@ -123,6 +123,9 @@
       <if test="closeTime != null">
         CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
+       <if test="loanReq != null">
+        LOAN_REQ  = #{loanReq,jdbcType=VARCHAR},
+      </if>
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
@@ -460,7 +463,7 @@ FROM
 		(SELECT
 				DISTINCT c.CASE_CODE
 			FROM sctrans.T_TO_CASE c
-			INNER JOIN scpf_dev.dbo.SYS_ORG o
+			INNER JOIN sctrans.SYS_ORG o
 			ON  c.ORG_ID=o.ID WHERE
 				datediff(month,CREATE_TIME,getdate())=0
 			<if test="orgId != null">
@@ -472,7 +475,7 @@ FROM
 		(SELECT
 				DISTINCT s.case_code
 			FROM sctrans.T_TO_CASE c
-			LEFT JOIN scpf_dev.dbo.SYS_ORG o
+			LEFT JOIN sctrans.SYS_ORG o
 			<if test="orgId != null">
 			ON o.PARENT_ID=#{orgId,jdbcType=VARCHAR}  
 			</if>
@@ -514,6 +517,9 @@ FROM
       <if test="closeTime != null">
       	CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="loanReq != null">
+        LOAN_REQ  = #{loanReq,jdbcType=VARCHAR},
+      </if>
         UPDATE_TIME=GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
@@ -531,7 +537,7 @@ FROM
   	SELECT 
   		ID AS id,
   		ORG_NAME AS orgName
-   FROM scpf_dev.dbo.SYS_ORG  
+   FROM sctrans.SYS_ORG  
    WHERE DEP_HIERARCHY = #{dep,jdbcType=VARCHAR}
 
  </select>
