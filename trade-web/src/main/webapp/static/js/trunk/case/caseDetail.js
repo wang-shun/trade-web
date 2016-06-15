@@ -362,6 +362,7 @@ function chgLoanReqmentCheck() {
 /*贷款需求变更*/
 function showLoanReqmentChgModal(){
 	$("#mortageService").val("0");
+	$("#hzxm").html('');
 	$('#div_releasePlan').hide();
 	$('#div_releasePlan .input-group.date').datepicker({
 		todayBtn : "linked",
@@ -442,6 +443,7 @@ function mortageService() {
 				txt += "</div>";
 				$("#hzxm").append(txt);
 
+				/*生成跨区合作下拉框*/
 				var _partner = $('#cooperationUser0');
 				_partner.bind('change', function(){
 					var selectedVal = _partner.find(':selected').val();
