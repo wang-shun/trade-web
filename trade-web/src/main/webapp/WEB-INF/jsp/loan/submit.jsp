@@ -36,6 +36,7 @@
 #table_list_2>tbody>tr>td {
 	text-align: center;
 }
+
 </style>
 </head>
 <body>
@@ -98,13 +99,13 @@
 							</select>
 						</div>
 						<div style="float: left; width: 200px">
-							<input type="text" class=" form-control"
-								id="txt_caseInfo" placeholder="案件地址" style="width: 200px">
+							<input type="text" class=" form-control" id="txt_caseInfo" placeholder="案件地址" style="width: 482px">
 						</div>
-						<div style="float: left; width: 200px">
-							<button type="button" class="btn btn-primary"
-								id="btn_search" style="width: 80px">搜索</button>
-						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div style="left: right; width: 200px">
+						<button type="button" class="btn btn-primary" id="btn_search" style="width: 80px">搜索</button>
 					</div>
 				</div>
 
