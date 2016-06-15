@@ -1102,7 +1102,7 @@ function savePlanItems(){
 		success : function(data) {
 			if(data.success){
 				alert("保存成功");
-				$('#plan-modal-form').modal("hide");
+				window.location.reload();
 			}else{
 				alert(data.message);
 			}
