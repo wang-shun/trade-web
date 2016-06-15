@@ -137,7 +137,7 @@ text-decoration: underline !important;
 									<div class="col-md-8"> 	
 										<aist:dict id="loanSrvCode" name="loanSrvCode"
 											clazz="btn btn-white " display="select"
-											defaultvalue="" dictType="yu_serv_cat_code_tree" />
+											defaultvalue="" dictType="yu_serv_cat_code_tree" tag="eplus"/>
 									</div>
 								</div>
 							</div>
