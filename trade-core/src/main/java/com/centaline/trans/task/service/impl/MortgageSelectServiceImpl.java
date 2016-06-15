@@ -60,15 +60,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		if(mortageService==null)return null;
 		switch (mortageService) {
 		case "0":
-			return LoanReqEnum.FullPay.getCode();
-		case "1":
-			return LoanReqEnum.ComLoan.getCode();
-		
-		case "2":
-			return LoanReqEnum.PSFLoan.getCode();
-		case "3":
-			return LoanReqEnum.SelfLoan.getCode();
-			default: return mortageService;
+			return "0";
+			default: return "1";
 		}
 	}
 	@Override

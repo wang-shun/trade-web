@@ -1015,6 +1015,7 @@
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 	    var r1 =false;
+	    var loanReqType="${loanReqType}";
 	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
 			r1 = true;
 		</shiro:hasPermission>
