@@ -642,7 +642,7 @@ public class CaseDetailController {
 		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
 			isCaseOwner=true;
 		}
-		if("operation_process:10:445004".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
+		if(toWorkFlow!=null &&"operation_process:10:445004".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
 		request.setAttribute("isNewFlow", isNewFlow);

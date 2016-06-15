@@ -684,8 +684,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
         <omgdi:waypoint x="171.0" y="641.0"></omgdi:waypoint>
-        <omgdi:waypoint x="282.0" y="513.0"></omgdi:waypoint>
-        <omgdi:waypoint x="904.0" y="513.0"></omgdi:waypoint>
+        <omgdi:waypoint x="291.0" y="492.0"></omgdi:waypoint>
+        <omgdi:waypoint x="904.0" y="492.0"></omgdi:waypoint>
         <omgdi:waypoint x="904.0" y="419.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

@@ -94,7 +94,7 @@
 					<form method="get" class="form-horizontal">
 						
 						<div class="row form-group">
-							<label class="col-md-2 control-label">案件地址</label>
+							<label class="col-md-2 control-label">产证地址</label>
 							<div class="col-md-10">
 								<input id="caseAddress" type="text" class="form-control">
 							</div>
