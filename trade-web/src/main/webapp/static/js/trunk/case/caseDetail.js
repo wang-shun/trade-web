@@ -13,11 +13,20 @@ Array.prototype.contains = function(obj){
 };
 var changeTaskList=['TransSign','PurchaseLimit','Pricing','TaxReview','LoanClose','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
                     'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
+var comLoanTasks=['ComLoanProcess'];
+var psfLoanTasks=["PSFApply","PSFSign","PSFApprove"];
+var loanLostTasks=['LoanlostApply','LoanlostApproveManager','LoanlostApproveDirector','SelfLoanApprove'];
+var fullPay=[];
+var loanTasks={'PSFLoan':psfLoanTasks,'ComLoan':comLoanTasks,SelfLoan:loanLostTasks,"FullPay":fullPay};
+var loanTaskArry= new Array();
+//loanTaskArry = loanTaskArry.concat(comLoanTasks,psfLoanTasks,loanLostTasks,fullPay);
 $(document).ready(
 		function() {
+			
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
-				if(!changeTaskList.contains(_this.val())){
+				var taskDfKey=_this.val();
+				if(!changeTaskList.contains(taskDfKey) ){
 					_this.remove();
 				}
 			});
@@ -333,7 +342,7 @@ function chgLoanReqmentCheck() {
 		 alert("正在加载合作项目!");
 		 return false;
 	}
-	if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
+	if($('#mortageService').val()!='0'&& $("#loan_reqment_chg_form").find('#estPartTime').val()==''){
 		alert('请选择预计放款时间');
 		return false;
 	}
@@ -378,11 +387,11 @@ function showLoanReqmentChgModal(){
 function mortageService() {
 	var value = $("#mortageService").val();
 	if(value!='0'){
-		$("#estPartTime").removeProp('disabled');
-		$("#estPartTime").removeAttr('disabled');
+		$("#loan_reqment_chg_form").find("#estPartTime").removeProp('disabled');
+		$("#loan_reqment_chg_form").find("#estPartTime").removeAttr('disabled');
 		 $('#div_releasePlan').show();
 	}else{
-		$("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
+		$("#loan_reqment_chg_form").find("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
 		$('#div_releasePlan').hide();
 	}
 	$("#hzxm").html("");
@@ -1047,7 +1056,7 @@ function savePlanItems(){
 		isChanges.push($(this).val());
 	});
 
-	$("input:text[name='estPartTime']").each(function(k) {
+	$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
 		if($(this).val()==""||$(this).val().trim==""){
 			msg = "交易计划不允许为空";
 			return false;
