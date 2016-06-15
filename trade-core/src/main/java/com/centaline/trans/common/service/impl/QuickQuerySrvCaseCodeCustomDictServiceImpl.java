@@ -22,7 +22,7 @@ public class QuickQuerySrvCaseCodeCustomDictServiceImpl implements CustomDictSer
 	private UamBasedataService uamBasedataService;
 	
 	@Override
-	@Cacheable(value="QuickQuerySrvsDictCustomDictServiceImpl",key="#key")
+	@Cacheable(value="QuickQuerySrvCaseCodeCustomDictServiceImpl",key="#key")
 	public String getValue(String key) {
 		if(StringUtils.isEmpty(key)){
 			return "";
