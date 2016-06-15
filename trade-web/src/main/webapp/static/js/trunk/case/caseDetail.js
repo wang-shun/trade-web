@@ -430,7 +430,7 @@ function mortageService() {
 				txt += "<div class='col-xs-12 col-md-6'>";
 				txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
 				txt += "<label class='col-md-5 control-label'><font color='red'>*</font>合作顾问</label>";
-				txt += "<div class='col-md-7'>";
+				txt += "<div class='col-md-7 pr0'>";
 				txt += "<select class='form-control m-b' name='partner' id='cooperationUser0'>";
 				txt += "<option value='0'>----未选择----</option>";
 				$.each(data.users, function(j, user){
@@ -612,7 +612,7 @@ function ChangeModal(data) {
 			if(value.users !=""&&value.users.length!=0){
 				addHtml += "<label class='col-md-3 control-label'>合作顾问</label>";
 			}
-		addHtml += "<div class=\"col-md-9\">";
+		addHtml += "<div id=\"my_col_md_9\" class=\"col-md-9\">";
 		
 		if(value.users !=""&&value.users.length!=0){
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
@@ -698,7 +698,7 @@ function ChangeModal(data) {
 $(document).on("change",'select[name="myProcessorId"]',function(){
 	var pros=$('select[name="myProcessorId"]');
 	$.each(pros,function(i,items){
-		var parent = $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10');
+		var parent = $('select[name="myProcessorId"]:eq('+i+')').parent('#my_col_md_9');
 		var org = parent.children(':hidden:eq(0)');
 		var oldOrg = parent.children(':hidden:eq(2)');
 		var consult = parent.children(':hidden:eq(1)');
@@ -806,8 +806,8 @@ function crossAreaCooperation(i){
 				var zuzhi=org.find(':selected').val();
 				
 				if(guwen!='0'){
-					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(0)').val(zuzhi);
-					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-10').children(':hidden:eq(1)').val(guwen);
+					 $('select[name="myProcessorId"]:eq('+i+')').parent('#my_col_md_9').children(':hidden:eq(0)').val(zuzhi);
+					 $('select[name="myProcessorId"]:eq('+i+')').parent('#my_col_md_9').children(':hidden:eq(1)').val(guwen);
 				}
 			}
 			
