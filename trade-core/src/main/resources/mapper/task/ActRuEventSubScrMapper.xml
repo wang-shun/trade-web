@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.ActRuEventSubScrMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ActRuEventSubScr">
+    <id column="ID_" jdbcType="NVARCHAR" property="id" />
+    <result column="REV_" jdbcType="INTEGER" property="rev" />
+    <result column="EVENT_TYPE_" jdbcType="NVARCHAR" property="eventType" />
+    <result column="EVENT_NAME_" jdbcType="NVARCHAR" property="eventName" />
+    <result column="EXECUTION_ID_" jdbcType="NVARCHAR" property="executionId" />
+    <result column="PROC_INST_ID_" jdbcType="NVARCHAR" property="procInstId" />
+    <result column="ACTIVITY_ID_" jdbcType="NVARCHAR" property="activityId" />
+    <result column="CONFIGURATION_" jdbcType="NVARCHAR" property="configuration" />
+    <result column="CREATED_" jdbcType="TIMESTAMP" property="created" />
+    <result column="PROC_DEF_ID_" jdbcType="NVARCHAR" property="procDefId" />
+    <result column="TENANT_ID_" jdbcType="NVARCHAR" property="tenantId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID_, REV_, EVENT_TYPE_, EVENT_NAME_, EXECUTION_ID_, PROC_INST_ID_, ACTIVITY_ID_, 
+    CONFIGURATION_, CREATED_, PROC_DEF_ID_, TENANT_ID_
+  </sql>
+  
+  
+  <select id="listBySelective" parameterType="com.centaline.trans.task.entity.ActRuEventSubScr" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.ACT_RU_EVENT_SUBSCR
+    where 1=1
+    <if test="id != null">
+        and id_=#{id,jdbcType=NVARCHAR}
+      </if>
+      <if test="rev != null">
+        and rev_=#{rev,jdbcType=INTEGER}
+      </if>
+      <if test="eventType != null">
+       and event_type_= #{eventType,jdbcType=NVARCHAR}
+      </if>
+      <if test="eventName != null">
+        and event_name_ = #{eventName,jdbcType=NVARCHAR}
+      </if>
+      <if test="executionId != null">
+       and execution_Id_= #{executionId,jdbcType=NVARCHAR}
+      </if>
+      <if test="procInstId != null">
+        and proc_Inst_Id_ = #{procInstId,jdbcType=NVARCHAR}
+      </if>
+      <if test="activityId != null">
+        and activity_Id_ = #{activityId,jdbcType=NVARCHAR}
+      </if>
+      <if test="configuration != null">
+        and configuration = #{configuration,jdbcType=NVARCHAR}
+      </if>
+      <if test="created != null">
+       and created= #{created,jdbcType=TIMESTAMP}
+      </if>
+      <if test="procDefId != null">
+        and proc_Def_Id =#{procDefId,jdbcType=NVARCHAR}
+      </if>
+      <if test="tenantId != null">
+       and tenant_Id= #{tenantId,jdbcType=NVARCHAR}
+      </if>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.ACT_RU_EVENT_SUBSCR
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sctrans.ACT_RU_EVENT_SUBSCR
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ActRuEventSubScr">
+    insert into sctrans.ACT_RU_EVENT_SUBSCR (ID_, REV_, EVENT_TYPE_, 
+      EVENT_NAME_, EXECUTION_ID_, PROC_INST_ID_, 
+      ACTIVITY_ID_, CONFIGURATION_, CREATED_, 
+      PROC_DEF_ID_, TENANT_ID_)
+    values (#{id,jdbcType=NVARCHAR}, #{rev,jdbcType=INTEGER}, #{eventType,jdbcType=NVARCHAR}, 
+      #{eventName,jdbcType=NVARCHAR}, #{executionId,jdbcType=NVARCHAR}, #{procInstId,jdbcType=NVARCHAR}, 
+      #{activityId,jdbcType=NVARCHAR}, #{configuration,jdbcType=NVARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{procDefId,jdbcType=NVARCHAR}, #{tenantId,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ActRuEventSubScr">
+    insert into sctrans.ACT_RU_EVENT_SUBSCR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID_,
+      </if>
+      <if test="rev != null">
+        REV_,
+      </if>
+      <if test="eventType != null">
+        EVENT_TYPE_,
+      </if>
+      <if test="eventName != null">
+        EVENT_NAME_,
+      </if>
+      <if test="executionId != null">
+        EXECUTION_ID_,
+      </if>
+      <if test="procInstId != null">
+        PROC_INST_ID_,
+      </if>
+      <if test="activityId != null">
+        ACTIVITY_ID_,
+      </if>
+      <if test="configuration != null">
+        CONFIGURATION_,
+      </if>
+      <if test="created != null">
+        CREATED_,
+      </if>
+      <if test="procDefId != null">
+        PROC_DEF_ID_,
+      </if>
+      <if test="tenantId != null">
+        TENANT_ID_,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NVARCHAR},
+      </if>
+      <if test="rev != null">
+        #{rev,jdbcType=INTEGER},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=NVARCHAR},
+      </if>
+      <if test="eventName != null">
+        #{eventName,jdbcType=NVARCHAR},
+      </if>
+      <if test="executionId != null">
+        #{executionId,jdbcType=NVARCHAR},
+      </if>
+      <if test="procInstId != null">
+        #{procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=NVARCHAR},
+      </if>
+      <if test="configuration != null">
+        #{configuration,jdbcType=NVARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="procDefId != null">
+        #{procDefId,jdbcType=NVARCHAR},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ActRuEventSubScr">
+    update sctrans.ACT_RU_EVENT_SUBSCR
+    <set>
+      <if test="rev != null">
+        REV_ = #{rev,jdbcType=INTEGER},
+      </if>
+      <if test="eventType != null">
+        EVENT_TYPE_ = #{eventType,jdbcType=NVARCHAR},
+      </if>
+      <if test="eventName != null">
+        EVENT_NAME_ = #{eventName,jdbcType=NVARCHAR},
+      </if>
+      <if test="executionId != null">
+        EXECUTION_ID_ = #{executionId,jdbcType=NVARCHAR},
+      </if>
+      <if test="procInstId != null">
+        PROC_INST_ID_ = #{procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="activityId != null">
+        ACTIVITY_ID_ = #{activityId,jdbcType=NVARCHAR},
+      </if>
+      <if test="configuration != null">
+        CONFIGURATION_ = #{configuration,jdbcType=NVARCHAR},
+      </if>
+      <if test="created != null">
+        CREATED_ = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="procDefId != null">
+        PROC_DEF_ID_ = #{procDefId,jdbcType=NVARCHAR},
+      </if>
+      <if test="tenantId != null">
+        TENANT_ID_ = #{tenantId,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ActRuEventSubScr">
+    update sctrans.ACT_RU_EVENT_SUBSCR
+    set REV_ = #{rev,jdbcType=INTEGER},
+      EVENT_TYPE_ = #{eventType,jdbcType=NVARCHAR},
+      EVENT_NAME_ = #{eventName,jdbcType=NVARCHAR},
+      EXECUTION_ID_ = #{executionId,jdbcType=NVARCHAR},
+      PROC_INST_ID_ = #{procInstId,jdbcType=NVARCHAR},
+      ACTIVITY_ID_ = #{activityId,jdbcType=NVARCHAR},
+      CONFIGURATION_ = #{configuration,jdbcType=NVARCHAR},
+      CREATED_ = #{created,jdbcType=TIMESTAMP},
+      PROC_DEF_ID_ = #{procDefId,jdbcType=NVARCHAR},
+      TENANT_ID_ = #{tenantId,jdbcType=NVARCHAR}
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </update>
+  
+ 
+</mapper>

@@ -52,7 +52,24 @@
 .mark-guaqi{background-image:url(../img/mark-guaqi.png);}
 .mark-jiean{background-image:url(../img/mark-jiean.png);}
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
-.mark-zaitu{background-image:url(../img/mark-zaitu.png);} 
+.mark-zaitu{background-image:url(../img/mark-zaitu.png);}
+.row:nth-last-child(2) .wd-31,.row:nth-last-child(1) .wd-31{width:31%;}
+.row:nth-last-child(2) .wd-50,.row:nth-last-child(1) .wd-50{width:50%;}
+.row:nth-last-child(2) .mr0,.row:nth-last-child(1) .mr0{margin-left:0;margin-right:0;}
+.row:nth-last-child(2) .wd87,.row:nth-last-child(1) .wd87{width:84px;margin-left: 8px;}
+.row:nth-last-child(2) .wd-72,.row:nth-last-child(1) .wd-72{width:72%;margin-left:-8px;}
+.row:nth-last-child(2) .wd-64,.row:nth-last-child(1) .wd-64{width:61%;padding-right:0;}
+.row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
+.pd0{padding:0;}
+.wd445{width:582px;margin-bottom:15px;}
+.wd445 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+.modal-content{width:820px;}
+.row {
+   margin-right : 0px !important;
+}
+.modal-content {
+   width : 1000px!important;
+}
 </style>
 </head>
 
@@ -253,8 +270,9 @@
                    			 <shiro:hasPermission name="TRADE.CASE.RESET">
 		                   	 	<a role="button" id="caseResetes" class="btn btn-primary btn-xm btn-activity" href="javascript:caseReset()">案件重置</a>
 		                   	 </shiro:hasPermission>
-		                   	 
-		                   	 
+		                   	 <c:if test="${isCaseOwner && isNewFlow}"><!-- 主办 &10:445004或者之后的流程-->
+		                   	 	<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
+		                   	 </c:if>
                             </div>
                         </div>
                     </div>
@@ -455,9 +473,9 @@
                  </div>
              </div>  
              
-             <!-- start 变更合作对象   -->	         
+             <!-- start 变更合作对象  -->	         
 	         <div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
-				<form action="${ctx}/case/updateCoope" method="post" class="form-horizontal">   
+				<form id="changeCooprations" action="${ctx}/case/updateCoope" method="post" class="form-horizontal">   
 				<input type="hidden" name="instCode" value="${toWorkFlow.instCode}"/>  
 				<input type="hidden" name="caseId" value="${toCase.pkid}"/>
 	             <div class="modal-dialog" style="width:800px">
@@ -482,7 +500,7 @@
 	                    </div> 
 	                    
 	                    <div class="modal-footer">
-				            <input type="submit" class="btn btn-primary" value="提交" />
+				            <input type="button" class="btn btn-primary" value="提交" onclick="submit_change()" />
 				            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 		                 </div>
                      </div>
@@ -541,6 +559,73 @@
                       </form>
                  </div>
              </div> 
+             <!-- loanRequirementChange -->
+             <div id="loanReqmentChg-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+				<div class="modal-dialog" style="width:1000px">
+				<form method="get" class="form-horizontal" id="loan_reqment_chg_form">
+					<div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="plan-modal-title">
+						      贷款需求选择
+						   </h4>
+					   </div>
+
+					<!-- 交易单编号 -->
+					<input type="hidden" name="caseCode" value="${toCase.caseCode}">
+					<!-- 流程引擎需要字段 -->
+					<input type="hidden"  name="processInstanceId" value="${toWorkFlow.instCode}">
+					<div class="modal-body">
+
+					<div style="padding-left: 20px; padding-right: 20px;">
+					<div class="row">
+						<div class="col-md-7">
+							<div class="form-group" id="data_1" name="isYouXiao">
+									<label class="col-md-5 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>请选择客户贷款需求</label>
+									<div class="col-md-7">
+										<aist:dict clazz="form-control" id="mortageService" name="mortageService" 
+								display="select" defaultvalue="0" dictType="mortage_service" />
+									</div>
+								</div>
+						</div>
+					</div>
+					<div class="row" id='div_releasePlan'>
+						<div class="col-md-7">
+							<div class="form-group">
+								<label class="col-md-5 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>预计放款时间</label>
+								<div class="col-md-7">
+									<div class=" input-group date">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<input type="text" class="form-control" name="estPartTime" id="estPartTime" disabled="disabled"
+								 value="">
+								 </div>
+						</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+					*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。
+					</div>
+					<div class="divider"><hr></div>
+					<div id="hzxm">
+					</div>
+					</div>
+				</div>
+			 	<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+					    data-dismiss="modal">关闭
+					 </button>
+					<button type="button" id ="btn_loan_reqment_chg" class="btn btn-primary" >变更</button>
+				</div>
+				</div>
+				</form>
+			</div>
+			</div>
+			</
+  	        <!-- end loanRequirementChange -->   
+             
              <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
@@ -552,8 +637,7 @@
                         	<!-- to do -->
                         	<c:if test="${not empty toWorkFlow.processDefinitionId}" >
                         		<c:if test="${not empty toWorkFlow.instCode}" >	
-                         	<iframe  frameborder=”no” border=”0″ marginwidth=”0″ marginheight=”0″ scrolling=”no” allowtransparency=”yes” style="height: 750px;width: 100%;
-                         	" src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
+                         			<iframe  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="auto" allowtransparency="yes" style="height: 1080px;width: 100%;" src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
                          		</c:if>
                          	</c:if>
             			</div>
@@ -911,8 +995,13 @@
 	 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	 
 	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.2"></script>
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.4"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
+	
+	<!-- 校验 -->
+    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	
 	<!-- 放款监管信息  -->
 	<script src="${ctx}/transjs/task/caseflowlist.js"></script>

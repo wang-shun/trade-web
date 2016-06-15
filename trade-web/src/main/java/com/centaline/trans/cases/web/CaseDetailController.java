@@ -233,7 +233,7 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(),
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
 				TransJobs.TJYZL.getCode());
 		if (asList != null && asList.size() > 0) {
 			User assistUser = asList.get(0);
@@ -284,7 +284,7 @@ public class CaseDetailController {
 		inProcessor.setProcessorId(toCase.getLeadingProcessId());
 		List<String> tgproList = tgServItemAndProcessorService.findProcessorsByCaseCode(inProcessor);
 		for (String sp : tgproList) {
-			if (StringUtils.isEmpty(sp))
+			if (StringUtils.isEmpty(sp) || "-1".equals(sp))
 				continue;
 			CaseDetailProcessorVO proVo = new CaseDetailProcessorVO();
 			User processor = uamUserOrgService.getUserById(sp);
@@ -633,18 +633,26 @@ public class CaseDetailController {
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
 				.getServiceDepCode());
 		boolean isBackTeam = false;
+		boolean isCaseOwner=false;
+		boolean isNewFlow=false;
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-
 		
+		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
+			isCaseOwner=true;
+		}
+		if(toWorkFlow!=null &&"operation_process:10:445004".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
+			isNewFlow=true;
+		}
+		request.setAttribute("isNewFlow", isNewFlow);
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
 		
 		request.setAttribute("isBackTeam", isBackTeam);
-
+		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
 		request.setAttribute("toCaseInfo", toCaseInfo);
 		request.setAttribute("toPropertyInfo", toPropertyInfo);

@@ -45,7 +45,8 @@
 								A.EST_PART_TIME,
 								A.RED_LOCK,
 								A.END_TIME,
-								A.status
+								A.status,
+								A.create_time
 					   FROM ((SELECT
 							    ART.ID_ AS ID,
 								TW.CASE_CODE,
@@ -54,6 +55,7 @@
 								ART.TASK_DEF_KEY_ AS PART_CODE,
 								ART.PROC_INST_ID_ AS INST_CODE,
 								ART.ASSIGNEE_ AS ASSIGNEE,
+								ART.create_time_ create_time,
 								TP.EST_PART_TIME,
 								TP.RED_LOCK,
 								NULL AS END_TIME,
@@ -76,6 +78,7 @@
 								AHT.TASK_DEF_KEY_ AS PART_CODE,
 								AHT.PROC_INST_ID_ AS INST_CODE,
 								AHT.ASSIGNEE_ AS ASSIGNEE,
+								AHT.start_time_ AS create_time,
 								TP.EST_PART_TIME,
 								TP.RED_LOCK,
 								AHT.END_TIME_ AS END_TIME
@@ -93,7 +96,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY A.EST_PART_TIME DESC,A.ID DESC
+			  ORDER BY A.create_time DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

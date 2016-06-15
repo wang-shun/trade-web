@@ -49,7 +49,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public void saveToMortgageAndSupDocu(ToMortgage toMortgage) {
 
-		ToMortgage mortgage = this.findToMortgageByCaseCode(toMortgage);
+		ToMortgage mortgage = this.findToMortgageByCondition(toMortgage);
 
 		if (mortgage != null) {
 				toMortgageMapper.update(toMortgage);
@@ -119,6 +119,37 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	public ToMortgage findToMortgageByCaseCode(ToMortgage toMortgage) {
 		List<ToMortgage> list = toMortgageMapper
 				.findToMortgageByCaseCodeAndBankType(toMortgage);
+		if (CollectionUtils.isNotEmpty(list)) {
+			ToMortgage mort = null;
+			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage
+					.getCaseCode());
+
+			if (list.size() == 1) {
+				mort = list.get(0);
+			} else {
+				for (ToMortgage mortgage : list) {
+					if (StringUtils.isNotBlank(mortgage.getLastLoanBank())) {
+						mort = mortgage;
+						break;
+					}
+				}
+			}
+			mort.setComAmount(mort.getComAmount() != null ? mort.getComAmount()
+					.divide(new BigDecimal(10000)) : null);
+			mort.setMortTotalAmount(mort.getMortTotalAmount() != null ?mort.getMortTotalAmount().divide(
+					new BigDecimal(10000)):null);
+			mort.setPrfAmount(mort.getPrfAmount() != null ? mort.getPrfAmount()
+					.divide(new BigDecimal(10000)) : null);
+			mort.setToSupDocu(toSupDocu);
+
+			return mort;
+		}
+		return null;
+	}
+	@Override
+	public ToMortgage findToMortgageByCaseCodeWithAll(ToMortgage toMortgage) {
+		List<ToMortgage> list = toMortgageMapper
+				.findToMortgageByCondition(toMortgage);
 		if (CollectionUtils.isNotEmpty(list)) {
 			ToMortgage mort = null;
 			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage
@@ -231,6 +262,11 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public void inActiveMortageByCaseCode(String caseCode) {
+		toMortgageMapper.inActiveMortageByCaseCode(caseCode);
 	}
 
 }

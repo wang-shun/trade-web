@@ -11,11 +11,13 @@ import java.util.Set;
 
 import javax.print.DocPrintJob;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -26,8 +28,10 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -335,6 +339,7 @@ public class FirstFollowController {
 		result.put("dic", dict);
 		result.put("users", jsonList);
 		
+
 		return result;
 	}
 	/**
@@ -352,6 +357,76 @@ public class FirstFollowController {
 		return list;
 	}
 
+	/*获取跨区合作的选项*/
+	@RequestMapping("getCrossAeraCooperationItems")
+	@ResponseBody
+	public Map<String,Object> getCrossAeraCooperationItems(HttpServletRequest request)
+	{
+		Map<String,Object>result=new HashMap<String,Object>();
+		SessionUser us = uamSessionService.getSessionUser();
+		
+		//获取所有的贵宾服务部
+		List<ToOrgVo> orgIdList = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCQY.getCode());
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取用户的所在的贵宾服务部
+		
+		//获取下拉的贵宾服务组
+		List<JSONObject> jsonList1 = new ArrayList<JSONObject>();
+		if (orgIdList != null && orgIdList.size() > 0 && myDistrict != null)
+		{
+			for (ToOrgVo toOrgVo : orgIdList) 
+			{
+				Org district = uamUserOrgService.getOrgById(toOrgVo.getId());
+				if(!myDistrict.getId().equals(district.getId())&&!"b4c490edc38c431a8dfd7dba98c73fe5".equals(district.getId())&&!"8a8493d4538a517a01539d47b51c1b02".equals(district.getId()))
+				{
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("districtId", district.getId());
+					jsonObject.put("districtName", district.getOrgName());
+					jsonList1.add(jsonObject);
+					
+					//获取该贵宾服务部下的后台组
+					List<Org> orgList = uamUserOrgService.getOrgByParentId(district.getId());
+					List<JSONObject> jsonList2 = new ArrayList<JSONObject>();
+					if (orgList != null && orgList.size() > 0) {
+						for (Org org : orgList) {
+							TsTeamProperty tsTeamProperty =tsTeamPropertyService.findTeamPropertyByTeamCode(org.getOrgCode());
+							if(tsTeamProperty!=null){
+								if("yu_all".equals(tsTeamProperty.getTeamProperty())||"yu_back".equals(tsTeamProperty.getTeamProperty()))
+								{
+									JSONObject subJsonObj = new JSONObject();
+									subJsonObj.put("orgId", org.getId());
+									subJsonObj.put("orgName", org.getOrgName());
+									jsonList2.add(subJsonObj);
+									
+									//获取交易顾问
+									List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TransJobs.TJYGW.getCode());
+									List<JSONObject> jsonList3 = new ArrayList<JSONObject>();
+									if (list != null && list.size() > 0)
+									{
+										for (User user : list) 
+										{
+											JSONObject userJsonObj = new JSONObject();
+											int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user.getId());
+											userJsonObj.put("id", user.getId());
+											userJsonObj.put("realName", user.getRealName());
+											userJsonObj.put("count", userCaseUnTransCount);
+											jsonList3.add(userJsonObj);
+										}
+									}
+									subJsonObj.put("userItems", jsonList3);
+								}
+							}
+						}
+					}
+					jsonObject.put("orgs", jsonList2);
+				}
+			}
+		}
+		
+		result.put("cross", jsonList1);
+		return result;
+	}
+	
+	
 	@RequestMapping(value = "submit")
 	@ResponseBody
 	public boolean submit(HttpServletRequest request, FirstFollowVO firstFollowVO, String operator,

@@ -105,6 +105,7 @@ function searchMethod(page) {
 	
 	params.search_caseCode = $('#caseCode').val();
 	params.search_propertyAddr = $('#propertyAddr').val();
+	params.search_loanSrvCode = $('#loanSrvCode').val();
 	// 日期查询
 	var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null;
 	for (var r = 0; r < divIndex; r++) {
@@ -160,7 +161,7 @@ var divIndex = 1;
 var count = $('#case_date_0 option:last').index();
 function addDateDiv() {
 
-	var txt = '<div class="col-md-12 form-group"><label class="col-md-1  col-sm-2 control-label"></label><div id="dateDiv_' + divIndex + '" class="input-group m-b-xs m-t-xs">';
+	var txt = '<div id="dateDiv_' + divIndex + '" class="col-md-12 form-group"><label class="col-md-1  col-sm-2 control-label"></label><div  class="input-group m-b-xs m-t-xs">';
 	txt += '<div class="input-group-btn">';
 	txt += '    <select id="case_date_'
 			+ divIndex

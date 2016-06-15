@@ -22,5 +22,5 @@ public interface ToMortgageMapper {
     List<ToMortgage> findToMortgageByCaseCodeAndBankType(ToMortgage toMortgage);
     
     List<ToMortgage> findToMortgageByCondition(ToMortgage toMortgage);
-
+    int inActiveMortageByCaseCode(String caseCode);
 }

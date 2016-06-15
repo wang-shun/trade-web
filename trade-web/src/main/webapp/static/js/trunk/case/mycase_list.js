@@ -774,3 +774,10 @@ function radioYuCuiOrgSelectCallBack(array){
 		$("#yuCuiOriGrpId").val("");
 	}
 }
+//清空
+$('#cleanButton').click(function() {
+	$("input[id='inTextVal']").val('');
+	$("input[name='teamCode']").val('');
+	$("input[name='dtBegin']").val('');
+	$("input[name='dtEnd']").val('');
+});

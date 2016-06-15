@@ -199,7 +199,7 @@
     PROCESSOR_ID AS processorId
     from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    and PROCESSOR_ID &lt;&gt; #{processorId,jdbcType=VARCHAR}
+    and PROCESSOR_ID != #{processorId,jdbcType=VARCHAR}
   </select>
   
 <select id="findSrvsByCaseCode" parameterType="java.lang.String" resultType="java.lang.String">
@@ -242,6 +242,9 @@
   
   <delete id="deleteByCaseCode" parameterType="java.lang.String">
 	    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and SRV_CODE in('3000401001','3000401002','3000400201','3000400101') 
+  </delete>
+    <delete id="deleteMortageServItem" parameterType="java.lang.String">
+	    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and SRV_CODE in('3000400201','3000400101'); 
   </delete>
   
 </mapper>
