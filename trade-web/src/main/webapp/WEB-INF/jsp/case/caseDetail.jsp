@@ -61,7 +61,8 @@
 .row:nth-last-child(2) .wd-64,.row:nth-last-child(1) .wd-64{width:61%;padding-right:0;}
 .row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
 .pd0{padding:0;}
-.wd445{width:582px;margin-bottom:15px;}
+.pr0{padding-right:0;}
+.wd445{margin-bottom:15px;padding-right:30px;}
 .wd445 select,.kuaquselect select{float:right;height:34px;border-radius:2px;margin-left:10px;}
 #hzxm{padding-bottom:15px;}
 .kuaquselect{margin:-20px 0 0 0;padding-right:0;}
@@ -1018,6 +1019,7 @@
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 	    var r1 =false;
+	    var loanReqType="${loanReqType}";
 	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
 			r1 = true;
 		</shiro:hasPermission>

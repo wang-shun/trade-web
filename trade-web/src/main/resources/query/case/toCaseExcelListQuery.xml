@@ -233,7 +233,7 @@
 							uvm.REAL_NAME as OP_MANAGER,
 							uvta.REAL_NAME as OP_AS,
 							orgd.ORG_NAME as OP_PARENT_ORG,
-							t.assignee_ as GUOHU_APPROVER,
+							guser.real_name as GUOHU_APPROVER,
 							t.end_time_ as GUOHU_APPROVER_TIME
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
@@ -274,7 +274,10 @@
 							GROUP BY
 								t.proc_inst_id_,t.assignee_
 						) t ON t.proc_inst_id_ = w.inst_code
-					
+					left join sctrans.sys_user guser 
+					on guser.username = t.ASSIGNEE_ 
+					and guser.available = '1'
+					and guser.is_deleted = '0'
 					<ifNotNull realConTime>
 						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
 					</ifNotNull>
