@@ -259,6 +259,10 @@
     <!-- KPI是否达标 -->
     <bean name="qqMKpi" class="com.centaline.trans.common.service.impl.QuickQueryMKpiCustomDictServiceImpl">
     </bean>
+    
+    <bean name="qqEvaFee"  class="com.centaline.trans.common.service.impl.QuickQueryEvaFeeServiceImpl">
+    </bean>
+     
 
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

@@ -4,6 +4,7 @@
         <customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
         <customDict id="getParentOrgNameByOrgId" beanName="qqcdYuCuiOrgName"></customDict>
         <customDict id="qqcdDictServCode" beanName="qqcdDictServCode"></customDict>
+        <customDict id="qqEvaFee" beanName="qqEvaFee"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -101,6 +102,7 @@
 				<column type="both" name="LOAN_AMOUNT" index="" checkbox="" display="申请金额" title="申请金额" customDict="" sysDict="" format="" beanFormatter="" width= "90" align="" halign="" resizable=""/>
 				<column type="both" name="SIGN_AMOUNT" index="" checkbox="" display="面签金额" title="面签金额" customDict="" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ACTUAL_AMOUNT" index="" checkbox="" display="放款金额" title="放款金额" customDict="" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
