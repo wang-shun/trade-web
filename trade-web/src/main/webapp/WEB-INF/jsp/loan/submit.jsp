@@ -161,7 +161,7 @@
 								postData : postData,
 								datatype : 'json',
 								mtype:'POST',
-								page : 1
+								page:1  
 							}).trigger("reloadGrid");
 						});
 						$("#btn_search").trigger('click');
