@@ -85,4 +85,9 @@ public class BaseImporController {
 		}	
 		return true;
 	}
+	
+	@RequestMapping(value = "baseAward")
+	public String baseAward(){
+		return "award/baseAward";
+	}
 }

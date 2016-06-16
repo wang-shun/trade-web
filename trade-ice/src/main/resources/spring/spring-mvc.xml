@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <context:component-scan base-package="com.centaline.trans.**.web,com.aist.common.quickQuery.**,com.centaline.trans.auth.aop.**,com.aist.uam.admin.web"
+    	use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+        <context:include-filter type="aspectj" expression="org.aspectj.lang.annotation.aspectj"/>
+    </context:component-scan>
+
+
+	<!-- 全局日期转换开始 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.aist.common.utils.date.DateConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- 全局日期转换结束 -->
+	
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="com.aist.common.entity.search.utils.SearchableConvertUtils.setConversionService" />
+		<property name="arguments" ref="conversionService" />
+	</bean>
+	
+	<mvc:annotation-driven
+		validator="validator"
+		conversion-service="conversionService"
+		content-negotiation-manager="contentNegotiationManager"
+		enable-matrix-variables="true">
+		
+		<!--enableMatrixVariables="true">-->
+        <!-- 异步支持 默认120秒超时 -->
+        <!-- <mvc:async-support default-timeout="120000" task-executor="executor"/> -->
+        
+		<mvc:message-converters register-defaults="true">
+			<!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+                <property name = "supportedMediaTypes">
+                    <list>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg index="0" value="text"/>
+                            <constructor-arg index="1" value="plain"/>
+                            <constructor-arg index="2" value="UTF-8"/>
+                        </bean>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg index="0" value="*"/>
+                            <constructor-arg index="1" value="*"/>
+                            <constructor-arg index="2" value="UTF-8"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+			
+			<!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="prettyPrint" value="true" />
+				<property name="objectMapper">
+					<bean class="com.aist.common.web.json.EhanceJacksonObjectMapper">
+						<property name="modelName" value="EhanceJacksonObjectMapper"></property>
+						<property name="version" value="0.0.1"></property>
+						<property name="serializers">
+							<list>
+								<bean class="com.aist.common.web.json.EhanceJacksonSerializer">
+									<property name="type" value="java.lang.String"></property>
+									<property name="serializer">
+										<bean class="com.aist.common.web.json.ContextualStringSerializer">
+											<property name="config">
+												<list>
+													<bean class="com.aist.common.web.json.AnnotationSerializerConfig">
+														<property name="annotation" value="com.aist.uam.basedata.json.JsonDict" />
+														<property name="serializer" value="com.aist.uam.basedata.json.JsonDictSerializer" />
+													</bean>
+													<bean class="com.aist.common.web.json.AnnotationSerializerConfig">
+														<property name="annotation" value="com.aist.uam.userorg.json.JsonUser" />
+														<property name="serializer" value="com.aist.uam.userorg.json.JsonUserSerializer" />
+													</bean>
+													<bean class="com.aist.common.web.json.AnnotationSerializerConfig">
+														<property name="annotation" value="com.aist.uam.userorg.json.JsonOrg" />
+														<property name="serializer" value="com.aist.uam.userorg.json.JsonOrgSerializer" />
+													</bean>
+													<bean class="com.aist.common.web.json.AnnotationSerializerConfig">
+														<property name="annotation" value="com.aist.uam.userorg.json.JsonJob" />
+														<property name="serializer" value="com.aist.uam.userorg.json.JsonJobSerializer" />
+													</bean>
+													<bean class="com.aist.common.web.json.AnnotationSerializerConfig">
+														<property name="annotation" value="com.aist.uam.permission.json.JsonApp" />
+														<property name="serializer" value="com.aist.uam.permission.json.JsonAppSerializer" />
+													</bean>
+												</list>
+											</property>
+										</bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+					</bean>
+				</property>
+				<property name="supportedMediaTypes">  
+		            <list>  
+		                <value>application/json;charset=UTF-8</value>  
+		            </list>  
+		        </property>
+			</bean>
+		</mvc:message-converters>
+		
+		<mvc:argument-resolvers>
+            <bean class="com.aist.common.web.bind.method.annotation.PageableMethodArgumentResolver"/>
+            <bean class="com.aist.common.web.bind.method.annotation.SearchableMethodArgumentResolver"/>
+            <bean class="com.aist.common.web.bind.method.annotation.FormModelMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
+	</mvc:annotation-driven>
+	
+	<!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="mediaTypes">
+			<value>
+				json=application/json
+				xml=application/xml
+				html=text/html
+			</value>
+		</property>
+		<!-- 默认的content type -->
+		<property name="defaultContentType" value="text/html"/>
+	</bean>
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- <mvc:resources mapping="/static/**" location="/WEB-INF/static/"/> -->
+	<mvc:resources mapping="/css/**" location="/static/css/**" />
+	<mvc:resources mapping="/font-awesome/**" location="/static/font-awesome/**" /> 
+	<mvc:resources mapping="/fonts/**" location="/static/fonts/**" />
+	<mvc:resources mapping="/img/**" location="/static/img/**" />
+	<mvc:resources mapping="/js/**" location="/static/js/**" />
+	<mvc:resources mapping="/less/**" location="/static/less/**" /> 	
+	<mvc:resources mapping="/transjs/**" location="/static/transjs/**" /> 	
+	<mvc:resources mapping="/mobilejs/**" location="/static/mobilejs/**" /> 	
+	<mvc:resources mapping="/image/**" location="/static/image/**" />
+	<mvc:resources mapping="/momedia/**" location="/static/momedia/**" />
+	<mvc:resources mapping="/template/**" location="/static/template/**" /> 	
+	<mvc:resources mapping="/static/tbsp/**" location="/WEB-INF/static/tbsp/**" />
+	
+    <!-- ========================= VIEW定义 ========================= -->
+    <!-- 内容协商视图解析器；根据客户端的不同的请求决定不同的 view进行响应, 如 /blog/1.json /blog/1.xml -->
+    <!-- 会自动根据解析的contentType来决定使用哪个视图解析器（默认使用整个web应用中的viewResolver） -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="0">
+        <!-- 内容协商管理器 用于决定media type -->
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+        <!-- 默认视图 放在解析链最后 -->
+        <property name="defaultViews">
+            <list>
+                <!--<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>-->
+                <bean class="com.alibaba.fastjson.support.spring.FastJsonJsonView" />
+                <!--<bean class="org.springframework.web.servlet.view.xml.MarshallingView"/>-->
+            </list>
+        </property>
+    </bean>
+
+	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
+	<mvc:default-servlet-handler />
+	
+    <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+    <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="contentType" value="text/html"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 文件上传相关 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--one of the properties available;the maximum upload size in bytes 100M-->
+        <property name="maxUploadSize" value="104857600"/>
+    </bean>
+
+    <!-- 控制器异常处理 -->
+    <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+    </bean>
+    
+    <aop:config proxy-target-class="true"/>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <import resource="applicationService.xml"/>
+</beans>
