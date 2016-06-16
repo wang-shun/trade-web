@@ -34,7 +34,7 @@
 		<searchCondition>
 			<condition field="loanAgent.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="INFO.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="userOrg.REAL_NAME" name="realName" label="人员" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="us.REAL_NAME" name="realName" label="人员" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="IN" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
@@ -53,27 +53,27 @@
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE,
 					  loanAgent.EXECUTOR_ID,
-					  userOrg.ORG_id as 'PARENT_ORG_NAME',
-					  sign.CON_PRICE/10000 as 'CON_PRICE',
+					  loanAgent.executor_team as 'PARENT_ORG_NAME',
+					  Convert(decimal(18,2),sign.CON_PRICE/10000) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
 					  loanAgent.RELEASE_TIME,
-					  loanAgent.LOAN_AMOUNT/10000 as 'LOAN_AMOUNT',
-					  loanAgent.SIGN_AMOUNT/10000 as 'SIGN_AMOUNT',
-					  loanAgent.ACTUAL_AMOUNT/10000 as 'ACTUAL_AMOUNT' 
+					  Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000) as 'LOAN_AMOUNT',
+					  Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000) as 'SIGN_AMOUNT',
+					  Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000) as 'ACTUAL_AMOUNT' 
 					FROM 
 					   sctrans.T_TO_LOAN_AGENT loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
 					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN 
-					    SCTRANS.V_USER_ORG_JOB userOrg
+					    SCTRANS.SYS_USER us
 					ON  
-					    loanAgent.EXECUTOR_ID = userOrg.user_id
+					    loanAgent.EXECUTOR_ID = us.id and us.is_deleted='0'
 					INNER JOIN
 				        sctrans.v_yucui_org_hierarchy orgHierarchy
 				    ON
-				        orgHierarchy.ORG_ID = userOrg.ORG_id
+				        orgHierarchy.ORG_ID = loanAgent.executor_team
 				    WHERE 
 				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
 				    <ifNotNull yuCuiOriGrpId>

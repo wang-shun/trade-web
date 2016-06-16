@@ -692,7 +692,8 @@ function exportToExcel() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);
 		});
-		
+		displayColomn.push('EVAL_FEE');
+		displayColomn.push('RECORD_TIME');
 
 		var queryOrgFlag = $("#queryOrgFlag").val();
 		var isAdminFlag = $("#isAdminFlag").val();
