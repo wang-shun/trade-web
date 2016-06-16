@@ -18,20 +18,40 @@ public class QuickQueryEvaFeeServiceImpl implements CustomDictService {
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		if (CollectionUtils.isNotEmpty(keys)) {
-			 List<String> caseCodeList = new ArrayList<String>();
+			 List<Map<String,Object>> totalList = new ArrayList<Map<String,Object>>();
+			 List<String> caseCodeList1 = new ArrayList<String>();
+			 int i = 0;
 			 for(Map<String, Object> m:keys){
 				 //得到所有的参数
 				 if(m.get("CASE_CODE")==null) {
 					 continue;
 				 }
-				 caseCodeList.add(m.get("CASE_CODE").toString());
-			 }
-			 Map<String,Object> map = new HashMap<String,Object>();
-			 map.put("caseCodes", caseCodeList);
-
-			 String hql = "SELECT CASE_CODE,EVAL_FEE,RECORD_TIME FROM sctrans.T_TO_EVA_FEE_RECORD WHERE CASE_CODE IN (:caseCodes)";
+				 caseCodeList1.add(m.get("CASE_CODE").toString());
+				 i++;
 				 
-			 List<Map<String,Object>> result = jdbcTemplate.queryForList(hql, map);
+				 if(i==1000) {
+					 
+					 Map<String,Object> map = new HashMap<String,Object>();
+					 map.put("caseCodes", caseCodeList1);
+					 
+					 String hql = "SELECT CASE_CODE,EVAL_FEE,CONVERT(varchar(100), RECORD_TIME, 23) AS RECORD_TIME FROM sctrans.T_TO_EVA_FEE_RECORD WHERE CASE_CODE IN (:caseCodes)";
+					 
+					 List<Map<String,Object>> result1 = jdbcTemplate.queryForList(hql, map);
+					 
+					 totalList.addAll(result1);
+					 
+					 caseCodeList1.clear();
+					 
+					 i = 0 ;
+				 }
+			 }
+			 
+			 Map<String,Object> map = new HashMap<String,Object>();
+			 map.put("caseCodes", caseCodeList1);
+			 String hql = "SELECT CASE_CODE,EVAL_FEE,CONVERT(varchar(100), RECORD_TIME, 23) AS RECORD_TIME FROM sctrans.T_TO_EVA_FEE_RECORD WHERE CASE_CODE IN (:caseCodes)";
+				 
+			 List<Map<String,Object>> result1 = jdbcTemplate.queryForList(hql, map);
+			 totalList.addAll(result1);
 			 
 			/* if(CollectionUtils.isNotEmpty(result)){
 				for(Map<String,Object> m: result){
@@ -39,7 +59,7 @@ public class QuickQueryEvaFeeServiceImpl implements CustomDictService {
 				}
 			 }*/
 				 				 
-			 return result;
+			 return totalList;
 		}
 		return null;
 	}
