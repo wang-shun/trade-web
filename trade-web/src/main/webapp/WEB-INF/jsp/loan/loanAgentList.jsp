@@ -88,7 +88,7 @@ text-decoration: underline !important;
 						<div class="row">
 						   <div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-2 control-label m-l">人员</label>
+									<label class="col-md-3 control-label m-l">人员</label>
 									<div class="col-md-8"> 
 										 <input type="text" id="realName" name="realName" class="form-control" value="${userInfo}"> 
 									</div>
@@ -115,7 +115,7 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-2 control-label m-l">案件编号</label>
+									<label class="col-md-3 control-label m-l">案件编号</label>
 									<div class="col-md-8"> 	
 										<input id="caseCode" name="caseCode" type="text" class="form-control pull-left">
 									</div>
@@ -133,7 +133,7 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-2 control-label m-l">金融产品类型</label>
+									<label class="col-md-3 control-label m-l">金融产品类型</label>
 									<div class="col-md-8"> 	
 										<aist:dict id="loanSrvCode" name="loanSrvCode"
 											clazz="btn btn-white " display="select"

@@ -161,7 +161,8 @@
 							caseList.jqGrid("setGridParam", {
 								postData : postData,
 								datatype : 'json',
-								mtype:'POST'
+								mtype:'POST',
+								page:1  
 							}).trigger("reloadGrid");
 						});
 						$("#btn_search").trigger('click');
