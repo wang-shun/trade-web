@@ -163,8 +163,7 @@
    	  				  // 发出请求
    	  				    var data = {};
    				    	    data.queryId = "awardInfoList";
-   				    	    data.rows = 58;
-   				    	    data.page = 1;
+   				    	    data.pagination = false;
    				    	    data.search_caseCode = id;
    				    	 	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
    				    		$.ajax({

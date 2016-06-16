@@ -34,7 +34,10 @@
 			        <if test="propertyAddr != null and propertyAddr != '' ">
 			        	and pi.property_addr like '%' + #propertyAddr# + '%'
 			        </if>
-			        
+			        <if test="belongMonth != null and belongMonth != '' " >
+			        	AND DATEDIFF(mm,tab.guohu_time,#belongMonth#) = 0
+			        </if>
+			        order by guohu_time desc
 				]]>
 			</baseSql>
 		</searchSql>
