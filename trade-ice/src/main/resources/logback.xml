@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="false">
+    <contextName>trade-web</contextName>
+    <property name="LOG_DIR" value="${catalina.base}/logs"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="APILOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/APILOG.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/trade-web.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="ACCESS_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender" >
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/ACCESS_LOG_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date %level [%thread] %logger [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.centaline" additivity="false" level="DEBUG">
+    	<appender-ref ref="STDOUT"></appender-ref>
+    </logger>
+    <logger name="org.springframework" additivity="false" level="ERROR">
+    </logger>
+    <logger name="aist-access" additivity="false" level="INFO">
+        <appender-ref ref="ACCESS_LOG" />
+    </logger>
+    <logger name="url.filter" additivity="false" level="ERROR">
+        <appender-ref ref="ACCESS_LOG" />
+    </logger>
+    <logger name="debugRequest" additivity="false" level="ERROR">
+        <appender-ref ref="ACCESS_LOG" />
+    </logger>
+    
+    <logger name="org.apache.shiro" level="ERROR">
+    </logger>
+
+    <logger name="com.github.isrsal.logging" level="DEBUG">
+        <appender-ref ref="APILOG_FILE"/>
+    </logger>
+	<!-- <logger name="com.centaline.trans.utils.wechat" level="DEBUG">
+        <appender-ref ref="APILOG_FILE"/>
+    </logger> -->
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
