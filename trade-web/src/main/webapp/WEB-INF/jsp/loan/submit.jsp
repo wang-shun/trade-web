@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -149,7 +148,6 @@
 					function() {
 						initGrid();
 						$("#btn_search").click(function() {
-							postData={};
 							postData.queryId ="loanList";
 							sp = $("#sel_time").val();
 							ca = "search_" + $("#sel_caseInfo").val();
@@ -234,16 +232,14 @@
 				postData = {
 					queryId : "loanList"
 				};
-				caseList = $("#table_list_2")
-						.jqGrid(
-								{
-									datatype : 'local',
-									url : ctx + "/quickGrid/findPage",
-									height : 280,
-									autowidth : true,
-									mtype:'POST',
-									shrinkToFit : true,
-									rowNum : 6,
+				caseList = $("#table_list_2").jqGrid({
+					datatype : 'local',
+					url : ctx + "/quickGrid/findPage",
+					height : 280,
+					autowidth : true,
+					mtype:'POST',
+					shrinkToFit : true,
+					rowNum : 6,
 									colNames : [ '产品类型', '案件地址', '案件归属','客户姓名',
 											'当前状态','产品部确认状态', '申请金额(万元)', '申请时间', '面签时间',
 											'放款时间', '操作' ],
@@ -327,8 +323,8 @@
 									viewrecords : true,
 									pagebuttions : true,
 									hidegrid : false,
-									recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
 									pgtext : " {0} 共 {1} 页",
+									recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
 									postData : postData
 								});
 			}

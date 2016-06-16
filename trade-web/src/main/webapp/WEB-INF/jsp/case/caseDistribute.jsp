@@ -32,7 +32,10 @@
 		  vertical-align: middle;
 		  background-image:url(../img/a5.png);
 	
-}
+	}
+	
+	.bianhao{width:221px}
+	.dizhi{width:430px}
 	
     </style>
 </head>
@@ -52,13 +55,64 @@
 				</div>
 
 				<div class="ibox-content">
+				<!-- 
+					<form method="get" class="form-horizontal">
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">CTM编号</label>
+								<div class="col-md-10 bianhao">
+											<input type="text" class="form-control" id="ctmNo" name="ctmNo" value=""/>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">案件编号</label>
+								<div class="col-md-10 bianhao">
+											<input type="text" class="form-control" id="caseNo" name="caseNo" value=""/>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">案件地址</label>
+								<div class="col-md-10 dizhi">
+									<input type="text" class="form-control" id="caseAddr" name="caseAddr" value=""/>
+								</div>
+							</div>
+						</div>
+					</div>						
+						
+					<div class="row m-t-sm">
+						<div class="col-md-12">
+							<div class="form-group">
+							<label class="col-md-1 control-label m-l-lg"></label>
+							<div>
+								<button id="searchButton" type="button" class="btn btn-warning" onclick="_query_case_selective()">查询</button>
+							</div>
+							</div>
+						</div>
+					</div>
+						
+					</form>  -->
+				
 					<div class="jqGrid_wrapper">
 						<table id="table_list_1"></table>
 						<div id="pager_list_1"></div>
 						
 			
 				
-					</div><div class="ibox-button text-center"><a class="btn btn-primary" href="javascript:caseDistribute()"
+					</div>
+						<div class="ibox-button text-center">
+							<a class="btn btn-primary" href="javascript:caseDistribute()"
 							disabled="true" id="caseDistributeButton">案件分配</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:caseChangeTeam()"
 							disabled="true" id="caseChangeTeamButton">案件转组</a></div>
 				</div>
