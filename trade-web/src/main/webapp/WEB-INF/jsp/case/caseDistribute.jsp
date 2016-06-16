@@ -32,7 +32,10 @@
 		  vertical-align: middle;
 		  background-image:url(../img/a5.png);
 	
-}
+	}
+	
+	.bianhao{width:221px}
+	.dizhi{width:430px}
 	
     </style>
 </head>
