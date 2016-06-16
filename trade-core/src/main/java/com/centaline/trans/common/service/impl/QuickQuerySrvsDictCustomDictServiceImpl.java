@@ -6,7 +6,6 @@ import org.springframework.cache.annotation.Cacheable;
 
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.uam.basedata.remote.UamBasedataService;
-import com.ctc.wstx.util.StringUtil;
 
 public class QuickQuerySrvsDictCustomDictServiceImpl implements CustomDictService{
 

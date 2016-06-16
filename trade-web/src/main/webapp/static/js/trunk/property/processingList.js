@@ -309,7 +309,7 @@ function checkIsExistFile(isSubmit){
 				return false;
 			}
 		}
-		if(isSubmit){
+		if(isSubmit && !!~~$('input[name="isScuess"]:checked ').val()){
 			checkIsExistFile(isSubmit);
 		}else{
 			commitDispose(isSubmit);

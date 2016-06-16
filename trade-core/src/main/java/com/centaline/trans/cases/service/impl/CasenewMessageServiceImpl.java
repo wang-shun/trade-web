@@ -341,6 +341,7 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 		// 2  物业信息
 		ToPropertyInfo ppyinfo=new ToPropertyInfo();
 		ppyinfo.setPropertyAddr(propertyAddr);  // 物业地址
+		ppyinfo.setCtmAddr(propertyAddr); //ctm地址
 		ppyinfo.setPropertyCode(propetyCode); // 房屋编码[houseid]
 		ppyinfo.setPropertyAgentId(property_agent_id);  // 委托编号[houdel_code] 
 		ppyinfo.setCtmCode(ctmCode);  // 案件编号

@@ -141,6 +141,7 @@
 					    B.STATUS,
 					    B.RED_COUNT,
                         B.PROPERTY_ADDR,
+                        (CASE B.LOAN_REQ WHEN '0' THEN '否' WHEN '1' THEN '是' ELSE '' END) LOAN_REQ,
                         B.CASE_CODE,
                         B.CTM_CODE,
                         B.AGENT_NAME ,
@@ -430,8 +431,6 @@
 					customDict="" hidden="true" />
 				<column type="both" name="AGENT_QDORG" title="所属大区"
 					customDict="" hidden="true" />
-				<column type="both" name="LOAN_LOST_TYPE" title="贷款流失类型"
-					customDict="" hidden="true" />
 				<!-- <column type="virtual" name="AGENT_ORG" title="所属分行" customDict="qqcdOrgNameByCode" 
 					referencecol="AGENT_ORG_CODE" hidden="true" /> <column type="virtual" name="AGENT_FHJL" 
 					title="分行经理" customDict="qqcdFhjlNameByOrgCode" referencecol="AGENT_ORG_CODE" 
@@ -476,10 +475,15 @@
 
 				<column type="both" name="STATUS" title="案件状态" customDict="getStatusNameByCode"
 					hidden="true" />
+				<column type="both" name="LOAN_REQ" title="是否贷款" 	hidden="true" />
+				<column type="both" name="MORT_TYPE" 	hidden="true" />
 
-				<column type="both" name="MORT_TYPE" title="贷款类型"
-					customDict="qqcdMortStrCodeName" />
-
+				<column type="virtual" name="MORT_TYPE2" title="贷款类型"
+					customDict="qqcdMortStrCodeName" referencecol="MORT_TYPE,LOAN_REQ"/>
+					
+				<column type="both" name="LOAN_LOST_TYPE" title="贷款流失类型"
+					customDict="" hidden="true" />
+					
 				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"
 					customDict="" hidden="true" />
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"

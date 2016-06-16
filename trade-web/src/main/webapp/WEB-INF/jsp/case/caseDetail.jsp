@@ -115,6 +115,7 @@
 			                                物业信息                                            
 			                            </div>
 			                            <div class="panel-body">
+			                             	<p>CTM地址：${toPropertyInfo.ctmAddr}</p>
 			                                <p>产证地址：${toPropertyInfo.propertyAddr}</p>
 			                                <p>层高：${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</p>
 			                                <p>产证面积：${toPropertyInfo.square}平方</p>
