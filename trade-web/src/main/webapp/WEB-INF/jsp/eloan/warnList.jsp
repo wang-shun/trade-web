@@ -213,10 +213,20 @@
 		    		displayColomn.push('LAST_EXCEED_EXPORT_TIME');
 		    		displayColomn.push('PROPERTY_ADDR');
 		    		displayColomn.push('PARENT_ORG_NAME');
+		    		/*****导出条件与查询条件应该一至***/
+		    		var districtOrgId='';
+		    		if($.trim($('#districtOrgId').val()) == '') {
+			    		var districtOrgId = $("#adminOrg").val();
+						var districtArray = districtOrgId==null?null:districtOrgId.split(",");
+						districtOrgId = districtArray; 
+			    	} else {
+			    		districtOrgId = $.trim($('#districtOrgId').val()); 
+			    	}
 		    		
 		    		var params =  {
 		    				search_propertyAddr : $.trim($('#propertyAddr').val()),
-		    		    	search_loanSrvCode : $.trim($('#loanSrvCode').val())
+		    		    	search_loanSrvCode : $.trim($('#loanSrvCode').val()),
+		    		    	search_search_districtOrgId :districtOrgId
 			    	};
 		    		var queryId = '&queryId=warnListQuery';
 		    		var colomns = '&colomns=' + displayColomn;
@@ -276,7 +286,7 @@
 	    		
 	    		var params =  {
 	    				search_propertyAddr : $.trim($('#propertyAddr').val()),
-	    		    	search_loanSrvCode : $.trim($('#loanSrvCode').val())
+	    		    	search_loanSrvCode : $.trim($('#loanSrvCode').val()),
 		    	};
 	    		var queryId = '&queryId=changeListQuery';
 	    		var colomns = '&colomns=' + displayColomn;
