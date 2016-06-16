@@ -20,7 +20,7 @@
 		<!-- <customDict id="qqcdQydsNameByOrgCode" beanName="qqcdQydsNameByOrgCode" /> -->
 		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict" />
 		<customDict id="qqcdFaFinOrgNameDict" beanName="qqcdFaFinOrgNameDict" />
-
+ 		<customDict id="qqEvaFee" beanName="qqEvaFee"></customDict>
 
 
 
@@ -558,7 +558,7 @@
 					hidden="true" />
 				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-
+				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费,评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
