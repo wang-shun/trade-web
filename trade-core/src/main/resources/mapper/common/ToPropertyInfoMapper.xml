@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.centaline.trans.common.repository.ToPropertyInfoMapper" >
@@ -266,4 +267,274 @@
   			TOTAL_FLOOR FROM sctrans.vi_HM_HouseDelBase where HOUDEL_CODE=#{property_agent_id,jdbcType=VARCHAR}
   </select>
   
+=======
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.ToPropertyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.ToPropertyInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PROPERTY_CODE" property="propertyCode" jdbcType="VARCHAR" />
+    <result column="PROPERTY_AGENT_ID" property="propertyAgentId" jdbcType="VARCHAR" />
+    <result column="PROPERTY_ADDR" property="propertyAddr" jdbcType="NVARCHAR" />
+    <result column="CTM_ADDR" property="ctmAddr" jdbcType="NVARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="TOTAL_FLOOR" property="totalFloor" jdbcType="INTEGER" />
+    <result column="PROPERTY_TYPE" property="propertyType" jdbcType="NVARCHAR" />
+    <result column="LOCATE_FLOOR" property="locateFloor" jdbcType="INTEGER" />
+    <result column="SQUARE" property="square" jdbcType="DOUBLE" />
+    <result column="FINISH_YEAR" property="finishYear" jdbcType="TIMESTAMP" />
+    <result column="CTM_CODE" property="ctmCode" jdbcType="VARCHAR" />
+    <result column="DIST_CODE" property="distCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.common.entity.ToPropertyInfo" extends="BaseResultMap" >
+    <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR,CTM_ADDR, CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE, LOCATE_FLOOR, 
+    SQUARE, FINISH_YEAR, CTM_CODE, DIST_CODE
+  </sql>
+  <sql id="Blob_Column_List" >
+    COMMENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_PROPERTY_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_PROPERTY_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
+    insert into sctrans.T_TO_PROPERTY_INFO (PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR, 
+      CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE, 
+      LOCATE_FLOOR, SQUARE, FINISH_YEAR, DIST_CODE,
+      CTM_CODE, COMMENT)
+    values (#{pkid,jdbcType=BIGINT}, #{propertyCode,jdbcType=VARCHAR}, #{propertyAgentId,jdbcType=VARCHAR}, #{propertyAddr,jdbcType=NVARCHAR}, 
+      #{caseCode,jdbcType=VARCHAR}, #{totalFloor,jdbcType=INTEGER}, #{propertyType,jdbcType=NVARCHAR}, 
+      #{locateFloor,jdbcType=INTEGER}, #{square,jdbcType=DOUBLE}, #{finishYear,jdbcType=TIMESTAMP}, 
+      #{distCode,jdbcType=VARCHAR},
+      #{ctmCode,jdbcType=VARCHAR}, #{comment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
+    insert into sctrans.T_TO_PROPERTY_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="propertyCode != null" >
+        PROPERTY_CODE,
+      </if>
+      <if test="propertyAgentId != null" >
+        PROPERTY_AGENT_ID,
+      </if>
+      <if test="propertyAddr != null" >
+        PROPERTY_ADDR,
+      </if>
+      <if test="ctmAddr != null" >
+        CTM_ADDR,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="totalFloor != null" >
+        TOTAL_FLOOR,
+      </if>
+      <if test="propertyType != null" >
+        PROPERTY_TYPE,
+      </if>
+      <if test="locateFloor != null" >
+        LOCATE_FLOOR,
+      </if>
+      <if test="square != null" >
+        SQUARE,
+      </if>
+      <if test="finishYear != null" >
+        FINISH_YEAR,
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+      <if test="distCode != null" >
+        DIST_CODE,
+      </if>
+      CREATE_TIME,
+      CREATE_BY,
+      UPDATE_TIME,
+      UPDATE_BY
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="propertyCode != null" >
+        #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAgentId != null" >
+        #{propertyAgentId,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAddr != null" >
+        #{propertyAddr,jdbcType=NVARCHAR},
+      </if>
+       <if test="ctmAddr != null" >
+         #{ctmAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFloor != null" >
+        #{totalFloor,jdbcType=INTEGER},
+      </if>
+      <if test="propertyType != null" >
+        #{propertyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="locateFloor != null" >
+        #{locateFloor,jdbcType=INTEGER},
+      </if>
+      <if test="square != null" >
+        #{square,jdbcType=DOUBLE},
+      </if>
+      <if test="finishYear != null" >
+        #{finishYear,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctmCode != null" >
+        #{ctmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="distCode != null" >
+        #{distCode,jdbcType=VARCHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID}
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
+    update sctrans.T_TO_PROPERTY_INFO
+    <set >
+      <if test="propertyCode != null" >
+        PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAgentId != null" >
+        PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAddr != null" >
+        PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFloor != null" >
+        TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
+      </if>
+      <if test="propertyType != null" >
+        PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="locateFloor != null" >
+        LOCATE_FLOOR = #{locateFloor,jdbcType=INTEGER},
+      </if>
+      <if test="square != null" >
+        SQUARE = #{square,jdbcType=DOUBLE},
+      </if>
+      <if test="finishYear != null" >
+        FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="distCode != null" >
+        DIST_CODE = #{distCode,jdbcType=VARCHAR},
+      </if>
+       UPDATE_TIM = GETDATE(),
+       UPDATE_BY =@{SESSION_USER_ID}
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
+    update sctrans.T_TO_PROPERTY_INFO
+    set PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
+      PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
+      PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
+      LOCATE_FLOOR = #{locateFloor,jdbcType=INTEGER},
+      SQUARE = #{square,jdbcType=DOUBLE},
+      FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
+      CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      DIST_CODE = #{distCode,jdbcType=VARCHAR},
+      COMMENT = #{comment,jdbcType=LONGVARCHAR},
+       UPDATE_TIM = GETDATE(),
+       UPDATE_BY =@{SESSION_USER_ID}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
+    update sctrans.T_TO_PROPERTY_INFO
+    set PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
+      PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
+      PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
+      LOCATE_FLOOR = #{locateFloor,jdbcType=INTEGER},
+      SQUARE = #{square,jdbcType=DOUBLE},
+      FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
+      DIST_CODE = #{distCode,jdbcType=VARCHAR},
+      CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      UPDATE_TIM = GETDATE(),
+      UPDATE_BY =@{SESSION_USER_ID}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+   <select id="findToPropertyInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TO_PROPERTY_INFO
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
+  </select>
+   <select id="findToPropertyInfoByCaseCodeAndAddr" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" resultMap="BaseResultMap">
+
+    select 
+
+    <include refid="Base_Column_List" />
+
+    from sctrans.T_TO_PROPERTY_INFO
+
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR}
+
+  </select>
+   <select id="getPropertyInfoByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+   SELECT PROPERTY_ADDR,CASE_CODE
+	FROM sctrans.T_TO_PROPERTY_INFO 
+	WHERE CASE_CODE 
+	IN (
+		SELECT CASE_CODE 
+			FROM sctrans.T_TO_CASE 
+		WHERE LEADING_PROCESS_ID= #{leadingProcessId,jdbcType=VARCHAR}
+	)
+
+  </select>
+  
+  
+  <!-- 根据房屋id 去查询同义词    -->
+  <select id="selectByHoudelCode" parameterType="java.lang.String" resultType="com.centaline.trans.cases.vo.ViHouseDelBaseVo">
+  		SELECT DISTRICT_CODE, BUILD_END_YEAR, BUILD_SIZE, FLOOR, 
+  			TOTAL_FLOOR FROM sctrans.vi_HM_HouseDelBase where HOUDEL_CODE=#{property_agent_id,jdbcType=VARCHAR}
+  </select>
+  
+>>>>>>> branch 'develop' of git@git.centaline.com:trade-group/trade-web.git
 </mapper>
