@@ -184,7 +184,7 @@
       <if test="distCode != null" >
         DIST_CODE = #{distCode,jdbcType=VARCHAR},
       </if>
-       UPDATE_TIM = GETDATE(),
+       UPDATE_TIME = GETDATE(),
        UPDATE_BY =@{SESSION_USER_ID}
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
