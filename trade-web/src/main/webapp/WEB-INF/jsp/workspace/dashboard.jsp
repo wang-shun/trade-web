@@ -1004,7 +1004,7 @@ text-decoration: underline !important;
     <script src="${ctx}/js/plugins/morris/raphael-2.1.0.min.js"></script>
     <script src="${ctx}/js/plugins/morris/morris.js"></script>
 	
-	<script src="${ctx}/js/trunk/dashboard/dashboard.js"></script>
+	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
         <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
     <script src="${ctx}/static/js/aist-modal.js"  type="text/javascript"></script>

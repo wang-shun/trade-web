@@ -45,7 +45,7 @@ function setStaValItem(d, c) {
 				function(i) {
 					var _this = this;
 					var showhtml = "金额：" + _this.amount + "<br>单数："
-							+ _this.count + "<br>转化率：" + _this.convRate + "%";
+							+ _this.count + "<br>转化率：" + (_this.convRate?_this.convRate:'00.0') + "%";
 					$("#sta_tr_" + _this.staItem).find(c).html(showhtml);
 				});
 	}
