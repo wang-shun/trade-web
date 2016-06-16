@@ -56,6 +56,7 @@ function setStaValItem(d, c) {
 					var showhtml = "金额：" + (typeof(_this.amount)=="undefined"?'0.00万' : _this.amount) + 
 					"<br>单数：" +(typeof(_this.count)=="undefined"?'0' : _this.count) + 
 					"<br>转化率：" +(typeof(_this.convRate)=="undefined"?'0.00%' : _this.convRate + "%");
+					
 					$("#sta_tr_" + _this.staItem).find(c).html(showhtml);
 				});
 	}
