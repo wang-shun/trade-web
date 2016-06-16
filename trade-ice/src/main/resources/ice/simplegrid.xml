@@ -1,0 +1,46 @@
+<icegrid>
+	<application name="MyPowerIce">
+		<properties id="MultiThread">
+			<property name="Ice.PrintStackTraces" value="1"/>
+			<property name="Ice.Trace.Retry" value="2"/>
+			<property name="Ice.Trace.Network" value="1"/>
+			<property name="Ice.Trace.ThreadPool" value="1"/>
+			<property name="Ice.Trace.Locator" value="1"/>
+		</properties>
+		
+		<server-template id="HelloServerTemp">
+			<parameter name="id" />
+			<icebox id="HellowServer${id}" exe="java" activation="on-demand">
+				<properties>
+					<properties refid="MultiThread"/>
+				</properties>
+				<option>IceBox.Server</option>
+				<env>CLASSPATH=I:\Program Files (x86)\ZeroC\Ice-3.6.2\lib\*;H:\workspace\trade-web\trade-ice\target\classes;</env>
+				
+				<service name="OnlineBook" entry="com.centaline.ice.OnlineBookService">
+					<adapter name="OnlineBook" id="OnlineBook${id}" replica-group="OnlineBookRep" />
+				</service>
+				
+				<service name="SMSService" entry="com.centaline.ice.SMSService">
+					<adapter name="SMSService" id="SMSService${id}" replica-group="SMSServiceRep" />
+				</service>
+			
+			</icebox>
+		</server-template>
+		
+		<replica-group id="OnlineBookRep">
+			<load-balancing type="adaptive" n-replicas="0"/>
+			<object identity="OnlineBook" type="::book::OnlineBook" />
+		</replica-group>
+
+		<replica-group id="SMSServiceRep">
+			<load-balancing type="round-robin" n-replicas="0"/>
+			<object identity="SMSService" type="::message::SMSService" />
+		</replica-group>
+		
+		<node name="node1">
+			<server-instance template="HelloServerTemp" id="1" />
+			<server-instance template="HelloServerTemp" id="2" />
+		</node>
+	</application>
+</icegrid>
