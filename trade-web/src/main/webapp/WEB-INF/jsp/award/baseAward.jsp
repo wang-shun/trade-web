@@ -136,7 +136,7 @@
                                                 <tr> 
                                                     <td>{{item.SRV_CODE}}</td>
 													<td>{{item.BASE_AMOUNT}}</td>
-                                                    <td>{{item.SRV_PART}}</td>
+                                                    <td>{{item.SRV_PART_IN}}/{{item.SRV_PART_TOTAL}}</td>
                                                 </tr>
 												{{/each}}
                                             </tbody>
