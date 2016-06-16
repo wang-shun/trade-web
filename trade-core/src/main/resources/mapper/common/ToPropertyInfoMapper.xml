@@ -155,6 +155,9 @@
       <if test="propertyAddr != null" >
         PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
       </if>
+      <if test="ctmAddr">
+        CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
+      </if>
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       </if>
@@ -192,6 +195,7 @@
     set PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
       PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
       PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
       CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
       PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
@@ -210,6 +214,7 @@
     set PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
       PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
       PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
       CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
       PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
