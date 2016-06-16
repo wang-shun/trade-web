@@ -43,6 +43,7 @@ function setStaValItem(d, c) {
 	if (d) {
 		$(d).each(
 				function(i) {
+					var _this = this;
 					var showhtml = "金额：" + _this.amount ? _this.amount :'0.00万'+ 
 							   "<br>单数：" +_this.count ? _this.count : '0'+ 
 					         "<br>转化率：" +_this.convRate ? _this.convRate+'%' :'0.00%';
