@@ -167,7 +167,7 @@ text-decoration: underline !important;
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-							<label class="col-md-3 control-label">授权代办</label>
+							<label class="col-md-2 control-label">授权代办</label>
 							<div class="radio i-checks radio-inline">
 								<label> <input type="radio" value="0" id="owner0"
 									name="ownerRadios"> 全部
@@ -212,7 +212,7 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12" style="padding-left: 4.7%;">
 										<button id="searchButton" type="button"
 														class="btn btn-warning pull-left">查询</button>
 							</div>
