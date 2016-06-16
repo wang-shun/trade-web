@@ -89,7 +89,7 @@
     <bean name="qqcdSrvStrCaseCode" class="com.centaline.trans.common.service.impl.QuickQuerySrvCaseCodeCustomDictServiceImpl">
     </bean>
     
-    <bean name="qqcdMortStrCodeName" class="com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl">
+    <bean name="qqcdMortStrCodeName" class="com.centaline.trans.common.service.impl.QuickQueryMortTypeCustomDictServiceImpl">
         <property name="dictType" value="30016"></property>
     </bean>
     <bean name="qqcdProStrCodeName" class="com.centaline.trans.common.service.impl.QuickQueryProsUserCustomDictServiceImpl">

@@ -257,6 +257,7 @@ text-decoration: underline !important;
 					<tr>
 						<th class="t-left pd-l">案件编号</th>
 						<th class="t-left pd-l">产证地址</th>
+						<th class="t-left pd-l">CTM地址</th>
 						<th class="t-left pd-l">上家</th>
 						<th class="t-left pd-l">下家</th>
 						<th class="text-center">红灯数</th>
@@ -382,6 +383,7 @@ text-decoration: underline !important;
                    {{/if}}
 						<td class="t-left pd-l"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a><span class="fd">{{item.STATUS}}</span></td>
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
+						<td class="t-left pd-l"><span class="case-addr">{{item.CTM_ADDR}}</span></td>
 						<td class="t-left pd-l">{{item.SELLER}}</td>
 						<td class="t-left pd-l">{{item.BUYER}}</td>
 						<td>
@@ -397,7 +399,7 @@ text-decoration: underline !important;
                        <tr class="tr-2">
                    {{/if}}
 						<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.ctmCode}}</span></td>
-						<td class="t-left pd-l"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
+						<td colspan="2" class="t-left pd-l"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
 						<td colspan="2" class="t-left pd-l"><span class="jbr">经办人：{{item.PROCESSOR_ID}}</span></td>
 						<td></td>
 					</tr>
