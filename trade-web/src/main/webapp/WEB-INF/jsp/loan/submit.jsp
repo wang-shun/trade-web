@@ -36,7 +36,7 @@
 #table_list_2>tbody>tr>td {
 	text-align: center;
 }
-
+.text-none{text-indent:-9999px;text-align:left !important;}
 </style>
 </head>
 <body>
@@ -104,8 +104,9 @@
 					</div>
 				</div>
 				<div class="row">
-					<div style="left: right; width: 200px">
-						<button type="button" class="btn btn-primary" id="btn_search" style="width: 80px">搜索</button>
+					<div class="col-lg-1 control-label text-none"> 案件信息 </div>
+					<div class="col-lg-11">
+						<button type="button" class="btn btn-primary" id="btn_search" style="width: 80px;margin:15px 0 10px 0;">搜索</button>
 					</div>
 				</div>
 

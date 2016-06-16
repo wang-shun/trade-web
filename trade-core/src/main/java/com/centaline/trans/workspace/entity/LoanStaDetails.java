@@ -14,14 +14,14 @@ public class LoanStaDetails {
 	private String staItem;
 
 	private String staItemStr;
-	NumberFormat formatter = new DecimalFormat("###,###.00");
+	NumberFormat formatter = new DecimalFormat("###,##0.00");
 
 	/**
 	 * @return the amount
 	 */
 	public String getAmount() {
 		this.amount = this.amount == null ? 0d : this.amount;
-		return formatter.format(this.amount);
+		return formatter.format(this.amount/10000)+"万";
 	}
 
 	/**

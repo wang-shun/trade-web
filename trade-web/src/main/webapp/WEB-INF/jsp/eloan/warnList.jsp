@@ -226,7 +226,7 @@
 		    		var params =  {
 		    				search_propertyAddr : $.trim($('#propertyAddr').val()),
 		    		    	search_loanSrvCode : $.trim($('#loanSrvCode').val()),
-		    		    	search_search_districtOrgId :districtOrgId
+		    		    	search_districtOrgId :districtOrgId
 			    	};
 		    		var queryId = '&queryId=warnListQuery';
 		    		var colomns = '&colomns=' + displayColomn;
