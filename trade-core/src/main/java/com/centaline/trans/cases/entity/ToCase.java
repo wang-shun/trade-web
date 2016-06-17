@@ -21,6 +21,8 @@ public class ToCase {
     
     private String orgId;
     
+    private String loanReq;
+    
     private Date closeTime;
     
     private String startDate;
@@ -123,6 +125,14 @@ public class ToCase {
 
 	public void setCloseTime(Date closeTime) {
 		this.closeTime = closeTime;
+	}
+
+	public String getLoanReq() {
+		return loanReq;
+	}
+
+	public void setLoanReq(String loanReq) {
+		this.loanReq = loanReq;
 	}
     
     

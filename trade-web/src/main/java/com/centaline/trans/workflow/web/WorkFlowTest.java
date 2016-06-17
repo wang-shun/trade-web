@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
@@ -19,6 +21,7 @@ import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.service.FindUserLogic;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -34,7 +37,19 @@ public class WorkFlowTest {
 	private FindUserLogic findUserLogic;
 	@Autowired
 	private PropertyUtilsService propertyUtilsService;
-
+	@RequestMapping(value = "/executionAction")
+	@ResponseBody
+	public ExecutionVo executionAction(ExecuteAction action){
+		if(StringUtils.isBlank(action.getMessageName())){
+			action.setMessageName("StartMortgageSelectMsg");
+		}
+		if(StringUtils.isBlank(action.getAction())){
+			action.setAction("messageEventReceived");
+		}
+		return workFlowManager.executeAction(action);
+	}
+	
+	
 	@RequestMapping(value = "/start")
 	@ResponseBody
 	public StartProcessInstanceVo startWorkFlow() {
@@ -76,12 +91,6 @@ public class WorkFlowTest {
 		opt.setAssignee(username);
 
 		return workFlowManager.operaterTask(opt);
-	}
-
-	@RequestMapping(value = "/executeExecutionAction")
-	@ResponseBody
-	public Map executeExecutionAction(String executionId) {
-		return workFlowManager.executeExecutionAction(executionId, "signal");
 	}
 
 	@RequestMapping(value = "/deleteProcess")

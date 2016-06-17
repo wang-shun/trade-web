@@ -241,6 +241,11 @@
 	<bean name="qqcdSeller" class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoCustomDictServiceImpl">
     	<property name="transPosition" value="30006001"></property>
     </bean>
+    
+    <bean name="qqManagerInfo" class="com.centaline.trans.common.service.impl.QuickQueryManagerInfoCustomDictServiceImpl">
+    	<property name="jobCode" value="JFHJL"></property>
+    </bean>
+    
     <bean name="qqcdSellerPhone" class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
     	<property name="transPosition" value="30006001"></property>
     </bean>

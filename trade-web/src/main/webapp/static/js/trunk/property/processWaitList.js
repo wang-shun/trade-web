@@ -182,7 +182,7 @@ function checkOrg(o){
 function showOrgSelect(id){
 	optPkid=id;
 	orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-		   startOrgId:'ff8080814f459a78014f45a73d820006',departmentHeriarchy:'yucui_district',
+		   startOrgId:'ff8080814f459a78014f45a73d820006',
 		   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,});
 }
 function radioYuCuiOrgSelectCallBack(array){

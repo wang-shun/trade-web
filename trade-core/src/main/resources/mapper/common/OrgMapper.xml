@@ -6,7 +6,7 @@
        ID AS 'orgId',
        ORG_NAME AS 'orgName'
     FROM 
-      scpf_dev.dbo.SYS_ORG 
+      sctrans.SYS_ORG 
     WHERE DEP_HIERARCHY = #{dept,jdbcType=VARCHAR}
   </select>
 </mapper>

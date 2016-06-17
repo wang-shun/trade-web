@@ -140,6 +140,13 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		//更新Case表
 		toCaseService.updateByCaseCodeSelective(cas);
 		User u=uamUserOrgService.getUserById(cas.getLeadingProcessId());
+		//无效业务表单
+		toWorkFlowService.inActiveForm(vo.getCaseCode());
+    	//更新当前流程为结束
+		ToWorkFlow tf= toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
+		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+		toWorkFlowService.updateByPrimaryKeySelective(tf);
+		
 		ProcessInstance process = new ProcessInstance();
     	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
@@ -163,13 +170,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
 		wf.setInstCode(spi.getId());
 		toWorkFlowService.insertSelective(wf);
-		
-    	//更新当前流程为结束
-		ToWorkFlow tf= toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
-		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
-		toWorkFlowService.updateByPrimaryKeySelective(tf);
-		//无效业务表单
-		toWorkFlowService.inActiveForm(vo.getCaseCode());
 	}
 
 }

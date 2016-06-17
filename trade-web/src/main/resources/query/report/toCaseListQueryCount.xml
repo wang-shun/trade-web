@@ -2,6 +2,7 @@
 <querys>
 <dicts>
 	<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+	<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -34,37 +35,39 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						a.DISTRICT_ID AS DISTRICT_ID, 
+						a.DISTRICT_ID AS ORG_ID, 
 						ISNULL(b.recived_count,0) AS RECEIVED_COUNT, 
 						ISNULL(c.sign_count,0) AS SIGN_COUNT, 
 						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
 						ISNULL(e.close_count,0) AS CLOSE_COUNT
 					FROM(
+						
 						(SELECT 
 							DISTRICT_ID 
-						FROM 
+						FROM
 							sctrans.t_yucui_org_hierarchy
 						WHERE 
 							DISTRICT_ID IS NOT NULL
 							<ifNotNull dis>
-								AND	(DISTRICT_ID=#dis#)
+								AND	(DISTRICT_ID=#dis# OR ORG_ID=#dis#)
 							</ifNotNull>
-						) a LEFT JOIN
+						) tyoh 
+						LEFT JOIN
 						(SELECT 
 							DISTRICT_ID,
 							COUNT(DISTINCT CASE_CODE) AS recived_count	 
 						FROM 
 							sctrans.V_RPT_CASE_PROCESS_STATIS
-						where
+						WHERE
 							received_time IS NOT NULL
 							<ifNotNull startTime>
 								AND	received_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	received_time<=#endTime#
+								AND	received_time &lt;= #endTime#
 							</ifNotNull>
-						GROUP by DISTRICT_ID) b 
-						ON a.DISTRICT_ID=b.DISTRICT_ID
+						GROUP by DISTRICT_ID) t1 
+						ON tyoh.DISTRICT_ID=t1.DISTRICT_ID
 						LEFT JOIN 
 						(SELECT 
 							DISTRICT_ID,
@@ -77,7 +80,7 @@
 								AND	sign_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	sign_time<=#endTime#
+								AND	sign_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by DISTRICT_ID) c 
 						ON a.DISTRICT_ID=c.DISTRICT_ID
@@ -93,7 +96,7 @@
 									AND	house_tranfer_time>=#startTime#
 								</ifNotNull>
 								<ifNotNull endTime>
-									AND	house_tranfer_time<=#endTime#
+									AND	house_tranfer_time &lt;=#endTime#
 								</ifNotNull>
 							GROUP by DISTRICT_ID) d
 							ON a.DISTRICT_ID=d.DISTRICT_ID
@@ -109,7 +112,7 @@
 								AND close_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND close_time<=#endTime#
+								AND close_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by DISTRICT_ID)e
 						ON a.DISTRICT_ID=e.DISTRICT_ID)
@@ -122,7 +125,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="DISTRICT_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
@@ -145,10 +148,12 @@
 						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
 						ISNULL(e.close_count,0) AS CLOSE_COUNT
 					FROM(
-						(SELECT ORG_ID 
+						(SELECT 
+							ORG_ID 
 						FROM 
 							sctrans.t_yucui_org_hierarchy
-						WHERE 1=1
+						WHERE
+							ORG_ID IS NOT NULL
 							<ifNotNull org>
 								AND	(DISTRICT_ID=#org# OR ORG_ID=#org#)
 							</ifNotNull>
@@ -164,7 +169,7 @@
 								AND	received_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	received_time<=#endTime#
+								AND	received_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by TEAM_ID) b 
 						ON a.ORG_ID=b.TEAM_ID
@@ -180,7 +185,7 @@
 								AND	sign_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND	sign_time<=#endTime#
+								AND	sign_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by TEAM_ID) c 
 						ON a.ORG_ID=c.TEAM_ID
@@ -196,7 +201,7 @@
 									AND	house_tranfer_time>=#startTime#
 								</ifNotNull>
 								<ifNotNull endTime>
-									AND	house_tranfer_time<=#endTime#
+									AND	house_tranfer_time &lt;=#endTime#
 								</ifNotNull>
 							GROUP by TEAM_ID) d
 							ON a.ORG_ID=d.TEAM_ID
@@ -212,7 +217,7 @@
 								AND close_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND close_time<=#endTime#
+								AND close_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by TEAM_ID)e
 						ON a.ORG_ID=e.TEAM_ID)
@@ -273,7 +278,7 @@
 								AND t1.received_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t1.received_time<=#endTime#
+								AND t1.received_time &lt;=#endTime#
 							</ifNotNull>
 						GROUP by 
 							t2.PROCESSOR_ID) b 
@@ -290,7 +295,7 @@
 								AND t3.sign_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t3.sign_time<=#endTime#
+								AND t3.sign_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by 
 							t4.PROCESSOR_ID) c 
@@ -307,7 +312,7 @@
 								AND t5.house_tranfer_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t5.house_tranfer_time<=#endTime#
+								AND t5.house_tranfer_time &lt;=#endTime#
 							</ifNotNull>							
 						GROUP by 
 							t6.PROCESSOR_ID) d
@@ -324,7 +329,7 @@
 								AND t7.close_time>=#startTime#
 							</ifNotNull>
 							<ifNotNull endTime>
-								AND t7.close_time<=#endTime#
+								AND t7.close_time &lt;=#endTime#
 							</ifNotNull>								
 						GROUP by 
 							t8.PROCESSOR_ID) e
@@ -338,7 +343,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="USER_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_ID"  index="" checkbox="" display="组织" customDict="qqcdUserIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
@@ -347,6 +352,3 @@
 		</grid>
 	</query>	
 </querys>
-<!--
-
- -->

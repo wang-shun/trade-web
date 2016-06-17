@@ -145,6 +145,8 @@
 		<mapper resource="mapper/report/CaseProcessStatisMapper.xml"/>
 		<!-- 产调转组 -->
 		<mapper resource="mapper/task/ToPrTransferLogMapper.xml"/>
-		
+		<!-- 游戏消息订阅 -->
+		<mapper resource="mapper/task/ActRuEventSubScrMapper.xml"/>
+	
 	</mappers>
 </configuration>

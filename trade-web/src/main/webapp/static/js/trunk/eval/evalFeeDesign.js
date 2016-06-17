@@ -1,7 +1,6 @@
 /**
  * 评估费核实 wanggh
  */
-
 $(document).ready(function() {
 					// Examle data for jqGrid
 					// Configuration for jqGrid Example 1
@@ -17,7 +16,7 @@ $(document).ready(function() {
 						url : url,
 						mtype : 'POST',
 						datatype : "json",
-						height : 250,
+						height : 450,
 						autowidth : true,
 						shrinkToFit : true,
 						rowNum : 10,
@@ -121,13 +120,53 @@ $(document).ready(function() {
 
 });
 
+//日期控件
+$('#datepicker_0').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
 
 function rowEdit(id){
     var row = $("#table_list_1").getRowData(id);
 
+    var caseCode=row.CASE_CODE;
+    var ctx = $("#ctx").val();
+	var params=caseCode;
+	
+	$.ajax({
+		async: false,
+		cache : false,
+		type : "GET",
+		url : ctx+'/eval/findInfo?caseCode='+caseCode,
+		dataType: 'json',
+		contentType: "application/json; charset=utf-8",
+	    success:function(data) {
+//			alert(data);
+			if(data.success){
+				
+			}
+		},
+		
+		error: function(errors) {
+		}
+	}); 
+	
     var inHtml = '<input type="hidden" id="evalId" value="'+row.EVALID+'">';
     inHtml += '<input type="hidden" id="caseCode" value="'+row.CASE_CODE+'">';
     inHtml += '<div class="form-group">';
+    inHtml += '<label class="col-sm-4 control-label f-n">案件地址：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">'+row.PROPERTY_ADDR+'</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">合同价：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">成交价：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">交易顾问：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">手机号：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
     inHtml += '<label class="col-sm-4 control-label">评估费：</label>';
     inHtml += '<label class="col-sm-6"><input id="evalFee" name="evalFee" type="text" class="form-control" value="'+row.EVAL_FEE+'"></label>';
     inHtml += '</div><div class="form-group">';
@@ -206,11 +245,22 @@ function getParamsValue() {
 		}
 	}
 
+	//案件编号
+	var caseId = $("#caseId").val().trim();
+	//是否足额收取
+	var isEvalFeeGet=$('input[name="ownerRadios"]:checked').val();
+	//最后收取时间
+	var dtBegin =$("#dtBegin_0").val()?($("#dtBegin_0").val()+' 00:00:00'):$("#dtEnd_0").val().trim();
+	var dtEnd= $("#dtEnd_0").val()?($("#dtEnd_0").val()+' 23:59:59'):$("#dtEnd_0").val().trim();	
 	//设置查询参数
 	var params = {
 		argu_guestname : guestName,
 		search_agentName : agentName,
-		search_propertyAddr : propertyAddr
+		search_propertyAddr : propertyAddr,
+		search_caseId : caseId,
+		argu_isEvalFeeGet : isEvalFeeGet,
+		search_dtBegin : dtBegin,
+		search_dtEnd : dtEnd
 	};
 	return params;
 }
@@ -221,13 +271,20 @@ function saveEvalItem(){
 	var url='/eval/saveEvalItem?';
 	var params="pkid="+$("#evalId").val()+"&caseCode="+$("#caseCode").val()+"&isEvalFeeGet="+$("input:radio[name='isEvaFeeGet']:checked").val();
 	url = ctx+url+params;
-
+    
+	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	//$(".blockOverlay").css({'z-index':'9998'});
+	$('#editForm').attr('action', url);
+	$('#commit-form').modal("show");
+	//$("#editForm").submit();
+}
+function commitItem(){
 	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	$(".blockOverlay").css({'z-index':'9998'});
-	$('#editForm').attr('action', url);
+	//$('#editForm').attr('action', url);
+	$('#commit-form').modal("hide");
 	$("#editForm").submit();
 }
-
 // 清空表单
 function cleanForm() {
 	$("#inTextVal").val("");

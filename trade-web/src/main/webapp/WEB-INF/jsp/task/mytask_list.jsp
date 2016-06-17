@@ -70,6 +70,64 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 .slash{font-weight:bold !important;}
+
+
+
+
+
+
+
+.hint { position: relative; display: inline-block; }
+
+.hint:before, .hint:after {
+			position: absolute;
+			opacity: 0;
+			z-index: 1000000;
+			-webkit-transition: 0.3s ease;
+			-moz-transition: 0.3s ease;
+  pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+			color: white;
+			padding: 8px 10px;
+			font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+/* top */
+
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
+}
+
 </style>
 </head>
 
@@ -130,7 +188,7 @@ text-decoration: underline !important;
 									<div class="control-div">
 									       <select id="inTextType" data-placeholder= "搜索条件设定"
 		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-											<option value="1" selected>物业地址</option>
+											<option value="1" selected>产证地址</option>
 											<option value="0" >客户姓名</option>
 											<option value="2">经纪人姓名</option>
 											<option value="3">所属分行</option>
@@ -277,7 +335,7 @@ text-decoration: underline !important;
 						{{/if}}
 						<td class="t-left"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
 						<td class="t-left"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
-						<td colspan="3" class="t-left"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
+						<td colspan="3" class="t-left"><i class="salesman-icon"></i><a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a></td>
 						<td><a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-deal" target="_blank"></a></td>
 				</tr>
 		{{/each}}
@@ -285,7 +343,7 @@ text-decoration: underline !important;
 	 <script>
 	 	aist.sortWrapper({
 			reloadGrid : searchMethod
-		});
+		}); 
 	 </script>
 	
 	
