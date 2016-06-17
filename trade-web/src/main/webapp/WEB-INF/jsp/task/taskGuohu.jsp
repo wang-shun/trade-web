@@ -409,6 +409,18 @@
 		});
 	}
 	$(document).ready(function() {
+		var isDelegateYucui ='${toMortgage.isDelegateYucui}';
+		var initMortType='${toMortgage.mortType}';
+		if(isDelegateYucui=='1'){
+			if('30016003'==initMortType){
+				$("select[name='mortType']").prop('disabled',true);
+			}else{
+				$("select[name='mortType']").each(function(){
+					$(this).find("option[value='30016003']").remove();
+				});		
+			}
+		}
+		
 		if('caseDetails'==source){
 			readOnlyForm();
 		}

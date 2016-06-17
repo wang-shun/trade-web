@@ -77,6 +77,9 @@ public class ToMortgage {
     private String selfDelReason;
     
     private String isActive;
+    /*是否商贷*/
+    private String formCommLoan;
+    
     public Long getPkid() {
         return pkid;
     }
@@ -339,6 +342,14 @@ public class ToMortgage {
 
 	public void setSelfDelReason(String selfDelReason) {
 		this.selfDelReason = selfDelReason;
+	}
+
+	public String getFormCommLoan() {
+		return formCommLoan;
+	}
+
+	public void setFormCommLoan(String formCommLoan) {
+		this.formCommLoan = formCommLoan;
 	}
     
 }
