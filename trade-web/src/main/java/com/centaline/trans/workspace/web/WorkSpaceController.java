@@ -709,9 +709,9 @@ public class WorkSpaceController {
 			m.putAll(m1);
 		}
 		if (m.get("evalFee") == null) {
-			m.put("evalFee", "0.00万");
+			m.put("evalFee", "0.00");
 		} else {
-			m.put("evalFee", formatter.format(((BigDecimal)m.get("evalFee")).divide(new BigDecimal(10000))));
+			m.put("evalFee", formatter2.format(m.get("evalFee")));
 		}
 		if (m.get("efConvRate") == null) {
 			m.put("efConvRate", "0.00%");
