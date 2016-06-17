@@ -65,7 +65,7 @@
   	</selectKey>
     insert into sctrans.T_TO_MORTGAGE
     <trim prefix="(" suffix=")" suffixOverrides="," >
-    	CREATE_TIME,create_by,
+    	CREATE_TIME,create_by,update_time,UPDATE_BY,
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
@@ -155,7 +155,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      GETDATE(),@{SESSION_USER_ID}
+      GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
       </if>

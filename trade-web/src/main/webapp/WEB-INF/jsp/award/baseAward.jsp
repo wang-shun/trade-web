@@ -83,8 +83,8 @@
 	                 	<div class="col-lg-12">
 		                    <div class="bonus-table">
 			                    <div class="ibox-title">
-									<h5 class="col-lg-8 col-md-8">我的基础计件奖金</h5>
-									<span class="col-lg-4 col-md-4"><b>${countMsg}</b></span>
+									<h5 class="col-lg-7 col-md-7">我的基础计件奖金</h5>
+									<span class="col-lg-5 col-md-5" id="countMsg"></span>
 								</div>
 		                        <table>
 		                        
@@ -185,7 +185,8 @@
      			$('#searchButton').click(function() {
      				reloadGrid();
      			});
-     			
+        	 	
+        	    
 	    		$(document).on("click",".expand",function(){
     				var id = this.id;
    	  			  	if($(this).html() == "展开") {
@@ -224,7 +225,7 @@
 	    		
 	    		var data1 = {};
         	    data1.queryId = "baseAwardQuery";
-        	    data1.rows = 8;
+        	    data1.rows = 12;
         	    data1.page = 1;
         	    data1.paidTime = bm;
         	    data1.caseCode = $("#caseCode").val();
@@ -235,6 +236,26 @@
         	    	paidTime : bm
         	    }
         	    BonusList.init(ctx,data1,data2);
+        	    
+        	    var data2 = {};
+        	    data2.paidTime = bm;
+        	    data2.caseCode = $("#caseCode").val();
+        	    data2.propertyAddr = $("#propertyAddr").val();
+        	    data2.dtBegin=$("#dtBegin").val();
+        	    data2.dtEnd=$("#dtEnd").val();
+        	    
+        	  //显示统计信息
+     			$.ajax({
+	    			  async: false,
+	    	          url:ctx+ "/award/baseAwardCount" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: data2,
+	    	          success: function(data){
+	    	        	  $("#countMsg").empty();
+	    	        	  $("#countMsg").append("<b>" + data.countMsg +"</b>");
+	    	          }
+	    	     });
 	    	}
         	
 	    	function goPage(page) {
