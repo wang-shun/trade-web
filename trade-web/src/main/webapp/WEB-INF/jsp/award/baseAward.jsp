@@ -224,7 +224,7 @@
 	    		
 	    		var data1 = {};
         	    data1.queryId = "baseAwardQuery";
-        	    data1.rows = 8;
+        	    data1.rows = 12;
         	    data1.page = 1;
         	    data1.paidTime = bm;
         	    data1.caseCode = $("#caseCode").val();
