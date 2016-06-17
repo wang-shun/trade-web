@@ -107,7 +107,6 @@ public class ToMortgageController {
 			}
 			
 			toMortgage.setToSupDocu(toSupDocu);
-			toMortgage.setFormCommLoan("1");
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			
 		}catch(BusinessException e){
