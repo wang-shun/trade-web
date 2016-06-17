@@ -5,7 +5,7 @@ if ($('body').css('direction') === 'rtl') {
 }
 function setStaDetailDef() {
 	$("tr[id^='sta_tr']").find('td').each(function(i) {
-		$(this).html('金额：0.00万<br>单数：0<br>转化率：00.0%');
+		$(this).html('金额：0.00万<br>单数：0<br>转化率：0.00%');
 	});
 }
 function setStaVal(f, s, l) {

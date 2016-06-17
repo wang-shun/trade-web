@@ -55,6 +55,7 @@
 				</div>
 
 				<div class="ibox-content">
+				<!-- 
 					<form method="get" class="form-horizontal">
 					
 					<div class="row">
@@ -94,12 +95,14 @@
 						<div class="col-md-12">
 							<div class="form-group">
 							<label class="col-md-1 control-label m-l-lg"></label>
-							<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
+							<div>
+								<button id="searchButton" type="button" class="btn btn-warning" onclick="_query_case_selective()">查询</button>
+							</div>
 							</div>
 						</div>
 					</div>
 						
-					</form>
+					</form>  -->
 				
 					<div class="jqGrid_wrapper">
 						<table id="table_list_1"></table>
@@ -107,7 +110,9 @@
 						
 			
 				
-					</div><div class="ibox-button text-center"><a class="btn btn-primary" href="javascript:caseDistribute()"
+					</div>
+						<div class="ibox-button text-center">
+							<a class="btn btn-primary" href="javascript:caseDistribute()"
 							disabled="true" id="caseDistributeButton">案件分配</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:caseChangeTeam()"
 							disabled="true" id="caseChangeTeamButton">案件转组</a></div>
 				</div>
