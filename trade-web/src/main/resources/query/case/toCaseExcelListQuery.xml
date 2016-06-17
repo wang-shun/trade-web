@@ -21,10 +21,12 @@
 		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict" />
 		<customDict id="qqcdFaFinOrgNameDict" beanName="qqcdFaFinOrgNameDict" />
  		<customDict id="qqEvaFee" beanName="qqEvaFee"></customDict>
-
-
-
-
+ 		<customDict id="qqOpAs" beanName="qqOpAs"></customDict>
+ 		<customDict id="qqManager" beanName="qqManager"></customDict>
+ 		<customDict id="qqJfhjl" beanName="qqJfhjl"></customDict>
+ 		<customDict id="qqJqyjl" beanName="qqJqyjl"></customDict>
+ 		<customDict id="qqJqyzl" beanName="qqJqyzl"></customDict>
+ 		<customDict id="qqJqyds" beanName="qqJqyds"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
@@ -182,16 +184,12 @@
 						E.REAL_PLS_TIME,
 						E.REAL_HT_TIME,
 						E.REAL_PROPERTY_GET_TIME,
-						AC.org_name AS AGENT_ORG,
-						AD.real_name AS AGENT_FHJL,
-						AF.real_name AS AGENT_QYJL,
-						AG.real_name AS AGENT_QYZJ,
-						AH.real_name AS AGENT_QYDS,
-						AH.ORG_name as AGENT_QDORG,
-						(case mo.IS_DELEGATE_YUCUI when '1' then '收单'
-												  when '0' then '流失'
-												  else ''
-												  end) as LOAN_LOST_TYPE,
+						E.LOAN_LOST_TYPE,
+						AC.org_name AS  AGENT_ORG,
+						AE.JFHJL_MGR AS AGENT_FHJL,
+						AE.JQYJL_MGR AS AGENT_QYJL,
+						AE.JQYZJ_MGR AS AGENT_QYZJ,
+						AE.JQYDS_MGR AS AGENT_QYDS,
 						tp.TAX_PRICING as CHECK_PRICE,
 						(CASE WHEN tpi.[SQUARE] = 0 THEN
 					        NULL
@@ -231,20 +229,13 @@
 					stuff((	select distinct'/'+ d.name  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR left join sctrans.sys_dict d on d.type='yu_serv_cat_code_tree' and d.code=SRV_CODE where  CASE_CODE = e.CASE_CODE 
 							FOR xml path(''))
 							,1,1,'') as SRV_STR,
-							uvm.REAL_NAME as OP_MANAGER,
-							uvta.REAL_NAME as OP_AS,
 							orgd.ORG_NAME as OP_PARENT_ORG,
 							guser.real_name as GUOHU_APPROVER,
 							t.end_time_ as GUOHU_APPROVER_TIME
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
-					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AD on  AD.ORG_id = AC.ORG_id AND AD.job_code = 'JFHJL' AND AD.is_leader = 1
-					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
-					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AF on  AF.ORG_id = AE.BUSIAR_ID AND AF.job_code = 'JQYJL' AND AF.is_leader = 1
-					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AG on  AG.ORG_id = AE.BUSISWZ_ID AND AG.job_code = 'JQYZJ' AND AG.is_leader = 1
-					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AH on  AH.ORG_id = AE.BUSIWZ_ID AND AH.job_code = 'JQYDS' AND AH.is_leader = 1
-					LEFT JOIN  sctrans.T_TO_MORTGAGE AS MO on mo.case_code=b.case_code and mo.is_active='1' and mo.LAST_LOAN_BANK is not null and (mo.mort_type='30016001' or mo.mort_type ='30016002')
+					LEFT JOIN  sctrans.V_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
 					left join  sctrans.sys_org org1 on org1.id=b.ORG_ID
 					left join  sctrans.T_TS_TEAM_PROPERTY as ttp on org1.org_code = ttp.yu_team_code
@@ -252,33 +243,26 @@
 					left join  sctrans.T_TO_PROPERTY_INFO as tpi on tpi.case_code=e.case_code
 					left join sctrans.t_yucui_org_hierarchy yoh on yoh.org_id=b.ORG_ID 
 					left join sctrans.SYS_ORG orgd on orgd.id= yoh.DISTRICT_ID
-					left join sctrans.V_USER_ORG_JOB as uvm on uvm.JOB_CODE='Manager' and uvm.ORG_ID=b.ORG_ID
-					left join sctrans.V_USER_ORG_JOB as uvta on uvta.JOB_CODE='TeamAssistant' and uvta.ORG_ID=b.ORG_ID
 					
-					
-					
-						LEFT JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
-						AND w.BUSINESS_KEY = 'operation_process'
-						AND w.STATUS IN ('0', '4')
-						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
-						AND v.name_ = 'GuohuApprove'
-						AND v.long_ = 1
-						LEFT JOIN (
-							SELECT
-								t.proc_inst_id_,
-								t.assignee_,
-								MAX (end_time_) end_time_
-							FROM
-								sctrans.act_hi_taskinst t
-							WHERE
-								t.task_def_key_ = 'GuohuApprove'
-							GROUP BY
-								t.proc_inst_id_,t.assignee_
-						) t ON t.proc_inst_id_ = w.inst_code
+
+					LEFT JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
+					AND w.BUSINESS_KEY = 'operation_process'
+					AND w.STATUS IN ('0', '4')
+					AND w.PKID = (select max(PKID) from sctrans.T_TO_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+					LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
+					AND v.name_ = 'GuohuApprove'
+					AND v.long_ = 1
+					LEFT JOIN (
+						select * from (  
+						 select proc_inst_id_,assignee_,end_time_,row_number() over(partition by proc_inst_id_ order by end_time_ desc) rn  
+						 from sctrans.act_hi_taskinst WHERE task_def_key_ = 'GuohuApprove' 
+						) taskInst where taskInst.rn &lt;=1 
+					) t ON t.proc_inst_id_ = w.inst_code
 					left join sctrans.sys_user guser 
 					on guser.username = t.ASSIGNEE_ 
 					and guser.available = '1'
 					and guser.is_deleted = '0'
+					
 					<ifNotNull realConTime>
 						INNER JOIN sctrans.T_TO_SIGN AS G ON B.CASE_CODE = G.CASE_CODE 
 					</ifNotNull>
@@ -421,7 +405,7 @@
 
 				<column type="both" name="AGENT_ORG" title="所属分行" customDict=""
 					hidden="true" />
-				<column type="both" name="AGENT_FHJL" title="分行经理"
+				<!-- <column type="both" name="AGENT_FHJL" title="分行经理"
 					customDict="" hidden="true" />
 				<column type="both" name="AGENT_QYJL" title="区域经理"
 					customDict="" hidden="true" />
@@ -430,7 +414,8 @@
 				<column type="both" name="AGENT_QYDS" title="区域董事"
 					customDict="" hidden="true" />
 				<column type="both" name="AGENT_QDORG" title="所属大区"
-					customDict="" hidden="true" />
+					customDict="" hidden="true" /> -->
+					
 				<!-- <column type="virtual" name="AGENT_ORG" title="所属分行" customDict="qqcdOrgNameByCode" 
 					referencecol="AGENT_ORG_CODE" hidden="true" /> <column type="virtual" name="AGENT_FHJL" 
 					title="分行经理" customDict="qqcdFhjlNameByOrgCode" referencecol="AGENT_ORG_CODE" 
@@ -448,9 +433,24 @@
 					customDict="qqcdUserEmployeeCode" referencecol="OP_ID" hidden="true" />
 				<column type="both" name="OP_ORG_ID" title="所属组别ID"
 					customDict="" referencecol="" hidden="" />
-				<column type="both" name="OP_ORG" title="所属组别" hidden="true" />
-				<column name="OP_MANAGER" title="组别主管"	hidden="true" />
-				<column type="both" name="OP_AS" title="组别助理"  hidden="true" />
+				<column type="both" name="OP_ORG_ID" title="所属组别ID"
+					customDict="" referencecol="" hidden="true" />
+				<!-- <column name="OP_MANAGER" title="组别主管"	hidden="true" /> -->
+
+				<column type="virtual" name="OP_AS"  referencecol="OP_ORG_ID" customDict="qqOpAs" title="组别助理"/>
+				<column type="virtual" name="OP_MANAGER"  referencecol="OP_ORG_ID" customDict="qqManager" title="组别主管"/>
+				
+				<column type="both" name="AGENT_FHJL" title="分行经理" hidden="true" />
+				<column type="both" name="AGENT_QYJL" title="区域经理" hidden="true" />
+				<column type="both" name="AGENT_QYZJ" title="区域总监" hidden="true" />
+				<column type="both" name="AGENT_QYDS" title="区域董事" hidden="true" />
+				
+				<!-- <column type="virtual" name="AGENT_FHJL"  referencecol="AGENT_ORG_ID" customDict="qqJfhjl" title="分行经理"/>
+				<column type="virtual" name="AGENT_QYJL"  referencecol="AGENT_BUSIAR_ID" customDict="qqJqyjl" title="区域经理"/>
+				<column type="virtual" name="AGENT_QYZJ"  referencecol="AGENT_BUSISWZ_ID" customDict="qqJqyzl" title="区域总监"/>
+				<column type="virtual" name="AGENT_QYDS"  referencecol="AGENT_BUSIWZ_ID" customDict="qqJqyds" title="区域董事"/> -->
+				<!-- <column type="virtual" name="AGENT_QYDS"  referencecol="AGENT_BUSIWZ_ID" customDict="qqJqyds" title="所属大区"/> -->
+				
 				<column  name="OP_PARENT_ORG" title="所属区域" hidden="true" />
 				<column type="both" name="SRV_STR" title="合作类型"
 					 hidden="true" />
