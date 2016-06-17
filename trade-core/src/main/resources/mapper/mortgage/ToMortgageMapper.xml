@@ -155,7 +155,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      GETDATE(),@{SESSION_USER_ID}
+      GETDATE(),@{SESSION_USER_ID},
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
       </if>
