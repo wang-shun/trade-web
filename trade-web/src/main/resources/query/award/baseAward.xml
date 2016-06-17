@@ -136,7 +136,8 @@
 				<![CDATA[
 					select 
 					        sum(srv_part_in) SRV_PART_IN_COUNT,
-					        sum(srv_part_in/srv_part_total) SRV_PART_RATIO_COUNT
+					        sum(srv_part_in/srv_part_total) SRV_PART_RATIO_COUNT,
+					        count(distinct case_code) CASE_CODE_COUNT
 					from sctrans.t_ts_award_base
 					where 
 					    PARTICIPANT = #userId# and 
@@ -148,6 +149,7 @@
 			<table-row>
 				<column name="SRV_PART_IN_COUNT"   />
 				<column name="SRV_PART_RATIO_COUNT"   />
+				<column name="CASE_CODE_COUNT"   />
 			</table-row>
 		</grid>
 	</query>
@@ -159,7 +161,7 @@
 				<![CDATA[
 					select 
 					        sum(srv_part_in) SRV_PART_IN_COUNT,
-					        sum(distinct case_code) CASE_CODE_COUNT
+					        count(distinct case_code) CASE_CODE_COUNT
 					from sctrans.t_ts_award_base
 					where 
 					    PARTICIPANT = #userId# and 

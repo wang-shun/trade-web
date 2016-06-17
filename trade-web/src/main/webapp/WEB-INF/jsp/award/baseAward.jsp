@@ -83,8 +83,8 @@
 	                 	<div class="col-lg-12">
 		                    <div class="bonus-table">
 			                    <div class="ibox-title">
-									<h5 class="col-lg-8 col-md-8">我的基础计件奖金</h5>
-									<span class="col-lg-4 col-md-4"><b>${countMsg}</b></span>
+									<h5 class="col-lg-7 col-md-7">我的基础计件奖金</h5>
+									<span class="col-lg-5 col-md-5" id="countMsg"></span>
 								</div>
 		                        <table>
 		                        
@@ -185,6 +185,17 @@
      			$('#searchButton').click(function() {
      				reloadGrid();
      			});
+        	 	
+        	 	//显示统计信息
+     			$.ajax({
+	    			  async: false,
+	    	          url:ctx+ "/award/baseAwardCount" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          success: function(data){
+	    	        	  $("#countMsg").append("<b>" + data.countMsg +"</b>");
+	    	          }
+	    	     });
      			
 	    		$(document).on("click",".expand",function(){
     				var id = this.id;
