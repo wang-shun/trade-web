@@ -200,7 +200,7 @@
 						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode15#)
 					</ifNotNull>
 					<ifNotNull signlendDate>
-					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE 
+					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE and is_active='1'
 					</ifNotNull>
 						<ifNotNull signDateStart>
 						  and J.SIGN_DATE >= #signDateStart#
