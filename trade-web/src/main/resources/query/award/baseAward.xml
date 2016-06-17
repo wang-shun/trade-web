@@ -117,9 +117,25 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					   	count(distinct case_code) case_code_count
-					from sctrans.t_ts_award_base
+					   	count(distinct ba.case_code) case_code_count
+					from sctrans.t_ts_award_base ba
+						left join sctrans.t_to_property_info pi on ba.case_code = pi.case_code
 					where PARTICIPANT = #userId#
+					<if test="caseCode != null and caseCode != '' ">
+			        	and ba.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ba.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ba.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ba.guohu_time &lt;= #dtEnd#
+			        </if>
 				]]>
 			</baseSql>
 		</searchSql>
@@ -137,11 +153,25 @@
 					select 
 					        sum(srv_part_in) SRV_PART_IN_COUNT,
 					        sum(srv_part_in/srv_part_total) SRV_PART_RATIO_COUNT,
-					        count(distinct case_code) CASE_CODE_COUNT
-					from sctrans.t_ts_award_base
-					where 
-					    PARTICIPANT = #userId# and 
-						srv_part_total > 0
+					        count(distinct ba.case_code) CASE_CODE_COUNT
+						from sctrans.t_ts_award_base ba
+						left join sctrans.t_to_property_info pi on ba.case_code = pi.case_code
+					where PARTICIPANT = #userId# and srv_part_total > 0
+					<if test="caseCode != null and caseCode != '' ">
+			        	and ba.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ba.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ba.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ba.guohu_time &lt;= #dtEnd#
+			        </if>
 				]]>
 			</baseSql>
 		</searchSql>
@@ -161,11 +191,25 @@
 				<![CDATA[
 					select 
 					        sum(srv_part_in) SRV_PART_IN_COUNT,
-					        count(distinct case_code) CASE_CODE_COUNT
-					from sctrans.t_ts_award_base
-					where 
-					    PARTICIPANT = #userId# and 
-						srv_part_total > 0
+					        count(distinct ba.case_code) CASE_CODE_COUNT
+					from sctrans.t_ts_award_base ba
+						left join sctrans.t_to_property_info pi on ba.case_code = pi.case_code
+					where PARTICIPANT = #userId# and srv_part_total > 0
+					<if test="caseCode != null and caseCode != '' ">
+			        	and ba.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ba.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ba.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ba.guohu_time &lt;= #dtEnd#
+			        </if>
 				]]>
 			</baseSql>
 		</searchSql>

@@ -113,14 +113,20 @@ public class BaseImporController {
 	
 	@RequestMapping(value = "baseAwardCount")
 	@ResponseBody
-	public Map<String, String> baseAwardCount() {
+	public Map<String, String> baseAwardCount(String paidTime,String caseCode,String propertyAddr,
+			String dtBegin,String dtEnd) {
 
 		SessionUser sesssionUser = uamSessionService.getSessionUser();
-
 		String countMsg = "";
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);
-
+		gp.put("paidTime", paidTime);
+		gp.put("caseCode", caseCode);
+		gp.put("propertyAddr", propertyAddr);
+		gp.put("dtBegin", dtBegin);
+		gp.put("dtEnd", dtEnd);
+		
+		
 		if (TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode())) {
 			gp.setQueryId("generalManagerCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);

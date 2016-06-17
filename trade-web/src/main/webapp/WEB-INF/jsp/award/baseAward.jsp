@@ -186,17 +186,7 @@
      				reloadGrid();
      			});
         	 	
-        	 	//显示统计信息
-     			$.ajax({
-	    			  async: false,
-	    	          url:ctx+ "/award/baseAwardCount" ,
-	    	          method: "post",
-	    	          dataType: "json",
-	    	          success: function(data){
-	    	        	  $("#countMsg").append("<b>" + data.countMsg +"</b>");
-	    	          }
-	    	     });
-     			
+        	    
 	    		$(document).on("click",".expand",function(){
     				var id = this.id;
    	  			  	if($(this).html() == "展开") {
@@ -246,6 +236,26 @@
         	    	paidTime : bm
         	    }
         	    BonusList.init(ctx,data1,data2);
+        	    
+        	    var data2 = {};
+        	    data2.paidTime = bm;
+        	    data2.caseCode = $("#caseCode").val();
+        	    data2.propertyAddr = $("#propertyAddr").val();
+        	    data2.dtBegin=$("#dtBegin").val();
+        	    data2.dtEnd=$("#dtEnd").val();
+        	    
+        	  //显示统计信息
+     			$.ajax({
+	    			  async: false,
+	    	          url:ctx+ "/award/baseAwardCount" ,
+	    	          method: "post",
+	    	          dataType: "json",
+	    	          data: data2,
+	    	          success: function(data){
+	    	        	  $("#countMsg").empty();
+	    	        	  $("#countMsg").append("<b>" + data.countMsg +"</b>");
+	    	          }
+	    	     });
 	    	}
         	
 	    	function goPage(page) {
