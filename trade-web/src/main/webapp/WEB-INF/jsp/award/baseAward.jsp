@@ -84,7 +84,7 @@
 		                    <div class="bonus-table">
 			                    <div class="ibox-title">
 									<h5 class="col-lg-8 col-md-8">我的基础计件奖金</h5>
-									<span class="col-lg-4 col-md-4">${countMsg}</span>
+									<span class="col-lg-4 col-md-4"><b>${countMsg}</b></span>
 								</div>
 		                        <table>
 		                        

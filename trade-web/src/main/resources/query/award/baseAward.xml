@@ -158,7 +158,8 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					        sum(srv_part_in) SRV_PART_IN_COUNT
+					        sum(srv_part_in) SRV_PART_IN_COUNT,
+					        sum(distinct case_code) CASE_CODE_COUNT
 					from sctrans.t_ts_award_base
 					where 
 					    PARTICIPANT = #userId# and 
@@ -169,6 +170,7 @@
 		<grid>
 			<table-row>
 				<column name="SRV_PART_IN_COUNT"   />
+				<column name="CASE_CODE_COUNT"   />
 			</table-row>
 		</grid>
 	</query>
