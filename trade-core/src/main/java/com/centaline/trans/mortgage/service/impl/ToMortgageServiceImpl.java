@@ -48,9 +48,10 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Override
 	public void saveToMortgageAndSupDocu(ToMortgage toMortgage) {
-
-		ToMortgage mortgage = this.findToMortgageByCondition(toMortgage);
-
+		ToMortgage mortgage=null;
+		if(toMortgage!=null&&toMortgage.getPkid()!=null&&toMortgage.getPkid().intValue()>0){
+			 mortgage = toMortgageMapper.selectByPrimaryKey(toMortgage.getPkid());
+		}
 		if (mortgage != null) {
 				toMortgageMapper.update(toMortgage);
 		} else {
