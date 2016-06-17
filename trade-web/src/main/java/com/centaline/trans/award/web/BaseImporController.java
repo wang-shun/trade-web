@@ -115,7 +115,7 @@ public class BaseImporController {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);
 
-		if (TransJobs.TZJ.getCode().equals(sesssionUser.getServiceJobCode())) {
+		if (TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode())) {
 			gp.setQueryId("generalManagerCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
 			
@@ -123,7 +123,7 @@ public class BaseImporController {
 			String caseCodeCount = null == obj ? "0" : String.valueOf(obj);
 			
 			countMsg = "交易单数: " + caseCodeCount;
-		} else if (TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode())) {
+		} else if (TransJobs.TZJ.getCode().equals(sesssionUser.getServiceJobCode())) {
 			gp.setQueryId("directorCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
 			
@@ -132,13 +132,16 @@ public class BaseImporController {
 			Object srvPartRatioObj = result.getContent().get(0).get("SRV_PART_RATIO_COUNT");
 			String srvPartRatioCount = null == srvPartRatioObj ? "0" : String.format("%.2f ",srvPartRatioObj);
 
-			countMsg = "环节总数: " + srvPartInCount + ", 交易单数: " + srvPartRatioCount;
+			countMsg = "环节总数: " + srvPartInCount + ", 交易单加权: " + srvPartRatioCount;
 		} else {
 			gp.setQueryId("otherRoleCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
 			Object srvPartInObj = result.getContent().get(0).get("SRV_PART_IN_COUNT");
 			String srvPartInCount = null == srvPartInObj ? "0" : String.format("%.2f ",srvPartInObj);
-			countMsg = " 环节总数: " + srvPartInCount;
+			
+			Object obj = result.getContent().get(0).get("CASE_CODE_COUNT");
+			String caseCodeCount = null == obj ? "0" : String.valueOf(obj);
+			countMsg = " 环节总数: " + srvPartInCount +",交易单数: " + caseCodeCount;
 		}
 
 		Map<String, String> model = new HashMap<String, String>();
