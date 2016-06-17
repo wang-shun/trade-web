@@ -184,15 +184,12 @@
 						E.REAL_PLS_TIME,
 						E.REAL_HT_TIME,
 						E.REAL_PROPERTY_GET_TIME,
-						AC.org_name AS AGENT_ORG,
-						AC.ORG_id AS AGENT_ORG_ID,
-						AE.BUSIAR_ID AS AGENT_BUSIAR_ID,
-						AE.BUSISWZ_ID AS AGENT_BUSISWZ_ID,
-						AE.BUSIWZ_ID AS AGENT_BUSIWZ_ID,
-						(case mo.IS_DELEGATE_YUCUI when '1' then '收单'
-												  when '0' then '流失'
-												  else ''
-												  end) as LOAN_LOST_TYPE,
+						E.LOAN_LOST_TYPE,
+						AC.org_name AS  AGENT_ORG,
+						AE.JFHJL_MGR AS AGENT_FHJL,
+						AE.JQYJL_MGR AS AGENT_QYJL,
+						AE.JQYZJ_MGR AS AGENT_QYZJ,
+						AE.JQYDS_MGR AS AGENT_QYDS,
 						tp.TAX_PRICING as CHECK_PRICE,
 						(CASE WHEN tpi.[SQUARE] = 0 THEN
 					        NULL
@@ -238,8 +235,7 @@
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
-					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
-					LEFT JOIN  sctrans.T_TO_MORTGAGE AS MO on mo.case_code=b.case_code and mo.is_active='1' and mo.LAST_LOAN_BANK is not null and (mo.mort_type='30016001' or mo.mort_type ='30016002')
+					LEFT JOIN  sctrans.V_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
 					left join  sctrans.sys_org org1 on org1.id=b.ORG_ID
 					left join  sctrans.T_TS_TEAM_PROPERTY as ttp on org1.org_code = ttp.yu_team_code
@@ -257,16 +253,10 @@
 					AND v.name_ = 'GuohuApprove'
 					AND v.long_ = 1
 					LEFT JOIN (
-						SELECT
-							t.proc_inst_id_,
-							t.assignee_,
-							MAX (end_time_) end_time_
-						FROM
-							sctrans.act_hi_taskinst t
-						WHERE
-							t.task_def_key_ = 'GuohuApprove'
-						GROUP BY
-							t.proc_inst_id_,t.assignee_
+						select * from (  
+						 select proc_inst_id_,assignee_,end_time_,row_number() over(partition by proc_inst_id_ order by end_time_ desc) rn  
+						 from sctrans.act_hi_taskinst WHERE task_def_key_ = 'GuohuApprove' 
+						) taskInst where taskInst.rn &lt;=1 
 					) t ON t.proc_inst_id_ = w.inst_code
 					left join sctrans.sys_user guser 
 					on guser.username = t.ASSIGNEE_ 
@@ -445,18 +435,20 @@
 					customDict="" referencecol="" hidden="" />
 				<column type="both" name="OP_ORG_ID" title="所属组别ID"
 					customDict="" referencecol="" hidden="true" />
-				<column type="both" name="AGENT_ORG_ID" title="" hidden="true" />
-				<column type="both" name="AGENT_BUSIAR_ID" title="" hidden="true" />
-				<column type="both" name="AGENT_BUSISWZ_ID" title="" hidden="true" />
-				<column type="both" name="AGENT_BUSIWZ_ID" title="" hidden="true" />
 				<!-- <column name="OP_MANAGER" title="组别主管"	hidden="true" /> -->
-			
+
 				<column type="virtual" name="OP_AS"  referencecol="OP_ORG_ID" customDict="qqOpAs" title="组别助理"/>
 				<column type="virtual" name="OP_MANAGER"  referencecol="OP_ORG_ID" customDict="qqManager" title="组别主管"/>
-				<column type="virtual" name="AGENT_FHJL"  referencecol="AGENT_ORG_ID" customDict="qqJfhjl" title="分行经理"/>
+				
+				<column type="both" name="AGENT_FHJL" title="分行经理" hidden="true" />
+				<column type="both" name="AGENT_QYJL" title="区域经理" hidden="true" />
+				<column type="both" name="AGENT_QYZJ" title="区域总监" hidden="true" />
+				<column type="both" name="AGENT_QYDS" title="区域董事" hidden="true" />
+				
+				<!-- <column type="virtual" name="AGENT_FHJL"  referencecol="AGENT_ORG_ID" customDict="qqJfhjl" title="分行经理"/>
 				<column type="virtual" name="AGENT_QYJL"  referencecol="AGENT_BUSIAR_ID" customDict="qqJqyjl" title="区域经理"/>
 				<column type="virtual" name="AGENT_QYZJ"  referencecol="AGENT_BUSISWZ_ID" customDict="qqJqyzl" title="区域总监"/>
-				<column type="virtual" name="AGENT_QYDS"  referencecol="AGENT_BUSIWZ_ID" customDict="qqJqyds" title="区域董事"/>
+				<column type="virtual" name="AGENT_QYDS"  referencecol="AGENT_BUSIWZ_ID" customDict="qqJqyds" title="区域董事"/> -->
 				<!-- <column type="virtual" name="AGENT_QYDS"  referencecol="AGENT_BUSIWZ_ID" customDict="qqJqyds" title="所属大区"/> -->
 				
 				<column  name="OP_PARENT_ORG" title="所属区域" hidden="true" />
