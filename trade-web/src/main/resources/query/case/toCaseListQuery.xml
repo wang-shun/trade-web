@@ -105,27 +105,16 @@
 						LEFT JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
 						AND w.BUSINESS_KEY = 'operation_process'
 						AND w.STATUS IN ('0', '4')
+						AND w.PKID = (select max(PKID) from sctrans.T_TO_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
 						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
 						AND v.name_ = 'GuohuApprove'
 						AND v.long_ = 1
 						LEFT JOIN (
-							SELECT
-								t.proc_inst_id_,
-								t.assignee_,
-								MAX (end_time_) end_time_
-							FROM
-								sctrans.act_hi_taskinst t
-							WHERE
-								t.task_def_key_ = 'GuohuApprove'
-							GROUP BY
-								t.proc_inst_id_,t.assignee_
+							select * from (  
+							 select proc_inst_id_,assignee_,end_time_,row_number() over(partition by proc_inst_id_ order by end_time_ desc) rn  
+							 from sctrans.act_hi_taskinst WHERE task_def_key_ = 'GuohuApprove' 
+							) taskInst where taskInst.rn &lt;= 1 
 						) t ON t.proc_inst_id_ = w.inst_code
-					</ifNotNull>
-					<ifNotNull guohuApproveTimeStart>
-						AND t.end_time_ >= #guohuApproveTimeStart#
-					</ifNotNull>
-					<ifNotNull guohuApproveTimeEnd>
-						AND t.end_time_ &lt;= #guohuApproveTimeEnd#
 					</ifNotNull>
 					<ifNotNull realHtTime>
 					INNER JOIN sctrans.T_TO_HOUSE_TRANSFER AS H ON B.CASE_CODE = H.CASE_CODE
@@ -211,7 +200,7 @@
 						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode15#)
 					</ifNotNull>
 					<ifNotNull signlendDate>
-					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE 
+					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where B.CASE_CODE = J.CASE_CODE and is_active='1'
 					</ifNotNull>
 						<ifNotNull signDateStart>
 						  and J.SIGN_DATE >= #signDateStart#
@@ -269,7 +258,6 @@
 				<column type="both" name="RED_COUNT" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
-							
 			</table-row>
 		</grid>
 	</query>

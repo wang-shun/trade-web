@@ -319,7 +319,17 @@ public class CaseDetailController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		// 贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
+		String loanReqType="FullPay";
 		if (toMortgage != null) {
+			if("1".equals(toMortgage.getIsDelegateYucui())){
+				if("30016003".equals(toMortgage.getMortType())){
+					loanReqType="PSFLoan";
+				}else{
+					loanReqType="ComLoan";
+				}
+			}else{
+				loanReqType="SelfLoan";
+			}
 			// 贷款类型
 			if (!StringUtils.isEmpty(toMortgage.getMortType())) {
 				String mortTypeString = uamBasedataService.getDictValue(TransDictEnum.TDKLX.getCode(),
@@ -645,6 +655,7 @@ public class CaseDetailController {
 		if(toWorkFlow!=null &&"operation_process:10:445004".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
+		request.setAttribute("loanReqType", loanReqType);
 		request.setAttribute("isNewFlow", isNewFlow);
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);

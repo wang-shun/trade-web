@@ -61,9 +61,13 @@
 .row:nth-last-child(2) .wd-64,.row:nth-last-child(1) .wd-64{width:61%;padding-right:0;}
 .row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
 .pd0{padding:0;}
-.wd445{width:582px;margin-bottom:15px;}
-.wd445 select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+.pr0{padding-right:0;}
+.wd445{margin-bottom:15px;padding-right:30px;}
+.wd445 select,.kuaquselect select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+#hzxm{padding-bottom:15px;}
+.kuaquselect{margin:-20px 0 0 0;padding-right:0;}
 .modal-content{width:820px;}
+.text-left{text-align:left !important;margin-left:-10px;}
 .row {
    margin-right : 0px !important;
 }
@@ -111,6 +115,7 @@
 			                                物业信息                                            
 			                            </div>
 			                            <div class="panel-body">
+			                             	<p>CTM地址：${toPropertyInfo.ctmAddr}</p>
 			                                <p>产证地址：${toPropertyInfo.propertyAddr}</p>
 			                                <p>层高：${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</p>
 			                                <p>产证面积：${toPropertyInfo.square}平方</p>
@@ -1015,6 +1020,7 @@
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 	    var r1 =false;
+	    var loanReqType="${loanReqType}";
 	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
 			r1 = true;
 		</shiro:hasPermission>

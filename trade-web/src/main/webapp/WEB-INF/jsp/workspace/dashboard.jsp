@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <%
@@ -365,7 +364,7 @@ text-decoration: underline !important;
                   <!-- 计划任务结果 -->
                   <c:if test="${!isBackTeam }">
        <shiro:hasPermission name="TRADE.WORKSPACE.WORKLOAD.CONSULTANT.FRONT">           
-<div class="row">
+					<div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
@@ -784,7 +783,11 @@ text-decoration: underline !important;
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         </a>
                                                         <div class="media-body ">
-                                                            <span class="pull-right"><strong class="fa-2x text-danger">${item.rankValue }</strong></span> <!-- <fmt:formatNumber value="${item.rankValue/10000}" pattern='#,##0.00#'/>万 -->
+                                                            <span class="pull-right">
+                                                            	<strong class="fa-2x text-danger">
+                                                            		<fmt:formatNumber value="${item.rankValue/10000}" pattern='###,##0.00'/>万
+                                                            	</strong>
+                                                            </span> <!-- <fmt:formatNumber value="${item.rankValue/10000}" pattern='###,##0.00'/>万 -->
                                                             <strong>${item.realName }</strong><br>
                                                             <small class="text-muted">${item.belongOrgName }</small>
                                                         </div>
@@ -809,7 +812,11 @@ text-decoration: underline !important;
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         </a>
                                                         <div class="media-body ">
-                                                            <span class="pull-right"><strong class="fa-2x text-danger">${item.rankValue }</strong></span>
+                                                            <span class="pull-right">
+                                                            	<strong class="fa-2x text-danger">
+                                                            		<fmt:formatNumber value="${item.rankValue/10000 }" pattern='###,##0.00'/>万
+                                                            	</strong>
+                                                            </span>
                                                             <strong>${item.realName }</strong><br>
                                                             <small class="text-muted">${item.belongOrgName }</small>
                                                         </div>
@@ -835,7 +842,11 @@ text-decoration: underline !important;
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         </a>
                                                         <div class="media-body ">
-                                                            <span class="pull-right"><strong class="fa-2x text-danger">${item.rankValue }</strong></span>
+                                                            <span class="pull-right">
+                                                            	<strong class="fa-2x text-danger">
+                                                            		<fmt:formatNumber value="${item.rankValue/10000 }" pattern='###,##0.00'/>万
+                                                            	</strong>
+                                                            </span>
                                                             <strong>${item.realName }</strong><br>
                                                             <small class="text-muted">${item.belongOrgName }</small>
                                                         </div>
@@ -993,7 +1004,7 @@ text-decoration: underline !important;
     <script src="${ctx}/js/plugins/morris/raphael-2.1.0.min.js"></script>
     <script src="${ctx}/js/plugins/morris/morris.js"></script>
 	
-	<script src="${ctx}/js/trunk/dashboard/dashboard.js"></script>
+	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
         <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
     <script src="${ctx}/static/js/aist-modal.js"  type="text/javascript"></script>
@@ -1016,6 +1027,9 @@ text-decoration: underline !important;
    	 		setStaVal(f,s,l);
    	 		var d1 =toDonutData(s,'count');
    	 		var d2 =toDonutData(s,'amount');
+   	 		$.each(d2,function(j,item){
+   	 			item.value = item.value*10000;
+   	 		})
    	 		setDonut(d1,d2);
    	 	}
    	 	

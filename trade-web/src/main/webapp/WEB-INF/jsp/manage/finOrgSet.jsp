@@ -50,7 +50,7 @@
 .col-md-2{
 	width:12%
 }
-
+.ml15{margin-left:15px;}
 </style>
 </head>
 
@@ -125,17 +125,17 @@
 					<form method="get" class="form-horizontal">
 						<div class="form-group ">
 							<div class="form-group">
-								<label class="col-md-2 control-label">金融机构编号：</label>
-								<div class="col-md-2">
+								<label class="col-md-2 control-label ml15">金融机构编号：</label>
+								<div class="pull-left">
 									<input type="text" name="orgCode"
 												id="orgCode" placeholder=""
-												class="form-control" >
+												class="form-control" style="width: 250px;">
 								</div>
 								<label class="col-md-2 control-label">金融机构名称：</label>
-								<div class="col-md-2">
+								<div class="pull-left">
 									<input type="text" name="orgName"
 												id="orgName" placeholder=""
-												class="form-control" >
+												class="form-control" style="width: 325px;">
 								</div>
 								<div class="col-sm-1">
 									<button id="searchButton" type="button" class="btn btn-primary pull-right">查询</button>

@@ -5,7 +5,7 @@ if ($('body').css('direction') === 'rtl') {
 }
 function setStaDetailDef() {
 	$("tr[id^='sta_tr']").find('td').each(function(i) {
-		$(this).html('金额：0.00<br>单数：0<br>转化率：00.0%');
+		$(this).html('金额：0.00万<br>单数：0<br>转化率：0.00%');
 	});
 }
 function setStaVal(f, s, l) {
@@ -45,7 +45,7 @@ function setStaValItem(d, c) {
 				function(i) {
 					var _this = this;
 					var showhtml = "金额：" + _this.amount + "<br>单数："
-							+ _this.count + "<br>转化率：" + _this.convRate + "%";
+							+ _this.count + "<br>转化率：" + (_this.convRate?_this.convRate:'00.0') + "%";
 					$("#sta_tr_" + _this.staItem).find(c).html(showhtml);
 				});
 	}
@@ -58,6 +58,10 @@ function toDonutData(d, it) {
 				label : this['staItemStr'],
 				value : $.unformatMoney(this[it] + "")
 			});
+			/*dd.push({
+				label : this['staItemStr'],
+				value : this[it] + ""
+			});*/
 		});
 	}
 	return dd;
