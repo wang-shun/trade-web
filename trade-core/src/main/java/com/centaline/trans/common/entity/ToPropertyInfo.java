@@ -5,42 +5,44 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ToPropertyInfo {
-    private Long pkid;
+	private Long pkid;
 
-    private String propertyCode;
+	private String propertyCode;
 
-    private String propertyAddr;
+	private String propertyAddr;
 
-    private String caseCode;
+	private String ctmAddr;
 
-    private Integer totalFloor;
+	private String caseCode;
 
-    private String propertyType;
+	private Integer totalFloor;
 
-    private Integer locateFloor;
+	private String propertyType;
 
-    private Double square;
-    
-    private String distCode;
+	private Integer locateFloor;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", locale = "zh", timezone = "GMT+8")
-    private Date finishYear;
+	private Double square;
 
-    private String ctmCode;
+	private String distCode;
 
-    private String comment;
-    
-    private String propertyAgentId;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", locale = "zh", timezone = "GMT+8")
+	private Date finishYear;
 
-    public Long getPkid() {
-        return pkid;
-    }
+	private String ctmCode;
 
-    public void setPkid(Long pkid) {
-        this.pkid = pkid;
-    }
+	private String comment;
 
-    public String getPropertyCode() {
+	private String propertyAgentId;
+
+	public Long getPkid() {
+		return pkid;
+	}
+
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
+
+	public String getPropertyCode() {
 		return propertyCode;
 	}
 
@@ -48,77 +50,85 @@ public class ToPropertyInfo {
 		this.propertyCode = propertyCode;
 	}
 
+	public String getCtmAddr() {
+		return ctmAddr;
+	}
+
+	public void setCtmAddr(String ctmAddr) {
+		this.ctmAddr = ctmAddr;
+	}
+
 	public String getPropertyAddr() {
-        return propertyAddr;
-    }
+		return propertyAddr;
+	}
 
-    public void setPropertyAddr(String propertyAddr) {
-        this.propertyAddr = propertyAddr == null ? null : propertyAddr.trim();
-    }
+	public void setPropertyAddr(String propertyAddr) {
+		this.propertyAddr = propertyAddr == null ? null : propertyAddr.trim();
+	}
 
-    public String getCaseCode() {
-        return caseCode;
-    }
+	public String getCaseCode() {
+		return caseCode;
+	}
 
-    public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode == null ? null : caseCode.trim();
-    }
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode == null ? null : caseCode.trim();
+	}
 
-    public Integer getTotalFloor() {
-        return totalFloor;
-    }
+	public Integer getTotalFloor() {
+		return totalFloor;
+	}
 
-    public void setTotalFloor(Integer totalFloor) {
-        this.totalFloor = totalFloor;
-    }
+	public void setTotalFloor(Integer totalFloor) {
+		this.totalFloor = totalFloor;
+	}
 
-    public String getPropertyType() {
-        return propertyType;
-    }
+	public String getPropertyType() {
+		return propertyType;
+	}
 
-    public void setPropertyType(String propertyType) {
-        this.propertyType = propertyType == null ? null : propertyType.trim();
-    }
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType == null ? null : propertyType.trim();
+	}
 
-    public Integer getLocateFloor() {
-        return locateFloor;
-    }
+	public Integer getLocateFloor() {
+		return locateFloor;
+	}
 
-    public void setLocateFloor(Integer locateFloor) {
-        this.locateFloor = locateFloor;
-    }
+	public void setLocateFloor(Integer locateFloor) {
+		this.locateFloor = locateFloor;
+	}
 
-    public Double getSquare() {
-        return square;
-    }
+	public Double getSquare() {
+		return square;
+	}
 
-    public void setSquare(Double square) {
-        this.square = square;
-    }
+	public void setSquare(Double square) {
+		this.square = square;
+	}
 
-    public Date getFinishYear() {
-        return finishYear;
-    }
+	public Date getFinishYear() {
+		return finishYear;
+	}
 
-    public void setFinishYear(Date finishYear) {
-        this.finishYear = finishYear;
-    }
+	public void setFinishYear(Date finishYear) {
+		this.finishYear = finishYear;
+	}
 
-    public String getCtmCode() {
-        return ctmCode;
-    }
+	public String getCtmCode() {
+		return ctmCode;
+	}
 
-    public void setCtmCode(String ctmCode) {
-        this.ctmCode = ctmCode == null ? null : ctmCode.trim();
-    }
+	public void setCtmCode(String ctmCode) {
+		this.ctmCode = ctmCode == null ? null : ctmCode.trim();
+	}
 
-    public String getComment() {
-        return comment;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
-    }
+	public void setComment(String comment) {
+		this.comment = comment == null ? null : comment.trim();
+	}
 
 	public String getDistCode() {
 		return distCode;
@@ -135,7 +145,5 @@ public class ToPropertyInfo {
 	public void setPropertyAgentId(String propertyAgentId) {
 		this.propertyAgentId = propertyAgentId;
 	}
-	
-	
-	
+
 }

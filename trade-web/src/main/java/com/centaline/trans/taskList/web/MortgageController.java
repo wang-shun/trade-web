@@ -70,6 +70,7 @@ public class MortgageController {
 		}
 		toTransPlan.setEstPartTime(estPartTime);
 		toTransPlanService.updateTransPlan(toTransPlan);
+		toMortgage.setIsMainLoanBank("1");
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -82,6 +83,7 @@ public class MortgageController {
 		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()!=null?toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
 		toMortgage.setComAmount(toMortgage.getComAmount() !=null?toMortgage.getComAmount().multiply(new BigDecimal(10000)):null);
 		toMortgage.setPrfAmount(toMortgage.getPrfAmount()!=null?toMortgage.getPrfAmount().multiply(new BigDecimal(10000)):null);
+		toMortgage.setIsMainLoanBank("1");
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -94,7 +96,7 @@ public class MortgageController {
 		if(toMortgage.getMortTotalAmount()!=null){
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}
-		
+		toMortgage.setIsMainLoanBank("1");
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -114,6 +116,7 @@ public class MortgageController {
 		toMortgage.setIsDelegateYucui("1");
 		toTransPlanService.updateTransPlan(toTransPlan);
 		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()!=null?toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
+		toMortgage.setIsMainLoanBank("1");
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -135,6 +138,7 @@ public class MortgageController {
 		if(toMortgage.getMortTotalAmount()!=null){
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}*/
+		toMortgage.setIsMainLoanBank("1");
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -174,7 +178,7 @@ public class MortgageController {
 		if(toMortgage.getPrfAmount()!=null){
 			toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000)));
 		}
-		
+		toMortgage.setIsMainLoanBank("1");
 		toMortgageService.saveToMortgage(toMortgage);
 
 		/*流程引擎相关*/
@@ -191,6 +195,7 @@ public class MortgageController {
 		if(toMortgage.getMortTotalAmount()!=null){
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}
+		toMortgage.setIsMainLoanBank("1");
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/

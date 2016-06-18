@@ -3,17 +3,67 @@
  * wanggh
  */
 $(document).ready(function() {
+	
+	var queryUserId = $("#queryUserId").val();
+	var queryOrgId = $("#queryOrgId").val();
+	var postData={};
+	postData.queryId='queryCastListItemListUnDistribute';
+	postData.argu_queryuserid=queryUserId;
+	postData.argu_queryorgid=queryOrgId;
+	
+	_query_case(postData);
+	
+	// Add responsive to jqGrid
+	$(window).bind('resize', function() {
+		var width = $('.jqGrid_wrapper').width();
+		$('#table_list_1').setGridWidth(width);
+
+	});
+	 $('.contact-box').each(function() {
+         animationHover(this, 'pulse');
+     });
+});
+
+/*条件查询*/
+function _query_case_selective(){
+	var queryUserId = $("#queryUserId").val();
+	var queryOrgId = $("#queryOrgId").val();
+	var ctmNo = $('#ctmNo').val();
+	if(ctmNo==""){
+		ctmNo=null;
+	}
+	var caseNo = $('#caseNo').val();
+	if(caseNo==""){
+		caseNo=null;
+	}
+	var caseAddr = $('#caseAddr').val();
+	if(caseAddr==""){
+		caseAddr==null;
+	}
+	
+	var post_data = {};
+	post_data.argu_queryuserid=queryUserId;
+	post_data.argu_queryorgid=queryOrgId;
+	post_data.search_ctmNo=ctmNo;
+	post_data.search_caseNo=caseNo;
+	post_data.search_caseAddr=caseAddr;
+	postData.queryId='queryCastListItemListUnDistribute';
+	
+	 _query_case(post_data);
+}
+
+/*案件查询*/
+function _query_case(post_data){
 	// Examle data for jqGrid
 	// Configuration for jqGrid Example 1
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
-	var queryUserId = $("#queryUserId").val();
-	var queryOrgId = $("#queryOrgId").val();
 	url = ctx + url;
 	//jqGrid 初始化
 	$("#table_list_1").jqGrid({
 		url : url,
 		mtype : 'GET',
+		page : 1,
 		datatype : "json",
 		height : 600,
 		autowidth : true,
@@ -101,24 +151,10 @@ $(document).ready(function() {
 	        	$("#caseChangeTeamButton").attr("disabled", true);
     		}
 		},
-		postData : {
-			queryId : "queryCastListItemListUnDistribute",
-			argu_queryuserid :queryUserId,
-			argu_queryorgid :queryOrgId
-		}
-
+		postData : post_data
 	});
+}
 
-	// Add responsive to jqGrid
-	$(window).bind('resize', function() {
-		var width = $('.jqGrid_wrapper').width();
-		$('#table_list_1').setGridWidth(width);
-
-	});
-	 $('.contact-box').each(function() {
-         animationHover(this, 'pulse');
-     });
-});
 
 /**
  * 案件分配初始化

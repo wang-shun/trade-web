@@ -89,7 +89,7 @@
     <bean name="qqcdSrvStrCaseCode" class="com.centaline.trans.common.service.impl.QuickQuerySrvCaseCodeCustomDictServiceImpl">
     </bean>
     
-    <bean name="qqcdMortStrCodeName" class="com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl">
+    <bean name="qqcdMortStrCodeName" class="com.centaline.trans.common.service.impl.QuickQueryMortTypeCustomDictServiceImpl">
         <property name="dictType" value="30016"></property>
     </bean>
     <bean name="qqcdProStrCodeName" class="com.centaline.trans.common.service.impl.QuickQueryProsUserCustomDictServiceImpl">
@@ -258,6 +258,29 @@
     
     <!-- KPI是否达标 -->
     <bean name="qqMKpi" class="com.centaline.trans.common.service.impl.QuickQueryMKpiCustomDictServiceImpl">
+    </bean>
+    
+    <bean name="qqEvaFee"  class="com.centaline.trans.common.service.impl.QuickQueryEvaFeeServiceImpl">
+    </bean>
+    
+    <!-- 组织岗位查询相关人员 -->
+    <bean name="qqOpAs"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
+       <property name="prop" value="TeamAssistant"></property>
+    </bean>
+    <bean name="qqManager"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
+       <property name="prop" value="Manager"></property>
+    </bean>
+    <bean name="qqJfhjl"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
+       <property name="prop" value="JFHJL"></property>
+    </bean>
+    <bean name="qqJqyjl"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
+       <property name="prop" value="JQYJL"></property>
+    </bean>
+    <bean name="qqJqyzl"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
+       <property name="prop" value="JQYZJ"></property>
+    </bean>
+    <bean name="qqJqyds"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
+       <property name="prop" value="JQYDS"></property>
     </bean>
 
     <aop:aspectj-autoproxy expose-proxy="true"/>

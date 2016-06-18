@@ -309,7 +309,7 @@ function checkIsExistFile(isSubmit){
 				return false;
 			}
 		}
-		if(isSubmit){
+		if(isSubmit && !!~~$('input[name="isScuess"]:checked ').val()){
 			checkIsExistFile(isSubmit);
 		}else{
 			commitDispose(isSubmit);
@@ -328,7 +328,7 @@ function checkIsExistFile(isSubmit){
 		optPkid=id;
 		orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 			   startOrgId:'ff8080814f459a78014f45a73d820006',
-			   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,});
+			   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,departmentHeriarchy:'yucui_team'});
 	}
 	function radioYuCuiOrgSelectCallBack(array){
 		if(array && array.length >0){

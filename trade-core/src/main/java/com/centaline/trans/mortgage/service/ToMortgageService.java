@@ -54,10 +54,9 @@ public interface ToMortgageService {
 	
 	ToMortgage findToSelfLoanMortgage(String caseCode);
 
-	ToMortgage findToMortgageByCondition(ToMortgage toMortgage);
 	
 	void inActiveMortageByCaseCode(String caseCode);
 
-	ToMortgage findToMortgageByCaseCodeWithAll(ToMortgage toMortgage);
+	ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage);
 
 }

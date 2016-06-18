@@ -31,6 +31,11 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	<query id="queryCastListItemListUnDistribute">
+		<searchCondition>
+           <condition field="A.CTM_CODE"  name="ctmNo" label="CTM编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.CASE_CODE" name="caseNo" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>		
+           <condition field="E.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>		
+        </searchCondition>	
 		<searchSql>
 			<baseSql>
 				<![CDATA[

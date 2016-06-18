@@ -650,7 +650,8 @@ var colNames = {
 	30010005 : 'RES_DATE',
 	30010006 : 'CASE_PROPERTY',
 	30010007 : 'STATUS',
-	30011001 : 'MORT_TYPE',
+	30011001 : ['LOAN_REQ','MORT_TYPE2','LOAN_LOST_TYPE'],
+	//30011009 : ,
 	30011002 : [ 'MORT_TOTAL_AMOUNT', 'COM_AMOUNT', 'PRF_AMOUNT' ],
 	30011003 : [ 'BANK_NAME', 'PARENT_BANK_NAME' ],
 	30011004 : [ 'LOANER_NAME', 'IS_LOANER_ARRIVE' ],
@@ -664,7 +665,6 @@ var colNames = {
 	30013001 : 'SPV_TYPE',
 	30013002 : 'AMOUNT',
 	30013003 : 'SIGN_TIME',
-	30011009:'LOAN_LOST_TYPE',
 	30012003:['GUOHU_APPROVER','GUOHU_APPROVER_TIME']
 };
 
@@ -692,7 +692,8 @@ function exportToExcel() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);
 		});
-		
+		displayColomn.push('EVAL_FEE');
+		displayColomn.push('RECORD_TIME');
 
 		var queryOrgFlag = $("#queryOrgFlag").val();
 		var isAdminFlag = $("#isAdminFlag").val();

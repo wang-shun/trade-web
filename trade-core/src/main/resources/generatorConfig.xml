@@ -47,7 +47,7 @@
 		<javaClientGenerator targetPackage="com.centaline.trans.task.repository" targetProject="src\main\java" type="XMLMAPPER" />
 		
 		<!-- <table domainObjectName="TsApiLog" tableName="T_TS_API_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" /> -->
-		<table domainObjectName="ToPrTransferLog" tableName="T_TO_PR_TRANSFER_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
+		<table domainObjectName="ActRuEnentSubScr" tableName="ACT_RU_EVENT_SUBSCR" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
 	</context>
 
 </generatorConfiguration>  

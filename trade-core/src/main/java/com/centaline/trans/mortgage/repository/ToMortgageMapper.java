@@ -22,5 +22,9 @@ public interface ToMortgageMapper {
     List<ToMortgage> findToMortgageByCaseCodeAndBankType(ToMortgage toMortgage);
     
     List<ToMortgage> findToMortgageByCondition(ToMortgage toMortgage);
+    List<ToMortgage> findToMortgageByConditionWithCommLoan(ToMortgage toMortgage);
+    
     int inActiveMortageByCaseCode(String caseCode);
+    /**重新设定最终贷款银行（商贷）**/
+    int restSetLastLoanBank(ToMortgage toMortgage); 
 }

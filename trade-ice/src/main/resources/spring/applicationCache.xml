@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       ">
+	
+	<description>定义项目所使用的缓存</description> 
+	  <!-- Jedis ConnectionFactory -->
+    <bean id="redisSentinelConfiguration"
+		class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+		<property name="master">
+			<bean class="org.springframework.data.redis.connection.RedisNode">
+				<property name="name" value="master1">
+				</property>
+			</bean>
+		</property>
+		<property name="sentinels">
+			<set>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.sentinels.host.1}">
+					</constructor-arg>
+					<constructor-arg name="port" value="${redis.sentinels.port.1}">
+					</constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.sentinels.host.2}">
+					</constructor-arg>
+					<constructor-arg name="port" value="${redis.sentinels.port.2}">
+					</constructor-arg>
+				</bean>
+			</set>
+		</property>
+	</bean>
+	<!-- turn on declarative caching -->
+	<cache:annotation-driven cache-manager="redisCacheManager"
+		key-generator="customKeyGenerator" />
+    
+   <bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">  
+		<constructor-arg ref="redisSentinelConfiguration" />
+       <property name="usePool" value="true" />  
+       <property name="poolConfig" ref="poolConfig" />  
+   </bean> 
+   
+  	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+    <property name="minIdle" value="${redis.pool.minIdle}" />  
+       <property name="maxIdle" value="${redis.pool.maxIdle}" />    
+       <property name="maxTotal" value="${redis.pool.maxActive}" />    
+       <property name="maxWaitMillis" value="${redis.pool.maxWait}" />    
+       <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />    
+   </bean>   
+
+    <!-- redis template definition -->
+    <bean
+        id='redisTemplate'
+        class='org.springframework.data.redis.core.RedisTemplate'
+        p:connection-factory-ref='jedisConnFactory'/>
+	<!-- customKeyGenerator -->
+	<bean id="customKeyGenerator" class="com.aist.common.cache.CustomKeyGenerator" />
+    <!-- declare Redis Cache Manager -->
+    <bean
+        id='redisCacheManager'
+        class='org.springframework.data.redis.cache.RedisCacheManager'
+        c:template-ref='redisTemplate' >
+        <!-- 默认失效时间5分钟 值的单位为秒 -->
+        <property name="defaultExpiration" value="300"></property>
+     </bean>
+</beans>

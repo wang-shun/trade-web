@@ -235,6 +235,6 @@
 	update sctrans.T_TO_SIGN set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
 	update sctrans.T_TO_TAX set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
 	update sctrans.T_TO_PRICING set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_mortgage set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
+	update sctrans.T_TO_mortgage set IS_ACTIVE='0',LAST_LOAN_BANK=null,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
   </select>
 </mapper>
