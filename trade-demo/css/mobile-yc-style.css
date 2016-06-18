@@ -298,3 +298,33 @@
 .list .score-star{padding-bottom:10px;}
 .list .score-star span{color:#333;}
 .list i.star.active,.list i.star{vertical-align: -5px;}
+
+
+
+/* Start for apply form */
+
+.apply-form dt {
+    color: #a7b1c2;
+    float: left;
+    width: 60px;
+    overflow: hidden;
+    clear: left;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*font-size: 14px;*/
+    line-height: 1.8;
+}
+
+
+.apply-form dd {
+    margin-left: 70px;
+    /*margin-top: 2px;*/
+    line-height: 1.6;
+}
+
+.apply-form dl{
+    margin-bottom: 10px;
+}
+/*END for apply form*/
+

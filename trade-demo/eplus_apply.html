@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>誉萃交易进度查询</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/mobile-yc-style.css" rel="stylesheet">
+    </head>
+
+<body>
+    <!-- <header id="header" class="header header--fixed hide-from-print" role="banner">
+    <div class="container" >
+    
+        <nav id="nav" class="nav-wrapper" role="navigation">
+            <ul class="nav">
+                <li class="nav__item ">
+                    <a class="header__link" href="https://www.github.com/WickyNilliams/headroom.js">
+                        <span aria-hidden="true" class="icon icon--gh"></span>
+                        <span class="complimentary push--left">GitHub</span>
+                    </a>
+                </li>
+                <li class="nav__item ">
+                    <a class="header__link" href="http://www.twitter.com/WickyNilliams">
+                        <span aria-hidden="true" class="icon icon--tw"></span>
+                        <span class="complimentary push--left">@WickyNilliams</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <a href="http://wicky.nillia.ms/headroom.js/" class="brand header__link">
+            <b class="brand__forename">Headroom</b><b class="brand__surname">.js</b>
+        </a>
+    </div>
+</header> -->
+    <div id="wrapper">
+
+
+        <div id="page-wrapper" class="gray-bg">
+            
+            <div class="wrapper wrapper-content">
+                <div class="row animated fadeInRight">
+                    <div class="col-lg-12">
+
+                        <div class="ibox float-e-margins">
+                            <!-- <div class="ibox-content" id="act-filter-content">
+
+                                <div id="act-filter">
+                                    <div class="btn-group ">
+                                        <button class="btn btn-primary" type="button">全部</button>
+                                        <button class="btn btn-white" type="button">权证</button>
+                                        <button class="btn btn-white" type="button">按揭</button>
+                                        <button class="btn btn-white" type="button">e+</button>
+                                        <button class="btn btn-white" type="button">资金监管</button>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="ibox-content case-title-content" id="">
+                                <div id="" class="row apply-form">
+                                    <div class="col-lg-12">
+                                        <dl class="dl-horizontal">
+                                        	
+                                        	      <dl class="dl-horizontal" >   
+                                        	      	
+                                        	      <dt><font color="red">*</font>产品名称</dt>
+                                                <dd>
+																									<div class="input-group">
+			                                      			<select class="form-control m-b">
+			                                      		  			 <option>请选择</option>
+                                       									 <option>赎楼贷</option>
+                                       									 <option>换房贷</option>
+                                       									 <option>委托贷</option>
+                                       									 <option>全款贷</option>                                       									 
+                                       									 <option>税费卡</option>
+                                       									 <option>佣金卡</option>
+                                       									 <option>抵押消费贷</option>
+                                       									 <option>信用消费贷</option>
+                                       								
+                                    							</select>
+			                                      	</div>
+                                                </dd>
+                                        	      	
+                                                <dt><font color="red">*</font>借款金额</dt>
+                                                <dd>
+                                                	<div class="input-group">
+			                                      			<input type="text" class="form-control" >
+			                                      			<span class="input-group-addon">万</span>
+			                                      			</div>
+                                                </dd>
+                                                
+                                               <dt><font color="red">*</font>借款期限</dt>
+                                                <dd>
+			                                      	<div class="input-group">
+			                                      		  <select class="form-control m-b">
+			                                      		  			<option>请选择</option>
+                                       									 <option>1个月</option>
+                                       									 <option>2个月</option>
+                                       									 <option>3个月</option>
+                                       								
+                                    							</select>
+			                                      			<span class="input-group-addon">月</span>
+			                                      	</div>
+                                                </dd>
+                                                
+					                                		<dt><font color="red">*</font>购买房屋</dt>
+                                                <dd>
+			                                      	  <div class="input-group">
+			                                      			<input type="text" class="form-control" placeholder="请填写房屋地址">
+			                                      	
+			                                      	 </div>
+                                              </dd>	      
+                                              
+                                              <dt><font color="red">*</font>出售房屋</dt>
+                                                <dd>
+			                                      	  <div class="input-group">
+			                                      			<input type="text" class="form-control" placeholder="请填写房屋地址">
+			                                      	
+			                                      	 </div>
+
+                                              <dt><font color="red">*</font>您的姓名</dt>
+                                                <dd>
+			                                      	  <div class="input-group">
+			                                      			<input type="text" class="form-control" >
+			                                      	
+			                                      	 </div>
+                                              </dd>
+                                              
+                                              <dt><font color="red">*</font>您的电话</dt>
+                                                <dd>
+			                                      	  <div class="input-group">
+			                                      			<input type="text" class="form-control" >
+			                                      	
+			                                      	 </div>
+                                              </dd>			                                      	 
+			                                      	 
+                                              </dd>	                                      
+			                                      
+                                        </dl>
+                                        
+                                        
+                                        
+                                          <div class="text-center">
+                           										 <a data-toggle="modal" class="btn btn-primary" href="#modal-form">提交申请</a>
+                            							</div>
+                            							
+                                    </div>
+                                </div>
+                            </div>
+
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="pull-right">
+                   powered by 
+                    <strong>AIST</strong>
+                    .
+                </div>
+                <div>
+                    <strong>誉萃投资</strong>
+                    真诚为您服务
+                </div>
+            </div>
+            <!-- 弹框1 -->
+            <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content animated flipInY">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="pic">
+                                <div class="pic-in">
+                                    <img src="img/u1.jpg" alt="">
+                                </div>
+                                <div class="pic-info">
+                                    <span class="jbr">经办人：金娇娇</span>
+                                    <span>电　话：18655666655</span>
+                                </div>
+                            </div>
+                            <div class="score">
+                                <div class="score-star">
+                                    <span>服务评分</span>
+                                    <span><i class="star active"></i><i class="star active"></i><i class="star active"></i><i class="star"></i><i class="star"></i></span>
+                                </div>
+                                <div class="score-comm">
+                                    <span>写点什么</span>
+                                    <textarea placeholder="请您对我们的服务进行100字内的评价..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-comm">发表评论</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹框1 -->
+            <!-- 弹框2 -->
+            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content animated flipInY">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span></button>
+                            <h5 class="modal-title">您可以电话联系</h5>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li><span>客户经理：胡俊楠</span><i class="phone-square"></i></li>
+                                <li><span>环节经办人：夏诚</span><i class="phone-square"></i></li>
+                                <li><span>经纪人：李雪</span><i class="phone-square"></i></li>
+                            </ul>   
+                        </div>
+                        <div class="modal-footer1">
+                            <span class="help"><i class="ques"></i></span>
+                            <div class="help-info">
+                                <span>帮助：<br></span>
+                                <span>点击电话图标，拨打相关工作人员联系电话</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹框2 -->
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/demo/peity-demo.js"></script>
+
+     <!-- headroom -->
+    <script src="https://npmcdn.com/headroom.js@0.9.3"></script>
+    <script src="js/plugins/headroom/jQuery.headroom.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#act-filter-content').headroom({
+              "offset": 205,
+              "tolerance": {
+              down : 10,
+              up : 20
+            },
+              "classes": {
+                "initial": "animated",
+                "pinned": "bounceInUp",
+                "unpinned": "bounceOutDown"
+              }
+            });
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>
