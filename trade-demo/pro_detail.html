@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>产品详情</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/mobile-yc-style.css" rel="stylesheet">
+    </head>
+
+<body class="bg-white">
+    <div class="pro-detail">
+        <div class="logo">
+            <img src="img/logo1.png" alt="">
+        </div>
+        <div class="pro-info">
+            <dl>
+                <dt>产品介绍：</dt>
+                <dd>为下家提供短期垫资产品，用于赎楼</dd>
+                <dt>申请条件：</dt>
+                <dd>下家贷款办理资金监管</dd>
+                <dt>费率区间：</dt>
+                <dd>1.6-1.8%/月</dd>
+            </dl>
+        </div>
+        <section class="liucheng">
+            <h4>办理流程</h4>
+            <ul>
+                <li>
+                    <div class="left">
+                        <div class="i-posi">
+                            <i class="sq"></i>
+                        </div>     
+                        <span>1天</span>
+                    </div>
+                    <div class="right">
+                        <h5>贷款申请</h5>
+                        <p>搜集申请资料，填写申请表单</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="left">
+                       <div class="i-posi">
+                            <i class="sp"></i>
+                        </div>
+                        <span>3天</span>
+                    </div>
+                    <div class="right">
+                        <h5>贷款审批</h5>
+                        <p>等待贷款公司给出审批结果，期间可能根据客户条件的不同，要求补充申请a材料</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="left">
+                       <div class="i-posi">
+                            <i class="fk"></i>
+                        </div>
+                        <span>1天</span>
+                    </div>
+                    <div class="right">
+                        <h5>签约放款</h5>
+                        <p>前往贷款公司办事处签订借款合同，签约后1-3 日放款</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="left">
+                       <div class="i-posi">
+                            <i class="hk"></i>
+                        </div>
+                        <!-- <span>3天</span> -->
+                    </div>
+                    <div class="right">
+                        <h5>还款</h5>
+                        <p>用资截止前将贷款结清</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="list">
+            <h4>供应商列表</h4>
+            <ul>
+                <li>
+                    <div class="left">
+                        <img src="img/sj1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <span class="wd50">利率 1.8%</span>
+                        <span class="wd50">可申请周期：20期</span>
+                        <span class="wd50">起贷金额：50万</span>
+                        <span class="wd50">提前还款:  不可以</span>
+                        <span class="wd100">最高金额：500万</span>
+                        <span class="wd100">还款方式：先息后本</span>
+                        <div class="score-star" id="tuijian-star">
+                            <span>推荐程度：</span>
+                            <span><i class="star active"></i><i class="star active"></i><i class="star active"></i><i class="star"></i><i class="star"></i></span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="left">
+                        <img src="img/sj1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <span class="wd50">利率 1.8%</span>
+                        <span class="wd50">可申请周期：20期</span>
+                        <span class="wd50">起贷金额：50万</span>
+                        <span class="wd50">提前还款:  不可以</span>
+                        <span class="wd100">最高金额：500万</span>
+                        <span class="wd100">还款方式：先息后本</span>
+                        <div class="score-star" id="tuijian-star">
+                            <span>推荐程度：</span>
+                            <span><i class="star active"></i><i class="star active"></i><i class="star active"></i><i class="star"></i><i class="star"></i></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </div>
+    
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/demo/peity-demo.js"></script>
+
+     <!-- headroom -->
+    <script src="https://npmcdn.com/headroom.js@0.9.3"></script>
+    <script src="js/plugins/headroom/jQuery.headroom.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#act-filter-content').headroom({
+              "offset": 205,
+              "tolerance": {
+              down : 10,
+              up : 20
+            },
+              "classes": {
+                "initial": "animated",
+                "pinned": "bounceInUp",
+                "unpinned": "bounceOutDown"
+              }
+            });
+
+        });
+    </script>
+
+
+</body>
+
+</html>
