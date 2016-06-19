@@ -14,6 +14,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/web-yc-style.css" rel="stylesheet">
+    <link href="css/plugins/aist-steps/steps.css" rel="stylesheet">
 
 </head>
 
@@ -382,9 +383,67 @@
                         </div> -->
                         <div class="ibox-content">
                             <form method="get" class="form-horizontal">
-                                
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                    <h3 class="control-h" id="add_info">当前交易进度</h3>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                <div class="col-lg-12">
+                                <div class="row bs-wizard" style="border-bottom:0;">
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                          <div class="text-center bs-wizard-stepnum">居间阶段</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">客户有意向，正在撮合中</div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step complete">
+                                          <!-- complete -->                              
+                                          <div class="text-center bs-wizard-stepnum">已送定</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">买方已送定金</div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                          <!-- complete -->                              
+                                          <div class="text-center bs-wizard-stepnum">网签</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">
+                                              网签已完成
+                                          </div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                          <!-- active -->                              
+                                          <div class="text-center bs-wizard-stepnum">过户</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">正在办理过户手续</div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                          <!-- active -->                              
+                                          <div class="text-center bs-wizard-stepnum">过户完成</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">
+                                              过户完成，出新产证
+                                          </div>
+                                      </div>
+                                      </div>
+                                    </div>
+                                    
+                                </div>
                                     <div class="form-group yc-form">
-
+                                    
                                     <div class="col-lg-12">
                                     <h3 class="control-h" id="add_info">物业地址信息</h3>
                                     </div>
@@ -595,9 +654,9 @@
                                         </label>
                                         
                                         <div class ="col-sm-8">
-                                        <div class="input-group m-b">
-                                            <span class="input-group-addon">￥</span>
-                                            <input type="text" class="form-control" value="50" >
+                                        <div class ="input-group m-b">
+                                            <span class ="input-group-addon">￥</span>
+                                            <input type ="text" class="form-control" value="50" >
                                             <span class="input-group-addon">万元</span>
                                         </div>
                                             
@@ -726,22 +785,22 @@
             });
 
             jQuery(function($) {
-            $(document).ready( function() {
-            $('.stickup-nav-bar').stickUp({
-            // $('.col-lg-9').stickUp({
+                        $(document).ready(function() {
+                            $('.stickup-nav-bar').stickUp({
+                                // $('.col-lg-9').stickUp({
                                 parts: {
-                                  0:'add_info',
-                                  1:'cus_info',
-                                  2:'loan_info',
-                                  3:'req_info',
-                                  4:'file_info'
-                                  
+                                    0: 'add_info',
+                                    1: 'cus_info',
+                                    2: 'loan_info',
+                                    3: 'req_info',
+                                    4: 'file_info'
+
                                 },
                                 itemClass: 'menuItem',
                                 itemHover: 'active',
                                 marginTop: 'auto'
-                              });
-                });
+                            });
+                        });
         });
         </script>
 
