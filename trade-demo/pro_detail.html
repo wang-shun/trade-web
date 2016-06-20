@@ -14,6 +14,8 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/mobile-yc-style.css" rel="stylesheet">
+
+    <link href="css/plugins/multi-item-carousel/multi-item-carousel.css" rel="stylesheet">
     </head>
 
 <body class="bg-white">
@@ -24,13 +26,14 @@
         <div class="pro-info">
             <dl>
                 <dt>产品介绍：</dt>
-                <dd>为下家提供短期垫资产品，用于赎楼</dd>
+                <dd>为上家家提供短期垫资产品，用于赎楼</dd>
                 <dt>申请条件：</dt>
                 <dd>下家贷款办理资金监管</dd>
                 <dt>费率区间：</dt>
                 <dd>1.6-1.8%/月</dd>
             </dl>
         </div>
+        
         <section class="liucheng">
             <h4>办理流程</h4>
             <ul>
@@ -84,44 +87,79 @@
                 </li>
             </ul>
         </section>
-        <section class="list">
-            <h4>供应商列表</h4>
-            <ul>
-                <li>
-                    <div class="left">
-                        <img src="img/sj1.png" alt="">
-                    </div>
-                    <div class="right">
-                        <span class="wd50">利率 1.8%</span>
-                        <span class="wd50">可申请周期：20期</span>
-                        <span class="wd50">起贷金额：50万</span>
-                        <span class="wd50">提前还款:  不可以</span>
-                        <span class="wd100">最高金额：500万</span>
-                        <span class="wd100">还款方式：先息后本</span>
-                        <div class="score-star" id="tuijian-star">
-                            <span>推荐程度：</span>
-                            <span><i class="star active"></i><i class="star active"></i><i class="star active"></i><i class="star"></i><i class="star"></i></span>
+        <section class="liucheng">
+            <h4>供应商</h4>
+            <div class="carousel slide multi-item-carousel mobile-carousel" id="theCarousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="col-xs-4">
+                                <a href="#1">
+                                    <img src="img/yc-icon/jsy-logo.png" class="img-responsive"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4">
+                                <a href="#1">
+                                    <img src="img/yc-icon/syd-logo.png" class="img-responsive"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4">
+                                <a href="#1">
+                                    <img src="img/yc-icon/jsy-logo.png" class="img-responsive"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4">
+                                <a href="#1">
+                                    <img src="img/yc-icon/syd-logo.png" class="img-responsive"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4">
+                                <a href="#1">
+                                    <img src="img/yc-icon/jsy-logo.png" class="img-responsive"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4">
+                                <a href="#1">
+                                    <img src="img/yc-icon/syd-logo.png" class="img-responsive"></a>
+                            </div>
                         </div>
                     </div>
-                </li>
-                <li>
-                    <div class="left">
-                        <img src="img/sj1.png" alt="">
-                    </div>
-                    <div class="right">
-                        <span class="wd50">利率 1.8%</span>
-                        <span class="wd50">可申请周期：20期</span>
-                        <span class="wd50">起贷金额：50万</span>
-                        <span class="wd50">提前还款:  不可以</span>
-                        <span class="wd100">最高金额：500万</span>
-                        <span class="wd100">还款方式：先息后本</span>
-                        <div class="score-star" id="tuijian-star">
-                            <span>推荐程度：</span>
-                            <span><i class="star active"></i><i class="star active"></i><i class="star active"></i><i class="star"></i><i class="star"></i></span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                    <a class="left carousel-control" href="#theCarousel" data-slide="prev"> <i class="glyphicon glyphicon-chevron-left"></i>
+                    </a>
+                    <a class="right carousel-control" href="#theCarousel" data-slide="next"> <i class="glyphicon glyphicon-chevron-right"></i>
+                    </a>
+                </div>
+        </section>
+        
+        <section class="pro-info dl-horizontal">
+
+           <dl class='col-sm-6'>
+                <dt>利率:</dt>
+                <dd>1.8%</dd>
+                <dt>起贷金额:</dt>
+                <dd>50万</dd>
+                <dt>最高金额:</dt>
+                <dd>500万</dd>
+                <dt>还款方式:</dt>
+                <dd>先息后本</dd>
+                <dt>可申请周期:</dt>
+                <dd>20期</dd>
+                <dt>提前还款</dt>
+                <dd>有违约金</dd>
+            </dl>
+        </section>
+
+         <section class="pro-info dl-horizontal">
+            <h4>所需材料</h4>
+
+           
+        </section>
+        <section >
+            
         </section>
     </div>
     
@@ -146,23 +184,46 @@
     <script src="https://npmcdn.com/headroom.js@0.9.3"></script>
     <script src="js/plugins/headroom/jQuery.headroom.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            $('#act-filter-content').headroom({
-              "offset": 205,
-              "tolerance": {
-              down : 10,
-              up : 20
+  <script>
+    $(document).ready(function() {
+        $('#act-filter-content').headroom({
+            "offset": 205,
+            "tolerance": {
+                down: 10,
+                up: 20
             },
-              "classes": {
+            "classes": {
                 "initial": "animated",
                 "pinned": "bounceInUp",
                 "unpinned": "bounceOutDown"
-              }
-            });
-
+            }
         });
-    </script>
+
+
+        // Instantiate the Bootstrap carousel
+        $('.multi-item-carousel').carousel({
+            interval: false
+        });
+
+        // for every slide in carousel, copy the next slide's item in the slide.
+        // Do the same for the next, next item.
+        $('.multi-item-carousel .item').each(function() {
+            var next = $(this).next();
+            if (!next.length) {
+                next = $(this).siblings(':first');
+            }
+            next.children(':first-child').clone().appendTo($(this));
+
+            if (next.next().length > 0) {
+                next.next().children(':first-child').clone().appendTo($(this));
+            } else {
+                $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+            }
+        });
+
+    });
+</script>
+
 
 
 </body>

@@ -213,7 +213,7 @@
     background: url(../img/yc-icon/bljd－e+@x2.png) no-repeat top;
     background-size: cover;
     border-radius: 0;
-    border: 0px solid #52cdec
+    border: 0px solid #efba00
 }
 
 .timeline-jg-icon {
@@ -276,6 +276,7 @@
 .modal-footer .btn-comm{width:160px;height: 40px;font-size: 18px;}
 
 
+/*pro_detail.html css*/
 .bg-white{background-color: #fff;}
 .pro-detail{color:#848484;}
 .pro-detail .logo{margin:10px auto 15px;text-align: center;}
@@ -285,8 +286,8 @@
 .pro-info dl dt{float: left;}
 .pro-info dl dt,.pro-info dl dd{font-weight:normal;line-height: 25px;}
 .pro-info dl dd{color:#333;}
-.liucheng h4,.list h4{font-size:16px;line-height:45px;padding-left:15px;font-weight:normal;background-color:#f4f4f4;margin:0;}
-.liucheng ul,.list ul{padding-left:0;margin-bottom:0;}
+.liucheng h4,.vendor-list h4{font-size:16px;line-height:45px;padding-left:15px;font-weight:normal;background-color:#f4f4f4;margin:0;}
+.liucheng ul,.vendor-list ul{padding-left:0;margin-bottom:0;}
 .liucheng li{width:100%;overflow: hidden;}
 .liucheng li .left{float:left;width:18%;}
 .liucheng li .right,.list li .right{font-size:14px;float: left;padding:10px 10px 0 10px;border-top:1px solid #eee;border-left:1px solid #eee;width:82%}
@@ -307,3 +308,12 @@
 .list .score-star{padding-bottom:10px;}
 .list .score-star span{color:#333;}
 .list i.star.active,.list i.star{vertical-align: -5px;}
+
+.sector h4 {
+    font-size: 16px;
+    line-height: 45px;
+    padding-left: 15px;
+    font-weight: normal;
+    background-color: #f4f4f4;
+    margin: 0;
+}
