@@ -17,6 +17,7 @@
     <link href="css/plugins/stickup/stickup.css" rel="stylesheet"></head>
     <link href="css/web-yc-style.css" rel="stylesheet"></head>
     <link href="css/plugins/aist-steps/steps.css" rel="stylesheet"></head>
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <body>
 
@@ -523,69 +524,39 @@
                                     <div class="row" id="">
                                         <div class="col-lg-12">
                                             <div class="m-b-md">
-                                                <a href="#" class="btn btn-white btn-xs pull-right">ZY-JR-201609-0001</a>
-                                                <h2>赎楼贷</h2><span class="label label-primary">已审批</span>
+                                                <a href="#" class="btn btn-white btn-xs pull-right">查看修改记录</a>
+                                                <h2>换房贷</h2>
                                             </div>
                                    
                                         </div>
                                     </div>
-                              			<div>
-                              				
-                              				<div class="col-lg-4">
-                                            <dl class="dl-horizontal">
-   																								<dt> <i class='fa fa-building'>出售房产</i></dt>
-                                                <dd><a herf="#"></li>蕰川路1623弄11号1709室</a></dd>              
-                                              
-                                            
-                                            </dl>
-                                       </div>
-                                 
-                                 		<div class="col-lg-4">
-                                            <dl class="dl-horizontal">
-   																								<dt> <i class='fa fa-building'>购买房产</i></dt>
-                                                <dd><a herf="#"></li>淮海西路1613弄11号109室</a></dd>              
-                                              
-                                            
-                                            </dl>
-                                          
-                                        </div>
-                                         		<div class="col-lg-4">
-                                            <dl class="dl-horizontal">
-   																								<dt> <i class='fa fa-building'>合作机构</i></dt>
-                                                <dd><a herf="#"></li>及时雨小贷</a></dd>              
-                                              
-                                            
-                                            </dl>
-                                          
-                                        </div>
+                              			
+                              			
                                     
-                                    </div>
+                                  
                                    
                                     
                                     
                                     <div class="row" id="">
-                                        <div class="col-lg-4">
-                                            <dl class="dl-horizontal">
-   																							<dt>借款人</dt>
-                                                <dd>王明（13689870011）</dd>
-                                                <dt>贷款专员</dt>
-                                                <dd>廖容（13689870029）</dd>
-                                                <dt>贷款转介人</dt>
-                                                <dd>
-                                                	<a href="#" class="text-navy">王嘉明（东明路分行）</a>
-                                                </dd>
-                                                <dt>合作信贷员</dt>
-                                                <dd>
-                                                    王小明（18801980098）</a>
-                                                </dd>
-                                            
+                                        
+                                        
+                                        
+                                        <div class="col-lg-5" id="cluster_info">
+                                            <dl class="dl-horizontal" >
+                                            		<dt>合约编号</dt>
+                                                <dd><a herf="#"></li>ZY-JR-201609-0001</a></dd>    
+ 																								<dt>出售房产</dt>
+                                                <dd><a herf="#"></li>蕰川路1613弄11号109室</a></dd>              
+                                                 <dt>购买房产</dt>
+                                               <dd><a herf="#"></li>淮海西路1613弄11号109室</a></dd>      
+                                                 <dt>合作机构</dt>
+                                                 <dd><a herf="#"></li>及时雨小贷</a></dd>       
                                             </dl>
                                         </div>
                                         
                                         
                                         <div class="col-lg-4" id="cluster_info">
-                                            <dl class="dl-horizontal" >
-
+                                            <dl class="dl-horizontal" >   
                                                 <dt>贷款利率</dt>
                                                 <dd>1.8%/月</dd>
                                                 <dt>手续费率</dt>
@@ -597,24 +568,38 @@
                                             </dl>
                                         </div>
                                         
-                                         <div class="col-lg-4" id="cluster_info">
-                                            <dl class="dl-horizontal" >
-
-                                                <dt>申请信息</dt>
-                                             <dd>200万元<span style="font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small class="text-muted"><i class='fa fa-calendar'>2015/01/11</i></small></dd>	     
-                                                <dt>签约信息</dt>
-                                           <dd>200万元<span style="font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small class="text-muted"><i class='fa fa-calendar'>2015/01/11</i></small></dd>
-                                                <dt>放款信息</dt>
-                                              <dd>200万元<span style="font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><small class="text-muted"><i class='fa fa-calendar'>2015/01/11</i></small></dd>
+                                        
+                                        <div class="col-lg-3">
+                                            <dl class="dl-horizontal">
+   																							<dt>借款人</dt>
+                                                <dd>王明</dd>
+                                                <dt>贷款专员</dt>
+                                                <dd>廖容</dd>
+                                                <dt>贷款转介人</dt>
+                                                <dd>
+                                                	<a href="#" class="text-navy">王嘉明</a>
+                                                </dd>
+                                                <dt>合作信贷员</dt>
+                                                <dd>
+                                                    王小明</a>
+                                                </dd>
+                                            
                                             </dl>
                                         </div>
+                                        
+                                        
+                                        
                                     </div>
+                                    
+                                    <div class="row">
                                     <button type="button" class="btn btn-sm btn-primary"> 预约</button>
                                     <button type="button" class="btn btn-sm btn-primary"> 中止合约</button>
                                     <button type="button" class="btn btn-sm btn-primary"> 通知办理资金监管</button>
                                     <button type="button" class="btn btn-sm btn-primary"> 通知变更资金监管协议</button>
-                                    <button type="button" class="btn btn-sm btn-primary"> 查看贷款合同信息</button>
                                     <button type="button" class="btn btn-sm btn-primary"> 查看贷款申请表单</button>
+                                    <button type="button" class="btn btn-sm btn-primary"> 查看贷款合同信息</button>
+                                    </div>
+                                    
                                 </div>
                                 <div class="col-lg-3">
                                      <h3>关联合约 <a href="#" class="btn btn-white btn-xs pull-right">添加</a></h3>
@@ -655,51 +640,75 @@
                               <div class="col-lg-12">
                                   <div class="row bs-wizard" style="border-bottom:0;">
                                       <div class="col-xs-2 bs-wizard-step complete">
-                                          <div class="text-center bs-wizard-stepnum">Step 1</div>
+                                          <div class="text-center bs-wizard-stepnum">申请</div>
                                           <div class="progress">
                                               <div class="progress-bar"></div>
                                           </div>
                                           <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">Select the search criteria</div>
+                                          <div class="bs-wizard-info text-center">
+                                          	<dl>
+                                          		<dd>253万元</dd>
+                                          		<dd>2015-10-12 16:00</dd>                                     
+                                          	</dl>        
+                                          </div>
                                       </div>
                                       <div class="col-xs-2 bs-wizard-step complete">
                                           <!-- complete -->                              
-                                          <div class="text-center bs-wizard-stepnum">Step 2</div>
+                                          <div class="text-center bs-wizard-stepnum">审批</div>
                                           <div class="progress">
                                               <div class="progress-bar"></div>
                                           </div>
                                           <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">Preview the criteria and member count</div>
+                                          <div class="bs-wizard-info text-center">
+                                          	<dl>
+                                          		<dd>253万元</dd>
+                                          		<dd>2015-10-12 16:00</dd>                                     
+                                          	</dl>                                          	
+
+                                          </div>
+                                      </div>
+                                      
+                                      
+                                      
+                                      <div class="col-xs-2 bs-wizard-step complete">
+                                          <!-- complete -->                              
+                                          <div class="text-center bs-wizard-stepnum">签约</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">
+                                            <dl>
+                                          		<dd>253万元</dd>
+                                          		<dd>2015-10-15 16:00</dd>                               
+                                          	</dl>   
+                                          </div>
                                       </div>
                                       <div class="col-xs-2 bs-wizard-step active">
                                           <!-- complete -->                              
-                                          <div class="text-center bs-wizard-stepnum">Step 3</div>
+                                          <div class="text-center bs-wizard-stepnum">放款</div>
                                           <div class="progress">
                                               <div class="progress-bar"></div>
                                           </div>
                                           <a href="#" class="bs-wizard-dot"></a>
                                           <div class="bs-wizard-info text-center">
-                                              Save the list to use it later or publish it to Campaign Monitor
+                                          	<dl>
+                                          		<dd>253万元</dd>
+                                          		<dd>2015-10-12 16:00</dd>          
+                                          	</dl>                                              	
+                                          
+                                          
                                           </div>
                                       </div>
-                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                      <div class="col-xs-2 bs-wizard-step ">
                                           <!-- active -->                              
-                                          <div class="text-center bs-wizard-stepnum">Step 4</div>
-                                          <div class="progress">
-                                              <div class="progress-bar"></div>
-                                          </div>
-                                          <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">Use Campaign Monitor to send campaigns to a published list</div>
-                                      </div>
-                                      <div class="col-xs-2 bs-wizard-step disabled">
-                                          <!-- active -->                              
-                                          <div class="text-center bs-wizard-stepnum">Step 5</div>
+                                          <div class="text-center bs-wizard-stepnum">结清</div>
                                           <div class="progress">
                                               <div class="progress-bar"></div>
                                           </div>
                                           <a href="#" class="bs-wizard-dot"></a>
                                           <div class="bs-wizard-info text-center">
-                                              List expires after 48 hours and is deleted from Campaign Monitor
+                                            
                                           </div>
                                       </div>
                                   </div>
@@ -721,7 +730,8 @@
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 按揭 </label>
                                             <label class="btn btn-sm btn-white active"> <input type="radio" id="option3" name="options"> E+贷款 </label>
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 资金监管 </label>
-                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 案件备注 </label>
+                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 案件备注</label>
+                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 客户沟通记录 </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -826,6 +836,87 @@
                                         </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                                
+                                <div class="chat-discussion">
+                                	
+                                	<div class="chat-message">
+                                        <img class="message-avatar" src="img/client1.png" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 王先生 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						我有一套房子想买大卖小，看到你们这儿有换房贷，挺适合我这种情况的，需要什么办理条件吗？
+                                            </span>
+                                        </div>
+                                  </div>
+ 
+                                 	<div class="chat-message">
+                                        <img class="message-avatar" src="img/consultant.jpg" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 贷款专员-廖容 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						换房贷需要您买卖的两套房产的网签合同，具体情况可以电话我或到我们浦东贵宾服务中心沟通
+                                            </span>
+                                        </div>
+                                  </div>                               	
+                                	
+                                	<div class="chat-message">
+                                        <img class="message-avatar" src="img/client1.png" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 王先生 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						好的，我周六有时间，到时候见！
+                                            </span>
+                                        </div>
+                                  </div>
+                                  
+                                 <div class="chat-message">
+                                        <img class="message-avatar" src="img/consultant.jpg" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 贷款专员-廖容 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						王先生，我今天已经把您的贷款申请提交给我们的合作公司，一般1-2天内就会出审批结果
+                                            </span>
+                                        </div>
+                                  </div>  
+ 
+                                  <div class="chat-message">
+                                        <img class="message-avatar" src="img/consultant.jpg" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 贷款专员-廖容 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						王先生，您的贷款审批已经通过了，后边会有办理资金监管的同事进行跟进
+                                            </span>
+                                        </div>
+                                  </div>                                 	
+                                	
+                                 <div class="chat-message">
+                                        <img class="message-avatar" src="img/consultant1.jpg" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 资金监管专员-何花 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						王先生您好，请问您这周六上午是否有时间前往光大银行市北分行办理资金监管？
+                                            </span>
+                                        </div>
+                                  </div>     
+
+                                 <div class="chat-message">
+                                        <img class="message-avatar" src="img/consultant.jpg" alt="">
+                                        <div class="message">
+                                            <a class="message-author" href="#"> 王先生 </a>
+																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+																						好的，我可能要9点才能到
+                                            </span>
+                                        </div>
+                                  </div>     
+                                	
                                 </div>
                             <!-- </div> -->
                             <!-- <div class="row  col-md-3 left-align-row glhy_block">
@@ -941,7 +1032,7 @@
                                                                 <td>5021 2345 1222 5689 543</td>
                                                                 <td>128379837492873</td>
                                                                 <td>2016-09-01 13:00</td>
-                                                                <td><button type="button" class="btn btn-sm btn-warning"> 提前还款</button></td>
+                                                                <td><button type="button" class="btn btn-sm btn-primary"> 提前还款</button></td>
 
                                                             </tr>
                                                                <td><button type="button" class="btn btn-sm btn-warning"> 贷款结清</button></td>
@@ -998,7 +1089,6 @@
                                                                 <th>入款账号</th>
                                                                 <th>流水号</th>
                                                                   <th>时间</th>
-                                                                <th>操作</th>
                                                                 
                                                             </tr>
                                                         </thead>
@@ -1073,7 +1163,6 @@
                                                                 <th>收款方</th>
                                                                 <th>流水号</th>
                                                                 <th>时间</th>
-                                                                <th>操作</th>
                                                                 
                                                             </tr>
                                                         </thead>

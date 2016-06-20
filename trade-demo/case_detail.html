@@ -17,6 +17,7 @@
     <link href="css/plugins/stickup/stickup.css" rel="stylesheet"></head>
     <link href="css/web-yc-style.css" rel="stylesheet"></head>
     <link href="css/plugins/aist-steps/steps.css" rel="stylesheet"></head>
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <body>
 
@@ -524,34 +525,35 @@
                                         <div class="col-lg-12">
                                             <div class="m-b-md">
                                                 <a href="#" class="btn btn-white btn-xs pull-right">查看修改记录</a>
-                                                <h2>换房贷</h2>
+                                                <h4>换房贷</h4>
                                             </div>
                                    
                                         </div>
                                     </div>
                               			
-                              			
-                                    
-                                  
-                                   
-                                    
-                                    
                                     <div class="row" id="">
                                         
                                         
                                         
                                         <div class="col-lg-5" id="cluster_info">
                                             <dl class="dl-horizontal" >
-                                            		<dt>合约编号</dt>
-                                                <dd><a herf="#"></li>ZY-JR-201609-0001</a></dd>    
- 																								<dt>出售房产</dt>
-                                                <dd><a herf="#"></li>蕰川路1613弄11号109室</a></dd>              
-                                                 <dt>购买房产</dt>
-                                               <dd><a herf="#"></li>淮海西路1613弄11号109室</a></dd>      
-                                                 <dt>合作机构</dt>
-                                                 <dd><a herf="#"></li>及时雨小贷</a></dd>       
-                                            </dl>
-                                        </div>
+                                                <dt>合约编号</dt>
+                                                <dd></li>
+                                                ZY-JR-201609-0001
+                                                </dd>
+                                                <dt>出售房产</dt>
+                                                <dd></li>
+                                                蕰川路1613弄11号109室
+                                                </dd>
+                                                <dt>购买房产</dt>
+                                                <dd></li>
+                                                淮海西路1613弄11号109室
+                                                </dd>
+                                                <dt>合作机构</dt>
+                                                <dd></li>
+                                                及时雨小贷
+                                                </dd>
+                                            </dl>                                        </div>
                                         
                                         
                                         <div class="col-lg-4" id="cluster_info">
@@ -570,33 +572,106 @@
                                         
                                         <div class="col-lg-3">
                                             <dl class="dl-horizontal">
-   																							<dt>借款人</dt>
-                                                <dd>王明</dd>
+                                                <dt>借款人</dt>
+                                                <dd><span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>王明</a></span> </dd>
                                                 <dt>贷款专员</dt>
-                                                <dd>廖容</dd>
+                                                <dd><span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>廖容</a></span></dd>
                                                 <dt>贷款转介人</dt>
                                                 <dd>
-                                                	<a href="#" class="text-navy">王嘉明</a>
+                                                    <span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>王嘉明</a></span>
                                                 </dd>
                                                 <dt>合作信贷员</dt>
-                                                <dd>
-                                                    王小明</a>
-                                                </dd>
-                                            
+                                                <dd><span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>王小明</a></span>
+                                            </dd>
+
                                             </dl>
                                         </div>
-                                        
-                                        
-                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row bs-wizard" style="border-bottom:0; margin-left:15px">
+                                                  <div class="col-lg-3 bs-wizard-step complete">
+                                                      <!-- <div class="text-center bs-wizard-stepnum">申请</div> -->
+                                                      <div class="progress">
+                                                          <div class="progress-bar"></div>
+                                                      </div>
+                                                      <a href="#" class="bs-wizard-dot"></a>
+                                                      <div class="bs-wizard-info text-center">
+                                                        <dl>
+                                                            <dd><strong>申请</strong>  253万</dd>
+                                                            <!-- <dd>2015-10-12 16:00</dd>          -->                            
+                                                        </dl>        
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-2 bs-wizard-step complete">
+                                                      <!-- complete -->                              
+                                                      <!-- <div class="text-center bs-wizard-stepnum">审批</div> -->
+                                                      <div class="progress">
+                                                          <div class="progress-bar"></div>
+                                                      </div>
+                                                      <a href="#" class="bs-wizard-dot"></a>
+                                                      <div class="bs-wizard-info text-center">
+                                                        <dl>
+                                                            <dd><stong>审批</stong> 253万</dd>
+                                                            <!-- <dd>2015-10-12 16:00</dd>                                      -->
+                                                        </dl>                                           
+
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-2 bs-wizard-step complete">
+                                                      <!-- complete -->                              
+                                                      <!-- <div class="text-center bs-wizard-stepnum">签约</div> -->
+                                                      <div class="progress">
+                                                          <div class="progress-bar"></div>
+                                                      </div>
+                                                      <a href="#" class="bs-wizard-dot"></a>
+                                                      <div class="bs-wizard-info text-center">
+                                                        <dl>
+                                                            <dd><strong>签约</strong>  253万</dd>
+                                                            <!-- <dd>2015-10-15 16:00</dd>                                -->
+                                                        </dl>   
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-3 bs-wizard-step active">
+                                                      <!-- complete -->                              
+                                                      <!-- <div class="text-center bs-wizard-stepnum">放款</div> -->
+                                                      <div class="progress">
+                                                          <div class="progress-bar"></div>
+                                                      </div>
+                                                      <a href="#" class="bs-wizard-dot"></a>
+                                                      <div class="bs-wizard-info text-center">
+                                                        <dl>
+                                                            <dd><strong>放款</strong>  253万</dd>
+                                                            <!-- <dd>2015-10-12 16:00</dd>           -->
+                                                        </dl>                                               
+                                                      
+                                                      
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-2 bs-wizard-step disabled">
+                                                      <!-- active -->                              
+                                                      <!-- <div class="text-center bs-wizard-stepnum">结清</div> -->
+                                                      <div class="progress">
+                                                          <div class="progress-bar"></div>
+                                                      </div>
+                                                      <a href="#" class="bs-wizard-dot"></a>
+                                                      <div class="bs-wizard-info text-center">
+                                                            <dl>
+                                                            <dd><strong>结清</strong> </dd>
+                                                        </dl>          
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                        </div>
                                     </div>
                                     
                                     <div class="row">
-                                    <button type="button" class="btn btn-sm btn-primary"> 预约</button>
-                                    <button type="button" class="btn btn-sm btn-primary"> 中止合约</button>
-                                    <button type="button" class="btn btn-sm btn-primary"> 通知办理资金监管</button>
-                                    <button type="button" class="btn btn-sm btn-primary"> 通知变更资金监管协议</button>
-                                    <button type="button" class="btn btn-sm btn-primary"> 查看贷款申请表单</button>
-                                    <button type="button" class="btn btn-sm btn-primary"> 查看贷款合同信息</button>
+                                        <button type="button" class="btn btn-sm btn-primary"> 预约</button>
+                                        <button type="button" class="btn btn-sm btn-primary"> 中止合约</button>
+                                        <button type="button" class="btn btn-sm btn-primary"> 通知办理资金监管</button>
+                                        <button type="button" class="btn btn-sm btn-primary"> 通知变更资金监管协议</button>
+                                        <button type="button" class="btn btn-sm btn-primary"> 查看贷款申请表单</button>
+                                        <button type="button" class="btn btn-sm btn-primary"> 查看贷款合同信息</button>
                                     </div>
                                     
                                 </div>
@@ -634,84 +709,6 @@
 
 
                                         </div>
-                                    
-                                </div>
-                              <div class="col-lg-12">
-                                  <div class="row bs-wizard" style="border-bottom:0;">
-                                      <div class="col-xs-2 bs-wizard-step complete">
-                                          <div class="text-center bs-wizard-stepnum">申请</div>
-                                          <div class="progress">
-                                              <div class="progress-bar"></div>
-                                          </div>
-                                          <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">
-                                          	<dl>
-                                          		<dd>253万元</dd>
-                                          		<dd>2015-10-12 16:00</dd>                                     
-                                          	</dl>        
-                                          </div>
-                                      </div>
-                                      <div class="col-xs-2 bs-wizard-step complete">
-                                          <!-- complete -->                              
-                                          <div class="text-center bs-wizard-stepnum">审批</div>
-                                          <div class="progress">
-                                              <div class="progress-bar"></div>
-                                          </div>
-                                          <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">
-                                          	<dl>
-                                          		<dd>253万元</dd>
-                                          		<dd>2015-10-12 16:00</dd>                                     
-                                          	</dl>                                          	
-
-                                          </div>
-                                      </div>
-                                      
-                                      
-                                      
-                                      <div class="col-xs-2 bs-wizard-step complete">
-                                          <!-- complete -->                              
-                                          <div class="text-center bs-wizard-stepnum">签约</div>
-                                          <div class="progress">
-                                              <div class="progress-bar"></div>
-                                          </div>
-                                          <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">
-                                            <dl>
-                                          		<dd>253万元</dd>
-                                          		<dd>2015-10-15 16:00</dd>                               
-                                          	</dl>   
-                                          </div>
-                                      </div>
-                                      <div class="col-xs-2 bs-wizard-step active">
-                                          <!-- complete -->                              
-                                          <div class="text-center bs-wizard-stepnum">放款</div>
-                                          <div class="progress">
-                                              <div class="progress-bar"></div>
-                                          </div>
-                                          <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">
-                                          	<dl>
-                                          		<dd>253万元</dd>
-                                          		<dd>2015-10-12 16:00</dd>          
-                                          	</dl>                                              	
-                                          
-                                          
-                                          </div>
-                                      </div>
-                                      <div class="col-xs-2 bs-wizard-step ">
-                                          <!-- active -->                              
-                                          <div class="text-center bs-wizard-stepnum">结清</div>
-                                          <div class="progress">
-                                              <div class="progress-bar"></div>
-                                          </div>
-                                          <a href="#" class="bs-wizard-dot"></a>
-                                          <div class="bs-wizard-info text-center">
-                                            
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
                                 </div>
                             </div>
                             
@@ -727,10 +724,10 @@
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option1" name="options"> 全部 </label>
                                             <label class="btn btn-sm btn-white "> <input type="radio" id="option2" name="options"> 权证 </label>
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 按揭 </label>
-                                            <label class="btn btn-sm btn-white active"> <input type="radio" id="option3" name="options"> E+贷款 </label>
-                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 资金监管 </label>
-                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 案件备注</label>
-                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 客户沟通记录 </label>
+                                            <label class="btn btn-sm btn-white active"> <input type="radio" id="option4" name="options"> E+贷款 </label>
+                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option5" name="options"> 资金监管 </label>
+                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option6" name="options"> 案件备注</label>
+                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option7" name="options"> 客户沟通记录 </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -1474,18 +1471,15 @@
     <!-- stickup plugin -->
     <script src="js/plugins/stickup/stickUp.js"></script>
 
+    <!-- Toastr script -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+
     <script>
         $(document).ready(function(){
 
             $('#loading-example-btn').click(function () {
                 btn = $(this);
                 simpleLoad(btn, true)
-
-                // Ajax example
-//                $.ajax().always(function () {
-//                    simpleLoad($(this), false)
-//                });
-
                 simpleLoad(btn, false)
             });
         });
@@ -1518,6 +1512,12 @@
                                 itemHover: 'active',
                                 marginTop: 'auto'
                               });
+
+           $('#phone').click(function(){
+                toastr.info('Are you the 6 fingered man?');
+
+           });
+
                 });
         });
     </script>
