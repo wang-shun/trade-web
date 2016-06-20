@@ -351,7 +351,7 @@ function distributeCase(index){
 									alert("分配成功");
 									$('#modal-form').modal("hide");
 									//jqGrid reload
-									$("#table_list_1").trigger('reloadGrid');
+									reloadGrid(1);
 								}else{
 									alert(data.message);
 								}
@@ -437,7 +437,7 @@ function changeCaseTeam(){
 					alert("分配成功");
 					$('#team-modal-form').modal("hide");
 					//jqGrid reload
-					$("#table_list_1").trigger('reloadGrid');
+					reloadGrid(1);
 				}else{
 					alert(data.message);
 				}
