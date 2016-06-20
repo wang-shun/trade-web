@@ -351,6 +351,7 @@ public class TaskController {
     		CaseDetailShowVO reVo  = getCaseDetailShowVO(caseCode,toMortgage);
     		request.setAttribute("toMortgage", toMortgage);
     		request.setAttribute("caseDetailVO", reVo);
+    		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		request.setAttribute("caseInfo", caseInfo);
     		
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
