@@ -25,6 +25,7 @@
                                 物业信息                                            
                             </div>
                             <div class="panel-body" style="height:184px;">
+                            	<p>CTM地址：${caseBaseVO.toPropertyInfo.ctmAddr}</p>
                                 <p>产证地址：${caseBaseVO.toPropertyInfo.propertyAddr}</p>
                                 <p>层高：${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</p>
                                 <p>产证面积：${caseBaseVO.toPropertyInfo.square}平方</p>
