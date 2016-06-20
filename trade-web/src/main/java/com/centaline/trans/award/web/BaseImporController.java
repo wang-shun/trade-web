@@ -17,8 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
@@ -107,14 +107,26 @@ public class BaseImporController {
 	}
 
 	@RequestMapping(value = "baseAward")
-	public ModelAndView baseAward() {
+	public String baseAward() {
+		return "award/baseAward";
+	}
+	
+	@RequestMapping(value = "baseAwardCount")
+	@ResponseBody
+	public Map<String, String> baseAwardCount(String paidTime,String caseCode,String propertyAddr,
+			String dtBegin,String dtEnd) {
 
 		SessionUser sesssionUser = uamSessionService.getSessionUser();
-
 		String countMsg = "";
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);
-
+		gp.put("paidTime", paidTime);
+		gp.put("caseCode", caseCode);
+		gp.put("propertyAddr", propertyAddr);
+		gp.put("dtBegin", dtBegin);
+		gp.put("dtEnd", dtEnd);
+		
+		
 		if (TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode())) {
 			gp.setQueryId("generalManagerCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
@@ -131,8 +143,11 @@ public class BaseImporController {
 			String srvPartInCount = null == srvPartInObj ? "0" : String.format("%.2f ",srvPartInObj);
 			Object srvPartRatioObj = result.getContent().get(0).get("SRV_PART_RATIO_COUNT");
 			String srvPartRatioCount = null == srvPartRatioObj ? "0" : String.format("%.2f ",srvPartRatioObj);
-
-			countMsg = "环节总数: " + srvPartInCount + ", 交易单加权: " + srvPartRatioCount;
+			
+			Object obj = result.getContent().get(0).get("CASE_CODE_COUNT");
+			String caseCodeCount = null == obj ? "0" : String.valueOf(obj);
+			
+			countMsg = "交易单数: " + caseCodeCount + ", 环节总数: " + srvPartInCount + ", 交易单加权: " + srvPartRatioCount;
 		} else {
 			gp.setQueryId("otherRoleCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
@@ -146,6 +161,6 @@ public class BaseImporController {
 
 		Map<String, String> model = new HashMap<String, String>();
 		model.put("countMsg", countMsg);
-		return new ModelAndView("award/baseAward", model);
+		return model;
 	}
 }

@@ -324,12 +324,6 @@ text-decoration: underline !important;
 									</div>
 								</div>
 								<div class="hr-line-dashed"></div>
-								<a id="checkAll" data-toggle="modal" class="btn btn-success"
-									href="javascript:void(0)" onclick="javascript:checkAllItem(true)">全选</a> 
-									<a id="unCheckAll" data-toggle="modal" class="btn btn-success"
-									href="javascript:void(0)" onclick="javascript:unCheckAllItem(true)">全不选</a><a
-									data-toggle="modal" class="btn btn-primary"
-									href="javascript:void(0)" onclick="javascript:exportToExcel()">导出至Excel</a>
 									</form>
 						</div>
 						<div class="modal-footer">
