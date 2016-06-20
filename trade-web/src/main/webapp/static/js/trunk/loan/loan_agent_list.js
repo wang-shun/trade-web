@@ -107,7 +107,7 @@ function searchMethod(page) {
 	params.search_propertyAddr = $('#propertyAddr').val();
 	params.search_loanSrvCode = $('#loanSrvCode').val();
 	// 日期查询
-	var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null;
+	var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null,createTimeStart=null,createTimeEnd=null;
 	for (var r = 0; r < divIndex; r++) {
 		var val = $('#case_date_' + r + ' option:selected').val();
 		if (val == undefined)
@@ -121,14 +121,16 @@ function searchMethod(page) {
 			start=start;
 		}
 		if (start != "") {
-			if (val == '1') {
-				applyTimeStart = start;
-			} else if (val == '2') {
-				signTimeStart = start;
-			}else if (val == '3') {
-				releaseTimeStart = start;
+				if (val == '1') {
+					applyTimeStart = start;
+				} else if (val == '2') {
+					signTimeStart = start;
+				}else if (val == '3') {
+					releaseTimeStart = start;
+				}else if (val == '4'){
+					createTimeStart=start;
+				}
 			}
-		}
 		if (end != "") {
 			if (val == '1') {
 				applyTimeEnd = end;
@@ -136,6 +138,8 @@ function searchMethod(page) {
 				signTimeEnd = end;
 			}else if (val == '3') {
 				releaseTimeEnd = end;
+			}else if (val=='4'){
+				createTimeEnd=end;
 			}
 		}
 	}
@@ -145,6 +149,8 @@ function searchMethod(page) {
 	params.search_signTimeEnd = signTimeEnd;
 	params.search_releaseTimeStart = releaseTimeStart;
 	params.search_releaseTimeEnd = releaseTimeEnd;
+	params.search_createTimeStart = createTimeStart;
+ 	params.search_createTimeEnd = createTimeEnd;
 	params.search_realName = 	$("#realName").val();
 	params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
     aist.wrap(params);

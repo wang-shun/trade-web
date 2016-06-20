@@ -35,6 +35,10 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		} else {
 				toMortgageMapper.insertSelective(toMortgage);
 		}
+		if("1".equals(toMortgage.getFormCommLoan())&&StringUtils.isNotBlank(toMortgage.getLastLoanBank())){
+			toMortgageMapper.restSetLastLoanBank(toMortgage);	
+		}
+		
 		if(null!=toMortgage.getCustCode()){
 			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
 			if(guest!=null){
@@ -57,6 +61,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		} else {
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
+		}
+		if("1".equals(toMortgage.getFormCommLoan())&&StringUtils.isNotBlank(toMortgage.getLastLoanBank())){
+			toMortgageMapper.restSetLastLoanBank(toMortgage);	
 		}
 		ToSupDocu toSupDocu = toMortgage.getToSupDocu();
 		ToSupDocu supDocu = toSupDocuService.findByCaseCode(toMortgage
@@ -148,9 +155,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		return null;
 	}
 	@Override
-	public ToMortgage findToMortgageByCaseCodeWithAll(ToMortgage toMortgage) {
+	public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage) {
 		List<ToMortgage> list = toMortgageMapper
-				.findToMortgageByCondition(toMortgage);
+				.findToMortgageByConditionWithCommLoan(toMortgage);
 		if (CollectionUtils.isNotEmpty(list)) {
 			ToMortgage mort = null;
 			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage

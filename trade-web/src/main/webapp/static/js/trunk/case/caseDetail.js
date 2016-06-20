@@ -1452,7 +1452,11 @@ function changeCaseTeam(){
 	}
 }
 function serviceRestart(){
-	if(confirm('点击该按钮将会启动流程重启审批流程，您确定要启动该流程吗？')){
+	var info='如果需要变更贷款需求,可以在过户之前使用\"贷款需求选择\"无需流程重启，是否继续重启流程？';
+	if(!isNewFlow){
+		info="点击该按钮将会启动流程重启审批流程，您确定要启动该流程吗？";
+	}
+	if(confirm(info)){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
 			url:ctx+"/service/restart",

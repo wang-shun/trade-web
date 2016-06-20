@@ -65,6 +65,7 @@
   	</selectKey>
     insert into sctrans.T_TO_MORTGAGE
     <trim prefix="(" suffix=")" suffixOverrides="," >
+    	CREATE_TIME,create_by,update_time,UPDATE_BY,
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
@@ -154,6 +155,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
       </if>
@@ -335,10 +337,12 @@
       </if>
     </set>
     ,IS_ACTIVE='1'
-    where PKID = #{pkid,jdbcType=BIGINT}
+    ,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+    where PKID = #{pkid,jdbcType=BIGINT};
+    
   </update>
   <update id="inActiveMortageByCaseCode" parameterType="java.lang.String" >
-    update sctrans.T_TO_MORTGAGE set IS_ACTIVE='0',LAST_LOAN_BANK=NULL where case_code =#{0}
+    update sctrans.T_TO_MORTGAGE set IS_ACTIVE='0',LAST_LOAN_BANK=NULL,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID} where case_code =#{0}
     </update>
  
  <select id="findToMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
@@ -371,4 +375,27 @@
  		and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
  	</if>
  </select>
+   <select id="findToMortgageByConditionWithCommLoan" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} 
+ 		and mort_type in('30016001' ,'30016002')
+ 	<if test="mortType != null">
+ 	 	and mort_Type=#{mortType,jdbcType=VARCHAR}
+ 	</if>
+ 	 <if test="isDelegateYucui != null">
+ 	 	and is_Delegate_Yucui=#{isDelegateYucui,jdbcType=VARCHAR}
+ 	</if>
+ 	<if test="isActive != null">
+ 		and IS_ACTIVE=#{isActive,jdbcType=VARCHAR}
+ 	</if>
+ 	<if test="isMainLoanBank != null">
+ 		and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
+ 	</if>
+ </select>
+ <update id="restSetLastLoanBank" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
+ 	update sctrans.T_TO_MORTGAGE set last_loan_bank = null
+ 	,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+ 	 where case_code =#{caseCode,jdbcType=VARCHAR} and PKID !=#{pkid,jdbcType=BIGINT} and 
+	        mort_type in ('30016001','30016002');
+ </update>
+ 
 </mapper>

@@ -18,38 +18,6 @@ var BonusList = function () {
   	          }
   	     });
   		
-		 $.ajax({
-  			  async: true,
-  	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
-  	          method: "post",
-  	          dataType: "json",
-  	          data: data2,
-  	          success: function(data){
-  	        	  //console.log(data);
-  	        	  var d = data.content;
-  	        	  if(!d || $.trim(d) === "") {
-  	        		  $("#caseCount").html(0);
-	    	        	  $("#userCount").html(0);
-	    	        	  $("#awardAmount").html(0);
-  	        	  } else {
-  	        		  if(!d.caseCount || $.trim(d.caseCount) === ""){
-  	        			  $("#caseCount").html(0);
-  	        		  } else {
-  	        			  $("#caseCount").html(d.caseCount);
-  	        		  }
-						  if(!d.userCount || $.trim(d.userCount) === ""){
-							  $("#userCount").html(0);	    	        			  
-						  } else {
-							  $("#userCount").html(d.userCount);
-						  }
-						  if(!d.awardKpiSum || $.trim(d.awardKpiSum) === ""){
-							  $("#awardAmount").html(0);
-						  } else {
-							  $("#awardAmount").html(d.awardKpiSum);
-						  }
-  	        	  }
-  	          }
-  	      });
 		}
 	 };
 }();
