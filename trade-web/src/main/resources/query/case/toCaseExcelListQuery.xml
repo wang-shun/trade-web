@@ -235,7 +235,7 @@
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
-					LEFT JOIN  sctrans.V_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
+					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
 					left join  sctrans.sys_org org1 on org1.id=b.ORG_ID
 					left join  sctrans.T_TS_TEAM_PROPERTY as ttp on org1.org_code = ttp.yu_team_code

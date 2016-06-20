@@ -14,38 +14,57 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/mobile-yc-style.css" rel="stylesheet">
-
-    <style type="text/css">
-        .headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .2s ease-in-out;}
-        .headroom--unpinned {top: -100px;}
-        .headroom--pinned {top: 0;}
-
-        .headroom {
-            will-change: transform;
-            transition: transform 200ms linear;
-        }
-        .slideDown {
-            transform: translateY(0);
-        }
-        .slideUp {
-            transform: translateY(-100%);
-        }
-
-    </style>
-
     </head>
 
 <body>
-
+    <!-- <header id="header" class="header header--fixed hide-from-print" role="banner">
+    <div class="container" >
+    
+        <nav id="nav" class="nav-wrapper" role="navigation">
+            <ul class="nav">
+                <li class="nav__item ">
+                    <a class="header__link" href="https://www.github.com/WickyNilliams/headroom.js">
+                        <span aria-hidden="true" class="icon icon--gh"></span>
+                        <span class="complimentary push--left">GitHub</span>
+                    </a>
+                </li>
+                <li class="nav__item ">
+                    <a class="header__link" href="http://www.twitter.com/WickyNilliams">
+                        <span aria-hidden="true" class="icon icon--tw"></span>
+                        <span class="complimentary push--left">@WickyNilliams</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <a href="http://wicky.nillia.ms/headroom.js/" class="brand header__link">
+            <b class="brand__forename">Headroom</b><b class="brand__surname">.js</b>
+        </a>
+    </div>
+</header> -->
     <div id="wrapper">
+          <div class="ibox-content" id="act-filter-content">
+
+                                <div id="act-filter">
+                                    <div class="btn-group ">
+                                        <button class="btn btn-success" type="button">全部</button>
+                                        <button class="btn btn-white" type="button">权证</button>
+                                        <button class="btn btn-white" type="button">按揭</button>
+                                        <button class="btn btn-white" type="button">e+</button>
+                                        <button class="btn btn-white" type="button">资金监管</button>
+                                    </div>
+                                </div>
+
+                            </div>
 
         <div id="page-wrapper" class="gray-bg">
             
             <div class="wrapper wrapper-content">
                 <div class="row animated fadeInRight">
                     <div class="col-lg-12">
+
                         <div class="ibox float-e-margins">
-                            <div class="ibox-content" id="act-filter-content">
+                            <!-- <div class="ibox-content" id="act-filter-content">
 
                                 <div id="act-filter">
                                     <div class="btn-group ">
@@ -56,14 +75,14 @@
                                         <button class="btn btn-white" type="button">资金监管</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="ibox-content case-title-content" id="">
                                 <div id="case-title" class="row">
                                     <div class="col-lg-12">
                                         <dl class="dl-horizontal">
-                                            <dt><strong>案件编号</strong></dt>
+                                            <dt><strong><h4>案件编号</h4></strong></dt>
                                             <dd>
-                                                <span class="label label-primary">ZY-AJ-201605-0958</span>
+                                                <span class="label label-success">ZY-AJ-201605-0958</span>
                                             </dd>
                                             <dt>地址</dt>
                                             <dd>上海杨浦区临平路街街道（内环）鞍山八村29号</dd>
@@ -74,31 +93,40 @@
                                             <dd>狄仁杰</dd>
 
                                             <dt>经纪人</dt>
-                                            <dd></dd>
+                                            <dd>夏诚 | 宝安公路店1组</dd>
                                             <dt>客户经理</dt>
-                                            <dd></dd>
+                                            <dd>胡俊楠 | 宝山</dd>
                                         </dl>
                                     </div>
                                 </div>
                             </div>
+
                              <div class="ibox-content timeline-content" id="">
                                 <div id="vertical-timeline" class="vertical-container dark-timeline ">
+
                                     <div class="vertical-timeline-block">
                                         <div class="vertical-timeline-icon timeline-qz-icon" >
                                         </div>
 
+
                                         <div class="vertical-timeline-content">
-                                            <div class="col-sm-4 user-pic">
+
+                                            <div class="col-sm-4 user-pic" >
+
                                                 <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u1.jpg">                                        
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u1.jpg"  data-toggle="modal" data-target="#myModal2"> 
+                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal2">
+                                                        <i class="fa fa-phone-square"></i>夏诚
+                                                    </button>  
                                                 </div>
                                             </div>
                                             <div class="col-sm-8 act-info">
+
                                                 <p>
                                                     <span class="label label-danger" style="float:right">办理中</span>
                                                     <span style="float:left">
-                                                        <h3> <strong>过户</strong>
-                                                        </h3>
+                                                        <h4> <strong>过户</strong>
+                                                        </h4>
                                                     </span>                                                    
                                                 </p>
                                                 
@@ -107,8 +135,8 @@
                                                 <p> <i class="fa fa-map-marker"></i>
                                                     浦东交易中心（张杨路1990路2楼）
                                                 </p>
-                                                <span style="float:right">去评分</span>
-                                                <p>完成时间：12:30</p>
+                                                <span style="float:right" data-toggle="modal" data-target="#myModal1">去评分</span>
+                                                <p>计划完成时间：6月25日 </p>
 
                                             </div>
                                             <div class="clearfix"></div>
@@ -121,15 +149,18 @@
                                         <div class="vertical-timeline-content">
                                             <div class="col-sm-4 user-pic">
                                                 <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u2.jpg">                                        
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u2.jpg">   
+                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal2">
+                                                        <i class="fa fa-phone-square"></i>郑蕾
+                                                    </button>                                       
                                                 </div>
                                             </div>
                                             <div class="col-sm-8 act-info">
                                                 <p>
-                                                    <span class="label label-primary" style="float:right">已办理</span>
+                                                    <span class="label label-success" style="float:right">已办理</span>
                                                     <span style="float:left">
-                                                        <h3> <strong>面签</strong>
-                                                        </h3>
+                                                        <h4> <strong>面签</strong>
+                                                        </h4>
                                                     </span>                                                    
                                                 </p>
                                                 
@@ -139,7 +170,7 @@
                                                     浦东交易中心（张杨路1990路2楼）
                                                 </p>
                                                 <span style="float:right">去评分</span>
-                                                <p>完成时间： 5:30</p>
+                                                <p>完成时间：6月12日 5:30</p>
 
                                             </div>
                                             <div class="clearfix"></div>
@@ -153,19 +184,89 @@
                                         <div class="vertical-timeline-content">
                                             <div class="col-sm-4 user-pic">
                                                 <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u3.jpg">                                        
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u3.jpg">   
+                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal2">
+                                                        <i class="fa fa-phone-square"></i>李雪
+                                                    </button>                                       
                                                 </div>
                                             </div>
                                             <div class="col-sm-8 act-info">
                                                 <p>
-                                                    <span class="label label-primary" style="float:right">已办理</span>
+                                                    <span class="label label-success" style="float:right">已办理</span>
                                                     <span style="float:left">
-                                                        <h3> <strong>赎楼贷放款</strong>
-                                                        </h3>
+                                                        <h4> <strong>赎楼贷放款</strong>
+                                                        </h4>
                                                     </span>                                                    
                                                 </p>
                                                 
                                                 <p>服务描述：小贷公司赎楼贷款放款</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>完成时间：6月5日 12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-jg-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4 user-pic">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u4.jpg">   
+                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal2">
+                                                        <i class="fa fa-phone-square"></i>林嘉欣
+                                                    </button>                                       
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 act-info">
+                                                <p>
+                                                    <span class="label label-success" style="float:right">已办理</span>
+                                                    <span style="float:left">
+                                                        <h4> <strong>过户</strong>
+                                                        </h4>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
+                                                
+                                                <p> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）
+                                                </p>
+                                                <span style="float:right">去评分</span>
+                                                <p>完成时间：6月4日 12:30</p>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon timeline-jg-icon" >
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <div class="col-sm-4 user-pic">
+                                                <div class="text-center">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u4.jpg">                                        
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 act-info">
+                                                <p>
+                                                    <span class="label label-success" style="float:right">已办理</span>
+                                                    <span style="float:left">
+                                                        <h4> <strong>过户</strong>
+                                                        </h4>
+                                                    </span>                                                    
+                                                </p>
+                                                
+                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
                                                 
                                                 <p> <i class="fa fa-map-marker"></i>
                                                     浦东交易中心（张杨路1990路2楼）
@@ -190,10 +291,10 @@
                                             </div>
                                             <div class="col-sm-8 act-info">
                                                 <p>
-                                                    <span class="label label-primary" style="float:right">已办理</span>
+                                                    <span class="label label-success" style="float:right">已办理</span>
                                                     <span style="float:left">
-                                                        <h3> <strong>过户</strong>
-                                                        </h3>
+                                                        <h4> <strong>过户</strong>
+                                                        </h4>
                                                     </span>                                                    
                                                 </p>
                                                 
@@ -211,21 +312,21 @@
                                     </div>
 
                                     <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon timeline-qz-icon" >
+                                        <div class="vertical-timeline-icon timeline-jg-icon" >
                                         </div>
 
                                         <div class="vertical-timeline-content">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 user-pic">
                                                 <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u5.jpg">                                        
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u4.jpg">                                        
                                                 </div>
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-8 act-info">
                                                 <p>
-                                                    <span class="label label-danger" style="float:right">办理中</span>
+                                                    <span class="label label-success" style="float:right">已办理</span>
                                                     <span style="float:left">
-                                                        <h3> <strong>过户</strong>
-                                                        </h3>
+                                                        <h4> <strong>过户</strong>
+                                                        </h4>
                                                     </span>                                                    
                                                 </p>
                                                 
@@ -235,174 +336,13 @@
                                                     浦东交易中心（张杨路1990路2楼）
                                                 </p>
                                                 <span style="float:right">去评分</span>
-                                                <p>12:30</p>
+                                                <p>完成时间：12:30</p>
 
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
 
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon timeline-qz-icon" >
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <div class="col-sm-4">
-                                                <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <p>
-                                                    <span class="label label-danger" style="float:right">办理中</span>
-                                                    <span style="float:left">
-                                                        <h3> <strong>过户</strong>
-                                                        </h3>
-                                                    </span>                                                    
-                                                </p>
-                                                
-                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
-                                                
-                                                <p> <i class="fa fa-map-marker"></i>
-                                                    浦东交易中心（张杨路1990路2楼）
-                                                </p>
-                                                <span style="float:right">去评分</span>
-                                                <p>12:30</p>
-
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon timeline-qz-icon" >
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <div class="col-sm-4">
-                                                <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/a2.jpg">                                        
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <p>
-                                                    <span class="label label-danger" style="float:right">办理中</span>
-                                                    <span style="float:left">
-                                                        <h3> <strong>过户</strong>
-                                                        </h3>
-                                                    </span>                                                    
-                                                </p>
-                                                
-                                                <p>服务描述：办理过户手续，缴纳交易税费</p>
-                                                
-                                                <p> <i class="fa fa-map-marker"></i>
-                                                    浦东交易中心（张杨路1990路2楼）
-                                                </p>
-                                                <span style="float:right">去评分</span>
-                                                <p>12:30</p>
-
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-
-
-
-
-
-
-
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon blue-bg">
-                                            <i class="fa fa-file-text"></i>
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <h2>Send documents to Mike</h2>
-                                            <p>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.
-                                            </p>
-                                            <a href="#" class="btn btn-sm btn-success">Download document</a>
-                                            <span class="vertical-date">
-                                                Today
-                                                <br/>
-                                                <small>Dec 24</small>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon lazur-bg">
-                                            <i class="fa fa-coffee"></i>
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <h2>Coffee Break</h2>
-                                            <p>
-                                                Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.
-                                            </p>
-                                            <a href="#" class="btn btn-sm btn-info">Read more</a>
-                                            <span class="vertical-date">
-                                                Yesterday
-                                                <br/>
-                                                <small>Dec 23</small>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon yellow-bg">
-                                            <i class="fa fa-phone"></i>
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <h2>Phone with Jeronimo</h2>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.
-                                            </p>
-                                            <span class="vertical-date">
-                                                Yesterday
-                                                <br/>
-                                                <small>Dec 23</small>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon lazur-bg">
-                                            <i class="fa fa-user-md"></i>
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <h2>Go to the doctor dr Smith</h2>
-                                            <p>
-                                                Find some issue and go to doctor. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                            </p>
-                                            <span class="vertical-date">
-                                                Yesterday
-                                                <br/>
-                                                <small>Dec 23</small>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon navy-bg">
-                                            <i class="fa fa-comments"></i>
-                                        </div>
-
-                                        <div class="vertical-timeline-content">
-                                            <h2>Chat with Monica and Sandra</h2>
-                                            <p>
-                                                Web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                            </p>
-                                            <span class="vertical-date">
-                                                Yesterday
-                                                <br/>
-                                                <small>Dec 23</small>
-                                            </span>
-                                        </div>
-                                    </div>
                                 </div>
 
                             </div>
@@ -412,16 +352,76 @@
             </div>
             <div class="footer">
                 <div class="pull-right">
-                    10GB of
-                    <strong>250GB</strong>
-                    Free.
+                   powered by 
+                    <strong>AIST</strong>
+                    .
                 </div>
                 <div>
-                    <strong>Copyright</strong>
-                    Example Company &copy; 2014-2015
+                    <strong>誉萃投资</strong>
+                    真诚为您服务
                 </div>
             </div>
-
+            <!-- 弹框1 -->
+            <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content animated flipInY">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="pic">
+                                <div class="pic-in">
+                                    <img src="img/u1.jpg" alt="">
+                                </div>
+                                <div class="pic-info">
+                                    <span class="jbr">经办人：金娇娇</span>
+                                    <span>电　话：18655666655</span>
+                                </div>
+                            </div>
+                            <div class="score">
+                                <div class="score-star">
+                                    <span>服务评分</span>
+                                    <span><i class="star active"></i><i class="star active"></i><i class="star active"></i><i class="star"></i><i class="star"></i></span>
+                                </div>
+                                <div class="score-comm">
+                                    <span>写点什么</span>
+                                    <textarea placeholder="请您对我们的服务进行100字内的评价..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-comm">发表评论</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹框1 -->
+            <!-- 弹框2 -->
+            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content animated flipInY">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span></button>
+                            <h5 class="modal-title">您可以电话联系</h5>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li><span>客户经理：胡俊楠</span><i class="phone-square"></i></li>
+                                <li><span>环节经办人：夏诚</span><i class="phone-square"></i></li>
+                                <li><span>经纪人：李雪</span><i class="phone-square"></i></li>
+                            </ul>   
+                        </div>
+                        <div class="modal-footer1">
+                            <span class="help"><i class="ques"></i></span>
+                            <div class="help-info">
+                                <span>帮助：<br></span>
+                                <span>点击电话图标，拨打相关工作人员联系电话</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 弹框2 -->
         </div>
     </div>
 
@@ -444,53 +444,26 @@
      <!-- headroom -->
     <script src="https://npmcdn.com/headroom.js@0.9.3"></script>
     <script src="js/plugins/headroom/jQuery.headroom.js"></script>
-    
 
     <script>
         $(document).ready(function(){
-
-            // Local script for demo purpose only
-            $('#lightVersion').click(function(event) {
-                event.preventDefault()
-                $('#ibox-content').removeClass('ibox-content');
-                $('#vertical-timeline').removeClass('dark-timeline');
-                $('#vertical-timeline').addClass('light-timeline');
-            });
-
-            $('#darkVersion').click(function(event) {
-                event.preventDefault()
-                $('#ibox-content').addClass('ibox-content');
-                $('#vertical-timeline').removeClass('light-timeline');
-                $('#vertical-timeline').addClass('dark-timeline');
-            });
-
-            $('#leftVersion').click(function(event) {
-                event.preventDefault()
-                $('#vertical-timeline').toggleClass('center-orientation');
-            });
-
             $('#act-filter-content').headroom({
               "offset": 205,
-              "tolerance": 5,
+              "tolerance": {
+              down : 10,
+              up : 20
+            },
               "classes": {
                 "initial": "animated",
-                "pinned": "slideDown",
-                "unpinned": "slideUp"
+                "pinned": "bounceInUp",
+                "unpinned": "bounceOutDown"
               }
             });
-            
-            // var header = new Headroom(document.querySelector("#act-filter"), {
-            //     tolerance: 5,
-            //     offset : 205,
-            //     classes: {
-            //       initial: "animated",
-            //       pinned: "slideDown",
-            //       unpinned: "slideUp"
-            //     }
-            // });
-            // header.init();
+
         });
+
     </script>
+
 
 </body>
 
