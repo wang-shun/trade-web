@@ -258,7 +258,7 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/loan/loan_agent_list.js?v=1.2"></script>
+	 <script src="${ctx}/js/trunk/loan/loan_agent_list.js?v=1.3"></script>
 	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 	  <!-- 分页控件  -->
@@ -285,7 +285,7 @@ text-decoration: underline !important;
                        <tr class="tr-2">
                    {{/if}}
 						<td class="bg-12" width="155"><span class="sfd-tag">{{item.LOAN_SRV_CODE}}</span></td>
-						<td><span class="ht-money">合同价：<i>{{item.CON_PRICE}}万</i></span><span class="jbr">经办人：{{item.EXECUTOR_ID}}</span></td>
+						<td><span class="ht-money">合同价：<i>{{item.CON_PRICE}}万</i></span><span class="date cjsj">创建时间：{{item.CREATE_TIME}}</span><span class="jbr">经办人：{{item.EXECUTOR_ID}}</span></td>
 						<td><span class="date">{{item.APPLY_TIME}}</span></td>
 						<td><span class="date">{{item.SIGN_TIME}}</span></td>
 						<td class="last"><span class="date">{{item.RELEASE_TIME}}</span></td>
@@ -310,7 +310,7 @@ text-decoration: underline !important;
 	 		params.search_propertyAddr = $('#propertyAddr').val();
 	 		params.search_loanSrvCode = $('#loanSrvCode').val();
 	 		// 日期查询
-	 		var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null;
+	 		var applyTimeStart = null, applyTimeEnd = null, signTimeStart = null, signTimeEnd = null, releaseTimeStart = null,releaseTimeEnd = null,createTimeStart=null,createTimeEnd=null;
 	 		for (var r = 0; r < divIndex; r++) {
 	 			var val = $('#case_date_' + r + ' option:selected').val();
 	 			if (val == undefined)
@@ -330,6 +330,8 @@ text-decoration: underline !important;
 	 					signTimeStart = start;
 	 				}else if (val == '3') {
 	 					releaseTimeStart = start;
+	 				}else if (val == '4'){
+	 					createTimeStart=start;
 	 				}
 	 			}
 	 			if (end != "") {
@@ -339,6 +341,8 @@ text-decoration: underline !important;
 	 					signTimeEnd = end;
 	 				}else if (val == '3') {
 	 					releaseTimeEnd = end;
+	 				}else if (val=='4'){
+	 					createTimeEnd=end;
 	 				}
 	 			}
 	 		}
@@ -348,13 +352,15 @@ text-decoration: underline !important;
 	 		params.search_signTimeEnd = signTimeEnd;
 	 		params.search_releaseTimeStart = releaseTimeStart;
 	 		params.search_releaseTimeEnd = releaseTimeEnd;
+	 		params.search_createTimeStart = createTimeStart;
+	 		params.search_createTimeEnd = createTimeEnd;
 	 		params.search_realName = 	$("#realName").val();
 	 		params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
 	 		
         	aist.exportExcel({
     	    	ctx : "${ctx}",
     	    	queryId : 'loanAgentListQuery',
-    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','LOAN_SRV_CODE','EXECUTOR_ID','PARENT_ORG_NAME','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','EVAL_FEE','RECORD_TIME'],
+    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','LOAN_SRV_CODE','EXECUTOR_ID','PARENT_ORG_NAME','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','EVAL_FEE','RECORD_TIME','CREATE_TIME'],
     	    	data : params
     	    }) 
         }
