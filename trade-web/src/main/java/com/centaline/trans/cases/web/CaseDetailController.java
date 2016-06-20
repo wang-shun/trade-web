@@ -652,7 +652,7 @@ public class CaseDetailController {
 		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
 			isCaseOwner=true;
 		}
-		if(toWorkFlow!=null &&"operation_process:10:445004".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
+		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
 		request.setAttribute("loanReqType", loanReqType);
