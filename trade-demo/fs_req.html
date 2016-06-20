@@ -13,6 +13,8 @@
     <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/web-yc-style.css" rel="stylesheet">
+    <link href="css/plugins/aist-steps/steps.css" rel="stylesheet">
 
 </head>
 
@@ -338,17 +340,7 @@
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
                     <h2>办理资金监管申请</h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">金融产品</a>
-                        </li>
-                        <li>
-                            <a>贷款申请</a>
-                        </li>
-                        <li class="active">
-                            <strong>办理资金监管申请</strong>
-                        </li>
-                    </ol>
+                    
                 </div>
                 <div class="col-lg-2">
 
@@ -356,10 +348,20 @@
             </div>
             <div class="wrapper wrapper-content animated fadeInRight">
 
+            <div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
+               <ul class="nav navbar-nav">
+                    <li class="menuItem active"><a href="#add_info">物业地址信息</a></li>
+                    <li class="menuItem"><a href="#cus_info">买卖方客户信息</a></li>
+                    <li class="menuItem"><a href="#loan_info">金融贷款信息</a></li>
+                    <li class="menuItem"><a href="#req_info">资金监管需求</a></li>
+                    <li class="menuItem"><a href="#file_info">办理所需材料</a></li>
+                </ul>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
-                        <div class="ibox-title">
+                        <!-- <div class="ibox-title">
                             <h5>All form elements <small>With custom checbox and radion elements.</small></h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
@@ -378,240 +380,371 @@
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="ibox-content">
                             <form method="get" class="form-horizontal">
                                 <div class="form-group">
-                                <label class="col-sm-2 control-label" style="text-align:center; padding-right: 2px;">
-                                <i class='fa fa-building'></i>交易案件编号：
-                                </label>
-                                <div class ="col-sm-3">
-                                <input type="text" class="form-control" style="border-style: none; text-align: left;" value="JY000098789" >
-                                </div>                               
-                                <label class="col-sm-2 control-label" style="text-align:center; padding-right: 2px;">
-                                <i class='fa fa-building'></i>物业地址：
-                                </label>
-                                <div class ="col-sm-3">
-                                <input type="text" class="form-control" style="border-style: none" value="上海市长宁区延安西路888号12A">
-                                </div>
-                                <div class ="col-sm-2">
-                                <a class =" class="btn btn-white btn-bitbucket"><i class="fa fa-search"></i></a>
-                                </div>                               
-                                </div>
-                                <div class="hr-line-dashed" style="color: "></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Normal</label>
-
-                                    <div class="col-sm-10"><input type="text" class="form-control"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Help text</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control"> <span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>
+                                    <div class="col-lg-12">
+                                    <h3 class="control-h" id="add_info">当前交易进度</h3>
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Password</label>
-
-                                    <div class="col-sm-10"><input type="password" class="form-control" name="password"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Placeholder</label>
-
-                                    <div class="col-sm-10"><input type="text" placeholder="placeholder" class="form-control"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-lg-2 control-label">Disabled</label>
-
-                                    <div class="col-lg-10"><input type="text" disabled="" placeholder="Disabled input here..." class="form-control"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-lg-2 control-label">Static control</label>
-
-                                    <div class="col-lg-10"><p class="form-control-static">email@example.com</p></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Checkboxes and radios <br/>
-                                    <small class="text-navy">Normal Bootstrap elements</small></label>
-
-                                    <div class="col-sm-10">
-                                        <div class="checkbox"><label> <input type="checkbox" value=""> Option one is this and that&mdash;be sure to include why it's great </label></div>
-                                        <div class="radio"><label> <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> Option one is this and that&mdash;be sure to
-                                            include why it's great </label></div>
-                                        <div class="radio"><label> <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> Option two can be something else and selecting it will
-                                            deselect option one </label></div>
+                                    <div class="hr-line-dashed"></div>
+                                <div class="col-lg-12">
+                                <div class="row bs-wizard" style="border-bottom:0;">
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                          <div class="text-center bs-wizard-stepnum">居间阶段</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">客户有意向，正在撮合中</div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step complete">
+                                          <!-- complete -->                              
+                                          <div class="text-center bs-wizard-stepnum">已送定</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">买方已送定金</div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                          <!-- complete -->                              
+                                          <div class="text-center bs-wizard-stepnum">网签</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">
+                                              网签已完成
+                                          </div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                          <!-- active -->                              
+                                          <div class="text-center bs-wizard-stepnum">过户</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">正在办理过户手续</div>
+                                      </div>
+                                      <div class="col-xs-2 bs-wizard-step disabled">
+                                          <!-- active -->                              
+                                          <div class="text-center bs-wizard-stepnum">过户完成</div>
+                                          <div class="progress">
+                                              <div class="progress-bar"></div>
+                                          </div>
+                                          <a href="#" class="bs-wizard-dot"></a>
+                                          <div class="bs-wizard-info text-center">
+                                              过户完成，出新产证
+                                          </div>
+                                      </div>
+                                      </div>
                                     </div>
+                                    
                                 </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Inline checkboxes</label>
-
-                                    <div class="col-sm-10"><label class="checkbox-inline"> <input type="checkbox" value="option1" id="inlineCheckbox1"> a </label> <label class="checkbox-inline">
-                                        <input type="checkbox" value="option2" id="inlineCheckbox2"> b </label> <label class="checkbox-inline">
-                                        <input type="checkbox" value="option3" id="inlineCheckbox3"> c </label></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Checkboxes &amp; radios <br/><small class="text-navy">Custom elements</small></label>
-
-                                    <div class="col-sm-10">
-                                        <div class="checkbox i-checks"><label> <input type="checkbox" value=""> <i></i> Option one </label></div>
-                                        <div class="checkbox i-checks"><label> <input type="checkbox" value="" checked=""> <i></i> Option two checked </label></div>
-                                        <div class="checkbox i-checks"><label> <input type="checkbox" value="" disabled="" checked=""> <i></i> Option three checked and disabled </label></div>
-                                        <div class="checkbox i-checks"><label> <input type="checkbox" value="" disabled=""> <i></i> Option four disabled </label></div>
-                                        <div class="radio i-checks"><label> <input type="radio" value="option1" name="a"> <i></i> Option one </label></div>
-                                        <div class="radio i-checks"><label> <input type="radio" checked="" value="option2" name="a"> <i></i> Option two checked </label></div>
-                                        <div class="radio i-checks"><label> <input type="radio" disabled="" checked="" value="option2"> <i></i> Option three checked and disabled </label></div>
-                                        <div class="radio i-checks"><label> <input type="radio" disabled="" name="a"> <i></i> Option four disabled </label></div>
+                                    <div class="form-group yc-form">
+                                    
+                                    <div class="col-lg-12">
+                                    <h3 class="control-h" id="add_info">物业地址信息</h3>
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Inline checkboxes</label>
-
-                                    <div class="col-sm-10"><label class="checkbox-inline i-checks"> <input type="checkbox" value="option1">a </label>
-                                        <label class="checkbox-inline i-checks"> <input type="checkbox" value="option2"> b </label>
-                                        <label class="checkbox-inline i-checks"> <input type="checkbox" value="option3"> c </label></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Select</label>
-
-                                    <div class="col-sm-10"><select class="form-control m-b" name="account">
-                                        <option>option 1</option>
-                                        <option>option 2</option>
-                                        <option>option 3</option>
-                                        <option>option 4</option>
-                                    </select>
-
-                                        <div class="col-lg-4 m-l-n"><select class="form-control" multiple="">
-                                            <option>option 1</option>
-                                            <option>option 2</option>
-                                            <option>option 3</option>
-                                            <option>option 4</option>
-                                        </select></div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">交易案件编号：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="JY000098789" >
+                                        </div>     
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group has-success"><label class="col-sm-2 control-label">Input with success</label>
-
-                                    <div class="col-sm-10"><input type="text" class="form-control"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group has-warning"><label class="col-sm-2 control-label">Input with warning</label>
-
-                                    <div class="col-sm-10"><input type="text" class="form-control"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group has-error"><label class="col-sm-2 control-label">Input with error</label>
-
-                                    <div class="col-sm-10"><input type="text" class="form-control"></div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Control sizing</label>
-
-                                    <div class="col-sm-10"><input type="text" placeholder=".input-lg" class="form-control input-lg m-b">
-                                        <input type="text" placeholder="Default input" class="form-control m-b"> <input type="text" placeholder=".input-sm" class="form-control input-sm">
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Column sizing</label>
-
-                                    <div class="col-sm-10">
-                                        <div class="row">
-                                            <div class="col-md-2"><input type="text" placeholder=".col-md-2" class="form-control"></div>
-                                            <div class="col-md-3"><input type="text" placeholder=".col-md-3" class="form-control"></div>
-                                            <div class="col-md-4"><input type="text" placeholder=".col-md-4" class="form-control"></div>
+                                    <div class="col-sm-8">
+                                        <label class="col-sm-2 control-label">物业地址：
+                                        </label>
+                                        <div class ="col-sm-10">
+                                        <div class="input-group m-b">
+                                            <input type="text" class="form-control" value="长宁区愚园路888号1栋0101" disabled="true">
+                                            <span class="input-group-addon"><i class="fa fa-search-plus"></i>
+                                            </span>
+                                        </div>
+                                            
                                         </div>
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Input groups</label>
-
-                                    <div class="col-sm-10">
-                                        <div class="input-group m-b"><span class="input-group-addon">@</span> <input type="text" placeholder="Username" class="form-control"></div>
-                                        <div class="input-group m-b"><input type="text" class="form-control"> <span class="input-group-addon">.00</span></div>
-                                        <div class="input-group m-b"><span class="input-group-addon">$</span> <input type="text" class="form-control"> <span class="input-group-addon">.00</span></div>
-                                        <div class="input-group m-b"><span class="input-group-addon"> <input type="checkbox"> </span> <input type="text" class="form-control"></div>
-                                        <div class="input-group"><span class="input-group-addon"> <input type="radio"> </span> <input type="text" class="form-control"></div>
+                                   
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Button addons</label>
 
-                                    <div class="col-sm-10">
-                                        <div class="input-group m-b"><span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary">Go!</button> </span> <input type="text" class="form-control">
+                                <div class="form-group yc-form">
+                                    <div class="col-lg-12">
+                                    <h3 class="control-h" id="cus_info">买卖方客户信息</h3>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">买方客户姓名：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="李雪" >
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">买方客户电话：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="1320988970" >
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">卖方客户姓名：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="郑蕾" >
+                                        </div>     
+                                    </div>
+                                    
+
+                                </div>
+                                               
+                                <div class="form-group yc-form">
+                                    
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">卖方客户电话：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="18976789876" >
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">网签价格：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">￥</span>
+                                            <input type="text" class="form-control" value="300" >
+                                            <span class="input-group-addon">万元</span>
                                         </div>
-                                        <div class="input-group"><input type="text" class="form-control"> <span class="input-group-btn"> <button type="button" class="btn btn-primary">Go!
-                                        </button> </span></div>
+                                            
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">成交价格：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <div class="input-group m-b">
+                                            <span class="input-group-addon">￥</span>
+                                            <input type="text" class="form-control" value="300" >
+                                            <span class="input-group-addon">万元</span>
+                                        </div>
+                                        </div>     
                                     </div>
                                 </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">With dropdowns</label>
+                                    
+                                <div class="form-group yc-form">
+                                    <div class="col-lg-12">
+                                    <h3 class="control-h" id="loan_info">金融贷款信息</h3>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">资金方机构名称：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <select name="fs_vendor" class="form-control m-b">
+                                                <option>及时雨</option>
+                                                <option>安家贷</option>
+                                                <option>搜易贷</option> 
+                                            </select>
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">资金方账号：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                        <select name="fs_vendor" class="form-control m-b" disabled="true">
+                                                <option>62000898789878</option>
+                                                <option>37000898789878</option>
+                                                <option>45000898789878</option> 
+                                        </select>
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">开户行：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="光大银行上海市北支行" disabled="true">
+                                        </div>     
+                                    </div>
+
+                                   
+                                    
+                                </div>
+
+                                
+
+                                <div class="form-group yc-form">
+                                    <div class="col-lg-12">
+                                    <h3 class="control-h" id="req_info">资金监管需求</h3>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="col-sm-2">
+                                        <label class="control-label">请选择资金监管产品：
+                                        </label>
+                                    </div>
 
                                     <div class="col-sm-10">
-                                        <div class="input-group m-b">
-                                            <div class="input-group-btn">
-                                                <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">Action <span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#">Action</a></li>
-                                                    <li><a href="#">Another action</a></li>
-                                                    <li><a href="#">Something else here</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#">Separated link</a></li>
-                                                </ul>
-                                            </div>
-                                             <input type="text" class="form-control"></div>
-                                        <div class="input-group"><input type="text" class="form-control">
+                                        <select name="fs_vendor" class="form-control m-b">
+                                                <option value="光大四方资金监管"></option>
+                                                <option value="政府普通资金监管"></option>
+                                                <option value="政府带抵押过户"></option> 
+                                        </select>
+                                    </div>
+                                        
+                                    
+                                </div>
 
-                                            <div class="input-group-btn">
-                                                <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">Action <span class="caret"></span></button>
-                                                <ul class="dropdown-menu pull-right">
-                                                    <li><a href="#">Action</a></li>
-                                                    <li><a href="#">Another action</a></li>
-                                                    <li><a href="#">Something else here</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#">Separated link</a></li>
-                                                </ul>
-                                            </div>
-                                            </div>
+                                <div class="form-group yc-form">
+                                    
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">资金入账次数：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <select name="fs_vendor" class="form-control m-b">
+                                                <option>1次</option>
+                                                <option>2次</option>
+                                            </select>
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">买家自有资金：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="20万元" >
+                                        </div>    
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">买家贷款资金：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <input type="text" class="form-control" value="80万元" >
+                                        </div>    
                                     </div>
                                 </div>
+                                <div class="form-group yc-form">
+                                    
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">资金出账次数：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <select name="fs_vendor" class="form-control m-b">
+                                                <option>1次</option>
+                                                <option>2次</option>
+                                            </select>
+                                        </div>     
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label class="col-sm-4 control-label">资金出款条件：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <select name="fs_vendor" class="form-control m-b">
+                                                <option>过户收件收据</option>
+                                                <option>出产证</option>
+                                            </select>
+                                        </div>    
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group yc-form">
+                                    
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">出卖方金额：
+                                        </label>
+                                        
+                                        <div class ="col-sm-8">
+                                        <div class ="input-group m-b">
+                                            <span class ="input-group-addon">￥</span>
+                                            <input type ="text" class="form-control" value="50" >
+                                            <span class="input-group-addon">万元</span>
+                                        </div>
+                                            
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">出资金方金额：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <div class="input-group m-b">
+                                            <span class="input-group-addon">￥</span>
+                                            <input type="text" class="form-control" value="50" >
+                                            <span class="input-group-addon">万元</span>
+                                        </div>
+                                        </div>    
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-4 control-label">出买方金额：
+                                        </label>
+                                        <div class ="col-sm-8">
+                                            <div class="input-group m-b">
+                                            <span class="input-group-addon">￥</span>
+                                            <input type="text" class="form-control" value="0" >
+                                            <span class="input-group-addon">万元</span>
+                                        </div>
+                                        </div>    
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group yc-form">
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">Segmented</label>
+                                <div class="file-folders col-lg-4">
 
-                                    <div class="col-sm-10">
-                                        <div class="input-group m-b">
-                                            <div class="input-group-btn">
-                                                <button tabindex="-1" class="btn btn-white" type="button">Action</button>
-                                                <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button"><span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#">Action</a></li>
-                                                    <li><a href="#">Another action</a></li>
-                                                    <li><a href="#">Something else here</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#">Separated link</a></li>
-                                                </ul>
-                                            </div>
-                                            <input type="text" class="form-control"></div>
-                                        <div class="input-group"><input type="text" class="form-control">
+                                    <h4 class="control-h" id="file_info">办理所需材料</h4>
+                                    <ul class="folder-list" style="padding: 0">
+                                        <li><a href=""><i class="fa fa-folder"></i> 身份证明</a></li>
+                                        <li><a href=""><i class="fa fa-folder"></i> 社会关系</a></li>
+                                        <li><a href=""><i class="fa fa-folder"></i> 财力证明</a></li>
+                                        <li><a href=""><i class="fa fa-folder"></i> 产权文件</a></li>
+                                        <li><a href=""><i class="fa fa-folder"></i> 合同文件</a></li>
+                                    </ul>
+                                </div>
+                                <div class="file-folders col-lg-8">
+                                    <h4 class="control-h">办理人员信息</h4>
+                                    
+                                        <label class="col-sm-3 control-label">资金监管专员：
+                                        </label>
+                                        <div class ="col-sm-9">
+                                        <div class="input-group input-group-md">
+                                            <input type="text" class="form-control" value="长宁区愚园路888号1栋0101" disabled="true">
+                                            <span class="input-group-addon"><i class="fa fa-search-plus"></i>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    
+                                        <label class="col-sm-3 control-label">资金监管专员电话：
+                                        </label>
+                                        <div class ="col-sm-9">
+                                            <input type="text" class="form-control" value="18976789876" >
+                                        </div>
+                                    
+                                        <label class="col-sm-3 control-label">申请人：
+                                        </label>
+                                        
+                                        <div class ="col-sm-9">
+                                            <input type="text" class="form-control" value="张三" >
+                                        </div>
+                                    
+                                        <label class="col-sm-3 control-label">申请人电话：
+                                        </label>
+                                        <div class ="col-sm-9">
+                                            <input type="text" class="form-control" value="18976789876" >
+                                        </div> 
+                                    
+                                   
+                                </div>
+                                    
 
-                                            <div class="input-group-btn">
-                                                <button tabindex="-1" class="btn btn-white" type="button">Action</button>
-                                                <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button"><span class="caret"></span></button>
-                                                <ul class="dropdown-menu pull-right">
-                                                    <li><a href="#">Action</a></li>
-                                                    <li><a href="#">Another action</a></li>
-                                                    <li><a href="#">Something else here</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#">Separated link</a></li>
-                                                </ul>
-                                            </div>
-                                            </div>
-                                    </div>
+                                    
                                 </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <div class="col-sm-4 col-sm-offset-2">
-                                        <button class="btn btn-white" type="submit">Cancel</button>
-                                        <button class="btn btn-primary" type="submit">Save changes</button>
-                                    </div>
-                                </div>
+
+                                <button type="button" class="btn btn-sm btn-primary"> 附件</button>
+                                <button type="button" class="btn btn-sm btn-primary"> 保存</button>
+                                <button type="button" class="btn btn-sm btn-primary"> 取消</button>
+                                <button type="button" class="btn btn-sm btn-primary"> 提交</button>
+
+                                
                             </form>
                         </div>
                     </div>
@@ -650,7 +783,28 @@
                     radioClass: 'iradio_square-green',
                 });
             });
+
+            jQuery(function($) {
+                        $(document).ready(function() {
+                            $('.stickup-nav-bar').stickUp({
+                                // $('.col-lg-9').stickUp({
+                                parts: {
+                                    0: 'add_info',
+                                    1: 'cus_info',
+                                    2: 'loan_info',
+                                    3: 'req_info',
+                                    4: 'file_info'
+
+                                },
+                                itemClass: 'menuItem',
+                                itemHover: 'active',
+                                marginTop: 'auto'
+                            });
+                        });
+        });
         </script>
+
+
 </body>
 
 </html>
