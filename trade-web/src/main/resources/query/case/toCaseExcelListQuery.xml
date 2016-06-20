@@ -164,7 +164,7 @@
 						E.COM_AMOUNT,
 						E.PRF_AMOUNT,
 						E.LOANER_NAME,
-						E.IS_LOANER_ARRIVE,
+						(CASE E.IS_LOANER_ARRIVE WHEN '0' THEN '否' WHEN '1' THEN '是' ELSE '' END) IS_LOANER_ARRIVE,
 						E.COM_DISCOUNT,
 						E.SIGN_DATE,
 						E.APPR_DATE,
@@ -235,7 +235,7 @@
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
 					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
-					LEFT JOIN  sctrans.V_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
+					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
 					left join  sctrans.sys_org org1 on org1.id=b.ORG_ID
 					left join  sctrans.T_TS_TEAM_PROPERTY as ttp on org1.org_code = ttp.yu_team_code
@@ -433,8 +433,7 @@
 					customDict="qqcdUserEmployeeCode" referencecol="OP_ID" hidden="true" />
 				<column type="both" name="OP_ORG_ID" title="所属组别ID"
 					customDict="" referencecol="" hidden="" />
-				<column type="both" name="OP_ORG_ID" title="所属组别ID"
-					customDict="" referencecol="" hidden="true" />
+				<column type="both" name="OP_ORG" title="所属组别" hidden="true" />
 				<!-- <column name="OP_MANAGER" title="组别主管"	hidden="true" /> -->
 
 				<column type="virtual" name="OP_AS"  referencecol="OP_ORG_ID" customDict="qqOpAs" title="组别助理"/>

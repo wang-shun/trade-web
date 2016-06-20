@@ -87,17 +87,17 @@ text-decoration: underline !important;
 </head>
 
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
-	<div class="row">
-		<div class="wrapper wrapper-content  animated fadeInRight">
-			<div class="col-md-12">
+<div class="row">
+	<div class="wrapper wrapper-content  animated fadeInRight">
+		<div class="col-md-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>案件统计</h5>
 				</div>
 				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
+				<form method="get" class="form-horizontal">
 					
 						<!-- 组织范围 -->
 						<div class="row">

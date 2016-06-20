@@ -43,6 +43,8 @@
             <condition field="loanAgent.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.CREATE_TIME" name="createTimeStart" label="创建开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.CREATE_TIME" name="createTimeEnd" label="创建结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -57,6 +59,7 @@
 					  Convert(decimal(18,2),sign.CON_PRICE/10000) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
+					  loanAgent.CREATE_TIME,
 					  loanAgent.RELEASE_TIME,
 					  Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000) as 'LOAN_AMOUNT',
 					  Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000) as 'SIGN_AMOUNT',
@@ -103,6 +106,8 @@
 				<column type="both" name="SIGN_AMOUNT" index="" checkbox="" display="面签金额" title="面签金额" customDict="" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ACTUAL_AMOUNT" index="" checkbox="" display="放款金额" title="放款金额" customDict="" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费,评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" title="创建时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="" align="" halign="" order="" resizable="" />
+				
 			</table-row>
 		</grid>
 	</query>

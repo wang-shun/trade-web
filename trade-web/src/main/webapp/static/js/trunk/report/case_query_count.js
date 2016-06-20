@@ -87,11 +87,6 @@ $('#queryDistrict').click(function() {
 	searchMethod();
 });
 
- //删除日期控件
-function removeDateDiv(index) {
-	$("#dateDiv_" + index).remove();
-}
-
  //查询
 function searchMethod(page) {
 	if(!page) {
@@ -112,8 +107,8 @@ function reloadGrid(data) {
         dataType: "json",
         data: data,
         beforeSend: function () {  
-        	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			//$(".blockOverlay").css({'z-index':'9998'});
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
           $.unblockUI();   	 

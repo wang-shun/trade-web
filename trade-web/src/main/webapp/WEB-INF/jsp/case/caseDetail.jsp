@@ -1024,7 +1024,7 @@
 	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
 			r1 = true;
 		</shiro:hasPermission>
-		
+		var isNewFlow =${isNewFlow}; 
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,

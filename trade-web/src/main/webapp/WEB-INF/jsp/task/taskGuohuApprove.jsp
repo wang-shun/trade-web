@@ -188,6 +188,13 @@
 		</div>	
 		
 		<div class="ibox-title">
+			<h5>备注信息 : </h5>
+			<div class="">
+			   ${houseTransfer.comment} 
+            </div>
+		</div>
+		
+		<div class="ibox-title">
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form class="form-horizontal" id="guohuApproveForm">
