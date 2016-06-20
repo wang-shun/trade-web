@@ -24,7 +24,7 @@
                             <div class="panel-heading">
                                 物业信息                                            
                             </div>
-                            <div class="panel-body" style="height:164px;">
+                            <div class="panel-body" style="height:184px;">
                                 <p>产证地址：${caseBaseVO.toPropertyInfo.propertyAddr}</p>
                                 <p>层高：${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</p>
                                 <p>产证面积：${caseBaseVO.toPropertyInfo.square}平方</p>
@@ -40,7 +40,7 @@
                             <div class="panel-heading">
                                 买卖双方
                             </div>
-                            <div class="panel-body" style="height:164px;">
+                            <div class="panel-body" style="height:184px;">
                                 <p>上家姓名：${caseBaseVO.buyerSellerInfo.sellerName}</p>
                                 <p>电话：${caseBaseVO.buyerSellerInfo.sellerMobile}</p>
                                 <p>下家姓名：${caseBaseVO.buyerSellerInfo.buyerName}</p>
@@ -55,7 +55,7 @@
                             <div class="panel-heading">
                                经纪人信息
                             </div>
-                            <div class="panel-body" style="height:164px;">
+                            <div class="panel-body" style="height:184px;">
                                 <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
                                 <p>姓名：${caseBaseVO.agentManagerInfo.agentName }</p>
                                 <p>电话：${caseBaseVO.agentManagerInfo.agentPhone}</p>
@@ -73,7 +73,7 @@
                             <div class="panel-heading">
                                 经办人信息
                             </div>
-                            <div id="cpDiv" class="panel-body" style="height:164px;">
+                            <div id="cpDiv" class="panel-body" style="height:184px;">
                                 <p>交易顾问：${caseBaseVO.agentManagerInfo.cpName}</p>
                                 <p>电话：${caseBaseVO.agentManagerInfo.cpMobile}</p>
                                  <c:if test="${empty caseBaseVO.agentManagerInfo.proList}">

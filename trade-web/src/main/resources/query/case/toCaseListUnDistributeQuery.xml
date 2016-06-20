@@ -95,6 +95,7 @@
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="ctmCode" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
 				<column type="both" name="ORG_NAME"  	title="组别" 	customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="AGENT_ORG_CODE"  	title="组别" 	customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />

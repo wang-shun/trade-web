@@ -14,11 +14,20 @@
     <!-- Gritter -->
 	<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-    <link href="${ctx}/css/style.css" rel="stylesheet">
+	<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+	<link href="${ctx}/css/animate.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+	<link href="${ctx}/css/style.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+	<link href="${ctx}/css/common/common.css" rel="stylesheet">
+	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+	<link href="${ctx}/css/transcss/case/myCaseList.css" rel="stylesheet">
+    <!-- 分页控件 -->
+	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     <style type="text/css">
     .ibox-button {
 		margin-top: 10px;
@@ -34,8 +43,8 @@
 	
 	}
 	
-	.bianhao{width:221px}
-	.dizhi{width:430px}
+	.bianhao{width:221px;padding-left:0;}
+	.dizhi{width:542px}
 	
     </style>
 </head>
@@ -51,30 +60,24 @@
 		<div class="col-lg-12">
 			<div class="ibox ">
 				<div class="ibox-title">
-					<h5>我的案件列表</h5>
+					<h5>我的待分配案件列表</h5>
 				</div>
 
 				<div class="ibox-content">
-				<!-- 
 					<form method="get" class="form-horizontal">
 					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group ">
-								<label class="col-md-1 control-label m-l">CTM编号</label>
-								<div class="col-md-10 bianhao">
-											<input type="text" class="form-control" id="ctmNo" name="ctmNo" value=""/>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group ">
 								<label class="col-md-1 control-label m-l">案件编号</label>
-								<div class="col-md-10 bianhao">
-											<input type="text" class="form-control" id="caseNo" name="caseNo" value=""/>
+								<div class="col-md-10">
+									<div class="col-md-2 bianhao">
+										<input type="text" class="form-control" id="caseNo" name="caseNo" value=""/>
+									</div>
+								<label class="col-md-1 control-label">CTM编号</label>
+								<div class="col-md-2 bianhao">
+									<input type="text" class="form-control" id="ctmNo" name="ctmNo" value=""/>
+								</div>
 								</div>
 							</div>
 						</div>
@@ -96,29 +99,50 @@
 							<div class="form-group">
 							<label class="col-md-1 control-label m-l-lg"></label>
 							<div>
-								<button id="searchButton" type="button" class="btn btn-warning" onclick="_query_case_selective()">查询</button>
+								<button id="searchButton" type="button" class="btn btn-warning" ">查询</button>
 							</div>
 							</div>
 						</div>
 					</div>
 						
-					</form>  -->
-				
-					<div class="jqGrid_wrapper">
-						<table id="table_list_1"></table>
-						<div id="pager_list_1"></div>
-						
-			
-				
+					</form>
+
+					<div class="data-wrap">
+						<div class="data-wrap-in">
+							<table border="0" cellpadding="0" cellspacing="0">
+							<thead>
+							<tr>
+								<th class="t-left pd-l"><input type="checkbox" id="checkAllNot" class="cbox"/></th>
+								<th class="t-left pd-l">案件编号</th>
+								<th class="t-left pd-l">产证地址</th>
+								<th class="t-left pd-l">区经/区总</th>
+								<th class="t-left pd-l">案件状态</th>
+								<th class="t-left pd-l">派单时间</th>
+							</tr>
+							</thead>
+							<tbody id="myCaseList">
+					
+							</tbody>							
+							</table>
+						</div>				
 					</div>
-						<div class="ibox-button text-center">
-							<a class="btn btn-primary" href="javascript:caseDistribute()"
-							disabled="true" id="caseDistributeButton">案件分配</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:caseChangeTeam()"
-							disabled="true" id="caseChangeTeamButton">案件转组</a></div>
+					
+					<div class="text-center">
+						<span id="currentTotalPage"><strong class="bold"></strong></span>
+						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+    				</div>	
+					
+					<div class="ibox-button text-center">
+						<a class="btn btn-primary" href="javascript:caseDistribute()" disabled="true" id="caseDistributeButton">案件分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a class="btn btn-primary" href="javascript:caseChangeTeam()" disabled="true" id="caseChangeTeamButton">案件转组</a>
+					</div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	<div class="wrapper wrapper-content  animated fadeInRight">
 		<div id="modal-form" class="modal fade" aria-labelledby="modal-title"
 			aria-hidden="true">
@@ -143,9 +167,10 @@
 			</div>
 		</div>
 	</div>
- <!-- 案件转组 -->
-            <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
-	             <div class="modal-dialog" style="width:700px">
+	
+ 	<!-- 案件转组 -->
+    <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
+		<div class="modal-dialog" style="width:700px">
 	                <div class="modal-content">
 	                    <div class="modal-header">
 						   <button type="button" class="close" data-dismiss="modal"
@@ -177,13 +202,24 @@
                      </div>
                      </div>
                  </div>
-             </div>  
+             </div>
+               
 	<content tag="local_script">
 
-
-    <!-- jqGrid -->
-    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+    <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<!-- 排序插件 -->
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<!-- 分页控件  -->
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/js/jquery.blockui.min.js"></script>
@@ -200,8 +236,43 @@
 		</select>
 	</script>	
 
+	<script id="template_myCaseList" type= "text/html">
+    	{{each rows as item index}}
+  			{{if index%2 == 0}}
+ 		    	<tr class="tr-1">
+            {{else}}
+            	<tr class="tr-2">
+            {{/if}}
+				<td>
+					<input type="checkbox" name="my_checkbox" class="cbox" onclick="_checkbox()" /> 
+					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
+					<input type="hidden" name="yu_team_code" value="{{item.YU_TEAM_CODE}}"/>
+				</td>
+				<td class="t-left pd-l">{{item.CASE_CODE}}</td>
+				<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
+				<td class="t-left pd-l">{{item.LEADER}}</td>
+				<td class="t-left pd-l">{{item.STATUS}}</td>
+				<td class="t-left pd-l">{{item.CREATE_TIME}}</td>
+				  </tr>
 
-
+			{{if index%2 == 0}}
+ 				<tr class="tr-1">
+            {{else}}
+                <tr class="tr-2">
+            {{/if}}
+				<td></td>
+				<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
+				<td class="t-left pd-l">
+				<i class="salesman-icon"></i>
+					<span class="salesman-info">
+						{{item.AGENT_NAME}}<span class="slash">/</span>{{item.ORG_NAME}}
+					</span>
+				</td>
+				<td colspan="3" class="t-left pd-l">
+				</td>
+				</tr>
+       {{/each}}
+	</script>
 </content>
 </body>
 </html>
