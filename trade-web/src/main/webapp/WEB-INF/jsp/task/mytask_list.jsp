@@ -245,8 +245,8 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-						<th class="text-center">红绿灯</th>
-						<th><span class="sort active" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
+						<th class="text-center" >红绿灯</th>
+						<th><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
 						<th>当前任务</th>
 						<th>上家</th>
 						<th>下家</th>

@@ -465,98 +465,67 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    		if(data.content != null && data.content.custCode != null){
 	    			custCode=data.content.custCode;
 	    		}
+	    		var fStr='mortgageForm';
+	    		var f=$("#mortgageForm");
+	    		if(isMainLoanBank != 1){
+	    			fStr='mortgageForm1';
+	    			f=$('#mortgageForm1');
+	    		}
+	    		
  				 //银行下拉列表
-				if(isMainLoanBank == 1){
-    				getGuestInfo("mortgageForm");
+			
+    				getGuestInfo(fStr);
 
-	  				getParentBank($("#mortgageForm").find("select[name='bank_type']"),$("#mortgageForm").find("select[name='finOrgCode']"),finOrgCode);
+	  				getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
 	  				
-	  				$("#mortgageForm").find("select[name='bank_type']").change(function(){
+	  				f.find("select[name='bank_type']").change(function(){
 	  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
-				    	getBranchBankList($("#mortgageForm").find("select[name='finOrgCode']"),$("#mortgageForm").find("select[name='bank_type']").val(),"");
+				    	getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
 				    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
 				    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
 				    }); 
-				}else{
-    				getGuestInfo("mortgageForm1");
-
-					getParentBank($("#mortgageForm1").find("select[name='bank_type']"),$("#mortgageForm1").find("select[name='finOrgCode']"),finOrgCode);
-	  				
-	  				$("#mortgageForm1").find("select[name='bank_type']").change(function(){
-	  					/*$("#mortgageForm1").find("select[name='finOrgCode']").chosen("destroy");*/
-				    	getBranchBankList($("#mortgageForm1").find("select[name='finOrgCode']"),$("#mortgageForm1").find("select[name='bank_type']").val(),"");
-				    	/*$("#mortgageForm1").find("select[name='finOrgCode']").unbind('change');
-				    	$("#mortgageForm1").find("select[name='finOrgCode']").bind('change',subBankChange);*/
-				    }); 
-				}
-				  
+		
 	    		if(data != null && data.content != null){
 	    			
-	    			if(isMainLoanBank == 1){
-
-		    			$("#mortgageForm").find("input[name='pkid']").val(data.content.pkid);
-		    			$("#mortgageForm").find("select[name='mortType']").val(data.content.mortType);
-		    			$("#mortgageForm").find("input[name='mortTotalAmount']").val(data.content.mortTotalAmount);
-		    			$("#mortgageForm").find("input[name='comAmount']").val(data.content.comAmount);
-		    			$("#mortgageForm").find("input[name='comYear']").val(data.content.comYear);
-		    			$("#mortgageForm").find("input[name='comDiscount']").val(data.content.comDiscount);
-		    			$("#mortgageForm").find("input[name='prfAmount']").val(data.content.prfAmount);
-		    			$("#mortgageForm").find("input[name='prfYear']").val(data.content.prfYear);
-		    			$("#mortgageForm").find("select[name='custCode']").val(data.content.custCode);
-		    			$("#mortgageForm").find("select[name='custName']").val(data.content.custName);
-		    			$("#mortgageForm").find("input[name='custCompany']").val(data.content.custCompany);
-		    			$("#mortgageForm").find("select[name='lendWay']").val(data.content.lendWay);
-		    			$("#mortgageForm").find("input[name='loanerName']").val(data.content.loanerName);
-		    			$("#mortgageForm").find("input[name='loanerPhone']").val(data.content.loanerPhone);
+		    			f.find("input[name='pkid']").val(data.content.pkid);
+		    			f.find("select[name='mortType']").val(data.content.mortType);
+		    			
+		    			f.find("input[name='prfAmount']").val(data.content.prfAmount);
+		    			f.find("input[name='prfYear']").val(data.content.prfYear);
+		    			if(data.content.mortType=='30016001'){
+		    				f.find("input[name='prfAmount']").val('').prop('disabled',true);
+			    			f.find("input[name='prfYear']").val('').prop('disabled',true);
+		    			}else{
+		    				f.find("input[name='prfAmount']").prop('disabled',false);
+			    			f.find("input[name='prfYear']").prop('disabled',false);
+		    			}
+		    			f.find("input[name='mortTotalAmount']").val(data.content.mortTotalAmount);
+		    			f.find("input[name='comAmount']").val(data.content.comAmount);
+		    			f.find("input[name='comYear']").val(data.content.comYear);
+		    			f.find("input[name='comDiscount']").val(data.content.comDiscount);
+		    			f.find("select[name='custCode']").val(data.content.custCode);
+		    			f.find("select[name='custName']").val(data.content.custName);
+		    			f.find("input[name='custCompany']").val(data.content.custCompany);
+		    			f.find("select[name='lendWay']").val(data.content.lendWay);
+		    			f.find("input[name='loanerName']").val(data.content.loanerName);
+		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
 		    			if(data.content.isLoanerArrive == 1){
-		    				$("#mortgageForm").find("input[name='isLoanerArrive']").prop("checked",true);
+		    				f.find("input[name='isLoanerArrive']").prop("checked",true);
 		    			}
-		    			$("#mortgageForm").find("input[name='houseNum']").val(data.content.houseNum);
-		    			$("#mortgageForm").find("input[name='signDate']").val(data.content.signDate);
+		    			f.find("input[name='houseNum']").val(data.content.houseNum);
+		    			f.find("input[name='signDate']").val(data.content.signDate);
 		    			if(data.content.ifReportBeforeLend == 1){
-		    				$("#mortgageForm").find("input[name='ifReportBeforeLend']").prop("checked",true);
+		    				f.find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			$("#finOrgCode").val(data.content.finOrgCode).val();
-		    			$("#mortgageForm").find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
-		    			$("#mortgageForm").find("input[name='remark']").val(data.content.remark);
+		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
+		    			f.find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
+		    			f.find("input[name='remark']").val(data.content.remark);
 		    			if(data.content.toSupDocu != null){
-		    				$("#mortgageForm").find("input[name='supContent']").val(data.content.toSupDocu.supContent);
-			    			$("#mortgageForm").find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
+		    				f.find("input[name='supContent']").val(data.content.toSupDocu.supContent);
+			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
 		    			}
 		    			
-	    			}else{
-
-		    			$("#mortgageForm1").find("input[name='pkid']").val(data.content.pkid);
-		    			$("#mortgageForm1").find("select[name='mortType']").val(data.content.mortType);
-		    			$("#mortgageForm1").find("input[name='mortTotalAmount']").val(data.content.mortTotalAmount);
-		    			$("#mortgageForm1").find("input[name='comAmount']").val(data.content.comAmount);
-		    			$("#mortgageForm1").find("input[name='comYear']").val(data.content.comYear);
-		    			$("#mortgageForm1").find("input[name='comDiscount']").val(data.content.comDiscount);
-		    			$("#mortgageForm1").find("input[name='prfAmount']").val(data.content.prfAmount);
-		    			$("#mortgageForm1").find("input[name='prfYear']").val(data.content.prfYear);
-		    			$("#mortgageForm1").find("select[name='custCode']").val(data.content.custCode);
-		    			$("#mortgageForm1").find("select[name='custName']").val(data.content.custName);
-		    			$("#mortgageForm1").find("input[name='custCompany']").val(data.content.custCompany);
-		    			$("#mortgageForm1").find("select[name='lendWay']").val(data.content.lendWay);
-		    			$("#mortgageForm1").find("input[name='loanerName']").val(data.content.loanerName);
-		    			$("#mortgageForm1").find("input[name='loanerPhone']").val(data.content.loanerPhone);
-		    			if(data.content.isLoanerArrive == 1){
-		    				$("#mortgageForm1").find("input[name='isLoanerArrive']").prop("checked",true);
-		    			}
-		    			$("#mortgageForm1").find("input[name='houseNum']").val(data.content.houseNum);
-		    			$("#mortgageForm1").find("input[name='signDate']").val(data.content.signDate);
-
-		    			if(data.content.ifReportBeforeLend == 1){
-		    				$("#mortgageForm1").find("input[name='ifReportBeforeLend']").prop("checked",true);
-		    			}
-		    			$("#finOrgCode").val(data.content.finOrgCode);
-		    			$("#mortgageForm1").find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
-		    			$("#mortgageForm1").find("input[name='remark']").val(data.content.remark);
-		    			if(data.content.toSupDocu != null){
-		    				$("#mortgageForm1").find("input[name='supContent']").val(data.content.toSupDocu.supContent);
-			    			$("#mortgageForm1").find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
-		    			}
-	    			}
+	    			
 	    		}
 	    	}
 	  });
