@@ -41,7 +41,7 @@
 					a.LEADING_PROCESS_ID AS LEADING_PROCESS_ID
 				FROM 
 					sctrans.T_TO_CASE a 
-				INNER JOIN 
+				LEFT JOIN 
 					sctrans.T_TO_SIGN b 
 				ON 
 					a.CASE_CODE=b.CASE_CODE 
