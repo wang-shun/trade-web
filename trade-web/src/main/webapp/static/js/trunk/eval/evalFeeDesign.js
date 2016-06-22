@@ -141,7 +141,7 @@ function rowEdit(id){
     var tel=''; //手机号
     
 	var params={
-		search_caseCode : caseCode,
+		argu_caseCode : caseCode,
 		queryId : 'getInfo4EvalFeeDesign',
 		rows : 1,
 		page : 1
@@ -156,8 +156,8 @@ function rowEdit(id){
 		data : params,
 		contentType: "application/json; charset=utf-8",
 	    success:function(data) {
-	    	conPrice=data.rows[0].CON_PRICE;
-	    	realProce=data.rows[0].REAL_PRICE;
+	    	conPrice=data.rows[0].CON_PRICE?data.rows[0].CON_PRICE:'';
+	    	realProce=data.rows[0].REAL_PRICE?data.rows[0].REAL_PRICE:'';
 	    	consult=data.rows[0].CONSULT;
 	    	tel=data.rows[0].TEL;
 		},
