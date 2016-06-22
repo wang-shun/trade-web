@@ -83,7 +83,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  		case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,ART.ID_  DESC
+			  		ORDER BY  case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,ART.ID_  DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
