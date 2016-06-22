@@ -83,7 +83,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  		ORDER BY (DATEDIFF(S,'1970-01-01 00:00:00', tp.EST_PART_TIME) + -1) asc ,tw.CASE_CODE asc
+			  		case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,ART.ID_  DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
