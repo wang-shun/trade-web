@@ -88,97 +88,95 @@ text-decoration: underline !important;
 
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
 <div class="row">
-	<div class="wrapper wrapper-content  animated fadeInRight">
-		<div class="col-md-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>案件统计</h5>
-				</div>
-				<div class="ibox-content">
-				<form method="get" class="form-horizontal">
+<div class="wrapper wrapper-content  animated fadeInRight">
+	<div class="col-md-12">
+	<div class="ibox float-e-margins">
+	<div class="ibox-title">
+		<h5>案件统计</h5>
+	</div>
+	
+	<div class="ibox-content">
+	<form method="get" class="form-horizontal">
 					
-						<!-- 组织范围 -->
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group ">
-									<label class="col-md-1 control-label m-l">组织范围</label>
-									<div class="col-md-10 zuzhi">
-											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
-										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${depId}',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
-										   expandNodeId:''})" value="${orgName}"/>
-										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- 时间范围 -->
-					 	<div class="row date-info">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">时间范围</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left ml-15" data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${createTimeStart}" placeholder="起始日期" /> 
-								<span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${createTimeEnd}" placeholder="结束日期" />
-							</div>
-						</div>
-						</div>
-							</div>
-						</div>
-						
-						<!-- 查询 -->
-						<div class="row m-t-sm">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l-lg"></label>
-							<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
-						</div>
-							</div>
-						</div>
-						
-					</form>
-				</div>				
+		<!-- 组织范围 -->
+		<div class="row">
+		<div class="col-md-12">
+			<div class="form-group ">
+			<label class="col-md-1 control-label m-l">组织范围</label>
+			<div class="col-md-10 zuzhi">
+			<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
+				onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:'${depId}',
+				chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:''})" value="${orgName}"/>
+			<input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 
+			</div>
 			</div>
 		</div>
-		
-		<div class="data-wrap">
-		
-		<div class="data-wrap-in">
-			<table border="0" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th class="t-left pd-l">组织/交易顾问</th>
-						<th class="t-left pd-l">接单数</th>
-						<th class="t-left pd-l">签约数</th>
-						<th class="t-left pd-l">过户数</th>
-						<th class="t-left pd-l">结案数</th>
-					</tr>
-				</thead>
-				<tbody id="myCaseList">
-					
-				</tbody>
-			</table>
 		</div>
+						
+		<!-- 时间范围 -->
+		<div class="row date-info">
+		<div class="col-md-12">
+			<div class="form-group">
+			<label class="col-md-1 control-label m-l">时间范围</label>
+			<div id="dateDiv_0">
+			<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left ml-15" data-date-format="yyyy-mm-dd">
+			<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${createTimeStart}" placeholder="起始日期" /> 
+			<span class="input-group-addon">到</span>
+			<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${createTimeEnd}" placeholder="结束日期" />
+			</div>
+			</div>
+			</div>
+		</div>
+		</div>
+						
+		<!-- 查询 -->
+		<div class="row m-t-sm">
+		<div class="col-md-12">
+			<div class="form-group">
+			<label class="col-md-1 control-label m-l-lg"></label>
+			<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
+			</div>
+		</div>
+		</div>
+						
+		</form>
+		</div>				
+		</div>
+		</div>
+		
+	<div class="data-wrap">
+	<div class="data-wrap-in">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<thead>
+			<tr>
+				<th class="t-left pd-l">组织/交易顾问</th>
+				<th class="t-left pd-l">接单数</th>
+				<th class="t-left pd-l">签约数</th>
+				<th class="t-left pd-l">过户数</th>
+				<th class="t-left pd-l">结案数</th>
+			</tr>
+			</thead>
+			<tbody id="myCaseList">
+					
+			</tbody>
+		</table>
 	</div>
+	</div>
+	
 	<div class="text-center">
 		<span id="currentTotalPage"><strong class="bold"></strong></span>
 		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
     </div>
-		</div>
-	</div>
-	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="org" value="${org}" />
-	<input type="hidden" id="transJob" value="${transJob}" />
-	<input type="hidden" id="tempUser" value="${tempUser}" />
-	<input type="hidden" id="startTime" value="${createTimeStart}" />
-	<input type="hidden" id="endTime" value="${createTimeEnd}" />
+</div>
+</div>
+
+<input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="transJob" value="${transJob}" />
+<input type="hidden" id="tempUser" value="${tempUser}" />
+<input type="hidden" id="startTime" value="${createTimeStart}" />
+<input type="hidden" id="endTime" value="${createTimeEnd}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
@@ -202,7 +200,7 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="t-left pd-l">{{item.ORG}}</td>
+						<td class="t-left pd-l">{{item.DISTRICT_ID}}</td>
 						<td class="t-left pd-l">{{item.RECEIVED_COUNT}}</td>
 						<td class="t-left pd-l">{{item.SIGN_COUNT}}</td>
 						<td class="t-left pd-l">{{item.HOUSE_TRANFER_COUNT}}</td>

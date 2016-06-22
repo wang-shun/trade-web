@@ -134,20 +134,32 @@ function rowEdit(id){
 
     var caseCode=row.CASE_CODE;
     var ctx = $("#ctx").val();
-	var params=caseCode;
+    
+    var conPrice=""; //合同价
+    var realProce=""; //成交价
+    var consult =''; //交易顾问
+    var tel=''; //手机号
+    
+	var params={
+		search_caseCode : caseCode,
+		queryId : 'getInfo4EvalFeeDesign',
+		rows : 1,
+		page : 1
+	};
 	
 	$.ajax({
 		async: false,
-		cache : false,
+		cache : true,
 		type : "GET",
-		url : ctx+'/eval/findInfo?caseCode='+caseCode,
+		url : ctx+'/quickGrid/findPage',
 		dataType: 'json',
+		data : params,
 		contentType: "application/json; charset=utf-8",
 	    success:function(data) {
-//			alert(data);
-			if(data.success){
-				
-			}
+	    	conPrice=data.rows[0].CON_PRICE;
+	    	realProce=data.rows[0].REAL_PRICE;
+	    	consult=data.rows[0].CONSULT;
+	    	tel=data.rows[0].TEL;
 		},
 		
 		error: function(errors) {
@@ -159,14 +171,14 @@ function rowEdit(id){
     inHtml += '<div class="form-group">';
     inHtml += '<label class="col-sm-4 control-label f-n">案件地址：</label>';
     inHtml += '<span class="col-sm-4 control-label f-n">'+row.PROPERTY_ADDR+'</span><br />';
-//    inHtml += '<label class="col-sm-4 control-label f-n">合同价：</label>';
-//    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
-//    inHtml += '<label class="col-sm-4 control-label f-n">成交价：</label>';
-//    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
-//    inHtml += '<label class="col-sm-4 control-label f-n">交易顾问：</label>';
-//    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
-//    inHtml += '<label class="col-sm-4 control-label f-n">手机号：</label>';
-//    inHtml += '<span class="col-sm-4 control-label f-n">6</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">合同价：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">'+conPrice+'</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">成交价：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">'+realProce+'</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">交易顾问：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">'+consult+'</span><br />';
+    inHtml += '<label class="col-sm-4 control-label f-n">手机号：</label>';
+    inHtml += '<span class="col-sm-4 control-label f-n">'+tel+'</span><br />';
     inHtml += '<label class="col-sm-4 control-label">评估费：</label>';
     inHtml += '<label class="col-sm-6"><input id="evalFee" name="evalFee" type="text" class="form-control" value="'+row.EVAL_FEE+'"></label>';
     inHtml += '</div><div class="form-group">';

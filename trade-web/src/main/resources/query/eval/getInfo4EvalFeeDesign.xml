@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
+		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
+		<customDict id="qqcdUserIdMobile" beanName="qqcdUserIdMobile" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="getInfo4EvalFeeDesign" cacheCount="true">
+		<searchCondition>
+           <condition field="a.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT 
+					b.CON_PRICE AS CON_PRICE, 
+					b.REAL_PRICE AS REAL_PRICE, 
+					a.LEADING_PROCESS_ID AS LEADING_PROCESS_ID
+				FROM 
+					sctrans.T_TO_CASE a 
+				LEFT JOIN 
+					sctrans.T_TO_SIGN b 
+				ON 
+					a.CASE_CODE=b.CASE_CODE 
+				]]>		
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价" 	sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="REAL_PRICE" index="" checkbox="" display="成交价" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />				
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="LEADING_PROCESS_ID" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />				
+				<column type="virtual" name="CONSULT" referencecol="LEADING_PROCESS_ID" index="" checkbox="" display="交易顾问" customDict="qqcdUserIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="TEL" referencecol="LEADING_PROCESS_ID" index="" checkbox="" display="电话" customDict="qqcdUserIdMobile" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+			</table-row>
+		</grid>
+	</query>
+</querys>
