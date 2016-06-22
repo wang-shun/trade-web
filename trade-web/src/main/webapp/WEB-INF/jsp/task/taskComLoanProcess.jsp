@@ -1487,7 +1487,16 @@ function checkInt(obj){
  	var index = 0;
 	jQuery(document).ready(function() {
 		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
-		
+		$("select[name='mortType']").change(function(){
+			var f=$(this).closest('form');
+			if($(this).val()=='30016001'){
+				f.find("input[name='prfAmount']").val('').prop('disabled',true);
+    			f.find("input[name='prfYear']").val('').prop('disabled',true);
+			}else{
+				f.find("input[name='prfAmount']").prop('disabled',false);
+    			f.find("input[name='prfYear']").prop('disabled',false);
+			}
+		});
 		$("#sendSMS").click(function(){
 					var t='';
 					var s='/';
