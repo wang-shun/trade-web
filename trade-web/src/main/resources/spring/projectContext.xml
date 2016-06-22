@@ -256,6 +256,10 @@
     	<property name="transPosition" value="30006002"></property>
     </bean>
     
+   	<bean name="qqcdDictMortageService" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="mortage_service"></property>
+    </bean>
+    
     <!-- KPI是否达标 -->
     <bean name="qqMKpi" class="com.centaline.trans.common.service.impl.QuickQueryMKpiCustomDictServiceImpl">
     </bean>

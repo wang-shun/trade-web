@@ -183,6 +183,8 @@
 						E.PRICING_TIME,
 						E.REAL_PLS_TIME,
 						E.REAL_HT_TIME,
+						E.CREATE_TIME AS GUOHU_CREATE_TIME,
+						E.COMMENT AS GUOHU_COMMENT,
 						E.REAL_PROPERTY_GET_TIME,
 						E.LOAN_LOST_TYPE,
 						AC.org_name AS  AGENT_ORG,
@@ -383,6 +385,28 @@
 					<ifNotNull guohuApproveTimeEnd>
 						AND t.end_time_ &lt;= #guohuApproveTimeEnd#
 					</ifNotNull>
+					<choose>
+						<when test	="mortageType==0">
+					      AND NOT EXISTS (
+					     SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND CASE_CODE = B.CASE_CODE
+							 )
+					     </when>
+					     <when test	="mortageType==1">
+					      AND EXISTS (
+					     SELECT * FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = B.CASE_CODE
+							 )
+					     </when>
+					     <when test	="mortageType==2">
+					       AND EXISTS (
+					     SELECT * FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE = '30016003' AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = B.CASE_CODE
+							 )
+					     </when>
+					     <when test	="mortageType==3">
+					       AND EXISTS (
+					     SELECT * FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND CASE_CODE = B.CASE_CODE
+							 )
+					     </when>
+					</choose> 
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -540,6 +564,10 @@
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="REAL_HT_TIME" title="过户时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="GUOHU_CREATE_TIME" title="过户创建时间"
+					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="GUOHU_COMMENT" title="过户备注"
+					customDict="" hidden="true"/>
 				<column type="both" name="REAL_PROPERTY_GET_TIME" title="领证时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="CLOSE_TIME" title="结案时间"
