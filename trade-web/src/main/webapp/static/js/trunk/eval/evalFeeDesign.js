@@ -135,8 +135,8 @@ function rowEdit(id){
     var caseCode=row.CASE_CODE;
     var ctx = $("#ctx").val();
     
-    var conPrice=0; //合同价
-    var realProce=0; //成交价
+    var conPrice=""; //合同价
+    var realProce=""; //成交价
     var consult =''; //交易顾问
     var tel=''; //手机号
     
