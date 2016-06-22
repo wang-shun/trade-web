@@ -139,6 +139,8 @@ public class ToMortgageController {
 			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));
 			entity.setApprDate(toMortgage.getApprDate());
 			entity.setFormCommLoan("1");
+			entity.setLastLoanBank(toMortgage.getLastLoanBank());
+			entity.setPartCode(toMortgage.getPartCode());
 			toMortgageService.saveToMortgage(entity);
 			
 			/**
