@@ -353,6 +353,9 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParamsValue() {
 	// 贷款需求选择
 	var mortageType = $('#mortageService option:selected').val();
+	if(mortageType==null || mortageType=='') {
+		mortageType = -1;
+	}
 	// 案件类型
 	var caseProperty = $('#caseProperty option:selected').val();
 	// 服务阶段选择
