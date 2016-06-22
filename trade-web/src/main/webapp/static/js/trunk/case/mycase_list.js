@@ -351,7 +351,8 @@ function initpage(totalCount,pageSize,currentPage,records)
 
 
 function getParamsValue() {
-	
+	// 贷款需求选择
+	var mortageType = $('#mortageService option:selected').val();
 	// 案件类型
 	var caseProperty = $('#caseProperty option:selected').val();
 	// 服务阶段选择
@@ -403,6 +404,7 @@ function getParamsValue() {
 
 	//设置查询参数
 	var params = {
+		argu_mortageType : mortageType,
 		search_caseCode : caseCode,
 		search_ctmCode : ctmCode,
 		search_caseProperty : caseProperty,
@@ -661,7 +663,7 @@ var colNames = {
 	30011008 : 'COM_DISCOUNT',
 	30012001 : [ 'REAL_PRICE', 'CON_PRICE','CHECK_PRICE','UNIT_PRICE' ],
 	30012002 : [ 'REAL_CON_TIME', 'TAX_TIME', 'PRICING_TIME', 'REAL_PLS_TIME',
-			'REAL_HT_TIME', 'REAL_PROPERTY_GET_TIME','CLOSE_TIME' ],
+			'REAL_HT_TIME', 'GUOHU_CREATE_TIME','GUOHU_COMMENT','REAL_PROPERTY_GET_TIME','CLOSE_TIME' ],
 	30013001 : 'SPV_TYPE',
 	30013002 : 'AMOUNT',
 	30013003 : 'SIGN_TIME',
