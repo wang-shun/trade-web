@@ -134,9 +134,9 @@ public class ToMortgageController {
 		
 		try{
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
-			entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
+			/*entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
 			entity.setMortTotalAmount(NumberUtil.multiply(toMortgage.getMortTotalAmount(), new BigDecimal(10000)));
-			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));
+			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));*/
 			entity.setApprDate(toMortgage.getApprDate());
 			entity.setFormCommLoan("1");
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());
