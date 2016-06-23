@@ -74,6 +74,7 @@
 .modal-content {
    width : 1000px!important;
 }
+.min-h215{min-height:215px;}
 </style>
 </head>
 
@@ -114,7 +115,7 @@
 			                            <div class="panel-heading">
 			                                物业信息                                            
 			                            </div>
-			                            <div class="panel-body">
+			                            <div class="panel-body min-h215">
 			                             	<p>CTM地址：${toPropertyInfo.ctmAddr}</p>
 			                                <p>产证地址：${toPropertyInfo.propertyAddr}</p>
 			                                <p>层高：${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</p>
@@ -131,7 +132,7 @@
 			                            <div class="panel-heading">
 			                                买卖双方
 			                            </div>
-			                            <div class="panel-body">
+			                            <div class="panel-body min-h215">
 			                                <p>上家姓名：${caseDetailVO.sellerName}</p>
 			                                <p>电话：${caseDetailVO.sellerMobile}</p>
 			                                <p>下家姓名：${caseDetailVO.buyerName}</p>
@@ -146,7 +147,7 @@
 			                            <div class="panel-heading">
 			                               经纪人信息
 			                            </div>
-			                            <div class="panel-body">
+			                            <div class="panel-body min-h215">
 			                                <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
 			                                <p>姓名：${toCaseInfo.agentName }</p>
 			                                <p>电话：${toCaseInfo.agentPhone}</p>
@@ -164,7 +165,7 @@
 			                            <div class="panel-heading">
 			                                经办人信息
 			                            </div>
-			                            <div id="cpDiv" class="panel-body">
+			                            <div id="cpDiv" class="panel-body min-h215">
 			                                <p>交易顾问：${caseDetailVO.cpName}</p>
 			                                <p>电话：${caseDetailVO.cpMobile}</p>
 			                                 <c:if test="${empty caseDetailVO.proList}">
