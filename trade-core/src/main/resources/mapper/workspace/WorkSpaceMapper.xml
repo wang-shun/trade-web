@@ -170,7 +170,7 @@ from (
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-	  	and DATEDIFF(YYYY, la.SIGN_TIME, GETDATE())=0 and DatePart(m, la.SIGN_TIME)=#{mo,jdbcType=VARCHAR};
+	  	and DATEDIFF(YYYY, la.RELEASE_TIME, GETDATE())=0 and DatePart(m, la.RELEASE_TIME)=#{mo,jdbcType=VARCHAR};
 	  </if>
   </select>
   

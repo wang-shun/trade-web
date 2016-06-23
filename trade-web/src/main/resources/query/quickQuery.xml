@@ -108,4 +108,7 @@
 	<import resource="query/report/toCaseDetailListQuery.xml"></import>
 	<import resource="query/report/toCaseListQueryCount.xml"></import>
 	<import resource="query/eval/toEvalListQueryForStatistics.xml"></import>
+	
+	<!-- 评估费 -->
+	<import resource="query/eval/getInfo4EvalFeeDesign.xml"/>
 </queryConfig>

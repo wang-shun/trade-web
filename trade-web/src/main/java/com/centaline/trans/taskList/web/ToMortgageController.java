@@ -107,6 +107,7 @@ public class ToMortgageController {
 			}
 			
 			toMortgage.setToSupDocu(toSupDocu);
+			
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			
 		}catch(BusinessException e){
@@ -134,12 +135,14 @@ public class ToMortgageController {
 		
 		try{
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
-			toMortgage.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
-			toMortgage.setMortTotalAmount(NumberUtil.multiply(toMortgage.getMortTotalAmount(), new BigDecimal(10000)));
-			toMortgage.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));
+			/*entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
+			entity.setMortTotalAmount(NumberUtil.multiply(toMortgage.getMortTotalAmount(), new BigDecimal(10000)));
+			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));*/
 			entity.setApprDate(toMortgage.getApprDate());
-			toMortgage.setFormCommLoan("1");
-			toMortgageService.saveToMortgage(toMortgage);
+			entity.setFormCommLoan("1");
+			entity.setLastLoanBank(toMortgage.getLastLoanBank());
+			entity.setPartCode(toMortgage.getPartCode());
+			toMortgageService.saveToMortgage(entity);
 			
 			/**
 			 * 功能: 给客户发送短信

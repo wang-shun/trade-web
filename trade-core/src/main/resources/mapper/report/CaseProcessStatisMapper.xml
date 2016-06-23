@@ -31,7 +31,7 @@
   	</resultMap>
   	
   	<insert id="insert" parameterType="com.centaline.trans.report.entity.CaseProcessStatis">
-		INSERT INTO sctrans.T_RPT_CASE_PROCESS_STATIS ( 
+		INSERT INTO sctrans.V_RPT_CASE_PROCESS_STATIS ( 
 			CASE_CODE,
         	TEAM_ID,
             DISTRICT_ID,
@@ -84,7 +84,7 @@
   	</insert>
   	
   	<update id="update" parameterType="com.centaline.trans.report.entity.CaseProcessStatis">
-  		UPDATE sctrans.T_RPT_CASE_PROCESS_STATIS
+  		UPDATE sctrans.V_RPT_CASE_PROCESS_STATIS
   		<set >
       		<if test="caseCode != null" >
         	CASE_CODE = #{caseCode,jdbcType=VARCHAR},

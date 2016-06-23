@@ -102,7 +102,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">商贷部分利率折扣<font color="red">*</font></label>
 						<div class="col-md-2">
-							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)" 
+							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)" placeholder="例如: 0.8或0.95"
 								value="<fmt:formatNumber value='${SelfLoan.comDiscount}' type='number' pattern='#0.00' />">
 
 						</div>
@@ -179,6 +179,25 @@
 			}
 		});
 	}
+	
+	/*校验自办贷输入的折扣值*/
+	/*function checkInputNum(obj){
+		var inputVal = obj.value;
+		if(inputVal!=''){
+			if(inputVal>1||inputVal<=0){
+			obj.value='';
+			alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+			}else if(inputVal==1){
+			}else if(inputVal>0&&inputVal<1){
+				reg= /^[0]{1}\.{1}(\d{1,2})?$/;
+				if(!reg.test(inputVal)){
+					obj.value='';
+					alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+				}
+			}	
+		}
+	}*/
+	
 		$(document).ready(function() {
 			if('caseDetails'==source){
 				readOnlyForm();
@@ -364,7 +383,22 @@
                 alert("商贷部分利率折扣为必填项!");
                 $('input[name=comDiscount]').focus();
                 return false;
-           }
+			}else if(isNaN($('input[name=comDiscount]').val())){
+                alert("请输入0~1之间的合法数字");
+                $('input[name=comDiscount]').focus();				
+                return false;
+            }else if($('input[name=comDiscount]').val()>1 || $('input[name=comDiscount]').val()<=0){
+        		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+            	$('input[name=comDiscount]').focus();
+        		return false;
+        	}else if($('input[name=comDiscount]').val()>0&&$('input[name=comDiscount]').val()<1){
+        		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
+        		if(!reg.test($('input[name=comDiscount]').val())){
+        			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+        			$('input[name=comDiscount]').focus();
+        			return false;
+        		}
+           	}
 			/* if($('input[name=prfAmount]').val()=='') {
                 alert("公积金贷款金额为必填项!");
                 $('input[name=prfAmount]').focus();

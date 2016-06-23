@@ -190,8 +190,8 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">商贷部分利率折扣</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }"
-												class="form-control" onkeyup="checknum(this)">
+					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="例如: 0.8或0.95"
+					class="form-control" onkeyup="checknum(this)">
 				</div>
 		</div>
 		<div class="form-group">
@@ -652,6 +652,28 @@
                 $('input[name=landIncrementTax]').focus();
                 return false;
            }
+			if($('input[name=comDiscount]').val()!='') {
+				var comDiscount = $('input[name=comDiscount]').val();
+				
+				if(isNaN(comDiscount)){
+		            alert("请输入0~1之间的合法数字");
+		            $('input[name=comDiscount]').focus();
+		            return false;
+		        }else if(comDiscount>1 || comDiscount<=0){
+		    		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		    		$('input[name=comDiscount]').focus();
+		    		return false;
+		    	}else if(comDiscount>0 && comDiscount<1){
+		    		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
+		    		if(!reg.test(comDiscount)){
+		    			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+		    			$('input[name=comDiscount]').focus();
+		    			return false;
+		    		}
+		       	}
+           }
+			
+			
 			return true;
 		}
 		
