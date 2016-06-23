@@ -557,7 +557,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">利率折扣</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="comDiscount" name="comDiscount" onkeyup="checkNum(this)"
+											<input type="text" class="form-control" id="comDiscount" name="comDiscount" onkeyup="checkNum(this)" placeholder="例如: 0.8或0.95"
 												value="<fmt:formatNumber value='${editCaseDetailVO.comDiscount}' type='number' pattern='#0.00' />">
 										</div>
 										<label class="col-sm-2 control-label">是否自办</label>
@@ -852,6 +852,13 @@
 		}
 		$(document).ready(function() {
 			isAccumulation=$('#mortType').val()=='30016003';
+			if(isAccumulation){
+				$('#comAmount').val('').attr("disabled","disabled");
+				$('#comYear').val('').attr("disabled","disabled");
+			}else if($('#mortType').val()=='30016001'){
+				$('#prfAmount').val('').attr("disabled","disabled");
+				$('#prfYear').val('').attr("disabled","disabled");
+			}
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">
 				 $("#closeType").attr("disabled","disabled");

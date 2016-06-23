@@ -139,7 +139,11 @@ public class MortgageController {
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}*/
 		toMortgage.setIsMainLoanBank("1");
-		toMortgageService.saveToMortgage(toMortgage);
+		ToMortgage mortage=toMortgageService.findToMortgageById(toMortgage.getPkid());
+		mortage.setLendDate(toMortgage.getLendDate());
+		mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+		mortage.setRemark(toMortgage.getRemark());
+		toMortgageService.saveToMortgage(mortage);
 		
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();

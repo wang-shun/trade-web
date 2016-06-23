@@ -107,6 +107,7 @@ public class ToMortgageController {
 			}
 			
 			toMortgage.setToSupDocu(toSupDocu);
+			
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			
 		}catch(BusinessException e){

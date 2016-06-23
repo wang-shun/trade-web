@@ -190,8 +190,8 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">商贷部分利率折扣</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }"
-												class="form-control" onkeyup="checknum(this)">
+					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="例如: 0.8或0.95"
+					class="form-control" onkeyup="checknum(this)">
 				</div>
 		</div>
 		<div class="form-group">
