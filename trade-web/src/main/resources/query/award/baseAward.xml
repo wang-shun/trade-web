@@ -92,13 +92,24 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					   	SRV_CODE,
-					   	BASE_AMOUNT,
-					   	SRV_PART_IN,
-					   	SRV_PART_TOTAL
-					from sctrans.t_ts_award_base
-					where case_Code = #caseCode# 
-					   	and PARTICIPANT = #userId#
+					        ab.SRV_CODE,
+					        ab.BASE_AMOUNT,
+					        ab.SRV_PART_IN,
+					        ab.SRV_PART_TOTAL,
+					        sc.SATISFACTION,
+					        pd.AWARD_KPI_MONEY,
+					        pm.FIN_ORDER,
+					        pm.FIN_ORDER_ROLL
+					from sctrans.t_ts_award_base ab 
+					 left join sctrans.T_TS_KPI_SRV_CASE sc 
+					        on ab.SRV_CODE = sc.SRV_CODE and ab.case_code =sc.case_code
+					 left join sctrans.T_TS_AWARD_KPI_PAY_DETAIL pd 
+					        on ab.SRV_CODE = pd.SRV_CODE and ab.case_code =pd.case_code 
+					 left join sctrans.T_TS_KPI_PSN_MONTH pm 
+					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
+					        	and ab.PARTICIPANT = pm.PARTICIPANT
+					where ab.case_Code = #caseCode# 
+					   	and ab.PARTICIPANT = #userId#
 				]]>
 			</baseSql>
 		</searchSql>
@@ -108,6 +119,11 @@
 				<column name="BASE_AMOUNT"   />
 				<column name="SRV_PART_IN"   />
 				<column name="SRV_PART_TOTAL"   />
+				
+				<column name="SATISFACTION"   />
+				<column name="AWARD_KPI_MONEY"   />
+				<column name="FIN_ORDER"   />
+				<column name="FIN_ORDER_ROLL"   />
 			</table-row>
 		</grid>
 	</query>

@@ -61,6 +61,7 @@
                     LEFT JOIN  sctrans.V_USER_ORG_JOB AS  F on  F.ORG_id = D.BUSIAR_ID AND F.job_code = 'JQYJL' AND F.is_leader = 1
 						LEFT JOIN  sctrans.V_USER_ORG_JOB AS  G on  G.ORG_id = D.BUSISWZ_ID AND G.job_code = 'JQYZJ' AND G.is_leader = 1
 					where 1=1
+					AND  not exists (select * from sctrans.T_TS_TEAM_SCOPE_GRP GRP where GRP.IS_RESPONSE_TEAM = 1 AND GRP.GRP_CODE=A.GRP_CODE)
 					AND  not exists (select * from sctrans.T_TS_TEAM_SCOPE_AR AR where AR.IS_RESPONSE_TEAM = 1 AND AR.AR_CODE=A.AR_CODE)
 					AND  not exists (select * from sctrans.T_TS_TEAM_TRANSFER transfer where transfer.IS_DELETE = 0 AND transfer.CASE_CODE=A.CASE_CODE)
 					and a.is_responsed is null
