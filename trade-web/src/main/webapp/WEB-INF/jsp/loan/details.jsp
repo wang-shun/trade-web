@@ -270,7 +270,7 @@
 			var postData,caseList;
 			var starHtml="<span class=\"star\">*</span>";
 			var loanDiv=$('#loan_div');
-			var flagList={'1':2,'2':4,'3':8};
+			var flagList={'1':2,'2':(4|2),'3':(8|4|2)};
 			function fcheck(){
 				var flag=0;
 				var f=flagList[$("#select_applyStatus").val()];
