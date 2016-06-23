@@ -62,16 +62,23 @@ public class PSFApproveController {
 	@ResponseBody
 	public AjaxResponse<String> saveMortgage(HttpServletRequest request, ToMortgage toMortgage) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
-		response.setContent(String.valueOf(mortgage.getPkid()));
+		ToMortgage mortgage= toMortgageService.findToMortgageById(toMortgage.getPkid());
+		mortgage.setApprDate(toMortgage.getApprDate());
+		mortgage.setRemark(toMortgage.getRemark());
+		toMortgageService.saveToMortgage(mortgage);
 		return response;
 	}
+	
 
 	@RequestMapping(value="submitMortgage")
 	@ResponseBody
 	public Result submitMortgage(HttpServletRequest request, ToMortgage toMortgage,
 			String taskId, String processInstanceId, String partCode) {
-		toMortgageService.saveToMortgage(toMortgage);
+		
+		ToMortgage mortgage= toMortgageService.findToMortgageById(toMortgage.getPkid());
+		mortgage.setApprDate(toMortgage.getApprDate());
+		mortgage.setRemark(toMortgage.getRemark());
+		toMortgageService.saveToMortgage(mortgage);
 		
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
