@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getStatusByCode" beanName="qqcdDictass_status"></customDict>
+		<customDict id="qqcdDictMortageService" beanName="qqcdDictMortageService"></customDict>
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryMortgageApproveLost">
+		<searchCondition>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					  base.CASE_CODE,
+					  base.CASE_PROPERTY,
+					  mortgage.MORT_TYPE,
+					  mortgage.SIGN_DATE,
+					  guser.real_name,
+					  taskInst.END_TIME_
+					FROM 
+					  (SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0) mortgage
+					inner JOIN sctrans.V_CASE_LIST_BASE base
+					ON  mortgage.CASE_CODE = base.CASE_CODE
+					INNER JOIN sctrans.T_TO_WORKFLOW w ON base.CASE_CODE = w.CASE_CODE
+					AND w.BUSINESS_KEY = 'operation_process'
+					AND w.STATUS IN ('0', '4')
+					AND w.PKID = (select max(PKID) from sctrans.T_TO_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+					INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
+					AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') AND taskInst.end_time_ is not null
+					and taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_
+					AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') AND end_time_ is not null)
+					INNER JOIN sctrans.sys_user guser 
+					on guser.username = taskInst.ASSIGNEE_ 
+					and guser.available = '1'
+					and guser.is_deleted = '0'
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" display="案件编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_PROPERTY" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="MORT_TYPE" index="" checkbox="" display="贷款类型" customDict="qqcdDictMortageService" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="SIGN_DATE" index="" checkbox="" display="签约日期" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="real_name" index="" checkbox="" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="END_TIME_" index="" checkbox="" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

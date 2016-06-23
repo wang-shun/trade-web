@@ -69,9 +69,14 @@ function($, window) {
 			    				window[_reloadGrid]();
 			    			}*/
 			    			if(typeof reloadGrid =='function'){
-			    				reloadGrid();
+			    				if (typeof(settings._self) == "undefined"){
+			    					reloadGrid();
+			    				} else {
+			    					var _self = settings._self;
+			    					var cacheData = settings.cacheData;
+			    					_self.reloadGrid(cacheData);
+			    				}
 			    			}
-			    			
 			    		});
 					});
 			 },
@@ -147,6 +152,45 @@ function($, window) {
 				}else{
 					return false;
 				}
+			},
+			
+			initPage : function(elements,options,pageData) {
+				var _self = $(elements);
+				
+				var total = pageData.total;
+	        	var pagesize = pageData.pagesize;
+	        	var page = pageData.page;
+	        	var records = pageData.records;
+	        	
+				var currentTotalstrong=$('#currentTotalPage').find('strong');
+				if (total<1 || pagesize<1 || page<1)
+				{
+					$(currentTotalstrong).empty();
+					$('#totalP').text(0);
+					$("#pageBar").empty();
+					return;
+				}
+				$(currentTotalstrong).empty();
+				$(currentTotalstrong).text(page+'/'+total);
+				$('#totalP').text(records);
+				
+				
+				$("#pageBar").twbsPagination({
+					totalPages:total,
+					visiblePages:9,
+					startPage:page,
+					first:'<i class="icon-step-backward"></i>',
+					prev:'<i class="icon-chevron-left"></i>',
+					next:'<i class="icon-chevron-right"></i>',
+					last:'<i class="icon-step-forward"></i>',
+					showGoto:true,
+					onPageClick: function (event, page) {
+						 //console.log(page);
+						var data = options.data;
+						data.page = page;
+	      				_self.reloadGrid(options);
+				    }
+				});
 			}
 	 }
 	 window.aist = aist;
@@ -168,5 +212,105 @@ function($, window) {
 		}
 	};
 	
+	jQuery.isBlank = function(obj){
+	   	return(!obj || $.trim(obj) === "");
+	};
+	
+	jQuery.fn.aistGrid = function(options) {
+		var settings = $.extend({
+			url : "/quickGrid/findPage",
+			page : 1,
+			rows : 12
+		},options||{});
+		
+		var ctx = settings.ctx;
+		var url = settings.url;
+		var queryId = settings.queryId;
+		var page =  settings.page;
+		var rows =  settings.rows;
+		var templeteId = settings.templeteId;
+		var columns = settings.columns;
+		
+		var data = settings.data;
+		data.queryId = queryId;
+		data.page = page;
+		data.rows = rows;
+
+		var table = $("<table></table");
+		var tbody = $("<tbody></tbody");
+		
+	    var thead = $("<thead></thead>");
+	    var tr = $("<tr></tr>");
+	    $.each(columns, function(index,callback){
+	    	if (typeof(columns[index].sortColumn) == "undefined")
+	    	{
+	    		if (typeof(columns[index].colName) == "undefined") {
+	    			tr.append($("<th></th>"));
+	    		} else {
+	    			tr.append($("<th>" + columns[index].colName + "</th>"));
+	    		}
+	    	}else{
+	    		tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+	    	}
+	    });
+
+	    thead.append(tr);
+	    table.append(thead).append(tbody);
+	    
+	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span><span class=\"ml15\">共<strong class=\"bold\" id=\"totalP\"></strong>条</span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
+	    $(this).empty().append(table);
+	    if($("#pageBar").length == 0) {
+	    	$(this).after(pageBar);
+	    }
+	    var _self = $(this);
+
+	    aist.sortWrapper({
+			reloadGrid : defaultReloadGrid,
+			cacheData : settings,
+			_self : _self
+		});
+	    
+	    _self.reloadGrid(settings);
+		
+	};
+	
+	jQuery.fn.reloadGrid = function(options) {
+		var settings = $.extend({
+			url : "/quickGrid/findPage",
+			page : 1,
+			rows : 12
+		},options||{});
+		
+		var ctx = settings.ctx;
+		var url = settings.url;
+		var data = settings.data;
+		aist.wrap(data);
+		var templeteId = settings.templeteId;
+		var _self = $(this);
+		
+		$.ajax({
+			  async: false,
+	          url:ctx+url ,
+	          method: "post",
+	          dataType: "json",
+	          data: data,
+	          success: function(data){
+	        	  var templateHtml= template(templeteId , data);
+	        	  _self.find("tbody").empty();
+	        	  _self.find("tbody").html(templateHtml);
+	               // 显示分页 
+	        	  var pageData = {};
+	        	  pageData.total = data.total;
+	        	  pageData.pagesize = data.pagesize;
+	        	  pageData.page = data.page;
+	        	  pageData.records = data.records;
+	        	  aist.initPage(_self,settings,pageData);
+	          }
+	    });
+	};
+	
+	function defaultReloadGrid() {
+		
+	}
 	
 }(jQuery, window);
