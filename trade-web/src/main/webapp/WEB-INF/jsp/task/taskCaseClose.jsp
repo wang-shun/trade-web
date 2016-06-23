@@ -557,7 +557,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">利率折扣</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="comDiscount" name="comDiscount" onkeyup="checkNum(this)"
+											<input type="text" class="form-control" id="comDiscount" name="comDiscount" onkeyup="checkNum(this)" placeholder="例如: 0.8或0.95"
 												value="<fmt:formatNumber value='${editCaseDetailVO.comDiscount}' type='number' pattern='#0.00' />">
 										</div>
 										<label class="col-sm-2 control-label">是否自办</label>
