@@ -1442,7 +1442,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.1.3"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.1.4"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
@@ -1508,7 +1508,16 @@ function checkInt(obj){
  	var index = 0;
 	jQuery(document).ready(function() {
 		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
-		
+		$("select[name='mortType']").change(function(){
+			var f=$(this).closest('form');
+			if($(this).val()=='30016001'){
+				f.find("input[name='prfAmount']").val('').prop('disabled',true);
+    			f.find("input[name='prfYear']").val('').prop('disabled',true);
+			}else{
+				f.find("input[name='prfAmount']").prop('disabled',false);
+    			f.find("input[name='prfYear']").prop('disabled',false);
+			}
+		});
 		$("#sendSMS").click(function(){
 					var t='';
 					var s='/';

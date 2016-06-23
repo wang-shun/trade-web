@@ -141,9 +141,9 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-7">
 								<div class="form-group ">
-									<label class="col-md-1 control-label m-l">案件组织</label>
+									<label class="col-md-2 control-label">案件组织</label>
 									<div class="col-md-10">
 											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
@@ -151,6 +151,14 @@ text-decoration: underline !important;
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
 										   expandNodeId:''})" />
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+									</div>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">贷款需求选择</label>
+									<div class="col-md-8">
+										<aist:dict clazz="form-control" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
 									</div>
 								</div>
 							</div>
