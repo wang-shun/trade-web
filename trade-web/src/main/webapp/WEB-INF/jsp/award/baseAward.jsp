@@ -159,6 +159,10 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>环节占比</th>
+
+													<th>满意度</th>
+													<th>金融单量</th>
+													<th>最终奖金</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -167,6 +171,13 @@
                                                     <td>{{item.SRV_CODE}}</td>
 													<td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SRV_PART_IN}}/{{item.SRV_PART_TOTAL}}</td>
+
+													<td>{{item.SATISFACTION}}</td>
+													<td>{{item.FIN_ORDER}}
+															{{if item.FIN_ORDER != null && item.FIN_ORDER_ROLL != null }}+{{/if}}
+														{{item.FIN_ORDER_ROLL}}
+													</td>
+													<td>{{item.AWARD_KPI_MONEY}}</td>
                                                 </tr>
 												{{/each}}
                                             </tbody>

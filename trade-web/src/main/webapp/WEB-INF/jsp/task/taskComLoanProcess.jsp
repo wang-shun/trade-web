@@ -724,7 +724,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
 										<div class="col-md-2">
-											<input type="text" name="comDiscount" id="comDiscount"
+											<input type="text" name="comDiscount" id="comDiscount" placeholder="例如: 0.8或0.95"
 												class="form-control"  onkeyup="checknum(this)">
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
@@ -1114,7 +1114,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
 										<div class="col-md-2">
-											<input type="text" name="comDiscount" id="comDiscount"
+											<input type="text" name="comDiscount" id="comDiscount" placeholder="例如: 0.8或0.95"
 												class="form-control"  onkeyup="checknum(this)">
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>

@@ -102,7 +102,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">商贷部分利率折扣<font color="red">*</font></label>
 						<div class="col-md-2">
-							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)"
+							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)" placeholder="例如: 0.8或0.95"
 								value="<fmt:formatNumber value='${SelfLoan.comDiscount}' type='number' pattern='#0.00' />">
 
 						</div>
