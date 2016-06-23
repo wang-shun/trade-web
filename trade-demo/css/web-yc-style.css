@@ -145,7 +145,7 @@
 
 
 
-// zhenglei css for fs START
+/*zhenglei css for fs START*/
 .hr-line-fs {
     border-top: 1px dashed #000000;
     color: #0000;
@@ -176,4 +176,56 @@
   padding-bottom: 4px;
 }
 
-// zhenglei css for fs END
+/*zhenglei css for fs END*/
+
+.btn-group>.btn.active{
+  background-color: #f8ac59;
+}
+
+
+.chat-discussion .chat-cust.chat-message .message-avatar {
+    float: left;
+    margin-right: 10px;
+    margin-left: 0px;
+}
+
+.chat-discussion .chat-cust.chat-message .message {
+
+    text-align: left;
+    margin-right: 55px;
+    margin-left: 55px;
+    width: auto;
+    background-color: #5bc0de;
+    color: black;
+}
+
+.chat-discussion .chat-cust.chat-message .message-date {
+    float: right;
+}
+
+
+.chat-discussion .chat-yc.chat-message .message-avatar {
+    float: right;
+    margin-right: 0px;
+    margin-left: 10px;
+}
+
+.chat-discussion .chat-yc.chat-message .message {
+
+    text-align: right;
+    margin-right: 55px;
+    margin-left: 55px;
+    color: black;
+}
+
+.chat-discussion .chat-yc.chat-message .message-date {
+    float: left;
+}
+
+.chat-discussion .chat-message .message a {
+
+    color: #23527c;
+    font-weight: bold;
+}
+
+

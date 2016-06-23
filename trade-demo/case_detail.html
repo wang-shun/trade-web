@@ -16,6 +16,7 @@
 
     <link href="css/plugins/stickup/stickup.css" rel="stylesheet"></head>
     <link href="css/web-yc-style.css" rel="stylesheet"></head>
+
     <link href="css/plugins/aist-steps/steps.css" rel="stylesheet"></head>
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
@@ -665,15 +666,6 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="row">
-                                        <button type="button" class="btn btn-sm btn-primary"> 预约</button>
-                                        <button type="button" class="btn btn-sm btn-primary"> 中止合约</button>
-                                        <button type="button" class="btn btn-sm btn-primary"> 通知办理资金监管</button>
-                                        <button type="button" class="btn btn-sm btn-primary"> 通知变更资金监管协议</button>
-                                        <button type="button" class="btn btn-sm btn-primary"> 查看贷款申请表单</button>
-                                        <button type="button" class="btn btn-sm btn-primary"> 查看贷款合同信息</button>
-                                    </div>
-                                    
                                 </div>
                                 <div class="col-lg-3">
                                      <h3>关联合约 <a href="#" class="btn btn-white btn-xs pull-right">添加</a></h3>
@@ -684,7 +676,7 @@
                                                 <div class="pull-lef contract-icon-block timeline-qz-icon" >
                                                 </div>
                                                 <div class="media-body">
-                                                    <strong>YC-AJ-201606142394</strong>  经办人  <strong>胡俊楠</strong>. <br>
+                                                    <strong><a>YC-AJ-201606142394</a></strong>  经办人  <strong>胡俊楠</strong>. <br>
                                                     <small class="text-muted">2016-06-14 15:30网签</small>
                                                 </div>
                                             </div>
@@ -693,7 +685,7 @@
                                                 </div>
                                                 <div class="media-body">
                                                     
-                                                    <strong>YC-AJ-201606142394-E</strong>  经办人  <strong>胡俊楠</strong>. <br>
+                                                    <strong><a>YC-AJ-201606142394-E</a></strong>  经办人  <strong>胡俊楠</strong>. <br>
                                                     <small class="text-muted">2016-06-10 09:25申请</small>
                                                 </div>
                                             </div>
@@ -702,7 +694,7 @@
                                                 </div>
                                                 <div class="media-body">
                                                     
-                                                    <strong>YC-AJ-201606142394-J</strong>  经办人  <strong>吴峰</strong>. <br>
+                                                    <strong><a>YC-AJ-201606142394-J</a></strong>  经办人  <strong>吴峰</strong>. <br>
                                                     <small class="text-muted">2016-06-10 15:21申请</small>
                                                 </div>
                                             </div>
@@ -711,31 +703,39 @@
                                         </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                        <button type="button" class="btn btn-sm btn-info pull-right"> 预约</button>
+                                        <button type="button" class="btn btn-sm btn-info pull-right"> 中止合约</button>
+                                        <button type="button" class="btn btn-sm btn-info pull-right"> 通知办理资金监管</button>
+                                        <button type="button" class="btn btn-sm btn-info pull-right"> 变更回款方案</button>
+                                </div>
+                            </div>
                             
                         </div>
                         <div class="ibox-content" id="jd_info">
                             <!-- <div class="row col-md-9 jd_block">  -->
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
-                                        <h3>服务进度记录</h3>
+                                        <h3>服务记录</h3>
                                     </div>
                                     <div class="col-sm-7 m-b-xs">
                                         <div data-toggle="buttons" class="btn-group">
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option1" name="options"> 全部 </label>
                                             <label class="btn btn-sm btn-white "> <input type="radio" id="option2" name="options"> 权证 </label>
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> 按揭 </label>
-                                            <label class="btn btn-sm btn-white active"> <input type="radio" id="option4" name="options"> E+贷款 </label>
+                                            <label class="btn btn-sm btn-white active" id="label4"> <input type="radio" id="option4" name="options"> E+贷款 </label>
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option5" name="options"> 资金监管 </label>
                                             <label class="btn btn-sm btn-white"> <input type="radio" id="option6" name="options"> 案件备注</label>
-                                            <label class="btn btn-sm btn-white"> <input type="radio" id="option7" name="options"> 客户沟通记录 </label>
+                                            <label class="btn btn-sm btn-white" id='label7'> <input type="radio" id="option7" name="options"> 客户沟通记录 </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="input-group"><input type="text" placeholder="搜索服务项" class="input-sm form-control"> <span class="input-group-btn">
-                                                            <button type="button" class="btn btn-sm btn-primary"> 搜!</button> </span></div>
+                                        <div class="input-group"><input type="text" placeholder="搜索服务记录" class="input-sm form-control"> <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-sm btn-info"> 搜!</button> </span></div>
                                     </div>
                                 </div>
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="jd_table">
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
@@ -826,12 +826,12 @@
                                     </table>
                                 </div>
                                 
-                                <div class="chat-discussion">
+                                <div class="chat-discussion" id="chat-discussion" >
                                 	
-                                	<div class="chat-message">
+                                	<div class="chat-message chat-cust">
                                         <img class="message-avatar" src="img/client1.png" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 王先生 </a>
+                                             王先生 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						我有一套房子想买大卖小，看到你们这儿有换房贷，挺适合我这种情况的，需要什么办理条件吗？
@@ -839,10 +839,10 @@
                                         </div>
                                   </div>
  
-                                 	<div class="chat-message">
+                                 	<div class="chat-message chat-yc">
                                         <img class="message-avatar" src="img/consultant.jpg" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 贷款专员-廖容 </a>
+                                             贷款专员-廖容 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						换房贷需要您买卖的两套房产的网签合同，具体情况可以电话我或到我们浦东贵宾服务中心沟通
@@ -850,10 +850,10 @@
                                         </div>
                                   </div>                               	
                                 	
-                                	<div class="chat-message">
+                                    <div class="chat-message chat-cust">
                                         <img class="message-avatar" src="img/client1.png" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 王先生 </a>
+                                            王先生 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						好的，我周六有时间，到时候见！
@@ -861,10 +861,10 @@
                                         </div>
                                   </div>
                                   
-                                 <div class="chat-message">
+                                 <div class="chat-message chat-yc">
                                         <img class="message-avatar" src="img/consultant.jpg" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 贷款专员-廖容 </a>
+                                           贷款专员-廖容 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						王先生，我今天已经把您的贷款申请提交给我们的合作公司，一般1-2天内就会出审批结果
@@ -872,10 +872,10 @@
                                         </div>
                                   </div>  
  
-                                  <div class="chat-message">
+                                  <div class="chat-message chat-yc">
                                         <img class="message-avatar" src="img/consultant.jpg" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 贷款专员-廖容 </a>
+                                           贷款专员-廖容 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						王先生，您的贷款审批已经通过了，后边会有办理资金监管的同事进行跟进
@@ -883,10 +883,10 @@
                                         </div>
                                   </div>                                 	
                                 	
-                                 <div class="chat-message">
+                                 <div class="chat-message chat-yc">
                                         <img class="message-avatar" src="img/consultant1.jpg" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 资金监管专员-何花 </a>
+                                          资金监管专员-何花 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						王先生您好，请问您这周六上午是否有时间前往光大银行市北分行办理资金监管？
@@ -894,16 +894,26 @@
                                         </div>
                                   </div>     
 
-                                 <div class="chat-message">
-                                        <img class="message-avatar" src="img/consultant.jpg" alt="">
+                                 <div class="chat-message chat-cust">
+                                        <img class="message-avatar" src="img/client1.png" alt="">
                                         <div class="message">
-                                            <a class="message-author" href="#"> 王先生 </a>
+                                             王先生 
 																						<span class="message-date"> 2015/1/26 - 18:39:23 </span>
                                             <span class="message-content">
 																						好的，我可能要9点才能到
                                             </span>
                                         </div>
-                                  </div>     
+                                  </div> 
+                                  <div class="chat-message chat-cust">
+                                        <img class="message-avatar" src="img/client1.png" alt="">
+                                        <div class="message">
+                                           王先生 
+                                                                                        <span class="message-date"> 2015/1/26 - 18:39:23 </span>
+                                            <span class="message-content">
+                                                                                        身份证复印件<a href="img/client1.png" target="_blank">身份证复印件A</a>
+                                            </span>
+                                        </div>
+                                  </div>    
                                 	
                                 </div>
                             <!-- </div> -->
@@ -1254,10 +1264,11 @@
                                 <div class="file-tags col-lg-2">
                                     <h4 >附件标签</h4>
                                     <ul class="tag-list" style="padding: 0">
-                                        <li><a href="">上家</a></li>
-                                        <li><a href="">下家</a></li>
-                                        <li><a href="">补件</a></li>
-                                        <li><a href="">合作方材料</a></li>
+                                        <li><a >上家</a></li>
+                                        <li><a >下家</a></li>
+                                        <li><a >银行材料</a></li>
+                                        <li><a class="active btn-warning">小贷材料</a></li>
+                                        <li><a >交易中心材料</a></li>
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
@@ -1268,14 +1279,16 @@
                                         <li><a href=""><i class="fa fa-folder"></i> 身份证明</a></li>
                                         <li><a href=""><i class="fa fa-folder"></i> 社会关系</a></li>
                                         <li><a href=""><i class="fa fa-folder"></i> 财力证明</a></li>
+                                        <li><a href=""><i class="fa fa-folder-open-o active"></i> 信用材料</a></li>
                                         <li><a href=""><i class="fa fa-folder"></i> 产权文件</a></li>
                                         <li><a href=""><i class="fa fa-folder"></i> 合同文件</a></li>
+                                        <li><a href=""><i class="fa fa-folder"></i> 未归类文件</a></li>
                                     </ul>
                                 </div>
 
                                  <div class="file-folders col-lg-8 file-board">
                                     <div class="row">
-                                        <a href="#" class="btn btn-blue btn-xs pull-right">>>附件详情</a>
+                                        <a href="#" class="btn btn-blue btn-md pull-right">>>附件详情</a>
                                     </div>
                                     <div class="row file-list">
                                         <a href=""><i class="fa fa-file"></i> 告客户书.docx</a>
@@ -1349,12 +1362,13 @@
 
                                                             </tbody>
                                                         </table>
-                                                       <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">新增风控项目 <span class="caret"></span></button>
-                                                       <ul class="dropdown-menu">
-				                                <li><a href="#">押卡</a></li>
-				                                <li><a href="#">抵押</a></li>
-				                                <li><a href="#">强制公正</a></li>
-				                           		  </ul>
+                                                       
+                                                       <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle pull-right" aria-expanded="false">新增风控项目 <span class="caret"></span></button>
+                                                       <ul class="dropdown-menu pull-right">
+            				                                <li><a href="#">押卡</a></li>
+            				                                <li><a href="#">抵押</a></li>
+            				                                <li><a href="#">强制公正</a></li>
+        				                           	    </ul>
                                                     </div>
                                                     <div class="tab-pane" id="tab-hk">
                                                         <table class="table table-striped">
@@ -1436,6 +1450,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row" style="height:500px"></div>
                                         </div>
                                   </div>
 
@@ -1510,8 +1525,22 @@
 
            });
 
-                });
+           $('#chat-discussion').hide();
+
+           $('#label7').click(function(){
+                // alert(1);
+                $('#jd_table').hide();
+                // alert(2);
+                $('#chat-discussion').show();
+           });
+
+           $('#label4').click(function(){
+                $('#jd_table').show();
+                $('#chat-discussion').hide();
+           });
+
         });
+    });
     </script>
 </body>
 
