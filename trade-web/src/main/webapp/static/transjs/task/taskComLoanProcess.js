@@ -58,6 +58,21 @@ function checkMortgageForm(formId){
 	}else if(formId.find("input[name='comDiscount']").val() == ""){
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
+	}else if(isNaN(formId.find("input[name='comDiscount']").val())){
+		alert("请输入0~1之间的合法数字");
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comDiscount']").val()<=0||formId.find("input[name='comDiscount']").val()>1){
+		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comDiscount']").val()<1&&formId.find("input[name='comDiscount']").val()>0){
+		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
+		if(!reg.test(formId.find("input[name='comDiscount']").val())){
+			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+			formId.find("input[name='comDiscount']").css("border-color","red");
+			return false;
+		}
 	}else if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;

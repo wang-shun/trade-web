@@ -725,7 +725,7 @@
 										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
 										<div class="col-md-2">
 											<input type="text" name="comDiscount" id="comDiscount"
-												class="form-control" onkeyup="checknum(this)">
+												class="form-control"  onkeyup="checknum(this)">
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
 										<div class="col-md-2" style="width:18%">
@@ -1115,7 +1115,7 @@
 										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
 										<div class="col-md-2">
 											<input type="text" name="comDiscount" id="comDiscount"
-												class="form-control" onkeyup="checknum(this)">
+												class="form-control"  onkeyup="checknum(this)">
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
 										<div class="col-md-2" style="width:18%">
@@ -1473,9 +1473,30 @@ function checknum(obj){
 	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
 	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
 }
+
+/*校验商贷输入的折扣值*/
+/*function checkInputNum(obj){
+	var inputVal = obj.value;
+	if(inputVal!=''){
+		if(inputVal>1||inputVal<=0){
+		obj.value='';
+		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		}else if(inputVal==1){
+		}else if(inputVal>0&&inputVal<1){
+			reg= /^[0]{1}\.{1}(\d{1,2})?$/;
+			if(!reg.test(inputVal)){
+				obj.value='';
+				alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+			}
+		}	
+	}
+}*/
+
 function checkInt(obj){
 	obj.value = obj.value.replace(/[^\d]/g,"");  
 }
+
+
  	var ctx = "${ctx}";
 	var step = ${step1};
 	var step1 = ${step};
