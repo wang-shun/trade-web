@@ -107,6 +107,13 @@ public class ToMortgageController {
 			}
 			
 			toMortgage.setToSupDocu(toSupDocu);
+			if("30016001".equals(toMortgage.getMortType())){
+				{
+					toMortgage.setPrfAmount(new BigDecimal("0"));
+					toMortgage.setPrfYear(0);
+				}
+			}
+			
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			
 		}catch(BusinessException e){

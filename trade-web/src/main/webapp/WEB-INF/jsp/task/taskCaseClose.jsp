@@ -852,6 +852,13 @@
 		}
 		$(document).ready(function() {
 			isAccumulation=$('#mortType').val()=='30016003';
+			if(isAccumulation){
+				$('#comAmount').val('').attr("disabled","disabled");
+				$('#comYear').val('').attr("disabled","disabled");
+			}else if($('#mortType').val()=='30016001'){
+				$('#prfAmount').val('').attr("disabled","disabled");
+				$('#prfYear').val('').attr("disabled","disabled");
+			}
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">
 				 $("#closeType").attr("disabled","disabled");
