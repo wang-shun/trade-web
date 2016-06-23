@@ -135,13 +135,13 @@ function rowEdit(id){
     var caseCode=row.CASE_CODE;
     var ctx = $("#ctx").val();
     
-    var conPrice=0; //合同价
-    var realProce=0; //成交价
+    var conPrice=""; //合同价
+    var realProce=""; //成交价
     var consult =''; //交易顾问
     var tel=''; //手机号
     
 	var params={
-		search_caseCode : caseCode,
+		argu_caseCode : caseCode,
 		queryId : 'getInfo4EvalFeeDesign',
 		rows : 1,
 		page : 1
@@ -156,8 +156,8 @@ function rowEdit(id){
 		data : params,
 		contentType: "application/json; charset=utf-8",
 	    success:function(data) {
-	    	conPrice=data.rows[0].CON_PRICE;
-	    	realProce=data.rows[0].REAL_PRICE;
+	    	conPrice=data.rows[0].CON_PRICE?data.rows[0].CON_PRICE:'';
+	    	realProce=data.rows[0].REAL_PRICE?data.rows[0].REAL_PRICE:'';
 	    	consult=data.rows[0].CONSULT;
 	    	tel=data.rows[0].TEL;
 		},

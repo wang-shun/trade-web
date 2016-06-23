@@ -2,9 +2,7 @@
 <querys>
 <dicts>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
-		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
-		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
-		<customDict id="qqcdUserIdMobile" beanName="qqcdUserIdMobile" />
+		<customDict id="qqcdUserPhone" beanName="qqcdUserPhone" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -30,7 +28,6 @@
 	</formatters>
 	<query id="getInfo4EvalFeeDesign" cacheCount="true">
 		<searchCondition>
-           <condition field="a.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -41,10 +38,15 @@
 					a.LEADING_PROCESS_ID AS LEADING_PROCESS_ID
 				FROM 
 					sctrans.T_TO_CASE a 
-				INNER JOIN 
+				LEFT JOIN 
 					sctrans.T_TO_SIGN b 
 				ON 
 					a.CASE_CODE=b.CASE_CODE 
+				WHERE
+					1=1
+					<ifNotNull caseCode>
+					AND a.CASE_CODE= #caseCode#
+					</ifNotNull>	
 				]]>		
 			</baseSql>
 			<orderBySql>
@@ -58,7 +60,7 @@
 				<column type="both" name="REAL_PRICE" index="" checkbox="" display="成交价" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />				
 				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="LEADING_PROCESS_ID" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />				
 				<column type="virtual" name="CONSULT" referencecol="LEADING_PROCESS_ID" index="" checkbox="" display="交易顾问" customDict="qqcdUserIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="virtual" name="TEL" referencecol="LEADING_PROCESS_ID" index="" checkbox="" display="电话" customDict="qqcdUserIdMobile" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="TEL" referencecol="LEADING_PROCESS_ID" index="" checkbox="" display="电话" customDict="qqcdUserPhone" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
 		</grid>
 	</query>
