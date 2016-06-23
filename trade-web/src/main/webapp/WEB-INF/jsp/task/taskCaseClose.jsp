@@ -1048,51 +1048,77 @@
 			var jsonData = $("#caseCloseform").serializeArray();
 
 			deleteAndModify();
-			var url = ctx+"/task/CaseClose/saveCaseClose";
-			if(b) {
-				url = ctx+"/task/CaseClose/submitCaseClose";
+			
+			var flag= true;
+			var comDiscount = $('#comDiscount').val();
+			if(comDiscount!=''){
+				if(isNaN(comDiscount)){
+		            alert("请输入0~1之间的合法数字");
+		            $('#comDiscount').focus();
+		            flag = false;
+		        }else if(comDiscount>1 || comDiscount<=0){
+		    		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		    		$('#comDiscount').focus();
+		    		flag = false;
+		    	}else if(comDiscount>0 && comDiscount<1){
+		    		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
+		    		if(!reg.test(comDiscount)){
+		    			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+		    			$('#comDiscount').focus();
+		    			flag = false;
+		    		}
+		       	}
 			}
 			
-			$.ajax({
-				cache : true,
-				async : false,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : jsonData,
-	   		    beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-                complete: function() {  
-                	if(!b){
-                        $.unblockUI();   
-                	}
-                     if(status=='timeout'){//超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  });
-    		  		 $(".btn-primary").one("click",function(){
-    		  				parent.$.fancybox.close();
-    		  			});	 
-    		                } 
-    		            } , 
-				success : function(data) {
-						if(window.opener)
-					    {
-							 window.close();
-							 window.opener.callback();
-					    } else {
-					    	 window.location.href = "${ctx }/task/myTaskList";
-					    } 
-						//window.location.href = "${ctx }/task/myTaskList";
-				},
-				error : function(errors) {
-					alert("数据保存出错");
+			if(flag){
+				var url = ctx+"/task/CaseClose/saveCaseClose";
+				if(b) {
+					url = ctx+"/task/CaseClose/submitCaseClose";
 				}
-			});
+				
+				$.ajax({
+					cache : true,
+					async : false,//false同步，true异步
+					type : "POST",
+					url : url,
+					dataType : "json",
+					data : jsonData,
+		   		    beforeSend:function(){  
+	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	    				$(".blockOverlay").css({'z-index':'9998'});
+	                },
+	                complete: function() {  
+	                	if(!b){
+	                        $.unblockUI();   
+	                	}
+	                     if(status=='timeout'){//超时,status还有success,error等值的情况
+	    	          	  Modal.alert(
+	    				  {
+	    				    msg:"抱歉，系统处理超时。"
+	    				  });
+	    		  		 $(".btn-primary").one("click",function(){
+	    		  				parent.$.fancybox.close();
+	    		  			});	 
+	    		                } 
+	    		            } , 
+					success : function(data) {
+							if(window.opener)
+						    {
+								 window.close();
+								 window.opener.callback();
+						    } else {
+						    	 window.location.href = "${ctx }/task/myTaskList";
+						    } 
+							//window.location.href = "${ctx }/task/myTaskList";
+					},
+					error : function(errors) {
+						alert("数据保存出错");
+					}
+				});
+			}
+			
 		}
+		
 		var divIndexDown = 1;
 		function addDateDivDown() {
 			
