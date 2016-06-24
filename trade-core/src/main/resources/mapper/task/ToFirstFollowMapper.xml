@@ -51,7 +51,7 @@
       <if test="comment != null" >
         COMMENT,
       </if>
-      ,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
+      CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -72,7 +72,7 @@
       <if test="comment != null" >
         #{comment,jdbcType=NVARCHAR},
       </if>
-      ,GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
+      GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
