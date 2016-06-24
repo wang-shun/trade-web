@@ -82,14 +82,14 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="CASE_CODE" index="" checkbox="true" display="案件编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="主办" customDict="qqcdUserIdName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="" display="主办组" customDict="qqcdOrgIdName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="MORT_TYPE" index="" checkbox="" display="贷款类型" customDict="qqcdMortName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="real_name" index="" checkbox="" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="END_TIME_" index="" checkbox="" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" title="主办" display="主办" customDict="qqcdUserIdName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" title="主办组" display="主办组" customDict="qqcdOrgIdName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" title="经纪人" display="经纪人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="MORT_TYPE" index="" checkbox="" title="贷款类型" display="贷款类型" customDict="qqcdMortName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="real_name" index="" checkbox="" title="审批人" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="END_TIME_" index="" checkbox="" title="审批时间"  display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
