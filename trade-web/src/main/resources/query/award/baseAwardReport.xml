@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys id="baseAwardReport">
+	<dicts>
+		<customDict id="qqcdSrvCode" beanName="qqcdSrvCode"></customDict>
+		<customDict id="qqcdSrvPart" beanName="qqcdSrvPart"></customDict>
+		<customDict id="qqcdFin" beanName="qqcdFin"></customDict>
+	</dicts>
+	<formatters>
+			<formatter id="dateFormatter" ref=""
+				class="com.aist.common.quickQuery.formatter.DateFormatter">
+				<properties>
+					<property name="pattern">yyyy-MM-dd</property>
+				</properties>
+			</formatter>
+	</formatters>
+	<query id="baseAwardReportQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+						sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+			        from 
+			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
+			                	where PARTICIPANT 
+			                		in (
+											select uo.user_id
+												from sctrans.v_user_team ut 
+        										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
+        									where ut.user_id = #userId#
+        									<if test="caseOrgId != null and caseOrgId != '' ">
+									        	and ut.team_id = #caseOrgId#
+									        </if>
+									        <if test="caseUserId != null and caseUserId != '' ">
+									        	and uo.user_id = #caseUserId#
+									        </if>
+        								)
+			                group by case_code) sab
+			         inner join
+			                (
+			                    select * from (
+			                     	select *, ROW_NUMBER() over(partition by case_code order by guohu_time desc) num 
+			                			from sctrans.t_ts_award_base
+			                		where PARTICIPANT 
+										in (
+											select uo.user_id
+												from sctrans.v_user_team ut 
+        										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
+        									where ut.user_id = #userId#
+        									<if test="caseOrgId != null and caseOrgId != '' ">
+									        	and ut.team_id = #caseOrgId#
+									        </if>
+									        <if test="caseUserId != null and caseUserId != '' ">
+									        	and uo.user_id = #caseUserId#
+									        </if>
+        								)
+			                    ) t where t.num = 1	
+			                ) tab
+			        on sab.case_code = tab.case_code
+			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        where 1 = 1
+			        <if test="caseCode != null and caseCode != '' ">
+			        	and sab.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,tab.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and tab.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and tab.guohu_time &lt;= #dtEnd#
+			        </if>
+			        order by guohu_time desc
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="CASE_CODE"   />
+				<column name="PROPERTY_ADDR"   />
+				<column name="GUOHU_TIME"   beanFormatter="dateFormatter"/>
+				<column name="SUM_BASE_AMOUNT"   />
+				<column name="PAID_TIME"   beanFormatter="dateFormatter"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="awardInfoReportList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					        ab.SRV_CODE,
+					        ab.BASE_AMOUNT,
+					        ab.SRV_PART_IN,
+					        ab.SRV_PART_TOTAL,
+					        sc.SATISFACTION,
+					        pd.AWARD_KPI_MONEY,
+					        pm.FIN_ORDER,
+					        pm.FIN_ORDER_ROLL
+					from sctrans.t_ts_award_base ab 
+					 left join sctrans.T_TS_KPI_SRV_CASE sc 
+					        on ab.SRV_CODE = sc.SRV_CODE and ab.case_code =sc.case_code
+					 left join sctrans.T_TS_AWARD_KPI_PAY_DETAIL pd 
+					        on ab.SRV_CODE = pd.SRV_CODE and ab.case_code =pd.case_code 
+					 left join sctrans.T_TS_KPI_PSN_MONTH pm 
+					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
+					        	and ab.PARTICIPANT = pm.PARTICIPANT
+					where ab.case_Code = #caseCode# 
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="SRV_CODE"   customDict="qqcdSrvCode" />
+				<column name="BASE_AMOUNT"   />
+				<column name="SRV_PART_IN"   />
+				<column name="SRV_PART_TOTAL"   />
+				
+				<column name="SATISFACTION"   />
+				<column name="AWARD_KPI_MONEY"   />
+				<column name="FIN_ORDER"   />
+				<column name="FIN_ORDER_ROLL"   />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<query id="awardInfoExport">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					        ab.SRV_CODE,
+					        ab.BASE_AMOUNT,
+					        cast(ab.SRV_PART_IN as varchar) SRV_PART_IN,
+					        cast(ab.SRV_PART_TOTAL as varchar) SRV_PART_TOTAL,
+					        sc.SATISFACTION,
+					        pd.AWARD_KPI_MONEY,
+					        pm.FIN_ORDER,
+					        pm.FIN_ORDER_ROLL,
+					        
+					        ab.case_code,pi.property_addr,ab.guohu_time,ab.paid_time
+					from sctrans.t_ts_award_base ab 
+					 left join sctrans.T_TS_KPI_SRV_CASE sc 
+					        on ab.SRV_CODE = sc.SRV_CODE and ab.case_code =sc.case_code
+					 left join sctrans.T_TS_AWARD_KPI_PAY_DETAIL pd 
+					        on ab.SRV_CODE = pd.SRV_CODE and ab.case_code =pd.case_code 
+					 left join sctrans.T_TS_KPI_PSN_MONTH pm 
+					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
+					        	and ab.PARTICIPANT = pm.PARTICIPANT
+			        left join sctrans.t_to_property_info pi on ab.case_code = pi.case_code
+			        where 
+			        	ab.PARTICIPANT in (
+							select uo.user_id
+								from sctrans.v_user_team ut 
+		  							left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
+		  						where ut.user_id = #userId#
+		  					<if test="caseOrgId != null and caseOrgId != '' ">
+					        	and ut.team_id = #caseOrgId#
+					        </if>
+					        <if test="caseUserId != null and caseUserId != '' ">
+					        	and uo.user_id = #caseUserId#
+					        </if>
+		  				)
+			        <if test="caseCode != null and caseCode != '' ">
+			        	and sab.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ab.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and tab.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and tab.guohu_time &lt;= #dtEnd#
+			        </if>
+			        order by guohu_time desc
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="CASE_CODE"   title="案件编号"/>
+				<column name="PROPERTY_ADDR"   title="产证地址"/>
+				<column name="GUOHU_TIME"   beanFormatter="dateFormatter" title="过户时间"/>
+				<column name="PAID_TIME"   beanFormatter="dateFormatter" title="生成时间"/>
+			
+				<column name="SRV_CODE"   customDict="qqcdSrvCode" title="服务"/>
+				<column name="BASE_AMOUNT"   title="基础奖金" />
+				<column name="SRV_PART_IN_TOTAL" customDict="qqcdSrvPart" referencecol="SRV_PART_IN,SRV_PART_TOTAL"  title="环节占比" />
+				<column name="FIN_ORDER_CNT" customDict="qqcdFin" referencecol="FIN_ORDER,FIN_ORDER_ROLL"  title="金融单量" />
+				
+				<column name="SATISFACTION"   title="满意度"/>
+				<column name="AWARD_KPI_MONEY"   title="最终奖金"/>
+				<column name="FIN_ORDER"   />
+				<column name="FIN_ORDER_ROLL"   />
+				<column name="SRV_PART_IN" />
+				<column name="SRV_PART_TOTAL" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
