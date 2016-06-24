@@ -38,18 +38,18 @@
                         </div>
                         <div class="ibox-content bonus-m-con">
                             <div class="row m-t">
-                                <div class="col-lg-4 col-md-4">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">案件编号</label>
-                                        <div class="col-lg-9 col-md-9">
+                                        <label class="col-sm-2 control-label">案件编号</label>
+                                        <div class="col-lg-10 col-md-10">
                                             <input type="text" class="form-control" id="caseCode" name="caseCode">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">物业地址</label>
-                                        <div class="col-lg-9 col-md-9">
+                                        <label class="col-lg-2 col-md-2 control-label font_w">物业地址</label>
+                                        <div class="col-lg-10 col-md-10">
                                             <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                             
                             
                             <div class="row">
-								<div class="col-lg-5 col-md-5">
+								<div class="col-lg-6 col-md-6">
 									<div class="form-group ">
 										<label class="col-lg-2 col-md-2 control-label font_w">组织</label>
 										<div class="col-md-10">
@@ -72,10 +72,10 @@
 									</div>
 								</div>
 								
-								<div class="col-lg-5 col-md-5 ">    
+								<div class="col-lg-6 col-md-6 ">    
                             		<div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
-                                        <div class="col-lg-9 col-md-9">
+                                        <label class="col-lg-2 col-md-2 control-label font_w">人员</label>
+                                        <div class="col-lg-10 col-md-10">
                                         	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" readonly="readonly"  hVal="${serUserId }" value="${userInfo }"
 													 readonly="readonly"
 													onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
@@ -86,7 +86,7 @@
                             </div>
                             
                         	<div class="row m-t">
-                        		<div class="col-lg-6 col-md-6">
+                        		<div class="col-lg-7 col-md-7">
                                 	<label class="col-sm-2 control-label" id="case_date">过户时间</label>
 									<div id="datepicker"
 										class="input-group input-medium date-picker input-daterange"
