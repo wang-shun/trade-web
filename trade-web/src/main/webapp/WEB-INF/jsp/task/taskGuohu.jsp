@@ -652,7 +652,8 @@
                 $('input[name=landIncrementTax]').focus();
                 return false;
            }
-			if($('input[name=comDiscount]').val()!='') {
+			
+/* 			if($('input[name=comDiscount]').val()!='') {
 				var comDiscount = $('input[name=comDiscount]').val();
 				
 				if(isNaN(comDiscount)){
@@ -671,7 +672,7 @@
 		    			return false;
 		    		}
 		       	}
-           }
+           } */
 			
 			
 			return true;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queryConfig  debug="false">
 	<description></description>
+	<import resource="query/mortgage/toMortgageApproveLost.xml" />
 	<import resource="query/mortgage/toEguPricingQuery.xml" />
 	<import resource="query/mortgage/toEvaReportQuery.xml" />
 	<import resource="query/common/toReminderListQuery.xml" />

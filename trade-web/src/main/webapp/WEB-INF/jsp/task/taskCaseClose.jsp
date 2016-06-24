@@ -1050,7 +1050,7 @@
 			deleteAndModify();
 			
 			var flag= true;
-			var comDiscount = $('#comDiscount').val();
+/* 			var comDiscount = $('#comDiscount').val();
 			if(comDiscount!=''){
 				if(isNaN(comDiscount)){
 		            alert("请输入0~1之间的合法数字");
@@ -1068,7 +1068,7 @@
 		    			flag = false;
 		    		}
 		       	}
-			}
+			} */
 			
 			if(flag){
 				var url = ctx+"/task/CaseClose/saveCaseClose";

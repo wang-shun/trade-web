@@ -735,6 +735,7 @@
 
 		//验证控件checkUI();
 		function checkForm() {
+			
 			if ($("#cooperationUser0").val() == 0) {
 				alert("合作顾问未选择");
 				return false;
