@@ -161,7 +161,7 @@
         		    columns : [{
         		    	           colName :"案件编号",
         		    	           sortColumn : "CASE_CODE",
-        		    	           sord: "desc"
+        		    	           sord: "asc"
         		    	      },{
         		    	           colName :"物业地址"
         		    	      },{
