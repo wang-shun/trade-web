@@ -89,8 +89,10 @@
                                    {{/if}}
                                     <td>{{item.CASE_CODE}}</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
+                                    <td>{{item.LEADING_PROCESS_ID}}</td>
+                                    <td>{{item.ORG_ID}}</td>
+                                    <td>{{item.AGENT_NAME}}</td>
                                     <td>{{item.MORT_TYPE}}</td>
-                                    <td>{{item.SIGN_DATE}}</td>
                                     <td>{{item.real_name}}</td>
                                     <td>{{item.END_TIME_}}</td>
                                 </tr>
@@ -122,11 +124,13 @@
         		    	      },{
         		    	           colName :"物业地址"
         		    	      },{
+       		    	                colName :"主办"
+    		    	          },{
+		   		    	           colName :"主办组"
+				    	      },{
+				    	           colName :"经纪人"
+				    	      },{
         		    	           colName :"贷款类型"
-        		    	      },{
-        		    	           colName :"签约日期",
-        		    	           sortColumn : "SIGN_DATE",
-        		    	           sord: "desc"
         		    	      },{
         		    	           colName :"审批人"
         		    	      },{
