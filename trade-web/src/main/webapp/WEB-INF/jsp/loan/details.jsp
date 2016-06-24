@@ -123,7 +123,7 @@
 				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
-						class="input-sm form-control" id="txt_loanAmount" name="loanAmount" value="${loanAgent.loanAmount /10000}">
+						class="input-sm form-control" id="txt_loanAmount" name="loanAmount" value="${loanAgent.loanAmount!=null? loanAgent.loanAmount/10000 :loanAgent.loanAmount}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
@@ -146,7 +146,7 @@
 				<div class="col-xs-1 showstar">面签金额:</div>
 				<div class="col-xs-3">
 					<div class="input-group"><input type="text"
-						class="input-sm form-control" id="txt_signAmount" name="signAmount" value="${loanAgent.signAmount/10000 }">
+						class="input-sm form-control" id="txt_signAmount" name="signAmount" value="${loanAgent.signAmount!=null?loanAgent.signAmount/10000 :loanAgent.signAmount}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
@@ -163,7 +163,7 @@
 				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
-						class="input-sm form-control" id="txt_actualAmount" name="actualAmount" value="${loanAgent.actualAmount/10000 }">
+						class="input-sm form-control" id="txt_actualAmount" name="actualAmount" value="${loanAgent.actualAmount!=null?loanAgent.actualAmount/10000 :loanAgent.actualAmount}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
