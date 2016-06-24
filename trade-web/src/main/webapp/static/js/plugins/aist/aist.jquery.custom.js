@@ -76,6 +76,9 @@ function($, window) {
 			    					var cacheData = settings.cacheData;
 			    					_self.reloadGrid(cacheData);
 			    				}
+			    			} else {
+			    				reloadGrid = 'reloadGrid';
+			    				window[reloadGrid]();
 			    			}
 			    		});
 					});
@@ -186,8 +189,7 @@ function($, window) {
 					showGoto:true,
 					onPageClick: function (event, page) {
 						 //console.log(page);
-						var data = options.data;
-						data.page = page;
+						options.page = page;
 	      				_self.reloadGrid(options);
 				    }
 				});
@@ -265,7 +267,7 @@ function($, window) {
 	    var _self = $(this);
 
 	    aist.sortWrapper({
-			reloadGrid : defaultReloadGrid,
+			//reloadGrid : reloadGrid,
 			cacheData : settings,
 			_self : _self
 		});
@@ -284,6 +286,8 @@ function($, window) {
 		var ctx = settings.ctx;
 		var url = settings.url;
 		var data = settings.data;
+		data.page = settings.page;
+		data.rows = settings.rows;
 		aist.wrap(data);
 		var templeteId = settings.templeteId;
 		var _self = $(this);
@@ -308,9 +312,5 @@ function($, window) {
 	          }
 	    });
 	};
-	
-	function defaultReloadGrid() {
-		
-	}
 	
 }(jQuery, window);

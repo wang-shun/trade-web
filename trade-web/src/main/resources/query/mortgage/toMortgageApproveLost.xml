@@ -2,7 +2,7 @@
 <querys>
 	<dicts>
 		<customDict id="getStatusByCode" beanName="qqcdDictass_status"></customDict>
-		<customDict id="qqcdDictMortageService" beanName="qqcdDictMortageService"></customDict>
+		<customDict id="qqcdMortStrCodeName" beanName="qqcdMortStrCodeName"></customDict>
 	</dicts>
 	
   	<formatters>
@@ -30,13 +30,15 @@
 	
 	<query id="queryMortgageApproveLost">
 		<searchCondition>
+		   <condition field="END_TIME_"   name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="END_TIME_"   name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT
 					  base.CASE_CODE,
-					  base.CASE_PROPERTY,
+					  base.PROPERTY_ADDR,
 					  mortgage.MORT_TYPE,
 					  mortgage.SIGN_DATE,
 					  guser.real_name,
@@ -57,6 +59,7 @@
 					on guser.username = taskInst.ASSIGNEE_ 
 					and guser.available = '1'
 					and guser.is_deleted = '0'
+					where 1=1
 				]]>
 			</baseSql>
 			<groupSql>
@@ -67,8 +70,8 @@
 		<grid>
 			<table-row>
 				<column type="both" name="CASE_CODE" index="" checkbox="true" display="案件编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CASE_PROPERTY" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="MORT_TYPE" index="" checkbox="" display="贷款类型" customDict="qqcdDictMortageService" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="MORT_TYPE" index="" checkbox="" display="贷款类型" customDict="qqcdMortStrCodeName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="SIGN_DATE" index="" checkbox="" display="签约日期" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="real_name" index="" checkbox="" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="END_TIME_" index="" checkbox="" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
