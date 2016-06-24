@@ -24,10 +24,10 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
     insert into sctrans.T_TO_FIRST_FOLLOW (PKID, CASE_CODE, PART_CODE, 
-      IS_PERCHASE_RESERACH_NEED, IS_LOAN_CLOSE, COMMENT
+      IS_PERCHASE_RESERACH_NEED, IS_LOAN_CLOSE, COMMENT,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
-      #{isPerchaseReserachNeed,jdbcType=CHAR}, #{isLoanClose,jdbcType=CHAR}, #{comment,jdbcType=NVARCHAR}
+      #{isPerchaseReserachNeed,jdbcType=CHAR}, #{isLoanClose,jdbcType=CHAR}, #{comment,jdbcType=NVARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
@@ -51,6 +51,7 @@
       <if test="comment != null" >
         COMMENT,
       </if>
+      ,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -71,6 +72,7 @@
       <if test="comment != null" >
         #{comment,jdbcType=NVARCHAR},
       </if>
+      ,GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToFirstFollow" >
@@ -91,6 +93,8 @@
       <if test="comment != null" >
         COMMENT = #{comment,jdbcType=NVARCHAR},
       </if>
+	     UPDATE_TIME = GETDATE(),
+	     UPDATE_BY = @{SESSION_USER_ID},
     </set>
     ,IS_ACTIVE='1'
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -102,7 +106,7 @@
       IS_PERCHASE_RESERACH_NEED = #{isPerchaseReserachNeed,jdbcType=CHAR},
       IS_LOAN_CLOSE = #{isLoanClose,jdbcType=CHAR},
       COMMENT = #{comment,jdbcType=NVARCHAR}
-      ,IS_ACTIVE='1'
+      ,IS_ACTIVE='1', UPDATE_TIME = GETDATE(), UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
@@ -122,7 +126,7 @@
   
   
   <update id="updateByCaseCode" parameterType="com.centaline.trans.task.entity.ToFirstFollow">
-  		update sctrans.T_TO_FIRST_FOLLOW set IS_PERCHASE_RESERACH_NEED=#{isPerchaseReserachNeed,jdbcType=CHAR}, IS_LOAN_CLOSE=#{isLoanClose,jdbcType=CHAR},IS_ACTIVE='1' where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  		update sctrans.T_TO_FIRST_FOLLOW set IS_PERCHASE_RESERACH_NEED=#{isPerchaseReserachNeed,jdbcType=CHAR}, IS_LOAN_CLOSE=#{isLoanClose,jdbcType=CHAR},IS_ACTIVE='1', UPDATE_TIME = GETDATE(), UPDATE_BY = @{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </update>
   
   
