@@ -10,7 +10,7 @@
   	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
@@ -32,8 +32,10 @@
 	
 	<query id="queryMortgageApproveLost">
 		<searchCondition>
-		   <condition field="END_TIME_"   name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="END_TIME_"   name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+		   <condition field="taskInst.END_TIME_"   name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="taskInst.END_TIME_"   name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="base.CASE_CODE"   name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -64,7 +66,13 @@
 					on guser.username = taskInst.ASSIGNEE_ 
 					and guser.available = '1'
 					and guser.is_deleted = '0'
-					where 1=1
+					where
+								  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = base.CASE_CODE  
+					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
+					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
+			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = base.CASE_CODE 
+			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
+			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>))	
 				]]>
 			</baseSql>
 			<groupSql>
@@ -81,7 +89,7 @@
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="MORT_TYPE" index="" checkbox="" display="贷款类型" customDict="qqcdMortName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="real_name" index="" checkbox="" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="END_TIME_" index="" checkbox="" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="END_TIME_" index="" checkbox="" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
