@@ -110,6 +110,12 @@
 					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
 					        	and ab.PARTICIPANT = pm.PARTICIPANT
 					where ab.case_Code = #caseCode# 
+						and ab.PARTICIPANT in (
+							select uo.user_id
+								from sctrans.v_user_team ut 
+	   										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
+	   									where ut.user_id = #userId#
+	   						)
 				]]>
 			</baseSql>
 		</searchSql>
