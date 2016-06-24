@@ -67,31 +67,6 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					   	SRV_CODE,
-					   	BASE_AMOUNT,
-					   	SRV_PART_IN,
-					   	SRV_PART_TOTAL
-					from sctrans.t_ts_award_base
-					where case_Code = #caseCode# 
-					   	and PARTICIPANT = #userId#
-				]]>
-			</baseSql>
-		</searchSql>
-		<grid>
-			<table-row>
-				<column name="SRV_CODE"   customDict="qqcdSrvCode" />
-				<column name="BASE_AMOUNT"   />
-				<column name="SRV_PART_IN"   />
-				<column name="SRV_PART_TOTAL"   />
-			</table-row>
-		</grid>
-	</query>
-	
-	<query id="srvPartInfo">
-		<searchSql>
-			<baseSql>
-				<![CDATA[
-					select 
 					        ab.SRV_CODE,
 					        ab.BASE_AMOUNT,
 					        ab.SRV_PART_IN,

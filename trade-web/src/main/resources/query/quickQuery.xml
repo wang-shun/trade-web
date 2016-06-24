@@ -91,6 +91,7 @@
 	<import resource="query/perform/gustFollowQuery.xml"></import>
 	<import resource="query/award/baseImportQuery.xml"></import>
 	<import resource="query/award/baseAward.xml"></import>
+	<import resource="query/award/baseAwardReport.xml"></import>
 	<import resource="query/task/RyLightListQuery.xml"></import>
 	<import resource="query/case/toCaseListForMobile.xml"></import>
 	<import resource="query/task/toTaskHistoryListQueryForMobile.xml"></import>
