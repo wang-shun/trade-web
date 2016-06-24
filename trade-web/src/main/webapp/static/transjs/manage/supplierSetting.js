@@ -148,7 +148,31 @@
             	$("#finOrgName").val(text);
 
             	$("#finOrgCode").val(val);
+            },sorter: function (items) {
+            var that = this,
+                beginswith = [],
+                ignoreCase =[],
+                caseSensitive = [],
+                caseInsensitive = [],
+                item;
+
+            while (item = items.shift()) {
+            	if(this.query == item[that.options.display]){//full match
+            		beginswith.push(item);
+            	}
+            	else if (!item[that.options.display].toLowerCase().indexOf(this.query.toLowerCase())) {
+                	ignoreCase.push(item);
+                }
+                else if (~item[that.options.display].indexOf(this.query)) {
+                    caseSensitive.push(item);
+                }
+                else {
+                    caseInsensitive.push(item);
+                }
             }
+
+            return beginswith.concat(ignoreCase,caseSensitive, caseInsensitive);
+        }
        	});
     	
   /*  	$("#finOrgName").typeahead({
