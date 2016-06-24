@@ -153,6 +153,9 @@ $(document)
 										if (propertyAddr == undefined) {
 											propertyAddr = "无";
 										}
+										if(estPartTimes == undefined || estPartTimes=='') {
+											return true;
+										}
 										events.push({
 											title : partCode + "\n 物业地址:"
 													+ propertyAddr,

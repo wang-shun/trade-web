@@ -290,5 +290,8 @@
        <property name="prop" value="JQYDS"></property>
     </bean>
 
+	<bean name="qqcdSrvPart" class="com.centaline.trans.common.service.impl.QuickQuerySrvPartServiceImpl" />
+    <bean name="qqcdFin" class="com.centaline.trans.common.service.impl.QuickQueryFinServiceImpl" />
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

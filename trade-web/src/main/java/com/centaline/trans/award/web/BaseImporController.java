@@ -163,4 +163,11 @@ public class BaseImporController {
 		model.put("countMsg", countMsg);
 		return model;
 	}
+	
+	@RequestMapping(value = "baseAwardReport")
+	public String baseReport() {
+		return "award/baseAwardReport";
+	}
+	
+	
 }
