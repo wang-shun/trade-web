@@ -115,6 +115,10 @@
                  	<div class="row">
 	                 	<div class="col-lg-12">
 		                    <div class="bonus-table">
+		                    	<div class="ibox-title">
+									<h5 class="col-lg-8 col-md-8">计件奖金报表</h5>
+									<span class="col-lg-4 col-md-4" id="countMsg"></span>
+								</div>
 		                        <table>
 		                            <thead>
 		                                <tr>
@@ -124,6 +128,7 @@
 		                                    <th>过户时间</th>
 		                                    <th>生成时间</th>
 		                                    <th>基础奖金</th>
+		                                    <th>最终奖金</th>
 		                                    <th>操作</th>
 		                                </tr>
 		                            </thead>
@@ -173,8 +178,10 @@
                                     <td>{{item.CASE_CODE}}</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
                                     <td>{{item.GUOHU_TIME}}</td>
+
 									<td>{{item.PAID_TIME}}</td>
                                     <td>{{item.SUM_BASE_AMOUNT}}</td>
+									<td>{{item.AWARD_KPI_MONEY_SUM}}</td>
                                     <td><div class="expand" id="{{item.CASE_CODE}}">展开</div></td>
                                 </tr>
                                 <tr class="toogle-show border-e7" id="toggle{{item.CASE_CODE}}" style="display:none;">
@@ -183,7 +190,7 @@
 						{{/each}}
 	    </script>
 	    <script id="tsAwardSrvList" type= "text/html">
-                                    <td colspan="7" class="two-td">
+                                    <td colspan="8" class="two-td">
                                         <table class="two-table">
                                             <thead>
                                                 <tr>
@@ -222,12 +229,44 @@
 	  		//初始化日期控件
         	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});	 
     		
+	  		function getCountMsg(){
+	  			var data = {};
+	  			data.queryId = "awardReportCount";
+	    	    data.pagination = false;
+	    	    data.caseCode = $("#caseCode").val();
+	    	 	data.paidTime = monthSel.getDate().format('yyyy-MM-dd');
+        	    data.propertyAddr = $("#propertyAddr").val();
+        	    data.dtBegin=$("#dtBegin").val();
+        	    data.dtEnd=$("#dtEnd").val();
+        	    data.caseUserId=$("#inTextVal").attr("hVal");
+        	    data.caseOrgId=$("#yuCuiOriGrpId").val();
+		    	 	
+	  			$.ajax({
+    			  async: false,
+    	          url:ctx+ "/quickGrid/findPage" ,
+    	          method: "post",
+    	          dataType: "json",
+    	          data: data,
+    	          success: function(data){
+    	        	  var cnt = data.rows[0].AWARD_KPI_MONEY_SUM;
+    	        	  $("#countMsg").empty();
+    	        	  if(typeof(cnt) != 'undefined'){
+        	        	  $("#countMsg").append("<b>最终奖金总数：" + cnt +"</b>");
+    	        	  }else{
+    	        		  $("#countMsg").append("<b>最终奖金总数：" + 0 +"</b>");
+    	        	  }
+    	          }
+    	     	});
+	  		}
+	  		
         	jQuery(document).ready(function() {
         		//初始化数据
         	    reloadGrid();
+        	    getCountMsg();
         	 	// 查询
      			$('#searchButton').click(function() {
      				reloadGrid();
+     				getCountMsg();
      			});
         	 	
         	    

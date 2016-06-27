@@ -87,7 +87,6 @@
 									<span class="col-lg-5 col-md-5" id="countMsg"></span>
 								</div>
 		                        <table>
-		                        
 		                            <thead>
 		                                <tr>
 		                                    <th></th>

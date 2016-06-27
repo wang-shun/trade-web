@@ -86,9 +86,6 @@ function checkMortgageForm(formId){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		alert("信贷员手机号码输入错误！");
 		return false;
-	}else if(formId.find("select[name='finOrgCode']").val() == ""){
-		formId.find("select[name='finOrgCode']").css("border-color","red");
-		return false;
 	}else if(formId.find("input[name='supContent']").val() != "" && formId.find("input[name='remindTime']").val()==""){
 		alert("请输入补件时间！");
 		return false;
@@ -98,9 +95,16 @@ function checkMortgageForm(formId){
 	}else if(formId.find("input[name='signDate']").val() == "" ){
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
-	}else if (formId.find("input[name='recLetterNo']").val()==""){
-		formId.find("input[name='recLetterNo']").css("border-color","red");
-		return false;
+	} 
+	if(!formId.find("input[name='isTmpBank']").prop('checked')){
+		if (formId.find("input[name='recLetterNo']").val()==""){
+			formId.find("input[name='recLetterNo']").css("border-color","red");
+			return false;
+		}
+		if(formId.find("select[name='finOrgCode']").val() == ""){
+				formId.find("select[name='finOrgCode']").css("border-color","red");
+				return false;
+		}
 	}
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
@@ -543,11 +547,41 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
 		    			}
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
-		    			
+		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
+		    			if(data.content.isTmpBank=='1'){
+		    				f.find("input[name='recLetterNo']").prop('disabled',true);
+		    				f.find("select[name='bank_type']").attr('disabled',true);
+		    				f.find("select[name='finOrgCode']").attr('disabled',true);
+		    			}else{
+		    				f.find("input[name='recLetterNo']").prop('disabled',false);
+		    				f.find("select[name='bank_type']").attr('disabled',false);
+		    				f.find("select[name='finOrgCode']").attr('disabled',false);
+		    			}
+		    		
+		    			if(!!data.content.tmpBankUpdateBy){
+		    				f.find("input[name='isTmpBank']").attr('readOnly',true);
+		    			}else{
+		    				f.find("input[name='isTmpBank']").attr('readOnly',false);
+		    			}
 	    			
 	    		}
 	    	}
 	  });
+}
+function isTmpBankChange(){
+	if(!!$(this).attr('readOnly')){
+		return false;
+	}
+	var f=$(this).closest('form');
+	if($(this).prop('checked')){
+		f.find("input[name='recLetterNo']").prop('disabled',true);
+		f.find("select[name='bank_type']").attr('disabled',true);
+		f.find("select[name='finOrgCode']").attr('disabled',true);
+	}else{
+		f.find("input[name='recLetterNo']").prop('disabled',false);
+		f.find("select[name='bank_type']").attr('disabled',false);
+		f.find("select[name='finOrgCode']").attr('disabled',false);
+	}
 }
 
 //加载已上传的附件信息
@@ -1061,6 +1095,7 @@ var stepIndex = 0;
 
 $(document).ready(function () {
 	/*$("#bank_branch_id").change(subBankChange);*/
+	
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
@@ -1413,7 +1448,7 @@ $(document).ready(function () {
     		}
     	}
     });
-    
+    $("input[name='isTmpBank']").on('click',isTmpBankChange);
    // getPricingList("table_list_1","pager_list_1");
  
  });
