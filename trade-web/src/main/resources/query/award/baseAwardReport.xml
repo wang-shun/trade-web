@@ -205,10 +205,10 @@
 			        	and DATEDIFF(mm,ab.paid_time,#paidTime#) = 0
 			        </if>
 			        <if test="dtBegin != null and dtBegin != '' " >
-			        	and tab.guohu_time >= #dtBegin#
+			        	and ab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and tab.guohu_time &lt;= #dtEnd#
+			        	and ab.guohu_time &lt;= #dtEnd#
 			        </if>
 			        order by guohu_time desc
 				]]>
