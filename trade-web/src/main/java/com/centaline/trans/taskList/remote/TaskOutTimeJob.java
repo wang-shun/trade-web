@@ -137,9 +137,8 @@ public class TaskOutTimeJob implements Job {
 								++taskCount;
 								if(taskCount == 5) {
 									App app = uamPermissionService.getAppByAppName("trade-web");
-							        String href = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0";
 							        String hrefAdd = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0/";
-							        String hrefString = "<a href=\""+href+"\" target=\"_blank\">"+hrefAdd+"</a>/";
+							        String hrefString = hrefAdd;
 									inStr.append(hrefString);
 									break;
 								}
