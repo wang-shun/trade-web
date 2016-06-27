@@ -98,6 +98,9 @@ function checkMortgageForm(formId){
 	}else if(formId.find("input[name='signDate']").val() == "" ){
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
+	}else if (formId.find("input[name='recLetterNo']").val()==""){
+		formId.find("input[name='recLetterNo']").css("border-color","red");
+		return false;
 	}
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
@@ -539,6 +542,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find("input[name='supContent']").val(data.content.toSupDocu.supContent);
 			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
 		    			}
+		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
 		    			
 	    			
 	    		}

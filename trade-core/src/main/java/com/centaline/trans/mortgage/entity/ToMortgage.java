@@ -79,6 +79,8 @@ public class ToMortgage {
     private String isActive;
     /*是否商贷*/
     private String formCommLoan;
+    /**推荐函编号*/
+    private String recLetterNo;
     
     public Long getPkid() {
         return pkid;
@@ -350,6 +352,14 @@ public class ToMortgage {
 
 	public void setFormCommLoan(String formCommLoan) {
 		this.formCommLoan = formCommLoan;
+	}
+
+	public String getRecLetterNo() {
+		return recLetterNo;
+	}
+
+	public void setRecLetterNo(String recLetterNo) {
+		this.recLetterNo = recLetterNo;
 	}
     
 }
