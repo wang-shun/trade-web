@@ -56,18 +56,18 @@
 					  loanAgent.LOAN_SRV_CODE,
 					  loanAgent.EXECUTOR_ID,
 					  loanAgent.executor_team as 'PARENT_ORG_NAME',
-					  Convert(decimal(18,2),sign.CON_PRICE/10000) as 'CON_PRICE',
+					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
 					  loanAgent.CREATE_TIME,
 					  loanAgent.RELEASE_TIME,
-					  Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000) as 'LOAN_AMOUNT',
-					  Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000) as 'SIGN_AMOUNT',
-					  Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000) as 'ACTUAL_AMOUNT' 
+					  isnull(Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000),0) as 'LOAN_AMOUNT',
+					  isnull(Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000),0) as 'SIGN_AMOUNT',
+					  isnull(Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000),0) as 'ACTUAL_AMOUNT' 
 					FROM 
 					   sctrans.T_TO_LOAN_AGENT loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
+					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
 					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN 
 					    SCTRANS.SYS_USER us
