@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.aist.common.quickQuery.service.CustomDictService;
@@ -21,6 +20,11 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.enums.TransJobs;
 
 public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
+	
+	@Override
+	public Boolean isCacheable() {
+		return false;
+	}
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
@@ -35,14 +39,16 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
-	//@Cacheable(value="QuickQueryCaseManagerServiceImpl",key="#key")
 	public String getValue(String key) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("QuickQueryCaseManagerServiceImpl Dict : " + key);
 		}
+		System.out.println("QuickQueryCaseManagerServiceImpl Dict : " + key);
+		
 		List<User> users = null;
  		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(key);
 		if("1".equals(caseInfo.getIsResponsed())){
+			System.out.println("QuickQueryCaseManagerServiceImpl Dict:"+key+" Case : 1" );
 			ToCase toCase = toCaseMapper.findToCaseByCaseCode(key);
 			Org org = uamUserOrgService.getOrgById(toCase.getOrgId());
 			users = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZG.getCode());
@@ -51,6 +57,7 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 		}
 		List<String> guestNameList = jdbcTemplate.queryForList(sql, String.class, key);
 		if (guestNameList != null && !guestNameList.isEmpty()) {
+			System.out.println("QuickQueryCaseManagerServiceImpl Dict:"+key+"Case : 2" );
 			String teamNow = guestNameList.get(0);
 			Org org = uamUserOrgService.getOrgByCode(teamNow);
 			users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYZG.getCode());
@@ -60,6 +67,7 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 		sql = "select  YU_TEAM_CODE from sctrans.T_TS_TEAM_SCOPE_GRP where IS_RESPONSE_TEAM='1' and GRP_CODE=?;";
 		List<String> yuTeamCode = jdbcTemplate.queryForList(sql, String.class, caseInfo.getGrpCode());
 		if (yuTeamCode != null && !yuTeamCode.isEmpty()) {
+			System.out.println("QuickQueryCaseManagerServiceImpl Dict:"+key+"Case : 3" );
 			users=new ArrayList<>(1);
 			for (String teamCode : yuTeamCode) {
 				Org org = uamUserOrgService.getOrgByCode(teamCode);
@@ -72,6 +80,7 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 		sql = "select  YU_TEAM_CODE from sctrans.T_TS_TEAM_SCOPE_AR where IS_RESPONSE_TEAM='1' and AR_CODE=?;";
 		yuTeamCode = jdbcTemplate.queryForList(sql, String.class, caseInfo.getArCode());
 		if (yuTeamCode != null && !yuTeamCode.isEmpty()) {
+			System.out.println("QuickQueryCaseManagerServiceImpl Dict:"+key+"Case : 4" );
 			users=new ArrayList<>(1);
 			for (String teamCode : yuTeamCode) {
 				Org org = uamUserOrgService.getOrgByCode(teamCode);
@@ -85,7 +94,9 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 	}
 	private void setUserOrgName(List<User>users,String orgName){
 		if(users!=null&&!users.isEmpty()){
-			users.forEach(u->u.setOrgName(orgName));
+			for (User user : users) {
+				user.setOrgName(orgName);
+			}
 		}
 	}
 

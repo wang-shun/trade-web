@@ -30,13 +30,13 @@
 		<div class="col-md-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>贷款流失率筛选</h5>
+					<h5>贷款流失筛选</h5>
 				</div>
 				<div class="ibox-content">
 						<div class="row">
-							<div class="col-md-6"  style="padding-left: 5.8% ">
+							<div class="col-md-6"  style=" ">
 								<div class="form-group">
-									<label class="col-md-2 control-label">审批日期</label>
+									<label class="col-md-3 control-label">审批日期</label>
 									<div id="datepicker_0" 
 										class="input-group input-medium date-picker input-daterange "
 										data-date-format="yyyy-mm-dd">
@@ -49,13 +49,36 @@
 									</div>
 								</div>
 							</div>
+							<div class="col-md-6"  style="">
+								<div class="form-group">
+									<label class="col-md-3 control-label">案件编号</label>
+									<div class="col-md-6">
+									 	<input type="text" class="form-control" id="caseCode" name="caseCode"/>
+									</div>
+								</div>
+							</div>
+						</div>
+							<div class="row">
+							<div class="col-md-6"  style="">
+								<div class="form-group">
+									<label class="col-md-3 control-label">物业地址</label>
+									<div class="col-md-6">
+									  	<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6"  style="">
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6"></div>
 							<div class="col-md-3">
 								<div class="form-group">
 									<label class="col-md-4 control-label m-l-lg"></label>
-									<div><button id="searchButton" type="button" class="btn btn-warning">查询</button></div>
+									<div>
+									   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
+									   <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出列表</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -80,6 +103,7 @@
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
        	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+       	  <script src="${ctx}/js/plugins/jquery.custom.js"></script>
 		<script id="queryMortgageApproveLost" type= "text/html">
                            {{each rows as item index}}
  							  	   {{if index%2 == 0}}
@@ -112,6 +136,23 @@
         	jQuery(document).ready(function() {
         		//初始化数据
 	    		var data = {};  
+	    		var queryOrgFlag = $("#queryOrgFlag").val();
+	    		var isAdminFlag = $("#isAdminFlag").val();
+	    		var queryOrgs = $("#queryOrgs").val();
+	    		var arguUserId=null;
+	    		if(queryOrgFlag == 'true'){
+	    			arguUserId=null;
+	    			if(isAdminFlag == 'true'){
+	    				queryOrgs=null;
+	    			}
+	    		}else{
+	    			queryOrgs= null;
+	    			arguUserId="yes";
+	    		}
+	    		var orgArray = queryOrgs==null?null:queryOrgs.split(",");
+	    		data.argu_idflag = arguUserId;
+	    	    data.argu_queryorgs = orgArray;
+
         	    $(".bonus-table").aistGrid({
         			ctx : "${ctx}",
         			queryId : 'queryMortgageApproveLost',
@@ -120,7 +161,7 @@
         		    columns : [{
         		    	           colName :"案件编号",
         		    	           sortColumn : "CASE_CODE",
-        		    	           sord: "desc"
+        		    	           sord: "asc"
         		    	      },{
         		    	           colName :"物业地址"
         		    	      },{
@@ -147,6 +188,44 @@
      			});
 	    	});
         	
+        	function exportToExcel() {
+    			var startDate = $("#dtBegin_0").val();
+				var endDate = '';
+				if(!$.isBlank($("#dtEnd_0").val())) {
+					endDate = $("#dtEnd_0").val()+" 23:59:59";
+				}
+	    		var data = {};
+        	    //data.queryId = "queryMortgageApproveLost";
+        	    data.startDate = startDate;
+        	    data.endDate = endDate;
+        	    data.caseCode = $("#caseCode").val();
+        	    data.propertyAddr = $("#propertyAddr").val();
+        	    // 获取组织或者人员
+        	    var queryOrgFlag = $("#queryOrgFlag").val();
+	    		var isAdminFlag = $("#isAdminFlag").val();
+	    		var queryOrgs = $("#queryOrgs").val();
+	    		var arguUserId=null;
+	    		if(queryOrgFlag == 'true'){
+	    			arguUserId=null;
+	    			if(isAdminFlag == 'true'){
+	    				queryOrgs=null;
+	    			}
+	    		}else{
+	    			queryOrgs= null;
+	    			arguUserId="yes";
+	    		}
+	    		var orgArray = queryOrgs==null?null:queryOrgs.split(",");
+	    		data.argu_idflag = arguUserId;
+	    	    data.argu_queryorgs = orgArray;
+	    	    
+	        	aist.exportExcel({
+	    	    	ctx : "${ctx}",
+	    	    	queryId : 'queryMortgageApproveLost',
+	    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','LEADING_PROCESS_ID','ORG_ID','AGENT_NAME','MORT_TYPE','real_name','END_TIME_'],
+	    	    	data : data
+	    	    }) 
+	         }
+        	
 			function reloadGrid() {
 				var startDate = $("#dtBegin_0").val();
 				var endDate = '';
@@ -157,6 +236,25 @@
         	    data.queryId = "queryMortgageApproveLost";
         	    data.startDate = startDate;
         	    data.endDate = endDate;
+        	    data.caseCode = $("#caseCode").val();
+        	    data.propertyAddr = $("#propertyAddr").val();
+        	    // 获取组织或者人员
+        	    var queryOrgFlag = $("#queryOrgFlag").val();
+	    		var isAdminFlag = $("#isAdminFlag").val();
+	    		var queryOrgs = $("#queryOrgs").val();
+	    		var arguUserId=null;
+	    		if(queryOrgFlag == 'true'){
+	    			arguUserId=null;
+	    			if(isAdminFlag == 'true'){
+	    				queryOrgs=null;
+	    			}
+	    		}else{
+	    			queryOrgs= null;
+	    			arguUserId="yes";
+	    		}
+	    		var orgArray = queryOrgs==null?null:queryOrgs.split(",");
+	    		data.argu_idflag = arguUserId;
+	    	    data.argu_queryorgs = orgArray;
        
         	    $(".bonus-table").reloadGrid({
         	    	ctx : "${ctx}",
@@ -169,5 +267,8 @@
 	    </script>
 	    </content> 
         <input type="hidden" id="ctx" value="${ctx}" />
+        <input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+		<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+		<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
     </body>
 </html>
