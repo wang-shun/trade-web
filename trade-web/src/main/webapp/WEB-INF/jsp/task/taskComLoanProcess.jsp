@@ -839,8 +839,12 @@
 									</div>
 									<div style="clear: both"></div>
 									<div class="form-group">
+										<label class="col-sm-2 control-label">推荐涵编号<span class="star">*</span>：</label>
+										<div class="col-sm-4">
+											<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
+										</div>
 										<label class="col-sm-2 control-label">备注：</label>
-										<div class="col-sm-10">
+										<div class="col-sm-4">
 											<input type="text" name="remark" id="remark" class="form-control">
 										</div>
 									</div>
@@ -1229,8 +1233,12 @@
 									</div>
 									<div style="clear: both"></div>
 									<div class="form-group">
+										<label class="col-sm-2 control-label">推荐涵编号<span class="star">*</span>：</label>
+										<div class="col-sm-4">
+											<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
+										</div>
 										<label class="col-sm-2 control-label">备注：</label>
-										<div class="col-sm-10">
+										<div class="col-sm-4">
 											<input type="text" name="remark" id="remark" class="form-control">
 										</div>
 									</div>
@@ -1442,7 +1450,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.1.4"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.1.5"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	

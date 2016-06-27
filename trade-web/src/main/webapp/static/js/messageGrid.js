@@ -77,7 +77,7 @@ var messageGrid = function () {
 	            	 var urlRegu = /([a-zA-z]+:\/\/[^\s]*)/gi;
 	                 var urlTemplate = "<a href=\"$1\" target=\"_blank\">$1</a>";
 	                
-	            	contentDiv=$("<div>").text(e.content);
+	            	contentDiv=$("<div>").html(e.content);
 	            	contentDiv.html().replace(urlRegu, urlTemplate);
 	            	sendTime=$("<small>").addClass("text-muted").text(e.senderTime);
 	            	title.dblclick(function(){

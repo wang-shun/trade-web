@@ -58,7 +58,10 @@
 				    A.PR_ADDRESS PROPERTY_ADDR,
 				    A.DIST_CODE  ,
 					a.PR_COST_ORG_NAME as orgName    ,
-					A.pr_district_id as prDistrictId
+					A.pr_district_id as prDistrictId,
+					
+					A.PR_APPLY_ORG_NAME as applyOrgName,
+				    A.PR_COST_ORG_MGR as orgMgr
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=a.CASE_CODE
@@ -70,7 +73,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="orgName" index="" checkbox="" title="所属分行" display="所属分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" title="所属分行" display="所属分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="交易单编号" display="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PR_CODE" index="" checkbox="" title="产调编号" display="产调编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
@@ -87,6 +90,11 @@
 				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" title="无效原因" display="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="DIST_CODE" index="" checkbox="" title="行政区域" display="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="prDistrictId" index="" checkbox="" display="所属贵宾服务部" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+			
+				<column type="both" name="applyOrgName" index="" checkbox="" display="所属分行" title="所属分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgMgr" index="" checkbox="" display="区董" title="区董" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				
+			
 			</table-row>
 		</grid>
 	</query>
