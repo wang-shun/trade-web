@@ -19,7 +19,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ 'PKID','行政区域','物业地址', '产调项目','所属分行',
+		colNames : [ 'PKID','行政区域','物业地址', '产调项目','所属分行','区董',
 		             '产调申请人','申请人员工编号', '产调执行人', '产调申请时间',
 		             '产调受理时间','产调完成时间','是否有效','无效原因','来源','区董' ,'操作'],
 		colModel : [ {
@@ -45,8 +45,12 @@ $(document).ready(function() {
 			index : 'PR_CAT',
 			width : 40
 		}, {
-			name : 'orgName',
-			index : 'orgName',
+			name : 'applyOrgName',
+			index : 'applyOrgName',
+			width : 40
+		},{
+			name : 'orgMgr',
+			index : 'orgMgr',
 			width : 40
 		},{
 			name : 'PR_APPLIANT',
