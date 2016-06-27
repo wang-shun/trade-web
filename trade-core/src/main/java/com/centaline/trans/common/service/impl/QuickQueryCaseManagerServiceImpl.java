@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.aist.common.quickQuery.service.CustomDictService;
@@ -21,6 +20,11 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.enums.TransJobs;
 
 public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
+	
+	@Override
+	public Boolean isCacheable() {
+		return false;
+	}
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
@@ -90,7 +94,9 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 	}
 	private void setUserOrgName(List<User>users,String orgName){
 		if(users!=null&&!users.isEmpty()){
-			users.forEach(u->u.setOrgName(orgName));
+			for (User user : users) {
+				user.setOrgName(orgName);
+			}
 		}
 	}
 
