@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
@@ -165,8 +166,11 @@ public class BaseImporController {
 	}
 	
 	@RequestMapping(value = "baseAwardReport")
-	public String baseReport() {
-		return "award/baseAwardReport";
+	public ModelAndView baseReport() {
+		SessionUser sesssionUser = uamSessionService.getSessionUser();
+		ModelAndView mv = new ModelAndView("award/baseAwardReport");
+		mv.addObject("serviceDepId", sesssionUser.getServiceDepId());
+		return mv;
 	}
 	
 	
