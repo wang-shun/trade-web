@@ -188,6 +188,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>服务</th>
+													<th>人员</th>
                                                     <th>基础奖金</th>
                                                     <th>环节占比</th>
 
@@ -200,6 +201,7 @@
                                                {{each rows as item index}}
                                                 <tr> 
                                                     <td>{{item.SRV_CODE}}</td>
+													<td>{{item.PARTICIPANT}}</td>
 													<td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SRV_PART_IN}}/{{item.SRV_PART_TOTAL}}</td>
 
@@ -234,23 +236,29 @@
    	  			  	if($(this).html() == "展开") {
    	  				  $(this).html("收起");
    	  				  // 发出请求
-   	  				    var data = {};
-   				    	    data.queryId = "awardInfoReportList";
-   				    	    data.pagination = false;
-   				    	    data.caseCode = id;
-   				    	 	data.paidTime = monthSel.getDate().format('yyyy-MM-dd');
-   				    		$.ajax({
-   				    			  async: false,
-   				    	          url:ctx+ "/quickGrid/findPage" ,
-   				    	          method: "post",
-   				    	          dataType: "json",
-   				    	          data: data,
-   				    	          success: function(data){
-   				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
-   				    				  $("#toggle"+id).empty();
-   				    				  $("#toggle"+id).html(tsAwardSrvList);
-   				    	          }
-   				    	     });
+   	  				    	var data = {};
+  				    	    data.queryId = "awardInfoReportList";
+  				    	    data.pagination = false;
+  				    	    data.caseCode = id;
+  				    	 	data.paidTime = monthSel.getDate().format('yyyy-MM-dd');
+  			        	    data.propertyAddr = $("#propertyAddr").val();
+  			        	    data.dtBegin=$("#dtBegin").val();
+  			        	    data.dtEnd=$("#dtEnd").val();
+  			        	    data.caseUserId=$("#inTextVal").attr("hVal");
+  			        	    data.caseOrgId=$("#yuCuiOriGrpId").val();
+  				    	 	
+  				    		$.ajax({
+  				    			  async: false,
+  				    	          url:ctx+ "/quickGrid/findPage" ,
+  				    	          method: "post",
+  				    	          dataType: "json",
+  				    	          data: data,
+  				    	          success: function(data){
+  				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
+  				    				  $("#toggle"+id).empty();
+  				    				  $("#toggle"+id).html(tsAwardSrvList);
+  				    	          }
+  				    	     });
 	   	  			  } else {
 	   	  				  $(this).html("展开");
 	   	  			  }
@@ -344,6 +352,7 @@
 	    		
 	    		var displayColomn = new Array;
 	    		displayColomn.push('CASE_CODE');
+	    		displayColomn.push('PARTICIPANT');
 	    		displayColomn.push('PROPERTY_ADDR');
 	    		displayColomn.push('GUOHU_TIME');
 	    		displayColomn.push('PAID_TIME');
@@ -357,15 +366,15 @@
 	    		displayColomn.push('FIN_ORDER_CNT');
 	    		
 	    		var params =  {
-		        	    caseCode : $("#caseCode").val(),
-		        	    propertyAddr : $("#propertyAddr").val(),
-		        	    
-		        	    dtBegin: $("#dtBegin").val(),
-		        	    dtEnd: $("#dtEnd").val(),
-		        	    
-		        	    caseUserId: $("#inTextVal").attr("hVal"),
-		        	    caseOrgId: $("#yuCuiOriGrpId").val(),
-		        	    paidTime: monthSel.getDate().format('yyyy-MM-dd')
+	        	    caseCode : $("#caseCode").val(),
+	        	    propertyAddr : $("#propertyAddr").val(),
+	        	    
+	        	    dtBegin: $("#dtBegin").val(),
+	        	    dtEnd: $("#dtEnd").val(),
+	        	    
+	        	    caseUserId: $("#inTextVal").attr("hVal"),
+	        	    caseOrgId: $("#yuCuiOriGrpId").val(),
+	        	    paidTime: monthSel.getDate().format('yyyy-MM-dd')
 		    	};
 	    		var queryId = '&queryId=awardInfoExport';
 	    		var colomns = '&colomns=' + displayColomn;
