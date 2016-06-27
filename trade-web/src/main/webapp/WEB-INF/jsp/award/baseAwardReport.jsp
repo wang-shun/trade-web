@@ -305,6 +305,7 @@
         	    var data2 = {
         	    	paidTime : bm
         	    }
+        	    data1.paidTime = bm;
         	    data1.caseUserId=$("#inTextVal").attr("hVal");
         	    data1.caseOrgId=$("#yuCuiOriGrpId").val();
         	    
