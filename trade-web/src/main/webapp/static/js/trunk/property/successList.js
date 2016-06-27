@@ -51,8 +51,8 @@ $(document).ready(function() {
 			index : 'applyOrgName',
 			width : 40
 		},{
-			name : 'orgMgr',
-			index : 'orgMgr',
+			name : 'QUDS',
+			index : 'QUDS',
 			width : 40
 		},{
 			name : 'PR_APPLIANT',
