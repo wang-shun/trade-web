@@ -1046,10 +1046,16 @@ function submitMortgage(){
 	});
 }
 //验证备件是否上传
-function checkAttUp(attDiv){
+function checkAttUp(attDiv,f){
 	var flag = true;
 	attDiv.each(function(){
 		var pic = $(this).find("img");
+		var preFCode=$(this).find("input[name='preFileCode']").val();
+		preFCode=preFCode||'';
+		if(preFCode.indexOf('rec_letter_')!=-1&& !!f.find("input[name='isTmpBank']").prop('checked')){
+			flag=true;
+			return true;
+		}
 		if(pic.length == 0){
 			flag = false;
 			return false;
@@ -1200,7 +1206,7 @@ $(document).ready(function () {
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
 		 		deleteAndModify();
-	 			return checkAttUp($(".att_first"));
+	 			return checkAttUp($(".att_first"),$("#mortgageForm"));
 	 		}
 
 	 		return true;
@@ -1215,9 +1221,9 @@ $(document).ready(function () {
 	 		}else if(currentIndex == 2){
 		 		getMortgageInfo($("#caseCode").val(),1);
 	 		}else if(currentIndex == 3){
-	 		//	getExplPicByhouseCode() ;
+	 			getMortgageInfo($("#caseCode").val(),1);
 	 		}else if(currentIndex == 4){
-
+	 			
 	 			getReportList("table_list_4","pager_list_4",1);
 	 		}else if(currentIndex == 5){
 	 			getCompleteMortInfo(1);
@@ -1265,7 +1271,7 @@ $(document).ready(function () {
  			return flag;
  		}else if(currentIndex == 3 ){
  			deleteAndModify();
- 			return checkAttUp($(".att_second"));
+ 			return checkAttUp($(".att_second"),$("#mortgageForm1"));
 
  		}
  		
@@ -1281,8 +1287,9 @@ $(document).ready(function () {
  		}else if(currentIndex == 2){
 	 		getMortgageInfo($("#caseCode").val(),0);
  		}else if(currentIndex == 3){
- 		//	getExplPicByhouseCode() ;
+ 			getMortgageInfo($("#caseCode").val(),0);
  		}else if(currentIndex == 4){
+
  			getReportList("table_list_6","pager_list_6",0);
  		}else if(currentIndex == 5){
  			getCompleteMortInfo(0);

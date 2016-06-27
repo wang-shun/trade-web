@@ -809,7 +809,7 @@
 									<div class="col-sm-4">
 										<input type="checkbox" value="1" name="isTmpBank">是
 									</div>
-									<label class="col-sm-2 control-label">推荐涵编号<span class="star">*</span>：</label>
+									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
 										<div class="col-sm-4">
 											<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
 										</div>
@@ -873,10 +873,8 @@
 					               <form id="fileupload"
 									action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
 									method="POST" enctype="multipart/form-data">
-									<noscript>
 										<input type="hidden" name="redirect" value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload">
 										<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
-									</noscript>
 									<c:if test="${status.index != 0}">
 										<h5 align="left"><br>${accesory.accessoryName }</h5>
 									</c:if>
@@ -1208,7 +1206,7 @@
 									<div class="col-sm-4">
 										<input type="checkbox" value="1" name="isTmpBank">是
 									</div>
-									<label class="col-sm-2 control-label">推荐涵编号<span class="star">*</span>：</label>
+									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
 										<div class="col-sm-4">
 											<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
 										</div>
@@ -1272,10 +1270,10 @@
                <form id="fileupload"
 				action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
 				method="POST" enctype="multipart/form-data">
-				<noscript>
+				
 					<input type="hidden" name="redirect" value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload">
 					<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
-				</noscript>
+				
 				<c:if test="${status.index != 0}">
 					<h5 align="left"><br>${accesory.accessoryName }</h5>
 				</c:if>
@@ -1462,7 +1460,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.2.4"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.2.6"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
@@ -1670,10 +1668,10 @@ function checkInt(obj){
 			
 			if(step1 == 1){
 	 			getReminderList("table_list_5","pager_list_5");
-			}else if(step1 == 2){
+			}else if(step1 == 2||step1==3){
 		 		getMortgageInfo($("#caseCode").val(),mainLoanBank);
 			}else if(step1 == 4){
-	 			getReportList("table_list_6","pager_list_6",mainLoanBank);
+				getReportList("table_list_6","pager_list_6",mainLoanBank);
 			}else if(step1 == 5){
 				getCompleteMortInfo(mainLoanBank);
 			}
@@ -1686,10 +1684,10 @@ function checkInt(obj){
 			
 			if(step == 1){
 	 			getReminderList("table_list_2","pager_list_2");
-			}else if(step == 2){
+			}else if(step == 2||step==3){
 		 		getMortgageInfo($("#caseCode").val(),mainLoanBank);
 			}else if(step == 4){
-	 			getReportList("table_list_4","pager_list_4",mainLoanBank);
+				getReportList("table_list_4","pager_list_4",mainLoanBank);
 			}else if(step == 5){
 				getCompleteMortInfo(mainLoanBank);
 			}
