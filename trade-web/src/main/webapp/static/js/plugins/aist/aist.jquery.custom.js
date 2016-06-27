@@ -252,7 +252,12 @@ function($, window) {
 	    			tr.append($("<th>" + columns[index].colName + "</th>"));
 	    		}
 	    	}else{
-	    		tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+	    		var isActive = 'active';
+	    		if (typeof(columns[index].isActive) == "undefined" || !columns[index].isActive==true) {
+	    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+	    		} else {
+	    			tr.append($("<th><span class=\"sort " +isActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+	    		}
 	    	}
 	    });
 
