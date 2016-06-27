@@ -19,7 +19,8 @@
 			<baseSql>
 				<![CDATA[
 					select 
-						sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						sab.case_code,pi.property_addr,tab.guohu_time,
+						sab.sum_base_amount,tab.paid_time,pd.AWARD_KPI_MONEY_SUM
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                	where PARTICIPANT 
@@ -58,6 +59,27 @@
 			                ) tab
 			        on sab.case_code = tab.case_code
 			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        
+			        left join ( 
+			        		select sum(AWARD_KPI_MONEY) AWARD_KPI_MONEY_SUM,
+					        	case_code from sctrans.T_TS_AWARD_KPI_PAY_DETAIL
+					        where PARTICIPANT 
+								in (
+									select uo.user_id
+										from sctrans.v_user_team ut 
+      										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
+      									where ut.user_id = #userId#
+      								<if test="caseOrgId != null and caseOrgId != '' ">
+							        	and ut.team_id = #caseOrgId#
+							        </if>
+							        <if test="caseUserId != null and caseUserId != '' ">
+							        	and uo.user_id = #caseUserId#
+							        </if>
+      								)
+					         	group by case_code
+			        		) pd 
+					        on  sab.case_code =pd.case_code 
+					        
 			        where 1 = 1
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and sab.case_code = #caseCode#
@@ -85,6 +107,7 @@
 				<column name="GUOHU_TIME"   beanFormatter="dateFormatter"/>
 				<column name="SUM_BASE_AMOUNT"   />
 				<column name="PAID_TIME"   beanFormatter="dateFormatter"/>
+				<column name="AWARD_KPI_MONEY_SUM"   />
 			</table-row>
 		</grid>
 	</query>
@@ -196,7 +219,7 @@
 					        </if>
 		  				)
 			        <if test="caseCode != null and caseCode != '' ">
-			        	and sab.case_code = #caseCode#
+			        	and ab.case_code = #caseCode#
 			        </if>
 			        <if test="propertyAddr != null and propertyAddr != '' ">
 			        	and pi.property_addr like '%' + #propertyAddr# + '%'
@@ -234,6 +257,55 @@
 				<column name="SRV_PART_TOTAL" />
 				
 				<column name="PARTICIPANT"   customDict="qqcdUserIdName" title="人员"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<query id="awardReportCount">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					        sum(pd.AWARD_KPI_MONEY) AWARD_KPI_MONEY_SUM
+					from sctrans.t_ts_award_base ab 
+					 left join sctrans.T_TS_AWARD_KPI_PAY_DETAIL pd 
+					        on ab.SRV_CODE = pd.SRV_CODE and ab.case_code =pd.case_code 
+			        left join sctrans.t_to_property_info pi on ab.case_code = pi.case_code
+			        where 
+			        	ab.PARTICIPANT in (
+							select uo.user_id
+								from sctrans.v_user_team ut 
+		  							left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
+		  						where ut.user_id = #userId#
+		  					<if test="caseOrgId != null and caseOrgId != '' ">
+					        	and ut.team_id = #caseOrgId#
+					        </if>
+					        <if test="caseUserId != null and caseUserId != '' ">
+					        	and uo.user_id = #caseUserId#
+					        </if>
+		  				)
+			        <if test="caseCode != null and caseCode != '' ">
+			        	and ab.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ab.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ab.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ab.guohu_time &lt;= #dtEnd#
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="AWARD_KPI_MONEY_SUM" />
 			</table-row>
 		</grid>
 	</query>
