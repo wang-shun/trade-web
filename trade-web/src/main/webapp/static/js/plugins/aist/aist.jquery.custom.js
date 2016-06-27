@@ -291,6 +291,7 @@ function($, window) {
 		var ctx = settings.ctx;
 		var url = settings.url;
 		var data = settings.data;
+		data.queryId = settings.queryId;
 		data.page = settings.page;
 		data.rows = settings.rows;
 		aist.wrap(data);
