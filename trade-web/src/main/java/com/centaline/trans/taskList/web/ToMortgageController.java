@@ -105,6 +105,9 @@ public class ToMortgageController {
 			if(toMortgage.getIsLoanerArrive() == null){
 				toMortgage.setIsLoanerArrive("0");
 			}
+			if(toMortgage.getIsTmpBank() == null){
+				toMortgage.setIsTmpBank("0");
+			}
 			
 			toMortgage.setToSupDocu(toSupDocu);
 			

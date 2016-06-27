@@ -36,6 +36,7 @@
            <condition field="taskInst.END_TIME_"   name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="base.CASE_CODE"   name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="u.REAL_NAME"   name="realName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -54,6 +55,8 @@
 					  (SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0) mortgage
 					inner JOIN sctrans.V_CASE_LIST_BASE base
 					ON  mortgage.CASE_CODE = base.CASE_CODE
+					INNER JOIN sctrans.SYS_USER u 
+					ON u.ID = base.LEADING_PROCESS_ID
 					INNER JOIN sctrans.T_TO_WORKFLOW w ON base.CASE_CODE = w.CASE_CODE
 					AND w.BUSINESS_KEY = 'operation_process'
 					AND w.STATUS IN ('0', '4')
@@ -67,9 +70,16 @@
 					and guser.available = '1'
 					and guser.is_deleted = '0'
 					where
-								  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = base.CASE_CODE  
+								  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C 
+								    INNER JOIN
+							        sctrans.v_yucui_org_hierarchy orgHierarchy
+							        ON
+							        orgHierarchy.ORG_ID = C.ORG_ID
+								  WHERE C.CASE_CODE = base.CASE_CODE  
 					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
-					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>))	
+					  	    <ifNotNull queryorgs> 
+					  	    	 AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
+					  	    </ifNotNull>))	
 				]]>
 			</baseSql>
 			<groupSql>

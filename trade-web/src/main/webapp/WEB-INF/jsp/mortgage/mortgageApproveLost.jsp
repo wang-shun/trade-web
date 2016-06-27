@@ -26,44 +26,68 @@
         <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
     </head>
     <body class="pace-done">
-    <div class="row">
-		<div class="col-md-12">
+		 <div class="row">
+			<div class="col-md-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>贷款流失筛选</h5>
 				</div>
 				<div class="ibox-content">
+					<form method="get" class="form-horizontal">
 						<div class="row">
-							<div class="col-md-6"  style=" ">
-								<div class="form-group">
-									<label class="col-md-3 control-label">审批日期</label>
-									<div id="datepicker_0" 
-										class="input-group input-medium date-picker input-daterange "
-										data-date-format="yyyy-mm-dd">
-										<input id="dtBegin_0" name="dtBegin" class="form-control"
-											style="font-size: 13px;" type="text" value="${startTime}"
-											placeholder="起始日期"> <span class="input-group-addon">到</span>
-										<input id="dtEnd_0" name="dtEnd" class="form-control"
-											style="font-size: 13px;" type="text" value="${endTime}"
-											placeholder="结束日期" />
+						   <div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">主办</label>
+									<div class="col-md-8"> 
+										 <input type="text" id="realName" name="realName" class="form-control" value=""> 
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6"  style="">
-								<div class="form-group">
-									<label class="col-md-3 control-label">案件编号</label>
-									<div class="col-md-6">
-									 	<input type="text" class="form-control" id="caseCode" name="caseCode"/>
+							<div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-2 control-label m-l">案件组织</label>
+									<div class="col-md-8">
+										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value=''>
+                                          <input type="hidden" id="yuCuiOriGrpId" value="">
 									</div>
 								</div>
 							</div>
 						</div>
-							<div class="row">
-							<div class="col-md-6"  style="">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">审批日期</label>
+									<div class="col-md-8">
+										<div id="datepicker_0" 
+											class="input-group input-medium date-picker input-daterange "
+											data-date-format="yyyy-mm-dd">
+											<input id="dtBegin_0" name="dtBegin" class="form-control"
+												style="font-size: 13px;" type="text" value="${startTime}"
+												placeholder="起始日期"> <span class="input-group-addon">到</span>
+											<input id="dtEnd_0" name="dtEnd" class="form-control"
+												style="font-size: 13px;" type="text" value="${endTime}"
+												placeholder="结束日期" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-3 control-label">物业地址</label>
-									<div class="col-md-6">
-									  	<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
+									<label class="col-md-2 control-label m-l">案件编号</label>
+									<div class="col-md-8">
+									    <input type="text" class="form-control" id="caseCode" name="caseCode"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">物业地址</label>
+									<div class="col-md-8"> 	
+										<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
 									</div>
 								</div>
 							</div>
@@ -82,6 +106,7 @@
 								</div>
 							</div>
 						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -99,6 +124,8 @@
         <!-- Custom and plugin javascript -->
         <script src="${ctx}/js/inspinia.js"></script>
         <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+        <!-- 选择组织控件 -->
+        <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
         <!-- 分页控件  -->
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
@@ -124,6 +151,7 @@
 	    </script>
 	    <script>
 	        var ctx = "${ctx}";
+	    	var serviceDepId = "${serviceDepId}";
         	//日期控件
 			$('#datepicker_0').datepicker({
 				format : 'yyyy-mm-dd',
@@ -151,7 +179,8 @@
 	    		}
 	    		var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	    		data.argu_idflag = arguUserId;
-	    	    data.argu_queryorgs = orgArray;
+	    	    //data.argu_queryorgs = orgArray;
+	    	    data.argu_queryorgs = serviceDepId;
 
         	    $(".bonus-table").aistGrid({
         			ctx : "${ctx}",
@@ -190,35 +219,7 @@
 	    	});
         	
         	function exportToExcel() {
-    			var startDate = $("#dtBegin_0").val();
-				var endDate = '';
-				if(!$.isBlank($("#dtEnd_0").val())) {
-					endDate = $("#dtEnd_0").val()+" 23:59:59";
-				}
-	    		var data = {};
-        	    //data.queryId = "queryMortgageApproveLost";
-        	    data.startDate = startDate;
-        	    data.endDate = endDate;
-        	    data.caseCode = $("#caseCode").val();
-        	    data.propertyAddr = $("#propertyAddr").val();
-        	    // 获取组织或者人员
-        	    var queryOrgFlag = $("#queryOrgFlag").val();
-	    		var isAdminFlag = $("#isAdminFlag").val();
-	    		var queryOrgs = $("#queryOrgs").val();
-	    		var arguUserId=null;
-	    		if(queryOrgFlag == 'true'){
-	    			arguUserId=null;
-	    			if(isAdminFlag == 'true'){
-	    				queryOrgs=null;
-	    			}
-	    		}else{
-	    			queryOrgs= null;
-	    			arguUserId="yes";
-	    		}
-	    		var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	    		data.argu_idflag = arguUserId;
-	    	    data.argu_queryorgs = orgArray;
-	    	    
+        		var data = getParams();
 	        	aist.exportExcel({
 	    	    	ctx : "${ctx}",
 	    	    	queryId : 'queryMortgageApproveLost',
@@ -228,13 +229,22 @@
 	         }
         	
 			function reloadGrid() {
+				var data = getParams();
+        	    $(".bonus-table").reloadGrid({
+        	    	ctx : "${ctx}",
+        			queryId : 'queryMortgageApproveLost',
+        		    templeteId : 'queryMortgageApproveLost',
+        		    data : data
+        	    })
+	    	}
+			
+			function getParams() {
 				var startDate = $("#dtBegin_0").val();
 				var endDate = '';
 				if(!$.isBlank($("#dtEnd_0").val())) {
 					endDate = $("#dtEnd_0").val()+" 23:59:59";
 				}
 	    		var data = {};
-        	    data.queryId = "queryMortgageApproveLost";
         	    data.startDate = startDate;
         	    data.endDate = endDate;
         	    data.caseCode = $("#caseCode").val();
@@ -255,15 +265,28 @@
 	    		}
 	    		var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	    		data.argu_idflag = arguUserId;
-	    	    data.argu_queryorgs = orgArray;
-       
-        	    $(".bonus-table").reloadGrid({
-        	    	ctx : "${ctx}",
-        			queryId : 'queryMortgageApproveLost',
-        		    templeteId : 'queryMortgageApproveLost',
-        		    data : data
-        	    })
-	    	}
+	    	    
+	    	    data.search_realName = 	$("#realName").val();
+		 		var yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
+		 		
+		 		if($.isBlank(yuCuiOriGrpId)) {
+		 			data.argu_queryorgs = serviceDepId;
+		 		} else {
+		 			data.argu_queryorgs = yuCuiOriGrpId;
+		 		}
+	    	    return data;
+			}
+			
+			//选业务组织的回调函数
+			function radioYuCuiOrgSelectCallBack(array){
+			    if(array && array.length >0){
+			        $("#orgName").val(array[0].name);
+					$("#yuCuiOriGrpId").val(array[0].id);
+				}else{
+					$("#orgName").val("");
+					$("#yuCuiOriGrpId").val("");
+				}
+			}
         	
 	    </script>
 	    </content> 

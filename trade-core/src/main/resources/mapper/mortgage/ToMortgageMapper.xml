@@ -31,7 +31,10 @@
     <result column="IS_MAIN_LOAN_BANK" property="isMainLoanBank" jdbcType="VARCHAR" />
     <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
     <result column="self_Del_Reason" property="selfDelReason" jdbcType="VARCHAR" />
-
+    <result column="rec_Letter_No" property="recLetterNo" jdbcType="VARCHAR"/>
+	<result column="is_Tmp_Bank" property="isTmpBank" jdbcType="VARCHAR"/>
+	<result column="TMP_BANK_UPDATE_TIME" property="tmpBankUpdateTime" jdbcType="TIMESTAMP"/>
+	<result column="TMP_BANK_UPDATE_BY" property="tmpBankUpdateBy" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
     <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
@@ -41,7 +44,7 @@
     COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, LEND_WAY, HOUSE_NUM, IS_LOANER_ARRIVE, 
     SIGN_DATE, APPR_DATE, TAZHENG_ARR_DATE, LEND_DATE, CUST_COMPANY, IF_REPORT_BEFORE_LEND, 
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
-    IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason
+    IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,TMP_BANK_UPDATE_BY
   </sql>
   <sql id="Blob_Column_List" >
     REMARK
@@ -153,6 +156,18 @@
        <if test="selfDelReason != null" >
         self_Del_Reason,
       </if>
+      <if test="recLetterNo != null">
+      	rec_Letter_No,
+      </if>
+      <if test="isTmpBank != null">
+      	is_Tmp_Bank,
+      </if>
+      <if test="tmpBankUpdateTime != null">
+      	TMP_BANK_UPDATE_TIME,
+      </if>
+      <if test="tmpBankUpdateBy != null">
+      	TMP_BANK_UPDATE_BY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
@@ -242,6 +257,18 @@
       </if>
       <if test="selfDelReason != null" >
         #{selfDelReason,jdbcType=VARCHAR},
+      </if>
+      <if test="recLetterNo != null">
+      	#{recLetterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isTmpBank != null">
+      	#{isTmpBank,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankUpdateTime != null">
+      	#{tmpBankUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmpBankUpdateBy != null">
+      	#{tmpBankUpdateBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -334,6 +361,18 @@
       </if>
       <if test="selfDelReason != null" >
         self_Del_Reason = #{selfDelReason,jdbcType=VARCHAR},
+      </if>
+      <if test="recLetterNo != null">
+      	rec_Letter_No = #{recLetterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isTmpBank != null">
+      	is_Tmp_Bank = #{isTmpBank,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankUpdateTime != null">
+      	TMP_BANK_UPDATE_TIME = #{tmpBankUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmpBankUpdateBy != null">
+      	TMP_BANK_UPDATE_BY = #{tmpBankUpdateBy,jdbcType=VARCHAR},
       </if>
     </set>
     ,IS_ACTIVE='1'
