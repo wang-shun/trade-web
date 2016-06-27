@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys id="baseAwardReport">
 	<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
 		<customDict id="qqcdSrvCode" beanName="qqcdSrvCode"></customDict>
 		<customDict id="qqcdSrvPart" beanName="qqcdSrvPart"></customDict>
 		<customDict id="qqcdFin" beanName="qqcdFin"></customDict>
@@ -100,7 +101,8 @@
 					        sc.SATISFACTION,
 					        pd.AWARD_KPI_MONEY,
 					        pm.FIN_ORDER,
-					        pm.FIN_ORDER_ROLL
+					        pm.FIN_ORDER_ROLL,
+					        ab.PARTICIPANT
 					from sctrans.t_ts_award_base ab 
 					 left join sctrans.T_TS_KPI_SRV_CASE sc 
 					        on ab.SRV_CODE = sc.SRV_CODE and ab.case_code =sc.case_code
@@ -114,8 +116,27 @@
 							select uo.user_id
 								from sctrans.v_user_team ut 
 	   										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-	   									where ut.user_id = #userId#
+								where ut.user_id = #userId#
+  								<if test="caseOrgId != null and caseOrgId != '' ">
+						        	and ut.team_id = #caseOrgId#
+						        </if>
+						        <if test="caseUserId != null and caseUserId != '' ">
+						        	and uo.user_id = #caseUserId#
+						        </if>
 	   						)
+			        <if test="caseCode != null and caseCode != '' ">
+			        	and ab.case_code = #caseCode#
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ab.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ab.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ab.guohu_time &lt;= #dtEnd#
+			        </if>
+			        order by ab.guohu_time desc
 				]]>
 			</baseSql>
 		</searchSql>
@@ -130,6 +151,7 @@
 				<column name="AWARD_KPI_MONEY"   />
 				<column name="FIN_ORDER"   />
 				<column name="FIN_ORDER_ROLL"   />
+				<column name="PARTICIPANT"   customDict="qqcdUserIdName"/>
 			</table-row>
 		</grid>
 	</query>
@@ -149,6 +171,7 @@
 					        pm.FIN_ORDER,
 					        pm.FIN_ORDER_ROLL,
 					        
+					        ab.PARTICIPANT,
 					        ab.case_code,pi.property_addr,ab.guohu_time,ab.paid_time
 					from sctrans.t_ts_award_base ab 
 					 left join sctrans.T_TS_KPI_SRV_CASE sc 
@@ -182,10 +205,10 @@
 			        	and DATEDIFF(mm,ab.paid_time,#paidTime#) = 0
 			        </if>
 			        <if test="dtBegin != null and dtBegin != '' " >
-			        	and tab.guohu_time >= #dtBegin#
+			        	and ab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and tab.guohu_time &lt;= #dtEnd#
+			        	and ab.guohu_time &lt;= #dtEnd#
 			        </if>
 			        order by guohu_time desc
 				]]>
@@ -209,6 +232,8 @@
 				<column name="FIN_ORDER_ROLL"   />
 				<column name="SRV_PART_IN" />
 				<column name="SRV_PART_TOTAL" />
+				
+				<column name="PARTICIPANT"   customDict="qqcdUserIdName" title="人员"/>
 			</table-row>
 		</grid>
 	</query>
