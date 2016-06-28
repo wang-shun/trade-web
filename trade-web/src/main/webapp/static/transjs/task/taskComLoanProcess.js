@@ -547,6 +547,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
 		    			}
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
+		    			f.find("input[name='isTmpBank']").prop("checked",false);
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
@@ -1220,7 +1221,7 @@ $(document).ready(function () {
 	 			getReminderList("table_list_2","pager_list_2");
 	 		}else if(currentIndex == 2){
 		 		getMortgageInfo($("#caseCode").val(),1);
-	 		}else if(currentIndex == 3){
+	 		}else if(currentIndex == 3 && priorIndex !=2){
 	 			getMortgageInfo($("#caseCode").val(),1);
 	 		}else if(currentIndex == 4){
 	 			
@@ -1286,7 +1287,7 @@ $(document).ready(function () {
  			getReminderList("table_list_5","pager_list_5");
  		}else if(currentIndex == 2){
 	 		getMortgageInfo($("#caseCode").val(),0);
- 		}else if(currentIndex == 3){
+ 		}else if(currentIndex == 3 && priorIndex != 2){
  			getMortgageInfo($("#caseCode").val(),0);
  		}else if(currentIndex == 4){
 
