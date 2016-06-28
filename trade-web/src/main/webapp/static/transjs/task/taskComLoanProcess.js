@@ -107,7 +107,7 @@ function checkMortgageForm(formId){
 		}
 	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
-			formId.find("select[name='tmpBankReason']").css("border-color","red");
+			formId.find("input[name='tmpBankReason']").css("border-color","red");
 			return false;
 		}
 	}
@@ -1111,7 +1111,7 @@ var stepIndex = 0;
 
 $(document).ready(function () {
 	/*$("#bank_branch_id").change(subBankChange);*/
-	
+	$(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
