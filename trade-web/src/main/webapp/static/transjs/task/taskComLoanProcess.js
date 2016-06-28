@@ -105,6 +105,7 @@ function checkMortgageForm(formId){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
 			formId.find("select[name='tmpBankReason']").css("border-color","red");
 			return false;
