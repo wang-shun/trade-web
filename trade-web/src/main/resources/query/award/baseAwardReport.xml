@@ -23,60 +23,44 @@
 						sab.sum_base_amount,tab.paid_time,pd.AWARD_KPI_MONEY_SUM
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
-			                	where PARTICIPANT 
-			                		in (
-											select uo.user_id
-												from sctrans.v_user_team ut 
-        										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-        									where ut.user_id = #userId#
-        									<if test="caseOrgId != null and caseOrgId != '' ">
-									        	and ut.team_id = #caseOrgId#
-									        </if>
-									        <if test="caseUserId != null and caseUserId != '' ">
-									        	and uo.user_id = #caseUserId#
-									        </if>
-        								)
+			                	where 1 = 1
+			                		<if test="caseOrgId != null and caseOrgId != '' ">
+			                			and (team_id = #caseOrgId# or district_id = #caseOrgId#)
+			                		</if>
+			                		<if test="caseUserId != null and caseUserId != '' ">
+									     and PARTICIPANT  = #caseUserId#
+									</if>
 			                group by case_code) sab
 			         inner join
 			                (
 			                    select * from (
 			                     	select *, ROW_NUMBER() over(partition by case_code order by guohu_time desc) num 
 			                			from sctrans.t_ts_award_base
-			                		where PARTICIPANT 
-										in (
-											select uo.user_id
-												from sctrans.v_user_team ut 
-        										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-        									where ut.user_id = #userId#
-        									<if test="caseOrgId != null and caseOrgId != '' ">
-									        	and ut.team_id = #caseOrgId#
-									        </if>
-									        <if test="caseUserId != null and caseUserId != '' ">
-									        	and uo.user_id = #caseUserId#
-									        </if>
-        								)
+			                		where 1 = 1
+			                		<if test="caseOrgId != null and caseOrgId != '' ">
+			                			and (team_id = #caseOrgId# or district_id = #caseOrgId#)
+			                		</if>
+			                		<if test="caseUserId != null and caseUserId != '' ">
+									     and PARTICIPANT  = #caseUserId#
+									</if>
 			                    ) t where t.num = 1	
 			                ) tab
-			        on sab.case_code = tab.case_code
+			        	on sab.case_code = tab.case_code
 			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
-			        
 			        left join ( 
-			        		select sum(AWARD_KPI_MONEY) AWARD_KPI_MONEY_SUM,
-					        	case_code from sctrans.T_TS_AWARD_KPI_PAY_DETAIL
-					        where PARTICIPANT 
-								in (
-									select uo.user_id
-										from sctrans.v_user_team ut 
-      										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-      									where ut.user_id = #userId#
-      								<if test="caseOrgId != null and caseOrgId != '' ">
-							        	and ut.team_id = #caseOrgId#
-							        </if>
-							        <if test="caseUserId != null and caseUserId != '' ">
-							        	and uo.user_id = #caseUserId#
-							        </if>
-      								)
-					         	group by case_code
+			        		select sum(AWARD_KPI_MONEY) AWARD_KPI_MONEY_SUM, tpd.case_code 
+			        			from sctrans.T_TS_AWARD_KPI_PAY_DETAIL tpd,
+			        			sctrans.t_ts_award_base  tab
+					        where tab.case_code = tpd.case_code 
+					        	and tab.srv_code = tpd.srv_code
+					        	and tab.PARTICIPANT = tpd.PARTICIPANT
+		                		<if test="caseOrgId != null and caseOrgId != '' ">
+		                			and (tab.team_id = #caseOrgId# or district_id = #caseOrgId#)
+		                		</if>
+		                		<if test="caseUserId != null and caseUserId != '' ">
+								     and tab.PARTICIPANT  = #caseUserId#
+								</if>
+					         	group by tpd.case_code
 			        		) pd 
 					        on  sab.case_code =pd.case_code 
 					        
@@ -94,7 +78,7 @@
 			        	and tab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and tab.guohu_time &lt;= #dtEnd#
+			        	and tab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 			        order by guohu_time desc
 				]]>
@@ -135,21 +119,12 @@
 					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
 					        	and ab.PARTICIPANT = pm.PARTICIPANT
 					where ab.case_Code = #caseCode# 
-						and ab.PARTICIPANT in (
-							select uo.user_id
-								from sctrans.v_user_team ut 
-	   										left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-								where ut.user_id = #userId#
-  								<if test="caseOrgId != null and caseOrgId != '' ">
-						        	and ut.team_id = #caseOrgId#
-						        </if>
-						        <if test="caseUserId != null and caseUserId != '' ">
-						        	and uo.user_id = #caseUserId#
-						        </if>
-	   						)
-			        <if test="caseCode != null and caseCode != '' ">
-			        	and ab.case_code = #caseCode#
-			        </if>
+					<if test="caseOrgId != null and caseOrgId != '' ">
+		                 and (ab.team_id = #caseOrgId# or ab.district_id = #caseOrgId#)
+               		</if>
+               		<if test="caseUserId != null and caseUserId != '' ">
+					     and ab.PARTICIPANT  = #caseUserId#
+					</if>
 			        <if test="paidTime != null and paidTime != '' " >
 			        	and DATEDIFF(mm,ab.paid_time,#paidTime#) = 0
 			        </if>
@@ -157,7 +132,7 @@
 			        	and ab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ab.guohu_time &lt;= #dtEnd#
+			        	and ab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 			        order by ab.guohu_time desc
 				]]>
@@ -205,19 +180,13 @@
 					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
 					        	and ab.PARTICIPANT = pm.PARTICIPANT
 			        left join sctrans.t_to_property_info pi on ab.case_code = pi.case_code
-			        where 
-			        	ab.PARTICIPANT in (
-							select uo.user_id
-								from sctrans.v_user_team ut 
-		  							left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-		  						where ut.user_id = #userId#
-		  					<if test="caseOrgId != null and caseOrgId != '' ">
-					        	and ut.team_id = #caseOrgId#
-					        </if>
-					        <if test="caseUserId != null and caseUserId != '' ">
-					        	and uo.user_id = #caseUserId#
-					        </if>
-		  				)
+			        where 1 = 1
+			        <if test="caseUserId != null and caseUserId != '' ">
+					     and ab.PARTICIPANT  = #caseUserId#
+					</if>
+			        <if test="caseOrgId != null and caseOrgId != '' ">
+		                 and (ab.team_id = #caseOrgId# or ab.district_id = #caseOrgId#)
+               		</if>
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and ab.case_code = #caseCode#
 			        </if>
@@ -231,7 +200,7 @@
 			        	and ab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ab.guohu_time &lt;= #dtEnd#
+			        	and ab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 			        order by guohu_time desc
 				]]>
@@ -272,19 +241,13 @@
 					 left join sctrans.T_TS_AWARD_KPI_PAY_DETAIL pd 
 					        on ab.SRV_CODE = pd.SRV_CODE and ab.case_code =pd.case_code 
 			        left join sctrans.t_to_property_info pi on ab.case_code = pi.case_code
-			        where 
-			        	ab.PARTICIPANT in (
-							select uo.user_id
-								from sctrans.v_user_team ut 
-		  							left join sctrans.v_user_org_job uo on ut.team_id = uo.org_id
-		  						where ut.user_id = #userId#
-		  					<if test="caseOrgId != null and caseOrgId != '' ">
-					        	and ut.team_id = #caseOrgId#
-					        </if>
-					        <if test="caseUserId != null and caseUserId != '' ">
-					        	and uo.user_id = #caseUserId#
-					        </if>
-		  				)
+			        where 1 = 1
+			        <if test="caseUserId != null and caseUserId != '' ">
+					     and ab.PARTICIPANT  = #caseUserId#
+					</if>
+			        <if test="caseOrgId != null and caseOrgId != '' ">
+		                 and (ab.team_id = #caseOrgId# or ab.district_id = #caseOrgId#)
+               		</if>
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and ab.case_code = #caseCode#
 			        </if>
@@ -298,7 +261,7 @@
 			        	and ab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ab.guohu_time &lt;= #dtEnd#
+			        	and ab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>

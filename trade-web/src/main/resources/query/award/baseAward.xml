@@ -45,7 +45,7 @@
 			        	and tab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and tab.guohu_time &lt;= #dtEnd#
+			        	and tab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 			        order by guohu_time desc
 				]]>
@@ -125,7 +125,7 @@
 			        	and ba.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ba.guohu_time &lt;= #dtEnd#
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>
@@ -161,7 +161,7 @@
 			        	and ba.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ba.guohu_time &lt;= #dtEnd#
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>
@@ -199,7 +199,7 @@
 			        	and ba.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ba.guohu_time &lt;= #dtEnd#
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>

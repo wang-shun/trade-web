@@ -105,8 +105,9 @@ function checkMortgageForm(formId){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
-			formId.find("select[name='tmpBankReason']").css("border-color","red");
+			formId.find("input[name='tmpBankReason']").css("border-color","red");
 			return false;
 		}
 	}
@@ -553,6 +554,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
 		    			f.find("input[name='isTmpBank']").prop("checked",false);
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
+		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
@@ -1110,7 +1112,7 @@ var stepIndex = 0;
 
 $(document).ready(function () {
 	/*$("#bank_branch_id").change(subBankChange);*/
-	
+	$(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
