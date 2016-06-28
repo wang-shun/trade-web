@@ -547,15 +547,18 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
 		    			}
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
+		    			f.find("input[name='isTmpBank']").prop("checked",false);
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
 		    				f.find("select[name='finOrgCode']").attr('disabled',true);
+		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
 		    				f.find("input[name='recLetterNo']").prop('disabled',false);
 		    				f.find("select[name='bank_type']").attr('disabled',false);
 		    				f.find("select[name='finOrgCode']").attr('disabled',false);
+		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
 		    			if(!!data.content.tmpBankUpdateBy){
@@ -577,10 +580,12 @@ function isTmpBankChange(){
 		f.find("input[name='recLetterNo']").prop('disabled',true);
 		f.find("select[name='bank_type']").attr('disabled',true);
 		f.find("select[name='finOrgCode']").attr('disabled',true);
+		f.find(".tmpBankReasonDiv").show();
 	}else{
 		f.find("input[name='recLetterNo']").prop('disabled',false);
 		f.find("select[name='bank_type']").attr('disabled',false);
 		f.find("select[name='finOrgCode']").attr('disabled',false);
+		f.find(".tmpBankReasonDiv").hide();
 	}
 }
 
@@ -1046,10 +1051,16 @@ function submitMortgage(){
 	});
 }
 //验证备件是否上传
-function checkAttUp(attDiv){
+function checkAttUp(attDiv,f){
 	var flag = true;
 	attDiv.each(function(){
 		var pic = $(this).find("img");
+		var preFCode=$(this).find("input[name='preFileCode']").val();
+		preFCode=preFCode||'';
+		if(preFCode.indexOf('rec_letter_')!=-1&& !!f.find("input[name='isTmpBank']").prop('checked')){
+			flag=true;
+			return true;
+		}
 		if(pic.length == 0){
 			flag = false;
 			return false;
@@ -1200,7 +1211,7 @@ $(document).ready(function () {
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
 		 		deleteAndModify();
-	 			return checkAttUp($(".att_first"));
+	 			return checkAttUp($(".att_first"),$("#mortgageForm"));
 	 		}
 
 	 		return true;
@@ -1214,10 +1225,10 @@ $(document).ready(function () {
 	 			getReminderList("table_list_2","pager_list_2");
 	 		}else if(currentIndex == 2){
 		 		getMortgageInfo($("#caseCode").val(),1);
-	 		}else if(currentIndex == 3){
-	 		//	getExplPicByhouseCode() ;
+	 		}else if(currentIndex == 3 && priorIndex !=2){
+	 			getMortgageInfo($("#caseCode").val(),1);
 	 		}else if(currentIndex == 4){
-
+	 			
 	 			getReportList("table_list_4","pager_list_4",1);
 	 		}else if(currentIndex == 5){
 	 			getCompleteMortInfo(1);
@@ -1265,7 +1276,7 @@ $(document).ready(function () {
  			return flag;
  		}else if(currentIndex == 3 ){
  			deleteAndModify();
- 			return checkAttUp($(".att_second"));
+ 			return checkAttUp($(".att_second"),$("#mortgageForm1"));
 
  		}
  		
@@ -1280,9 +1291,10 @@ $(document).ready(function () {
  			getReminderList("table_list_5","pager_list_5");
  		}else if(currentIndex == 2){
 	 		getMortgageInfo($("#caseCode").val(),0);
- 		}else if(currentIndex == 3){
- 		//	getExplPicByhouseCode() ;
+ 		}else if(currentIndex == 3 && priorIndex != 2){
+ 			getMortgageInfo($("#caseCode").val(),0);
  		}else if(currentIndex == 4){
+
  			getReportList("table_list_6","pager_list_6",0);
  		}else if(currentIndex == 5){
  			getCompleteMortInfo(0);

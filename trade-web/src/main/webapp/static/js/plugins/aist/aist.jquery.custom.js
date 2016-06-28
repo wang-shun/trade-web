@@ -174,7 +174,17 @@ function($, window) {
 					return;
 				}
 				$(currentTotalstrong).empty();
-				$(currentTotalstrong).text(page+'/'+total);
+				$(currentTotalstrong).text(page+'/'+total+'页');
+				
+				var currentRecords = $("#currentRecords").find('strong');
+				var lastRecords = "";
+				if(page*pagesize>records) {
+					lastRecords = records;
+				} else {
+					lastRecords = page*pagesize
+				}
+				currentRecords.empty();
+				currentRecords.text((page-1)*pagesize+1+"-"+lastRecords);
 				$('#totalP').text(records);
 				
 				
@@ -264,7 +274,7 @@ function($, window) {
 	    thead.append(tr);
 	    table.append(thead).append(tbody);
 	    
-	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span><span class=\"ml15\">共<strong class=\"bold\" id=\"totalP\"></strong>条</span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
+	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span class=\"ml15\">共<strong class=\"bold\" id=\"totalP\"></strong>条</span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
 	    $(this).empty().append(table);
 	    if($("#pageBar").length == 0) {
 	    	$(this).after(pageBar);

@@ -76,6 +76,8 @@ public class ToMortgage {
     
     private String selfDelReason;
     
+    private String tmpBankReason;
+    
     private String isActive;
     /*是否商贷*/
     private String formCommLoan;
@@ -390,6 +392,14 @@ public class ToMortgage {
 
 	public void setTmpBankUpdateTime(Date tmpBankUpdateTime) {
 		this.tmpBankUpdateTime = tmpBankUpdateTime;
+	}
+
+	public String getTmpBankReason() {
+		return tmpBankReason;
+	}
+
+	public void setTmpBankReason(String tmpBankReason) {
+		this.tmpBankReason = tmpBankReason;
 	}
     
 }
