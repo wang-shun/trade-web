@@ -53,6 +53,9 @@ public class MortgageLostController {
 		request.setAttribute("queryOrgs", reBuffer.toString());
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
+		
+		request.setAttribute("serviceDepId",user.getServiceDepId());
+	
 				
 		return "mortgage/mortgageApproveLost";
 	}
