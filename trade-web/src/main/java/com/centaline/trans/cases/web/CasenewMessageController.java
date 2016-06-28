@@ -196,7 +196,7 @@ public class CasenewMessageController {
 			return JSONObject.toJSONString(rs);
 		}else{
 			try{
-				String caseCode="";//apiCaseCode();  // 调用caseCode 的接口方法
+				String caseCode=apiCaseCode();  // 调用caseCode 的接口方法
 				if(null==caseCode || "".equals(caseCode)){ // 如果调用apiCaseCode()方式返回的是空, 则调用本地的 generateCode() 方法
 					caseCode=generateCode();  // 调用我们自己的生成规则
 				}
