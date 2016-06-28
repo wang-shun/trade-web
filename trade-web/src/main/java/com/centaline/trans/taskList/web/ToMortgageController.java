@@ -200,6 +200,9 @@ public class ToMortgageController {
 			}else if(StringUtils.isEmpty(toMortgage.getLastLoanBank())){
 				response.setMessage("该案件还未确定最终贷款银行，不能提交流程！");
 				return response;
+			}else if ("1".endsWith(toMortgage.getIsTmpBank())&&toMortgage.getTmpBankUpdateBy()==null){
+				response.setMessage("临时银行未处理！");
+				return response;
 			}
 			
 			List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -274,4 +277,8 @@ public class ToMortgageController {
 		}
         return response;
     }
+	@RequestMapping(value="/toTmpBankList") 
+	public String toTmpBankList(){
+		return "mortgage/tmpBankList";
+	}
 }
