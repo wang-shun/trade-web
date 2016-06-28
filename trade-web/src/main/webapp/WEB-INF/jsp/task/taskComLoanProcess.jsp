@@ -816,7 +816,7 @@
 									</div>
 									<div style="clear: both"></div>
 									<div class="tmpBankReasonDiv">
-										<label class="col-sm-2 control-label">临时银行原因 </label>
+										<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span> </label>
 										<div class="col-sm-10">
 											<input type="text" name="tmpBankReason" class="form-control">
 										</div>
@@ -1220,7 +1220,7 @@
 									</div>
 									<div style="clear: both"></div>
 									<div class="tmpBankReasonDiv">
-										<label class="col-sm-2 control-label">临时银行原因 </label>
+										<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span>: </label>
 										<div class="col-sm-10">
 											<input type="text" name="tmpBankReason" class="form-control">
 										</div>
@@ -1474,7 +1474,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.2.8"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.2.9"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	

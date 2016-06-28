@@ -105,6 +105,10 @@ function checkMortgageForm(formId){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+		if(formId.find("input[name='tmpBankReason']").val() == ""){
+			formId.find("select[name='tmpBankReason']").css("border-color","red");
+			return false;
+		}
 	}
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
