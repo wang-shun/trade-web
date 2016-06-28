@@ -187,6 +187,7 @@
 						E.COMMENT AS GUOHU_COMMENT,
 						E.REAL_PROPERTY_GET_TIME,
 						E.LOAN_LOST_TYPE,
+						E.REC_LETTER_NO,
 						AC.org_name AS  AGENT_ORG,
 						AE.JFHJL_MGR AS AGENT_FHJL,
 						AE.JQYJL_MGR AS AGENT_QYJL,
@@ -586,6 +587,8 @@
 				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费,评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REC_LETTER_NO" title="推荐函编号"
+					customDict="" />
 			</table-row>
 		</grid>
 	</query>

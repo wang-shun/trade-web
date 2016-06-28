@@ -553,10 +553,12 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
 		    				f.find("select[name='finOrgCode']").attr('disabled',true);
+		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
 		    				f.find("input[name='recLetterNo']").prop('disabled',false);
 		    				f.find("select[name='bank_type']").attr('disabled',false);
 		    				f.find("select[name='finOrgCode']").attr('disabled',false);
+		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
 		    			if(!!data.content.tmpBankUpdateBy){
@@ -578,10 +580,12 @@ function isTmpBankChange(){
 		f.find("input[name='recLetterNo']").prop('disabled',true);
 		f.find("select[name='bank_type']").attr('disabled',true);
 		f.find("select[name='finOrgCode']").attr('disabled',true);
+		f.find(".tmpBankReasonDiv").show();
 	}else{
 		f.find("input[name='recLetterNo']").prop('disabled',false);
 		f.find("select[name='bank_type']").attr('disabled',false);
 		f.find("select[name='finOrgCode']").attr('disabled',false);
+		f.find(".tmpBankReasonDiv").hide();
 	}
 }
 
