@@ -31,6 +31,7 @@ import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -76,6 +77,9 @@ public class CasenewMessageController {
 	@Autowired
 	private ToCaseInfoService tocaseInfoService;
 	
+	@Autowired
+	private UamBasedataService uamBasedataService;
+	
 	
 	/**
 	 * 功能：通过请求url 获取到 caseCode
@@ -111,9 +115,7 @@ public class CasenewMessageController {
 	 * @author zhangxb16
 	 */
 	public String generateCode(){
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); // 年月日 时分秒 SDyyyymmddhhmmss
-		String caseCodeGenerate="SD"+sdf.format(new Date());
+		String caseCodeGenerate = uamBasedataService.nextSeqVal("CASE_CODE", new Date());
 		return caseCodeGenerate;
 	}
 	
