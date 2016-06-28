@@ -105,6 +105,11 @@ function checkMortgageForm(formId){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+	}else{
+		if(formId.find("input[name='tmpBankReason']").val() == ""){
+			formId.find("input[name='tmpBankReason']").css("border-color","red");
+			return false;
+		}
 	}
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
@@ -553,10 +558,12 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
 		    				f.find("select[name='finOrgCode']").attr('disabled',true);
+		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
 		    				f.find("input[name='recLetterNo']").prop('disabled',false);
 		    				f.find("select[name='bank_type']").attr('disabled',false);
 		    				f.find("select[name='finOrgCode']").attr('disabled',false);
+		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
 		    			if(!!data.content.tmpBankUpdateBy){
@@ -578,10 +585,12 @@ function isTmpBankChange(){
 		f.find("input[name='recLetterNo']").prop('disabled',true);
 		f.find("select[name='bank_type']").attr('disabled',true);
 		f.find("select[name='finOrgCode']").attr('disabled',true);
+		f.find(".tmpBankReasonDiv").show();
 	}else{
 		f.find("input[name='recLetterNo']").prop('disabled',false);
 		f.find("select[name='bank_type']").attr('disabled',false);
 		f.find("select[name='finOrgCode']").attr('disabled',false);
+		f.find(".tmpBankReasonDiv").hide();
 	}
 }
 
@@ -1102,7 +1111,7 @@ var stepIndex = 0;
 
 $(document).ready(function () {
 	/*$("#bank_branch_id").change(subBankChange);*/
-	
+	$(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
