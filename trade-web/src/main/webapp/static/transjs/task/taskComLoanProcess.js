@@ -554,6 +554,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
 		    			f.find("input[name='isTmpBank']").prop("checked",false);
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
+		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
