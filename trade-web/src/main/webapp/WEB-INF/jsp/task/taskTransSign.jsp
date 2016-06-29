@@ -813,7 +813,13 @@ if("${idList}" != "") {
 					selects[j].focus();
 					checkGuest = false;
 	                return false;
-				} else {
+				}else if(item.value.trim().indexOf(" ")> -1){
+					alert("上家姓名中不能包含空格!");
+					selects[j].focus();
+					checkGuest = false;
+	                return false;
+				}else {
+					$(selects[j]).val(item.value.trim());
 					checkGuest = true;
 				}
 			});
@@ -827,7 +833,7 @@ if("${idList}" != "") {
 					alert("上家电话为必填项!");
 					selects[j].focus();
 					checkGuest = false;
-				} else {
+				}else {
 					checkGuest = true;
 	                return false;
 				}
@@ -843,7 +849,13 @@ if("${idList}" != "") {
 					selects[j].focus();
 					checkGuest = false;
 	                return false;
-				} else {
+				}else if(item.value.trim().indexOf(" ")> -1){
+					alert("下家姓名中不能包含空格!");
+					selects[j].focus();
+					checkGuest = false;
+	                return false;
+				}else {
+					$(selects[j]).val(item.value.trim());
 					checkGuest = true;
 				}
 			});
@@ -871,11 +883,24 @@ if("${idList}" != "") {
                 $('input[name=conPrice]').focus();
                 return false;
             }
+			if(Number($('input[name=conPrice]').val()) <= 0){
+				alert("合同价必须大于0!");
+                $('input[name=conPrice]').focus();
+                return false;
+			}
+			
 			if($('input[name=realPrice]').val()=='') {
                 alert("成交价为必填项!");
                 $('input[name=realPrice]').focus();
                 return false;
             }
+			if(Number($('input[name=realPrice]').val()) <= 0){
+				alert("成交价必须大于0!");
+                $('input[name=realPrice]').focus();
+                return false;
+			}
+			
+			
 			if($('input[name=propertyAddr]').val()=='') {
                 alert("产证地址为必填项!");
                 $('input[name=propertyAddr]').focus();

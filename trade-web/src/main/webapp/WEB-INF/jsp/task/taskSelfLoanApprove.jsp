@@ -383,7 +383,7 @@
                 alert("商贷部分利率折扣为必填项!");
                 $('input[name=comDiscount]').focus();
                 return false;
-			}else if(isNaN($('input[name=comDiscount]').val())){
+/* 			}else if(isNaN($('input[name=comDiscount]').val())){
                 alert("请输入0~1之间的合法数字");
                 $('input[name=comDiscount]').focus();				
                 return false;
@@ -396,9 +396,10 @@
         		if(!reg.test($('input[name=comDiscount]').val())){
         			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
         			$('input[name=comDiscount]').focus();
-        			return false;
-        		}
+        			return false; 
+        		}*/
            	}
+			
 			/* if($('input[name=prfAmount]').val()=='') {
                 alert("公积金贷款金额为必填项!");
                 $('input[name=prfAmount]').focus();

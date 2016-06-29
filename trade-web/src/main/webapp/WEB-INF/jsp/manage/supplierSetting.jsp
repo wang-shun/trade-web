@@ -209,7 +209,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 
-	<script src="${ctx}/transjs/manage/supplierSetting.js"></script> 
+	<script src="${ctx}/transjs/manage/supplierSetting.js?v=1.0.2"></script> 
 
     <script>
     var ctx = "${ctx}";

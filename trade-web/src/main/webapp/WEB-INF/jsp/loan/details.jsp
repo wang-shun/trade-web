@@ -117,23 +117,24 @@
 					</select>
 				</div>
 			</div>
-			<div class="row form-group">
-				<div class="col-xs-1">申请金额:</div>
+			<div id="loan_div">
+			<div class="row form-group loan_1 loan_2 loan_3">
+				<div class="col-xs-1 showstar">申请金额:</div>
 				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
-						class="input-sm form-control" id="txt_loanAmount" name="loanAmount" value="${loanAgent.loanAmount /10000}">
+						class="input-sm form-control" id="txt_loanAmount" name="loanAmount" value="${loanAgent.loanAmount!=null? loanAgent.loanAmount/10000 :loanAgent.loanAmount}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
-				<div class="col-xs-1">申请时间:</div>
+				<div class="col-xs-1 showstar">申请时间:</div>
 				<div class="col-xs-3">
 					<div class="input-group date">
 						<span class="input-group-addon"><i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>
 						<input class="form-control" type="text" id="txt_applyTime" name="applyTime" value="<fmt:formatDate value="${loanAgent.applyTime }" pattern="yyyy-MM-dd"/>">
 					</div>
 				</div>
-				<div class="col-xs-1">申请期数:</div>
+				<div class="col-xs-1 showstar">申请期数:</div>
 				<div class="col-xs-3">
 				<div class="input-group"><input type="text"
 						class="input-sm form-control" id="txt_month" name="month" value="${loanAgent.month }">
@@ -141,15 +142,15 @@
 						</div>
 				</div>
 			</div>
-			<div class="row form-group">
-				<div class="col-xs-1">面签金额:</div>
+			<div class="row form-group loan_2">
+				<div class="col-xs-1 showstar">面签金额:</div>
 				<div class="col-xs-3">
 					<div class="input-group"><input type="text"
-						class="input-sm form-control" id="txt_signAmount" name="signAmount" value="${loanAgent.signAmount/10000 }">
+						class="input-sm form-control" id="txt_signAmount" name="signAmount" value="${loanAgent.signAmount!=null?loanAgent.signAmount/10000 :loanAgent.signAmount}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
-				<div class="col-xs-1">面签时间:</div>
+				<div class="col-xs-1 showstar">面签时间:</div>
 				<div class="col-xs-3">
 					<div class="input-group date">
 						<span class="input-group-addon"><i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>
@@ -157,22 +158,23 @@
 					</div>
 				</div>
 			</div>
-			<div class="row form-group">
-				<div class="col-xs-1">放款金额:</div>
+			<div class="row form-group loan_3">
+				<div class="col-xs-1 showstar">放款金额:</div>
 				<div class="col-xs-3">
 					<div class="input-group">
 					<input type="text"
-						class="input-sm form-control" id="txt_actualAmount" name="actualAmount" value="${loanAgent.actualAmount/10000 }">
+						class="input-sm form-control" id="txt_actualAmount" name="actualAmount" value="${loanAgent.actualAmount!=null?loanAgent.actualAmount/10000 :loanAgent.actualAmount}">
 						<span class="input-group-addon">万</span>
 						</div>
 				</div>
-				<div class="col-xs-1">放款时间:</div>
+				<div class="col-xs-1 showstar">放款时间:</div>
 				<div class="col-xs-3">
 					<div class="input-group date">
 						<span class="input-group-addon"><i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>
 						<input class="form-control" type="text" id="txt_releaseTime" name="releaseTime" value="<fmt:formatDate value="${loanAgent.releaseTime }" pattern="yyyy-MM-dd"/>">
 					</div>
 				</div>
+			</div>
 			</div>
 			<div class="row form-group">
 				<div class="col-xs-1">对帐时间:</div>
@@ -266,7 +268,15 @@
 	<script>
 			var ctx="${ctx}";
 			var postData,caseList;
+			var starHtml="<span class=\"star\">*</span>";
+			var loanDiv=$('#loan_div');
+			var flagList={'1':2,'2':(4|2),'3':(8|2)};
 			function fcheck(){
+				var flag=0;
+				var f=flagList[$("#select_applyStatus").val()];
+				if(typeof(f)!='undefined' ){
+					flag=f;
+				}
 				if($("#executorId")&&$("#executorId").val()==''){
 					alert('请选择归属人');
 					return false;
@@ -279,18 +289,53 @@
 					alert('请选择跟进状态');
 					return false;
 				}
-				if($("#txt_loanAmount").val()==0){
-					alert('请输入申请金额');
-					return false;
+				if((flag&2)!=0){
+					if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){
+						alert('请输入 申请金额');
+						return false;
+					}
+					if($("#txt_applyTime").val()==''){
+						alert('请输入 申请时间');
+						return false;
+					}
+					if($("#txt_month").val()==''&&$("#txt_month").val()==0){
+						alert('请输入期数');
+						return false;
+					}
 				}
-				if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){
-					alert('请输入 申请金额');
-					return false;
+				if((flag&4)!=0){
+					if($("#txt_signAmount").val()==''||$("#txt_signAmount").val()==0){
+						alert('请输入 面签金额');
+						return false;
+					}
+					if($("#txt_signTime").val()==''){
+						alert('请输入 面签时间');
+						return false;
+					}
 				}
+				if((flag&8)!=0){
+					if($("#txt_actualAmount").val()==''||$("#txt_actualAmount").val()==0){
+						alert('请输入 放款金额');
+						return false;
+					}
+					if($("#txt_releaseTime").val()==''){
+						alert('请输入放款时间');
+						return false;
+					}
+				}
+
 				return true;
+			}
+			function loanStatusChange(){
+				var loanStatus=	$(this).val();
+				loanDiv.find('.showstar').find(".star").remove();
+				if(!!loanStatus&&loanStatus>0&&loanStatus<=3){
+					loanDiv.find(".loan_"+loanStatus).find('.showstar').append($(starHtml));
+				}
 			}
 			$(document).ready(
 				function() {
+					$('#select_applyStatus').change(loanStatusChange);
 					initGrid();
 					var pkid= $("#pkid").val();
 					if(pkid){

@@ -309,7 +309,7 @@ img{ border-image-width:0px;}
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
 	<!-- toJSON -->
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
-	!-- 上传附件相关 -->
+	<!-- 上传附件相关 -->
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script

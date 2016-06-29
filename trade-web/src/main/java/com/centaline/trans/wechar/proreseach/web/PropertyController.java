@@ -96,8 +96,11 @@ public class PropertyController {
 		List<ToAttachment> at = attachmentService.findToAttachmentByCaseCode(prCode);
 		ToPropertyResearch propertyResearch = propertyService.getToPropertyResearchsByPrCode(prCode);
 
+		if(propertyResearch.getIsSuccess().equals(1)){
+			request.setAttribute("attachments", at);
+		}
+		
 		request.setAttribute("propertyResearch", propertyResearch);
-		request.setAttribute("attachments", at);
 		request.setAttribute("imgHost", imgHost);
 		request.setAttribute("imgHost", imgHost);
 		return "mobile/propresearch/attenList";

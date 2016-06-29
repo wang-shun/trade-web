@@ -76,9 +76,19 @@ public class ToMortgage {
     
     private String selfDelReason;
     
+    private String tmpBankReason;
+    
     private String isActive;
     /*是否商贷*/
     private String formCommLoan;
+    /**推荐函编号*/
+    private String recLetterNo;
+    
+    private String isTmpBank;
+    
+    private String tmpBankUpdateBy;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date tmpBankUpdateTime;
     
     public Long getPkid() {
         return pkid;
@@ -350,6 +360,46 @@ public class ToMortgage {
 
 	public void setFormCommLoan(String formCommLoan) {
 		this.formCommLoan = formCommLoan;
+	}
+
+	public String getRecLetterNo() {
+		return recLetterNo;
+	}
+
+	public void setRecLetterNo(String recLetterNo) {
+		this.recLetterNo = recLetterNo;
+	}
+
+	public String getIsTmpBank() {
+		return isTmpBank;
+	}
+
+	public void setIsTmpBank(String isTmpBank) {
+		this.isTmpBank = isTmpBank;
+	}
+
+	public String getTmpBankUpdateBy() {
+		return tmpBankUpdateBy;
+	}
+
+	public void setTmpBankUpdateBy(String tmpBankUpdateBy) {
+		this.tmpBankUpdateBy = tmpBankUpdateBy;
+	}
+
+	public Date getTmpBankUpdateTime() {
+		return tmpBankUpdateTime;
+	}
+
+	public void setTmpBankUpdateTime(Date tmpBankUpdateTime) {
+		this.tmpBankUpdateTime = tmpBankUpdateTime;
+	}
+
+	public String getTmpBankReason() {
+		return tmpBankReason;
+	}
+
+	public void setTmpBankReason(String tmpBankReason) {
+		this.tmpBankReason = tmpBankReason;
 	}
     
 }

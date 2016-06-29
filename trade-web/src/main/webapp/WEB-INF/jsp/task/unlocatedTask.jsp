@@ -123,6 +123,8 @@ text-decoration: underline !important;
 						<th>产证地址</th>
 						<th><span class="sort" >服务名称</span></th>
 						<th>处理角色</th>
+						<th>贵宾服务中心</th>
+						<th>组别名称</th>
 						<th>开始时间</th>						
 						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
 					</tr>
@@ -178,6 +180,8 @@ text-decoration: underline !important;
 						<td><span class="salesman-info">{{item.propertyAddr}}</span></td>
 						<td><span class="case-addr">{{item.taskDfKey}}</span></td>
 						<td><span class="salesman-info">{{item.taskJobCode}}</span></td>
+						<td><span class="salesman-info">{{item.groupParentName}}</span></td>
+						<td><span class="salesman-info">{{item.groupName}}</span></td>
 						<td><span class="salesman-info">{{item.createTime}}</span></td>						
 						<td>
 						 {{if item.candidateId&&item.candidateId!=''}}

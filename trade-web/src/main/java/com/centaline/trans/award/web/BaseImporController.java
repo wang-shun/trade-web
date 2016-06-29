@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
@@ -110,11 +111,11 @@ public class BaseImporController {
 	public String baseAward() {
 		return "award/baseAward";
 	}
-	
+
 	@RequestMapping(value = "baseAwardCount")
 	@ResponseBody
-	public Map<String, String> baseAwardCount(String paidTime,String caseCode,String propertyAddr,
-			String dtBegin,String dtEnd) {
+	public Map<String, String> baseAwardCount(String paidTime, String caseCode, String propertyAddr, String dtBegin,
+			String dtEnd) {
 
 		SessionUser sesssionUser = uamSessionService.getSessionUser();
 		String countMsg = "";
@@ -125,42 +126,54 @@ public class BaseImporController {
 		gp.put("propertyAddr", propertyAddr);
 		gp.put("dtBegin", dtBegin);
 		gp.put("dtEnd", dtEnd);
-		
-		
+
 		if (TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode())) {
 			gp.setQueryId("generalManagerCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
-			
+
 			Object obj = result.getContent().get(0).get("CASE_CODE_COUNT");
 			String caseCodeCount = null == obj ? "0" : String.valueOf(obj);
-			
+
 			countMsg = "交易单数: " + caseCodeCount;
 		} else if (TransJobs.TZJ.getCode().equals(sesssionUser.getServiceJobCode())) {
 			gp.setQueryId("directorCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
-			
+
 			Object srvPartInObj = result.getContent().get(0).get("SRV_PART_IN_COUNT");
-			String srvPartInCount = null == srvPartInObj ? "0" : String.format("%.2f ",srvPartInObj);
+			String srvPartInCount = null == srvPartInObj ? "0" : String.format("%.2f ", srvPartInObj);
 			Object srvPartRatioObj = result.getContent().get(0).get("SRV_PART_RATIO_COUNT");
-			String srvPartRatioCount = null == srvPartRatioObj ? "0" : String.format("%.2f ",srvPartRatioObj);
-			
+			String srvPartRatioCount = null == srvPartRatioObj ? "0" : String.format("%.2f ", srvPartRatioObj);
+
 			Object obj = result.getContent().get(0).get("CASE_CODE_COUNT");
 			String caseCodeCount = null == obj ? "0" : String.valueOf(obj);
-			
+
 			countMsg = "交易单数: " + caseCodeCount + ", 环节总数: " + srvPartInCount + ", 交易单加权: " + srvPartRatioCount;
 		} else {
 			gp.setQueryId("otherRoleCount");
 			Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp);
 			Object srvPartInObj = result.getContent().get(0).get("SRV_PART_IN_COUNT");
-			String srvPartInCount = null == srvPartInObj ? "0" : String.format("%.2f ",srvPartInObj);
-			
+			String srvPartInCount = null == srvPartInObj ? "0" : String.format("%.2f ", srvPartInObj);
+
 			Object obj = result.getContent().get(0).get("CASE_CODE_COUNT");
 			String caseCodeCount = null == obj ? "0" : String.valueOf(obj);
-			countMsg = " 环节总数: " + srvPartInCount +",交易单数: " + caseCodeCount;
+			countMsg = " 环节总数: " + srvPartInCount + ",交易单数: " + caseCodeCount;
 		}
 
 		Map<String, String> model = new HashMap<String, String>();
 		model.put("countMsg", countMsg);
 		return model;
 	}
+
+	@RequestMapping(value = "baseAwardReport")
+	public ModelAndView baseReport() {
+		SessionUser sesssionUser = uamSessionService.getSessionUser();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("serviceDepId", sesssionUser.getServiceDepId());
+		map.put("sctransUserId", sesssionUser.getId());
+		Boolean isJL = TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode());
+		map.put("isManage", isJL ? "1" : "0");
+		return new ModelAndView("award/baseAwardReport",map);
+	}
+
 }

@@ -86,6 +86,9 @@
     <bean name="qqcdSrvStrCodeName" class="com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl">
         <property name="dictType" value="yu_serv_cat_code_tree"></property>
     </bean>
+    <bean name="qqcdMortName" class="com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl">
+        <property name="dictType" value="30016"></property>
+    </bean>
     <bean name="qqcdSrvStrCaseCode" class="com.centaline.trans.common.service.impl.QuickQuerySrvCaseCodeCustomDictServiceImpl">
     </bean>
     
@@ -287,5 +290,8 @@
        <property name="prop" value="JQYDS"></property>
     </bean>
 
+	<bean name="qqcdSrvPart" class="com.centaline.trans.common.service.impl.QuickQuerySrvPartServiceImpl" />
+    <bean name="qqcdFin" class="com.centaline.trans.common.service.impl.QuickQueryFinServiceImpl" />
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

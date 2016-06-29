@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getStatusByCode" beanName="qqcdDictass_status"></customDict>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryMortgageApproveLost">
+		<searchCondition>
+		   <condition field="taskInst.END_TIME_"   name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="taskInst.END_TIME_"   name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="base.CASE_CODE"   name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="u.REAL_NAME"   name="realName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					  base.CASE_CODE,
+					  base.PROPERTY_ADDR,
+					  base.LEADING_PROCESS_ID,
+					  base.ORG_ID,
+					  base.AGENT_NAME,
+					  mortgage.MORT_TYPE,
+					  mortgage.SIGN_DATE,
+					  guser.real_name,
+					  taskInst.END_TIME_
+					FROM 
+					  (SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0) mortgage
+					inner JOIN sctrans.V_CASE_LIST_BASE base
+					ON  mortgage.CASE_CODE = base.CASE_CODE
+					INNER JOIN sctrans.SYS_USER u 
+					ON u.ID = base.LEADING_PROCESS_ID
+					INNER JOIN sctrans.T_TO_WORKFLOW w ON base.CASE_CODE = w.CASE_CODE
+					AND w.BUSINESS_KEY = 'operation_process'
+					AND w.STATUS IN ('0', '4')
+					AND w.PKID = (select max(PKID) from sctrans.T_TO_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+					INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
+					AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') AND taskInst.end_time_ is not null
+					and taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_
+					AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') AND end_time_ is not null)
+					INNER JOIN sctrans.sys_user guser 
+					on guser.username = taskInst.ASSIGNEE_ 
+					and guser.available = '1'
+					and guser.is_deleted = '0'
+					where
+								  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C 
+								    INNER JOIN
+							        sctrans.v_yucui_org_hierarchy orgHierarchy
+							        ON
+							        orgHierarchy.ORG_ID = C.ORG_ID
+								  WHERE C.CASE_CODE = base.CASE_CODE  
+					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
+					  	    <ifNotNull queryorgs> 
+					  	    	 AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
+					  	    </ifNotNull>))	
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" title="主办" display="主办" customDict="qqcdUserIdName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" title="主办组" display="主办组" customDict="qqcdOrgIdName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" title="经纪人" display="经纪人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="MORT_TYPE" index="" checkbox="" title="贷款类型" display="贷款类型" customDict="qqcdMortName" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="real_name" index="" checkbox="" title="审批人" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="END_TIME_" index="" checkbox="" title="审批时间"  display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm"  format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

@@ -37,12 +37,13 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT ut.name as name,ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode,isnull(j.job_name,ut.task_Job_Code) as taskJobCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
+					SELECT org.org_name groupName,(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, ut.name as name,ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode,isnull(j.job_name,ut.task_Job_Code) as taskJobCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
 					,ut.TASK_DEFINATION_KEY as taskDfKey,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
 					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
 						on ut.case_code =tca.case_code
 						left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
 						left join sctrans.v_case_list_base b on b.case_code = ut.case_code
+						left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
 					 where ut.IS_DELETE='0'
 					 <ifNotNull mOrgId>
 						and (ut.candidate_Id=#candidateId# or (ut.candidate_Id is null and tca.org_id=#mOrgId#))
@@ -68,7 +69,13 @@
 				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="taskDfKey" index="" checkbox="" display="" customDict="getDictPartName" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="caseId" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="propertyAddr" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>						
+				<column type="both" name="propertyAddr" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				
+				<!--2016.6.23 add columns:groupName,groupParentName  begin -->
+				<column type="both" name="groupParentName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="groupName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<!--2016.6.23 add columns:groupName,groupParentName  end -->	
+							
 			</table-row>
 		</grid>
 	</query>

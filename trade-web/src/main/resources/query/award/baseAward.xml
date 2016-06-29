@@ -45,7 +45,7 @@
 			        	and tab.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and tab.guohu_time &lt;= #dtEnd#
+			        	and tab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 			        order by guohu_time desc
 				]]>
@@ -63,31 +63,6 @@
 	</query>
 	
 	<query id="awardInfoList">
-		<searchSql>
-			<baseSql>
-				<![CDATA[
-					select 
-					   	SRV_CODE,
-					   	BASE_AMOUNT,
-					   	SRV_PART_IN,
-					   	SRV_PART_TOTAL
-					from sctrans.t_ts_award_base
-					where case_Code = #caseCode# 
-					   	and PARTICIPANT = #userId#
-				]]>
-			</baseSql>
-		</searchSql>
-		<grid>
-			<table-row>
-				<column name="SRV_CODE"   customDict="qqcdSrvCode" />
-				<column name="BASE_AMOUNT"   />
-				<column name="SRV_PART_IN"   />
-				<column name="SRV_PART_TOTAL"   />
-			</table-row>
-		</grid>
-	</query>
-	
-	<query id="srvPartInfo">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -150,7 +125,7 @@
 			        	and ba.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ba.guohu_time &lt;= #dtEnd#
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>
@@ -186,7 +161,7 @@
 			        	and ba.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ba.guohu_time &lt;= #dtEnd#
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>
@@ -224,7 +199,7 @@
 			        	and ba.guohu_time >= #dtBegin#
 			        </if>
 			        <if test="dtEnd != null and dtEnd != '' " >
-			        	and ba.guohu_time &lt;= #dtEnd#
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
 			        </if>
 				]]>
 			</baseSql>
