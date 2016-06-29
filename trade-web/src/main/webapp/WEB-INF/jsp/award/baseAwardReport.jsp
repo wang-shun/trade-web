@@ -239,7 +239,13 @@
         	    data.dtBegin=$("#dtBegin").val();
         	    data.dtEnd=$("#dtEnd").val();
         	    data.caseUserId=$("#inTextVal").attr("hVal");
-        	    data.caseOrgId=$("#yuCuiOriGrpId").val();
+        		
+        	    var caseOrgId = $("#yuCuiOriGrpId").val();
+        	    var isJL = "${isManage}";
+        	    if(caseOrgId == '' && isJL == "0"){
+        	    	caseOrgId = "${serviceDepId}";
+        	    }
+        	    data.caseOrgId = caseOrgId;
 		    	 	
 	  			$.ajax({
     			  async: false,
@@ -284,7 +290,13 @@
   			        	    data.dtBegin=$("#dtBegin").val();
   			        	    data.dtEnd=$("#dtEnd").val();
   			        	    data.caseUserId=$("#inTextVal").attr("hVal");
-  			        	    data.caseOrgId=$("#yuCuiOriGrpId").val();
+  			        	    
+  			        	  	var caseOrgId = $("#yuCuiOriGrpId").val();
+	  		        	    var isJL = "${isManage}";
+	  		        	    if(caseOrgId == '' && isJL == "0"){
+	  		        	    	caseOrgId = "${serviceDepId}";
+	  		        	    }
+	  		        	    data.caseOrgId = caseOrgId;
   				    	 	
   				    		$.ajax({
   				    			  async: false,
@@ -324,8 +336,15 @@
         	    var data2 = {
         	    	paidTime : bm
         	    }
-        	    data1.caseUserId=$("#inTextVal").attr("hVal");
-        	    data1.caseOrgId=$("#yuCuiOriGrpId").val();
+        	    
+        	    var caseOrgId = $("#yuCuiOriGrpId").val();
+        	    var isJL = "${isManage}";
+        	    if(caseOrgId == '' && isJL == "0"){
+        	    	caseOrgId = "${serviceDepId}";
+        	    }
+        	    data1.caseOrgId = caseOrgId;
+        	    
+        	    data1.caseUserId = $("#inTextVal").attr("hVal");
         	    BonusList.init(ctx,data1,data2);
         	    
 	    	}
@@ -346,7 +365,13 @@
         	    }
         	    data1.paidTime = bm;
         	    data1.caseUserId=$("#inTextVal").attr("hVal");
-        	    data1.caseOrgId=$("#yuCuiOriGrpId").val();
+        	    
+        	    var caseOrgId = $("#yuCuiOriGrpId").val();
+        	    var isJL = "${isManage}";
+        	    if(caseOrgId == '' && isJL == "0"){
+        	    	caseOrgId = "${serviceDepId}";
+        	    }
+        	    data1.caseOrgId = caseOrgId;
         	    
         	    var data2 = {
         	    	paidTime : bm

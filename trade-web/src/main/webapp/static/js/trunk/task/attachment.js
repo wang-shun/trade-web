@@ -318,10 +318,11 @@ function deletePicBatch(){
     	alert("请选择至少一张图片删除!");
 		return false;
 	}
+	var aa = false;
 		$.ajax({
 			type : 'post',
 			cache : false,
-			async : true,//false同步，true异步
+			async : false,//false同步，true异步
 			dataType : 'json',
 			url : ctx+'/attachment/delAttachment',
 			data : [{
@@ -329,18 +330,21 @@ function deletePicBatch(){
 				value : pkIdArr
 			}],
 			success : function(data) {
-				if(data){
+				if(data.success){
 				//	alert('提示:图片已删除。'); 
 				    $(".cancel").hide();
 				    $(".btn-primary").one("click",function(){
 				    	parent.$.fancybox.close();
 				    });
+				    aa = true;
 				}else if(!data) {
 					pkIdArr==[];
 					alert(data.message);
 				}
 			}
 		});
+		
+		return aa;
 	//});
 }
 

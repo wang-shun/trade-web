@@ -105,6 +105,11 @@ function checkMortgageForm(formId){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+	}else{
+		if(formId.find("input[name='tmpBankReason']").val() == ""){
+			formId.find("input[name='tmpBankReason']").css("border-color","red");
+			return false;
+		}
 	}
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
@@ -547,15 +552,19 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
 		    			}
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
+		    			f.find("input[name='isTmpBank']").prop("checked",false);
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
+		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
 		    				f.find("select[name='finOrgCode']").attr('disabled',true);
+		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
 		    				f.find("input[name='recLetterNo']").prop('disabled',false);
 		    				f.find("select[name='bank_type']").attr('disabled',false);
 		    				f.find("select[name='finOrgCode']").attr('disabled',false);
+		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
 		    			if(!!data.content.tmpBankUpdateBy){
@@ -577,10 +586,12 @@ function isTmpBankChange(){
 		f.find("input[name='recLetterNo']").prop('disabled',true);
 		f.find("select[name='bank_type']").attr('disabled',true);
 		f.find("select[name='finOrgCode']").attr('disabled',true);
+		f.find(".tmpBankReasonDiv").show();
 	}else{
 		f.find("input[name='recLetterNo']").prop('disabled',false);
 		f.find("select[name='bank_type']").attr('disabled',false);
 		f.find("select[name='finOrgCode']").attr('disabled',false);
+		f.find(".tmpBankReasonDiv").hide();
 	}
 }
 
@@ -1101,7 +1112,7 @@ var stepIndex = 0;
 
 $(document).ready(function () {
 	/*$("#bank_branch_id").change(subBankChange);*/
-	
+	$(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
@@ -1220,7 +1231,7 @@ $(document).ready(function () {
 	 			getReminderList("table_list_2","pager_list_2");
 	 		}else if(currentIndex == 2){
 		 		getMortgageInfo($("#caseCode").val(),1);
-	 		}else if(currentIndex == 3){
+	 		}else if(currentIndex == 3 && priorIndex !=2){
 	 			getMortgageInfo($("#caseCode").val(),1);
 	 		}else if(currentIndex == 4){
 	 			
@@ -1286,7 +1297,7 @@ $(document).ready(function () {
  			getReminderList("table_list_5","pager_list_5");
  		}else if(currentIndex == 2){
 	 		getMortgageInfo($("#caseCode").val(),0);
- 		}else if(currentIndex == 3){
+ 		}else if(currentIndex == 3 && priorIndex != 2){
  			getMortgageInfo($("#caseCode").val(),0);
  		}else if(currentIndex == 4){
 
