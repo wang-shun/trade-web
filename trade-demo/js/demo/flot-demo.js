@@ -1,4 +1,4 @@
-//Flot Bar Chart
+﻿//Flot Bar Chart
 $(function() {
     var barOptions = {
         series: {
@@ -102,21 +102,17 @@ $(function() {
 $(function() {
 
     var data = [{
-        label: "Sales 1",
-        data: 21,
+        label: "本金：200万元",
+        data: 200,
         color: "#d3d3d3",
     }, {
-        label: "Sales 2",
-        data: 3,
+        label: "利息：8万元",
+        data: 8,
         color: "#bababa",
     }, {
-        label: "Sales 3",
-        data: 15,
+        label: "手续费：4万元",
+        data: 4,
         color: "#79d2c0",
-    }, {
-        label: "Sales 4",
-        data: 52,
-        color: "#1ab394",
     }];
 
     var plotObj = $.plot($("#flot-pie-chart"), data, {
