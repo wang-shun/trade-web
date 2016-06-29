@@ -90,6 +90,10 @@ public class ToMortgage {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date tmpBankUpdateTime;
     
+    private String bankName;
+    
+    private String parentBankName;
+    
     public Long getPkid() {
         return pkid;
     }
@@ -400,6 +404,22 @@ public class ToMortgage {
 
 	public void setTmpBankReason(String tmpBankReason) {
 		this.tmpBankReason = tmpBankReason;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getParentBankName() {
+		return parentBankName;
+	}
+
+	public void setParentBankName(String parentBankName) {
+		this.parentBankName = parentBankName;
 	}
     
 }

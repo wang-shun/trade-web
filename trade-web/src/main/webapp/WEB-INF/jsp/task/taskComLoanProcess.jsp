@@ -1001,15 +1001,15 @@
 							<form id="completeForm">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
-								<div class="form-group"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
-									<label class="checkbox-inline"> <input type="checkbox"
+								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-1 control-label">支 行:</label><span id="sp_sub_bank" class="col-sm-5">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-8">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-8">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
+									<label class="checkbox-inline" > <input type="checkbox"
 										value="1" id="lastBankSub" name="lastBankSub"> 是
 									</label>
 								</div>
-								<div style="clear:both"></div>
-								<div class="form-group"  >
+								<div class="form-group row"  >
 									<label class="col-sm-3 control-label">审批时间<span class="star" >*</span>：</label>
 									<div class="col-sm-4" style="padding-left:0px">
 									<div class="input-group date readOnly_date" id="date_2">
@@ -1417,16 +1417,16 @@
 							<form id="completeForm1">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
-
-								<div class="form-group"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-1 control-label">支 行</label><span id="sp_sub_bank" class="col-sm-5">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-8">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-8">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
 									<label class="checkbox-inline"> <input type="checkbox"
 										value="1" id="lastBankSub" name="lastBankSub"> 是
 									</label>
 								</div>
-								<div style="clear:both"></div>
-								<div class="form-group"  >
+
+								<div class="form-group row"  >
 									<label class="col-sm-3 control-label">审批时间<span class="star">*</span>：</label>
 									<div class="col-sm-4">
 									<div class="input-group date readOnly_date" id="date_22">
@@ -1474,7 +1474,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.2"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.3"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
