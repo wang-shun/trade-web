@@ -191,7 +191,7 @@
         		    	           colName :"案件编号",
         		    	           sortColumn : "CASE_CODE",
         		    	           sord: "desc",
-        		    	           isActive : true
+        		    	           sortActive : true
         		    	      },{
         		    	           colName :"物业地址"
         		    	      },{
