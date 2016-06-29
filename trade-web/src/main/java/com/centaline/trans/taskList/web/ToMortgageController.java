@@ -3,32 +3,43 @@ package com.centaline.trans.taskList.web;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.message.core.remote.UamMessageService;
+import com.aist.message.core.remote.vo.Message;
+import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
+import com.aist.uam.template.remote.UamTemplateService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.entity.ToSupDocu;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.MortStep;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
@@ -56,8 +67,15 @@ public class ToMortgageController {
 		
 	@Autowired
 	private MortStepService mortStepService;
-	
-	
+	@Autowired
+	private UamSessionService uamSessionService;
+	@Autowired
+	@Qualifier("uamMessageServiceClient")
+	private UamMessageService uamMessageService;
+	@Autowired
+	private UamTemplateService uamTemplateService;
+	@Autowired
+	private TsFinOrgService tsFinOrgService;
 	/**
 	 * 查询贷款信息
 	 * @param toMortgage
@@ -70,6 +88,16 @@ public class ToMortgageController {
 		AjaxResponse<ToMortgage> response = new AjaxResponse<ToMortgage>();
 		try{
 			ToMortgage mortgage = toMortgageService.findToMortgageByCaseCodeWithCommLoan(toMortgage);
+			// 分行支行
+			String finOrgCodeString = mortgage.getFinOrgCode();
+			if (!StringUtils.isEmpty(finOrgCodeString)) {
+				TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
+				 mortgage.setBankName(bank.getFinOrgName());
+				if (!StringUtils.isEmpty(bank.getFaFinOrgCode())) {
+						TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
+						 mortgage.setParentBankName(faBank.getFinOrgName());
+					}
+			}
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
@@ -280,5 +308,55 @@ public class ToMortgageController {
 	@RequestMapping(value="/toTmpBankList") 
 	public String toTmpBankList(){
 		return "mortgage/tmpBankList";
+	}
+	@RequestMapping(value="/box/tmpBank")
+	public String tmpBank(String pkid,HttpServletRequest request){
+		ToMortgage mortage= toMortgageService.findToMortgageById(Long.valueOf(pkid));
+		ToCase c = toCaseService.findToCaseByCaseCode(mortage.getCaseCode());
+		request.setAttribute("mortage", mortage);
+		if(c != null) {
+			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+			request.setAttribute("caseBaseVO", caseBaseVO);
+		}
+		return "mortgage/tmpBank";
+	}
+	@RequestMapping(value="/doProcessTmpBank")
+	@ResponseBody
+	public AjaxResponse doProcessTmpBank(ToMortgage mortage,String prAddress,String tmpBankName){
+		SessionUser user=uamSessionService.getSessionUser();
+		
+		ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
+		ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
+		mortageDb.setLastLoanBank(mortage.getFinOrgCode());
+		mortageDb.setFinOrgCode(mortage.getFinOrgCode());
+		mortageDb.setTmpBankUpdateBy(user.getId());
+		mortageDb.setTmpBankUpdateTime(new Date());
+		toMortgageService.updateToMortgage(mortageDb);
+		
+		Map<String, Object>params=new HashMap<String, Object>();
+		params.put("case_code", mortage.getCaseCode());
+		params.put("property_address", prAddress);
+		params.put("bank", tmpBankName);
+		
+		String content = uamTemplateService.mergeTemplate("TMP_BANK_REMINDER", params);
+		Message message = new Message();
+		// 消息标题
+		message.setTitle("临时银行处理提醒");
+		// 消息类型
+		message.setType(MessageType.SITE);
+		/* 设置提醒列别 */
+
+		message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
+
+		/* 内容 */
+		message.setContent(content);
+		/* 发送人 */
+		String senderId = user.getId();
+		/* 设置发送人 */
+		message.setSenderId(senderId);
+
+		uamMessageService.sendMessageByUser(message, c.getLeadingProcessId());
+		
+		return AjaxResponse.success();
 	}
 }

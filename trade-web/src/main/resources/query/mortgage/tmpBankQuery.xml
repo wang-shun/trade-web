@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getReportType" beanName="qqcdDictreport_type"></customDict>
+		<customDict id="getReportStatus" beanName="qqcdDictreport_status_code"></customDict>
+
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryTmpBankQuery">
+		<searchCondition>
+		    <condition field="M.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>      
+            <condition field="B.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>       
+            <condition field="B.PROPERTY_ADDR" name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT M.PKID,M.CASE_CODE,B.CTM_CODE,B.PROPERTY_ADDR,OB.DISTRICT_NAME,OB.TEAM_NAME,OB.DIRECTOR,U.REAL_NAME AS CONSULTANT
+						,CASE WHEN M.TMP_BANK_UPDATE_BY IS NULL THEN '未处理' ELSE '已处理' END AS PRO_STATUS
+						,PU.REAL_NAME PUSER,M.TMP_BANK_UPDATE_TIME PTIME
+						 FROM sctrans.T_TO_MORTGAGE M 
+						LEFT JOIN sctrans.V_CASE_LIST_BASE B 
+						ON B.CASE_CODE=M.CASE_CODE
+						LEFT JOIN sctrans.v_yucui_org_hierarchy OB
+						ON OB.ORG_ID=B.ORG_ID 
+						LEFT JOIN sctrans.SYS_USER U ON U.ID=B.LEADING_PROCESS_ID
+						LEFT JOIN sctrans.SYS_USER PU ON PU.ID=M.TMP_BANK_UPDATE_BY
+						WHERE M.IS_ACTIVE='1' AND IS_TMP_BANK='1'
+						AND 
+						<if test="proStatus != null">
+							M.TMP_BANK_UPDATE_BY IS NOT NULL
+						</if>
+						<if test="proStatus == null">
+							M.TMP_BANK_UPDATE_BY IS NULL
+						</if>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			    ORDER BY M.CREATE_TIME ASC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="案件地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="DISTRICT_NAME" index="" checkbox="" display="贵宾服务部" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="TEAM_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="DIRECTOR" index="" checkbox="" display="总监 " customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONSULTANT" index="" checkbox="" display="交易顾问" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PRO_STATUS" index="" checkbox="" display="处理状态" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PUSER" index="" checkbox="" display="处理人" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PTIME" index="" checkbox="" display="处理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>
