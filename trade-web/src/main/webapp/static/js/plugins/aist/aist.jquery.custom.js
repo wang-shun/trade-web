@@ -262,11 +262,11 @@ function($, window) {
 	    			tr.append($("<th>" + columns[index].colName + "</th>"));
 	    		}
 	    	}else{
-	    		var isActive = 'active';
-	    		if (typeof(columns[index].isActive) == "undefined" || !columns[index].isActive==true) {
+	    		var sortActive = 'active';
+	    		if (typeof(columns[index].sortActive) == "undefined" || !columns[index].sortActive==true) {
 	    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
 	    		} else {
-	    			tr.append($("<th><span class=\"sort " +isActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+	    			tr.append($("<th><span class=\"sort " +sortActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
 	    		}
 	    	}
 	    });
