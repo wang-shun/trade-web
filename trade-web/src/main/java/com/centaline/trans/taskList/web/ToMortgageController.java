@@ -185,7 +185,7 @@ public class ToMortgageController {
 			entity.setPartCode(toMortgage.getPartCode());
 			toMortgageService.saveToMortgage(entity);
 			if("1".equals(entity.getIsTmpBank())&&entity.getTmpBankUpdateBy()==null){
-				response.setMessage("临时银行未处理！");
+				response.setMessage("临时银行未处理，请等待处理！");
 			}
 			/**
 			 * 功能: 给客户发送短信
@@ -241,7 +241,7 @@ public class ToMortgageController {
 				response.setMessage("该案件还未确定最终贷款银行，不能提交流程！");
 				return response;
 			}else if ("1".equals(toMortgage.getIsTmpBank())&&toMortgage.getTmpBankUpdateBy()==null){
-				response.setMessage("临时银行未处理！");
+				response.setMessage("临时银行未处理，请等待处理！");
 				return response;
 			}
 			

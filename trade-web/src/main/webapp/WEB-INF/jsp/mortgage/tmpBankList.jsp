@@ -199,14 +199,15 @@
 			}
 		});
 		$("#searchButton").click(function (){
+			var postData={
+					queryId : "queryTmpBankQuery",
+					search_propertyAddr: $('#caseAddress').val(),
+					search_caseCode:$("#caseCode").val(),
+					search_ctmCode:$("#ctmCode").val(),
+					proStatus:$("#proStatus").val()
+				};
 			 tmpBankList.setGridParam({
-					"postData" : {
-						queryId : "queryTmpBankQuery",
-						search_propertyAddr: $('#caseAddress').val(),
-						search_caseCode:$("#caseCode").val(),
-						search_ctmCode:$("#ctmCode").val(),
-						proStatus:$("#proStatus").val()=='1'?'1': undefined
-					},
+					"postData":postData ,
 					"page":1 ,
 					datatype : "json"
 				}).trigger('reloadGrid');
@@ -293,7 +294,7 @@
 						search_propertyAddr: $('#caseAddress').val(),
 						search_caseCode:$("#caseCode").val(),
 						search_ctmCode:$("#ctmCode").val(),
-						proStatus:$("#proStatus").val()=='1'?'1': undefined
+						proStatus:$("#proStatus").val()
 					}
 
 				});
