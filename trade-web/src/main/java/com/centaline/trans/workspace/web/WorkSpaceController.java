@@ -676,6 +676,7 @@ public class WorkSpaceController {
 		}
 		Double loanAmount = workSpaceService.staLoanAgentLoanAmount(work);
 		Double signAmount = workSpaceService.staLoanAgentSignAmount(work);
+		Double convRate = workSpaceService.staLoanAgentTransferRate(work);
 
 		NumberFormat formatter = new DecimalFormat("###,##0.00万");
 		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
@@ -698,10 +699,10 @@ public class WorkSpaceController {
 			m.put("actualAmount", formatter.format(((BigDecimal)m.get("actualAmount")).divide(new BigDecimal(10000))));
 		}
 		
-		if (m.get("convRate") == null) {
+		if (convRate == null) {
 			m.put("convRate", "0.00%");
 		} else {
-			m.put("convRate", formatter2.format(m.get("convRate")) + "%");
+			m.put("convRate", formatter2.format(convRate*100) + "%");
 		}
 		
 		Map m1 = workSpaceService.staEvaFee(work);
