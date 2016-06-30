@@ -40,7 +40,8 @@
 				<![CDATA[
 					SELECT M.PKID,M.CASE_CODE,B.CTM_CODE,B.PROPERTY_ADDR,OB.DISTRICT_NAME,OB.TEAM_NAME,OB.DIRECTOR,U.REAL_NAME AS CONSULTANT
 						,CASE WHEN M.TMP_BANK_UPDATE_BY IS NULL THEN '未处理' ELSE '已处理' END AS PRO_STATUS
-						,PU.REAL_NAME PUSER,M.TMP_BANK_UPDATE_TIME PTIME
+						,PU.REAL_NAME PUSER,M.TMP_BANK_UPDATE_TIME PTIME,
+						CASE WHEN M.IS_MAIN_LOAN_BANK='1' THEN '主选银行'ELSE '备选银行' END AS IS_MAIN_LOAN_BANK
 						 FROM sctrans.T_TO_MORTGAGE M 
 						LEFT JOIN sctrans.V_CASE_LIST_BASE B 
 						ON B.CASE_CODE=M.CASE_CODE
@@ -77,6 +78,7 @@
 				<column type="both" name="PRO_STATUS" index="" checkbox="" display="处理状态" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="PUSER" index="" checkbox="" display="处理人" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="PTIME" index="" checkbox="" display="处理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="IS_MAIN_LOAN_BANK" index="" checkbox="" display="主备选银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				
 			</table-row>
 		</grid>
