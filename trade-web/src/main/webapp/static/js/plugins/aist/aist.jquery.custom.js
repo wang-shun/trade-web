@@ -241,6 +241,7 @@ function($, window) {
 		var page =  settings.page;
 		var rows =  settings.rows;
 		var templeteId = settings.templeteId;
+		var templeteData = settings.templeteData;
 		var columns = settings.columns;
 		
 		var data = settings.data;
@@ -262,11 +263,11 @@ function($, window) {
 	    			tr.append($("<th>" + columns[index].colName + "</th>"));
 	    		}
 	    	}else{
-	    		var isActive = 'active';
-	    		if (typeof(columns[index].isActive) == "undefined" || !columns[index].isActive==true) {
+	    		var sortActive = 'active';
+	    		if (typeof(columns[index].sortActive) == "undefined" || !columns[index].sortActive==true) {
 	    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
 	    		} else {
-	    			tr.append($("<th><span class=\"sort " +isActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+	    			tr.append($("<th><span class=\"sort " +sortActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
 	    		}
 	    	}
 	    });
@@ -306,6 +307,7 @@ function($, window) {
 		data.rows = settings.rows;
 		aist.wrap(data);
 		var templeteId = settings.templeteId;
+		var wrapperData = settings.wrapperData;
 		var _self = $(this);
 		
 		$.ajax({
@@ -315,6 +317,9 @@ function($, window) {
 	          dataType: "json",
 	          data: data,
 	          success: function(data){
+	        	  if(!$.isBlank(wrapperData)) {
+	        		  data.wrapperData = wrapperData;
+	        	  } 
 	        	  var templateHtml= template(templeteId , data);
 	        	  _self.find("tbody").empty();
 	        	  _self.find("tbody").html(templateHtml);

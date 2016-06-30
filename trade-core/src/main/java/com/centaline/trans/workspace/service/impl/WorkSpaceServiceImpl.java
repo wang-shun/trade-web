@@ -158,4 +158,9 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 		
 		return mapper.listNewLoanAgent(orgId);
 	}
+
+	@Override
+	public Double staLoanAgentTransferRate(WorkSpace work) {
+		return mapper.staLoanAgentTransferRate(work);
+	}
 }

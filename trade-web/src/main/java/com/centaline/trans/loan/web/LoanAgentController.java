@@ -53,6 +53,9 @@ public class LoanAgentController {
 	    SessionUser sessionUser = uamSessionService.getSessionUser();
 	    String jobCode = sessionUser.getServiceJobCode();
 		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		if(TransJobs.TJYGW.getCode().equals(jobCode)) {
+			request.setAttribute("isJygw",true);
+		}
 		
 		request.setAttribute("isLoanAgentTimeType",request.getParameter("isLoanAgentTimeType"));
 		if(!StringUtils.isBlank(request.getParameter("isLoanAgentTimeType"))) {
