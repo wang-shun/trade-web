@@ -19,7 +19,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ 'PKID','所在区域','物业地址', '产调项目','所属分行',
+		colNames : [ 'PKID','所在区域','产证地址', '产调项目','所属分行',
 		             '产调申请人', '产调执行人', '产调申请时间',
 		             '产调受理时间','产调完成时间','状态','是否有效','无效原因','产调结果' ],
 		colModel : [ {

@@ -85,7 +85,7 @@
 										<select id="inTextType" data-placeholder="搜索条件设定"
 											class="btn btn-white chosen-select">
 											<option value="0" selected>客户姓名</option>
-											<option value="1">物业地址</option>
+											<option value="1">产证地址</option>
 											<option value="2">经纪人姓名</option>
 										</select>
 									</div>

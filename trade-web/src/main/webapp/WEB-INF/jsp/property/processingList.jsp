@@ -120,7 +120,7 @@ img{ border-image-width:0px;}
     </div>
 </div>
 <div class="ibox-content">
-	<div id="propertyAddr">物业地址 :
+	<div id="propertyAddr">产证地址 :
 		<input type="text" id="addr" name="search_propertyAddr" />
 			<button type='button' id="addrSearchButton" style="margin-left: 30px;">搜索</button>
 	</div>

@@ -82,7 +82,7 @@
     					<input type="text" id="grpOrgName" name="search_grpOrgName" class="form-control"/>
     				</div>
 
-        			<label class="col-md-1  control-label">物业地址 </label>
+        			<label class="col-md-1  control-label">产证地址 </label>
     				<div class="col-md-3">
     					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
     				</div>
