@@ -36,9 +36,8 @@
 <link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	<link
-	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+
 <style type="text/css">
 #selectDiv {
 	width: 480px;
@@ -140,10 +139,53 @@ text-decoration: underline !important;
 
 #queryContent{display:inline-block;width:60%;margin-left:15px;height:32px;}
 .data-wrap .data-wrap-in th:nth-child(1),.data-wrap-in tr td:nth-child(1){padding-left:10px;}
+
+
+/*新增样式*/
+@charset "utf-8";
+*{padding:0;margin:0;box-sizing:border-box;}
+.main{background-color:#f3f3f3;}
+.apply-wrap{background-color:#fff;font-family:'微软雅黑','Arial';}
+.apply-wrap .table{font-size:14px;}
+.apply-wrap .table{width:100%;background-color:#fff;}
+.apply-wrap .apply-table{width:100%;border:1px solid #eaeaea;border-right:0;}
+.apply-wrap .apply-table th{font-weight:normal;color:#fff;height:35px;background-color:#52cdec;}
+.apply-table th,.apply-table td{text-align:left;padding-left:10px;border-right:1px solid #eaeaea;}
+.apply-table tr td{color:#333;}
+.apply-table .tr-1{background-color:#fff;}
+.apply-table .tr-2{background-color:#f4f4f4;}
+.apply-table tr:nth-child(odd) td{padding:12px 0 3px 10px;}
+.apply-table tr:nth-child(even) td{padding:3px 0 12px 10px;}
+.apply-table tr .color-666{color:#666;}
+.apply-table tr .fs12{font-size:12px;}
+.apply-table tr .btn-y{color:#fff;padding:2px 10px;border-radius:3px;background-color:#f9ad58;text-decoration:none;}
+.triangle-up,.triangle-down{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;position:relative;left:8px;top:16px;}
+.triangle-up{border-bottom:10px solid #fff;top:-13px;}
+.triangle-down {border-top:10px solid #fff;}
+.fs12 i,.sqr i{color:#fff;font-size:12px;font-style:normal;padding:1px 3px;margin-right:5px;border-radius:2px;background-color:#52cdec;}
+.fs12 i.valid-label{background-color:#00cb1d;}
+.fs12 i.invalid-label{background-color:#ccc;}
+.sqr i.jl-label{background-color:#ee6384;margin-left:5px;}
+.sqr i.yc-label{background-color:#52cdec;margin-left:5px;}
+.fs12 span{display:block;padding:3px 0;}
+.apply-table tr .sq-state{padding:2px 0 2px 10px !important;}
+.apply-table tr:nth-child(odd) td.btn-g{padding:10px 0 4px 10px;}
+.apply-table tr:nth-child(even) td.btn-g{padding:5px 0 10px 10px;}
+.apply-table tr td.invalid{width:150px;padding-right:10px !important;}
+.apply-table tr em{font-style:normal;font-size:13px;line-height:18px;}
+.apply-table tbody a{color:#1a5f8e;}
+/* 任务列表新增样式 */
+.task-list tr td.pl10{padding:0 0 0 10px;}
+.task-list tr td .case-ctm{font-size:12px;}
+.task-list .ctm-tag {width: 13px;height: 14px;border-radius: 2px;color: #fff;font-family: "Arial";font-size: 16px;line-height: 0;padding: 0 4px 1px;background-color: #ccc;margin-right: 5px;}
+.task-list .salesman-icon {width: 15px;height: 16px;display: inline-block;background: url(${ctx}/img/data_salary_icon.png) no-repeat center;vertical-align: -3px;margin-right: 5px;}
+.task-list .salesman-info{font-size: 12px;text-decoration: none;}
+
+.sl-lable{color:#fff;font-size:12px;font-style:normal;padding:1px 3px;margin-right:5px;border-radius:2px;background-color:#52cdec;}
 </style>
 </head>
 
-<body>
+<body class="main">
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="taskName" value="${taskName}" />
 	<input type="hidden" id="handleTimeStart" value="${handleTimeStart}" />
@@ -210,26 +252,24 @@ text-decoration: underline !important;
 						</div>
 					</form>
 				</div>
-			</div>
-		</div>
 
-	<div class="data-wrap">
-		<div class="data-wrap-in">
-			<table border="0" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
-						<th>任务名</th>
-						<th>上家</th>
-						<th>下家</th>
-						<th><span class="sort" sortColumn="END_TIME" sord="desc">结束时间</span></th>
-					</tr>
-				</thead>
-				<tbody id="myTaskList">
-					
-				</tbody>
-			</table>
 		</div>
+		<div class="apply-wrap">
+	<div class="table">
+		<table class="apply-table task-list" border="0" cellpadding="0" cellspacing="0" vertical="middle">
+			<thead>
+				<th><span class="sort" sortColumn="wf.CASE_CODE" sord="desc">案件编号</span></th>
+				<th>任务名</th>
+				<th>产证地址</th>
+				<th><span class="sort" sortColumn="wf.END_TIME" sord="desc">处理时间</span></th>
+				<th>经办人</th>
+				<th>客户</th>
+			</thead>
+			<tbody id="myTaskList">
+				
+			</tbody>
+		</table>
+	</div>
 	</div>
 	
 	<div class="text-center">
@@ -237,6 +277,10 @@ text-decoration: underline !important;
 		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
     </div>
+			</div>
+
+	
+
 		</div>
 	</div>
 
@@ -266,11 +310,16 @@ text-decoration: underline !important;
         {{else}}
             <tr class="tr-2">
         {{/if}}
-				<td class="t-left pd-l"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
-				<td class="t-left pd-l">{{item.TASK_NAME}}</td>
-				<td class="t-left pd-l">{{item.SELLER}}</td>
-				<td class="t-left pd-l">{{item.BUYER}}</td>
-				<td class="t-left pd-l">{{item.END_TIME}}</td>
+				<td><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+				<td rowspan="2" class="pl10">{{item.TASK_NAME}}</td>
+				<td>{{item.PROPERTY_ADDR}}</td>
+				<td><i class="sl-lable">始</i>{{item.START_TIME}}</td>
+				<td rowspan="2" class="pl10">
+					<a class="hint  hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}} ">
+						{{item.CONSULTANT_NAME}}
+					</a>
+				</td>
+				<td>上家: {{item.SELLER}}</td>
 			</tr>
 
 		{{if index%2 == 0}}
@@ -278,19 +327,15 @@ text-decoration: underline !important;
         {{else}}
             <tr class="tr-2">
         {{/if}}
-				<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
-				<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
-				<td colspan="2" class="t-left pd-l">
+				<td><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
+				<td>
 					<i class="salesman-icon"></i>
 					<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">
 						{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}
 					</a>
 				</td>
-				<td class="t-left pd-l">
-					<a class="hint  hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}} ">
-						{{item.CONSULTANT_NAME}}
-					</a>
-				</td>
+				<td><i class="sl-lable">完</i>{{item.END_TIME}}</td>
+				<td>下家{{item.BUYER}}</td>
 			</tr>
        {{/each}}		
 	</script> 
