@@ -85,7 +85,7 @@ public class ToMortgage {
     private String recLetterNo;
     
     private String isTmpBank;
-    
+    private String tmpBankUpdateByStr;
     private String tmpBankUpdateBy;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date tmpBankUpdateTime;
@@ -420,6 +420,14 @@ public class ToMortgage {
 
 	public void setParentBankName(String parentBankName) {
 		this.parentBankName = parentBankName;
+	}
+
+	public String getTmpBankUpdateByStr() {
+		return tmpBankUpdateByStr;
+	}
+
+	public void setTmpBankUpdateByStr(String tmpBankUpdateByStr) {
+		this.tmpBankUpdateByStr = tmpBankUpdateByStr;
 	}
     
 }

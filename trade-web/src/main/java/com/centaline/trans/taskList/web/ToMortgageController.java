@@ -26,6 +26,8 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.template.remote.UamTemplateService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
@@ -76,6 +78,8 @@ public class ToMortgageController {
 	private UamTemplateService uamTemplateService;
 	@Autowired
 	private TsFinOrgService tsFinOrgService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 	/**
 	 * 查询贷款信息
 	 * @param toMortgage
@@ -96,7 +100,13 @@ public class ToMortgageController {
 				if (!StringUtils.isEmpty(bank.getFaFinOrgCode())) {
 						TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
 						 mortgage.setParentBankName(faBank.getFinOrgName());
-					}
+				}
+			}
+			if(StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())){
+				User u= uamUserOrgService.getUserById(mortgage.getTmpBankUpdateBy());
+				if(u!=null){
+					mortgage.setTmpBankUpdateByStr(u.getRealName());
+				}
 			}
 			response.setContent(mortgage);
 		}catch(Exception e){
@@ -174,7 +184,9 @@ public class ToMortgageController {
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());
 			entity.setPartCode(toMortgage.getPartCode());
 			toMortgageService.saveToMortgage(entity);
-			
+			if("1".equals(entity.getIsTmpBank())&&entity.getTmpBankUpdateBy()==null){
+				response.setMessage("临时银行未处理，请等待处理！");
+			}
 			/**
 			 * 功能: 给客户发送短信
 			 * 作者：zhangxb16
@@ -228,8 +240,8 @@ public class ToMortgageController {
 			}else if(StringUtils.isEmpty(toMortgage.getLastLoanBank())){
 				response.setMessage("该案件还未确定最终贷款银行，不能提交流程！");
 				return response;
-			}else if ("1".endsWith(toMortgage.getIsTmpBank())&&toMortgage.getTmpBankUpdateBy()==null){
-				response.setMessage("临时银行未处理！");
+			}else if ("1".equals(toMortgage.getIsTmpBank())&&toMortgage.getTmpBankUpdateBy()==null){
+				response.setMessage("临时银行未处理，请等待处理！");
 				return response;
 			}
 			
@@ -334,7 +346,7 @@ public class ToMortgageController {
 		toMortgageService.updateToMortgage(mortageDb);
 		
 		Map<String, Object>params=new HashMap<String, Object>();
-		params.put("case_code", mortage.getCaseCode());
+		params.put("case_code", mortageDb.getCaseCode());
 		params.put("property_address", prAddress);
 		params.put("bank", tmpBankName);
 		

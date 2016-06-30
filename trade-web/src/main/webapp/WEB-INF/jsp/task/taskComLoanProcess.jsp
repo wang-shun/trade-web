@@ -1001,9 +1001,10 @@
 							<form id="completeForm">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
-								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-1 control-label">支 行:</label><span id="sp_sub_bank" class="col-sm-5">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-8">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-8">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
 								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
 									<label class="checkbox-inline" > <input type="checkbox"
 										value="1" id="lastBankSub" name="lastBankSub"> 是
@@ -1211,7 +1212,7 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank">是
+										<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
 									</div>
 									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
 										<div class="col-sm-4">
@@ -1417,9 +1418,10 @@
 							<form id="completeForm1">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
-								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-1 control-label">支 行</label><span id="sp_sub_bank" class="col-sm-5">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-8">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-8">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
 								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
 									<label class="checkbox-inline"> <input type="checkbox"
 										value="1" id="lastBankSub" name="lastBankSub"> 是
@@ -1474,7 +1476,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.3"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.5"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
