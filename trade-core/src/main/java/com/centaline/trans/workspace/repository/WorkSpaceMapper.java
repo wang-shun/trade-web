@@ -23,6 +23,8 @@ public interface WorkSpaceMapper {
 	public Double staLoanAgentLoanAmount(WorkSpace work);
 
 	public Double staLoanAgentSignAmount(WorkSpace work);
+	
+	public Double staLoanAgentTransferRate(WorkSpace work);
 
 	public Map staEvaFee(WorkSpace work);
 

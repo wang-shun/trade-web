@@ -353,7 +353,11 @@ function completeMortgage(form){
 		success:function(data){
 			if(data.success){
 				if('caseDetails'==source){
-					alert('保存成功');
+					if(data.message){
+						alert(data.message);
+					}else{
+						alert('保存成功');
+					}
 				}else{
 					submitMortgage();
 				}
@@ -811,8 +815,27 @@ function getCompleteMortInfo(isMainLoanBank){
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){
-				  
+	    		var f=$("#completeForm1");
+	    		if(isMainLoanBank == 1)
+                f=$("#completeForm");
 	    		if(data != null && data.content != null){
+	    			if(!~~data.content.isTmpBank || !!data.content.tmpBankUpdateBy){
+	    				f.find("[id='sp_bank']").text(data.content.parentBankName);
+		    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
+	    			}else{
+	    				f.find("[id='sp_bank']").text('');
+		    			f.find("[id='sp_sub_bank']").text('');
+	    			}
+	    			if(!!~~data.content.isTmpBank){
+	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankByStr);
+	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
+	    				f.find('#sp_is_tmp_bank').text("是");
+	    				f.find(".tmpBankDiv").show();
+	    			}else{
+	    				f.find(".tmpBankDiv").hide();
+	    				f.find('#sp_is_tmp_bank').text("否");
+	    			}
+	    			
 	    			if(isMainLoanBank == 1){
 		    			$("#completeForm").find("input[name='pkid']").val(data.content.pkid);
 		    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
