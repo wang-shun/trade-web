@@ -199,14 +199,15 @@
 			}
 		});
 		$("#searchButton").click(function (){
+			var postData={
+					queryId : "queryTmpBankQuery",
+					search_propertyAddr: $('#caseAddress').val(),
+					search_caseCode:$("#caseCode").val(),
+					search_ctmCode:$("#ctmCode").val(),
+					proStatus:$("#proStatus").val()
+				};
 			 tmpBankList.setGridParam({
-					"postData" : {
-						queryId : "queryTmpBankQuery",
-						search_propertyAddr: $('#caseAddress').val(),
-						search_caseCode:$("#caseCode").val(),
-						search_ctmCode:$("#ctmCode").val(),
-						proStatus:$("#proStatus").val()=='1'?'1': undefined
-					},
+					"postData":postData ,
 					"page":1 ,
 					datatype : "json"
 				}).trigger('reloadGrid');
@@ -225,7 +226,7 @@
 					rowNum : 20,
 					/* rowList: [10, 20, 30], */
 					colNames : [ 'id', '案件编号', 'CTM编号','案件地址',
-							'贵宾服务部','组别', '总监', '交易顾问','处理状态','处理人','处理时间','操作'],
+							'贵宾服务部','组别', '总监', '交易顾问','处理状态','处理人','处理时间','主备选银行','操作'],
 					colModel : [ {
 						name : 'PKID',
 						index : 'PKID',
@@ -274,7 +275,12 @@
 						name : 'PTIME',
 						index : 'PTIME',
 						width : 70
-					},{	name : 'PKID',
+					},{
+						name : 'IS_MAIN_LOAN_BANK',
+						index : 'IS_MAIN_LOAN_BANK',
+						width : 70
+					},
+					{	name : 'PKID',
 						index : 'PKID',
 						width : 60,
 						formatter : function(cellvalue,options,rawObject) {
@@ -293,7 +299,7 @@
 						search_propertyAddr: $('#caseAddress').val(),
 						search_caseCode:$("#caseCode").val(),
 						search_ctmCode:$("#ctmCode").val(),
-						proStatus:$("#proStatus").val()=='1'?'1': undefined
+						proStatus:$("#proStatus").val()
 					}
 
 				});
