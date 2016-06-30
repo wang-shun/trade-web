@@ -153,6 +153,7 @@ function searchMethod(page) {
  	params.search_createTimeEnd = createTimeEnd;
 	params.search_realName = 	$("#realName").val();
 	params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
+	params.argu_isJygw = 	$("#isJygw").val();
     aist.wrap(params);
 	reloadGrid(params);
 };

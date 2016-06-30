@@ -31,7 +31,6 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.ToTransPlanService;
 
-@Component
 public class TaskOutTimeJob implements Job {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -126,7 +125,7 @@ public class TaskOutTimeJob implements Job {
 				for(ToOutTimeTask task:taskList){
 					Integer dateLamp = task.getDateLamp();
 						//红灯
-						if(dateLamp>3){
+						if(dateLamp !=null && dateLamp>3){
 							if(manager.getId().equals(task.getManagerId()) || manager.getId().equals(task.getServManagerId())){
 								inStr.append(task.getPropertyAddr());
 								inStr.append("(");
@@ -144,6 +143,13 @@ public class TaskOutTimeJob implements Job {
 								}
 							}
 						}
+				}
+				if(taskCount < 5 && taskCount!=0) {
+					App app = uamPermissionService.getAppByAppName("trade-web");
+			        String hrefAdd = app.genAbsoluteUrl()+"/workspace/ryLightList?color=0/";
+			        String hrefString = hrefAdd;
+					inStr.append(hrefString);
+					break;
 				}
 				if(inStr.length()>0){
 					inStr.deleteCharAt(inStr.length()-1);
