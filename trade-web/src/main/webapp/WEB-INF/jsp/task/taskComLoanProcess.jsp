@@ -1211,7 +1211,7 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank">是
+										<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
 									</div>
 									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
 										<div class="col-sm-4">
