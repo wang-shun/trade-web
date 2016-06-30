@@ -113,7 +113,8 @@
 		.apply-table tr td{color:#333;}
 		.apply-table .tr-1{background-color:#fff;}
 		.apply-table .tr-2{background-color:#f4f4f4;}
-		.apply-table tr:nth-child(odd) td{padding:12px 0 3px 10px;}
+		.apply-table tr {height:32px!important;}
+		.apply-table tr:nth-child(odd) td{padding:8px 0 3px 10px;}
 		.apply-table tr:nth-child(even) td{padding:3px 0 12px 10px;}
 		.apply-table tr .color-666{color:#666;}
 		.apply-table tr .fs12{font-size:12px;}
@@ -121,15 +122,15 @@
 		.triangle-up,.triangle-down{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;position:relative;left:8px;top:16px;}
 		.triangle-up{border-bottom:10px solid #fff;top:-13px;}
 		.triangle-down {border-top:10px solid #fff;}
-		.fs12 i,.sqr i{color:#fff;font-size:12px;font-style:normal;padding:1px 3px;margin-right:5px;border-radius:2px;background-color:#52cdec;}
+		.fs12 i,.sqr i{color:#fff;font-size:12px;font-style:normal;padding:0px 2px;margin-right:5px;border-radius:2px;background-color:#52cdec;}
 		.fs12 i.valid-label{background-color:#00cb1d;}
 		.fs12 i.invalid-label{background-color:#ccc;}
 		.sqr i.jl-label{background-color:#ee6384;margin-left:5px;}
 		.sqr i.yc-label{background-color:#52cdec;margin-left:5px;}
-		.fs12 span{display:block;padding:3px 0;}
-		.apply-table tr .sq-state{padding:2px 0 2px 10px !important;}
-		.apply-table tr:nth-child(odd) td.btn-g{padding:10px 0 4px 10px;}
-		.apply-table tr:nth-child(even) td.btn-g{padding:5px 0 10px 10px;}
+		.fs12 span{display:block;padding:1px 0;}
+		.apply-table tr .sq-state{padding:1px 0 1px 10px !important;}
+		.apply-table tr:nth-child(odd) td.btn-g{padding:8px 0 4px 8px;}
+		.apply-table tr:nth-child(even) td.btn-g{padding:5px 0 10px 8px;}
 		.apply-table tr td.invalid{width:150px;padding-right:10px !important;}
 		.apply-table tr em{font-style:normal;font-size:13px;line-height:18px;}
 		.apply-table tbody a{color:#1a5f8e;}
@@ -441,6 +442,7 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	
+<!-- 	<span><i class="invalid-label">完</i></span> -->
 	<script id="template_processingList" type="text/html">
          	{{each rows as item index}}
                  {{if index%2 == 0}}
@@ -453,7 +455,6 @@
 						<td rowspan="2" class="fs12 sq-state">
 							<span><i class="sq-label">申</i>{{item.PR_APPLY_TIME}}</span>
 							<span><i class="sl-label">受</i>{{item.PR_ACCPET_TIME}}</span>
-							<span><i class="invalid-label">完</i></span>
 						</td>
 						{{if item.IS_SUCCESS == '是'}}
 							<td class="fs12 sq-state"><i class="valid-label">是</i></td>
