@@ -14,12 +14,14 @@ function queryConutCaseByDate(){
 	
 	addLinkHref(month,sUserId);
 	
-	
+	//生成起始时间和结束时间
 	var d1 = new Date();
 	var year = d1.getFullYear();
 	var createTimeStart = year+"-"+month+"-"+"01";
 	var d2 = new Date(year,month,0).getDate();
 	var createTimeEnd = year+"-"+month+"-"+d2;
+	
+	var isConsult = $('#isConsult').val();
 	
 	 $.ajax({
 			url  : ctx+'/workspace/workSpaceSta',
@@ -40,23 +42,24 @@ function queryConutCaseByDate(){
 				$("#sp_actualAmount").text(data.actualAmount);
 				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
+
 				$("#sp_receiveCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received&arg="+sUserId+"' target='_blank'>" +
-						"<font  class='fa-2x font-bold text-danger'>"+data.receiveCount+"</font>" +
-						"</a>"
+					"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received&arg="+sUserId+"' target='_blank'>" +
+					"<font  class='fa-2x font-bold text-danger'>"+data.receiveCount+"</font>" +
+					"</a>"
 				);
 				$("#sp_signCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=signed&arg="+sUserId+"' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&?taskName=1&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.signCount+"</font>" +
 						"</a>"						
 				);
-				$("#sp_transferCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=transfered&arg="+sUserId+"' target='_blank'>" +
-						"<font  class='fa-2x font-bold text-danger'>"+data.transferCount+"</font>" +
+				$("#sp_loanApplyCount").html(
+						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&?taskName=2&arg="+sUserId+"' target='_blank'>" +
+						"<font  class='fa-2x font-bold text-danger'>"+data.loanApplyCount+"</font>" +
 						"</a>"						
 				);
 				$("#sp_closeCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=closed&arg="+sUserId+"' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&?taskName=3&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.closeCount+"</font>" +
 						"</a>"						
 				);

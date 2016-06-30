@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -178,7 +179,7 @@ public class ReportCaseProcessStatisController {
 		String statusVal = null;
 		if("signed".equals(status)){
 			statusVal="2";
-		}else if("transfered".equals(status)){
+		}else if("loanApply".equals(status)){
 			statusVal="3";
 		}else if("closed".equals(status)){
 			statusVal="4";
@@ -301,6 +302,73 @@ public class ReportCaseProcessStatisController {
 	}
 
 	/**
+	 * 任务统计
+	 * @param model
+	 * @param request
+	 * @param status
+	 * @param createTimeStart
+	 * @param createTimeEnd
+	 * @param arg
+	 * @return
+	 */
+	@RequestMapping(value="historyTaskList")
+	public String getTaskList(Model model,
+			ServletRequest request,
+			@RequestParam(value = "taskName", required = false) String taskName,
+			@RequestParam(value = "handleTimeStart", required = false) String handleTimeStart,
+			@RequestParam(value = "handleTimeEnd", required = false) String handleTimeEnd,
+			@RequestParam(value = "arg", required = false) String arg){
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		String org = null;
+		String consultantId = null;
+		
+		SimpleDateFormat format = null;
+		if (null == handleTimeStart || "".equals(handleTimeStart)) {
+			format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MONTH, 0);
+			c.set(Calendar.DAY_OF_MONTH, 1);
+			handleTimeStart = format.format(c.getTime());
+		}
+		if (null == handleTimeEnd || "".equals(handleTimeEnd)) {
+			format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar ca = Calendar.getInstance();
+			ca.set(Calendar.DAY_OF_MONTH,
+			ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+			handleTimeEnd = format.format(ca.getTime());
+		}
+		
+		
+		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {//总经理
+			if(arg != null && !"".equals(arg)){
+				org = arg;
+			}
+		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { //总监
+			if (arg != null && !"".equals(arg)) {
+				org = arg;
+			} else {
+				org = user.getServiceDepId();
+			}
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {//交易主管
+			if (arg != null && !"".equals(arg)) {
+				consultantId = arg;
+			} else {
+				org = user.getServiceDepId();
+			}
+		} else { //交易顾问
+			consultantId = user.getId();
+		}
+		
+		model.addAttribute("taskName", taskName);
+		model.addAttribute("handleTimeStart", handleTimeStart);
+		model.addAttribute("handleTimeEnd", handleTimeEnd);
+		model.addAttribute("org", org);
+		model.addAttribute("consultantId", consultantId);
+		return "report/history_taskList";
+	}
+	
+	/**
 	 * 将组织转换为字符串
 	 * 
 	 * @param orgs
@@ -317,4 +385,5 @@ public class ReportCaseProcessStatisController {
 		strOrgs.substring(0, strOrgs.length() - 1);
 		return strOrgs;
 	}
+	
 }
