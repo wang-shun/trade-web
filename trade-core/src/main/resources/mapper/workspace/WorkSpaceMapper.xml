@@ -200,9 +200,13 @@ from (
   <!-- 接单数-->
   <select id="staReceiveCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
   	SELECT 
-   		COUNT(distinct a.CASE_CODE) AS countQYS
+   		COUNT(a.CASE_CODE) AS countQYS
    	FROM 
    		sctrans.V_RPT_CASE_PROCESS_STATIS a
+   	INNER JOIN 
+   		sctrans.V_CASE_LIST_BASE b 
+   	ON 
+   		a.CASE_CODE=b.CASE_CODE	
 	WHERE
 		a.RECEIVED_TIME IS NOT NULL
 	 <if test="userId != null">

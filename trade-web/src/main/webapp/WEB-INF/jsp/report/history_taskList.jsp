@@ -222,7 +222,7 @@ text-decoration: underline !important;
 						<th>任务名</th>
 						<th>上家</th>
 						<th>下家</th>
-						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">结束时间</span></th>
+						<th><span class="sort" sortColumn="END_TIME" sord="desc">结束时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="myTaskList">
@@ -254,7 +254,7 @@ text-decoration: underline !important;
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	<!-- 个人js -->
-	<script src="${ctx}/js/trunk/report/task_list.js"></script>
+	<script src="${ctx}/js/trunk/report/history_task_list.js"></script>
 	<!-- 分页控件  -->
     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
