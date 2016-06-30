@@ -1212,7 +1212,7 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank">是
+										<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
 									</div>
 									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
 										<div class="col-sm-4">
@@ -1476,7 +1476,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.5"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3。8"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
@@ -1487,6 +1487,7 @@
 	
 	<script>
 	var source = "${source}";
+	var afterTimeFlag=${afterTimeFlag};
 	function readOnlyForm(){
 		$(".readOnly_date").removeClass('date');
 		$(".readOnly_date input").attr('readOnly',true);
