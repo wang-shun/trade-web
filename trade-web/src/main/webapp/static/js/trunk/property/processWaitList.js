@@ -45,10 +45,9 @@ $(document).ready(function() {
 });
 
 function reloadGrid() {
-	debugger;
 	var data = getParams();
     $("#processWaitList").reloadGrid({
-    	ctx : "${ctx}",
+    	ctx : ctx,
 		queryId : 'queryProcessWaitList',
 	    templeteId : 'template_processWaitList',
 	    data : data,
