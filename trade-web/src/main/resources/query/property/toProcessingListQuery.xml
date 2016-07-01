@@ -37,6 +37,7 @@
 	            <condition field="A.PR_DISTRICT_ID" name="prDistrictId" label="区域ID" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_STATUS" name="prStatus" label="状态" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_ADDRESS" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	    		<condition field="A.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	    </searchCondition>
 		<searchSql>
 			<baseSql>

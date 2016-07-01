@@ -311,12 +311,11 @@ function cancelAccept(tableId,pkid){
 
 //保存贷款信息
 function saveMortgage(form){
-
-
 	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
 		$.ajax({
 			url:ctx+"/task/saveMortgage",
 			method:"post",
+			async:false,
 			dataType:"json",
 			data:form.serialize(),
 			success:function(data){
