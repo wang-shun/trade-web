@@ -106,7 +106,7 @@
 					    	<input type="hidden" id="ctx" value="${ctx}"/>
 							<input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}"/>
 							<input type="hidden" id="prStatus"name="search_prStatus" value="2"/>
-					    	<input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
+					    	<input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,applyOrgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
 					    	<div class="row form-group">
 			    				<label class="col-md-1  control-label">行政区域</label>
 			    				<div class="col-md-3">
@@ -123,7 +123,7 @@
 			    					<input type="text" id="grpOrgName" name="search_grpOrgName" class="form-control"/>
 			    				</div>
 			
-			        			<label class="col-md-1  control-label">物业地址 </label>
+			        			<label class="col-md-1  control-label">产证地址 </label>
 			    				<div class="col-md-3">
 			    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 			    				</div>
@@ -429,6 +429,7 @@
                  {{else}}
                     <tr class="tr-2">
                  {{/if}}
+						<td>{{item.DIST_CODE}}</td>
 						<td><a href='../mobile/property/box/show?prCode={{item.prCode}}' target='_blank'>{{item.PROPERTY_ADDR}}</a></td>
 						<td>{{item.applyOrgName}}</td>
 						<td rowspan="2" class="fs12 sq-state">
@@ -439,7 +440,7 @@
 						{{if item.IS_SUCCESS == '是'}}
 							<td class="fs12 sq-state"><i class="valid-label">是</i></td>
 						{{else if item.IS_SUCCESS == '否'}}
-							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em>{{item.UNSUCCESS_REASON}}</em></td>
+							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></td>
 						{{else}}
 							<td></td>
                  		{{/if}}
@@ -460,7 +461,8 @@
                     <tr class="tr-2">
                 {{/if}}
 						<td></td>
-						<td>区董：{{item.orgMgr}}</td>
+						<td></td>
+						<td>区董：{{item.QUDS}}</td>
 						{{if item.IS_SUCCESS == '是'}}
 							<td></td>
 						{{else if item.IS_SUCCESS == '否'}}、
@@ -470,7 +472,7 @@
 						<td>执行人：{{item.PR_EXECUTOR}}</td>
 						<td class="btn-g">
 							{{if wrapperData.optTransferRole}}
-								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
+								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
 							{{else}}
                  			{{/if}}
 						</td>
