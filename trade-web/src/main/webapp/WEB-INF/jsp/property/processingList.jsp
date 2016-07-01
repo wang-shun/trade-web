@@ -169,7 +169,7 @@
 		    				<div class="col-md-2">
 		    					<aist:dict id="distCode" clazz="form-control pull-left" name="search_distCode" display="select"  dictType = "yu_shanghai_district" />
 		    				</div>
-		        			<label class="col-md-1  control-label" style="text-align: center;">物业地址 </label>
+		        			<label class="col-md-1  control-label" style="text-align: center;">产证地址 </label>
 		    				<div class="col-md-3">
 		    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 		    				</div>
