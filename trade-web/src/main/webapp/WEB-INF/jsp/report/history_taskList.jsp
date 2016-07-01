@@ -39,33 +39,13 @@
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
 
 <style type="text/css">
-#selectDiv {
-	width: 480px;
-}
-
-#inTextType_chosen {
-	margin-left: 40px;
-}
-.ui-state-hover{
-	cursor:pointer;
-}
-.aline{
-text-decoration: underline;
-}
-.aline:HOVER{
-text-decoration: underline !important;
-}
 .text-center{text-align:center;}
-#inTextVal{width:42%;}
-#inTextType_chosen{margin-left:0}
-.chosen-container{float:left;margin-right:10px}
-
 .case-num,.case-task { text-decoration: underline !important;}
 .case-num:HOVER,case-task:HOVER{
-text-decoration: underline !important;
+	text-decoration: underline !important;
 }
 .case-num:visited,case-task:visited{
- text-decoration: underline !important;
+	text-decoration: underline !important;
 }
 .slash{font-weight:bold !important;}
 
@@ -99,9 +79,7 @@ text-decoration: underline !important;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-
 /* top */
-
 .hint-top:before {
 	bottom: 100%;
 	left: 50%;
@@ -138,8 +116,6 @@ text-decoration: underline !important;
 }
 
 #queryContent{display:inline-block;width:60%;margin-left:15px;height:32px;}
-.data-wrap .data-wrap-in th:nth-child(1),.data-wrap-in tr td:nth-child(1){padding-left:10px;}
-
 
 /*新增样式*/
 @charset "utf-8";
@@ -180,8 +156,39 @@ text-decoration: underline !important;
 .task-list .ctm-tag {width: 13px;height: 14px;border-radius: 2px;color: #fff;font-family: "Arial";font-size: 16px;line-height: 0;padding: 0 4px 1px;background-color: #ccc;margin-right: 5px;}
 .task-list .salesman-icon {width: 15px;height: 16px;display: inline-block;background: url(${ctx}/img/data_salary_icon.png) no-repeat center;vertical-align: -3px;margin-right: 5px;}
 .task-list .salesman-info{font-size: 12px;text-decoration: none;}
-
+/*起始结束图标样式*/
 .sl-lable{color:#fff;font-size:12px;font-style:normal;padding:1px 3px;margin-right:5px;border-radius:2px;background-color:#52cdec;}
+
+.hideDiv{display: none;}
+#inTextVal {
+		width:200px;
+	}
+.form-group .control-label {
+   padding-top: 7px;
+   margin-bottom: 0;
+   text-align: right;
+}
+.form-group {
+    padding-bottom: 0px;
+    margin-bottom:6px;
+}
+
+#teamCode {
+	background-color:#fff !important;
+	width:200px!important;
+	margin-bottom:5px;
+}
+.select_btn {
+margin-left:15px;}
+
+.sn {
+width:100px;}
+.form-control {
+border-radius:3px!important;}
+.mt10 {
+margin-top:6px!important;}
+.form-mt {
+margin-left:15px;}
 </style>
 </head>
 
@@ -190,9 +197,9 @@ text-decoration: underline !important;
 	<input type="hidden" id="taskName" value="${taskName}" />
 	<input type="hidden" id="handleTimeStart" value="${handleTimeStart}" />
 	<input type="hidden" id="handleTimeEnd" value="${handleTimeEnd}" />
-	<input type="hidden" id="orgs" value="${orgs}" />
 	<input type="hidden" id="org" value="${org}" />
 	<input type="hidden" id="consultantId" value="${consultantId}" />
+	<input type="hidden" id="isConsultant" value="${isConsultant}" />
 
 	<div class="row">
 		
@@ -203,28 +210,35 @@ text-decoration: underline !important;
 					<h5>已完成任务列表</h5>
 				</div>
 				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
-						<div class="row">
-							<div class="col-md-8">
-								<div class="form-group">
-									<label class="col-md-2 control-label">请选择</label>
-									<div class="control-div">
-									<select id="queryItems" data-placeholder= "搜索条件设定" class= "btn btn-white chosen-select" style="float :left;">
-										<option value="1" selected>产证地址</option>
-										<option value="2">经纪人姓名</option>
-										<option value="3">所属分行</option>
-										<option value="4">案件编号</option>
-										<option value="5">CTM编号</option>
-									</select>
-									<input id="queryContent" type="text" class="col-md-6 form-control pull-left">
+					<div class="row">
+						
+                        <div class="col-md-12 ${isConsultant ? 'hideDiv' : ''}">    
+                            <div class="form-group col-sm-5">
+                            	<label class="col-md-1 control-label sn">经办人</label>
+                                <div class="col-md-8 renyuan">
+                                <input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${consultantId}" value="${consultantName }"
+									readonly="readonly" onclick="userSelect({startOrgId:'${depId}',expandNodeId:'${depId}',
+									nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+                                 </div>
+                             </div>
+                       
+							<div class="form-group col-sm-7 ">
+								<label class="col-md-1 control-label sn ">组织范围</label>
+								<div class="col-md-9 zuzhi">
+								<input type="text" class="span12 tbsporg org-label-control form-control" id="teamCode" name="teamCode" readonly="readonly" 
+										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'${depId}',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
+										   expandNodeId:''})" value="${orgName}"/>
+										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org}"/> 
 									</div>
 								</div>
 							</div>
-							
-							<div class="col-md-4">
+                       
+							<div class="col-md-12 form-mt ">
 								<div class="form-group">
-									<label class="col-md-4 control-label">请选择</label>
-									<div class="col-md-8">
+									<label class="col-md-1 select control-label sn">请选择</label>
+									<div class="col-md-10 control-div ">
 										<select id='queryTaskName' class= "btn btn-white chosen-select">
 											<option value='0'
 											<c:if test="${taskName==''}">SELECTED</c:if>
@@ -242,15 +256,34 @@ text-decoration: underline !important;
 									</div>
 								</div>
 							</div>
+				
+							<div class="col-md-12 form-mt">
+						
+								<div class="form-group ">
+									<label class="col-md-1 control-label sn">请选择</label>
+									<div class="control-div col-md-10">
+									<select id="queryItems" data-placeholder= "搜索条件设定" class= "btn btn-white chosen-select" style="float :left;">
+										<option value="1" selected>产证地址</option>
+										<option value="2">经纪人姓名</option>
+										<option value="3">所属分行</option>
+										<option value="4">案件编号</option>
+										<option value="5">CTM编号</option>
+									</select>
+									<input id="queryContent" type="text" class="col-md-6 form-control pull-left">
+									</div>
+									</div>
+							</div>
+							
+							
+							</div>
 							
 						</div>
 						
-						<div class="row">
 							<div class="col-md-12" style="padding-left: 11%;">
 							<button id="searchButton" type="button" class="btn btn-warning pull-left">查询</button>
 							</div>
-						</div>
-					</form>
+
+						 </div>
 				</div>
 
 		</div>
@@ -294,6 +327,8 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
 	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<!-- block UI -->
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<!-- iCheck -->
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
@@ -303,6 +338,9 @@ text-decoration: underline !important;
     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 自定义js -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script id="template_myTaskList" type= "text/html">
       {{each rows as item index}}
 		{{if index%2 == 0}}

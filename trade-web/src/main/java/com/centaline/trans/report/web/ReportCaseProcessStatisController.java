@@ -3,12 +3,10 @@ package com.centaline.trans.report.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -302,7 +300,7 @@ public class ReportCaseProcessStatisController {
 	}
 
 	/**
-	 * 任务统计
+	 * 历史任务统计
 	 * @param model
 	 * @param request
 	 * @param status
@@ -322,6 +320,10 @@ public class ReportCaseProcessStatisController {
 		SessionUser user = uamSessionService.getSessionUser();
 		String org = null;
 		String consultantId = null;
+		boolean isConsultant=false; //是否为交易顾问
+		
+		String depId = user.getServiceDepId(); // 用户的部门
+		
 		
 		SimpleDateFormat format = null;
 		if (null == handleTimeStart || "".equals(handleTimeStart)) {
@@ -343,6 +345,8 @@ public class ReportCaseProcessStatisController {
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {//总经理
 			if(arg != null && !"".equals(arg)){
 				org = arg;
+			}else{
+				org=user.getServiceDepId();
 			}
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { //总监
 			if (arg != null && !"".equals(arg)) {
@@ -353,11 +357,22 @@ public class ReportCaseProcessStatisController {
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {//交易主管
 			if (arg != null && !"".equals(arg)) {
 				consultantId = arg;
-			} else {
-				org = user.getServiceDepId();
-			}
+			} 
+			org = user.getServiceDepId();
 		} else { //交易顾问
 			consultantId = user.getId();
+			isConsultant=true;
+			org = user.getServiceDepId();
+		}
+		
+		String orgName=null;
+		if(org!=null){
+			orgName = uamUserOrgService.getOrgById(org).getOrgName(); // 获取组织名
+		}
+		
+		String consultantName=null;
+		if(consultantId!=null){
+			consultantName= uamUserOrgService.getUserById(consultantId).getRealName();
 		}
 		
 		model.addAttribute("taskName", taskName);
@@ -365,25 +380,11 @@ public class ReportCaseProcessStatisController {
 		model.addAttribute("handleTimeEnd", handleTimeEnd);
 		model.addAttribute("org", org);
 		model.addAttribute("consultantId", consultantId);
+		model.addAttribute("consultantName", consultantName);
+		model.addAttribute("isConsultant", isConsultant);
+		model.addAttribute("depId", depId);
+		model.addAttribute("orgName", orgName);
 		return "report/history_taskList";
-	}
-	
-	/**
-	 * 将组织转换为字符串
-	 * 
-	 * @param orgs
-	 * @return
-	 */
-	private String orgListToListStr(List<Org> orgs) {
-		StringBuffer sb = new StringBuffer();
-		if (orgs == null || orgs.isEmpty())
-			return null;
-		for (Org org : orgs) {
-			sb.append(org.getId() + ",");
-		}
-		String strOrgs = sb.toString();
-		strOrgs.substring(0, strOrgs.length() - 1);
-		return strOrgs;
 	}
 	
 }

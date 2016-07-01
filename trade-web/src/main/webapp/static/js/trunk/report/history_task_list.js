@@ -40,13 +40,19 @@ function reloadGrid(isFirstQuery,page){
 	}
 	param.argu_handleTimeEnd=handleTimeEnd;
 	
-	org = $('#org').val();
-	if(org==''){
+	org = $('#yuCuiOriGrpId').val();
+	if(org=='ff8080814f459a78014f45a73d820006'){
 		org=null;
+	}else if(org==''){
+		if($('#org').val()!='ff8080814f459a78014f45a73d820006'){
+			org=$('#org').val();
+		}else{
+			org=null;
+		}
 	}
 	param.argu_org=org;
 	
-	consultantId = $('#consultantId').val();
+	consultantId = $('#inTextVal').attr('hVal');
 	if(consultantId==''){
 		consultantId=null;
 	}
@@ -100,8 +106,8 @@ function reloadGrid(isFirstQuery,page){
         dataType: "json",
         data: param,
         beforeSend: function () {  
-        	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			//$(".blockOverlay").css({'z-index':'9998'});
+//        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+//			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
         	$.unblockUI();   	 
@@ -155,4 +161,30 @@ function initpage(totalCount,pageSize,currentPage,records) {
 			reloadGrid(false,page);
 	    }
 	});
+}
+
+//选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array){
+    if(array && array.length >0){
+        $("#teamCode").val(array[0].name);
+		$("#yuCuiOriGrpId").val(array[0].id);
+		
+		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
+		$("#oldactiveName").attr("onclick",userSelect);
+	}else{
+		$("#teamCode").val("");
+		$("#yuCuiOriGrpId").val("");
+	}
+}
+
+//选取人员的回调函数
+function selectUserBack(array){
+	if(array && array.length >0){
+        $("#inTextVal").val(array[0].username);
+		$("#inTextVal").attr('hVal',array[0].userId);
+
+	}else{
+		$("#inTextVal").val("");
+		$("#inTextVal").attr('hVal',"");
+	}
 }

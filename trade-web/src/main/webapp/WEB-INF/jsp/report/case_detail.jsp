@@ -109,7 +109,7 @@ text-decoration: underline !important;
 						
                         	<div class="col-md-12">    
                             	<div class="form-group">
-                                        <label class="col-md-1 control-label m-l">人员</label>
+                                        <label class="col-md-1 control-label m-l">经办人</label>
                                         <div class="col-md-10 renyuan">
                                         	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${tempUser }" value="${tempName }"
 													 readonly="readonly"

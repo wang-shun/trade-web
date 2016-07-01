@@ -236,6 +236,7 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
+			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
 			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
@@ -264,7 +265,7 @@ from (
 		historyTask.END_TIME IS NOT NULL
 	AND historyTask.TASK_DEF_KEY='TransSign'
 	<if test="userId != null">
-	AND #{userId,jdbcType=DECIMAL} = historyTask.ASSIGNEE
+	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
 	</if>
 	<if test="orgId != null">
 	AND historyTask.ORG =#{orgId,jdbcType=VARCHAR}
@@ -313,6 +314,7 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
+			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
 			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
@@ -341,7 +343,7 @@ from (
 		historyTask.END_TIME IS NOT NULL
 	AND historyTask.TASK_DEF_KEY='ComLoanProcess'
 	<if test="userId != null">
-	AND #{userId,jdbcType=DECIMAL} = historyTask.ASSIGNEE
+	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
 	</if>
 	<if test="orgId != null">
 	AND historyTask.ORG =#{orgId,jdbcType=VARCHAR}
@@ -367,6 +369,7 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
+			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
 			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
@@ -395,7 +398,7 @@ from (
 		historyTask.END_TIME IS NOT NULL
 	AND historyTask.TASK_DEF_KEY='CaseClose'
 	<if test="userId != null">
-	AND #{userId,jdbcType=DECIMAL} = historyTask.ASSIGNEE
+	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
 	</if>
 	<if test="orgId != null">
 	AND historyTask.ORG =#{orgId,jdbcType=VARCHAR}
