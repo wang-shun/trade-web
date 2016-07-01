@@ -464,7 +464,7 @@
 						{{if item.IS_SUCCESS == '是'}}
 							<td class="fs12 sq-state"><i class="valid-label">是</i></td>
 						{{else if item.IS_SUCCESS == '否'}}
-							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em>{{item.UNSUCCESS_REASON}}</em></td>
+							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></td>
 						{{else}}
 							<td></td>
                  		{{/if}}
