@@ -36,6 +36,7 @@
 	            <condition field="A.PR_STATUS" name="prStatus" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.CASE_CODE" name="caseCode" label="" searchType="IN" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PKID" name="pkid" label="" searchType="IN" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="A.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	    </searchCondition>
 		<searchSql>
 			<baseSql>

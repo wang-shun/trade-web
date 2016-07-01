@@ -429,6 +429,7 @@
                  {{else}}
                     <tr class="tr-2">
                  {{/if}}
+						<td>{{item.DIST_CODE}}</td>
 						<td><a href='../mobile/property/box/show?prCode={{item.prCode}}' target='_blank'>{{item.PROPERTY_ADDR}}</a></td>
 						<td>{{item.applyOrgName}}</td>
 						<td rowspan="2" class="fs12 sq-state">
@@ -459,6 +460,7 @@
                 {{else}}
                     <tr class="tr-2">
                 {{/if}}
+						<td></td>
 						<td></td>
 						<td>区董：{{item.QUDS}}</td>
 						{{if item.IS_SUCCESS == '是'}}
