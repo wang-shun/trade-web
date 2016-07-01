@@ -6,6 +6,7 @@
 var ctx = $("#ctx").val();
 var prDistrictId = $("#prDistrictId").val();
 var prStatus = $("#prStatus").val();
+
 $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	url = ctx + url;
@@ -19,7 +20,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ '行政区域','产证地址', '产调项目','所属分行','区董',
+		colNames : [ '行政区域','物业地址', '产调项目','所属分行','区董',
 		             '产调申请人',  '产调申请时间',
 		             '状态','操作' ],
 		colModel : [{
@@ -90,13 +91,115 @@ $(document).ready(function() {
 				$("#expToexcel").attr("disabled", false);
 			}
 		}
+	
+	// 初始化列表
+	var data = {};
+    data.search_prDistrictId = prDistrictId;
+    data.search_prStatus = prStatus;
+    data.optTransferRole = optTransferRole;
+    
+    $("#processWaitList").aistGrid({
+		ctx : ctx,
+		queryId : 'queryProcessWaitList',
+	    templeteId : 'template_processWaitList',
+	    data : data,
+	    wrapperData : data,
+	    columns : [{
+	    	           colName :"物业地址"
+	    	      },{
+	    	           colName :"区域分行"
+	    	      },{
+	    	           colName :"产调申请时间"
+    	          },{
+		    	       colName :"产调申请"
+	    	      },{
+	    	           colName :"操作"
+	    	      }]
+	
+	}); 
+	
+	if($('#processWaitList table tbody').children().length > 0){
+		$("#expToexcel").attr("disabled", false);
+	}else{
+		$("#expToexcel").attr("disabled", true);
+	}
+	
+	$('#processWaitList table').addClass("apply-table");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	});
+function reloadGrid() {
+	var data = getParams();
+    $("#processWaitList").reloadGrid({
+    	ctx : ctx,
+		queryId : 'queryProcessWaitList',
+	    templeteId : 'template_processWaitList',
+	    data : data,
+	    wrapperData : data
+    });
+}
 
 	// Add responsive to jqGrid
 	$(window).bind('resize', function() {
 		var width = $('.jqGrid_wrapper').width();
 		$('#table_property_list').setGridWidth(width);
+function getParams() {
+	var prDistrictId = $("#prDistrictId").val();
+	var prStatus = $("#prStatus").val();
+	var data = {};
+	data.search_prDistrictId = prDistrictId;
+	data.search_prStatus = prStatus;
+	data.optTransferRole = optTransferRole;
+    return data;
+} 
 
 	});
 	 $('.contact-box').each(function() {
@@ -112,6 +215,7 @@ function caseDistribute(){
 		var pkidList ;
 		pkidList = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
 		 $.ajax({
+		$.ajax({
 				cache : false,
 				type : "POST",
 				url : ctx+'/property/updateProcessWaitListStatus',
@@ -122,6 +226,7 @@ function caseDistribute(){
 				}],
 				success : function(data) {
 					  $.unblockUI();  
+					$.unblockUI();  
 					alert(data.message)
 					if(data.success){
 						location.reload();
@@ -132,8 +237,10 @@ function caseDistribute(){
 					  $.unblockUI();  
 				}
 			});
+		});
 	
 }
+
 //导出Excel
 function exportToExcel() {
 		if(!confirm('是否导出/处理?')){
@@ -164,6 +271,7 @@ function exportToExcel() {
 		setTimeout(function(){caseDistribute();},2000);
 		 
 }
+
 //获取参数(查询条件)
 function getParamsValue(pkid) {
 	
@@ -174,6 +282,7 @@ function getParamsValue(pkid) {
 	};
 	return params;
 }
+
 var optPkid='';
 
 function checkOrg(o){
@@ -221,6 +330,14 @@ function doTransfer(pkid,districtId,orgName){
 					search_prDistrictId : prDistrictId,
 					search_prStatus : prStatus
 				}).trigger('reloadGrid');
+				
+				reloadGrid();
+				
+//				$('#table_property_list').jqGrid({
+//					queryId : "queryProcessWaitList",
+//					search_prDistrictId : prDistrictId,
+//					search_prStatus : prStatus
+//				}).trigger('reloadGrid');
 			}
 		},
 		error : function(errors) {

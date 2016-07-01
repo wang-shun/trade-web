@@ -4,11 +4,15 @@
  * 
  */
 var ctx = $("#ctx").val();
+var prDistrictId = $("#prDistrictId").val();
+var prStatus = $("#prStatus").val();
+
 $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var prDistrictId = $("#prDistrictId").val();
 	var prStatus = $("#prStatus").val();
 	url = ctx + url;
+	
 	$("#btn_save").click(function() {
 		save(false);
 
@@ -17,6 +21,11 @@ $(document).ready(function() {
 			function() {
 				save(true);
 			});
+	
+	$("#btn_done").click(function() {
+		save(true);
+	});
+	
 	$("input[name='isScuess']").on('click',function(){
 		if(!!~~$(this).val()){
 			/*$("#div_s").css('display','initial');*/
@@ -39,7 +48,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ 'PKID','行政区域','交易单编号','产调编号','产证地址', '产调项目','所属分行','区董',
+		colNames : [ 'PKID','行政区域','交易单编号','产调编号','物业地址', '产调项目','所属分行','区董',
 		             '产调申请人', '产调申请时间',
 		             '产调受理时间','状态','附件','是否有效','无效原因','操作'],
 		colModel : [ {
@@ -137,6 +146,114 @@ $(document).ready(function() {
 			search_prDistrictId : prDistrictId,
 			search_prStatus : prStatus
 		}
+	
+	// 初始化列表
+	var data = {};
+    data.search_prDistrictId = prDistrictId;
+    data.search_prStatus = prStatus;
+    data.optTransferRole = optTransferRole;
+	
+	$("#processingList").aistGrid({
+		ctx : ctx,
+		queryId : 'queryProcessingList',
+	    templeteId : 'template_processingList',
+	    data : data,
+	    wrapperData : data,
+	    columns : [{
+	    	           colName :"物业地址"
+	    	      },{
+	    	           colName :"区域分行"
+	    	      },{
+	    	           colName :"产调申请时间"
+    	          },{
+	    	           colName :"是否有效"
+    	          },{
+		    	       colName :"产调申请"
+	    	      },{
+	    	           colName :"操作"
+	    	      }]
+	
+	}); 
+	
+	// 查询
+	$('#addrSearchButton').click(function() {
+		reloadGrid();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	});
 	function nullityTag(cellvalue, options, item){
 		var outHtml=
@@ -158,7 +275,36 @@ $(document).ready(function() {
 	 $('.contact-box').each(function() {
          animationHover(this, 'pulse');
      });
+	$('#processingList table').addClass("apply-table");
+	
 });
+
+function reloadGrid() {
+	var data = getParams();
+    $("#processingList").reloadGrid({
+    	ctx : ctx,
+		queryId : 'queryProcessingList',
+	    templeteId : 'template_processingList',
+	    data : data,
+	    wrapperData : data
+    });
+};
+
+function getParams() {
+	
+	var prDistrictId = $("#prDistrictId").val();
+	var prStatus = $("#prStatus").val();
+	var propertyAddr =  $("#addr").val();
+	
+	var data = {};
+	
+	data.search_propertyAddr = propertyAddr;
+	data.search_prDistrictId = prDistrictId;
+	data.search_prStatus = prStatus;
+	data.optTransferRole = optTransferRole;
+    
+	return data;
+} 
 
 /**
  * 处理已受理产调
@@ -219,6 +365,15 @@ function checkIsExistFile(isSubmit){
 	}
 	
 	function showAttchBox(cd, pr, pc, id,isS,uns) {
+//	function reloadGrid(){
+//		$('#table_property_list').jqGrid('setGridParam',{
+//			datatype:'json',  
+//			mtype : 'POST',
+//			postData: packData()
+//		}).trigger('reloadGrid');
+//	}
+	
+	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr) {
 
 		if (cd == null || cd == "") {
 			$("#caseCode").val(pr);
@@ -237,6 +392,11 @@ function checkIsExistFile(isSubmit){
 			isS='1';
 		}
 		
+		$('#address').text(addr);
+		$('#prcat').text(prcat);
+		$('#applyOrgName').text(applyOrgName);
+		$('#orgMgr').text(orgMgr);
+		
 		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 		if(uns){
 			$('#unSuccessReason').val(uns);
@@ -248,6 +408,7 @@ function checkIsExistFile(isSubmit){
 	
 		$
 				.ajax({
+		$.ajax({
 					url : ctx + "/attachment/quereyAttachments",
 					method : "post",
 					dataType : "json",

@@ -3,6 +3,10 @@
  * liaohail
  * 
  */
+var ctx = $("#ctx").val();
+var prDistrictId = $("#prDistrictId").val();
+var prStatus = $("#prStatus").val();
+
 $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
@@ -19,7 +23,7 @@ $(document).ready(function() {
 		shrinkToFit : true,
 		rowNum : 8,
 		/*   rowList: [10, 20, 30], */
-		colNames : [ 'PKID','行政区域','产证地址', '产调项目','所属分行','区董',
+		colNames : [ 'PKID','行政区域','物业地址', '产调项目','所属分行','区董',
 		             '产调申请人','申请人员工编号', '产调执行人', '产调申请时间',
 		             '产调受理时间','产调完成时间','是否有效','无效原因','来源',
 //		             '区董' ,
@@ -115,6 +119,117 @@ $(document).ready(function() {
 		hidegrid : false,
 		recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
 		pgtext : " {0} 共 {1} 页",
+	
+	var data = {};
+    data.search_prDistrictId = prDistrictId;
+    data.search_prStatus = prStatus;
+    data.optTransferRole = optTransferRole;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		onSelectRow : function(rowid,status) {
 			if(status){
@@ -139,6 +254,26 @@ $(document).ready(function() {
 			search_prStatus : prStatus
 		}
 
+    $("#successList").aistGrid({
+		ctx : ctx,
+		queryId : 'querySuccessList',
+	    templeteId : 'template_successList',
+	    data : data,
+	    wrapperData : data,
+	    columns : [{
+	    	           colName :"物业地址"
+	    	      },{
+	    	           colName :"区域分行"
+	    	      },{
+	    	           colName :"产调申请时间"
+    	          },{
+	    	           colName :"是否有效"
+    	          },{
+		    	       colName :"产调申请"
+	    	      },{
+	    	           colName :"操作"
+	    	      }]
+	
 	});
 
 	// Add responsive to jqGrid
@@ -172,6 +307,13 @@ $(document).ready(function() {
 		save(true);
 	});
 	
+	$('#addrSearchButton').click(function(){
+		reloadGrid();
+	});
+	
+	$('#successList table').addClass("apply-table");
+	
+	reloadGrid();
 });
 
 function reloadGrid(){
@@ -184,10 +326,56 @@ function reloadGrid(){
 		mtype : 'POST',
 		"postData": data
 	}).trigger('reloadGrid');
+	
+	var data = getParams();
+	
+	$("#successList").reloadGrid({
+    	ctx : ctx,
+		queryId : 'querySuccessList',
+	    templeteId : 'template_successList',
+	    data : data,
+	    wrapperData : data
+    });
 }
 
+function getParams() {
+	
+	var prDistrictId = $("#prDistrictId").val();
+	var prStatus = $("#prStatus").val();
+	var distCode = $("#distCode").val();
+	var prCat = $("#prCat").val();
+	var grpOrgName = $("#grpOrgName").val();
+	var propertyAddr =  $("#addr").val();
+	var auUser = $("#auUser").val();
+	var acuUser = $("#acuUser").val();
+	var isSuccess = $("#isSuccess").val();
+	var prChannel = $("#prChannel").val();
+	var quds = $("#quds").val();
+	var completeTimeStart = $("#completeTimeStart").val();
+	var completeTimeEnd = $("#completeTimeEnd").val();
+	
+	var data = {};
+	data.search_prDistrictId = prDistrictId;
+	data.search_prStatus = prStatus;
+	data.search_distCode = distCode;
+	data.search_prCat = prCat;
+	data.search_grpOrgName = grpOrgName;
+	data.search_propertyAddr = propertyAddr;
+	data.search_auUser = auUser;
+	data.search_acuUser = acuUser;
+	data.search_isSuccess = isSuccess;
+	data.search_prChannel = prChannel;
+	data.search_quds = quds;
+	data.search_completeTimeStart = completeTimeStart;
+	data.search_completeTimeEnd = completeTimeEnd?(completeTimeEnd+' 23:59:59'):completeTimeEnd;
+	data.optTransferRole = optTransferRole;
+	
+	return data;
+} 
 
 function showAttchBox(cd, pr, pc, id, isS, uns) {
+
+function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr) {
 	
 	if(cd == null || cd == "") {
 		$("#caseCode").val(pr);
@@ -208,6 +396,11 @@ function showAttchBox(cd, pr, pc, id, isS, uns) {
 	}else{
 		isS='1';
 	}
+	
+	$('#address').text(addr);
+	$('#prcat').text(prcat);
+	$('#applyOrgName').text(applyOrgName);
+	$('#orgMgr').text(orgMgr);
 	
 	$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 	if(uns){

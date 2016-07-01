@@ -126,11 +126,6 @@
 <content tag="local_script">
 	<!-- Mainly scripts -->
 	<script src="${ctx}/js/plugins/fullcalendar/moment.min.js"></script>
-	<script src="${ctx}/js/jquery-2.1.1.js"></script>
-	<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	
-	
 	<!-- Morris -->
 	<script src="${ctx}/js/plugins/morris/raphael-2.1.0.min.js"></script>
 	
@@ -163,7 +158,6 @@
 	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script	src="${ctx}/js/trunk/case/mycase_list.js"></script> <!-- iCheck --> 
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script>
 		
     </script>
@@ -208,6 +202,14 @@
              });
 	 	}
 	 	
+		 // 日期控件
+	 	$('#datepicker_0').datepicker({
+	 		format : 'yyyy-mm-dd',
+	 		weekStart : 1,
+	 		autoclose : true,
+	 		todayBtn : 'linked',
+	 		language : 'zh-CN'
+	 	});
 	 	
 	 </script>
     

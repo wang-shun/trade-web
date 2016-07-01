@@ -29,6 +29,7 @@
     <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
     <link href="${ctx}/css/list.css" rel="stylesheet">
+    
     <!-- 上传相关 -->
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
 	rel="stylesheet">
@@ -41,13 +42,35 @@
 	<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
 	optTransferRole=true;
 	</shiro:hasPermission>
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+	
+	<!-- 分页控件 -->
+	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+	
+	<script>
+		var optTransferRole=false;
+		<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
+			optTransferRole=true;
+		</shiro:hasPermission>
 	</script>
+    
     <style>
     .ui-jqgrid .ui-jqgrid-bdiv{
     	    overflow-x: hidden;
     }.form-group label {
 	text-align: right;
 }
+	    
+	    .ui-jqgrid .ui-jqgrid-bdiv{
+	    	overflow-x: hidden;
+	    }
+	    
+	    .form-group label {
+			text-align: right;
+		}
 
 .form-control {
 	margin-bottom: 5px;
@@ -89,7 +112,85 @@ input[name="isScuess"]{margin-left:7px;}
 img{ border-image-width:0px;}
 #propertyAddr{font-weight: bolder;}
 #addrSearchButton{background-color:#f8ac59;color:#fff;padding:2px 10px;border:0;border-radius:3px;}
+		.form-control {
+			margin-bottom: 5px;
+			height: 32px;
+		}
+		
+		.col-sm-10 {
+			height: 37px;
+		}
+		
+		.col-md-2 {
+			width: 12%
+		}
+		
+		.list li span:first-child {
+			color: #555;
+			width: 70%
+		}
+		
+		.list li span:nth-child(2) {
+			width: 30%;
+			text-align:right;
+		}
+		
+		.list li span:nth-child(3) {
+			width: 32%;
+			text-align: right;
+		}
+		
+		#div_f{
+			display: none;
+		}
+		
+		.list li .addr{float:left;width:74%;}
+		.list li .check{float:right;width:10%;}
+		.list li .check button{color:#fff;}
+		input[name="prStatus"]{margin-left:7px;}
+		input[name="isScuess"]{margin-left:7px;}
+		.ml-10{margin-left:10px;}
+		.files .delete{width:25px;}
+		img{ border-image-width:0px;}
+		#propertyAddr{font-weight: bolder;}
+/* 		#addrSearchButton{background-color:#f8ac59;color:#fff;padding:2px 10px;border:0;border-radius:3px;} */
+    
     </style>
+    
+    <style>
+		*{padding:0;margin:0;box-sizing:border-box;}
+		.main{background-color:#f3f3f3;}
+		.apply-wrap{background-color:#fff;font-family:'微软雅黑','Arial';}
+		.apply-wrap .table{font-size:14px;}
+		.apply-wrap .table{width:100%;background-color:#fff;}
+		.apply-wrap .apply-table{width:100%;border:1px solid #eaeaea;border-right:0;}
+		.apply-wrap .apply-table th{font-weight:normal;color:#fff;height:35px;background-color:#52cdec;}
+		.apply-table th,.apply-table td{text-align:left;padding-left:10px;border-right:1px solid #eaeaea;}
+		.apply-table tr td{color:#333;}
+		.apply-table .tr-1{background-color:#fff;}
+		.apply-table .tr-2{background-color:#f4f4f4;}
+		.apply-table tr {height:32px!important;}
+		.apply-table tr:nth-child(odd) td{padding:8px 0 3px 10px;}
+		.apply-table tr:nth-child(even) td{padding:3px 0 12px 10px;}
+		.apply-table tr .color-666{color:#666;}
+		.apply-table tr .fs12{font-size:12px;}
+		.apply-table tr .btn-y{color:#fff;padding:2px 10px;border-radius:3px;background-color:#f9ad58;text-decoration:none;}
+		.triangle-up,.triangle-down{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;position:relative;left:8px;top:16px;}
+		.triangle-up{border-bottom:10px solid #fff;top:-13px;}
+		.triangle-down {border-top:10px solid #fff;}
+		.fs12 i,.sqr i{color:#fff;font-size:12px;font-style:normal;padding:0px 2px;margin-right:5px;border-radius:2px;background-color:#52cdec;}
+		.fs12 i.valid-label{background-color:#00cb1d;}
+		.fs12 i.invalid-label{background-color:#ccc;}
+		.sqr i.jl-label{background-color:#ee6384;margin-left:5px;}
+		.sqr i.yc-label{background-color:#52cdec;margin-left:5px;}
+		.fs12 span{display:block;padding:1px 0;}
+		.apply-table tr .sq-state{padding:1px 0 1px 10px !important;}
+		.apply-table tr:nth-child(odd) td.btn-g{padding:8px 0 4px 8px;}
+		.apply-table tr:nth-child(even) td.btn-g{padding:5px 0 10px 8px;}
+		.apply-table tr td.invalid{width:150px;padding-right:10px !important;}
+		.apply-table tr em{font-style:normal;font-size:13px;line-height:18px;}
+		.apply-table tbody a{color:#1a5f8e;}
+	</style>
     
     <script type="text/javascript">
 	var idList = [ 1 ];
@@ -98,6 +199,13 @@ img{ border-image-width:0px;}
 	var caseCode = "";
 	var prCode = '';
 </script>
+		var idList = [ 1 ];
+		var pkid ='';
+		var taskitem = "";
+		var caseCode = "";
+		var prCode = '';
+	</script>
+	
 </head>
 
 <body>
@@ -120,9 +228,41 @@ img{ border-image-width:0px;}
     </div>
 </div>
 <div class="ibox-content">
-	<div id="propertyAddr">产证地址 :
+	<div id="propertyAddr">物业地址 :
 		<input type="text" id="addr" name="search_propertyAddr" />
 			<button type='button' id="addrSearchButton" style="margin-left: 30px;">搜索</button>
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="ibox float-e-margins" style="margin-top: 10px;margin-bottom: 5px;">
+				<div class="ibox-title">
+					<h4>已受理产调</h4>
+				</div>
+				<div class="ibox-content" style="padding-bottom: 5px;">
+					<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id='myForm' >
+						<input type="hidden" name="queryId" value="queryProcessingList">
+						<input type="hidden" id="ctx" value="${ctx}"/>
+						<input type="hidden" name="search_prDistrictId" value="${prDistrictId}">
+						<input type="hidden" name="search_prStatus" value="1"/>
+						<input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
+						<input type="hidden" id="prStatus" value="1"/>
+						<input type="hidden" name="colomns" value="DIST_CODE,PROPERTY_ADDR,PR_CAT,orgName,PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,PR_STATUS,IS_SUCCESS,UNSUCCESS_REASON">
+						
+						<div class="row form-group">
+		        			<label class="col-md-1  control-label" style="text-align: center;">物业地址 </label>
+		    				<div class="col-md-3">
+		    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
+		    				</div>
+		    				<div class="col-md-3">
+								<button id="addrSearchButton" type="button" class="btn btn-warning">查询</button>
+								<button id="exportExcelButton" type="button" class="btn btn-primary" onclick="document.getElementById('myForm').submit();return false">导出产调至Excel</button>
+		    				</div>
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 	<hr>
      <table id="table_property_list"></table>
@@ -130,6 +270,15 @@ img{ border-image-width:0px;}
       <a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
 </div>       
 </form>                 
+	
+	<div class="main">
+		<div class="apply-wrap">
+			<div class="table">
+				<div id="processingList"></div>
+			</div>
+		</div>
+	</div>
+	                 
 	<div id="modal-form" class="modal fade" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -145,6 +294,42 @@ img{ border-image-width:0px;}
 
 							<div class='row'>
 								<div class='pull-left'>
+									<h5>物业地址:</h5>
+								</div>
+								<div class='pull-left' style="margin-top: 3px;">
+									<span id="address"></span>
+								</div>
+							</div>
+							
+							<div class='row'>
+								<div class='pull-left'>
+									<h5>产调项目:</h5>
+								</div>
+								<div class='pull-left' style="margin-top: 3px;">
+									<span id="prcat"></span>
+								</div>
+							</div>
+							
+							<div class='row'>
+								<div class='pull-left'>
+									<h5>所属分行:</h5>
+								</div>
+								<div class='pull-left' style="margin-top: 3px;">
+									<span id="applyOrgName"></span>
+								</div>
+							</div>
+							
+							<div class='row'>
+								<div class='pull-left'>
+									<h5>区蕫:</h5>
+								</div>
+								<div class='pull-left' style="margin-top: 3px;">
+									<span id="orgMgr"></span>
+								</div>
+							</div>
+							
+							<div class='row'>
+								<div class='pull-left'>
 									<h5>是否有效:</h5>
 								</div>
 								<div class='pull-left'>
@@ -152,6 +337,7 @@ img{ border-image-width:0px;}
 										type="radio" name="isScuess" value="1" checked="checked">有效
 								</div>
 							</div>
+							
 
 							<div id='div_f' class="row">
 			
@@ -159,6 +345,7 @@ img{ border-image-width:0px;}
 										<h5>无效原因:</h5>
 									</div>
 									<div class='col-xs-10'>
+									<div class='col-xs-10' style="margin-top: 5px;">
 										<textarea rows="7" cols="25" name="unSuccessReason" id='unSuccessReason'></textarea>
 									</div>
 							</div>
@@ -286,6 +473,8 @@ img{ border-image-width:0px;}
 			</div>
 		</div>
 	</div>
+	
+	
   <content tag="local_script">
     <!-- Mainly scripts -->
 
@@ -307,8 +496,10 @@ img{ border-image-width:0px;}
 
 	<!-- Add Media helper (this is optional) -->
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
+	
 	<!-- toJSON -->
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	
 	<!-- 上传附件相关 -->
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> <script
@@ -316,12 +507,21 @@ img{ border-image-width:0px;}
 		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 	<script
 		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
@@ -330,8 +530,22 @@ img{ border-image-width:0px;}
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+	<!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> 
+	<script src="${ctx}/js/trunk/task/attachment.js"></script>
 	
+	<script src="${ctx}/js/trunk/property/processingList.js?v=1.2.03"></script>
+	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js?v=1.0.2"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	
+	<!-- 分页控件  -->
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	
 	<script src="${ctx}/js/trunk/property/processingList.js?v=1.2.03"></script>
 	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js?v=1.0.2"></script>
@@ -342,6 +556,61 @@ img{ border-image-width:0px;}
 			 JQGrid_propertyByaddSearch.init('table_property_list','addrSearchButton',addr);
 		});
 	</script>
+<!-- 	<span><i class="invalid-label">完</i></span> -->
+	<script id="template_processingList" type="text/html">
+         	{{each rows as item index}}
+                 {{if index%2 == 0}}
+ 				    <tr class="tr-1">
+                 {{else}}
+                    <tr class="tr-2">
+                 {{/if}}
+						<td>{{item.PROPERTY_ADDR}}</td>
+						<td>{{item.applyOrgName}}</td>
+						<td rowspan="2" class="fs12 sq-state">
+							<span><i class="sq-label">申</i>{{item.PR_APPLY_TIME}}</span>
+							<span><i class="sl-label">受</i>{{item.PR_ACCPET_TIME}}</span>
+						</td>
+						{{if item.IS_SUCCESS == '是'}}
+							<td class="fs12 sq-state"><i class="valid-label">是</i></td>
+						{{else if item.IS_SUCCESS == '否'}}
+							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em>{{item.UNSUCCESS_REASON}}</em></td>
+						{{else}}
+							<td></td>
+                 		{{/if}}
+						<td class="sqr">申请人：{{item.PR_APPLIANT}}
+							{{if item.CHANNEL == '经纪人'}}
+								<i class="jl-label">经</i>
+							{{else}}
+                 				<i class="yc-label">誉</i>
+							{{/if}}
+						</td>
+						<td>
+							{{if wrapperData.optTransferRole}}
+                 				<button type="button" class="btn btn-warning btn-xs" id="teamCode" name="teamCode" readonly="readonly" onclick="showOrgSelect({{item.PKID}})" value='' >转组</button>
+							{{else}}
+                 			{{/if}}
+						</td>
+					</tr>
+				{{if index%2 == 0}}
+ 				    <tr class="tr-1">
+                {{else}}
+                    <tr class="tr-2">
+                {{/if}}
+						<td></td>
+						<td>区董：{{item.orgMgr}}</td>
+						{{if item.IS_SUCCESS == '是'}}
+							<td></td>
+						{{else if item.IS_SUCCESS == '否'}}、
+						{{else}}
+							<td></td>
+                 		{{/if}}
+						<td>执行人：</td>
+						<td>
+							<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}');" class='btn btn-warning btn-xs'>处理</button>
+						</td>
+					</tr>
+			{{/each}}
+	 </script> 
 
 </content>
 </body>
