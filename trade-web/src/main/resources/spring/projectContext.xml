@@ -19,10 +19,10 @@
     <bean name="variableSql" class="com.aist.common.quickQuery.sqlBuild.VariableSql"/>
     
 	<bean name="qqcdFinOrgNameDict" class="com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl">
-		<property name="sql" value="select FIN_ORG_CODE [KEY], FIN_ORG_NAME_YC VALUE from sctrans.T_TS_FIN_ORG"></property>
+		<property name="sql" value="select FIN_ORG_CODE [KEY], FIN_ORG_NAME VALUE from sctrans.T_TS_FIN_ORG"></property>
 	</bean>
 	<bean name="qqcdFaFinOrgNameDict" class="com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl">
-		<property name="sql" value="select O.FIN_ORG_CODE [KEY], FO.FIN_ORG_NAME_YC VALUE from sctrans.T_TS_FIN_ORG O INNER JOIN sctrans.T_TS_FIN_ORG FO ON O.FA_FIN_ORG_CODE=FO.FIN_ORG_CODE"></property>
+		<property name="sql" value="select O.FIN_ORG_CODE [KEY], FO.FIN_ORG_NAME VALUE from sctrans.T_TS_FIN_ORG O INNER JOIN sctrans.T_TS_FIN_ORG FO ON O.FA_FIN_ORG_CODE=FO.FIN_ORG_CODE"></property>
 	</bean>
 	
 	<bean name="qqcdDictPrStatusCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
