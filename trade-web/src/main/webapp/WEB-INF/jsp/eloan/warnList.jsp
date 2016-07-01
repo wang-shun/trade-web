@@ -44,7 +44,7 @@
 		        </div> 
 			    
 				<div>
-					案件地址 :<input type="text" id="propertyAddr" name="propertyAddr" />  
+					产证地址 :<input type="text" id="propertyAddr" name="propertyAddr" />  
 					产品名称 : <aist:dict clazz="span6" id="loanSrvCode" name="loanSrvCode" display="select" dictType = "yu_serv_cat_code_tree" tag="eplus" defaultvalue=""/>
 					所属服务部:	<select id="districtOrgId">
 					 			  <option value ="">请选择</option>
