@@ -5,6 +5,7 @@
 package com.centaline.trans.taskList.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -187,8 +188,12 @@ public class TaskController {
 		request.setAttribute("source", source);
 		
 		ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
+		request.setAttribute("afterTimeFlag", false);
 		if(c != null) {
 			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+			if(c.getCreateTime()!=null){
+				request.setAttribute("afterTimeFlag", c.getCreateTime().after(new Date(1467302399999l)));
+			}
 			request.setAttribute("caseBaseVO", caseBaseVO);
 		}
 		

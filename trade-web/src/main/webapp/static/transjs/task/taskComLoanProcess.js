@@ -97,14 +97,17 @@ function checkMortgageForm(formId){
 		return false;
 	} 
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
-		if (formId.find("input[name='recLetterNo']").val()==""){
-			formId.find("input[name='recLetterNo']").css("border-color","red");
-			return false;
+		if(afterTimeFlag){
+			if (formId.find("input[name='recLetterNo']").val()==""){
+				formId.find("input[name='recLetterNo']").css("border-color","red");
+				return false;
+			}
 		}
 		if(formId.find("select[name='finOrgCode']").val() == ""){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+		
 	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
 			formId.find("input[name='tmpBankReason']").css("border-color","red");
@@ -1086,7 +1089,8 @@ function checkAttUp(attDiv,f){
 		var pic = $(this).find("img");
 		var preFCode=$(this).find("input[name='preFileCode']").val();
 		preFCode=preFCode||'';
-		if(preFCode.indexOf('rec_letter_')!=-1&& !!f.find("input[name='isTmpBank']").prop('checked')){
+		//临时银行或者2016年7月1日之前的案件可以不用上传推荐函
+		if(preFCode.indexOf('rec_letter_')!=-1 && (!!f.find("input[name='isTmpBank']").prop('checked') ||!afterTimeFlag)){
 			flag=true;
 			return true;
 		}
@@ -1239,8 +1243,10 @@ $(document).ready(function () {
 	 			}
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
-		 		deleteAndModify();
-	 			return checkAttUp($(".att_first"),$("#mortgageForm"));
+	 			if(checkAttUp($(".att_first"),$("#mortgageForm"))){
+	 				return deleteAndModify();
+	 			}
+	 			return false;
 	 		}
 
 	 		return true;
@@ -1304,9 +1310,10 @@ $(document).ready(function () {
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
- 			deleteAndModify();
- 			return checkAttUp($(".att_second"),$("#mortgageForm1"));
-
+ 			if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
+ 				return deleteAndModify();
+ 			}
+ 			return false;
  		}
  		
  		return true;
