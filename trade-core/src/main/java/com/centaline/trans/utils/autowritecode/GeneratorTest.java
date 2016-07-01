@@ -21,8 +21,8 @@ public class GeneratorTest {
     public static void main(String[] args) {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-        String genCfg = "/gdeneratorConfig.xml";
-        File configFile = new File("D://git//trade-web//trade-core//src//main//resources//generatorConfig.xml");
+        String genCfg = "/generatorConfig.xml";
+        File configFile = new File(GeneratorTest.class.getResource(genCfg).getFile());
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = null;
         try {
