@@ -830,7 +830,7 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			f.find("[id='sp_sub_bank']").text('');
 	    			}
 	    			if(!!~~data.content.isTmpBank){
-	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankByStr);
+	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
 	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
 	    				f.find('#sp_is_tmp_bank').text("是");
 	    				f.find(".tmpBankDiv").show();
