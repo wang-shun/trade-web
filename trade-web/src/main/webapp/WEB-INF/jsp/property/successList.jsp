@@ -460,7 +460,7 @@
                     <tr class="tr-2">
                 {{/if}}
 						<td></td>
-						<td>区董：{{item.orgMgr}}</td>
+						<td>区董：{{item.QUDS}}</td>
 						{{if item.IS_SUCCESS == '是'}}
 							<td></td>
 						{{else if item.IS_SUCCESS == '否'}}、
@@ -470,7 +470,7 @@
 						<td>执行人：{{item.PR_EXECUTOR}}</td>
 						<td class="btn-g">
 							{{if wrapperData.optTransferRole}}
-								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
+								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
 							{{else}}
                  			{{/if}}
 						</td>
