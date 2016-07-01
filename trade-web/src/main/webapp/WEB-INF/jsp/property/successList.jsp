@@ -106,7 +106,7 @@
 					    	<input type="hidden" id="ctx" value="${ctx}"/>
 							<input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}"/>
 							<input type="hidden" id="prStatus"name="search_prStatus" value="2"/>
-					    	<input type="hidden" name="colomns" value="PROPERTY_ADDR,applyOrgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
+					    	<input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,applyOrgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
 					    	<div class="row form-group">
 			    				<label class="col-md-1  control-label">行政区域</label>
 			    				<div class="col-md-3">
