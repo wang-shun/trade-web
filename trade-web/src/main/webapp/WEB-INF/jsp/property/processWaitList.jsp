@@ -85,8 +85,17 @@
 				<div class="ibox-title">
 					<h5>待处理产调</h5>
 				</div>
-				<div class="ibox-content" style="padding: 5px;">
-				    <a class="btn btn-primary" onclick="exportToExcel();" id="expToexcel" style="margin-bottom: 0px;">导出产调至Excel</a>
+				<div class="ibox-content" style="padding-bottom: 5px;">
+					<div class="row form-group">
+	    				<label class="col-md-1  control-label" style="text-align: center;padding-top: 7px;">行政区域</label>
+	    				<div class="col-md-3">
+	    					<aist:dict id="distCode" clazz="form-control pull-left" name="search_distCode" display="select"  dictType = "yu_shanghai_district" />
+	    				</div>
+	    				<div class="col-md-4">
+	    					<a class='btn btn-primary' id='searchButton'>搜索</a>
+						    <a class="btn btn-primary" onclick="exportToExcel();" id="expToexcel">导出产调至Excel</a>
+	    				</div>
+		    		</div>
 				</div>
 			</div>
 		</div>
@@ -131,6 +140,7 @@
                  {{else}}
                     <tr class="tr-2">
                  {{/if}}
+						<td>{{item.DIST_CODE}}</td>
 						<td>{{item.PROPERTY_ADDR}}</td>
 						<td>{{item.applyOrgName}}</td>
 						<td rowspan="2" class="fs12 sq-state">
@@ -156,6 +166,7 @@
                 {{else}}
                     <tr class="tr-2">
                 {{/if}}
+						<td></td>
 						<td></td>
 						<td>区董：{{item.orgMgr}}</td>
 						<td>执行人：</td>

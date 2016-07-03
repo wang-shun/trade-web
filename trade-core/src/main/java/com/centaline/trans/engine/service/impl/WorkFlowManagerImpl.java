@@ -275,8 +275,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, planSet.getPlanDays());
 		plan.setEstPartTime(cal.getTime());
-
-		toTransPlanService.insertSelective(plan);
+		toTransPlanService.updateTransPlan(plan);
 	}
 
 	@Override
@@ -358,14 +357,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 				doOptTaskPlan(vo.getTaskDefinitionKey(), caseCode);
 			}
 		}
-	}
-
-	@Override
-	public void reclaim(String taskId, String assignee) {
-		TaskOperate taskOperate1 = new TaskOperate(taskId.toString(), "claim");
-		this.operaterTask(taskOperate1);
-		taskOperate1.setAssignee(assignee);
-		this.operaterTask(taskOperate1);
 	}
 
 	private void handleUnAlocation(String owner, String caseCode, String instCode, String taskJobCode, String taskId,

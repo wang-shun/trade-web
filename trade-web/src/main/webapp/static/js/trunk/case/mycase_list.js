@@ -788,4 +788,5 @@ $('#cleanButton').click(function() {
 	$("input[name='teamCode']").val('');
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
+	$("select").val("");
 });
