@@ -373,7 +373,7 @@ margin-left:15px;}
 					</a>
 				</td>
 				<td><i class="sl-lable">完</i>{{item.END_TIME}}</td>
-				<td>下家{{item.BUYER}}</td>
+				<td>下家: {{item.BUYER}}</td>
 			</tr>
        {{/each}}		
 	</script> 
