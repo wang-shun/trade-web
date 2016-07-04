@@ -123,6 +123,8 @@ public class EditCaseDetailVO {
     private String lastLoanBank;			/*最终贷款银行*/
     private String finOrgCode;				/*贷款机构*/
     
+    private String loanReq;
+    
 	public Long getMpkid() {
 		return mpkid;
 	}
@@ -769,6 +771,14 @@ public class EditCaseDetailVO {
 
 	public void setGuestPkid(List<Long> guestPkid) {
 		this.guestPkid = guestPkid;
+	}
+
+	public String getLoanReq() {
+		return loanReq;
+	}
+
+	public void setLoanReq(String loanReq) {
+		this.loanReq = loanReq;
 	}
     
     

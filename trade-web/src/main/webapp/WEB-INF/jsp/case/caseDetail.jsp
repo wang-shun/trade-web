@@ -1014,18 +1014,24 @@
 	
 	<!-- 各个环节的备注信息  -->
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
-	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 	    var r1 =false;
+	    var changeTaskRole=false;
+	    var serivceDepId='${serivceDefId}';
 	    var loanReqType="${loanReqType}";
 	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
 			r1 = true;
 		</shiro:hasPermission>
+		<shiro:hasPermission name="TRADE.CASE.TASK:ASSIGN">
+			changeTaskRole=true;
+		</shiro:hasPermission>
 		var isNewFlow =${isNewFlow}; 
+		var isCaseManager=${isCaseManager};
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,
