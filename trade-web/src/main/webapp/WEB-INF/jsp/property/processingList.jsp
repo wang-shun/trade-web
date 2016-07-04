@@ -162,10 +162,14 @@
 						<input type="hidden" name="search_prStatus" value="1"/>
 						<input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
 						<input type="hidden" id="prStatus" value="1"/>
-						<input type="hidden" name="colomns" value="DIST_CODE,PROPERTY_ADDR,PR_CAT,orgName,PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,PR_STATUS,IS_SUCCESS,UNSUCCESS_REASON">
+						<input type="hidden" name="colomns" value="DIST_CODE,PROPERTY_ADDR,PR_CAT,orgName,applyOrgName,orgMgr,PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,PR_STATUS,IS_SUCCESS,UNSUCCESS_REASON">
 						
 						<div class="row form-group">
-		        			<label class="col-md-1  control-label" style="text-align: center;">物业地址 </label>
+		    				<label class="col-md-1  control-label" style="text-align: center;padding-top: 7px;">行政区域</label>
+		    				<div class="col-md-2">
+		    					<aist:dict id="distCode" clazz="form-control pull-left" name="search_distCode" display="select"  dictType = "yu_shanghai_district" />
+		    				</div>
+		        			<label class="col-md-1  control-label" style="text-align: center;">产证地址 </label>
 		    				<div class="col-md-3">
 		    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 		    				</div>
@@ -450,6 +454,7 @@
                  {{else}}
                     <tr class="tr-2">
                  {{/if}}
+						<td>{{item.DIST_CODE}}</td>
 						<td>{{item.PROPERTY_ADDR}}</td>
 						<td>{{item.applyOrgName}}</td>
 						<td rowspan="2" class="fs12 sq-state">
@@ -459,7 +464,7 @@
 						{{if item.IS_SUCCESS == '是'}}
 							<td class="fs12 sq-state"><i class="valid-label">是</i></td>
 						{{else if item.IS_SUCCESS == '否'}}
-							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em>{{item.UNSUCCESS_REASON}}</em></td>
+							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></td>
 						{{else}}
 							<td></td>
                  		{{/if}}
@@ -482,6 +487,7 @@
                 {{else}}
                     <tr class="tr-2">
                 {{/if}}
+						<td></td>
 						<td></td>
 						<td>区董：{{item.orgMgr}}</td>
 						{{if item.IS_SUCCESS == '是'}}

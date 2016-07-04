@@ -86,7 +86,7 @@ public interface WorkFlowManager {
 
 	StartProcessInstanceVo startCaseWorkFlow1(ProcessInstance process, String caseCode, String caseOwner);
 
-	void reclaim(String taskId, String assignee);
+	//void reclaim(String taskId, String assignee);
 
 	TaskVo updateTask(TaskVo vo);
 

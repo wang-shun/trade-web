@@ -41,7 +41,9 @@ $(document).ready(function() {
 	    data : data,
 	    wrapperData : data,
 	    columns : [{
-	    	           colName :"物业地址"
+	           		   colName :"行政区域"
+	    		  },{
+	    	           colName :"产证地址"
 	    	      },{
 	    	           colName :"区域分行"
 	    	      },{
@@ -81,6 +83,7 @@ function getParams() {
 	var prDistrictId = $("#prDistrictId").val();
 	var prStatus = $("#prStatus").val();
 	var propertyAddr =  $("#addr").val();
+	var distCode = $("#distCode").val();
 	
 	var data = {};
 	
@@ -88,7 +91,8 @@ function getParams() {
 	data.search_prDistrictId = prDistrictId;
 	data.search_prStatus = prStatus;
 	data.optTransferRole = optTransferRole;
-    
+	data.search_distCode = distCode;
+	
 	return data;
 } 
 
