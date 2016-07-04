@@ -4,161 +4,97 @@
  * 
  */
 var ctx = $("#ctx").val();
+var prDistrictId = $("#prDistrictId").val();
+var prStatus = $("#prStatus").val();
+
 $(document).ready(function() {
-	var url = "/quickGrid/findPage";
-	var prDistrictId = $("#prDistrictId").val();
-	var prStatus = $("#prStatus").val();
-	url = ctx + url;
+	
 	$("#btn_save").click(function() {
 		save(false);
-
 	});
-	$("#btn_done").click(
-			function() {
-				save(true);
-			});
+	
+	$("#btn_done").click(function() {
+		save(true);
+	});
+	
 	$("input[name='isScuess']").on('click',function(){
 		if(!!~~$(this).val()){
-			/*$("#div_s").css('display','initial');*/
 			$("#div_s").show();
 			$("#div_f").hide();
 			$('#unSuccessReason').val('');
 		}else{
-			/*$("#div_f").css('display','initial');*/
 			$("#div_f").show();
 			$("#div_s").hide();
 		}
 	});
-	//jqGrid 初始化
-	$("#table_property_list").jqGrid({
-		url : url,
-		mtype : 'GET',
-		datatype : "json",
-		height : 250,
-		autowidth : true,
-		shrinkToFit : true,
-		rowNum : 8,
-		/*   rowList: [10, 20, 30], */
-		colNames : [ 'PKID','行政区域','交易单编号','产调编号','物业地址', '产调项目','所属分行','区董',
-		             '产调申请人', '产调申请时间',
-		             '产调受理时间','状态','附件','是否有效','无效原因','操作'],
-		colModel : [ {
-			name : 'PKID',
-			index : 'PKID',
-			align : "center",
-			width : 0,
-			key : true,
-			resizable : false,
-			hidden : true
-		},{
-			name : 'DIST_CODE',
-			index : 'DIST_CODE',
-			align : "center",
-			width : 30
-			
-		},{
-			name : 'CASE_CODE',
-			index : 'CASE_CODE',
-			align : "center",
-			width : 0,
-			hidden : true
-		},{
-			name : 'PR_CODE',
-			index : 'PR_CODE',
-			align : "center",
-			width : 0,
-			hidden : true
-		}, {
-			name : 'PROPERTY_ADDR',
-			index : 'PROPERTY_ADDR',
-			width : 60
-		}, {
-			name : 'PR_CAT',
-			index : 'PR_CAT',
-			width : 40
-		},  {
-			name : 'applyOrgName',
-			index : 'applyOrgName',
-			width : 40
-		},{
-			name : 'orgMgr',
-			index : 'orgMgr',
-			width : 40
-		},{
-			name : 'PR_APPLIANT',
-			index : 'PR_APPLIANT',
-			width : 40
-		}, {
-			name : 'PR_APPLY_TIME',
-			index : 'PR_APPLY_TIME',
-			width : 50
-		}, {
-			name : 'PR_ACCPET_TIME',
-			index : 'PR_ACCPET_TIME',
-			width : 50
-		},{
-			name : 'PR_STATUS',
-			index : 'PR_STATUS',
-			width : 20
-		},{
-			name : 'act',
-			index : 'act',
-			align : "center",
-			width : 40,
-			resizable : false,
-			sortable : false,
-			title : false
-		},{
-			name : 'IS_SUCCESS',
-			index : 'IS_SUCCESS',
-			width : 30
-		},{
-			name : 'UNSUCCESS_REASON',
-			index : 'UNSUCCESS_REASON',
-			width : 30
-		},{
-			name : 'nullityTag',
-			index : 'nullityTag',
-			align : "center",
-			width : 60,
-			formatter : nullityTag
-			
-		},
-		
-		],
-		pager : "#pager_property_list",
-		viewrecords : true,
-		pagebuttions : true,
-		hidegrid : false,
-		recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-		pgtext : " {0} 共 {1} 页",
-		postData : {
-			queryId : "queryProcessingList",
-			search_prDistrictId : prDistrictId,
-			search_prStatus : prStatus
-		}
-	});
-	function nullityTag(cellvalue, options, item){
-		var outHtml=
-			"&nbsp;<button type=\"button\" class=\"btn btn-warning btn-xs\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
-				   +"onclick=\"showOrgSelect("+item.PKID+")\" value='' >转组</button>";
-			
-			
-		var btn2="<button type='button' onclick=\"showAttchBox('"+item.CASE_CODE+"','"+item.PR_CODE+"','"+item.PART_CODE+"','"+item.PKID+"','"+item.IS_SUCCESS+"','"+(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')+"');\" class='btn btn-warning btn-xs'>处理</button>";
-		if(optTransferRole){return btn2=btn2+outHtml; }
-			return btn2;
-	}
 	
-	// Add responsive to jqGrid
-	$(window).bind('resize', function() {
-		var width = $('.jqGrid_wrapper').width();
-		$('#table_property_list').setGridWidth(width);
-
+	// 初始化列表
+	var data = {};
+    data.search_prDistrictId = prDistrictId;
+    data.search_prStatus = prStatus;
+    data.optTransferRole = optTransferRole;
+	
+	$("#processingList").aistGrid({
+		ctx : ctx,
+		queryId : 'queryProcessingList',
+	    templeteId : 'template_processingList',
+	    data : data,
+	    wrapperData : data,
+	    columns : [{
+	           		   colName :"行政区域"
+	    		  },{
+	    	           colName :"产证地址"
+	    	      },{
+	    	           colName :"区域分行"
+	    	      },{
+	    	           colName :"产调申请时间"
+    	          },{
+	    	           colName :"是否有效"
+    	          },{
+		    	       colName :"产调申请"
+	    	      },{
+	    	           colName :"操作"
+	    	      }]
+	
+	}); 
+	
+	// 查询
+	$('#addrSearchButton').click(function() {
+		reloadGrid();
 	});
-	 $('.contact-box').each(function() {
-         animationHover(this, 'pulse');
-     });
+	
+	$('#processingList table').addClass("apply-table");
+	
 });
+
+function reloadGrid() {
+	var data = getParams();
+    $("#processingList").reloadGrid({
+    	ctx : ctx,
+		queryId : 'queryProcessingList',
+	    templeteId : 'template_processingList',
+	    data : data,
+	    wrapperData : data
+    });
+};
+
+function getParams() {
+	
+	var prDistrictId = $("#prDistrictId").val();
+	var prStatus = $("#prStatus").val();
+	var propertyAddr =  $("#addr").val();
+	var distCode = $("#distCode").val();
+	
+	var data = {};
+	
+	data.search_propertyAddr = propertyAddr;
+	data.search_prDistrictId = prDistrictId;
+	data.search_prStatus = prStatus;
+	data.optTransferRole = optTransferRole;
+	data.search_distCode = distCode;
+	
+	return data;
+} 
 
 /**
  * 处理已受理产调
@@ -210,15 +146,16 @@ function checkIsExistFile(isSubmit){
 			}
 		});
 	}
-	function reloadGrid(){
-		$('#table_property_list').jqGrid('setGridParam',{
-			datatype:'json',  
-			mtype : 'POST',
-			postData: packData()
-		}).trigger('reloadGrid');
-	}
 	
-	function showAttchBox(cd, pr, pc, id,isS,uns) {
+//	function reloadGrid(){
+//		$('#table_property_list').jqGrid('setGridParam',{
+//			datatype:'json',  
+//			mtype : 'POST',
+//			postData: packData()
+//		}).trigger('reloadGrid');
+//	}
+	
+	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr) {
 
 		if (cd == null || cd == "") {
 			$("#caseCode").val(pr);
@@ -237,6 +174,11 @@ function checkIsExistFile(isSubmit){
 			isS='1';
 		}
 		
+		$('#address').text(addr);
+		$('#prcat').text(prcat);
+		$('#applyOrgName').text(applyOrgName);
+		$('#orgMgr').text(orgMgr);
+		
 		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 		if(uns){
 			$('#unSuccessReason').val(uns);
@@ -246,8 +188,7 @@ function checkIsExistFile(isSubmit){
 	
 	function getAttchInfo() {
 	
-		$
-				.ajax({
+		$.ajax({
 					url : ctx + "/attachment/quereyAttachments",
 					method : "post",
 					dataType : "json",

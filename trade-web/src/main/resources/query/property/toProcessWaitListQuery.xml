@@ -36,6 +36,7 @@
 	            <condition field="A.PR_STATUS" name="prStatus" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.CASE_CODE" name="caseCode" label="" searchType="IN" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PKID" name="pkid" label="" searchType="IN" showType="textbox" showCallback="" defaultValue=""/>
+	            <condition field="A.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	    </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -57,7 +58,9 @@
 				    A.pr_district_id as prDistrictId,
 				    
 				    A.PR_APPLY_ORG_NAME as applyOrgName,
-				    A.PR_COST_ORG_MGR as orgMgr
+				    A.PR_COST_ORG_MGR as orgMgr,
+				    (CASE When A.PR_CHANNEL='1' then '经纪人'
+								else '内部' end) as CHANNEL
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				WHERE A.SAME_PR_CODE IS NULL
@@ -83,9 +86,10 @@
 				<column type="both" name="PROPERTY_ADDR" index="" title="物业地址" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="DIST_CODE" index="" checkbox="" display="所在区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			
-				<column type="both" name="applyOrgName" index="" checkbox="" display="所属分行" title="所属分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="applyOrgName" index="" checkbox="" display="区域分行" title="区域分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="orgMgr" index="" checkbox="" display="区董" title="区董" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-			
+				<column type="both" name="CHANNEL" index="" checkbox="" display="来源" title="来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				
 			</table-row>
 		</grid>
 	</query>

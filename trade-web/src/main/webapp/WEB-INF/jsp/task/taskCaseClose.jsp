@@ -123,12 +123,12 @@
                                     <div class="form-group">
 										<label class="col-sm-2 control-label">业务单创建时间</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="createTime" name="realConTime" 
+											<input type="text" class="form-control" id="createTime" name="realConTime" readonly="readonly"
 											value="<fmt:formatDate  value='${editCaseDetailVO.createTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 										<label class="col-sm-2 control-label">分单时间</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="resDate" name="resDate" 
+											<input type="text" class="form-control" id="resDate" name="resDate" readonly="readonly"
 											value="<fmt:formatDate  value='${editCaseDetailVO.resDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -336,7 +336,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">实际签约时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="realConTime"
+											<input type="text" class="form-control" id="realConTime" readonly="readonly"
 												name="realConTime" value="<fmt:formatDate  value='${editCaseDetailVO.realConTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -374,7 +374,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">还款时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="loanCloseCode" name="loanCloseCode" 
+											<input type="text" class="form-control" id="loanCloseCode" name="loanCloseCode" readonly="readonly"
 												value="<fmt:formatDate  value='${editCaseDetailVO.loanCloseCode}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -397,7 +397,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">实际过户时间</label>
 										<div class="col-sm-10">
-											<input type="text"  class="form-control" id="realHtTime"
+											<input type="text"  class="form-control" id="realHtTime" readonly="readonly"
 												name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -453,7 +453,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">实际审税时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="taxTime"
+											<input type="text" class="form-control" id="taxTime" readonly="readonly"
 												name="taxTime" value="<fmt:formatDate  value='${editCaseDetailVO.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -473,7 +473,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">查限购时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="realPlsTime"
+											<input type="text" class="form-control" id="realPlsTime" readonly="readonly"
 												name="realPlsTime" value="<fmt:formatDate  value='${editCaseDetailVO.realPlsTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -481,7 +481,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">领证时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="realPropertyGetTime" name="realPropertyGetTime" 
+											<input type="text" class="form-control" id="realPropertyGetTime" name="realPropertyGetTime" readonly="readonly"
 												value="<fmt:formatDate  value='${editCaseDetailVO.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -489,7 +489,7 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">结案时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="approveTime"
+											<input type="text" class="form-control" id="approveTime" readonly="readonly"
 												name="approveTime" value="<fmt:formatDate  value='${editCaseDetailVO.approveTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 										</div>
 									</div>
@@ -843,6 +843,7 @@
 	
 	<script>
 		var isAccumulation=false;
+		var loanReq ="${loanReq}";
 		function readOnlyF(){
 			$("#mortType").attr("disabled","disabled");
 			$("#isDelegateYucui").attr("disabled","disabled");
@@ -858,6 +859,11 @@
 			}else if($('#mortType').val()=='30016001'){
 				$('#prfAmount').val('').attr("disabled","disabled");
 				$('#prfYear').val('').attr("disabled","disabled");
+			}
+			
+			if(!loanReq){
+				$("#tab-2").find("input").attr("disabled","disabled");
+				$("#tab-2").find("select").attr("disabled","disabled");
 			}
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">

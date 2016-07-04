@@ -247,6 +247,7 @@ text-decoration: underline !important;
     </div>
 
 	<input type="hidden" id="ctx" value="${ctx}" />
+	<input type="hidden" id="isJygw" value="${isJygw}" />
 	<content tag="local_script"> 
     <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
@@ -356,6 +357,7 @@ text-decoration: underline !important;
 	 		params.search_createTimeEnd = createTimeEnd;
 	 		params.search_realName = 	$("#realName").val();
 	 		params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
+	 		params.argu_isJygw = 	$("#isJygw").val();
 	 		
         	aist.exportExcel({
     	    	ctx : "${ctx}",
