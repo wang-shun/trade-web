@@ -18,9 +18,12 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToAttachment;
-import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.SalesJobEnum;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.income.service.ProfitService;
@@ -46,6 +49,8 @@ public class PropertyController {
 	private ProfitService profitService;
 	@Autowired
 	private UamSessionService uamSesstionService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
@@ -56,6 +61,16 @@ public class PropertyController {
 		if("dev".equals(propertyService.getEnvironment())){
 			SessionUser u= uamSesstionService.getSessionUser();
 			request.setAttribute("username", u.getUsername());
+			
+			// 添加查询SessionUser的区蕫信息
+			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesJobEnum.BUSIWZ.getCode());
+			if(org != null){
+				User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
+				if(user != null){
+					request.setAttribute("realname", user.getRealName());
+				}
+			}
+			
 			return "mobile/propresearch/wecharadd";
 		}
 		
