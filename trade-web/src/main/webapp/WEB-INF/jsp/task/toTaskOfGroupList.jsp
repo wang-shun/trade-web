@@ -25,6 +25,7 @@
         <link href="${ctx}/css/style.css" rel="stylesheet">
     </head>
     <body class="pace-done">
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 		 <div class="row">
 			<div class="col-md-12">
 			<div class="ibox float-e-margins">
@@ -98,13 +99,13 @@
                                    {{/if}}
                                     <td>
 										<DIV CLASS="sk-spinner sk-spinner-double-bounce" STYLE="width:18px;height:18px;margin-top:-5px;">
-										{{if item.DATELAMP <l1 || item.DATELAMP ==null}}
+										{{if item.DATELAMP <wrapperData.l1 || item.DATELAMP ==null}}
 													
-										{{else if item.DATELAMP <l2}}
+										{{else if item.DATELAMP <wrapperData.l2}}
 											<div class="sk-double-bounce1" style="background-color:green"></div>
 											<div class="sk-double-bounce2" style="background-color:green"></div>
 
-										{{else if item.DATELAMP <l3}}
+										{{else if item.DATELAMP <wrapperData.l3}}
 											<div class="sk-double-bounce1" style="background-color:yellow"></div>
 											<div class="sk-double-bounce2" style="background-color:yellow"></div>
 
@@ -119,25 +120,26 @@
                                     <td>{{item.NAME}}</td>
                                     <td>{{item.ASSIGNEE_STR}}</td>
                                     <td>{{item.EST_PART_TIME}}</td>
-                                    <td><button type="button" class="btn btn-xs btn-warning pull-left" onclick="showOptUsers('{{item.ID}}','{{serviceDepId}}')">分配</button></td>
+                                    <td><button type="button" class="btn btn-xs btn-warning pull-left" onclick="showOptUsers('{{item.ID}}','{{wrapperData.serviceDepId}}')">分配</button></td>
                                 </tr>
 						{{/each}}
 	    </script>
 	    <script>
 	        var ctx = "${ctx}";
-	    	var serviceDepId = "${serviceDepId}";
+	    	var sDepId = "${serviceDepId}";
 	    	var Lamp1=${Lamp1};
 	    	var Lamp2=${Lamp2};
 	    	var Lamp3=${Lamp3};
 	    	jQuery(document).ready(function() {
         		//初始化数据
 	    		var data = {};  
-	    	    data.mOrgId = serviceDepId;
+	    	    data.mOrgId = sDepId;
 
         	    $(".bonus-table").aistGrid({
         			ctx : "${ctx}",
         			queryId : 'queryUncompleteTask',
         		    templeteId : 'queryTaskOfGroup',
+        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3,serviceDepId:sDepId},
         		    data : data,
         		    columns : [
         		               {
@@ -176,14 +178,14 @@
         	    	ctx : "${ctx}",
         			queryId : 'queryUncompleteTask',
         		    templeteId : 'queryTaskOfGroup',
-        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3,serviceDepId:serviceDepId},
+        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3,serviceDepId:sDepId},
         		    data : data
         	    })
 	    	}
 			
 			function getParams() {
 		   		var data = {};
-		   		data.mOrgId = serviceDepId;
+		   		data.mOrgId = sDepId;
         	    data.caseCode = $("#caseCode").val();
         	    data.propertyAddr = $("#propertyAddr").val();
 	    	    return data;
