@@ -152,7 +152,7 @@
         		    	           sord: "desc",
         		    	           sortActive : true
         		    	      },{
-        		    	           colName :"物业地址"
+        		    	           colName :"产证地址"
         		    	      },{
        		    	                colName :"任务名"
     		    	          },{
@@ -220,7 +220,7 @@
 					success : function(data) {
 						if(data.success){
 							alert("变更成功");
-							location.reload();
+							reloadGrid();
 						}else{
 							alert(data.message);
 						}
