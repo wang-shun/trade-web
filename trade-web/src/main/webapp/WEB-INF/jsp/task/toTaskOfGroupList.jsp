@@ -7,7 +7,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>本组案件列表</title>
+        <title>本组待办任务列表</title>
         <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
         <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
         <link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
@@ -30,7 +30,7 @@
 			<div class="col-md-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>本组案件列表</h5>
+					<h5>本组待办任务列表</h5>
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
