@@ -861,7 +861,7 @@
 				$('#prfYear').val('').attr("disabled","disabled");
 			}
 			
-			if(!loanReq){
+			if(!~~loanReq){
 				$("#tab-2").find("input").attr("disabled","disabled");
 				$("#tab-2").find("select").attr("disabled","disabled");
 			}
