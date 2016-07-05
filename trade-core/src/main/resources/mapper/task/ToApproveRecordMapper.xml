@@ -35,10 +35,10 @@
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
     insert into sctrans.T_TO_APPROVE_RECORD (PKID, CASE_CODE, PROCESS_INSTANCE, 
       PART_CODE, APPROVE_TYPE, OPERATOR, 
-      OPERATOR_TIME, CONTENT,task_id)
+      OPERATOR_TIME, CONTENT,task_id,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{processInstance,jdbcType=VARCHAR}, 
       #{partCode,jdbcType=VARCHAR}, #{approveType,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{operatorTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR})
+      #{operatorTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
     insert into sctrans.T_TO_APPROVE_RECORD
@@ -70,6 +70,7 @@
       <if test="taskId != null" >
         task_id,
       </if>
+        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -99,6 +100,7 @@
       <if test="taskId != null" >
         #{taskId,jdbcType=VARCHAR},
       </if>
+       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
@@ -128,6 +130,10 @@
       <if test="taskId != null" >
         task_id = #{content,jdbcType=VARCHAR},
       </if>
+      CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -139,7 +145,11 @@
       APPROVE_TYPE = #{approveType,jdbcType=VARCHAR},
       OPERATOR = #{operator,jdbcType=VARCHAR},
       OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
-      CONTENT = #{content,jdbcType=VARCHAR}
+      CONTENT = #{content,jdbcType=VARCHAR},
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
@@ -149,7 +159,11 @@
       PART_CODE = #{partCode,jdbcType=VARCHAR},
       APPROVE_TYPE = #{approveType,jdbcType=VARCHAR},
       OPERATOR = #{operator,jdbcType=VARCHAR},
-      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP}
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
