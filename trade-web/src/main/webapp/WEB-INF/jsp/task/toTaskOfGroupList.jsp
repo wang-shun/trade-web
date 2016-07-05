@@ -120,7 +120,7 @@
                                     <td>{{item.NAME}}</td>
                                     <td>{{item.ASSIGNEE_STR}}</td>
                                     <td>{{item.EST_PART_TIME}}</td>
-                                    <td><button type="button" class="btn btn-xs btn-warning pull-left" onclick="showOptUsers('{{item.ID}}','{{wrapperData.serviceDepId}}')">分配</button></td>
+                                    <td><button type="button" class="btn btn-xs btn-warning pull-left" onclick="showOptUsers('{{item.ID}}','{{wrapperData.serviceDepId}}','{{item.CASE_CODE}}')">分配</button></td>
                                 </tr>
 						{{/each}}
 	    </script>
@@ -130,6 +130,8 @@
 	    	var Lamp1=${Lamp1};
 	    	var Lamp2=${Lamp2};
 	    	var Lamp3=${Lamp3};
+	    	var optTaskId;
+	    	var caseCode;
 	    	jQuery(document).ready(function() {
         		//初始化数据
 	    		var data = {};  
@@ -190,8 +192,9 @@
         	    data.propertyAddr = $("#propertyAddr").val();
 	    	    return data;
 			}
-			function showOptUsers(taskId,beginOrgId){
+			function showOptUsers(taskId,beginOrgId,cc){
 				optTaskId=taskId;
+				caseCode=cc;
 				userSelect({startOrgId:beginOrgId,expandNodeId:beginOrgId,
 					nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:taskUserSelectBack});
 			}
@@ -200,7 +203,7 @@
 					var selectUserId=array[0].userId;
 					var selectUserRName=array[0].username;
 					if(confirm('是否确定将任务分配给"'+selectUserRName+'"?')){
-						var sendData={taskId:optTaskId,userId:selectUserId,caseCode:$("#caseCode").val()};
+						var sendData={taskId:optTaskId,userId:selectUserId,caseCode:caseCode};
 						changeTaskAssignee(sendData);
 					}
 				}

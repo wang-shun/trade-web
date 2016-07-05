@@ -67,6 +67,8 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 			toCase.setCaseProperty(firstFollowVO.getCaseProperty());
 			toCaseMapper.updateByPrimaryKeySelective(toCase);
 		}
+		toCase=toCaseMapper.findToCaseByCaseCode(firstFollowVO.getCaseCode());
+		
 		/*签约表*/
 		ToSign toSign = new ToSign();
 		toSign.setCaseCode(firstFollowVO.getCaseCode());
@@ -169,10 +171,10 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 			String[] zbCodes = firstFollowVO.getZbkServices().split(",");
 			for(int i=0; i<zbCodes.length; i++) {
 				tsiap.setCaseCode(firstFollowVO.getCaseCode());
-				tsiap.setProcessorId(firstFollowVO.getUserId());
+				tsiap.setProcessorId(toCase.getLeadingProcessId());
 				tsiap.setSrvCode(zbCodes[i]);
 				tsiap.setSrvCat(getSrcCat(zbCodes[i]));
-				tsiap.setOrgId(firstFollowVO.getUserOrgId());
+				tsiap.setOrgId(toCase.getOrgId());
 				tgServItemAndProcessorMapper.insertSelective(tsiap);
 			}
 		}

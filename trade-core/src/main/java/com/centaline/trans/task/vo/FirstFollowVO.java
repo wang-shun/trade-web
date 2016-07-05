@@ -56,6 +56,7 @@ public class FirstFollowVO {
 
     private boolean isrepeat;  // 判断用户是否重复提交表单[true 表示重复提交]
     
+    
 	public String getCaseCode() {
 		return caseCode;
 	}
