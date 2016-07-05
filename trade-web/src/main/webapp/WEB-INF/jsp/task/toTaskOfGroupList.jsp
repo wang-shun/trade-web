@@ -145,14 +145,14 @@
         		    data : data,
         		    columns : [
         		               {
-        		            	   colName :"红绿灯"
+        		            	   colName :"红绿灯",
+        		            		   sortColumn : "DATELAMP",
+            		    	           sord: "desc",
+            		    	           sortActive : true
         		               }
         		               ,
         		               {
         		    	           colName :"案件编号",
-        		    	           sortColumn : "CASE_CODE",
-        		    	           sord: "desc",
-        		    	           sortActive : true
         		    	      },{
         		    	           colName :"产证地址"
         		    	      },{
