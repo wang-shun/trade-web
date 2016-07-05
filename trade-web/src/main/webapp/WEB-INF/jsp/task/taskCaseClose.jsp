@@ -1108,6 +1108,9 @@
 	    		                } 
 	    		            } , 
 					success : function(data) {
+							if(data.message){
+								alert(data.message);
+							}
 							if(window.opener)
 						    {
 								 window.close();
