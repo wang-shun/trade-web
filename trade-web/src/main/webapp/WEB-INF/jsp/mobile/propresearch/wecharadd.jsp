@@ -77,7 +77,7 @@ float: none;
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
-				<input class="form-control" type="text" placeholder="区蕫" readonly="readonly" id="orgName" value="${realname }">
+				<input class="form-control" type="text" style="padding-left: 15px;" placeholder="区蕫" readonly="readonly" id="orgName" value="${realname }">
 			</div>
 		</div>
 		<div class="row" style="margin-top: 16px;">
@@ -91,7 +91,7 @@ float: none;
 		<div class="row">
 			<div class="col-lg-12">
 				<input class="form-control" type="text" name="propertyAddr"
-					id="propertyAddr" placeholder="产调地址">
+					id="propertyAddr" placeholder="产调地址" style="padding-left: 15px;">
 			</div>
 		</div>
 		<div class="row">
