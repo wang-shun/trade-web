@@ -147,6 +147,6 @@
 		<mapper resource="mapper/task/ToPrTransferLogMapper.xml"/>
 		<!-- 游戏消息订阅 -->
 		<mapper resource="mapper/task/ActRuEventSubScrMapper.xml"/>
-	
+		<mapper resource="mapper/task/TlTaskReassigntLogMapper.xml"/>
 	</mappers>
 </configuration>

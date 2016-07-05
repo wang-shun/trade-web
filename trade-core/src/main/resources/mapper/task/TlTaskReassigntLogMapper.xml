@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.TlTaskReassigntLogMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.TlTaskReassigntLog">
+    <id column="PKID" jdbcType="INTEGER" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="PROC_INST_ID" jdbcType="NVARCHAR" property="procInstId" />
+    <result column="TASK_ID" jdbcType="NVARCHAR" property="taskId" />
+    <result column="TASK_DEF_KEY" jdbcType="NVARCHAR" property="taskDefKey" />
+    <result column="ORI_ASSIGNEE" jdbcType="NVARCHAR" property="oriAssignee" />
+    <result column="NEW_ASSIGNEE" jdbcType="NVARCHAR" property="newAssignee" />
+    <result column="REMARK" jdbcType="NVARCHAR" property="remark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, PROC_INST_ID, TASK_ID, TASK_DEF_KEY, ORI_ASSIGNEE, NEW_ASSIGNEE, 
+    REMARK, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TL_TASK_REASSIGNT_LOG
+    where PKID = #{pkid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sctrans.T_TL_TASK_REASSIGNT_LOG
+    where PKID = #{pkid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.TlTaskReassigntLog">
+    insert into sctrans.T_TL_TASK_REASSIGNT_LOG (PKID, CASE_CODE, PROC_INST_ID, 
+      TASK_ID, TASK_DEF_KEY, ORI_ASSIGNEE, 
+      NEW_ASSIGNEE, REMARK, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY
+      )
+    values (#{pkid,jdbcType=INTEGER}, #{caseCode,jdbcType=VARCHAR}, #{procInstId,jdbcType=NVARCHAR}, 
+      #{taskId,jdbcType=NVARCHAR}, #{taskDefKey,jdbcType=NVARCHAR}, #{oriAssignee,jdbcType=NVARCHAR}, 
+      #{newAssignee,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.TlTaskReassigntLog">
+    insert into sctrans.T_TL_TASK_REASSIGNT_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="procInstId != null">
+        PROC_INST_ID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="taskDefKey != null">
+        TASK_DEF_KEY,
+      </if>
+      <if test="oriAssignee != null">
+        ORI_ASSIGNEE,
+      </if>
+      <if test="newAssignee != null">
+        NEW_ASSIGNEE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+        CREATE_TIME,
+
+        CREATE_BY,
+
+        UPDATE_TIME,
+
+        UPDATE_BY,
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=INTEGER},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="procInstId != null">
+        #{procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskDefKey != null">
+        #{taskDefKey,jdbcType=NVARCHAR},
+      </if>
+      <if test="oriAssignee != null">
+        #{oriAssignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="newAssignee != null">
+        #{newAssignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.TlTaskReassigntLog">
+    update sctrans.T_TL_TASK_REASSIGNT_LOG
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="procInstId != null">
+        PROC_INST_ID = #{procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskDefKey != null">
+        TASK_DEF_KEY = #{taskDefKey,jdbcType=NVARCHAR},
+      </if>
+      <if test="oriAssignee != null">
+        ORI_ASSIGNEE = #{oriAssignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="newAssignee != null">
+        NEW_ASSIGNEE = #{newAssignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.TlTaskReassigntLog">
+    update sctrans.T_TL_TASK_REASSIGNT_LOG
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PROC_INST_ID = #{procInstId,jdbcType=NVARCHAR},
+      TASK_ID = #{taskId,jdbcType=NVARCHAR},
+      TASK_DEF_KEY = #{taskDefKey,jdbcType=NVARCHAR},
+      ORI_ASSIGNEE = #{oriAssignee,jdbcType=NVARCHAR},
+      NEW_ASSIGNEE = #{newAssignee,jdbcType=NVARCHAR},
+      REMARK = #{remark,jdbcType=NVARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=INTEGER}
+  </update>
+</mapper>
