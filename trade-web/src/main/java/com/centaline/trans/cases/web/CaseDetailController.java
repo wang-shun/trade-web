@@ -43,6 +43,7 @@ import com.centaline.trans.cases.service.ToLoanAgentService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.cases.vo.ToLoanAgentVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -1338,8 +1339,13 @@ public class CaseDetailController {
 	 */
 	@RequestMapping(value = "/changeTaskAssignee")
 	@ResponseBody
-	public AjaxResponse<?> changeTaskAssignee(String taskId, String userId,String caseCode) {
-		toCaseService.changeTaskAssignee(caseCode, taskId, userId);
+	public AjaxResponse<?> changeTaskAssignee(ChangeTaskAssigneeVO vo) {
+		List<Integer> tasks=vo.getTaskIds();
+		List<String> caseCode=vo.getCaseCodes();
+		
+		for (int i = 0; i < tasks.size(); i++) {
+			toCaseService.changeTaskAssignee(caseCode.get(i), tasks.get(i)+"", vo.getUserId());
+		}	
 		return AjaxResponse.success("变更成功！");
 	}
 }

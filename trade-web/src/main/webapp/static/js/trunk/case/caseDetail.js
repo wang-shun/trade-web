@@ -32,7 +32,7 @@ function taskUserSelectBack(array){
 		var selectUserId=array[0].userId;
 		var selectUserRName=array[0].username;
 		if(confirm('是否确定将任务分配给"'+selectUserRName+'"?')){
-			var sendData={taskId:optTaskId,userId:selectUserId,caseCode:$("#caseCode").val()};
+			var sendData={'taskIds[0]':optTaskId,userId:selectUserId,'caseCodes[0]':$("#caseCode").val()};
 			changeTaskAssignee(sendData);
 		}
 	}

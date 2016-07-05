@@ -31,11 +31,11 @@
     insert into sctrans.T_TG_GUEST_INFO (PKID, GUEST_CODE, CASE_CODE, 
       GUEST_NAME, GUEST_PHONE, IDENTIFY_TYPE, 
       IDENTIFY_NUMBER, WORK_UNIT, TRANS_POSITION, 
-      CTM_CODE)
+      CTM_CODE,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{guestCode,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, 
       #{guestName,jdbcType=NVARCHAR}, #{guestPhone,jdbcType=NVARCHAR}, #{identifyType,jdbcType=NVARCHAR}, 
       #{identifyNumber,jdbcType=VARCHAR}, #{workUnit,jdbcType=NVARCHAR}, #{transPosition,jdbcType=NVARCHAR}, 
-      #{ctmCode,jdbcType=NVARCHAR})
+      #{ctmCode,jdbcType=NVARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.TgGuestInfo" >
     insert into sctrans.T_TG_GUEST_INFO
@@ -70,6 +70,7 @@
       <if test="ctmCode != null" >
         CTM_CODE,
       </if>
+      CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -102,6 +103,7 @@
       <if test="ctmCode != null" >
         #{ctmCode,jdbcType=NVARCHAR},
       </if>
+       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.TgGuestInfo" >
@@ -134,6 +136,10 @@
       <if test="ctmCode != null" >
         CTM_CODE = #{ctmCode,jdbcType=NVARCHAR},
       </if>
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -147,7 +153,11 @@
       IDENTIFY_NUMBER = #{identifyNumber,jdbcType=VARCHAR},
       WORK_UNIT = #{workUnit,jdbcType=NVARCHAR},
       TRANS_POSITION = #{transPosition,jdbcType=NVARCHAR},
-      CTM_CODE = #{ctmCode,jdbcType=NVARCHAR}
+      CTM_CODE = #{ctmCode,jdbcType=NVARCHAR},
+      CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <select id="findTgGuestInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">

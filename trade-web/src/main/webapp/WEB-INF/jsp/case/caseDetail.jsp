@@ -1003,7 +1003,7 @@
 	 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	 
 	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.4"></script>
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
 	
 	<!-- 校验 -->

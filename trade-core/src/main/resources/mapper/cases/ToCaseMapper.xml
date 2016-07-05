@@ -11,9 +11,10 @@
     <result column="LEADING_PROCESS_ID" jdbcType="VARCHAR" property="leadingProcessId" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="CLOSE_TIME" jdbcType="VARCHAR" property="closeTime" />
+    <result column="loan_Req" jdbcType="VARCHAR" property="loanReq" />
   </resultMap>
   <sql id="Base_Column_List">
-    PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME
+    PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,loan_Req
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
