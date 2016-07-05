@@ -94,6 +94,7 @@ import com.centaline.trans.task.entity.ToPropertyResearch;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
+import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
@@ -176,7 +177,8 @@ public class CaseDetailController {
 	private ToLoanAgentService toLoanAgentService;
 	@Autowired
 	private ToPropertyResearchService toPropertyResarchService;
-
+	@Autowired
+	private TlTaskReassigntLogService taskReassingtLogService;
 	/**
 	 * 页面初始化
 	 * 
@@ -645,6 +647,8 @@ public class CaseDetailController {
 		boolean isBackTeam = false;
 		boolean isCaseOwner=false;
 		boolean isNewFlow=false;
+		boolean isCaseManager=false;
+		
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
@@ -655,6 +659,11 @@ public class CaseDetailController {
 		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
+		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
+			isCaseManager=true;
+		}
+		request.setAttribute("isCaseManager", isCaseManager);
+		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
 		request.setAttribute("isNewFlow", isNewFlow);
 		String[] lamps = LampEnum.getCodes();
@@ -808,7 +817,7 @@ public class CaseDetailController {
 			tq.setAssignee(u.getUsername());
 			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
 			// for (TgServItemAndProcessor tsp : tgservs) {
-			updateWorkflow(userId, tasks);
+			updateWorkflow(userId, tasks, caseCode);
 			// }
 		}
 		if (reToCase == 0)
@@ -817,16 +826,11 @@ public class CaseDetailController {
 		return AjaxResponse.success("变更成功！");
 	}
 
-	public void updateWorkflow(String userId, List<TaskVo> tasks) {
+	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (TaskVo taskVo : tasks) {
-				/*
-				 * Dict dic = dictService.findDictByType(srvCode); if
-				 * (containsDic(dic, taskVo.getTaskDefinitionKey())) {
-				 * 
-				 * }
-				 */
 				User u = uamUserOrgService.getUserById(userId);
+				taskReassingtLogService.record(taskVo, u.getUsername(), caseCode);
 				taskVo.setAssignee(u.getUsername());
 				workFlowManager.updateTask(taskVo);
 			}
@@ -1325,5 +1329,17 @@ public class CaseDetailController {
 		toCaseInfoCountVo.setCountJAS(countJAS);
 
 		return toCaseInfoCountVo;
+	}
+	/**
+	 * 变更交易计划
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/changeTaskAssignee")
+	@ResponseBody
+	public AjaxResponse<?> changeTaskAssignee(String taskId, String userId,String caseCode) {
+		toCaseService.changeTaskAssignee(caseCode, taskId, userId);
+		return AjaxResponse.success("变更成功！");
 	}
 }

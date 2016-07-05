@@ -14,6 +14,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.aist.uam.auth.remote.UamSessionService;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -60,6 +61,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private TaskPlanSetService taskPlanSetService;
+	@Autowired
+	private UamSessionService uamSesstionService; 
 
 	/*
 	 * (non-Javadoc)
@@ -282,6 +285,11 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	public Boolean submitTask(List<RestVariable> variables, String taskId, String processInstanceId, String caseowner,
 			String caseCode) {
 		TaskVo task = getTask(taskId);
+		String loginUser=uamSesstionService.getSessionUser().getUsername();
+		if(!loginUser.equals(task.getAssignee())){
+			throw new WorkFlowException("您不是当前任务的经办人，不能提交该任务！");
+		}
+		
 		TaskOperate taskOperate;
 		if (WorkFlowEnum.WSPENDING.getCode().equals(task.getDelegationState())) {
 			taskOperate = new TaskOperate(taskId, WorkFlowEnum.WRESOLVE.getCode());

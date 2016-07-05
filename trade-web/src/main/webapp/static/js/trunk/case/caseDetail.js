@@ -20,6 +20,52 @@ var fullPay=[];
 var loanTasks={'PSFLoan':psfLoanTasks,'ComLoan':comLoanTasks,SelfLoan:loanLostTasks,"FullPay":fullPay};
 var loanTaskArry= new Array();
 loanTaskArry = loanTaskArry.concat(comLoanTasks,psfLoanTasks,loanLostTasks,fullPay);
+
+var optTaskId='';
+function showOptUsers(taskId,beginOrgId){
+	optTaskId=taskId;
+	userSelect({startOrgId:beginOrgId,expandNodeId:beginOrgId,
+		nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:taskUserSelectBack});
+}
+function taskUserSelectBack(array){
+	if(array && array.length >0&&optTaskId!=''){
+		var selectUserId=array[0].userId;
+		var selectUserRName=array[0].username;
+		if(confirm('是否确定将任务分配给"'+selectUserRName+'"?')){
+			var sendData={taskId:optTaskId,userId:selectUserId,caseCode:$("#caseCode").val()};
+			changeTaskAssignee(sendData);
+		}
+	}
+}
+function changeTaskAssignee(sendData){
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : ctx+"/case/changeTaskAssignee",
+		dataType : "json",
+		data : sendData,
+		beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+         },
+		success : function(data) {
+			if(data.success){
+				alert("变更成功");
+				location.reload();
+			}else{
+				alert(data.message);
+			}
+		},complete: function() { 
+			 $.unblockUI(); 
+			 optTaskId='';
+		},
+		error : function(errors) {
+			alert("数据保存出错");
+			 $.unblockUI();
+		}
+	});
+}
 $(document).ready(
 		function() {
 			
@@ -61,9 +107,88 @@ $(document).ready(
 			var caseCode = $("#caseCode").val();
 			url = ctx + url;
 			// Configuration for jqGrid Example 1
+			var dispCols=[ 'TASKID', 'CASECODE', 'PARTCODE',
+							'INSTCODE', '红绿灯', '红灯记录', '任务名', '执行人', '预计执行时间',
+							'执行时间','任务状态' ];
+			var colModels=
+			[ {
+				name : 'ID',
+				index : 'ID',
+				align : "center",
+				width : 0,
+				key : true,
+				resizable : false,
+				hidden : true
+			}, {
+				name : 'CASE_CODE',
+				index : 'CASE_CODE',
+				align : "center",
+				width : 0,
+				key : true,
+				resizable : false,
+				hidden : true
+			}, {
+				name : 'PART_CODE',
+				index : 'PART_CODE',
+				align : "center",
+				width : 0,
+				key : true,
+				resizable : false,
+				hidden : true
+			}, {
+				name : 'INST_CODE',
+				index : 'INST_CODE',
+				align : "center",
+				width : 0,
+				key : true,
+				resizable : false,
+				hidden : true
+			}, {
+				name : 'DATELAMP',
+				index : 'DATELAMP',
+				width : 40,
+				editable : true,
+				formatter : dateLampFormatter
+			}, {
+				name : 'RED_LOCK',
+				index : 'RED_LOCK',
+				width : 30,
+				editable : true,
+				formatter : isRedFormatter
+			}, {
+				name : 'NAME',
+				index : 'NAME',
+				width : 75
+			}, {
+				name : 'ASSIGNEE',
+				index : 'ASSIGNEE',
+				width : 75
+			}, {
+				name : 'EST_PART_TIME',
+				index : 'EST_PART_TIME',
+				width : 90
+			}, {
+				name : 'END_TIME',
+				index : 'END_TIME',
+				width : 90
+			},{
+				name : 'status',
+				index : 'status',
+				width : 90
+			}
+			];
+			if(changeTaskRole){
+				dispCols.push('操作');
+				colModels.push({width : 90,formatter : function(cellvalue,options,rawObject) {
+					//未处理的案件  && 1.任务已有执行人->执行人对应的主管可重新分配 2.没有执行人->案件主办的的主管可分配任务
+						if((serivceDepId==rawObject.ORG_ID || (''==rawObject.ASSIGNEE &&isCaseManager)) && !rawObject.END_TIME){
+							return "<button type=\"button\" class=\"btn btn-warning pull-left\" onclick=\"showOptUsers('"+rawObject.ID+"','"+serivceDepId+"')\">分配</button>";
+						}
+						return "";
+					}});
+			}
 			$("#operation_history_table").jqGrid(
 					{
-
 						url : url,
 						datatype : "json",
 						mtype : "POST",
@@ -72,76 +197,8 @@ $(document).ready(
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'TASKID', 'CASECODE', 'PARTCODE',
-								'INSTCODE', '红绿灯', '红灯记录', '任务名', '执行人', '预计执行时间',
-								'执行时间','任务状态' ],
-						colModel : [ {
-							name : 'ID',
-							index : 'ID',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'CASE_CODE',
-							index : 'CASE_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'PART_CODE',
-							index : 'PART_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'INST_CODE',
-							index : 'INST_CODE',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'DATELAMP',
-							index : 'DATELAMP',
-							width : 40,
-							editable : true,
-							formatter : dateLampFormatter
-						}, {
-							name : 'RED_LOCK',
-							index : 'RED_LOCK',
-							width : 30,
-							editable : true,
-							formatter : isRedFormatter
-						}, {
-							name : 'NAME',
-							index : 'NAME',
-							width : 75
-						}, {
-							name : 'ASSIGNEE',
-							index : 'ASSIGNEE',
-							width : 75
-						}, {
-							name : 'EST_PART_TIME',
-							index : 'EST_PART_TIME',
-							width : 90
-						}, {
-							name : 'END_TIME',
-							index : 'END_TIME',
-							width : 90
-						},{
-							name : 'status',
-							index : 'status',
-							width : 90
-						},
-
-						],
+						colNames : dispCols,
+						colModel : colModels,
 						pager : "#operation_history_pager",
 						sortname:'A.create_time',
 		    	        sortorder:'desc',

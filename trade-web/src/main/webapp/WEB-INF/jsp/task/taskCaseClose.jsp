@@ -843,6 +843,7 @@
 	
 	<script>
 		var isAccumulation=false;
+		var loanReq ="${loanReq}";
 		function readOnlyF(){
 			$("#mortType").attr("disabled","disabled");
 			$("#isDelegateYucui").attr("disabled","disabled");
@@ -858,6 +859,11 @@
 			}else if($('#mortType').val()=='30016001'){
 				$('#prfAmount').val('').attr("disabled","disabled");
 				$('#prfYear').val('').attr("disabled","disabled");
+			}
+			
+			if(!~~loanReq){
+				$("#tab-2").find("input").attr("disabled","disabled");
+				$("#tab-2").find("select").attr("disabled","disabled");
 			}
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">

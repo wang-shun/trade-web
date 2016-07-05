@@ -88,6 +88,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService {
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
 		ToClose toClose = toCloseMapper.findToCloseByCaseCode(caseCode);
 		editCaseDetailVO.setCaseCode(caseCode);
+		editCaseDetailVO.setLoanReq(toCase.getLoanReq());
 		if(toCase != null) {
 			editCaseDetailVO.setCreateTime(toCase.getCreateTime());
 		}

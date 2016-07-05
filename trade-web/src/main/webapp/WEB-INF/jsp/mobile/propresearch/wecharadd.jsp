@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
@@ -53,6 +53,11 @@ float: none;
 		<div class="row" style="margin-top: 0px; text-align: center;">
 			<span style="font-size: 38px; display: block; margin-top: 12px;">人工产调</span>
 		</div>
+		<c:if test="${not empty realname}">
+			<div style="margin-top: 20px;">
+				<h2>区蕫：${realname }</h2>
+			</div>
+		</c:if>
 		<div class="row" style="margin-top: 16px;">
 			<div class="col-lg-12">
 				<aist:dict id="sel_district" name="district" clazz="form-control"

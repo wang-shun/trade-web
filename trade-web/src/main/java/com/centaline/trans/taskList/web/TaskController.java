@@ -35,6 +35,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToAttachment;
@@ -362,7 +363,9 @@ public class TaskController {
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
-    		request.setAttribute("editCaseDetailVO", editCaseDetailService.queryCaseDetai(caseCode));
+    		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+    		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
+    		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
     	} else if(taskitem.equals("ServiceChangeApply")) {/*服务项变更*/
     		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();
