@@ -53,7 +53,7 @@
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = ctd.CASE_CODE
-					where tc.STATUS = '30001001' or tc.STATUS IS NULL
+					where tc.STATUS = '30001001'
 						and exists ( select 1 from sctrans.SYS_ORG soh
 							 where soh.id = #orgId# and tst.yu_team_code = soh.org_code)
 				]]>
