@@ -852,8 +852,10 @@
                                                     <label class="col-sm-3 control-label">申请时间：${caseDetailVO.prfApplyDate}</label>
                                                 </div>
                                                 <div class="row ">
-                                                     <label class="col-sm-6 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
-                                                     <label class="col-sm-6 control-label">支       行：${caseDetailVO.bankName}</label>
+                                                     <label class="col-sm-3 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
+                                                     <label class="col-sm-3 control-label">支       行：${caseDetailVO.bankName}</label>
+								                     <label class="col-sm-3 control-label">是否为临时银行：<c:choose><c:when test="${toMortgage.isTmpBank==1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></label>
+								                     <label class="col-sm-3 control-label">推荐函编号：${toMortgage.recLetterNo}</label>
                                                 </div>
                                                	<div class="row ">
                                                     <label class="col-sm-3 control-label">信贷员：${toMortgage.loanerName}</label>

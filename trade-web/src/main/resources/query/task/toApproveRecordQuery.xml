@@ -3,6 +3,7 @@
 	<dicts>
 		<customDict id="getUserNameByCode" beanName="qqcdUserIdName"></customDict>
 		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+		<customDict id="getDictNotAppeove" beanName="qqcdDictNotAppeoveName"></customDict>
 		
  	</dicts>
 	
@@ -42,7 +43,8 @@
 					PART_CODE, 
 					OPERATOR, 
 					OPERATOR_TIME,
-					CONTENT  
+					CONTENT,
+					NOT_APPROVE  
 					FROM sctrans.T_TO_APPROVE_RECORD TR
 					where 1 = 1 
 				]]>
@@ -56,6 +58,7 @@
 				<column type="both" name="OPERATOR" index="" checkbox="" display="操作人" customDict="getUserNameByCode" />
 				<column type="both" name="OPERATOR_TIME" index="" checkbox="true" display="操作时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="0" align="" halign="" order="asc" resizable=""/>
 				<column type="both" name="CONTENT" index="" checkbox="" display="内容" />
+				<column type="both" name="NOT_APPROVE" index="" display="未通过原因" customDict="getDictNotAppeove"/>
 			</table-row>
 		</grid>
 	</query>

@@ -63,7 +63,20 @@
 .checkbox.checkbox-inline > input{
 	margin-left:20px;
 }
-
+#notApproves label {
+    font-weight: normal; 
+    margin:0;
+}
+#notApproves {
+	padding:20px 0px;
+}
+#notApproves .col-sm-4 {
+	margin:5px 0px;
+}
+#notApproves input[type=checkbox], input[type=radio] {
+    margin: 0px 0 0;
+    line-height: normal;
+}
 </style>
 </head>
 
@@ -161,8 +174,10 @@
                      <label class="col-sm-3 control-label">申请时间：${caseDetailVO.prfApplyDate}</label>
                  </div>
                  <div class="row ">
-                      <label class="col-sm-6 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
-                      <label class="col-sm-6 control-label">支       行：${caseDetailVO.bankName}</label>
+                      <label class="col-sm-3 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
+                      <label class="col-sm-3 control-label">支       行：${caseDetailVO.bankName}</label>
+                      <label class="col-sm-3 control-label">是否为临时银行：<c:choose><c:when test="${toMortgage.isTmpBank==1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></label>
+                      <label class="col-sm-3 control-label">推荐函编号：${toMortgage.recLetterNo}</label>
                  </div>
                 	<div class="row ">
                      <label class="col-sm-3 control-label">信贷员：${toMortgage.loanerName}</label>
@@ -213,15 +228,24 @@
 						<label class="col-sm-2 control-label">审批结果</label>
 						<div class="radio i-checks radio-inline">
 							<label> 
-								<input type="radio" checked="checked" value="true" id="optionsRadios1" name="GuohuApprove">审批通过
+								<input type="radio" checked="checked" value="true" id="optionsRadios1" name="GuohuApprove" onClick="$('#notApproves').hide();">审批通过
 							</label>
 						</div>
 						<div class="radio i-checks radio-inline">
 							<label> 
-								<input type="radio" value="false" id="optionsRadios2" name="GuohuApprove">审批未通过
+								<input type="radio" value="false" id="optionsRadios2" name="GuohuApprove" onClick="$('#notApproves').show();getNotApproves();">审批未通过
 							</label>
-						</div>
+							</div>
+							<div class="form_sign col-sm-12 clearfix" id="notApproves" style="display:none">
+								<c:forEach items="${notApproves}" var="notApprove">
+								<div class="col-sm-4">
+									<input  type="checkbox" value="${notApprove.code}" name="notApprove" class="btn btn-white">
+									<label>${notApprove.name}</label>
+								</div>
+								</c:forEach>
+							</div>
 					</div>
+					
 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批意见</label>
 						<div class="col-sm-10">

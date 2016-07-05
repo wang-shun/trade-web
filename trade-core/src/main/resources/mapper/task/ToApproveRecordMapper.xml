@@ -10,12 +10,13 @@
     <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
     <result column="OPERATOR_TIME" property="operatorTime" jdbcType="TIMESTAMP" />
     <result column="task_Id" property="taskId" jdbcType="VARCHAR"/>
+    <result column="NOT_APPROVE" property="notApprove" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToApproveRecord" extends="BaseResultMap" >
     <result column="CONTENT" property="content" jdbcType="NVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, PROCESS_INSTANCE, PART_CODE, APPROVE_TYPE, OPERATOR, OPERATOR_TIME,task_Id
+    PKID, CASE_CODE, PROCESS_INSTANCE, PART_CODE, APPROVE_TYPE, OPERATOR, OPERATOR_TIME,task_Id,NOT_APPROVE
   </sql>
   <sql id="Blob_Column_List" >
     CONTENT
@@ -35,10 +36,10 @@
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
     insert into sctrans.T_TO_APPROVE_RECORD (PKID, CASE_CODE, PROCESS_INSTANCE, 
       PART_CODE, APPROVE_TYPE, OPERATOR, 
-      OPERATOR_TIME, CONTENT,task_id)
+      OPERATOR_TIME, CONTENT,task_id,NOT_APPROVE)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{processInstance,jdbcType=VARCHAR}, 
       #{partCode,jdbcType=VARCHAR}, #{approveType,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{operatorTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR})
+      #{operatorTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, #{notApprove,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
     insert into sctrans.T_TO_APPROVE_RECORD
@@ -70,6 +71,9 @@
       <if test="taskId != null" >
         task_id,
       </if>
+      <if test="notApprove != null" >
+        NOT_APPROVE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -99,11 +103,15 @@
       <if test="taskId != null" >
         #{taskId,jdbcType=VARCHAR},
       </if>
+      <if test="notApprove != null" >
+        #{notApprove,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
     update sctrans.T_TO_APPROVE_RECORD
     <set >
+        NOT_APPROVE = #{notApprove,jdbcType=VARCHAR},
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       </if>
