@@ -702,6 +702,9 @@
 				},
 				success : function(data) {
 					if (b) {
+						if(!data.success){
+							alert(data.message);
+						}
 						setTimeout('caseTaskCheck()', 1000);
 						//$('#case-task-modal-form').modal("show");
 					} else {
