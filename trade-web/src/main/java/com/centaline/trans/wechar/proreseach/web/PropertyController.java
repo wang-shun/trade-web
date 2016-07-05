@@ -62,11 +62,17 @@ public class PropertyController {
 			SessionUser u= uamSesstionService.getSessionUser();
 			request.setAttribute("username", u.getUsername());
 			
+			List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesJobEnum.BUSIWZ.getCode());
+			if(orgs != null && orgs.size() > 0){
+				request.setAttribute("orgs", orgs);
+			}
+			
 			// 添加查询SessionUser的区蕫信息
 			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesJobEnum.BUSIWZ.getCode());
 			if(org != null){
 				User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
 				if(user != null){
+					request.setAttribute("orgId", org.getId());
 					request.setAttribute("realname", user.getRealName());
 				}
 			}
@@ -141,6 +147,19 @@ public class PropertyController {
 	@ResponseBody
 	public AjaxResponse hasMapping(String district) {
 		AjaxResponse result = new AjaxResponse<>(propertyService.hasMapping(district));
+		return result;
+	}
+	
+	@RequestMapping("getOrgName")
+	@ResponseBody
+	public AjaxResponse getOrgName(String orgId) {
+		User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, SalesJobEnum.JQYDS.getCode());
+		AjaxResponse result = null;
+		if(user != null){
+			result = new AjaxResponse<>(true, user.getRealName());
+		}else{
+			result = new AjaxResponse<>(false);
+		}
 		return result;
 	}
 }
