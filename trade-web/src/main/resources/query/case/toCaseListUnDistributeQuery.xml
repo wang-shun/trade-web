@@ -32,78 +32,52 @@
 	</formatters>
 	<query id="queryCastListItemListUnDistribute">
 		<searchCondition>
-           <condition field="A.CTM_CODE"  name="ctmNo" label="CTM编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.CASE_CODE" name="caseNo" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>		
-           <condition field="E.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>		
+           <condition field="ctd.CTM_CODE"  name="ctmNo" label="CTM编号" searchType="LIKE" />
+           <condition field="ctd.CASE_CODE" name="caseNo" label="案件编号" searchType="LIKE" />		
+           <condition field="pi.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" />		
         </searchCondition>	
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT 
-						A.PKID,
-						A.CASE_CODE,
-						A.CTM_CODE,
-						A.REQUIRE_PROCESSOR_ID,
-						A.AGENT_CODE,
-						A.AGENT_CODE AS ORG_NAME,
-						A.GRP_CODE as AGENT_ORG_CODE,
-						A.AGENT_NAME,
-						B.STATUS,
-						B.CASE_PROPERTY,
-						A.IMPORT_TIME AS CREATE_TIME,
-						--C.SELLER,
-						E.PROPERTY_ADDR,
-						SCOPE.YU_TEAM_CODE
-					FROM
-						sctrans.T_TO_CASE_INFO AS A
-						left JOIN [sctrans].[V_TEAM_SCOPE] AS SCOPE
-						ON 
-						   (SCOPE.GRP_CODE IS NULL AND A.AR_CODE = SCOPE.AR_CODE AND SCOPE.IS_RESPONSE_AR = 1 AND NOT EXISTS (SELECT * FROM [sctrans].[V_TEAM_SCOPE] WHERE GRP_CODE = A.GRP_CODE)) OR (SCOPE.GRP_CODE IS NOT NULL AND SCOPE.GRP_CODE =A.GRP_CODE AND SCOPE.IS_RESPONSE_GRP = 1)
-						left JOIN sctrans.T_TO_CASE AS B ON A.CASE_CODE = B.CASE_CODE 
-						INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
-						LEFT JOIN sctrans.T_TS_TEAM_TRANSFER transfer
-						ON
-						  transfer.CASE_CODE = A.CASE_CODE AND TRANSFER.IS_DELETE = 0
-			            INNER JOIN
-			               [SCTRANS].SYS_ORG org
-			            ON
-			               (org.ORG_CODE = SCOPE.YU_TEAM_CODE) OR (org.ORG_CODE = transfer.TEAM_NOW AND transfer.IS_DELETE = 0)
-						INNER JOIN
-						   [SCTRANS].SYS_USER_ORG_JOB JOB
-						ON
-						   JOB.ORG_ID = org.ID
-						INNER JOIN
-               			   [SCTRANS].SYS_JOB SJOB
-            			ON
-                		   SJOB.ID = JOB.JOB_ID AND SJOB.JOB_CODE = 'Manager'
-					where 
-					  (transfer.TEAM_NOW = org.ORG_CODE or transfer.PKID IS NULL )
-					AND (B.STATUS = '30001001' or B.STATUS IS NULL)
-					AND job.USER_ID =  #queryuserid#
-					AND job.ORG_ID =  #queryorgid#
+					SELECT ctd.pkid
+						,ctd.CASE_CODE
+						,ctd.CTM_CODE
+						,ctd.AGENT_NAME
+						,pi.PROPERTY_ADDR
+						,ctd.GRP_CODE AS AGENT_ORG_CODE
+						,tc.status
+						,ctd.IMPORT_TIME AS CREATE_TIME
+						,tst.YU_TEAM_CODE YU_TEAM_CODE
+						,ctd.AGENT_CODE AS ORG_NAME
+					FROM sctrans.T_TO_CASE_INFO ctd
+					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = ctd.CASE_CODE
+					where tc.STATUS = '30001001' or tc.STATUS IS NULL
+						and exists ( select 1 from sctrans.SYS_ORG soh
+							 where soh.id = #orgId# and tst.yu_team_code = soh.org_code)
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY B.CASE_CODE DESC
+			  ORDER BY ctd.CASE_CODE DESC
 			</orderBySql>
-			<groupSql>
-			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CTM_CODE" index="" checkbox="" display="ctmCode" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PKID"   display="CASEID" hide="true"/>
+				<column type="both" name="CASE_CODE"   display="案件编号"   />
+				<column type="both" name="PROPERTY_ADDR"   display="产证地址" />
+				<column type="both" name="STATUS"   display="案件状态" customDict="getStatusNameByCode" />
+				<column type="both" name="CREATE_TIME"   display="派单时间"   beanFormatter="dateFormatter1"  />
 				
-				<column type="both" name="ORG_NAME"  	title="组别" 	customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="AGENT_ORG_CODE"  	title="组别" 	customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_ORG_CODE"  />
 				<column type="virtual" name="LEADER"  	title="区经/区总" 	customDict="qqcdJlOrZjOrNameByOrgCode" referencecol="AGENT_ORG_CODE" />	
-						
-				<column type="both" name="CREATE_TIME" index="" checkbox="" display="派单时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
-				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="YU_TEAM_CODE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>		
+				
+				<column type="both" name="YU_TEAM_CODE" display="YU_TEAM_CODE"/>
+				<column type="both" name="AGENT_NAME" display="经纪人" />
+				<column type="both" name="ORG_NAME"  	title="组别" 	customDict="qqcdUojByUserId"/>			
+				<column type="both" name="CTM_CODE" display="ctmCode" />
+				
 			</table-row>
 		</grid>
 	</query>
