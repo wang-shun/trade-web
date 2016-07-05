@@ -702,7 +702,7 @@
 				},
 				success : function(data) {
 					if (b) {
-						if(!data.success){
+						if(data.message){
 							alert(data.message);
 						}
 						setTimeout('caseTaskCheck()', 1000);
