@@ -8,6 +8,89 @@ var prDistrictId = $("#prDistrictId").val();
 var prStatus = $("#prStatus").val();
 
 $(document).ready(function() {
+	var url = "/quickGrid/findPage";
+	url = ctx + url;
+	//jqGrid 初始化
+	$("#table_property_list").jqGrid({
+		url : url,
+		mtype : 'GET',
+		datatype : "json",
+		height : 250,
+		autowidth : true,
+		shrinkToFit : true,
+		rowNum : 8,
+		/*   rowList: [10, 20, 30], */
+		colNames : [ '行政区域','物业地址', '产调项目','所属分行','区董',
+		             '产调申请人',  '产调申请时间',
+		             '状态','操作' ],
+		colModel : [{
+			name : 'DIST_CODE',
+			index : 'DIST_CODE',
+			align : "center",
+			width : 30
+			
+		}, {
+			name : 'PROPERTY_ADDR',
+			index : 'PROPERTY_ADDR',
+			width : 60
+		},{
+			name : 'PR_CAT',
+			index : 'PR_CAT',
+			width : 40
+		}, {
+			name : 'applyOrgName',
+			index : 'applyOrgName',
+			width : 40
+		},{
+			name : 'orgMgr',
+			index : 'orgMgr',
+			width : 40
+		},{
+			name : 'PR_APPLIANT',
+			index : 'PR_APPLIANT',
+			width : 40
+		},  {
+			name : 'PR_APPLY_TIME',
+			index : 'PR_APPLY_TIME',
+			width : 50
+		},{
+			name : 'PR_STATUS',
+			index : 'PR_STATUS',
+			width : 20
+		}	,{
+			name:'prDistrictId',
+			index :'prDistrictId',
+			width:20,
+			formatter:function(cellvalue, options, rawObject){
+				var outHtml=
+				"<button type=\"button\" class=\"btn btn-warning btn-xs\" id=\"teamCode\" name=\"teamCode\" readonly=\"readonly\" "
+					   +"onclick=\"showOrgSelect("+rawObject.PKID+")\" value='"+rawObject.prDistrictId+"' >转组</button>";
+				if(optTransferRole){return outHtml; }
+				else{
+					return cellvalue;
+				}
+			}
+		}
+		],
+		multiselect: false,
+		pager : "#pager_property_list",
+		viewrecords : true,
+		pagebuttions : true,
+		hidegrid : true,
+		recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+		pgtext : " {0} 共 {1} 页",
+		postData : {
+			queryId : "queryProcessWaitList",
+			search_prDistrictId : prDistrictId,
+			search_prStatus : prStatus
+		},loadComplete: function(){
+			var re_records = $("#table_property_list").getGridParam('records');
+			if(re_records == 0 || re_records == null){
+				$("#expToexcel").attr("disabled", true);
+			}else{
+				$("#expToexcel").attr("disabled", false);
+			}
+		}
 	
 	// 初始化列表
 	var data = {};
@@ -50,6 +133,55 @@ $(document).ready(function() {
 	$('#processWaitList table').addClass("apply-table");
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	});
 function reloadGrid() {
 	var data = getParams();
     $("#processWaitList").reloadGrid({
@@ -61,6 +193,10 @@ function reloadGrid() {
     });
 }
 
+	// Add responsive to jqGrid
+	$(window).bind('resize', function() {
+		var width = $('.jqGrid_wrapper').width();
+		$('#table_property_list').setGridWidth(width);
 function getParams() {
 	var prDistrictId = $("#prDistrictId").val();
 	var prStatus = $("#prStatus").val();
@@ -73,6 +209,12 @@ function getParams() {
     return data;
 } 
 
+	});
+	 $('.contact-box').each(function() {
+         animationHover(this, 'pulse');
+     });
+});
+
 /* 处理产调
  * 1.改变未处理产调状态
  * 2.导出 表格
@@ -80,6 +222,7 @@ function getParams() {
 function caseDistribute(){
 		var pkidList ;
 		pkidList = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
+		 $.ajax({
 		$.ajax({
 				cache : false,
 				type : "POST",
@@ -90,6 +233,7 @@ function caseDistribute(){
 					value : pkidList
 				}],
 				success : function(data) {
+					  $.unblockUI();  
 					$.unblockUI();  
 					alert(data.message)
 					if(data.success){
@@ -100,6 +244,7 @@ function caseDistribute(){
 					alert("处理出错,请刷新后再次尝试！");
 					  $.unblockUI();  
 				}
+			});
 		});
 	
 }
@@ -190,6 +335,11 @@ function doTransfer(pkid,districtId,orgName){
 			alert(data.message)
 			$.unblockUI();
 			if(data.success){
+				$('#table_property_list').jqGrid({
+					queryId : "queryProcessWaitList",
+					search_prDistrictId : prDistrictId,
+					search_prStatus : prStatus
+				}).trigger('reloadGrid');
 				
 				reloadGrid();
 				

@@ -10,16 +10,17 @@ $(document).ready(function() {
 	createTimeStart = createTimeStart + " 00:00:00";
 	var createTimeEnd = $("#createTimeEnd").val();
 	createTimeEnd = createTimeEnd +" 23:59:59";
+	var isConsultant = $('#isConsultant').val();
 	var org = $("#org").val();
-	if (org=="ff8080814f459a78014f45a73d820006") {
+	if (org=="ff8080814f459a78014f45a73d820006"||isConsultant=="true") {
 		org = null;
 	}
 	var userId =$("#userId").val();
-	if(userId==""||userId==null){
+	if(userId==""){
 		userId=null;
 	}
 	var tempUser = $("#tempUser").val();
-	if(tempUser==""||tempUser==null){
+	if(tempUser==""){
 		tempUser=null;
 	}
 	var status = $("#status").val();
@@ -35,9 +36,9 @@ $(document).ready(function() {
 	if(status=="signed"){
 		data.argu_signTimeStart=createTimeStart;
 		data.argu_signTimeEnd=createTimeEnd;
-	}else if(status=="transfered"){
-		data.argu_houseTranferTimeStart=createTimeStart;
-		data.argu_houseTranferTimeEnd=createTimeEnd;
+	}else if(status=="loanApply"){
+		data.argu_loanApplyTimeStart=createTimeStart;
+		data.argu_loanApplyTimeEnd=createTimeEnd;
 	}else if(status=="closed"){
 		data.argu_closeTimeStart=createTimeStart;
 		data.argu_closeTimeEnd=createTimeEnd;
@@ -124,8 +125,8 @@ function reloadGrid(data) {
         dataType: "json",
         data: data,
         beforeSend: function () {  
-        	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			//$(".blockOverlay").css({'z-index':'9998'});
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
           $.unblockUI();   	 
@@ -176,8 +177,8 @@ function initpage(totalCount,pageSize,currentPage,records) {
 }
 
 // 日期类型
-var receivedTimeStart, signTimeStart, houseTranferTimeStart, closeTimeStart;
-var receivedTimeEnd, signTimeEnd, houseTranferTimeEnd, closeTimeEnd;
+var receivedTimeStart, signTimeStart, loanApplyTimeStart, closeTimeStart;
+var receivedTimeEnd, signTimeEnd, loanApplyTimeEnd, closeTimeEnd;
 
 // 日期控件取值
 function getSearchDateValues() {
@@ -186,8 +187,8 @@ function getSearchDateValues() {
 	receivedTimeEnd = null;
 	signTimeStart = null;
 	signTimeEnd = null;
-	houseTranferTimeStart = null;
-	houseTranferTimeEnd = null;
+	loanApplyTimeStart = null;
+	loanApplyTimeEnd = null;
 	closeTimeStart = null;
 	closeTimeEnd = null;
 
@@ -210,7 +211,7 @@ function getSearchDateValues() {
 			} else if (val == '2') {
 				signTimeStart = start;
 			} else if (val == '3') {
-				houseTranferTimeStart = start;
+				loanApplyTimeStart = start;
 			} else if (val == '4') {
 				closeTimeStart = start;
 			}
@@ -221,7 +222,7 @@ function getSearchDateValues() {
 			} else if (val == '2') {
 				signTimeStart = "";
 			} else if (val == '3') {
-				houseTranferTimeStart = "";
+				loanApplyTimeStart = "";
 			} else if (val == '4') {
 				closeTimeStart = "";
 			}
@@ -232,7 +233,7 @@ function getSearchDateValues() {
 			} else if (val == '2') {
 				signTimeEnd = end;
 			} else if (val == '3') {
-				houseTranferTimeEnd = end;
+				loanApplyTimeEnd = end;
 			} else if (val == '4') {
 				closeTimeEnd = end;
 			}
@@ -243,7 +244,7 @@ function getSearchDateValues() {
 			} else if (val == '2') {
 				signTimeEnd = "";
 			} else if (val == '3') {
-				houseTranferTimeEnd = "";
+				loanApplyTimeEnd = "";
 			} else if (val == '4') {
 				closeTimeEnd = "";
 			}
@@ -258,28 +259,29 @@ function getSearchDateValues() {
 function getParamsValue() {
 	
 	//获取誉萃组织
+	var isConsultant = $('#isConsultant').val();
 	var org =  $('#yuCuiOriGrpId').val();
-	if(org=="ff8080814f459a78014f45a73d820006"){
+	if(org=="ff8080814f459a78014f45a73d820006"||isConsultant=="true"){
 		org=null;
-	}else if(org==""||org==null){
+	}else if(org==""&&isConsultant!="true"){
 		org = $("#org").val();
 	}
 	
 	//案件编号
 	var caseNo = $("#caseNo").val();
-	if(""==caseNo || null==caseNo){
+	if(""==caseNo){
 		caseNo=null;
 	}
 	
 	//案件地址
 	var caseAddr = $("#caseAddr").val();
-	if(""==caseAddr || null==caseAddr){
+	if(""==caseAddr){
 		caseAddr=null;
 	}
 	
 	//交易顾问ID
 	var userId =$("#userId").val();
-	if(userId==""||userId==null){
+	if(userId==""){
 		userId=null;
 	}
 	
@@ -297,9 +299,9 @@ function getParamsValue() {
 		argu_signTimeStart : signTimeStart,
 		argu_signTimeEnd : signTimeEnd,
 		argu_signTime : ((signTimeStart==""&&signTimeEnd=="")?true:null),
-		argu_houseTranferTimeStart : houseTranferTimeStart,
-		argu_houseTranferTimeEnd : houseTranferTimeEnd,
-		argu_houseTranferTime : ((houseTranferTimeStart==""&&houseTranferTimeEnd=="")?true:null),
+		argu_loanApplyTimeStart : loanApplyTimeStart,
+		argu_loanApplyTimeEnd : loanApplyTimeEnd,
+		argu_loanApplyTime : ((loanApplyTimeStart==""&&loanApplyTimeEnd=="")?true:null),
 		argu_closeTimeStart : closeTimeStart,
 		argu_closeTimeEnd : closeTimeEnd,
 		argu_closeTime : ((closeTimeStart==""&&closeTimeEnd=="")?true:null),

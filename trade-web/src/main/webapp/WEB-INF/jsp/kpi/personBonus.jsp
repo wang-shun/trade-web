@@ -105,6 +105,10 @@ width:160px;
                                </div>
                                <div class="col-lg-3 col-md-4">
                                    <div class="form-group">
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/feature/taskReport
                                        <label class="col-lg-3 col-md-3 control-label">产证地址:</label>
                                        <div class="col-lg-9 col-md-9">
                                             <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">

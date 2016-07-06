@@ -90,8 +90,48 @@
 	</script>
 	
 </head>
+
 <body>
 
+
+<div class="">
+	<div class="col-lg-13">
+	     <div class="">
+	         <div class="ibox-title">
+	            <h4>已完成产调</h4>
+	            </div>
+	        </div>
+     </div>
+</div>
+  <form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id ='myForm'>
+<div class="ibox-content">
+    <div class="jqGrid_wrapper">
+     <input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
+   <input type="hidden" id="queryId" name="queryId" value="querySuccessList"/>
+    <input type="hidden" id="ctx" value="${ctx}"/>
+<input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}"/>
+<input type="hidden" id="prStatus"name="search_prStatus" value="2"/>
+    <input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
+    	<div class="row form-group">
+    				<label class="col-md-1  control-label">行政区域</label>
+    				<div class="col-md-3">
+    					<aist:dict id="distCode" clazz="form-control pull-left" name="search_distCode" display="select"  dictType = "yu_shanghai_district" />
+    				</div>
+    				<label class="col-md-1  control-label">产调项目</label>
+    				<div class="col-md-3">
+    					<input type="text" id="prCat" name="search_prCat"class="form-control"/>  
+    				</div>
+    		</div>
+        <div class="row form-group">
+        			<label class="col-md-1  control-label">所属分行</label>
+    				<div class="col-md-3">
+    					<input type="text" id="grpOrgName" name="search_grpOrgName" class="form-control"/>
+    				</div>
+
+        			<label class="col-md-1  control-label">物业地址 </label>
+    				<div class="col-md-3">
+    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
+    				</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="ibox float-e-margins" style="margin-top: 10px;margin-bottom: 5px;">
@@ -122,12 +162,68 @@
 			    				<div class="col-md-3">
 			    					<input type="text" id="grpOrgName" name="search_grpOrgName" class="form-control"/>
 			    				</div>
+
+
+
+
+
+
+
+
+
 			
-			        			<label class="col-md-1  control-label">产证地址 </label>
-			    				<div class="col-md-3">
+		</div>
+
+		<div class="row form-group">
+ 
+        			<label class="col-md-1  control-label">产调执行人</label>
+    				<div class="col-md-3">
+    					<input type="text" id="acuUser" name="search_acuUser" class="form-control"/>
+    				</div>
+
+        			<label class="col-md-1  control-label">产调申请人 </label>
+    				<div class="col-md-3">
+    					<input type="text" id="auUser" name="search_auUser" class="form-control"/>
+    				</div>
+		</div>
+		<div class="row form-group">       		
+        			<label class="col-md-1  control-label">是否有效</label>
+    				<div class="col-md-3">
+    					<aist:dict id="isSuccess" clazz="form-control pull-left" name="search_isSuccess" display="select"  dictType = "nullityTag" />
+    				</div>
+        			<label class="col-md-1  control-label">来源 </label>
+    				<div class="col-md-3">
+    					<select ltype="select" id="prChannel" name="search_prChannel" class="form-control pull-left" validate="" onchange="" ligerui="">
+    					<option value="" selected="selected">请选择</option>
+    					<option value="0">内部</option>
+    					<option value="1">经纪人</option>
+    					</select>
+    				</div>
+		</div>
+		<div class="row form-group">
+        			<label class="col-md-1  control-label">所属区董</label>
+    				<div class="col-md-3">
+    					<input type="text" id="quds" name="search_quds" class="form-control"/>
+    				</div>
+		</div>
+		<div class="row form-group">
+        			<label class="col-md-1  control-label">完成时间</label>
+    					<div class="col-md-11" style='margin-left: 0px'>
+    					<div id="datepicker_0"
+								class="input-group input-medium date-picker input-daterange pull-left"
+								data-date-format="yyyy-mm-dd">
+								<input id="completeTimeStart" name="search_completeTimeStart" class="form-control date-picker-input"
+									style="font-size: 13px;" type="text" value=""
+									placeholder="起始日期"> <span class="input-group-addon">到</span>
+								<input id="completeTimeEnd"  class="form-control date-picker-input"
+									style="font-size: 13px;" type="text" value=""
+									placeholder="结束日期" />
+									<input type="hidden" name='search_completeTimeEnd' id='search_completeTimeEnd' value=''>
+			        			<label class="col-md-1  control-label">产证地址 </label>			    				<div class="col-md-3">
 			    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 			    				</div>
 							</div>
+					</div>
 							<div class="row form-group">
 			        			<label class="col-md-1  control-label">产调执行人</label>
 			    				<div class="col-md-3">
@@ -185,6 +281,10 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="row form-group">
+			<a class='btn btn-primary mr5' id='addrSearchButton'>搜索</a>
+			<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
 	</div>
     
 	<div class="main">
@@ -193,6 +293,38 @@
 				<div id="successList"></div>
 			</div>
 		</div>
+		     
+		<hr>
+        <div class='row'>
+        	<div class='col-md-12'>
+			<table id="table_property_list"></table>
+         	<div id="pager_property_list"></div>
+         </div>
+         </div>
+         <div class='row form-group'>
+         	<div class='col-md-12'>
+    		<a class='btn btn-primary pull-left'  onclick="submitForm();return false" >导出产调至Excel</a>
+    		</div>
+    	</div>
+     </div>                         
+</div>
+</form>
+<div id="modal-form" class="modal fade" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="ibox ">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h5>处理产调</h5>
+					</div>
+					<div class="ibox-content">
+
+						<div class='row'>
+							<div class='pull-left'>
+								<h5>是否有效:</h5>
 	</div>
 	
 	<div id="modal-form" class="modal fade" aria-hidden="true">
@@ -216,6 +348,9 @@
 									<span id="address"></span>
 								</div>
 							</div>
+							<div class='pull-left'>
+								<input type="radio" name="isScuess" value="0">无效<input
+									type="radio" name="isScuess" value="1" checked="checked">有效
 							
 							<div class='row'>
 								<div class='pull-left'>
@@ -225,20 +360,60 @@
 									<span id="prcat"></span>
 								</div>
 							</div>
+						</div>
+
+						<div id='div_f' class="row">
+		
 							
 							<div class='row'>
 								<div class='pull-left'>
+									<h5>无效原因:</h5>
 									<h5>所属分行:</h5>
 								</div>
+								<div class='col-xs-10'>
+									<textarea rows="7" cols="25" name="unSuccessReason" id='unSuccessReason'></textarea>
 								<div class='pull-left' style="margin-top: 3px;">
 									<span id="applyOrgName"></span>
 								</div>
+						</div>
+						<div id='div_s' class='row'>
+								<div class="pull-left">
+									<h5>上传产调:</h5>
 							</div>
 							
 							<div class='row'>
 								<div class='pull-left'>
 									<h5>区蕫:</h5>
 								</div>
+							<div style="padding-top: 30px;">
+								<div class="form-group" style="margin-left:-25px;">
+									<div class="" id="fileupload_div_pic">
+										<form id="fileupload"
+											action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+											method="POST" enctype="multipart/form-data">
+											<noscript>
+												<input type="hidden" name="redirect"
+													value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+												<input type="hidden" id="preFileCode" name="preFileCode"
+													value="property_research_letter">
+											</noscript>
+
+											<div class="row-fluid fileupload-buttonbar">
+												<div class="" style="height: auto">
+													<div role="presentation" class="table table-striped "
+														style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+														<div id="picContainer1" class="files"
+															data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+														<span class=" fileinput-button "
+															style="margin-left: 10px !important; width: 80px;">
+															<div id="chandiaotuBtn" class=""
+																style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+																<i class="fa fa-plus"></i>
+															</div> <input id="picFileupload1" type="file" name="files[]"
+															multiple
+															data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+															data-sequential-uploads="true">
+														</span>
 								<div class='pull-left' style="margin-top: 3px;">
 									<span id="orgMgr"></span>
 								</div>
@@ -299,6 +474,13 @@
 														</div>
 													</div>
 												</div>
+											</div>
+										</form>
+									</div>
+
+									<div class="row-fluid">
+										<div class="">
+											<script id="templateUpload1" type="text/x-tmpl">
 											</form>
 										</div>
 	
@@ -335,6 +517,7 @@
 							    </div>
 							{% } %}
 						</script>
+						<script id="templateDownload1" type="text/x-tmpl">
 							<script id="templateDownload1" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
@@ -360,6 +543,15 @@
 							    </div>
 							{% } %}
 						</script>
+						</div>
+						</div>
+									<div class="row-fluid" style="display: none;">
+										<div class="span4">
+											<div class="control-group">
+												<a class="btn blue start" id="startUpload"
+													style="height: 30px; width: 50px"> <i
+													class="icon-upload icon-white"></i> <span>上传</span>
+												</a>
 							</div>
 							</div>
 										<div class="row-fluid" style="display: none;">
@@ -380,15 +572,49 @@
 	<!-- 				<input type="button" class="btn btn-warning" id="btn_save" value="保存">  -->
 					<input type="button" class="btn btn-warning" id="btn_done" value="完成">
 				</div>
+<!-- 				<input type="button" class="btn btn-warning" id="btn_save" value="保存">  -->
+				<input type="button" class="btn btn-warning" id="btn_done" value="完成">
 			</div>
 		</div>
 	</div>
+</div>
+<content tag="local_script">
+    <!-- Mainly scripts -->
+	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <!-- Peity -->
+    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- jqGrid -->
+    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+
+	<script src="${ctx}/js/trunk/property/successList.js?v=1.0.3"></script>
+	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js"></script>
 	<content tag="local_script">
 	    <!-- Mainly scripts -->
 		<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	    <!-- Peity -->
 	    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
 	
+	<!-- 上传附件  -->
+	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> 
+	<script src="${ctx}/js/trunk/task/attachment.js"></script>
 	    <!-- jqGrid -->
 <%-- 	    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> --%>
 <%-- 	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> --%>
@@ -515,6 +741,39 @@
 			
 		</script>
 	
+	<script>
+	function report(){
+		var data=packData();
+	}
+	function submitForm(){
+		$('#search_completeTimeEnd').val($('#completeTimeEnd').val()==''?'':$('#completeTimeEnd').val()+' 23:59:59');
+		 $('#myForm').submit();
+	}
+	jQuery(document).ready(function() {
+		$('.date-picker-input').datepicker({
+			format : 'yyyy-mm-dd',
+			weekStart : 1,
+			autoclose : true,
+			todayBtn : 'linked',
+			language : 'zh-CN'
+		});
+		 var addr = $("#addr").val();
+		 JQGrid_propertyByaddSearch.init('table_property_list','addrSearchButton',addr);
+	});
+	//清空
+	$('#cleanButton').click(function() {
+		$("input[name='search_prCat']").val('');
+		$("input[name='search_propertyAddr']").val('');
+		$("input[name='search_grpOrgName']").val('');
+		$("input[name='search_acuUser']").val('');
+		$("input[name='search_auUser']").val('');
+		$("input[name='search_quds']").val('');
+		$("input[name='search_completeTimeStart']").val('');
+		$("input[id='completeTimeEnd']").val('');
+	});
+	</script>
+
+</content>
 	</content>
 </body>
 </html>
