@@ -362,7 +362,6 @@ public class ReportCaseProcessStatisController {
 		} else { //交易顾问
 			consultantId = user.getId();
 			isConsultant=true;
-			org = user.getServiceDepId();
 		}
 		
 		String orgName=null;
