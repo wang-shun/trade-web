@@ -482,7 +482,7 @@ function getCustomerNameAndTel(case_code){
 					autowidth : true,
 					shrinkToFit : true,
 					rowNum : 2,
-					colNames : [ '案件编号','物业地址','经纪人', '交易顾问(主办)',
+					colNames : [ '案件编号','产证地址','经纪人', '交易顾问(主办)',
 					             '交易顾问(电话)', '上家姓名','下家姓名','案件状态','操作' ],
 					colModel : [{ 
 							name : 'caseCode',
