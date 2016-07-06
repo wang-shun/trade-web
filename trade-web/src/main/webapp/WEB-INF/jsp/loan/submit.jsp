@@ -457,6 +457,10 @@
 						<div style="float: left; width: 200px">
 							<select id="sel_caseInfo" class="form-control"
 								style="width: 200px">
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/feature/taskReport
 								<option value="addr">产证地址</option>
 								<option value="custName">客户姓名</option>
 							</select>
