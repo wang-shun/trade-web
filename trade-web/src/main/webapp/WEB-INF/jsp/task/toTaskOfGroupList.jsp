@@ -234,7 +234,7 @@ text-decoration: underline !important;
                           	<i class="time-icon time-off" style="margin-left:15px;margin-left: 8px;"></i>  
 						{{/if}}
 					</td>
-					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+					<td class="t-left"><a href="{{wrapperData.ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
 						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>
@@ -282,7 +282,7 @@ text-decoration: underline !important;
         			ctx : "${ctx}",
         			queryId : 'queryUncompleteTask',
         		    templeteId : 'queryTaskOfGroup',
-        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3},
+        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3,ctx:ctx},
         		    data : data,
         		    columns : [
         		               {
