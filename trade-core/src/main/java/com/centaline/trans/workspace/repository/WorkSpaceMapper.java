@@ -28,12 +28,15 @@ public interface WorkSpaceMapper {
 
 	public Map staEvaFee(WorkSpace work);
 
-	public Integer staSignCount(WorkSpace work);
-
+	/*接单数*/
 	public Integer staReceiveCount(WorkSpace work);
-
+	/*签约数*/
+	public Integer staSignCount(WorkSpace work); 
+	/*过户数*/
 	public Integer staTransferCount(WorkSpace work);
-
+	/*贷款申请数*/
+	public Integer staLoanApplyCount(WorkSpace work);
+	/*结案数*/
 	public Integer staCloseCount(WorkSpace work);
 
 	public Integer getRank(WorkSpace work);

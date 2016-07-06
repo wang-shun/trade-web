@@ -109,7 +109,7 @@ text-decoration: underline !important;
 						
                         	<div class="col-md-12">    
                             	<div class="form-group">
-                                        <label class="col-md-1 control-label m-l">人员</label>
+                                        <label class="col-md-1 control-label m-l">经办人</label>
                                         <div class="col-md-10 renyuan">
                                         	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${tempUser }" value="${tempName }"
 													 readonly="readonly"
@@ -156,21 +156,6 @@ text-decoration: underline !important;
 							</div>
 						</div>
 					</div>						
-						
-					<!--  	<div class="row date-info">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">时间范围</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left ml-15" data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${createTimeStart}" placeholder="起始日期" /> 
-								<span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${createTimeEnd}" placeholder="结束日期" />
-							</div>
-						</div>
-						</div>
-							</div>
-						</div>-->
 						
 					<div class="row date-info">
 						<div class="col-md-12">
@@ -231,7 +216,7 @@ text-decoration: underline !important;
 						<th class="t-left pd-l">产证地址</th>
 						<th class="t-left pd-l"><span id="typeTime1" class='sort' sortColumn='a.RECEIVED_TIME' sord='desc'>接单时间</span></th>
 						<th class="t-left pd-l"><span id="typeTime2" class='sort' sortColumn='a.SIGN_TIME' sord='desc'>签约时间</span></th>
-						<th class="t-left pd-l"><span id="typeTime3" class='sort' sortColumn='a.HOUSE_TRANFER_TIME' sord='desc'>过户时间</span></th>
+						<th class="t-left pd-l"><span id="typeTime3" class='sort' sortColumn='c.APPLY_TIME' sord='desc'>贷款申请时间</span></th>
 						<th class="t-left pd-l"><span id="typeTime4" class='sort' sortColumn='a.CLOSE_TIME' sord='desc'>结案时间</span></th>
 					</tr>
 				</thead>
@@ -258,6 +243,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="userId" value="${userId}" />
 	<input type="hidden" id="tempUser" value="${tempUser}" />
 	<input type="hidden" id="personalId" value="${personalId}" />
+	<input type="hidden" id="isConsultant" value="${isConsultant}" />
 	
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
@@ -287,7 +273,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
 						<td class="t-left pd-l">{{item.RECEIVED_TIME}}</td>
 						<td class="t-left pd-l">{{item.SIGN_TIME}}</td>
-						<td class="t-left pd-l">{{item.HOUSE_TRANFER_TIME}}</td>
+						<td class="t-left pd-l">{{item.APPLY_TIME}}</td>
 						<td class="t-left pd-l">{{item.CLOSE_TIME}}</td>
 				  </tr>
 
