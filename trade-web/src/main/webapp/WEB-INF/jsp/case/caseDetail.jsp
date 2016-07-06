@@ -853,7 +853,7 @@
                                                 </div>
                                                 
                                                <c:choose>
-                                               <c:when test="${!empty toMortgage.mortType && toMortgage.mortType=='30016001'}">
+                                               <c:when test="${toMortgage.isDelegateYucui=='1' && (toMortgage.mortType=='30016001' or toMortgage.mortType=='30016002')}">
                                                 <div class="row ">
                                                      <label class="col-sm-3 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
                                                      <label class="col-sm-3 control-label">支       行：${caseDetailVO.bankName}</label>
