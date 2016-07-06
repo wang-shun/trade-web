@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <%
 response.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
@@ -27,10 +27,10 @@ response.setDateHeader("Expires",0);
 
     <link href="${ctx}/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
-    
+
     <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
-    
+
     <link href="${ctx}/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
 
     <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -45,7 +45,7 @@ response.setDateHeader("Expires",0);
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-buttons.css?v=1.0.5" />
 	<!-- Add Thumbnail helper (this is optional) -->
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-thumbs.css?v=1.0.7" />
-	
+
     <!-- Gritter -->
 	<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"	rel="stylesheet">
 	<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
@@ -54,10 +54,10 @@ response.setDateHeader("Expires",0);
 	<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"		rel="stylesheet">
 	<link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 	<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-	
+
 	<!-- modal -->
 	<link href="${ctx}/static/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
-		
+
 	<link href="${ctx}/css/bootstrap.css" rel="stylesheet" />
 	<style type="text/css">
 	*{font:14px '\5fae\8f6f\96c5\9ed1'}
@@ -69,13 +69,13 @@ response.setDateHeader("Expires",0);
 	.p0{padding: 0!important}
 	.no-border{border: 0!important}
 	.pl0{padding-left: 0!important}
-	
+
 	.warning-info .ibox-content{height: 385px;overflow-x:hidden;overflow-y: auto }
 	.no-records .ibox-content{background:#fff url(../img/no-records.png) center center no-repeat;}
 	#div_target .ibox-content{
 		height: 160px;overflow-x:hidden;overflow-y:auto;  padding: 9px 20px;
 	}
-	
+
 			.case-num{
 text-decoration: underline !important;
 }
@@ -285,7 +285,7 @@ text-decoration: underline !important;
                                 </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <!-- 交管顾问模块结束 -->
                     </shiro:hasPermission>
                     <shiro:hasPermission name="TRADE.WORKSPACE.WORKLOAD.MANAGE.END">
@@ -360,10 +360,10 @@ text-decoration: underline !important;
                     </shiro:hasPermission>
                     </c:if>
                     <!-- 交易主管模块结束 -->
-                    
+
                   <!-- 计划任务结果 -->
                   <c:if test="${!isBackTeam }">
-       <shiro:hasPermission name="TRADE.WORKSPACE.WORKLOAD.CONSULTANT.FRONT">           
+       <shiro:hasPermission name="TRADE.WORKSPACE.WORKLOAD.CONSULTANT.FRONT">
 					<div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
@@ -435,7 +435,9 @@ text-decoration: underline !important;
                                         </div>
                                         <div class="col-md-4">
                                             <ul class="sortable-list connectList agile-list ui-sortable row">
-                                                <li class="danger-element">
+                                            	<%--<input type="hidden" id="isConsult" value="${isConsult} }"/>--%>
+                                    			<%--<c:if test="${isConsult != '1'}">--%>
+                                                <li class="danger-element" id="receiveOrFirstFollow">
                                                     接单数
                                                     <div class="agile-detail">
                                                         <span id="sp_receiveCount">
@@ -443,19 +445,30 @@ text-decoration: underline !important;
                                                         </span>
                                                     </div>
                                                 </li>
+                                    			<%--</c:if>--%>
+                                    			<%--<c:if test="${isConsult == '1'}">
+                                                <li class="danger-element" id="receiveOrFirstFollow">
+                                                    首次跟进数
+                                                    <div class="agile-detail">
+                                                        <span id="sp_receiveCount">
+                                                        <a href="${ctx}/report/statis/caseDetail?status=received" target="_blank" class='case-num'><font  class="fa-2x font-bold text-danger">${sta.receiveCount }</font></a>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                    			</c:if>--%>
                                                 <li class="danger-element">
                                                     签约数
                                                     <div class="agile-detail">
                                                         <span  id="sp_signCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=signed" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
+                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=1" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
                                                 <li class="danger-element">
-                                                    过户数
+                                                    贷款申请数
                                                     <div class="agile-detail">
-                                                        <span id="sp_transferCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=transfered" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.transferCount }</font></a>
+                                                        <span id="sp_loanApplyCount">
+                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=2" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.loanApplyCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -463,7 +476,7 @@ text-decoration: underline !important;
                                                     结案数
                                                     <div class="agile-detail">
                                                         <span id="sp_closeCount">
-                                                        <a href="${ctx}/report/statis/caseDetail?status=closed"  target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
+                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=3"  target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -711,8 +724,8 @@ text-decoration: underline !important;
                                             </div>
                                         </div>
                                     </div>
-                    
-                    
+
+
       </shiro:hasPermission>
       </c:if>
    <div class="row">    <div class="col-lg-4">
@@ -757,8 +770,8 @@ text-decoration: underline !important;
 	                      </div>
 	                  </div>
 	      </div>
-        
- </div>	
+
+ </div>
  <!-- 龙虎榜Start -->
  <shiro:hasPermission name="TRADE.WORKSPACE.RANK">
  <div class="row top-list">
@@ -808,7 +821,7 @@ text-decoration: underline !important;
                                                         <span class="shead img-circle">
 															<img class="himg"  src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
 														</span>
-                                                        
+
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         </a>
                                                         <div class="media-body ">
@@ -929,10 +942,10 @@ text-decoration: underline !important;
  <!-- 龙虎榜End -->
   <div class="portlet-body" style="display: block;">
 	<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
- </div>  
+ </div>
 <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
 	 <div class="row">
-	 	<div class="col-lg-12"> 
+	 	<div class="col-lg-12">
 	        <div class="ibox float-e-margins col-heigth">
 	            <div class="ibox-title">
 	                <h5>待办事项 </h5>
@@ -941,42 +954,42 @@ text-decoration: underline !important;
 	                <div id="calendar"></div>
 	            </div>
 	        </div>
-	    </div> 
+	    </div>
 	</div>
 </shiro:hasPermission>
 </div>
 <!-- import pageleve js -->
 <content tag="local_script">
 	<script src="${ctx}/js/plugins/fullcalendar/moment.min.js"></script>
-	
+
 	<script src="${ctx}/js/jquery-migrate-1.2.1.min.js"></script>
-	 
+
 	<script src="${ctx}/js/app.js"></script>
 	<script src="${ctx}/js/bootstrap-fileupload.js"></script>
-	
-	
+
+
 	<script src="${ctx}/js/jquery.uniform.min.js"></script>
 	<script src="${ctx}/js/jquery.cookie.min.js"></script>
-	    
-	    
+
+
  	 <!-- jqGrid -->
     <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
     <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 
 	<script type="text/javascript" src="${ctx}/js/clockface.js"></script>
-	<script type="text/javascript" src="${ctx}/js/jquery.inputmask.bundle.min.js"></script>   
+	<script type="text/javascript" src="${ctx}/js/jquery.inputmask.bundle.min.js"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript" ></script> 
+	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript" ></script>
 
 	<!-- Mainly scripts -->
-	
+
 
 	<!-- jQuery UI custom -->
 	<script src="${ctx}/js/jquery-ui.custom.min.js"></script>
 	<!-- iCheck -->
 	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
 
-	
+
 	<!-- IonRangeSlider -->
 	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<!-- Slider -->
@@ -985,11 +998,11 @@ text-decoration: underline !important;
 	<!-- Full Calendar -->
  	<script src="${ctx}/js/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script src="${ctx}/js/plugins/fullcalendar/zh-cn.js"></script>
-	
+
 
     <!-- Peity -->
     <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
-    
+
 	<!-- Add fancyBox main JS and CSS files -->
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script>
 	<!-- Add Button helper (this is optional) -->
@@ -998,12 +1011,12 @@ text-decoration: underline !important;
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
 	<!-- Add Media helper (this is optional) -->
 	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
-		
+
 	<script src="${ctx}/js/jquery.formatMoney.js"></script>
 	<!-- ChartJS-->
     <script src="${ctx}/js/plugins/morris/raphael-2.1.0.min.js"></script>
     <script src="${ctx}/js/plugins/morris/morris.js"></script>
-	
+
 	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
         <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
@@ -1011,9 +1024,9 @@ text-decoration: underline !important;
 	<script src="${ctx}/static/js/bootstrap-modal.js" type="text/javascript"></script>
 	<script src="${ctx}/static/js/bootstrap-modalmanager.js" type="text/javascript"></script>
     <script>
-   
+
     jQuery(document).ready(function() {
-		 
+
     	reloadMonth();
     	var isJygw = ${isJygw};
    	 	if(isJygw) {
@@ -1032,7 +1045,7 @@ text-decoration: underline !important;
    	 		})
    	 		setDonut(d1,d2);
    	 	}
-   	 	
+
 	   	 $('#cacheRemain').click(function(){
 	   		 $.ajax({
 				    cache : false,
@@ -1042,13 +1055,15 @@ text-decoration: underline !important;
 					success: function(data) {
 						//alert(data.message);
 					}
-				});	
+				});
 	   	 })
 
     	$("#btn_sta").click(function(){//统计按钮
     		queryConutCaseByDate();
     	});
 	    $('#sp_evalFee').on('click',evalFeeClick);
+
+	    //queryConutCaseByDate();
     });
     </script>
  </content>

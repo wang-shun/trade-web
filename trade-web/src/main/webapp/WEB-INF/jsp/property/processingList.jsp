@@ -31,6 +31,17 @@
     <link href="${ctx}/css/list.css" rel="stylesheet">
     
     <!-- 上传相关 -->
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	rel="stylesheet">
+<script>
+	var optTransferRole=false;
+	<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
+	optTransferRole=true;
+	</shiro:hasPermission>
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
@@ -47,6 +58,11 @@
 	</script>
     
     <style>
+    .ui-jqgrid .ui-jqgrid-bdiv{
+    	    overflow-x: hidden;
+    }.form-group label {
+	text-align: right;
+}
 	    
 	    .ui-jqgrid .ui-jqgrid-bdiv{
 	    	overflow-x: hidden;
@@ -56,6 +72,46 @@
 			text-align: right;
 		}
 
+.form-control {
+	margin-bottom: 5px;
+	height: 32px;
+}
+
+.col-sm-10 {
+	height: 37px;
+}
+
+.col-md-2 {
+	width: 12%
+}
+
+.list li span:first-child {
+	color: #555;
+	width: 70%
+}
+
+.list li span:nth-child(2) {
+	width: 30%;
+	text-align:right;
+}
+
+.list li span:nth-child(3) {
+	width: 32%;
+	text-align: right;
+}
+#div_f{
+display: none;
+}
+.list li .addr{float:left;width:74%;}
+.list li .check{float:right;width:10%;}
+.list li .check button{color:#fff;}
+input[name="prStatus"]{margin-left:7px;}
+input[name="isScuess"]{margin-left:7px;}
+.ml-10{margin-left:10px;}
+.files .delete{width:25px;}
+img{ border-image-width:0px;}
+#propertyAddr{font-weight: bolder;}
+#addrSearchButton{background-color:#f8ac59;color:#fff;padding:2px 10px;border:0;border-radius:3px;}
 		.form-control {
 			margin-bottom: 5px;
 			height: 32px;
@@ -137,6 +193,12 @@
 	</style>
     
     <script type="text/javascript">
+	var idList = [ 1 ];
+	var pkid ='';
+	var taskitem = "";
+	var caseCode = "";
+	var prCode = '';
+</script>
 		var idList = [ 1 ];
 		var pkid ='';
 		var taskitem = "";
@@ -147,6 +209,28 @@
 </head>
 
 <body>
+<body><jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id='myForm' >
+<input type="hidden" name="queryId" value="queryProcessingList">
+<input type="hidden" id="ctx" value="${ctx}"/>
+<input type="hidden" name="search_prDistrictId" value="${prDistrictId}">
+<input type="hidden" name="search_prStatus" value="1"/>
+<input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
+<input type="hidden" id="prStatus" value="1"/>
+<input type="hidden" name="colomns" value="DIST_CODE,PROPERTY_ADDR,PR_CAT,orgName,PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,PR_STATUS,IS_SUCCESS,UNSUCCESS_REASON">
+<div class="">
+    <div class="col-lg-13">
+        <div class="">
+            <div class="ibox-title">
+               <h4>已受理产调</h4>
+             </div>
+        </div>
+    </div>
+</div>
+<div class="ibox-content">
+	<div id="propertyAddr">物业地址 :
+		<input type="text" id="addr" name="search_propertyAddr" />
+			<button type='button' id="addrSearchButton" style="margin-left: 30px;">搜索</button>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="col-md-12">
@@ -184,6 +268,12 @@
 			</div>
 		</div>
 	</div>
+	<hr>
+     <table id="table_property_list"></table>
+     <div id="pager_property_list"></div>
+      <a class='btn btn-primary' style="margin-left: 20px;" onclick="document.getElementById('myForm').submit();return false" >导出产调至Excel</a>
+</div>       
+</form>                 
 	
 	<div class="main">
 		<div class="apply-wrap">
@@ -258,6 +348,7 @@
 									<div class='pull-left'>
 										<h5>无效原因:</h5>
 									</div>
+									<div class='col-xs-10'>
 									<div class='col-xs-10' style="margin-top: 5px;">
 										<textarea rows="7" cols="25" name="unSuccessReason" id='unSuccessReason'></textarea>
 									</div>
@@ -414,6 +505,12 @@
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
 	
 	<!-- 上传附件相关 -->
+	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>
@@ -422,6 +519,10 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
@@ -429,6 +530,10 @@
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
@@ -446,6 +551,15 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	
+	<script src="${ctx}/js/trunk/property/processingList.js?v=1.2.03"></script>
+	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js?v=1.0.2"></script>
+	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script>
+		jQuery(document).ready(function() {
+			 var addr = $("#addr").val();
+			 JQGrid_propertyByaddSearch.init('table_property_list','addrSearchButton',addr);
+		});
+	</script>
 <!-- 	<span><i class="invalid-label">完</i></span> -->
 	<script id="template_processingList" type="text/html">
          	{{each rows as item index}}
