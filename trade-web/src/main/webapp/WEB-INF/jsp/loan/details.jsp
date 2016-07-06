@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -22,15 +22,13 @@
 	href="${ctx}/css/jquery.fancybox-thumbs.css?v=1.0.7" />
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
+<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <style type="text/css">
 #table_list_2>tbody>tr>td{
 	text-align: center;
@@ -59,12 +57,10 @@
 				<div class="col-xs-1 control-label">
 					案件绑定
 				</div>
-				<div class="col-xs-4"><input type="text" placeholder="物业地址"
-						class="input-sm form-control" id="txt_address">
+				<div class="col-xs-4"><input type="text" placeholder="产证地址" class="input-sm form-control" id="txt_address">
 				</div>
 				<div class="col-xs-1" style="text-align: right;">
-					<button type="button" class="btn btn-sm btn-primary"
-						id="btn_search">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</button>
+					<button type="button" class="btn btn-sm btn-primary" id="btn_search">&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;</button>
 				</div>
 			</div>
 		</div>
@@ -75,13 +71,18 @@
 			</div>
 			<div class="row form-group">
 				<div class="col-xs-1">客户姓名:</div>
-				<div class="col-xs-3">
-					<input type="text"
-						class="input-sm form-control" id="txt_custName" name="custName" value="${loanAgent.custName }">
+				<div class="col-xs-3 ">
+					<div class="col-xs-13" id="custNameParent">
+					<select class="input-sm form-control" id="select_custName" name="custName">
+					<c:if test="${loanAgent.custName !=null}">
+					<option value="${loanAgent.custName }">${loanAgent.custName }</option>
+					</c:if>
+					</select>
+					</div>
 				</div>
 				<div class="col-xs-1">客户电话:</div>
-				<div class="col-xs-3"><input type="text"
-						class="input-sm form-control" id="txt_custPhone" name="custPhone" value="${loanAgent.custPhone }">
+				<div class="col-xs-3">
+					<input type="text" class="input-sm form-control" id="txt_custPhone" name="custPhone" placeholder="客户电话" value="${loanAgent.custPhone }">
 				</div>
 				<shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
 				<div class="col-xs-1 control-label">案件归属</div>
@@ -259,148 +260,195 @@
 
 	</div>
 </form>
-	
-	<content tag="local_script"> <!-- jqGrid --> 
-	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-	<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script>
-			var ctx="${ctx}";
-			var postData,caseList;
-			var starHtml="<span class=\"star\">*</span>";
-			var loanDiv=$('#loan_div');
-			var flagList={'1':2,'2':(4|2),'3':(8|2)};
-			function fcheck(){
-				var flag=0;
-				var f=flagList[$("#select_applyStatus").val()];
-				if(typeof(f)!='undefined' ){
-					flag=f;
-				}
-				if($("#executorId")&&$("#executorId").val()==''){
-					alert('请选择归属人');
-					return false;
-				}
-				if($("#select_loanSrvCode").val()==''){
-					alert('请选择产品类型');
-					return false;
-				}
-				if($("#select_applyStatus").val()==''){
-					alert('请选择跟进状态');
-					return false;
-				}
-				if((flag&2)!=0){
-					if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){
-						alert('请输入 申请金额');
-						return false;
-					}
-					if($("#txt_applyTime").val()==''){
-						alert('请输入 申请时间');
-						return false;
-					}
-					if($("#txt_month").val()==''&&$("#txt_month").val()==0){
-						alert('请输入期数');
-						return false;
-					}
-				}
-				if((flag&4)!=0){
-					if($("#txt_signAmount").val()==''||$("#txt_signAmount").val()==0){
-						alert('请输入 面签金额');
-						return false;
-					}
-					if($("#txt_signTime").val()==''){
-						alert('请输入 面签时间');
-						return false;
-					}
-				}
-				if((flag&8)!=0){
-					if($("#txt_actualAmount").val()==''||$("#txt_actualAmount").val()==0){
-						alert('请输入 放款金额');
-						return false;
-					}
-					if($("#txt_releaseTime").val()==''){
-						alert('请输入放款时间');
-						return false;
-					}
-				}
+<content tag="local_script"> <!-- jqGrid --> 
+<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
+<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${ctx}/js/jquery.blockui.min.js"></script>
+<script src="${ctx}/js/jquery.editable-select.min.js"></script>
+<script>
+var ctx="${ctx}";
+var postData,caseList;
+var starHtml="<span class=\"star\">*</span>";
+var loanDiv=$('#loan_div');
+var flagList={'1':2,'2':(4|2),'3':(8|2)};
 
-				return true;
-			}
-			function loanStatusChange(){
-				var loanStatus=	$(this).val();
-				loanDiv.find('.showstar').find(".star").remove();
-				if(!!loanStatus&&loanStatus>0&&loanStatus<=3){
-					loanDiv.find(".loan_"+loanStatus).find('.showstar').append($(starHtml));
-				}
-			}
-			$(document).ready(
-				function() {
-					$('#select_applyStatus').change(loanStatusChange);
-					initGrid();
-					var pkid= $("#pkid").val();
-					if(pkid){
-						initStatusChangeGrid();
-					}
-					getBankList('');
-					$("#sel_pdCode").change(function(){
-						$("#txt_pdName").val($("#sel_pdCode").find("option:selected").text());
-					});
-					$("#btn_search").click(function(){
-						postData.search_addr=$("#txt_address").val();
-						postData.search_caseCode='';
-						caseList.jqGrid("setGridParam", { postData: postData,datatype:'json',mtype:'POST' }).trigger("reloadGrid");
-					});
-					var caseCode=$('#caseCode').val();
-					if(caseCode&&caseCode!=''){
-						postData.search_caseCode=caseCode;
-						postData.search_addr='';
-						caseList.jqGrid("setGridParam", { postData: postData,datatype:'json',mtype:'POST' }).trigger("reloadGrid");
-					}
-					
-					$("#btn_save").click(function(){
-						if(!fcheck())return;
-						if(confirm("是否保存？")){
-						var fData=$("#f_main").serialize();
-						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-						$.ajax({
-							cache:false,
-							async:true,
-							type:"POST",
-							url:ctx+"/loan/doSubmit",
-							dataType:'json',
-							data:fData,
-							success:function(data){
-								if(1==data.result){
-									alert('保存成功');
-									parent.$.fancybox.close();
-								}else if (2==data.result){
-									alert('当前案件上该产品已有人('+data.optUser+')填报。请误重复填报,如有问题联系'+data.optUser+'解决');
-								}else if(3==data.result){
-									alert('当前案件上项目不存在,请联系案件负责人');
-								}
-								$.unblockUI();
-							}
-						});
-					  }
-					});
-					$('.input-group.date').datepicker({
-						todayBtn: "linked",
-			            keyboardNavigation: false,
-			            forceParse: false,
-			            calendarWeeks: true,
-			            autoclose: true
-			         });
-				}
-			);
+function fcheck(){
+	var flag=0;
+	var f=flagList[$("#select_applyStatus").val()];
+	if(typeof(f)!='undefined' ) {
+		flag=f;
+	}
+	if($("#executorId")&&$("#executorId").val()==''){
+		alert('请选择归属人');
+		return false;
+	}
+	if($("#select_loanSrvCode").val()==''){
+		alert('请选择产品类型');
+		return false;
+	}
+	if($("#select_applyStatus").val()==''){
+		alert('请选择跟进状态');
+		return false;
+	}
+	if((flag&2)!=0){
+		if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){
+			alert('请输入 申请金额');
+			return false;
+		}
+		if($("#txt_applyTime").val()==''){
+			alert('请输入 申请时间');
+			return false;
+		}
+		if($("#txt_month").val()==''&&$("#txt_month").val()==0){
+			alert('请输入期数');
+			return false;
+		}
+	}
+	if((flag&4)!=0){
+		if($("#txt_signAmount").val()==''||$("#txt_signAmount").val()==0){
+			alert('请输入 面签金额');
+			return false;
+		}
+		if($("#txt_signTime").val()==''){
+			alert('请输入 面签时间');
+			return false;
+		}
+	}
+	if((flag&8)!=0){
+		if($("#txt_actualAmount").val()==''||$("#txt_actualAmount").val()==0){
+			alert('请输入 放款金额');
+			return false;
+		}
+		if($("#txt_releaseTime").val()==''){
+			alert('请输入放款时间');
+			return false;
+		}
+	}
+
+	return true;
+}
 			
-			function doBindCase(c){
-				$("#caseCode").val(c);
-				$("button[name='btn_buld']").text('绑定');
-				$("button[data='"+c+"']").text('已绑定');
-				cancelBubble();
-				return false;
+function loanStatusChange() {
+	var loanStatus=	$(this).val();
+	loanDiv.find('.showstar').find(".star").remove();
+	if(!!loanStatus&&loanStatus>0&&loanStatus<=3){
+		loanDiv.find(".loan_"+loanStatus).find('.showstar').append($(starHtml));
+	}
+}
+			
+$(document).ready(function() {
+	
+	$('#select_custName').editableSelect({ 
+	    effects: 'slide' //可选参数default、fade 
+	});
+	
+	$('#select_applyStatus').change(loanStatusChange);
+	initGrid();
+	var pkid= $("#pkid").val();
+	if(pkid){
+		initStatusChangeGrid();
+	}
+	getBankList('');
+	$("#sel_pdCode").change(function(){
+		$("#txt_pdName").val($("#sel_pdCode").find("option:selected").text());
+	});
+	$("#btn_search").click(function(){
+		postData.search_addr=$("#txt_address").val();
+		postData.search_caseCode='';
+		caseList.jqGrid("setGridParam", { postData: postData,datatype:'json',mtype:'POST' }).trigger("reloadGrid");
+	});
+	var caseCode=$('#caseCode').val();
+	if(caseCode&&caseCode!=''){
+		postData.search_caseCode=caseCode;
+		postData.search_addr='';
+		caseList.jqGrid("setGridParam", { postData: postData,datatype:'json',mtype:'POST' }).trigger("reloadGrid");
+	}
+					
+	$("#btn_save").click(function(){
+		if(!fcheck())return;
+		if(confirm("是否保存？")){
+		var fData=$("#f_main").serialize();
+		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+    	$(".blockOverlay").css({'z-index':'9998'});
+		$.ajax({
+			cache:false,
+			async:true,
+			type:"POST",
+			url:ctx+"/loan/doSubmit",
+			dataType:'json',
+			data:fData,
+			success:function(data){
+				if(1==data.result){
+					alert('保存成功');
+					parent.$.fancybox.close();
+				}else if (2==data.result){
+					alert('当前案件上该产品已有人('+data.optUser+')填报。请误重复填报,如有问题联系'+data.optUser+'解决');
+				}else if(3==data.result){
+					alert('当前案件上项目不存在,请联系案件负责人');
+				}
+			$.unblockUI();
 			}
+		});
+		}
+	});
+	
+	$('.input-group.date').datepicker({
+		todayBtn: "linked",
+		keyboardNavigation: false,
+		forceParse: false,
+		calendarWeeks: true,
+		autoclose: true
+	});
+	
+});
+			
+			
+function doBindCase(c){
+	$("#caseCode").val(c);
+	$("button[name='btn_buld']").text('绑定');
+	$("button[data='"+c+"']").text('已绑定');
+	getCustomerNameAndTel(c);
+	cancelBubble();
+	return false;
+}
+			
+			
+/*绑定时获取客户名和客户电话号码并生成下拉框*/
+function getCustomerNameAndTel(case_code){
+				
+	$.ajax({
+		url:ctx+"/loan/getCaseDetails",
+		method:"post",
+		dataType:"json",
+		data:{"caseCode":case_code},
+		success:function(data){
+			var cusPhone = $('#txt_custPhone');
+			var custNameParent = $('#custNameParent');
+			var txt='<select class="input-sm form-control" id="select_custName" name="custName">';
+						
+			$.each(data, function(i, item){
+				if(i==0) {
+					txt +=  "<option value='"+ item.guestName+"' selected>" + item.guestName+"</option>";
+					cusPhone.val(data[i].guestPhone);
+				} else {
+					txt +=  "<option value='"+ item.guestName+"'>" + item.guestName+"</option>";
+				} 
+			});
+			custNameParent.empty().append(txt+'</select>');	
+						
+			$('#select_custName').editableSelect({ 
+				onSelect: function (element) {
+					var myIndex = $(element).index();
+					if(myIndex>=0){
+						cusPhone.val(data[myIndex].guestPhone);
+					}
+				}
+			});
+		}
+	});				
+}
+
 			/*获取银行列表*/
 			function getBankList(pcode){
 				var friend = $("#finOrgCode");
@@ -424,6 +472,7 @@
 			    	}
 				  });
 			}
+			
 			function initGrid(){
 				postData={queryId : "caseListWhithLoan"};
 				caseList = $("#table_list_2").jqGrid(
@@ -540,6 +589,7 @@ function getEvent(){
      }
      return null;
 }
+			
 //阻止冒泡
 function cancelBubble()
 {
@@ -552,7 +602,8 @@ function cancelBubble()
         e.stopPropagation();//阻止冒泡
      }
 }
-		</script> </content>
+</script>
+</content>
 </body>
 </html>
 
