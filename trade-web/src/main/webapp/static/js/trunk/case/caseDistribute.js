@@ -297,6 +297,7 @@ function distributeCase(index){
 				$(".blockOverlay").css({'z-index':'9998'});
             },  
             complete: function() {  
+            	$("#myCaseList").html("");
                 $.unblockUI();   
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
@@ -425,6 +426,7 @@ function changeCaseTeam(){
 				$(".blockOverlay").css({'z-index':'9998'});
             },  
             complete: function() {  
+            	$("#myCaseList").html("");
                 $.unblockUI();   
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
