@@ -106,7 +106,7 @@ public class GuohuApproveController {
 		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
 		boolean b = loanLost.equals("true");
 		boolean c = loanLost_response == null || loanLost_response.intern().length() == 0;
-		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为"+loanLost_response));
+		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为："+loanLost_response));
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
 		//审核不通过原因
 		toApproveRecord.setNotApprove(notApprove);

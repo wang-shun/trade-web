@@ -254,7 +254,7 @@
 							<div class="form_sign col-sm-12 clearfix" id="notApproves" style="display:none">
 								<c:forEach items="${notApproves}" var="notApprove">
 								<div class="col-sm-6 sign">
-									<input  type="checkbox" value="${notApprove.code}" name="notApprove" class="btn btn-white">
+									<input  type="checkbox" value="${notApprove.code}" name="notApprove" class="btn btn-white" onClick="appendNotApprove(this.checked,'${notApprove.name}');">
 									<label>${notApprove.name}</label>
 								</div>
 								</c:forEach>
@@ -329,6 +329,16 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script>
+		function appendNotApprove(isAppend,content){
+			if(isAppend){
+				var oldVal = $("#GuohuApprove_response").val();
+				if(oldVal!=''){
+					oldVal +='；';
+				}
+				$("#GuohuApprove_response").val(oldVal+content);
+			}
+		}
+	
 	    $(function() {
 	    	getShowAttachment();
 	    })

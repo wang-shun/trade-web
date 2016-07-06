@@ -27,13 +27,7 @@ var GuoHuApproveList = (function(){
     			}, {
     				name : 'CONTENT',
     				index : 'CONTENT',
-    				width : '50%',
-					formatter : function(cellvalue, options, rawObject){
-						if(rawObject.NOT_APPROVE==''){
-							return rawObject.CONTENT;
-						}
-						return rawObject.CONTENT+"（驳回原因："+rawObject.NOT_APPROVE+"）";
-					}
+    				width : '50%'
     			}],
     			multiselect: true,
     			pager : "#"+gridPagerId,
