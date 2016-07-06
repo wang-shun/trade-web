@@ -16,17 +16,6 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	@Autowired
 	ToWorkFlowMapper toWorkFlowMapper;
 
-	@Override
-	public int deleteByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
-		return toWorkFlowMapper.deleteByPrimaryKey(pkid);
-	}
-
-	@Override
-	public int insert(ToWorkFlow record) {
-		// TODO Auto-generated method stub
-		return toWorkFlowMapper.insert(record);
-	}
 
 	@Override
 	public int insertSelective(ToWorkFlow record) {
@@ -76,16 +65,6 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 		return toWorkFlowMapper.queryOutTimeTaskList();
 	}
 
-	@Override
-	public int deleteByCaseCode(String caseCode) {
-		// TODO Auto-generated method stub
-		return toWorkFlowMapper.deleteByCaseCode(caseCode);
-	}
-
-	@Override
-	public int deleteByToWorkFlow(ToWorkFlow record) {
-		return toWorkFlowMapper.deleteByToWorkFlow(record);
-	}
 
 	@Override
 	public ToWorkFlow queryWorkFlowByInstCode(String instCode) {

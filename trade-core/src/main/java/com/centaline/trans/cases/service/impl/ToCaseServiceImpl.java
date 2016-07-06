@@ -257,31 +257,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return toCaseMapper.updateByPrimaryKeySelective(record);
 	}
 
-	@Override
-	public int orgChange(String caseCode, String orgId) {
-
-		List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZG.getCode());
-		if (managerUsers.size() == 0)
-			return 0;
-		User managerUser = managerUsers.get(0);
-
-		// 案件信息更新
-		ToCase toCase = findToCaseByCaseCode(caseCode);
-		toCase.setLeadingProcessId(managerUser.getId());
-		toCase.setOrgId(orgId);
-		 updateByPrimaryKey(toCase);
-		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-		toCaseInfo.setRequireProcessorId(managerUser.getId());
-		toCaseInfoService.updateByPrimaryKey(toCaseInfo);
-		List<String> instCode = workflowService.queryInstCodesByCaseCode(caseCode);
-		workflowService.deleteByCaseCode(caseCode);
-		serItemAndProcessorServce.deleteByPrimaryCaseCode(caseCode);
-		for (String icStr : instCode) {
-			unlocatedTaskService.deleteByInstCode(icStr);
-			workflowManager.deleteProcess(icStr);
-		}
-		return 1;
-	}
+	
 
 	@Override
 	public CaseBaseVO getCaseBaseVO(Long caseId) {

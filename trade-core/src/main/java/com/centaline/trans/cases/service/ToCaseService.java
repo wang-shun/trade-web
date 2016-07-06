@@ -63,7 +63,6 @@ public interface ToCaseService {
 	int getRedcountByIdList(List<String> idList, String strNum, String endNum);
 	
 	
-	int orgChange(String caseCode ,String orgId);
 	
 	CaseBaseVO getCaseBaseVO(Long caseId);
 	/**

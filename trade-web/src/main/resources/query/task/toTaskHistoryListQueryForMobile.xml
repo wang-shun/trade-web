@@ -62,7 +62,7 @@
 								'RUN' as status,
 								art.CREATE_TIME_ as create_Time
 							FROM
-							    sctrans.T_TO_WORKFLOW TW
+							    sctrans.T_HI_WORKFLOW TW
 								INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
 								LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
 							
@@ -85,7 +85,7 @@
 								,AHT.DELETE_REASON_ as status
 								,AHT.START_TIME_ as createTime
 							FROM
-							 	sctrans.T_TO_WORKFLOW TW
+							 	sctrans.T_HI_WORKFLOW TW
 								INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED')
 								LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
 							

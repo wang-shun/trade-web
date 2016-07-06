@@ -6,13 +6,6 @@ import com.centaline.trans.common.entity.ToOutTimeTask;
 import com.centaline.trans.common.entity.ToWorkFlow;
 
 public interface ToWorkFlowService {
-	int deleteByPrimaryKey(Long pkid);
-
-	int deleteByCaseCode(String caseCode);
-
-	int deleteByToWorkFlow(ToWorkFlow record);
-
-	int insert(ToWorkFlow record);
 
 	int insertSelective(ToWorkFlow record);
 
