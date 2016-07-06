@@ -31,6 +31,7 @@ import com.centaline.trans.engine.bean.TaskQuery;
 
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
 import com.centaline.trans.team.service.TsTeamPropertyService;
@@ -59,6 +60,8 @@ public class CaseChangeController {
 	private TsTeamPropertyService tsTeamPropertyService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private TlTaskReassigntLogService taskReassingtLogService;
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 
@@ -183,7 +186,7 @@ public class CaseChangeController {
 			pro.setOrgId(orgId);
 			TgServItemAndProcessor proDb=tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 			updatecoope=tgservItemAndProcessorService.updateCoope(pro);
-			updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId());
+			updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId(),caseCode);
 			
 			
 		}
@@ -199,7 +202,7 @@ public class CaseChangeController {
 		return null;
 	}
 	
-	public void updateWorkflow(String srvCode,String userId,List<TaskVo>tasks,String fUserId){
+	public void updateWorkflow(String srvCode,String userId,List<TaskVo>tasks,String fUserId,String caseCode){
 		if(tasks!=null&&!tasks.isEmpty()&&fUserId!=null){
 			for (TaskVo taskVo : tasks) {
 				Dict dic = dictService.findDictByType(srvCode);
@@ -207,6 +210,7 @@ public class CaseChangeController {
 					User u=uamUserOrgService.getUserById(userId);
 					User uf=uamUserOrgService.getUserById(fUserId);
 					if(uf!=null&&u!=null&&uf.getUsername()!=null&& uf.getUsername().equals(taskVo.getAssignee())){
+						taskReassingtLogService.record(taskVo, u.getUsername(), caseCode);
 						taskVo.setAssignee(u.getUsername());
 						workFlowManager.updateTask(taskVo);
 					}

@@ -1476,7 +1476,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.5"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。9"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
@@ -1487,6 +1487,7 @@
 	
 	<script>
 	var source = "${source}";
+	var afterTimeFlag=${afterTimeFlag};
 	function readOnlyForm(){
 		$(".readOnly_date").removeClass('date');
 		$(".readOnly_date input").attr('readOnly',true);

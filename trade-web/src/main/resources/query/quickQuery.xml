@@ -116,5 +116,6 @@
 	<import resource="query/eval/getInfo4EvalFeeDesign.xml"/>
 	<!-- 临时银行处理 -->
 	<import resource="query/mortgage/tmpBankQuery.xml"/>
+	<import resource="query/task/uncompleteTaskQuery.xml"></import>
 	
 </queryConfig>

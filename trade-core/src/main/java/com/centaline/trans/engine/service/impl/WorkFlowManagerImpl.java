@@ -14,6 +14,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.aist.uam.auth.remote.UamSessionService;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -60,6 +61,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private TaskPlanSetService taskPlanSetService;
+	@Autowired
+	private UamSessionService uamSesstionService; 
 
 	/*
 	 * (non-Javadoc)
@@ -275,14 +278,18 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, planSet.getPlanDays());
 		plan.setEstPartTime(cal.getTime());
-
-		toTransPlanService.insertSelective(plan);
+		toTransPlanService.updateTransPlan(plan);
 	}
 
 	@Override
 	public Boolean submitTask(List<RestVariable> variables, String taskId, String processInstanceId, String caseowner,
 			String caseCode) {
 		TaskVo task = getTask(taskId);
+		String loginUser=uamSesstionService.getSessionUser().getUsername();
+		if(!loginUser.equals(task.getAssignee())){
+			throw new WorkFlowException("您不是当前任务的经办人，不能提交该任务！");
+		}
+		
 		TaskOperate taskOperate;
 		if (WorkFlowEnum.WSPENDING.getCode().equals(task.getDelegationState())) {
 			taskOperate = new TaskOperate(taskId, WorkFlowEnum.WRESOLVE.getCode());
@@ -358,14 +365,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 				doOptTaskPlan(vo.getTaskDefinitionKey(), caseCode);
 			}
 		}
-	}
-
-	@Override
-	public void reclaim(String taskId, String assignee) {
-		TaskOperate taskOperate1 = new TaskOperate(taskId.toString(), "claim");
-		this.operaterTask(taskOperate1);
-		taskOperate1.setAssignee(assignee);
-		this.operaterTask(taskOperate1);
 	}
 
 	private void handleUnAlocation(String owner, String caseCode, String instCode, String taskJobCode, String taskId,

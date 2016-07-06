@@ -37,7 +37,7 @@
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 			<!-- 从数据库返回的值被清理前后的空格 -->
-			<property name="trimStrings" value="true" />
+			<property name="trimStrings" value="true" /> 
 		</javaModelGenerator>
 
 		<sqlMapGenerator targetPackage="task" targetProject="src\main\resources\mapper">
@@ -47,7 +47,7 @@
 		<javaClientGenerator targetPackage="com.centaline.trans.task.repository" targetProject="src\main\java" type="XMLMAPPER" />
 		
 		<!-- <table domainObjectName="TsApiLog" tableName="T_TS_API_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" /> -->
-		<table domainObjectName="ActRuEnentSubScr" tableName="ACT_RU_EVENT_SUBSCR" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
+		<table domainObjectName="TlTaskReassigntLog" tableName="T_TL_TASK_REASSIGNT_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
 	</context>
 
 </generatorConfiguration>  

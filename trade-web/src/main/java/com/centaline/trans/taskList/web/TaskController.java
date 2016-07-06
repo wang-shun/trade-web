@@ -5,6 +5,7 @@
 package com.centaline.trans.taskList.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToAttachment;
@@ -187,8 +189,12 @@ public class TaskController {
 		request.setAttribute("source", source);
 		
 		ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
+		request.setAttribute("afterTimeFlag", false);
 		if(c != null) {
 			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+			if(c.getCreateTime()!=null){
+				request.setAttribute("afterTimeFlag", c.getCreateTime().after(new Date(1467302399999l)));
+			}
 			request.setAttribute("caseBaseVO", caseBaseVO);
 		}
 		
@@ -357,7 +363,9 @@ public class TaskController {
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
-    		request.setAttribute("editCaseDetailVO", editCaseDetailService.queryCaseDetai(caseCode));
+    		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+    		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
+    		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
     	} else if(taskitem.equals("ServiceChangeApply")) {/*服务项变更*/
     		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();

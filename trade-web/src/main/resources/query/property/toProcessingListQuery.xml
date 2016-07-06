@@ -37,6 +37,7 @@
 	            <condition field="A.PR_DISTRICT_ID" name="prDistrictId" label="区域ID" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_STATUS" name="prStatus" label="状态" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	            <condition field="A.PR_ADDRESS" name="propertyAddr" label="物业地址" searchType="LIKE" showType="textbox" showCallback="" defaultValue=""/>
+	    		<condition field="A.DIST_CODE" name="distCode" label="所在区域" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
 	    </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -93,7 +94,7 @@
 				<column type="both" name="DIST_CODE" index="" checkbox="" title="行政区域" display="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="prDistrictId" index="" checkbox="" display="所属贵宾服务部" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 			
-				<column type="both" name="applyOrgName" index="" checkbox="" display="所属分行" title="所属分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="applyOrgName" index="" checkbox="" display="区域分行" title="区域分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="orgMgr" index="" checkbox="" display="区董" title="区董" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CHANNEL" index="" checkbox="" display="来源" title="来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			

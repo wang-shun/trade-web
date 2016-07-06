@@ -261,7 +261,9 @@ $(document).ready(function() {
 	    data : data,
 	    wrapperData : data,
 	    columns : [{
-	    	           colName :"物业地址"
+			           colName :"行政区域"
+			      },{
+	    	           colName :"产证地址"
 	    	      },{
 	    	           colName :"区域分行"
 	    	      },{

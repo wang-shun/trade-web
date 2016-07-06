@@ -62,6 +62,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			mortgage=list.get(0);
 		}
 		if (mortgage != null) {
+				toMortgage.setPkid(mortgage.getPkid());
 				toMortgageMapper.update(toMortgage);
 		} else {
 			toMortgage.setIsDelegateYucui("1");

@@ -105,7 +105,9 @@ $(document).ready(function() {
 	    data : data,
 	    wrapperData : data,
 	    columns : [{
-	    	           colName :"物业地址"
+	    	           colName :"行政区域"
+	    	      },{
+	    	           colName :"产证地址"
 	    	      },{
 	    	           colName :"区域分行"
 	    	      },{
@@ -123,6 +125,10 @@ $(document).ready(function() {
 	}else{
 		$("#expToexcel").attr("disabled", true);
 	}
+	
+	$("#searchButton").click(function(){
+		reloadGrid();
+	});
 	
 	$('#processWaitList table').addClass("apply-table");
 });
@@ -194,10 +200,12 @@ function reloadGrid() {
 function getParams() {
 	var prDistrictId = $("#prDistrictId").val();
 	var prStatus = $("#prStatus").val();
+	var distCode = $("#distCode").val();
 	var data = {};
 	data.search_prDistrictId = prDistrictId;
 	data.search_prStatus = prStatus;
 	data.optTransferRole = optTransferRole;
+	data.search_distCode = distCode;
     return data;
 } 
 
@@ -251,10 +259,12 @@ function exportToExcel() {
 		var url = "/quickGrid/findPage?xlsx&";
 		var ctx = $("#ctx").val();
 		var displayColomn = new Array;
-		displayColomn.push('PROPERTY_ADDR');//物业地址
-		displayColomn.push('PR_CAT');//产调项目
-		displayColomn.push('orgName');//分行信息
-		displayColomn.push('PR_APPLY_TIME');//分行信息
+		displayColomn.push('PROPERTY_ADDR');// 物业地址
+		displayColomn.push('PR_CAT');  // 产调项目
+		displayColomn.push('orgName');  // 所属分行信息
+		displayColomn.push('applyOrgName'); // 区域分行信息
+		displayColomn.push('orgMgr'); // 区蕫信息
+		displayColomn.push('PR_APPLY_TIME');// 分行信息
 		
 		var params = getParamsValue(pkid);
 		var queryId = '&queryId=queryProcessWaitList';

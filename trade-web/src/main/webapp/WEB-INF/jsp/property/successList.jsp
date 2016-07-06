@@ -146,7 +146,7 @@
 					    	<input type="hidden" id="ctx" value="${ctx}"/>
 							<input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}"/>
 							<input type="hidden" id="prStatus"name="search_prStatus" value="2"/>
-					    	<input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
+					    	<input type="hidden" name="colomns" value="PROPERTY_ADDR,orgName,applyOrgName,PR_CAT,PR_APPLIANT,APPLIANT_EMPLOYEE_CODE,PR_EXECUTOR,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,QUDS,CHANNEL">
 					    	<div class="row form-group">
 			    				<label class="col-md-1  control-label">行政区域</label>
 			    				<div class="col-md-3">
@@ -219,8 +219,7 @@
 									style="font-size: 13px;" type="text" value=""
 									placeholder="结束日期" />
 									<input type="hidden" name='search_completeTimeEnd' id='search_completeTimeEnd' value=''>
-			        			<label class="col-md-1  control-label">物业地址 </label>
-			    				<div class="col-md-3">
+			        			<label class="col-md-1  control-label">产证地址 </label>			    				<div class="col-md-3">
 			    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 			    				</div>
 							</div>
@@ -656,6 +655,7 @@
                  {{else}}
                     <tr class="tr-2">
                  {{/if}}
+						<td>{{item.DIST_CODE}}</td>
 						<td><a href='../mobile/property/box/show?prCode={{item.prCode}}' target='_blank'>{{item.PROPERTY_ADDR}}</a></td>
 						<td>{{item.applyOrgName}}</td>
 						<td rowspan="2" class="fs12 sq-state">
@@ -666,7 +666,7 @@
 						{{if item.IS_SUCCESS == '是'}}
 							<td class="fs12 sq-state"><i class="valid-label">是</i></td>
 						{{else if item.IS_SUCCESS == '否'}}
-							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em>{{item.UNSUCCESS_REASON}}</em></td>
+							<td rowspan="2" class="fs12 sq-state invalid"><i class="invalid-label">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></td>
 						{{else}}
 							<td></td>
                  		{{/if}}
@@ -686,6 +686,7 @@
                 {{else}}
                     <tr class="tr-2">
                 {{/if}}
+						<td></td>
 						<td></td>
 						<td>区董：{{item.QUDS}}</td>
 						{{if item.IS_SUCCESS == '是'}}

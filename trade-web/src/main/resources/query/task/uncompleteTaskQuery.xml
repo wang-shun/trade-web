@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryUncompleteTask">
+		<searchCondition>
+            <condition field="b.case_Code"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="b.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						ART.ID_ AS ID,
+						TW.CASE_CODE,
+						DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
+						ART.NAME_ AS NAME,
+						ART.TASK_DEF_KEY_ AS PART_CODE,
+						ART.PROC_INST_ID_ AS INST_CODE,
+						ART.ASSIGNEE_ AS ASSIGNEE,
+						ART.create_time_ CREATE_TIME,
+						TP.EST_PART_TIME,
+						TP.RED_LOCK,
+						b.PROPERTY_ADDR,
+						b.pkid as caseId,
+						uer.REAL_NAME as ASSIGNEE_STR
+						FROM
+						sctrans.T_TO_WORKFLOW TW
+						INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
+						INNER JOIN sctrans.v_case_list_base B on b.case_code =tw.CASE_CODE
+						LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
+						LEFT　JOIN sctrans.sys_user uer on uer.username= ART.ASSIGNEE_ and uer.is_deleted='0'
+						WHERE 1=1
+						<if test="mOrgId != null">
+							and exists(select 'x' from sctrans.v_user_org_job uoj where uoj.username=ART.ASSIGNEE_ and uoj.ORG_ID=#mOrgId#)
+						</if>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ID"/>
+				<column type="both" name="CASE_CODE"/>
+				<column type="both" name="DATELAMP"/>
+				<column type="both" name="NAME"/>
+				<column type="both" name="caseId"/>
+				<column type="both" name="PART_CODE"/>
+				<column type="both" name="INST_CODE"/>
+				<column type="both" name="ASSIGNEE_STR"/>
+				<column type="both" name="ASSIGNEE" />
+				<column type="both" name="CREATE_TIME" beanFormatter="dateFormatter" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="EST_PART_TIME" beanFormatter="dateFormatter" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="RED_LOCK" />
+				<column type="both" name="PROPERTY_ADDR"/>
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

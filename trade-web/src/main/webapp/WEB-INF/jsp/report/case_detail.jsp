@@ -273,6 +273,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
 						<td class="t-left pd-l">{{item.RECEIVED_TIME}}</td>
 						<td class="t-left pd-l">{{item.SIGN_TIME}}</td>
+
 						<td class="t-left pd-l">{{item.APPLY_TIME}}</td>
 						<td class="t-left pd-l">{{item.CLOSE_TIME}}</td>
 				  </tr>
