@@ -77,6 +77,10 @@
     margin: 0px 0 0;
     line-height: normal;
 }
+.form_sign .sign {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
 </style>
 </head>
 
@@ -174,7 +178,7 @@
                      <label class="col-sm-3 control-label">申请时间：${caseDetailVO.prfApplyDate}</label>
                  </div>
                <c:choose>
-               <c:when test="${!empty toMortgage.mortType && toMortgage.mortType=='30016001'}">
+               <c:when test="${toMortgage.isDelegateYucui=='1' && (toMortgage.mortType=='30016001' or toMortgage.mortType=='30016002')}">
                  <div class="row ">
                       <label class="col-sm-3 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
                       <label class="col-sm-3 control-label">支       行：${caseDetailVO.bankName}</label>
@@ -249,7 +253,7 @@
 							</div>
 							<div class="form_sign col-sm-12 clearfix" id="notApproves" style="display:none">
 								<c:forEach items="${notApproves}" var="notApprove">
-								<div class="col-sm-4">
+								<div class="col-sm-6 sign">
 									<input  type="checkbox" value="${notApprove.code}" name="notApprove" class="btn btn-white">
 									<label>${notApprove.name}</label>
 								</div>
