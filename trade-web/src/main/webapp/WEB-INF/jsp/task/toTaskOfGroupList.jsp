@@ -288,18 +288,23 @@ text-decoration: underline !important;
         		            		   sortColumn : "DATELAMP",
             		    	           sord: "desc",
             		    	           sortActive : true
-        		               }
-        		               ,
+        		               },
         		               {
         		    	           colName :"案件编号",
+    		            		   sortColumn : "tw.CASE_CODE",
+        		    	           sord: "desc",
         		    	      },{
         		    	           colName :"当前任务"
         		    	      },{
        		    	                colName :"执行人"
     		    	          },{
-		   		    	           colName :"创建时间"
+		   		    	           colName :"创建时间",
+        		            	   sortColumn : "ART.CREATE_TIME_",
+            		    	       sord: "desc",
 				    	      },{
-				    	           colName :"预计执行时间 "
+				    	           colName :"预计执行时间 ",
+        		            	   sortColumn : "tp.EST_PART_TIME",
+            		    	       sord: "desc",
 				    	      }]
         		
         		}); 
