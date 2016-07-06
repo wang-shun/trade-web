@@ -852,8 +852,10 @@
                                                     <label class="col-sm-3 control-label">申请时间：${caseDetailVO.prfApplyDate}</label>
                                                 </div>
                                                 <div class="row ">
-                                                     <label class="col-sm-6 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
-                                                     <label class="col-sm-6 control-label">支       行：${caseDetailVO.bankName}</label>
+                                                     <label class="col-sm-3 control-label">贷款银行：${caseDetailVO.parentBankName}</label>
+                                                     <label class="col-sm-3 control-label">支       行：${caseDetailVO.bankName}</label>
+								                     <label class="col-sm-3 control-label">是否为临时银行：<c:choose><c:when test="${toMortgage.isTmpBank==1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></label>
+								                     <label class="col-sm-3 control-label">推荐函编号：${toMortgage.recLetterNo}</label>
                                                 </div>
                                                	<div class="row ">
                                                     <label class="col-sm-3 control-label">信贷员：${toMortgage.loanerName}</label>
@@ -1001,7 +1003,7 @@
 	 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	 
 	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.4"></script>
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
 	
 	<!-- 校验 -->
@@ -1014,18 +1016,24 @@
 	
 	<!-- 各个环节的备注信息  -->
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
-	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 	    var r1 =false;
+	    var changeTaskRole=false;
+	    var serivceDepId='${serivceDefId}';
 	    var loanReqType="${loanReqType}";
 	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
 			r1 = true;
 		</shiro:hasPermission>
+		<shiro:hasPermission name="TRADE.CASE.TASK:ASSIGN">
+			changeTaskRole=true;
+		</shiro:hasPermission>
 		var isNewFlow =${isNewFlow}; 
+		var isCaseManager=${isCaseManager};
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,

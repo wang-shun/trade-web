@@ -29,10 +29,10 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
     insert into sctrans.T_TO_TRANS_PLAN (PKID, CASE_CODE, PART_CODE, 
-      EST_PART_TIME,LAMP_STATUS,RED_LOCK)
+      EST_PART_TIME,LAMP_STATUS,RED_LOCK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
       #{estPartTime,jdbcType=TIMESTAMP}, #{lampStatus,jdbcType=VARCHAR}, 
-      #{redLock,jdbcType=CHAR})
+      #{redLock,jdbcType=CHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
     insert into sctrans.T_TO_TRANS_PLAN
@@ -55,6 +55,7 @@
       <if test="redLock != null" >
         RED_LOCK,
       </if>
+       CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -75,6 +76,7 @@
       <if test="redLock != null" >
         #{redLock,jdbcType=CHAR},
       </if>
+       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
@@ -95,6 +97,10 @@
       <if test="redLock != null" >
         RED_LOCK = #{redLock,jdbcType=CHAR},
       </if>
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -104,7 +110,11 @@
       PART_CODE = #{partCode,jdbcType=VARCHAR},
       LAMP_STATUS = #{lampStatus,jdbcType=VARCHAR},
       RED_LOCK = #{redLock,jdbcType=CHAR},
-      EST_PART_TIME = #{estPartTime,jdbcType=TIMESTAMP}
+      EST_PART_TIME = #{estPartTime,jdbcType=TIMESTAMP},
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <select id="findTransPlanByCount" parameterType="com.centaline.trans.task.entity.ToTransPlan" resultType="java.lang.Integer">

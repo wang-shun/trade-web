@@ -20,6 +20,9 @@ public class ToApproveRecord {
     private String content;
     
     private String taskId;
+    //审核不通过原因,保存数据字典ID，多个原因逗号隔开；
+    private String notApprove;
+    
     public Long getPkid() {
         return pkid;
     }
@@ -90,5 +93,11 @@ public class ToApproveRecord {
 
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
+	}
+	public void setNotApprove(String notApprove) {
+		this.notApprove = notApprove;
+	}
+	public String getNotApprove() {
+		return notApprove;
 	}
 }

@@ -33,10 +33,10 @@
   <insert id="insert" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
     insert into sctrans.T_TO_SERV_CHANGE_HISTROTY (pkid, process_instance_id, serv_code, 
       change_type, result, case_code, 
-      reason)
+      reason,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{processInstanceId,jdbcType=VARCHAR}, #{servCode,jdbcType=VARCHAR}, 
       #{changeType,jdbcType=CHAR}, #{result,jdbcType=CHAR}, #{caseCode,jdbcType=VARCHAR}, 
-      #{reason,jdbcType=LONGVARCHAR})
+      #{reason,jdbcType=LONGVARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
     insert into sctrans.T_TO_SERV_CHANGE_HISTROTY
@@ -62,6 +62,7 @@
       <if test="reason != null" >
         reason,
       </if>
+      CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -85,6 +86,7 @@
       <if test="reason != null" >
         #{reason,jdbcType=LONGVARCHAR},
       </if>
+       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
@@ -108,6 +110,10 @@
       <if test="reason != null" >
         reason = #{reason,jdbcType=LONGVARCHAR},
       </if>
+         CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where pkid = #{pkid,jdbcType=BIGINT}
   </update>
@@ -118,7 +124,11 @@
       change_type = #{changeType,jdbcType=CHAR},
       result = #{result,jdbcType=CHAR},
       case_code = #{caseCode,jdbcType=VARCHAR},
-      reason = #{reason,jdbcType=LONGVARCHAR}
+      reason = #{reason,jdbcType=LONGVARCHAR},
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID}
     where pkid = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToServChangeHistroty" >
@@ -127,7 +137,11 @@
       serv_code = #{servCode,jdbcType=VARCHAR},
       change_type = #{changeType,jdbcType=CHAR},
       result = #{result,jdbcType=CHAR},
-      case_code = #{caseCode,jdbcType=VARCHAR}
+      case_code = #{caseCode,jdbcType=VARCHAR},
+       CREATE_TIME = GETDATE(),
+       UPDATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_BY = @{SESSION_USER_ID}
     where pkid = #{pkid,jdbcType=BIGINT}
   </update>
   

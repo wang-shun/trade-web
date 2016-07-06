@@ -114,10 +114,12 @@ function exportToExcel() {
 		var url = "/quickGrid/findPage?xlsx&";
 		var ctx = $("#ctx").val();
 		var displayColomn = new Array;
-		displayColomn.push('PROPERTY_ADDR');//物业地址
-		displayColomn.push('PR_CAT');//产调项目
-		displayColomn.push('orgName');//分行信息
-		displayColomn.push('PR_APPLY_TIME');//分行信息
+		displayColomn.push('PROPERTY_ADDR');// 物业地址
+		displayColomn.push('PR_CAT');  // 产调项目
+		displayColomn.push('orgName');  // 所属分行信息
+		displayColomn.push('applyOrgName'); // 区域分行信息
+		displayColomn.push('orgMgr'); // 区蕫信息
+		displayColomn.push('PR_APPLY_TIME');// 分行信息
 		
 		var params = getParamsValue(pkid);
 		var queryId = '&queryId=queryProcessWaitList';

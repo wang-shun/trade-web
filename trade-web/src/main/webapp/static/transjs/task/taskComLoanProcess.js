@@ -311,12 +311,11 @@ function cancelAccept(tableId,pkid){
 
 //保存贷款信息
 function saveMortgage(form){
-
-
 	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
 		$.ajax({
 			url:ctx+"/task/saveMortgage",
 			method:"post",
+			async:false,
 			dataType:"json",
 			data:form.serialize(),
 			success:function(data){
@@ -830,7 +829,7 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			f.find("[id='sp_sub_bank']").text('');
 	    			}
 	    			if(!!~~data.content.isTmpBank){
-	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankByStr);
+	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
 	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
 	    				f.find('#sp_is_tmp_bank').text("是");
 	    				f.find(".tmpBankDiv").show();
