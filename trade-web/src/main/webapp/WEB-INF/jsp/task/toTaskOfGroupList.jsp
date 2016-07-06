@@ -204,31 +204,37 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td>
-							<input type='checkbox' name='ckb_task' onclick="ckbChange();">
+						<td rowspan='2'>
+							<input type='checkbox' name='ckb_task' onclick="ckbChange();" style="margin-top: 9px;float: left;">
 							<input type='hidden' name='taskIds' value="{{item.ID}}" disabled>
 							<input type='hidden' name='caseCodes' value="{{item.CASE_CODE}}" disabled>
 						{{if item.DATELAMP < wrapperData.l1|| item.DATELAMP==null}}
     
 						{{else if item.DATELAMP < wrapperData.l2}}
-                 			<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 			<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;margin-left: 20px;">
                  			<div class="sk-double-bounce1" style="background-color:green"></div>
                  			<div class="sk-double-bounce2" style="background-color:green"></div>
                  			</div>
 
 				        {{else if item.DATELAMP < wrapperData.l3}}
-							<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+							<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;margin-left: 20px;">
                  			<div class="sk-double-bounce1" style="background-color:yellow"></div>
                  			<div class="sk-double-bounce2" style="background-color:yellow"></div>
                  			</div>
   						{{else}}
-                			<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                			<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;margin-left: 20px;">
                  			<div class="sk-double-bounce1" style="background-color:red"></div>
                  			<div class="sk-double-bounce2" style="background-color:red"></div>
                  			</div>
-					{{/if}}
+						{{/if}}
+							
+						{{if item.RED_LOCK==1}}
+							<i class="time-icon" style="margin-left:15px;margin-left: 8px;"></i>
+						{{else}}
+                          	<i class="time-icon time-off" style="margin-left:15px;margin-left: 8px;"></i>  
+						{{/if}}
 					</td>
-					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+					<td class="t-left"><a href="{{wrapperData.ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
 						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>
@@ -241,11 +247,7 @@ text-decoration: underline !important;
                 {{else}}
                      <tr class="tr-2">
                 {{/if}}
-                        {{if item.RED_LOCK==1}}
-							<td><i class="time-icon" style="margin-left:15px"></i></td>
-						{{else}}
-                            <td><i class="time-icon time-off" style="margin-left:15px"></i></td>  
-						{{/if}}
+
 						<td class="t-left"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
 						<td class="t-left"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
 						<td colspan="2" class="t-left"><i class="salesman-icon"></i><a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a></td>
@@ -280,7 +282,7 @@ text-decoration: underline !important;
         			ctx : "${ctx}",
         			queryId : 'queryUncompleteTask',
         		    templeteId : 'queryTaskOfGroup',
-        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3},
+        		    wrapperData :{l1:Lamp1,l2:Lamp2,l3:Lamp3,ctx:ctx},
         		    data : data,
         		    columns : [
         		               {

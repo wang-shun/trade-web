@@ -216,7 +216,7 @@ text-decoration: underline !important;
 						<th class="t-left pd-l">产证地址</th>
 						<th class="t-left pd-l"><span id="typeTime1" class='sort' sortColumn='a.RECEIVED_TIME' sord='desc'>接单时间</span></th>
 						<th class="t-left pd-l"><span id="typeTime2" class='sort' sortColumn='a.SIGN_TIME' sord='desc'>签约时间</span></th>
-						<th class="t-left pd-l"><span id="typeTime3" class='sort' sortColumn='c.APPLY_TIME' sord='desc'>贷款申请时间</span></th>
+						<th class="t-left pd-l"><span id="typeTime3" class='sort' sortColumn='a.HOUSE_TRANFER_TIME' sord='desc'>过户时间</span></th>
 						<th class="t-left pd-l"><span id="typeTime4" class='sort' sortColumn='a.CLOSE_TIME' sord='desc'>结案时间</span></th>
 					</tr>
 				</thead>
@@ -273,7 +273,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
 						<td class="t-left pd-l">{{item.RECEIVED_TIME}}</td>
 						<td class="t-left pd-l">{{item.SIGN_TIME}}</td>
-						<td class="t-left pd-l">{{item.APPLY_TIME}}</td>
+						<td class="t-left pd-l">{{item.HOUSE_TRANFER_TIME}}</td>
 						<td class="t-left pd-l">{{item.CLOSE_TIME}}</td>
 				  </tr>
 
