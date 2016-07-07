@@ -201,7 +201,7 @@ text-decoration: underline !important;
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-2 control-label">请选择</label>
+									<label class="col-md-2 control-label">任务名</label>
 									<div class="col-md-4">
 										<aist:dict id="taskDfKey" name="taskDfKey"
 										clazz="form-control m-b" display="select"

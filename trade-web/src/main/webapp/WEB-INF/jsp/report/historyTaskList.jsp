@@ -4,36 +4,27 @@
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
-
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-
-
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
 <!-- Morris -->
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
-	rel="stylesheet">
-<link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
@@ -115,7 +106,7 @@
 	margin-right: 2px;
 }
 
-#queryContent{display:inline-block;width:60%;margin-left:15px;height:32px;}
+#queryContent{display:inline-block;width:62%;margin-left:15px;height:32px;}
 
 /*新增样式*/
 @charset "utf-8";
@@ -175,24 +166,53 @@
 
 #teamCode {
 	background-color:#fff !important;
-	width:200px!important;
+	width:210px!important;
 	margin-bottom:5px;
 }
 .select_btn {
 margin-left:15px;}
 
 .sn {
-width:100px;}
+width:110px;}
 .form-control {
 border-radius:3px!important;}
 .mt10 {
 margin-top:6px!important;}
 .form-mt {
 margin-left:15px;}
+[id^="dateDiv_"]:not(#dateDiv_0) .chosen-container{margin-left:33px}
+.bb1{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:94px;
+    border:none;
+    background-color:#fff;
+}
+.bb2{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:94px;
+    border:none;
+    background-color:#f4f4f4;
+}
+.btnx1{width:120px; margin-left:146px;}
+.btnx2{width:120px; margin-left:10px;}
+.case_time {
+	padding-left:28px;
+	height:34px;
+	line-height:34px;
+	background: #dfdfdf;
+}
+.case_time span {
+	margin-right:10px;
+}
 </style>
 </head>
 
 <body class="main">
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="taskName" value="${taskName}" />
 	<input type="hidden" id="handleTimeStart" value="${handleTimeStart}" />
@@ -202,6 +222,7 @@ margin-left:15px;}
 	<input type="hidden" id="isConsultant" value="${isConsultant}" />
 
 	<div class="row">
+		<form action="#" method="post" id="excelForm"></form>
 		
 		<div class="wrapper wrapper-content  animated fadeInRight">
 			<div class="col-lg-12 col-md-12">
@@ -212,19 +233,19 @@ margin-left:15px;}
 				<div class="ibox-content">
 					<div class="row">
 						
-                        <div class="col-md-12 ${isConsultant ? 'hideDiv' : ''}">    
+                        <div class="col-md-12 form-mt2 ${isConsultant ? 'hideDiv' : ''}">    
                             <div class="form-group col-sm-5">
                             	<label class="col-md-1 control-label sn">经办人</label>
-                                <div class="col-md-8 renyuan">
+                                <div class="col-md-8">
                                 <input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${consultantId}" value="${consultantName }"
 									readonly="readonly" onclick="userSelect({startOrgId:'${depId}',expandNodeId:'${depId}',
 									nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
                                  </div>
                              </div>
                        
-							<div class="form-group col-sm-7 ">
-								<label class="col-md-1 control-label sn ">组织范围</label>
-								<div class="col-md-9 zuzhi">
+							<div class="form-group col-sm-6">
+								<label class="col-md-1 control-label sn">组织范围</label>
+								<div class="col-md-8">
 								<input type="text" class="span12 tbsporg org-label-control form-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${depId}',
@@ -235,32 +256,33 @@ margin-left:15px;}
 								</div>
 							</div>
                        
-							<div class="col-md-12 form-mt ">
+							<div class="col-md-12 form-mt2 form-mt">
 								<div class="form-group">
-									<label class="col-md-1 select control-label sn">请选择</label>
-									<div class="col-md-10 control-div ">
-										<select id='queryTaskName' class= "btn btn-white chosen-select">
-											<option value='0'
-											<c:if test="${taskName==''}">SELECTED</c:if>
-											>所有任务</option>
-											<option value='1'
-											<c:if test="${taskName=='1'}">SELECTED</c:if>
-											>签约</option>
-											<option value='2'
-											<c:if test="${taskName=='2'}">SELECTED</c:if>
-											>贷款申请</option>
-											<option value='3'
-											<c:if test="${taskName=='3'}">SELECTED</c:if>
-											>结案</option>
-										</select>
+									<label class="col-md-1 control-label sn">任务名</label>
+									<div class="col-md-10 control-div">
+										<aist:dict id="queryTaskName" name="queryTaskName"
+										clazz="btn btn-white chosen-select" display="select"
+										dictType="part_code" defaultvalue="${taskName}"/>
 									</div>
 								</div>
-							</div>
+ 							</div>
+ 							
+							<div class="col-md-12 form-mt" style="margin-top:5px;margin-bottom:5px;">
+								<div class="form-group">
+									<label class="col-md-1 control-label sn">任务结束时间</label>
+									<div class="col-md-10 control-div">
+									<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${handleTimeStart}" placeholder="起始日期">
+										<span class="input-group-addon">到</span>
+										<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${handleTimeEnd}" placeholder="结束日期" />
+									</div>
+									</div>
+								</div>
+ 							</div> 							
 				
-							<div class="col-md-12 form-mt">
-						
+							<div class="col-md-12 form-mt" style="margin-top:5px;">
 								<div class="form-group ">
-									<label class="col-md-1 control-label sn">请选择</label>
+									<label class="col-md-1 control-label sn"></label>
 									<div class="control-div col-md-10">
 									<select id="queryItems" data-placeholder= "搜索条件设定" class= "btn btn-white chosen-select" style="float :left;">
 										<option value="1" selected>产证地址</option>
@@ -271,30 +293,36 @@ margin-left:15px;}
 									</select>
 									<input id="queryContent" type="text" class="col-md-6 form-control pull-left">
 									</div>
-									</div>
+								</div>
 							</div>
 							
-							
-							</div>
-							
-						</div>
+					</div>
+				</div>
 						
-							<div class="col-md-12" style="padding-left: 11%;">
-							<button id="searchButton" type="button" class="btn btn-warning pull-left">查询</button>
-							</div>
-
-						 </div>
+				<div class="col-md-12" style="margin-bottom:5px;">
+					<button id="searchButton" type="button" class="btn btn-warning btnx1">查询</button>
+					<button id="exportExcel" type="button" class="btn btn-warning btnx2">导出Excel报表</button>
 				</div>
 
+			</div>
 		</div>
-		<div class="apply-wrap">
+	</div>
+	</div>
+	
+	
+	<div class="apply-wrap row">
+	<p class="clearfix case_time">
+		<span class="sort" sortColumn="wf.CASE_CODE" sord="desc">案件编号</span>
+		<span class="sort" sortColumn="historytask.START_TIME" sord="desc">处理开始时间</span>
+		<span class="sort" sortColumn="historytask.END_TIME" sord="desc">处理结束时间</span>
+		</p>
 	<div class="table">
 		<table class="apply-table task-list" border="0" cellpadding="0" cellspacing="0" vertical="middle">
 			<thead>
-				<th><span class="sort" sortColumn="wf.CASE_CODE" sord="desc">案件编号</span></th>
+				<th>案件编号</th>
 				<th>任务名</th>
 				<th>产证地址</th>
-				<th><span class="sort" sortColumn="wf.END_TIME" sord="desc">处理时间</span></th>
+				<th>处理时间</th>
 				<th>经办人</th>
 				<th>客户</th>
 			</thead>
@@ -312,53 +340,68 @@ margin-left:15px;}
     </div>
 			</div>
 
-	
-
 		</div>
 	</div>
 
 <content tag="local_script"> 
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>	
 	<!-- Peity --> 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 	<!-- block UI -->
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<!-- iCheck -->
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<!-- 个人js -->
-	<script src="${ctx}/js/trunk/report/history_task_list.js"></script>
 	<!-- 分页控件  -->
     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 排序插件 -->
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script>	
 	<!-- 自定义js -->
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<!-- 个人js -->
+	<script src="${ctx}/js/trunk/report/history_task_list.js"></script>
+	<!-- JS模板引擎 -->
 	<script id="template_myTaskList" type= "text/html">
       {{each rows as item index}}
 		{{if index%2 == 0}}
  			<tr class="tr-1">
-        {{else}}
-            <tr class="tr-2">
-        {{/if}}
 				<td><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
-				<td rowspan="2" class="pl10">{{item.TASK_NAME}}</td>
+				<td rowspan="2" class="pl10">
+					<a class="hint hint-top" data-hint="{{item.TASK_NAME}}">
+						<input type="text" maxlength="6" readonly="readonly" class="bb1" value="{{item.TASK_NAME}}"/>
+					</a>
+				</td>
 				<td>{{item.PROPERTY_ADDR}}</td>
 				<td><i class="sl-lable">始</i>{{item.START_TIME}}</td>
 				<td rowspan="2" class="pl10">
-					<a class="hint  hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}} ">
+					<a class="hint  hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}}">
 						{{item.CONSULTANT_NAME}}
 					</a>
 				</td>
 				<td>上家: {{item.SELLER}}</td>
 			</tr>
+        {{else}}
+            <tr class="tr-2">
+				<td><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+				<td rowspan="2" class="pl10">
+					<a class="hint hint-top" data-hint="{{item.TASK_NAME}}">
+						<input type="text" maxlength="6" readonly="readonly" class="bb2" value="{{item.TASK_NAME}}"/>
+					</a>
+				</td>
+				<td>{{item.PROPERTY_ADDR}}</td>
+				<td><i class="sl-lable">始</i>{{item.START_TIME}}</td>
+				<td rowspan="2" class="pl10">
+					<a class="hint  hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}}">
+						{{item.CONSULTANT_NAME}}
+					</a>
+				</td>
+				<td>上家: {{item.SELLER}}</td>
+			</tr>
+        {{/if}}
 
 		{{if index%2 == 0}}
  			<tr class="tr-1">
@@ -368,7 +411,7 @@ margin-left:15px;}
 				<td><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
 				<td>
 					<i class="salesman-icon"></i>
-					<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">
+					<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}">
 						{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}
 					</a>
 				</td>

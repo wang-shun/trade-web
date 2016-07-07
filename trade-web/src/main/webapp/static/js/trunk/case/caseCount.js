@@ -49,17 +49,17 @@ function queryConutCaseByDate(){
 					"</a>"
 				);
 				$("#sp_signCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&taskName=1&arg="+sUserId+"' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&taskName=TransSign&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.signCount+"</font>" +
 						"</a>"						
 				);
 				$("#sp_loanApplyCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&taskName=2&arg="+sUserId+"' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&taskName=ComLoanProcess&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.loanApplyCount+"</font>" +
 						"</a>"						
 				);
 				$("#sp_closeCount").html(
-						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&taskName=3&arg="+sUserId+"' target='_blank'>" +
+						"<a class='case-num' href='"+ctx+"/report/statis/historyTaskList?handleTimeStart="+createTimeStart+"&handleTimeEnd="+createTimeEnd+"&taskName=CaseClose&arg="+sUserId+"' target='_blank'>" +
 						"<font  class='fa-2x font-bold text-danger'>"+data.closeCount+"</font>" +
 						"</a>"						
 				);
