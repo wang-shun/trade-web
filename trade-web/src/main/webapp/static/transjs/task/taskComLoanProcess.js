@@ -360,6 +360,7 @@ function completeMortgage(form){
 				if('caseDetails'==source){
 					if(data.message){
 						alert(data.message);
+						window.close();
 					}else{
 						alert('保存成功');
 					}
