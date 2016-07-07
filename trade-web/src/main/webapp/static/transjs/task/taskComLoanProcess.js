@@ -990,11 +990,22 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
-    				if($("#input[name='optionsRadios']:checked").val()==0){
-    					$("#direct_launch_div").hide();
-    				}else{
-    					$("#direct_launch_div").show();
-    				}
+    				 document.getElementById('optionsRadios1').checked=true;
+                     if($("input[name='optionsRadios']:checked").val()==0){
+                         $("#direct_launch_div").hide();
+                     }else{
+                         $("#direct_launch_div").show();
+                          $("#addToEguPricingForm").find("input").each(function(){
+                              $(this).removeAttr("disabled");
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
+                                  $(this).val("");
+                              }
+                          });
+                          $("#addToEguPricingForm").find("select").each(function(){
+                              $(this).removeAttr("disabled");
+                              $(this).val("");
+                          });
+                     }
     				if(popInited)return true;
     				popInited=true;
     				$("input[name='optionsRadios']").click(function(){
