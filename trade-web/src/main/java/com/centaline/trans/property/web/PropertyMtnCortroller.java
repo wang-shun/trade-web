@@ -135,11 +135,11 @@ public class PropertyMtnCortroller {
 	@RequestMapping(value = "saveProcessingList")
 	@ResponseBody
 	public AjaxResponse<ToPropertyResearch> saveProcessingList(Model model, ServletRequest request, String pkid,
-			String isScuess, String unSuccessReason, Boolean isSubmit) {
+			String isScuess, String unSuccessReason, Boolean isSubmit, String executorId) {
 		AjaxResponse<ToPropertyResearch> result = new AjaxResponse<>();
 
 		SessionUser u = uamSessionService.getSessionUser();
-		int proCount = toPropertytService.saveProcessingList(pkid, u.getId(), isScuess, unSuccessReason, isSubmit);
+		int proCount = toPropertytService.saveProcessingList(pkid, u.getId(), isScuess, unSuccessReason, isSubmit, executorId);
 		if (proCount > 0) {
 			result.setSuccess(true);
 			result.setMessage("处理成功!");
