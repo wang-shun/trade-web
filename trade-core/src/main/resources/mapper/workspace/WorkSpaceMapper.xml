@@ -235,8 +235,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
@@ -313,8 +313,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
@@ -368,8 +368,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
