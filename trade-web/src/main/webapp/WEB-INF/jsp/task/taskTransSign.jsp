@@ -36,6 +36,9 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- aist列表样式 -->
+<link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
 
 <script type="text/javascript">
 var ctx = "${ctx}";
@@ -173,7 +176,7 @@ if("${idList}" != "") {
 					<div class="form-group">
 						<label class="col-sm-2 control-label" >首付付款</label>
 						<div class="col-sm-10 input-group" style="margin-left: 197px;margin-top:-2px;">
-							<div class="row">
+							<div class="row"> 
 								<input type="hidden" value="首付付款" id="initPayName"
 									name="initPayName" >
 								<div class="col-md-3">
@@ -414,9 +417,9 @@ if("${idList}" != "") {
 					</div>
 					<div class="clearfix"></div>
 				</form>
-
 			</div>
 		</div>
+		<jsp:include page="/WEB-INF/jsp/common/caseComment.jsp"></jsp:include> 
 		<div class="ibox-title" style="height:auto;">
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
@@ -536,6 +539,7 @@ if("${idList}" != "") {
 		<a href="#" class="btn btn-primary" onclick="save(false)">保存</a>&nbsp;&nbsp;
 		<a href="#" class="btn btn-primary" readOnlydata='1' onclick="submit()">提交</a>
 		</div>
+        
 <div id="smsPlatFrom"></div>
 	</div>
 
@@ -586,6 +590,11 @@ if("${idList}" != "") {
 	
 	<script src="${ctx}/transjs/sms/sms.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	
+	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 
 	<script>
 	
@@ -612,7 +621,9 @@ if("${idList}" != "") {
 				}
 			});
 		}
-		$(function() {
+		$(function() { 
+			var caseCode = $('#caseCode').val();
+			initCaseComment(caseCode,'TransSign'); 
 			TaskTransSignValidate.init("transSignForm","");
 			// Examle data for jqGrid
 			//AistUpload.initHouAddPicUpload();
