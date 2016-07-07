@@ -55,19 +55,21 @@ public class PropertyController {
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
 			throws ServletException, IOException {
+		
 		//System.out.println("req_uri:" + request.getRequestURI());
 		//System.out.println("ref" + request.getHeader("Referer"));
+		
+		// 查询所有的战区信息
+		List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesJobEnum.BUSIWZ.getCode());
+		if(orgs != null && orgs.size() > 0){
+			request.setAttribute("orgs", orgs);
+		}
 		
 		if("dev".equals(propertyService.getEnvironment())){
 			SessionUser u= uamSesstionService.getSessionUser();
 			request.setAttribute("username", u.getUsername());
 			
-			List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesJobEnum.BUSIWZ.getCode());
-			if(orgs != null && orgs.size() > 0){
-				request.setAttribute("orgs", orgs);
-			}
-			
-			// 添加查询SessionUser的区蕫信息
+			// 查询SessionUser对应的区蕫信息
 			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesJobEnum.BUSIWZ.getCode());
 			if(org != null){
 				User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
@@ -150,6 +152,11 @@ public class PropertyController {
 		return result;
 	}
 	
+	/**
+	 * 获取战区对应的区蕫信息
+	 * @param orgId
+	 * @return
+	 */
 	@RequestMapping("getOrgName")
 	@ResponseBody
 	public AjaxResponse getOrgName(String orgId) {

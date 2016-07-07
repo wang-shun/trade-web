@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -359,7 +360,10 @@ public class TaskController {
     		request.setAttribute("caseDetailVO", reVo);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		request.setAttribute("caseInfo", caseInfo);
-    		
+    		Dict dict = uamBasedataService.findDictByType("guohu_not_approve");
+    		if(dict!=null){
+        		request.setAttribute("notApproves", dict.getChildren());
+    		}
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);

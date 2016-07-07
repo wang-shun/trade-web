@@ -25,6 +25,8 @@ import com.aist.uam.userorg.remote.vo.Job;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
+import com.centaline.trans.cases.service.MyCaseListService;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
@@ -42,6 +44,8 @@ public class LoanAgentController {
 	private UamBasedataService uamBasedataService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private MyCaseListService myCaseListService;
 
 	@RequestMapping("submit")
 	public String submit() {
@@ -146,6 +150,14 @@ public class LoanAgentController {
 	
 	}
 
+	/*根据caseCoded查询客户详情*/
+	@RequestMapping("getCaseDetails")
+	@ResponseBody
+	public List<TgGuestInfo> getCaseDetailsBypkid(String caseCode){
+		List<TgGuestInfo> caseInfos = myCaseListService.findTgGuestInfoByCaseCode(caseCode);
+		return caseInfos;
+	}
+	
 	@RequestMapping("doSubmit")
 	@ResponseBody
 	public Object doSubmit(LoanAgent loanAgent) {

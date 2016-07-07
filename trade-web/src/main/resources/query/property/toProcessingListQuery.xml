@@ -49,7 +49,8 @@
 					A.PART_CODE,
 					A.PR_CAT,
 					A.PR_APPLIANT,
-					A.PR_EXECUTOR,
+					acu.real_name as PR_EXECUTOR,
+					A.pr_EXECUTOR as PR_EXECUTORID,
 					A.PR_APPLY_TIME,
 					A.PR_ACCPET_TIME,
 					A.PR_COMPLETE_TIME,
@@ -68,6 +69,7 @@
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				left join sctrans.T_TO_CASE_INFO as tc on tc.CASE_CODE=a.CASE_CODE
+				LEFT JOIN sctrans.sys_user as acu on acu.id=a.pr_EXECUTOR
 				WHERE A.SAME_PR_CODE IS NULL
 				]]>
 			</baseSql>

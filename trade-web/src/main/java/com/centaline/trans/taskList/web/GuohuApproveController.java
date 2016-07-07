@@ -64,9 +64,9 @@ public class GuohuApproveController {
 	@RequestMapping(value="guohuApprove")
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String GuohuApprove, String GuohuApprove_response) {
+			String GuohuApprove, String GuohuApprove_response,String notApprove) {
 		
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response);
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response,notApprove);
 		
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -96,7 +96,7 @@ public class GuohuApproveController {
 	 * @param loanLost_response
 	 */
 	private ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String loanLost, String loanLost_response) {
+			String loanLost, String loanLost_response,String notApprove) {
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 //		toApproveRecord.setPkid(loanlostApproveVO.getLapPkid());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
@@ -106,8 +106,11 @@ public class GuohuApproveController {
 		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
 		boolean b = loanLost.equals("true");
 		boolean c = loanLost_response == null || loanLost_response.intern().length() == 0;
-		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为"+loanLost_response));
+		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为："+loanLost_response));
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
+		//审核不通过原因
+		toApproveRecord.setNotApprove(notApprove);
+		
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 		return toApproveRecord;
 	}

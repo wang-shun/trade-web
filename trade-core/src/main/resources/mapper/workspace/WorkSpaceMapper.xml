@@ -176,7 +176,7 @@ from (
   </select>
   <select id="staLoanAgent" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
   	select sum(la.ACTUAL_AMOUNT) as actualAmount,
-	(sum(la.SIGN_AMOUNT)/(case when SUM(tsi.REAL_PRICE)=0 THEN  0.001  end)*100) as convRate 
+	(sum(la.SIGN_AMOUNT)/(case when SUM(tsi.REAL_PRICE)=0 THEN  0.001 else SUM(tsi.REAL_PRICE)  end)*100) as convRate 
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
@@ -196,17 +196,21 @@ from (
 	  </if>
   </select>
   
-  
-  <!-- 接单数 -->
+  <!-- 接单数-->
   <select id="staReceiveCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
   	SELECT 
-   		COUNT(distinct a.CASE_CODE) as countQYS
-   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS a
+   		COUNT(a.CASE_CODE) AS countQYS
+   	FROM 
+   		sctrans.V_RPT_CASE_PROCESS_STATIS a
+   	INNER JOIN 
+   		sctrans.V_CASE_LIST_BASE b 
+   	ON 
+   		a.CASE_CODE=b.CASE_CODE	
 	WHERE
 		a.RECEIVED_TIME IS NOT NULL
 	 <if test="userId != null">
-	 	AND #{userId,jdbcType=DECIMAL} =a.RECEIVED_USER
-	 </if>
+	 	AND #{userId,jdbcType=DECIMAL} = a.RECEIVED_USER
+	 </if>		
 	 <if test="orgId != null">
 	 	AND a.TEAM_ID=#{orgId,jdbcType=VARCHAR}
 	 </if>
@@ -221,30 +225,65 @@ from (
   
     <!-- 签约数 -->
   <select id="staSignCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-  	SELECT 
-   		COUNT(distinct a.CASE_CODE) as countQYS
-   	FROM sctrans.V_RPT_CASE_PROCESS_STATIS a
-	where 
-		a.SIGN_TIME IS NOT NULL
-	 <if test="userId != null">
-	 	AND #{userId,jdbcType=DECIMAL} = a.SIGN_USER
-	 </if>
-	 <if test="orgId != null">
-	 	AND a.SIGN_TEAM_ID=#{orgId,jdbcType=VARCHAR}
-	 </if>
-	 <if test="orgs != null">
-	 	AND a.SIGN_TEAM_ID IN
+  	SELECT
+		COUNT(wf.CASE_CODE)
+	FROM(
+		SELECT
+			TASK_DEF_KEY_ AS TASK_DEF_KEY,
+			PROC_INST_ID_ AS PROC_INST_ID,
+			NAME_ AS NAME,
+			ASSIGNEE_ AS ASSIGNEE,
+			START_TIME_ AS START_TIME,
+			END_TIME_ AS END_TIME,
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+		FROM 
+			sctrans.ACT_HI_TASKINST
+		)historyTask
+	INNER JOIN
+		sctrans.T_TO_WORKFLOW wf
+	ON 
+		historyTask.PROC_INST_ID=wf.INST_CODE
+	INNER JOIN 
+		sctrans.T_TO_CASE_INFO ci
+	ON 
+		wf.CASE_CODE=ci.CASE_CODE
+	LEFT JOIN 
+		sctrans.T_TO_CASE as tc 
+	ON 
+		tc.case_code=ci.case_code
+	INNER JOIN 
+		sctrans.T_TO_PROPERTY_INFO AS property 
+	ON 
+		ci.CASE_CODE = property.CASE_CODE
+	LEFT JOIN 
+		SCTRANS.SYS_USER SYSUSER 
+	ON 
+		SYSUSER.ID = ci.AGENT_CODE	
+	WHERE
+		historyTask.END_TIME IS NOT NULL
+	AND historyTask.TASK_DEF_KEY='TransSign'
+	<if test="userId != null">
+	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
+	</if>
+	<if test="orgId != null">
+	AND historyTask.ORG =#{orgId,jdbcType=VARCHAR}
+	</if>
+	<if test="orgs != null">
+	AND historyTask.ORG IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
-	  <if test="mo != null">
-	  	AND DatePart(m, a.SIGN_TIME)=#{mo,jdbcType=VARCHAR}
-	  </if>
+	<if test="mo != null">
+	AND DATEPART(m,historyTask.END_TIME)=#{mo,jdbcType=VARCHAR}
+  	</if>
   </select>
   
   <!-- 过户数 -->
   <select id="staTransferCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-	SELECT COUNT(distinct a.CASE_CODE) 
-	FROM sctrans.V_RPT_CASE_PROCESS_STATIS a
+	SELECT 
+		COUNT(distinct a.CASE_CODE) 
+	FROM 
+		sctrans.V_RPT_CASE_PROCESS_STATIS a
 	WHERE 
 		a.HOUSE_TRANFER_TIME is not null
 	 <if test="userId != null">
@@ -262,29 +301,118 @@ from (
 	  </if>
   </select>
   
-  <!-- 结案数 -->
-  <select id="staCloseCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
-	select COUNT(distinct a.CASE_CODE) 
-	from sctrans.V_RPT_CASE_PROCESS_STATIS a
-	WHERE 
-		a.CLOSE_TIME IS NOT NULL
-	 <if test="userId != null">
-	 	AND #{userId,jdbcType=DECIMAL} = a.CLOSE_USER
-	 </if>
-	 <if test="orgId != null">
-	 	AND a.CLOSE_TEAM_ID=#{orgId,jdbcType=VARCHAR}
-	 </if>
-	 <if test="orgs != null">
-	 	AND a.CLOSE_TEAM_ID IN
+  <!-- 贷款申请数 -->
+  <select id="staLoanApplyCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
+  	SELECT
+		COUNT(wf.CASE_CODE)
+	FROM(
+		SELECT
+			TASK_DEF_KEY_ AS TASK_DEF_KEY,
+			PROC_INST_ID_ AS PROC_INST_ID,
+			NAME_ AS NAME,
+			ASSIGNEE_ AS ASSIGNEE,
+			START_TIME_ AS START_TIME,
+			END_TIME_ AS END_TIME,
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+		FROM 
+			sctrans.ACT_HI_TASKINST
+		)historyTask
+	INNER JOIN
+		sctrans.T_TO_WORKFLOW wf
+	ON 
+		historyTask.PROC_INST_ID=wf.INST_CODE
+	INNER JOIN 
+		sctrans.T_TO_CASE_INFO ci
+	ON 
+		wf.CASE_CODE=ci.CASE_CODE
+	LEFT JOIN 
+		sctrans.T_TO_CASE as tc 
+	ON 
+		tc.case_code=ci.case_code
+	INNER JOIN 
+		sctrans.T_TO_PROPERTY_INFO AS property 
+	ON 
+		ci.CASE_CODE = property.CASE_CODE
+	LEFT JOIN 
+		SCTRANS.SYS_USER SYSUSER 
+	ON 
+		SYSUSER.ID = ci.AGENT_CODE			
+	WHERE
+		historyTask.END_TIME IS NOT NULL
+	AND historyTask.TASK_DEF_KEY='ComLoanProcess'
+	<if test="userId != null">
+	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
+	</if>
+	<if test="orgId != null">
+	AND historyTask.ORG =#{orgId,jdbcType=VARCHAR}
+	</if>
+	<if test="orgs != null">
+	AND historyTask.ORG IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
-	  <if test="mo != null">
-	  	and DatePart(m, a.CLOSE_TIME)=#{mo,jdbcType=VARCHAR}
-	  </if>
+	<if test="mo != null">
+	AND DATEPART(m,historyTask.END_TIME)=#{mo,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
+  <!-- 结案数 -->
+  <select id="staCloseCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
+  	SELECT
+		COUNT(wf.CASE_CODE)
+	FROM(
+		SELECT
+			TASK_DEF_KEY_ AS TASK_DEF_KEY,
+			PROC_INST_ID_ AS PROC_INST_ID,
+			NAME_ AS NAME,
+			ASSIGNEE_ AS ASSIGNEE,
+			START_TIME_ AS START_TIME,
+			END_TIME_ AS END_TIME,
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+		FROM 
+			sctrans.ACT_HI_TASKINST
+		)historyTask
+	INNER JOIN
+		sctrans.T_TO_WORKFLOW wf
+	ON 
+		historyTask.PROC_INST_ID=wf.INST_CODE
+	INNER JOIN 
+		sctrans.T_TO_CASE_INFO ci
+	ON 
+		wf.CASE_CODE=ci.CASE_CODE
+	LEFT JOIN 
+		sctrans.T_TO_CASE as tc 
+	ON 
+		tc.case_code=ci.case_code
+	INNER JOIN 
+		sctrans.T_TO_PROPERTY_INFO AS property 
+	ON 
+		ci.CASE_CODE = property.CASE_CODE
+	LEFT JOIN 
+		SCTRANS.SYS_USER SYSUSER 
+	ON 
+		SYSUSER.ID = ci.AGENT_CODE			
+	WHERE
+		historyTask.END_TIME IS NOT NULL
+	AND historyTask.TASK_DEF_KEY='CaseClose'
+	<if test="userId != null">
+	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
+	</if>
+	<if test="orgId != null">
+	AND historyTask.ORG =#{orgId,jdbcType=VARCHAR}
+	</if>
+	<if test="orgs != null">
+	AND historyTask.ORG IN
+	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
+	 </if>
+	<if test="mo != null">
+	AND DATEPART(m,historyTask.END_TIME)=#{mo,jdbcType=VARCHAR}
+  	</if>
   </select>
   
   <select id="staEvaFee" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
-	 select sum(tf.EVAL_FEE) as evalFee,(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 end) *100)as efConvRate from sctrans.T_TO_EVA_FEE_RECORD as tf 
+	 select sum(tf.EVAL_FEE) as evalFee,(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 else sum(ts.REAL_PRICE/1000) end) *100)as efConvRate from sctrans.T_TO_EVA_FEE_RECORD as tf 
 	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	 on tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
 	 left join sctrans.t_to_sign  as ts
@@ -379,7 +507,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 </select>
 <select id="staLoanSign"  parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultMap="loanDet">
 	select la.LOAN_SRV_CODE as staItem,SUM(la.sign_amount) as [amount],count(la.sign_amount) as  [count],
-	CAST((sum(la.sign_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 end)*100) as decimal(38, 2)) as convRate
+	CAST((sum(la.sign_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
@@ -405,7 +533,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 </select>
 <select id="staLoanRelease"  parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultMap="loanDet">
 	select la.LOAN_SRV_CODE as staItem,SUM(la.actual_amount) as [amount],count(la.actual_amount) as  [count],
-	CAST((sum(la.actual_amount)/(case when SUM(tsi.REAL_PRICE) =0 then 0.001 end)*100) as decimal(38, 2)) as convRate
+	CAST((sum(la.actual_amount)/(case when SUM(tsi.REAL_PRICE) =0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE

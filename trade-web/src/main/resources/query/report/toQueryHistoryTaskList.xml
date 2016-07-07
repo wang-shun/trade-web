@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+	<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
+	<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+	<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+	<customDict id="qqcdSeller" beanName="qqcdSeller" />
+	<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+	<customDict id="qqcdUserIdMobile" beanName="qqcdUserIdMobile" />
+	<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryHistoryTaskListDetail">
+		<searchCondition>
+            <condition field="property.PROPERTY_ADDR" name="caseAddress" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ci.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ci.GRP_NAME" name="grpName" label="所属分行" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="wf.CASE_CODE" name="caseCode" label="CASE_CODE" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ci.CTM_CODE" name="ctmCode" label="CTMCODE" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						tc.PKID AS PKID,
+						wf.CASE_CODE AS CASE_CODE,
+						ci.CTM_CODE AS CTM_CODE,
+						historytask.NAME AS TASK_NAME,
+						ci.AGENT_NAME AS AGENT_NAME,
+						ci.GRP_NAME AS GRP_NAME,
+						ci.AGENT_PHONE AS AGENT_PHONE,
+						property.PROPERTY_ADDR AS PROPERTY_ADDR,
+						historytask.ORG AS YUCUI_ORG_ID,
+						historytask.consultant AS CONSULTANT_ID,
+						LEFT(CONVERT(varchar(100), historytask.START_TIME, 120), 10) as START_TIME, 
+						LEFT(CONVERT(varchar(100), historytask.END_TIME, 120), 10) as END_TIME, 
+						SYSUSER.ORG_ID AS ORG_ID 
+					FROM(
+						SELECT
+							TASK_DEF_KEY_ AS TASK_DEF_KEY,
+							PROC_INST_ID_ AS PROC_INST_ID,
+							NAME_ AS NAME,
+							ASSIGNEE_ AS ASSIGNEE,
+							START_TIME_ AS START_TIME,
+							END_TIME_ AS END_TIME,
+							(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG,
+							(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+							(SELECT DISTRICT_ID FROM sctrans.t_yucui_org_hierarchy WHERE ORG_ID=(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant'))AS DISTRICT
+						FROM 
+							sctrans.ACT_HI_TASKINST
+						)historytask
+					INNER JOIN
+						sctrans.T_TO_WORKFLOW wf
+					ON 
+						historytask.PROC_INST_ID=wf.INST_CODE
+					INNER JOIN 
+						sctrans.T_TO_CASE_INFO ci
+					ON 
+						wf.CASE_CODE=ci.CASE_CODE
+					LEFT JOIN 
+						sctrans.T_TO_CASE as tc 
+					ON 
+						tc.case_code=ci.case_code
+					INNER JOIN 
+						sctrans.T_TO_PROPERTY_INFO AS property 
+					ON 
+						ci.CASE_CODE = property.CASE_CODE
+					LEFT JOIN 
+						SCTRANS.SYS_USER SYSUSER 
+					ON 
+						SYSUSER.ID = ci.AGENT_CODE
+					WHERE
+						historytask.END_TIME IS NOT NULL
+					<ifNotNull taskName>	
+						AND TASK_DEF_KEY= #taskName#
+					</ifNotNull>
+					<ifNotNull org>
+						AND (historytask.ORG = #org# OR historytask.DISTRICT=#org#)
+					</ifNotNull>
+					<ifNotNull consultantId>
+						AND historytask.consultant = #consultantId#
+					</ifNotNull>
+					<ifNotNull handleTimeStart>
+						AND historytask.END_TIME >= #handleTimeStart#
+					</ifNotNull>
+					<ifNotNull handleTimeEnd>
+						AND historytask.END_TIME &lt;= #handleTimeEnd#
+					</ifNotNull>
+				]]>
+			</baseSql>
+	    	<orderBySql>
+				ORDER BY historytask.END_TIME DESC
+			</orderBySql>			
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" beanFormatter="" expType="" expFmt="" width="" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASE_CODE" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="TASK_NAME" index="" checkbox="" display="任务名"  customDict=""  sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="" isSort="" align="" halign="" order="" resizable="" />							
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict=""  width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="经纪人电话" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GRP_NAME" index="" checkbox="" display="所属分行" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="直属经理" customDict="qqManagerInfo" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="START_TIME" index="" checkbox="" display="开始时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="END_TIME" index="" checkbox="" display="结束时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="CONSULTANT_ID" index="" checkbox="" display="CONSULTANT_ID" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CONSULTANT_NAME" referencecol="CONSULTANT_ID" index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="YUCUI_ORG_ID" index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CONSULTANT_TEL" referencecol="CONSULTANT_ID" index="" checkbox="" display="经办人电话" customDict="qqcdUserIdMobile" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>							
+			</table-row>
+		</grid>
+	</query>
+</querys>

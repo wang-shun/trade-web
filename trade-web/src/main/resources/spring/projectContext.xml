@@ -289,6 +289,11 @@
     <bean name="qqJqyds"  class="com.centaline.trans.common.service.impl.QuickQueryRealNameByOrgIdServiceImpl">
        <property name="prop" value="JQYDS"></property>
     </bean>
+    <!-- 或多个字典的名称 -->
+     <bean name="qqcdDictNotAppeoveName"  class="com.centaline.trans.common.service.impl.QuickQueryMultiDictCustomDictServiceImpl">
+    	<property name="dictType" value="guohu_not_approve">
+    	</property>
+    </bean>
 
 	<bean name="qqcdSrvPart" class="com.centaline.trans.common.service.impl.QuickQuerySrvPartServiceImpl" />
     <bean name="qqcdFin" class="com.centaline.trans.common.service.impl.QuickQueryFinServiceImpl" />

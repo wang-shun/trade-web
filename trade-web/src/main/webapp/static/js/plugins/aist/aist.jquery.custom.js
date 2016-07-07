@@ -346,5 +346,4 @@ function($, window) {
 	          }
 	    });
 	};
-	
 }(jQuery, window);

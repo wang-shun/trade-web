@@ -29,6 +29,8 @@ public interface WorkSpaceService {
 	public Integer staReceiveCount(WorkSpace work);
 
 	public Integer staTransferCount(WorkSpace work);
+	
+	public Integer staLoanApplyCount(WorkSpace work);
 
 	public Integer staCloseCount(WorkSpace work);
 
