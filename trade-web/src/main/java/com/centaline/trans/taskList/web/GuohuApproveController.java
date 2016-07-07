@@ -70,10 +70,16 @@ public class GuohuApproveController {
 		if(!"true".equals(GuohuApprove)){
 			//没未通过审核，发站内信通知案件负责人
 			String sender = uamSessionService.getSessionUser().getId();
-			String recevier = loanlostApproveVO.getOperator();
 			String caseCode = processInstanceVO.getCaseCode();
 			String result = toApproveRecord.getContent();
-			sendMessage(sender,recevier,caseCode,result);
+			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
+			paramsApproveRecord.setPartCode("Guohu");
+			paramsApproveRecord.setCaseCode(caseCode);
+			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
+			if(lastApproveRecord!=null){
+				String recevier = lastApproveRecord.getOperator();
+				sendMessage(sender,recevier,caseCode,result);
+			}
 		}
 		
 		/*流程引擎相关*/
