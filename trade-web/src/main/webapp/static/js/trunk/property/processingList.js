@@ -137,6 +137,7 @@ function checkIsExistFile(isSubmit){
 	//处理产调
 	function commitDispose(isSubmit){
 		var isScuess=$('input[name="isScuess"]:checked ').val();
+		var executorId = $("#executor").attr('hVal');
 		$.ajax({
 			cache : false,
 			type : "POST",
@@ -147,7 +148,7 @@ function checkIsExistFile(isSubmit){
 				isScuess :isScuess ,
 				unSuccessReason:$("#unSuccessReason").val(),
 				isSubmit:!!isSubmit,
-				executorId:$("#executor").attr('hVal')
+				executorId:executorId
 			} ,
 			success : function(data) {
 				alert(data.message)

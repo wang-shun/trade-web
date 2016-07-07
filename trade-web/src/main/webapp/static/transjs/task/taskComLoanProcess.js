@@ -1000,13 +1000,15 @@ function getPricingList(tableId,pageId,isMainLoanBank){
                          $("#direct_launch_div").show();
                           $("#addToEguPricingForm").find("input").each(function(){
                               $(this).removeAttr("disabled");
-                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
                                   $(this).val("");
                               }
                           });
                           $("#addToEguPricingForm").find("select").each(function(){
                               $(this).removeAttr("disabled");
-                              $(this).val("");
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                                  $(this).val("");
+                              }
                           });
                      }
     				if(popInited)return true;

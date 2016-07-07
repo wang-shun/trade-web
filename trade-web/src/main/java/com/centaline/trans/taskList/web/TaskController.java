@@ -730,44 +730,26 @@ public class TaskController {
      * @param taskitem
      */
     private void getAccesoryListCaseClose(HttpServletRequest request, String caseCode) {
-    	List<ToAttachment> attachments = toAttachmentService.findToAttachmentByCaseCode(caseCode);
-		List<ToAccesoryList> list = new ArrayList<ToAccesoryList>();
-	        
-		if(attachments!=null && attachments.size()>0){
-			Iterator<ToAttachment> iter = attachments.iterator() ;
-			while(iter.hasNext()){
-	        	ToAttachment attachment = iter.next();
-	        	if(attachment.getPartCode().equals("property_research")){
-	        		iter.remove();
-					continue;
-				}
-				if(!StringUtils.isEmpty(attachment.getPreFileCode())){
-					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
-					ToAccesoryList itemAccesoryList = toAccesoryListService.findAccesoryByCode(attachment.getPreFileCode());
-					boolean isHave = false;
-					if(CollectionUtils.isNotEmpty(list)){
-						for(ToAccesoryList item:list){
-							if(item.getPkid() == itemAccesoryList.getPkid()){
-								isHave = true;
-								break;
-							}
-						}
-						if(!isHave){
-							list.add(itemAccesoryList);
-						}
-					}
-				}
-	        }
-		}
-		if(list != null && list.size() > 0) {
-			int size = list.size();
-			request.setAttribute("accesoryList", list);
-			List<Long> idList = new ArrayList<Long>(size);
-			for(int i=0; i<size; i++) {
-				idList.add(list.get(i).getPkid());
-			}
-			request.setAttribute("idList", idList);
-		}
+        List<ToAttachment> list = toAttachmentService.findToAttachmentByCaseCode(caseCode);
+        if(list!=null && list.size()>0){
+            for(ToAttachment attachment :list){
+                if(attachment.getPartCode().equals("property_research")){
+                    continue;
+                }
+                if(!StringUtils.isEmpty(attachment.getPreFileCode())){
+                    attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+                }
+            }
+        }
+        if(list != null && list.size() > 0) {
+            int size = list.size();
+            request.setAttribute("accesoryList", list);
+            List<Long> idList = new ArrayList<Long>(size);
+            for(int i=0; i<size; i++) {
+                idList.add(list.get(i).getPkid());
+            }
+            request.setAttribute("idList", idList);
+        }
     } 
     
     /**
