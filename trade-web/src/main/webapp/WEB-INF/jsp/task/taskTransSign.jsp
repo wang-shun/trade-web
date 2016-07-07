@@ -39,7 +39,8 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <!-- aist列表样式 -->
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
-
+<!-- 备注信息 -->
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 var ctx = "${ctx}";
 var taskitem = "${taskitem}";
@@ -419,7 +420,8 @@ if("${idList}" != "") {
 				</form>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/jsp/common/caseComment.jsp"></jsp:include> 
+		<div id="caseCommentList" class="add_form">
+		</div>
 		<div class="ibox-title" style="height:auto;">
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
@@ -595,7 +597,7 @@ if("${idList}" != "") {
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
     <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script>
 	
 	$("#sendSMS").click(function(){
@@ -623,7 +625,11 @@ if("${idList}" != "") {
 		}
 		$(function() { 
 			var caseCode = $('#caseCode').val();
-			initCaseComment(caseCode,'TransSign'); 
+			var srvCode = 'TransSign';
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : srvCode
+			});
 			TaskTransSignValidate.init("transSignForm","");
 			// Examle data for jqGrid
 			//AistUpload.initHouAddPicUpload();

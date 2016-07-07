@@ -1,4 +1,4 @@
-package com.centaline.trans.cases.web;
+package com.centaline.trans.comment.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.cases.entity.ToCaseComment;
-import com.centaline.trans.cases.service.ToCaseCommentService;
+import com.centaline.trans.comment.entity.ToCaseComment;
+import com.centaline.trans.comment.service.ToCaseCommentService;
 
 @Controller
 @RequestMapping(value = "/caseComment")

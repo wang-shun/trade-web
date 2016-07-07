@@ -170,7 +170,7 @@ function($, window) {
 				if (total<1 || pagesize<1 || page<1)
 				{
 					$(currentTotalstrong).empty();
-					$('#totalP').text(0);
+					$('#totalP').empty();
 					$("#pageBar").empty();
 					return;
 				}
@@ -186,7 +186,7 @@ function($, window) {
 				}
 				currentRecords.empty();
 				currentRecords.text((page-1)*pagesize+1+"-"+lastRecords);
-				$('#totalP').text(records);
+				$('#totalP').text('共'+records+'条');
 				
 				
 				$("#pageBar").twbsPagination({
@@ -242,6 +242,7 @@ function($, window) {
 		var page =  settings.page;
 		var rows =  settings.rows;
 		var templeteId = settings.templeteId;
+		var templeteSource = settings.templeteSource;
 		var columns = settings.columns;
 		
 		var data = ($.isBlank(settings.data))?{}:settings.data;
@@ -280,7 +281,7 @@ function($, window) {
 		    $(this).empty().append(table);
 		}
 	    
-	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span class=\"ml15\">共<strong class=\"bold\" id=\"totalP\"></strong>条</span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
+	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span><strong class=\"bold\" id=\"totalP\"></strong></span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
 	    if($("#pageBar").length == 0) {
 	    	$(this).after(pageBar);
 	    }
@@ -311,6 +312,7 @@ function($, window) {
 		data.rows = settings.rows;
 		aist.wrap(data);
 		var templeteId = settings.templeteId;
+		var templeteSource = settings.templeteSource;
 		var wrapperData = settings.wrapperData;
 		var _self = $(this);
 		
@@ -324,7 +326,13 @@ function($, window) {
 	        	  if(!$.isBlank(wrapperData)) {
 	        		  data.wrapperData = wrapperData;
 	        	  } 
-	        	  var templateHtml= template(templeteId , data);
+	        	  var templateHtml ='';
+	        	  if(typeof(templeteId) == "undefined") {
+	        		  var render = template.compile(templeteSource);
+	        		  templateHtml = render(data);
+	        	  } else {
+	        		  templateHtml = template(templeteId , data);
+	        	  }
 	        	  if (_self.has("tbody").length>0)         
 	        	  {   
 	        		  _self.find("tbody").empty();

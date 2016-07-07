@@ -89,7 +89,6 @@
 	
 	<!-- 各个环节的备注信息  -->
 	<import resource="query/case/CaseCommentListQuery.xml" />
-	<import resource="query/case/CasePartCodeCommentListQuery.xml" />
 	<import resource="query/perform/gustFollowQuery.xml"></import>
 	<import resource="query/award/baseImportQuery.xml"></import>
 	<import resource="query/award/baseAward.xml"></import>
@@ -117,5 +116,8 @@
 	<!-- 临时银行处理 -->
 	<import resource="query/mortgage/tmpBankQuery.xml"/>
 	<import resource="query/task/uncompleteTaskQuery.xml"></import>
+	
+	<!-- 备注模块 -->
+	<import resource="query/comment/CasePartCodeCommentListQuery.xml" />
 	
 </queryConfig>

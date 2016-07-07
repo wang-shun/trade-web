@@ -1,4 +1,4 @@
-package com.centaline.trans.cases.entity;
+package com.centaline.trans.comment.entity;
 
 import java.util.Date;
 

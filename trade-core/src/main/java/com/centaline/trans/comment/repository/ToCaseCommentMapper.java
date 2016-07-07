@@ -1,8 +1,7 @@
-package com.centaline.trans.cases.repository;
+package com.centaline.trans.comment.repository;
 
 import java.util.List;
-
-import com.centaline.trans.cases.entity.ToCaseComment;
+import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.common.MyBatisRepository;
 @MyBatisRepository
 public interface ToCaseCommentMapper {
