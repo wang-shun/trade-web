@@ -1,12 +1,14 @@
 /*任务详情列表*/
 $(document).ready(function(){
-	reloadGrid(true,1);
+	/*加载排序查询组件*/
+	aist.sortWrapper({
+		reloadGrid : reloadGrid
+	});
+	reloadGrid(1);
 });
 
-/*reloadGrid*/
-function reloadGrid(isFirstQuery,page){
-	var ctx = $('#ctx').val();
-	
+/*获取param*/
+function getParam(page){
 	if(!page){
 		page=1;
 	}
@@ -24,7 +26,7 @@ function reloadGrid(isFirstQuery,page){
 	var org = null;
 	var consultantId = null;
 	
-	handleTimeStart = $('#handleTimeStart').val();
+	handleTimeStart = $('#dtBegin_0').val();
 	if(handleTimeStart==''){
 		handleTimeStart=null;
 	}else{
@@ -32,7 +34,7 @@ function reloadGrid(isFirstQuery,page){
 	}
 	param.argu_handleTimeStart=handleTimeStart;
 	
-	handleTimeEnd = $('#handleTimeEnd').val();
+	handleTimeEnd = $('#dtEnd_0').val();
 	if(handleTimeEnd==''){
 		handleTimeEnd=null;
 	}else{
@@ -58,46 +60,41 @@ function reloadGrid(isFirstQuery,page){
 	}
 	param.argu_consultantId=consultantId;
 	
-	if(isFirstQuery==true){
-		taskName = $('#taskName').val();
-		if(taskName==''){
-			taskName=null;
-		}else if(taskName=='1'){
-			taskName='TransSign';
-		}else if(taskName=='2'){
-			taskName='ComLoanProcess';
-		}else if(taskName=='3'){
-			taskName='CaseClose';
-		}
-		param.argu_taskName = taskName;
-		
-	}else{
-		var num1 = $('#queryTaskName').find(':selected').val();
-		if(num1=='0'){
-			taskName=null;
-		}else if(num1=='1'){
-			taskName='TransSign';
-		}else if(num1=='2'){
-			taskName='ComLoanProcess';
-		}else if(num1=='3'){
-			taskName='CaseClose';
-		}
-		param.argu_taskName = taskName;
-		
-		var num2 = $('#queryItems').find(':selected').val();
-		var content = $('#queryContent').val();
-		if(num2=='1'){
-			param.search_caseAddress = content;
-		}else if(num2=='2'){
-			param.search_agentName = content;
-		}else if(num2=='3'){
-			param.search_grpName = content;
-		}else if(num2=='4'){
-			param.search_caseCode = content;
-		}else if(num2=='5'){
-			param.search_ctmCode = content;
-		}
+	taskName = $('#queryTaskName').find(':selected').val();
+	if(taskName==''){
+		taskName=null;
 	}
+	param.argu_taskName = taskName;
+	
+	var num2 = $('#queryItems').find(':selected').val();
+	var content = $('#queryContent').val();
+	if(content==''){
+		content=null;
+	}
+	if(num2=='1'){
+		param.search_caseAddress = content;
+	}else if(num2=='2'){
+		param.search_agentName = content;
+	}else if(num2=='3'){
+		param.search_grpName = content;
+	}else if(num2=='4'){
+		param.search_caseCode = content;
+	}else if(num2=='5'){
+		param.search_ctmCode = content;
+	}
+	return param;
+}
+
+/*reloadGrid*/
+function reloadGrid(page){
+	var ctx = $('#ctx').val();
+	var param = getParam(page);
+	
+	aist.wrap(param);
+	var sortColumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	param.sidx=sortColumn;
+	param.sord=sortgz;
 	
 	$.ajax({
 		async: true,
@@ -106,8 +103,8 @@ function reloadGrid(isFirstQuery,page){
         dataType: "json",
         data: param,
         beforeSend: function () {  
-//        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-//			$(".blockOverlay").css({'z-index':'9998'});
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
         	$.unblockUI();   	 
@@ -126,7 +123,91 @@ function reloadGrid(isFirstQuery,page){
 
 /*查询按钮*/
 $('#searchButton').click(function(){
-	reloadGrid(false, 1);
+	reloadGrid(1);
+});
+
+/*导出Excel报表*/
+$('#exportExcel').click(function(){
+	if(!confirm('是否导出Excel报表?')){
+		return false;
+	}
+	
+	var ctx = $('#ctx').val();
+	var url = "/quickGrid/findPage?xlsx&";
+	var queryIdArg = 'queryHistoryTaskListDetail';
+	var displayColomn =[
+	    'CASE_CODE', 'CTM_CODE', 'TASK_NAME', 'SELLER', 'BUYER', 'PROPERTY_ADDR',
+	    'AGENT_NAME', 'AGENT_PHONE', 'GRP_NAME', 'START_TIME', 'END_TIME',
+	    'CONSULTANT_NAME', 'YUCUI_ORG_ID', 'CONSULTANT_TEL'
+	];
+	var param = {};
+	var handleTimeStart = $('#dtBegin_0').val();
+	if(handleTimeStart==''){
+		handleTimeStart=null;
+	}else{
+		handleTimeStart += ' 00:00:00';
+	}
+	param.argu_handleTimeStart=handleTimeStart;
+	
+	var handleTimeEnd = $('#dtEnd_0').val();
+	if(handleTimeEnd==''){
+		handleTimeEnd=null;
+	}else{
+		handleTimeEnd += ' 23:59:59';
+	}
+	param.argu_handleTimeEnd=handleTimeEnd;
+	
+	var org = $('#yuCuiOriGrpId').val();
+	if(org=='ff8080814f459a78014f45a73d820006'){
+		org=null;
+	}else if(org==''){
+		if($('#org').val()!='ff8080814f459a78014f45a73d820006'){
+			org=$('#org').val();
+		}else{
+			org=null;
+		}
+	}
+	param.argu_org=org;
+	
+	var consultantId = $('#inTextVal').attr('hVal');
+	if(consultantId==''){
+		consultantId=null;
+	}
+	param.argu_consultantId=consultantId;
+	
+	var taskName = $('#queryTaskName').find(':selected').val();
+	if(taskName==''){
+		taskName=null;
+	}
+	param.argu_taskName = taskName;
+	
+	var num2 = $('#queryItems').find(':selected').val();
+	var content = $('#queryContent').val();
+	if(content==''){
+		content=null;
+	}
+	if(num2=='1'){
+		param.search_caseAddress = content;
+	}else if(num2=='2'){
+		param.search_agentName = content;
+	}else if(num2=='3'){
+		param.search_grpName = content;
+	}else if(num2=='4'){
+		param.search_caseCode = content;
+	}else if(num2=='5'){
+		param.search_ctmCode = content;
+	}
+	
+	url = ctx + url + $.param(param) + '&queryId='+ queryIdArg + '&colomns='+ displayColomn;
+	$('#excelForm').attr('action', url);
+	$('#excelForm').submit();
+	alert('调出Excel成功');
+	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	$(".blockOverlay").css({'z-index':'9998'});
+	//2s后刷新页面
+	setTimeout(function(){
+		reloadGrid(1);
+	},2000);
 });
 
 /*分页插件*/
@@ -158,7 +239,7 @@ function initpage(totalCount,pageSize,currentPage,records) {
 		last:'<i class="icon-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(false,page);
+			reloadGrid(page);
 	    }
 	});
 }
@@ -188,3 +269,12 @@ function selectUserBack(array){
 		$("#inTextVal").attr('hVal',"");
 	}
 }
+
+//日期控件
+$('#datepicker_0').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});

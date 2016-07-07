@@ -341,6 +341,9 @@ public class ReportCaseProcessStatisController {
 			handleTimeEnd = format.format(ca.getTime());
 		}
 		
+		if(null == taskName){
+			taskName="";
+		}
 		
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {//总经理
 			if(arg != null && !"".equals(arg)){
@@ -383,7 +386,7 @@ public class ReportCaseProcessStatisController {
 		model.addAttribute("isConsultant", isConsultant);
 		model.addAttribute("depId", depId);
 		model.addAttribute("orgName", orgName);
-		return "report/history_taskList";
+		return "report/historyTaskList";
 	}
 	
 }
