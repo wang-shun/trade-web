@@ -1,22 +1,22 @@
 /**
  * 已受理产调
  * liaohail
- * 
+ *
  */
 var ctx = $("#ctx").val();
 var prDistrictId = $("#prDistrictId").val();
 var prStatus = $("#prStatus").val();
 
 $(document).ready(function() {
-	
+
 	$("#btn_save").click(function() {
 		save(false);
 	});
-	
+
 	$("#btn_done").click(function() {
 		save(true);
 	});
-	
+
 	$("input[name='isScuess']").on('click',function(){
 		if(!!~~$(this).val()){
 			$("#div_s").show();
@@ -27,13 +27,13 @@ $(document).ready(function() {
 			$("#div_s").hide();
 		}
 	});
-	
+
 	// 初始化列表
 	var data = {};
     data.search_prDistrictId = prDistrictId;
     data.search_prStatus = prStatus;
     data.optTransferRole = optTransferRole;
-	
+
 	$("#processingList").aistGrid({
 		ctx : ctx,
 		queryId : 'queryProcessingList',
@@ -55,16 +55,16 @@ $(document).ready(function() {
 	    	      },{
 	    	           colName :"操作"
 	    	      }]
-	
-	}); 
-	
+
+	});
+
 	// 查询
 	$('#addrSearchButton').click(function() {
 		reloadGrid();
 	});
-	
+
 	$('#processingList table').addClass("apply-table");
-	
+
 });
 
 function reloadGrid() {
@@ -79,22 +79,22 @@ function reloadGrid() {
 };
 
 function getParams() {
-	
+
 	var prDistrictId = $("#prDistrictId").val();
 	var prStatus = $("#prStatus").val();
 	var propertyAddr =  $("#addr").val();
 	var distCode = $("#distCode").val();
-	
+
 	var data = {};
-	
+
 	data.search_propertyAddr = propertyAddr;
 	data.search_prDistrictId = prDistrictId;
 	data.search_prStatus = prStatus;
 	data.optTransferRole = optTransferRole;
 	data.search_distCode = distCode;
-	
+
 	return data;
-} 
+}
 
 /**
  * 处理已受理产调
@@ -146,15 +146,15 @@ function checkIsExistFile(isSubmit){
 			}
 		});
 	}
-	
+
 //	function reloadGrid(){
 //		$('#table_property_list').jqGrid('setGridParam',{
-//			datatype:'json',  
+//			datatype:'json',
 //			mtype : 'POST',
 //			postData: packData()
 //		}).trigger('reloadGrid');
 //	}
-	
+
 	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr) {
 
 		if (cd == null || cd == "") {
@@ -173,21 +173,21 @@ function checkIsExistFile(isSubmit){
 		}else{
 			isS='1';
 		}
-		
+
 		$('#address').text(addr);
 		$('#prcat').text(prcat);
 		$('#applyOrgName').text(applyOrgName);
 		$('#orgMgr').text(orgMgr);
-		
+
 		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 		if(uns){
 			$('#unSuccessReason').val(uns);
 		}
 		$("#modal-form").modal("show");
 	}
-	
+
 	function getAttchInfo() {
-	
+
 		$.ajax({
 					url : ctx + "/attachment/quereyAttachments",
 					method : "post",
@@ -207,7 +207,7 @@ function checkIsExistFile(isSubmit){
 										data.attList,
 										function(index, value) {
 											dataLength++;
-											
+
 											trStr += "<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 											trStr += "<div class=\"preview span12\">";
 											trStr += "<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
@@ -279,8 +279,8 @@ function checkIsExistFile(isSubmit){
 		if(array && array.length >0){
 			if(checkOrg(array[0])){
 				if(confirm('是否确认转组')){
-			        
-					$("#yuCuiOriGrpId").val(array[0].id);		
+
+					$("#yuCuiOriGrpId").val(array[0].id);
 					doTransfer(optPkid,array[0].id,array[0].name);
 				}
 			}else{
@@ -290,7 +290,7 @@ function checkIsExistFile(isSubmit){
 	}
 	function doTransfer(pkid,districtId,orgName){
 		var transferData={pkid:pkid,districtId:districtId};
-		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 		$(".blockOverlay").css({'z-index':'9998'});
 		$.ajax({
 			cache : false,
@@ -307,7 +307,7 @@ function checkIsExistFile(isSubmit){
 			},
 			error : function(errors) {
 				alert("处理出错,请刷新后再次尝试！");
-				  $.unblockUI();  
+				  $.unblockUI();
 			}
 		});
 	}

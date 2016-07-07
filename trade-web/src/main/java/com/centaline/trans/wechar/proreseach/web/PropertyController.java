@@ -18,9 +18,12 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToAttachment;
-import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.SalesJobEnum;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.income.service.ProfitService;
@@ -46,16 +49,36 @@ public class PropertyController {
 	private ProfitService profitService;
 	@Autowired
 	private UamSessionService uamSesstionService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
 			throws ServletException, IOException {
+		
 		//System.out.println("req_uri:" + request.getRequestURI());
 		//System.out.println("ref" + request.getHeader("Referer"));
+		
+		// 查询所有的战区信息
+		List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesJobEnum.BUSIWZ.getCode());
+		if(orgs != null && orgs.size() > 0){
+			request.setAttribute("orgs", orgs);
+		}
 		
 		if("dev".equals(propertyService.getEnvironment())){
 			SessionUser u= uamSesstionService.getSessionUser();
 			request.setAttribute("username", u.getUsername());
+			
+			// 查询SessionUser对应的区蕫信息
+			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesJobEnum.BUSIWZ.getCode());
+			if(org != null){
+				User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
+				if(user != null){
+					request.setAttribute("orgId", org.getId());
+					request.setAttribute("realname", user.getRealName());
+				}
+			}
+			
 			return "mobile/propresearch/wecharadd";
 		}
 		
@@ -126,6 +149,24 @@ public class PropertyController {
 	@ResponseBody
 	public AjaxResponse hasMapping(String district) {
 		AjaxResponse result = new AjaxResponse<>(propertyService.hasMapping(district));
+		return result;
+	}
+	
+	/**
+	 * 获取战区对应的区蕫信息
+	 * @param orgId
+	 * @return
+	 */
+	@RequestMapping("getOrgName")
+	@ResponseBody
+	public AjaxResponse getOrgName(String orgId) {
+		User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, SalesJobEnum.JQYDS.getCode());
+		AjaxResponse result = null;
+		if(user != null){
+			result = new AjaxResponse<>(true, user.getRealName());
+		}else{
+			result = new AjaxResponse<>(false);
+		}
 		return result;
 	}
 }

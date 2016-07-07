@@ -297,6 +297,7 @@ function distributeCase(index){
 				$(".blockOverlay").css({'z-index':'9998'});
             },  
             complete: function() {  
+            	$("#myCaseList").html("");
                 $.unblockUI();   
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
@@ -383,11 +384,15 @@ function changeCaseTeam(){
 		var caseInfoList = new Array();
 		var checkeds=$('input[name="my_checkbox"]:checked');
 		$.each(checkeds, function(i, items){
-			var caseCode = $('input[name="my_checkbox"]:checked:eq('+i+')').next('input[name="case_code"]').val();
-			var grpCode =  $('input[name="my_checkbox"]:checked:eq('+i+')').next('input[name="case_code"]').next('input[name="yu_team_code"]').val();
+			var $myCheckbox = $('input[name="my_checkbox"]:checked:eq('+i+')');
+			var $caseCode = $myCheckbox.next('input[name="case_code"]');
+			var $grpCode  = $caseCode.next('input[name="yu_team_code"]');
+			var $leadingProcessId  = $grpCode.next('input[name="leading_process_id"]');
+			
 			var toCaseInfo = {
-				caseCode : caseCode,
-				grpCode : grpCode
+				caseCode : $caseCode.val(),
+				grpCode : $grpCode.val(),
+				requireProcessorId:$leadingProcessId.val()
 			}
 			caseInfoList.push(toCaseInfo);
 			
@@ -421,6 +426,7 @@ function changeCaseTeam(){
 				$(".blockOverlay").css({'z-index':'9998'});
             },  
             complete: function() {  
+            	$("#myCaseList").html("");
                 $.unblockUI();   
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(

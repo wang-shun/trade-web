@@ -55,12 +55,15 @@ import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.entity.ToTransPlan;
+import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -113,6 +116,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private UamMessageService uamMessageService;
 	@Autowired(required = true)
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private TlTaskReassigntLogService taskReassingtLogService;
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
 		// TODO Auto-generated method stub
@@ -472,5 +477,21 @@ public class ToCaseServiceImpl implements ToCaseService {
 		message.setContent(content);
 		message.setSenderId(sessionUser.getId());
 		uamMessageService.sendMessageByDist(message, userId);
+	}
+
+	@Override
+	public void changeTaskAssignee(String caseCode, String taskId, String userId) {
+		TaskVo task= workFlowManager.getTask(taskId);
+		String username=uamUserOrgService.getUserById(userId).getUsername();
+		if(StringUtils.isBlank(task.getAssignee())){
+			workFlowManager.doOptTaskPlan(task.getTaskDefinitionKey(), caseCode);
+			TaskOperate opt=new TaskOperate(taskId, "claim"); 
+			opt.setAssignee(username);
+			workFlowManager.operaterTask(opt);
+		}else{
+			taskReassingtLogService.record(task, username, caseCode);
+			task.setAssignee(username);
+			workflowManager.updateTask(task);
+		}
 	}
 }
