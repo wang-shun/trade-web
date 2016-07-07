@@ -201,7 +201,7 @@ $('#exportExcel').click(function(){
 	url = ctx + url + $.param(param) + '&queryId='+ queryIdArg + '&colomns='+ displayColomn;
 	$('#excelForm').attr('action', url);
 	$('#excelForm').submit();
-	alert('调出Excel成功');
+	alert('导出Excel成功');
 	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	$(".blockOverlay").css({'z-index':'9998'});
 	//2s后刷新页面
