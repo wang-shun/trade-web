@@ -1282,7 +1282,7 @@
 			});
 		}
 		function show(fileId) {
-			window.open(appCtx['shcl-image-web'] + "/image/"+fileId);
+			window.open(appCtx['shcl-image-web'] + "/image/"+fileId+"/_f.jpg");
 		}
 	</script> 
 	</content>
