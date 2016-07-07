@@ -89,6 +89,7 @@
 	
 	<!-- 各个环节的备注信息  -->
 	<import resource="query/case/CaseCommentListQuery.xml" />
+	<import resource="query/case/CasePartCodeCommentListQuery.xml" />
 	<import resource="query/perform/gustFollowQuery.xml"></import>
 	<import resource="query/award/baseImportQuery.xml"></import>
 	<import resource="query/award/baseAward.xml"></import>
@@ -110,7 +111,6 @@
 	<import resource="query/report/toCaseDetailListQuery.xml"></import>
 	<import resource="query/report/toCaseListQueryCount.xml"></import>
 	<import resource="query/eval/toEvalListQueryForStatistics.xml"></import>
-	<import resource="query/report/toQueryHistoryTaskList.xml"></import>
 	
 	<!-- 评估费 -->
 	<import resource="query/eval/getInfo4EvalFeeDesign.xml"/>

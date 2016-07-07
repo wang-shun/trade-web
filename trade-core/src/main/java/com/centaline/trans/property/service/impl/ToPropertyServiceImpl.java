@@ -221,7 +221,7 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 
 	@Override
 	public int saveProcessingList(String pkid, String userId, String isScuess, String unSuccessReason,
-			Boolean isSubmit) {
+			Boolean isSubmit, String executorId) {
 		ToPropertyResearch pr = new ToPropertyResearch();
 		pr.setPkid(Long.valueOf(pkid));
 		pr.setIsSuccess(Integer.valueOf(isScuess));
@@ -229,8 +229,9 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		if(isSubmit){
 			pr.setPrStatus("2");
 			pr.setPrCompleteTime(new Date());
-			pr.setPrExecutor(userId);
+			// pr.setPrExecutor(userId);
 		}
+		pr.setPrExecutor(executorId);
 		toPropertyResearchMapper.updateByPrimaryKeySelective(pr);
 		// 发送消息
 		try {
