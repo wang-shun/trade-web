@@ -808,6 +808,16 @@
 					$('input[name=square]').focus();
 					return false;
 				}
+				if ($('select[name=chaxiangou]').val() == '') {
+					alert("限购查询为必选项!");
+					$('select[name=chaxiangou]').focus();
+					return false;
+				}
+				if ($('select[name=diya]').val() == '') {
+					alert("抵押情况为必选项!");
+					$('select[name=diya]').focus();
+					return false;
+				}
 			}
 			if ($('select[name="unCrossCooperationUser"]').size() == 0) {
 				alert("正在加载合作项目!");

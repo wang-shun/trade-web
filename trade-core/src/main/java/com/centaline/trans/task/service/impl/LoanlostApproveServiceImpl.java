@@ -47,7 +47,11 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 	public List<String> findApproveRecordByList(ToApproveRecord toApproveRecord) {
 		return toApproveRecordMapper.findApproveRecordByList(toApproveRecord);
 	}
-
+	
+	@Override
+	public ToApproveRecord findLastApproveRecord(ToApproveRecord toApproveRecord){
+		return toApproveRecordMapper.findLastApproveRecord(toApproveRecord);
+	}
 	@Override
 	public Map<String, Object> queryCaseInfo(String caseCode, String partCode,String instCode) {
 		ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCode(caseCode);

@@ -130,7 +130,7 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-2 control-label">请选择</label>
+									<label class="col-md-2 control-label"></label>
 									<div class="control-div">
 									       <select id="inTextType" data-placeholder= "搜索条件设定"
 		                                        class= "btn btn-white chosen-select" style="float :left;" >
@@ -147,7 +147,7 @@ text-decoration: underline !important;
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-2 control-label">请选择</label>
+									<label class="col-md-2 control-label">任务名</label>
 									<div class="col-md-4">
 										<aist:dict id="taskDfKey" name="taskDfKey"
 										clazz="form-control m-b" display="select"
@@ -165,7 +165,7 @@ text-decoration: underline !important;
 										<button id="searchButton" type="button"
 														class="btn btn-warning pull-left">查询</button>&nbsp;&nbsp;
 																				<button onclick="showOptUsers();" type="button"
-														class="btn btn-warning ">批量处理</button>
+														class="btn btn-warning ">批量分配</button>
 							</div>
 							</div>
 							</div>

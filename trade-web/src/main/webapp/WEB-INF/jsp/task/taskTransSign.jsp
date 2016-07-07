@@ -817,12 +817,21 @@ if("${idList}" != "") {
 		//验证控件checkUI();
 		function checkForm() {
 			var checkGuest = true;
+			if ($('select[name=isPerchaseReserachNeed]').val() == '' ) {
+				alert("限购查询为必选项!");
+				$('select[name=isPerchaseReserachNeed]').focus();
+				return false;
+			}
+			if ($('select[name=isLoanClose]').val() == '') {
+				alert("抵押情况为必选项!");
+				$('select[name=isLoanClose]').focus();
+				return false;
+			}
 			if($('input[name=realConTime]').val()=='') {
                 alert("实际签约时间为必填项!");
                 $('input[name=realConTime]').focus();
                 return false;
-           }
-			
+           }			
 			var selects = $("input[name='guestNameUp']");
 			$.each(selects, function(j, item) {
 				if(item.value == '') {
@@ -938,6 +947,21 @@ if("${idList}" != "") {
                 $('input[name=totalFloor]').focus();
                 return false;
             }
+			if($('select[name=propertyType]').val()=='') {
+                alert("房屋类型为必选项!");
+                $('input[name=propertyType]').focus();
+                return false;
+            }
+			if($('select[name=isHukou]').val()=='') {
+                alert("合同公证为必选项!");
+                $('input[name=isHukou]').focus();
+                return false;
+            }
+			if($('select[name=isConCert]').val()=='') {
+                alert("房屋户口为必选项!");
+                $('input[name=isConCert]').focus();
+                return false;
+            }
 			if($('input[name=houseHodingTax]').val()=='') {
                 alert("房产税为必填项!");
                 $('input[name=houseHodingTax]').focus();
@@ -961,6 +985,11 @@ if("${idList}" != "") {
 			if($('input[name=conPrice]').val()=='') {
                 alert("合同价为必填项!");
                 $('input[name=conPrice]').focus();
+                return false;
+            }
+			if($('input[name=landIncrementTax]').val()=='') {
+                alert("土地增值税为必填项!");
+                $('input[name=landIncrementTax]').focus();
                 return false;
             }
 			if($('input[name=picName]').val()==undefined&&$('input[name=pic]').val()==undefined) {

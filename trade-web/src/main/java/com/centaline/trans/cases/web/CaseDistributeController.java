@@ -286,6 +286,12 @@ public class CaseDistributeController {
     	SessionUser sessionUser = uamSessionService.getSessionUser();
     	for(String caseCode:caseCodes){	    
     		try {
+    			//非自己组的案件，不能进行分配
+    			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+    			if(toCaseInfo==null || !sessionUser.getId().equals(toCaseInfo.getRequireProcessorId())){
+    				continue;
+    			}
+    			
 	    		toCaseService.caseAssign(caseCode, userId, sessionUser);
 	    		toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
     		}catch (BusinessException | WorkFlowException e) {
