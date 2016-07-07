@@ -166,7 +166,7 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-							<label class="col-md-1 control-label m-l">请选择</label>
+							<label class="col-md-1 control-label m-l"></label>
 							<div id="select_div_1" class="">
 								<select id="inTextType" data-placeholder="搜索条件设定"
 									class="btn btn-white chosen-select form-control pull-left col-md-6" onchange="intextTypeChange()">
@@ -186,7 +186,7 @@ text-decoration: underline !important;
 						<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
-							<label class="col-md-1 control-label m-l">请选择</label>
+							<label class="col-md-1 control-label m-l"></label>
 							<div id="dateDiv_0">
 							<div id="select_div_0">
 								<aist:dict id="case_date_0" name="case_date"

@@ -184,7 +184,7 @@ text-decoration: underline !important;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-2 control-label">请选择</label>
+									<label class="col-md-2 control-label"></label>
 									<div class="control-div">
 									       <select id="inTextType" data-placeholder= "搜索条件设定"
 		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
