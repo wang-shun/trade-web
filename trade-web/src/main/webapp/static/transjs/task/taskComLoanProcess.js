@@ -76,6 +76,9 @@ function checkMortgageForm(formId){
 	}else if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
+	}else if(formId.find("select[name='lendWay']").val() == "" || formId.find("select[name='lendWay']").val() == null){
+		formId.find("select[name='lendWay']").css("border-color","red");
+		return false;
 	}else if(formId.find("input[name='loanerName']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;

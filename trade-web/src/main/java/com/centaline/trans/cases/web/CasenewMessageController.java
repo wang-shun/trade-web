@@ -20,6 +20,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,7 +81,8 @@ public class CasenewMessageController {
 	@Autowired
 	private UamBasedataService uamBasedataService;
 	
-	
+	@Value("${caseMessage.push:1}")
+	private String CASE_MESSAGE_PUSH;
 	/**
 	 * 功能：通过请求url 获取到 caseCode
 	 * @author zhangxb16
@@ -130,13 +132,16 @@ public class CasenewMessageController {
 	 * @param requireProcessorId  请求处理人编号[交易顾问ID]
 	 * @author zhangxb16
 	 */
-	@RequestMapping(value="case", method={RequestMethod.POST})
+	@RequestMapping(value="case")
 	@ResponseBody
 	public String newCaseMessage(HttpServletRequest request, HttpServletResponse response, Model model, 
 			String ctm_case_code, String agent_id, String agent_name, String guestInfoList, String property_address, 
 			String property_code, String property_agent_id, String consult_id, String grp_code, String grp_name) throws HttpException, 
 			IOException, JSONException{
 		
+		if("0".equals(CASE_MESSAGE_PUSH)){
+			return "";
+		}
 		ResultNew rs=new ResultNew();
 		
 		Gson gson = new Gson();
