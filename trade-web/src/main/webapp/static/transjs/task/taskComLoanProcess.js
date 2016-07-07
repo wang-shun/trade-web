@@ -359,8 +359,8 @@ function completeMortgage(form){
 			if(data.success){
 				if('caseDetails'==source){
 					if(data.message){
-						alert(data.message);
 						window.close();
+						window.opener.callback();
 					}else{
 						alert('保存成功');
 					}
