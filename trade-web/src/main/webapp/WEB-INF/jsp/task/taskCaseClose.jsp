@@ -782,7 +782,7 @@
                                             <h5>${accesory.preFileName}</h5>
                                             <div class="ibox-content">
                                             <div id="imgShow" class="lightBoxGallery">
-	                                            <a href='#'  style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>
+	                                            <a href='#' onClick="show('${accesory.preFileAdress}')" data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>
 	                                                <img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/80_80_f.jpg" style='padding-bottom: 5px;padding-top: 5px;'>
 	                                            </a>
                                             </div>
@@ -1280,6 +1280,9 @@
 					alert("上下家加载失败！");
 				}
 			});
+		}
+		function show(fileId) {
+			window.open(appCtx['shcl-image-web'] + "/image/"+fileId+"/_f.jpg");
 		}
 	</script> 
 	</content>
