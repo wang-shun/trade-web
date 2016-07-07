@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>进度条</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<style>
+		*{padding:0;margin:0;}
+		.pt10{padding-top:10px;}
+		.pt40{padding-top:40px;}
+		.pt50{padding-top:50px;}
+		.pb10{padding-bottom:10px;}
+		.pb20{padding:40px 20px 20px 0;}
+		.wrap{background-color:#f3f3f3;padding:20px;}
+		.data-progress-wrap{width:100%;font-family:'微软雅黑','Arial';}
+		.data-progress{background-color:#fff;border-top:5px solid #e6eaed;display:inline-block;}
+		.data1{width:34%;margin-right:1%;}
+		.data2{width:30%;margin-right:1%;}
+		.data3{width:33%;margin-right:0;}
+		.data-progress{padding:0 20px;}
+		.data-left{width:100%;}
+		.left-label{color:#5b5b5b;text-align:right;width:96px;height:40px;line-height:40px;display:inline-block;padding-right:20px;border-right:1px solid #e6eaed;}
+		.h50{height:50px;}
+		.h90{height:90px;}
+		.wd64{width:64px;}
+		.wd105{width:105px;}
+		.data-progress .data-bar{width:42%;display:inline-block;}
+		.data-progress .progress{height:10px;margin:0 0 0 -5px;border-radius:0;background:none;box-shadow:none;}
+		.right-label{color:#333;font-size:16px;float:right;line-height:40px;}
+		.data-progress .bar-yellow{background-color:#efba00;}
+		.data-progress .bar-red{background-color:#ed5565;}
+		.data-progress .bar-blue{background-color:#52cdec;}
+		
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="data-progress-wrap">
+			<div class="data-progress data1">
+				<div class="data-left">
+					<span class="left-label h50 pt10">E+申请金额</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 100%;" class="progress-bar bar-yellow"></div>
+			            </div>
+					</div>
+		            <span class="right-label pt10">4000万</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label">E+面签金额</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 80%;" class="progress-bar bar-yellow"></div>
+			            </div>
+					</div>
+		            <span class="right-label">2000万</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label">E+放款金额</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 56%;" class="progress-bar bar-yellow"></div>
+			            </div>
+					</div>
+		            <span class="right-label">2000万</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label h50 pb10">评估费</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 30%;" class="progress-bar bar-red"></div>
+			            </div>
+					</div>
+		            <span class="right-label pb10">6万</span>
+				</div>
+			</div>
+			<div class="data-progress data2">
+				<div class="data-left">
+					<span class="left-label wd105 h90 pt50">E+转换率</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 100%;" class="progress-bar bar-yellow"></div>
+			            </div>
+					</div>
+		            <span class="right-label pt50">100%</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label wd105 h90 pb20">评估费转换率</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 30%;" class="progress-bar bar-red"></div>
+			            </div>
+					</div>
+		            <span class="right-label pt40">30%</span>
+				</div>
+			</div>
+			<div class="data-progress data3">
+				<div class="data-left">
+					<span class="left-label wd64 h50 pt10">接单数</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 40%;" class="progress-bar bar-blue"></div>
+			            </div>
+					</div>
+		            <span class="right-label pt10">43单</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label wd64 ">签约数</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 100%;" class="progress-bar bar-blue"></div>
+			            </div>
+					</div>
+		            <span class="right-label">1亿&nbsp;&nbsp;4单</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label wd64">过户数</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 56%;" class="progress-bar bar-blue"></div>
+			            </div>
+					</div>
+		            <span class="right-label">13单</span>
+				</div>
+				<div class="data-left">
+					<span class="left-label wd64 h50 pb10">结案数</span>
+					<div class="data-bar">
+						<div class="progress progress-small">
+			                <div style="width: 30%;" class="progress-bar bar-blue"></div>
+			            </div>
+					</div>
+		            <span class="right-label pb10">23单</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

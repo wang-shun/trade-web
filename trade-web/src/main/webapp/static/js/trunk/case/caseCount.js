@@ -12,8 +12,6 @@ function queryConutCaseByDate(){
 		}
 	}
 	
-	addLinkHref(month,sUserId);
-	
 	//生成起始时间和结束时间
 	var d1 = new Date();
 	var year = d1.getFullYear();
