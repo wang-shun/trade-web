@@ -159,7 +159,6 @@ text-decoration: underline !important;
 						<th class="text-center">经办人</th>
 						<th class="text-center">预计完成时间</th>
 						<th class="text-center">产证地址</th>
-						<th class="text-center">导出时间</th>
 					</tr>
 				</thead>
 				<tbody id="redgreenTaskDetailList">
@@ -217,7 +216,6 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.REAL_NAME}}</td>
 						<td class="t-left pd-l">{{item.EST_PART_TIME}}</td>
 						<td class="t-left pd-l">{{item.PROPERTY_ADDR}}</td>
-						<td class="t-left pd-l">{{item.IMPORTTIME}}</td>
 						
 				  </tr>
        {{/each}}

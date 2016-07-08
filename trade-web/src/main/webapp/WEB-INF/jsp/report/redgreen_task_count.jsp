@@ -102,9 +102,9 @@ text-decoration: underline !important;
 				<div class="ibox-title">
 					<h5>红绿灯任务统计</h5>
 				</div>
-				<!-- <div class="ibox-content">
+				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<div class="row date-info">
+						<!-- <div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
 							<label class="col-md-1 control-label m-l">产调申请时间</label>
@@ -122,9 +122,9 @@ text-decoration: underline !important;
 						</div>
 						</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="row m-t-sm">
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div class="form-group">
 									<label class="col-md-2 control-label m-l-lg"></label>
 									<div>
@@ -132,10 +132,16 @@ text-decoration: underline !important;
 										<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
 									</div>							
 								</div>
+							</div> -->
+							<div class="col-md-6"  style="text-align:right;">
+							 	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
+									<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">任务统计导出</a>
+								</shiro:hasPermission>
 							</div>
 						</div>
 					</form>
-				</div> -->
+				</div>
+				
 			</div>
 		</div>
 			<div class="data-wrap">
@@ -149,7 +155,6 @@ text-decoration: underline !important;
 						<th class="t-left pd-l">主管</th>
 						<th class="text-center">黄灯</th>
 						<th class="text-center">红灯</th>
-						<th class="text-center">导出时间</th>
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
@@ -201,8 +206,11 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName2}}</td>
 						<td class="t-left pd-l">{{item.yellow}}</td>
 						<td class="t-left pd-l">{{item.red}}</td>
-						<td class="t-left pd-l">{{item.importtime}}</td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetail('{{item.id}}');" target="_blank">查看详细</a></td>
+						<td class="t-left pd-l">
+                            <a href="javascript:queryRedGreenTaskDetail('{{item.id}}');" target="_blank">查看详细</a>&nbsp;&nbsp;
+                            <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
+                        
+                        </td>
 						
 				  </tr>
        {{/each}}
