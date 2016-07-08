@@ -132,7 +132,7 @@ public class CasenewMessageController {
 	 * @param requireProcessorId  请求处理人编号[交易顾问ID]
 	 * @author zhangxb16
 	 */
-	@RequestMapping(value="case")
+	@RequestMapping(value="case", method={RequestMethod.POST})
 	@ResponseBody
 	public String newCaseMessage(HttpServletRequest request, HttpServletResponse response, Model model, 
 			String ctm_case_code, String agent_id, String agent_name, String guestInfoList, String property_address, 
