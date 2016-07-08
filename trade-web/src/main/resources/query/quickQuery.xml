@@ -121,4 +121,9 @@
 	<!-- 备注模块 -->
 	<import resource="query/comment/CasePartCodeCommentListQuery.xml" />
 	
+	<!-- 面签金融产品 -->
+	<import resource="query/report/toReportSignFaceQuery.xml" />
+	
+	<!-- 签约案件 -->
+	<import resource="query/report/toReportSignCaseQuery.xml" />
 </queryConfig>
