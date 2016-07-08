@@ -76,6 +76,9 @@ function checkMortgageForm(formId){
 	}else if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
+	}else if(formId.find("select[name='lendWay']").val() == "" || formId.find("select[name='lendWay']").val() == null){
+		formId.find("select[name='lendWay']").css("border-color","red");
+		return false;
 	}else if(formId.find("input[name='loanerName']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
@@ -356,7 +359,8 @@ function completeMortgage(form){
 			if(data.success){
 				if('caseDetails'==source){
 					if(data.message){
-						alert(data.message);
+						window.close();
+						window.opener.callback();
 					}else{
 						alert('保存成功');
 					}
@@ -990,11 +994,24 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
-    				if($("#input[name='optionsRadios']:checked").val()==0){
-    					$("#direct_launch_div").hide();
-    				}else{
-    					$("#direct_launch_div").show();
-    				}
+    				 document.getElementById('optionsRadios1').checked=true;
+                     if($("input[name='optionsRadios']:checked").val()==0){
+                         $("#direct_launch_div").hide();
+                     }else{
+                         $("#direct_launch_div").show();
+                          $("#addToEguPricingForm").find("input").each(function(){
+                              $(this).removeAttr("disabled");
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                                  $(this).val("");
+                              }
+                          });
+                          $("#addToEguPricingForm").find("select").each(function(){
+                              $(this).removeAttr("disabled");
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                                  $(this).val("");
+                              }
+                          });
+                     }
     				if(popInited)return true;
     				popInited=true;
     				$("input[name='optionsRadios']").click(function(){

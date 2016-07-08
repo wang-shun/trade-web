@@ -57,7 +57,7 @@
 		.apply-table tr:nth-child(odd) td.btn-g{padding:8px 0 4px 8px;}
 		.apply-table tr:nth-child(even) td.btn-g{padding:5px 0 10px 8px;}
 		.apply-table tr td.invalid{width:150px;padding-right:10px !important;}
-		.apply-table tr em{font-style:normal;font-size:13px;line-height:18px;}
+		.apply-table tr em{font-style:normal;font-size:12px;line-height:18px;}
 		.apply-table tbody a{color:#1a5f8e;}
 	</style>
     

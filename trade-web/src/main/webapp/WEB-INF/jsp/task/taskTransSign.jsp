@@ -36,7 +36,11 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- aist列表样式 -->
+<link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
+<!-- 备注信息 -->
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 var ctx = "${ctx}";
 var taskitem = "${taskitem}";
@@ -173,7 +177,7 @@ if("${idList}" != "") {
 					<div class="form-group">
 						<label class="col-sm-2 control-label" >首付付款</label>
 						<div class="col-sm-10 input-group" style="margin-left: 197px;margin-top:-2px;">
-							<div class="row">
+							<div class="row"> 
 								<input type="hidden" value="首付付款" id="initPayName"
 									name="initPayName" >
 								<div class="col-md-3">
@@ -414,8 +418,9 @@ if("${idList}" != "") {
 					</div>
 					<div class="clearfix"></div>
 				</form>
-
 			</div>
+		</div>
+		<div id="caseCommentList" class="add_form">
 		</div>
 		<div class="ibox-title" style="height:auto;">
 		<c:choose>  
@@ -536,6 +541,7 @@ if("${idList}" != "") {
 		<a href="#" class="btn btn-primary" onclick="save(false)">保存</a>&nbsp;&nbsp;
 		<a href="#" class="btn btn-primary" readOnlydata='1' onclick="submit()">提交</a>
 		</div>
+        
 <div id="smsPlatFrom"></div>
 	</div>
 
@@ -586,7 +592,12 @@ if("${idList}" != "") {
 	
 	<script src="${ctx}/transjs/sms/sms.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
-
+	
+	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script>
 	
 	$("#sendSMS").click(function(){
@@ -612,7 +623,13 @@ if("${idList}" != "") {
 				}
 			});
 		}
-		$(function() {
+		$(function() { 
+			var caseCode = $('#caseCode').val();
+			var srvCode = 'TransSign';
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : srvCode
+			});
 			TaskTransSignValidate.init("transSignForm","");
 			// Examle data for jqGrid
 			//AistUpload.initHouAddPicUpload();
@@ -800,12 +817,21 @@ if("${idList}" != "") {
 		//验证控件checkUI();
 		function checkForm() {
 			var checkGuest = true;
+			if ($('select[name=isPerchaseReserachNeed]').val() == '' ) {
+				alert("限购查询为必选项!");
+				$('select[name=isPerchaseReserachNeed]').focus();
+				return false;
+			}
+			if ($('select[name=isLoanClose]').val() == '') {
+				alert("抵押情况为必选项!");
+				$('select[name=isLoanClose]').focus();
+				return false;
+			}
 			if($('input[name=realConTime]').val()=='') {
                 alert("实际签约时间为必填项!");
                 $('input[name=realConTime]').focus();
                 return false;
-           }
-			
+           }			
 			var selects = $("input[name='guestNameUp']");
 			$.each(selects, function(j, item) {
 				if(item.value == '') {
@@ -921,6 +947,21 @@ if("${idList}" != "") {
                 $('input[name=totalFloor]').focus();
                 return false;
             }
+			if($('select[name=propertyType]').val()=='') {
+                alert("房屋类型为必选项!");
+                $('input[name=propertyType]').focus();
+                return false;
+            }
+			if($('select[name=isHukou]').val()=='') {
+                alert("合同公证为必选项!");
+                $('input[name=isHukou]').focus();
+                return false;
+            }
+			if($('select[name=isConCert]').val()=='') {
+                alert("房屋户口为必选项!");
+                $('input[name=isConCert]').focus();
+                return false;
+            }
 			if($('input[name=houseHodingTax]').val()=='') {
                 alert("房产税为必填项!");
                 $('input[name=houseHodingTax]').focus();
@@ -944,6 +985,11 @@ if("${idList}" != "") {
 			if($('input[name=conPrice]').val()=='') {
                 alert("合同价为必填项!");
                 $('input[name=conPrice]').focus();
+                return false;
+            }
+			if($('input[name=landIncrementTax]').val()=='') {
+                alert("土地增值税为必填项!");
+                $('input[name=landIncrementTax]').focus();
                 return false;
             }
 			if($('input[name=picName]').val()==undefined&&$('input[name=pic]').val()==undefined) {

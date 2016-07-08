@@ -118,4 +118,7 @@
 	<import resource="query/mortgage/tmpBankQuery.xml"/>
 	<import resource="query/task/uncompleteTaskQuery.xml"></import>
 	
+	<!-- 备注模块 -->
+	<import resource="query/comment/CasePartCodeCommentListQuery.xml" />
+	
 </queryConfig>

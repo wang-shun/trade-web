@@ -176,7 +176,7 @@ from (
   </select>
   <select id="staLoanAgent" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
   	select sum(la.ACTUAL_AMOUNT) as actualAmount,
-	(sum(la.SIGN_AMOUNT)/(case when SUM(tsi.REAL_PRICE)=0 THEN  0.001  end)*100) as convRate 
+	(sum(la.SIGN_AMOUNT)/(case when SUM(tsi.REAL_PRICE)=0 THEN  0.001 else SUM(tsi.REAL_PRICE)  end)*100) as convRate 
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
@@ -235,8 +235,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
@@ -313,8 +313,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
@@ -368,8 +368,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-			(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
@@ -412,7 +412,7 @@ from (
   </select>
   
   <select id="staEvaFee" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
-	 select sum(tf.EVAL_FEE) as evalFee,(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 end) *100)as efConvRate from sctrans.T_TO_EVA_FEE_RECORD as tf 
+	 select sum(tf.EVAL_FEE) as evalFee,(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 else sum(ts.REAL_PRICE/1000) end) *100)as efConvRate from sctrans.T_TO_EVA_FEE_RECORD as tf 
 	 left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
 	 on tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
 	 left join sctrans.t_to_sign  as ts
@@ -507,7 +507,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 </select>
 <select id="staLoanSign"  parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultMap="loanDet">
 	select la.LOAN_SRV_CODE as staItem,SUM(la.sign_amount) as [amount],count(la.sign_amount) as  [count],
-	CAST((sum(la.sign_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 end)*100) as decimal(38, 2)) as convRate
+	CAST((sum(la.sign_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE
@@ -533,7 +533,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 </select>
 <select id="staLoanRelease"  parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultMap="loanDet">
 	select la.LOAN_SRV_CODE as staItem,SUM(la.actual_amount) as [amount],count(la.actual_amount) as  [count],
-	CAST((sum(la.actual_amount)/(case when SUM(tsi.REAL_PRICE) =0 then 0.001 end)*100) as decimal(38, 2)) as convRate
+	CAST((sum(la.actual_amount)/(case when SUM(tsi.REAL_PRICE) =0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
 	 from sctrans.T_TO_LOAN_AGENT as la 
 	 left join sctrans.t_to_sign as tsi
 	 on la.CASE_CODE=tsi.CASE_CODE

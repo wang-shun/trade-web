@@ -85,7 +85,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">物业地址</label>
+									<label class="col-md-3 control-label m-l">产证地址</label>
 									<div class="col-md-8"> 	
 										<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
 									</div>
@@ -193,7 +193,7 @@
         		    	           sord: "desc",
         		    	           sortActive : true
         		    	      },{
-        		    	           colName :"物业地址"
+        		    	           colName :"产证地址"
         		    	      },{
        		    	                colName :"主办"
     		    	          },{

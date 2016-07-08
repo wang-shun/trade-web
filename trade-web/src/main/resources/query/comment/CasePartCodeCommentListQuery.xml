@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="partName" beanName="qqcdDictPartName"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryCasePartCommentList">
+		<searchCondition>
+			<condition field="CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue="" />
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						CASE_CODE, 
+						SRV_CODE, 
+						COMMENT,
+						CREATE_BY,
+						CREATE_TIME,
+						UPDATE_BY,
+						UPDATE_TIME
+					FROM sctrans.T_TO_CASE_COMMENT 
+					where 1=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY CREATE_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="SRV_CODE" index="" checkbox="" title="环节编码" customDict="partName" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="COMMENT" index="" checkbox="" title="备注信息" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="CREATE_BY" index="" checkbox="" title="创建人" customDict="qqcdUserIdName" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="CREATE_TIME" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="UPDATE_BY" index="" checkbox="" title="更新人" customDict="qqcdUserIdName" sysDict="" beanFormatter="dateFormatter" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="UPDATE_TIME" index="" checkbox="" title="更新时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
