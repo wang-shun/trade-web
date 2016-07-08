@@ -16,7 +16,7 @@
         <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
         <link href="${ctx}/css/animate.css" rel="stylesheet">
         <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
-        <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet">
+        <link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet">
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <!-- 分页控件 -->
@@ -199,7 +199,7 @@
         <!-- 分页控件  -->
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-        <script src="${ctx}/transjs/kpi/bonus.js"></script>
+        <script src="${ctx}/transjs/award/bonus.js"></script>
         <script src="${ctx}/js/plugins/jquery.custom.js"></script>
 		<script id="tsAwardBaseList" type= "text/html">
                            {{each rows as item index}}

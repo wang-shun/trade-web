@@ -160,7 +160,7 @@ width:160px;
     <!-- 日期控件 -->
     <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
     <!-- 列表 -->
-    <script src="${ctx}/transjs/kpi/personBonus.list.js"></script>
+    <script src="${ctx}/transjs/award/personBonus.list.js"></script>
     <script src="${ctx}/js/plugins/jquery.custom.js"></script>
     <script>
     var ctx = "${ctx}";
