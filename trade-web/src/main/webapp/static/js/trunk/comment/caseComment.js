@@ -31,7 +31,7 @@
 		commentButton+='</div>';
 		$(this).after(commentButton);
 		
-		var commentTitile ='<div style="padding:10px;margin-top:5px;background-color:#ffffff;"><h3>环节备注信息</h3></div>';
+		var commentTitile ='<div style="padding:10px;margin-top:5px;background-color:#ffffff;"><h3>案件备注信息</h3></div>';
 		$(this).before(commentTitile);
 		self = $(this);
 		tempSource = templeteSource;
