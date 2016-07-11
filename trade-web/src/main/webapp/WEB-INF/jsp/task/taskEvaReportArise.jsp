@@ -286,7 +286,7 @@
 	
 	<script src="${ctx}/transjs/task/taskEvaReportArise.js"></script> 
 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	 </content>
 </body>
 

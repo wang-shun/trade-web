@@ -289,9 +289,9 @@
 			var jsonData = $("#tasReviewForm").serializeArray();
 			deleteAndModify();
 			
-			var url = "${ctx}/task/tax/saveTaxReview";
+			var url = "${ctx}/task/taxReview/saveTaxReview";
 			if(b) {
-				url = "${ctx}/task/tax/submitTaxReview";
+				url = "${ctx}/task/taxReview/submitTaxReview";
 			}
 			
 			$.ajax({

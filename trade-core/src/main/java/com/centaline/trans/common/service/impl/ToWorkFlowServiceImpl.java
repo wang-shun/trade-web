@@ -19,8 +19,8 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 
 	@Override
 	public int insertSelective(ToWorkFlow record) {
-		// TODO Auto-generated method stub
-		return toWorkFlowMapper.insertSelective(record);
+		 toWorkFlowMapper.insertSelective(record);
+		 return 1;
 	}
 
 	@Override

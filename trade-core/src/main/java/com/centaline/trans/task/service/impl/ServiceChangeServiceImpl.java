@@ -173,7 +173,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
     			return 2;
     		}
         	ProcessInstance process = new ProcessInstance();
-        	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+        	process.setBusinessKey(caseCode);
         	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
         	/*流程引擎相关*/
         	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());

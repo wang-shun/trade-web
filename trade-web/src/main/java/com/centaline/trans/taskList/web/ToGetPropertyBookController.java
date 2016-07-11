@@ -1,10 +1,10 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,26 +13,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToGetPropertyBook;
-import com.centaline.trans.task.entity.TsMsgSendHistory;
 import com.centaline.trans.task.service.ToGetPropertyBookService;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
 
 @Controller
-@RequestMapping(value="/task/tgpb")
+@RequestMapping(value="/task/houseBookGet")
 public class ToGetPropertyBookController {
 
 	@Autowired
@@ -45,19 +38,35 @@ public class ToGetPropertyBookController {
 	
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-	
 	@Autowired
-	private ToPropertyInfoService topropertyInfoService;
-	
-	@Autowired
-    private UamBasedataService   uambasedataService;
-	
-	@Autowired
-	private UamSessionService uamSessionService;
-	
-	@Autowired
-	private TsMsgSendHistoryService tsmsgSendHistoryService;
-	
+	private ToAccesoryListService toAccesoryListService;
+	/**
+	 * 领证
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
+	@RequestMapping("process")
+	public String toProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		RestVariable psf = workFlowManager.getVar(processInstanceId, "PSFLoanNeed");/*公积金*/
+
+		// add zhangxb16 2016-2-22
+		RestVariable self = workFlowManager.getVar(processInstanceId, "SelfLoanNeed");/*自办*/
+		RestVariable com = workFlowManager.getVar(processInstanceId, "ComLoanNeed");/*贷款*/
+		
+		toAccesoryListService.getAccesoryListLingZheng(request, taskitem, (boolean)(psf==null?false:psf.getValue()), (boolean)(self==null?false:self.getValue()), (boolean)(com==null?false:com.getValue()));
+		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
+		return "task/taskHouseBookGet";
+	}
 	
 	@RequestMapping(value="saveToGetPropertyBook")
 	@ResponseBody

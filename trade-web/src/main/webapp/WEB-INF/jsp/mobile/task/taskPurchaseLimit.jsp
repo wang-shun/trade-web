@@ -282,9 +282,9 @@
 			var jsonData = $("#purchaseLimitForm").serializeArray();
 			deleteAndModify(); 
 			
-			var url = "${ctx}/task/pls/savePls";
+			var url = "${ctx}/task/purchaseLimit/savePls";
 			if(b) {
-				url = "${ctx}/task/pls/submitPls";
+				url = "${ctx}/task/purchaseLimit/submitPls";
 			}
 			
 			$.ajax({

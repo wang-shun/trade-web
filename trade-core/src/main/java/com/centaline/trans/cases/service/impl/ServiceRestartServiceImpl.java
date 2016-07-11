@@ -148,7 +148,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
 		
 		ProcessInstance process = new ProcessInstance();
-    	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+    	process.setBusinessKey(vo.getCaseCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
     	/*流程引擎相关*/
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());

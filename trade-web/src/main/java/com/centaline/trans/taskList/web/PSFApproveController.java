@@ -1,10 +1,10 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,23 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.TsMsgSendHistory;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
 
 @Controller
 @RequestMapping(value="/task/PSFApprove")
@@ -42,21 +35,21 @@ public class PSFApproveController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-	
-	@Autowired
-	private ToPropertyInfoService topropertyInfoService;
-	
-	@Autowired
-    private UamBasedataService   uambasedataService;
-	
-	@Autowired
-	private UamSessionService uamSessionService;
-	
-	@Autowired
-	private TsMsgSendHistoryService tsmsgSendHistoryService;
+	@RequestMapping("process")
+	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		toAccesoryListService.getAccesoryList(request, taskitem);
+		request.setAttribute("PSFApprove", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));//--30016003
+		return "task/taskPSFApprove";
+	}
 	
 	@RequestMapping(value="saveMortgage")
 	@ResponseBody

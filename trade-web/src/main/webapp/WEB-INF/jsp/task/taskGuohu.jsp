@@ -391,7 +391,7 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/sms/sms.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<!-- 审批记录 -->
 	<%-- <script src="${ctx}/transjs/task/loanlostApprove.js"></script> --%>
 	<%-- <script src="${ctx}/transjs/task/guohuApprove.js"></script> --%>

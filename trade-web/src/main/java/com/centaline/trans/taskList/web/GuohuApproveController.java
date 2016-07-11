@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,29 @@ import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.service.VCaseTradeInfoService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
+import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
@@ -40,6 +52,8 @@ public class GuohuApproveController {
 
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
+	@Autowired
+	private ToCaseInfoService toCaseInfoService;
 
 	@Autowired
 	private WorkFlowManager workFlowManager;
@@ -53,12 +67,47 @@ public class GuohuApproveController {
 	private UamMessageService uamMessageService;
 	@Autowired(required=true)
 	private UamTemplateService uamTemplateService;
-	@Autowired(required=true)
-	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;/*用户信息*/
+	@Autowired(required = true)
+	private VCaseTradeInfoService vCaseTradeInfoService;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	@Autowired
+	private ToHouseTransferService toHouseTransferService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
+	
+	@RequestMapping("process")
+	public String doProcesss(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		SessionUser user=uamSessionService.getSessionUser();
+		request.setAttribute("approveType", "2");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		//交易信息
+		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(caseCode);
+		//贷款信息
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
+		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode,toMortgage);
+		request.setAttribute("toMortgage", toMortgage);
+		request.setAttribute("caseDetailVO", reVo);
+		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+		request.setAttribute("caseInfo", caseInfo);
+		Dict dict = uamBasedataService.findDictByType("guohu_not_approve");
+		if(dict!=null){
+			request.setAttribute("notApproves", dict.getChildren());
+		}
+		return "task/GuohuApprove";
+	}
+	
+	
+	
+	
 	
 
 	@RequestMapping(value="guohuApprove")

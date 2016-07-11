@@ -102,7 +102,7 @@ public class ToEvaReportServiceImpl implements ToEvaReportService{
 		}
 		
 		ProcessInstance processInstance = new ProcessInstance();
-		processInstance.setBusinessKey(WorkFlowEnum.EVA_WBUSSKEY.getCode());
+		processInstance.setBusinessKey(mortgageAttament.getCaseCode());
 		processInstance.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVA_WBUSSKEY.getCode()));
     	
     	ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	

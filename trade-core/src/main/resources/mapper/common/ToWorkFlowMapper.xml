@@ -139,7 +139,8 @@
         #{processOwner,jdbcType=VARCHAR},
       </if>
       GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
-    </trim>
+    </trim>;
+    select 1 ;
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     update sctrans.T_TO_WORKFLOW
@@ -187,7 +188,7 @@
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT};
-    
+    select 1 ;
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     update sctrans.T_TO_WORKFLOW
@@ -205,6 +206,7 @@
       PROCESS_DEFINITION_ID = #{processDefinitionId,jdbcType=VARCHAR},
       PROCESS_OWNER = #{processOwner,jdbcType=VARCHAR} 
     where PKID = #{pkid,jdbcType=BIGINT};
+    select 1 ;
   </update>
   
   

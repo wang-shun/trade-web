@@ -81,5 +81,6 @@ public interface ToCaseService {
 	void sendcaseAssignMsg(String caseCode, String userId, SessionUser sessionUser);
 	
 	void changeTaskAssignee(String caseCode,String taskId,String userId);
+	CaseBaseVO getCaseBaseVO(String caseCode);
 	
 }
