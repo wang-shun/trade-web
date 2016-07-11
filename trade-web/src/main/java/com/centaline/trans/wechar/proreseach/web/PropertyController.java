@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -51,6 +52,9 @@ public class PropertyController {
 	private UamSessionService uamSesstionService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	
+	@Autowired(required = true)
+	private UamSessionService uamSessionService;
 
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
@@ -119,7 +123,7 @@ public class PropertyController {
 		List<ToAttachment> at = attachmentService.findToAttachmentByCaseCode(prCode);
 		ToPropertyResearch propertyResearch = propertyService.getToPropertyResearchsByPrCode(prCode);
 
-		if(propertyResearch.getIsSuccess().equals(1)){
+		if(propertyResearch.getIsSuccess() != null && propertyResearch.getIsSuccess().equals(1)){
 			request.setAttribute("attachments", at);
 		}
 		
@@ -169,4 +173,13 @@ public class PropertyController {
 		}
 		return result;
 	}
+	
+	
+	@RequestMapping("myProperty")
+	public String myProperty(Model model){
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("prAppliantId", user.getId());
+		return "mobile/propresearch/myProperty";
+	}
+		
 }

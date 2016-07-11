@@ -76,6 +76,8 @@
 	<import resource="query/case/CaseListWithLoan.xml"></import>
 	<import resource="query/loan/LoanListQuery.xml"></import>
 	
+	<import resource="query/property/toPropertyResearchMyProperty.xml" />
+	
 
 	<import resource="query/loan/LoanManageListQuery.xml"></import>
 
