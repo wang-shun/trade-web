@@ -130,7 +130,13 @@ public class LoanAgentController {
 			List<User>jygws =uamUserOrgService.getUserByOrgIdAndJobCode(user.getServiceDepId(), TransJobs.TJYGW.getCode());
 			model.addAttribute("jygws", jygws);
 		}
-		model.addAttribute("yuCuiProduct", users);
+		List<User> usersAvailable = new ArrayList<User>();
+		for (User user : users) {
+			if("1".equals(user.getAvailable())){
+				usersAvailable.add(user);
+			}
+		}
+		model.addAttribute("yuCuiProduct", usersAvailable);
 		if (pkid != null) {
 			LoanAgent loanAgent = loanAgentService.view(pkid);
 			if (!StringUtils.isBlank(loanAgent.getConfirmStatus())) {

@@ -56,10 +56,12 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR} 
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
-    insert into sctrans.T_TO_WORKFLOW (PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER
+    insert into sctrans.T_TO_WORKFLOW (PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER,
+    CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{instCode,jdbcType=VARCHAR},
-     #{businessKey,jdbcType=VARCHAR}, #{processDefinitionId,jdbcType=VARCHAR},#{processOwner,jdbcType=VARCHAR}
+     #{businessKey,jdbcType=VARCHAR}, #{processDefinitionId,jdbcType=VARCHAR},#{processOwner,jdbcType=VARCHAR},
+     GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
@@ -83,6 +85,7 @@
       <if test="processOwner != null" >
         PROCESS_OWNER,
       </if>
+        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -103,6 +106,7 @@
       <if test="processOwner != null" >
         #{processOwner,jdbcType=VARCHAR},
       </if>
+      GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
@@ -126,6 +130,10 @@
        <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+        CREATE_TIME = GETDATE(),
+        UPDATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -135,7 +143,11 @@
       INST_CODE = #{instCode,jdbcType=VARCHAR},
       BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR},
       PROCESS_DEFINITION_ID = #{processDefinitionId,jdbcType=VARCHAR},
-      PROCESS_OWNER = #{processOwner,jdbcType=VARCHAR} 
+      PROCESS_OWNER = #{processOwner,jdbcType=VARCHAR},
+        CREATE_TIME = GETDATE(),
+        UPDATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

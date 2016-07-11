@@ -1,4 +1,4 @@
-package com.centaline.trans.kpiImport.web;
+package com.centaline.trans.award.web;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -41,7 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
 @Controller
-@RequestMapping(value = "kpi")
+@RequestMapping(value = "award")
 public class KpiImportController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
@@ -62,24 +62,24 @@ public class KpiImportController {
 	public String personBonus(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-		return "kpi/personBonus";
+		return "award/personBonus";
 	}
 
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-		return "kpi/kpiImport";
+		return "award/kpiImport";
 	}
 	
 	@RequestMapping(value = "/bonus")
 	public String bonus(HttpServletRequest request) {
-		return "kpi/bonus";
+		return "award/bonus";
 	}
 	
 	@RequestMapping(value = "/testbonus")
 	public String testbonus(HttpServletRequest request) {
-		return "kpi/testbonus";
+		return "award/testbonus";
 	}
 
 	@RequestMapping(value = "/doImport")
@@ -92,7 +92,7 @@ public class KpiImportController {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			file = mRequest.getMultiFileMap().getFirst("fileupload");
 		} else {
-			return "kpi/kpiImport";
+			return "award/kpiImport";
 		}
 
 		ImportExcel ie = new ImportExcel(file, 0, 0);
@@ -109,7 +109,7 @@ public class KpiImportController {
 		} else {
 			request.setAttribute("fList", fList);
 		}
-		return "kpi/kpiImport";
+		return "award/kpiImport";
 	}
 
 	@RequestMapping(value = "/monthKpiImport")
@@ -117,7 +117,7 @@ public class KpiImportController {
 		// 默认是当月
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-		return "kpi/monthKpiImport";
+		return "award/monthKpiImport";
 	}
 
 	@RequestMapping(value = "/doMonthKpiImport")
@@ -131,7 +131,7 @@ public class KpiImportController {
 		} else {
 			request.setAttribute("belongM", LocalDate.now());
 			request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-			return "kpi/monthKpiImport";
+			return "award/monthKpiImport";
 		}
 		Date belongM = null;
 		request.setAttribute("belongM", LocalDate.now());
@@ -172,7 +172,7 @@ public class KpiImportController {
 			staticMoneyKpi(DateUtil.plusMonth(belongM, 1));
 		}
 		
-		return "kpi/monthKpiImport";
+		return "award/monthKpiImport";
 	}
 	
 	// 统计该月份的绩效奖金相关数据

@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
-                                        <label class="col-lg-2 col-md-2 control-label font_w">物业地址</label>
+                                        <label class="col-lg-2 col-md-2 control-label font_w">产证地址</label>
                                         <div class="col-lg-10 col-md-10">
                                             <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
                                         </div>
