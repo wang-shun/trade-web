@@ -65,6 +65,9 @@
 					WHERE A.SAME_PR_CODE IS NULL
 				]]>
 			</baseSql>
+			<orderBySql>
+				ORDER BY A.PR_APPLY_TIME DESC
+			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
