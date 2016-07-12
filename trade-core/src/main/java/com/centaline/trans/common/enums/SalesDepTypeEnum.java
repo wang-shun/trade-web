@@ -1,22 +1,20 @@
 
 package com.centaline.trans.common.enums;
 
-public enum SalesJobEnum {
+public enum SalesDepTypeEnum {
 	
-	JWYGW("JWYGW", "物业顾问"), 
-	JFHJL("JFHJL", "分行经理"),
-	JFHMS("JFHMS", "分行秘书"),
-	JQYJL("JQYJL", "区域经理"),
-	JQYZJ("JQYZJ", "区域总监"),
-	JQYDS("JQYDS", "区域董事"),
-	JFZJL("JFZJL", "副总经理"),
-	JPKZY("JPKZY","品控专员");
+	BUSIBA("BUSIBA","大区"),
+	BUSIWZ("BUSIWZ","战区"),
+	BUSISWZ("BUSISWZ","小战区"),
+	BUSISAR("BUSISAR","片区"),
+	BUSISSH("BUSISSH","店"),
+	BUSISGRP("BUSISGRP","店组");
 	
 	private String code;
 
     private String name;
 
-    private SalesJobEnum(String code, String name) {
+    private SalesDepTypeEnum(String code, String name) {
         this.code = code;
         this.name = name;
     }

@@ -456,14 +456,18 @@
 						<td>执行人：{{item.PR_EXECUTOR}}</td>
 						<td class="btn-g">
 							{{if wrapperData.optTransferRole}}
-								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
+								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
 							{{else}}
                  			{{/if}}
 						</td>
 					</tr>
 			{{/each}}
 	 	</script> 
-		
+		<script>
+		  template.helper("rep", function(a){  
+	          return a.replace(/[\r\n]/g,"");  
+	      });  
+	 	</script>
 		<script>
 		
 			function report(){

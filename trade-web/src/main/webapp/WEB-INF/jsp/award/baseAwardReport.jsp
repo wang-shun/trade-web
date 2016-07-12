@@ -16,7 +16,7 @@
         <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
         <link href="${ctx}/css/animate.css" rel="stylesheet" />
         <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
-        <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet" />
+        <link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet" />
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
         <!-- 分页控件 -->

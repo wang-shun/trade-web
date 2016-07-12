@@ -80,7 +80,10 @@ public class PropertyCortroller {
 			model.addAttribute("prDistrictId",orgPro.getId());
 		}
 		
-		model.addAttribute("serviceDepId", user.getServiceDepId());
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null){
+			model.addAttribute("serviceDepId", org.getId());
+		}
 		
 		return "property/processingList";
 	}
@@ -100,7 +103,10 @@ public class PropertyCortroller {
 			model.addAttribute("prDistrictId",orgSuc.getId());
 		}
 		
-		model.addAttribute("serviceDepId", user.getServiceDepId());
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null){
+			model.addAttribute("serviceDepId", org.getId());
+		}
 		
 		return "property/successList";
 	}

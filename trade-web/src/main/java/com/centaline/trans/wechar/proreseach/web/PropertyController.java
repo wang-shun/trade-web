@@ -23,7 +23,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToAttachment;
-import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.SalesDepTypeEnum;
 import com.centaline.trans.common.enums.SalesJobEnum;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
@@ -64,7 +64,7 @@ public class PropertyController {
 		//System.out.println("ref" + request.getHeader("Referer"));
 		
 		// 查询所有的战区信息
-		List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesJobEnum.BUSIWZ.getCode());
+		List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesDepTypeEnum.BUSIWZ.getCode());
 		if(orgs != null && orgs.size() > 0){
 			request.setAttribute("orgs", orgs);
 		}
@@ -74,7 +74,7 @@ public class PropertyController {
 			request.setAttribute("username", u.getUsername());
 			
 			// 查询SessionUser对应的区蕫信息
-			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesJobEnum.BUSIWZ.getCode());
+			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesDepTypeEnum.BUSIWZ.getCode());
 			if(org != null){
 				User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
 				if(user != null){
