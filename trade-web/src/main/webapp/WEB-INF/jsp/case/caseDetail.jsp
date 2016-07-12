@@ -34,6 +34,10 @@
 <link
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
+	<link href="${ctx}/css/transcss/comment/caseComment.css"
+    rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"
+    rel="stylesheet" />
 <style type="text/css">
 
 body{
@@ -204,7 +208,6 @@ p.title {
 	padding-left: 10px;
 	padding-bottom: 2px;
 	font-size: 14px;
-	font-weight: normal;
 	color: #333;
 }
 
@@ -452,7 +455,7 @@ p.title {
 						<div id="serviceFlow" class="panel-heading">服务流程</div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs" >
-								<li><a href="#home" data-toggle="tab">流程备注</a>
+								<li class="active"><a href="#home" data-toggle="tab">流程备注</a>
 								</li>
 								<li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
 								</li>
@@ -836,6 +839,8 @@ p.title {
 								</li>
 								<li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
 								</li>
+								<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
+                                </li>
 							</ul>
 
 							<div class="tab-content">
@@ -1093,6 +1098,9 @@ p.title {
 									<table id="gridTable"></table>
 									<div id="gridPager"></div>
 								</div>
+								 <div class="tab-pane fade" id="caseComment-info">
+                                    <div id="caseCommentList" class="add_form"></div>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -1118,7 +1126,11 @@ p.title {
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 
 	<!-- 放款监管信息  --> <script src="${ctx}/transjs/task/caseflowlist.js"></script>
-
+	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<!-- 各个环节的备注信息  --> <script src="${ctx}/js/trunk/case/caseRemark.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
@@ -1254,6 +1266,13 @@ p.title {
 
 		//加载页面获取屏幕高度
  		$(function(){
+ 			
+			var caseCode = $('#caseCode').val();
+			var srvCode = $('#srvCodes').val();
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : srvCode
+			});
 			var h= window.screen.availHeight;
 			$("#scroll").css("height",h-h*0.30);
 			//点击浏览器任何位置隐藏提示信息
