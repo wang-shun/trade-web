@@ -300,5 +300,16 @@
 				<tomcat.password>admin</tomcat.password>
 			</properties>
 		</profile>
+		<profile>
+			<id>213</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<tomcat.url>http://10.4.19.213:8083/manager/text</tomcat.url>
+				<tomcat.username>admin</tomcat.username>
+				<tomcat.password>admin</tomcat.password>
+			</properties>
+		</profile>
 	</profiles>
 </project>

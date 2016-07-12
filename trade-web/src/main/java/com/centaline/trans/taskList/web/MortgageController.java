@@ -74,6 +74,7 @@ public class MortgageController {
 		Integer[] step = mortStepService.getMortStep(caseCode);
 		request.setAttribute("step", step[0]);
 		request.setAttribute("step1", step[1]);
+
 		request.setAttribute("afterTimeFlag", false);
 		if(caseBaseVO.getToCase()!=null&&caseBaseVO.getToCase().getCreateTime()!=null){
 			request.setAttribute("afterTimeFlag", caseBaseVO.getToCase().getCreateTime().after(new Date(1467302399999l)));
