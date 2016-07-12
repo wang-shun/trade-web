@@ -32,6 +32,14 @@
 	</div>
 	<div class="row"
 		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
+		<span class="col-lg-4">执行人： ${prAppliantName}</span>
+	</div>
+	<div class="row"
+		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
+		<span class="col-lg-4">区蕫： ${prCostOrgMgr}</span>
+	</div>
+	<div class="row"
+		style="font-size: 14px; margin-bottom: 4px; margin-top: 4px;">
 		<span class="col-lg-4">完成日期：<fmt:formatDate
 				value="${propertyResearch.prCompleteTime }" pattern="yyyy-MM-dd HH:mm:ss" />
 		</span>
