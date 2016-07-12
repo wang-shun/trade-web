@@ -397,7 +397,7 @@ p.title {
 												</dd>
 												<dt>所属分行</dt>
 												<dd>
-													<a> ${toCaseInfo.grpName } </a>
+													 ${toCaseInfo.grpName } 
 												</dd>
 												<dt>直管经理</dt>
 												<dd>
@@ -414,7 +414,7 @@ p.title {
 											<dl class="dl-horizontal">
 												<dt>交易顾问</dt>
 												<dd>
-													<a href="" data-toggle="popover" data-placement="right"
+													<a data-toggle="popover" data-placement="right"
 														data-content="${caseDetailVO.cpMobile}">
 														${caseDetailVO.cpName} </a>
 												</dd>
@@ -426,7 +426,7 @@ p.title {
 													<c:forEach items="${caseDetailVO.proList}" var="pro">
 														<dt>合作顾问</dt>
 														<dd>
-															<a href="" data-toggle="popover" data-placement="right"
+															<a data-toggle="popover" data-placement="right"
 																data-content="${pro.processorMobile}">
 																${pro.processorName} </a>
 														</dd>
@@ -434,7 +434,7 @@ p.title {
 												</c:if>
 												<dt>助理</dt>
 												<dd>
-													<a href="" data-toggle="popover" data-placement="right"
+													<a data-toggle="popover" data-placement="right"
 														data-content="${caseDetailVO.asMobile}">
 														${caseDetailVO.asName} </a>
 												</dd>
@@ -1251,19 +1251,12 @@ p.title {
 			/*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
 			window.open(encodeURI(encodeURI(url)));*/
 		}
-/* 		//更改菜单颜色
-		function changeMenu(event){
-			var lis =$("#menus").find("li");
-			for (var i = 0; i < lis.length; i++) {
-				$(lis[i]).removeClass("active");
-			    }
-			$(event).addClass("active");
-			
-		} */
+
 		//加载页面获取屏幕高度
  		$(function(){
 			var h= window.screen.availHeight;
 			$("#scroll").css("height",h-h*0.30);
+			//点击浏览器任何位置隐藏提示信息
 	        $("body").bind("click",function(evt){
               if($(evt.target).attr("data-toggle")!='popover') 
                 {
