@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 </head>
 <body>
 <div class="ibox-title">

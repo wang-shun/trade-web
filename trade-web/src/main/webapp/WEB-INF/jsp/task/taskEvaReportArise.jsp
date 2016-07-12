@@ -26,6 +26,7 @@
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <style type="text/css">
 
 </style>

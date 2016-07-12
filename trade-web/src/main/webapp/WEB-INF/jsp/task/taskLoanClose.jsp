@@ -28,6 +28,7 @@
 <!-- datepikcer -->
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
