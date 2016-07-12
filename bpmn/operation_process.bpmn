@@ -171,7 +171,7 @@
       <sequenceFlow id="sid-587B869A-595D-4177-B090-52196DB9E505" sourceRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39" targetRef="LoanClose">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanCloseNeed}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="TransPlanFilling" name="填写交易计划" activiti:candidateGroups="consultant" activiti:formKey="/task/transPlanFilling/process"></userTask>
+      <userTask id="TransPlanFilling" name="填写交易计划" activiti:candidateGroups="consultant" activiti:formKey="/task/transPlan/process"></userTask>
       <sequenceFlow id="sid-3C19F394-57FE-4EC7-9B47-384695CE9EA7" sourceRef="TransPlanFilling" targetRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39"></sequenceFlow>
       <userTask id="TransSign" name="签约" activiti:candidateGroups="consultant" activiti:formKey="/task/sign/process "></userTask>
       <sequenceFlow id="flow10" sourceRef="TransSign" targetRef="TransPlanFilling"></sequenceFlow>
