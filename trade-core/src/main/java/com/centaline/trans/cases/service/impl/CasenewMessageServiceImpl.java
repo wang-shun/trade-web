@@ -483,7 +483,7 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 				// 3 处理 T_TO_WORKFLOW 表 
 				wf.setProcessOwner(agentCode);  // 目前交易顾问 username
 				wf.setInstCode(pIVo.getId());
-				wf.setBusinessKey(pIVo.getBusinessKey());
+				wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 				wf.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 				wf.setCaseCode(caseCode);  // caseCode
 				workflow=toworkFlowMapper.insertSelective(wf);

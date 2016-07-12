@@ -102,7 +102,7 @@ public class GuohuApproveController {
 		if(dict!=null){
 			request.setAttribute("notApproves", dict.getChildren());
 		}
-		return "task/GuohuApprove";
+		return "task/taskGuohuApprove";
 	}
 	
 	
