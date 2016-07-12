@@ -204,6 +204,34 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 			request.setAttribute("idList", idList);
 		}
     }
+	@Override
+	public void getAccesoryLists(HttpServletRequest request, String taskitem) {
+		ToAccesoryList toAccesoryList = new ToAccesoryList();
+		toAccesoryList.setPartCode(taskitem);
+		toAccesoryList.setAccessoryCode("_letter_first");
+		List<ToAccesoryList> list = qureyToAccesoryList(toAccesoryList);
+		List<Long> idList = new ArrayList<Long>();
+		if(list != null && list.size() > 0) {
+			int size = list.size();
+			request.setAttribute("accesoryList", list);
+			
+			for(int i=0; i<size; i++) {
+				idList.add(list.get(i).getPkid());
+			}
+			
+		}
+
+		toAccesoryList.setAccessoryCode("_letter_sec");
+		list = qureyToAccesoryList(toAccesoryList);
+		if(list != null && list.size() > 0) {
+			int size = list.size();
+			request.setAttribute("accesoryList1", list);
+			for(int i=0; i<size; i++) {
+				idList.add(list.get(i).getPkid());
+			}
+		}
+		request.setAttribute("idList", idList);
+    }
 
 	@Override
 	public ToAccesoryList findAccesoryByCode(String accessoryCode) {

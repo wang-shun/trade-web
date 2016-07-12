@@ -16,4 +16,5 @@ public interface ToAccesoryListService {
 	void getAccesoryList(HttpServletRequest request, String taskitem);
 	void getAccesoryListLingZheng(HttpServletRequest request, String taskitem, boolean psf, boolean self, boolean com);
 	void getAccesoryListGuoHu(HttpServletRequest request, String taskitem, String caseCode);
+	void getAccesoryLists(HttpServletRequest request, String taskitem);
 }
