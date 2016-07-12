@@ -34,6 +34,7 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -213,6 +214,10 @@
 				</form>
 
 			</div>
+		</div>
+
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title">
@@ -395,6 +400,11 @@
 	<!-- 审批记录 -->
 	<%-- <script src="${ctx}/transjs/task/loanlostApprove.js"></script> --%>
 	<%-- <script src="${ctx}/transjs/task/guohuApprove.js"></script> --%>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -408,6 +418,7 @@
 			}
 		});
 	}
+	
 	$(document).ready(function() {
 		var isDelegateYucui ='${toMortgage.isDelegateYucui}';
 		var initMortType='${toMortgage.mortType}';
@@ -424,18 +435,20 @@
 		if('caseDetails'==source){
 			readOnlyForm();
 		}
-				$("#sendSMS").click(function(){
-					var t='';
-					var s='/';
-					$("#remind_list").find("input:checkbox:checked").closest('td').next().each(function(){
-						t+=($(this).text()+s);
-					});
-					if(t!=''){
-						t=t.substring(0,t.length-1);
-					}
-					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
-				});
-				$("#remind_list").jqGrid({
+		
+		$("#sendSMS").click(function(){
+			var t='';
+			var s='/';
+			$("#remind_list").find("input:checkbox:checked").closest('td').next().each(function() {
+				t+=($(this).text()+s);
+			});
+			if(t!='') {
+				t=t.substring(0,t.length-1);
+			}
+				$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
+		});
+				
+		$("#remind_list").jqGrid({
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
@@ -467,7 +480,7 @@
 			        	search_partCode: taskitem
 			        },
 	
-				});
+		});
 	
 				$('#data_1 .input-group.date').datepicker({
 					todayBtn : "linked",
@@ -529,8 +542,12 @@
 			        	search_processInstanceId: processInstanceId
 			        }
 				});
-
-		});
+				
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});		
+	});
 		
 		/**提交数据*/
 		function submit() {

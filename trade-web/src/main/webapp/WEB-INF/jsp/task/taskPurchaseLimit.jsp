@@ -15,7 +15,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <!-- 上传相关 -->
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
@@ -35,6 +34,7 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -110,6 +110,10 @@
 				</form>
 
 			</div>
+		</div>
+
+		<!-- 备注信息 -->
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title" style="height: auto;">
@@ -272,6 +276,10 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -285,23 +293,23 @@
 			}
 		});
 	}
-		$(document).ready(
-			function() {
-				if('caseDetails'==source){
-					readOnlyForm();
-				}
-				$("#sendSMS").click(function(){
-					var t='';
-					var s='/';
-					$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function(){
-						t+=($(this).text()+s);
-					});
-					if(t!=''){
-						t=t.substring(0,t.length-1);
-					}
-					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
-				});
-				$("#reminder_list").jqGrid({
+	
+	$(document).ready(function() {
+		if('caseDetails'==source){
+			readOnlyForm();
+		}
+		$("#sendSMS").click(function(){
+			var t='';
+			var s='/';
+			$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function(){
+				t+=($(this).text()+s);
+			});
+			if(t!='') {
+				t=t.substring(0,t.length-1);
+			}
+			$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
+		});
+		$("#reminder_list").jqGrid({
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
@@ -343,6 +351,10 @@
 					autoclose : true
 				});
 
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : taskitem
+			});			
 		});
 		
 		/**提交数据*/

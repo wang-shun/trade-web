@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
 
@@ -9,10 +8,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
@@ -20,21 +17,15 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <style type="text/css">
 
 </style>
@@ -86,12 +77,16 @@
 								</div>
 							</div>
 						</div>
+						<!-- 案件备注信息 -->
+						<div id="caseCommentList" class="add_form">
+						</div>
+						
 						<div class="ibox-title">
 				            <button class="btn btn-primary" id="sub" type="button"><i class="fa fa-check"></i>&nbsp;提交</button>   
 						</div>
+						
 				</div>							
-						<div id="modal-form-report" class="modal fade" aria-hidden="true"
-							style="height: 800px">
+						<div id="modal-form-report" class="modal fade" aria-hidden="true" style="height: 800px">
 							<div class="modal-dialog" style="width: 1000px; height: 800px">
 								<div class="modal-content">
 									<div class="modal-body" style="height: 700px">
@@ -242,8 +237,7 @@
 											<%} %>
 										</div>
 
-										<input type="button" class="btn btn-success" id="reportSubBtn"
-											value="保存">
+										<input type="button" class="btn btn-success" id="reportSubBtn" value="保存">
 
 									</div>
 								</div>
@@ -255,7 +249,6 @@
 	
 
 <content tag="local_script"> 
-
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
@@ -286,8 +279,13 @@
 	
 	<script src="${ctx}/transjs/task/taskEvaReportArise.js"></script> 
 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
-	 </content>
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+</content>
 </body>
 
 </html>

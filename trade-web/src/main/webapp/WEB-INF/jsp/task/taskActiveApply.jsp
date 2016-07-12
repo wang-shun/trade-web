@@ -6,16 +6,13 @@
 
 <html>
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 </head>
 <body>
-
-                  <div class="ibox-title">
+<div class="ibox-title">
                   <h5>填写表单，完成任务 </h5>    
                     							        
                  <form name="varForm" id="varForm">
@@ -27,7 +24,9 @@
 					<input type="button" name="submit-button" value="提交" class="btn btn-primary" onclick="completeTask()">
 					</div>      
                     </form>                               
-
+</div>
+<div id="caseCommentList" class="add_form">
+</div>
 <content tag="local_script">
     <!-- Peity -->
     <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
@@ -35,10 +34,20 @@
     <!-- jqGrid -->
     <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
     <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-
+    
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script>
-		$.fn.serializeObject = function()    
-		{    
+$(function(){
+	$("#caseCommentList").caseCommentGrid({
+		caseCode : null,
+		srvCode : null
+});
+});
+
+$.fn.serializeObject = function() {    
 		   var o = {};    
 		   var a = this.serializeArray();    
 		   $.each(a, function() {    
@@ -85,7 +94,7 @@
       }
     
         
-    </script>
+</script>
 </content>
 </body>
 

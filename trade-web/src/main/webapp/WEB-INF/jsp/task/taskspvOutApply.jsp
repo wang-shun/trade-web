@@ -33,6 +33,7 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var index=0;
@@ -43,6 +44,13 @@
 	} else {
 		var idList = [];
 	}
+	
+	$(function(){
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});
+	});
 </script>
 </head>
 <body>
@@ -91,6 +99,10 @@
 				</form>
 			</div>
 		</div>
+		
+		<div id="caseCommentList" class="add_form">
+</div>
+		
 			<div class="ibox-title" style="height:auto;">
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
@@ -252,6 +264,10 @@
     <script src="${ctx}/transjs/task/taskspvOutApply.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 
+<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	</content>
 </body>
 

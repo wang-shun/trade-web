@@ -19,7 +19,7 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -146,6 +146,9 @@
 			</div>
 		</div>
 		
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
 		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a>
 			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata='1'>提交</a>
@@ -166,6 +169,10 @@
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -218,6 +225,12 @@
 
 			 getBankList(finOrgCode);
 			 /*结束*/
+			 
+			 /*案件备注信息*/
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : taskitem
+			});
 		});
 		
 		/*获取银行列表*/

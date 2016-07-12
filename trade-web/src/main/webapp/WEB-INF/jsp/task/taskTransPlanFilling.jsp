@@ -18,6 +18,7 @@
 
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 var ctx = "${ctx}";
 var dy = "${dy}";
@@ -108,6 +109,11 @@ var caseCode = "${caseCode}";
 				</form>
 			</div>
 		</div>
+		
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
 		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a> 
 			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
@@ -128,11 +134,13 @@ var caseCode = "${caseCode}";
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
-		$(document).ready(
-			function() {
-
+		$(document).ready(function() {
 
 			$('#data_1 .input-group.date').datepicker({
 				todayBtn : "linked",
@@ -147,6 +155,11 @@ var caseCode = "${caseCode}";
 				$('#table_list_1').setGridWidth(width);
 				$('#table_list_2').setGridWidth(width);
 
+			});
+			
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : 'TransPlanFilling'
 			});
 		});
 		

@@ -56,6 +56,7 @@ if("${idList}" != "") {
 <style type='text/css'>
 .divider{position:relative}
 .divider label{position:absolute;left:0;top:-17px}
+
 </style>
 </head>
 <body>

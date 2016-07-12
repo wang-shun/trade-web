@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 </head>
 <body>
@@ -44,7 +44,8 @@
                             						</div>
                         					  </div> 
                         					  
-                        					                                  
+           <div id="caseCommentList" class="add_form">
+</div>             					                                  
 
 <content tag="local_script">
     <!-- Peity -->
@@ -60,9 +61,17 @@
    <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 
-
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script>
-     
+     $(function(){
+    		$("#caseCommentList").caseCommentGrid({
+				caseCode : null,
+				srvCode : null
+		});
+     });
         
     </script>
 </content>

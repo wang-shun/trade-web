@@ -27,6 +27,8 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -293,6 +295,11 @@
 				</form>
 			</div>
 		</div>
+		
+		<!-- 案件备注 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
 		<div class="ibox-title" name="isYouXiao" style="display: display;">
 			<h5>ctm附件</h5>
 			<div class="ibox-content">
@@ -347,6 +354,11 @@
 	<!-- 弹出框插件 -->
 	<script src="${ctx}/js/plugins/layer/layer.js"></script>
 	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
 			

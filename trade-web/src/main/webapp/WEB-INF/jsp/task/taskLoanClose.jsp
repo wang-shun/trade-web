@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -27,8 +26,8 @@
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <!-- datepikcer -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -134,6 +133,10 @@
 			</div>
 		</div>
 
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+
 		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a>
 			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
@@ -158,7 +161,12 @@
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 	<script src="${ctx}/transjs/sms/sms.js"></script> 
-		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -172,11 +180,10 @@
 			}
 		});
 	}
-		$(document).ready(
-			function() {
-				if('caseDetails'==source){
+		$(document).ready(function() {
+			if('caseDetails'==source){
 					readOnlyForm();
-				}
+			}
 				$("#sendSMS").click(function(){
 					var t='';
 					var s='/';
@@ -236,6 +243,11 @@
 				 });
 				
 				getBankList(finOrgCode);
+				
+			$("#caseCommentList").caseCommentGrid({
+					caseCode : caseCode,
+					srvCode : taskitem
+			});				
 
 		});
 		
