@@ -29,6 +29,7 @@
 <!-- datepikcer -->
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
