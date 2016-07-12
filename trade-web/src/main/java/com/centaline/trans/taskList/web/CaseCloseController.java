@@ -64,6 +64,7 @@ public class CaseCloseController {
 	private LoanlostApproveService loanlostApproveService;
 	@Autowired
 	private EditCaseDetailService editCaseDetailService;
+	@Autowired
 	private ToAccesoryListService toAccesoryListService;
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
