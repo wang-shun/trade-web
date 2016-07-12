@@ -74,7 +74,7 @@ function initGrid() {
 				// rowid为grid中的行顺序
 				onSelectRow : function(rowid) {
 					var rowData = $("#table_list_case_task").jqGrid('getRowData',rowid);
-					var url = ctx+"/engine/task/"+rowData.INST_CODE+"/process";
+					var url = ctx+"/engine/task/"+rowData.ID+"/process";
 //					alert(url);
 					window.location.href = url;
 				},
