@@ -413,7 +413,7 @@ public class ToCaseServiceImpl implements ToCaseService {
         StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
 
     	toWorkFlow.setInstCode(pIVo.getId());
-    	toWorkFlow.setBusinessKey(pIVo.getBusinessKey());
+    	toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
     	toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
     	toWorkFlow.setProcessOwner(userId);
     	toWorkFlow.setCaseCode(toCase.getCaseCode());
