@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +17,17 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.MortStep;
+import com.centaline.trans.mortgage.entity.ToEguPricing;
 import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.MortStepService;
+import com.centaline.trans.mortgage.service.ToEguPricingService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToTransPlan;
@@ -30,7 +37,7 @@ import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 @Controller
-@RequestMapping(value="/task/mortgage")
+@RequestMapping(value="/task")
 public class MortgageController {
 
 	@Autowired
@@ -44,13 +51,46 @@ public class MortgageController {
 	private WorkFlowManager workFlowManager;
 	
 	@Autowired
-	private ToApproveRecordService toApproveRecordService;
+	private MortStepService mortStepService;
 	
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
+	@Autowired
+	private ToEguPricingService toEguPricingService;
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
+
+	@RequestMapping(value = "comLoanProcess/process")
+	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
+			String taskitem, String processInstanceId) {
+
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+
+		toAccesoryListService.getAccesoryLists(request, taskitem);
+		MortStep mortStep = new MortStep();
+		mortStep.setCaseCode(caseCode);
+		Integer[] step = mortStepService.getMortStep(caseCode);
+		request.setAttribute("step", step[0]);
+		request.setAttribute("step1", step[1]);
+		request.setAttribute("afterTimeFlag", false);
+		if(caseBaseVO.getToCase()!=null&&caseBaseVO.getToCase().getCreateTime()!=null){
+			request.setAttribute("afterTimeFlag", caseBaseVO.getToCase().getCreateTime().after(new Date(1467302399999l)));
+		}
+
+		ToEguPricing toEguPricing = toEguPricingService.findIsFinalEguPricing(caseCode);
+		if(toEguPricing != null){
+			request.setAttribute("isMainLoanBank", toEguPricing.getIsMainLoanBank());
+			request.setAttribute("evaCode", toEguPricing.getEvaCode());
+		}else{
+			request.setAttribute("isMainLoanBank", "1");
+			request.setAttribute("evaCode", "");
+		}
+		return "task/taskComLoanProcess";
+	}
 	
-	
-	@RequestMapping(value="saveMortgage")
+	@RequestMapping(value="mortgage/saveMortgage")
 	@ResponseBody
 	public AjaxResponse<String> saveMortgage(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
@@ -76,7 +116,7 @@ public class MortgageController {
 		return response;
 	}
 	
-	@RequestMapping(value="saveSelfLoanApprove")
+	@RequestMapping(value="mortgage/saveSelfLoanApprove")
 	@ResponseBody
 	public AjaxResponse<String> saveMortgage(HttpServletRequest request, ToMortgage toMortgage) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
@@ -89,7 +129,7 @@ public class MortgageController {
 		return response;
 	}
 	
-	@RequestMapping(value="saveLoanlostApply")
+	@RequestMapping(value="mortgage/saveLoanlostApply")
 	@ResponseBody
 	public AjaxResponse<String> saveLoanlostApply(HttpServletRequest request, ToMortgage toMortgage) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
@@ -102,7 +142,7 @@ public class MortgageController {
 		return response;
 	}
 	
-	@RequestMapping(value="submitPsfApply")
+	@RequestMapping(value="mortgage/submitPsfApply")
 	@ResponseBody
 	public boolean submitPsfApply(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
 			String taskId, String processInstanceId) {
@@ -126,7 +166,7 @@ public class MortgageController {
 				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
 	}
 	
-	@RequestMapping(value="submitLoanRelease")
+	@RequestMapping(value="mortgage/submitLoanRelease")
 	@ResponseBody
 	public Result submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
 			String taskId, String processInstanceId, String partCode) {
@@ -169,7 +209,7 @@ public class MortgageController {
 		return rs;
 	}
 	
-	@RequestMapping(value="submitSelfLoanApprove")
+	@RequestMapping(value="mortgage/submitSelfLoanApprove")
 	@ResponseBody
 	public Boolean submitSelfLoanApprove(HttpServletRequest request, ToMortgage toMortgage,
 			String taskId, String processInstanceId) {
@@ -192,7 +232,7 @@ public class MortgageController {
 				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
 	}
 	
-	@RequestMapping(value="submitLoanlostApply")
+	@RequestMapping(value="mortgage/submitLoanlostApply")
 	@ResponseBody
 	public Result submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, 
 			ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String partCode,Long lapPkid) {
