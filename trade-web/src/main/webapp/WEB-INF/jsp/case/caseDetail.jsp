@@ -381,7 +381,7 @@ p.title {
 												<dt>下家姓名</dt>
 												<dd>
 													<a data-toggle="popover" data-placement="right"
-														data-content="${caseDetailVO.buyerMobile}">${caseDetailVO.sellerMobile}
+														data-content="${caseDetailVO.buyerMobile}">${caseDetailVO.buyerName}
 													</a>
 												</dd>
 											</dl>
@@ -821,7 +821,7 @@ p.title {
 
 					<!-- 相关信息 -->
 					<div class="panel panel-default" id="aboutInfo">
-						<div class="panel-heading">相关信息</div>
+						<div class="panel-heading">相关信息 <a style="float: right;margin-right: 12px;" href="javascript:showChangeFormModal();">我要修改</a></div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
