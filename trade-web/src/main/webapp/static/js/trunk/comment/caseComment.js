@@ -58,6 +58,10 @@
 function saveCaseComment() {
 	var caseCode = $('#caseComment_caseCode').val();
 	var comment = $("#caseComment").val();
+	if(comment==''){
+		alert('添加案件备注不能为空');
+		return false;
+	}
 	var srvCode = $('#caseComment_srvCode').val();
 	var toCaseComment = {
 		caseCode : 	caseCode,
