@@ -40,6 +40,6 @@ public class LoanReleaseController {
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		request.setAttribute("loanRelease", mortgage);
-		return "task/taskLoanRelase";
+		return "task/taskLoanRelease";
 	}
 }
