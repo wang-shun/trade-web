@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -31,7 +34,7 @@ import com.centaline.trans.task.service.ToTaxService;
 import com.centaline.trans.task.service.TsMsgSendHistoryService;
 
 @Controller
-@RequestMapping(value="/task/tax")
+@RequestMapping(value="/task/taxReview")
 public class TaxReviewController {
 
 	@Autowired
@@ -44,18 +47,18 @@ public class TaxReviewController {
 	
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-	
 	@Autowired
-	private ToPropertyInfoService topropertyInfoService;
-	
-	@Autowired
-    private UamBasedataService   uambasedataService;
-	
-	@Autowired
-	private UamSessionService uamSessionService;
-	
-	@Autowired
-	private TsMsgSendHistoryService tsmsgSendHistoryService;
+	private ToAccesoryListService toAccesoryListService;
+	@RequestMapping("process")
+	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		toAccesoryListService.getAccesoryList(request, taskitem);
+		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
+		return "task/taskTaxReview";
+	}
 	
 	@RequestMapping(value="saveTaxReview")
 	public String saveTaxReview(HttpServletRequest request, ToTax toTax) {

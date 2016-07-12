@@ -11,7 +11,7 @@
     <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.spv.entity.ToSpv" extends="BaseResultMap" >
-    <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >

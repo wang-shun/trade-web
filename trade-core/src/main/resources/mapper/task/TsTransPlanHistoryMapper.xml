@@ -166,7 +166,7 @@
 		      sctrans.act_ru_task as task
 		  on 
 		      task.[TASK_DEF_KEY_]=transplan.PART_CODE
-		  inner join sctrans.t_to_workflow w
+		  inner join sctrans.t_HI_workflow w
   			  on w.case_code=transplan.CASE_CODE and w.INST_CODE=task.[PROC_INST_ID_]
   	      inner join
   	          [sctrans].T_TO_PROPERTY_INFO as propertyInfo

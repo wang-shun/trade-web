@@ -38,7 +38,7 @@
 		select top 6 * from (
 					  SELECT count(t.PKID) as count,o.ID,o.ORG_NAME as orgName
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
-							  left join sctrans.t_to_workflow as w
+							  left join sctrans.t_HI_workflow as w
 							  on w.case_code=t.CASE_CODE 
 							   left join sctrans.act_ru_task ta
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
@@ -61,7 +61,7 @@
 		select top 6 * from (
 					  SELECT count(t.PKID) as count,u.EMPLOYEE_CODE as eCode,u.REAL_NAME as realName
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
-							  left join sctrans.t_to_workflow as w
+							  left join sctrans.t_HI_workflow as w
 							  on w.case_code=t.CASE_CODE 
 							   left join sctrans.act_ru_task ta
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
@@ -87,7 +87,7 @@ from (
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
 							 left join sctrans.T_TO_PROPERTY_INFO as tp
 							 on t.case_code=tp.case_code
-							  left join sctrans.t_to_workflow as w
+							  left join sctrans.t_HI_workflow as w
 							  on w.case_code=t.CASE_CODE 
 							   left join sctrans.act_ru_task ta
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
@@ -241,7 +241,7 @@ from (
 			sctrans.ACT_HI_TASKINST
 		)historyTask
 	INNER JOIN
-		sctrans.T_TO_WORKFLOW wf
+		sctrans.t_HI_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
@@ -319,7 +319,7 @@ from (
 			sctrans.ACT_HI_TASKINST
 		)historyTask
 	INNER JOIN
-		sctrans.T_TO_WORKFLOW wf
+		sctrans.t_HI_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
@@ -374,7 +374,7 @@ from (
 			sctrans.ACT_HI_TASKINST
 		)historyTask
 	INNER JOIN
-		sctrans.T_TO_WORKFLOW wf
+		sctrans.t_HI_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
@@ -449,7 +449,7 @@ from (
 	select a.name,a.userId,a.userName as userName, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	,(case when a.estDay=-1 then a.taskCount else 0 end) as yCount
 	 from (select u.id as userId, u.REAL_NAME as userName,DATEDIFF(day, ttp.EST_PART_TIME, GETDATE()) as estDay,count(*) as taskCount,at.name_ as name 
-	  	from sctrans.t_to_workflow as tf right join sctrans.act_ru_task as at 
+	  	from sctrans.t_HI_workflow as tf right join sctrans.act_ru_task as at 
 		on at.PROC_INST_ID_=tf.INST_CODE and at.suspension_state_='1'
 		left join sctrans.T_TO_TRANS_PLAN as ttp
 		 on ttp.CASE_CODE =tf.CASE_CODE and ttp.PART_CODE=at.TASK_DEF_KEY_
@@ -470,7 +470,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 ,(case when a.estDay=-1 then a.taskCount else 0 end) as yCount
  from (
 	select DATEDIFF(day, ttp.EST_PART_TIME, GETDATE()) estDay,count(*) as taskCount,at.name_ as name
-  	from sctrans.t_to_workflow as tf right join sctrans.act_ru_task as at
+  	from sctrans.t_HI_workflow as tf right join sctrans.act_ru_task as at
 	on at.PROC_INST_ID_=tf.INST_CODE and at.suspension_state_='1'
 	left join sctrans.T_TO_TRANS_PLAN as ttp
 	 on ttp.CASE_CODE =tf.CASE_CODE and ttp.PART_CODE=at.TASK_DEF_KEY_

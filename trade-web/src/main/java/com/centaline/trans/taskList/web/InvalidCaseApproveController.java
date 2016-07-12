@@ -1,12 +1,17 @@
 package com.centaline.trans.taskList.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.task.service.InvalidCaseApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -17,7 +22,21 @@ public class InvalidCaseApproveController {
 
 	@Autowired
 	private InvalidCaseApproveService invalidCaseApproveService;
-
+	@Autowired
+	private ToCaseService toCaseService;
+	private UamSessionService uamSessionService;
+	@RequestMapping(value="process")
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		SessionUser user=uamSessionService.getSessionUser();
+		request.setAttribute("approveType", "0");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		return "task/taskLoanClose";
+	}
 	@RequestMapping(value = "invalidCaseApprove")
 	@ResponseBody
 	public Boolean invalidCaseApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO,

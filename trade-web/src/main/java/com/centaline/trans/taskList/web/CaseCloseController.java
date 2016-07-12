@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.jasig.cas.client.session.SessionMappingStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,15 +20,18 @@ import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.EditCaseDetailService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -50,8 +55,6 @@ public class CaseCloseController {
 	private UamMessageService uamMessageService;
 	@Autowired(required=true)
 	private UamTemplateService uamTemplateService;
-	@Autowired(required=true)
-	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired
@@ -61,6 +64,25 @@ public class CaseCloseController {
 	private LoanlostApproveService loanlostApproveService;
 	@Autowired
 	private EditCaseDetailService editCaseDetailService;
+	private ToAccesoryListService toAccesoryListService;
+	@RequestMapping("process")
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		SessionUser user=uamSessionService.getSessionUser();
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "3");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		toAccesoryListService.getAccesoryListCaseClose(request, caseCode);
+		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
+		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
+		return "task/taskCaseClose";
+	}
+
+	
+	
 	
 	@RequestMapping(value="saveCaseClose")
 	@ResponseBody

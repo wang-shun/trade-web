@@ -1,6 +1,7 @@
 package com.centaline.trans.taskList.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.api.service.SalesApiResponse;
@@ -16,9 +19,12 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -43,7 +49,39 @@ public class ToHouseTransferController {
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-	
+	@Autowired
+	private UamSessionService uamSessionService;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
+	/**
+	 * 过户
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
+	@RequestMapping("process")
+	public String toProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		SessionUser user= uamSessionService.getSessionUser();
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "2");
+		request.setAttribute("operator", user != null ? user.getId() : "");
+		
+		toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
+		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		request.setAttribute("toMortgage", toMortgage);
+		
+		return "task/taskGuohu";
+	}
 	@RequestMapping(value="saveToHouseTransfer")
 	@ResponseBody
 	public AjaxResponse<String> saveToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,ToMortgage toMortgage) {

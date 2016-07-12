@@ -324,12 +324,12 @@ public class ToMortgageController {
 	@RequestMapping(value="/box/tmpBank")
 	public String tmpBank(String pkid,HttpServletRequest request){
 		ToMortgage mortage= toMortgageService.findToMortgageById(Long.valueOf(pkid));
-		ToCase c = toCaseService.findToCaseByCaseCode(mortage.getCaseCode());
+
 		request.setAttribute("mortage", mortage);
-		if(c != null) {
-			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
-			request.setAttribute("caseBaseVO", caseBaseVO);
-		}
+
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(mortage.getCaseCode());
+		request.setAttribute("caseBaseVO", caseBaseVO);
+	
 		return "mortgage/tmpBank";
 	}
 	@RequestMapping(value="/doProcessTmpBank")

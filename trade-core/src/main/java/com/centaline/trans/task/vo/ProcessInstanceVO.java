@@ -4,6 +4,8 @@ public class ProcessInstanceVO {
 
 	private String taskId;
 	private String processInstanceId;
+	
+	private String businessKey;
 
 	private String caseCode;
     private String partCode;
@@ -31,6 +33,12 @@ public class ProcessInstanceVO {
 	}
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
+	}
+	public String getBusinessKey() {
+		return businessKey;
+	}
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
 	}
 	
 	

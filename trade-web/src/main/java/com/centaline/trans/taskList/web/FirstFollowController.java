@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.print.DocPrintJob;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -72,7 +74,21 @@ public class FirstFollowController {
 	private FirstFollowService firstFollowService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
-
+	
+	@RequestMapping("process")
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		SessionUser user=uamSessionService.getSessionUser();
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("ctmCode", caseBaseVO.getToCase().getCtmCode());
+    	request.setAttribute("firstFollow", firstFollowService.queryFirstFollow(caseCode));
+		request.setAttribute("approveType", "0");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		return "task/taskFirstFollow";
+	}
+	
 	@RequestMapping(value = "saveFirstFollow")
 	public String saveFirstFollow(HttpServletRequest request, FirstFollowVO firstFollowVO) {
 		SessionUser user = uamSessionService.getSessionUser();

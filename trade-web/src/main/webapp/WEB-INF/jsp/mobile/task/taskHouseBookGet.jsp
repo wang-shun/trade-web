@@ -285,9 +285,9 @@
 				deleteAndModify();	
 			}
 			
-			var url = "${ctx}/task/tgpb/saveToGetPropertyBook";
+			var url = "${ctx}/task/houseBookGet/saveToGetPropertyBook";
 			if(b) {
-				url = "${ctx}/task/tgpb/submitToGetPropertyBook";
+				url = "${ctx}/task/houseBookGet/submitToGetPropertyBook";
 			}
 			
 			$.ajax({

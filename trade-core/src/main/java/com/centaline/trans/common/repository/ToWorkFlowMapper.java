@@ -10,12 +10,6 @@ import com.centaline.trans.common.entity.ToWorkFlow;
 public interface ToWorkFlowMapper {
 	int deleteByPrimaryKey(Long pkid);
 
-	int deleteByCaseCode(String caseCode);
-
-	int deleteByToWorkFlow(ToWorkFlow record);
-
-	int insert(ToWorkFlow record);
-
 	int insertSelective(ToWorkFlow record);
 
 	ToWorkFlow selectByPrimaryKey(Long pkid);

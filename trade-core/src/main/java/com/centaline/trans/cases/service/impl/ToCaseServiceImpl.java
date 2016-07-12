@@ -257,36 +257,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return toCaseMapper.updateByPrimaryKeySelective(record);
 	}
 
-	@Override
-	public int orgChange(String caseCode, String orgId) {
-
-		List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZG.getCode());
-		if (managerUsers.size() == 0)
-			return 0;
-		User managerUser = managerUsers.get(0);
-
-		// 案件信息更新
-		ToCase toCase = findToCaseByCaseCode(caseCode);
-		toCase.setLeadingProcessId(managerUser.getId());
-		toCase.setOrgId(orgId);
-		 updateByPrimaryKey(toCase);
-		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-		toCaseInfo.setRequireProcessorId(managerUser.getId());
-		toCaseInfoService.updateByPrimaryKey(toCaseInfo);
-		List<String> instCode = workflowService.queryInstCodesByCaseCode(caseCode);
-		workflowService.deleteByCaseCode(caseCode);
-		serItemAndProcessorServce.deleteByPrimaryCaseCode(caseCode);
-		for (String icStr : instCode) {
-			unlocatedTaskService.deleteByInstCode(icStr);
-			workflowManager.deleteProcess(icStr);
-		}
-		return 1;
-	}
-
-	@Override
-	public CaseBaseVO getCaseBaseVO(Long caseId) {
-		// 基本信息
-		ToCase toCase = selectByPrimaryKey(caseId);
+	private CaseBaseVO getCaseBaseVO(ToCase toCase){
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
         // 物业地址
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
@@ -360,6 +331,20 @@ public class ToCaseServiceImpl implements ToCaseService {
 		caseBaseVO.setAgentManagerInfo(agentManagerInfo);
 		return caseBaseVO;
 	}
+	
+
+	@Override
+	public CaseBaseVO getCaseBaseVO(Long caseId) {
+		// 基本信息
+		ToCase toCase = selectByPrimaryKey(caseId);
+		return getCaseBaseVO(toCase);
+	}
+	@Override
+	public CaseBaseVO getCaseBaseVO(String caseCode) {
+		// 基本信息
+		ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+		return getCaseBaseVO(toCase);
+	}
 	@Override
 	public void caseAssign(String caseCode,String userId,SessionUser sessionUser){
 		//案件信息更新
@@ -409,7 +394,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 		//启动流程引擎
     	ProcessInstance process = new ProcessInstance();
-    	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+    	process.setBusinessKey(caseCode);
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
     	//流程引擎相关
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
@@ -434,8 +419,7 @@ public class ToCaseServiceImpl implements ToCaseService {
     	toWorkFlow.setCaseCode(toCase.getCaseCode());
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
     	
-    	int reToWorkFlow = toWorkFlowService.insertSelective(toWorkFlow);
-		if(reToWorkFlow == 0)throw new BusinessException( "案件工作流表插入失败！");
+    	toWorkFlowService.insertSelective(toWorkFlow);
 		
 	}
 	@Override

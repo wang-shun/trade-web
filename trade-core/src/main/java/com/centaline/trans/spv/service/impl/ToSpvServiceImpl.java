@@ -223,7 +223,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		//新增放款监管解除记录启动审批流程
 		SessionUser user = uamSessionService.getSessionUser();
 		ProcessInstance processInstance = new ProcessInstance();
-		processInstance.setBusinessKey(WorkFlowEnum.SPV_OUT.getCode());
+		processInstance.setBusinessKey(processInstanceVO.getCaseCode());
 		processInstance.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SPV_OUT.getCode()));
     	
     	StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(processInstance, user.getUsername(),processInstanceVO.getCaseCode());

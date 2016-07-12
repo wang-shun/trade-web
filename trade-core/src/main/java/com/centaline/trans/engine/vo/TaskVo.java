@@ -28,6 +28,8 @@ public class TaskVo {
 	private String tenantId;
 
 	private String group;
+	/*查询Run的时候不会返回该值**/
+	private String formKey;
 
 	/**
 	 * @return the assignee
@@ -305,5 +307,13 @@ public class TaskVo {
 
 	public void setParentTaskId(String parentTaskId) {
 		this.parentTaskId = parentTaskId;
+	}
+
+	public String getFormKey() {
+		return formKey;
+	}
+
+	public void setFormKey(String formKey) {
+		this.formKey = formKey;
 	}
 }

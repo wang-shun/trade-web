@@ -316,7 +316,7 @@ text-decoration: underline !important;
 						{{/if}}
 					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
-						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
+						<a href="{{ctx}}/engine/task/{{item.ID}}/process" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>
 					<td class="t-left">{{item.SELLER}}</td>
 					<td class="t-left">{{item.BUYER}}</td>
@@ -336,7 +336,7 @@ text-decoration: underline !important;
 						<td class="t-left"><span class="ctm-tag">C</span><span class="case-ctm">{{item.CTM_CODE}}</span></td>
 						<td class="t-left"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
 						<td colspan="3" class="t-left"><i class="salesman-icon"></i><a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a></td>
-						<td><a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-deal" target="_blank"></a></td>
+						<td><a href="{{ctx}}/engine/task/{{item.ID}}/process" class="case-deal" target="_blank"></a></td>
 				</tr>
 		{{/each}}
 	 </script> 

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 
 public interface ToCaseInfoService {
 
@@ -77,6 +79,7 @@ public interface ToCaseInfoService {
 	
 	
 	int isExistCaseCode(String caseCode);
+	CaseDetailShowVO getCaseDetailShowVO(String caseCode, ToMortgage toMortgage);
 	
 	
 }

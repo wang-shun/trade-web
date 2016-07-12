@@ -1,5 +1,7 @@
 package com.centaline.trans.engine.vo;
 
+import java.util.Date;
+
 public class StartProcessInstanceVo {
 	private String id;
 	private String url;
@@ -11,9 +13,10 @@ public class StartProcessInstanceVo {
 	private String activityId;
 	private String tenantId;
 	private boolean completed;
-	
+	private Date startTime;
+	private Date endTime;
+
 	private String activeTaskId;
-	
 
 	/**
 	 * @return the id
@@ -171,5 +174,21 @@ public class StartProcessInstanceVo {
 
 	public void setActiveTaskId(String activeTaskId) {
 		this.activeTaskId = activeTaskId;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 }
