@@ -314,7 +314,7 @@ text-decoration: underline !important;
                  <div class="sk-double-bounce2" style="background-color:red"></div>
                  </div></td>
 						{{/if}}
-					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseCode={{item.CASE_CODE}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
 						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>
