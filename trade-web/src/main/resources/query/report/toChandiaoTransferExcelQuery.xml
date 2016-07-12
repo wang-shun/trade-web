@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="convertValue" beanName="convertValue"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="queryChandiaoTransferExcelItemList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT PR_CODE,pr.PR_ADDRESS,u.REAL_NAME,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,o.ORG_NAME
+  					FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
+  					inner join sctrans.sys_org o
+  					on pr.PR_DISTRICT_ID=o.id
+  					inner join sctrans.sys_user u
+  					on pr.PR_APPLIANT=u.id
+  					where PR_STATUS=2 
+  					 <ifNotNull organId>
+  					      and o.id= #organId#
+  					 </ifNotNull> 
+  					 <ifNotNull prApplyTime>
+  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)>1 
+  					 </ifNotNull>     
+  					      and PR_CHANNEL=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			
+				<column type="both" name="PR_CODE"  title="产调编号" customDict="" hidden="false"/>
+				<column type="both" name="PR_ADDRESS"  title="产调地址" customDict="" hidden="false"/>
+				<column type="both" name="REAL_NAME"  title="申请人" customDict="" hidden="false"/>
+				<column type="both" name="PR_APPLY_TIME"  title="申请时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="PR_ACCPET_TIME"  title="接受时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="ACCEPTANCE" title="受理时间（小时）" customDict="" hidden="false"/>
+				<column type="both" name="PR_COMPLETE_TIME"  title="完成时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="ACOMPLETE_TIME" title="完成时间（小时）" customDict="" hidden="false"/>
+				<column type="both" name="ORG_NAME" title="贵宾服务部" customDict="" hidden="false"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	
+</querys>

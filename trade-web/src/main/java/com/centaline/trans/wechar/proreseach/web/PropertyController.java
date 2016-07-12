@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,7 +23,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToAttachment;
-import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.SalesDepTypeEnum;
 import com.centaline.trans.common.enums.SalesJobEnum;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
@@ -51,6 +52,9 @@ public class PropertyController {
 	private UamSessionService uamSesstionService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	
+	@Autowired(required = true)
+	private UamSessionService uamSessionService;
 
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
@@ -60,7 +64,7 @@ public class PropertyController {
 		//System.out.println("ref" + request.getHeader("Referer"));
 		
 		// 查询所有的战区信息
-		List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesJobEnum.BUSIWZ.getCode());
+		List<Org> orgs = uamUserOrgService.getOrgByDepHierarchy("1D29BB468F504774ACE653B946A393EE", SalesDepTypeEnum.BUSIWZ.getCode());
 		if(orgs != null && orgs.size() > 0){
 			request.setAttribute("orgs", orgs);
 		}
@@ -70,7 +74,7 @@ public class PropertyController {
 			request.setAttribute("username", u.getUsername());
 			
 			// 查询SessionUser对应的区蕫信息
-			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesJobEnum.BUSIWZ.getCode());
+			Org org = uamUserOrgService.getParentOrgByDepHierarchy(u.getServiceDepId(), SalesDepTypeEnum.BUSIWZ.getCode());
 			if(org != null){
 				User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
 				if(user != null){
@@ -119,7 +123,7 @@ public class PropertyController {
 		List<ToAttachment> at = attachmentService.findToAttachmentByCaseCode(prCode);
 		ToPropertyResearch propertyResearch = propertyService.getToPropertyResearchsByPrCode(prCode);
 
-		if(propertyResearch.getIsSuccess().equals(1)){
+		if(propertyResearch.getIsSuccess() != null && propertyResearch.getIsSuccess().equals(1)){
 			request.setAttribute("attachments", at);
 		}
 		
@@ -169,4 +173,13 @@ public class PropertyController {
 		}
 		return result;
 	}
+	
+	
+	@RequestMapping("myProperty")
+	public String myProperty(Model model){
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("prAppliantId", user.getId());
+		return "mobile/propresearch/myProperty";
+	}
+		
 }
