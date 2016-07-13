@@ -1,4 +1,4 @@
-﻿package com.centaline.trans.comment.web;
+package com.centaline.trans.comment.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

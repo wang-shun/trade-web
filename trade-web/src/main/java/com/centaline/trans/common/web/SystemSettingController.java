@@ -1,4 +1,4 @@
-﻿package com.centaline.trans.common.web;
+package com.centaline.trans.common.web;
 
 import java.util.Date;
 
