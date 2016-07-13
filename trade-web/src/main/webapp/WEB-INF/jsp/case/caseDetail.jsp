@@ -452,7 +452,8 @@ p.title {
 					</div>
 					<!-- 服务流程 -->
 					<div class="panel panel-default infos clearfix" >
-						<div id="serviceFlow" class="panel-heading">服务流程</div>
+					
+						<div  class="panel-heading ibox-title"><h5 id="serviceFlow">服务流程</h5></div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs" >
 								<li class="active"><a href="#home" data-toggle="tab">流程备注</a>
@@ -808,7 +809,8 @@ p.title {
 										<c:if test="${not empty toWorkFlow.instCode}">
 											<iframe frameborder="no" border="0" marginwidth="0"
 												marginheight="0" scrolling="auto" allowtransparency="yes"
-												style="height: 1024px; width: 100%;"
+												overflow:auto;
+												style="height:1068px; width: 100%;"
 												src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 										</c:if>
 									</c:if>
@@ -823,8 +825,8 @@ p.title {
 
 
 					<!-- 相关信息 -->
-					<div class="panel panel-default" id="aboutInfo">
-						<div class="panel-heading">相关信息 <a style="float: right;margin-right: 12px;" href="javascript:showChangeFormModal();">我要修改</a></div>
+					<div class="panel panel-default" id="aboutInfo" >
+						<div class="panel-heading ibox-title" ><h5>相关信息</h5> <span><a style="float: right;margin-right: 10px; " href="javascript:showChangeFormModal();">我要修改</a></span></div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
