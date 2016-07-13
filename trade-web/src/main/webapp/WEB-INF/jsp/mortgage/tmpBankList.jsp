@@ -225,7 +225,7 @@
 					forceFit : true,
 					rowNum : 20,
 					/* rowList: [10, 20, 30], */
-					colNames : [ 'id', '案件编号', 'CTM编号','案件地址',
+					colNames : [ 'id', '案件编号', 'CTM编号','产证地址',
 							'贵宾服务部','组别', '总监', '交易顾问','处理状态','处理人','处理时间','主备选银行','操作'],
 					colModel : [ {
 						name : 'PKID',

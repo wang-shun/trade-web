@@ -12,4 +12,6 @@ public interface LoanlostApproveService {
 	public List<String> findApproveRecordByList(ToApproveRecord toApproveRecord);
 	
 	public Map<String, Object> queryCaseInfo(String caseCode, String partCode,String instCode);
+
+	public ToApproveRecord findLastApproveRecord(ToApproveRecord toApproveRecord);
 }

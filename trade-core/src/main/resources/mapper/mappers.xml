@@ -85,7 +85,6 @@
 		<mapper resource="mapper/cases/VCaseTradeInfoMapper.xml" />
 		<mapper resource="mapper/cases/ToCloseMapper.xml" />
 		<mapper resource="mapper/cases/ToLoanAgentMapper.xml" />
-
 		<!-- 组别 -->
 		<mapper resource="mapper/team/TsTeamPropertyMapper.xml" />
 		<mapper resource="mapper/team/TsTeamScopeMapper.xml" />
@@ -148,5 +147,8 @@
 		<!-- 游戏消息订阅 -->
 		<mapper resource="mapper/task/ActRuEventSubScrMapper.xml"/>
 		<mapper resource="mapper/task/TlTaskReassigntLogMapper.xml"/>
+		
+		<!-- 评论模块 -->
+		<mapper resource="mapper/comment/ToCaseCommentMapper.xml" />
 	</mappers>
 </configuration>

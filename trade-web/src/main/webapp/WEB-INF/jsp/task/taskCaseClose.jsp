@@ -34,7 +34,8 @@
 	rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -662,6 +663,7 @@
                                 </div>
                                 <div id="tab-3" class="tab-pane">
                                     <div class="ibox-title">
+                                   <%--  <input type="hidden" name = "accesoryCount" id="accesoryCount" value="${fn:length(accesoryList)} "/>
 										<c:choose>  
 									    <c:when test="${accesoryList!=null}">  
 										<h5>上传备件</h5>
@@ -702,7 +704,7 @@
 											
 										<div class="row-fluid">
 										<div class="">
-											<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+											<script id="templateUpload${accesory.pkid}" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-upload fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
@@ -733,7 +735,7 @@
 							    </div>
 							{% } %}
 						</script>
-														<script id="templateDownload${accesory.pkid }" type="text/x-tmpl">
+						<script id="templateDownload${accesory.pkid }" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
@@ -775,7 +777,18 @@
 									    <c:otherwise> 
 										<h5>上传备件<br>无需上传备件</h5>
 									    </c:otherwise>  
-										</c:choose> 
+										</c:choose>  --%>
+										
+										<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
+                                            <h5>${accesory.preFileName}</h5>
+                                            <div class="ibox-content">
+                                            <div id="imgShow" class="lightBoxGallery">
+	                                            <a href='#' onClick="show('${accesory.preFileAdress}')" data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>
+	                                                <img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/80_80_f.jpg" style='padding-bottom: 5px;padding-top: 5px;'>
+	                                            </a>
+                                            </div>
+                                        </div>
+                                        </c:forEach>
 										</div>
 									
 
@@ -789,6 +802,11 @@
 
 			</div>
 		</div>
+		
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
 		<div class="ibox-title">
 			<h5>审批记录</h5>
 			<div class="ibox-content">
@@ -841,6 +859,10 @@
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		var isAccumulation=false;
 		var loanReq ="${loanReq}";
@@ -1044,9 +1066,10 @@
 		
 		/**提交数据*/
 		function submit() {
-			if(checkAttachment()) {
+	/* 		if(checkAttachment()) {
 				save(true);
-			}
+			} */
+			save(true);
 		}
 
 		/**保存数据*/
@@ -1268,6 +1291,9 @@
 					alert("上下家加载失败！");
 				}
 			});
+		}
+		function show(fileId) {
+			window.open(appCtx['shcl-image-web'] + "/image/"+fileId+"/_f.jpg");
 		}
 	</script> 
 	</content>

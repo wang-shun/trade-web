@@ -56,6 +56,7 @@
 					A.PART_CODE,
 					A.PR_CAT,
 					acu.real_name as PR_EXECUTOR,
+					A.pr_EXECUTOR as PR_EXECUTORID,
 					au.real_name as PR_APPLIANT,
 					au.employee_code as APPLIANT_EMPLOYEE_CODE,
 					A.PR_APPLY_TIME,
@@ -107,6 +108,7 @@
 				<column type="both" name="prCode" index="" checkbox="" display="产调编码" title="产调编码" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 			
 				<column type="both" name="applyOrgName" index="" checkbox="" display="区域分行" title="区域分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_EXECUTORID" index="" checkbox="" title="产调执行人ID" display="产调执行人ID" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 			
 			</table-row>
 		</grid>

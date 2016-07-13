@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="querySignCaseList" cacheCount="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			    select 
+  	            T.CASE_CODE, 
+  	            T.PROPERTY_ADDR,
+  	            T.REAL_NAME, 
+  	            T.ORG_NAME, 
+  	            SIGN_TIME,  
+  	            GRP_NAME, 
+  	            AR_NAME,  
+  	            wz.ORG_NAME ZONE,
+  	            WZ.REAL_NAME ORG_MAN_NAME
+                from (select c.case_code, p.PROPERTY_ADDR, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, tsign.end_time_ sign_time
+                        from sctrans.t_to_case c 
+                        inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
+                        left join sctrans.V_USER_ORG_JOB zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
+                        inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
+                        inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
+                        and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4) 
+                        inner join sctrans.act_hi_taskinst tsign on w.INST_CODE = tsign.proc_inst_id_ and tsign.task_def_key_ ='TransSign'
+                       ) t 
+               LEFT JOIN 
+                    SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
+               LEFT JOIN 
+                    SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
+               LEFT JOIN 
+                    SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID 
+                    AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
+               WHERE 1 = 1
+				<ifNotNull signTimeStart>
+				     and t.SIGN_TIME >= #signTimeStart#
+				</ifNotNull>
+				
+				<ifNotNull signTimeEnd>
+				     and t.SIGN_TIME &lt;= #signTimeEnd#
+				</ifNotNull>
+	     ]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY t.SIGN_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REAL_NAME" index="" checkbox="" title="主管" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_NAME" index="" checkbox="" title="组别" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="GRP_NAME" index="" checkbox="" title="店组" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AR_NAME"  index="" checkbox="" title="片区" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="ZONE" index="" checkbox="" title="区域" 	sysDict="" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />	
+				<column type="both" name="ORG_MAN_NAME" index="" checkbox="" title="区董" sysDict="" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />						
+			</table-row>
+		</grid>
+	</query>
+</querys>

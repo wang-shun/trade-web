@@ -21,6 +21,8 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -123,6 +125,10 @@
 			</div>
 		</div>
 
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+
 		<div class="ibox-title">
 			<a href="#" class="btn" onclick="save(false)">保存</a> <a
 				href="myTaskList" class="btn btn-primary" onclick="submit()">提交</a>
@@ -147,6 +153,10 @@
 	<script src="${ctx}/transjs/task/showAttachment.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
+<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function() {
 
@@ -159,6 +169,11 @@
 				autoclose : true
 			});
 			 getExplPicByhouseCode();
+			 
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : taskitem
+			});
 		});
 
 		/**提交数据*/

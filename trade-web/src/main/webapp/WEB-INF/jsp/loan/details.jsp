@@ -339,8 +339,9 @@ function loanStatusChange() {
 			
 $(document).ready(function() {
 	
-	$('#select_custName').editableSelect({ 
-	    effects: 'slide' //可选参数default、fade 
+	$('#select_custName').editableSelect({
+		effects: 'slide',
+		filter: false
 	});
 	
 	$('#select_applyStatus').change(loanStatusChange);
@@ -437,7 +438,9 @@ function getCustomerNameAndTel(case_code){
 			});
 			custNameParent.empty().append(txt+'</select>');	
 						
-			$('#select_custName').editableSelect({ 
+			$('#select_custName').editableSelect({
+				effects: 'slide',
+				filter: false,
 				onSelect: function (element) {
 					var myIndex = $(element).index();
 					if(myIndex>=0){
@@ -571,8 +574,9 @@ function getCustomerNameAndTel(case_code){
 					postData :postData1
 				});
 			}
-			//得到事件
-function getEvent(){
+			
+//得到事件
+function getEvent() {
      if(window.event)    {return window.event;}
      func=getEvent.caller;
      while(func!=null){
@@ -591,8 +595,7 @@ function getEvent(){
 }
 			
 //阻止冒泡
-function cancelBubble()
-{
+function cancelBubble() {
     var e=getEvent();
     if(window.event){
         e.returnValue=false;//阻止自身行为

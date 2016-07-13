@@ -67,9 +67,9 @@
 							ASSIGNEE_ AS ASSIGNEE,
 							START_TIME_ AS START_TIME,
 							END_TIME_ AS END_TIME,
-							(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG,
-							(SELECT USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-							(SELECT DISTRICT_ID FROM sctrans.t_yucui_org_hierarchy WHERE ORG_ID=(SELECT ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant'))AS DISTRICT
+							(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG,
+							(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+							(SELECT TOP 1 DISTRICT_ID FROM sctrans.t_yucui_org_hierarchy WHERE ORG_ID=(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant'))AS DISTRICT
 						FROM 
 							sctrans.ACT_HI_TASKINST
 						)historytask
@@ -121,23 +121,23 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" beanFormatter="" expType="" expFmt="" width="" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASE_CODE" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="TASK_NAME" index="" checkbox="" display="任务名"  customDict=""  sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="" isSort="" align="" halign="" order="" resizable="" />			
-				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="" isSort="" align="" halign="" order="" resizable="" />							
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict=""  width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="经纪人电话" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="GRP_NAME" index="" checkbox="" display="所属分行" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" display="CASE_CODE" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="CTM_CODE" index="" checkbox="" title="CTM编号" display="CTM_CODE" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="TASK_NAME" index="" checkbox="" title="任务名" display="任务名"  customDict=""  sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" title="上家" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" title="下家" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="" isSort="" align="" halign="" order="" resizable="" />							
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" display="产证地址" customDict="" sysDict=""  width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" title="经纪人" display="经纪人" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_PHONE" index="" checkbox="" title="经纪人电话" display="经纪人电话" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GRP_NAME" index="" checkbox="" title="所属分行" display="所属分行" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
 				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="直属经理" customDict="qqManagerInfo" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="START_TIME" index="" checkbox="" display="开始时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
-				<column type="both" name="END_TIME" index="" checkbox="" display="结束时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="START_TIME" index="" checkbox="" title="起始时间" display="开始时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="END_TIME" index="" checkbox="" title="结束时间" display="结束时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
 				<column type="both" name="CONSULTANT_ID" index="" checkbox="" display="CONSULTANT_ID" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="CONSULTANT_NAME" referencecol="CONSULTANT_ID" index="" checkbox="" display="经办人" customDict="qqcdUserIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
-				<column type="both" name="YUCUI_ORG_ID" index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="CONSULTANT_TEL" referencecol="CONSULTANT_ID" index="" checkbox="" display="经办人电话" customDict="qqcdUserIdMobile" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>							
+				<column type="virtual" name="CONSULTANT_NAME" referencecol="CONSULTANT_ID" index="" checkbox="" title="经办人" display="经办人" customDict="qqcdUserIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="YUCUI_ORG_ID" index="" checkbox="" title="经办人组织" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CONSULTANT_TEL" referencecol="CONSULTANT_ID" index="" checkbox="" title="经办人电话" display="经办人电话" customDict="qqcdUserIdMobile" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>							
 			</table-row>
 		</grid>
 	</query>

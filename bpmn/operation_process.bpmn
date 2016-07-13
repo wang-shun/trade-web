@@ -3,7 +3,7 @@
   <message id="StartMortgageSelectMsg" name="StartMortgageSelectMsg"></message>
   <process id="operation_process" isExecutable="true">
     <startEvent id="sid-4F567B8D-CE60-482E-865B-44304AC514A1"></startEvent>
-    <userTask id="FirstFollow" name="首次跟进" activiti:candidateGroups="consultant">
+    <userTask id="FirstFollow" name="首次跟进" activiti:candidateGroups="consultant" activiti:formKey="/task/firstFollow/process">
       <documentation>进行标记（无效则填写原因）</documentation>
       <extensionElements>
         <activiti:formProperty id="isvalid" name="无效案件" type="boolean"></activiti:formProperty>
@@ -15,28 +15,28 @@
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203" sourceRef="sid-4F567B8D-CE60-482E-865B-44304AC514A1" targetRef="FirstFollow"></sequenceFlow>
-    <userTask id="InvalidCaseApprove" name="无效案件审批" activiti:candidateGroups="Manager">
+    <userTask id="InvalidCaseApprove" name="无效案件审批" activiti:candidateGroups="Manager" activiti:formKey="/task/invalidCaseApprove/process">
       <extensionElements>
         <activiti:formProperty id="InvalidCaseApprove" name="同意案件置为无效" type="boolean"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="sid-D60F280D-052C-40BE-B1DE-AD82A752BD20"></exclusiveGateway>
     <endEvent id="sid-077DB997-A81D-4C18-BF7A-E5848046AE3C"></endEvent>
-    <userTask id="Guohu" name="过户" activiti:candidateGroups="consultant"></userTask>
-    <userTask id="GuohuApprove" name="过户审批" activiti:candidateGroups="MiddleOffice">
+    <userTask id="Guohu" name="过户" activiti:candidateGroups="consultant" activiti:formKey="/task/ToHouseTransfer/process"></userTask>
+    <userTask id="GuohuApprove" name="过户审批" activiti:candidateGroups="MiddleOffice" activiti:formKey="/task/guohuApprove/process">
       <extensionElements>
         <activiti:formProperty id="GuohuApprove" name="可以过户" type="boolean"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="sid-FCF4D064-0F8A-46B1-9C28-5D36557CBB42"></exclusiveGateway>
-    <userTask id="LoanRelease" name="放款" activiti:candidateGroups="consultant"></userTask>
-    <userTask id="CaseCloseFirstApprove" name="结案审核" activiti:candidateGroups="TeamAssistant">
+    <userTask id="LoanRelease" name="放款" activiti:candidateGroups="consultant" activiti:formKey="/task/loanRelease/process"></userTask>
+    <userTask id="CaseCloseFirstApprove" name="结案审核" activiti:candidateGroups="TeamAssistant" activiti:formKey="/task/caselostApprove/first/process">
       <extensionElements>
         <activiti:formProperty id="CaseCloseFirstCheck" name="结案一级审核" type="boolean"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53"></exclusiveGateway>
-    <userTask id="CaseCloseSecondApprove" name="主管审批" activiti:candidateGroups="Manager">
+    <userTask id="CaseCloseSecondApprove" name="主管审批" activiti:candidateGroups="Manager" activiti:formKey="/task/caselostApprove/second/process">
       <extensionElements>
         <activiti:formProperty id="CaseCloseSecondCheck" name="结案二级审核" type="boolean"></activiti:formProperty>
       </extensionElements>
@@ -45,9 +45,9 @@
     <sequenceFlow id="sid-F8E6B3A2-7A77-418C-9943-E7DD6C05D58E" sourceRef="CaseCloseSecondApprove" targetRef="sid-1B840D36-B258-4BF8-A93F-7967F6B64B4E"></sequenceFlow>
     <endEvent id="sid-F8293B1F-1BC9-4968-A070-83E7342FEFC1"></endEvent>
     <inclusiveGateway id="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></inclusiveGateway>
-    <userTask id="EvaReportArise" name="发起报告类评估" activiti:candidateGroups="consultant"></userTask>
+    <userTask id="EvaReportArise" name="发起报告类评估" activiti:candidateGroups="consultant" activiti:formKey="/task/evaReportArise/process"></userTask>
     <inclusiveGateway id="inclusivegateway1"></inclusiveGateway>
-    <userTask id="HouseBookGet" name="领证" activiti:candidateGroups="consultant"></userTask>
+    <userTask id="HouseBookGet" name="领证" activiti:candidateGroups="consultant" activiti:formKey="/task/houseBookGet/process"></userTask>
     <sequenceFlow id="sid-082496DF-1C42-4214-A669-038D612DB562" sourceRef="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53" targetRef="CaseCloseSecondApprove">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseFirstCheck}]]></conditionExpression>
     </sequenceFlow>
@@ -58,7 +58,7 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseSecondCheck}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-6D4B18DF-BC6A-42BB-BDFE-4CE264CA9FF8" sourceRef="LoanRelease" targetRef="CaseClose"></sequenceFlow>
-    <userTask id="CaseClose" name="结案归档" activiti:candidateGroups="consultant"></userTask>
+    <userTask id="CaseClose" name="结案归档" activiti:candidateGroups="consultant" activiti:formKey="/task/CaseClose/process"></userTask>
     <sequenceFlow id="flow4" sourceRef="GuohuApprove" targetRef="inclusivegateway1"></sequenceFlow>
     <sequenceFlow id="sid-D8A31BF4-CA18-49D1-99D5-822B00604AF1" sourceRef="Guohu" targetRef="GuohuApprove"></sequenceFlow>
     <sequenceFlow id="sid-4706A536-89B5-4165-93C1-F66D903907D5" sourceRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E" targetRef="Guohu"></sequenceFlow>
@@ -84,7 +84,7 @@
     <sequenceFlow id="sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715" sourceRef="sid-FCF4D064-0F8A-46B1-9C28-5D36557CBB42" targetRef="CaseClose">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed == false && PSFLoanNeed == false&&SelfLoanNeed == false}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="MortgageSelect" name="贷款需求选择" activiti:candidateGroups="consultant"></userTask>
+    <userTask id="MortgageSelect" name="贷款需求选择" activiti:candidateGroups="consultant" activiti:formKey="/task/mortgageSelect/process"></userTask>
     <inclusiveGateway id="sid-79756F09-FF56-4641-9144-8A782FF1E98F"></inclusiveGateway>
     <sequenceFlow id="sid-3D05CEC7-AF8C-46CB-8721-31F7BE4BD954" sourceRef="FirstFollow" targetRef="sid-D60F280D-052C-40BE-B1DE-AD82A752BD20"></sequenceFlow>
     <sequenceFlow id="sid-CA839E9F-ED97-4BA8-BC30-18EFED5C758D" sourceRef="sid-D60F280D-052C-40BE-B1DE-AD82A752BD20" targetRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F">
@@ -95,7 +95,7 @@
     </sequenceFlow>
     <sequenceFlow id="sid-13B29F98-48C5-4348-A85E-A3ABFA4E2F2B" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="MortgageSelect"></sequenceFlow>
     <subProcess id="comloan_subproc" name="商贷子流程">
-      <userTask id="ComLoanProcess" name="商业贷款办理" activiti:candidateGroups="consultant">
+      <userTask id="ComLoanProcess" name="商业贷款办理" activiti:candidateGroups="consultant" activiti:formKey="/task/comLoanProcess/process">
         <extensionElements>
           <activiti:formProperty id="EvaReportNeedAtLoanRelease" name="放款前需要报告类评估" type="boolean"></activiti:formProperty>
         </extensionElements>
@@ -107,11 +107,11 @@
     </subProcess>
     <sequenceFlow id="flow13" sourceRef="comloan_subproc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
     <subProcess id="PFSLoan_subproc" name="公积金子流程">
-      <userTask id="PSFApply" name="纯公积金贷款申请" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="PSFApply" name="纯公积金贷款申请" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFApply/process"></userTask>
       <sequenceFlow id="sid-F0D56D7E-C336-4E7C-A321-BEDE51BE7B98" sourceRef="PSFApply" targetRef="PSFSign"></sequenceFlow>
-      <userTask id="PSFSign" name="纯公积金贷款签约" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="PSFSign" name="纯公积金贷款签约" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFSign/process"></userTask>
       <sequenceFlow id="sid-0AF99695-1D1C-48A4-AF31-092E467F0A46" sourceRef="PSFSign" targetRef="PSFApprove"></sequenceFlow>
-      <userTask id="PSFApprove" name="纯公积金贷款审批" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="PSFApprove" name="纯公积金贷款审批" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFApprove/process"></userTask>
       <startEvent id="startevent3" name="Start"></startEvent>
       <endEvent id="endevent3" name="End"></endEvent>
       <sequenceFlow id="flow22" sourceRef="startevent3" targetRef="PSFApply"></sequenceFlow>
@@ -119,9 +119,9 @@
     </subProcess>
     <sequenceFlow id="flow16" sourceRef="PFSLoan_subproc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
     <subProcess id="loanLost_subproc" name="贷款流失子流程">
-      <userTask id="LoanlostApply" name="贷款流失申请" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="LoanlostApply" name="贷款流失申请" activiti:candidateGroups="consultant" activiti:formKey="/task/loanlostApply/process"></userTask>
       <sequenceFlow id="sid-0AFC0D8A-4841-4166-B1B9-D597A035D246" sourceRef="LoanlostApply" targetRef="LoanlostApproveManager"></sequenceFlow>
-      <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:candidateGroups="Manager">
+      <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:candidateGroups="Manager" activiti:formKey="/task/loanlostApproveManager/process">
         <extensionElements>
           <activiti:formProperty id="SelfLoanApprove_manager" name="主管同意" type="boolean"></activiti:formProperty>
         </extensionElements>
@@ -135,13 +135,13 @@
       <sequenceFlow id="sid-D04DBB9A-0705-48B5-858C-1A8E36EE8440" sourceRef="sid-C8D4B5B0-F2D7-4A1C-AE9F-246A865051C0" targetRef="LoanlostApply">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_manager == false}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:candidateGroups="director">
+      <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:candidateGroups="director" activiti:formKey="/task/loanlostApproveDirector/process">
         <extensionElements>
           <activiti:formProperty id="LoanLost_director" name="总监同意" type="boolean"></activiti:formProperty>
         </extensionElements>
       </userTask>
       <sequenceFlow id="sid-26BA3339-AAC0-4233-8D71-0DA2749A9204" sourceRef="LoanlostApproveDirector" targetRef="sid-B7209259-3A2A-4799-9FDF-77FC48FB6724"></sequenceFlow>
-      <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:candidateGroups="consultant" activiti:formKey="/task/selfLoanApprove/process"></userTask>
       <startEvent id="startevent2" name="Start"></startEvent>
       <endEvent id="endevent2" name="End"></endEvent>
       <sequenceFlow id="flow20" sourceRef="startevent2" targetRef="LoanlostApply"></sequenceFlow>
@@ -158,11 +158,11 @@
       <messageEventDefinition messageRef="StartMortgageSelectMsg"></messageEventDefinition>
     </boundaryEvent>
     <subProcess id="tradeSubProc" name="交易过户子流程(过户前)">
-      <userTask id="PurchaseLimit" name="查限购" activiti:candidateGroups="consultant"></userTask>
-      <userTask id="TaxReview" name="审税" activiti:candidateGroups="consultant"></userTask>
-      <userTask id="Pricing" name="核价" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="PurchaseLimit" name="查限购" activiti:candidateGroups="consultant" activiti:formKey="/task/purchaseLimit/process"></userTask>
+      <userTask id="TaxReview" name="审税" activiti:candidateGroups="consultant" activiti:formKey="/task/taxReview/process"></userTask>
+      <userTask id="Pricing" name="核价" activiti:candidateGroups="consultant" activiti:formKey="/task/pricing/process"></userTask>
       <sequenceFlow id="sid-CD38C35B-323F-4F72-8263-FA0F9B71C6B1" sourceRef="Pricing" targetRef="TaxReview"></sequenceFlow>
-      <userTask id="LoanClose" name="上家贷款结清" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="LoanClose" name="上家贷款结清" activiti:candidateGroups="consultant" activiti:formKey="/task/closeLoan/process"></userTask>
       <inclusiveGateway id="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39"></inclusiveGateway>
       <sequenceFlow id="sid-E623CF1C-6460-42CC-B4AF-70FE3F5ACD27" sourceRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39" targetRef="Pricing"></sequenceFlow>
       <sequenceFlow id="sid-94D1516B-199A-41F7-B0EE-1006FD0D93D1" sourceRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39" targetRef="PurchaseLimit">
@@ -171,9 +171,9 @@
       <sequenceFlow id="sid-587B869A-595D-4177-B090-52196DB9E505" sourceRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39" targetRef="LoanClose">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanCloseNeed}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="TransPlanFilling" name="填写交易计划" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="TransPlanFilling" name="填写交易计划" activiti:candidateGroups="consultant" activiti:formKey="/task/transPlan/process"></userTask>
       <sequenceFlow id="sid-3C19F394-57FE-4EC7-9B47-384695CE9EA7" sourceRef="TransPlanFilling" targetRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39"></sequenceFlow>
-      <userTask id="TransSign" name="签约" activiti:candidateGroups="consultant"></userTask>
+      <userTask id="TransSign" name="签约" activiti:candidateGroups="consultant" activiti:formKey="/task/sign/process "></userTask>
       <sequenceFlow id="flow10" sourceRef="TransSign" targetRef="TransPlanFilling"></sequenceFlow>
       <startEvent id="startevent4" name="Start"></startEvent>
       <sequenceFlow id="flow26" sourceRef="startevent4" targetRef="TransSign"></sequenceFlow>

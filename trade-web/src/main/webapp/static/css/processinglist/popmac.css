@@ -101,15 +101,7 @@ button:hover {
 	line-height: 24px!important;
 	text-align: Justify;
 }
-input[type="radio"] {
-  margin: 3px 3px 0px 5px;
-  display: none;
-}
-label {
-  padding-left: 20px;
-  cursor: pointer;
-  background: url(../img/bg_btn.gif) no-repeat 0px 2px;
-}
+
 label.checked {
   background-position: 0px -16px;
 }

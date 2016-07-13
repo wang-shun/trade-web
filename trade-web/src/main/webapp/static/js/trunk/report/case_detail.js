@@ -261,25 +261,29 @@ function getParamsValue() {
 	var org =  $('#yuCuiOriGrpId').val();
 	if(org=="ff8080814f459a78014f45a73d820006"){
 		org=null;
-	}else if(org==""||org==null){
-		org = $("#org").val();
+	}else if(org==""){
+		if($("#org").val()=="ff8080814f459a78014f45a73d820006"){
+			org=null;
+		}else{
+			org=$("#org").val();
+		}
 	}
 	
 	//案件编号
 	var caseNo = $("#caseNo").val();
-	if(""==caseNo || null==caseNo){
+	if(""==caseNo){
 		caseNo=null;
 	}
 	
 	//案件地址
 	var caseAddr = $("#caseAddr").val();
-	if(""==caseAddr || null==caseAddr){
+	if(""==caseAddr){
 		caseAddr=null;
 	}
 	
 	//交易顾问ID
 	var userId =$("#userId").val();
-	if(userId==""||userId==null){
+	if(userId==""){
 		userId=null;
 	}
 	
