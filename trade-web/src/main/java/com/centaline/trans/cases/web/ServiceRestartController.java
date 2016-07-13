@@ -53,7 +53,7 @@ public class ServiceRestartController {
 		
 		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task/taskServiceRestartApply";
+		return "task/taskserviceRestartApply";
 	}
 	@RequestMapping("approve/process")
 	public String toApproveProcess(HttpServletRequest request, HttpServletResponse response,
@@ -65,7 +65,7 @@ public class ServiceRestartController {
 		
 		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task/taskServiceRestartApprove";
+		return "task/taskserviceRestartApprove";
 	}
 	
 	
