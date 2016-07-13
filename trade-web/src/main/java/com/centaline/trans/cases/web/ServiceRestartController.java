@@ -51,9 +51,9 @@ public class ServiceRestartController {
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		
-		request.setAttribute("approveType", "1");
+		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task/taskPSFApprove";
+		return "task/taskServiceRestartApply";
 	}
 	@RequestMapping("approve/process")
 	public String toApproveProcess(HttpServletRequest request, HttpServletResponse response,
@@ -63,9 +63,9 @@ public class ServiceRestartController {
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		
-		request.setAttribute("approveType", "1");
+		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task/taskPSFApprove";
+		return "task/taskServiceRestartApprove";
 	}
 	
 	
