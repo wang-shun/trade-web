@@ -107,23 +107,21 @@ text-decoration: underline !important;
 						<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
-							<label class="col-md-1 control-label m-l">过户审批时间</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期"> <span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="结束日期" />
-							</div>
-							<div id="addLine" class="pull-left m-l">
-							
-						</div>
-						</div>
-						</div>
+									<label class="col-md-1 control-label m-l">过户审批时间</label>
+									<div id="dateDiv_0">
+										<div id="datepicker_0"
+											class="input-group input-medium date-picker input-daterange pull-left"
+											data-date-format="yyyy-mm-dd">
+											<input id="dtBegin_0" name="dtBegin" class="form-control"
+												style="font-size: 13px;" type="text" value=""
+												placeholder="起始日期"> <span class="input-group-addon">到</span>
+											<input id="dtEnd_0" name="dtEnd" class="form-control"
+												style="font-size: 13px;" type="text" value=""
+												placeholder="结束日期" />
+										</div>
+										<div id="addLine" class="pull-left m-l"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row m-t-sm">
