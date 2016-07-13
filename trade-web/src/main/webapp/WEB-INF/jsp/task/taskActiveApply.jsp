@@ -26,8 +26,8 @@
 					</div>      
                     </form>                               
 </div>
-<div id="caseCommentList" class="add_form">
-</div>
+<!-- <div id="caseCommentList" class="add_form">
+</div> -->
 <content tag="local_script">
     <!-- Peity -->
     <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
@@ -42,10 +42,10 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script>
 $(function(){
-	$("#caseCommentList").caseCommentGrid({
+/* 	$("#caseCommentList").caseCommentGrid({
 		caseCode : null,
 		srvCode : null
-});
+}); */
 });
 
 $.fn.serializeObject = function() {    

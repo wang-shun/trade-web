@@ -72,8 +72,8 @@
                             						</div>
                         					  </div> 
                       
-                      <div id="caseCommentList" class="add_form">
-</div>
+<!--                       <div id="caseCommentList" class="add_form">
+</div> -->
                         					  
                         					  <div class="ibox-title">
                            							 <h5>上传备件 </h5>
@@ -201,10 +201,10 @@
                
             }); 
             
-	  	$("#caseCommentList").caseCommentGrid({
+/* 	  	$("#caseCommentList").caseCommentGrid({
 			caseCode : null,
 			srvCode : null
-	});
+	}); */
         });
 
         
