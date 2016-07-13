@@ -20,5 +20,7 @@ public class ParamesAPI {
 	public static String REDIRECT_URI_MYCASE_LIST = "http://trade.sh.centaline.com.cn/trade-web/mobile/case/box/progressQueryList";
 	// 新三级市场
 	public static String NEW_AGENCE = "43";
+	
+	public static String REDIRECT_URI_MYPROPERTY = "http://trade.sh.centaline.com.cn/trade-web/mobile/property/box/myProperty";
 
 }

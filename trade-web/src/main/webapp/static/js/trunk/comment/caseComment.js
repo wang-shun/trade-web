@@ -12,7 +12,8 @@
 	var tempSource = '';
 	jQuery.fn.caseCommentGrid = function(options) {
 		
-		var templeteSource =  '{{each rows as item index}}'
+		var templeteSource = '{{if rows.length>0}}'  
+			+'{{each rows as item index}}'
 			+ '{{if index == 0}}'
 			+ '<div class="form_one col-sm-12 unline_none">'
 	        + '{{else}}'
@@ -21,7 +22,10 @@
 	        + '<span id="title">{{item.CREATE_TIME}}<span class="time">{{item.CREATE_BY}}</span><i class="sq_label">{{item.SRV_CODE}}</i></span>'
 	        + '<span>{{item.COMMENT}}</span>'
 	        + '</div>'
-	        +'{{/each}}';
+	        +'{{/each}}'
+	        +'{{else}}'
+	        +'<div class="form_one col-sm-12">无备注</div>'
+	        +'{{/if}}';
 		
 		var commentButton = '<div class="input_line">';
 		commentButton+='<input type="hidden" name="caseComment_caseCode" id="caseComment_caseCode"/>';
@@ -54,6 +58,10 @@
 function saveCaseComment() {
 	var caseCode = $('#caseComment_caseCode').val();
 	var comment = $("#caseComment").val();
+	if(comment==''){
+		alert('添加案件备注不能为空');
+		return false;
+	}
 	var srvCode = $('#caseComment_srvCode').val();
 	var toCaseComment = {
 		caseCode : 	caseCode,
@@ -76,7 +84,8 @@ function saveCaseComment() {
 };
 
 function reloadGrid() {
-	var templeteSource =  '{{each rows as item index}}'
+	var templeteSource =  '{{if rows.length>0}}'
+						+ '{{each rows as item index}}'
 						+ '{{if index == 0}}'
 						+ '<div class="form_one col-sm-12 unline_none">'
 				        + '{{else}}'
@@ -85,7 +94,10 @@ function reloadGrid() {
 				        + '<span id="title">{{item.CREATE_TIME}}<span class="time">{{item.CREATE_BY}}</span><i class="sq_label">{{item.SRV_CODE}}</i></span>'
 				        + '<span>{{item.COMMENT}}</span>'
 				        + '</div>'
-				        +'{{/each}}';
+				        +'{{/each}}'
+				        +'{{else}}'
+				        +'<div class="form_one col-sm-12">无备注</div>'
+				        +'{{/if}}';;
 	
 	var caseCode = $('#caseComment_caseCode').val();
 	$("#caseCommentList").reloadGrid({

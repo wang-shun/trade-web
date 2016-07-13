@@ -95,9 +95,11 @@
 									{{else}}
 									{{/if}}
 								</span>
-		                    	<span class="look">
-									<a href="#" onclick="doProcess('{{item.prCode}}');">查看</a
-								</span>
+								{{if item.PR_COMPLETE_TIME != null}}
+		                    		<span class="look">
+										<a href="#" onclick="doProcess('{{item.prCode}}');">查看</a
+									</span>
+								{{/if}}	
 		                	</p>
 		            	</div>
                     </li>

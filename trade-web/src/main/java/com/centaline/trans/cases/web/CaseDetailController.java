@@ -188,7 +188,7 @@ public class CaseDetailController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "caseDetail")
+	@RequestMapping(value = "caseCodeDetail")
 	public String caseDetail(String caseCode , ServletRequest request) {
 		if (caseCode == null)
 			return "case/caseList";
@@ -696,7 +696,7 @@ public class CaseDetailController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "caseDetails")
+	@RequestMapping(value = "caseDetail")
 	public String caseDetail(Long caseId, ServletRequest request) {
 		if (caseId == null)
 			return "case/caseList";

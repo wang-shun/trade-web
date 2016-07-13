@@ -34,6 +34,10 @@
 <link
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
+	<link href="${ctx}/css/transcss/comment/caseComment.css"
+    rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"
+    rel="stylesheet" />
 <style type="text/css">
 
 body{
@@ -204,7 +208,6 @@ p.title {
 	padding-left: 10px;
 	padding-bottom: 2px;
 	font-size: 14px;
-	font-weight: normal;
 	color: #333;
 }
 
@@ -381,7 +384,7 @@ p.title {
 												<dt>下家姓名</dt>
 												<dd>
 													<a data-toggle="popover" data-placement="right"
-														data-content="${caseDetailVO.buyerMobile}">${caseDetailVO.sellerMobile}
+														data-content="${caseDetailVO.buyerMobile}">${caseDetailVO.buyerName}
 													</a>
 												</dd>
 											</dl>
@@ -449,10 +452,11 @@ p.title {
 					</div>
 					<!-- 服务流程 -->
 					<div class="panel panel-default infos clearfix" >
-						<div id="serviceFlow" class="panel-heading">服务流程</div>
+					
+						<div  class="panel-heading ibox-title"><h5 id="serviceFlow">服务流程</h5></div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs" >
-								<li><a href="#home" data-toggle="tab">流程备注</a>
+								<li class="active"><a href="#home" data-toggle="tab">流程备注</a>
 								</li>
 								<li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
 								</li>
@@ -805,7 +809,8 @@ p.title {
 										<c:if test="${not empty toWorkFlow.instCode}">
 											<iframe frameborder="no" border="0" marginwidth="0"
 												marginheight="0" scrolling="auto" allowtransparency="yes"
-												style="height: 1024px; width: 100%;"
+												overflow:auto;
+												style="height:1068px; width: 100%;"
 												src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 										</c:if>
 									</c:if>
@@ -813,15 +818,15 @@ p.title {
 								<div class="tab-pane fade" id="settings">
 									<table id="operation_history_table"></table>
 									<div id="operation_history_pager"></div>
-								</div>
+							  	</div>
 							</div>
 						</div>
 					</div>
 
 
 					<!-- 相关信息 -->
-					<div class="panel panel-default" id="aboutInfo">
-						<div class="panel-heading">相关信息</div>
+					<div class="panel panel-default" id="aboutInfo" >
+						<div class="panel-heading ibox-title" ><h5>相关信息</h5> <span><a style="float: right;margin-right: 10px; " href="javascript:showChangeFormModal();">我要修改</a></span></div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -836,6 +841,8 @@ p.title {
 								</li>
 								<li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
 								</li>
+								<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
+                                </li>
 							</ul>
 
 							<div class="tab-content">
@@ -1093,6 +1100,9 @@ p.title {
 									<table id="gridTable"></table>
 									<div id="gridPager"></div>
 								</div>
+								 <div class="tab-pane fade" id="caseComment-info">
+                                    <div id="caseCommentList" class="add_form"></div>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -1118,7 +1128,11 @@ p.title {
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 
 	<!-- 放款监管信息  --> <script src="${ctx}/transjs/task/caseflowlist.js"></script>
-
+	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<!-- 各个环节的备注信息  --> <script src="${ctx}/js/trunk/case/caseRemark.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
@@ -1254,6 +1268,13 @@ p.title {
 
 		//加载页面获取屏幕高度
  		$(function(){
+ 			
+			var caseCode = $('#caseCode').val();
+		
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : null
+			});
 			var h= window.screen.availHeight;
 			$("#scroll").css("height",h-h*0.30);
 			//点击浏览器任何位置隐藏提示信息
