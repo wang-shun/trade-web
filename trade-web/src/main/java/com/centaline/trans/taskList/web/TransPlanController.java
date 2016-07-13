@@ -33,16 +33,16 @@ public class TransPlanController {
 	private WorkFlowManager workFlowManager;
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response,
-			String caseCode, String source, String taskitem, String processInstanceId) {
+			String caseCode, String source, String taskitem, String instCode) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 
-		RestVariable dy = workFlowManager.getVar(processInstanceId, "LoanCloseNeed");/*抵押*/
+		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/*抵押*/
 		
-		RestVariable psf = workFlowManager.getVar(processInstanceId, "PSFLoanNeed");/*公积金*/
-		RestVariable self = workFlowManager.getVar(processInstanceId, "SelfLoanNeed");/*自办*/
-		RestVariable com = workFlowManager.getVar(processInstanceId, "ComLoanNeed");/*贷款*/
+		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
+		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
+		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
 		boolean dk =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue())||(boolean)(com==null?false:com.getValue()));
 		request.setAttribute("dy", dy==null?false:dy.getValue());
 		request.setAttribute("dk", dk);

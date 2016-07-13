@@ -32,6 +32,8 @@
 	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
 	
+	<link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
+	
 	<style>
 		.mr5{margin:0 5px 0 30px;}
 		#div_f{
@@ -77,7 +79,7 @@
 		.apply-table tr:nth-child(odd) td.btn-g{padding:8px 0 4px 8px;}
 		.apply-table tr:nth-child(even) td.btn-g{padding:5px 0 10px 8px;}
 		.apply-table tr td.invalid{width:150px;padding-right:10px !important;}
-		.apply-table tr em{font-style:normal;font-size:13px;line-height:18px;}
+		.apply-table tr em{font-style:normal;font-size:12px;line-height:18px;}
 		.apply-table tbody a{color:#1a5f8e;}
 	</style>
 	
@@ -195,116 +197,86 @@
 		</div>
 	</div>
 	
-	<div id="modal-form" class="modal fade" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<div class="ibox ">
-						<div class="ibox-title">
-							<button type="button" class="close" data-dismiss="modal">
-								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-							</button>
-							<h5>处理产调</h5>
-						</div>
-						<div class="ibox-content">
-	
-							<div class='row'>
-								<div class='pull-left'>
-									<h5>物业地址:</h5>
-								</div>
-								<div class='pull-left' style="margin-top: 3px;">
-									<span id="address"></span>
-								</div>
-							</div>
-							
-							<div class='row'>
-								<div class='pull-left'>
-									<h5>产调项目:</h5>
-								</div>
-								<div class='pull-left' style="margin-top: 3px;">
-									<span id="prcat"></span>
-								</div>
-							</div>
-							
-							<div class='row'>
-								<div class='pull-left'>
-									<h5>所属分行:</h5>
-								</div>
-								<div class='pull-left' style="margin-top: 3px;">
-									<span id="applyOrgName"></span>
-								</div>
-							</div>
-							
-							<div class='row'>
-								<div class='pull-left'>
-									<h5>区蕫:</h5>
-								</div>
-								<div class='pull-left' style="margin-top: 3px;">
-									<span id="orgMgr"></span>
-								</div>
-							</div>
-	
-							<div class='row'>
-								<div class='pull-left'>
-									<h5>是否有效:</h5>
-								</div>
-								<div class='pull-left'>
-									<input type="radio" name="isScuess" value="0">无效<input
-										type="radio" name="isScuess" value="1" checked="checked">有效
-								</div>
-							</div>
-	
-							<div id='div_f' class="row">
-			
-									<div class='pull-left'>
-										<h5>无效原因:</h5>
-									</div>
-									<div class='col-xs-10'>
-										<textarea rows="7" cols="25" name="unSuccessReason" id='unSuccessReason'></textarea>
-									</div>
-							</div>
-							<div id='div_s' class='row'>
-									<div class="pull-left">
-										<h5>上传产调:</h5>
-									</div>
-								<div style="padding-top: 30px;">
-									<div class="form-group" style="margin-left:-25px;">
-										<div class="" id="fileupload_div_pic">
-											<form id="fileupload"
-												action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-												method="POST" enctype="multipart/form-data">
-												<noscript>
-													<input type="hidden" name="redirect"
-														value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-													<input type="hidden" id="preFileCode" name="preFileCode"
-														value="property_research_letter">
-												</noscript>
-	
-												<div class="row-fluid fileupload-buttonbar">
-													<div class="" style="height: auto">
-														<div role="presentation" class="table table-striped "
-															style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-															<div id="picContainer1" class="files"
-																data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-															<span class=" fileinput-button "
-																style="margin-left: 10px !important; width: 80px;">
-																<div id="chandiaotuBtn" class=""
-																	style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-																	<i class="fa fa-plus"></i>
-																</div> <input id="picFileupload1" type="file" name="files[]"
-																multiple
-																data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-																data-sequential-uploads="true">
-															</span>
+	<div class="modal fade manageWindow" id="modal-form" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content fadeIn">
+                <div class="modal-header clearfix">
+                   <p class="title pull-left">处理产调</p>
+                   <div class="ibox-tools">
+                       <a class="close-link pull-right" data-dismiss="modal"> X </a>
+                   </div>
+                </div>
+                <div class="modal-body">
+                	<form action="">
+                    	<table class="table table-striped table-bordered dataTables-example dataTable dtr-inline">
+        					<tbody>
+						        <tr class="gradeA" role="row">
+						            <td valign="middle">物业地址</td>
+						            <td colspan="5"><span id="address"></span></td>
+						        </tr>
+						        <tr class="gradeA" role="row">
+						            <td class="sorting">区域 </td>
+						            <td><span id="distcode"></span></td>
+						            <td class="sorting">所属分行</td>
+						            <td class="center"><span id="applyOrgName"></span></td>
+						            <td class="sorting">区蕫</td>
+						            <td class="center"><span id="orgMgr"></span></td>
+						        </tr>
+						        <tr class="gradeA" role="row">
+						            <td >产调项目</td>
+						            <td colspan="5" class="info_text"><span id="prcat"></span></td>
+						        </tr>
+						        <tr class="gradeA" role="row">
+						            <td>执行人</td>
+						            <td colspan="5" class="inputlab">
+						              <input type="text" id="executor" name="executor" style="width: 50%;background-color:#FFFFFF;" class="form-control tbspuser" hVal="" value="" readonly="readonly"
+										onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
+										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+						            </td>
+						        </tr>
+						        <tr class="gradeA" role="row">
+						            <td>是否有效</td>
+						            <td colspan="5" class="inputlab">
+						              	<input type="radio" name="isScuess" value="0">无效
+						              	<input type="radio" name="isScuess" value="1" checked="checked">有效
+						            </td>
+						        </tr>
+						        <tr class="gradeA gradepad" role="row">
+						            <td>上传产调</td>
+						            <td colspan="5" class="inputlab">
+						                <div class="form-group">
+											<div class="" id="fileupload_div_pic">
+												<form id="fileupload" action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													method="POST" enctype="multipart/form-data">
+													<noscript>
+														<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+														<input type="hidden" id="preFileCode" name="preFileCode" value="property_research_letter">
+													</noscript>
+													<div class="row-fluid fileupload-buttonbar">
+														<div class="" style="height: auto">
+															<div role="presentation" class="table table-striped "
+																style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+																<div id="picContainer1" class="files"
+																	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+																<span class=" fileinput-button "
+																	style="margin-left: 10px !important; width: 80px;">
+																	<div id="chandiaotuBtn" class=""
+																		style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+																		<i class="fa fa-plus"></i>
+																	</div> <input id="picFileupload1" type="file" name="files[]"
+																	multiple
+																	data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+																	data-sequential-uploads="true">
+																</span>
+															</div>
 														</div>
 													</div>
-												</div>
-											</form>
-										</div>
-	
-										<div class="row-fluid">
-											<div class="">
-												<script id="templateUpload1" type="text/x-tmpl">
+												</form>
+											</div>
+											<div class="row-fluid">
+												<div class="">
+													<script id="templateUpload1" type="text/x-tmpl">
+
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-upload fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-right:5px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
@@ -334,8 +306,9 @@
 									</div>
 							    </div>
 							{% } %}
-						</script>
-							<script id="templateDownload1" type="text/x-tmpl">
+													</script>
+													<script id="templateDownload1" type="text/x-tmpl">
+
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
@@ -359,30 +332,39 @@
 							        </div>
 							    </div>
 							{% } %}
-						</script>
-							</div>
-							</div>
-										<div class="row-fluid" style="display: none;">
-											<div class="span4">
-												<div class="control-group">
-													<a class="btn blue start" id="startUpload"
-														style="height: 30px; width: 50px"> <i
-														class="icon-upload icon-white"></i> <span>上传</span>
-													</a>
+													</script>
+												</div>
+											</div>
+											<div class="row-fluid" style="display: none;">
+												<div class="span4">
+													<div class="control-group">
+														<a class="btn blue start" id="startUpload"
+															style="height: 30px; width: 50px"> <i
+															class="icon-upload icon-white"></i> <span>上传</span>
+														</a>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-	<!-- 				<input type="button" class="btn btn-warning" id="btn_save" value="保存">  -->
-					<input type="button" class="btn btn-warning" id="btn_done" value="完成">
-				</div>
-			</div>
-		</div>
-	</div>
+						            </td>
+						        </tr>
+						        <tr class="gradeA" role="row" id="wuxiao">
+						            <td>无效原因</td>
+						            <td colspan="5" class="inputlab">
+						              	<textarea name="unSuccessReason" id='unSuccessReason' class="form-control"></textarea>
+						            </td>
+						        </tr>
+        					</tbody>
+        				</table>
+		            </form>
+                </div>
+                <div class="modal-footer text-center">
+                    <input type="button" class="btn btn-warning" id="btn_done" value="完成">
+                </div>
+            </div>
+         </div>
+   	</div>
+	
 	<content tag="local_script">
 	    <!-- Mainly scripts -->
 		<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -415,6 +397,8 @@
 		<!-- 上传附件 结束 -->
 		<!-- 附件保存修改相关 --> 
 		<script src="${ctx}/js/trunk/task/attachment.js"></script>
+		
+		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		
 		<!-- 分页控件  -->
 	    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -472,14 +456,18 @@
 						<td>执行人：{{item.PR_EXECUTOR}}</td>
 						<td class="btn-g">
 							{{if wrapperData.optTransferRole}}
-								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
+								<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs btn-y'>修改</button>
 							{{else}}
                  			{{/if}}
 						</td>
 					</tr>
 			{{/each}}
 	 	</script> 
-		
+		<script>
+		  template.helper("rep", function(a){  
+	          return a.replace(/[\r\n]/g,"");  
+	      });  
+	 	</script>
 		<script>
 		
 			function report(){

@@ -18,13 +18,13 @@ $(document).ready(function() {
 	});
 
 	$("input[name='isScuess']").on('click',function(){
-		if(!!~~$(this).val()){
-			$("#div_s").show();
-			$("#div_f").hide();
+		if(!!~~$(this).val()){ // 选择有效
+			$(".gradepad").show();
+			$("#wuxiao").hide();
 			$('#unSuccessReason').val('');
-		}else{
-			$("#div_f").show();
-			$("#div_s").hide();
+		}else{                 // 选择无效
+			$("#wuxiao").show();
+		    $(".gradepad").hide();
 		}
 	});
 
@@ -64,8 +64,18 @@ $(document).ready(function() {
 	});
 
 	$('#processingList table').addClass("apply-table");
-
+	
 });
+
+function selectUserBack(array){
+	if(array && array.length >0){
+        $("#executor").val(array[0].username);
+		$("#executor").attr('hVal',array[0].userId);
+	}else{
+		$("#executor").val("");
+		$("#executor").attr('hVal',"");
+	}
+}
 
 function reloadGrid() {
 	var data = getParams();
@@ -123,6 +133,7 @@ function checkIsExistFile(isSubmit){
 	//处理产调
 	function commitDispose(isSubmit){
 		var isScuess=$('input[name="isScuess"]:checked ').val();
+		var executorId = $("#executor").attr('hVal');
 		$.ajax({
 			cache : false,
 			type : "POST",
@@ -132,7 +143,8 @@ function checkIsExistFile(isSubmit){
 				pkid:pkid,
 				isScuess :isScuess ,
 				unSuccessReason:$("#unSuccessReason").val(),
-				isSubmit:!!isSubmit
+				isSubmit:!!isSubmit,
+				executorId:executorId
 			} ,
 			success : function(data) {
 				alert(data.message)
@@ -155,8 +167,9 @@ function checkIsExistFile(isSubmit){
 //		}).trigger('reloadGrid');
 //	}
 
-	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr) {
-
+	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
+			distcode, executorId, executorName) {
+		
 		if (cd == null || cd == "") {
 			$("#caseCode").val(pr);
 		} else {
@@ -178,6 +191,9 @@ function checkIsExistFile(isSubmit){
 		$('#prcat').text(prcat);
 		$('#applyOrgName').text(applyOrgName);
 		$('#orgMgr').text(orgMgr);
+		$('#distcode').text(distcode);
+		$("#executor").attr('hVal', executorId);
+		$("#executor").val(executorName);
 
 		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
 		if(uns){
@@ -232,6 +248,10 @@ function checkIsExistFile(isSubmit){
 				});
 	}
 	function checkForm(){
+		if($("#executor").val() == ''){
+			alert('请选择执行人！');
+			return false;
+		}
 		if(!~~$('input[name="isScuess"]:checked ').val()){
 			if($('#unSuccessReason').val()==''){
 				alert('请输入无效原因！');

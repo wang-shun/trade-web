@@ -57,6 +57,7 @@ public class TaskController {
 		}
 		Map<String, String> queryParameters = new HashMap<String, String>();
 		queryParameters.put("processInstanceId", instCode);
+		queryParameters.put("instCode", instCode);
 		queryParameters.put("taskitem", task.getTaskDefinitionKey());
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);

@@ -50,7 +50,10 @@
 		 
 		 opts.contentData.page = 1;
 		 $(obj).empty();
-		 $.fn.scrollPagination.loadContent(obj, opts);
+		 if($(obj).attr('inScroll') != 'in'){
+			 $.fn.scrollPagination.excute(obj, opts); 
+		 }
+		 // $.fn.scrollPagination.loadContent(obj, opts);
 		
 		 $(target).scroll(function(event){
 			if ($(obj).attr('scrollPagination') == 'enabled'){

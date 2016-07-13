@@ -10,8 +10,7 @@ public enum SalesJobEnum {
 	JQYZJ("JQYZJ", "区域总监"),
 	JQYDS("JQYDS", "区域董事"),
 	JFZJL("JFZJL", "副总经理"),
-	JPKZY("JPKZY","品控专员"),
-	BUSIWZ("BUSIWZ","战区");
+	JPKZY("JPKZY","品控专员");
 	
 	private String code;
 

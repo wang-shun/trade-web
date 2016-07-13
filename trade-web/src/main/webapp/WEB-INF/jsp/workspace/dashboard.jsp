@@ -460,7 +460,7 @@ text-decoration: underline !important;
                                                     签约数
                                                     <div class="agile-detail">
                                                         <span  id="sp_signCount">
-                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=1" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
+                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=TransSign" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.signCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -468,7 +468,7 @@ text-decoration: underline !important;
                                                     贷款申请数
                                                     <div class="agile-detail">
                                                         <span id="sp_loanApplyCount">
-                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=2" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.loanApplyCount }</font></a>
+                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=ComLoanProcess" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.loanApplyCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>
@@ -476,7 +476,7 @@ text-decoration: underline !important;
                                                     结案数
                                                     <div class="agile-detail">
                                                         <span id="sp_closeCount">
-                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=3"  target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
+                                                        <a href="${ctx}/report/statis/historyTaskList?taskName=CaseClose" target="_blank" class='case-num'><font class="fa-2x font-bold text-danger">${sta.closeCount }</font></a>
                                                         </span>
                                                     </div>
                                                 </li>

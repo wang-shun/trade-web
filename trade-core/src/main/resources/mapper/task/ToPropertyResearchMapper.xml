@@ -34,7 +34,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CASE_CODE, PART_CODE, PR_CAT, PR_APPLIANT, PR_EXECUTOR, PR_APPLY_TIME, PR_ACCPET_TIME, 
-    PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS,PR_CODE,same_Pr_Code,pr_District_Id,UNSUCCESS_REASON,pr_Apply_Org_Id,pr_Apply_Org_Name,pr_Cost_Org_Id,pr_Cost_Org_Name
+    PR_COMPLETE_TIME, PR_STATUS, PR_CHANNEL,IS_SUCCESS,PR_CODE,same_Pr_Code,pr_District_Id,UNSUCCESS_REASON,pr_Apply_Org_Id,pr_Apply_Org_Name,pr_Cost_Org_Id,pr_Cost_Org_Name,
     pr_Cost_Org_Mgr,pr_Address,create_Time,create_By,update_Time,update_By,dist_Code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

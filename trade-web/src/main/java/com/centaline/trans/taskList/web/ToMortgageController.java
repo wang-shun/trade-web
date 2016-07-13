@@ -325,7 +325,9 @@ public class ToMortgageController {
 	public String tmpBank(String pkid,HttpServletRequest request){
 		ToMortgage mortage= toMortgageService.findToMortgageById(Long.valueOf(pkid));
 
+
 		request.setAttribute("mortage", mortage);
+
 
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(mortage.getCaseCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);

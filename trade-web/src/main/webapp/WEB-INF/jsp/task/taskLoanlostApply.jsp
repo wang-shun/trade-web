@@ -31,6 +31,8 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -127,6 +129,9 @@
 				</form>
 
 			</div>
+		</div>
+
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title" style="height: auto;">
@@ -290,6 +295,10 @@
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -326,19 +335,25 @@
 		});
 	}
 	
-		$(document).ready(function() {
-			if('caseDetails'==source){
-				readOnlyForm();
-			}
+	$(document).ready(function() {
+		if('caseDetails'==source){
+			readOnlyForm();
+		}
 			
-			 $("#bank").change(function(){
-				 var selectValue = $("#bank").val(); 
-				 getBranchBankList(selectValue)
-			 });
-			
-			 getBankList(finOrgCode);
-			 getGuestInfo();
+		$("#bank").change(function(){
+			var selectValue = $("#bank").val(); 
+			getBranchBankList(selectValue)
 		});
+			
+		getBankList(finOrgCode);
+		getGuestInfo();
+		
+		/*案件备注信息*/
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});
+	});
 		
 
 		/**提交数据*/

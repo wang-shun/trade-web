@@ -34,6 +34,8 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -137,6 +139,10 @@
 				</form>
 
 			</div>
+		</div>
+
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title" style="height: auto;">
@@ -298,7 +304,13 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/sms/sms.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -312,8 +324,8 @@
 			}
 		});
 	}
-	$(document).ready(
-		function() {
+
+	$(document).ready(function() {
 			if('caseDetails'==source){
 				readOnlyForm();
 			}
@@ -369,8 +381,14 @@
 				calendarWeeks : false,
 				autoclose : true
 			});
-
+			
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
 		});
+
+
+	});
 		/**提交数据*/
 		function submit() {
 			if(checkAttachment()) {

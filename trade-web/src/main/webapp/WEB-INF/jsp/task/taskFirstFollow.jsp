@@ -27,6 +27,9 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -293,6 +296,11 @@
 				</form>
 			</div>
 		</div>
+		
+		<!-- 案件备注 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
 		<div class="ibox-title" name="isYouXiao" style="display: display;">
 			<h5>ctm附件</h5>
 			<div class="ibox-content">
@@ -347,6 +355,11 @@
 	<!-- 弹出框插件 -->
 	<script src="${ctx}/js/plugins/layer/layer.js"></script>
 	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
 			
@@ -806,6 +819,16 @@
 				if ($('input[name=square]').val() == '') {
 					alert("产证面积为必填项!");
 					$('input[name=square]').focus();
+					return false;
+				}
+				if ($('select[name=chaxiangou]').val() == '') {
+					alert("限购查询为必选项!");
+					$('select[name=chaxiangou]').focus();
+					return false;
+				}
+				if ($('select[name=diya]').val() == '') {
+					alert("抵押情况为必选项!");
+					$('select[name=diya]').focus();
 					return false;
 				}
 			}
