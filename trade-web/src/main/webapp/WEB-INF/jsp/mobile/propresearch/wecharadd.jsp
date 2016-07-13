@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
@@ -53,6 +53,42 @@ float: none;
 		<div class="row" style="margin-top: 0px; text-align: center;">
 			<span style="font-size: 38px; display: block; margin-top: 12px;">人工产调</span>
 		</div>
+<%-- 		<c:if test="${not empty realname}"> --%>
+<!-- 			<div style="margin-top: 20px;"> -->
+<%-- 				<h2>区蕫：${realname }</h2> --%>
+<!-- 			</div> -->
+<%-- 		</c:if> --%>
+		<div class="row" style="margin-top: 20px;">
+			<div class="col-lg-10">
+				<c:choose>
+					<c:when test="${not empty orgId}">
+						<select class="form-control" id="zhanqu" disabled="disabled">
+							<option value="${orgId}">${orgName}</option>
+						</select>
+					</c:when>
+					<c:otherwise>
+						<select class="form-control" onchange="changeOrgName(this);" id="zhanqu">
+		  					<option value="">请选择</option>
+		  					<c:forEach items="${orgs}" var="org">
+		  						<c:choose>
+								   <c:when test="${org.id == orgId}">
+				  						<option value="${org.id}" selected="selected">${org.orgName}</option>
+								   </c:when>
+								   <c:otherwise>
+				  						<option value="${org.id}">${org.orgName}</option>
+								   </c:otherwise>
+								</c:choose>
+		  					</c:forEach>
+		 				</select>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<input class="form-control" type="text" style="padding-left: 15px;" placeholder="区蕫" readonly="readonly" id="orgName" value="${realname }">
+			</div>
+		</div>
 		<div class="row" style="margin-top: 16px;">
 			<div class="col-lg-12">
 				<aist:dict id="sel_district" name="district" clazz="form-control"
@@ -64,7 +100,7 @@ float: none;
 		<div class="row">
 			<div class="col-lg-12">
 				<input class="form-control" type="text" name="propertyAddr"
-					id="propertyAddr" placeholder="产调地址">
+					id="propertyAddr" placeholder="产调地址" style="padding-left: 15px;">
 			</div>
 		</div>
 		<div class="row">
@@ -209,6 +245,25 @@ float: none;
 						_thisInput.prop('checked'));
 				event.stopPropagation();
 			}
+			
+			function changeOrgName(th){
+				$.ajax({
+					url : ctx + "/mobile/property/box/getOrgName",
+					method : "post",
+					data : {
+						orgId : $(th).val()
+					},
+					dataType : "json",
+					success : function(data) {
+						if(data.success && data.success == true) {
+							$("#orgName").val(data.message);
+						}else{
+							$("#orgName").val('没有找到对应的区蕫！');
+						}
+					}
+				});
+			}
+			
 			$(".checker").find("input[type='checkbox']").click(function(event){
 				event.stopPropagation();
 			});

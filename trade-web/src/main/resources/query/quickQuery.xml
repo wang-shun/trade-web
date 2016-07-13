@@ -76,6 +76,8 @@
 	<import resource="query/case/CaseListWithLoan.xml"></import>
 	<import resource="query/loan/LoanListQuery.xml"></import>
 	
+	<import resource="query/property/toPropertyResearchMyProperty.xml" />
+	
 
 	<import resource="query/loan/LoanManageListQuery.xml"></import>
 
@@ -110,7 +112,25 @@
 	<import resource="query/report/toCaseDetailListQuery.xml"></import>
 	<import resource="query/report/toCaseListQueryCount.xml"></import>
 	<import resource="query/eval/toEvalListQueryForStatistics.xml"></import>
+	<import resource="query/report/toQueryHistoryTaskList.xml"></import>
+	<import resource="query/report/toCaseTransferQuery.xml"></import>
+	<import resource="query/report/toCaseTransferExcelQuery.xml"></import>
+	<import resource="query/report/toChandiaoTransferQuery.xml"></import>
+	<import resource="query/report/toChandiaoTransferExcelQuery.xml"></import>
+	<import resource="query/report/toRedGreenTaskQuery.xml"></import>
 	
 	<!-- 评估费 -->
 	<import resource="query/eval/getInfo4EvalFeeDesign.xml"/>
+	<!-- 临时银行处理 -->
+	<import resource="query/mortgage/tmpBankQuery.xml"/>
+	<import resource="query/task/uncompleteTaskQuery.xml"></import>
+	
+	<!-- 备注模块 -->
+	<import resource="query/comment/CasePartCodeCommentListQuery.xml" />
+	
+	<!-- 面签金融产品 -->
+	<import resource="query/report/toReportSignFaceQuery.xml" />
+	
+	<!-- 签约案件 -->
+	<import resource="query/report/toReportSignCaseQuery.xml" />
 </queryConfig>

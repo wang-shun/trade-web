@@ -25,6 +25,8 @@ import com.aist.uam.userorg.remote.vo.Job;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
+import com.centaline.trans.cases.service.MyCaseListService;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
@@ -42,6 +44,8 @@ public class LoanAgentController {
 	private UamBasedataService uamBasedataService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private MyCaseListService myCaseListService;
 
 	@RequestMapping("submit")
 	public String submit() {
@@ -53,6 +57,9 @@ public class LoanAgentController {
 	    SessionUser sessionUser = uamSessionService.getSessionUser();
 	    String jobCode = sessionUser.getServiceJobCode();
 		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		if(TransJobs.TJYGW.getCode().equals(jobCode)) {
+			request.setAttribute("isJygw",true);
+		}
 		
 		request.setAttribute("isLoanAgentTimeType",request.getParameter("isLoanAgentTimeType"));
 		if(!StringUtils.isBlank(request.getParameter("isLoanAgentTimeType"))) {
@@ -123,7 +130,13 @@ public class LoanAgentController {
 			List<User>jygws =uamUserOrgService.getUserByOrgIdAndJobCode(user.getServiceDepId(), TransJobs.TJYGW.getCode());
 			model.addAttribute("jygws", jygws);
 		}
-		model.addAttribute("yuCuiProduct", users);
+		List<User> usersAvailable = new ArrayList<User>();
+		for (User user : users) {
+			if("1".equals(user.getAvailable())){
+				usersAvailable.add(user);
+			}
+		}
+		model.addAttribute("yuCuiProduct", usersAvailable);
 		if (pkid != null) {
 			LoanAgent loanAgent = loanAgentService.view(pkid);
 			if (!StringUtils.isBlank(loanAgent.getConfirmStatus())) {
@@ -143,6 +156,14 @@ public class LoanAgentController {
 	
 	}
 
+	/*根据caseCoded查询客户详情*/
+	@RequestMapping("getCaseDetails")
+	@ResponseBody
+	public List<TgGuestInfo> getCaseDetailsBypkid(String caseCode){
+		List<TgGuestInfo> caseInfos = myCaseListService.findTgGuestInfoByCaseCode(caseCode);
+		return caseInfos;
+	}
+	
 	@RequestMapping("doSubmit")
 	@ResponseBody
 	public Object doSubmit(LoanAgent loanAgent) {

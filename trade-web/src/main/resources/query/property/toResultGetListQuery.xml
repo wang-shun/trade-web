@@ -11,7 +11,7 @@
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy/MM/dd</property>
+				<property name="pattern">yyyy/MM/dd HH:mm:ss</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
@@ -55,7 +55,12 @@
 					A.UNSUCCESS_REASON,
 				    A.PR_ADDRESS PROPERTY_ADDR,
 				    a.PR_COST_ORG_NAME as orgName,
-				    A.DIST_CODE
+				    A.DIST_CODE,
+				    
+				    A.PR_APPLY_ORG_NAME as applyOrgName,
+				    A.PR_COST_ORG_MGR as orgMgr,
+				    (CASE When A.PR_CHANNEL='1' then '经纪人'
+								else '内部' end) as CHANNEL
 				FROM 
 					sctrans.T_TO_PROPERTY_RESEARCH AS A
 				WHERE A.SAME_PR_CODE IS NULL
@@ -74,14 +79,19 @@
 				<column type="both" name="PR_CAT" index="" checkbox="" display="产调项目" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="产调申请人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_EXECUTOR" index="" checkbox="" display="产调执行人" customDict="userDict" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_STATUS" index="" checkbox="" display="状态" customDict="getPrStatusCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" customDict="getIsSuccess" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" display="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="DIST_CODE" index="" checkbox="" display="所在区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			
+				<column type="both" name="applyOrgName" index="" checkbox="" display="区域分行" title="区域分行" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgMgr" index="" checkbox="" display="区董" title="区董" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CHANNEL" index="" checkbox="" display="来源" title="来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			
 			</table-row>
 		</grid>
 	</query>

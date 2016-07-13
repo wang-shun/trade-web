@@ -21,7 +21,6 @@ import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 
 
 /**
@@ -80,6 +79,12 @@ public class PropertyCortroller {
 		}else{
 			model.addAttribute("prDistrictId",orgPro.getId());
 		}
+		
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null){
+			model.addAttribute("serviceDepId", org.getId());
+		}
+		
 		return "property/processingList";
 	}
 	/**
@@ -97,6 +102,12 @@ public class PropertyCortroller {
 		}else{
 			model.addAttribute("prDistrictId",orgSuc.getId());
 		}
+		
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null){
+			model.addAttribute("serviceDepId", org.getId());
+		}
+		
 		return "property/successList";
 	}
 	

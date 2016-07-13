@@ -50,6 +50,11 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 	}
 
 	@Override
+	public Integer staLoanApplyCount(WorkSpace work) {
+		return mapper.staLoanApplyCount(work);
+	}
+	
+	@Override
 	public Integer staCloseCount(WorkSpace work) {
 		return mapper.staCloseCount(work);
 	}
@@ -158,4 +163,7 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 		
 		return mapper.listNewLoanAgent(orgId);
 	}
-}
+	@Override
+	public Double staLoanAgentTransferRate(WorkSpace work) {
+		return mapper.staLoanAgentTransferRate(work);
+	}}

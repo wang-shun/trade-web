@@ -5,6 +5,7 @@
 package com.centaline.trans.taskList.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -34,6 +36,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToAttachment;
@@ -187,8 +190,12 @@ public class TaskController {
 		request.setAttribute("source", source);
 		
 		ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
+		request.setAttribute("afterTimeFlag", false);
 		if(c != null) {
 			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+			if(c.getCreateTime()!=null){
+				request.setAttribute("afterTimeFlag", c.getCreateTime().after(new Date(1467302399999l)));
+			}
 			request.setAttribute("caseBaseVO", caseBaseVO);
 		}
 		
@@ -353,11 +360,16 @@ public class TaskController {
     		request.setAttribute("caseDetailVO", reVo);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		request.setAttribute("caseInfo", caseInfo);
-    		
+    		Dict dict = uamBasedataService.findDictByType("guohu_not_approve");
+    		if(dict!=null){
+        		request.setAttribute("notApproves", dict.getChildren());
+    		}
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
-    		request.setAttribute("editCaseDetailVO", editCaseDetailService.queryCaseDetai(caseCode));
+    		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+    		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
+    		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
     	} else if(taskitem.equals("ServiceChangeApply")) {/*服务项变更*/
     		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -718,44 +730,26 @@ public class TaskController {
      * @param taskitem
      */
     private void getAccesoryListCaseClose(HttpServletRequest request, String caseCode) {
-    	List<ToAttachment> attachments = toAttachmentService.findToAttachmentByCaseCode(caseCode);
-		List<ToAccesoryList> list = new ArrayList<ToAccesoryList>();
-	        
-		if(attachments!=null && attachments.size()>0){
-			Iterator<ToAttachment> iter = attachments.iterator() ;
-			while(iter.hasNext()){
-	        	ToAttachment attachment = iter.next();
-	        	if(attachment.getPartCode().equals("property_research")){
-	        		iter.remove();
-					continue;
-				}
-				if(!StringUtils.isEmpty(attachment.getPreFileCode())){
-					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
-					ToAccesoryList itemAccesoryList = toAccesoryListService.findAccesoryByCode(attachment.getPreFileCode());
-					boolean isHave = false;
-					if(CollectionUtils.isNotEmpty(list)){
-						for(ToAccesoryList item:list){
-							if(item.getPkid() == itemAccesoryList.getPkid()){
-								isHave = true;
-								break;
-							}
-						}
-						if(!isHave){
-							list.add(itemAccesoryList);
-						}
-					}
-				}
-	        }
-		}
-		if(list != null && list.size() > 0) {
-			int size = list.size();
-			request.setAttribute("accesoryList", list);
-			List<Long> idList = new ArrayList<Long>(size);
-			for(int i=0; i<size; i++) {
-				idList.add(list.get(i).getPkid());
-			}
-			request.setAttribute("idList", idList);
-		}
+        List<ToAttachment> list = toAttachmentService.findToAttachmentByCaseCode(caseCode);
+        if(list!=null && list.size()>0){
+            for(ToAttachment attachment :list){
+                if(attachment.getPartCode().equals("property_research")){
+                    continue;
+                }
+                if(!StringUtils.isEmpty(attachment.getPreFileCode())){
+                    attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+                }
+            }
+        }
+        if(list != null && list.size() > 0) {
+            int size = list.size();
+            request.setAttribute("accesoryList", list);
+            List<Long> idList = new ArrayList<Long>(size);
+            for(int i=0; i<size; i++) {
+                idList.add(list.get(i).getPkid());
+            }
+            request.setAttribute("idList", idList);
+        }
     } 
     
     /**

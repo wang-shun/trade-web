@@ -21,12 +21,16 @@ public interface WorkSpaceService {
 	public Double staLoanAgentLoanAmount(WorkSpace work);
 
 	public Double staLoanAgentSignAmount(WorkSpace work);
+	
+	public Double staLoanAgentTransferRate(WorkSpace work);
 
 	public Integer staSignCount(WorkSpace work);
 
 	public Integer staReceiveCount(WorkSpace work);
 
 	public Integer staTransferCount(WorkSpace work);
+	
+	public Integer staLoanApplyCount(WorkSpace work);
 
 	public Integer staCloseCount(WorkSpace work);
 

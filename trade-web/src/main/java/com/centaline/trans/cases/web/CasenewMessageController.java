@@ -143,8 +143,8 @@ public class CasenewMessageController {
 		if("0".equals(CASE_MESSAGE_PUSH)){
 			return "";
 		}
-		
 		ResultNew rs=new ResultNew();
+		
 		Gson gson = new Gson();
 		// 将 json 字符串转为 list
 		List<TgGuestInfo> guestList=gson.fromJson(guestInfoList,new TypeToken<List<TgGuestInfo>>(){}.getType());

@@ -105,8 +105,10 @@ public class ReportMtnCortroller {
 			//,结案
 			toCloseCountList = toCloseService.countToCloseListByOrgId(orgId);
 		}
-		
-		List<Org> orgParentList= uamUserOrgService.getOrgByParentId(orgId);
+		List<Org> orgParentList = null;
+		if(StringUtils.isNotBlank(orgId)) {
+			orgParentList = uamUserOrgService.getOrgByParentId(orgId);
+		}
 		List<String> orgList = new ArrayList<>();
 		if(CollectionUtils.isNotEmpty(orgParentList)){
 			for (Org org : orgParentList) {
@@ -133,21 +135,21 @@ public class ReportMtnCortroller {
 			vo.setCreateTime(createTime);
 			//签约数
 			for (ToCaseInfoCountVo toSignCount : toSignCountList) {
-				if(createTime.equals(toSignCount.getCreateTime())){
+				if(createTime.equals(toSignCount.getCreateTime()) && toSignCount.getCountQYS()!=null){
 					int toSignQYS = toSignCount.getCountQYS();
 					vo.setCountQYS(toSignQYS);
 				}
 			}
 			//过户数
 			for (ToCaseInfoCountVo toHouseTransferCount : toHouseTransferCountList) {
-				if(createTime.equals(toHouseTransferCount.getCreateTime())){
+				if(createTime.equals(toHouseTransferCount.getCreateTime())&& toHouseTransferCount.getCountGHS()!=null){
 					int toHouseTransferGHS = toHouseTransferCount.getCountGHS();
 					vo.setCountGHS(toHouseTransferGHS);
 				}
 			}
 			//结案数
 			for (ToCaseInfoCountVo toCloseCount : toCloseCountList) {
-				if(createTime.equals(toCloseCount.getCreateTime())){
+				if(createTime.equals(toCloseCount.getCreateTime())&& toCloseCount.getCountJAS()!=null){
 					int toCloseJAS = toCloseCount.getCountJAS();
 					vo.setCountJAS(toCloseJAS);
 				}
@@ -169,10 +171,10 @@ public class ReportMtnCortroller {
 	 */
 	@RequestMapping(value="district/getCaseCount")
 	public AjaxResponse dGetCaseCount(Model model, ServletRequest request,String orgId){
-		List<ToCaseInfoCountVo> toCaseInfoCountList = null;
-		List<ToCaseInfoCountVo> toSignCountList = null;
-		List<ToCaseInfoCountVo> toHouseTransferCountList = null;
-		List<ToCaseInfoCountVo> toCloseCountList = null;
+		List<ToCaseInfoCountVo> toCaseInfoCountList = new ArrayList<ToCaseInfoCountVo>();;
+		List<ToCaseInfoCountVo> toSignCountList = new ArrayList<ToCaseInfoCountVo>();
+		List<ToCaseInfoCountVo> toHouseTransferCountList = new ArrayList<ToCaseInfoCountVo>();;
+		List<ToCaseInfoCountVo> toCloseCountList = new ArrayList<ToCaseInfoCountVo>();;
 		List<String> orgList = new ArrayList<>();
 		if(orgId == ""){
 			orgId = null;
@@ -219,8 +221,10 @@ public class ReportMtnCortroller {
 			//结案数
 			for (ToCaseInfoCountVo toCloseCount : toCloseCountList) {
 				if(createTime.equals(toCloseCount.getCreateTime())){
-					int toCloseJAS = toCloseCount.getCountJAS();
-					vo.setCountJAS(toCloseJAS);
+					if(toCloseCount.getCountJAS()!= null) {
+						int toCloseJAS = toCloseCount.getCountJAS();
+						vo.setCountJAS(toCloseJAS);
+					}
 				}
 			}
 			voList.add(vo);	

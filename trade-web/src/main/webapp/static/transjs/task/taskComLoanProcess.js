@@ -76,6 +76,9 @@ function checkMortgageForm(formId){
 	}else if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
+	}else if(formId.find("select[name='lendWay']").val() == "" || formId.find("select[name='lendWay']").val() == null){
+		formId.find("select[name='lendWay']").css("border-color","red");
+		return false;
 	}else if(formId.find("input[name='loanerName']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
@@ -97,14 +100,17 @@ function checkMortgageForm(formId){
 		return false;
 	} 
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
-		if (formId.find("input[name='recLetterNo']").val()==""){
-			formId.find("input[name='recLetterNo']").css("border-color","red");
-			return false;
+		if(afterTimeFlag){
+			if (formId.find("input[name='recLetterNo']").val()==""){
+				formId.find("input[name='recLetterNo']").css("border-color","red");
+				return false;
+			}
 		}
 		if(formId.find("select[name='finOrgCode']").val() == ""){
 				formId.find("select[name='finOrgCode']").css("border-color","red");
 				return false;
 		}
+		
 	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
 			formId.find("input[name='tmpBankReason']").css("border-color","red");
@@ -308,12 +314,11 @@ function cancelAccept(tableId,pkid){
 
 //保存贷款信息
 function saveMortgage(form){
-
-
 	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
 		$.ajax({
 			url:ctx+"/task/saveMortgage",
 			method:"post",
+			async:false,
 			dataType:"json",
 			data:form.serialize(),
 			success:function(data){
@@ -353,7 +358,12 @@ function completeMortgage(form){
 		success:function(data){
 			if(data.success){
 				if('caseDetails'==source){
-					alert('保存成功');
+					if(data.message){
+						window.close();
+						window.opener.callback();
+					}else{
+						alert('保存成功');
+					}
 				}else{
 					submitMortgage();
 				}
@@ -554,6 +564,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
 		    			f.find("input[name='isTmpBank']").prop("checked",false);
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
+		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
 		    				f.find("select[name='bank_type']").attr('disabled',true);
@@ -810,8 +821,27 @@ function getCompleteMortInfo(isMainLoanBank){
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){
-				  
+	    		var f=$("#completeForm1");
+	    		if(isMainLoanBank == 1)
+                f=$("#completeForm");
 	    		if(data != null && data.content != null){
+	    			if(!~~data.content.isTmpBank || !!data.content.tmpBankUpdateBy){
+	    				f.find("[id='sp_bank']").text(data.content.parentBankName);
+		    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
+	    			}else{
+	    				f.find("[id='sp_bank']").text('');
+		    			f.find("[id='sp_sub_bank']").text('');
+	    			}
+	    			if(!!~~data.content.isTmpBank){
+	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
+	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
+	    				f.find('#sp_is_tmp_bank').text("是");
+	    				f.find(".tmpBankDiv").show();
+	    			}else{
+	    				f.find(".tmpBankDiv").hide();
+	    				f.find('#sp_is_tmp_bank').text("否");
+	    			}
+	    			
 	    			if(isMainLoanBank == 1){
 		    			$("#completeForm").find("input[name='pkid']").val(data.content.pkid);
 		    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
@@ -964,11 +994,24 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
-    				if($("#input[name='optionsRadios']:checked").val()==0){
-    					$("#direct_launch_div").hide();
-    				}else{
-    					$("#direct_launch_div").show();
-    				}
+    				 document.getElementById('optionsRadios1').checked=true;
+                     if($("input[name='optionsRadios']:checked").val()==0){
+                         $("#direct_launch_div").hide();
+                     }else{
+                         $("#direct_launch_div").show();
+                          $("#addToEguPricingForm").find("input").each(function(){
+                              $(this).removeAttr("disabled");
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                                  $(this).val("");
+                              }
+                          });
+                          $("#addToEguPricingForm").find("select").each(function(){
+                              $(this).removeAttr("disabled");
+                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                                  $(this).val("");
+                              }
+                          });
+                     }
     				if(popInited)return true;
     				popInited=true;
     				$("input[name='optionsRadios']").click(function(){
@@ -1062,7 +1105,8 @@ function checkAttUp(attDiv,f){
 		var pic = $(this).find("img");
 		var preFCode=$(this).find("input[name='preFileCode']").val();
 		preFCode=preFCode||'';
-		if(preFCode.indexOf('rec_letter_')!=-1&& !!f.find("input[name='isTmpBank']").prop('checked')){
+		//临时银行或者2016年7月1日之前的案件可以不用上传推荐函
+		if(preFCode.indexOf('rec_letter_')!=-1 && (!!f.find("input[name='isTmpBank']").prop('checked') ||!afterTimeFlag)){
 			flag=true;
 			return true;
 		}
@@ -1215,8 +1259,10 @@ $(document).ready(function () {
 	 			}
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
-		 		deleteAndModify();
-	 			return checkAttUp($(".att_first"),$("#mortgageForm"));
+	 			if(checkAttUp($(".att_first"),$("#mortgageForm"))){
+	 				return deleteAndModify();
+	 			}
+	 			return false;
 	 		}
 
 	 		return true;
@@ -1280,9 +1326,10 @@ $(document).ready(function () {
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
- 			deleteAndModify();
- 			return checkAttUp($(".att_second"),$("#mortgageForm1"));
-
+ 			if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
+ 				return deleteAndModify();
+ 			}
+ 			return false;
  		}
  		
  		return true;

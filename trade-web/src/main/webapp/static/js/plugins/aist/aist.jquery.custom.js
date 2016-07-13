@@ -16,7 +16,6 @@ function($, window) {
 						active  :  "active",
 						upIcon  :  "icon-chevron-up",
 						downIcon : "icon-chevron-down"
-					    //reloadGrid : "reloadGrid"
 					},options||{});
 					
 					var active = settings.active;
@@ -68,17 +67,19 @@ function($, window) {
 			    			if(typeof window[_reloadGrid]=='function'){
 			    				window[_reloadGrid]();
 			    			}*/
+			    			
 			    			if(typeof reloadGrid =='function'){
-			    				if (typeof(settings._self) == "undefined"){
-			    					reloadGrid();
-			    				} else {
+			    				reloadGrid();
+			    			} else {
+			    				reloadGrid = 'reloadGrid';
+			    				// 如果页面定义了reloadGrid方法,则使用reloadGrid方法，否则使用默认的方法
+			    				if(typeof window[reloadGrid]=='function'){
+				    				window[reloadGrid]();
+				    			} else {
 			    					var _self = settings._self;
 			    					var cacheData = settings.cacheData;
 			    					_self.reloadGrid(cacheData);
-			    				}
-			    			} else {
-			    				reloadGrid = 'reloadGrid';
-			    				window[reloadGrid]();
+				    			}
 			    			}
 			    		});
 					});
@@ -169,7 +170,7 @@ function($, window) {
 				if (total<1 || pagesize<1 || page<1)
 				{
 					$(currentTotalstrong).empty();
-					$('#totalP').text(0);
+					$('#totalP').empty();
 					$("#pageBar").empty();
 					return;
 				}
@@ -185,7 +186,7 @@ function($, window) {
 				}
 				currentRecords.empty();
 				currentRecords.text((page-1)*pagesize+1+"-"+lastRecords);
-				$('#totalP').text(records);
+				$('#totalP').text('共'+records+'条');
 				
 				
 				$("#pageBar").twbsPagination({
@@ -241,41 +242,46 @@ function($, window) {
 		var page =  settings.page;
 		var rows =  settings.rows;
 		var templeteId = settings.templeteId;
+		var templeteSource = settings.templeteSource;
 		var columns = settings.columns;
 		
-		var data = settings.data;
+		var data = ($.isBlank(settings.data))?{}:settings.data;
 		data.queryId = queryId;
 		data.page = page;
 		data.rows = rows;
 
-		var table = $("<table></table");
-		var tbody = $("<tbody></tbody");
+		if(typeof(columns) == "undefined") {
 		
-	    var thead = $("<thead></thead>");
-	    var tr = $("<tr></tr>");
-	    $.each(columns, function(index,callback){
-	    	if (typeof(columns[index].sortColumn) == "undefined")
-	    	{
-	    		if (typeof(columns[index].colName) == "undefined") {
-	    			tr.append($("<th></th>"));
-	    		} else {
-	    			tr.append($("<th>" + columns[index].colName + "</th>"));
-	    		}
-	    	}else{
-	    		var isActive = 'active';
-	    		if (typeof(columns[index].isActive) == "undefined" || !columns[index].isActive==true) {
-	    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
-	    		} else {
-	    			tr.append($("<th><span class=\"sort " +isActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
-	    		}
-	    	}
-	    });
+		} else {
+			var table = $("<table></table");
+			var tbody = $("<tbody></tbody");
+			var thead = $("<thead></thead>");
+		    var tr = $("<tr></tr>");
+		    $.each(columns, function(index,callback){
+		    	if (typeof(columns[index].sortColumn) == "undefined")
+		    	{
+		    		if (typeof(columns[index].colName) == "undefined") {
+		    			tr.append($("<th></th>"));
+		    		} else {
+		    			tr.append($("<th>" + columns[index].colName + "</th>"));
+		    		}
+		    	}else{
+		    		var sortActive = 'active';
+		    		if (typeof(columns[index].sortActive) == "undefined" || !columns[index].sortActive==true) {
+		    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+		    		} else {
+		    			tr.append($("<th><span class=\"sort " +sortActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+		    		}
+		    	}
+		    });
 
-	    thead.append(tr);
-	    table.append(thead).append(tbody);
+		    thead.append(tr);
+		    table.append(thead).append(tbody);
+		    
+		    $(this).empty().append(table);
+		}
 	    
-	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span class=\"ml15\">共<strong class=\"bold\" id=\"totalP\"></strong>条</span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
-	    $(this).empty().append(table);
+	    var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span><strong class=\"bold\" id=\"totalP\"></strong></span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
 	    if($("#pageBar").length == 0) {
 	    	$(this).after(pageBar);
 	    }
@@ -300,12 +306,14 @@ function($, window) {
 		
 		var ctx = settings.ctx;
 		var url = settings.url;
-		var data = settings.data;
+		var data = ($.isBlank(settings.data))?{}:settings.data;
 		data.queryId = settings.queryId;
 		data.page = settings.page;
 		data.rows = settings.rows;
 		aist.wrap(data);
 		var templeteId = settings.templeteId;
+		var templeteSource = settings.templeteSource;
+		var wrapperData = settings.wrapperData;
 		var _self = $(this);
 		
 		$.ajax({
@@ -315,9 +323,27 @@ function($, window) {
 	          dataType: "json",
 	          data: data,
 	          success: function(data){
-	        	  var templateHtml= template(templeteId , data);
-	        	  _self.find("tbody").empty();
-	        	  _self.find("tbody").html(templateHtml);
+	        	  if(!$.isBlank(wrapperData)) {
+	        		  data.wrapperData = wrapperData;
+	        	  } 
+	        	  var templateHtml ='';
+	        	  if(typeof(templeteId) == "undefined") {
+	        		  var render = template.compile(templeteSource);
+	        		  templateHtml = render(data);
+	        	  } else {
+	        		  templateHtml = template(templeteId , data);
+	        	  }
+	        	  if (_self.has("tbody").length>0)         
+	        	  {   
+	        		  _self.find("tbody").empty();
+		        	  _self.find("tbody").html(templateHtml);
+	        	  }   
+	        	  else    
+	        	  {   
+	        		  _self.empty();
+	        		  _self.html(templateHtml);
+	        	  }   
+	        	 
 	               // 显示分页 
 	        	  var pageData = {};
 	        	  pageData.total = data.total;
@@ -328,5 +354,4 @@ function($, window) {
 	          }
 	    });
 	};
-	
 }(jQuery, window);

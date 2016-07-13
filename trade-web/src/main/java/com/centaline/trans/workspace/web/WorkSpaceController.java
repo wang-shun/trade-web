@@ -150,6 +150,7 @@ public class WorkSpaceController {
 					uList.add(u);
 				}
 			}
+			//model.addAttribute("isConsult", "GeneralManager");
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
 			// 各个组
 			List<Org> orgIdList = uamUserOrgService.getOrgByDepHierarchy(
@@ -160,7 +161,7 @@ public class WorkSpaceController {
 				u.setRealName(toOrgVo.getOrgName());
 				uList.add(u);
 			}
-
+			//model.addAttribute("isConsult", "director");
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
 			userList = uamUserOrgService.getUserByOrgIdAndJobCode(
 					user.getServiceDepId(), TransJobs.TJYGW.getCode());
@@ -170,7 +171,11 @@ public class WorkSpaceController {
 				u.setRealName(users.getRealName());
 				uList.add(u);
 			}
+			//model.addAttribute("isConsult", "Manager");
+		} else{
+			//model.addAttribute("isConsult", "1");
 		}
+		
 		if (CollectionUtils.isNotEmpty(uList)) {
 			model.addAttribute("uList", uList);
 		}
@@ -676,6 +681,7 @@ public class WorkSpaceController {
 		}
 		Double loanAmount = workSpaceService.staLoanAgentLoanAmount(work);
 		Double signAmount = workSpaceService.staLoanAgentSignAmount(work);
+		Double convRate = workSpaceService.staLoanAgentTransferRate(work);
 
 		NumberFormat formatter = new DecimalFormat("###,##0.00万");
 		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
@@ -698,10 +704,10 @@ public class WorkSpaceController {
 			m.put("actualAmount", formatter.format(((BigDecimal)m.get("actualAmount")).divide(new BigDecimal(10000))));
 		}
 		
-		if (m.get("convRate") == null) {
+		if (convRate == null) {
 			m.put("convRate", "0.00%");
 		} else {
-			m.put("convRate", formatter2.format(m.get("convRate")) + "%");
+			m.put("convRate", formatter2.format(convRate*100) + "%");
 		}
 		
 		Map m1 = workSpaceService.staEvaFee(work);
@@ -721,7 +727,8 @@ public class WorkSpaceController {
 		
 		m.put("receiveCount", workSpaceService.staReceiveCount(work));
 		m.put("signCount", workSpaceService.staSignCount(work));
-		m.put("transferCount", workSpaceService.staTransferCount(work));
+		//m.put("transferCount", workSpaceService.staTransferCount(work));
+		m.put("loanApplyCount", workSpaceService.staLoanApplyCount(work));
 		m.put("closeCount", workSpaceService.staCloseCount(work));
 
 		m.put("staLoanApply",

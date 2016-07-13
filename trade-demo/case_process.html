@@ -17,31 +17,6 @@
     </head>
 
 <body>
-    <!-- <header id="header" class="header header--fixed hide-from-print" role="banner">
-    <div class="container" >
-    
-        <nav id="nav" class="nav-wrapper" role="navigation">
-            <ul class="nav">
-                <li class="nav__item ">
-                    <a class="header__link" href="https://www.github.com/WickyNilliams/headroom.js">
-                        <span aria-hidden="true" class="icon icon--gh"></span>
-                        <span class="complimentary push--left">GitHub</span>
-                    </a>
-                </li>
-                <li class="nav__item ">
-                    <a class="header__link" href="http://www.twitter.com/WickyNilliams">
-                        <span aria-hidden="true" class="icon icon--tw"></span>
-                        <span class="complimentary push--left">@WickyNilliams</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        
-        <a href="http://wicky.nillia.ms/headroom.js/" class="brand header__link">
-            <b class="brand__forename">Headroom</b><b class="brand__surname">.js</b>
-        </a>
-    </div>
-</header> -->
     <div id="wrapper">
           <div class="ibox-content" id="act-filter-content">
 
@@ -132,8 +107,8 @@
                                                 
                                                 <p>服务描述：办理过户手续，缴纳交易税费</p>
                                                 
-                                                <p> <i class="fa fa-map-marker"></i>
-                                                    浦东交易中心（张杨路1990路2楼）
+                                                <p><a href="baidumap://map/geocoder?address=上海浦东新区房地产交易中心&src=yourCompanyName|yourAppName"> <i class="fa fa-map-marker"></i>
+                                                    浦东交易中心（张杨路1990路2楼）</a>
                                                 </p>
                                                 <span style="float:right" data-toggle="modal" data-target="#myModal1">去评分</span>
                                                 <p>计划完成时间：6月25日 </p>
@@ -149,13 +124,13 @@
                                         <div class="vertical-timeline-content">
                                             <div class="col-sm-4 user-pic">
                                                 <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="img/u2.jpg">   
-                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal2">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" data-toggle="modal" data-target="#myModal1" src="img/u2.jpg">   
+                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal1">
                                                         <i class="fa fa-phone-square"></i>郑蕾
                                                     </button>                                       
                                                 </div>
                                             </div>
-                                            <div class="col-sm-8 act-info">
+                                            <div class="col-sm-8 act-info" data-toggle="modal" data-target="#myModal1">
                                                 <p>
                                                     <span class="label label-success" style="float:right">已办理</span>
                                                     <span style="float:left">
@@ -169,7 +144,7 @@
                                                 <p> <i class="fa fa-map-marker"></i>
                                                     浦东交易中心（张杨路1990路2楼）
                                                 </p>
-                                                <span style="float:right">去评分</span>
+                                                <span style="float:right" data-toggle="modal" data-target="#myModal1">去评分</span>
                                                 <p>完成时间：6月12日 5:30</p>
 
                                             </div>
@@ -448,10 +423,10 @@
     <script>
         $(document).ready(function(){
             $('#act-filter-content').headroom({
-              "offset": 205,
+              "offset": 45,
               "tolerance": {
-              down : 10,
-              up : 20
+              down : 0,
+              up : 0
             },
               "classes": {
                 "initial": "animated",

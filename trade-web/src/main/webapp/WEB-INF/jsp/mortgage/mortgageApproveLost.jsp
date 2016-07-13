@@ -17,7 +17,7 @@
         <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
         <link href="${ctx}/css/animate.css" rel="stylesheet">
         <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
-        <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet">
+        <link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet">
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <!-- 分页控件 -->
@@ -85,7 +85,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">物业地址</label>
+									<label class="col-md-3 control-label m-l">产证地址</label>
 									<div class="col-md-8"> 	
 										<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
 									</div>
@@ -191,9 +191,9 @@
         		    	           colName :"案件编号",
         		    	           sortColumn : "CASE_CODE",
         		    	           sord: "desc",
-        		    	           isActive : true
+        		    	           sortActive : true
         		    	      },{
-        		    	           colName :"物业地址"
+        		    	           colName :"产证地址"
         		    	      },{
        		    	                colName :"主办"
     		    	          },{

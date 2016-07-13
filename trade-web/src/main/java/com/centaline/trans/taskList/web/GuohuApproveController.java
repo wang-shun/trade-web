@@ -64,11 +64,23 @@ public class GuohuApproveController {
 	@RequestMapping(value="guohuApprove")
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String GuohuApprove, String GuohuApprove_response) {
+			String GuohuApprove, String GuohuApprove_response,String notApprove) {
 		
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response);
-		
-		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response,notApprove);
+		if(!"true".equals(GuohuApprove)){
+			//没未通过审核，发站内信通知案件负责人
+			String sender = uamSessionService.getSessionUser().getId();
+			String caseCode = processInstanceVO.getCaseCode();
+			String result = toApproveRecord.getContent();
+			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
+			paramsApproveRecord.setPartCode("Guohu");
+			paramsApproveRecord.setCaseCode(caseCode);
+			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
+			if(lastApproveRecord!=null){
+				String recevier = lastApproveRecord.getOperator();
+				sendMessage(sender,recevier,caseCode,result);
+			}
+		}
 		
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -96,7 +108,7 @@ public class GuohuApproveController {
 	 * @param loanLost_response
 	 */
 	private ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String loanLost, String loanLost_response) {
+			String loanLost, String loanLost_response,String notApprove) {
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 //		toApproveRecord.setPkid(loanlostApproveVO.getLapPkid());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
@@ -104,10 +116,13 @@ public class GuohuApproveController {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setApproveType(loanlostApproveVO.getApproveType());
 		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
-		boolean b = loanLost.equals("true");
+		boolean b = "true".equals(loanLost);
 		boolean c = loanLost_response == null || loanLost_response.intern().length() == 0;
-		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为"+loanLost_response));
+		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为："+loanLost_response));
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
+		//审核不通过原因
+		toApproveRecord.setNotApprove(notApprove);
+		
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 		return toApproveRecord;
 	}
@@ -115,33 +130,26 @@ public class GuohuApproveController {
 	/**
 	 * 发送审批结果提醒
 	 * @param processInstanceVO
-	 * @param approveContent
+	 * @param result
 	 * @param approveType
 	 */
-	private void sendMessage(ProcessInstanceVO processInstanceVO, String approveContent, String approveType) {
-		/*消息模版code*/
-		String resourceCode = MsgLampEnum.APPROVE_RESULT_REMINDER.getCode();
-		/*消息标题*/
-		String title = MsgLampEnum.APPROVE_RESULT_REMINDER.getName();
+	private void sendMessage(String sender,String recevier,String caseCode, String result) {
 		//创建map放入消息参数
 		Map<String, Object> params = new HashMap<String, Object>();
-		//放入参数
-		params.put("case_code", processInstanceVO.getCaseCode());
-		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(processInstanceVO.getCaseCode());
-		if(toPropertyInfo != null) {
-			params.put("property_address", toPropertyInfo.getPropertyAddr());
-		} else {
-			params.put("property_address","");
-		}
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		params.put("property_address",(toPropertyInfo != null)?toPropertyInfo.getPropertyAddr():"");
 		params.put("approver", uamSessionService.getSessionUser().getRealName());
 		params.put("part_name", "过户审批");
-		params.put("approve_content", approveContent);
+		params.put("approve_content", result);
+		params.put("case_code",caseCode);
 		
 	    //拼接发送的字符串
+		String resourceCode = MsgLampEnum.APPROVE_RESULT_REMINDER.getCode();
 		String content = uamTemplateService.mergeTemplate(resourceCode, params);
 		
 		Message message= new Message();
 		//消息标题
+		String title = MsgLampEnum.APPROVE_RESULT_REMINDER.getName();
 		message.setTitle(title);
 		//消息类型  
 		message.setType(MessageType.SITE);
@@ -150,20 +158,9 @@ public class GuohuApproveController {
 		/*内容*/
 		message.setContent(content);
 		/*发送人*/
-		String senderId = uamSessionService.getSessionUser().getId();
-		message.setSenderId(senderId);
+		message.setSenderId(sender);
 		/*接收人*/
-		ToApproveRecord toApproveRecord = new ToApproveRecord();
-		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
-		toApproveRecord.setApproveType(approveType);
-		List<String> list = loanlostApproveService.findApproveRecordByList(toApproveRecord);
-		for(String operator : list) {
-			if(operator.equals(senderId)) {/*不给自己发送提醒*/
-				continue;
-			}
-			/*发送*/
-			uamMessageService.sendMessageByDist(message, operator);
-		}
+		uamMessageService.sendMessageByDist(message, recevier);
 	}
 	
 	

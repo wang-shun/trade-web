@@ -73,6 +73,9 @@
 					    SCTRANS.SYS_USER us
 					ON  
 					    loanAgent.EXECUTOR_ID = us.id and us.is_deleted='0'
+				    <ifNotNull isJygw>
+						and loanAgent.EXECUTOR_ID = #userId#
+					</ifNotNull>
 					INNER JOIN
 				        sctrans.v_yucui_org_hierarchy orgHierarchy
 				    ON

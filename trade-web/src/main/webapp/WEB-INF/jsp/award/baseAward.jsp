@@ -16,7 +16,7 @@
         <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
         <link href="${ctx}/css/animate.css" rel="stylesheet" />
         <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
-        <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet" />
+        <link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet" />
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
         <!-- 分页控件 -->
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">物业地址</label>
+                                        <label class="col-lg-3 col-md-3 control-label font_w">产证地址</label>
                                         <div class="col-lg-9 col-md-9">
                                             <input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
                                         </div>

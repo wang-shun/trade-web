@@ -86,7 +86,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group ">
-								<label class="col-md-1 control-label m-l">案件地址</label>
+								<label class="col-md-1 control-label m-l">产证地址</label>
 								<div class="col-md-10 dizhi">
 									<input type="text" class="form-control" id="caseAddr" name="caseAddr" value=""/>
 								</div>
@@ -247,6 +247,8 @@
 					<input type="checkbox" name="my_checkbox" class="cbox" onclick="_checkbox()" /> 
 					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
 					<input type="hidden" name="yu_team_code" value="{{item.YU_TEAM_CODE}}"/>
+					<input type="hidden" name="leading_process_id" value="{{item.LEADING_PROCESS_ID}}"/>
+
 				</td>
 				<td class="t-left pd-l">{{item.CASE_CODE}}</td>
 				<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>

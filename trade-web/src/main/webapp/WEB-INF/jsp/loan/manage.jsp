@@ -153,7 +153,7 @@
 							<select id="selectNameType" data-placeholder="搜索条件设定"
 								class="btn btn-white chosen-select">
 								<option value="0" selected>客户姓名</option>
-								<option value="1">物业地址</option>
+								<option value="1">产证地址</option>
 								<option value="2">业务员姓名</option>
 								<option value="3">贷款专员姓名</option>
 							</select>

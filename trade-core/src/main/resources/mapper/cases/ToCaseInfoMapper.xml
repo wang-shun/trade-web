@@ -37,12 +37,12 @@
   <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
     insert into sctrans.T_TO_CASE_INFO (PKID, CTM_CODE, AGENT_CODE, 
       CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
-    AGENT_NAME,DISPATCH_TIME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE 
+    AGENT_NAME,DISPATCH_TIME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE ,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{ctmCode,jdbcType=VARCHAR}, #{agentCode,jdbcType=VARCHAR}, 
       #{caseCode,jdbcType=VARCHAR}, #{requireProcessorId,jdbcType=VARCHAR}, #{isResponsed,jdbcType=CHAR}, 
       #{resDate,jdbcType=TIMESTAMP}, #{agentName,jdbcType=VARCHAR}, #{dispatchTime,jdbcType=TIMESTAMP},
-      #{agentUserName,jdbcType=VARCHAR}, #{arCode,jdbcType=VARCHAR}, #{arName,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR})
+      #{agentUserName,jdbcType=VARCHAR}, #{arCode,jdbcType=VARCHAR}, #{arName,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
     insert into sctrans.T_TO_CASE_INFO
@@ -95,6 +95,7 @@
       <if test="agentPhone != null" >
         AGENT_PHONE,
       </if>
+       CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -145,6 +146,7 @@
       <if test="agentPhone != null" >
         #{agentPhone,jdbcType=VARCHAR},
       </if>
+       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">

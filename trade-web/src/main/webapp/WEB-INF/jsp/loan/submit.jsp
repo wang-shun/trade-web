@@ -93,12 +93,16 @@
 						<div style="float: left; width: 200px">
 							<select id="sel_caseInfo" class="form-control"
 								style="width: 200px">
-								<option value="addr">案件地址</option>
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/feature/taskReport
+								<option value="addr">产证地址</option>
 								<option value="custName">客户姓名</option>
 							</select>
 						</div>
 						<div style="float: left; width: 200px">
-							<input type="text" class=" form-control" id="txt_caseInfo" placeholder="案件地址" style="width: 482px">
+							<input type="text" class=" form-control" id="txt_caseInfo" placeholder="产证地址" style="width: 482px">
 						</div>
 					</div>
 				</div>
@@ -240,7 +244,7 @@
 					mtype:'POST',
 					shrinkToFit : true,
 					rowNum : 6,
-									colNames : [ '产品类型', '案件地址', '案件归属','客户姓名',
+									colNames : [ '产品类型', '产证地址', '案件归属','客户姓名',
 											'当前状态','产品部确认状态', '申请金额(万元)', '申请时间', '面签时间',
 											'放款时间', '操作' ],
 									colModel : [

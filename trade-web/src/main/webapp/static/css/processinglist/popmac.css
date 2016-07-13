@@ -1,0 +1,127 @@
+/* manageWindow-CSS */
+.manageWindow .modal-dialog {
+    width: 800px;
+}
+.modal-content {
+    border-radius:8px!important;
+}
+.manageWindow .modal-header {
+    -moz-border-radius-topleft: 8px!important;
+    -moz-border-radius-topright: 8px!important;
+    -webkit-border-top-left-radius: 8px!important;
+    -webkit-border-top-right-radius: 8px!important;
+    border-top-left-radius: 8px!important;
+    border-top-right-radius:8px!important;
+    background-color:#52cdec;
+    height: 35px;
+    line-height: 35px;
+    padding: 0px 15px 0px 18px!important;
+}
+.modal-header p.title {
+    font-family: "Microsoft Yahei";
+    font-size:14px;
+    text-align: left;
+    color:#fff;
+    margin: 0px;
+}
+.manageWindow .modal-body{
+padding:0px!important;
+}
+.modal-body .table-bordered {
+    border-top: 1px solid #f8fafb!important;
+    border-left: 1px solid #f8fafb!important;
+    border-right: 1px solid #f8fafb!important;
+}
+.table tbody tr td {
+    border-top: none!important;
+    font-size: 14px!important;
+    font-family: "Microsoft Yahei"!important;
+    color:#333!important;
+    }
+ .sorting {
+    width: 95px!important;
+ }
+.inmodal .modal-body {
+    background: #fff!important;
+}
+ .gradeA td {
+    padding:7px 17px!important;
+ }
+ .gradepad td {
+ 	padding:20px 17px !important;
+ }
+  .table-striped>tbody>tr:nth-of-type {
+    background-color: #fff;
+}
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #fff;
+}
+ .table-striped>tbody>tr:nth-of-type:hover,.table-striped>tbody>tr:nth-of-type(odd):hover; {
+    background-color: #f9f9f9;
+}
+button:hover {
+    background: #f9f9f9!important;
+    color: #666!important;
+}
+.inputlab label {
+    margin-right: 10px;
+}
+.text-center .btn {
+	margin-right: 10px;
+    padding:7px 26px;
+    font-family: "Microsoft Yahei";
+} 
+.modal-footer {
+    padding: 10px 15px 30px 15px;
+}
+.imgtext {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border: 1px solid #dfdfdf ;
+    border-radius:5px ;
+    float: left;
+    margin-right: 20px;
+}
+.closes {
+    position: absolute;
+    top:-12px;
+    right:-12px;
+    cursor:pointer;
+}
+.closes img {
+	width: 26px;
+}
+.jiahao {
+    position: absolute;
+   left:18px;
+   top:18px;
+}
+.info_text {
+	line-height: 24px!important;
+	text-align: Justify;
+}
+
+label.checked {
+  background-position: 0px -16px;
+}
+
+.modal-footer {
+text-align: center!important;
+border-top:0px;
+}
+
+.title-btn {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+a.close-link {
+    color: #fff!important;
+    font-size: 16px;
+    cursor:pointer; 
+    text-decoration: none;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    vertical-align: middle;
+}

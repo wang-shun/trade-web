@@ -65,7 +65,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
 		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
 		removeBlankCaseCode(listVOs);
-		List<KpiSrvCaseVo> errList = checkVo(listVOs);
+		List<KpiSrvCaseVo> errList = null; //checkVo(listVOs);
 		if (errList != null) {
 			return errList;
 		}

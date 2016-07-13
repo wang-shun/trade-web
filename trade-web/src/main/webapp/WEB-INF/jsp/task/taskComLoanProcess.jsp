@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
 <html>
@@ -19,24 +18,18 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
-	rel="stylesheet" />
-	<!-- datepikcer -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet" />
+<!-- datepikcer -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -374,8 +367,7 @@
 						</div>
 					</div>
 
-					<input type="button" class="btn btn-success"
-						id="toEguPricingSubmitBtn" value="提交">
+					<input type="button" class="btn btn-success" id="toEguPricingSubmitBtn" value="提交">
 				</div>
 			</div>
 		</div>
@@ -419,8 +411,7 @@
 						</div>
 					</div>
 
-					<input type="button" class="btn btn-success" id="subApplyBtn"
-						value="提交">
+					<input type="button" class="btn btn-success" id="subApplyBtn" value="提交">
 				</div>
 			</div>
 		</div>
@@ -613,8 +604,7 @@
 						<%} %>
 					</div>
 
-					<input type="button" class="btn btn-success" id="reportSubBtn"
-						value="提交">
+					<input type="button" class="btn btn-success" id="reportSubBtn" value="提交">
 
 				</div>
 			</div>
@@ -1001,15 +991,16 @@
 							<form id="completeForm">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
-								<div class="form-group"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
-									<label class="checkbox-inline"> <input type="checkbox"
+								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
+									<label class="checkbox-inline" > <input type="checkbox"
 										value="1" id="lastBankSub" name="lastBankSub"> 是
 									</label>
 								</div>
-								<div style="clear:both"></div>
-								<div class="form-group"  >
+								<div class="form-group row"  >
 									<label class="col-sm-3 control-label">审批时间<span class="star" >*</span>：</label>
 									<div class="col-sm-4" style="padding-left:0px">
 									<div class="input-group date readOnly_date" id="date_2">
@@ -1211,7 +1202,7 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank">是
+										<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
 									</div>
 									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
 										<div class="col-sm-4">
@@ -1417,16 +1408,17 @@
 							<form id="completeForm1">
 								<input type="hidden" name="pkid" />
 								<input type="hidden" name="finOrgCode" />
-
-								<div class="form-group"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount">&nbsp;</span></div>
-								<div class="form-group"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
 									<label class="checkbox-inline"> <input type="checkbox"
 										value="1" id="lastBankSub" name="lastBankSub"> 是
 									</label>
 								</div>
-								<div style="clear:both"></div>
-								<div class="form-group"  >
+
+								<div class="form-group row"  >
 									<label class="col-sm-3 control-label">审批时间<span class="star">*</span>：</label>
 									<div class="col-sm-4">
 									<div class="input-group date readOnly_date" id="date_22">
@@ -1442,7 +1434,12 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		<div id="smsPlatFrom"></div>
+		
+		<div id="caseCommentList" class="add_form">
+		</div>
 </div>
 </div>
 <content tag="local_script"> 
@@ -1474,7 +1471,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.3.1"></script> 
+	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。9"></script> 
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	
@@ -1483,8 +1480,13 @@
 	
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
 	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
+	var afterTimeFlag=${afterTimeFlag};
 	function readOnlyForm(){
 		$(".readOnly_date").removeClass('date');
 		$(".readOnly_date input").attr('readOnly',true);
@@ -1550,6 +1552,7 @@ function checkInt(obj){
     			f.find("input[name='prfYear']").prop('disabled',false);
 			}
 		});
+		
 		$("#sendSMS").click(function(){
 					var t='';
 					var s='/';
@@ -1561,6 +1564,7 @@ function checkInt(obj){
 					}
 					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
 		});
+		
 		$("#sendSMS1").click(function(){
 					var t='';
 					var s='/';
@@ -1572,6 +1576,7 @@ function checkInt(obj){
 					}
 					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
 		});
+		
 		var updFun = function(e) {
 			var that = $(this).data('blueimp-fileupload')
 					|| $(this).data('fileupload');
@@ -1598,6 +1603,7 @@ function checkInt(obj){
 				}
 			});
 		}
+		
 		$.each(idList, function(index, value){
 			AistUpload.init('picFileupload'+value, 'picContainer'+value,
 					'templateUpload'+value, 'templateDownload'+value, updFun);
@@ -1615,11 +1621,13 @@ function checkInt(obj){
 				}
 			});
 		});
+		
 		$("#code").inputmask({"mask":"999999-999999-999"});
 		
 		$("select[name='mortType']").each(function(){
 			$(this).find("option[value='30016003']").remove();
 		});
+		
 		$("select[name='mortType']").blur(function(){
 			if($(this).val()!=""){
 				$(this).css("border-color","#e5e6e7");
@@ -1738,6 +1746,10 @@ function checkInt(obj){
 	 		}
 			
 		});  */
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});
 	});
 	
 	var attachmentList = null;

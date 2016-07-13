@@ -6,12 +6,11 @@
 
 <html>
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 </head>
 <body>
 									
@@ -174,6 +173,10 @@
                             						</div>
                         					  </div> 
                         					  
+                        					  <!-- 填写备注信息 -->
+                        					  <div id="caseCommentList" class="add_form">
+</div>
+                        					  
                         					  <div class="ibox-title">
                            							 <h5>上传备件 </h5>
                             						<div class="ibox-content">                            			
@@ -201,9 +204,11 @@
     <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
    <!-- Data picker -->
    <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-
-
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script>
         $(document).ready(function () {
             // Examle data for jqGrid
@@ -297,7 +302,12 @@
                 $('#table_list_1').setGridWidth(width);
                 $('#table_list_2').setGridWidth(width);
                
-            }); 
+            });
+            
+	  	$("#caseCommentList").caseCommentGrid({
+			caseCode : null,
+			srvCode : null
+		});
         });
 
         
