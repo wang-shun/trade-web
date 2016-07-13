@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -37,6 +39,7 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
@@ -60,6 +63,39 @@ public class SpvController {
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
 	
+	@RequestMapping("spvOutApply/process")
+	public String toSpvOutApplyProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
+
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		toAccesoryListService.getAccesoryList(request, taskitem);
+    	ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
+		request.setAttribute("toSpv", toSpv);
+		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
+		request.setAttribute("spvDeRecVo", spvDeRecVo);
+		return "task/taskSpvOutApply";
+	}
+	@RequestMapping("spvOutApprove/process")
+	public String toSpvOutApproveProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
+		SessionUser user= uamSessionService.getSessionUser();
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		toAccesoryListService.getAccesoryList(request, taskitem);
+		
+		request.setAttribute("approveType", "6");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		
+		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
+		
+		request.setAttribute("spvDeRecVo", spvDeRecVo);
+		return "task/taskSpvOutApprove";
+	}
 	
 	/**
 	 * 转到资金监管签约保存界面
