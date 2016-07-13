@@ -139,10 +139,15 @@
 		return flag;
 	}
 	var index = 0;
-	$(document).ready(function () {
+	$(document).ready(function() {
 		getReportList();
 		$("#sub").click(function(){
 			completeReport();
+		});
+		
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
 		});
 		
 		var updFun = function(e) {

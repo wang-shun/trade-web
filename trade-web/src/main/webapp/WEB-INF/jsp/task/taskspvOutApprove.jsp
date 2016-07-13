@@ -35,7 +35,8 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -131,6 +132,9 @@
 			</div>
 		</div>	
 		
+		<div id="caseCommentList" class="add_form">
+</div>
+		
 		<div class="ibox-title">
 			<h5>审批记录</h5>
 			<div class="ibox-content">
@@ -184,6 +188,11 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    
+    <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		/**提交数据*/
 		function submit() {
