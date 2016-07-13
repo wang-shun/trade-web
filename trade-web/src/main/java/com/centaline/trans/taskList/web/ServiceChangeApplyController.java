@@ -60,6 +60,7 @@ public class ServiceChangeApplyController {
 	
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
 	private UamSessionService uamSessionService;
 	
 	

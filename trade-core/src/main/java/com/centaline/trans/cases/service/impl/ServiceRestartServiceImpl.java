@@ -66,7 +66,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			throw new BusinessException("当前重启流程尚未结束！");
 		}
 		
-		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), WorkFlowEnum.SERVICE_RESTART.getCode());
+		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
 		StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
