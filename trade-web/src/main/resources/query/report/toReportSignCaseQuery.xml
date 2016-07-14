@@ -6,6 +6,7 @@
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
 			</properties>
 		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
@@ -23,10 +24,17 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	<query id="querySignCaseList" cacheCount="true">
+		 <searchCondition>
+	        <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="T.ORG_NAME" name="orgName" label="组别" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ORG_MAN_NAME" name="orgManName" label="区董" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 			    select 
+			    T.PKID,
   	            T.CASE_CODE, 
   	            T.PROPERTY_ADDR,
   	            T.REAL_NAME, 
@@ -36,7 +44,7 @@
   	            AR_NAME,  
   	            wz.ORG_NAME ZONE,
   	            WZ.REAL_NAME ORG_MAN_NAME
-                from (select c.case_code, p.PROPERTY_ADDR, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, tsign.end_time_ sign_time
+                from (select c.PKID,c.case_code, p.PROPERTY_ADDR, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, tsign.end_time_ sign_time
                         from sctrans.t_to_case c 
                         inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
                         left join sctrans.V_USER_ORG_JOB zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
@@ -70,11 +78,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="主管" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" title="组别" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="GRP_NAME" index="" checkbox="" title="店组" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AR_NAME"  index="" checkbox="" title="片区" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="ZONE" index="" checkbox="" title="区域" 	sysDict="" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />	

@@ -21,7 +21,7 @@ $(document).ready(function() {
 		tempUser=null;
 	}
 	var status = $("#status").val();
-	
+
 	// 初始化列表
 	var data = {};
 	data.argu_org = org;
@@ -37,11 +37,9 @@ $(document).ready(function() {
 	aist.sortWrapper({
 		reloadGrid : searchMethod
 	});
-	
+
 	reloadGrid(data);
 });
-
-
 
 // select控件
 var config = {
@@ -101,15 +99,19 @@ function searchMethod(page) {
 
 //清空
 $('#cleanButton').click(function() {
+	$("input[name='caseCode']").val('');
+	$("input[name='propertyAddr']").val('');
+	$("input[name='orgManName']").val('');
 	$("input[id='inTextVal']").val('');
-	$("input[name='teamCode']").val('');
+	$("input[name='orgName']").val('');
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
+	
 	$("select").val("");
 });
 
 function reloadGrid(data) {
-	
+
 	aist.wrap(data);
 	
 	var sortcolumn=$('span.active').attr("sortColumn");
@@ -124,8 +126,8 @@ function reloadGrid(data) {
         dataType: "json",
         data: data,
         beforeSend: function () {  
-        	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			//$(".blockOverlay").css({'z-index':'9998'});
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
           $.unblockUI();   	 
@@ -140,6 +142,7 @@ function reloadGrid(data) {
         	$.unblockUI();   	 
         }  
   });
+
 }
 
 function initpage(totalCount,pageSize,currentPage,records) {
@@ -217,22 +220,28 @@ function getParamsValue() {
 	}
 	
 	//案件编号
-	var caseNo = $("#caseNo").val();
-	if(""==caseNo || null==caseNo){
-		caseNo=null;
+	var caseCode = $("#caseCode").val();
+	if(""==caseCode || null==caseCode){
+		caseCode=null;
 	}
 	
-	//案件地址
-	var caseAddr = $("#caseAddr").val();
-	if(""==caseAddr || null==caseAddr){
-		caseAddr=null;
+	//产证地址
+	var propertyAddr = $("#propertyAddr").val();
+	if(""==propertyAddr || null==propertyAddr){
+		propertyAddr=null;
 	}
 	
-	//交易顾问ID
-	var userId =$("#userId").val();
-	if(userId==""||userId==null){
-		userId=null;
+	//组别
+	var orgName =$("#orgName").val();
+	if(orgName==""||orgName==null){
+		orgName=null;
 	}
+	
+	//区董
+	var orgManName =$("#orgManName").val();
+	if(orgManName==""||orgManName==null){
+		orgManName=null;
+	}	
 	
 	//人员ID
 	var queryPersonId= $("#inTextVal").attr("hVal");
@@ -241,28 +250,31 @@ function getParamsValue() {
 	}
 	
 	//设置查询参数
-	var params = {
-		signTimeStart : signTimeStart,
-		signTimeEnd : signTimeEnd,
-		argu_org : org,
-		argu_processorId : userId,
-		argu_queryPersonId : queryPersonId,
-		search_caseNo : caseNo,
-		search_caseAddr : caseAddr,
-	};
+	var params = {};
+	
+	params.signTimeStart = signTimeStart;
+	params.signTimeEnd = signTimeEnd;
+	params.argu_org = org;
+	//params.argu_processorId = userId;
+	params.argu_queryPersonId = queryPersonId;
+	params.search_caseCode = caseCode;
+	params.search_propertyAddr = propertyAddr;
+	params.search_orgName = orgName;
+	params.search_orgManName = orgManName;
+
 	return params;
 }
 
 //选业务组织的回调函数
 function radioYuCuiOrgSelectCallBack(array){
     if(array && array.length >0){
-        $("#teamCode").val(array[0].name);
+        $("#orgName").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
 		
 		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
 		$("#oldactiveName").attr("onclick",userSelect);
 	}else{
-		$("#teamCode").val("");
+		$("#orgName").val("");
 		$("#yuCuiOriGrpId").val("");
 	}
 }

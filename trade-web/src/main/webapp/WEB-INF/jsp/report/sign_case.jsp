@@ -106,6 +106,63 @@ text-decoration: underline !important;
 					<form method="get" class="form-horizontal">
 					
 					<div class="row ${isConsultant ? 'hideDiv' : ''}">
+					
+					            <div class="row">
+									<div class="col-md-12">
+										<div class="form-group ">
+											<label class="col-md-1 control-label m-l">案件编号</label>
+											<div class="col-md-10 dizhi">
+												<input type="text" class="form-control" id="caseCode"
+													name="caseCode" value="" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group ">
+											<label class="col-md-1 control-label m-l">产证地址</label>
+											<div class="col-md-8 dizhi">
+												<input type="text" class="form-control" id="propertyAddr"
+													name="propertyAddr" value="" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col-md-7">
+									<div class="form-group ">
+										<label class="col-md-2 control-label">组别</label>
+										<div class="col-md-10">
+											<input type="text" class="span12 tbsporg org-label-control"
+												id="orgName" name="orgName" readonly="readonly"
+												onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+													   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
+													   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
+													   expandNodeId:''})" />
+											<input class="m-wrap " type="hidden" id="yuCuiOriGrpId"
+												name="yuCuiOriGrpId">
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group ">
+										<label class="col-md-1 control-label m-l">区董</label>
+										<div class="col-md-10 dizhi">
+											<input type="text" class="form-control" id="orgManName"
+												name="orgManName" value="" />
+										</div>
+									</div>
+								</div>
+							</div>
 
 					<div class="row date-info">
 						<div class="col-md-12">
@@ -217,7 +274,7 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="t-left pd-l">{{item.CASE_CODE}}</td>
+						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 						<td class="t-left pd-l"><span class="case-addr">{{item.PROPERTY_ADDR}}</span></td>
                         <td class="t-left pd-l">{{item.REAL_NAME}}</td>
 						<td class="t-left pd-l">{{item.ORG_NAME}}</td>
