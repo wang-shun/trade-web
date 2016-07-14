@@ -81,7 +81,6 @@ function initGrid() {
 				},
 				loadComplete :function(){
 					var rowNum = $("#table_list_case_task").jqGrid('getGridParam','records');
-					alert(rowNum);
 					if(rowNum=="0"){
 						returnTaskPage();
 					}else{
