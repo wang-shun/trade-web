@@ -132,8 +132,8 @@
 			</div>
 		</div>	
 		
-		<div id="caseCommentList" class="add_form">
-</div>
+<!-- 		<div id="caseCommentList" class="add_form">
+</div> -->
 		
 		<div class="ibox-title">
 			<h5>审批记录</h5>

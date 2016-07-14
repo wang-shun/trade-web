@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
+  <process id="LoanLost_Process" name="LoanLost_Process" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <userTask id="LoanlostApply" name="贷款流失申请" activiti:candidateGroups="consultant" activiti:formKey="/task/loanlostApply/process"></userTask>
+    <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:candidateGroups="Manager" activiti:formKey="/task/loanlostApproveManager/process"></userTask>
+    <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:candidateGroups="director" activiti:formKey="/task/loanlostApproveDirector/process"></userTask>
+    <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:candidateGroups="consultant" activiti:formKey="/task/selfLoanApprove/process"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="LoanlostApply"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="LoanlostApply" targetRef="LoanlostApproveManager"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="LoanlostApproveManager" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="LoanlostApproveDirector" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="SelfLoanApprove" targetRef="endevent1"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway2" targetRef="SelfLoanApprove">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_director}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="exclusivegateway1" targetRef="LoanlostApproveDirector">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_manager}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="LoanlostApproveManager">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_director==false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="LoanlostApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_manager == false}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_LoanLost_Process">
+    <bpmndi:BPMNPlane bpmnElement="LoanLost_Process" id="BPMNPlane_LoanLost_Process">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="50.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="944.0" y="50.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="LoanlostApply" id="BPMNShape_LoanlostApply">
+        <omgdc:Bounds height="55.0" width="105.0" x="120.0" y="40.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="LoanlostApproveManager" id="BPMNShape_LoanlostApproveManager">
+        <omgdc:Bounds height="55.0" width="161.0" x="260.0" y="40.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="LoanlostApproveDirector" id="BPMNShape_LoanlostApproveDirector">
+        <omgdc:Bounds height="55.0" width="181.0" x="500.0" y="40.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SelfLoanApprove" id="BPMNShape_SelfLoanApprove">
+        <omgdc:Bounds height="55.0" width="127.0" x="784.0" y="40.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="440.0" y="47.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="710.0" y="47.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="75.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="120.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="225.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="260.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="421.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="440.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="681.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="710.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="911.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="944.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="750.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="784.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="480.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="730.0" y="47.0"></omgdi:waypoint>
+        <omgdi:waypoint x="729.0" y="12.0"></omgdi:waypoint>
+        <omgdi:waypoint x="550.0" y="12.0"></omgdi:waypoint>
+        <omgdi:waypoint x="336.0" y="12.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="40.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="460.0" y="87.0"></omgdi:waypoint>
+        <omgdi:waypoint x="459.0" y="126.0"></omgdi:waypoint>
+        <omgdi:waypoint x="306.0" y="126.0"></omgdi:waypoint>
+        <omgdi:waypoint x="172.0" y="126.0"></omgdi:waypoint>
+        <omgdi:waypoint x="172.0" y="95.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

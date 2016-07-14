@@ -57,6 +57,22 @@
 					<ifNotNull caseTransferDateEnd>
 						AND t.caseTransferDate &lt; #caseTransferDateEnd#
 					</ifNotNull>
+					
+					<ifNotNull transferDateStart>
+						AND t.transferDate &gt; #transferDateStart#
+					</ifNotNull>
+					<ifNotNull transferDateEnd>
+						AND t.transferDate &lt; #transferDateEnd#
+					</ifNotNull>
+					<ifNotNull orgName>
+						AND T.ORG_NAME like '%' + #orgName# + '%' 
+					</ifNotNull>
+					<ifNotNull TransferStatus>
+						AND status = #TransferStatus#
+					</ifNotNull>
+					<ifNotNull vrealName>
+						AND WZ.REAL_NAME like '%' + #vrealName# + '%' 
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
