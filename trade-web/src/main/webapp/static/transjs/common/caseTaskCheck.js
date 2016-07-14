@@ -14,7 +14,7 @@ function initGrid() {
 				url : url,
 				datatype : "json",
 				mtype : "POST",
-				height : 150,
+				height : 180,
 				autowidth : true,
 				shrinkToFit : true,
 				rowNum : 5,
@@ -74,13 +74,14 @@ function initGrid() {
 				// rowid为grid中的行顺序
 				onSelectRow : function(rowid) {
 					var rowData = $("#table_list_case_task").jqGrid('getRowData',rowid);
-					var url = ctx+"/engine/task/"+rowData.ID+"/process";
+					var url = ctx+"/task/"+rowData.PART_CODE+
+					"?&taskId="+rowData.ID+"&caseCode="+rowData.CASE_CODE+"&instCode="+rowData.INST_CODE;
 //					alert(url);
 					window.location.href = url;
 				},
 				loadComplete :function(){
 					var rowNum = $("#table_list_case_task").jqGrid('getGridParam','records');
-//					alert(rowNum);
+					alert(rowNum);
 					if(rowNum=="0"){
 						returnTaskPage();
 					}else{
@@ -114,4 +115,5 @@ function returnTaskPage(){
      }
 	
 	//window.location.href = ctx+"/task/myTaskList";
+
 }
