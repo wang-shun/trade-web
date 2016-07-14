@@ -203,8 +203,14 @@ function getParamsValue() {
 
 // 清空表单
 function cleanForm() {
-	$("input[name='dtBegin']").val("");
-	$("input[name='dtEnd']").val("");
+	$("input[name='transferDateBegin']").val("");
+	$("input[name='transferDateEnd']").val("");	
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
+	$("select").val("");
+	$("input[name='realName']").val("");
+	$("input[name='orgName']").val("");
+	
 }
 
 function caseTransferExportToExcel() {
@@ -262,11 +268,13 @@ function caseTransferExportToExcel() {
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[id='inTextVal']").val('');
-	$("input[name='teamCode']").val('');
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
+	$("input[name='transferDateBegin']").val("");
+	$("input[name='transferDateEnd']").val("");	
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
+	$("input[name='realName']").val("");
+	$("input[name='orgName']").val("");
 });
 
 //选业务组织的回调函数
