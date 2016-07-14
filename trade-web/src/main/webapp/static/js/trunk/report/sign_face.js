@@ -39,6 +39,11 @@ $(document).ready(function() {
 	});
 	
 	reloadGrid(data);
+	
+	$("span[name='srvCode']").click(function(){
+		var id = $(this).attr("id");
+		$("span[id='"+id+"']").changeSelect();
+	});
 });
 
 
@@ -82,7 +87,7 @@ $('#searchButton').click(function() {
 var signTimeStart;
 var signTimeEnd;
 
- //查询方法
+//查询方法
 function searchMethod(page) {
 
 	if (!page) {
@@ -101,11 +106,16 @@ function searchMethod(page) {
 
 //清空
 $('#cleanButton').click(function() {
+	$("input[name='caseCode']").val('');
+	$("input[name='propertyAddr']").val('');
+	$("input[name='realName']").val('');
+	
 	$("input[id='inTextVal']").val('');
-	$("input[name='teamCode']").val('');
+	$("input[name='orgName']").val('');
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
 	$("select").val("");
+	
 });
 
 function reloadGrid(data) {
@@ -124,8 +134,8 @@ function reloadGrid(data) {
         dataType: "json",
         data: data,
         beforeSend: function () {  
-        	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			//$(".blockOverlay").css({'z-index':'9998'});
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
           $.unblockUI();   	 
@@ -203,6 +213,21 @@ function getSearchDateValues() {
 	return true;
 }
 
+var srvCode1;
+var srvCode2;
+var srvCode3;
+var srvCode4;
+var srvCode5;
+var srvCode6;
+var srvCode7;
+var srvCode8;
+var srvCode9;
+var srvCode11;
+var srvCode12;
+var srvCode13;
+var srvCode14;
+var srvCode15;
+
 /**
  * 查询参数取得
  */
@@ -217,39 +242,70 @@ function getParamsValue() {
 	}
 	
 	//案件编号
-	var caseNo = $("#caseNo").val();
-	if(""==caseNo || null==caseNo){
-		caseNo=null;
+	var caseCode = $("#caseCode").val();
+	if(""==caseCode || null==caseCode){
+		caseCode=null;
 	}
-	
-	//案件地址
-	var caseAddr = $("#caseAddr").val();
-	if(""==caseAddr || null==caseAddr){
-		caseAddr=null;
+
+	//产品名称
+	var srvCode = $("#srvCode").val();
+	if(""==srvCode || null==srvCode){
+		srvCode=null;
 	}
-	
-	//交易顾问ID
-	var userId =$("#userId").val();
-	if(userId==""||userId==null){
-		userId=null;
+
+	//物业地址
+	var propertyAddr =$("#propertyAddr").val();
+	if(propertyAddr==""||propertyAddr==null){
+		propertyAddr=null;
 	}
-	
+
+	//经办人
+	var realName =$("#realName").val();
+	if(realName==""||realName==null){
+		realName=null;
+	}
+
+	//组别
+	var orgName =$("#orgName").val();
+	if(orgName==""||orgName==null){
+	    orgName=null;
+	}
+
 	//人员ID
 	var queryPersonId= $("#inTextVal").attr("hVal");
 	if(queryPersonId==$("#personalId")||queryPersonId==""){
 		queryPersonId=null;
 	}
 	
+	// 产品类型
+	getCheckBoxValues("srvCode");
+	
 	//设置查询参数
-	var params = {
-		signTimeStart : signTimeStart,
-		signTimeEnd : signTimeEnd,
-		argu_org : org,
-		argu_processorId : userId,
-		argu_queryPersonId : queryPersonId,
-		search_caseNo : caseNo,
-		search_caseAddr : caseAddr,
-	};
+	var params = {};
+	params.signTimeStart = signTimeStart;
+	params.signTimeEnd = signTimeEnd;
+	params.argu_org = org;
+	//params.argu_processorId = userId;
+	params.argu_queryPersonId = queryPersonId;
+	params.search_caseCode = caseCode;
+	params.search_srvCode = srvCode;
+	params.search_propertyAddr = propertyAddr;
+	params.search_realName = realName;
+	params.search_orgName = orgName;
+	params.argu_srvCode1 = srvCode1;
+	params.argu_srvCode2 = srvCode2;
+	params.argu_srvCode3 = srvCode3;
+	params.argu_srvCode4 = srvCode4;
+	params.argu_srvCode5 = srvCode5;
+	params.argu_srvCode6 = srvCode6;
+	params.argu_srvCode7 = srvCode7;
+	params.argu_srvCode8 = srvCode8;
+	params.argu_srvCode9 = srvCode9;
+	params.argu_srvCode11 = srvCode11;
+	params.argu_srvCode12 = srvCode12;
+	params.argu_srvCode13 = srvCode13;
+	params.argu_srvCode14 = srvCode14;
+	params.argu_srvCode15 = srvCode15;
 
 	return params;
 }
@@ -257,13 +313,13 @@ function getParamsValue() {
 //选业务组织的回调函数
 function radioYuCuiOrgSelectCallBack(array){
     if(array && array.length >0){
-        $("#teamCode").val(array[0].name);
+        $("#orgName").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
 		
 		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
 		$("#oldactiveName").attr("onclick",userSelect);
 	}else{
-		$("#teamCode").val("");
+		$("#orgName").val("");
 		$("#yuCuiOriGrpId").val("");
 	}
 }
@@ -409,4 +465,55 @@ function exportToExcel() {
 	} else {
 		alert("请不要选择同样的日期类型！");
 	}
+}
+
+//产品类型
+function getCheckBoxValues(name) {
+	srvCode1 = "";
+	srvCode2 = "";
+	srvCode3 = "";
+	srvCode4 = "";
+	srvCode5 = "";
+	srvCode6 = "";
+	srvCode7 = "";
+	srvCode8 = "";
+	srvCode9 = "";
+	srvCode11 = "";
+	srvCode12 = "";
+	srvCode13 = "";
+	srvCode14 = "";
+	srvCode15 = "";
+	//$("input[name=" + name + "].selected").each(function() {
+	$("span[name='srvCode'].selected").each(function() {
+		var val = $(this).attr('value');
+		if (val == '30004001') {
+			srvCode1 = val;
+		} else if (val == '30004002') {
+			srvCode2 = val;
+		} else if (val == '30004003') {
+			srvCode3 = val;
+		} else if (val == '30004004') {
+			srvCode4 = val;
+		} else if (val == '30004005') {
+			srvCode5 = val;
+		} else if (val == '30004006') {
+			srvCode6 = val;
+		} else if (val == '30004007') {
+			srvCode7 = val;
+		} else if (val == '30004008') {
+			srvCode8 = val;
+		} else if (val == '30004009') {
+			srvCode9 = val;
+		} else if (val == '30004011') {
+			srvCode11 = val;
+		} else if (val == '30004012') {
+			srvCode12 = val;
+		} else if (val == '30004013') {
+			srvCode13 = val;
+		} else if (val == '30004014') {
+			srvCode14 = val;
+		} else if (val == '30004015') {
+			srvCode15 = val;
+		}
+	});
 }

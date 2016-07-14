@@ -6,6 +6,7 @@
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
 			</properties>
 		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
@@ -23,19 +24,39 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	<query id="querySignFaceList" cacheCount="true">
+	    <searchCondition>
+	        <condition field="l.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="pr.property_addr" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="u.REAL_NAME" name="realName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="u.ORG_NAME" name="orgName" label="组别ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>               
+            <condition field="l.SRV_CAT_STR" name="srvCode1"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode2"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode3"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode4"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode5"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode6"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode7"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode8"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode9"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode11" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode12" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="l.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 				select 
-				d.NAME,
+				C.PKID,
+				d.NAME PRODUCT_NAME,
 				l.CASE_CODE, 
 				pr.property_addr,
 				l.SIGN_TIME,
-				u.REAL_NAME, 
+				u.REAL_NAME,
+				u.ORG_ID, 
 				u.ORG_NAME,
-				l.LOAN_AMOUNT,
-				l.SIGN_AMOUNT,
-				l.ACTUAL_AMOUNT 
+				ISNULL(l.LOAN_AMOUNT,0) LOAN_AMOUNT,
+				ISNULL(l.SIGN_AMOUNT,0) SIGN_AMOUNT,
+				ISNULL(l.ACTUAL_AMOUNT,0) ACTUAL_AMOUNT
 				from sctrans.t_to_loan_agent as l
 				left join 
 				     sctrans.T_TO_PROPERTY_INFO as pr on l.CASE_CODE=pr.CASE_CODE
@@ -49,6 +70,52 @@
 				     d.CODE=l.LOAN_SRV_CODE
 				where 
 				     l.APPLY_STATUS =2 and l.SIGN_TIME is not null
+				     
+				<ifNotNull srvCode1>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode1#)
+					</ifNotNull>
+					<ifNotNull srvCode2>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode2#)
+					</ifNotNull>
+					<ifNotNull srvCode3>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode3#)
+					</ifNotNull>
+					<ifNotNull srvCode4>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode4#)
+					</ifNotNull>
+					<ifNotNull srvCode5>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode5#)
+					</ifNotNull>
+					<ifNotNull srvCode6>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode6#)
+					</ifNotNull>
+					<ifNotNull srvCode7>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode7#)
+					</ifNotNull>
+					<ifNotNull srvCode8>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode8#)
+					</ifNotNull>
+					<ifNotNull srvCode9>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode9#)
+					</ifNotNull>
+					<ifNotNull srvCode10>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode10#)
+					</ifNotNull>
+					<ifNotNull srvCode11>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode11#)
+					</ifNotNull>
+					<ifNotNull srvCode12>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode12#)
+					</ifNotNull>
+					<ifNotNull srvCode13>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode13#)
+					</ifNotNull>
+					<ifNotNull srvCode14>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode14#)
+					</ifNotNull>
+					<ifNotNull srvCode15>
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode15#)
+					</ifNotNull>
 				     
 				<ifNotNull signTimeStart>
 				     and l.SIGN_TIME >= #signTimeStart#
@@ -67,10 +134,11 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="NAME" index="" checkbox="" title="产品名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PRODUCT_NAME" index="" checkbox="" title="产品名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="物业地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
-				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="经办人" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" title="级别" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="LOAN_AMOUNT"  index="" checkbox="" title="申请金额" customDict="" sysDict="" beanFormatter="numberFormater" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
