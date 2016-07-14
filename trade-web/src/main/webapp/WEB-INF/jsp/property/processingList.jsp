@@ -47,7 +47,7 @@
 			optTransferRole=true;
 		</shiro:hasPermission>
 	</script>
-    
+	
     <style>
 	    
 	    .ui-jqgrid .ui-jqgrid-bdiv{
