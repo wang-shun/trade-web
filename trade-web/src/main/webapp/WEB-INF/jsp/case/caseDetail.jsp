@@ -818,7 +818,7 @@ p.title {
 								<div class="tab-pane fade" id="settings">
 									<table id="operation_history_table"></table>
 									<div id="operation_history_pager"></div>
-								</div>
+							  	</div>
 							</div>
 						</div>
 					</div>
@@ -1270,10 +1270,10 @@ p.title {
  		$(function(){
  			
 			var caseCode = $('#caseCode').val();
-			var srvCode = $('#srvCodes').val();
+		
 			$("#caseCommentList").caseCommentGrid({
 				caseCode : caseCode,
-				srvCode : srvCode
+				srvCode : null
 			});
 			var h= window.screen.availHeight;
 			$("#scroll").css("height",h-h*0.30);

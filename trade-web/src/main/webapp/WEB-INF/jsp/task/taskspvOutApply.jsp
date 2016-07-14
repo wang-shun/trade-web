@@ -47,10 +47,10 @@
 	}
 	
 	$(function(){
-		$("#caseCommentList").caseCommentGrid({
+/* 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem
-		});
+		}); */
 	});
 </script>
 </head>
@@ -101,8 +101,8 @@
 			</div>
 		</div>
 		
-		<div id="caseCommentList" class="add_form">
-</div>
+<!-- 		<div id="caseCommentList" class="add_form">
+</div> -->
 		
 			<div class="ibox-title" style="height:auto;">
 		<c:choose>  

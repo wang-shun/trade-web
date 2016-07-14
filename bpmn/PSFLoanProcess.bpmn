@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
+  <process id="ComLoan_Process" name="ComLoan_Process" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <userTask id="PSFApply" name="纯公积金贷款申请" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFApply/process"></userTask>
+    <userTask id="PSFSign" name="纯公积金贷款签约" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFSign/process"></userTask>
+    <userTask id="PSFApprove" name="纯公积金贷款审批" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFApprove/process"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="PSFApply"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="PSFApply" targetRef="PSFSign"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="PSFSign" targetRef="PSFApprove"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="PSFApprove" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ComLoan_Process">
+    <bpmndi:BPMNPlane bpmnElement="ComLoan_Process" id="BPMNPlane_ComLoan_Process">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="50.0" y="56.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="660.0" y="56.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="PSFApply" id="BPMNShape_PSFApply">
+        <omgdc:Bounds height="55.0" width="151.0" x="121.0" y="46.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="PSFSign" id="BPMNShape_PSFSign">
+        <omgdc:Bounds height="55.0" width="141.0" x="300.0" y="46.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="PSFApprove" id="BPMNShape_PSFApprove">
+        <omgdc:Bounds height="55.0" width="161.0" x="470.0" y="46.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="85.0" y="73.0"></omgdi:waypoint>
+        <omgdi:waypoint x="121.0" y="73.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="272.0" y="73.0"></omgdi:waypoint>
+        <omgdi:waypoint x="300.0" y="73.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="441.0" y="73.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.0" y="73.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="631.0" y="73.0"></omgdi:waypoint>
+        <omgdi:waypoint x="660.0" y="73.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
