@@ -163,10 +163,10 @@
 								<div class="form-group ">
 									<label class="col-md-3 control-label m-l">组别</label>
 									<div class="col-md-8">
-										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										  <input type="text" class="form-control tbsporg" id="orgName" name="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value=''>
-                                          <input type="hidden" id="yuCuiOriGrpId" value="">
+                                          <input type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="">
 									</div>
 								</div>
 							</div>
