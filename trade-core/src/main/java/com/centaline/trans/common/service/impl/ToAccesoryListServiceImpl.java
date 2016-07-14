@@ -115,6 +115,7 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
             }
             request.setAttribute("idList", idList);
         }
+
 	}
 
 	@Override
