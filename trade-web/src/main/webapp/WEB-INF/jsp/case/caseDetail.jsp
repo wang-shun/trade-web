@@ -332,9 +332,9 @@ p.title {
 					<div
 						class="collapse navbar-collapse bs-js-navbar-scrollspy scroll_nav">
 						<ul class="nav navbar-nav scroll_content" id="menus">
-							<li onclick="changeMenu(this)"><a href="#basicInfo"> 基本信息 </a></li>
-							<li onclick="changeMenu(this)"><a href="#serviceFlow"> 服务流程 </a></li>
-							<li onclick="changeMenu(this)"><a href="#aboutInfo"> 相关信息 </a></li>
+							<li><a href="#basicInfo"> 基本信息 </a></li>
+							<li><a href="#serviceFlow"> 服务流程 </a></li>
+							<li><a href="#aboutInfo"> 相关信息 </a></li>
 						</ul>
 					</div>
 				</nav>
