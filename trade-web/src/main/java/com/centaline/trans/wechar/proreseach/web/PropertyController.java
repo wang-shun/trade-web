@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.utils.SpringUtils;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.scheduler.execution.remote.Job;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.permission.remote.UamPermissionService;
@@ -219,5 +221,12 @@ public class PropertyController {
 			return "mobile/propresearch/myPropertyResult";
 		}
 	}
+	
+	@RequestMapping("ProcessingTimeJob")
+	public void TimeJob(HttpServletRequest request, HttpServletResponse response){
+		Job job = SpringUtils.getBean("ProcessingTimeJob");
+    	job.execute(null);
+	}
+		
 		
 }
