@@ -180,7 +180,7 @@ float: none;
 				$("#txt_prCat").val(prCat);
 				
 				var prCostOrgId = $("#zhanqu").val();
-				var prCostOrgName = $("#zhanqu").text();
+				var prCostOrgName = $("#zhanqu option:selected").text();
 				var prCostOrgMgr = $("#orgName").val();
 				
 				$("#prCostOrgId").val(prCostOrgId);
