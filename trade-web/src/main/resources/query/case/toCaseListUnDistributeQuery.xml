@@ -5,6 +5,7 @@
 		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
 		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
 		<customDict id="qqcdJlOrZjOrNameByOrgCode" beanName="qqcdJlOrZjOrNameByOrgCode" />
+		<customDict id="qqMainOrgByUserId" beanName="qqMainOrgByUserId" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -48,7 +49,7 @@
 						,tc.status
 						,ctd.IMPORT_TIME AS CREATE_TIME
 						,tst.YU_TEAM_CODE YU_TEAM_CODE
-						,ctd.AGENT_CODE AS ORG_NAME
+						,ctd.AGENT_CODE AS USER_ID
 					FROM sctrans.T_TO_CASE_INFO ctd
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
@@ -75,7 +76,8 @@
 				
 				<column type="both" name="YU_TEAM_CODE" display="YU_TEAM_CODE"/>
 				<column type="both" name="AGENT_NAME" display="经纪人" />
-				<column type="both" name="ORG_NAME"  	title="组别" 	customDict="qqcdUojByUserId"/>			
+				<column type="both" name="USER_ID" />
+				<column type="virtual" name="ORG_NAME"  referencecol="USER_ID" title="组别"  customDict="qqMainOrgByUserId"/>			
 				<column type="both" name="CTM_CODE" display="ctmCode" />
 				
 			</table-row>
