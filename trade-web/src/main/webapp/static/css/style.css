@@ -9,9 +9,8 @@ h2,
 h3,
 h4,
 h5,
-h6 { 
-  font-family: "Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
-  font-weight: normal;
+h6 {
+  font-weight: 100;
 }
 h1 {
   font-size: 30px;
@@ -560,7 +559,6 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 .btn {
   border-radius: 3px;
-  font-size: 12px;
 }
 .float-e-margins .btn {
   margin-bottom: 5px;
@@ -7559,7 +7557,7 @@ button.dim:active:before {
   box-shadow: none;
   -moz-box-sizing: border-box;
   background-color: #FFFFFF;
-  border: 1px solid #e5e6e7;
+  border: 1px solid #CBD5DD;
   border-radius: 2px;
   cursor: text;
   height: auto !important;
@@ -8184,13 +8182,13 @@ table.dataTable thead .sorting:after {
   background-color: #FFFFFF;
   background-image: none;
   border: 1px solid #e5e6e7;
-  border-radius: 2px;
+  border-radius: 1px;
   color: inherit;
   display: block;
   padding: 6px 12px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
 }
 .form-control:focus,
 .single-line:focus {
@@ -9820,8 +9818,7 @@ table.table-mail tr td {
 }
 .ibox-title h5 {
   display: inline-block;
-  font-size: 15px;
-  font-weight:normal;
+  font-size: 14px;
   margin: 0 0 7px;
   padding: 0;
   text-overflow: ellipsis;
@@ -12867,14 +12864,4 @@ body.skin-3 {
 		  vertical-align: middle;
 		  background-image:url(../img/a5.png);
 	
-}
-/* Patchs */
-.switch_position {
-	padding-right: 0!important;
-	font-family: "Microsoft Yahei"!important;
-	font-weight: normal!important;
-}
-.form-horizontal .control-label {
-    font-family: "Microsoft Yahei"!important;
-	font-weight: normal!important;
 }
