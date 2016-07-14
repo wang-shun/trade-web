@@ -24,6 +24,25 @@
     <link href="${ctx}/css/animate.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+    <style type="text/css">
+    	.knowstyle {
+    		margin-left: 10px;
+    		padding: 7px 12px;
+    		border: 1px solid #e5e6e7;
+			border-radius: 2px;
+    	}
+    	.knowstyle_one {
+    		margin-right: 20px;
+    	}
+    	#knowledgeSearchButton {
+    		padding: 7px 12px;
+    		background-color: #f8ac59;
+    		border:0px;
+    		font-size: 14px;
+    		color:#fff;
+    		border-radius: 2px;
+    	}
+    </style>
 </head>
 <body>
 	<!-- title start -->
@@ -43,8 +62,8 @@
 		        </div> 
 			    
 				<div>
-					知识编码 :<input type="text" id="knowledgeCode" name="knowledgeCode" />  
-					知识标题 :<input type="text" id="knowledgeTitle" name="knowledgeTitle"/> 
+					知识编码 :<input type="text" id="knowledgeCode" name="knowledgeCode" class="knowstyle knowstyle_one" />  
+					知识标题 :<input type="text" id="knowledgeTitle" name="knowledgeTitle" class="knowstyle" /> 
 					<button type="button" id="knowledgeSearchButton" onclick="knowledgeSearchButton()" style="margin-left: 30px;">搜索</button>
 				</div>
 			</div>  

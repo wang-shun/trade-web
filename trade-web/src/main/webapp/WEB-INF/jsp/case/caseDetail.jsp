@@ -167,7 +167,31 @@ body {
 	text-align: left !important;
 	margin-left: -10px;
 }
+<<<<<<< HEAD
+ [class^=mark]{position:absolute;top:8px;left:130px;width:56px;height:37px;z-index:0; background-position:left center;background-repeat:no-repeat}
+.mark-baodan{background-image:url(../img/mark-baodan.png);}
+.mark-guaqi{background-image:url(../img/mark-guaqi.png);}
+.mark-jiean{background-image:url(../img/mark-jiean.png);}
+.mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
+/* .mark-zaitu{background-image:url(../img/mark-zaitu.png);} */
+.row:nth-last-child(2) .wd-31,.row:nth-last-child(1) .wd-31{width:31%;}
+.row:nth-last-child(2) .wd-50,.row:nth-last-child(1) .wd-50{width:50%;}
+.row:nth-last-child(2) .mr0,.row:nth-last-child(1) .mr0{margin-left:0;margin-right:0;}
+.row:nth-last-child(2) .wd87,.row:nth-last-child(1) .wd87{width:84px;margin-left: 8px;}
+.row:nth-last-child(2) .wd-72,.row:nth-last-child(1) .wd-72{width:72%;margin-left:-8px;}
+.row:nth-last-child(2) .wd-64,.row:nth-last-child(1) .wd-64{width:61%;padding-right:0;}
+.row:nth-last-child(2) .form-control-static,.row:nth-last-child(1) .form-control-static{margin-left:-2px;}
+.pd0{padding:0;}
+.pr0{padding-right:0;}
+.wd445{margin-bottom:15px;padding-right:30px;}
+.wd445 select,.kuaquselect select{float:right;height:34px;border-radius:2px;margin-left:10px;}
+#hzxm{padding-bottom:15px;}
+.kuaquselect{margin:-20px 0 0 0;padding-right:0;}
+.modal-content{width:820px;}
+.text-left{text-align:left !important;margin-left:-10px;}
+=======
 
+>>>>>>> 88fa5d296271918938b62191990b3efe84f002ed
 .row {
 	margin-right: 0px !important;
 }
@@ -297,6 +321,100 @@ p.title {
 		line-height: 22px;
 	}
 }
+<<<<<<< HEAD
+.min-h215{min-height:215px;}
+
+/* add_css */
+.infos {
+	margin:13px 0px 12px;
+}
+p.title {
+	margin-left: 15px;
+}
+.tittle h4 {
+	margin-left: 25px;
+}
+.white_bg, .item .panel{
+	background: #fff;
+}
+.ibox-conn {
+	padding:8px 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+.info_box h5 {
+	margin-bottom: 10px;
+    padding-left: 10px;
+    padding-bottom: 2px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+}
+.else_conn {
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 15px;
+}
+.ibox-conn .col-sm-6 {
+    padding-left: 0;
+}
+
+.scroll_box dl {
+    color: #666;
+}
+.else_conn_two {
+    min-height: 132px;
+}
+.tab-content .tab-pane p {
+	margin-top:10px!important;
+}
+.ibox-text {
+	height: 214px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #555!important;
+    cursor: default!important;
+    background-color: #fff!important;
+    border: 1px solid #ddd!important;
+    border-bottom-color: transparent!important;
+}
+.panel {
+    border-radius: 0px!important;
+}
+.scroll_box .navbar {
+margin-top:20px;
+}
+.collapse {
+	padding-left:0px;
+}
+.scroll_nav {
+	background: #4bccec;
+}
+.scroll_content li.active {
+    border: none!important;
+    background: #faab58!important;
+}
+.scroll_content li a {
+    color:#fff!important;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #faab58!important;
+}
+@media (min-width: 768px) {
+.ibox-conn .dl-horizontal dt {
+   width: 60px;
+   line-height: 22px;
+}
+.ibox-conn .dl-horizontal dd {
+   margin-left: 70px;
+   margin-bottom: 7px;
+   line-height: 22px;
+}
+}
+=======
+>>>>>>> 88fa5d296271918938b62191990b3efe84f002ed
 </style>
 </head>
 
@@ -322,6 +440,667 @@ p.title {
 					alert("<%=request.getAttribute("msg")%>");
 				<%}%>
 			</script>
+<<<<<<< HEAD
+			
+			<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
+            <div class="row">
+			    <div class="col-lg-12">
+			    	<div class="scroll_box fadeInDown animated">
+            <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
+                <div class="collapse navbar-collapse bs-js-navbar-scrollspy scroll_nav">
+                    <ul class="nav navbar-nav scroll_content">
+                        <li>
+                            <a href="#basicInfo">
+                                基本信息
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#serviceFlow">
+                                服务流程
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#aboutInfo">
+                                相关信息
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div data-spy="scroll" data-target="#navbar-example" data-offset="0" style="height:200px;overflow:auto; position: relative;">
+                <div class="ibox" id="#basicInfo">
+			            <div class="ibox-title">
+			        		<h5>案件基本信息 </h5><small class="pull-right">誉萃编号：ZY-AJ-201603-2735｜中原编号：CDG-2-201603-0002</small>
+			        	</div>
+			            <div class="ibox-content">
+			                <div id="infoDiv" class="row">
+			                	<div class="ibox white_bg">
+                        <div class="info_box info_box_one col-sm-4 ">
+                            <h5>
+                                物业信息
+                            </h5>
+                            <div class="ibox-conn ibox-text">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        CTM地址
+                                    </dt>
+                                    <dd>
+                                        上海杨浦区长白新村街道内江路374弄 2号0302室
+                                    </dd>
+                                    <dt>
+                                        产证地址
+                                    </dt>
+                                    <dd>
+                                        上海杨浦区长白新村街道内江路374弄 2号0302室
+                                    </dd>
+                                    <dt>
+                                        层高
+                                    </dt>
+                                    <dd>
+                                        3/32
+                                    </dd>
+                                    <dt>
+                                        产证面积
+                                    </dt>
+                                    <dd>
+                                        125平方
+                                    </dd>
+                                    <dt>
+                                        房屋类型
+                                    </dt>
+                                    <dd>
+                                        三房两厅两阳台
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="info_box info_box_two col-sm-5">
+                            <h5>
+                                买卖双方
+                            </h5>
+                            <div class="ibox-conn else_conn">
+                                <dl class="dl-horizontal col-sm-6">
+                                    <dt>
+                                        上家姓名
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            撒旦
+                                        </a>
+                                    </dd>
+                                </dl>
+                                <dl class="dl-horizontal col-sm-6">
+                                    <dt>
+                                        下家姓名
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            共同、艾斯特
+                                        </a>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <h5>
+                                经纪人信息
+                            </h5>
+                            <div class="ibox-conn else_conn_two ">
+                                <dl class="dl-horizontal">
+                                    <dt>姓名</dt>
+                                    <dd>
+                                        <a href="#">张春伟</a>
+                                    </dd>
+                                    <dt>
+                                        所属分行
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            ACCDGB.东方曼哈顿分行二组全体
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        直管经理
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            吴跃洪
+                                        </a>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="info_box info_box_three col-sm-3">
+                            <h5>
+                                经办人信息
+                            </h5>
+                            <div class="ibox-conn  ibox-text">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        交易顾问
+                                    </dt>
+                                    <dd>
+                                        <a href=""  data-toggle="popover" data-placement="right" data-content="1590005747">
+                                            陶晨
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        合作顾问
+                                    </dt>
+                                    <dd>
+                                        <a href="">
+                                            顾新峰
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        合作顾问
+                                    </dt>
+                                    <dd>
+                                        <a href="">
+                                            金姣姣
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        助理
+                                    </dt>
+                                    <dd>
+                                        <a href="">
+                                            孙一菲
+                                        </a>
+                                    </dd>
+                                </dl>
+                        </div>
+                    </div>
+			                
+			                   </div>
+			            </div>  
+			        </div>
+                
+                </div>
+                    <!-- 服务流程 -->
+                    <div class="panel panel-default infos clearfix" id="#serviceFlow">
+                        <div class="panel-heading">
+                            服务流程
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home" data-toggle="tab">流程备注</a>
+                                </li>
+                                <li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
+                                </li>
+                                <li class=""><a href="#messages" data-toggle="tab">案件进程总览</a>
+                                </li>
+                                <li class=""><a href="#settings" data-toggle="tab">操作纪录</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="home">
+                                    <p>此处暂无文字</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile">
+                                     <p>
+                                        流程图（Flow Chart）：使用图形表示算法的思路是一种极好的方法，因为千言万语不如一张图。流程图在汇编语言和早期的BASIC语言环境中得到应用。流程图是流经一个系统的信息流、观点流或部件流的图形代表。在企业中，流程图主要用来说明某一过程。这种过程既可以是生产线上的工艺流程，也可以是完成一项任务必需的管理过程。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="messages">
+                                     <p>
+                                        对比国外城市居住规律可以发现，城市中心居住年轻人，郊区居住老年人。国外的大都市比如纽约，东京，巴黎等之所以充满着活力，一个很重要的因素是里面住着各类层次的年轻白领，尤其是纽约，住着全世界的职业白领，他们让古老的城市不断散发着青春的活力，给城市增添魅力。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="settings">
+                                    <p>
+                                        如今的北上广深等一、二线城市，大批量的住宅开发阶段已经过去，新兴的规模住宅用地更多聚焦于城市郊区，城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- 相关信息 -->
+                    <div class="panel panel-default infos" id="aboutInfo">
+                        <div class="panel-heading">
+                            相关信息
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
+                                </li>
+                                <li class=""><a href="#profile_info" data-toggle="tab">贷款相关信息</a>
+                                </li>
+                                <li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
+                                </li>
+                                <li class=""><a href="#settings_info" data-toggle="tab">金融服务信息</a>
+                                </li>
+                                <li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>
+                                </li>
+                                <li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="home_info">
+                                    <p>此处暂无文字</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile_info">
+                                     <p>
+                                        流程图（Flow Chart）：使用图形表示算法的思路是一种极好的方法，因为千言万语不如一张图。流程图在汇编语言和早期的BASIC语言环境中得到应用。流程图是流经一个系统的信息流、观点流或部件流的图形代表。在企业中，流程图主要用来说明某一过程。这种过程既可以是生产线上的工艺流程，也可以是完成一项任务必需的管理过程。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="messages_info">
+                                     <p>
+                                        对比国外城市居住规律可以发现，城市中心居住年轻人，郊区居住老年人。国外的大都市比如纽约，东京，巴黎等之所以充满着活力，一个很重要的因素是里面住着各类层次的年轻白领，尤其是纽约，住着全世界的职业白领，他们让古老的城市不断散发着青春的活力，给城市增添魅力。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="settings_info">
+                                    <p>
+                                        如今的北上广深等一、二线城市，大批量的住宅开发阶段已经过去，新兴的规模住宅用地更多聚焦于城市郊区，城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="fujian_info">
+                                    <p>
+                                        城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="ctm_info">
+                                    <p>
+                                       大批量的住宅开发阶段已经过去，新兴的规模住宅用地更多聚焦于城市郊区，城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+			        <div class="ibox">
+			            <div class="ibox-title">
+			        		<h5>案件基本信息 </h5><small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+			        	</div>
+			            <div class="ibox-content">
+			                <div  id="infoDiv" class="row">
+			                    <div class="col-lg-3">
+			                        <div  class="panel panel-success">
+			                            <div class="panel-heading">
+			                                物业信息                                            
+			                            </div>
+			                            <div class="panel-body min-h215">
+			                             	<p>CTM地址：${toPropertyInfo.ctmAddr}</p>
+			                                <p>产证地址：${toPropertyInfo.propertyAddr}</p>
+			                                <p>层高：${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</p>
+			                                <p>产证面积：${toPropertyInfo.square}平方</p>
+			                                <p>房屋类型：<aist:dict id="propertyType" name="propertyType" display="label"  dictType = "30014" dictCode="${toPropertyInfo.propertyType}"/></p>
+			                                <p></p>
+			                                <p></p>
+			                            </div>
+			
+			                        </div>
+			                    </div>
+			                    <div class="col-lg-3">
+			                        <div class="panel panel-success bg-red">
+			                            <div class="panel-heading">
+			                                买卖双方
+			                            </div>
+			                            <div class="panel-body min-h215">
+			                                <p>上家姓名：${caseDetailVO.sellerName}</p>
+			                                <p>电话：${caseDetailVO.sellerMobile}</p>
+			                                <p>下家姓名：${caseDetailVO.buyerName}</p>
+			                                <p>电话：${caseDetailVO.buyerMobile}</p>
+			                                <p></p>
+			                                <p></p>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-lg-3">
+			                        <div class="panel panel-success bg-green">
+			                            <div class="panel-heading">
+			                               经纪人信息
+			                            </div>
+			                            <div class="panel-body min-h215">
+			                                <%-- <p>姓名：${caseDetailVO.agentName}</p> --%>
+			                                <p>姓名：${toCaseInfo.agentName }</p>
+			                                <p>电话：${toCaseInfo.agentPhone}</p>
+			                                <%-- <p>所属分行：${caseDetailVO.agentOrgName}</p> --%>
+			                                <p>所属分行：${toCaseInfo.grpName }</p>
+			                                <p>直管经理：${caseDetailVO.mcName}</p>
+			                                <p>经理电话：${caseDetailVO.mcMobile}</p>
+			                                <p></p>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    
+			                    <div class="col-lg-3">
+			                        <div class="panel panel-success bg-blue">
+			                            <div class="panel-heading">
+			                                经办人信息
+			                            </div>
+			                            <div id="cpDiv" class="panel-body min-h215">
+			                                <p>交易顾问：${caseDetailVO.cpName}</p>
+			                                <p>电话：${caseDetailVO.cpMobile}</p>
+			                                 <c:if test="${empty caseDetailVO.proList}">
+			                                <p>合作顾问：</p>
+			                                <p>电话：</p>
+			                                </c:if>
+			                                <c:if test="${!empty caseDetailVO.proList}">
+			                                <c:forEach items="${caseDetailVO.proList}" var="pro"> 
+			                                <p>合作顾问：${pro.processorName}</p>
+			                                <p>电话：${pro.processorMobile}</p>
+			                                </c:forEach>
+			                                </c:if>
+			                                <p>助理：${caseDetailVO.asName}</p>
+			                                <p>电话：${caseDetailVO.asMobile}</p>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			                       
+					   <c:if test="${caseDetailVO.caseProperty == 30003001}">
+			           	<div class="mark-wuxiao"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003002}">
+			           	<div class="mark-jiean"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003003}">
+			           	<div class="mark-zaitu"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003004}">
+			           	<div class="mark-guaqi"></div>
+			           </c:if>
+			           <c:if test="${caseDetailVO.caseProperty == 30003005}">
+			           	<div class="mark-baodan"></div>
+			           </c:if>
+			        </div>
+			    </div>
+			</div>
+            <%-- start 各个流程备注信息  --%>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                   			 <h5>流程备注</h5>
+                   			 <div class="ibox-tools">
+                                 <a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
+                             </div>
+                    	</div>
+                        <div class="ibox-content" style="display: none;">
+                             <table id="caseCommenTable"></table>
+                             <div id="caseCommenPager"></div>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            <%-- end 各个流程备注信息  --%>
+            
+            
+             <div  id="buttonDiv" class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                    		<h5>案件基本操作</h5>
+                    	</div>
+                        <div class="ibox-content">
+                            <div  class="row">
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">  
+                             <a role="button" id="casePause" class="btn btn-primary btn-xm" href="javascript:casePause()">案件挂起/恢复 </a>
+                   			 </shiro:hasPermission>
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE">  
+                   			 <a role="button"data-toggle="modal" class="btn btn-primary btn-xm btn-activity" href="#pr-modal-form">产调发起 </a> 
+                   			 </shiro:hasPermission>
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">  
+                             <a role="button" class="btn btn-primary btn-xm btn-activity" href="${ctx }/spv/toSaveSpv?caseCode=${toCase.caseCode}">房款监管</a>
+                   			 </shiro:hasPermission>
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND">  
+                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:startSpvOutApplyProcess('${toCase.caseCode}')">监管解除</a> 
+                   			 </shiro:hasPermission>
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.DAISHOU">  
+                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="http://shs-ctm01/centalineoa/portal/frmIndex.aspx" target="_blank">代收代付</a> 
+                   			 </shiro:hasPermission>
+                   			 <c:if test="${ !isBackTeam}">
+                   			 <c:if test="${not empty toWorkFlow.processDefinitionId}" >
+                        		<c:if test="${not empty toWorkFlow.instCode}" >
+		                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">  
+		                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showOrgCp()">责任人变更</a>
+		                   			 </shiro:hasPermission>
+	                   			 </c:if>
+                   			 </c:if>
+                   			 </c:if>
+                   			 <shiro:hasPermission name="TRADE.CASE.ORGC.CHANGE">  
+                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:caseChangeTeam()">案件转组</a>
+                   			 </shiro:hasPermission>
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">  
+                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showPlanModal()">交易计划变更</a>
+                   			 </shiro:hasPermission>  
+                            <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SERVCHANGE">  
+                   			 <a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showSrvModal()">服务项变更</a>  
+                   			 </shiro:hasPermission>
+                            <shiro:hasPermission name="TRADE.CASE.COWORKCHANGE">  
+                   			 	<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showChangeModal()">变更合作对象</a>  
+                   			 </shiro:hasPermission>
+                   			 <c:if test="${toCase.caseProperty != 30003002}"><!-- 已经结案审批通过限制流程重启 -->
+	                   			 <shiro:hasPermission name="TRADE.CASE.RESTART">  
+	                   			 	<a role="button" id="processRestart" class="btn btn-primary btn-xm btn-activity" href="javascript:serviceRestart()">流程重启</a>  
+	                   			 </shiro:hasPermission>
+                   			 </c:if>
+                   			 <shiro:hasPermission name="TRADE.CASE.RESET">
+		                   	 	<a role="button" id="caseResetes" class="btn btn-primary btn-xm btn-activity" href="javascript:caseReset()">案件重置</a>
+		                   	 </shiro:hasPermission>
+		                   	 <c:if test="${isCaseOwner && isNewFlow}"><!-- 主办 &10:445004或者之后的流程-->
+		                   	 	<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
+		                   	 </c:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案件转组 -->
+            <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:700px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="team-modal-title">
+						      案件转组
+						   </h4>
+					   </div>
+                       <div class="modal-body">
+                       <div class="row">
+                       <form  id="team-form" class="form-horizontal">
+                       
+                       
+			            </form>
+			            </div>
+                     </div> 
+                     <div class="modal-footer">
+			            <button type="button" class="btn btn-default"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="button" class="btn btn-primary" onclick="javascript:changeCaseTeam()">
+			                                提交
+			            </button>
+                     </div>
+                     </div>
+                 </div>
+             </div>  
+            <!-- 案件转组 end -->
+                  
+            <!-- 责任人变更 -->
+            <div id="leading-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:1200px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="leading-modal-title">
+						      	请选择交易顾问
+						   </h4>
+						</div>
+                        <div class="modal-body">
+                			 <div class="row"  style="height: 450px;overflow:auto; "> 
+                                <div class="col-lg-12 ">
+                                	<h3 class="m-t-none m-b"></h3>
+									<div class="wrapper wrapper-content animated fadeInRight">
+									    <div id="leading-modal-data-show" class="row">
+	      								</div>
+						            </div>															
+						       </div>
+						    </div>
+	                    </div> 
+                     </div>
+                 </div>
+             </div>  
+             <!-- 产调发起 -->
+            <div id="pr-modal-form" class="modal fade" role="dialog" aria-labelledby="pr-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:1200px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="pr-modal-title">
+						      请选择产调项目
+						   </h4>
+						</div>
+                        <div class="modal-body">
+                			 <div class="row"> 
+                                <div class="col-lg-12 checkbox i-checks checkbox-inline">
+                                	<h3 class="m-t-none m-b"></h3>	
+                                	<aist:dict id="pr_item" name="pr_item" display="checkbox"
+									defaultvalue="" dictType="30009" />													
+						       </div>
+						    </div>
+	                    </div> 
+	                     <div class="modal-footer">
+				            <button type="button" class="btn btn-default"
+				               onclick="javascript:checkAllPRItem()">全选
+				            </button>
+				            <button type="button" class="btn btn-default"
+				               onclick="javascript:cleanPRItem()">清空
+				            </button>
+				            <button type="button" class="btn btn-default"
+				               data-dismiss="modal">关闭
+				            </button>
+				            <button type="button" class="btn btn-primary" onclick="javascript:startCasePrairses()">
+				                                提交
+				            </button>
+				         </div>
+                     </div>
+                 </div>
+             </div>  
+             <!-- 交易计划变更 -->
+            <div id="plan-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:1000px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="plan-modal-title">
+						      交易计划变更
+						   </h4>
+					   </div>
+                       <div class="modal-body">
+                       <div class="row">
+                       <form  id="plan-form" class="form-horizontal">
+                       
+                       
+			            </form>
+			            </div>
+                     </div> 
+                     <div class="modal-footer">
+                     
+			            <button type="button" class="btn btn-primary" onclick="javascript:openTransHistory()">
+			                              变更记录
+			            </button>
+			            <button type="button" class="btn btn-primary" onclick="javascript:resetPlanModal()">
+			                              重置
+			            </button>
+			            <button type="button" class="btn btn-default"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="button" class="btn btn-primary" onclick="return savePlanItems();">
+			                                提交
+			            </button>
+                     </div>
+                     </div>
+                 </div>
+             </div>  
+            <!-- 服务项变更 -->
+            <div id="srv-modal-form" class="modal fade" role="dialog" aria-labelledby="srv-modal-title" aria-hidden="true">
+	             <div class="modal-dialog" style="width:700px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="srv-modal-title">
+						      添加删除服务项
+						   </h4>
+					   </div>
+                       <div class="modal-body">
+                       <div class="row">
+                       <form  class="form-horizontal">
+                       <div class="form-group">
+			                <div class="col-lg-3 control-label">
+                                                                       原始服务项：					
+						    </div>
+						    <div class="col-lg-9 control-label" style="text-align:left" id="oldSrvs">					
+						    </div>
+			            </div>
+								<div class="hr-line-dashed"></div>
+			            <div class="form-group">
+			                <div class="col-lg-3 control-label" >
+                                                                       已选择服务项：						
+						    </div>
+			                <div class="col-lg-9 control-label" style="text-align:left" id="selectedSrvs">					
+						    </div>
+			            </div>
+						<div class="hr-line-dashed"></div>
+               			 <div class="form-group">
+			                <div class="col-lg-3 control-label">
+                                                                       服务项：						
+						    </div>
+			                <div class="col-lg-9 checkbox i-checks checkbox-inline">
+                                	<aist:dict id="srvCode" name="srvCode" display="checkbox"
+									defaultvalue="" dictType="yu_serv_cat_code_tree" level='2' />											
+						    </div>
+			            </div>
+			            </form>
+			            </div>
+                     </div> 
+                     <div class="modal-footer">
+                     
+			            <button type="button" class="btn btn-primary" onclick="javascript:resetSrvModal()">
+			                              重置
+			            </button>
+			            <button type="button" class="btn btn-default"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="button" class="btn btn-primary" onclick="javascript:saveSrvItems()">
+			                                提交
+			            </button>
+                     </div>
+                     </div>
+                 </div>
+             </div>  
+             
+             <!-- start 变更合作对象  -->	         
+	         <div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
+				<form id="changeCooprations" action="${ctx}/case/updateCoope" method="post" class="form-horizontal">   
+				<input type="hidden" name="instCode" value="${toWorkFlow.instCode}"/>  
+				<input type="hidden" name="caseId" value="${toCase.pkid}"/>
+	             <div class="modal-dialog" style="width:800px">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+						   <button type="button" class="close" data-dismiss="modal"
+						      aria-hidden="true">×
+						   </button>
+						   <h4 class="modal-title" id="leading-modal-title">
+						      	请选择服务项目
+						   </h4>
+=======
 
 	<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 	<!-- 主要内容页面 -->
@@ -346,6 +1125,7 @@ p.title {
 						<div class="ibox-title">
 							<h5 id="basicInfo">案件基本信息</h5>
 							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+>>>>>>> 88fa5d296271918938b62191990b3efe84f002ed
 						</div>
 						<div class="ibox-content">
 							<div id="infoDiv infos" class="row">
@@ -1207,6 +1987,23 @@ p.title {
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+<<<<<<< HEAD
+	
+	<!-- 放款监管信息  -->
+	<script src="${ctx}/transjs/task/caseflowlist.js"></script>
+	
+	<!-- 各个环节的备注信息  -->
+	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
+<<<<<<< Updated upstream
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+=======
+	<script>
+	$('body').scrollspy({ target: '#navbar-example' });
+	</script>
+	
+>>>>>>> Stashed changes
+	<script>
+=======
 
 	<!-- 放款监管信息  --> <script src="${ctx}/transjs/task/caseflowlist.js"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
@@ -1216,6 +2013,7 @@ p.title {
 		src="${ctx}/js/trunk/comment/caseComment.js"></script> <!-- 各个环节的备注信息  -->
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script> <jsp:include
 		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script>
+>>>>>>> 88fa5d296271918938b62191990b3efe84f002ed
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";

@@ -34,8 +34,13 @@
 		  background-size: 27px 40.73px;
 		  vertical-align: middle;
 		  background-image:url(../img/a5.png);
-	
-}
+		  }
+		#txt_input {
+			height:34px;
+		}
+		.input-group-btn .btn {
+			height:34px;
+		}
 </style>
 <script type="text/javascript">
   	 function imgLoad(img){
