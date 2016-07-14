@@ -24,7 +24,7 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+
 <link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
@@ -38,11 +38,12 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
+
 <style type="text/css">
 body {
 	overflow: hidden;
 	overflow-y: hiden;
-}
+} 
 
 .checkbox.checkbox-inline>div {
 	margin-left: 28px;
@@ -200,15 +201,19 @@ p.title {
 .ibox-conn {
 	padding: 8px 10px;
 	border: 1px solid #eee;
-	border-radius: 4px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 
-.info_box h5 {
-	margin-bottom: 10px;
-	padding-left: 10px;
-	padding-bottom: 2px;
+.info_box span {
+	padding: 3px 10px;
 	font-size: 14px;
-	color: #333;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #00CFEC;
+	display: inline-block;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
 }
 
 .else_conn {
@@ -241,6 +246,7 @@ p.title {
 	height: 214px;
 }
 
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus
 	{
 	color: #555 !important;
@@ -252,8 +258,12 @@ p.title {
 
 .panel {
 	border-radius: 0px !important;
+	margin-bottom: 12px;
 }
 
+ .wrapper .top12{
+   margin-top:12px !important;
+}
 .scroll_box .navbar {
 	margin-top: 20px;
 }
@@ -297,6 +307,33 @@ p.title {
 		line-height: 22px;
 	}
 }
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+dt {
+	color: #777;
+	font-weight: normal;
+}
+
+.page-wrapper {
+	margin-left: 12px;
+	margin-right: 12px;
+}
+
+.ibox-content-head h5 {
+	margin-left: 20px;
+	float: left;
+	margin-bottom: 15px;
+}
+
+.wrapper .row {
+	margin-left: 0px !important;
+}
+.istauk{
+z-index:1500;width:100%
+}
 </style>
 </head>
 
@@ -325,13 +362,10 @@ p.title {
 
 	<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 	<!-- 主要内容页面 -->
-	<div class="wrapper wrapper-content">
-		<div class="row animated fadeInDown">
-			<div class="scroll_box fadeInDown animated">
-				<nav id="navbar-example" class="navbar navbar-default navbar-static"
-					role="navigation">
-					<div
-						class="collapse navbar-collapse bs-js-navbar-scrollspy scroll_nav">
+					<nav id="navbar-example" class="navbar navbar-default navbar-static"
+					role="navigation" >
+					<div id="isFixed" style="position:relative; top: 0px;"
+						class="collapse navbar-collapse bs-js-navbar-scrollspy  stickup-nav-bar scroll_nav">
 						<ul class="nav navbar-nav scroll_content" id="menus">
 							<li><a href="#basicInfo"> 基本信息 </a></li>
 							<li><a href="#serviceFlow"> 服务流程 </a></li>
@@ -339,19 +373,24 @@ p.title {
 						</ul>
 					</div>
 				</nav>
+	<div class="wrapper wrapper-content">
+		<div class="row animated fadeInDown">
+			<div class="scroll_box fadeInDown animated">
+
+
 				<div id="scroll" data-spy="scroll" data-target="#navbar-example"
 					data-offset="50"
 					style="overflow: auto; overflow-x: hidden; position: relative;">
-					<div class="ibox">
-						<div class="ibox-title">
-							<h5 id="basicInfo">案件基本信息</h5>
-							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
-						</div>
-						<div class="ibox-content">
+					<div class="top12 panel">
+						<div class="panel-body"  id="basicInfo">
+							<div class="ibox-content-head">
+								<h5>案件基本信息</h5>
+								<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+							</div>
 							<div id="infoDiv infos" class="row">
 								<div class="ibox white_bg">
 									<div class="info_box info_box_one col-sm-4 ">
-										<h5>物业信息</h5>
+										<span>物业信息</span>
 										<div class="ibox-conn ibox-text">
 											<dl class="dl-horizontal">
 												<dt>CTM地址</dt>
@@ -372,7 +411,7 @@ p.title {
 										</div>
 									</div>
 									<div class="info_box info_box_two col-sm-5">
-										<h5>买卖双方</h5>
+										<span>买卖双方</span>
 										<div class="ibox-conn else_conn">
 											<dl class="dl-horizontal col-sm-6">
 												<dt>上家姓名</dt>
@@ -391,7 +430,7 @@ p.title {
 												</dd>
 											</dl>
 										</div>
-										<h5>经纪人信息</h5>
+										<span>经纪人信息</span>
 										<div class="ibox-conn else_conn_two ">
 											<dl class="dl-horizontal">
 												<dt>姓名</dt>
@@ -412,7 +451,7 @@ p.title {
 										</div>
 									</div>
 									<div class="info_box info_box_three col-sm-3">
-										<h5>经办人信息</h5>
+										<span>经办人信息</span>
 										<div class="ibox-conn  ibox-text">
 											<dl class="dl-horizontal">
 												<dt>交易顾问</dt>
@@ -448,24 +487,18 @@ p.title {
 								</div>
 							</div>
 						</div>
-
 					</div>
 					<!-- 服务流程 -->
-					<div class="panel panel-default infos clearfix">
-
-						<div class="panel-heading ibox-title">
-							<h5 id="serviceFlow">服务流程</h5>
-						</div>
-						<div class="panel-body">
+					<div class="panel clearfix">
+						<div class="panel-body" id="serviceFlow">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#home" data-toggle="tab">流程备注</a>
+								<li class="active"><a href="#settings" data-toggle="tab">操作纪录</a>
 								</li>
 								<li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
 								</li>
 								<li class=""><a href="#messages" data-toggle="tab">案件进程总览</a>
 								</li>
-								<li class=""><a href="#settings" data-toggle="tab">操作纪录</a>
-								</li>
+								<li class=""><a href="#home" data-toggle="tab">流程备注</a></li>
 							</ul>
 
 							<div class="tab-content">
@@ -902,12 +935,7 @@ p.title {
 
 
 					<!-- 相关信息 -->
-					<div class="panel panel-default" id="aboutInfo">
-						<div class="panel-heading ibox-title">
-							<h5>相关信息</h5>
-							<span><a style="float: right; margin-right: 10px;"
-								href="javascript:showChangeFormModal();">我要修改</a></span>
-						</div>
+					<div class="panel " id="aboutInfo">
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -1355,8 +1383,8 @@ p.title {
 				caseCode : caseCode,
 				srvCode : null
 			});
-			var h= window.screen.availHeight;
-			$("#scroll").css("height",h-h*0.30);
+	        var h= window.screen.availHeight;
+			$("#scroll").css("height",h-h*0.32); 
 			//点击浏览器任何位置隐藏提示信息
 	        $("body").bind("click",function(evt){
               if($(evt.target).attr("data-toggle")!='popover') 
@@ -1364,7 +1392,23 @@ p.title {
                	$('a[data-toggle="popover"]').popover('hide');
                	}
             });
+			//隐藏头部信息
+			
+	        window.onscroll = function(){ 
+	        	if(document.body.scrollTop>62){
+	        		$("#isFixed").css("position","fixed");
+	        		$("#isFixed").addClass("istauk");
+	        	/* 	$(".wrapper").css("margin-top","px"); */
+	        	}else{
+	        		$("#isFixed").css("position","relative");
+	        		$("#isFixed").removeClass("istauk");
+	        		
+	        	}
+	        	
+	        	
+	        }
 		}) 
+	       
 	</script> </content>
 </body>
 </html>
