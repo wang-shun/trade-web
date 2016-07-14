@@ -297,7 +297,6 @@ function distributeCase(index){
 				$(".blockOverlay").css({'z-index':'9998'});
             },  
             complete: function() {  
-            	$("#myCaseList").html("");
                 $.unblockUI();   
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
@@ -318,6 +317,7 @@ function distributeCase(index){
 					 confrimMsg = "案件所属区域与主办或合作对象不匹配,您是否确认分配给"+userName+"?";
 				 }
 				 if(confirm(confrimMsg)){
+		            $("#myCaseList").html("");
 					var url = "/case/bindCaseDist";
 					var ctx = $("#ctx").val();
 					url = ctx + url;

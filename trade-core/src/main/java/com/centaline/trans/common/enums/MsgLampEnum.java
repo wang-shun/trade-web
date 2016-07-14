@@ -17,7 +17,8 @@ public enum MsgLampEnum {
 	MFOLLOW("followup_reminder", "跟进提醒"),
 	MWORK("work_template", "作业提醒"),
 	REPORT("eval_report_response", "评估报告反馈"),
-	APPROVE_RESULT_REMINDER("approve_result_reminder","审批结果提醒");
+	APPROVE_RESULT_REMINDER("approve_result_reminder","审批结果提醒"),
+	PROPERTY_OUTTIME_REMINDER("property_outtime_reminder","产调超时提醒");
     
     private String name;
 

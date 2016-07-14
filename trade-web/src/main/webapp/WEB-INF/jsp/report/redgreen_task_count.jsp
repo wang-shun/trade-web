@@ -123,20 +123,59 @@ text-decoration: underline !important;
 						</div>
 							</div>
 						</div> -->
+						<!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
+						<div class="col-lg-5 col-md-5">    
+                          		 <div class="form-group">
+                                      <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
+                                      <div class="col-lg-9 col-md-9">
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
+                                          <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                      </div>
+                                  </div>
+                         </div>
+						<div class="col-lg-5 col-md-5">    
+                          		 <div class="form-group">
+                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
+                                      <div class="col-lg-9 col-md-9">
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
+                                          <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                      </div>
+                                  </div>
+                         </div>
+                         <div class="col-lg-5 col-md-5 ">    
+                       			<div class="form-group">
+                                   <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
+                                   <div class="col-lg-9 col-md-9">
+                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${serUserId }" value="${userInfo }"
+								 readonly="readonly"
+								onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
+								nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+                                   </div>
+                               </div>
+                        </div>
+						
+						
+						
 						<div class="row m-t-sm">
-							<!-- <div class="col-md-6">
-								<div class="form-group">
-									<label class="col-md-2 control-label m-l-lg"></label>
-									<div>
-										<button id="searchButton" type="button" class="btn btn-warning">查询</button>
-										<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
-									</div>							
-								</div>
-							</div> -->
 							<div class="col-md-6"  style="text-align:right;">
-							 	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-									<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">任务统计导出</a>
-								</shiro:hasPermission>
+							</div>
+						</div>
+						
+						 <div class="row">
+						<div class="col-md-6"></div>
+						  <div class="col-md-3">
+							<div class="form-group">
+								<label class="col-md-4 control-label m-l-lg"></label>
+								<div>
+								   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
+								   <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+								   <a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">任务统计导出</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -146,16 +185,16 @@ text-decoration: underline !important;
 		</div>
 			<div class="data-wrap">
 		<div class="data-wrap-in">
-			<table border="0" cellpadding="0" cellspacing="0">
+			<table border="1" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th class="t-left pd-l">贵宾服务部</th>
 						<th class="t-left pd-l">总监</th>
 						<th class="t-left pd-l">组别</th>
 						<th class="t-left pd-l">主管</th>
-						<th class="text-center">黄灯</th>
-						<th class="text-center">红灯</th>
-						<th class="text-center">操作</th>
+						<th class="t-left pd-l">黄灯</th>
+						<th class="t-left pd-l">红灯</th>
+						<th class="t-left pd-l">操作</th>
 					</tr>
 				</thead>
 				<tbody id="redgreenTaskList">
@@ -204,12 +243,10 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
-						<td class="t-left pd-l">{{item.yellow}}</td>
-						<td class="t-left pd-l">{{item.red}}</td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}');" target="_blank">{{item.yellow}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}');" target="_blank">{{item.red}}</a></td>
 						<td class="t-left pd-l">
-                            <a href="javascript:queryRedGreenTaskDetail('{{item.id}}');" target="_blank">查看详细</a>&nbsp;&nbsp;
                             <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
-                        
                         </td>
 						
 				  </tr>

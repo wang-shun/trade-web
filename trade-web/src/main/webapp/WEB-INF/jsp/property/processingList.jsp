@@ -47,7 +47,7 @@
 			optTransferRole=true;
 		</shiro:hasPermission>
 	</script>
-    
+	
     <style>
 	    
 	    .ui-jqgrid .ui-jqgrid-bdiv{
@@ -474,12 +474,16 @@
                  		{{/if}}
 						<td>执行人：{{item.PR_EXECUTOR}}</td>
 						<td>
-							<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:''}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs'>处理</button>
+							<button type='button' onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs'>处理</button>
 						</td>
 					</tr>
 			{{/each}}
 	 </script> 
-
+	 <script>
+		  template.helper("rep", function(a){  
+	          return a.replace(/[\r\n]/g,"");  
+	      });  
+	 </script>
 </content>
 </body>
 </html>

@@ -442,4 +442,15 @@ update sctrans.T_TO_PROPERTY_RESEARCH  set
   select max(uoj.ORG_ID) from sctrans.SYS_USER_ORG_JOB as uoj where uoj.USER_ID=#{0};
   </select>
   
+  
+  <select id="queryAllProperty" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_RESEARCH
+   	where 1=1
+   	AND PR_STATUS = #{0}
+    AND SAME_PR_CODE IS　NULL
+  </select>
+  
+  
 </mapper>

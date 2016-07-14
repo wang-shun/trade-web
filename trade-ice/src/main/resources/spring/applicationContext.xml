@@ -16,7 +16,6 @@
     <import resource="classpath:spring/projectContext.xml" /> 
 	<import resource="classpath:spring/deployContext.xml" />
 	<import resource="classpath:spring/dataAccessContext.xml" />
-	<import resource="classpath:spring/integrationContext.xml"/>
 	<import resource="classpath:spring/applicationService.xml"/>
 	<import resource="classpath:spring/applicationCache.xml"/>
 	

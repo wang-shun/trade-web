@@ -73,6 +73,7 @@ public class CaseTransferController {
 
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
+		request.setAttribute("serviceDepId",user.getServiceDepId());
 		return "report/case_transfer";
 	}
 	

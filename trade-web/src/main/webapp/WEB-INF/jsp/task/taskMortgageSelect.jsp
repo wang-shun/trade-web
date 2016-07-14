@@ -28,6 +28,8 @@
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -126,8 +128,11 @@
 			</div>
 		</div>
 		
-		<div class="ibox-title">
+		<!-- 备注信息 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
 		
+		<div class="ibox-title">
 			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
 		</div>
 		
@@ -140,7 +145,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<!-- Custom and plugin javascript -->
 	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 
@@ -156,6 +161,11 @@
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 		<!-- Data picker -->
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
 			/*根据贷款服务项，设置默认合作项目*/
@@ -170,6 +180,7 @@
 				forceParse : false,
 				autoclose : true
 			});
+			
 		});
 	
 		

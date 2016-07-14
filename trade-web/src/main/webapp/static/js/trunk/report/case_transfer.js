@@ -57,6 +57,13 @@ $('#datepicker_0').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN'
 });
+$('#datepicker_1').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
 
 // 查询
 $('#searchButton').click(function() {
@@ -159,28 +166,54 @@ function initpage(totalCount,pageSize,currentPage,records)
 }
 
 
-function getParamsValue() {
+function getParamsValue() {	
+
+	//过户日期
+	var transferDateBegin = $('#dtBegin_0').val();
+	var transferDateOver = $('#dtEnd_0').val();
+	//过户审核日期
+	var caseTransferDateBegin = $('#dtBegin_1').val();
+	var caseTransferDateOver = $('#dtEnd_1').val();
 	
-	var start = $('#dtBegin_0').val();
-	var end = $('#dtEnd_0').val();
-	if(end&&end!=''){
-		end=end+' 23:59:59';
+	var vrealName=$('#realName').val();
+	var orgName=$('#orgName').val();
+	
+
+	//审核状态
+	var TransferStatus=$('#TransferStatus').val();
+	
+	if(transferDateOver&&transferDateOver!=''){
+		transferDateOver=transferDateOver+' 23:59:59';
+	}
+	if(caseTransferDateOver&&caseTransferDateOver!=''){
+		caseTransferDateOver=caseTransferDateOver+' 23:59:59';
 	}
 	//设置查询参数
 	var params = {
-			caseTransferDateStart : start,
-			caseTransferDateEnd : end
+			caseTransferDateStart : caseTransferDateBegin,
+			caseTransferDateEnd : caseTransferDateOver,
+			transferDateStart : transferDateBegin,
+			transferDateEnd : transferDateOver,
+			vrealName : vrealName,
+			orgName : orgName,
+			TransferStatus : TransferStatus
 	};
 	return params;
 }
 
 // 清空表单
 function cleanForm() {
-	$("input[name='dtBegin']").val("");
-	$("input[name='dtEnd']").val("");
+	$("input[name='transferDateBegin']").val("");
+	$("input[name='transferDateEnd']").val("");	
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
+	$("select").val("");
+	$("input[name='realName']").val("");
+	$("input[name='orgName']").val("");
+	
 }
 
-function exportToExcel() {
+function caseTransferExportToExcel() {
 		var url = "/quickGrid/findPage?xlsx&";
 		var ctx = $("#ctx").val();
 		//excel导出列
@@ -195,8 +228,7 @@ function exportToExcel() {
 		displayColomn.push('GRP_NAME');
 		displayColomn.push('AR_NAME');
 		displayColomn.push('VORG_NAME');
-		displayColomn.push('VREAL_NAME');
-		
+		displayColomn.push('VREAL_NAME');		
 		displayColomn.push('EVAL_FEE');
 		displayColomn.push('RECORD_TIME');
 
@@ -236,9 +268,22 @@ function exportToExcel() {
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[id='inTextVal']").val('');
-	$("input[name='teamCode']").val('');
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
+	$("input[name='transferDateBegin']").val("");
+	$("input[name='transferDateEnd']").val("");	
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
+	$("input[name='realName']").val("");
+	$("input[name='orgName']").val("");
 });
+
+//选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array){
+    if(array && array.length >0){
+        $("#orgName").val(array[0].name);
+		$("#yuCuiOriGrpId").val(array[0].id);
+	}else{
+		$("#orgName").val("");
+		$("#yuCuiOriGrpId").val("");
+	}
+}
