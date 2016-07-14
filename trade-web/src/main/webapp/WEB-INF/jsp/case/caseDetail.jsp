@@ -34,16 +34,16 @@
 <link
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
-	<link href="${ctx}/css/transcss/comment/caseComment.css"
-    rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"
+	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
-    rel="stylesheet" />
+	rel="stylesheet" />
 <style type="text/css">
-
-body{
-overflow: hidden;
-overflow-y:hiden; 
+body {
+	overflow: hidden;
+	overflow-y: hiden;
 }
+
 .checkbox.checkbox-inline>div {
 	margin-left: 28px;
 }
@@ -233,7 +233,7 @@ p.title {
 	margin-top: 10px !important;
 }
 
-.tab-content .tab-pane  {
+.tab-content .tab-pane {
 	padding-top: 20px !important;
 }
 
@@ -270,6 +270,7 @@ p.title {
 	border: none !important;
 	background: #faab58 !important;
 }
+
 .scroll_content li a:hover {
 	border: none !important;
 	background: #faab58 !important;
@@ -338,14 +339,15 @@ p.title {
 						</ul>
 					</div>
 				</nav>
-				<div id="scroll" data-spy="scroll" data-target="#navbar-example" data-offset="50"
-					style="overflow:auto; overflow-x:hidden; position: relative;">
-					<div class="ibox" >
+				<div id="scroll" data-spy="scroll" data-target="#navbar-example"
+					data-offset="50"
+					style="overflow: auto; overflow-x: hidden; position: relative;">
+					<div class="ibox">
 						<div class="ibox-title">
 							<h5 id="basicInfo">案件基本信息</h5>
 							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
 						</div>
-												<div class="ibox-content">
+						<div class="ibox-content">
 							<div id="infoDiv infos" class="row">
 								<div class="ibox white_bg">
 									<div class="info_box info_box_one col-sm-4 ">
@@ -399,9 +401,7 @@ p.title {
 														${caseDetailVO.agentName}</a>
 												</dd>
 												<dt>所属分行</dt>
-												<dd>
-													 ${toCaseInfo.grpName } 
-												</dd>
+												<dd>${toCaseInfo.grpName }</dd>
 												<dt>直管经理</dt>
 												<dd>
 													<a data-toggle="popover" data-placement="right"
@@ -451,11 +451,13 @@ p.title {
 
 					</div>
 					<!-- 服务流程 -->
-					<div class="panel panel-default infos clearfix" >
-					
-						<div  class="panel-heading ibox-title"><h5 id="serviceFlow">服务流程</h5></div>
+					<div class="panel panel-default infos clearfix">
+
+						<div class="panel-heading ibox-title">
+							<h5 id="serviceFlow">服务流程</h5>
+						</div>
 						<div class="panel-body">
-							<ul class="nav nav-tabs" >
+							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home" data-toggle="tab">流程备注</a>
 								</li>
 								<li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
@@ -803,6 +805,81 @@ p.title {
 											</form>
 										</div>
 									</div>
+
+									<!-- loanRequirementChange -->
+									<div id="loanReqmentChg-modal-form" class="modal fade"
+										role="dialog" aria-labelledby="plan-modal-title"
+										aria-hidden="true">
+										<div class="modal-dialog" style="width: 1000px">
+											<form method="get" class="form-horizontal"
+												id="loan_reqment_chg_form">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal"
+															aria-hidden="true">×</button>
+														<h4 class="modal-title" id="plan-modal-title">贷款需求选择
+														</h4>
+													</div>
+
+													<!-- 交易单编号 -->
+													<input type="hidden" name="caseCode"
+														value="${toCase.caseCode}">
+													<!-- 流程引擎需要字段 -->
+													<input type="hidden" name="processInstanceId"
+														value="${toWorkFlow.instCode}">
+													<div class="modal-body">
+
+														<div style="padding-left: 20px; padding-right: 20px;">
+															<div class="row">
+																<div class="col-md-7">
+																	<div class="form-group" id="data_1" name="isYouXiao">
+																		<label class="col-md-5 control-label"
+																			style='padding-left: 0px; text-align: left;'><font
+																			color="red">*</font>请选择客户贷款需求</label>
+																		<div class="col-md-7">
+																			<aist:dict clazz="form-control" id="mortageService"
+																				name="mortageService" display="select"
+																				defaultvalue="0" dictType="mortage_service" />
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="row" id='div_releasePlan'>
+																<div class="col-md-7">
+																	<div class="form-group">
+																		<label class="col-md-5 control-label"
+																			style='padding-left: 0px; text-align: left;'><font
+																			color="red">*</font>预计放款时间</label>
+																		<div class="col-md-7">
+																			<div class=" input-group date">
+																				<span class="input-group-addon"><i
+																					class="fa fa-calendar"></i></span> <input type="text"
+																					class="form-control" name="estPartTime"
+																					id="estPartTime" disabled="disabled" value="">
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
+															<div class="divider">
+																<hr>
+															</div>
+															<div id="hzxm"></div>
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default"
+															data-dismiss="modal">关闭</button>
+														<button type="button" id="btn_loan_reqment_chg"
+															class="btn btn-primary">变更</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+
 								</div>
 								<div class="tab-pane fade" id="messages">
 									<c:if test="${not empty toWorkFlow.processDefinitionId}">
@@ -810,7 +887,7 @@ p.title {
 											<iframe frameborder="no" border="0" marginwidth="0"
 												marginheight="0" scrolling="auto" allowtransparency="yes"
 												overflow:auto;
-												style="height:1068px; width: 100%;"
+												style="height: 1068px; width: 100%;"
 												src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 										</c:if>
 									</c:if>
@@ -818,15 +895,19 @@ p.title {
 								<div class="tab-pane fade" id="settings">
 									<table id="operation_history_table"></table>
 									<div id="operation_history_pager"></div>
-							  	</div>
+								</div>
 							</div>
 						</div>
 					</div>
 
 
 					<!-- 相关信息 -->
-					<div class="panel panel-default" id="aboutInfo" >
-						<div class="panel-heading ibox-title" ><h5>相关信息</h5> <span><a style="float: right;margin-right: 10px; " href="javascript:showChangeFormModal();">我要修改</a></span></div>
+					<div class="panel panel-default" id="aboutInfo">
+						<div class="panel-heading ibox-title">
+							<h5>相关信息</h5>
+							<span><a style="float: right; margin-right: 10px;"
+								href="javascript:showChangeFormModal();">我要修改</a></span>
+						</div>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -842,7 +923,7 @@ p.title {
 								<li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
 								</li>
 								<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
-                                </li>
+								</li>
 							</ul>
 
 							<div class="tab-content">
@@ -1100,9 +1181,9 @@ p.title {
 									<table id="gridTable"></table>
 									<div id="gridPager"></div>
 								</div>
-								 <div class="tab-pane fade" id="caseComment-info">
-                                    <div id="caseCommentList" class="add_form"></div>
-                                </div>
+								<div class="tab-pane fade" id="caseComment-info">
+									<div id="caseCommentList" class="add_form"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -1130,12 +1211,11 @@ p.title {
 	<!-- 放款监管信息  --> <script src="${ctx}/transjs/task/caseflowlist.js"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<!-- 各个环节的备注信息  --> <script src="${ctx}/js/trunk/case/caseRemark.js"></script>
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script>
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
+		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
+		src="${ctx}/js/trunk/comment/caseComment.js"></script> <!-- 各个环节的备注信息  -->
+	<script src="${ctx}/js/trunk/case/caseRemark.js"></script> <jsp:include
+		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";
