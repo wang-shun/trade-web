@@ -113,7 +113,7 @@
       <sequenceFlow id="flow28" sourceRef="PurchaseLimit" targetRef="inclusivegateway2"></sequenceFlow>
       <sequenceFlow id="flow29" sourceRef="TaxReview" targetRef="inclusivegateway2"></sequenceFlow>
       <sequenceFlow id="flow30" sourceRef="LoanClose" targetRef="inclusivegateway2"></sequenceFlow>
-      <exclusiveGateway id="sid-FCF4D064-0F8A-46B1-9C28-5D36557CBB42"></exclusiveGateway>
+  
 
     </subProcess>
     <sequenceFlow id="flow25" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="tradeSubProc"></sequenceFlow>
@@ -245,9 +245,7 @@
       <bpmndi:BPMNShape bpmnElement="inclusivegateway2" id="BPMNShape_inclusivegateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="627.0" y="326.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="sid-FCF4D064-0F8A-46B1-9C28-5D36557CBB42" id="BPMNShape_sid-FCF4D064-0F8A-46B1-9C28-5D36557CBB42">
-        <omgdc:Bounds height="40.0" width="40.0" x="1226.0" y="376.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
+
       <bpmndi:BPMNShape bpmnElement="TradeBoundaryMsg" id="BPMNShape_TradeBoundaryMsg">
         <omgdc:Bounds height="30.0" width="30.0" x="592.0" y="451.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
