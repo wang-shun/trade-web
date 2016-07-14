@@ -14,7 +14,7 @@ function initGrid() {
 				url : url,
 				datatype : "json",
 				mtype : "POST",
-				height : 150,
+				height : 180,
 				autowidth : true,
 				shrinkToFit : true,
 				rowNum : 5,
@@ -81,7 +81,7 @@ function initGrid() {
 				},
 				loadComplete :function(){
 					var rowNum = $("#table_list_case_task").jqGrid('getGridParam','records');
-//					alert(rowNum);
+					alert(rowNum);
 					if(rowNum=="0"){
 						returnTaskPage();
 					}else{

@@ -86,6 +86,7 @@ public class RedGreenTaskController {
 	public String redgreenTaskDetail(Model model, ServletRequest request){
 		
 		String organId = request.getParameter("organId");
+		String redId = request.getParameter("redID");
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
@@ -117,6 +118,51 @@ public class RedGreenTaskController {
 		request.setAttribute("isAdminFlag", isAdminFlag);
 		
 		request.setAttribute("organId", organId);
+		return "report/redgreen_task_detail";
+	}
+	/**
+	 * 跳转到产调详情页面(根据颜色区分)
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="redgreenTaskDetailColour")
+	public String redgreenTaskDetailColour(Model model, ServletRequest request){
+		
+		String organId = request.getParameter("organId");
+		String colourId = request.getParameter("colourId");
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		String userJob=user.getServiceJobCode();
+		boolean queryOrgFlag = false;
+		boolean isAdminFlag = false;
+		
+		StringBuffer reBuffer = new StringBuffer();
+		if(!userJob.equals(TransJobs.TJYGW.getCode())){
+			queryOrgFlag=true;
+			String depString = user.getServiceDepHierarchy();
+			String userOrgIdString = user.getServiceDepId();
+			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
+				reBuffer.append(userOrgIdString);
+			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
+				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+				for(Org org:orgList){
+					reBuffer.append(org.getId());
+					reBuffer.append(",");
+				}
+				reBuffer.deleteCharAt(reBuffer.length()-1);
+				
+			}else{
+				isAdminFlag=true;
+			}
+		}
+		request.setAttribute("queryOrgs", reBuffer.toString());
+		
+		request.setAttribute("queryOrgFlag", queryOrgFlag);
+		request.setAttribute("isAdminFlag", isAdminFlag);
+		
+		request.setAttribute("organId", organId);
+		request.setAttribute("colourId", colourId);
 		return "report/redgreen_task_detail";
 	}
 	
