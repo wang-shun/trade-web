@@ -1,18 +1,2 @@
 .ui-jqgrid .ui-jqgrid-htable th{height:35px}
 .ui-jqgrid .ui-jqgrid-bdiv{overflow-x:hidden}
-
-/* add_css */
-/* left padding input */
-.label_one {
-	width:147px!important;
-	padding-right:0!important;
-}
-.btn_margin {
-	margin-left: 148px;
-}
-.btn_marginleft {
-	margin-left:147px!important;
-}
-.btn_left {
-	margin-left:162px;
-}
