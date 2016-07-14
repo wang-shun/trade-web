@@ -363,6 +363,7 @@
 			}
 		});
 	}
+
 	
 	$(document).ready(function() {
 		if('caseDetails'==source){

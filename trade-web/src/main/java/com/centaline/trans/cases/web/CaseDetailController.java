@@ -1474,7 +1474,7 @@ public class CaseDetailController {
 			}
 			// 启动流程引擎
 			ProcessInstance process = new ProcessInstance();
-			process.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
+			process.setBusinessKey(caseCode);
 			process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()));
 			/* 流程引擎相关 */
 			Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.SRV_BUSSKEY.getCode());

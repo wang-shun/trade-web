@@ -102,10 +102,10 @@
 					</ifNotNull>
 					
 					<ifNotNull guohuApproveTime>
-						LEFT JOIN sctrans.T_TO_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
+						LEFT JOIN sctrans.T_HI_WORKFLOW w ON B.CASE_CODE = w.CASE_CODE
 						AND w.BUSINESS_KEY = 'operation_process'
 						AND w.STATUS IN ('0', '4')
-						AND w.PKID = (select max(PKID) from sctrans.T_TO_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
 						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
 						AND v.name_ = 'GuohuApprove'
 						AND v.long_ = 1

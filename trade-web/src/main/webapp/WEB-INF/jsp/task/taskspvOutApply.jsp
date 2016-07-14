@@ -263,7 +263,7 @@
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/task/taskspvOutApply.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
 <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>

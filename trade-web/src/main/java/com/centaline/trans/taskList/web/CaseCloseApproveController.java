@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.StringUtil;
@@ -20,10 +21,13 @@ import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
@@ -57,8 +61,6 @@ public class CaseCloseApproveController {
 	private UamMessageService uamMessageService;
 	@Autowired(required=true)
 	private UamTemplateService uamTemplateService;
-	@Autowired(required=true)
-	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired(required = true)
@@ -69,6 +71,29 @@ public class CaseCloseApproveController {
 	
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@RequestMapping("first/process")
+	public String toFirstProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		SessionUser user=uamSessionService.getSessionUser();
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "3");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		
+		return "task/taskCaseCloseFirstApprove";
+	}
+	@RequestMapping("second/process")
+	public String toSecondProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		SessionUser user=uamSessionService.getSessionUser();
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "3");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		return "task/taskCaseCloseSecondApprove";
+	}
 	
 	
 	@RequestMapping(value="caselostApproveFirst")

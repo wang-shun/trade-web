@@ -1,5 +1,8 @@
 package com.centaline.trans.cases.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +13,11 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ServiceRestartService;
+import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.task.vo.ProcessInstanceVO;
+
 
 @Controller
 @RequestMapping(value = "/service")
@@ -22,6 +26,8 @@ public class ServiceRestartController {
 	private ServiceRestartService serviceRestart;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private ToCaseService toCaseService;
 	/**
 	 * 
 	 * @return
@@ -37,6 +43,31 @@ public class ServiceRestartController {
 		resp.setContent(piv);
 		return resp;
 	}
+	@RequestMapping("apply/process")
+	public String toApplyProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		SessionUser user= uamSessionService.getSessionUser();
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		request.setAttribute("approveType", "7");
+		request.setAttribute("operator", user != null ? user.getId() : "");
+		return "task/taskserviceRestartApply";
+	}
+	@RequestMapping("approve/process")
+	public String toApproveProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		SessionUser user= uamSessionService.getSessionUser();
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		request.setAttribute("approveType", "7");
+		request.setAttribute("operator", user != null ? user.getId() : "");
+		return "task/taskserviceRestartApprove";
+	}
+	
 	
 	/**
 	 * 
