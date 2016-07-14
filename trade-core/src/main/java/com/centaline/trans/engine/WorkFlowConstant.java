@@ -84,6 +84,17 @@ public class WorkFlowConstant {
 
 	public static final String GET_EXECUTE_KEY = "get-execute";
 	public static final String GET_EXECUTE = HTTP_TYPE_GET + "runtime/executions";
+	
+	public static final String GET_HIS_TASK_KEY="get-historic-task";
+	public static final String GET_HIS_TASK= HTTP_TYPE_GET+"history/historic-task-instances/{taskId}";
+	
+	public static final String GET_HIS_INSTANCES_KEY="get-historic-instances";
+	public static final String GET_HIS_INSTANCES= HTTP_TYPE_GET+"history/historic-process-instances/{processInstanceId}";
+	 
+	
+	
+	
+	
 	/**
 	 * 返回成功状态
 	 */
@@ -107,5 +118,7 @@ public class WorkFlowConstant {
 		WORK_FLOW_OPREATE.put(PUT_UPDATE_TASK_KEY, PUT_UPDATE_TASK);
 		WORK_FLOW_OPREATE.put(PUT_EXECUTE_KEY, PUT_EXECUTE);
 		WORK_FLOW_OPREATE.put(GET_EXECUTE_KEY, GET_EXECUTE);
+		WORK_FLOW_OPREATE.put(GET_HIS_TASK_KEY, HTTP_TYPE_GET);
+		WORK_FLOW_OPREATE.put(GET_HIS_INSTANCES_KEY, GET_HIS_INSTANCES);
 	}
 }

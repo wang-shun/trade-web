@@ -47,10 +47,10 @@
 	}
 	
 	$(function(){
-		$("#caseCommentList").caseCommentGrid({
+/* 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem
-		});
+		}); */
 	});
 </script>
 </head>
@@ -101,8 +101,8 @@
 			</div>
 		</div>
 		
-		<div id="caseCommentList" class="add_form">
-</div>
+<!-- 		<div id="caseCommentList" class="add_form">
+</div> -->
 		
 			<div class="ibox-title" style="height:auto;">
 		<c:choose>  
@@ -263,7 +263,7 @@
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/task/taskspvOutApply.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
 <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>

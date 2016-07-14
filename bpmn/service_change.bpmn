@@ -2,8 +2,10 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
   <process id="service_change" isExecutable="true">
     <startEvent id="sid-0BA1C002-EA7A-4846-A4FA-D95CDAC24EF4"></startEvent>
+
     <userTask id="ServiceChangeApply" name="服务变更申请" activiti:candidateGroups="consultant" activiti:formKey="/task/serviceChangeService/apply/process"></userTask>
     <sequenceFlow id="sid-2DFF09B5-06E0-4BE0-BB44-F9EE9C9B7BE0" sourceRef="sid-0BA1C002-EA7A-4846-A4FA-D95CDAC24EF4" targetRef="ServiceChangeApply"></sequenceFlow>
+
     <userTask id="ServiceChangeApprove" name="服务变更审批" activiti:candidateGroups="Manager" activiti:formKey="/task/serviceChangeService/approve/process"></userTask>
     <sequenceFlow id="sid-B72B1A28-FFDC-43DE-AC86-CBA6CA7EB50A" sourceRef="ServiceChangeApply" targetRef="ServiceChangeApprove"></sequenceFlow>
     <sequenceFlow id="sid-D16A0470-8050-41E0-AB0F-26B570BD6798" sourceRef="ServiceChangeApprove" targetRef="sid-D3CD07AA-769E-42BB-B619-45CBCF78702F"></sequenceFlow>

@@ -280,13 +280,13 @@
 	
 	<script src="${ctx}/transjs/task/taskEvaReportArise.js"></script> 
 
+
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
 	
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-</content>
-</body>
+</content></body>
 
 </html>

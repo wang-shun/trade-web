@@ -275,7 +275,7 @@
 	<script src="${ctx}/transjs/sms/sms.js"></script>
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -373,9 +373,9 @@
 			var jsonData = $("#purchaseLimitForm").serializeArray();
 			deleteAndModify(); 
 			
-			var url = "${ctx}/task/pls/savePls";
+			var url = "${ctx}/task/purchaseLimit/savePls";
 			if(b) {
-				url = "${ctx}/task/pls/submitPls";
+				url = "${ctx}/task/purchaseLimit/submitPls";
 			}
 			
 			$.ajax({

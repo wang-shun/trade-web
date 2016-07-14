@@ -49,8 +49,8 @@
 														 <a href="#" class="btn btn-primary" >提交</a>  
                             						</div>
                         					  </div> 
-                        					  <div id="caseCommentList" class="add_form">
-</div>
+<!--                         					  <div id="caseCommentList" class="add_form">
+</div> -->
                         					               
 </div>
 <content tag="local_script">
@@ -165,10 +165,10 @@
                
             });
             
-	  	$("#caseCommentList").caseCommentGrid({
+/* 	  	$("#caseCommentList").caseCommentGrid({
 			caseCode : null,
 			srvCode : null
-	});
+	}); */
         });
 
         

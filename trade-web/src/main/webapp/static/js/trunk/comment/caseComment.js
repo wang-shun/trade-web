@@ -79,6 +79,7 @@ function saveCaseComment() {
             //console.log(data);
         	$("#caseComment").val('');
         	reloadGrid();
+        	$('#caseCommentList').scrollTop(0);
         }
     });
 };
