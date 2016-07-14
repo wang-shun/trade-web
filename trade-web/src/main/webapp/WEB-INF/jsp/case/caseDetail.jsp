@@ -40,10 +40,10 @@
 	rel="stylesheet" />
 
 <style type="text/css">
-body {
+/* body {
 	overflow: hidden;
 	overflow-y: hiden;
-} 
+}  */
 
 .checkbox.checkbox-inline>div {
 	margin-left: 28px;
@@ -259,7 +259,9 @@ p.title {
 .panel {
 	border-radius: 0px !important;
 	margin-bottom: 12px;
+	min-height:300px;
 }
+
 
  .wrapper .top12{
    margin-top:12px !important;
@@ -331,9 +333,10 @@ dt {
 .wrapper .row {
 	margin-left: 0px !important;
 }
-.istauk{
+.isStuck{
 z-index:1500;width:100%
 }
+
 </style>
 </head>
 
@@ -365,24 +368,20 @@ z-index:1500;width:100%
 					<nav id="navbar-example" class="navbar navbar-default navbar-static"
 					role="navigation" >
 					<div id="isFixed" style="position:relative; top: 0px;"
-						class="collapse navbar-collapse bs-js-navbar-scrollspy  stickup-nav-bar scroll_nav">
-						<ul class="nav navbar-nav scroll_content" id="menus">
-							<li><a href="#basicInfo"> 基本信息 </a></li>
-							<li><a href="#serviceFlow"> 服务流程 </a></li>
-							<li><a href="#aboutInfo"> 相关信息 </a></li>
+						class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
+						<ul class="nav navbar-nav scroll_content">
+							<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
+							<li class="menuItem"><a href="#serviceFlow"> 服务流程 </a></li>
+							<li class="menuItem"><a href="#aboutInfo"> 相关信息 </a></li>
+							
 						</ul>
 					</div>
 				</nav>
 	<div class="wrapper wrapper-content">
 		<div class="row animated fadeInDown">
 			<div class="scroll_box fadeInDown animated">
-
-
-				<div id="scroll" data-spy="scroll" data-target="#navbar-example"
-					data-offset="50"
-					style="overflow: auto; overflow-x: hidden; position: relative;">
-					<div class="top12 panel">
-						<div class="panel-body"  id="basicInfo">
+					<div class="top12 panel" id="basicInfo"> 
+						<div class="panel-body" >
 							<div class="ibox-content-head">
 								<h5>案件基本信息</h5>
 								<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
@@ -489,8 +488,8 @@ z-index:1500;width:100%
 						</div>
 					</div>
 					<!-- 服务流程 -->
-					<div class="panel clearfix">
-						<div class="panel-body" id="serviceFlow">
+					<div class="panel " id="serviceFlow">
+						<div class="panel-body" >
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#settings" data-toggle="tab">操作纪录</a>
 								</li>
@@ -935,7 +934,8 @@ z-index:1500;width:100%
 
 
 					<!-- 相关信息 -->
-					<div class="panel " id="aboutInfo">
+					<div class="panel " id="aboutInfo" style="min-height:700px;">
+					<a style="float: right;margin-right: 12px;margin-top:10px;" href="javascript:showChangeFormModal();">我要修改</a>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -1235,6 +1235,8 @@ z-index:1500;width:100%
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+	  <script src="${ctx}/js/stickUp.js"></script>
+	 <script src="${ctx}/toastr.min.js"></script>
 
 	<!-- 放款监管信息  --> <script src="${ctx}/transjs/task/caseflowlist.js"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
@@ -1383,8 +1385,8 @@ z-index:1500;width:100%
 				caseCode : caseCode,
 				srvCode : null
 			});
-	        var h= window.screen.availHeight;
-			$("#scroll").css("height",h-h*0.32); 
+/* 	        var h= window.screen.availHeight;
+			$("#scroll").css("height",h-h*0.32); */ 
 			//点击浏览器任何位置隐藏提示信息
 	        $("body").bind("click",function(evt){
               if($(evt.target).attr("data-toggle")!='popover') 
@@ -1394,7 +1396,7 @@ z-index:1500;width:100%
             });
 			//隐藏头部信息
 			
-	        window.onscroll = function(){ 
+ 	        window.onscroll = function(){ 
 	        	if(document.body.scrollTop>62){
 	        		$("#isFixed").css("position","fixed");
 	        		$("#isFixed").addClass("istauk");
@@ -1406,8 +1408,26 @@ z-index:1500;width:100%
 	        	}
 	        	
 	        	
-	        }
-		}) 
+	        } 
+		})
+        jQuery(function($) {
+            $(document).ready( function() {
+               $('.stickup-nav-bar').stickUp({
+                // $('.col-lg-9').stickUp({
+                                    parts: {
+                                      0:'basicInfo',
+                                      1:'serviceFlow',
+                                      2:'aboutInfo'
+                                    },
+                                    itemClass: 'menuItem',
+                                    itemHover: 'active',
+                                    marginTop: 'auto'
+                                  });
+
+           
+
+            });
+        });
 	       
 	</script> </content>
 </body>
