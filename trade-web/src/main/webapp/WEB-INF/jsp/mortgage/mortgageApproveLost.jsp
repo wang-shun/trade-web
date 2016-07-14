@@ -18,6 +18,7 @@
         <link href="${ctx}/css/animate.css" rel="stylesheet">
         <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
         <link href="${ctx}/css/transcss/kpi/bonus.css" rel="stylesheet">
+        <link href="${ctx}/css/common/common.css" rel="stylesheet">
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <!-- 分页控件 -->
@@ -37,7 +38,7 @@
 						<div class="row">
 						   <div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">主办</label>
+									<label class="col-md-3 label_one control-label">主办</label>
 									<div class="col-md-8"> 
 										 <input type="text" id="realName" name="realName" class="form-control" value=""> 
 									</div>
@@ -45,7 +46,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-2 control-label m-l">案件组织</label>
+									<label class="col-md-3 label_one control-label">案件组织</label>
 									<div class="col-md-8">
 										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
@@ -58,7 +59,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">审批日期</label>
+									<label class="col-md-3 label_one control-label">审批日期</label>
 									<div class="col-md-8">
 										<div id="datepicker_0" 
 											class="input-group input-medium date-picker input-daterange "
@@ -75,7 +76,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-2 control-label m-l">案件编号</label>
+									<label class="col-md-3 label_one control-label">案件编号</label>
 									<div class="col-md-8">
 									    <input type="text" class="form-control" id="caseCode" name="caseCode"/>
 									</div>
@@ -85,7 +86,11 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
+<<<<<<< Updated upstream
 									<label class="col-md-3 control-label m-l">产证地址</label>
+=======
+									<label class="col-md-3 label_one control-label">物业地址</label>
+>>>>>>> Stashed changes
 									<div class="col-md-8"> 	
 										<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
 									</div>
@@ -95,14 +100,10 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6"></div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label class="col-md-4 control-label m-l-lg"></label>
-									<div>
-									   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
-									   <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出列表</button>
-									</div>
+							<div class="form-group col-md-12">
+								<div class="btn_left">
+								   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
+								   <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出列表</button>
 								</div>
 							</div>
 						</div>

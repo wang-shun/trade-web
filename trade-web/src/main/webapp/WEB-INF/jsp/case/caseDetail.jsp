@@ -52,7 +52,7 @@
 .mark-guaqi{background-image:url(../img/mark-guaqi.png);}
 .mark-jiean{background-image:url(../img/mark-jiean.png);}
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
-.mark-zaitu{background-image:url(../img/mark-zaitu.png);}
+/* .mark-zaitu{background-image:url(../img/mark-zaitu.png);} */
 .row:nth-last-child(2) .wd-31,.row:nth-last-child(1) .wd-31{width:31%;}
 .row:nth-last-child(2) .wd-50,.row:nth-last-child(1) .wd-50{width:50%;}
 .row:nth-last-child(2) .mr0,.row:nth-last-child(1) .mr0{margin-left:0;margin-right:0;}
@@ -75,6 +75,96 @@
    width : 1000px!important;
 }
 .min-h215{min-height:215px;}
+
+/* add_css */
+.infos {
+	margin:13px 0px 12px;
+}
+p.title {
+	margin-left: 15px;
+}
+.tittle h4 {
+	margin-left: 25px;
+}
+.white_bg, .item .panel{
+	background: #fff;
+}
+.ibox-conn {
+	padding:8px 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+.info_box h5 {
+	margin-bottom: 10px;
+    padding-left: 10px;
+    padding-bottom: 2px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+}
+.else_conn {
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 15px;
+}
+.ibox-conn .col-sm-6 {
+    padding-left: 0;
+}
+
+.scroll_box dl {
+    color: #666;
+}
+.else_conn_two {
+    min-height: 132px;
+}
+.tab-content .tab-pane p {
+	margin-top:10px!important;
+}
+.ibox-text {
+	height: 214px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #555!important;
+    cursor: default!important;
+    background-color: #fff!important;
+    border: 1px solid #ddd!important;
+    border-bottom-color: transparent!important;
+}
+.panel {
+    border-radius: 0px!important;
+}
+.scroll_box .navbar {
+margin-top:20px;
+}
+.collapse {
+	padding-left:0px;
+}
+.scroll_nav {
+	background: #4bccec;
+}
+.scroll_content li.active {
+    border: none!important;
+    background: #faab58!important;
+}
+.scroll_content li a {
+    color:#fff!important;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #faab58!important;
+}
+@media (min-width: 768px) {
+.ibox-conn .dl-horizontal dt {
+   width: 60px;
+   line-height: 22px;
+}
+.ibox-conn .dl-horizontal dd {
+   margin-left: 70px;
+   margin-bottom: 7px;
+   line-height: 22px;
+}
+}
 </style>
 </head>
 
@@ -104,6 +194,272 @@
 			<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
             <div class="row">
 			    <div class="col-lg-12">
+			    	<div class="scroll_box fadeInDown animated">
+            <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
+                <div class="collapse navbar-collapse bs-js-navbar-scrollspy scroll_nav">
+                    <ul class="nav navbar-nav scroll_content">
+                        <li>
+                            <a href="#basicInfo">
+                                基本信息
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#serviceFlow">
+                                服务流程
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#aboutInfo">
+                                相关信息
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div data-spy="scroll" data-target="#navbar-example" data-offset="0" style="height:200px;overflow:auto; position: relative;">
+                <div class="ibox" id="#basicInfo">
+			            <div class="ibox-title">
+			        		<h5>案件基本信息 </h5><small class="pull-right">誉萃编号：ZY-AJ-201603-2735｜中原编号：CDG-2-201603-0002</small>
+			        	</div>
+			            <div class="ibox-content">
+			                <div id="infoDiv" class="row">
+			                	<div class="ibox white_bg">
+                        <div class="info_box info_box_one col-sm-4 ">
+                            <h5>
+                                物业信息
+                            </h5>
+                            <div class="ibox-conn ibox-text">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        CTM地址
+                                    </dt>
+                                    <dd>
+                                        上海杨浦区长白新村街道内江路374弄 2号0302室
+                                    </dd>
+                                    <dt>
+                                        产证地址
+                                    </dt>
+                                    <dd>
+                                        上海杨浦区长白新村街道内江路374弄 2号0302室
+                                    </dd>
+                                    <dt>
+                                        层高
+                                    </dt>
+                                    <dd>
+                                        3/32
+                                    </dd>
+                                    <dt>
+                                        产证面积
+                                    </dt>
+                                    <dd>
+                                        125平方
+                                    </dd>
+                                    <dt>
+                                        房屋类型
+                                    </dt>
+                                    <dd>
+                                        三房两厅两阳台
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="info_box info_box_two col-sm-5">
+                            <h5>
+                                买卖双方
+                            </h5>
+                            <div class="ibox-conn else_conn">
+                                <dl class="dl-horizontal col-sm-6">
+                                    <dt>
+                                        上家姓名
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            撒旦
+                                        </a>
+                                    </dd>
+                                </dl>
+                                <dl class="dl-horizontal col-sm-6">
+                                    <dt>
+                                        下家姓名
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            共同、艾斯特
+                                        </a>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <h5>
+                                经纪人信息
+                            </h5>
+                            <div class="ibox-conn else_conn_two ">
+                                <dl class="dl-horizontal">
+                                    <dt>姓名</dt>
+                                    <dd>
+                                        <a href="#">张春伟</a>
+                                    </dd>
+                                    <dt>
+                                        所属分行
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            ACCDGB.东方曼哈顿分行二组全体
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        直管经理
+                                    </dt>
+                                    <dd>
+                                        <a href="#">
+                                            吴跃洪
+                                        </a>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="info_box info_box_three col-sm-3">
+                            <h5>
+                                经办人信息
+                            </h5>
+                            <div class="ibox-conn  ibox-text">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        交易顾问
+                                    </dt>
+                                    <dd>
+                                        <a href=""  data-toggle="popover" data-placement="right" data-content="1590005747">
+                                            陶晨
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        合作顾问
+                                    </dt>
+                                    <dd>
+                                        <a href="">
+                                            顾新峰
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        合作顾问
+                                    </dt>
+                                    <dd>
+                                        <a href="">
+                                            金姣姣
+                                        </a>
+                                    </dd>
+                                    <dt>
+                                        助理
+                                    </dt>
+                                    <dd>
+                                        <a href="">
+                                            孙一菲
+                                        </a>
+                                    </dd>
+                                </dl>
+                        </div>
+                    </div>
+			                
+			                   </div>
+			            </div>  
+			        </div>
+                
+                </div>
+                    <!-- 服务流程 -->
+                    <div class="panel panel-default infos clearfix" id="#serviceFlow">
+                        <div class="panel-heading">
+                            服务流程
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home" data-toggle="tab">流程备注</a>
+                                </li>
+                                <li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
+                                </li>
+                                <li class=""><a href="#messages" data-toggle="tab">案件进程总览</a>
+                                </li>
+                                <li class=""><a href="#settings" data-toggle="tab">操作纪录</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="home">
+                                    <p>此处暂无文字</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile">
+                                     <p>
+                                        流程图（Flow Chart）：使用图形表示算法的思路是一种极好的方法，因为千言万语不如一张图。流程图在汇编语言和早期的BASIC语言环境中得到应用。流程图是流经一个系统的信息流、观点流或部件流的图形代表。在企业中，流程图主要用来说明某一过程。这种过程既可以是生产线上的工艺流程，也可以是完成一项任务必需的管理过程。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="messages">
+                                     <p>
+                                        对比国外城市居住规律可以发现，城市中心居住年轻人，郊区居住老年人。国外的大都市比如纽约，东京，巴黎等之所以充满着活力，一个很重要的因素是里面住着各类层次的年轻白领，尤其是纽约，住着全世界的职业白领，他们让古老的城市不断散发着青春的活力，给城市增添魅力。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="settings">
+                                    <p>
+                                        如今的北上广深等一、二线城市，大批量的住宅开发阶段已经过去，新兴的规模住宅用地更多聚焦于城市郊区，城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- 相关信息 -->
+                    <div class="panel panel-default infos" id="aboutInfo">
+                        <div class="panel-heading">
+                            相关信息
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
+                                </li>
+                                <li class=""><a href="#profile_info" data-toggle="tab">贷款相关信息</a>
+                                </li>
+                                <li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
+                                </li>
+                                <li class=""><a href="#settings_info" data-toggle="tab">金融服务信息</a>
+                                </li>
+                                <li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>
+                                </li>
+                                <li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="home_info">
+                                    <p>此处暂无文字</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile_info">
+                                     <p>
+                                        流程图（Flow Chart）：使用图形表示算法的思路是一种极好的方法，因为千言万语不如一张图。流程图在汇编语言和早期的BASIC语言环境中得到应用。流程图是流经一个系统的信息流、观点流或部件流的图形代表。在企业中，流程图主要用来说明某一过程。这种过程既可以是生产线上的工艺流程，也可以是完成一项任务必需的管理过程。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="messages_info">
+                                     <p>
+                                        对比国外城市居住规律可以发现，城市中心居住年轻人，郊区居住老年人。国外的大都市比如纽约，东京，巴黎等之所以充满着活力，一个很重要的因素是里面住着各类层次的年轻白领，尤其是纽约，住着全世界的职业白领，他们让古老的城市不断散发着青春的活力，给城市增添魅力。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="settings_info">
+                                    <p>
+                                        如今的北上广深等一、二线城市，大批量的住宅开发阶段已经过去，新兴的规模住宅用地更多聚焦于城市郊区，城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="fujian_info">
+                                    <p>
+                                        城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="ctm_info">
+                                    <p>
+                                       大批量的住宅开发阶段已经过去，新兴的规模住宅用地更多聚焦于城市郊区，城市成熟区域的项目已经地价过高，他们只是少数几个顶级财团的游戏，更多开发企业已经无从下手。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
 			        <div class="ibox">
 			            <div class="ibox-title">
 			        		<h5>案件基本信息 </h5><small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
@@ -1028,7 +1384,14 @@
 	
 	<!-- 各个环节的备注信息  -->
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
+<<<<<<< Updated upstream
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+=======
+	<script>
+	$('body').scrollspy({ target: '#navbar-example' });
+	</script>
+	
+>>>>>>> Stashed changes
 	<script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();

@@ -25,6 +25,7 @@
 	rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
+<link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
@@ -36,11 +37,23 @@
 	text-align: center;
 }
 .text-none{text-indent:-9999px;text-align:left !important;}
+
+/* add_css */
+#sel_applyStatus,#sel_time,#sel_caseInfo {
+	width: 156px!important;
+}
+#mortageService,#teamCode {
+	width:224px!important;
+}
+
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
+	<div class="row">
+	<div class="wrapper wrapper-content  animated fadeInRight">
+	<div class="col-sm-12">
 	<form action="" class="form-horizontal" id="f_main">
 		<input type="hidden" id="caseCode" name="caseCode"
 			value="${loanAgent.caseCode }" />
@@ -62,7 +75,7 @@
 				<div class="row">
 					<div class="col-lg-1 control-label">时间搜索项</div>
 					<div class="col-lg-11">
-						<div style="float: left; width: 200px">
+						<div style="float: left; margin-right:10px;">
 							<select id="sel_time" class="form-control" style="width: 200px">
 								<option value="applyTime">申请时间</option>
 								<option value="signTime">面签时间</option>
@@ -70,7 +83,7 @@
 							</select>
 						</div>
 
-						<div id='div_fTime' class="input-group date" style="float: left; width: 200px">
+						<div id='div_fTime' class="input-group date" style="float: left; width: 190px; margin-right:10px;">
 							<span class="input-group-addon"><i class="fa fa-calendar"
 								style="z-index: 2100; position: relative;"></i></span> <input
 								class="form-control" type="text" id="txt_fTime"
@@ -90,7 +103,7 @@
 				<div class="row">
 					<div class="col-lg-1 control-label"> 案件信息 </div>
 					<div class="col-lg-11">
-						<div style="float: left; width: 200px">
+						<div style="float: left;margin-right:10px;">
 							<select id="sel_caseInfo" class="form-control"
 								style="width: 200px">
 <<<<<<< HEAD
@@ -126,10 +139,13 @@
 
 		</div>
 	</form>
+
 	<div class="portlet-body" style="display: block;">
 		<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
 	</div>
-
+	</div>
+	</div>
+</div>
 	</script>
 	<content tag="local_script"> <!-- jqGrid --> <script
 		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> <script

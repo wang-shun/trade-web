@@ -172,7 +172,7 @@
 	                    </ul>
 	                </li>
 	                <li>
-	                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	                <a data-toggle="dropdown" class="dropdown-toggle switch_position" href="#">
 	                	切换岗位
 	                </a>
 	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">

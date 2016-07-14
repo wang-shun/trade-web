@@ -21,6 +21,21 @@
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
         <!-- 分页控件 -->
         <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+        
+        <style type="text/css">
+        	.bonus-m-con .form-control {
+    			height: 34px;
+    			display: inline-block;
+    			border: 1px solid #e5e6e7;
+			}
+			#case_date {
+				margin-right:13px;
+			}
+			.input-group-addon {
+				border-left:0px!important;
+				border-right:0px!important;
+			}
+        </style>
     </head>
     <body class="pace-done">
         <div id="wrapper" class="Index">
@@ -60,7 +75,7 @@
                         		<div class="col-lg-6 col-md-6">
                                 	<label class="col-sm-2 control-label" id="case_date">过户时间</label>
 									<div id="datepicker"
-										class="input-group input-medium date-picker input-daterange"
+										class="input-group input-medium date-picker input-daterange col-sm-8"
 										data-date-format="yyyy-mm-dd">
 										<input id="dtBegin" name="dtBegin" class="form-control"
 											style="font-size: 13px;" type="text" value=""

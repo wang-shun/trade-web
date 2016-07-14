@@ -58,7 +58,7 @@ text-decoration: underline;
 text-decoration: underline !important;
 }
 .text-center{text-align:center;}
-#inTextVal{width:42%;}
+#inTextVal{width:60%;}
 #inTextType_chosen{margin-left:0}
 .chosen-container{float:left;margin-right:10px}
 
@@ -128,6 +128,20 @@ text-decoration: underline !important;
 	margin-bottom: 2px;
 }
 
+/* add_css */
+#inTextType {
+	width: 156px!important;
+	margin-right:10px;
+	padding: 7px 12px;
+	border-radius: 2px;
+}
+#taskDfKey{
+	width:252px!important;
+}
+.form-group .col-md-4 {
+	padding-left:0px;
+}
+
 </style>
 </head>
 
@@ -148,10 +162,10 @@ text-decoration: underline !important;
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-7">
 								<div class="form-group">
-							<label class="col-md-2 control-label">红绿灯</label>
-							<div class="checkbox i-checks radio-inline">
+							<label class="col-md-2 label_one control-label">红绿灯</label>
+							<div class="checkbox radio-inline">
 								<label> <input type="radio" value="0" id="lamp0"
 									name="lampRadios"> 全部
 								</label> <label> <input type="radio" value="1" id="lamp1"
@@ -165,10 +179,10 @@ text-decoration: underline !important;
 							</div>
 						</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="form-group">
-							<label class="col-md-2 control-label">授权代办</label>
-							<div class="radio i-checks radio-inline">
+							<label class="col-md-2 label_one control-label">授权代办</label>
+							<div class="radio radio-inline col-md-8">
 								<label> <input type="radio" value="0" id="owner0"
 									name="ownerRadios"> 全部
 								</label> <label> <input type="radio" value="1" id="owner1"
@@ -182,10 +196,15 @@ text-decoration: underline !important;
 							
 						</div>
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-7">
 								<div class="form-group">
+<<<<<<< Updated upstream
 									<label class="col-md-2 control-label"></label>
 									<div class="control-div">
+=======
+									<label class="col-md-2 label_one control-label">请选择</label>
+									<div class="control-div col-md-9">
+>>>>>>> Stashed changes
 									       <select id="inTextType" data-placeholder= "搜索条件设定"
 		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
 											<option value="1" selected>产证地址</option>
@@ -199,10 +218,15 @@ text-decoration: underline !important;
 									</div>
 							</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="form-group">
+<<<<<<< Updated upstream
 									<label class="col-md-2 control-label">任务名</label>
 									<div class="col-md-4">
+=======
+									<label class="col-md-2 label_one control-label">请选择</label>
+									<div class="col-md-8">
+>>>>>>> Stashed changes
 										<aist:dict id="taskDfKey" name="taskDfKey"
 										clazz="form-control m-b" display="select"
 										dictType="part_code" defaultvalue="" />
@@ -212,9 +236,9 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12" style="padding-left: 4.7%;">
+							<div class="col-md-12" >
 										<button id="searchButton" type="button"
-														class="btn btn-warning pull-left">查询</button>
+														class="btn btn-warning btn_margin pull-left">查询</button>
 							</div>
 						</div>
 					</form>
