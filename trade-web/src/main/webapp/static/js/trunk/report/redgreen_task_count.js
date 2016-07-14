@@ -283,7 +283,13 @@ function exportToExcel(organId) {
 
 function queryRedGreenTaskDetail(id){
 	//var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/redgreenTaskDetail?organId="+id);
+	window.open(ctx+"/report/redgreenTaskDetail?organId="+id+"&colourId="+1);
+	
+}
+//添加颜色参数
+function queryRedGreenTaskDetailColour(id,colourId){
+	//var start = $('#dtBegin_0').val();
+	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId);
 	
 }
 

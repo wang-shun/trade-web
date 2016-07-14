@@ -287,6 +287,7 @@
 
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/transjs/sms/sms.js"></script>
+
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
 	
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
@@ -307,6 +308,7 @@
 		});
 	}
 	
+
 	$(document).ready(function() {
 				if('caseDetails'==source){
 					readOnlyForm();

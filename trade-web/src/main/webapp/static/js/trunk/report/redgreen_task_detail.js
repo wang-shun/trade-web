@@ -84,6 +84,7 @@ function reloadGrid(data) {
 	var queryOrgs = $("#queryOrgs").val();
 	
 	var organId = $("#organId").val();
+	var colourId = $("#colourId").val();
 	var prApplyTime = $("#prApplyTime").val();
 	
 	
@@ -109,6 +110,7 @@ function reloadGrid(data) {
     data.argu_queryorgs = orgArray;
     
     data.organId = organId;
+    data.colourId = colourId;
 	
 	$.ajax({
 		async: true,
@@ -256,3 +258,18 @@ $('#cleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
 	$("select").val("");
 });
+
+//选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array){
+    if(array && array.length >0){
+        $("#teamCode").val(array[0].name);
+		$("#yuCuiOriGrpId").val(array[0].id);
+		
+		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
+		$("#oldactiveName").attr("onclick",userSelect);
+	}else{
+		$("#teamCode").val("");
+		$("#yuCuiOriGrpId").val("");
+	}
+}
+

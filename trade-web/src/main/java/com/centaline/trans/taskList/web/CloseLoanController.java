@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -45,17 +47,17 @@ public class CloseLoanController {
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
 	
-	@Autowired
-	private ToPropertyInfoService topropertyInfoService;
 	
-	@Autowired
-    private UamBasedataService   uambasedataService;
 	
-	@Autowired
-	private UamSessionService uamSessionService;
-	
-	@Autowired
-	private TsMsgSendHistoryService tsmsgSendHistoryService;
+	@RequestMapping(value="process")
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("loanClose", toCloseLoanService.qureyToCloseLoan(caseCode));
+		return "task/taskLoanClose";
+	}
 	
 	
 	@RequestMapping(value="saveToCloseLoan")

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -56,6 +60,40 @@ public class ServiceChangeApplyController {
 	
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private UamSessionService uamSessionService;
+	
+	
+	@RequestMapping("apply/process")
+	public String toApplyProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		SessionUser user = uamSessionService.getSessionUser();
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "4");
+		request.setAttribute("operator", user != null ? user.getId() : "");
+		
+ 		request.setAttribute("list", serviceChangeService.queryDelServChangeHistroty(caseCode));
+ 		request.setAttribute("addServ", serviceChangeService.queryAddServChangeHistroty(caseCode));
+		return "task/taskServiceChangeApply";
+	}
+	 @RequestMapping("approve/process")
+	public String toApproveProcess(HttpServletRequest request, HttpServletResponse response,
+		String caseCode, String source, String taskitem, String processInstanceId) {
+		SessionUser user = uamSessionService.getSessionUser();
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "4");
+		request.setAttribute("operator", user != null ? user.getId() : "");
+		
+		request.setAttribute("newxm", serviceChangeService.qureyServChangeHistrotyInfo(caseCode).get("newServChange"));
+ 		request.setAttribute("delxm", serviceChangeService.qureyServChangeHistrotyInfo(caseCode).get("delServChange"));
+		 return "task/taskServiceChangeApprove";
+	}
+	
+	
 
 	/**
 	 * 业务变更审批

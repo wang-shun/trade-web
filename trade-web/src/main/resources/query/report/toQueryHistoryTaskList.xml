@@ -74,7 +74,7 @@
 							sctrans.ACT_HI_TASKINST
 						)historytask
 					INNER JOIN
-						sctrans.T_TO_WORKFLOW wf
+						sctrans.T_HI_WORKFLOW wf
 					ON 
 						historytask.PROC_INST_ID=wf.INST_CODE
 					INNER JOIN 

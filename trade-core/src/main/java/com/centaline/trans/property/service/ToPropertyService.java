@@ -2,8 +2,6 @@ package com.centaline.trans.property.service;
 
 import java.util.List;
 
-import com.centaline.trans.common.entity.Pic;
-import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.task.entity.ToPropertyResearch;
 
 /**
@@ -26,6 +24,8 @@ public interface ToPropertyService {
     int insertSelective(ToPropertyResearch record);
     
     List<ToPropertyResearch> queryUnClosePropertyResearchsByCaseCode(String caseCode);
+    
+    List<ToPropertyResearch> queryAllProperty(String prStatus);
     
 	/**
 	 * 处理无效标记数据

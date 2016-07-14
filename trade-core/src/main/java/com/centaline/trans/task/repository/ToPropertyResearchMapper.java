@@ -127,5 +127,7 @@ public interface ToPropertyResearchMapper {
 	int processWaitListByDistrict(String district);
 	String getPrCostMgrByOrgId(String orgId);
 	String getOrgIdByUserId(String userId);
+	
+	List<ToPropertyResearch> queryAllProperty(String prStatus);
 
 }
