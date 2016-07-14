@@ -43,6 +43,7 @@ import com.centaline.trans.task.service.TaskPlanSetService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsTaskDelegateService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.utils.BeanToMapUtils;
 
 @Component
@@ -431,6 +432,18 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("taskId", taskId);
 		return (TaskVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_ATASK_KEY, TaskVo.class, vars, null);
+	}
+	@Override
+	public StartProcessInstanceVo getHistoryInstances(String processInstanceId) {
+		Map<String, String> vars = new HashMap<>();
+		vars.put("processInstanceId", processInstanceId);
+		return (StartProcessInstanceVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HIS_INSTANCES_KEY, StartProcessInstanceVo.class, vars, null);
+	}
+	@Override
+	public TaskVo getHistoryTask(String taskId) {
+		Map<String, String> vars = new HashMap<>();
+		vars.put("taskId", taskId);
+		return (TaskVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HIS_TASK_KEY, TaskVo.class, vars, null);
 	}
 
 	@Override

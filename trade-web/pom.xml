@@ -4,6 +4,7 @@
 	<parent>
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
+
 		<version>1.1.18-SNAPSHOT</version>	</parent>
 
 
@@ -296,6 +297,17 @@
 			</activation>
 			<properties>
 				<tomcat.url>http://10.4.19.212:18015/manager/text</tomcat.url>
+				<tomcat.username>admin</tomcat.username>
+				<tomcat.password>admin</tomcat.password>
+			</properties>
+		</profile>
+		<profile>
+			<id>213</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<tomcat.url>http://10.4.19.213:8083/manager/text</tomcat.url>
 				<tomcat.username>admin</tomcat.username>
 				<tomcat.password>admin</tomcat.password>
 			</properties>

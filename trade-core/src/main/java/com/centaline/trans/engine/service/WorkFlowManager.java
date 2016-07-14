@@ -15,6 +15,7 @@ import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 public interface WorkFlowManager {
 
@@ -95,5 +96,9 @@ public interface WorkFlowManager {
 	PageableVo getExecute(ExecuteGet executeGet);
 
 	void claimByInstCode(String instCode, String caseCode, String caseowner);
+
+	TaskVo getHistoryTask(String taskId);
+
+	StartProcessInstanceVo getHistoryInstances(String processInstanceId);
 
 }
