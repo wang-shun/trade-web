@@ -1053,7 +1053,6 @@ text-decoration: underline !important;
 				    url : ctx+'/workspace/cacheRemain',
 				    dataType: 'json',
 					success: function(data) {
-						alert("121212121");
 						//alert(data.message);
 					}
 				});

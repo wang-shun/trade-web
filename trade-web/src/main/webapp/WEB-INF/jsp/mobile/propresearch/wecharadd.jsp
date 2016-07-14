@@ -60,19 +60,28 @@ float: none;
 <%-- 		</c:if> --%>
 		<div class="row" style="margin-top: 20px;">
 			<div class="col-lg-10">
-				<select class="form-control" onchange="changeOrgName(this);" id="zhanqu">
-  					<option value="">请选择</option>
-  					<c:forEach items="${orgs}" var="org">
-  						<c:choose>
-						   <c:when test="${org.id == orgId}">
-		  						<option value="${org.id}" selected="selected">${org.orgName}</option>
-						   </c:when>
-						   <c:otherwise>
-		  						<option value="${org.id}">${org.orgName}</option>
-						   </c:otherwise>
-						</c:choose>
-  					</c:forEach>
- 				</select>
+				<c:choose>
+					<c:when test="${not empty orgId}">
+						<select class="form-control" id="zhanqu" disabled="disabled">
+							<option value="${orgId}">${orgName}</option>
+						</select>
+					</c:when>
+					<c:otherwise>
+						<select class="form-control" onchange="changeOrgName(this);" id="zhanqu">
+		  					<option value="">请选择</option>
+		  					<c:forEach items="${orgs}" var="org">
+		  						<c:choose>
+								   <c:when test="${org.id == orgId}">
+				  						<option value="${org.id}" selected="selected">${org.orgName}</option>
+								   </c:when>
+								   <c:otherwise>
+				  						<option value="${org.id}">${org.orgName}</option>
+								   </c:otherwise>
+								</c:choose>
+		  					</c:forEach>
+		 				</select>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 		<div class="row">

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.StringUtil;
@@ -20,16 +21,22 @@ import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -37,7 +44,7 @@ import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 
 @Controller
-@RequestMapping(value="/task/loanlostApprove")
+@RequestMapping(value="/task")
 public class LoanlostApproveController {
 
 	@Autowired(required = true)
@@ -54,14 +61,37 @@ public class LoanlostApproveController {
 	private UamMessageService uamMessageService;
 	@Autowired(required=true)
 	private UamTemplateService uamTemplateService;
-	@Autowired(required=true)
-	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;/*用户信息*/
+	private ToMortgageService toMortgageService;
+	private TgGuestInfoService tgGuestInfoService;
+
+	@RequestMapping(value={"loanlostApproveManager/process","loanlostApproveDirector/process"})
+	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
+			String taskitem, String processInstanceId) {
+		SessionUser user = uamSessionService.getSessionUser();
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("approveType", "1");
+		request.setAttribute("operator", user != null ? user.getId() : "");
+		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",processInstanceId));
+		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
+		
+		if(mortgage!=null && mortgage.getCustCode()!=null){
+			TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+			if(null !=guest){
+				request.setAttribute("custCompany",guest.getWorkUnit());
+				request.setAttribute("custName",guest.getGuestName());
+			}
+		};
+		return "task/task"+taskitem;
+	}
 	
-	@RequestMapping(value="loanlostApproveFirst")
+	
+	@RequestMapping(value="loanlostApprove/loanlostApproveFirst")
 	@ResponseBody
 	public Boolean loanlostApproveFirst(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response) {
@@ -89,7 +119,7 @@ public class LoanlostApproveController {
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 	}
 	
-	@RequestMapping(value="loanlostApproveSecond")
+	@RequestMapping(value="loanlostApprove/loanlostApproveSecond")
 	@ResponseBody
 	public Boolean loanlostApproveSecond(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_director, String LoanLost_director_response) {
@@ -116,7 +146,7 @@ public class LoanlostApproveController {
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 	}
 	
-	@RequestMapping(value="loanlostApproveThird")
+	@RequestMapping(value="loanlostApprove/loanlostApproveThird")
 	@ResponseBody
 	public Boolean loanlostApproveThird(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_GeneralManager, String LoanLost_GeneralManager_response) {

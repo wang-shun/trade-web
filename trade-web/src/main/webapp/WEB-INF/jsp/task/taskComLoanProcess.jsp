@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
 <html>
@@ -19,24 +18,18 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
-	rel="stylesheet" />
-	<!-- datepikcer -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet" />
+<!-- datepikcer -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -374,8 +367,7 @@
 						</div>
 					</div>
 
-					<input type="button" class="btn btn-success"
-						id="toEguPricingSubmitBtn" value="提交">
+					<input type="button" class="btn btn-success" id="toEguPricingSubmitBtn" value="提交">
 				</div>
 			</div>
 		</div>
@@ -419,8 +411,7 @@
 						</div>
 					</div>
 
-					<input type="button" class="btn btn-success" id="subApplyBtn"
-						value="提交">
+					<input type="button" class="btn btn-success" id="subApplyBtn" value="提交">
 				</div>
 			</div>
 		</div>
@@ -613,8 +604,7 @@
 						<%} %>
 					</div>
 
-					<input type="button" class="btn btn-success" id="reportSubBtn"
-						value="提交">
+					<input type="button" class="btn btn-success" id="reportSubBtn" value="提交">
 
 				</div>
 			</div>
@@ -1444,7 +1434,12 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		<div id="smsPlatFrom"></div>
+		
+		<div id="caseCommentList" class="add_form">
+		</div>
 </div>
 </div>
 <content tag="local_script"> 
@@ -1483,8 +1478,12 @@
 	<script src="${ctx}/transjs/sms/sms.js"></script>	
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	var afterTimeFlag=${afterTimeFlag};
@@ -1553,6 +1552,7 @@ function checkInt(obj){
     			f.find("input[name='prfYear']").prop('disabled',false);
 			}
 		});
+		
 		$("#sendSMS").click(function(){
 					var t='';
 					var s='/';
@@ -1564,6 +1564,7 @@ function checkInt(obj){
 					}
 					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
 		});
+		
 		$("#sendSMS1").click(function(){
 					var t='';
 					var s='/';
@@ -1575,6 +1576,7 @@ function checkInt(obj){
 					}
 					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
 		});
+		
 		var updFun = function(e) {
 			var that = $(this).data('blueimp-fileupload')
 					|| $(this).data('fileupload');
@@ -1601,6 +1603,7 @@ function checkInt(obj){
 				}
 			});
 		}
+		
 		$.each(idList, function(index, value){
 			AistUpload.init('picFileupload'+value, 'picContainer'+value,
 					'templateUpload'+value, 'templateDownload'+value, updFun);
@@ -1618,11 +1621,13 @@ function checkInt(obj){
 				}
 			});
 		});
+		
 		$("#code").inputmask({"mask":"999999-999999-999"});
 		
 		$("select[name='mortType']").each(function(){
 			$(this).find("option[value='30016003']").remove();
 		});
+		
 		$("select[name='mortType']").blur(function(){
 			if($(this).val()!=""){
 				$(this).css("border-color","#e5e6e7");
@@ -1741,6 +1746,10 @@ function checkInt(obj){
 	 		}
 			
 		});  */
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});
 	});
 	
 	var attachmentList = null;

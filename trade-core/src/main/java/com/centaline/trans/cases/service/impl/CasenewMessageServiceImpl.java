@@ -251,10 +251,10 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 	 * @param requireProcessorId
 	 * @author zhangxb16
 	 */
-	public StartProcessInstanceVo startWorkFlow(String requireProcessorId){
+	public StartProcessInstanceVo startWorkFlow(String requireProcessorId,String caseCode){
 		
 		ProcessInstance process=new ProcessInstance();
-    	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+    	process.setBusinessKey(caseCode);
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
     	StartProcessInstanceVo pIVo=null;
     	
@@ -448,7 +448,7 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 			}
 		}else{
 			ToWorkFlow wf=new ToWorkFlow();
-			StartProcessInstanceVo pIVo=this.startWorkFlow(requireProcessorId);
+			StartProcessInstanceVo pIVo=this.startWorkFlow(requireProcessorId,tceinfo.getCaseCode());
         	if(null==pIVo || null==pIVo.getId()){
         		// throw new BusinessException("抱歉,流程启动失败,请刷新后再次尝试！");
         		tceinfo.setRequireProcessorId("");  // 交易顾问id[请求处理人编号]
@@ -483,7 +483,7 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 				// 3 处理 T_TO_WORKFLOW 表 
 				wf.setProcessOwner(agentCode);  // 目前交易顾问 username
 				wf.setInstCode(pIVo.getId());
-				wf.setBusinessKey(pIVo.getBusinessKey());
+				wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 				wf.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 				wf.setCaseCode(caseCode);  // caseCode
 				workflow=toworkFlowMapper.insertSelective(wf);

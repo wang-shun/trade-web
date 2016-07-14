@@ -181,7 +181,7 @@
 						</td>
 						<td class="btn-g">
 							{{if item.PR_STATUS == '已完成'}}
-								<button type='button' onclick="resultGet('{{item.PR_CODE}}');" class='btn btn-warning btn-xs'>查看</button>
+								<a href='../mobile/property/box/show?prCode={{item.PR_CODE}}' class="btn-y" target='_blank'>查看</a>
 							{{else}}
                  			{{/if}}
 						</td>

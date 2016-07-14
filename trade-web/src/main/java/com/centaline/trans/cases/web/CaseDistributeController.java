@@ -402,21 +402,7 @@ public class CaseDistributeController {
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
     }*/
-    /**
- 	 * 分配组别
- 	 * @return
- 	 * @throws ParseException 
- 	 */
-     @RequestMapping(value="/orgChange")
-     @ResponseBody
- 	public AjaxResponse<?>  orgChange(String caseCode ,String orgId) {
-    	int r= toCaseService.orgChange(caseCode, orgId);
-    	if(r<1){
-    		return AjaxResponse.fail("案件转组成功！");
-    	}
-     	return AjaxResponse.success("案件转组成功！");
-     }
-    
+   
     /**
    	 * 分配组别
    	 * @return

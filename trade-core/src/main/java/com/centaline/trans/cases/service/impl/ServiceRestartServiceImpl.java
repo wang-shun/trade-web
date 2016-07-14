@@ -66,7 +66,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			throw new BusinessException("当前重启流程尚未结束！");
 		}
 		
-		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), WorkFlowEnum.SERVICE_RESTART.getCode());
+		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
 		StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
@@ -148,7 +148,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
 		
 		ProcessInstance process = new ProcessInstance();
-    	process.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+    	process.setBusinessKey(vo.getCaseCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
     	/*流程引擎相关*/
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());

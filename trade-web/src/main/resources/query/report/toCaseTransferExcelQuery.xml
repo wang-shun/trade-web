@@ -60,6 +60,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
+				ORDER BY TRANSFERDATE DESC,CASETRANSFERDATE DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -83,3 +84,4 @@
 		</grid>
 	</query>
 </querys>
+

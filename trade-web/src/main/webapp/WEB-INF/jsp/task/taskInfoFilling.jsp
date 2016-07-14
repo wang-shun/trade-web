@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 </head>
 <body>
 									
@@ -115,6 +114,9 @@
                             						</div>
                         					  </div> 
                         					  
+<!--                         					  <div id="caseCommentList" class="add_form">
+</div> -->
+                        					  
                         					  <div class="ibox-title">
                            							 <h5>上传备件 </h5>
                             						<div class="ibox-content">                            			
@@ -141,16 +143,18 @@
     <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
    <!-- Data picker -->
    <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-
-
+   
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script>
-        $(document).ready(function () {
-            // Examle data for jqGrid
-
-            var reminderdata = [
-                          {reminder_item: "产证原件", comment: ""},
-                          {reminder_item: "居间协议", comment: ""},
+$(document).ready(function () {
+	
+	// Examle data for jqGrid
+    var reminderdata = [
+    	{reminder_item: "产证原件", comment: ""},
+        {reminder_item: "居间协议", comment: ""},
                           {reminder_item: "房屋买卖合同", comment: "中原版"},
                           {reminder_item: "买卖双方证件", comment: ""},
                           {reminder_item: "公证委托书原件、委托人证件复印件、代理人证件原件", comment: "主体无法到场时"},
@@ -237,17 +241,14 @@
                 $('#table_list_1').setGridWidth(width);
                 $('#table_list_2').setGridWidth(width);
                
-            }); 
-        });
-
-        
-
- 
-        
-        
-        
-        
-    </script>
+            });
+       
+/* 	$("#caseCommentList").caseCommentGrid({
+		caseCode : null,
+		srvCode : null
+	}); */
+});
+</script>
 </content>
 </body>
 
