@@ -115,15 +115,15 @@
 						WHEN 
 							historytask.NAME IN ('ComLoanProcess')
 						THEN 
-							(SELECT LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='ComLoanNeed')
+							(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='ComLoanNeed')
 						WHEN 
 							historytask.NAME IN ('LoanlostApply','LoanlostApproveDirector','LoanlostApproveManager','SelfLoanApprove')
 						THEN
-							(SELECT LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='SelfLoanNeed')
+							(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='SelfLoanNeed')
 						WHEN 
 							historytask.NAME IN ('PSFApply','PSFSign','PSFApprove')
 						THEN
-							(SELECT LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='PSFLoanNeed')
+							(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='PSFLoanNeed')
 						ELSE
 							1
 						END)
