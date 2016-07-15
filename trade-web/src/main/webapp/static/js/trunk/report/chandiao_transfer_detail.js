@@ -97,14 +97,14 @@ function searchMethod(page) {
 function reloadGrid(data) {
 	
 	var yuCuiOriGrpIdPre = $("#organId").val();
-	var prApplyTimePre = $("#prApplyTimePre").val();
-	var prApplyTimeEndPre = $("#prApplyTimeEndPre").val();
-	var prAccpetTimeStartPre = $("#prAccpetTimeStartPre").val();
-	var prAccpetTimeEndPre = $("#prAccpetTimeEndPre").val();
-	var prCompleteTimeStartPre = $("#prCompleteTimeStartPre").val();
-	var prCompleteTimeEndPre = $("#prCompleteTimeEndPre").val();
+	var prApplyTimePre = $("#dtBegin_0").val();
+	var prApplyTimeEndPre = $("#dtBegin_1").val();
+	var prAccpetTimeStartPre = $("#prAccpetTimeStart").val();
+	var prAccpetTimeEndPre = $("#prAccpetTimeEnd").val();
+	var prCompleteTimeStartPre = $("#prCompleteTimeStart").val();
+	var prCompleteTimeEndPre = $("#prCompleteTimeEnd").val();
 	
-	var start = $('#dtBegin_0').val();
+	/*var start = $('#dtBegin_0').val();
 	if(start&&start!=''){
 		prApplyTimePre = start;
 	}
@@ -127,7 +127,7 @@ function reloadGrid(data) {
 	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
 	if(prCompleteTimeEnd&&prCompleteTimeEnd!=''){
 		prCompleteTimeEndPre = prCompleteTimeEnd;
-	}
+	}*/
 	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
 	if(yuCuiOriGrpId&&yuCuiOriGrpId!=''){
 		yuCuiOriGrpIdPre = yuCuiOriGrpId;
@@ -206,6 +206,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParamsValue() {
 	
 	var start = $('#dtBegin_0').val();
+	var end = $('#dtBegin_1').val();
 	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
 	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
 	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
@@ -214,6 +215,7 @@ function getParamsValue() {
 	//设置查询参数
 	var params = {
 			prApplyTime : start,
+			prApplyTimeEnd : end,
 			prAccpetTimeStart : prAccpetTimeStart,
 			prAccpetTimeEnd : prAccpetTimeEnd,
 			prCompleteTimeStart : prCompleteTimeStart,
@@ -251,7 +253,7 @@ function exportToExcel() {
 	var prCompleteTimeStartPre = $("#prCompleteTimeStartPre").val();
 	var prCompleteTimeEndPre = $("#prCompleteTimeEndPre").val();
 	
-	var start = $('#dtBegin_0').val();
+	/*var start = $('#dtBegin_0').val();
 	if(start&&start!=''){
 		prApplyTimePre = start;
 	}
@@ -274,7 +276,7 @@ function exportToExcel() {
 	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
 	if(prCompleteTimeEnd&&prCompleteTimeEnd!=''){
 		prCompleteTimeEndPre = prCompleteTimeEnd;
-	}
+	}*/
 	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
 	if(yuCuiOriGrpId&&yuCuiOriGrpId!=''){
 		yuCuiOriGrpIdPre = yuCuiOriGrpId;
@@ -305,18 +307,19 @@ function exportToExcel() {
 
 // 清空表单
 function cleanForm() {
-	$("input[name='dtBegin']").val("");
+	//$("input[name='dtBegin']").val("");
 }
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
-	$("input[name='prAccpetTimeStart']").val('');
-	$("input[name='prAccpetTimeEnd']").val('');
-	$("input[name='prCompleteTimeStart']").val('');
-	$("input[name='prCompleteTimeEnd']").val('');
 	$("input[name='teamCode']").val('');
 	$("input[name='yuCuiOriGrpId']").val('');
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
+	$("input[name='prAccpetTimeStart']").datepicker('update', '');
+	$("input[name='prAccpetTimeEnd']").datepicker('update', '');
+	$("input[name='prCompleteTimeStart']").datepicker('update', '');
+	$("input[name='prCompleteTimeEnd']").datepicker('update', '');
+	
 	$("select").val("");
 });

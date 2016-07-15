@@ -139,9 +139,9 @@ text-decoration: underline !important;
 			    				<label class="col-md-1  control-label">产调完成时间</label>
 			    				<div class="col-md-3">
 			    					<div id="datepicker_2" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-										<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+										<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prCompleteTimeStart }" placeholder="起始日期">
 										 <span class="input-group-addon">到</span>
-										<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+										<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prCompleteTimeEnd }" placeholder="结束日期" />
 									</div>
 			    				</div>
 			    				
@@ -165,7 +165,7 @@ text-decoration: underline !important;
 		</div>
 			<div class="data-wrap">
 		<div class="data-wrap-in">
-			<table border="0" cellpadding="0" cellspacing="0">
+			<table border="1" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th class="t-left pd-l">单数</th>

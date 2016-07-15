@@ -110,6 +110,11 @@ function reloadGrid(data) {
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
+    var prCompleteTimeStart = $('#prCompleteTimeStart').val();
+	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	data.prCompleteTimeStart = prCompleteTimeStart;
+	data.prCompleteTimeEnd = prCompleteTimeEnd;
+    
 	
 	$.ajax({
 		async: true,
@@ -219,14 +224,14 @@ function cleanForm() {
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
-	$("input[name='prAccpetTimeStart']").val('');
-	$("input[name='prAccpetTimeEnd']").val('');
-	$("input[name='prCompleteTimeStart']").val('');
-	$("input[name='prCompleteTimeEnd']").val('');
 	$("input[name='teamCode']").val('');
 	$("input[name='yuCuiOriGrpId']").val('');
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
+	$("input[name='prAccpetTimeStart']").datepicker('update', '');
+	$("input[name='prAccpetTimeEnd']").datepicker('update', '');
+	$("input[name='prCompleteTimeStart']").datepicker('update', '');
+	$("input[name='prCompleteTimeEnd']").datepicker('update', '');
 	
 	$("select").val("");
 });
