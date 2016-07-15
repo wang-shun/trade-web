@@ -103,53 +103,51 @@ text-decoration: underline !important;
 					<h5>红绿灯任务详细</h5>
 					<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-				<!-- </div>
-				<div class="ibox-title"> -->
 				  <!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
 						<div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
                                       <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
                                       <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
-                                          <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBackgb})" value='${serOrgName }'>
+                                          <input type="hidden" id="h_proOrgId_gb" value="${serOrgId==null?serviceDepId:serOrgId}">
                                       </div>
                                   </div>
                          </div>
-						<div class="col-lg-5 col-md-5">    
+						 <div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
-                                          <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　value='${serOrgName }'
+                                          
+                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})";
+                                          
+                                          >
+                                          <input type="hidden" id="h_proOrgId" >
                                       </div>
                                   </div>
-                         </div>
+                         </div> 
                          <div class="col-lg-5 col-md-5 ">    
                        			<div class="form-group">
                                    <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                    <div class="col-lg-9 col-md-9">
-                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${serUserId }" value="${userInfo }"
-								 readonly="readonly"
-								onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
-								nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
+								 readonly="readonly" onclick="userSelect_back()" />
                                    </div>
                                </div>
                         </div>
                         
                         <div class="col-lg-5 col-md-5 ">    
                          <div class="form-group">
-                           <label class="col-lg-3 col-md-3 control-label font_w">红绿灯</label>
+                           <label class="col-lg-3 col-md-3 control-label font_w">红黄灯</label>
 							<div class="col-md-4">
-								<label> <input type="radio" value="0" id="lamp0"
+								<label> <input type="radio" value="2" id="lamp0"
 									name="lampRadios"> 全部
 								</label> <label> <input type="radio" value="1" id="lamp1"
 									name="lampRadios"> <span class="label label-danger">红灯${Lamp[2]}</span>
-								</label><label> <input type="radio" value="3" id="lamp3"
-									name="lampRadios"> <span class="label label-info">绿灯${Lamp[0]}</span>
+								</label> <label> <input type="radio" value="0" id="lamp2"
+									name="lampRadios"> <span class="label label-warning">黄灯${Lamp[1]}</span>
 								</label>
 						   </div>
 						   </div>
@@ -165,7 +163,7 @@ text-decoration: underline !important;
 						<div class="col-lg-5 col-md-5 "> 
 							<label class="col-lg-3 col-md-3 control-label font_w">任务名 </label>
 									<div class="col-md-4">
-										<aist:dict id="taskDfKey" name="taskDfKey"
+										<aist:dict id="taskDfKeyid" name="taskDfKey"
 										clazz="form-control m-b" display="select"
 										dictType="part_code" defaultvalue="" />
 								
@@ -173,7 +171,7 @@ text-decoration: underline !important;
 		    			</div>
 						<div class="col-lg-5 col-md-5 "> 
 							<label class="col-lg-3 col-md-3 control-label font_w">产证地址 </label>
-		    				<div class="col-md-3">
+		    				<div class="col-md-9">
 		    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 		    				</div>
 		    			</div>
@@ -205,29 +203,8 @@ text-decoration: underline !important;
 						</div>
 						</div>
 						</div>
-		    			
-                        
-                        
 				  </div>
-				
 						<div class="row date-info">
-						<!-- 	<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">产调申请时间</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期">
-							</div>
-							<div id="addLine" class="pull-left m-l">
-							
-						</div>
-						</div>
-						</div>
-							</div> -->
 						 <div class="row">
 							<div class="col-md-6"></div>
 							<div class="col-md-3">
