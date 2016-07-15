@@ -714,8 +714,8 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
 										<div class="col-md-2">
-											<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间保留两位小数"
-												class="form-control"  onkeyup="checknum(this)" onblur="autoCompleteComDiscount(this)">
+											<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
+												class="form-control"  onkeyup="autoCompleteComDiscount(this)">
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
 										<div class="col-md-2" style="width:18%">
@@ -1120,8 +1120,8 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
 										<div class="col-md-2">
-											<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间保留两位小数"
-												class="form-control"  onkeyup="checknum(this)" onblur="autoCompleteComDiscount(this)">
+											<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
+												class="form-control"  onkeyup="autoCompleteComDiscount(this)">
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
 										<div class="col-md-2" style="width:18%">
@@ -1510,20 +1510,20 @@ function checknum(obj){
 
 /*贷款折扣自动补全*/
 function autoCompleteComDiscount(obj){
+	
+	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	
 	var inputVal = obj.value;
  	if(inputVal>=0.5 && inputVal<=1.5){
-		reg =/^[01]{1}\.{1}\d{1}$/;
-		reg2 =/^[01]{1}\.{1}\d{3,}$/;
-		if(inputVal==1){
-			obj.value = '1.00';
-		}else if(reg.test(inputVal)){
-			obj.value = inputVal+'0';
-		}else if(reg2.test(inputVal)){
+		var reg =/^[01]{1}\.{1}\d{3,}$/;
+		if(reg.test(inputVal)){
 			obj.value = inputVal.substring(0,4);
 		}
 	}
-} 
-
+}
 
 function checkInt(obj){
 	obj.value = obj.value.replace(/[^\d]/g,"");  
