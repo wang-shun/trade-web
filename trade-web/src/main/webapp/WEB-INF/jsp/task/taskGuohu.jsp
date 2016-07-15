@@ -192,8 +192,8 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">商贷部分利率折扣</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="例如: 0.8或0.95"
-					class="form-control" onkeyup="checknum(this)">
+					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="0.50~1.50之间保留两位小数"
+					class="form-control" onkeyup="checknum(this)" onblur="autoCompleteComDiscount(this)">
 				</div>
 		</div>
 		<div class="form-group">
@@ -550,6 +550,22 @@
 		});		
 	});
 		
+	/*贷款折扣自动补全*/
+	function autoCompleteComDiscount(obj){
+		var inputVal = obj.value;
+	 	if(inputVal>=0.5 && inputVal<=1.5){
+			reg =/^[01]{1}\.{1}\d{1}$/;
+			reg2 =/^[01]{1}\.{1}\d{3,}$/;
+			if(inputVal==1){
+				obj.value = '1.00';
+			}else if(reg.test(inputVal)){
+				obj.value = inputVal+'0';
+			}else if(reg2.test(inputVal)){
+				obj.value = inputVal.substring(0,4);
+			}
+		}
+	}
+	
 		/**提交数据*/
 		function submit() {
 			if(checkAttachment()) {
@@ -671,30 +687,37 @@
                 return false;
            }
 			
-/* 			if($('input[name=comDiscount]').val()!='') {
-				var comDiscount = $('input[name=comDiscount]').val();
-				
-				if(isNaN(comDiscount)){
-		            alert("请输入0~1之间的合法数字");
+			var _mortType= $('#mortType').find(':selected').val();
+			var _comDiscount = $('input[name=comDiscount]').val();
+			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
+				alert('纯商贷和组合贷款必须填写商贷部分利率折扣, 不能为空');
+				$('input[name=comDiscount]').focus();
+				return false;
+			}
+			
+ 			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')) {
+				if(isNaN(_comDiscount)){
+		            alert("请输入0.50~1.50之间的合法数字,并保留两位小数");
 		            $('input[name=comDiscount]').focus();
 		            return false;
-		        }else if(comDiscount>1 || comDiscount<=0){
-		    		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		        }else if(_comDiscount>1.5 || _comDiscount<=0.5){
+		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,并保留两位小数');
 		    		$('input[name=comDiscount]').focus();
 		    		return false;
-		    	}else if(comDiscount>0 && comDiscount<1){
-		    		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
-		    		if(!reg.test(comDiscount)){
-		    			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
+		    	}else if(_comDiscount>=0.5 && _comDiscount<=1.5){
+		    		var reg= /^[01]{1}\.{1}\d{2}$/;
+		    		if(!reg.test(_comDiscount)){
+		    			alert('商贷利率折扣应保留小数点后两位数字');
 		    			$('input[name=comDiscount]').focus();
 		    			return false;
 		    		}
 		       	}
-           } */
+           }
 			
 			
 			return true;
 		}
+		
 		
 	</script> 
 	</content>

@@ -331,6 +331,7 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
+			jobCode:'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
 		$("#yuCuiOriGrpId").val("");
@@ -343,6 +344,7 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
+			jobCode:'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
 	}
