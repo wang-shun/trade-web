@@ -176,6 +176,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParamsValue() {
 	
 	var start = $('#dtBegin_0').val();
+	var end = $('#dtBegin_1').val();
 	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
 	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
 	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
@@ -185,6 +186,7 @@ function getParamsValue() {
 	//设置查询参数
 	var params = {
 			prApplyTime : start,
+			prApplyTimeEnd : end,
 			prAccpetTimeStart : prAccpetTimeStart,
 			prAccpetTimeEnd : prAccpetTimeEnd,
 			prCompleteTimeStart : prCompleteTimeStart,
@@ -196,8 +198,17 @@ function getParamsValue() {
 
 
 function queryChandiaoDetail(id){
-	var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/chandiaoDetail?organId="+id+"&prApplyTime="+start);
+	var url = "/report/chandiaoDetail?organId="+id;
+	var ctx = $("#ctx").val();
+	var params = getParamsValue();
+	
+	//params.organId = id; + jQuery.param(params)
+	
+	url = ctx + url;
+	$('#chandiaoDetail').attr('action', url);
+	
+	$('#chandiaoDetail').method="post" ;
+	$('#chandiaoDetail').submit();
 	
 }
 
@@ -209,6 +220,7 @@ function cleanForm() {
 //清空
 $('#cleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
+	$("input[name='dtEnd']").val('');
 	$("input[name='prAccpetTimeStart']").val('');
 	$("input[name='prAccpetTimeEnd']").val('');
 	$("input[name='prCompleteTimeStart']").val('');
