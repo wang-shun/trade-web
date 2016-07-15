@@ -124,6 +124,10 @@ public class ChandiaoTransferController {
 		String  prApplyTimeEnd = request.getParameter("dtEnd");
 		String  prAccpetTimeStart = request.getParameter("prAccpetTimeStart");
 		String  prAccpetTimeEnd = request.getParameter("prAccpetTimeEnd");
+		String  teamCode = request.getParameter("teamCode");
+		String  yuCuiOriGrpId = request.getParameter("yuCuiOriGrpId");
+		
+		
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
@@ -160,6 +164,8 @@ public class ChandiaoTransferController {
 		request.setAttribute("prAccpetTimeEnd", prAccpetTimeEnd);
 		request.setAttribute("prCompleteTimeStart", prCompleteTimeStart);
 		request.setAttribute("prCompleteTimeEnd", prCompleteTimeEnd);
+		request.setAttribute("teamCode", teamCode);
+		request.setAttribute("yuCuiOriGrpId", yuCuiOriGrpId);
 		
 		return "report/chandiao_transfer_detail";
 	}

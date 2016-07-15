@@ -24,7 +24,7 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+
 <link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
@@ -38,266 +38,9 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
-<style type="text/css">
-body {
-	overflow: hidden;
-	overflow-y: hiden;
-}
+<link href="${ctx}/css/transcss/case/caseDetail.css"
+	rel="stylesheet" />
 
-.checkbox.checkbox-inline>div {
-	margin-left: 28px;
-}
-
-.checkbox.checkbox-inline>input {
-	margin-left: 23px;
-}
-
-.modal-body {
-	padding: 10px !important
-}
-
-.wrapper-content {
-	padding: 0 !important
-}
-
-.userHead {
-	width: 80px;
-	height: 80px;
-	display: inline-block;
-	border-radius: 50%;
-	background-size: 80px 108px;
-	vertical-align: middle;
-	background-image: url(../img/a5.png);
-}
-
-[class^=mark] {
-	position: absolute;
-	top: 8px;
-	left: 130px;
-	width: 56px;
-	height: 37px;
-	z-index: 0;
-	background-position: left center;
-	background-repeat: no-repeat
-}
-
-.mark-baodan {
-	background-image: url(../img/mark-baodan.png);
-}
-
-.mark-guaqi {
-	background-image: url(../img/mark-guaqi.png);
-}
-
-.mark-jiean {
-	background-image: url(../img/mark-jiean.png);
-}
-
-.mark-wuxiao {
-	background-image: url(../img/mark-wuxiao.png);
-}
-/* .mark-zaitu{background-image:url(../img/mark-zaitu.png);} */
-.row:nth-last-child(2) .wd-31, .row:nth-last-child(1) .wd-31 {
-	width: 31%;
-}
-
-.row:nth-last-child(2) .wd-50, .row:nth-last-child(1) .wd-50 {
-	width: 50%;
-}
-
-.row:nth-last-child(2) .mr0, .row:nth-last-child(1) .mr0 {
-	margin-left: 0;
-	margin-right: 0;
-}
-
-.row:nth-last-child(2) .wd87, .row:nth-last-child(1) .wd87 {
-	width: 84px;
-	margin-left: 8px;
-}
-
-.row:nth-last-child(2) .wd-72, .row:nth-last-child(1) .wd-72 {
-	width: 72%;
-	margin-left: -8px;
-}
-
-.row:nth-last-child(2) .wd-64, .row:nth-last-child(1) .wd-64 {
-	width: 61%;
-	padding-right: 0;
-}
-
-.row:nth-last-child(2) .form-control-static, .row:nth-last-child(1) .form-control-static
-	{
-	margin-left: -2px;
-}
-
-.pd0 {
-	padding: 0;
-}
-
-.pr0 {
-	padding-right: 0;
-}
-
-.wd445 {
-	margin-bottom: 15px;
-	padding-right: 30px;
-}
-
-.wd445 select, .kuaquselect select {
-	float: right;
-	height: 34px;
-	border-radius: 2px;
-	margin-left: 10px;
-}
-
-#hzxm {
-	padding-bottom: 15px;
-}
-
-.kuaquselect {
-	margin: -20px 0 0 0;
-	padding-right: 0;
-}
-
-.modal-content {
-	width: 820px;
-}
-
-.text-left {
-	text-align: left !important;
-	margin-left: -10px;
-}
-
-.row {
-	margin-right: 0px !important;
-}
-
-.modal-content {
-	width: 1000px !important;
-}
-
-.min-h215 {
-	min-height: 215px;
-}
-
-/* add_css */
-.infos {
-	margin: 13px 0px 12px;
-}
-
-p.title {
-	margin-left: 15px;
-}
-
-.tittle h4 {
-	margin-left: 25px;
-}
-
-.white_bg, .item .panel {
-	background: #fff;
-}
-
-.ibox-conn {
-	padding: 8px 10px;
-	border: 1px solid #eee;
-	border-radius: 4px;
-}
-
-.info_box h5 {
-	margin-bottom: 10px;
-	padding-left: 10px;
-	padding-bottom: 2px;
-	font-size: 14px;
-	color: #333;
-}
-
-.else_conn {
-	height: 40px;
-	line-height: 40px;
-	margin-bottom: 15px;
-}
-
-.ibox-conn .col-sm-6 {
-	padding-left: 0;
-}
-
-.scroll_box dl {
-	color: #666;
-}
-
-.else_conn_two {
-	min-height: 132px;
-}
-
-.tab-content .tab-pane p {
-	margin-top: 10px !important;
-}
-
-.tab-content .tab-pane {
-	padding-top: 20px !important;
-}
-
-.ibox-text {
-	height: 214px;
-}
-
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus
-	{
-	color: #555 !important;
-	cursor: default !important;
-	background-color: #fff !important;
-	border: 1px solid #ddd !important;
-	border-bottom-color: transparent !important;
-}
-
-.panel {
-	border-radius: 0px !important;
-}
-
-.scroll_box .navbar {
-	margin-top: 20px;
-}
-
-.collapse {
-	padding-left: 0px;
-}
-
-.scroll_nav {
-	background: #4bccec;
-}
-
-.scroll_content li.active {
-	border: none !important;
-	background: #faab58 !important;
-}
-
-.scroll_content li a:hover {
-	border: none !important;
-	background: #faab58 !important;
-}
-
-.scroll_content li a {
-	color: #fff !important;
-}
-
-.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus,
-	.navbar-default .navbar-nav>.active>a:hover {
-	color: #fff;
-	background-color: #faab58 !important;
-}
-
-@media ( min-width : 768px) {
-	.ibox-conn .dl-horizontal dt {
-		width: 60px;
-		line-height: 22px;
-	}
-	.ibox-conn .dl-horizontal dd {
-		margin-left: 70px;
-		margin-bottom: 7px;
-		line-height: 22px;
-	}
-}
-</style>
 </head>
 
 <body>
@@ -325,33 +68,31 @@ p.title {
 
 	<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 	<!-- 主要内容页面 -->
-	<div class="wrapper wrapper-content">
-		<div class="row animated fadeInDown">
-			<div class="scroll_box fadeInDown animated">
-				<nav id="navbar-example" class="navbar navbar-default navbar-static"
-					role="navigation">
-					<div
-						class="collapse navbar-collapse bs-js-navbar-scrollspy scroll_nav">
-						<ul class="nav navbar-nav scroll_content" id="menus">
-							<li><a href="#basicInfo"> 基本信息 </a></li>
-							<li><a href="#serviceFlow"> 服务流程 </a></li>
-							<li><a href="#aboutInfo"> 相关信息 </a></li>
+					<nav id="navbar-example" class="navbar navbar-default navbar-static"
+					role="navigation" >
+					<div id="isFixed" style="position:relative; top: 0px;"
+						class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
+						<ul class="nav navbar-nav scroll_content">
+							<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
+							<li class="menuItem"><a href="#serviceFlow"> 服务流程 </a></li>
+							<li class="menuItem"><a href="#aboutInfo"> 相关信息 </a></li>
+							
 						</ul>
 					</div>
 				</nav>
-				<div id="scroll" data-spy="scroll" data-target="#navbar-example"
-					data-offset="50"
-					style="overflow: auto; overflow-x: hidden; position: relative;">
-					<div class="ibox">
-						<div class="ibox-title">
-							<h5 id="basicInfo">案件基本信息</h5>
-							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
-						</div>
-						<div class="ibox-content">
+	<div class="wrapper wrapper-content">
+		<div class="row animated fadeInDown">
+			<div class="scroll_box fadeInDown animated">
+					<div class="top12 panel" id="basicInfo"> 
+						<div class="panel-body" >
+							<div class="ibox-content-head">
+								<h5>案件基本信息</h5>
+								<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+							</div>
 							<div id="infoDiv infos" class="row">
 								<div class="ibox white_bg">
 									<div class="info_box info_box_one col-sm-4 ">
-										<h5>物业信息</h5>
+										<span>物业信息</span>
 										<div class="ibox-conn ibox-text">
 											<dl class="dl-horizontal">
 												<dt>CTM地址</dt>
@@ -372,7 +113,7 @@ p.title {
 										</div>
 									</div>
 									<div class="info_box info_box_two col-sm-5">
-										<h5>买卖双方</h5>
+										<span>买卖双方</span>
 										<div class="ibox-conn else_conn">
 											<dl class="dl-horizontal col-sm-6">
 												<dt>上家姓名</dt>
@@ -391,7 +132,7 @@ p.title {
 												</dd>
 											</dl>
 										</div>
-										<h5>经纪人信息</h5>
+										<span>经纪人信息</span>
 										<div class="ibox-conn else_conn_two ">
 											<dl class="dl-horizontal">
 												<dt>姓名</dt>
@@ -412,7 +153,7 @@ p.title {
 										</div>
 									</div>
 									<div class="info_box info_box_three col-sm-3">
-										<h5>经办人信息</h5>
+										<span>经办人信息</span>
 										<div class="ibox-conn  ibox-text">
 											<dl class="dl-horizontal">
 												<dt>交易顾问</dt>
@@ -448,31 +189,26 @@ p.title {
 								</div>
 							</div>
 						</div>
-
 					</div>
 					<!-- 服务流程 -->
-					<div class="panel panel-default infos clearfix">
-
-						<div class="panel-heading ibox-title">
-							<h5 id="serviceFlow">服务流程</h5>
-						</div>
-						<div class="panel-body">
+					<div class="panel " id="serviceFlow">
+						<div class="panel-body" >
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#home" data-toggle="tab">流程备注</a>
+								<li class="active"><a href="#settings" data-toggle="tab">操作纪录</a>
 								</li>
 								<li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
 								</li>
 								<li class=""><a href="#messages" data-toggle="tab">案件进程总览</a>
 								</li>
-								<li class=""><a href="#settings" data-toggle="tab">操作纪录</a>
-								</li>
+								<li class=""><a href="#home" data-toggle="tab">流程备注</a></li>
 							</ul>
 
 							<div class="tab-content">
-								<div class="tab-pane fade active in" id="home">
+
+								<div class="tab-pane active fade in" id="settings">
 									<div class="jqGrid_wrapper row">
-										<table id="caseCommenTable"></table>
-										<div id="caseCommenPager"></div>
+										<table id="operation_history_table"></table>
+										<div id="operation_history_pager"></div>
 									</div>
 								</div>
 								<div class="tab-pane fade" id="profile">
@@ -892,9 +628,9 @@ p.title {
 										</c:if>
 									</c:if>
 								</div>
-								<div class="tab-pane fade" id="settings">
-									<table id="operation_history_table"></table>
-									<div id="operation_history_pager"></div>
+								<div class="tab-pane fade" id="home">						
+										<table id="caseCommenTable"></table>
+										<div id="caseCommenPager"></div>
 								</div>
 							</div>
 						</div>
@@ -902,12 +638,8 @@ p.title {
 
 
 					<!-- 相关信息 -->
-					<div class="panel panel-default" id="aboutInfo">
-						<div class="panel-heading ibox-title">
-							<h5>相关信息</h5>
-							<span><a style="float: right; margin-right: 10px;"
-								href="javascript:showChangeFormModal();">我要修改</a></span>
-						</div>
+					<div class="panel " id="aboutInfo" style="min-height:800px;">
+					<a style="float: right;margin-right: 12px;margin-top:10px;" href="javascript:showChangeFormModal();">我要修改</a>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -1207,6 +939,8 @@ p.title {
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+	  <script src="${ctx}/js/stickUp.js"></script>
+	 <script src="${ctx}/toastr.min.js"></script>
 
 	<!-- 放款监管信息  --> <script src="${ctx}/transjs/task/caseflowlist.js"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
@@ -1350,13 +1084,12 @@ p.title {
  		$(function(){
  			
 			var caseCode = $('#caseCode').val();
-		
 			$("#caseCommentList").caseCommentGrid({
 				caseCode : caseCode,
 				srvCode : null
 			});
-			var h= window.screen.availHeight;
-			$("#scroll").css("height",h-h*0.30);
+/* 	        var h= window.screen.availHeight;
+			$("#scroll").css("height",h-h*0.32); */ 
 			//点击浏览器任何位置隐藏提示信息
 	        $("body").bind("click",function(evt){
               if($(evt.target).attr("data-toggle")!='popover') 
@@ -1364,7 +1097,41 @@ p.title {
                	$('a[data-toggle="popover"]').popover('hide');
                	}
             });
-		}) 
+			//隐藏头部信息
+			
+ 	        window.onscroll = function(){ 
+	        	if(document.body.scrollTop>62){
+	        		$("#isFixed").css("position","fixed");
+	        		$("#isFixed").addClass("istauk");
+	        	/* 	$(".wrapper").css("margin-top","px"); */
+	        	}else{
+	        		$("#isFixed").css("position","relative");
+	        		$("#isFixed").removeClass("istauk");
+	        		
+	        	}
+	        	
+	        	
+	        } 
+		})
+        jQuery(function($) {
+            $(document).ready( function() {
+               $('.stickup-nav-bar').stickUp({
+                // $('.col-lg-9').stickUp({
+                                    parts: {
+                                      0:'basicInfo',
+                                      1:'serviceFlow',
+                                      2:'aboutInfo'
+                                    },
+                                    itemClass: 'menuItem',
+                                    itemHover: 'active',
+                                    marginTop: 'auto'
+                                  });
+
+           
+
+            });
+        });
+	       
 	</script> </content>
 </body>
 </html>

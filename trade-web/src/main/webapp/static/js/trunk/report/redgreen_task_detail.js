@@ -1,5 +1,9 @@
 $(document).ready(function() {
 					cleanForm();
+					
+					initradio('lampRadios',$("#colourId").val());
+					$("#txt_proOrgId_gb").val($("#orgName1").val());
+					
 					//基本信息等高
 					var url = "/quickGrid/findPage";
 					var ctx = $("#ctx").val();
@@ -26,6 +30,17 @@ $(document).ready(function() {
 		    	    data.page = 1;
 		    		reloadGrid(data);
 				});
+
+function initradio(rName,rValue){
+    var rObj = document.getElementsByName(rName);
+
+    for(var i = 0;i < rObj.length;i++){
+        if(rObj[i].value == rValue){
+            rObj[i].checked =  'checked';
+        }
+    }
+}
+
 
 // select控件
 var config = {
@@ -301,7 +316,6 @@ $('#cleanButton').click(function() {
 	$("input[name='search_propertyAddr']").val('');
 	$("input[name='search_taskName']").val('');
 	$("input[name='search_caseCode']").val('');
-	$("input[name='lampRadios']").val('');
 	$("input[name='taskDfKey']").val('');
 	$('input[name="lampRadios"]:checked').val('');
 	$("select").val("");
@@ -310,12 +324,22 @@ $('#cleanButton').click(function() {
 	$("#txt_proOrgId").val('');
 	$("#inTextVal").val("");
 	
+	$("#h_proOrgId_gb").val('');
+	$("#h_proOrgId").val('');
+	$("#txt_proOrgId").val('');
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId").attr("serviceDepIdOld",'');
+	$("#txt_proOrgId").attr("serviceDepId",'');
+	
+	
 	jobNames = "";
 	
 });
 
 //贵宾服务部
 function radioYuCuiOrgSelectCallBackgb(array){
+	$("#h_proOrgId").val('');
     if(array && array.length >0){
         $("#txt_proOrgId_gb").val(array[0].name);
 		$("#h_proOrgId_gb").val(array[0].id);
