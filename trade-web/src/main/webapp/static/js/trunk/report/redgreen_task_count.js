@@ -307,9 +307,9 @@ function queryRedGreenTaskDetail(id){
 	
 }
 //添加颜色参数
-function queryRedGreenTaskDetailColour(id,colourId){
+function queryRedGreenTaskDetailColour(id,colourId,orgName1){
 	//var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId);
+	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1);
 	
 }
 
@@ -330,6 +330,14 @@ $('#cleanButton').click(function() {
 	$("#txt_proOrgId").val('');
 	$("#inTextVal").val("");
 	
+	$("#h_proOrgId_gb").val('');
+	$("#h_proOrgId").val('');
+	$("#txt_proOrgId").val('');
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId").attr("serviceDepIdOld",'');
+	$("#txt_proOrgId").attr("serviceDepId",'');
+	
 	jobNames = "";
 	
 });
@@ -338,13 +346,16 @@ $('#cleanButton').click(function() {
 
 //贵宾服务部
 function radioYuCuiOrgSelectCallBackgb(array){
+	$("#h_proOrgId").val('');
+	
   if(array && array.length >0){
-      $("#txt_proOrgId_gb").val(array[0].name);
+        $("#txt_proOrgId_gb").val(array[0].name);
 		$("#h_proOrgId_gb").val(array[0].id);
 		$("#inTextVal").val("");
 		
 		var serviceDepId = array[0].id;
 		$("#txt_proOrgId").val('');
+		
 		$("#txt_proOrgId").attr("serviceDepId",serviceDepId);
 		
 	}else{
@@ -355,6 +366,7 @@ function radioYuCuiOrgSelectCallBackgb(array){
 }
 //选业务组织的回调函数
 function radioYuCuiOrgSelectCallBack(array){
+	$("#h_proOrgId_gb").val("");
 if(array && array.length >0){
 	    $("#txt_proOrgId").val(array[0].name);
 		$("#h_proOrgId").val(array[0].id);
