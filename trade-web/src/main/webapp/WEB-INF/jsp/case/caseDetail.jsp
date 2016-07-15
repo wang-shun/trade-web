@@ -1084,10 +1084,10 @@
  		$(function(){
  			
 			var caseCode = $('#caseCode').val();
-		
+			var caseCode = $('#srvCodes').val();
 			$("#caseCommentList").caseCommentGrid({
 				caseCode : caseCode,
-				srvCode : null
+				srvCode : "案件试图"
 			});
 /* 	        var h= window.screen.availHeight;
 			$("#scroll").css("height",h-h*0.32); */ 

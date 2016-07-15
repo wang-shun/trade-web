@@ -118,20 +118,20 @@ text-decoration: underline !important;
 			    				<div class="col-md-3">
 			    					<div id="dateDiv_0">
 							    		<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${prApplyTime}" placeholder="起始日期">
 											<span class="input-group-addon">到</span>
-											<input id="dtBegin_1" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期">
+											<input id="dtBegin_1" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${prApplyTimeEnd}" placeholder="结束日期">
 							    		</div>
 						       		 </div>
 			    				</div>
 			    				<label class="col-md-1  control-label">贵宾服务部</label>
 			    				<div class="col-md-3">
-			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" 
+			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" value="${teamCode }"
 											   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 											   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
 											   expandNodeId:'',chkLast:'true'})" />
-											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${yuCuiOriGrpId }"> 
 								</div>
 				    	</div>
 				    	
@@ -139,17 +139,17 @@ text-decoration: underline !important;
 				    			<label class="col-md-1  control-label">产调接受时间</label>
 			    				<div class="col-md-3" style='margin-left: 0px'>
 			    					<div id="datepicker_1" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-										<input id="prAccpetTimeStart" name="prAccpetTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+										<input id="prAccpetTimeStart" name="prAccpetTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prAccpetTimeStart}" placeholder="起始日期">
 										 <span class="input-group-addon">到</span>
-										<input id="prAccpetTimeEnd" name="prAccpetTimeEnd"  class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+										<input id="prAccpetTimeEnd" name="prAccpetTimeEnd"  class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prAccpetTimeEnd}" placeholder="结束日期" />
 									</div>
 								</div>
 			    				<label class="col-md-1  control-label">产调完成时间</label>
 			    				<div class="col-md-3">
 			    					<div id="datepicker_2" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-										<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+										<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${ prCompleteTimeStart}" placeholder="起始日期">
 										 <span class="input-group-addon">到</span>
-										<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+										<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prCompleteTimeEnd }" placeholder="结束日期" />
 									</div>
 			    				</div>
 			    				
@@ -166,9 +166,7 @@ text-decoration: underline !important;
 								</div>
 							</div>
 							<div class="col-md-6"  style="text-align:right;">
-							 	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
 									<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">详细导出</a>
-								</shiro:hasPermission>
 							</div>
 						</div>
 					</div>	
@@ -179,7 +177,7 @@ text-decoration: underline !important;
 		</div>
 			<div class="data-wrap">
 		<div class="data-wrap-in">
-			<table border="0" cellpadding="0" cellspacing="0">
+			<table border="1" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th class="t-left pd-l"><span class="sort" sortColumn="pr.PR_CODE" sord="desc">产调编号</span></th>
@@ -213,12 +211,12 @@ text-decoration: underline !important;
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	
 	<input type="hidden" id="organId" value="${organId}" />
-	<input type="hidden" id="prApplyTimePre" value="${prApplyTime}" />
+	<%-- <input type="hidden" id="prApplyTimePre" value="${prApplyTime}" />
 	<input type="hidden" id="prApplyTimeEndPre" value="${prApplyTimeEnd}" />
 	<input type="hidden" id="prAccpetTimeStartPre" value="${prAccpetTimeStart}" />
 	<input type="hidden" id="prAccpetTimeEndPre" value="${prAccpetTimeEnd}" />
 	<input type="hidden" id="prCompleteTimeStartPre" value="${prCompleteTimeStart}" />
-	<input type="hidden" id="prCompleteTimeEndPre" value="${prCompleteTimeEnd}" />
+	<input type="hidden" id="prCompleteTimeEndPre" value="${prCompleteTimeEnd}" /> --%>
 	
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
