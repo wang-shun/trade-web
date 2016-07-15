@@ -102,10 +102,10 @@ $('#cleanButton').click(function() {
 	$("input[name='caseCode']").val('');
 	$("input[name='propertyAddr']").val('');
 	$("input[name='orgManName']").val('');
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
 	$("input[id='inTextVal']").val('');
 	$("input[name='orgName']").val('');
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
 	
 	$("select").val("");
 });
@@ -184,8 +184,8 @@ function getSearchDateValues() {
 	signTimeStart = null;
 	signTimeEnd = null;
 
-	var start = $('#dtBegin_0').val();
-	var end = $('#dtEnd_0').val();
+	var start = $('#dtBegin').val();
+	var end = $('#dtEnd').val();
 	if (end && end != '') {
 		end = end + ' 23:59:59';
 	}
