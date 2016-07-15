@@ -139,8 +139,7 @@
 </head>
 
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	
 	<div class="row">
 		<div class="wrapper wrapper-content  animated fadeInRight">	
 		<div class="col-md-12">
@@ -171,6 +170,31 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">案件审核状态</label>
+									<div class="col-md-8"> 	
+									<select name="TransferStatus" id="TransferStatus" class="form-control">	
+										<option value="" selected="selected">-- 请选择  --</option>
+										<option value="0" >审批不通过</option>									
+										<option value="1" >审批已通过</option>								
+																				
+									</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								 <div class="form-group">
+                                        <label class="col-md-3 control-label m-l">主管</label>
+                                        <div class="col-md-8">
+                                        	<input type="text" id="managerName" style="background-color:#FFFFFF" name="managerName" class="form-control tbspuser" 
+													 readonly="readonly"   onclick="chooseManager('${serviceDepId}')" />
+                                       </div>
+                                 </div>
+							</div>
+						</div>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
@@ -207,23 +231,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">案件审核状态</label>
-									<div class="col-md-8"> 	
-									<select name="TransferStatus" id="TransferStatus" class="form-control">	
-										<option value="" selected="selected">-- 请选择  --</option>
-										<option value="0" >审批未通过</option>									
-										<option value="1" >审批已通过</option>								
-																				
-									</select>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6"  style="">
-							</div>
-						</div>
+
 						
 							<div class="row m-t-sm">
 								<div class="col-md-6">
@@ -232,7 +240,7 @@
 										<div>
 											<button id="searchButton" type="button"
 												class="btn btn-warning">查询</button>
-											<button id="cleanButton" type="button"
+											<button id="caseTransferCleanButton" type="button"
 												class="btn btn-primary">清空</button>
 										</div>
 									</div>

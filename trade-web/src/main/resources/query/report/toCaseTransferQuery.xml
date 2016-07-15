@@ -56,8 +56,7 @@
 					</ifNotNull>
 					<ifNotNull caseTransferDateEnd>
 						AND t.caseTransferDate &lt; #caseTransferDateEnd#
-					</ifNotNull>
-					
+					</ifNotNull>					
 					<ifNotNull transferDateStart>
 						AND t.transferDate &gt; #transferDateStart#
 					</ifNotNull>
@@ -72,6 +71,9 @@
 					</ifNotNull>
 					<ifNotNull vrealName>
 						AND WZ.REAL_NAME like '%' + #vrealName# + '%' 
+					</ifNotNull>
+					<ifNotNull managerName>
+						AND T.REAL_NAME like '%' + #managerName# + '%' 
 					</ifNotNull>
 				]]>
 			</baseSql>

@@ -51,7 +51,7 @@
 	 INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ef.CASE_CODE
 	 <ifNotNull proOrgId>
 	 	left join sctrans.v_yucui_org_hierarchy orgHierarchy
-	 	on orgHierarchy.org_id =tsi.ORG_ID
+	 	on orgHierarchy.org_id =c.ORG_ID
 	</ifNotNull>
 	 where ef.CASE_CODE is not null and ef.RECORD_TIME is not null
 	<ifNotNull proOrgId>
