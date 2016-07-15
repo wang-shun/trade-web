@@ -40,7 +40,7 @@ public class PSFApproveController {
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
 	@RequestMapping("process")
-	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response,
+	public String toProcess(HttpServletRequest request, HttpServletResponse response,
 			String caseCode, String source, String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);

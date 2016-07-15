@@ -14,8 +14,6 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.aist.uam.userorg.remote.vo.UserOrgJob;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.PrChannelEnum;
 import com.centaline.trans.common.enums.PropertyStatusEnum;
 import com.centaline.trans.common.enums.ToPropertyResearchEnum;
@@ -26,8 +24,6 @@ import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.entity.TsPrResearchMap;
 import com.centaline.trans.task.repository.ToPropertyResearchMapper;
 import com.centaline.trans.task.repository.TsPrResearchMapMapper;
-
-import sun.management.resources.agent;
 
 @Service
 public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
@@ -47,9 +43,11 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 	}
 	@Override
 	public int recordProperty(ToPropertyResearchVo vo) {
+		
 		if (StringUtils.isBlank(vo.getPrChannel())) {
 			getChannel(vo);
 		}
+		
 		if (PrChannelEnum.TJJR.getCode().equals(vo.getPrChannel())) {//经纪人发起 根据行政区号获得大区ID
 			getDistrictId(vo);
 		}
@@ -61,12 +59,20 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 			}
 			vo.setAppliant(user.getId());
 		}
+		
+		// 获取当前操作人
+		String applOrgId = mapper.getOrgIdByUserId(vo.getAppliant());
+		if(applOrgId != null){
+			Org org = uamUserOrgService.getOrgById(applOrgId);
+			vo.setPrApplyOrgId(org.getId());
+			vo.setPrApplyOrgName(org.getOrgName());
+		}
+		
 		if (StringUtils.isBlank(vo.getPrCostOrgId())) {
-			if (PrChannelEnum.TJJR.getCode().equals(vo.getPrChannel())) {
-
-				setPrCostAndApplyOrg(vo, vo.getAppliant(),vo.getAppliant());
+			if (PrChannelEnum.TJJR.getCode().equals(vo.getPrChannel())) { // 经纪人发起
+				setPrCost(vo, vo.getAppliant());
 			} else {
-				setPrCostAndApplyOrg(vo, vo.getAgentCode(),vo.getAppliant());
+				setPrCost(vo, vo.getAgentCode());
 			}
 		}
 
@@ -76,22 +82,15 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		return mapper.insertSelective(tpr);
 	}
 
-	private void setPrCostAndApplyOrg(ToPropertyResearchVo vo, String agentId,String appliant) {
+	private void setPrCost(ToPropertyResearchVo vo, String agentId) {
 		String orgId = mapper.getOrgIdByUserId(agentId);
-		String applOrgId = mapper.getOrgIdByUserId(appliant);
 		Org prCostOrg=null;
-		Org org=null;
-		if(applOrgId!=null){
-			org=uamUserOrgService.getOrgById(applOrgId);
-			vo.setPrApplyOrgId(org.getId());
-			vo.setPrApplyOrgName(org.getOrgName());
-		}
 		if(orgId!=null){	
 			prCostOrg=uamUserOrgService.getParentOrgByDepHierarchy(orgId, "BUSIWZ");
 			if(prCostOrg!=null){
 				vo.setPrCostOrgId(prCostOrg.getId());
 				vo.setPrCostOrgName(prCostOrg.getOrgName());
-				vo.setPrCostOrgMgr(mapper.getPrCostMgrByOrgId(org.getId()));
+				vo.setPrCostOrgMgr(mapper.getPrCostMgrByOrgId(prCostOrg.getId()));
 			}
 		}
 	}

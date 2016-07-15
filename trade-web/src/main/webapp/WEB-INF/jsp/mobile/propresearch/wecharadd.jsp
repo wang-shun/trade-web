@@ -48,8 +48,11 @@ float: none;
 	<form action="${ctx }/mobile/property/box/doAdd" id="m_form"
 		method="post"
 		enctype="application/x-www-form-urlencoded; charset=UTF-8 ">
-		<input type="hidden" id="txt_prCat" name="prCat"> <input
-			type="hidden" name="username" value="${username }">
+		<input type="hidden" id="txt_prCat" name="prCat">
+		<input type="hidden" name="username" value="${username }">
+		<input type="hidden" name="prCostOrgId" id="prCostOrgId">
+		<input type="hidden" name="prCostOrgName" id="prCostOrgName">
+		<input type="hidden" name="prCostOrgMgr" id="prCostOrgMgr">
 		<div class="row" style="margin-top: 0px; text-align: center;">
 			<span style="font-size: 38px; display: block; margin-top: 12px;">人工产调</span>
 		</div>
@@ -175,8 +178,16 @@ float: none;
 					return false;
 				}
 				$("#txt_prCat").val(prCat);
-				$
-						.ajax({
+				
+				var prCostOrgId = $("#zhanqu").val();
+				var prCostOrgName = $("#zhanqu option:selected").text();
+				var prCostOrgMgr = $("#orgName").val();
+				
+				$("#prCostOrgId").val(prCostOrgId);
+				$("#prCostOrgName").val(prCostOrgName);
+				$("#prCostOrgMgr").val(prCostOrgMgr);
+				
+				$.ajax({
 							url : ctx + "/mobile/property/box/doApply",
 							type : "POST",
 							data : $("#m_form").serialize(),
@@ -201,6 +212,13 @@ float: none;
 			}
 
 			function formCheck() {
+				
+				if($("#zhanqu").val() == ''){
+					alert("请选择战区!");
+					$.unblockUI();
+					return false;
+				}
+				
 				if ($("#propertyAddr").val() == '') {
 					alert('请输入产调地址！');
 					$.unblockUI();
