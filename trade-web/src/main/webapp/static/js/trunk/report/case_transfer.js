@@ -19,8 +19,28 @@ $(document).ready(function() {
 	}
 
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
-	// 初始化列表
-	var data = {};
+	
+	
+	// 过户日期
+	var transferDateBegin = $('#dtBegin_0').val();
+	var transferDateOver = $('#dtEnd_0').val();
+	// 过户审核日期
+	var caseTransferDateBegin = $('#dtBegin_1').val();
+	var caseTransferDateOver = $('#dtEnd_1').val();
+	
+	if (transferDateOver && transferDateOver != '') {
+		transferDateOver = transferDateOver + ' 23:59:59';
+	}
+	if (caseTransferDateOver && caseTransferDateOver != '') {
+		caseTransferDateOver = caseTransferDateOver + ' 23:59:59';
+	}
+	// 设置查询参数
+	var data = {
+		caseTransferDateStart : caseTransferDateBegin,
+		caseTransferDateEnd : caseTransferDateOver,
+		transferDateStart : transferDateBegin,
+		transferDateEnd : transferDateOver,
+	};
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 12;
 	data.page = 1;
