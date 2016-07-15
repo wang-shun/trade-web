@@ -314,6 +314,7 @@ function radioYuCuiOrgSelectCallBack(array) {
 	if (array && array.length > 0) {
 		$("#orgName").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
+		$("#managerName").val("");
 	} else {
 		$("#orgName").val("");
 		$("#yuCuiOriGrpId").val("");
