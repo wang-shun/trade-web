@@ -103,6 +103,7 @@ text-decoration: underline !important;
 					<h5>红绿灯任务详细</h5>
 					<div class="ibox-content">
 					<form method="get" class="form-horizontal">
+					<div class="row"> 
 				  <!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
 						<div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
@@ -119,7 +120,7 @@ text-decoration: underline !important;
                           		 <div class="form-group">
                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　value='${serOrgName }'
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
                                           
                                           onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
                                           
@@ -128,6 +129,8 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div> 
+                       </div>  
+                       <div class="row"> 
                          <div class="col-lg-5 col-md-5 ">    
                        			<div class="form-group">
                                    <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
@@ -137,11 +140,15 @@ text-decoration: underline !important;
                                    </div>
                                </div>
                         </div>
-                        
+                         <div class="col-lg-5 col-md-5 ">    
+                       			<div class="form-group">
+                       			 </div>
+                        </div>
+                       			
                         <div class="col-lg-5 col-md-5 ">    
                          <div class="form-group">
                            <label class="col-lg-3 col-md-3 control-label font_w">红黄灯</label>
-							<div class="col-md-4">
+							<div class="col-md-8">
 								<label> <input type="radio" value="2" id="lamp0"
 									name="lampRadios"> 全部
 								</label> <label> <input type="radio" value="1" id="lamp1"
@@ -152,23 +159,27 @@ text-decoration: underline !important;
 						   </div>
 						   </div>
 						</div>
+						</div>
+						<div class="row"> 
 						<div class="col-lg-5 col-md-5 ">   
 						  <div class="form-group">
 							<label class="col-lg-3 col-md-3 control-label font_w">案件编号 </label>
-		    				<div class="col-md-5">
+		    				<div class="col-md-9">
 		    					<input type="text" id="caseCode" name="search_caseCode" class="form-control"/>
 		    				</div>
 		    				</div>
 		    			</div>
 						<div class="col-lg-5 col-md-5 "> 
 							<label class="col-lg-3 col-md-3 control-label font_w">任务名 </label>
-									<div class="col-md-4">
+									<div class="col-md-5">
 										<aist:dict id="taskDfKeyid" name="taskDfKey"
 										clazz="form-control m-b" display="select"
 										dictType="part_code" defaultvalue="" />
 								
 									</div>
 		    			</div>
+		    			</div>
+		    			<div class="row"> 
 						<div class="col-lg-5 col-md-5 "> 
 							<label class="col-lg-3 col-md-3 control-label font_w">产证地址 </label>
 		    				<div class="col-md-9">
@@ -181,28 +192,34 @@ text-decoration: underline !important;
 		    					<input type="text" id="realName" name="search_realName" class="form-control"/>
 		    				</div> 
 		    			</div> 
+		    			</div> 
 		    			
-		    			
-		    			<div class="col-lg-5 col-md-5 "> 
-								<div class="form-group">
-							<label class="col-lg-3 col-md-3 control-label font_w">预计完成时间</label>
-							<div id="dateDiv_0"  class="col-md-6">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="开始日期"> <span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="结束日期" />
+		    			<div class="row"> 
+			    			<div class="col-lg-5 col-md-5 "> 
+									<div class="form-group">
+								<label class="col-lg-3 col-md-3 control-label font_w">预计完成时间</label>
+								<div id="dateDiv_0"  class="col-md-6">
+								<div id="datepicker_0"
+									class="input-group input-medium date-picker input-daterange pull-left"
+									data-date-format="yyyy-mm-dd">
+									<input id="dtBegin_0" name="dtBegin" class="form-control"
+										style="font-size: 13px;" type="text" value=""
+										placeholder="开始日期"> <span class="input-group-addon">到</span>
+									<input id="dtEnd_0" name="dtEnd" class="form-control"
+										style="font-size: 13px;" type="text" value=""
+										placeholder="结束日期" />
+								</div>
+								<div id="addLine" class="pull-left m-l">
+								
 							</div>
-							<div id="addLine" class="pull-left m-l">
+							</div>
+							</div>
+							</div>
+							<div class="col-lg-5 col-md-5 "> 
 							
+							</div>
 						</div>
-						</div>
-						</div>
-						</div>
+						 
 				  </div>
 						<div class="row date-info">
 						 <div class="row">
@@ -261,6 +278,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	
 	<input type="hidden" id="organId" value="${organId}" />
+	<input type="hidden" id="orgName1" value="${orgName1}" />
 	<input type="hidden" id="colourId" value="${colourId}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
