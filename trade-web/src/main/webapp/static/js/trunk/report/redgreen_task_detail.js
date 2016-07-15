@@ -301,7 +301,6 @@ $('#cleanButton').click(function() {
 	$("input[name='search_propertyAddr']").val('');
 	$("input[name='search_taskName']").val('');
 	$("input[name='search_caseCode']").val('');
-	$("input[name='lampRadios']").val('');
 	$("input[name='taskDfKey']").val('');
 	$('input[name="lampRadios"]:checked').val('');
 	$("select").val("");
