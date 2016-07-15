@@ -2,9 +2,9 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="TempBankAudit_Process" name="TempBankAudit_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="ManagerAduit" name="主管审批"></userTask>
-    <userTask id="SuperManagerAudit" name="高级主管审批"></userTask>
-    <userTask id="DirectorAudit" name="总监审批"></userTask>
+    <userTask id="ManagerAduit" name="主管审批" activiti:assignee="${Manager}"></userTask>
+    <userTask id="SuperManagerAudit" name="高级主管审批" activiti:assignee="${SeniorManager}"></userTask>
+    <userTask id="DirectorAudit" name="总监审批" activiti:assignee="${director}"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="ManagerAduit"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="ManagerAduit" targetRef="exclusivegateway1"></sequenceFlow>
@@ -15,10 +15,10 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSuperManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="SuperManagerAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasSuperManager == true && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager != null && isManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="exclusivegateway1" targetRef="DirectorAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasSuperManager == false && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager == null && isManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow12" sourceRef="exclusivegateway1" targetRef="endevent1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isManagerApprove == false}]]></conditionExpression>
