@@ -103,7 +103,7 @@ text-decoration: underline !important;
 					<h5>产调导出汇总筛选</h5>
 				</div>
 				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
+					<form method="post" class="form-horizontal" id="chandiaoDetail" target="_blank">
 					<div class="jqGrid_wrapper"> 
 					     <div class="row form-group">
 			    				<label class="col-md-1  control-label">产调申请时间</label>
@@ -111,6 +111,8 @@ text-decoration: underline !important;
 			    					<div id="dateDiv_0">
 							    		<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
 											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+											<span class="input-group-addon">到</span>
+											<input id="dtBegin_1" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期">
 							    		</div>
 						       		 </div>
 			    				</div>
@@ -167,8 +169,8 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th class="t-left pd-l">单数</th>
-						<th class="t-left pd-l">受理时间(小时)</th>
-						<th class="t-left pd-l">完成时间(小时)</th>
+						<th class="t-left pd-l">平均受理时间(小时)</th>
+						<th class="t-left pd-l">平均完成时间(小时)</th>
 						<th class="t-left pd-l">贵宾服务部</th>
 						<th class="text-center">操作</th>
 					</tr>
@@ -192,6 +194,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+	<form action="#" accept-charset="utf-8" method="post" ></form>
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
     <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
