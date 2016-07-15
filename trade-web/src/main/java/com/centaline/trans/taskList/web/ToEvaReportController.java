@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
-
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
+import com.centaline.trans.mortgage.service.ToEguPricingService;
 import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.remote.vo.MortgageAttamentVo;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -24,7 +26,8 @@ import com.centaline.trans.task.vo.ProcessInstanceVO;
 @Controller
 @RequestMapping(value="/task")
 public class ToEvaReportController {
-		
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private ToEvaReportService toEvaReportService;
 	
@@ -33,7 +36,15 @@ public class ToEvaReportController {
 	
 	@Autowired
 	private ToCaseService toCaseService;
-	
+	@Autowired
+	private ToEguPricingService toEguPricingService;
+	@RequestMapping("evaReportArise/process")
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source){
+		toAccesoryListService.getAccesoryList(request, "evaReportArise");
+		request.setAttribute("toEguPricing", toEguPricingService.findIsFinalEguPricing(caseCode));	
+		return "task/taskEvaReportArise";
+	}
 	/**
 	 * 非egu的报告走线下流程
 	 * @param toEvaReport

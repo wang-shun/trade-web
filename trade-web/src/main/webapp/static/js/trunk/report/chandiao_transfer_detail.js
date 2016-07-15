@@ -57,6 +57,21 @@ $('#datepicker_0').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN'
 });
+$('#datepicker_1').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+$('#datepicker_2').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+
 
 // 查询
 $('#searchButton').click(function() {
@@ -73,6 +88,7 @@ function searchMethod(page) {
 	params.page = page;
 	params.rows = 12;
 	params.queryId = "queryChandiaoTransferDetailList";
+	aist.wrap(params);
 	reloadGrid(params);
 	
 
@@ -176,9 +192,19 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParamsValue() {
 	
 	var start = $('#dtBegin_0').val();
+	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
+	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
+	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
+	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
 	//设置查询参数
 	var params = {
-			prApplyTime : start
+			prApplyTime : start,
+			prAccpetTimeStart : prAccpetTimeStart,
+			prAccpetTimeEnd : prAccpetTimeEnd,
+			prCompleteTimeStart : prCompleteTimeStart,
+			prCompleteTimeEnd : prCompleteTimeEnd,
+			yuCuiOriGrpId : yuCuiOriGrpId
 	};
 	return params;
 }
@@ -255,5 +281,12 @@ function cleanForm() {
 //清空
 $('#cleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
+	$('#datepicker_0').datepicker();
+	$("input[name='prAccpetTimeStart']").val('');
+	$("input[name='prAccpetTimeEnd']").val('');
+	$("input[name='prCompleteTimeStart']").val('');
+	$("input[name='prCompleteTimeEnd']").val('');
+	$("input[name='teamCode']").val('');
+	$("input[name='yuCuiOriGrpId']").val('');
 	$("select").val("");
 });

@@ -47,8 +47,27 @@
   					 </ifNotNull> 
   					 <ifNotNull prApplyTime>
   					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)>1 
-  					 </ifNotNull>     
-  					      and PR_CHANNEL=1
+  					 </ifNotNull>
+  					 <ifNotNull prApplyTime>
+  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)>1 
+  					 </ifNotNull>  
+  					 <ifNotNull prAccpetTimeStart>
+						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
+					 </ifNotNull>
+					 <ifNotNull prAccpetTimeEnd>
+						  AND pr.PR_ACCPET_TIME &lt;= #prAccpetTimeEnd#
+					 </ifNotNull>
+					 <ifNotNull prCompleteTimeStart>
+						  AND pr.PR_COMPLETE_TIME &gt;= #prCompleteTimeStart#
+					 </ifNotNull>
+					 <ifNotNull prCompleteTimeEnd>
+						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
+					 </ifNotNull>
+  					 <ifNotNull yuCuiOriGrpId>
+  						  AND  o.ID = #yuCuiOriGrpId#   
+  					 </ifNotNull>          
+  					      and PR_CHANNEL=1 
+  					      order by PR_CODE
 				]]>
 			</baseSql>
 			<orderBySql>

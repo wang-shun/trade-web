@@ -20,15 +20,23 @@
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
+	rel="stylesheet">
+<link
+	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
+	rel="stylesheet">
+
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+<link
+	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
+	rel="stylesheet">
 <link href="${ctx}/css/transcss/case/myCaseList.css" rel="stylesheet">
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
@@ -104,25 +112,47 @@ text-decoration: underline !important;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<div class="row date-info">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">产调申请时间</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期">
-							</div>
-							<div id="addLine" class="pull-left m-l">
-							
-						</div>
-						</div>
-						</div>
-							</div>
-						</div>
+						<div class="jqGrid_wrapper"> 
+					     <div class="row form-group">
+			    				<label class="col-md-1  control-label">产调申请时间</label>
+			    				<div class="col-md-3">
+			    					<div id="dateDiv_0">
+							    		<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+							    		</div>
+						       		 </div>
+			    				</div>
+			    				<label class="col-md-1  control-label">贵宾服务部</label>
+			    				<div class="col-md-3">
+			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" 
+											   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+											   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
+											   expandNodeId:'',chkLast:'true'})" />
+											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+								</div>
+				    	</div>
+				    	
+				    	<div class="row form-group">
+				    			<label class="col-md-1  control-label">产调接受时间</label>
+			    				<div class="col-md-3" style='margin-left: 0px'>
+			    					<div id="datepicker_1" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<input id="prAccpetTimeStart" name="prAccpetTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+										 <span class="input-group-addon">到</span>
+										<input id="prAccpetTimeEnd" name="prAccpetTimeEnd"  class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+									</div>
+								</div>
+			    				<label class="col-md-1  control-label">产调完成时间</label>
+			    				<div class="col-md-3">
+			    					<div id="datepicker_2" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+										 <span class="input-group-addon">到</span>
+										<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+									</div>
+			    				</div>
+			    				
+				    	</div>
+						
 						<div class="row m-t-sm">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -139,6 +169,8 @@ text-decoration: underline !important;
 								</shiro:hasPermission>
 							</div>
 						</div>
+					</div>	
+						
 					</form>
 				</div>
 			</div>
@@ -148,13 +180,13 @@ text-decoration: underline !important;
 			<table border="0" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-						<th class="t-left pd-l">产调编号</th>
+						<th class="t-left pd-l"><span class="sort" sortColumn="pr.PR_CODE" sord="desc">产调编号</span></th>
 						<th class="t-left pd-l">产调地址</th>
 						<th class="t-left pd-l">申请人</th>
-						<th class="t-left pd-l">申请时间</th>
-						<th class="text-center">接受时间</th>
+						<th class="t-left pd-l"><span class="sort" sortColumn="PR_APPLY_TIME" sord="desc">申请时间</span></th>
+						<th class="text-center"><span class="sort" sortColumn="PR_ACCPET_TIME" sord="desc">接受时间</span></th>
 						<th class="text-center">受理时间（小时）</th>
-						<th class="text-center">完成时间</th>
+						<th class="text-center"><span class="sort" sortColumn="PR_COMPLETE_TIME" sord="desc">完成时间</span></th>
 						<th class="text-center">完成时间（小时）</th>
 						<th class="text-center">贵宾服务部</th>
 					</tr>
@@ -208,7 +240,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.PR_ADDRESS}}</td>
 						<td class="t-left pd-l">{{item.REAL_NAME}}</td>
 						<td class="t-left pd-l">{{item.PR_APPLY_TIME}}</td>
-						<td class="t-left pd-l">{{item.PR_APPLY_TIME}}</td>
+						<td class="t-left pd-l">{{item.PR_ACCPET_TIME}}</td>
 						<td class="t-left pd-l">{{item.ACCEPTANCE}}</td>
 						<td class="t-left pd-l">{{item.PR_COMPLETE_TIME}}</td>
 						<td class="t-left pd-l">{{item.ACOMPLETE_TIME}}</td>
@@ -217,7 +249,23 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
      </script>
-     <script></script>
+     <script>
+     aist.sortWrapper({
+			reloadGrid : searchMethod
+		});
+     //选业务组织的回调函数
+     function radioYuCuiOrgSelectCallBack(array){
+         if(array && array.length >0){
+             $("#teamCode").val(array[0].name);
+     		$("#yuCuiOriGrpId").val(array[0].id);
+     		
+     	}else{
+     		$("#teamCode").val("");
+     		$("#yuCuiOriGrpId").val("");
+     	}
+     }
+    
+     </script>
 
 	 </content>
 </body>
