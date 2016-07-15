@@ -164,7 +164,7 @@
 									<div class="col-md-8">
 										  <input type="text" class="form-control tbsporg" id="orgName" name="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value=''>
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})" value=''>
                                           <input type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="">
 									</div>
 								</div>
