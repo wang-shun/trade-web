@@ -257,7 +257,7 @@
 		</div>
 			<div class="data-wrap">
 				<div class="data-wrap-in">
-					<table border="0" cellpadding="0" cellspacing="0">
+					<table border="1" cellpadding="0" cellspacing="0">
 						<thead>
 							<tr>
 								<th class="t-left pd-l">案件编号</th>
