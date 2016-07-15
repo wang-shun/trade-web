@@ -3,11 +3,13 @@ package com.centaline.trans.report.web;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -83,10 +85,16 @@ public class ChandiaoTransferController {
 	 * @return
 	 */
 	@RequestMapping(value="chandiaoDetail")
-	public String chandiaoDetail(Model model, ServletRequest request){
+	public String chandiaoDetail(@RequestParam("organId") String organId, HttpServletRequest request){
+	
+		String  prApplyTime = request.getParameter("dtBegin");
+		String  prApplyTimeEnd = request.getParameter("dtEnd");
+		String  prAccpetTimeStart = request.getParameter("prAccpetTimeStart");
+		String  prAccpetTimeEnd = request.getParameter("prAccpetTimeEnd");
+		String  prCompleteTimeStart = request.getParameter("prCompleteTimeStart");
+		String  prCompleteTimeEnd = request.getParameter("prCompleteTimeEnd");
 		
-		String organId = request.getParameter("organId");
-		String  prApplyTime = request.getParameter("prApplyTime");
+		
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
@@ -113,12 +121,17 @@ public class ChandiaoTransferController {
 			}
 		}
 		request.setAttribute("queryOrgs", reBuffer.toString());
-
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
 		
 		request.setAttribute("organId", organId);
 		request.setAttribute("prApplyTime", prApplyTime);
+		request.setAttribute("prApplyTimeEnd", prApplyTimeEnd);
+		request.setAttribute("prAccpetTimeStart", prAccpetTimeStart);
+		request.setAttribute("prAccpetTimeEnd", prAccpetTimeEnd);
+		request.setAttribute("prCompleteTimeStart", prCompleteTimeStart);
+		request.setAttribute("prCompleteTimeEnd", prCompleteTimeEnd);
+		
 		return "report/chandiao_transfer_detail";
 	}
 	

@@ -192,7 +192,7 @@ $(document).ready(
 						url : url,
 						datatype : "json",
 						mtype : "POST",
-						height : 250,
+						height : 300,
 						autowidth : true,
 						shrinkToFit : true,
 						rowNum : 10,
@@ -226,14 +226,16 @@ $(document).ready(
 			
 			var width = $('.jqGrid_wrapper').width();
 			$('#operation_history_table').setGridWidth(width);
-			$('#gridTable').setGridWidth(width-120);
-			$('#gridTable1').setGridWidth(width-120);
+			$('#caseCommenTable').setGridWidth(width);
+			$('#gridTable').setGridWidth(width);
+			$('#gridTable1').setGridWidth(width);
 		// Add responsive to jqGrid
 			$(window).bind('resize', function() {
 				var width1 = $('.jqGrid_wrapper').width();
 				$('#operation_history_table').setGridWidth(width1);
-				$('#gridTable').setGridWidth(width1-120);
-				$('#gridTable1').setGridWidth(width1-120);
+				$('#gridTable').setGridWidth(width1);
+				$('#caseCommenTable').setGridWidth(width1);
+				$('#gridTable1').setGridWidth(width1);
 
 			});
 			

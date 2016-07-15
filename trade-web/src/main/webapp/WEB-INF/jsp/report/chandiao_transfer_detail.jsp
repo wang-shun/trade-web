@@ -119,6 +119,8 @@ text-decoration: underline !important;
 			    					<div id="dateDiv_0">
 							    		<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
 											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+											<span class="input-group-addon">到</span>
+											<input id="dtBegin_1" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期">
 							    		</div>
 						       		 </div>
 			    				</div>
@@ -211,7 +213,13 @@ text-decoration: underline !important;
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	
 	<input type="hidden" id="organId" value="${organId}" />
-	<input type="hidden" id="prApplyTime" value="${prApplyTime}" />
+	<input type="hidden" id="prApplyTimePre" value="${prApplyTime}" />
+	<input type="hidden" id="prApplyTimeEndPre" value="${prApplyTimeEnd}" />
+	<input type="hidden" id="prAccpetTimeStartPre" value="${prAccpetTimeStart}" />
+	<input type="hidden" id="prAccpetTimeEndPre" value="${prAccpetTimeEnd}" />
+	<input type="hidden" id="prCompleteTimeStartPre" value="${prCompleteTimeStart}" />
+	<input type="hidden" id="prCompleteTimeEndPre" value="${prCompleteTimeEnd}" />
+	
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
