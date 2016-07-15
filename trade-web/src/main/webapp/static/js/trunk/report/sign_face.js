@@ -380,6 +380,7 @@ function exportToExcel() {
 	if (getSearchDateValues()) {
 		var url = "/quickGrid/findPage?xlsx&";
 		var ctx = $("#ctx").val();
+		console.log(ctx);
 		//excel导出列
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
