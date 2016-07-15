@@ -55,7 +55,7 @@ $('#datepicker_0').datepicker({
 	weekStart : 1,
 	autoclose : true,
 	todayBtn : 'linked',
-	language : 'zh-CN'
+	language : 'zh-CN',	
 });
 $('#datepicker_1').datepicker({
 	format : 'yyyy-mm-dd',
@@ -181,8 +181,7 @@ function getParamsValue() {
 	var managerName = $('#managerName').val();
 
 	// 审核状态
-	var TransferStatus = $('#TransferStatus').val();
-
+	var TransferStatus = $('#TransferStatus').val();	
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
@@ -205,10 +204,10 @@ function getParamsValue() {
 
 // 清空表单
 function cleanForm() {
-	$("input[name='transferDateBegin']").val("");
-	$("input[name='transferDateEnd']").val("");
-	$("input[name='caseTransferDateBegin']").val("");
-	$("input[name='caseTransferDateEnd']").val("");
+	//$("input[name='transferDateBegin']").val("");
+	//$("input[name='transferDateEnd']").val("");
+	//$("input[name='caseTransferDateBegin']").val("");
+	//$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
@@ -275,12 +274,15 @@ function caseTransferExportToExcel() {
 }
 
 // 清空
-$('#caseTransferCleanButton').click(function() {
-	
-	$("input[name='transferDateBegin']").val("");
+$('#caseTransferCleanButton').click(function() {	
+/*	$("input[name='transferDateBegin']").val("");	
 	$("input[name='transferDateEnd']").val("");
 	$("input[name='caseTransferDateBegin']").val("");
-	$("input[name='caseTransferDateEnd']").val("");
+	$("input[name='caseTransferDateEnd']").val("");	*/
+	$("input[name='transferDateBegin']").datepicker('update', '');
+	$("input[name='transferDateEnd']").datepicker('update', '');
+	$("input[name='caseTransferDateBegin']").datepicker('update', '');
+	$("input[name='caseTransferDateEnd']").datepicker('update', '');
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
@@ -326,9 +328,7 @@ function chooseManager(id) {
 			chkStyle : 'radio',
 			callBack : caseTranseferSelectUserBack
 		});
-
 	}
-
 }
 
 // 选取人员的回调函数
