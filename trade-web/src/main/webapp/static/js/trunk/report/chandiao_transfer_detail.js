@@ -246,12 +246,12 @@ function exportToExcel() {
 	var params = getParamsValue();
 	
 	var yuCuiOriGrpIdPre = $("#organId").val();
-	var prApplyTimePre = $("#prApplyTimePre").val();
-	var prApplyTimeEndPre = $("#prApplyTimeEndPre").val();
-	var prAccpetTimeStartPre = $("#prAccpetTimeStartPre").val();
-	var prAccpetTimeEndPre = $("#prAccpetTimeEndPre").val();
-	var prCompleteTimeStartPre = $("#prCompleteTimeStartPre").val();
-	var prCompleteTimeEndPre = $("#prCompleteTimeEndPre").val();
+	var prApplyTimePre = $("#prApplyTime").val();
+	var prApplyTimeEndPre = $("#prApplyTimeEnd").val();
+	var prAccpetTimeStartPre = $("#prAccpetTimeStart").val();
+	var prAccpetTimeEndPre = $("#prAccpetTimeEnd").val();
+	var prCompleteTimeStartPre = $("#prCompleteTimeStart").val();
+	var prCompleteTimeEndPre = $("#prCompleteTimeEnd").val();
 	
 	/*var start = $('#dtBegin_0').val();
 	if(start&&start!=''){

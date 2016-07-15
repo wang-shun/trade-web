@@ -126,12 +126,12 @@ text-decoration: underline !important;
 			    				</div>
 			    				<label class="col-md-1  control-label">贵宾服务部</label>
 			    				<div class="col-md-3">
-			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" value=""
+			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" value="${teamCode }"
 											   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 											   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
 											   expandNodeId:'',chkLast:'true'})" />
-											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${yuCuiOriGrpId }"> 
 								</div>
 				    	</div>
 				    	
@@ -166,9 +166,7 @@ text-decoration: underline !important;
 								</div>
 							</div>
 							<div class="col-md-6"  style="text-align:right;">
-							 	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
 									<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">详细导出</a>
-								</shiro:hasPermission>
 							</div>
 						</div>
 					</div>	
