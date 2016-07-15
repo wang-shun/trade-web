@@ -295,14 +295,10 @@ function caseTransferExportToExcel() {
 
 // 清空
 $('#caseTransferCleanButton').click(function() {	
-	$("input[name='transferDateBegin']").val("");	
-	$("input[name='transferDateEnd']").val("");
-	$("input[name='caseTransferDateBegin']").val("");
-	$("input[name='caseTransferDateEnd']").val("");	
-/*	$("input[name='transferDateBegin']").datepicker('update', '');
+	$("input[name='transferDateBegin']").datepicker('update', '');
 	$("input[name='transferDateEnd']").datepicker('update', '');
 	$("input[name='caseTransferDateBegin']").datepicker('update', '');
-	$("input[name='caseTransferDateEnd']").datepicker('update', '');*/
+	$("input[name='caseTransferDateEnd']").datepicker('update', '');
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
