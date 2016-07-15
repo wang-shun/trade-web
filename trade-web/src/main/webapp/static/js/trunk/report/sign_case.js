@@ -254,13 +254,13 @@ function getParamsValue() {
 	
 	params.signTimeStart = signTimeStart;
 	params.signTimeEnd = signTimeEnd;
-	params.argu_org = org;
+	params.org = org;
 	//params.argu_processorId = userId;
-	params.argu_queryPersonId = queryPersonId;
-	params.search_caseCode = caseCode;
-	params.search_propertyAddr = propertyAddr;
-	params.search_orgName = orgName;
-	params.search_orgManName = orgManName;
+	params.queryPersonId = queryPersonId;
+	params.caseCode = caseCode;
+	params.propertyAddr = propertyAddr;
+	params.orgName = orgName;
+	params.orgManName = orgManName;
 
 	return params;
 }
