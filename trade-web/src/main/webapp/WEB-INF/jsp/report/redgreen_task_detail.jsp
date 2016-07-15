@@ -193,6 +193,7 @@ text-decoration: underline !important;
 		    				</div> 
 		    			</div> 
 		    			</div> 
+		    				<br>
 		    			
 		    			<div class="row"> 
 			    			<div class="col-lg-5 col-md-5 "> 
@@ -215,6 +216,7 @@ text-decoration: underline !important;
 							</div>
 							</div>
 							</div>
+						
 							<div class="col-lg-5 col-md-5 "> 
 							
 							</div>
