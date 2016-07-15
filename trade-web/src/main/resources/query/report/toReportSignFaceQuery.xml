@@ -29,18 +29,6 @@
             <condition field="pr.property_addr" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="u.REAL_NAME" name="realName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="u.ORG_NAME" name="orgName" label="组别ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>               
-            <condition field="l.SRV_CAT_STR" name="srvCode1"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode2"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode3"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode4"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode5"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode6"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode7"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode8"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode9"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode11" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode12" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="l.SRV_CAT_STR" name="srvCode13" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -71,51 +59,10 @@
 				where 
 				     l.APPLY_STATUS =2 and l.SIGN_TIME is not null
 				     
-				<ifNotNull srvCode1>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode1#)
-					</ifNotNull>
-					<ifNotNull srvCode2>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode2#)
-					</ifNotNull>
-					<ifNotNull srvCode3>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode3#)
-					</ifNotNull>
-					<ifNotNull srvCode4>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode4#)
-					</ifNotNull>
-					<ifNotNull srvCode5>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode5#)
-					</ifNotNull>
-					<ifNotNull srvCode6>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode6#)
-					</ifNotNull>
-					<ifNotNull srvCode7>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode7#)
-					</ifNotNull>
-					<ifNotNull srvCode8>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode8#)
-					</ifNotNull>
-					<ifNotNull srvCode9>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode9#)
-					</ifNotNull>
-					<ifNotNull srvCode10>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode10#)
-					</ifNotNull>
-					<ifNotNull srvCode11>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode11#)
-					</ifNotNull>
-					<ifNotNull srvCode12>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode12#)
-					</ifNotNull>
-					<ifNotNull srvCode13>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode13#)
-					</ifNotNull>
-					<ifNotNull srvCode14>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode14#)
-					</ifNotNull>
-					<ifNotNull srvCode15>
-						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = l.CASE_CODE AND SRV_CAT = #srvCode15#)
-					</ifNotNull>
+				<ifNotNull srvCode>
+						AND d.CODE IN (#srvCode#)
+				</ifNotNull>
+			
 				     
 				<ifNotNull signTimeStart>
 				     and l.SIGN_TIME >= #signTimeStart#
