@@ -89,7 +89,7 @@ public class PropertyController {
 			request.setAttribute("username", UserID);
 			
 			// 查询战区和区蕫相关信息
-			getOrgAndUserInfo(request, uamUserOrgService.getUserById(UserID).getOrgId());
+			getOrgAndUserInfo(request, uamUserOrgService.getUserByUsername(UserID).getOrgId());
 			
 			return "mobile/propresearch/wecharadd";
 		} else {
