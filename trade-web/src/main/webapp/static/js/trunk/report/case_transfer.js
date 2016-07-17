@@ -19,8 +19,28 @@ $(document).ready(function() {
 	}
 
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
-	// 初始化列表
-	var data = {};
+	
+	
+	// 过户日期
+	var transferDateBegin = $('#dtBegin_0').val();
+	var transferDateOver = $('#dtEnd_0').val();
+	// 过户审核日期
+	var caseTransferDateBegin = $('#dtBegin_1').val();
+	var caseTransferDateOver = $('#dtEnd_1').val();
+	
+	if (transferDateOver && transferDateOver != '') {
+		transferDateOver = transferDateOver + ' 23:59:59';
+	}
+	if (caseTransferDateOver && caseTransferDateOver != '') {
+		caseTransferDateOver = caseTransferDateOver + ' 23:59:59';
+	}
+	// 设置查询参数
+	var data = {
+		caseTransferDateStart : caseTransferDateBegin,
+		caseTransferDateEnd : caseTransferDateOver,
+		transferDateStart : transferDateBegin,
+		transferDateEnd : transferDateOver,
+	};
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 12;
 	data.page = 1;
@@ -55,7 +75,7 @@ $('#datepicker_0').datepicker({
 	weekStart : 1,
 	autoclose : true,
 	todayBtn : 'linked',
-	language : 'zh-CN'
+	language : 'zh-CN',	
 });
 $('#datepicker_1').datepicker({
 	format : 'yyyy-mm-dd',
@@ -181,8 +201,7 @@ function getParamsValue() {
 	var managerName = $('#managerName').val();
 
 	// 审核状态
-	var TransferStatus = $('#TransferStatus').val();
-
+	var TransferStatus = $('#TransferStatus').val();	
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
@@ -205,10 +224,10 @@ function getParamsValue() {
 
 // 清空表单
 function cleanForm() {
-	$("input[name='transferDateBegin']").val("");
-	$("input[name='transferDateEnd']").val("");
-	$("input[name='caseTransferDateBegin']").val("");
-	$("input[name='caseTransferDateEnd']").val("");
+	//$("input[name='transferDateBegin']").val("");
+	//$("input[name='transferDateEnd']").val("");
+	//$("input[name='caseTransferDateBegin']").val("");
+	//$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
@@ -275,12 +294,11 @@ function caseTransferExportToExcel() {
 }
 
 // 清空
-$('#caseTransferCleanButton').click(function() {
-	
-	$("input[name='transferDateBegin']").val("");
-	$("input[name='transferDateEnd']").val("");
-	$("input[name='caseTransferDateBegin']").val("");
-	$("input[name='caseTransferDateEnd']").val("");
+$('#caseTransferCleanButton').click(function() {	
+	$("input[name='transferDateBegin']").datepicker('update', '');
+	$("input[name='transferDateEnd']").datepicker('update', '');
+	$("input[name='caseTransferDateBegin']").datepicker('update', '');
+	$("input[name='caseTransferDateEnd']").datepicker('update', '');
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
@@ -292,6 +310,7 @@ function radioYuCuiOrgSelectCallBack(array) {
 	if (array && array.length > 0) {
 		$("#orgName").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
+		$("#managerName").val("");
 	} else {
 		$("#orgName").val("");
 		$("#yuCuiOriGrpId").val("");
@@ -312,6 +331,7 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
+			jobCode:'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
 		$("#yuCuiOriGrpId").val("");
@@ -324,11 +344,10 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
+			jobCode:'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
-
 	}
-
 }
 
 // 选取人员的回调函数

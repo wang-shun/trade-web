@@ -164,7 +164,7 @@
 									<div class="col-md-8">
 										  <input type="text" class="form-control tbsporg" id="orgName" name="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value=''>
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})" value=''>
                                           <input type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="">
 									</div>
 								</div>
@@ -198,16 +198,16 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">过户日期</label>
+									<label class="col-md-3 control-label m-l">过户提交日期</label>
 									<div class="col-md-8">
 										<div id="datepicker_0" 
 											class="input-group input-medium date-picker input-daterange "
 											data-date-format="yyyy-mm-dd">
 												<input id="dtBegin_0" name="transferDateBegin" class="form-control"
-													style="font-size: 13px;" type="text" value=""
+													style="font-size: 13px;" type="text" value="${start}"
 													placeholder="起始日期"> <span class="input-group-addon">到</span>
 												<input id="dtEnd_0" name="transferDateEnd" class="form-control"
-													style="font-size: 13px;" type="text" value=""
+													style="font-size: 13px;" type="text" value="${end}"
 													placeholder="结束日期" />
 										</div>
 									</div>
@@ -221,10 +221,10 @@
 											class="input-group input-medium date-picker input-daterange "
 											data-date-format="yyyy-mm-dd">
 												<input id="dtBegin_1" name="caseTransferDateBegin" class="form-control"
-													style="font-size: 13px;" type="text" value=""
+													style="font-size: 13px;" type="text" value="${start}"
 													placeholder="起始日期"> <span class="input-group-addon">到</span>
 												<input id="dtEnd_1" name="caseTransferDateEnd" class="form-control"
-													style="font-size: 13px;" type="text" value=""
+													style="font-size: 13px;" type="text" value="${end}"
 													placeholder="结束日期" />
 										</div>
 									</div>
@@ -248,7 +248,7 @@
 								<div class="col-md-6" style="text-align: right;">
 									<a data-toggle="modal" class="btn btn-primary"
 										href="javascript:void(0)"
-										onclick="javascript:caseTransferExportToExcel()">过户案件导出</a>
+										onclick="javascript:caseTransferExportToExcel()">案件导出Excel</a>
 								</div>
 							</div>
 					</form>
@@ -257,7 +257,7 @@
 		</div>
 			<div class="data-wrap">
 				<div class="data-wrap-in">
-					<table border="0" cellpadding="0" cellspacing="0">
+					<table border="1" cellpadding="0" cellspacing="0">
 						<thead>
 							<tr>
 								<th class="t-left pd-l">案件编号</th>

@@ -303,32 +303,6 @@ function checkAttachment() {
 		return false;
 	}*/
 	
-	/*var comDiscount = $('#comDiscount').val();
-	if(comDiscount!=''){
-		if(isNaN(comDiscount)){
-            alert("请输入0~1之间的合法数字");
-            $('#comDiscount').focus();
-            checkAtt = false;
-            return false;
-        }else if(comDiscount>1 || comDiscount<=0){
-    		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
-    		$('#comDiscount').focus();
-    		checkAtt = false;
-    		return false;
-    	}else if(comDiscount>0 && comDiscount<1){
-    		reg= /^[0]{1}\.{1}(\d{1,2})?$/;
-    		if(!reg.test(comDiscount)){
-    			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
-    			$('#comDiscount').focus();
-    			checkAtt = false;
-    			return false;
-    		}
-    		checkAtt = true;
-       	}else {
-       		checkAtt = true;
-       	}
-	}*/
-	
 	return checkAtt;
 }
 

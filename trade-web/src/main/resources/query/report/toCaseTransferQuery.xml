@@ -35,7 +35,19 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select CASE_CODE, PROPERTY_ADDR ,T.REAL_NAME , T.ORG_NAME, transferDate, caseTransferDate , status,GRP_NAME, AR_NAME ,  wz.ORG_NAME AS VORG_NAME , WZ.REAL_NAME AS VREAL_NAME  from (
+				select 
+					distinct(CASE_CODE), 
+					PROPERTY_ADDR ,
+					T.REAL_NAME , 
+					T.ORG_NAME, 
+					transferDate, 
+					caseTransferDate , 
+					status,
+					GRP_NAME, 
+					AR_NAME ,  
+					wz.ORG_NAME AS VORG_NAME , 
+					WZ.REAL_NAME AS VREAL_NAME  
+				from (
 					select c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
 					(select top 1 tgh.end_time_ from sctrans.act_hi_taskinst tgh where w.INST_CODE = tgh.proc_inst_id_ and tgh.task_def_key_='Guohu' order by id_ desc) transferDate , 
 					(select top 1 tgha.end_time_ from sctrans.act_hi_taskinst tgha where w.INST_CODE = tgha.proc_inst_id_ and tgha.task_def_key_='GuohuApprove' order by id_ desc) caseTransferDate, 
@@ -46,7 +58,7 @@
 					inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
 					inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
 					and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-					inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
+					inner join sctrans.` v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
 					LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
 					LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
 					LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
