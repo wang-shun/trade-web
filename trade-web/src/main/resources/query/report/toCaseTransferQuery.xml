@@ -88,6 +88,12 @@
 					<ifNotNull managerName>
 						AND T.REAL_NAME like '%' + #managerName# + '%' 
 					</ifNotNull>
+					<ifNotNull caseCode>
+						AND CASE_CODE = #caseCode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>

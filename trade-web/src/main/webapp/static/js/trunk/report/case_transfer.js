@@ -199,6 +199,8 @@ function getParamsValue() {
 	var vrealName = $('#realName').val().trim();
 	var orgName = $('#orgName').val();
 	var managerName = $('#managerName').val();
+	var caseCode = $('#caseCode').val().trim();
+	var propertyAddr = $('#propertyAddr').val();
 
 	// 审核状态
 	var TransferStatus = $('#TransferStatus').val();	
@@ -217,7 +219,9 @@ function getParamsValue() {
 		vrealName : vrealName,
 		orgName : orgName,
 		TransferStatus : TransferStatus,
-		managerName : managerName
+		managerName : managerName,
+		caseCode : caseCode,
+		propertyAddr : propertyAddr
 	};
 	return params;
 }
@@ -232,7 +236,8 @@ function cleanForm() {
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
 	$("input[name='managerName']").val("");
-
+	$("input[name='caseCode']").val("");
+	$("input[name='propertyAddr']").val("");
 }
 
 function caseTransferExportToExcel() {
@@ -303,6 +308,8 @@ $('#caseTransferCleanButton').click(function() {
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
 	$("input[name='managerName']").val("");	
+	$("input[name='caseCode']").val("");
+	$("input[name='propertyAddr']").val("");
 });
 
 // 选业务组织的回调函数
