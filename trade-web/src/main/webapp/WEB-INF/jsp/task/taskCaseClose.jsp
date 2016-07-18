@@ -1112,6 +1112,13 @@
 		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		    		$('#comDiscount').focus();
 		    		flag = false;
+		    	}else if(_comDiscount<=1.5 || _comDiscount>=0.5){
+	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
+	        		if(reg.test(_comDiscount)){
+	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	        			$('#comDiscount').focus();
+	        			return false;
+	        		}		    		
 		    	}
 			} 
 			

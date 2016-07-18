@@ -66,6 +66,13 @@ function checkMortgageForm(formId){
 		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
+	}else if(formId.find("input[name='comDiscount']").val()>=0.5&&formId.find("input[name='comDiscount']").val()<=1.5){
+		var reg =/^[01]{1}\.{1}\d{3,}$/;
+		if(reg.test(formId.find("input[name='comDiscount']").val())){
+			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+			formId.find("input[name='comDiscount']").css("border-color","red");
+			return false;
+		}	
 	}else if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;

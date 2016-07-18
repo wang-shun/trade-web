@@ -410,6 +410,13 @@ function autoCompleteComDiscount(obj){
 	        		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 	            	$('input[name=comDiscount]').focus();
 	        		return false;
+	        	}else if($('input[name=comDiscount]').val()<=1.5 || $('input[name=comDiscount]').val()>=0.5){
+	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
+	        		if(reg.test($('input[name=comDiscount]').val())){
+	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	        			$('input[name=comDiscount]').focus();
+	        			return false;
+	        		}
 	        	}
  			} 			
 			
