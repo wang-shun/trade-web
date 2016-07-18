@@ -196,7 +196,7 @@ function getParamsValue() {
 	var caseTransferDateBegin = $('#dtBegin_1').val();
 	var caseTransferDateOver = $('#dtEnd_1').val();
 
-	var vrealName = $('#realName').val();
+	var vrealName = $('#realName').val().trim();
 	var orgName = $('#orgName').val();
 	var managerName = $('#managerName').val();
 
