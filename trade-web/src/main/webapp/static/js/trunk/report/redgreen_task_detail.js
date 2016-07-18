@@ -22,12 +22,19 @@ $(document).ready(function() {
 						arguUserId="yes";
 					}
 
+					
 					var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 					// 初始化列表
 					var data = {};
 		    	    data.queryId = "queryRedGreenTaskDetailList";
 		    	    data.rows = 12;
 		    	    data.page = 1;
+		    	    
+		    	    /*加载排序查询组件*/
+		    		aist.sortWrapper({
+		    			reloadGrid : searchMethod
+		    		});
+		    		//添加排序------------
 		    		reloadGrid(data);
 				});
 
@@ -40,6 +47,9 @@ function initradio(rName,rValue){
         }
     }
 }
+$('input:radio[name="lampRadios"]').change(function() {
+	searchMethod();
+});
 
 
 // select控件
@@ -93,6 +103,16 @@ function searchMethod(page) {
 
 var jobNames = "";
 function reloadGrid(data) {
+	//添加排序-----
+    aist.wrap(data);
+	
+	var sortcolumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	data.sidx=sortcolumn;
+	data.sord=sortgz;
+	//添加排序----------
+	
+	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -162,7 +182,7 @@ function reloadGrid(data) {
     	data.TextValNameZj = null;
     }
     	
-    	
+    
     	
 	$.ajax({
 		async: true,
@@ -332,6 +352,7 @@ $('#cleanButton').click(function() {
 	$("#txt_proOrgId").attr("serviceDepIdOld",'');
 	$("#txt_proOrgId").attr("serviceDepId",'');
 	
+	$('input:radio[name="lampRadios"]').attr("checked",false);
 	
 	jobNames = "";
 	

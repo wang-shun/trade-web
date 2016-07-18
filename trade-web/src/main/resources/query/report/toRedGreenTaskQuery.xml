@@ -289,11 +289,12 @@ on org2.ID=uoj1.ORG_ID
         '6114AB949B4445828D4383977C4FAC71',
         '6a84979158b942b78a8a5921cc30b8c3') )
 t1 inner join(select * from (
-        SELECT  min(l.color) as color,t.CASE_CODE , (select name from sctrans.sys_dict where type='part_code' and code = t.PART_CODE) TASKNAME,tp.PROPERTY_ADDR,u.REAL_NAME
+        SELECT  min(l.color) as color,t.CASE_CODE ,k.PKID, (select name from sctrans.sys_dict where type='part_code' and code = t.PART_CODE) TASKNAME,tp.PROPERTY_ADDR,u.REAL_NAME
           ,t.EST_PART_TIME,sysOrg.id orgid,T.PART_CODE
                  FROM [sctrans].[T_TO_TRANS_PLAN] as t 
                  left join sctrans.T_TO_PROPERTY_INFO as tp
                  on t.case_code=tp.case_code
+                  left join  sctrans.t_to_case as k on t.CASE_CODE = k.CASE_CODE
                   left join sctrans.t_to_workflow as w
                   on w.case_code=t.CASE_CODE 
                    left join sctrans.act_ru_task ta
@@ -308,7 +309,7 @@ t1 inner join(select * from (
                   on sysOrg.ID=uoj.org_id
                   where u.id is not NULL
                   and l.color != '2'
-                  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+                  group by t.CASE_CODE,k.PKID,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
         
                   )as a ) t2 on t1.id=t2.orgId 
                   
@@ -350,6 +351,7 @@ t1 inner join(select * from (
 				]]>
 			</baseSql>
 			<orderBySql>
+					order by t2.EST_PART_TIME desc
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -364,11 +366,14 @@ t1 inner join(select * from (
 				
 				<column type="both" name="color" display="红黄灯" customDict="" />
 				<column type="virtual" name="color1" display="红黄灯" referencecol="color"  customDict="convertColor"/>
-				<column type="both" name="CASE_CODE"  display="案件编号" customDict=""  />
+				<column type="both" name="CASE_CODE"  display="案件编号" customDict="" isSort="true" />
+				<column type="both" name="PKID"  display="案件ID" customDict=""  />
 				<column type="both" name="TASKNAME"  display="任务名" customDict=""  />
 				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict="" />
 				<column type="both" name="REAL_NAME"  display="经办人" customDict="" />
-				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd" isSort="true" />
+				
+				
 				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict=""  />
 				<column type="both" name="IMPORTTIME" display="导出时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 			</table-row>

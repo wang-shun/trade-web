@@ -105,6 +105,26 @@ text-decoration: underline !important;
 					<form method="get" class="form-horizontal">
 					<div class="row"> 
 				  <!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
+				          <div class="col-lg-5 col-md-5 ">    
+	                         <div class="form-group">
+	                         
+	                           <label class="col-lg-3 col-md-3 control-label font_w">红黄灯</label>
+								<div class="checkbox i-checks radio-inline">
+									<label>
+									      <input type="radio" value="2" id="lamp0" name="lampRadios" checked/>
+									               <span class="label ">全部</span>
+									</label> 
+									<label> 
+									    <input type="radio" value="1" id="lamp1" name="lampRadios"/> 
+									    <span class="label label-danger">红灯${Lamp[2]}</span>
+									</label>
+									<label> 
+									       <input type="radio" value="0" id="lamp2" name="lampRadios">
+									       <span class="label label-warning">黄灯${Lamp[1]}</span>
+									</label>
+							   </div>
+							   </div>
+							</div>
 						<div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
                                       <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
@@ -116,7 +136,11 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div>
-						 <div class="col-lg-5 col-md-5">    
+						
+                       </div>  
+                       <div class="row"> 
+                       
+                              <div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
@@ -129,36 +153,15 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div> 
-                       </div>  
-                       <div class="row"> 
-                         <div class="col-lg-5 col-md-5 ">    
-                       			<div class="form-group">
-                                   <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
-                                   <div class="col-lg-9 col-md-9">
-                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
-								 readonly="readonly" onclick="userSelect_back()" />
-                                   </div>
-                               </div>
-                        </div>
-                         <div class="col-lg-5 col-md-5 ">    
-                       			<div class="form-group">
-                       			 </div>
-                        </div>
-                       			
-                        <div class="col-lg-5 col-md-5 ">    
-                         <div class="form-group">
-                           <label class="col-lg-3 col-md-3 control-label font_w">红黄灯</label>
-							<div class="col-md-8">
-								<label> <input type="radio" value="2" id="lamp0"
-									name="lampRadios"> 全部
-								</label> <label> <input type="radio" value="1" id="lamp1"
-									name="lampRadios"> <span class="label label-danger">红灯${Lamp[2]}</span>
-								</label> <label> <input type="radio" value="0" id="lamp2"
-									name="lampRadios"> <span class="label label-warning">黄灯${Lamp[1]}</span>
-								</label>
-						   </div>
-						   </div>
-						</div>
+	                         <div class="col-lg-5 col-md-5 ">    
+	                       			<div class="form-group">
+	                                   <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
+	                                   <div class="col-lg-9 col-md-9">
+	                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
+									 readonly="readonly" onclick="userSelect_back()" />
+	                                   </div>
+	                               </div>
+	                        </div>
 						</div>
 						<div class="row"> 
 						<div class="col-lg-5 col-md-5 ">   
@@ -253,17 +256,19 @@ text-decoration: underline !important;
 			<table border="1" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
+					   <!--  <th class="text-center">案件编号</th> -->
+					    <th class="text-center"><span class='sort' sortColumn='t2.CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l">贵宾服务部</th>
 						<th class="t-left pd-l">总监</th>
 						<th class="t-left pd-l">组别</th>
 						<th class="t-left pd-l">主管</th>
 						<th class="text-center">红黄灯</th>
-						<th class="text-center">案件编号</th>
 						<th class="text-center">任务名</th>
 						<th class="text-center">产证地址</th>
 						<th class="text-center">经办人</th>
-						<th class="text-center">预计完成时间</th>
-						<!-- <th class="text-center">产证地址</th> -->
+						<!-- <th class="text-center">预计完成时间</th> -->
+						<th class="text-center"><span class='sort' sortColumn='EST_PART_TIME' sord='desc'>预计完成时间</span></th>
+						
 					</tr>
 				</thead>
 				<tbody id="redgreenTaskDetailList">
@@ -312,12 +317,12 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
+                        <td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 						<td class="t-left pd-l">{{item.orgName1}}</td>
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
 						<td class="t-left pd-l">{{item.color1}}</td>
-						<td class="t-left pd-l">{{item.CASE_CODE}}</td>
 						<td class="t-left pd-l">{{item.TASKNAME}}</td>
 						<td class="t-left pd-l">{{item.PROPERTY_ADDR}}</td>
 						<td class="t-left pd-l">{{item.REAL_NAME}}</td>
