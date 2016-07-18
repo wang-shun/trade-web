@@ -312,8 +312,8 @@
  				      <tr class="tr-1">
                   {{else}}
                        <tr class="tr-2">
-                   {{/if}}
-						<td class="t-left pd-l">{{item.CASE_CODE}}</td>
+                   {{/if}}						
+						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 						<td class="t-left pd-l">{{item.PROPERTY_ADDR}}</td>
 						<td class="t-left pd-l">{{item.REAL_NAME}}</td>
 						<td class="t-left pd-l">{{item.ORG_NAME}}</td>
