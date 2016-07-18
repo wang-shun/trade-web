@@ -35,9 +35,9 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select 
-					PKID,
+				select 					
 					distinct(CASE_CODE), 
+					PKID,
 					PROPERTY_ADDR ,
 					T.REAL_NAME , 
 					T.ORG_NAME, 
