@@ -94,24 +94,24 @@
 					<form method="get" class="form-horizontal">
 						
 						<div class="row form-group">
-							<label class="col-md-2 label_one control-label">产证地址</label>
+							<label class="col-md-2 control-label">产证地址</label>
 							<div class="col-md-10">
 								<input id="caseAddress" type="text" class="form-control">
 							</div>
 						</div>
 						<div class="row form-group">
-							<label class="col-md-2 label_one control-label">案件编号</label>
+							<label class="col-md-2 control-label">案件编号</label>
 							<div class="col-md-4">
 								<input id="caseCode" type="text" class="form-control">
 							</div>
-							<label class="col-md-2 label_one control-label">CTM编号</label>
+							<label class="col-md-2 control-label">CTM编号</label>
 							<div class="col-md-4">
 								<input id="ctmCode" type="text" class="form-control">
 							</div>
 						</div>
 						
 						<div class="row form-group">
-							<div class="col-md-2"><button id="searchButton" type="button" class="btn btn-warning btn_marginleft">查询</button></div>		
+							<div class="col-md-2"><button id="searchButton" type="button" class="btn btn-warning pull-right">查询</button></div>		
 						</div>
 					</form>
 				</div>

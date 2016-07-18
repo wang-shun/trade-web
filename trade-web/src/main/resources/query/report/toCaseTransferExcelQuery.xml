@@ -51,11 +51,29 @@
 					LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
 					LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
 					where 1=1
-					 <ifNotNull caseTransferDateStart>
+					<ifNotNull caseTransferDateStart>
 						AND t.caseTransferDate &gt; #caseTransferDateStart#
 					</ifNotNull>
 					<ifNotNull caseTransferDateEnd>
 						AND t.caseTransferDate &lt; #caseTransferDateEnd#
+					</ifNotNull>					
+					<ifNotNull transferDateStart>
+						AND t.transferDate &gt; #transferDateStart#
+					</ifNotNull>
+					<ifNotNull transferDateEnd>
+						AND t.transferDate &lt; #transferDateEnd#
+					</ifNotNull>
+					<ifNotNull orgName>
+						AND T.ORG_NAME like '%' + #orgName# + '%' 
+					</ifNotNull>
+					<ifNotNull TransferStatus>
+						AND status = #TransferStatus#
+					</ifNotNull>
+					<ifNotNull vrealName>
+						AND WZ.REAL_NAME like '%' + #vrealName# + '%' 
+					</ifNotNull>
+					<ifNotNull managerName>
+						AND T.REAL_NAME like '%' + #managerName# + '%' 
 					</ifNotNull>
 				]]>
 			</baseSql>
