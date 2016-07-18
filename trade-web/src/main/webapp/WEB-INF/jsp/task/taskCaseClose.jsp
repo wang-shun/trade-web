@@ -1101,6 +1101,7 @@
 			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
 				alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
 				$('#comDiscount').focus();
+				flag = false;
 			}
 			
 			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')){
@@ -1117,7 +1118,7 @@
 	        		if(reg.test(_comDiscount)){
 	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 	        			$('#comDiscount').focus();
-	        			return false;
+	        			flag = false;
 	        		}		    		
 		    	}
 			} 
