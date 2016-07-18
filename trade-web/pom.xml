@@ -5,7 +5,7 @@
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
 
-		<version>1.1.19-SNAPSHOT</version>	</parent>
+		<version>1.1.18</version>	</parent>
 
 
 	<artifactId>trade-web</artifactId>
