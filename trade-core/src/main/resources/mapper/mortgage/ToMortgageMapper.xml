@@ -91,9 +91,9 @@
       <if test="comYear != null" >
         COM_YEAR,
       </if>
-<!--       <if test="comDiscount != null" > -->
+      <if test="comDiscount != null" >
         COM_DISCOUNT,
-<!--       </if> -->
+      </if>
       <if test="prfAmount != null" >
         PRF_AMOUNT,
       </if>
