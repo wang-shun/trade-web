@@ -24,20 +24,12 @@ $(document).ready(function() {
 	// 过户日期
 	var transferDateBegin = $('#dtBegin_0').val();
 	var transferDateOver = $('#dtEnd_0').val();
-	// 过户审核日期
-	var caseTransferDateBegin = $('#dtBegin_1').val();
-	var caseTransferDateOver = $('#dtEnd_1').val();
-	
+
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
-	if (caseTransferDateOver && caseTransferDateOver != '') {
-		caseTransferDateOver = caseTransferDateOver + ' 23:59:59';
-	}
 	// 设置查询参数
 	var data = {
-		caseTransferDateStart : caseTransferDateBegin,
-		caseTransferDateEnd : caseTransferDateOver,
 		transferDateStart : transferDateBegin,
 		transferDateEnd : transferDateOver,
 	};
