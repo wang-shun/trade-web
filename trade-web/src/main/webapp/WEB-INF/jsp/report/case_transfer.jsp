@@ -229,6 +229,7 @@
 									</div>
 								</div>
 							</div>
+							
 							<div class="col-md-6">
 								<div class="form-group ">
 									<label class="col-md-3 control-label m-l">过户审批日期</label>
