@@ -245,7 +245,7 @@ function findFirstNoCheckVal() {
 }
  //删除日期控件
 function removeDateDiv(index) {
-	$("#dateDiv_" + index).remove();
+	$("#dateDiv_" + index).parent().remove();
 }
 
  //查询

@@ -1,0 +1,164 @@
+h1,h2,h3,h4,h5,h6 {
+	font-family:"Microsoft Yahei";
+	font-weight:normal!important;
+}
+.btn {
+   font-size: 14px;
+}
+.ibox-title h5 {
+    font-size: 15px;
+}
+.form-horizontal .control-label,.float-e-margins .control-label{
+	font-family:"Microsoft Yahei";
+    font-weight:normal!important;
+}
+
+.form_box {
+	padding:15px 0px;
+}
+.form_content {
+	float: left;
+	margin-left: 15px;
+	margin-bottom: 15px;
+}
+.big_pad {
+	width: 130px;
+}
+.sign_left {
+	float: left;
+	width: 132px;
+	margin-right: 15px;
+}
+.sign_right {
+	float: left;
+}
+.sign_right input,.sign_right span,.sign_right select,.sign_left select{
+	border-radius: 2px!important;
+}
+.intextval {
+	width: 422px!important;
+}
+.teamcode {
+	width: 230px!important;
+}
+.add_btn {
+	margin-left: 147px;
+}
+.goods_type {
+	width: 745px;
+}
+.btn_more {
+	background-color: #fff!important;
+	border:1px solid #f9ad4b!important;
+	font-size: 14px!important;
+	color: #333!important;
+}
+.case_organize {
+	width: 300px;
+}
+./* control_form {
+	width: 138px!important;
+}
+.form-control, .single-line {
+    font-size: 12px!important;
+}
+
+.chosen-container-single .chosen-single {
+	border: 1px solid #e5e6e7!important;
+}
+
+.control_style {
+	width:132px;
+	padding-right:0;
+	font-family:"Microsoft Yahei";
+	font-weight:normal!important;
+}
+.input_styleone, #case_date_0_chosen, #inTextType_chosen {
+	width:142px!important;
+	border-radius: 2px!important;
+}
+.input_styletwo {
+	width:212px!important;
+	border-radius: 2px!important;
+}
+
+.bdradius, #case_date_0 {
+	border-radius: 2px!important;
+}
+.input-group-addon {
+	border-radius: 0px!important;
+	border-left:0!important;
+	border-right:0!important;
+	background-color: #eee!important;
+}
+.chosen-container-single .chosen-single div {
+    position: absolute;
+    top: 4px;
+    right: -3px;
+    display: block;
+    width: 18px;
+    height: 100%;
+}
+.margin_left15 {
+	margin-left: 15px!important;
+}
+.margin_right15 {
+	margin-right: 15px!important;
+}
+#select_div_0 {
+	margin-right:15px;
+}
+#case_date_0,#inTextType {
+	height: 34px;
+}
+#datepicker_0,#inTextVal {
+	margin-left:15px;
+}
+.btn_left {
+	margin-left: 132px;
+}
+.btn_leftone {
+	margin-left: 142px;
+}
+.btn_leftonee {
+	margin-left: 146px;
+}
+.btn_lefttwo {
+	margin-left: 132px;
+}
+.input_box {
+	margin-right:0!important;
+	padding-right:0!important;
+}
+.input_boxleft {
+	margin-left:0!important;
+	padding-left:0!important;
+}
+.input_color {
+	border-color:#e5e6e7!important;
+}
+#dtBegin {
+	border-top-left-radius: 2px!important;
+	border-bottom-left-radius: 2px!important;
+}
+#inner-editor {
+	border-top-right-radius: 2px!important;
+	border-bottom-right-radius: 2px!important;
+}
+.mt10 {
+	margin-top:10px;
+}
+#searchButton {
+	font-weight:normal!important;
+}
+#searchButton span,#placeholder,#inner-editor,#dtEnd {
+	font-family:SimSun!important;
+}
+.input_search {
+	height:34px!important;
+	border-top-left-radius:2px!important;
+	border-bottom-left-radius:2px!important;
+}
+.input_height {
+	height:34px!important;
+} */
