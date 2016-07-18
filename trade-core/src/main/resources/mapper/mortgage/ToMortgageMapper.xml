@@ -303,9 +303,9 @@
    
         COM_YEAR = #{comYear,jdbcType=INTEGER},
      
-<!--       <if test="comDiscount != null" > -->
+      <if test="comDiscount != null" >
         COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
-<!--       </if> -->
+      </if>
       
         PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
      
