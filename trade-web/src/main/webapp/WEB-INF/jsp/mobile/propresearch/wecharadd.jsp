@@ -48,8 +48,11 @@ float: none;
 	<form action="${ctx }/mobile/property/box/doAdd" id="m_form"
 		method="post"
 		enctype="application/x-www-form-urlencoded; charset=UTF-8 ">
-		<input type="hidden" id="txt_prCat" name="prCat"> <input
-			type="hidden" name="username" value="${username }">
+		<input type="hidden" id="txt_prCat" name="prCat">
+		<input type="hidden" name="username" value="${username }">
+		<input type="hidden" name="prCostOrgId" id="prCostOrgId">
+		<input type="hidden" name="prCostOrgName" id="prCostOrgName">
+		<input type="hidden" name="prCostOrgMgr" id="prCostOrgMgr">
 		<div class="row" style="margin-top: 0px; text-align: center;">
 			<span style="font-size: 38px; display: block; margin-top: 12px;">人工产调</span>
 		</div>
@@ -60,19 +63,28 @@ float: none;
 <%-- 		</c:if> --%>
 		<div class="row" style="margin-top: 20px;">
 			<div class="col-lg-10">
-				<select class="form-control" onchange="changeOrgName(this);" id="zhanqu">
-  					<option value="">请选择</option>
-  					<c:forEach items="${orgs}" var="org">
-  						<c:choose>
-						   <c:when test="${org.id == orgId}">
-		  						<option value="${org.id}" selected="selected">${org.orgName}</option>
-						   </c:when>
-						   <c:otherwise>
-		  						<option value="${org.id}">${org.orgName}</option>
-						   </c:otherwise>
-						</c:choose>
-  					</c:forEach>
- 				</select>
+				<c:choose>
+					<c:when test="${not empty orgId}">
+						<select class="form-control" id="zhanqu" disabled="disabled">
+							<option value="${orgId}">${orgName}</option>
+						</select>
+					</c:when>
+					<c:otherwise>
+						<select class="form-control" onchange="changeOrgName(this);" id="zhanqu">
+		  					<option value="">请选择</option>
+		  					<c:forEach items="${orgs}" var="org">
+		  						<c:choose>
+								   <c:when test="${org.id == orgId}">
+				  						<option value="${org.id}" selected="selected">${org.orgName}</option>
+								   </c:when>
+								   <c:otherwise>
+				  						<option value="${org.id}">${org.orgName}</option>
+								   </c:otherwise>
+								</c:choose>
+		  					</c:forEach>
+		 				</select>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 		<div class="row">
@@ -166,8 +178,16 @@ float: none;
 					return false;
 				}
 				$("#txt_prCat").val(prCat);
-				$
-						.ajax({
+				
+				var prCostOrgId = $("#zhanqu").val();
+				var prCostOrgName = $("#zhanqu option:selected").text();
+				var prCostOrgMgr = $("#orgName").val();
+				
+				$("#prCostOrgId").val(prCostOrgId);
+				$("#prCostOrgName").val(prCostOrgName);
+				$("#prCostOrgMgr").val(prCostOrgMgr);
+				
+				$.ajax({
 							url : ctx + "/mobile/property/box/doApply",
 							type : "POST",
 							data : $("#m_form").serialize(),
@@ -192,6 +212,13 @@ float: none;
 			}
 
 			function formCheck() {
+				
+				if($("#zhanqu").val() == ''){
+					alert("请选择战区!");
+					$.unblockUI();
+					return false;
+				}
+				
 				if ($("#propertyAddr").val() == '') {
 					alert('请输入产调地址！');
 					$.unblockUI();

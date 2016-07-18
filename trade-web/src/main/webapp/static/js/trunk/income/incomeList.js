@@ -8,7 +8,7 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['收入名目', '归属案件地址', '收入总数', '获得比例','最终金额','记佣归属月份'],
+            colNames: ['收入名目', '归属产证地址', '收入总数', '获得比例','最终金额','记佣归属月份'],
             colModel: [
                 {name: 'INCOME_ITEM', index: 'INCOME_ITEM',  width: 200},
                 {name: 'PROPERTY_ADDR', index: 'PROPERTY_ADDR', width: 200},
@@ -49,7 +49,7 @@
             autowidth: true,
             shrinkToFit: true,
             rowNum: 10,
-            colNames: ['案件地址', '基本奖金', 'KPI', '最终金额','记佣归属月份'],
+            colNames: ['产证地址', '基本奖金', 'KPI', '最终金额','记佣归属月份'],
             colModel: [
                 {name: 'PROPERTY_ADDR', index: 'PROPERTY_ADDR',  width: 200},
                 {name: 'BASE_AMOUNT', index: 'BASE_AMOUNT', width: 140},

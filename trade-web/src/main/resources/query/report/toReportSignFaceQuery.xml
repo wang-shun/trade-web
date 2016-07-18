@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="querySignFaceList" cacheCount="true">
+	    <searchCondition>
+	        <condition field="l.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="pr.property_addr" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="u.REAL_NAME" name="realName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="u.ORG_NAME" name="orgName" label="组别ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>               
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select 
+				C.PKID,
+				d.NAME PRODUCT_NAME,
+				l.CASE_CODE, 
+				pr.property_addr,
+				l.SIGN_TIME,
+				u.REAL_NAME,
+				u.ORG_ID, 
+				u.ORG_NAME,
+				ISNULL(l.LOAN_AMOUNT,0) LOAN_AMOUNT,
+				ISNULL(l.SIGN_AMOUNT,0) SIGN_AMOUNT,
+				ISNULL(l.ACTUAL_AMOUNT,0) ACTUAL_AMOUNT
+				from sctrans.t_to_loan_agent as l
+				left join 
+				     sctrans.T_TO_PROPERTY_INFO as pr on l.CASE_CODE=pr.CASE_CODE
+				left join 
+				     sctrans.T_TO_CASE as c on c.CASE_CODE=l.CASE_CODE
+				left join 
+				     sctrans.V_USER_ORG_JOB u on u.USER_ID=c.LEADING_PROCESS_ID
+				left join 
+				     sctrans.sys_dict d on d.type='yu_serv_cat_code_tree' 
+				and
+				     d.CODE=l.LOAN_SRV_CODE
+				where 
+				     l.APPLY_STATUS =2 and l.SIGN_TIME is not null
+				     
+				<ifNotNull srvCode>
+						AND d.CODE IN (#srvCode#)
+				</ifNotNull>
+			
+				     
+				<ifNotNull signTimeStart>
+				     and l.SIGN_TIME >= #signTimeStart#
+				</ifNotNull>
+				
+				<ifNotNull signTimeEnd>
+				     and l.SIGN_TIME &lt;= #signTimeEnd#
+				</ifNotNull>
+	     ]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY l.SIGN_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PRODUCT_NAME" index="" checkbox="" title="产品名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="物业地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME" index="" checkbox="" title="经办人" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_NAME" index="" checkbox="" title="级别" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="LOAN_AMOUNT"  index="" checkbox="" title="申请金额" customDict="" sysDict="" beanFormatter="numberFormater" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="SIGN_AMOUNT" index="" checkbox="" title="面签金额" 	sysDict="" beanFormatter="numberFormater" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />	
+				<column type="both" name="ACTUAL_AMOUNT" index="" checkbox="" title="放款金额" sysDict="" beanFormatter="numberFormater" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />						
+			</table-row>
+		</grid>
+	</query>
+</querys>

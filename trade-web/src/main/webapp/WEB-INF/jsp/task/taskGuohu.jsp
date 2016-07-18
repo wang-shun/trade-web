@@ -34,6 +34,8 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -190,8 +192,8 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">商贷部分利率折扣</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="例如: 0.8或0.95"
-					class="form-control" onkeyup="checknum(this)">
+					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="0.50~1.50之间"
+					class="form-control" onkeyup="autoCompleteComDiscount(this)">
 				</div>
 		</div>
 		<div class="form-group">
@@ -205,14 +207,17 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">公积金贷款年限</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="prfYear" id="prfYear" value="${toMortgage.prfYear }"
-												class="form-control" onkeyup="checknum(this)">
+					<input type="text" name="prfYear" id="prfYear" value="${toMortgage.prfYear }" class="form-control" onkeyup="checknum(this)">
 				</div>
 		</div>
 		</c:if>
 				</form>
 
 			</div>
+		</div>
+
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title">
@@ -391,10 +396,15 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/sms/sms.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<!-- 审批记录 -->
 	<%-- <script src="${ctx}/transjs/task/loanlostApprove.js"></script> --%>
 	<%-- <script src="${ctx}/transjs/task/guohuApprove.js"></script> --%>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -408,6 +418,7 @@
 			}
 		});
 	}
+	
 	$(document).ready(function() {
 		var isDelegateYucui ='${toMortgage.isDelegateYucui}';
 		var initMortType='${toMortgage.mortType}';
@@ -424,18 +435,20 @@
 		if('caseDetails'==source){
 			readOnlyForm();
 		}
-				$("#sendSMS").click(function(){
-					var t='';
-					var s='/';
-					$("#remind_list").find("input:checkbox:checked").closest('td').next().each(function(){
-						t+=($(this).text()+s);
-					});
-					if(t!=''){
-						t=t.substring(0,t.length-1);
-					}
-					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
-				});
-				$("#remind_list").jqGrid({
+		
+		$("#sendSMS").click(function(){
+			var t='';
+			var s='/';
+			$("#remind_list").find("input:checkbox:checked").closest('td').next().each(function() {
+				t+=($(this).text()+s);
+			});
+			if(t!='') {
+				t=t.substring(0,t.length-1);
+			}
+				$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
+		});
+				
+		$("#remind_list").jqGrid({
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
@@ -467,7 +480,7 @@
 			        	search_partCode: taskitem
 			        },
 	
-				});
+		});
 	
 				$('#data_1 .input-group.date').datepicker({
 					todayBtn : "linked",
@@ -529,9 +542,30 @@
 			        	search_processInstanceId: processInstanceId
 			        }
 				});
-
-		});
+				
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});		
+	});
 		
+	/*贷款折扣自动补全*/
+	function autoCompleteComDiscount(obj){
+		
+		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+		obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+		
+		var inputVal = obj.value;
+	 	if(inputVal>=0.5 && inputVal<=1.5){
+			var reg =/^[01]{1}\.{1}\d{3,}$/;
+			if(reg.test(inputVal)){
+				obj.value = inputVal.substring(0,4);
+			}
+		}
+	}
+	
 		/**提交数据*/
 		function submit() {
 			if(checkAttachment()) {
@@ -653,30 +687,30 @@
                 return false;
            }
 			
-/* 			if($('input[name=comDiscount]').val()!='') {
-				var comDiscount = $('input[name=comDiscount]').val();
-				
-				if(isNaN(comDiscount)){
-		            alert("请输入0~1之间的合法数字");
+			var _mortType= $('#mortType').find(':selected').val();
+			var _comDiscount = $('input[name=comDiscount]').val();
+			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
+				alert('纯商贷和组合贷款必须填写商贷部分利率折扣, 不能为空');
+				$('input[name=comDiscount]').focus();
+				return false;
+			}
+			
+ 			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')) {
+				if(isNaN(_comDiscount)){
+		            alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		            $('input[name=comDiscount]').focus();
 		            return false;
-		        }else if(comDiscount>1 || comDiscount<=0){
-		    		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		        }else if(_comDiscount>1.5 || _comDiscount<=0.5){
+		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		    		$('input[name=comDiscount]').focus();
 		    		return false;
-		    	}else if(comDiscount>0 && comDiscount<1){
-		    		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
-		    		if(!reg.test(comDiscount)){
-		    			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
-		    			$('input[name=comDiscount]').focus();
-		    			return false;
-		    		}
-		       	}
-           } */
+		    	}
+           }
 			
 			
 			return true;
 		}
+		
 		
 	</script> 
 	</content>

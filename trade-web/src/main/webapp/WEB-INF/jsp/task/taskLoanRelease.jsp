@@ -33,6 +33,8 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -107,6 +109,10 @@
 				</form>
 
 			</div>
+		</div>
+
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title">
@@ -267,7 +273,13 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> 
+
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -281,20 +293,26 @@
 			}
 		});
 	}
-		$(document).ready(
-			function() {
-				if('caseDetails'==source){
-					readOnlyForm();
-				}
-				$('#data_1 .input-group.date').datepicker({
-					todayBtn : "linked",
-					keyboardNavigation : false,
-					forceParse : false,
-					calendarWeeks : true,
-					autoclose : true
-				});
 
+	
+	$(document).ready(function() {
+		if('caseDetails'==source){
+			readOnlyForm();
+		}
+		
+		$('#data_1 .input-group.date').datepicker({
+			todayBtn : "linked",
+			keyboardNavigation : false,
+			forceParse : false,
+			calendarWeeks : true,
+			autoclose : true
 		});
+
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});
+	});
 		
 		/**提交数据*/
 		function submit() {

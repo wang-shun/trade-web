@@ -32,6 +32,8 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -111,6 +113,10 @@
 				</form>
 
 			</div>
+		</div>
+
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
 		</div>
 
 		<div class="ibox-title" style="height: auto">
@@ -271,6 +277,11 @@
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    
+    <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -284,54 +295,58 @@
 			}
 		});
 	}
-		$(document).ready(
-			function() {
-				if('caseDetails'==source){
-					readOnlyForm();
-				}
-				// Examle data for jqGrid
-
-				$("#reminder_list").jqGrid({
-					url:"${ctx}/quickGrid/findPage",
-					datatype : "json",
-					height:210,
-					multiselect : true,
-					autowidth : true,
-					shrinkToFit : true,
-			        rowNum:8,
-			        viewrecords:true,
-					colNames : [ '提醒事项', '备注' ],
-					colModel : [ {
-						name : 'REMIND_ITEM',
-						index : 'REMIND_ITEM',
-						width : 500
-					}, {
-						name : 'COMMENT',
-						index : 'COMMENT',
-						width : 500
-					}
-
-					],
-					pager : "#pager_list_1",
-					viewrecords : true,
-					pagebuttions : true,
-					hidegrid : false,
-					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					pgtext : " {0} 共 {1} 页",
-					postData:{
-			        	queryId:"queryToReminderList",
-			        	search_partCode: taskitem
-			        },
-				});
-
-				$('#data_1 .input-group.date').datepicker({
-					todayBtn : "linked",
-					keyboardNavigation : false,
-					forceParse : false,
-					calendarWeeks : false,
-					autoclose : true
-				});
+	
+	$(document).ready(function() {
+		if('caseDetails'==source){
+			readOnlyForm();
+		}
+		
+		// Examle data for jqGrid
+		$("#reminder_list").jqGrid({
+			url:"${ctx}/quickGrid/findPage",
+			datatype : "json",
+			height:210,
+			multiselect : true,
+			autowidth : true,
+			shrinkToFit : true,
+			rowNum:8,
+			viewrecords:true,
+			colNames : [ '提醒事项', '备注' ],
+			colModel : [ {
+				name : 'REMIND_ITEM',
+				index : 'REMIND_ITEM',
+				width : 500
+			}, {
+				name : 'COMMENT',
+				index : 'COMMENT',
+				width : 500
+			}],
+			pager : "#pager_list_1",
+			viewrecords : true,
+			pagebuttions : true,
+			hidegrid : false,
+			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+			pgtext : " {0} 共 {1} 页",
+			postData:{
+			    queryId:"queryToReminderList",
+			    search_partCode: taskitem
+			},
 		});
+
+		$('#data_1 .input-group.date').datepicker({
+			todayBtn : "linked",
+			keyboardNavigation : false,
+			forceParse : false,
+			calendarWeeks : false,
+			autoclose : true
+		});
+		
+		/*案件备注信息*/
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : taskitem
+		});
+	});
 
 		/**提交数据*/
 		function submit() {

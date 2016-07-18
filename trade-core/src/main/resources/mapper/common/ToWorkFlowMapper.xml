@@ -27,9 +27,13 @@
     <result column="EST_PART_TIME" property="estPartTime" jdbcType="TIMESTAMP" />
     <result column="DATELAMP" property="dateLamp" jdbcType="INTEGER" />
     <result column="PROPERTY_ADDR" property="propertyAddr" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER
+    PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -47,22 +51,10 @@
     delete from sctrans.T_TO_WORKFLOW
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByCaseCode" parameterType="java.lang.String" >
-    delete from sctrans.T_TO_WORKFLOW
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByToWorkFlow" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
-    delete from sctrans.T_TO_WORKFLOW
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR} 
-  </delete>
-  <insert id="insert" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
-    insert into sctrans.T_TO_WORKFLOW (PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER
-      )
-    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{instCode,jdbcType=VARCHAR},
-     #{businessKey,jdbcType=VARCHAR}, #{processDefinitionId,jdbcType=VARCHAR},#{processOwner,jdbcType=VARCHAR}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
+    delete from sctrans.T_TO_WORKFLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR} ;
+
     insert into sctrans.T_TO_WORKFLOW
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -83,6 +75,7 @@
       <if test="processOwner != null" >
         PROCESS_OWNER,
       </if>
+      CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -103,7 +96,51 @@
       <if test="processOwner != null" >
         #{processOwner,jdbcType=VARCHAR},
       </if>
+      GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
+      </trim>;
+      insert into sctrans.T_HI_WORKFLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      
+        PKID,
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="instCode != null" >
+        INST_CODE,
+      </if>
+      <if test="businessKey != null" >
+        BUSINESS_KEY,
+      </if>
+      <if test="processDefinitionId != null" >
+        PROCESS_DEFINITION_ID,
+      </if>
+      <if test="processOwner != null" >
+        PROCESS_OWNER,
+      </if>
+      CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,
     </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      
+        @@IDENTITY,
+      
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="instCode != null" >
+        #{instCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessKey != null" >
+        #{businessKey,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="processOwner != null" >
+        #{processOwner,jdbcType=VARCHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
+    </trim>;
+    select 1 ;
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     update sctrans.T_TO_WORKFLOW
@@ -126,8 +163,32 @@
        <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      CREATE_TIME= GETDATE(),CREATE_BY =@{SESSION_USER_ID},UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT};
+        update sctrans.T_HI_WORKFLOW
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="instCode != null" >
+        INST_CODE = #{instCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessKey != null" >
+        BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        PROCESS_DEFINITION_ID = #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="processOwner != null" >
+        PROCESS_OWNER = #{processOwner,jdbcType=VARCHAR},
+      </if>
+       <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT};
+    select 1 ;
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     update sctrans.T_TO_WORKFLOW
@@ -136,7 +197,16 @@
       BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR},
       PROCESS_DEFINITION_ID = #{processDefinitionId,jdbcType=VARCHAR},
       PROCESS_OWNER = #{processOwner,jdbcType=VARCHAR} 
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT};
+    
+    update sctrans.T_HI_WORKFLOW
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      INST_CODE = #{instCode,jdbcType=VARCHAR},
+      BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR},
+      PROCESS_DEFINITION_ID = #{processDefinitionId,jdbcType=VARCHAR},
+      PROCESS_OWNER = #{processOwner,jdbcType=VARCHAR} 
+    where PKID = #{pkid,jdbcType=BIGINT};
+    select 1 ;
   </update>
   
   
@@ -235,6 +305,6 @@
 	update sctrans.T_TO_SIGN set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
 	update sctrans.T_TO_TAX set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
 	update sctrans.T_TO_PRICING set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_mortgage set IS_ACTIVE='0',LAST_LOAN_BANK=null,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
+	update sctrans.T_TO_mortgage set IS_ACTIVE='0',LAST_LOAN_BANK=null,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},TMP_BANK_UPDATE_BY=null,TMP_BANK_STATUS=null,TMP_BANK_REASON=null,TMP_BANK_REJECT_REASON=null,TMP_BANK_UPDATE_TIME=null where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
   </select>
 </mapper>

@@ -33,7 +33,8 @@
 	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
 	rel="stylesheet">
 
-<link href="${ctx}/css/common/common.css" rel="stylesheet">
+<%-- <link href="${ctx}/css/common/common.css" rel="stylesheet"> --%>
+<link href="${ctx}/css/case_filter.css" rel="stylesheet">
 <link
 	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
 	rel="stylesheet">
@@ -63,12 +64,12 @@
     background-color: #FFFFFF;
     background-image: none;
     border: 1px solid #e5e6e7;
-    border-radius: 1px;
+    border-radius: 2px;
     color: inherit;
     display: block;
     padding: 6px 12px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    width: 45%;
+    width: 48%;
     font-size: 14px;
 }
 .aline{
@@ -77,8 +78,8 @@ text-decoration: underline;
 .aline:HOVER{
 text-decoration: underline !important;
 }
-#inTextVal{width:50%}
-.chosen-container{float:left;margin-right:10px;margin-left:15px}
+#inTextVal{width:343px!important}
+.chosen-container{float:left;margin-right:10px;}
 #addLine{line-height:35px;}
 .product-type span{margin-right:5px}	
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
@@ -96,7 +97,48 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
+
+/* add_css */
+#inTextType_chosen, #case_date_0_chosen,#status, .patch_formatone,#case_date_0 {
+	width: 138px!important;
+}
+#inTextType {
+	margin-right:10px;
+}
+#mortageService,#teamCode {
+	width:224px!important;
+}
+.float-e-margins .btn {
+    border-radius: 2px;
+}
+
+.add_time {
+	margin-left: 72px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+#case_date_0 {
+	height:34px;
+	width: 110px!important;
+}
+.marginright {
+	width:162px!important;
+}
+.btn_type {
+	font-size:14px;
+	margin-right:7px;
+	background-color:#fff!important;
+	border:1px solid #f4ad5f!important;
+}
+}
+.btn_type:active {
+    background-image: none;
+    outline: 0;
+    background-color:#fff!important;
+	border:1px solid #f4ad5f!important;
+}
 </style>
+
 </head>
 
 <body>
@@ -112,39 +154,27 @@ text-decoration: underline !important;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<div class="row">
-							<div class="col-md-7 col-sm-12">
-								<div class="form-group ">
-									<label class="col-md-2  col-sm-4 control-label">案件类型</label>
-									<div class="col-md-8"> 	
-										<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="form-control" /> 
+						<div class="row clearfix">
+							
+								<div class="form-group pull-left" style="margin-left:37px">
+									<label class="col-md-3 label_one control-label control_form mar10" >案件类型</label>
+									<div class="col-md-6" style="padding-left:0px"> 	
+										<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="form-control patch_formatone" /> 
 									</div>
 								</div>
-							</div>
-							<div class="col-md-5 col-sm-12">
-								<div class="form-group">
-									<label class="col-md-3  col-sm-4 control-label">案件状态</label>
-									<div class="col-md-8">
+					
+						
+								<div class="form-group pull-left">
+									<label class="col-md-3  label_one control-label control_form">案件状态</label>
+									<div class="col-md-6" style="padding-left:0px">
 									    <aist:dict id="status" name="case_status"  display="select" dictType="30001" clazz="form-control"/>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="row product-type">
-							<div class="col-md-12">
-								<div class="form-group ">
-									<label class="col-md-1 control-label m-l">产品类型</label>
-									<div class="col-md-10">
-										<aist:dict id="srvCode" name="srvCode" clazz="btn btn-white" display="checkboxcustom" dictType="yu_serv_cat_code_tree" level='2' onclick=""/>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-7">
-								<div class="form-group ">
-									<label class="col-md-2 control-label">案件组织</label>
-									<div class="col-md-10">
+						
+						
+								<div class="form-group pull-left" style="margin-left:20px">
+									<label class="col-md-3 label_one control-label control_form">案件组织</label>
+									<div class="col-md-7" style="padding-left:0px">
 											<input type="text" class="span12 tbsporg org-label-control" id="teamCode" name="teamCode" readonly="readonly" 
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
@@ -153,23 +183,14 @@ text-decoration: underline !important;
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
 									</div>
 								</div>
-							</div>
-							<div class="col-md-5">
-								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">贷款需求选择</label>
-									<div class="col-md-8">
-										<aist:dict clazz="form-control" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
-									</div>
-								</div>
-							</div>
+					
+							
 						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l"></label>
-							<div id="select_div_1" class="">
-								<select id="inTextType" data-placeholder="搜索条件设定"
-									class="btn btn-white chosen-select form-control pull-left col-md-6" onchange="intextTypeChange()">
+						<div class="row clearfix">
+							<div id="select_div_1" class="select_1 pull-left clo-md-7" style="padding-left:50px;" >
+							<div class="form-group">
+							<div><select id="inTextType" data-placeholder="搜索条件设定"
+									class="btn btn-white chosen-select form-control pull-left text-left col-md-6" onchange="intextTypeChange()">
 									<option value="1" selected>产证地址</option>
 									<option value="0">客户姓名</option>
 									<option value="2">经纪人姓名</option>
@@ -177,18 +198,31 @@ text-decoration: underline !important;
 									<option value="3">所属分行</option>
 									<option value="5">案件编号</option>
 									<option value="6">CTM编号</option>
-								</select>
+								</select></div>
+							<div id="select_div_1">
+								
 								<input id="inTextVal" type="text" class="form-control pull-left">
 							</div>
+							</div>
 						</div>
+							<div class="col-md-4" style="margin-left:52px;">
+								<div class="form-group ">
+									<label class="col-md-2 label_one control-label control_form">贷款需求选择</label>
+									<div class="col-md-7" style="padding-left:0px">
+										<aist:dict clazz="form-control" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row date-info">
 							<div class="col-md-12">
 								<div class="form-group">
-							<label class="col-md-1 control-label m-l"></label>
+							
 							<div id="dateDiv_0">
 							<div id="select_div_0">
+							
+							<div id="dateDiv_0" class="col-sm-12" style="margin-left:50px;">
+							<div id="select_div_0" class="pull-left" >
 								<aist:dict id="case_date_0" name="case_date"
 									clazz="btn btn-white chosen-select" display="select"
 									defaultvalue="30005001" dictType="30005" />
@@ -214,17 +248,30 @@ text-decoration: underline !important;
 							<div class="col-md-12">
 								<div class="form-group">
 							<label class="col-md-1 control-label m-l-lg"></label>
-							<div><a class="" href="javascript:addDateDiv();"><font>添加日期检索</font></a></div>
+							<div><a class="add_time" href="javascript:addDateDiv();"><font>添加日期检索</font></a></div>
 						</div>
 							</div>
 						</div>
+						<div class="row product-type">
+							<div class="col-md-12" style="padding-left:12px">
+								<div class="form-group " id="goodsType" style="margin-left:36px;">
+									<label class="col-md-1 label_one control-label control_form">产品类型</label>
+									<div class="col-md-10" style="padding-left:0px">
+										<aist:dict id="srvCode" name="srvCode" clazz="btn btn-white" display="checkboxcustom" dictType="yu_serv_cat_code_tree" level='2' onclick=""/>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					
+						
 						<div class="row m-t-sm">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label class="col-md-2 control-label m-l-lg"></label>
-									<div>
-										<button id="searchButton" type="button" class="btn btn-warning">查询</button>
-										<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+									<div style="margin-left:185px;">
+										<button data-toggle="dropdown" class="btn btn_type" aria-expanded="true">更多搜索条件<span style="margin-left:4px"><i class="fa fa-caret-up"></i></span></button>
+										<button id="searchButton" type="button" class="btn btn-warning" style="height:34px;">查询</button>
+										<button id="cleanButton" type="button" class="btn btn-primary" style="height:34px;">清空</button>
 									</div>							
 								</div>
 							</div>
@@ -405,6 +452,15 @@ text-decoration: underline !important;
 					</tr>
        {{/each}}
      </script>
+     <script>
+	$(function() {
+		$("#goodsType").hide();
+		 $(".btn_type").click(function(){
+			 $("#goodsType").toggle();
+			  });
+	})
+
+</script>
      <script></script>
 
 	 </content>

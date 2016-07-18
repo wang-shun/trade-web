@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="convertValue" beanName="convertValue"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="queryChandiaoTransferCountList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT count(*) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(*) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(*) as completeTime,o.org_name as departName,o.id
+ 						 FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
+  						 inner join sctrans.sys_org o
+  						 on pr.PR_DISTRICT_ID=o.id
+  						 inner join sctrans.sys_user u
+ 						 on pr.PR_APPLIANT=u.id
+  						 where PR_STATUS=2 
+  						 <ifNotNull prApplyTime>
+  						       and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
+  						 </ifNotNull> 
+  						 <ifNotNull prApplyTimeEnd>
+  						       and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
+  						 </ifNotNull>  
+  						 <ifNotNull prAccpetTimeStart>
+							AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
+						</ifNotNull>
+						<ifNotNull prAccpetTimeEnd>
+							AND pr.PR_ACCPET_TIME &lt;= #prAccpetTimeEnd#
+						</ifNotNull>
+						<ifNotNull prCompleteTimeStart>
+							AND pr.PR_COMPLETE_TIME &gt;= #prCompleteTimeStart#
+						</ifNotNull>
+						<ifNotNull prCompleteTimeEnd>
+							AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
+						</ifNotNull>
+  						  <ifNotNull yuCuiOriGrpId>
+  						    AND  o.ID = #yuCuiOriGrpId#   
+  						 </ifNotNull>  
+  						       and PR_CHANNEL=1
+  						group by o.org_name,o.id
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="singular" index="" checkbox="" display="单数" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="acceptanceTime" index="" checkbox="" display="受理时间(小时)" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="completeTime" index="" checkbox="" display="完成时间(小时)" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="departName" index="" checkbox="" display="贵宾服务部" customDict="" sysDict="" format="" width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="id" index="" checkbox="" display="" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryChandiaoTransferDetailList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT pr.PR_CODE,pr.PR_ADDRESS,u.REAL_NAME,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,o.ORG_NAME
+  					FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
+  					inner join sctrans.sys_org o
+  					on pr.PR_DISTRICT_ID=o.id
+  					inner join sctrans.sys_user u
+  					on pr.PR_APPLIANT=u.id
+  					where PR_STATUS=2 
+  					 <ifNotNull prApplyTime>
+  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
+  					 </ifNotNull>
+  					 <ifNotNull prApplyTimeEnd>
+  						  and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
+  					 </ifNotNull>  
+  					 <ifNotNull prAccpetTimeStart>
+						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
+					 </ifNotNull>
+					 <ifNotNull prAccpetTimeEnd>
+						  AND pr.PR_ACCPET_TIME &lt;= #prAccpetTimeEnd#
+					 </ifNotNull>
+					 <ifNotNull prCompleteTimeStart>
+						  AND pr.PR_COMPLETE_TIME &gt;= #prCompleteTimeStart#
+					 </ifNotNull>
+					 <ifNotNull prCompleteTimeEnd>
+						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
+					 </ifNotNull>
+  					 <ifNotNull yuCuiOriGrpId>
+  						  AND  o.ID = #yuCuiOriGrpId#   
+  					 </ifNotNull>     
+  					      and PR_CHANNEL=1
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			
+				<column type="both" name="PR_CODE" index="" checkbox="" display="产调编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="PR_ADDRESS" index="" checkbox="" display="产调地址" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="REAL_NAME" index="" checkbox="" display="申请人" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="接受时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ACCEPTANCE" index="" checkbox="" display="受理时间（小时）" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"  align="" halign="" order="" resizable="" />
+				<column type="both" name="ACOMPLETE_TIME" index="" checkbox="" display="完成时间（小时）" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_NAME" index="" checkbox="" display="贵宾服务部" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+</querys>

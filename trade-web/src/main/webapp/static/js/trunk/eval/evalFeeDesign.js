@@ -169,7 +169,7 @@ function rowEdit(id){
     var inHtml = '<input type="hidden" id="evalId" value="'+row.EVALID+'">';
     inHtml += '<input type="hidden" id="caseCode" value="'+row.CASE_CODE+'">';
     inHtml += '<div class="form-group">';
-    inHtml += '<label class="col-sm-4 control-label f-n">案件地址：</label>';
+    inHtml += '<label class="col-sm-4 control-label f-n">产证地址：</label>';
     inHtml += '<span class="col-sm-4 control-label f-n">'+row.PROPERTY_ADDR+'</span><br />';
     inHtml += '<label class="col-sm-4 control-label f-n">合同价：</label>';
     inHtml += '<span class="col-sm-4 control-label f-n">'+conPrice+'</span><br />';

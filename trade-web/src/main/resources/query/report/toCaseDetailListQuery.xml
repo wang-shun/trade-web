@@ -94,13 +94,13 @@
 						AND (a.DISTRICT_ID = #org# OR a.TEAM_ID = #org#)
 					</ifNotNull>
 					<ifNotNull processorId>
-						AND #processorId# IN(SELECT  PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+						AND (#processorId# = a.RECEIVED_USER OR #processorId# = a.SIGN_USER OR #processorId# = a.HOUSE_TRANFER_USER OR #processorId# = a.CLOSE_USER )
 					</ifNotNull>
 					<ifNotNull tempUser>
-						AND #tempUser# IN(SELECT PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+						AND (#tempUser# = a.RECEIVED_USER OR #tempUser# = a.SIGN_USER OR #tempUser# = a.HOUSE_TRANFER_USER OR #tempUser# = a.CLOSE_USER )
 					</ifNotNull>
 					<ifNotNull queryPersonId>
-						AND #queryPersonId# IN(SELECT PROCESSOR_ID  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi WHERE tsi.CASE_CODE=a.CASE_CODE)
+						AND (#queryPersonId# = a.RECEIVED_USER OR #queryPersonId# = a.SIGN_USER OR #queryPersonId# = a.HOUSE_TRANFER_USER OR #queryPersonId# = a.CLOSE_USER )
 					</ifNotNull>
 				]]>		
 			</baseSql>

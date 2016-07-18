@@ -267,4 +267,9 @@ public class ToPropertyServiceImpl implements ToPropertyService {
 		}
 		return 1;
 	}
+
+	@Override
+	public List<ToPropertyResearch> queryAllProperty(String prStatus) {
+		return toPropertyResearchMapper.queryAllProperty(prStatus);
+	}
 }

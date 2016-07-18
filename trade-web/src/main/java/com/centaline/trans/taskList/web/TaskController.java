@@ -354,12 +354,14 @@ public class TaskController {
     		//交易信息
     		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(caseCode);
     		//贷款信息
+    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
     		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
     		CaseDetailShowVO reVo  = getCaseDetailShowVO(caseCode,toMortgage);
     		request.setAttribute("toMortgage", toMortgage);
     		request.setAttribute("caseDetailVO", reVo);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		request.setAttribute("caseInfo", caseInfo);
+    		request.setAttribute("toCaseInfo", toCaseInfo);
     		Dict dict = uamBasedataService.findDictByType("guohu_not_approve");
     		if(dict!=null){
         		request.setAttribute("notApproves", dict.getChildren());

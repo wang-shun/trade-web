@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -34,7 +33,8 @@
 	rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -555,10 +555,10 @@
 									</div>
 									
 									<div class="form-group">
-										<label class="col-sm-2 control-label">利率折扣</label>
+										<label class="col-sm-2 control-label">商贷利率折扣</label>
 										<div class="col-sm-4">
-											<input type="text" class="form-control" id="comDiscount" name="comDiscount" onkeyup="checkNum(this)" placeholder="例如: 0.8或0.95"
-												value="<fmt:formatNumber value='${editCaseDetailVO.comDiscount}' type='number' pattern='#0.00' />">
+											<input type="text" class="form-control" id="comDiscount" name="comDiscount" onkeyup="autoCompleteComDiscount(this)" placeholder="0.50~1.50之间"
+											value="<fmt:formatNumber value='${editCaseDetailVO.comDiscount}' type='number' pattern='#0.00' />">
 										</div>
 										<label class="col-sm-2 control-label">是否自办</label>
 										<div class="col-sm-4">
@@ -801,6 +801,11 @@
 
 			</div>
 		</div>
+		
+		<!-- 案件备注信息 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
 		<div class="ibox-title">
 			<h5>审批记录</h5>
 			<div class="ibox-content">
@@ -853,6 +858,10 @@
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		var isAccumulation=false;
 		var loanReq ="${loanReq}";
@@ -907,6 +916,23 @@
 	            autoclose: true
 	        });
 		});
+		
+		/*贷款折扣自动补全*/
+		function autoCompleteComDiscount(obj){
+			
+			obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+			obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+			obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+			obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+			
+			var inputVal = obj.value;
+		 	if(inputVal>=0.5 && inputVal<=1.5){
+				var reg =/^[01]{1}\.{1}\d{3,}$/;
+				if(reg.test(inputVal)){
+					obj.value = inputVal.substring(0,4);
+				}
+			}
+		} 
 		
 		/**初始化select*/
 		function initSelectYear(id, value) {
@@ -1056,9 +1082,9 @@
 		
 		/**提交数据*/
 		function submit() {
-	/* 		if(checkAttachment()) {
+			/*if(checkAttachment()) {
 				save(true);
-			} */
+			}*/
 			save(true);
 		}
 
@@ -1069,25 +1095,26 @@
 			deleteAndModify();
 			
 			var flag= true;
-/* 			var comDiscount = $('#comDiscount').val();
-			if(comDiscount!=''){
-				if(isNaN(comDiscount)){
-		            alert("请输入0~1之间的合法数字");
+			var _comDiscount = $('#comDiscount').val();
+			var _mortType = $('#mortType').find(':selected').val();
+			
+			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
+				alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
+				$('#comDiscount').focus();
+			}
+			
+			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')){
+				if(isNaN(_comDiscount)){
+		            alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		            $('#comDiscount').focus();
 		            flag = false;
-		        }else if(comDiscount>1 || comDiscount<=0){
-		    		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
+		        }else if(_comDiscount>1.5 || _comDiscount<0.5){
+		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		    		$('#comDiscount').focus();
 		    		flag = false;
-		    	}else if(comDiscount>0 && comDiscount<1){
-		    		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
-		    		if(!reg.test(comDiscount)){
-		    			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
-		    			$('#comDiscount').focus();
-		    			flag = false;
-		    		}
-		       	}
-			} */
+		    	}
+			} 
+			
 			
 			if(flag){
 				var url = ctx+"/task/CaseClose/saveCaseClose";

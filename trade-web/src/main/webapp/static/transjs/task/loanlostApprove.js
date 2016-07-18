@@ -1,4 +1,9 @@
 $(document).ready(function() {
+	$("#caseCommentList").caseCommentGrid({
+		caseCode : caseCode,
+		srvCode : taskitem
+	});
+	
 	$("#reminder_list").jqGrid({
 		//data : reminderdata,
 		url:ctx+"/quickGrid/findPage",

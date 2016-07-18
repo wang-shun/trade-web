@@ -3,6 +3,8 @@ package com.centaline.trans.taskList.web;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -10,19 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.exception.BusinessException;
 import com.aist.message.core.remote.UamMessageService;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.template.remote.UamTemplateService;
-import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.permission.remote.UamPermissionService;
+import com.aist.uam.permission.remote.vo.App;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.service.SignService;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
+import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.TransSignVO;
 
 @Controller
@@ -41,25 +44,31 @@ public class SignController {
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
 	
-	@Autowired(required=true)
-    private UamTemplateService uamTemplateService;
-	
-	@Autowired
-	private UamUserOrgService uamUserOrgService;
-	
-	@Autowired
-	private UamSessionService uamSessionService;
-	
 	@Qualifier("uamMessageServiceClient")
     @Autowired
     private UamMessageService uamMessageService;
-
 	@Autowired
-    private UamBasedataService   uambasedataService;
+	private ToAccesoryListService toAccesoryListService;
 	
 	@Autowired
-	private TsMsgSendHistoryService tsmsgSendHistoryService;
-	
+	private ToHouseTransferService toHouseTransferService;
+	@Autowired
+	private UamPermissionService uamPermissionService;
+	@RequestMapping("process")
+	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response,
+			String caseCode, String source, String taskitem, String processInstanceId) {
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		toAccesoryListService.getAccesoryList(request, taskitem);
+		request.setAttribute("transSign", signService.qureyGuestInfo(caseCode));
+		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+		
+	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());
+		return "task/taskTransSign";
+	}
 	@RequestMapping(value="/saveSign")
 	public String saveSign(HttpServletRequest request, TransSignVO transSignVO) {
 		signService.insertGuestInfo(transSignVO);

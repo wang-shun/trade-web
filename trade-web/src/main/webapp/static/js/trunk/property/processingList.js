@@ -18,15 +18,11 @@ $(document).ready(function() {
 	});
 
 	$("input[name='isScuess']").on('click',function(){
-		if(!!~~$(this).val()){
-//			$("#div_s").show();
-//			$("#div_f").hide();
+		if(!!~~$(this).val()){ // 选择有效
 			$(".gradepad").show();
 			$("#wuxiao").hide();
 			$('#unSuccessReason').val('');
-		}else{
-//			$("#div_f").show();
-//			$("#div_s").hide();
+		}else{                 // 选择无效
 			$("#wuxiao").show();
 		    $(".gradepad").hide();
 		}
@@ -173,7 +169,7 @@ function checkIsExistFile(isSubmit){
 
 	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
 			distcode, executorId, executorName) {
-
+		
 		if (cd == null || cd == "") {
 			$("#caseCode").val(pr);
 		} else {
