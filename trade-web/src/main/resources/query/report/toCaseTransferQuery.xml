@@ -97,15 +97,15 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY TRANSFERDATE DESC,CASETRANSFERDATE DESC
+				ORDER BY transferDate DESC,caseTransferDate DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
-			<table-row>
-				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
+			<table-row>				
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="主管" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />

@@ -44,8 +44,12 @@ $(document).ready(function() {
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 12;
 	data.page = 1;
+	
+	/*加载排序查询组件*/
+	aist.sortWrapper({
+		reloadGrid : searchMethod
+	});
 	reloadGrid(data);
-
 });
 
 // select控件
@@ -99,12 +103,13 @@ function searchMethod(page) {
 	var params = getParamsValue();
 	params.page = page;
 	params.rows = 12;
-	params.queryId = "queryCastTransferItemList";
+	params.queryId = "queryCastTransferItemList";	
 	reloadGrid(params);
 
 };
 
 function reloadGrid(data) {
+		
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -118,11 +123,18 @@ function reloadGrid(data) {
 		queryOrgs = null;
 		arguUserId = "yes";
 	}
-
+	
+	aist.wrap(data);
+	
+	var sortcolumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	data.sidx=sortcolumn;
+	data.sord=sortgz;
+	
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
 	data.argu_queryorgs = orgArray;
-
+	
 	$.ajax({
 		async : true,
 		url : ctx + "/quickGrid/findPage",
@@ -230,8 +242,8 @@ function getParamsValue() {
 function cleanForm() {
 	//$("input[name='transferDateBegin']").val("");
 	//$("input[name='transferDateEnd']").val("");
-	//$("input[name='caseTransferDateBegin']").val("");
-	//$("input[name='caseTransferDateEnd']").val("");
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
