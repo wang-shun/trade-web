@@ -24,28 +24,24 @@ $(document).ready(function() {
 	// 过户日期
 	var transferDateBegin = $('#dtBegin_0').val();
 	var transferDateOver = $('#dtEnd_0').val();
-	// 过户审核日期
-	var caseTransferDateBegin = $('#dtBegin_1').val();
-	var caseTransferDateOver = $('#dtEnd_1').val();
-	
+
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
-	if (caseTransferDateOver && caseTransferDateOver != '') {
-		caseTransferDateOver = caseTransferDateOver + ' 23:59:59';
-	}
 	// 设置查询参数
 	var data = {
-		caseTransferDateStart : caseTransferDateBegin,
-		caseTransferDateEnd : caseTransferDateOver,
 		transferDateStart : transferDateBegin,
 		transferDateEnd : transferDateOver,
 	};
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 12;
 	data.page = 1;
+	
+	/*加载排序查询组件*/
+	aist.sortWrapper({
+		reloadGrid : searchMethod
+	});
 	reloadGrid(data);
-
 });
 
 // select控件
@@ -99,12 +95,13 @@ function searchMethod(page) {
 	var params = getParamsValue();
 	params.page = page;
 	params.rows = 12;
-	params.queryId = "queryCastTransferItemList";
+	params.queryId = "queryCastTransferItemList";	
 	reloadGrid(params);
 
 };
 
 function reloadGrid(data) {
+		
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -118,11 +115,18 @@ function reloadGrid(data) {
 		queryOrgs = null;
 		arguUserId = "yes";
 	}
-
+	
+	aist.wrap(data);
+	
+	var sortcolumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	data.sidx=sortcolumn;
+	data.sord=sortgz;
+	
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
 	data.argu_queryorgs = orgArray;
-
+	
 	$.ajax({
 		async : true,
 		url : ctx + "/quickGrid/findPage",
@@ -199,6 +203,8 @@ function getParamsValue() {
 	var vrealName = $('#realName').val().trim();
 	var orgName = $('#orgName').val();
 	var managerName = $('#managerName').val();
+	var caseCode = $('#caseCode').val().trim();
+	var propertyAddr = $('#propertyAddr').val();
 
 	// 审核状态
 	var TransferStatus = $('#TransferStatus').val();	
@@ -217,7 +223,9 @@ function getParamsValue() {
 		vrealName : vrealName,
 		orgName : orgName,
 		TransferStatus : TransferStatus,
-		managerName : managerName
+		managerName : managerName,
+		caseCode : caseCode,
+		propertyAddr : propertyAddr
 	};
 	return params;
 }
@@ -226,13 +234,14 @@ function getParamsValue() {
 function cleanForm() {
 	//$("input[name='transferDateBegin']").val("");
 	//$("input[name='transferDateEnd']").val("");
-	//$("input[name='caseTransferDateBegin']").val("");
-	//$("input[name='caseTransferDateEnd']").val("");
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
 	$("input[name='managerName']").val("");
-
+	$("input[name='caseCode']").val("");
+	$("input[name='propertyAddr']").val("");
 }
 
 function caseTransferExportToExcel() {
@@ -303,6 +312,8 @@ $('#caseTransferCleanButton').click(function() {
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
 	$("input[name='managerName']").val("");	
+	$("input[name='caseCode']").val("");
+	$("input[name='propertyAddr']").val("");
 });
 
 // 选业务组织的回调函数

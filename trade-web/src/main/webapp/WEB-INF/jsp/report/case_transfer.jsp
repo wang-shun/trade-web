@@ -152,12 +152,22 @@
 						<div class="row">
 						   <div class="col-md-6">
 								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">案件编号</label>
+									<div class="col-md-8"> 
+										 <input type="text" id="caseCode" name="caseCode" class="form-control" value=""> 
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group ">
 									<label class="col-md-3 control-label m-l">区董</label>
 									<div class="col-md-8"> 
 										 <input type="text" id="realName" name="realName" class="form-control" value=""> 
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
 									<label class="col-md-3 control-label m-l">组别</label>
@@ -169,21 +179,16 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">案件审核状态</label>
-									<div class="col-md-8"> 	
-									<select name="TransferStatus" id="TransferStatus" class="form-control">	
-										<option value="" selected="selected">-- 请选择  --</option>
-										<option value="0" >审批不通过</option>									
-										<option value="1" >审批已通过</option>								
-																				
-									</select>
+									<label class="col-md-3 control-label m-l">产证地址</label>
+									<div class="col-md-8"> 
+										 <input type="text" id="propertyAddr" name="propertyAddr" class="form-control" value=""> 
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								 <div class="form-group">
                                         <label class="col-md-3 control-label m-l">主管</label>
@@ -193,8 +198,19 @@
                                        </div>
                                  </div>
 							</div>
-						</div>
-						
+							<div class="col-md-6">
+								<div class="form-group ">
+									<label class="col-md-3 control-label m-l">案件审核状态</label>
+									<div class="col-md-8"> 	
+									<select name="TransferStatus" id="TransferStatus" class="form-control">	
+										<option value="" selected="selected">-- 请选择  --</option>
+										<option value="0" >审批不通过</option>									
+										<option value="1" >审批已通过</option>	
+									</select>
+									</div>
+								</div>
+							</div>
+						</div>						
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group ">
@@ -221,10 +237,10 @@
 											class="input-group input-medium date-picker input-daterange "
 											data-date-format="yyyy-mm-dd">
 												<input id="dtBegin_1" name="caseTransferDateBegin" class="form-control"
-													style="font-size: 13px;" type="text" value="${start}"
+													style="font-size: 13px;" type="text" 
 													placeholder="起始日期"> <span class="input-group-addon">到</span>
 												<input id="dtEnd_1" name="caseTransferDateEnd" class="form-control"
-													style="font-size: 13px;" type="text" value="${end}"
+													style="font-size: 13px;" type="text"
 													placeholder="结束日期" />
 										</div>
 									</div>
@@ -260,12 +276,12 @@
 					<table border="1" cellpadding="0" cellspacing="0">
 						<thead>
 							<tr>
-								<th class="t-left pd-l">案件编号</th>
+								<th class="t-left pd-l"><span class="sort" sortColumn="CASE_CODE" sord="desc">案件编号</span></th>
 								<th class="t-left pd-l">产证地址</th>
 								<th class="t-left pd-l">主管</th>
 								<th class="t-left pd-l">组别</th>
-								<th class="text-center">过户时间</th>
-								<th class="text-center">过户审批时间</th>
+								<th class="text-center"><span class="sort" sortColumn="transferDate" sord="desc">过户提交时间</span></th>
+								<th class="text-center"><span class="sort" sortColumn="caseTransferDate" sord="desc">过户审批时间</span></th>
 								<th class="text-center">是否审批通过</th>
 								<th class="text-center">店组</th>
 								<th class="text-center">片区</th>
@@ -314,16 +330,16 @@
                        <tr class="tr-2">
                    {{/if}}						
 						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
-						<td class="t-left pd-l">{{item.PROPERTY_ADDR}}</td>
-						<td class="t-left pd-l">{{item.REAL_NAME}}</td>
-						<td class="t-left pd-l">{{item.ORG_NAME}}</td>
-						<td class="t-left pd-l">{{item.transferDate}}</td>
-						<td class="t-left pd-l">{{item.caseTransferDate}}</td>
-						<td class="t-left pd-l">{{item.status1}}</td>
-						<td class="t-left pd-l">{{item.GRP_NAME}}</td>
-						<td class="t-left pd-l">{{item.AR_NAME}}</td>
-						<td class="t-left pd-l">{{item.VORG_NAME}}</td>
-						<td class="t-left pd-l">{{item.VREAL_NAME}}</td>
+						<td class="t-left">{{item.PROPERTY_ADDR}}</td>
+						<td class="t-left">{{item.REAL_NAME}}</td>
+						<td class="t-left">{{item.ORG_NAME}}</td>
+						<td class="t-left">{{item.transferDate}}</td>
+						<td class="t-left">{{item.caseTransferDate}}</td>
+						<td class="text-center">{{item.status1}}</td>
+						<td class="t-left">{{item.GRP_NAME}}</td>
+						<td class="t-left">{{item.AR_NAME}}</td>
+						<td class="t-left">{{item.VORG_NAME}}</td>
+						<td class="t-left">{{item.VREAL_NAME}}</td>
 				  </tr>
        {{/each}}
      </script> <script></script> </content>
