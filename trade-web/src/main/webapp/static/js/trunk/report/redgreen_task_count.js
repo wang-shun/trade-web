@@ -379,16 +379,25 @@ if(array && array.length >0){
 }
 
 function userSelect_back(){
+	
 	serviceDepId = $("#h_proOrgId").val();
-	if(serviceDepId != null || serviceDepId == ""){
-		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
-			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+	
+	if(serviceDepId != null || serviceDepId != ""){
+		
+		if(($("#h_proOrgId_gb").val() != "" || $("#h_proOrgId_gb").val() !=null)&&(!(serviceDepId != null) || serviceDepId == "")){
+			serviceDepIda = $("#h_proOrgId_gb").val();
+			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,
+				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+		}else{
+			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
+				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+		}
+		
 	}else{
 		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
 			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 	}
 }
-
 
 function selectUserBack(array){
 	if(array && array.length >0){
