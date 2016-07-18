@@ -237,10 +237,10 @@
 											class="input-group input-medium date-picker input-daterange "
 											data-date-format="yyyy-mm-dd">
 												<input id="dtBegin_1" name="caseTransferDateBegin" class="form-control"
-													style="font-size: 13px;" type="text" value="${start}"
+													style="font-size: 13px;" type="text" 
 													placeholder="起始日期"> <span class="input-group-addon">到</span>
 												<input id="dtEnd_1" name="caseTransferDateEnd" class="form-control"
-													style="font-size: 13px;" type="text" value="${end}"
+													style="font-size: 13px;" type="text"
 													placeholder="结束日期" />
 										</div>
 									</div>
@@ -276,12 +276,12 @@
 					<table border="1" cellpadding="0" cellspacing="0">
 						<thead>
 							<tr>
-								<th class="t-left pd-l">案件编号</th>
+								<th class="t-left pd-l"><span class="sort" sortColumn="CASE_CODE" sord="desc">案件编号</span></th>
 								<th class="t-left pd-l">产证地址</th>
 								<th class="t-left pd-l">主管</th>
 								<th class="t-left pd-l">组别</th>
-								<th class="text-center">过户时间</th>
-								<th class="text-center">过户审批时间</th>
+								<th class="text-center"><span class="sort" sortColumn="transferDate" sord="desc">过户提交时间</span></th>
+								<th class="text-center"><span class="sort" sortColumn="caseTransferDate" sord="desc">过户审批时间</span></th>
 								<th class="text-center">是否审批通过</th>
 								<th class="text-center">店组</th>
 								<th class="text-center">片区</th>
@@ -335,7 +335,7 @@
 						<td class="t-left">{{item.ORG_NAME}}</td>
 						<td class="t-left">{{item.transferDate}}</td>
 						<td class="t-left">{{item.caseTransferDate}}</td>
-						<td class="t-left">{{item.status1}}</td>
+						<td class="text-center">{{item.status1}}</td>
 						<td class="t-left">{{item.GRP_NAME}}</td>
 						<td class="t-left">{{item.AR_NAME}}</td>
 						<td class="t-left">{{item.VORG_NAME}}</td>
