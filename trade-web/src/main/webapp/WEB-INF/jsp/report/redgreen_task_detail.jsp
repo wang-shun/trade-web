@@ -170,27 +170,33 @@ text-decoration: underline !important;
 		    				</div>
 		    			</div>
 						<div class="col-lg-5 col-md-5 "> 
-							<label class="col-lg-3 col-md-3 control-label font_w">任务名 </label>
+						    <div class="form-group">
+							         <label class="col-lg-3 col-md-3 control-label font_w">任务名 </label>
 									<div class="col-md-5">
 										<aist:dict id="taskDfKeyid" name="taskDfKey"
 										clazz="form-control m-b" display="select"
 										dictType="part_code" defaultvalue="" />
 								
 									</div>
+		    			     </div>
 		    			</div>
 		    			</div>
 		    			<div class="row"> 
 						<div class="col-lg-5 col-md-5 "> 
+						<div class="form-group">
 							<label class="col-lg-3 col-md-3 control-label font_w">产证地址 </label>
 		    				<div class="col-md-9">
 		    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
 		    				</div>
 		    			</div>
+		    			</div>
 						<div class="col-lg-5 col-md-5 "> 
+						   <div class="form-group">
 							<label class="col-lg-3 col-md-3 control-label font_w">经办人 </label>
 		    				<div class="col-md-3">
 		    					<input type="text" id="realName" name="search_realName" class="form-control"/>
 		    				</div> 
+		    			</div> 
 		    			</div> 
 		    			</div> 
 		    				<br>
