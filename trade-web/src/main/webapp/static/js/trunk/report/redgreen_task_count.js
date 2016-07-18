@@ -378,6 +378,7 @@ if(array && array.length >0){
 	}
 }
 
+
 function userSelect_back(){
 	
 	serviceDepId = $("#h_proOrgId").val();
