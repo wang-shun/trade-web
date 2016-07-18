@@ -103,10 +103,10 @@ function reloadGrid(data) {
 	//页面参数值
 	var dtBegin = $("input[name='dtBegin']").val();
 	var dtEnd = $("input[name='dtEnd']").val();
-	var realName =  $.trim($("input[name='search_realName']").val());
-	var propertyAddr =  $.trim($("input[name='search_propertyAddr']").val());
+	var realName = $("input[name='search_realName']").val();
+	var propertyAddr = $("input[name='search_propertyAddr']").val();
 	var taskName = $("input[name='search_taskName']").val();
-	var caseCodes =  $.trim($("#caseCode").val());
+	var caseCodes = $("#caseCode").val();
 	var lampRadios = $('input[name="lampRadios"]:checked').val();
 	var proOrggbName = $("#txt_proOrgId_gb").val();
 	var proOrgName =   $("#txt_proOrgId").val();
@@ -369,20 +369,10 @@ function radioYuCuiOrgSelectCallBack(array){
 }
 
 function userSelect_back(){
-	
 	serviceDepId = $("#h_proOrgId").val();
-	
-	if(serviceDepId != null || serviceDepId != ""){
-		
-		if(($("#h_proOrgId_gb").val() != "" || $("#h_proOrgId_gb").val() !=null)&&(!(serviceDepId != null) || serviceDepId == "")){
-			serviceDepIda = $("#h_proOrgId_gb").val();
-			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,
-				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
-		}else{
-			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
-				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
-		}
-		
+	if(serviceDepId != null || serviceDepId == ""){
+		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
+			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 	}else{
 		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
 			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
