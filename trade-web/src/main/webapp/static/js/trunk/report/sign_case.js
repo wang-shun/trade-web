@@ -220,25 +220,25 @@ function getParamsValue() {
 	}
 	
 	//案件编号
-	var caseCode = $("#caseCode").val();
+	var caseCode = $("#caseCode").val().trim();
 	if(""==caseCode || null==caseCode){
 		caseCode=null;
 	}
 	
 	//产证地址
-	var propertyAddr = $("#propertyAddr").val();
+	var propertyAddr = $("#propertyAddr").val().trim();
 	if(""==propertyAddr || null==propertyAddr){
 		propertyAddr=null;
 	}
 	
 	//组别
-	var orgName =$("#orgName").val();
+	var orgName =$("#orgName").val().trim();
 	if(orgName==""||orgName==null){
 		orgName=null;
 	}
 	
 	//区董
-	var orgManName =$("#orgManName").val();
+	var orgManName =$("#orgManName").val().trim();
 	if(orgManName==""||orgManName==null){
 		orgManName=null;
 	}	
