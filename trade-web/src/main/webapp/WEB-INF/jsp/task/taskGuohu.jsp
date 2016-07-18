@@ -192,8 +192,8 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">商贷部分利率折扣</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="0.50~1.50之间保留两位小数"
-					class="form-control" onkeyup="checknum(this)" onblur="autoCompleteComDiscount(this)">
+					<input type="text" name="comDiscount" id="comDiscount" value="${toMortgage.comDiscount }" placeholder="0.50~1.50之间"
+					class="form-control" onkeyup="autoCompleteComDiscount(this)">
 				</div>
 		</div>
 		<div class="form-group">
@@ -207,8 +207,7 @@
 		<div class="form-group">
 				<label class="col-sm-2 control-label">公积金贷款年限</label>
 				<div class="col-sm-10 input-group">
-					<input type="text" name="prfYear" id="prfYear" value="${toMortgage.prfYear }"
-												class="form-control" onkeyup="checknum(this)">
+					<input type="text" name="prfYear" id="prfYear" value="${toMortgage.prfYear }" class="form-control" onkeyup="checknum(this)">
 				</div>
 		</div>
 		</c:if>
@@ -552,15 +551,16 @@
 		
 	/*贷款折扣自动补全*/
 	function autoCompleteComDiscount(obj){
+		
+		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+		obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+		
 		var inputVal = obj.value;
 	 	if(inputVal>=0.5 && inputVal<=1.5){
-			reg =/^[01]{1}\.{1}\d{1}$/;
-			reg2 =/^[01]{1}\.{1}\d{3,}$/;
-			if(inputVal==1){
-				obj.value = '1.00';
-			}else if(reg.test(inputVal)){
-				obj.value = inputVal+'0';
-			}else if(reg2.test(inputVal)){
+			var reg =/^[01]{1}\.{1}\d{3,}$/;
+			if(reg.test(inputVal)){
 				obj.value = inputVal.substring(0,4);
 			}
 		}
@@ -697,21 +697,14 @@
 			
  			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')) {
 				if(isNaN(_comDiscount)){
-		            alert("请输入0.50~1.50之间的合法数字,并保留两位小数");
+		            alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		            $('input[name=comDiscount]').focus();
 		            return false;
 		        }else if(_comDiscount>1.5 || _comDiscount<=0.5){
-		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,并保留两位小数');
+		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		    		$('input[name=comDiscount]').focus();
 		    		return false;
-		    	}else if(_comDiscount>=0.5 && _comDiscount<=1.5){
-		    		var reg= /^[01]{1}\.{1}\d{2}$/;
-		    		if(!reg.test(_comDiscount)){
-		    			alert('商贷利率折扣应保留小数点后两位数字');
-		    			$('input[name=comDiscount]').focus();
-		    			return false;
-		    		}
-		       	}
+		    	}
            }
 			
 			
