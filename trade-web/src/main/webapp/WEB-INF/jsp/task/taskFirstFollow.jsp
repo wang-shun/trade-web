@@ -636,11 +636,10 @@
 
 		/**保存数据*/
 		function save(b) {
-			if (!b) {
 				if (!checkForm()) {
 					return;
 				}
-			}
+			
 			if (!$("#firstFollowform").valid()) {
 				return;
 			}
