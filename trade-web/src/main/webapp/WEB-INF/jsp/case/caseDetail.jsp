@@ -38,6 +38,9 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
+<link href="${ctx}/css/transcss/case/caseDetail.css"
+	rel="stylesheet" />
+
 
 <style type="text/css">
 /* body {
@@ -368,6 +371,7 @@ z-index:1500;width:100%
 					<nav id="navbar-example" class="navbar navbar-default navbar-static"
 					role="navigation" >
 					<div id="isFixed" style="position:relative; top: 0px;"
+
 						class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
 						<ul class="nav navbar-nav scroll_content">
 							<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
@@ -380,6 +384,7 @@ z-index:1500;width:100%
 	<div class="wrapper wrapper-content">
 		<div class="row animated fadeInDown">
 			<div class="scroll_box fadeInDown animated">
+
 					<div class="top12 panel" id="basicInfo"> 
 						<div class="panel-body" >
 							<div class="ibox-content-head">
@@ -488,6 +493,7 @@ z-index:1500;width:100%
 						</div>
 					</div>
 					<!-- 服务流程 -->
+
 					<div class="panel " id="serviceFlow">
 						<div class="panel-body" >
 							<ul class="nav nav-tabs">
@@ -501,10 +507,13 @@ z-index:1500;width:100%
 							</ul>
 
 							<div class="tab-content">
-								<div class="tab-pane fade active in" id="home">
+
+
+								<div class="tab-pane active fade in" id="settings">
 									<div class="jqGrid_wrapper row">
-										<table id="caseCommenTable"></table>
-										<div id="caseCommenPager"></div>
+
+										<table id="operation_history_table"></table>
+										<div id="operation_history_pager"></div>
 									</div>
 								</div>
 								<div class="tab-pane fade" id="profile">
@@ -924,9 +933,10 @@ z-index:1500;width:100%
 										</c:if>
 									</c:if>
 								</div>
-								<div class="tab-pane fade" id="settings">
-									<table id="operation_history_table"></table>
-									<div id="operation_history_pager"></div>
+
+								<div class="tab-pane fade" id="home">						
+										<table id="caseCommenTable"></table>
+										<div id="caseCommenPager"></div>
 								</div>
 							</div>
 						</div>
@@ -934,8 +944,8 @@ z-index:1500;width:100%
 
 
 					<!-- 相关信息 -->
-					<div class="panel " id="aboutInfo" style="min-height:700px;">
-					<a style="float: right;margin-right: 12px;margin-top:10px;" href="javascript:showChangeFormModal();">我要修改</a>
+
+					<div class="panel " id="aboutInfo" style="min-height:800px;">
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -1380,11 +1390,12 @@ z-index:1500;width:100%
  		$(function(){
  			
 			var caseCode = $('#caseCode').val();
-		
+
 			$("#caseCommentList").caseCommentGrid({
 				caseCode : caseCode,
 				srvCode : null
 			});
+
 /* 	        var h= window.screen.availHeight;
 			$("#scroll").css("height",h-h*0.32); */ 
 			//点击浏览器任何位置隐藏提示信息
@@ -1396,6 +1407,7 @@ z-index:1500;width:100%
             });
 			//隐藏头部信息
 			
+
  	        window.onscroll = function(){ 
 	        	if(document.body.scrollTop>62){
 	        		$("#isFixed").css("position","fixed");
@@ -1408,6 +1420,7 @@ z-index:1500;width:100%
 	        	}
 	        	
 	        	
+
 	        } 
 		})
         jQuery(function($) {

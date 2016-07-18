@@ -109,11 +109,10 @@ $('#cleanButton').click(function() {
 	$("input[name='caseCode']").val('');
 	$("input[name='propertyAddr']").val('');
 	$("input[name='realName']").val('');
-	
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
 	$("input[id='inTextVal']").val('');
 	$("input[name='orgName']").val('');
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
 	$("select").val("");
 	
 });
@@ -191,8 +190,8 @@ function getSearchDateValues() {
 	signTimeStart = null;
 	signTimeEnd = null;
 
-	var start = $('#dtBegin_0').val();
-	var end = $('#dtEnd_0').val();
+	var start = $('#dtBegin').val();
+	var end = $('#dtEnd').val();
 	if (end && end != '') {
 		end = end + ' 23:59:59';
 	}
@@ -213,21 +212,6 @@ function getSearchDateValues() {
 	return true;
 }
 
-var srvCode1;
-var srvCode2;
-var srvCode3;
-var srvCode4;
-var srvCode5;
-var srvCode6;
-var srvCode7;
-var srvCode8;
-var srvCode9;
-var srvCode11;
-var srvCode12;
-var srvCode13;
-var srvCode14;
-var srvCode15;
-
 /**
  * 查询参数取得
  */
@@ -245,12 +229,6 @@ function getParamsValue() {
 	var caseCode = $("#caseCode").val();
 	if(""==caseCode || null==caseCode){
 		caseCode=null;
-	}
-
-	//产品名称
-	var srvCode = $("#srvCode").val();
-	if(""==srvCode || null==srvCode){
-		srvCode=null;
 	}
 
 	//物业地址
@@ -278,34 +256,19 @@ function getParamsValue() {
 	}
 	
 	// 产品类型
-	getCheckBoxValues("srvCode");
+	var srvCode = getCheckBoxValues("srvCode");
 	
 	//设置查询参数
 	var params = {};
 	params.signTimeStart = signTimeStart;
 	params.signTimeEnd = signTimeEnd;
-	params.argu_org = org;
-	//params.argu_processorId = userId;
-	params.argu_queryPersonId = queryPersonId;
-	params.search_caseCode = caseCode;
-	params.search_srvCode = srvCode;
-	params.search_propertyAddr = propertyAddr;
-	params.search_realName = realName;
-	params.search_orgName = orgName;
-	params.argu_srvCode1 = srvCode1;
-	params.argu_srvCode2 = srvCode2;
-	params.argu_srvCode3 = srvCode3;
-	params.argu_srvCode4 = srvCode4;
-	params.argu_srvCode5 = srvCode5;
-	params.argu_srvCode6 = srvCode6;
-	params.argu_srvCode7 = srvCode7;
-	params.argu_srvCode8 = srvCode8;
-	params.argu_srvCode9 = srvCode9;
-	params.argu_srvCode11 = srvCode11;
-	params.argu_srvCode12 = srvCode12;
-	params.argu_srvCode13 = srvCode13;
-	params.argu_srvCode14 = srvCode14;
-	params.argu_srvCode15 = srvCode15;
+	params.org = org;
+	params.queryPersonId = queryPersonId;
+	params.caseCode = caseCode;
+	params.propertyAddr = propertyAddr;
+	params.realName = realName;
+	params.orgName = orgName;
+	params.srvCode = srvCode;
 
 	return params;
 }
@@ -417,6 +380,7 @@ function exportToExcel() {
 	if (getSearchDateValues()) {
 		var url = "/quickGrid/findPage?xlsx&";
 		var ctx = $("#ctx").val();
+		console.log(ctx);
 		//excel导出列
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
@@ -469,51 +433,11 @@ function exportToExcel() {
 
 //产品类型
 function getCheckBoxValues(name) {
-	srvCode1 = "";
-	srvCode2 = "";
-	srvCode3 = "";
-	srvCode4 = "";
-	srvCode5 = "";
-	srvCode6 = "";
-	srvCode7 = "";
-	srvCode8 = "";
-	srvCode9 = "";
-	srvCode11 = "";
-	srvCode12 = "";
-	srvCode13 = "";
-	srvCode14 = "";
-	srvCode15 = "";
-	//$("input[name=" + name + "].selected").each(function() {
+	var srvCode = [];
 	$("span[name='srvCode'].selected").each(function() {
 		var val = $(this).attr('value');
-		if (val == '30004001') {
-			srvCode1 = val;
-		} else if (val == '30004002') {
-			srvCode2 = val;
-		} else if (val == '30004003') {
-			srvCode3 = val;
-		} else if (val == '30004004') {
-			srvCode4 = val;
-		} else if (val == '30004005') {
-			srvCode5 = val;
-		} else if (val == '30004006') {
-			srvCode6 = val;
-		} else if (val == '30004007') {
-			srvCode7 = val;
-		} else if (val == '30004008') {
-			srvCode8 = val;
-		} else if (val == '30004009') {
-			srvCode9 = val;
-		} else if (val == '30004011') {
-			srvCode11 = val;
-		} else if (val == '30004012') {
-			srvCode12 = val;
-		} else if (val == '30004013') {
-			srvCode13 = val;
-		} else if (val == '30004014') {
-			srvCode14 = val;
-		} else if (val == '30004015') {
-			srvCode15 = val;
-		}
+		srvCode.push(val);
 	});
+
+	return srvCode;
 }

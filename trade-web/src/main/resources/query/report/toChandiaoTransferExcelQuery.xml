@@ -42,14 +42,11 @@
   					inner join sctrans.sys_user u
   					on pr.PR_APPLIANT=u.id
   					where PR_STATUS=2 
-  					 <ifNotNull organId>
-  					      and o.id= #organId#
-  					 </ifNotNull> 
   					 <ifNotNull prApplyTime>
-  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)>1 
+  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
   					 </ifNotNull>
-  					 <ifNotNull prApplyTime>
-  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)>1 
+  					 <ifNotNull prApplyTimeEnd>
+  						  and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
   					 </ifNotNull>  
   					 <ifNotNull prAccpetTimeStart>
 						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#

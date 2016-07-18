@@ -95,38 +95,52 @@ function searchMethod(page) {
 };
 
 function reloadGrid(data) {
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
 	
-	var organId = $("#organId").val();
-	var prApplyTime = $("#prApplyTime").val();
+	var yuCuiOriGrpIdPre = $("#organId").val();
+	var prApplyTimePre = $("#dtBegin_0").val();
+	var prApplyTimeEndPre = $("#dtBegin_1").val();
+	var prAccpetTimeStartPre = $("#prAccpetTimeStart").val();
+	var prAccpetTimeEndPre = $("#prAccpetTimeEnd").val();
+	var prCompleteTimeStartPre = $("#prCompleteTimeStart").val();
+	var prCompleteTimeEndPre = $("#prCompleteTimeEnd").val();
 	
-	
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-	
-	var start = $('#dtBegin_0').val();
+	/*var start = $('#dtBegin_0').val();
 	if(start&&start!=''){
-		prApplyTime = start;
+		prApplyTimePre = start;
 	}
-	
-
-	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
-    data.argu_queryorgs = orgArray;
+	var end = $('#dtBegin_1').val();
+	if(end&&end!=''){
+		prApplyTimeEndPre = end;
+	}
+	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
+	if(prAccpetTimeStart&&prAccpetTimeStart!=''){
+		prAccpetTimeStartPre = prAccpetTimeStart;
+	}
+	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
+	if(prAccpetTimeEnd&&prAccpetTimeEnd!=''){
+		prAccpetTimeEndPre = prAccpetTimeEnd;
+	}
+	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
+	if(prCompleteTimeStart&&prCompleteTimeStart!=''){
+		prCompleteTimeStartPre = prCompleteTimeStart;
+	}
+	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	if(prCompleteTimeEnd&&prCompleteTimeEnd!=''){
+		prCompleteTimeEndPre = prCompleteTimeEnd;
+	}*/
+	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
+	if(yuCuiOriGrpId&&yuCuiOriGrpId!=''){
+		yuCuiOriGrpIdPre = yuCuiOriGrpId;
+	}
     
-    data.organId = organId;
-    data.prApplyTime = prApplyTime;
-	
+    data.organId = yuCuiOriGrpIdPre;
+    data.prApplyTime = prApplyTimePre;
+    data.prApplyTimeEnd = prApplyTimeEndPre;
+    data.prAccpetTimeStart = prAccpetTimeStartPre;
+    data.prAccpetTimeEnd = prAccpetTimeEndPre;
+    data.prCompleteTimeStart = prCompleteTimeStartPre;
+    data.prCompleteTimeEnd = prCompleteTimeEndPre;
+    data.yuCuiOriGrpId = yuCuiOriGrpIdPre;
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -192,6 +206,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParamsValue() {
 	
 	var start = $('#dtBegin_0').val();
+	var end = $('#dtBegin_1').val();
 	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
 	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
 	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
@@ -200,6 +215,7 @@ function getParamsValue() {
 	//设置查询参数
 	var params = {
 			prApplyTime : start,
+			prApplyTimeEnd : end,
 			prAccpetTimeStart : prAccpetTimeStart,
 			prAccpetTimeEnd : prAccpetTimeEnd,
 			prCompleteTimeStart : prCompleteTimeStart,
@@ -226,43 +242,59 @@ function exportToExcel() {
 	
 	displayColomn.push('EVAL_FEE');
 	displayColomn.push('RECORD_TIME');
-
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-
-	var orgArray = queryOrgs==null?'':queryOrgs.split(",");
-
-	var argu_idflag = '&argu_idflag='+arguUserId;
 	
-	if(arguUserId==null)argu_idflag='&argu_idflag=';
-	var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
-	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 	var params = getParamsValue();
 	
-	var organId = $("#organId").val();
-	var prApplyTime = $("#prApplyTime").val();
-	var start = $('#dtBegin_0').val();
+	var yuCuiOriGrpIdPre = $("#organId").val();
+	var prApplyTimePre = $("#prApplyTime").val();
+	var prApplyTimeEndPre = $("#prApplyTimeEnd").val();
+	var prAccpetTimeStartPre = $("#prAccpetTimeStart").val();
+	var prAccpetTimeEndPre = $("#prAccpetTimeEnd").val();
+	var prCompleteTimeStartPre = $("#prCompleteTimeStart").val();
+	var prCompleteTimeEndPre = $("#prCompleteTimeEnd").val();
+	
+	/*var start = $('#dtBegin_0').val();
 	if(start&&start!=''){
-		prApplyTime = start;
+		prApplyTimePre = start;
 	}
-	params.organId = organId;
-	params.prApplyTime = prApplyTime;
+	var end = $('#dtBegin_1').val();
+	if(end&&end!=''){
+		prApplyTimeEndPre = end;
+	}
+	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
+	if(prAccpetTimeStart&&prAccpetTimeStart!=''){
+		prAccpetTimeStartPre = prAccpetTimeStart;
+	}
+	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
+	if(prAccpetTimeEnd&&prAccpetTimeEnd!=''){
+		prAccpetTimeEndPre = prAccpetTimeEnd;
+	}
+	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
+	if(prCompleteTimeStart&&prCompleteTimeStart!=''){
+		prCompleteTimeStartPre = prCompleteTimeStart;
+	}
+	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	if(prCompleteTimeEnd&&prCompleteTimeEnd!=''){
+		prCompleteTimeEndPre = prCompleteTimeEnd;
+	}*/
+	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
+	if(yuCuiOriGrpId&&yuCuiOriGrpId!=''){
+		yuCuiOriGrpIdPre = yuCuiOriGrpId;
+	}
+    
+	params.organId = yuCuiOriGrpIdPre;
+	params.prApplyTime = prApplyTimePre;
+	params.prApplyTimeEnd = prApplyTimeEndPre;
+	params.prAccpetTimeStart = prAccpetTimeStartPre;
+	params.prAccpetTimeEnd = prAccpetTimeEndPre;
+	params.prCompleteTimeStart = prCompleteTimeStartPre;
+	params.prCompleteTimeEnd = prCompleteTimeEndPre;
+	params.yuCuiOriGrpId = yuCuiOriGrpIdPre;
 	
 	var queryId = '&queryId=queryChandiaoTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 	
-	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
+	url = ctx + url + jQuery.param(params) + queryId + colomns;
 	
 	$('#excelForm').attr('action', url);
 	
@@ -275,18 +307,19 @@ function exportToExcel() {
 
 // 清空表单
 function cleanForm() {
-	$("input[name='dtBegin']").val("");
+	//$("input[name='dtBegin']").val("");
 }
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
-	$('#datepicker_0').datepicker();
-	$("input[name='prAccpetTimeStart']").val('');
-	$("input[name='prAccpetTimeEnd']").val('');
-	$("input[name='prCompleteTimeStart']").val('');
-	$("input[name='prCompleteTimeEnd']").val('');
 	$("input[name='teamCode']").val('');
 	$("input[name='yuCuiOriGrpId']").val('');
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
+	$("input[name='prAccpetTimeStart']").datepicker('update', '');
+	$("input[name='prAccpetTimeEnd']").datepicker('update', '');
+	$("input[name='prCompleteTimeStart']").datepicker('update', '');
+	$("input[name='prCompleteTimeEnd']").datepicker('update', '');
+	
 	$("select").val("");
 });

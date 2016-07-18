@@ -167,7 +167,7 @@ text-decoration: underline !important;
 													onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
-										   expandNodeId:''})" />
+										   expandNodeId:'',chkLast:'true'})" />
 												<input class="m-wrap " type="hidden" id="yuCuiOriGrpId"
 													name="yuCuiOriGrpId">
 											</div>
@@ -184,9 +184,9 @@ text-decoration: underline !important;
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
 								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${signTimeStart}" placeholder="起始日期">
+								<input id="dtBegin" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${signTimeStart}" placeholder="起始日期">
 								<span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${signTimeEnd}" placeholder="结束日期" />
+								<input id="dtEnd" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${signTimeEnd}" placeholder="结束日期" />
 							</div>
 							<div id="addLine" class="pull-left m-l">
 							
