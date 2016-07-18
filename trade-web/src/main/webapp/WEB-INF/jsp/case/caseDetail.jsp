@@ -645,6 +645,7 @@
 					<!-- 相关信息 -->
 
 					<div class="panel " id="aboutInfo" style="min-height:800px;">
+					<a style="float: right;margin-right: 12px;margin-top:12px" href="javascript:showChangeFormModal();">我要修改</a>
 						<div class="panel-body">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>
@@ -1144,4 +1145,3 @@
 	</script> </content>
 </body>
 </html>
-
