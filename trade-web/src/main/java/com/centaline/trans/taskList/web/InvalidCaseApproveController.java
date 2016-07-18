@@ -24,6 +24,7 @@ public class InvalidCaseApproveController {
 	private InvalidCaseApproveService invalidCaseApproveService;
 	@Autowired
 	private ToCaseService toCaseService;
+	@Autowired
 	private UamSessionService uamSessionService;
 	@RequestMapping(value="process")
 	public String toProcess(HttpServletRequest request,
