@@ -27,6 +27,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
@@ -126,9 +127,14 @@ public class LoanAgentController {
 		Job j = uamUserOrgService.getJobByCode(TransJobs.YCPRODUCT.getCode());
 		List<User> users = uamUserOrgService.getUserByJobId(j.getId());
 		if(SecurityUtils.getSubject().isPermitted("TRADE.LOAN.SUBMIT.BELONG")){
-			SessionUser user=uamSessionService.getSessionUser();
-			List<User>jygws =uamUserOrgService.getUserByOrgIdAndJobCode(user.getServiceDepId(), TransJobs.TJYGW.getCode());
-			model.addAttribute("jygws", jygws);
+			SessionUser user = uamSessionService.getSessionUser();
+			
+			Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+			model.addAttribute("orgId", org.getId());
+			
+//			List<User> jygws = uamUserOrgService.getUserByOrgIdAndJobCode(user.getServiceDepId(), TransJobs.TJYGW.getCode());
+//			model.addAttribute("jygws", jygws);
+			
 		}
 		List<User> usersAvailable = new ArrayList<User>();
 		for (User user : users) {
@@ -147,6 +153,7 @@ public class LoanAgentController {
 				}
 			}
 			model.addAttribute("loanAgent", loanAgent);
+			model.addAttribute("loanAgentName", uamUserOrgService.getUserById(loanAgent.getExecutorId()).getRealName());
 		}
 		if(isOnlyRead!=null&&isOnlyRead==1L) {
 			return "/loan/detailsOnlyRead";
