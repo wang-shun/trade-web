@@ -30,61 +30,45 @@
 	<query id="queryUnlocatedCase">
 	<searchCondition>
 			
-            <condition field="E.PROPERTY_ADDR" name="proAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.IMPORT_TIME" name="dtBegin" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.IMPORT_TIME" name="dtEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="C.ORG_ID" name="oriGrpId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-             
+            <condition field="pi.PROPERTY_ADDR" name="proAddr"  searchType="LIKE" />
+            <condition field="tci.IMPORT_TIME" name="dtBegin"  searchType="GTE" />
+            <condition field="tci.IMPORT_TIME" name="dtEnd"  searchType="LTE" />
             </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						A.PKID,
-						A.CASE_CODE,
-						A.CTM_CODE,
-						A.AGENT_CODE,
-						A.AGENT_NAME,
-						A.IMPORT_TIME,
-						--C.SELLER,
-						E.PROPERTY_ADDR,
-            A.GRP_NAME as ORG_NAME,
-            F.real_name AS QYJL,
-            G.real_name AS QYZJ,
-            ISNULL(F.real_name,G.real_name) AS LEADER
-						--F.BUYER
+						tci.PKID,
+						tci.CASE_CODE,
+						tci.CTM_CODE,
+						tci.AGENT_CODE,
+						tci.AGENT_NAME,
+						tci.IMPORT_TIME,
+						tci.GRP_NAME as ORG_NAME,
+						tci.grp_code as AGENT_ORG_CODE,
+						pi.PROPERTY_ADDR
 					FROM
-						sctrans.T_TO_CASE_INFO AS A
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
-                    LEFT JOIN sctrans.V_USER_ORG_JOB AS C ON C.user_id = A.AGENT_CODE
-					LEFT JOIN sctrans.T_sys_org_hierarchy AS D ON D.GROUP_ID = C.ORG_id
-                    LEFT JOIN  sctrans.V_USER_ORG_JOB AS  F on  F.ORG_id = D.BUSIAR_ID AND F.job_code = 'JQYJL' AND F.is_leader = 1
-						LEFT JOIN  sctrans.V_USER_ORG_JOB AS  G on  G.ORG_id = D.BUSISWZ_ID AND G.job_code = 'JQYZJ' AND G.is_leader = 1
-					where 1=1
-					AND  not exists (select * from sctrans.T_TS_TEAM_SCOPE_GRP GRP where GRP.IS_RESPONSE_TEAM = 1 AND GRP.GRP_CODE=A.GRP_CODE)
-					AND  not exists (select * from sctrans.T_TS_TEAM_SCOPE_AR AR where AR.IS_RESPONSE_TEAM = 1 AND AR.AR_CODE=A.AR_CODE)
-					AND  not exists (select * from sctrans.T_TS_TEAM_TRANSFER transfer where transfer.IS_DELETE = 0 AND transfer.CASE_CODE=A.CASE_CODE)
-					and a.is_responsed is null
-					<ifNotNull oriGrpId>
-						AND (D.GROUP_ID = #oriGrpId# OR D.BUSIAR_ID = #oriGrpId# OR D.BUSISWZ_ID = #oriGrpId# OR D.BUSIWZ_ID = #oriGrpId# OR D.BUSIBA_ID = #oriGrpId#)
-					</ifNotNull>
+						sctrans.T_TO_CASE_INFO AS tci
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS pi ON tci.CASE_CODE = pi.CASE_CODE
+					where not exists (
+						select 1 from sctrans.T_TS_TEAM_SCOPE_TARGET tst where tci.TARGET_CODE = tst.GRP_CODE
+						)
+						and tci.is_responsed = 0
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY A.CASE_CODE DESC
+			  ORDER BY tci.CASE_CODE DESC
 			</orderBySql>
-			<groupSql>
-			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="LEADER" index="" checkbox="" display="区经/区总" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="IMPORT_TIME" index="" checkbox="" display="导入时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PKID" display="CASEID"  hide="true"/>
+				<column type="both" name="CASE_CODE" display="案件编号" />
+				<column type="both" name="PROPERTY_ADDR" display="产证地址"/>
+				<column type="both" name="AGENT_NAME"  display="经纪人" />
+				<column type="both" name="ORG_NAME" display="组别"  />
+				<column type="both" name="IMPORT_TIME"  display="导入时间"  beanFormatter="dateFormatter1"   />			
+				<column type="virtual" name="LEADER"  	title="区经/区总" 	customDict="qqcdJlOrZjOrNameByOrgCode" referencecol="AGENT_ORG_CODE" />	
 			</table-row>
 		</grid>
 	</query>

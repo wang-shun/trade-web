@@ -317,9 +317,9 @@ text-decoration: underline !important;
 					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
 						<a href="{{ctx}}/engine/task/{{item.ID}}/process" class="case-task" target="_blank">{{item.NAME}}</a>
-                    </td>
-					<td class="t-left">{{item.SELLER}}</td>
-					<td class="t-left">{{item.BUYER}}</td>
+                    </td>					
+					<td class="t-left"><a class="hint  hint-top" data-hint="上家信息: {{item.SELLER}}">{{(item.SELLER).substring(0,item.SELLER.indexOf("/"))}}</a></td>
+					<td class="t-left"><a class="hint  hint-top" data-hint="下家信息: {{item.BUYER}}">{{(item.BUYER).substring(0,item.BUYER.indexOf("/"))}}</a></td>
 					<td class="t-left">{{item.CREATE_TIME}}</td>
 					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>
