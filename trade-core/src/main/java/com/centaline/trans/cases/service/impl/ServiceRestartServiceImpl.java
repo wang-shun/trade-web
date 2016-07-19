@@ -27,7 +27,6 @@ import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
