@@ -77,7 +77,7 @@ public class QuickQueryUserOrgJobCustomDictServiceImpl implements CustomDictServ
     }
     
     @Override
-	@Cacheable(value = "QuickQueryUserOrgJobCustomDictServiceImpl", key = "#root.target.getDeptId()+'/'+#root.target.getJobCode()+'/'+#root.target.getProp()+'/'+#key")
+	@Cacheable(value = "QuickQueryUserOrgJobCustomDictServiceImpl", key = "#root.target.getDeptId()+'/'+#root.target.getJobCode()+'/'+#root.target.getProp()+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> keyer:keys){
 			String val = "";

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.aist.common.quickQuery.service.CustomDictService;
@@ -35,6 +36,7 @@ public class QuickQueryManagerInfoCustomDictServiceImpl implements CustomDictSer
     }
 	
 	@Override
+	@Cacheable(value="QuickQueryManagerInfoCustomDictServiceImpl",key="#root.target.getTransPosition()+'/'+#keys")
 	public List<Map<String,Object>> findDicts(List<Map<String,Object>> keys){
 		 List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		for(int i = 0 ;i< keys.size(); i++){

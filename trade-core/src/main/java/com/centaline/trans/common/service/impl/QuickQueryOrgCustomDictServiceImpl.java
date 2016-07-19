@@ -32,7 +32,7 @@ public class QuickQueryOrgCustomDictServiceImpl implements CustomDictService{
 	}
 	
 	@Override
-	@Cacheable(value="QuickQueryOrgCustomDictServiceImpl",key="#root.target.getProp()+'/'+#key")
+	@Cacheable(value="QuickQueryOrgCustomDictServiceImpl",key="#root.target.getProp()+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> keyer:keys){
 			String val = "";

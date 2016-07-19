@@ -38,7 +38,7 @@ public class QuickQueryGuestInfoPhoneCustomDictServiceImpl implements CustomDict
 	}
 	
 	@Override
-	@Cacheable(value="QuickQueryGuestInfoPhoneCustomDictServiceImpl",key="#root.target.getTransPosition()+'/'+#key")
+	@Cacheable(value="QuickQueryGuestInfoPhoneCustomDictServiceImpl",key="#root.target.getTransPosition()+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		keys = keyValueService.queryGuestInfoPhoneCustomDict(keys, transPosition);
 		return keys;

@@ -33,7 +33,7 @@ public class QuickQueryParentOrgCustomDictServiceImpl implements CustomDictServi
 	}
 	
 	@Override
-	@Cacheable(value="QuickQueryParentOrgCustomDictServiceImpl",key="#root.target.getProp()+'/'+#root.target.getType()+'/'+#key")
+	@Cacheable(value="QuickQueryParentOrgCustomDictServiceImpl",key="#root.target.getProp()+'/'+#root.target.getType()+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> keyer:keys){
 			String val = "";
