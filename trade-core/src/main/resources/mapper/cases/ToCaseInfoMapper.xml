@@ -18,10 +18,11 @@
 	<result column="AR_CODE" jdbcType="VARCHAR" property="arCode" />
 	<result column="AR_NAME" jdbcType="VARCHAR" property="arName" />
 	<result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
+	<result column="TARGET_CODE" jdbcType="VARCHAR" property="targetCode" />
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
-    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE 
+    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE 
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -168,11 +169,10 @@
       <if test="arName != null" >
         AR_NAME = #{arName,jdbcType=VARCHAR},
       </if>
-       AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
-         CREATE_TIME = GETDATE(),
-       UPDATE_TIME = GETDATE(),
-       CREATE_BY = @{SESSION_USER_ID},
-       UPDATE_BY = @{SESSION_USER_ID}
+      <if test="targetCode != null" >
+        TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
+      </if>
+       AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
  

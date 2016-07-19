@@ -1500,7 +1500,7 @@ public class CaseDetailController {
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-			toWorkFlow.setBusinessKey(pIVo.getBusinessKey());
+			toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
 			toWorkFlow.setProcessOwner(sessionUser.getId());
 			toWorkFlowService.insertSelective(toWorkFlow);
 

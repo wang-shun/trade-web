@@ -19,8 +19,7 @@ $(document).ready(function() {
 	}
 
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
-	
-	
+
 	// 过户日期
 	var transferDateBegin = $('#dtBegin_0').val();
 	var transferDateOver = $('#dtEnd_0').val();
@@ -36,8 +35,8 @@ $(document).ready(function() {
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 12;
 	data.page = 1;
-	
-	/*加载排序查询组件*/
+
+	/* 加载排序查询组件 */
 	aist.sortWrapper({
 		reloadGrid : searchMethod
 	});
@@ -71,7 +70,7 @@ $('#datepicker_0').datepicker({
 	weekStart : 1,
 	autoclose : true,
 	todayBtn : 'linked',
-	language : 'zh-CN',	
+	language : 'zh-CN',
 });
 $('#datepicker_1').datepicker({
 	format : 'yyyy-mm-dd',
@@ -95,13 +94,13 @@ function searchMethod(page) {
 	var params = getParamsValue();
 	params.page = page;
 	params.rows = 12;
-	params.queryId = "queryCastTransferItemList";	
+	params.queryId = "queryCastTransferItemList";
 	reloadGrid(params);
 
 };
 
 function reloadGrid(data) {
-		
+
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -115,18 +114,18 @@ function reloadGrid(data) {
 		queryOrgs = null;
 		arguUserId = "yes";
 	}
-	
+
 	aist.wrap(data);
-	
-	var sortcolumn=$('span.active').attr("sortColumn");
-	var sortgz=$('span.active').attr("sord");
-	data.sidx=sortcolumn;
-	data.sord=sortgz;
-	
+
+	var sortcolumn = $('span.active').attr("sortColumn");
+	var sortgz = $('span.active').attr("sord");
+	data.sidx = sortcolumn;
+	data.sord = sortgz;
+
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
 	data.argu_queryorgs = orgArray;
-	
+
 	$.ajax({
 		async : true,
 		url : ctx + "/quickGrid/findPage",
@@ -207,7 +206,7 @@ function getParamsValue() {
 	var propertyAddr = $('#propertyAddr').val();
 
 	// 审核状态
-	var TransferStatus = $('#TransferStatus').val();	
+	var TransferStatus = $('#TransferStatus').val();
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
@@ -232,8 +231,8 @@ function getParamsValue() {
 
 // 清空表单
 function cleanForm() {
-	//$("input[name='transferDateBegin']").val("");
-	//$("input[name='transferDateEnd']").val("");
+	// $("input[name='transferDateBegin']").val("");
+	// $("input[name='transferDateEnd']").val("");
 	$("input[name='caseTransferDateBegin']").val("");
 	$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
@@ -303,7 +302,7 @@ function caseTransferExportToExcel() {
 }
 
 // 清空
-$('#caseTransferCleanButton').click(function() {	
+$('#caseTransferCleanButton').click(function() {
 	$("input[name='transferDateBegin']").datepicker('update', '');
 	$("input[name='transferDateEnd']").datepicker('update', '');
 	$("input[name='caseTransferDateBegin']").datepicker('update', '');
@@ -311,7 +310,7 @@ $('#caseTransferCleanButton').click(function() {
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
-	$("input[name='managerName']").val("");	
+	$("input[name='managerName']").val("");
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
 });
@@ -328,7 +327,7 @@ function radioYuCuiOrgSelectCallBack(array) {
 
 	}
 }
-//根据组织 选择主管
+// 根据组织 选择主管
 function chooseManager(id) {
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
@@ -342,7 +341,7 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode:'Manager,Senior_Manager',
+			jobCode : 'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
 		$("#yuCuiOriGrpId").val("");
@@ -355,7 +354,7 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode:'Manager,Senior_Manager',
+			jobCode : 'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
 	}

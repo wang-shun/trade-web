@@ -63,7 +63,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		wf.setCaseCode(vo.getCaseCode());
 		ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 		if(sameOne!=null){
-			throw new BusinessException("当前重启流程尚未结束！");
+			throw new BusinessException("褰撳墠閲嶅惎娴佺▼灏氭湭缁撴潫锛�");
 		}
 		
 		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
@@ -113,12 +113,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return true;
 	}
 	/**
-	 * 审批同意操作
+	 * 瀹℃壒鍚屾剰鎿嶄綔
 	 * @param vo
 	 */
 	private void doApproved(ServiceRestartVo vo){
 		toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
-		//删除原主流程 更新原主流程记录
+		//鍒犻櫎鍘熶富娴佺▼ 鏇存柊鍘熶富娴佺▼璁板綍
 		ToWorkFlow t=new ToWorkFlow();
 		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		t.setCaseCode(vo.getCaseCode());
@@ -133,16 +133,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			mainflow.setStatus(WorkFlowStatus.TERMINATE.getCode());
 			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		}
-		//启动新的主流程并记录流程表
+		//鍚姩鏂扮殑涓绘祦绋嬪苟璁板綍娴佺▼琛�
 		ToCase cas=toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		cas.setStatus(CaseStatusEnum.YFD.getCode());
-		//更新Case表
+		//鏇存柊Case琛�
 		toCaseService.updateByCaseCodeSelective(cas);
 		User u=uamUserOrgService.getUserById(cas.getLeadingProcessId());
-		//无效业务表单
+		//鏃犳晥涓氬姟琛ㄥ崟
 		toWorkFlowService.inActiveForm(vo.getCaseCode());
-    	//更新当前流程为结束
+    	//鏇存柊褰撳墠娴佺▼涓虹粨鏉�
 		ToWorkFlow tf= toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
 		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
@@ -150,7 +150,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ProcessInstance process = new ProcessInstance();
     	process.setBusinessKey(vo.getCaseCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-    	/*流程引擎相关*/
+    	/*娴佺▼寮曟搸鐩稿叧*/
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	    Iterator it = defValsMap.keySet().iterator();  

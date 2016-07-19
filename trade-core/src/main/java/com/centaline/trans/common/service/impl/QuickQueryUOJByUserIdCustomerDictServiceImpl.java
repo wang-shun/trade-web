@@ -20,7 +20,6 @@ public class QuickQueryUOJByUserIdCustomerDictServiceImpl implements CustomDictS
 	
 
 	@Override
-	@Cacheable(value="QuickQueryUOJByUserIdCustomerDictServiceImpl",key="#root.target.getProp()+'/'+#key")
 	public String getValue(String key) {
 		
 		List<UserOrgJob> uojList = uamUserOrgService.getUserOrgJobByUserId(key);

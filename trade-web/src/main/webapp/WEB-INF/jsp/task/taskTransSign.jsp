@@ -601,6 +601,36 @@ if("${idList}" != "") {
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script>
 	
+	//验证手机和电话号码
+	function checkContactNumber(ContactNumber){
+		var mobile = $.trim(ContactNumber); 
+		
+		var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;  
+        var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;; 
+        
+        var isValid = true;
+        //如果为1开头则验证手机号码  
+        if (mobile.substring(0, 1) == 1) {  
+            if (!isMobile.exec(mobile) && mobile.length != 11) { 
+            	isValid = false;
+                return isValid;  
+            }  
+        }  
+        //如果为0开头则验证固定电话号码  
+        else if (mobile.substring(0, 1) == 0) {  
+            if (!isPhone.test(mobile)) {  
+            	isValid = false;
+                return isValid;
+            }  
+        }
+        else {
+        	isValid = false;
+            return isValid;
+        } 
+        
+        return isValid;
+	}
+	
 	$("#sendSMS").click(function(){
 		var t='';
 		var s='/';
@@ -847,13 +877,6 @@ if("${idList}" != "") {
 					selects[j].focus();
 					checkGuest = false;
 	                return false;
-				}else if(item.value.indexOf("先生") > 0 || item.value.indexOf("小姐") > 0 
-						|| item.value.indexOf("叔叔") > 0 || item.value.indexOf("阿姨") > 0
-						|| item.value.indexOf("女士") > 0){
-					alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
-					selects[j].focus();
-					checkGuest = false;
-	                return false;
 				}else {
 					$(selects[j]).val(item.value.trim());
 					checkGuest = true;
@@ -870,13 +893,24 @@ if("${idList}" != "") {
 					selects[j].focus();
 					checkGuest = false;
 				}else {
-					checkGuest = true;
-	                return false;
+					checkGuest = checkContactNumber(item.value);
+					
+					if(!checkGuest){
+						alert("上家电话不符合手机号码或电话号码格式!");
+						selects[j].focus();
+						
+						return false;
+					}
+					//checkGuest = true;
+	                //return false;
 				}
 			});
+			
+			
 			if(!checkGuest || selects==null) {
 				return false;
 			}
+			
 			selects = null;
 			selects = $("input[name='guestNameDown']");
 			$.each(selects, function(j, item) {
@@ -906,8 +940,16 @@ if("${idList}" != "") {
 					selects[j].focus();
 					checkGuest = false;
 				} else {
-					checkGuest = true;
-	                return false;
+					checkGuest = checkContactNumber(item.value);
+					
+					if(!checkGuest){
+						alert("下家电话不符合手机号码或电话号码格式!");
+						selects[j].focus();
+						
+						return false;
+					}
+					//checkGuest = true;
+	                //return false;
 				}
 			});
 			if(!checkGuest || selects==null) {
@@ -1153,6 +1195,5 @@ if("${idList}" != "") {
 	</script> 
 	</content>
 </body>
-
 
 </html>
