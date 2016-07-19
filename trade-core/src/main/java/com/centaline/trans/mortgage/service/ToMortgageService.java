@@ -1,5 +1,8 @@
 package com.centaline.trans.mortgage.service;
 
+import java.util.List;
+
+import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
 public interface ToMortgageService {
@@ -58,5 +61,12 @@ public interface ToMortgageService {
 	void inActiveMortageByCaseCode(String caseCode);
 
 	ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage);
+	
+	/***
+	 *  公积金审批提交流程
+	 * 
+	 *  @param toMortgage
+	 */
+	void submitMortgage(ToMortgage toMortgage,List<RestVariable> variables,String taskId,String processInstanceId);
 
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
-<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -87,18 +87,12 @@
 				<shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
 				<div class="col-xs-1 control-label">案件归属</div>
 				<div class="col-sm-3">
-					<select class="form-control m-b chosen-select" name="executorId" id="executorId">
-						<option value="">请选择</option>
-								<c:forEach items="${jygws}" var="yuCuiUser">	
-									<c:if test="${ yuCuiUser.id==loanAgent.executorId}">
-										<option value="${yuCuiUser.id }" selected="selected">${yuCuiUser.realName }</option>
-									</c:if>
-									<c:if test="${ yuCuiUser.id!=loanAgent.executorId}">
-										<option value="${yuCuiUser.id }">${yuCuiUser.realName }</option>
-									</c:if>
-									
-								</c:forEach>
-					</select>
+				
+					<input type="text" id="executorId" name="executorId" style="width: 50%;background-color:#FFFFFF;" class="form-control tbspuser" 
+						hVal="${loanAgent.executorId}" value="${loanAgentName}" readonly="readonly"
+						onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+						nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+
 				</div>
 				</shiro:hasPermission>
 			</div>
@@ -260,12 +254,51 @@
 
 	</div>
 </form>
-<content tag="local_script"> <!-- jqGrid --> 
+<content tag="local_script"> 
+
+
+<!-- jqGrid --> 
 <script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
 <script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 <script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 <script src="${ctx}/js/jquery.editable-select.min.js"></script>
+
+
+<script> 
+    var appCtx={};
+	<c:forEach items="${appCtxList}" var="app">
+	     appCtx['${app.appName}'] = '${app.genAbsoluteUrl()}';
+	</c:forEach>
+</script>
+<script type="text/javascript">
+	
+	function openDialog(option){
+	   	var query = $; var dailogOption = option.dialog;
+	   	if(!dailogOption.data){dailogOption.data = {};}
+	   	if (self != top) { query = parent.$; dailogOption.data.frameId = window.frameElement.id; }
+	   	if(option.callBack){ var callBack = option.callBack; dailogOption.data.callBack = callBack; }
+	   	query.ligerDialog.open(dailogOption); 
+	}
+	
+	function closeDialog(options){
+	  	var dialog = frameElement.dialog; 
+	  	var dialogData = dialog.get("data");
+	 	if(dialogData.callBack){ 
+	 		var userDefinedCallback ;
+	        if(options && options.data){ userDefinedCallback = dialogData.callBack+'(\''+JSON.stringify(options.data)+'\')'; }else{ userDefinedCallback = dialogData.callBack+"()"; }
+		   	if(dialogData.frameId){ parent.document.getElementById(dialogData.frameId).contentWindow.eval(userDefinedCallback); }else{ parent.eval(userDefinedCallback); }
+	    }
+	  	dialog.close();
+	}
+	
+	//操作提示	
+	$(function(){ $.extend({notice : function(msg, type) {if (type == null) {type = "success";}if ($("#msgNotice").length > 0) {$("#msgNotice").removeClass("alert-success alert-info alert-warning alert-error");} else {$('<div class="alert notice" id="msgNotice"/>').appendTo($("body"));}$("#msgNotice").addClass("alert-" + type);$("#msgNotice").text(msg).fadeIn('slow').fadeOut(3000);}});});
+	$(function(){ try{$("body").bind("click",function(){ if(parent.menu){parent.menu.closeMenu();} });}catch(e){}});
+</script>
+
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
 <script>
 var ctx="${ctx}";
 var postData,caseList;
@@ -369,6 +402,7 @@ $(document).ready(function() {
 	$("#btn_save").click(function(){
 		if(!fcheck())return;
 		if(confirm("是否保存？")){
+		$("#executorId").val($("#executorId").attr('hVal'));
 		var fData=$("#f_main").serialize();
 		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
     	$(".blockOverlay").css({'z-index':'9998'});
@@ -605,6 +639,17 @@ function cancelBubble() {
         e.stopPropagation();//阻止冒泡
      }
 }
+
+function selectUserBack(array){
+	if(array && array.length >0){
+        $("#executorId").val(array[0].username);
+		$("#executorId").attr('hVal',array[0].userId);
+	}else{
+		$("#executorId").val("");
+		$("#executorId").attr('hVal',"");
+	}
+}
+
 </script>
 </content>
 </body>

@@ -79,8 +79,17 @@ public class CaseDetailShowVO {
     private String caseProperty; // 案件属性
     
     private String propertyAddress;//物业地址
+    private String loanLostType;//贷款流失类型
     
-    public String getHoldYear() {
+    public String getLoanLostType() {
+		return loanLostType;
+	}
+
+	public void setLoanLostType(String loanLostType) {
+		this.loanLostType = loanLostType;
+	}
+
+	public String getHoldYear() {
 		return holdYear;
 	}
 
