@@ -103,10 +103,10 @@ public class PropertyController {
 		// 查询SessionUser对应的区蕫信息
 		Org org = uamUserOrgService.getParentOrgByDepHierarchy(userServiceDepId, SalesDepTypeEnum.BUSIWZ.getCode());
 		if(org != null){
+			request.setAttribute("orgId", org.getId());
+			request.setAttribute("orgName", org.getOrgName());
 			User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
 			if(user != null){
-				request.setAttribute("orgId", org.getId());
-				request.setAttribute("orgName", org.getOrgName());
 				request.setAttribute("realname", user.getRealName());
 			}
 		}else{

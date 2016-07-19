@@ -495,4 +495,38 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		convertPageableData(vo, ExecutionVo.class);
 		return vo;
 	}
+
+	@Override
+	public void setAssginee(String processInstanceId, String caseowner, String caseCode) {
+		TaskQuery tq = new TaskQuery(processInstanceId, true);
+		PageableVo pageableVo = this.listTasks(tq);
+		List<T> taskList = pageableVo.getData();
+		for (Object taskObj : taskList) {
+			TaskVo vo = (TaskVo) taskObj;
+			if (StringUtils.isBlank(vo.getAssignee())) {
+				TaskOperate taskOperate1 = new TaskOperate(vo.getId().toString(), "claim");
+
+				/**/
+				String owner = findUserLogic.findWorkFlowUser(vo.getGroup(), caseowner,
+						tgServItemAndProcessorService.findServiceMap(caseCode), vo.getTaskDefinitionKey(),
+						processInstanceId);
+				if (StringUtils.isBlank(owner) || owner.contains("-")) {
+					handleUnAlocation(owner, caseCode, processInstanceId, vo.getGroup(), vo.getId() + "",
+							vo.getTaskDefinitionKey(),vo.getName());
+					continue;
+				}
+				// do claim
+				taskOperate1.setAssignee(owner);
+				TaskVo reVo = this.operaterTask(taskOperate1);
+				doOptTaskPlan(vo.getTaskDefinitionKey(), caseCode);
+				String agentUser = tsTaskDelegateService.getTaskAgent(owner);
+				if (!StringUtils.isBlank(agentUser)) {
+					// +-do delegate
+					TaskOperate taskOperate2 = new TaskOperate(vo.getId().toString(), "delegate");
+					taskOperate2.setAssignee(agentUser);
+					this.operaterTask(taskOperate2);
+				}
+			}
+		}
+	}
 }

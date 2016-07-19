@@ -33,4 +33,6 @@ public interface ToWorkFlowService {
 	 * @return
 	 */
 	void inActiveForm(String caseCode);
+	
+	int updateWorkFlowByInstCode(ToWorkFlow record);
 }
