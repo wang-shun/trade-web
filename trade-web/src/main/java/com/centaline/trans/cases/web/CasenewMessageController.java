@@ -83,6 +83,7 @@ public class CasenewMessageController {
 	
 	@Value("${caseMessage.push:1}")
 	private String CASE_MESSAGE_PUSH;
+	
 	/**
 	 * 功能：通过请求url 获取到 caseCode
 	 * @author zhangxb16
@@ -132,17 +133,21 @@ public class CasenewMessageController {
 	 * @param requireProcessorId  请求处理人编号[交易顾问ID]
 	 * @author zhangxb16
 	 */
-	@RequestMapping(value="case", method={RequestMethod.POST})
+	@RequestMapping(value="case")
 	@ResponseBody
 	public String newCaseMessage(HttpServletRequest request, HttpServletResponse response, Model model, 
 			String ctm_case_code, String agent_id, String agent_name, String guestInfoList, String property_address, 
 			String property_code, String property_agent_id, String consult_id, String grp_code, String grp_name) throws HttpException, 
 			IOException, JSONException{
 		
-		if("0".equals(CASE_MESSAGE_PUSH)){
-			return "";
-		}
 		ResultNew rs=new ResultNew();
+		if("0".equals(CASE_MESSAGE_PUSH)){
+			rs.setStatus("0");
+			rs.setCode("0");
+			rs.setMessage("");
+			return JSONObject.toJSONString(rs);
+		}
+		
 		
 		Gson gson = new Gson();
 		// 将 json 字符串转为 list
