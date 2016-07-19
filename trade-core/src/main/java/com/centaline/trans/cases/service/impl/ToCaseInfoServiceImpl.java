@@ -113,6 +113,13 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 			reVo.setAsName(assistUser.getRealName());
 			reVo.setAsMobile(assistUser.getMobile());
 		}
+		//贷款流失类型 
+		String loanLostType = tsFinOrgService.getLoanLostTypeValue(caseCode); 
+		if(loanLostType != null){
+			reVo.setLoanLostType(loanLostType);
+		}else{
+			reVo.setLoanLostType("");
+		}
 		
 		if(toMortgage!=null){
 			//贷款类型

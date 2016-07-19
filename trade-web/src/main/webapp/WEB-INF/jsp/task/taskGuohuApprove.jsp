@@ -226,7 +226,8 @@
 				</label>
 			</div>
 			<div class="row ">
-				<label class="col-sm-12 control-label">备注：${toMortgage.remark}</label>
+				<label class="col-sm-3 control-label">备注：${toMortgage.remark}</label>
+				<label class="col-sm-9 control-label">贷款流失类型：${caseDetailVO.loanLostType}</label>
 			</div>
 		</div>
 	</div>

@@ -5,7 +5,7 @@
 .data-wrap-in table{width:100%;text-align: center;border:1px solid #ddd;}
 .data-wrap-in thead{height:36px;line-height:36px;background-color:#a1cdeb;color:#fff;font-size:14px;}
 .data-wrap-in tbody{color:#000;font-size:14px;}
-.data-wrap-in tbody tr{height:36px;line-height:36px;}
+.data-wrap-in tbody tr{height:36px;}
 .data-wrap-in tbody tr.tr-1{background-color:#f6f9fb;}
 .data-wrap-in tbody tr.tr-2{background-color:#fff;}
 .data-wrap-in tbody tr:nth-child(odd) td{border-top:1px solid #ddd;}

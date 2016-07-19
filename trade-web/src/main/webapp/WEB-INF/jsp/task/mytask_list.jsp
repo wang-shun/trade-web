@@ -246,11 +246,11 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th class="text-center" >红绿灯</th>
-						<th><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
-						<th>当前任务</th>
-						<th>上家</th>
-						<th>下家</th>
-						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
+						<th class="t-left pd-l"><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
+						<th class="t-left pd-l">当前任务</th>
+						<th class="t-left pd-l">上家</th>
+						<th class="t-left pd-l">下家</th>
+						<th class="t-left pd-l"><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
 						<th class="text-center"><span class="sort" sortColumn="tp.EST_PART_TIME" sord="asc">预计执行时间</span></th>
 					</tr>
 				</thead>
