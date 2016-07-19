@@ -85,4 +85,9 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public void inActiveForm(String caseCode) {
 		toWorkFlowMapper.inActiveForm(caseCode);
 	}
+
+	@Override
+	public int updateWorkFlowByInstCode(ToWorkFlow record) {
+		return toWorkFlowMapper.updateWorkFlowByInstCode(record);
+	}
 }

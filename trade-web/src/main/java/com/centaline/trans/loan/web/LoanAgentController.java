@@ -153,7 +153,6 @@ public class LoanAgentController {
 				}
 			}
 			model.addAttribute("loanAgent", loanAgent);
-			model.addAttribute("loanAgentName", uamUserOrgService.getUserById(loanAgent.getExecutorId()).getRealName());
 		}
 		if(isOnlyRead!=null&&isOnlyRead==1L) {
 			return "/loan/detailsOnlyRead";
