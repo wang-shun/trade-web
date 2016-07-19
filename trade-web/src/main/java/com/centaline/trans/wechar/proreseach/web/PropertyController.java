@@ -76,7 +76,7 @@ public class PropertyController {
 		}
 		
 		if (code == null) {
-			String url = OAuth2Util.GetCode();
+			String url = OAuth2Util.GetCode(ParamesAPI.REDIRECT_URI);
 			response.sendRedirect(url);
 			return null;
 		}
@@ -103,10 +103,10 @@ public class PropertyController {
 		// 查询SessionUser对应的区蕫信息
 		Org org = uamUserOrgService.getParentOrgByDepHierarchy(userServiceDepId, SalesDepTypeEnum.BUSIWZ.getCode());
 		if(org != null){
+			request.setAttribute("orgId", org.getId());
+			request.setAttribute("orgName", org.getOrgName());
 			User user =  uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(), SalesJobEnum.JQYDS.getCode());
 			if(user != null){
-				request.setAttribute("orgId", org.getId());
-				request.setAttribute("orgName", org.getOrgName());
 				request.setAttribute("realname", user.getRealName());
 			}
 		}else{
@@ -140,8 +140,10 @@ public class PropertyController {
 		}
 		
 		// 查询执行人
-		User user = uamUserOrgService.getUserById(propertyResearch.getPrExecutor());
-		request.setAttribute("prAppliantName", user.getRealName());
+		if(propertyResearch.getPrExecutor() != null){
+			User user = uamUserOrgService.getUserById(propertyResearch.getPrExecutor());
+			request.setAttribute("prAppliantName", user.getRealName());
+		}
 		// 查询区蕫
 		request.setAttribute("prCostOrgMgr", propertyResearch.getPrCostOrgMgr());
 		
@@ -204,7 +206,7 @@ public class PropertyController {
 		}
 		
 		if (code == null) {
-			String url = OAuth2Util.GetCode();
+			String url = OAuth2Util.GetCode(ParamesAPI.REDIRECT_URI_MYPROPERTY);
 			response.sendRedirect(url);
 			return null;
 		}
@@ -213,7 +215,7 @@ public class PropertyController {
 			String access_token = GetExistAccessToken.getInstance().getExistAccessToken();
 			// AGENTID 跳转链接时所在的企业应用ID
 			// 管理员须拥有agent的使用权限；AGENTID必须和跳转链接时所在的企业应用ID相同
-			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.REDIRECT_URI_MYPROPERTY);
+			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
 			model.addAttribute("prAppliantId", UserID);
 			return "mobile/propresearch/myProperty";
 		} else {

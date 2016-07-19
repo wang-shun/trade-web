@@ -60,6 +60,9 @@
 					 <ifNotNull prCompleteTimeEnd>
 						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
 					 </ifNotNull>
+					 <ifNotNull prAddress>
+  					      AND pr.PR_ADDRESS like '%'+#prAddress#+'%'
+  					 </ifNotNull>
   					 <ifNotNull yuCuiOriGrpId>
   						  AND  o.ID = #yuCuiOriGrpId#   
   					 </ifNotNull>          

@@ -3,6 +3,9 @@ package com.centaline.trans.engine.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
+
 import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.ProcessInstance;
@@ -100,5 +103,11 @@ public interface WorkFlowManager {
 	TaskVo getHistoryTask(String taskId);
 
 	StartProcessInstanceVo getHistoryInstances(String processInstanceId);
-
+	
+	/****
+	 *  为代办任务设置相关执行人
+	 * 
+	 */
+	void  setAssginee(String processInstanceId, String caseowner,String caseCode);
+	
 }

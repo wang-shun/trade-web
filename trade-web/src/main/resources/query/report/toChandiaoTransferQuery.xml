@@ -96,10 +96,10 @@
   					on pr.PR_APPLIANT=u.id
   					where PR_STATUS=2 
   					 <ifNotNull prApplyTime>
-  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
+  					      AND datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
   					 </ifNotNull>
   					 <ifNotNull prApplyTimeEnd>
-  						  and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
+  						  AND datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
   					 </ifNotNull>  
   					 <ifNotNull prAccpetTimeStart>
 						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
@@ -113,6 +113,9 @@
 					 <ifNotNull prCompleteTimeEnd>
 						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
 					 </ifNotNull>
+					 <ifNotNull prAddress>
+  					      AND pr.PR_ADDRESS like '%'+#prAddress#+'%'
+  					 </ifNotNull>
   					 <ifNotNull yuCuiOriGrpId>
   						  AND  o.ID = #yuCuiOriGrpId#   
   					 </ifNotNull>     

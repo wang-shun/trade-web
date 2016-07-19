@@ -33,10 +33,14 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.entity.ToSupDocu;
@@ -80,6 +84,10 @@ public class ToMortgageController {
 	private TsFinOrgService tsFinOrgService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 	/**
 	 * 查询贷款信息
 	 * @param toMortgage
@@ -263,6 +271,23 @@ public class ToMortgageController {
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
 			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 					toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+			
+			// 发送消息
+			ToWorkFlow wf=new ToWorkFlow();
+			wf.setCaseCode(processInstanceVO.getCaseCode());
+			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+			if(wordkFlowDB!=null) {
+				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+			}
+			
+			ToWorkFlow workFlowOld =new ToWorkFlow();
+			// 流程结束状态
+			workFlowOld.setStatus("4");
+			workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
+			toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+			
+			
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("操作失败！"+e.getMessage());
