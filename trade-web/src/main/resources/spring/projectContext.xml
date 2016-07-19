@@ -294,12 +294,14 @@
     	<property name="dictType" value="guohu_not_approve">
     	</property>
     </bean>
-
+    
 	<bean name="qqcdSrvPart" class="com.centaline.trans.common.service.impl.QuickQuerySrvPartServiceImpl" />
     <bean name="qqcdFin" class="com.centaline.trans.common.service.impl.QuickQueryFinServiceImpl" />
     
     <bean name="convertValue" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueStatusServiceImpl" />
     <bean name="convertColor" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueColorServiceImpl" />
+    
+    <bean name="qqMainOrgByUserId" class="com.centaline.trans.common.service.impl.QuickQueryMainUOJByUserIdCustomerDictServiceImpl" />
     
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
