@@ -140,10 +140,14 @@ public class CasenewMessageController {
 			String property_code, String property_agent_id, String consult_id, String grp_code, String grp_name) throws HttpException, 
 			IOException, JSONException{
 		
-		if("0".equals(CASE_MESSAGE_PUSH)){
-			return "";
-		}
 		ResultNew rs=new ResultNew();
+		if("0".equals(CASE_MESSAGE_PUSH)){
+			rs.setStatus("0");
+			rs.setCode("0");
+			rs.setMessage("");
+			return JSONObject.toJSONString(rs);
+		}
+		
 		
 		Gson gson = new Gson();
 		// 将 json 字符串转为 list
