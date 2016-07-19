@@ -140,8 +140,10 @@ public class PropertyController {
 		}
 		
 		// 查询执行人
-		User user = uamUserOrgService.getUserById(propertyResearch.getPrExecutor());
-		request.setAttribute("prAppliantName", user.getRealName());
+		if(propertyResearch.getPrExecutor() != null){
+			User user = uamUserOrgService.getUserById(propertyResearch.getPrExecutor());
+			request.setAttribute("prAppliantName", user.getRealName());
+		}
 		// 查询区蕫
 		request.setAttribute("prCostOrgMgr", propertyResearch.getPrCostOrgMgr());
 		
