@@ -175,6 +175,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			deleteMortFlowByCaseCode(vo.getCaseCode());
 			// 发送消息
 			messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+			// 设置主流程任务的assignee
+			ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+			workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
 			return;
 		} else if(mortType.equals(ConstantsUtil.COM_LOAN)) {
 			wf.setBusinessKey(WorkFlowEnum.COMLOAN_PROCESS.getName());
