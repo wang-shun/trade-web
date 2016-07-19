@@ -144,7 +144,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 
 	private int doLoanCheck(LoanAgent loanAgent) {
 		int r = 3;
-		if (!StringUtils.isBlank(loanAgent.getCaseCode()) || "30004005".equals(loanAgent.getLoanSrvCode())) {
+		if (!StringUtils.isBlank(loanAgent.getCaseCode()) && !"30004005".equals(loanAgent.getLoanSrvCode())) {
 			if (loanAgent.getPkid() == null) {
 				loanAgent.setPkid(-1L);
 			}
