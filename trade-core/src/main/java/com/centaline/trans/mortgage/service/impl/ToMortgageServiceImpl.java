@@ -8,8 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -26,6 +34,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private ToSupDocuService toSupDocuService;
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
+	@Autowired(required = true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
+	MessageService messageService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -251,6 +267,39 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public void inActiveMortageByCaseCode(String caseCode) {
 		toMortgageMapper.inActiveMortageByCaseCode(caseCode);
+	}
+
+	@Override
+	public void submitMortgage(ToMortgage toMortgage, List<RestVariable> variables, String taskId,
+			String processInstanceId) {
+		
+		// 保存贷款信息
+		ToMortgage mortgage= findToMortgageById(toMortgage.getPkid());
+		mortgage.setApprDate(toMortgage.getApprDate());
+		mortgage.setRemark(toMortgage.getRemark());
+		saveToMortgage(mortgage);
+		
+		// 提交任务
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage.getCaseCode());
+		workFlowManager.submitTask(variables, taskId, processInstanceId, 
+				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
+		
+		// 发送消息
+		ToWorkFlow wf=new ToWorkFlow();
+		wf.setCaseCode(toMortgage.getCaseCode());
+		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if(wordkFlowDB!=null) {
+			messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+		}
+		
+		// 结束当前流程
+		ToWorkFlow workFlowOld =new ToWorkFlow();
+		// 流程结束状态
+		workFlowOld.setStatus("4");
+		workFlowOld.setInstCode(processInstanceId);
+		toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+		
 	}
 
 }
