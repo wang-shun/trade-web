@@ -154,6 +154,13 @@ text-decoration: underline !important;
 			    				</div>
 			    				
 				    	</div>
+				    	
+				    	<div class="row form-group">
+				    			<label class="col-md-1  control-label">产调地址</label>
+			    				<div class="col-md-3" style='margin-left: 0px'>
+			    					<input type="text"  class="form-control" id="prAddress" name="prAddress"/>
+								</div>
+				    	</div>
 						
 						<div class="row m-t-sm">
 							<div class="col-md-6">
