@@ -45,10 +45,10 @@
 						A.CTM_CODE,
 						A.REQUIRE_PROCESSOR_ID,
 						A.AGENT_CODE,
-						A.AGENT_CODE AS ORG_NAME,
+						A.AGENT_CODE AS ORG_NAME_OLD,
 						A.GRP_CODE as AGENT_ORG_CODE,
 						A.AGENT_NAME,
-						B.STATUS,
+						B.STATUS AS STATUS_OLD,
 						B.CASE_PROPERTY,
 						B.LEADING_PROCESS_ID,
 						A.IMPORT_TIME AS CREATE_TIME,
@@ -98,12 +98,14 @@
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CTM_CODE" index="" checkbox="" display="ctmCode" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
-				<column type="both" name="ORG_NAME"  	title="组别" 	customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="ORG_NAME_OLD"  	title="组别" 	customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ORG_NAME"  	title="组别" 	customDict="qqcdUojByUserId" referencecol="ORG_NAME_OLD" isSort="true"/>				
 				<column type="both" name="AGENT_ORG_CODE"  	title="组别" 	customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="LEADER"  	title="区经/区总" 	customDict="qqcdJlOrZjOrNameByOrgCode" referencecol="AGENT_ORG_CODE" />	
 						
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="派单时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="YU_TEAM_CODE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
 				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="案件负责人" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>		

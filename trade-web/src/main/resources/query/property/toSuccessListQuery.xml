@@ -62,11 +62,11 @@
 					A.PR_APPLY_TIME,
 					A.PR_ACCPET_TIME,
 					A.PR_COMPLETE_TIME,
-					A.PR_STATUS,
-					A.IS_SUCCESS,
+					A.PR_STATUS AS PR_STATUS_OLD,
+					A.IS_SUCCESS AS IS_SUCCESS_OLD,
 					A.UNSUCCESS_REASON,
 				    A.PR_ADDRESS PROPERTY_ADDR,
-				    A.DIST_CODE  ,
+				    A.DIST_CODE AS DIST_CODE_OLD ,
 					a.PR_COST_ORG_NAME as orgName,
 					A.pr_code as prCode,
 					a.PR_COST_ORG_MGR as QUDS,
@@ -97,11 +97,14 @@
 				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" title="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" title="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" title="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PR_STATUS" index="" checkbox="" display="状态" title="状态" customDict="getPrStatusCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" title="是否有效" customDict="getIsSuccess" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PR_STATUS_OLD" display="状态" title="状态" customDict="" width="60" isSort="true" />			
+				<column type="virtual" name="PR_STATUS" display="状态" title="状态" referencecol="PR_STATUS_OLD"  customDict="getPrStatusCode" isSort="true" />
+				<column type="both" name="IS_SUCCESS_OLD" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="IS_SUCCESS"     display="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" />			
 				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" display="无效原因" title="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="物业地址" title="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="DIST_CODE" index="" checkbox="" display="行政区域" title="行政区域" customDict="getDistCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="DIST_CODE_OLD" index="" checkbox="" display="行政区域" title="行政区域" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="DIST_CODE"  display="行政区域" title="行政区域" referencecol="DIST_CODE_OLD"  customDict="getDistCode" isSort="true" />
 				<column type="both" name="QUDS" index="" checkbox="" display="区董" title="区董" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CHANNEL" index="" checkbox="" display="来源" title="来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="APPLIANT_EMPLOYEE_CODE" index="" checkbox="" display="申请人员工编号" title="申请人员工编号" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />

@@ -3,6 +3,7 @@ package com.centaline.trans.common.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.service.CustomDictService;
@@ -12,6 +13,7 @@ import com.aist.common.quickQuery.service.CustomDictService;
 public class QuickQueryCustomValueStatusServiceImpl implements CustomDictService{
 	
 	@Override
+	@Cacheable(value="QuickQueryCustomValueStatusServiceImpl",key="#root.targetClass + #root.methodName")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> key:keys){
 			String val = "";

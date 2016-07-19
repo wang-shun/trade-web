@@ -42,7 +42,7 @@
 						knowledge.TITLE,
 						knowledge.CONTENT,
 						knowledge.PB_TIME,
-						knowledge.PUBLISHER
+						knowledge.PUBLISHER AS PUBLISHER_OLD
 					FROM 
 						sctrans.T_TO_KNOWLEDGE_REPO AS knowledge
 					WHERE 
@@ -60,7 +60,8 @@
 				<column type="both" name="TITLE" index="" checkbox="" display="知识标题" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CONTENT" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PUBLISHER" index="" checkbox="" display="发布人" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PUBLISHER_OLD" index="" checkbox="" display="发布人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PUBLISHER"  display="发布人" customDict="getUserNameByUserId" referencecol="PUBLISHER_OLD"  isSort="true"/>
 			</table-row>
 		</grid>
 	</query>

@@ -6,6 +6,7 @@ package com.centaline.trans.common.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -92,6 +93,68 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
 
         return "";
     }
+    
+    @Override
+    @Cacheable(value = "QuickQueryUOJByOrgCodeCustomDictServiceImpl", key = "#root.target.getDeptId()+'/'+#root.target.getJobCode()+'/'+#root.target.getProp()+'/'+#key")
+	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		for(Map<String, Object> keyer:keys){
+			String val = "";
+			Object key = keyer.get("AGENT_ORG_CODE");
+			if(key!=null){
+				Org keyOrg = uamUserOrgService.getOrgByCode(key.toString());
+		    	
+		    	if(keyOrg==null) {
+		    		keyer.put("val", val);
+					continue;
+		    	}
+		    	
+		    	List<User> userOrgJobs = new ArrayList<User>();
+		    	if(StringUtils.isBlank(deptId)) {
+		    		userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(keyOrg.getId(), jobCode);
+		    	} else if("BUSIARORBUSISWZ".equals(deptId)) {
+		    		Org org = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSIAR");
+		    		if(org==null){
+		    			keyer.put("val", val);
+						continue;
+		    		}
+					userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), "JQYJL");
+					// 如果区域经理不存在，则取区域总监
+		    		if(userOrgJobs == null) {
+		    			Org org2 = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSISWZ");
+		    			if(org2==null){
+		    				keyer.put("val", val);
+		    				continue;
+		    			}
+		    			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org2.getId(), "JQYZJ");
+		    		}
+		    	} else {
+					Org org = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), deptId);
+					if(org==null){
+						keyer.put("val", val);
+						continue;
+					}
+					userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), jobCode);
+		    	}
+		        if (userOrgJobs != null && !userOrgJobs.isEmpty()) {
+		            User user = userOrgJobs.get(0);
+		            try {
+		                val = BeanUtils.getProperty(user, prop);
+		            } catch (Exception e) {
+		                logger.error("prop:" + prop, e);
+		            }
+		        }
+			}
+	    	
+			keyer.put("val", val);
+		}
+		
+		return keys;
+	}
+	
+	@Override
+	public Boolean getIsBatch() {
+		return true;
+	}
 
     /**
      * Setter method for property <tt>jobCode</tt>.

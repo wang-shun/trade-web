@@ -48,7 +48,7 @@
 						LEFT(CONVERT(varchar(100), a.SIGN_TIME, 120), 10) as SIGN_TIME, 
 						LEFT(CONVERT(varchar(100), a.HOUSE_TRANFER_TIME, 120), 10) as HOUSE_TRANFER_TIME, 
 						LEFT(CONVERT(varchar(100), a.CLOSE_TIME, 120), 10) as CLOSE_TIME, 
-						a.TEAM_ID as TEAM_ID, 
+						a.TEAM_ID as TEAM_ID_OLD, 
 						b.AGENT_NAME as AGENT_NAME, 
 						b.AGENT_CODE as AGENT_CODE
 					FROM sctrans.V_RPT_CASE_PROCESS_STATIS a 
@@ -123,7 +123,8 @@
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="virtual" name="PROCESSOR" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="TEAM_ID"  index="" checkbox="" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="TEAM_ID_OLD"  index="" checkbox="" display="经办人组织" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="TEAM_ID"  display="经办人组织" referencecol="TEAM_ID_OLD"  customDict="qqcdOrgIdName" isSort="true" />		
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" 	sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />	
 				<column type="both" name="AGENT_CODE" index="" checkbox="" display="AGENT_CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" hide="true"/>				
 				<column type="virtual" name="AGENT_ORG" referencecol="AGENT_CODE" index="" checkbox="" display="经纪人组织" customDict="qqcdUojByUserId" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			

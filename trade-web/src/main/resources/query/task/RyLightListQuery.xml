@@ -35,7 +35,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select color, caseCode, taskName,propertyAddress, realName,estPartTime,ID_ as taskId,PROC_INST_ID_ as instId,taskName as taskDfKey,caseId from (
+				select color, caseCode, taskName AS taskName_OLD,propertyAddress, realName,estPartTime,ID_ as taskId,PROC_INST_ID_ as instId,taskName as taskDfKey,caseId from (
 					  SELECT min(l.color) as color,t.CASE_CODE as caseCode,t.PART_CODE as taskName,tp.PROPERTY_ADDR as propertyAddress,uoj.REAL_NAME as realName
 					  	  ,t.EST_PART_TIME as estPartTime,ta.ID_,ta.PROC_INST_ID_,tc.pkid as caseId
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
@@ -79,7 +79,8 @@
 				<column type="both" name="estPartTime" index="" checkbox="true" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="color" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="caseCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="taskName" index="" checkbox="" display=""  customDict="getDictPartName"  sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="taskName_OLD" index="" checkbox="" display=""  customDict=""  sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="taskName" display="" customDict="getDictPartName" referencecol="taskName_OLD" isSort="true" />
 				<column type="both" name="propertyAddress" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="realName" index="" checkbox="" display="" customDict="" sysDict="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict="" width="60" isSort="true" align="" halign="" order="" resizable=""/>

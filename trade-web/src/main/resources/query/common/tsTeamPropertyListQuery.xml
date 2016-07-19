@@ -47,7 +47,7 @@
 					   A.FREE_SELECT,
 					   A.FREE_SELECT AS FREE_SELECT_NAME,
 					   A.TEAM_PROPERTY,
-					   A.TEAM_PROPERTY AS TEAM_PROPERTY_NAME
+					   A.TEAM_PROPERTY AS TEAM_PROPERTY_NAME_OLD
 					FROM 
 					  sctrans.T_TS_TEAM_PROPERTY A
 					  LEFT JOIN sctrans.SYS_ORG B ON B.ORG_CODE = A.YU_TEAM_CODE
@@ -70,7 +70,8 @@
 				<column type="both" name="FREE_SELECT" index="" checkbox="" display="自行选择" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="FREE_SELECT_NAME" index="" checkbox="" display="自行选择" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="TEAM_PROPERTY" index="" checkbox="" display="组别类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="TEAM_PROPERTY_NAME" index="" checkbox="" display="组别类型名称" customDict="getPropertyNameByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="TEAM_PROPERTY_NAME_OLD" index="" checkbox="" display="组别类型名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="TEAM_PROPERTY_NAME" display="组别类型名称" customDict="getPropertyNameByCode" referencecol="TEAM_PROPERTY_NAME_OLD"  isSort="true"  order="desc"/>
 			</table-row>
 		</grid>
 	</query>
