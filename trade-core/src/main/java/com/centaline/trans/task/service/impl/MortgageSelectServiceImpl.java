@@ -169,7 +169,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		event.setProcInstId(vo.getProcessInstanceId());
 		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
 		List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-		if (CollectionUtils.isNotEmpty(subScrsList)) {
+		if (CollectionUtils.isEmpty(subScrsList)) {
 			throw new BusinessException("当前流程下不允许变更贷款需求！");
 		}
 		
