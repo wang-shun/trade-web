@@ -76,7 +76,7 @@ public class PropertyController {
 		}
 		
 		if (code == null) {
-			String url = OAuth2Util.GetCode();
+			String url = OAuth2Util.GetCode(ParamesAPI.REDIRECT_URI);
 			response.sendRedirect(url);
 			return null;
 		}
@@ -206,7 +206,7 @@ public class PropertyController {
 		}
 		
 		if (code == null) {
-			String url = OAuth2Util.GetCode();
+			String url = OAuth2Util.GetCode(ParamesAPI.REDIRECT_URI_MYPROPERTY);
 			response.sendRedirect(url);
 			return null;
 		}
@@ -215,7 +215,7 @@ public class PropertyController {
 			String access_token = GetExistAccessToken.getInstance().getExistAccessToken();
 			// AGENTID 跳转链接时所在的企业应用ID
 			// 管理员须拥有agent的使用权限；AGENTID必须和跳转链接时所在的企业应用ID相同
-			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.REDIRECT_URI_MYPROPERTY);
+			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
 			model.addAttribute("prAppliantId", UserID);
 			return "mobile/propresearch/myProperty";
 		} else {
