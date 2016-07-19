@@ -58,105 +58,46 @@
 .checkbox.checkbox-inline>input {
 	margin-left: 20px;
 }
-
-.ui-state-hover {
-	cursor: pointer;
+.ui-state-hover{
+	cursor:pointer;
 }
-
 .org-label-control {
-	background-color: #FFFFFF;
-	background-image: none;
-	border: 1px solid #e5e6e7;
-	border-radius: 2px;
-	color: inherit;
-	display: block;
-	width: 100%;
-	padding: 6px 12px;
-	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s
-		ease-in-out 0s;
-	font-size: 14px;
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 0px;
+    color: inherit;
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    font-size: 14px;
 }
-
-.aline {
-	text-decoration: underline;
+.aline{
+text-decoration: underline;
 }
-
-.aline:HOVER {
-	text-decoration: underline !important;
+.aline:HOVER{
+text-decoration: underline !important;
 }
 /* #inTextVal{width:50%} */
-.chosen-container {
-	float: left;
-	margin-right: 10px;
+.chosen-container{float:left;margin-right:10px;}
+#addLine{line-height:35px;}
+.product-type span{margin-right:5px}	
+.product-type .selected,.product-type span:hover{border-color:#f8ac59}
+.date-info .col-md-12 .form-group:not(first-child){margin-bottom:0}
+.text-center{text-align:center;}
+.slash{font-weight:bold !important;}
+.case-num{
+text-decoration: underline !important;
 }
+.case-num:HOVER{
+text-decoration: underline !important;
+}
+.case-num:visited{
+ text-decoration: underline !important;
+}
+#searchButton{margin-right:5px;}
 
-#addLine {
-	line-height: 35px;
-}
-
-.product-type span {
-	margin-right: 5px
-}
-
-.product-type .selected, .product-type span:hover {
-	border-color: #f8ac59
-}
-
-.date-info .col-md-12 .form-group:not(first-child) {
-	margin-bottom: 0
-}
-
-[id^="dateDiv_"]:not (#dateDiv_0 ) .chosen-container {
-	margin-left: 33px
-}
-
-.text-center {
-	text-align: center;
-}
-
-.slash {
-	font-weight: bold !important;
-}
-
-.case-num {
-	text-decoration: underline !important;
-}
-
-.case-num:HOVER {
-	text-decoration: underline !important;
-}
-
-.case-num:visited {
-	text-decoration: underline !important;
-}
-
-#searchButton {
-	margin-right: 5px;
-}
-
-/* cadd_css
-#inTextType_chosen, #case_date_0_chosen,#status, .patch_formatone, #inTextType,#case_date_0 {
-	width: 138px!important;
-}
-#inTextType,#case_date_0 {
-	margin-right:10px;
-}
-#mortageService,#teamCode {
-	width:224px!important;
-}
-.float-e-margins .btn {
-    border-radius: 2px;
-}
-
-.add_time {
-	margin-left: 50px;
-}
-#case_date_0 {
-	height:34px;
-}
-.marginright {
-	width:162px!important;
-} */
 </style>
 
 </head>
@@ -184,14 +125,14 @@
 									</div>
 								</div>
 								<div class="form_content">
-									<label class="sign_left control-label">案件状态</label>
+									<label class="sign_left_one control-label">案件状态</label>
 									<div class="sign_right big_pad">
 										<aist:dict id="status" name="case_status" display="select"
 											dictType="30001" clazz="form-control" />
 									</div>
 								</div>
 								<div class="form_content">
-									<label class="sign_left control-label">案件组织</label>
+									<label class="sign_left_two control-label">案件组织</label>
 									<div class="sign_right teamcode">
 										<input type="text" class="teamcode tbsporg org-label-control"
 											id="teamCode" name="teamCode" readonly="readonly"
@@ -225,7 +166,7 @@
 									</div>
 								</div>
 								<div class="form_content">
-									<label class="sign_left control-label">贷款需求选择</label>
+									<label class="sign_left_two control-label">贷款需求选择</label>
 									<div class="sign_right">
 										<aist:dict clazz="form-control" id="mortageService"
 											name="mortageService" display="select" defaultvalue=""
@@ -246,11 +187,11 @@
 											class="input-group input-medium date-picker input-daterange pull-left"
 											data-date-format="yyyy-mm-dd">
 											<input id="dtBegin_0" name="dtBegin" class="form-control"
-												style="font-size: 13px; width: 159px; border-radius: 2px;"
+												style="font-size: 13px; width: 159px; border-radius: 0px;"
 												type="text" value="" placeholder="起始日期"> <span
 												class="input-group-addon">到</span> <input id="dtEnd_0"
 												name="dtEnd" class="form-control"
-												style="font-size: 13px; width: 159px; border-radius: 2px;"
+												style="font-size: 13px; width: 159px; border-radius: 0px;"
 												type="text" value="" placeholder="结束日期">
 										</div>
 										<div id="addLine" class="pull-left m-l"></div>
