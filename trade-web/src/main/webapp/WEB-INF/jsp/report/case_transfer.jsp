@@ -200,7 +200,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">案件审核状态</label>
+									<label class="col-md-3 control-label m-l">过户审批状态</label>
 									<div class="col-md-8"> 	
 									<select name="TransferStatus" id="TransferStatus" class="form-control">	
 										<option value="" selected="selected">-- 请选择  --</option>
@@ -232,7 +232,7 @@
 							
 							<div class="col-md-6">
 								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">过户审批日期</label>
+									<label class="col-md-3 control-label m-l">过户审批提交日期</label>
 									<div class="col-md-8">
 										<div id="datepicker_1" 
 											class="input-group input-medium date-picker input-daterange "
@@ -267,6 +267,7 @@
 										href="javascript:void(0)"
 										onclick="javascript:caseTransferExportToExcel()">案件导出Excel</a>
 								</div>
+								
 							</div>
 					</form>
 				</div>
