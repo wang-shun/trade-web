@@ -318,8 +318,9 @@ text-decoration: underline !important;
 					<td class="t-left">
 						<a href="{{ctx}}/engine/task/{{item.ID}}/process" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>
-					<td class="t-left">{{item.SELLER}}</td>
-					<td class="t-left">{{item.BUYER}}</td>
+					
+					<td class="t-left" title='{{item.SELLER}}'>{{(item.SELLER).substring(0,item.SELLER.indexOf("/"))}}</td>
+					<td class="t-left" title='{{item.BUYER}}'>{{(item.BUYER).substring(0,item.BUYER.indexOf("/"))}}</td>
 					<td class="t-left">{{item.CREATE_TIME}}</td>
 					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>
