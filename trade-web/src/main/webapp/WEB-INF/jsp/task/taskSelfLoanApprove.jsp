@@ -446,7 +446,10 @@ function autoCompleteComDiscount(obj){
 			var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
 			var mortTotalAmount=parseFloat($("#mortTotalAmount").val());
 			var comAmount=parseFloat($("#comAmount").val());
-			if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount){
+			 
+			var comAmount1 = isNaN(comAmount)?0:comAmount;
+			
+			if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount1){
 				alert('贷款总额必须等于商贷和公积金之和');
 		    	return false;
 			}
