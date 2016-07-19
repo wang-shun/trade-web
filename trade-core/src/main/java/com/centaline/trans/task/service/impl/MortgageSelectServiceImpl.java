@@ -163,16 +163,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		workFlowManager.executeAction(action);
 		workFlowManager.claimByInstCode(vo.getProcessInstanceId(),vo.getCaseCode(),null);*/
 		
-		ActRuEventSubScr event = new ActRuEventSubScr();
-		event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
-		event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
-		event.setProcInstId(vo.getProcessInstanceId());
-		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
-		List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-		if (CollectionUtils.isEmpty(subScrsList)) {
-			throw new BusinessException("当前流程下不允许变更贷款需求！");
-		}
-		
 		doBusiness(vo);
 		
 		String mortType = vo.getMortageService();
@@ -203,6 +193,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		}
 		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 		if(wordkFlowDB == null) {
+			// 发送边界消息
+			messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
+			
 			// 删除所有的贷款流程
 			deleteMortFlowByCaseCode(vo.getCaseCode());
 			// 重新启动一个新的流程
@@ -219,8 +212,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			workFlow.setProcessDefinitionId(processIns.getProcessDefinitionId());
 			workFlow.setProcessOwner(vo.getPartner());
 			toWorkFlowService.insertSelective(workFlow);
-			
-			messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
+		} 
+		
+		ActRuEventSubScr event = new ActRuEventSubScr();
+		event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
+		event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+		event.setProcInstId(vo.getProcessInstanceId());
+		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+		List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
+		if (CollectionUtils.isEmpty(subScrsList)) {
+			throw new BusinessException("当前流程下不允许变更贷款需求！");
 		}
 	}
 	
