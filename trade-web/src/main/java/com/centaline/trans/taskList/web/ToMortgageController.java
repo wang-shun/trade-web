@@ -279,6 +279,8 @@ public class ToMortgageController {
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB!=null) {
 				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+				//设置主流程任务的assignee
+				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
 			}
 			
 			ToWorkFlow workFlowOld =new ToWorkFlow();

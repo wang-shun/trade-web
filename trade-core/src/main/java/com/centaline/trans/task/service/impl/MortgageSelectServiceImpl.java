@@ -17,6 +17,8 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.EventTypeEnum;
+import com.centaline.trans.common.enums.MessageEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
@@ -161,6 +163,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		workFlowManager.executeAction(action);
 		workFlowManager.claimByInstCode(vo.getProcessInstanceId(),vo.getCaseCode(),null);*/
 		
+		ActRuEventSubScr event = new ActRuEventSubScr();
+		event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
+		event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+		event.setProcInstId(vo.getProcessInstanceId());
+		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+		List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
+		if (CollectionUtils.isEmpty(subScrsList)) {
+			throw new BusinessException("当前流程下不允许变更贷款需求！");
+		}
+		
 		doBusiness(vo);
 		
 		String mortType = vo.getMortageService();
@@ -175,6 +187,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			deleteMortFlowByCaseCode(vo.getCaseCode());
 			// 发送消息
 			messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+			// 设置主流程任务的assignee
+			ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+			workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
 			return;
 		} else if(mortType.equals(ConstantsUtil.COM_LOAN)) {
 			wf.setBusinessKey(WorkFlowEnum.COMLOAN_PROCESS.getName());
