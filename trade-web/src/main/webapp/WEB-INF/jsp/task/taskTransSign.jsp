@@ -847,6 +847,13 @@ if("${idList}" != "") {
 					selects[j].focus();
 					checkGuest = false;
 	                return false;
+				}else if(item.value.indexOf("先生") > 0 || item.value.indexOf("小姐") > 0 
+						|| item.value.indexOf("叔叔") > 0 || item.value.indexOf("阿姨") > 0
+						|| item.value.indexOf("女士") > 0){
+					alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+					selects[j].focus();
+					checkGuest = false;
+	                return false;
 				}else {
 					$(selects[j]).val(item.value.trim());
 					checkGuest = true;
@@ -880,6 +887,13 @@ if("${idList}" != "") {
 	                return false;
 				}else if(item.value.trim().indexOf(" ")> -1){
 					alert("下家姓名中不能包含空格!");
+					selects[j].focus();
+					checkGuest = false;
+	                return false;
+				}else if(item.value.indexOf("先生") > 0 || item.value.indexOf("小姐") > 0 
+						|| item.value.indexOf("叔叔") > 0 || item.value.indexOf("阿姨") > 0
+						|| item.value.indexOf("女士") > 0){
+					alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
 					selects[j].focus();
 					checkGuest = false;
 	                return false;
