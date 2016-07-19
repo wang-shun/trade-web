@@ -1,9 +1,13 @@
 package com.centaline.trans.report.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,6 +73,20 @@ public class ChandiaoTransferController {
 				isAdminFlag=true;
 			}
 		}
+		
+		//默认显示上周数据
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		int dayOfWeek=c1.get(Calendar.DAY_OF_WEEK)-1;
+		c1.add(Calendar.DATE, -dayOfWeek-6);
+		c2.add(Calendar.DATE, -dayOfWeek);
+		String prCompleteTimeStart = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
+		String prCompleteTimeEnd = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+				
+		request.setAttribute("prCompleteTimeStart", prCompleteTimeStart);
+		request.setAttribute("prCompleteTimeEnd", prCompleteTimeEnd);
+
+		
 		request.setAttribute("queryOrgs", reBuffer.toString());
 
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
@@ -83,10 +101,33 @@ public class ChandiaoTransferController {
 	 * @return
 	 */
 	@RequestMapping(value="chandiaoDetail")
-	public String chandiaoDetail(Model model, ServletRequest request){
+	public String chandiaoDetail (HttpServletRequest request){
 		
-		String organId = request.getParameter("organId");
-		String  prApplyTime = request.getParameter("prApplyTime");
+		String  prCompleteTimeStart = request.getParameter("prCompleteTimeStart");
+		String  prCompleteTimeEnd = request.getParameter("prCompleteTimeEnd");
+		
+		//默认显示上周数据
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		int dayOfWeek=c1.get(Calendar.DAY_OF_WEEK)-1;
+		c1.add(Calendar.DATE, -dayOfWeek-6);
+		c2.add(Calendar.DATE, -dayOfWeek);
+		if(StringUtils.isEmpty(prCompleteTimeStart)){
+			prCompleteTimeStart = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
+		}
+		if(StringUtils.isEmpty(prCompleteTimeEnd)){
+			prCompleteTimeEnd = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+		}
+		
+		String  organId = request.getParameter("organId");
+		String  prApplyTime = request.getParameter("dtBegin");
+		String  prApplyTimeEnd = request.getParameter("dtEnd");
+		String  prAccpetTimeStart = request.getParameter("prAccpetTimeStart");
+		String  prAccpetTimeEnd = request.getParameter("prAccpetTimeEnd");
+		String  teamCode = request.getParameter("teamCode");
+		String  yuCuiOriGrpId = request.getParameter("yuCuiOriGrpId");
+		
+		
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
@@ -113,12 +154,19 @@ public class ChandiaoTransferController {
 			}
 		}
 		request.setAttribute("queryOrgs", reBuffer.toString());
-
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
 		
 		request.setAttribute("organId", organId);
 		request.setAttribute("prApplyTime", prApplyTime);
+		request.setAttribute("prApplyTimeEnd", prApplyTimeEnd);
+		request.setAttribute("prAccpetTimeStart", prAccpetTimeStart);
+		request.setAttribute("prAccpetTimeEnd", prAccpetTimeEnd);
+		request.setAttribute("prCompleteTimeStart", prCompleteTimeStart);
+		request.setAttribute("prCompleteTimeEnd", prCompleteTimeEnd);
+		request.setAttribute("teamCode", teamCode);
+		request.setAttribute("yuCuiOriGrpId", yuCuiOriGrpId);
+		
 		return "report/chandiao_transfer_detail";
 	}
 	

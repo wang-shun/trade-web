@@ -65,7 +65,9 @@ public class LoanlostApproveController {
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;/*用户信息*/
+	@Autowired
 	private ToMortgageService toMortgageService;
+	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
 
 	@RequestMapping(value={"loanlostApproveManager/process","loanlostApproveDirector/process"})

@@ -738,7 +738,10 @@ public class CaseDetailController {
 		}
 
 		// 交易顾问
-		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		User consultUser = null;
+		if(null != toCase.getLeadingProcessId()){
+			consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		}
 		if (consultUser != null) {
 			reVo.setCpId(consultUser.getId());
 			reVo.setCpName(consultUser.getRealName());

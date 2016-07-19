@@ -38,6 +38,8 @@
 	</formatters>
 	<query id="queryRedGreenTaskCountList" cacheCount="true">
 		<searchCondition>
+		
+		    
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -115,6 +117,23 @@ on org2.ID=uoj1.ORG_ID
 							  
 							  )as a where color &lt;&gt; '2' group by id,color)
 							  t3 on t1.id=t3.orgId and t3.color=1
+							  where 1=1 
+							   <ifNotNull proOrggbName>
+										   and t1.orgName1 =#proOrggbName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValName>
+										   and t1.realName2 =#TextValName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValNameZj>
+										   and t1.realName1 =#TextValNameZj#
+							  </ifNotNull>
+							  
+							  <ifNotNull proOrgName>
+										   and t1.orgName2 =#proOrgName#
+							  </ifNotNull>
+							  
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -238,6 +257,10 @@ on org2.ID=uoj1.ORG_ID
 	
 	<query id="queryRedGreenTaskDetailList" cacheCount="true">
 		<searchCondition>
+            <condition field="t2.PROPERTY_ADDR" name="propertyAddr" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.REAL_NAME" name="realName" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.CASE_CODE" name="caseCode" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.PART_CODE" name="taskDfKey" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -266,11 +289,12 @@ on org2.ID=uoj1.ORG_ID
         '6114AB949B4445828D4383977C4FAC71',
         '6a84979158b942b78a8a5921cc30b8c3') )
 t1 inner join(select * from (
-        SELECT  min(l.color) as color,t.CASE_CODE , (select name from sctrans.sys_dict where type='part_code' and code = t.PART_CODE) TASKNAME,tp.PROPERTY_ADDR,u.REAL_NAME
-          ,t.EST_PART_TIME,sysOrg.id orgid
+        SELECT  min(l.color) as color,t.CASE_CODE ,k.PKID, (select name from sctrans.sys_dict where type='part_code' and code = t.PART_CODE) TASKNAME,tp.PROPERTY_ADDR,u.REAL_NAME
+          ,t.EST_PART_TIME,sysOrg.id orgid,T.PART_CODE
                  FROM [sctrans].[T_TO_TRANS_PLAN] as t 
                  left join sctrans.T_TO_PROPERTY_INFO as tp
                  on t.case_code=tp.case_code
+                  left join  sctrans.t_to_case as k on t.CASE_CODE = k.CASE_CODE
                   left join sctrans.t_to_workflow as w
                   on w.case_code=t.CASE_CODE 
                    left join sctrans.act_ru_task ta
@@ -285,7 +309,7 @@ t1 inner join(select * from (
                   on sysOrg.ID=uoj.org_id
                   where u.id is not NULL
                   and l.color != '2'
-                  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+                  group by t.CASE_CODE,k.PKID,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
         
                   )as a ) t2 on t1.id=t2.orgId 
                   
@@ -294,11 +318,40 @@ t1 inner join(select * from (
 				  </ifNotNull>
 				  <ifNotNull colourId>
 							   and t2.color =#colourId#
-				 </ifNotNull>
-                  
+				  </ifNotNull>
+				  <ifNotNull dtBegin>
+							   and t2.EST_PART_TIME >=#dtBegin#
+				  </ifNotNull>
+				  <ifNotNull dtEnd>
+							   and t2.EST_PART_TIME &lt;=#dtEnd#
+				  </ifNotNull>
+				  <ifNotNull lampRadios>
+							   and t2.color =#lampRadios#
+				  </ifNotNull>
+				  
+				  <ifNotNull proOrggbName>
+							   and t1.orgName1 =#proOrggbName#
+				  </ifNotNull>
+				  
+				  <ifNotNull TextValName>
+							   and t1.realName2 =#TextValName#
+				  </ifNotNull>
+				  
+				  <ifNotNull TextValNameZj>
+							   and t1.realName1 =#TextValNameZj#
+				  </ifNotNull>
+				  
+				  <ifNotNull proOrgName>
+							   and t1.orgName2 =#proOrgName#
+				  </ifNotNull>
+				  
+    
+				  
+				 
 				]]>
 			</baseSql>
 			<orderBySql>
+					order by t2.EST_PART_TIME desc
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -313,11 +366,14 @@ t1 inner join(select * from (
 				
 				<column type="both" name="color" display="红黄灯" customDict="" />
 				<column type="virtual" name="color1" display="红黄灯" referencecol="color"  customDict="convertColor"/>
-				<column type="both" name="CASE_CODE"  display="案件编号" customDict=""  />
+				<column type="both" name="CASE_CODE"  display="案件编号" customDict="" isSort="true" />
+				<column type="both" name="PKID"  display="案件ID" customDict=""  />
 				<column type="both" name="TASKNAME"  display="任务名" customDict=""  />
 				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict="" />
 				<column type="both" name="REAL_NAME"  display="经办人" customDict="" />
-				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd" isSort="true" />
+				
+				
 				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict=""  />
 				<column type="both" name="IMPORTTIME" display="导出时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 			</table-row>
@@ -330,7 +386,7 @@ t1 inner join(select * from (
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT t1.orgName1,t1.realName1,t1.orgName2,t1.realName2,t2.*,GETDATE()  as IMPORTTIME from (
+					SELECT t1.orgName1,t1.realName1,t1.orgName2,t1.realName2,t2.EST_PART_TIME,t2.*,GETDATE()  as IMPORTTIME from (
         select org1.id id,org2.ORG_NAME orgName1,u2.REAL_NAME  realName1,org1.ORG_NAME orgName2  ,u1.REAL_NAME as realName2 from sctrans.sys_org org1
         left join sctrans.V_USER_ORG_JOB uoj
         on org1.ID=uoj.ORG_ID
@@ -376,7 +432,7 @@ t1 inner join(select * from (
                   group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
         
                   )as a ) t2 on t1.id=t2.orgId 
-                  
+                
                   <ifNotNull organId>
 							   where t1.id = #organId#
 				  </ifNotNull>

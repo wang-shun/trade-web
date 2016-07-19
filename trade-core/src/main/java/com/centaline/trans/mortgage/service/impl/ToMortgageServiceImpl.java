@@ -178,6 +178,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	}
 	@Override
 	public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage) {
+		toMortgage.setIsDelegateYucui("1");
 		List<ToMortgage> list = toMortgageMapper
 				.findToMortgageByConditionWithCommLoan(toMortgage);
 		if (CollectionUtils.isNotEmpty(list)) {

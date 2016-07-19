@@ -89,7 +89,7 @@ public class PropertyController {
 			request.setAttribute("username", UserID);
 			
 			// 查询战区和区蕫相关信息
-			getOrgAndUserInfo(request, uamUserOrgService.getUserById(UserID).getOrgId());
+			getOrgAndUserInfo(request, uamUserOrgService.getUserByUsername(UserID).getOrgId());
 			
 			return "mobile/propresearch/wecharadd";
 		} else {
@@ -140,8 +140,10 @@ public class PropertyController {
 		}
 		
 		// 查询执行人
-		User user = uamUserOrgService.getUserById(propertyResearch.getPrExecutor());
-		request.setAttribute("prAppliantName", user.getRealName());
+		if(propertyResearch.getPrExecutor() != null){
+			User user = uamUserOrgService.getUserById(propertyResearch.getPrExecutor());
+			request.setAttribute("prAppliantName", user.getRealName());
+		}
 		// 查询区蕫
 		request.setAttribute("prCostOrgMgr", propertyResearch.getPrCostOrgMgr());
 		

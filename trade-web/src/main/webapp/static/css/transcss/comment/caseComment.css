@@ -1,6 +1,6 @@
 *{padding:0;margin:0;box-sizing:border-box;}
 .main{background-color:#f3f3f3;}
-.apply-wrap{background-color:#fff;margin:20px 0px 12px;font-family:'΢���ź�','Arial';}
+.apply-wrap{background-color:#fff;margin:20px 0px 12px;font-family:'微锟斤拷锟脚猴拷','Arial';}
 .apply-wrap .table{font-size:14px;}
 .apply-wrap .table{width:100%;padding-bottom:200px;background-color:#fff;}
 .apply-wrap .apply-table{width:100%;border:1px solid #eaeaea;border-right:0;}
@@ -30,11 +30,11 @@
 	margin-top: 5px;
 }
 .input_line input {
-	width:92.7%;
+	width:92.5%;
 	border: 1px solid #eee;
 	border-radius: 5px;
 	padding:7px 15px;
-	font-family: '΢���ź�','Arial';
+	font-family: '微软雅黑','Arial';
 	font-size: 14px;
 }
 .add_form {

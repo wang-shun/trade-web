@@ -40,7 +40,7 @@ public class PSFSignController {
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
 	@RequestMapping("process")
-	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response,
+	public String toProcess(HttpServletRequest request, HttpServletResponse response,
 			String caseCode, String source, String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
@@ -48,7 +48,7 @@ public class PSFSignController {
 		
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		request.setAttribute("PSFSign", psfSignService.queryPSFSignNoBlank(caseCode));
-		return "task/taskPSFApprove";
+		return "task/taskPSFSign";
 	}
 	@RequestMapping(value="savePSFSign")
 	@ResponseBody

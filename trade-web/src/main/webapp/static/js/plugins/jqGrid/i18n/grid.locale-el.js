@@ -11,7 +11,7 @@ $.jgrid = $.jgrid || {};
 $.extend($.jgrid,{
 	defaults : {
 		recordtext: "View {0} - {1} of {2}",
-	    emptyrecords: "No records to view",
+	    emptyrecords: "暂无数据",
 		loadtext: "Φόρτωση...",
 		pgtext : "Page {0} of {1}"
 	},

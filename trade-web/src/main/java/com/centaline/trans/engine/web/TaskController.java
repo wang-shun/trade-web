@@ -48,7 +48,7 @@ public class TaskController {
 	@RequestMapping("{taskId}/process")
 	public String process(@PathVariable String taskId, String source, String caseCode, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes attr) {
-		TaskVo task = workFlowManager.getTask(taskId);
+		TaskVo task = workFlowManager.getHistoryTask(taskId);
 		String instCode = task.getProcessInstanceId();
 		String formKey = task.getFormKey();
 		if (caseCode == null) {

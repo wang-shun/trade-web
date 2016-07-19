@@ -135,7 +135,7 @@ text-decoration: underline !important;
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group ">
-											<label class="col-md-1 control-label m-l">物业地址</label>
+											<label class="col-md-1 control-label m-l">产证地址</label>
 											<div class="col-md-8 dizhi">
 												<input type="text" class="form-control" id="propertyAddr"
 													name="propertyAddr" value="" />
@@ -167,7 +167,7 @@ text-decoration: underline !important;
 													onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
-										   expandNodeId:''})" />
+										   expandNodeId:'',chkLast:'true'})" />
 												<input class="m-wrap " type="hidden" id="yuCuiOriGrpId"
 													name="yuCuiOriGrpId">
 											</div>
@@ -179,14 +179,14 @@ text-decoration: underline !important;
 					<div class="row date-info">
 						<div class="col-md-12">
 							<div class="form-group">
-							<label class="col-md-1 control-label m-l">签约时间</label>
+							<label class="col-md-1 control-label m-l">面签时间</label>
 							<div id="dateDiv_0">
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
 								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${signTimeStart}" placeholder="起始日期">
+								<input id="dtBegin" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${signTimeStart}" placeholder="起始日期">
 								<span class="input-group-addon">到</span>
-								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${signTimeEnd}" placeholder="结束日期" />
+								<input id="dtEnd" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${signTimeEnd}" placeholder="结束日期" />
 							</div>
 							<div id="addLine" class="pull-left m-l">
 							
@@ -225,13 +225,13 @@ text-decoration: underline !important;
 					<tr>
 						<th class="t-left pd-l"><span class='sort' sortColumn='l.CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l"><span>产品名称</span></th>
-						<th class="t-left pd-l"><span>物业地址</span></th>
+						<th class="t-left pd-l"><span>产证地址</span></th>
 						<th class="t-left pd-l"><span>经办人</span></th>
-						<th class="t-left pd-l"><span>级别</span></th>
-						<th class="t-left pd-l"><span class='sort' sortColumn='l.LOAN_AMOUNT' sord='desc'>申请金额</span></th>
-						<th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_AMOUNT' sord='desc'>面签金额</span></th>
-						<th class="t-left pd-l"><span class='sort' sortColumn='l.ACTUAL_AMOUNT' sord='desc'>放款金额</span></th>
-					    <th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_TIME' sord='desc'>签约时间</span></th>
+						<th class="t-left pd-l"><span>组别</span></th>
+						<th class="t-left pd-l"><span>申请金额</span></th>
+						<th class="t-left pd-l"><span>面签金额</span></th>
+						<th class="t-left pd-l"><span>放款金额</span></th>
+					    <th class="t-left pd-l"><span>面签时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="signFaceList">

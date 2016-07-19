@@ -35,8 +35,21 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select CASE_CODE, PROPERTY_ADDR ,T.REAL_NAME , T.ORG_NAME, transferDate, caseTransferDate , status,GRP_NAME, AR_NAME ,  wz.ORG_NAME AS VORG_NAME , WZ.REAL_NAME AS VREAL_NAME  from (
-					select c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
+				select 					
+					distinct(CASE_CODE), 
+					PKID,
+					PROPERTY_ADDR ,
+					T.REAL_NAME , 
+					T.ORG_NAME, 
+					transferDate, 
+					caseTransferDate , 
+					status,
+					GRP_NAME, 
+					AR_NAME ,  
+					wz.ORG_NAME AS VORG_NAME , 
+					WZ.REAL_NAME AS VREAL_NAME  
+				from (
+					select c.pkid,c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
 					(select top 1 tgh.end_time_ from sctrans.act_hi_taskinst tgh where w.INST_CODE = tgh.proc_inst_id_ and tgh.task_def_key_='Guohu' order by id_ desc) transferDate , 
 					(select top 1 tgha.end_time_ from sctrans.act_hi_taskinst tgha where w.INST_CODE = tgha.proc_inst_id_ and tgha.task_def_key_='GuohuApprove' order by id_ desc) caseTransferDate, 
 					v.long_ AS  status
@@ -56,8 +69,7 @@
 					</ifNotNull>
 					<ifNotNull caseTransferDateEnd>
 						AND t.caseTransferDate &lt; #caseTransferDateEnd#
-					</ifNotNull>
-					
+					</ifNotNull>					
 					<ifNotNull transferDateStart>
 						AND t.transferDate &gt; #transferDateStart#
 					</ifNotNull>
@@ -73,17 +85,27 @@
 					<ifNotNull vrealName>
 						AND WZ.REAL_NAME like '%' + #vrealName# + '%' 
 					</ifNotNull>
+					<ifNotNull managerName>
+						AND T.REAL_NAME like '%' + #managerName# + '%' 
+					</ifNotNull>
+					<ifNotNull caseCode>
+						AND CASE_CODE = #caseCode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY TRANSFERDATE DESC,CASETRANSFERDATE DESC
+				ORDER BY transferDate DESC,caseTransferDate DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
-			<table-row>
+			<table-row>				
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="主管" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />

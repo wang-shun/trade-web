@@ -104,56 +104,37 @@ text-decoration: underline !important;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<!-- <div class="row date-info">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">产调申请时间</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期">
-							</div>
-							<div id="addLine" class="pull-left m-l">
-							
-						</div>
-						</div>
-						</div>
-							</div>
-						</div> -->
 						<!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
 						<div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
                                       <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
                                       <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
-                                          <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+								   chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBackgb})" value='${serOrgName }'>
+                                          <input type="hidden" id="h_proOrgId_gb" value="${serOrgId==null?serviceDepId:serOrgId}">
                                       </div>
                                   </div>
                          </div>
-						<div class="col-lg-5 col-md-5">    
+						 <div class="col-lg-5 col-md-5">    
                           		 <div class="form-group">
-                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
+                                     <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-								   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
-                                          <input type="hidden" id="h_proOrgId" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
+                                          
+                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
+                                          
+                                          >
+                                          <input type="hidden" id="h_proOrgId" >
                                       </div>
                                   </div>
-                         </div>
+                         </div> 
                          <div class="col-lg-5 col-md-5 ">    
                        			<div class="form-group">
                                    <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
                                    <div class="col-lg-9 col-md-9">
-                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${serUserId }" value="${userInfo }"
-								 readonly="readonly"
-								onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
-								nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
+								 readonly="readonly" onclick="userSelect_back()" />
                                    </div>
                                </div>
                         </div>
@@ -169,7 +150,6 @@ text-decoration: underline !important;
 						<div class="col-md-6"></div>
 						  <div class="col-md-3">
 							<div class="form-group">
-								<label class="col-md-4 control-label m-l-lg"></label>
 								<div>
 								   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
 								   <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
@@ -243,8 +223,8 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
-						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}');" target="_blank">{{item.yellow}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}');" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.yellow}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.red}}</a></td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
                         </td>

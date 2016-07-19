@@ -77,11 +77,16 @@ function searchMethod(page) {
 	
 
 };
-
+var jobNames = "";
 function reloadGrid(data) {
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
+	
+	var proOrggbName = $("#txt_proOrgId_gb").val();
+	var proOrgName =   $("#txt_proOrgId").val();
+	var TextValName = $("#inTextVal").val();
+	
 	var arguUserId=null;
 	if(queryOrgFlag == 'true'){
 		arguUserId=null;
@@ -96,6 +101,21 @@ function reloadGrid(data) {
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
+    
+    data.proOrggbName = proOrggbName;
+    data.proOrgName = proOrgName;
+    data.jobName = jobNames;
+    if(""!=jobNames)
+    	jobNames = jobNames.substring(jobNames.length-2)
+    if(jobNames == '总监'){
+    	data.TextValNameZj = TextValName;
+    	data.TextValName = null;
+    }
+    if(jobNames == '主管'){
+    	data.TextValName = TextValName;
+    	data.TextValNameZj = null;
+    }
+    
 	
 	$.ajax({
 		async: true,
@@ -287,9 +307,9 @@ function queryRedGreenTaskDetail(id){
 	
 }
 //添加颜色参数
-function queryRedGreenTaskDetailColour(id,colourId){
+function queryRedGreenTaskDetailColour(id,colourId,orgName1){
 	//var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId);
+	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1);
 	
 }
 
@@ -302,4 +322,94 @@ function cleanForm() {
 $('#cleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
 	$("select").val("");
+	
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
+
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId").val('');
+	$("#inTextVal").val("");
+	
+	$("#h_proOrgId_gb").val('');
+	$("#h_proOrgId").val('');
+	$("#txt_proOrgId").val('');
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId_gb").val('');
+	$("#txt_proOrgId").attr("serviceDepIdOld",'');
+	$("#txt_proOrgId").attr("serviceDepId",'');
+	
+	jobNames = "";
+	
 });
+
+
+
+//贵宾服务部
+function radioYuCuiOrgSelectCallBackgb(array){
+	$("#h_proOrgId").val('');
+	
+  if(array && array.length >0){
+        $("#txt_proOrgId_gb").val(array[0].name);
+		$("#h_proOrgId_gb").val(array[0].id);
+		$("#inTextVal").val("");
+		
+		var serviceDepId = array[0].id;
+		$("#txt_proOrgId").val('');
+		
+		$("#txt_proOrgId").attr("serviceDepId",serviceDepId);
+		
+	}else{
+		$("#txt_proOrgId").val("");
+		$("#h_proOrgId").val("");
+		$("#txt_proOrgId").attr("serviceDepId",$("#txt_proOrgId").attr('serviceDepIdOld'));
+	}
+}
+//选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array){
+	$("#h_proOrgId_gb").val("");
+if(array && array.length >0){
+	    $("#txt_proOrgId").val(array[0].name);
+		$("#h_proOrgId").val(array[0].id);
+		
+		$("#inTextVal").val("");
+	}else{
+		 $("#txt_proOrgId").val(array[0].name);
+		 $("#h_proOrgId").val(array[0].id);
+	}
+}
+
+
+function userSelect_back(){
+	
+	serviceDepId = $("#h_proOrgId").val();
+	
+	if(serviceDepId != null || serviceDepId != ""){
+		
+		if(($("#h_proOrgId_gb").val() != "" || $("#h_proOrgId_gb").val() !=null)&&(!(serviceDepId != null) || serviceDepId == "")){
+			serviceDepIda = $("#h_proOrgId_gb").val();
+			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,
+				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+		}else{
+			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
+				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+		}
+		
+	}else{
+		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
+			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+	}
+}
+
+function selectUserBack(array){
+	if(array && array.length >0){
+      $("#inTextVal").val(array[0].username);
+		$("#inTextVal").attr('hVal',array[0].userId);
+		jobNames = array[0].jobName;
+				
+	}else{
+		$("#inTextVal").val("");
+		$("#inTextVal").attr('hVal',"");
+	}
+}
+
+

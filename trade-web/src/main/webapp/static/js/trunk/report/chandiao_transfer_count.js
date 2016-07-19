@@ -57,6 +57,20 @@ $('#datepicker_0').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN'
 });
+$('#datepicker_1').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+$('#datepicker_2').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
 
 // 查询
 $('#searchButton').click(function() {
@@ -96,6 +110,11 @@ function reloadGrid(data) {
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
+    var prCompleteTimeStart = $('#prCompleteTimeStart').val();
+	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	data.prCompleteTimeStart = prCompleteTimeStart;
+	data.prCompleteTimeEnd = prCompleteTimeEnd;
+    
 	
 	$.ajax({
 		async: true,
@@ -162,17 +181,39 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParamsValue() {
 	
 	var start = $('#dtBegin_0').val();
+	var end = $('#dtBegin_1').val();
+	var prAccpetTimeStart = $('#prAccpetTimeStart').val();
+	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
+	var prCompleteTimeStart = $('#prCompleteTimeStart').val();
+	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
+	
 	//设置查询参数
 	var params = {
-			prApplyTime : start
+			prApplyTime : start,
+			prApplyTimeEnd : end,
+			prAccpetTimeStart : prAccpetTimeStart,
+			prAccpetTimeEnd : prAccpetTimeEnd,
+			prCompleteTimeStart : prCompleteTimeStart,
+			prCompleteTimeEnd : prCompleteTimeEnd,
+			yuCuiOriGrpId : yuCuiOriGrpId
 	};
 	return params;
 }
 
 
 function queryChandiaoDetail(id){
-	var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/chandiaoDetail?organId="+id+"&prApplyTime="+start);
+	var url = "/report/chandiaoDetail?organId="+id;
+	var ctx = $("#ctx").val();
+	var params = getParamsValue();
+	
+	//params.organId = id; + jQuery.param(params)
+	
+	url = ctx + url;
+	$('#chandiaoDetail').attr('action', url);
+	
+	$('#chandiaoDetail').method="post" ;
+	$('#chandiaoDetail').submit();
 	
 }
 
@@ -183,6 +224,14 @@ function cleanForm() {
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
+	$("input[name='teamCode']").val('');
+	$("input[name='yuCuiOriGrpId']").val('');
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
+	$("input[name='prAccpetTimeStart']").datepicker('update', '');
+	$("input[name='prAccpetTimeEnd']").datepicker('update', '');
+	$("input[name='prCompleteTimeStart']").datepicker('update', '');
+	$("input[name='prCompleteTimeEnd']").datepicker('update', '');
+	
 	$("select").val("");
 });

@@ -103,26 +103,50 @@ text-decoration: underline !important;
 					<h5>产调导出汇总筛选</h5>
 				</div>
 				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
-						<div class="row date-info">
-							<div class="col-md-12">
-								<div class="form-group">
-							<label class="col-md-1 control-label m-l">产调申请时间</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control"
-									style="font-size: 13px;" type="text" value=""
-									placeholder="起始日期">
-							</div>
-							<div id="addLine" class="pull-left m-l">
-							
-						</div>
-						</div>
-						</div>
-							</div>
-						</div>
+					<form method="post" class="form-horizontal" id="chandiaoDetail" target="_blank">
+					<div class="jqGrid_wrapper"> 
+					     <div class="row form-group">
+			    				<label class="col-md-1  control-label">产调申请时间</label>
+			    				<div class="col-md-3">
+			    					<div id="dateDiv_0">
+							    		<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+											<span class="input-group-addon">到</span>
+											<input id="dtBegin_1" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期">
+							    		</div>
+						       		 </div>
+			    				</div>
+			    				<label class="col-md-1  control-label">贵宾服务部</label>
+			    				<div class="col-md-3">
+			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" 
+											   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+											   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
+											   expandNodeId:'',chkLast:'true'})" />
+											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId"> 
+								</div>
+				    	</div>
+				    	
+				    	<div class="row form-group">
+				    			<label class="col-md-1  control-label">产调接受时间</label>
+			    				<div class="col-md-3" style='margin-left: 0px'>
+			    					<div id="datepicker_1" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<input id="prAccpetTimeStart" name="prAccpetTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="起始日期">
+										 <span class="input-group-addon">到</span>
+										<input id="prAccpetTimeEnd" name="prAccpetTimeEnd"  class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+									</div>
+								</div>
+			    				<label class="col-md-1  control-label">产调完成时间</label>
+			    				<div class="col-md-3">
+			    					<div id="datepicker_2" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prCompleteTimeStart }" placeholder="起始日期">
+										 <span class="input-group-addon">到</span>
+										<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="${prCompleteTimeEnd }" placeholder="结束日期" />
+									</div>
+			    				</div>
+			    				
+				    	</div>
+						
 						<div class="row m-t-sm">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -134,18 +158,19 @@ text-decoration: underline !important;
 								</div>
 							</div>
 						</div>
+					</div>	
 					</form>
 				</div>
 			</div>
 		</div>
 			<div class="data-wrap">
 		<div class="data-wrap-in">
-			<table border="0" cellpadding="0" cellspacing="0">
+			<table border="1" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th class="t-left pd-l">单数</th>
-						<th class="t-left pd-l">受理时间(小时)</th>
-						<th class="t-left pd-l">完成时间(小时)</th>
+						<th class="t-left pd-l">平均受理时间(小时)</th>
+						<th class="t-left pd-l">平均完成时间(小时)</th>
 						<th class="t-left pd-l">贵宾服务部</th>
 						<th class="text-center">操作</th>
 					</tr>
@@ -169,6 +194,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+	<form action="#" accept-charset="utf-8" method="post" ></form>
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
     <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
@@ -201,7 +227,21 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
      </script>
-     <script></script>
+     <script>
+     
+   //选业务组织的回调函数
+     function radioYuCuiOrgSelectCallBack(array){
+         if(array && array.length >0){
+             $("#teamCode").val(array[0].name);
+     		$("#yuCuiOriGrpId").val(array[0].id);
+     		
+     	}else{
+     		$("#teamCode").val("");
+     		$("#yuCuiOriGrpId").val("");
+     	}
+     }
+     
+     </script>
 
 	 </content>
 </body>

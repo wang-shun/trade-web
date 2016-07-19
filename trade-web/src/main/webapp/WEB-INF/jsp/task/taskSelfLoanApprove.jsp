@@ -103,8 +103,8 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">商贷部分利率折扣<font color="red">*</font></label>
 						<div class="col-md-2">
-							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="checkNum(this)" placeholder="例如: 0.8或0.95"
-								value="<fmt:formatNumber value='${SelfLoan.comDiscount}' type='number' pattern='#0.00' />">
+							<input type="text" name="comDiscount" id="comDiscount" class="form-control" onkeyup="autoCompleteComDiscount(this)" placeholder="0.50~1.50之间"
+							value="<fmt:formatNumber value='${SelfLoan.comDiscount}' type='number' pattern='#0.00' />">
 
 						</div>
 						<label class="col-sm-2 control-label">公积金贷款金额</label>
@@ -188,23 +188,22 @@
 		});
 	}
 	
-	/*校验自办贷输入的折扣值*/
-	/*function checkInputNum(obj){
-		var inputVal = obj.value;
-		if(inputVal!=''){
-			if(inputVal>1||inputVal<=0){
-			obj.value='';
-			alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
-			}else if(inputVal==1){
-			}else if(inputVal>0&&inputVal<1){
-				reg= /^[0]{1}\.{1}(\d{1,2})?$/;
-				if(!reg.test(inputVal)){
-					obj.value='';
-					alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
-				}
-			}	
+/*贷款折扣自动补全*/
+function autoCompleteComDiscount(obj){
+	
+	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	
+	var inputVal = obj.value;
+ 	if(inputVal>=0.5 && inputVal<=1.5){
+		var reg =/^[01]{1}\.{1}\d{3,}$/;
+		if(reg.test(inputVal)){
+			obj.value = inputVal.substring(0,4);
 		}
-	}*/
+	}
+} 
 	
 		$(document).ready(function() {
 			if('caseDetails'==source){
@@ -383,36 +382,45 @@
                 $('input[name=commet]').focus();
                 return false;
            } */
-			if($('input[name=comAmount]').val()=='') {
+           
+           var _mortType = $('#mortType').find(':selected').val();
+           
+			if($('input[name=comAmount]').val()==''&&_mortType!='30016003') {
                 alert("商贷部分金额为必填项!");
                 $('input[name=comAmount]').focus();
                 return false;
            }
-			if($('input[name=comYear]').val()=='') {
+			if($('input[name=comYear]').val()==''&&_mortType!='30016003') {
                 alert("商贷部分年限为必填项!");
                 $('input[name=comYear]').focus();
                 return false;
            }
-			if($('input[name=comDiscount]').val()=='') {
+			if($('input[name=comDiscount]').val()==''&&_mortType!='30016003') {
                 alert("商贷部分利率折扣为必填项!");
                 $('input[name=comDiscount]').focus();
                 return false;
-/* 			}else if(isNaN($('input[name=comDiscount]').val())){
-                alert("请输入0~1之间的合法数字");
-                $('input[name=comDiscount]').focus();				
-                return false;
-            }else if($('input[name=comDiscount]').val()>1 || $('input[name=comDiscount]').val()<=0){
-        		alert('商贷利率折扣应该在0~1之间, 最大值可以为1');
-            	$('input[name=comDiscount]').focus();
-        		return false;
-        	}else if($('input[name=comDiscount]').val()>0&&$('input[name=comDiscount]').val()<1){
-        		var reg= /^[0]{1}\.{1}(\d{1,2})?$/;
-        		if(!reg.test($('input[name=comDiscount]').val())){
-        			alert('商贷利率折扣应该为小数点后一到两位小数, 例如:0.8或者0.95');
-        			$('input[name=comDiscount]').focus();
-        			return false; 
-        		}*/
-           	}
+ 			} 
+
+			if($('input[name=comDiscount]').val()!=''&&_mortType!='30016003') {
+				if(isNaN($('input[name=comDiscount]').val())){
+	                alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+	                $('input[name=comDiscount]').focus();				
+	                return false;
+	            }else if($('input[name=comDiscount]').val()>1.5 || $('input[name=comDiscount]').val()<0.5){
+	        		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	            	$('input[name=comDiscount]').focus();
+	        		return false;
+	        	}else if($('input[name=comDiscount]').val()<=1.5 || $('input[name=comDiscount]').val()>=0.5){
+	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
+	        		if(reg.test($('input[name=comDiscount]').val())){
+	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	        			$('input[name=comDiscount]').focus();
+	        			return false;
+	        		}
+	        	}
+ 			} 			
+			
+
 			
 			/* if($('input[name=prfAmount]').val()=='') {
                 alert("公积金贷款金额为必填项!");
