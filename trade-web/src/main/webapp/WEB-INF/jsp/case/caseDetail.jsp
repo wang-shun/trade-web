@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
-
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -117,16 +114,16 @@
 										<dl class="dl-horizontal col-sm-6">
 											<dt>上家姓名</dt>
 											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.sellerMobile}">${caseDetailVO.sellerName}
+												<a class="hint hint-left" data-hint="${caseDetailVO.sellerMobile}">
+													<p class="bb">${caseDetailVO.sellerName}</p>
 												</a>
 											</dd>
 										</dl>
 										<dl class="dl-horizontal col-sm-6">
 											<dt>下家姓名</dt>
 											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.buyerMobile}">${caseDetailVO.buyerName}
+												<a class="hint hint-left" data-hint="${caseDetailVO.buyerMobile}">
+													<p class="bb">${caseDetailVO.buyerName}</p>
 												</a>
 											</dd>
 										</dl>
@@ -635,7 +632,6 @@
 
 
 				<!-- 相关信息 -->
-
 				<div class="panel " id="aboutInfo" style="min-height: 800px;">
 					<a style="float: right; margin-right: 12px; margin-top: 12px"
 						href="javascript:showChangeFormModal();">我要修改</a>

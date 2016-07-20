@@ -291,6 +291,60 @@ dt {
 .wrapper .row {
 	margin-left: 0px !important;
 }
+
 .isStuck{
 z-index:1500;width:100%
+}
+
+.bb {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:93.375px;
+}
+
+.hint {position: relative; display: inline-block;}
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+/* left */
+.hint-left:before {
+	bottom: 50%;
+	margin: 0 0 0 -5px;
+	border-left-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-left:after {
+	bottom: 0;
+	right: 45px;
+}
+.hint-left:hover:before {
+	margin-right: -10px;
+}
+.hint-left:hover:after {
+	margin-right: 2px;
 }
