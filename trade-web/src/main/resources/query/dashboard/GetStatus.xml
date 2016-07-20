@@ -23,7 +23,7 @@
 						sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
 						sum(case when status='30001003' then 1 else 0 end) as qianyue ,
 						sum(case when status='30001004' then 1 else 0 end) as guohu,
-						DatePart(mm, c.CREATE_TIME) mouth,
+						DatePart(mm, c.CREATE_TIME) month,
 						DatePart(yyyy, c.CREATE_TIME) years
 					from sctrans.T_TO_CASE c
 					inner join sctrans.t_yucui_org_hierarchy oh on c.ORG_ID = oh.ORG_ID
@@ -47,7 +47,7 @@
 				<column name="qianyue"   />
 				<column name="guohu"   />
 			    <column name="years"   />
-				<column name="mouth"   />
+				<column name="month"   />
 			</table-row>
 		</grid>
 	</query>

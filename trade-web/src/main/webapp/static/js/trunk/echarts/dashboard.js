@@ -21,8 +21,9 @@ function reloadStatus() {
 	var serviceDepHierarchy=$("#serviceDepHierarchy").val();
 	var userId=$("#userId").val();
 	var serviceDepId=$("#serviceDepId").val();
-	console.info(userId+"...."+serviceDepId);
+    console.info(userId+"...."+serviceDepId);
 	console.info(serviceDepHierarchy);
+	console.info(month);
 	if(serviceDepHierarchy=="yucui_team"){//个人服务部
 		data.orgID=null;
 		data.itemId=userId
@@ -51,17 +52,16 @@ function reloadStatus() {
         	var jiedan=[];
         	var qianyue=[];
         	var guohu=[];
-        	var time=[];
+        	var j=0;
         	$.each(all, function(i,item){
-	        		if(item.years==year&&item.mouth<=month&&item.mouth>=month-5){
-	        			time.push(item.mouth)
-	        			jiedan.push(item.jiedan);
-	        			qianyue.push(item.qianyue);
-	        			guohu.push(item.guohu)
+	        		if(item.years==year&&item.month<=month&&item.month>=month-5){
+	        			jiedan[item.month-(month-5)]=item.jiedan;
+	        			qianyue[item.month-(month-5)]=item.qianyue;
+	        			guohu[item.month-(month-5)]=item.guohu;		        			
 	        		}
         		});   
         	
-        	StatusEchart(jiedan,qianyue,guohu,time);
+        	StatusEchart(jiedan,qianyue,guohu);
         },
         error:function(){
         	$("#mainwe").addClass("nullData");
@@ -71,7 +71,7 @@ function reloadStatus() {
 
 
 //柱状图
-function StatusEchart(jiedan,qianyue,guohu,time){
+function StatusEchart(jiedan,qianyue,guohu){
 	// 基于准备好的dom，初始化echarts实例
 	var myChart = echarts.init(document.getElementById('mainwe'));
 
@@ -120,7 +120,7 @@ function StatusEchart(jiedan,qianyue,guohu,time){
 		},
 		xAxis : [ {
 			type : 'category',
-			data : time
+			data : [month-5+"月",month-4+"月",month-3+"月",month-2+"月",month-1+"月",month+"月"]
 		} ],
 		yAxis : [ {
 			type : 'value'
