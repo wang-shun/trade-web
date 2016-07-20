@@ -110,8 +110,26 @@ function reloadGrid(data) {
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
+    var end = $('#dtBegin_1').val();
+	var prAccpetTimeEnd = $('#prAccpetTimeEnd').val();
     var prCompleteTimeStart = $('#prCompleteTimeStart').val();
 	var prCompleteTimeEnd = $('#prCompleteTimeEnd').val();
+	
+	
+	
+	
+	if(end&&end!=''){
+		end = end +' 23:59:59';
+	}
+	if(prAccpetTimeEnd&&prAccpetTimeEnd!=''){
+		prAccpetTimeEnd = prAccpetTimeEnd +' 23:59:59';
+	}
+	if(prCompleteTimeEnd&&prCompleteTimeEnd!=''){
+		prCompleteTimeEnd = prCompleteTimeEnd +' 23:59:59';
+	}
+	
+	data.prApplyTimeEnd = end;
+	data.prAccpetTimeEnd = prAccpetTimeEnd;
 	data.prCompleteTimeStart = prCompleteTimeStart;
 	data.prCompleteTimeEnd = prCompleteTimeEnd;
     

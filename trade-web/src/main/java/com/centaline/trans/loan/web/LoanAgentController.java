@@ -32,7 +32,6 @@ import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
 import com.centaline.trans.loan.service.LoanAgentService;
-import com.centaline.trans.mgr.Consts;
 
 @Controller
 @RequestMapping("/loan")
@@ -153,6 +152,7 @@ public class LoanAgentController {
 				}
 			}
 			model.addAttribute("loanAgent", loanAgent);
+			model.addAttribute("loanAgentName", uamUserOrgService.getUserById(loanAgent.getExecutorId()).getRealName());
 		}
 		if(isOnlyRead!=null&&isOnlyRead==1L) {
 			return "/loan/detailsOnlyRead";
