@@ -1,15 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>		
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <style>
 [class^=mark]{position:absolute;top:8px;left:130px;width:56px;height:37px;z-index:0; background-position:left center;background-repeat:no-repeat}
 .mark-baodan{background-image:url(../img/mark-baodan.png);}
 .mark-guaqi{background-image:url(../img/mark-guaqi.png);}
 .mark-jiean{background-image:url(../img/mark-jiean.png);}
 .mark-wuxiao{background-image:url(../img/mark-wuxiao.png);}
-.mark-zaitu{background-image:url(../img/mark-zaitu.png);} 
+.mark-zaitu{background-image:url(../img/mark-zaitu.png);}
+.bb {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:178.15px;
+}
+.hint {position: relative; display: inline-block;}
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+/* top */
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
+/* 	width:250px!important;
+	white-space: normal!important; */
+}
 </style>
 <div class="row">
     <div class="col-lg-12">
@@ -42,10 +96,18 @@
                                 买卖双方
                             </div>
                             <div class="panel-body" style="height:184px;">
-                                <p>上家姓名：${caseBaseVO.buyerSellerInfo.sellerName}</p>
-                                <p>电话：${caseBaseVO.buyerSellerInfo.sellerMobile}</p>
-                                <p>下家姓名：${caseBaseVO.buyerSellerInfo.buyerName}</p>
-                                <p>电话：${caseBaseVO.buyerSellerInfo.buyerMobile}</p>
+                            	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.sellerName}">
+                                	<p class="bb">上家姓名：${caseBaseVO.buyerSellerInfo.sellerName}</p>
+                            	</a><br/>
+                            	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.sellerMobile}">
+                                	<p class="bb">电话：${caseBaseVO.buyerSellerInfo.sellerMobile}</p>
+                            	</a><br/>
+                            	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.buyerName}">
+                                	<p class="bb">下家姓名：${caseBaseVO.buyerSellerInfo.buyerName}</p>
+                            	</a><br/>
+                            	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.buyerMobile}">
+                               		<p class="bb">电话：${caseBaseVO.buyerSellerInfo.buyerMobile}</p>
+                            	</a><br/>
                                 <p></p>
                                 <p></p>
                             </div>

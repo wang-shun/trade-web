@@ -76,12 +76,12 @@ function StatusEchart(jiedan,qianyue,guohu){
 	// 指定图表的配置项和数据
 	
 	option = {
-		title : {
+/*		title : {
 			x : 'center',
 			text : year+'年上半年内状态数量',
 			subtext : 'Rainbow bar example',
 			link : 'http://echarts.baidu.com/doc/example.html'
-		},
+		},*/
 		tooltip : {
 			trigger : 'axis',
 			axisPointer : { // 坐标轴指示器，坐标轴触发有效

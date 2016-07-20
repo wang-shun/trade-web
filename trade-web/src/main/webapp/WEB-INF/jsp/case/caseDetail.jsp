@@ -619,7 +619,7 @@
 										<iframe frameborder="no" border="0" marginwidth="0"
 											marginheight="0" scrolling="auto" allowtransparency="yes"
 											overflow:auto;
-												style="height: 1068px; width: 100%;"
+												style="height: 650px; width: 100%;"
 											src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 									</c:if>
 								</c:if>

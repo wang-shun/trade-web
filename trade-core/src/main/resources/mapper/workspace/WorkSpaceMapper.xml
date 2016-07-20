@@ -39,7 +39,7 @@
 					  SELECT count(t.PKID) as count,o.ID,o.ORG_NAME as orgName
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
 
-							  left join sctrans.t_HI_workflow as w
+							  left join sctrans.t_TO_workflow as w
 							  on w.case_code=t.CASE_CODE 
 							   left join sctrans.act_ru_task ta
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
@@ -63,7 +63,7 @@
 					  SELECT count(t.PKID) as count,u.EMPLOYEE_CODE as eCode,u.REAL_NAME as realName
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
 
-							  left join sctrans.t_HI_workflow as w
+							  left join sctrans.t_TO_workflow as w
 							  on w.case_code=t.CASE_CODE 
 							   left join sctrans.act_ru_task ta
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
@@ -90,7 +90,7 @@ from (
 							 left join sctrans.T_TO_PROPERTY_INFO as tp
 							 on t.case_code=tp.case_code
 
-							  left join sctrans.t_HI_workflow as w
+							  left join sctrans.t_TO_workflow as w
 							  on w.case_code=t.CASE_CODE 
 							   left join sctrans.act_ru_task ta
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
