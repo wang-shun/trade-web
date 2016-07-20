@@ -345,6 +345,14 @@ function completeMortgage(form){
 		return;
 	}
 	
+	// 审批时间校验
+	var apprDate=form.find("input[name='apprDate']").val();
+	if($.isBlank(apprDate)) {
+		alert("审批时间为必选项！");
+		return;
+	}
+	
+	
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
 		lastLoanBank = form.find("input[name='finOrgCode']").val();

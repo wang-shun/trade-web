@@ -94,6 +94,10 @@ public class ToMortgage {
     
     private String parentBankName;
     
+    private String status;
+    
+    private String rejectReason;
+    
     public Long getPkid() {
         return pkid;
     }
@@ -429,5 +433,23 @@ public class ToMortgage {
 	public void setTmpBankUpdateByStr(String tmpBankUpdateByStr) {
 		this.tmpBankUpdateByStr = tmpBankUpdateByStr;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRejectReason() {
+		return rejectReason;
+	}
+
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
+	
+	
     
 }
