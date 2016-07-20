@@ -348,3 +348,21 @@ z-index:1500;width:100%
 .hint-left:hover:after {
 	margin-right: 2px;
 }
+/* top */
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
+}
