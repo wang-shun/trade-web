@@ -277,18 +277,17 @@ public class ToMortgageController {
 			wf.setCaseCode(processInstanceVO.getCaseCode());
 			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-			if(wordkFlowDB!=null) {
+			if(wordkFlowDB!=null && wordkFlowDB.getProcessDefinitionId().equals(WorkFlowEnum.OPERATION_PROCESS)) {
 				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
 				//设置主流程任务的assignee
 				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
+				
+				ToWorkFlow workFlowOld =new ToWorkFlow();
+				// 流程结束状态
+				workFlowOld.setStatus("4");
+				workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
+				toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
 			}
-			
-			ToWorkFlow workFlowOld =new ToWorkFlow();
-			// 流程结束状态
-			workFlowOld.setStatus("4");
-			workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
-			toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
-			
 			
 		}catch(Exception e){
 			response.setSuccess(false);

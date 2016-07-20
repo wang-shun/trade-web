@@ -30,7 +30,9 @@ import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
@@ -139,91 +141,95 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
-/*		TaskHistoricQuery query =new TaskHistoricQuery();
-		query.setFinished(true);
-		query.setTaskDefinitionKey("MortgageSelect");
-		query.setProcessInstanceId(vo.getProcessInstanceId());
-		PageableVo pageableVo=workFlowManager.listHistTasks(query);
-		if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
-			throw new BusinessException("请先处理贷款需求选择任务！");
-		}
-		ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
-		if (subScr == null) {
-			throw new BusinessException("当前流程下不允许变更贷款需求！");
-		}
-		doBusiness(vo);
-
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		editRestVariables(variables, vo.getMortageService());
-		ExecuteAction action = new ExecuteAction();
-		action.setAction("messageEventReceived");
-		action.setExecutionId(subScr.getExecutionId());
-		action.setMessageName("StartMortgageSelectMsg");
-		action.setVariables(variables);
-		workFlowManager.executeAction(action);
-		workFlowManager.claimByInstCode(vo.getProcessInstanceId(),vo.getCaseCode(),null);*/
-		
-		doBusiness(vo);
-		
-		String mortType = vo.getMortageService();
-		if(mortType==null) {
-			throw new BusinessException("请选择相应的贷款需求！");
-		}
-		ToWorkFlow wf=new ToWorkFlow();
-		ProcessInstance processIns = new ProcessInstance();
-		wf.setCaseCode(vo.getCaseCode());
-		if(mortType.equals(ConstantsUtil.NO_LOAN)) {
-			// 删除所有的贷款流程
-			deleteMortFlowByCaseCode(vo.getCaseCode());
-			// 发送边界消息
-			messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
-			// 发送消息
-			messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
-			// 设置主流程任务的assignee
-			ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
-			workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
-			return;
-		} else if(mortType.equals(ConstantsUtil.COM_LOAN)) {
-			wf.setBusinessKey(WorkFlowEnum.COMLOAN_PROCESS.getName());
-			processIns.setProcessDefinitionId(WorkFlowEnum.COMLOAN_PROCESS.getCode());
-		} else if(mortType.equals(ConstantsUtil.PSF_LOAN)) {
-			wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
-			processIns.setProcessDefinitionId(WorkFlowEnum.PSFLOAN_PROCESS.getCode());
+		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		// 如果是新流程图
+		if(workF!=null && workF.getProcessDefinitionId().equals(WorkFlowEnum.OPERATION_PROCESS.getCode())) {
+			doBusiness(vo);
+			
+			String mortType = vo.getMortageService();
+			if(mortType==null) {
+				throw new BusinessException("请选择相应的贷款需求！");
+			}
+			ToWorkFlow wf=new ToWorkFlow();
+			ProcessInstance processIns = new ProcessInstance();
+			wf.setCaseCode(vo.getCaseCode());
+			if(mortType.equals(ConstantsUtil.NO_LOAN)) {
+				// 删除所有的贷款流程
+				deleteMortFlowByCaseCode(vo.getCaseCode());
+				// 发送边界消息
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
+				// 发送消息
+				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+				// 设置主流程任务的assignee
+				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+				workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
+				return;
+			} else if(mortType.equals(ConstantsUtil.COM_LOAN)) {
+				wf.setBusinessKey(WorkFlowEnum.COMLOAN_PROCESS.getName());
+				processIns.setProcessDefinitionId(WorkFlowEnum.COMLOAN_PROCESS.getCode());
+			} else if(mortType.equals(ConstantsUtil.PSF_LOAN)) {
+				wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
+				processIns.setProcessDefinitionId(WorkFlowEnum.PSFLOAN_PROCESS.getCode());
+			} else {
+				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
+				processIns.setProcessDefinitionId(WorkFlowEnum.LOANLOST_PROCESS.getCode());
+			}
+			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+			if(wordkFlowDB == null) {
+				// 发送边界消息
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
+				
+				// 删除所有的贷款流程
+				deleteMortFlowByCaseCode(vo.getCaseCode());
+				// 重新启动一个新的流程
+				processIns.setBusinessKey(vo.getCaseCode());
+				StartProcessInstanceVo p = workFlowManager.startWorkFlow(processIns);
+				// 设置当前任务的执行人
+				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+				workFlowManager.setAssginee(p.getId(), toCase.getLeadingProcessId(), vo.getCaseCode());
+				
+				ToWorkFlow workFlow = new ToWorkFlow();
+				workFlow.setCaseCode(vo.getCaseCode());
+				workFlow.setBusinessKey(wf.getBusinessKey());
+				workFlow.setInstCode(p.getId());
+				workFlow.setProcessDefinitionId(processIns.getProcessDefinitionId());
+				workFlow.setProcessOwner(vo.getPartner());
+				toWorkFlowService.insertSelective(workFlow);
+			} 
+			
+			ActRuEventSubScr event = new ActRuEventSubScr();
+			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
+			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+			event.setProcInstId(vo.getProcessInstanceId());
+			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
+			if (CollectionUtils.isEmpty(subScrsList)) {
+				throw new BusinessException("当前流程下不允许变更贷款需求！");
+			}
 		} else {
-			wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
-			processIns.setProcessDefinitionId(WorkFlowEnum.LOANLOST_PROCESS.getCode());
-		}
-		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-		if(wordkFlowDB == null) {
-			// 发送边界消息
-			messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
-			
-			// 删除所有的贷款流程
-			deleteMortFlowByCaseCode(vo.getCaseCode());
-			// 重新启动一个新的流程
-			processIns.setBusinessKey(vo.getCaseCode());
-			StartProcessInstanceVo p = workFlowManager.startWorkFlow(processIns);
-			// 设置当前任务的执行人
-			ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
-			workFlowManager.setAssginee(p.getId(), toCase.getLeadingProcessId(), vo.getCaseCode());
-			
-			ToWorkFlow workFlow = new ToWorkFlow();
-			workFlow.setCaseCode(vo.getCaseCode());
-			workFlow.setBusinessKey(wf.getBusinessKey());
-			workFlow.setInstCode(p.getId());
-			workFlow.setProcessDefinitionId(processIns.getProcessDefinitionId());
-			workFlow.setProcessOwner(vo.getPartner());
-			toWorkFlowService.insertSelective(workFlow);
-		} 
-		
-		ActRuEventSubScr event = new ActRuEventSubScr();
-		event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
-		event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
-		event.setProcInstId(vo.getProcessInstanceId());
-		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
-		List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-		if (CollectionUtils.isEmpty(subScrsList)) {
-			throw new BusinessException("当前流程下不允许变更贷款需求！");
+			TaskHistoricQuery query =new TaskHistoricQuery();
+			query.setFinished(true);
+			query.setTaskDefinitionKey("MortgageSelect");
+			query.setProcessInstanceId(vo.getProcessInstanceId());
+			PageableVo pageableVo=workFlowManager.listHistTasks(query);
+			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
+				throw new BusinessException("请先处理贷款需求选择任务！");
+			}
+			ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
+			if (subScr == null) {
+				throw new BusinessException("当前流程下不允许变更贷款需求！");
+			}
+			doBusiness(vo);
+
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			editRestVariables(variables, vo.getMortageService());
+			ExecuteAction action = new ExecuteAction();
+			action.setAction("messageEventReceived");
+			action.setExecutionId(subScr.getExecutionId());
+			action.setMessageName("StartMortgageSelectMsg");
+			action.setVariables(variables);
+			workFlowManager.executeAction(action);
+			workFlowManager.claimByInstCode(vo.getProcessInstanceId(),vo.getCaseCode(),null);
 		}
 	}
 	
