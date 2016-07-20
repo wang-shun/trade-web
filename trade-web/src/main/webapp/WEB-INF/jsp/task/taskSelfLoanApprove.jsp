@@ -367,7 +367,7 @@ function autoCompleteComDiscount(obj){
 		
 		//验证控件checkUI();
 		function checkForm() {
-			if($('input[name=mortType]').val()=='') {
+			if($('#mortType').val()=='') {
                 alert("贷款类型为必填项!");
                 $('input[name=mortType]').focus();
                 return false;
