@@ -318,8 +318,8 @@ text-decoration: underline !important;
 					<td class="t-left">
 						<a href="{{ctx}}/engine/task/{{item.ID}}/process" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>					
-					<td class="t-left"><a class="hint  hint-top" data-hint="上家信息: {{item.SELLER}}">{{(item.SELLER).indexOf("/")>0?(item.SELLER).substring(0,12):(item.SELLER)}}</a></td>
-					<td class="t-left"><a class="hint  hint-top" data-hint="下家信息: {{item.BUYER}}">{{(item.BUYER).indexOf("/")>0?(item.BUYER).substring(0,12):(item.BUYER)}}</a></td>
+					<td class="t-left"><a class="hint  hint-top" data-hint="上家信息: {{item.SELLER}}">{{(item.SELLER).indexOf("/")>0?(item.SELLER).substring(0,20):(item.SELLER)}}</a></td>
+					<td class="t-left"><a class="hint  hint-top" data-hint="下家信息: {{item.BUYER}}">{{(item.BUYER).indexOf("/")>0?(item.BUYER).substring(0,20):(item.BUYER)}}</a></td>
 					<td class="t-left">{{item.CREATE_TIME}}</td>
 					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>
