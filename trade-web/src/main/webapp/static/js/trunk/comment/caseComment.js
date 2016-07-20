@@ -31,11 +31,11 @@
 		commentButton+='<input type="hidden" name="caseComment_caseCode" id="caseComment_caseCode"/>';
 		commentButton+='<input type="hidden" name="caseComment_srvCode" id="caseComment_srvCode"/>';
 		commentButton+='<input type="text" placeholder="填写内容" name="caseComment" id="caseComment">';
-		commentButton+='<div class="btn btn-primary add_btn" onclick="saveCaseComment()">添加备注</div>';
+		commentButton+='<div class="btn btn-primary add_btn" onclick="saveCaseComment()">添加案件跟进</div>';
 		commentButton+='</div>';
 		$(this).after(commentButton);
 		
-		var commentTitile ='<div style="padding:10px;margin-top:5px;background-color:#ffffff;"><h3>案件备注信息</h3></div>';
+		var commentTitile ='<div style="padding:10px;margin-top:5px;background-color:#ffffff;"><h3>案件跟进</h3></div>';
 		$(this).before(commentTitile);
 		self = $(this);
 		tempSource = templeteSource;

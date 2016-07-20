@@ -149,8 +149,12 @@ text-decoration: underline !important;
 										<div class="form-group ">
 											<label class="col-md-1 control-label m-l">经办人</label>
 											<div class="col-md-10 dizhi">
-												<input type="text" class="form-control" id="realName"
-													name="realName" value="" />
+												<input type="text" id="inTextVal" style="background-color:#FFFFFF;width:350px;" name="radioOrgName" class="form-control tbspuser" hVal="${consultantId}" value="${consultantName }"
+													readonly="readonly" onclick="userSelect({startOrgId:'${depId}',expandNodeId:'${depId}',
+													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+											
+												<!-- <input type="text" class="form-control" id="realName"
+													name="realName" value="" /> -->
 											</div>
 										</div>
 									</div>

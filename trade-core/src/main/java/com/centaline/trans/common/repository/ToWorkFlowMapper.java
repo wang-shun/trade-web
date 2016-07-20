@@ -37,4 +37,6 @@ public interface ToWorkFlowMapper {
 	
 	int updateWorkFlowByInstCode(ToWorkFlow record);
 	
+	void deleteWorkFlowByInstCode(String instCode);
+	
 }

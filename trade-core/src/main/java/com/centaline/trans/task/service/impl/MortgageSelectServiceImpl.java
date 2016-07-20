@@ -175,6 +175,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		if(mortType.equals(ConstantsUtil.NO_LOAN)) {
 			// 删除所有的贷款流程
 			deleteMortFlowByCaseCode(vo.getCaseCode());
+			// 发送边界消息
+			messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
 			// 发送消息
 			messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 			// 设置主流程任务的assignee
@@ -236,7 +238,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper.getMortToWorkFlowByCaseCode(workFlow);
 		for(ToWorkFlow workFlowDB : wordkFlowDBList) {
 			workFlowManager.deleteProcess(workFlowDB.getInstCode());
-			toWorkFlowMapper.deleteByPrimaryKey(workFlowDB.getPkid());
+			toWorkFlowMapper.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
 		}
 	}
 
