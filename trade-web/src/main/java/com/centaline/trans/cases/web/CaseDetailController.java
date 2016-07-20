@@ -218,7 +218,7 @@ public class CaseDetailController {
 			reVo.setAgentOrgId(agentUser.getOrgId());
 			reVo.setAgentOrgName(agentUser.getOrgName());
 			// 分行经理
-			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
 					TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
 
@@ -726,7 +726,7 @@ public class CaseDetailController {
 			reVo.setAgentOrgId(agentUser.getOrgId());
 			reVo.setAgentOrgName(agentUser.getOrgName());
 			// 分行经理
-			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
 					TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
 
@@ -1500,7 +1500,7 @@ public class CaseDetailController {
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-			toWorkFlow.setBusinessKey(pIVo.getBusinessKey());
+			toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
 			toWorkFlow.setProcessOwner(sessionUser.getId());
 			toWorkFlowService.insertSelective(toWorkFlow);
 

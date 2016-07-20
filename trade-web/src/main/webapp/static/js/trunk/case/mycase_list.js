@@ -178,11 +178,11 @@ var divIndex = 1;
 var count = $('#case_date_0 option:last').index();
 function addDateDiv() {
 
-	var txt = '<div class="col-md-12 form-group"><label class="col-md-1  col-sm-2 control-label"></label><div id="dateDiv_' + divIndex + '" class="input-group m-b-xs m-t-xs">';
+	var txt = '<div class="row clearfix add_group"><div id="dateDiv_' + divIndex + '" class="input-group">';
 	txt += '<div class="input-group-btn">';
 	txt += '    <select id="case_date_'
 			+ divIndex
-			+ '" class="btn btn-white chosen-select" name="case_date" ltype="select" >';
+			+ '" class="btn btn-white chosen-select chosen_space" name="case_date" type="select" >';
 	txt += $("#case_date_0").html()
 	txt += '</select></div>';
 	txt += '<div id="datepicker_'
@@ -190,16 +190,16 @@ function addDateDiv() {
 			+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
 	txt += '    <input id="dtBegin_'
 			+ divIndex
-			+ '" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> ';
+			+ '" name="dtBegin" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="起始日期"> ';
 	txt += '    <span class="input-group-addon">到</span>';
 	txt += '    <input id="dtEnd_'
 			+ divIndex
-			+ '" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期"/>';
+			+ '" name="dtEnd" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="结束日期"/>';
 	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
 			+ divIndex + ');"><font>删除</font></a></span>';
 	txt += '</div></div></div>';
 	// alert(txt);
-	$("#addLine").before(txt);
+	$(".date-info").after(txt);
 	// 日期控件
 	$('#datepicker_' + divIndex).datepicker({
 		format : 'yyyy-mm-dd',
