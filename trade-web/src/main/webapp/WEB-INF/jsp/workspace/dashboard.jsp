@@ -74,7 +74,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 
 	.warning-info .ibox-content{height: 385px;overflow-x:hidden;overflow-y: auto }
 	.nullData {
-	background: #fff url(../img/no-records.png) center center no-repeat; */
+	background: #fff url(../img/no-records.png) center center no-repeat; 
     }
 	#div_target .ibox-content{
 		height: 270px;overflow-x:hidden;overflow-y:auto;  padding: 9px 20px;
