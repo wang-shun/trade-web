@@ -653,7 +653,7 @@
 							</li>
 							<li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
 							</li>
-							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
+							<li class=""><a href="#caseComment-info" data-toggle="tab">案件跟进内容</a>
 							</li>
 						</ul>
 
