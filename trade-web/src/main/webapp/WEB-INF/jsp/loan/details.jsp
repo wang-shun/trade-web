@@ -42,6 +42,7 @@
 	<input type="hidden" id="caseCode" name="caseCode" value="${loanAgent.caseCode }" />
 	<input type="hidden" id="finCaseCode" name="finCaseCode" value="${loanAgent.finCaseCode }" />
 	<input type="hidden" id="pkid" name="pkid" value="${loanAgent.pkid }" />
+	<input type="hidden" id="executorId" name="executorId"/>
 	<div class="ibox">
 		<div class="ibox-title">
 			<div class="row">
@@ -88,7 +89,7 @@
 				<div class="col-xs-1 control-label">案件归属</div>
 				<div class="col-sm-3">
 				
-					<input type="text" id="executorId" name="executorId" style="width: 50%;background-color:#FFFFFF;" class="form-control tbspuser" 
+					<input type="text" id="executorName" name="executorName" style="width: 50%;background-color:#FFFFFF;" class="form-control tbspuser" 
 						hVal="${loanAgent.executorId}" value="${loanAgentName}" readonly="readonly"
 						onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
 						nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
@@ -312,7 +313,7 @@ function fcheck(){
 	if(typeof(f)!='undefined' ) {
 		flag=f;
 	}
-	if($("#executorId")&&$("#executorId").val()==''){
+	if($("#executorName")&&$("#executorName").val()==''){
 		alert('请选择归属人');
 		return false;
 	}
@@ -402,7 +403,7 @@ $(document).ready(function() {
 	$("#btn_save").click(function(){
 		if(!fcheck())return;
 		if(confirm("是否保存？")){
-		$("#executorId").val($("#executorId").attr('hVal'));
+		$("#executorId").val($("#executorName").attr('hVal'));
 		var fData=$("#f_main").serialize();
 		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
     	$(".blockOverlay").css({'z-index':'9998'});
@@ -642,11 +643,11 @@ function cancelBubble() {
 
 function selectUserBack(array){
 	if(array && array.length >0){
-        $("#executorId").val(array[0].username);
-		$("#executorId").attr('hVal',array[0].userId);
+        $("#executorName").val(array[0].username);
+		$("#executorName").attr('hVal',array[0].userId);
 	}else{
-		$("#executorId").val("");
-		$("#executorId").attr('hVal',"");
+		$("#executorName").val("");
+		$("#executorName").attr('hVal',"");
 	}
 }
 

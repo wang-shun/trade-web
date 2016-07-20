@@ -38,6 +38,13 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	private String processOperationDfKey;
 	@Value("${process.def.vals.operation_process}")
 	private String processDefVals;
+	
+	@Value("${process.df.key.tempBankAudit}")
+	private String processTmpBankAuditDfKey;
+
+	public String getProcessTmpBankAuditDfKey() {
+		return processTmpBankAuditDfKey;
+	}
 
 	private Map<String, String> processOperationDfKeyMap;
 	private Map<String, Map<String, Object>> processDefValsMap;
