@@ -750,8 +750,7 @@
 
 		//验证控件checkUI();
 		function checkForm() {
-			
-			if ($("#cooperationUser0").val() == 0) {
+			if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 				alert("合作顾问未选择");
 				return false;
 			}
