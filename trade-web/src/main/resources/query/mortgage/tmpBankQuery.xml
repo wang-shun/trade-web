@@ -67,18 +67,18 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="PKID" index="" checkbox="true" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="案件地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="DISTRICT_NAME" index="" checkbox="" display="贵宾服务部" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="TEAM_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="DIRECTOR" index="" checkbox="" display="总监 " customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CONSULTANT" index="" checkbox="" display="交易顾问" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PRO_STATUS" index="" checkbox="" display="处理状态" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
-				<column type="both" name="PUSER" index="" checkbox="" display="处理人" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
-				<column type="both" name="PTIME" index="" checkbox="" display="处理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  width="150" isSort="" align="" halign="" order="" resizable="" />			
-				<column type="both" name="IS_MAIN_LOAN_BANK" index="" checkbox="" display="主备选银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="PKID" index="" checkbox="true" title="PKID"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" title="CTM编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="DISTRICT_NAME" index="" checkbox="" title="贵宾服务部" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="TEAM_NAME" index="" checkbox="" title="组别" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="DIRECTOR" index="" checkbox="" title="总监 " customDict="" sysDict="" format=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONSULTANT" index="" checkbox="" title="交易顾问" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PRO_STATUS" index="" checkbox="" title="处理状态" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PUSER" index="" checkbox="" title="处理人" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PTIME" index="" checkbox="" title="处理时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  width="150" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="IS_MAIN_LOAN_BANK" index="" checkbox="" title="主备选银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				
 			</table-row>
 		</grid>

@@ -61,8 +61,6 @@
 }
 .hint-top:hover:after {
 	margin-bottom: 2px;
-/* 	width:250px!important;
-	white-space: normal!important; */
 }
 </style>
 <div class="row">

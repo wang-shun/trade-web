@@ -231,7 +231,7 @@ text-decoration: underline !important;
 						<th class="t-left pd-l"><span>申请金额</span></th>
 						<th class="t-left pd-l"><span>面签金额</span></th>
 						<th class="t-left pd-l"><span>放款金额</span></th>
-					    <th class="t-left pd-l"><span>面签时间</span></th>
+					    <th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_TIME' sord='desc'>面签时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="signFaceList">
