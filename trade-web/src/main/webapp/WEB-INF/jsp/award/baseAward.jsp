@@ -55,6 +55,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         	<div class="row m-t">
                         		<div class="col-lg-6 col-md-6">
                                 	<label class="col-sm-2 control-label" id="case_date">过户时间</label>
