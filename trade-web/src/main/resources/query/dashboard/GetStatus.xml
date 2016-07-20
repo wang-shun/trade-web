@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+
+	<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+		<customDict id="qqcdSrvCode" beanName="qqcdSrvCode"></customDict>
+		<customDict id="qqcdSrvPart" beanName="qqcdSrvPart"></customDict>
+		<customDict id="qqcdFin" beanName="qqcdFin"></customDict>
+	</dicts>
+	<formatters>
+			<formatter id="dateFormatter" ref=""
+				class="com.aist.common.quickQuery.formatter.DateFormatter">
+				<properties>
+					<property name="pattern">yyyy-MM-dd</property>
+				</properties>
+			</formatter>
+	</formatters>
+	<query id="getStatus">
+		<searchSql>
+			<baseSql>
+				<![CDATA[ 
+					select  
+						sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
+						sum(case when status='30001003' then 1 else 0 end) as qianyue ,
+						sum(case when status='30001004' then 1 else 0 end) as guohu,
+						DatePart(mm, c.CREATE_TIME) mouth,
+						DatePart(yyyy, c.CREATE_TIME) years
+					from sctrans.T_TO_CASE c
+					inner join sctrans.t_yucui_org_hierarchy oh on c.ORG_ID = oh.ORG_ID
+					where  c.STATUS!='30003001' and  c.STATUS!='30003005' 
+                        <if test="orgID != null and orgID != '' ">
+                			and c.ORG_ID=#orgID#
+                		</if>
+                		 <if test="itemId != null and itemId != '' ">
+                			and c.LEADING_PROCESS_ID=#itemId#
+                		</if>
+                		<if test="districtId != null  and districtId != '' ">
+						     and  oh.DISTRICT_ID = #districtId#
+						</if>
+						GROUP BY DatePart(mm, c.CREATE_TIME),DatePart(yyyy, c.CREATE_TIME)	
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="jiedan"   />
+				<column name="qianyue"   />
+				<column name="guohu"   />
+			    <column name="years"   />
+				<column name="mouth"   />
+			</table-row>
+		</grid>
+	</query>
+</querys>
