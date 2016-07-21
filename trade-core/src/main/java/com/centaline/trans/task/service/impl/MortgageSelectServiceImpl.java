@@ -157,7 +157,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送边界消息
-				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+				editRestVariables(variables, vo.getMortageService());
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);
 				// 发送消息
 				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 				// 设置主流程任务的assignee
@@ -177,7 +179,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {
 				// 发送边界消息
-				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId());
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+				editRestVariables(variables, vo.getMortageService());
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);
 				
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
