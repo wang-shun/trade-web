@@ -168,8 +168,8 @@ public class TmpBankAduitController {
 				
 			//更新案件信息
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
-			mortageDb.setLastLoanBank(bankCode);
-			mortageDb.setFinOrgCode(bankCode);
+//			mortageDb.setLastLoanBank(bankCode);
+//			mortageDb.setFinOrgCode(bankCode);
 			mortageDb.setTmpBankUpdateBy(user.getId());
 			mortageDb.setTmpBankUpdateTime(new Date());
 			if(!isManagerApprove){
