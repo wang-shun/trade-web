@@ -280,23 +280,6 @@ from (
 	<if test="mo != null">
 	AND DATEPART(m,historyTask.END_TIME)=#{mo,jdbcType=VARCHAR}
   	</if>
-	AND 1=(
-	CASE 
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('ComLoanProcess')
-		THEN 
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='ComLoanNeed')
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('LoanlostApply','LoanlostApproveDirector','LoanlostApproveManager','SelfLoanApprove')
-		THEN
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='SelfLoanNeed')
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('PSFApply','PSFSign','PSFApprove')
-		THEN
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='PSFLoanNeed')
-		ELSE
-			1
-		END)  	
   </select>
   
   <!-- 过户数 -->
@@ -375,23 +358,6 @@ from (
 	<if test="mo != null">
 	AND DATEPART(m,historyTask.END_TIME)=#{mo,jdbcType=VARCHAR}
   	</if>
-	AND 1=(
-	CASE 
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('ComLoanProcess')
-		THEN 
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='ComLoanNeed')
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('LoanlostApply','LoanlostApproveDirector','LoanlostApproveManager','SelfLoanApprove')
-		THEN
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='SelfLoanNeed')
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('PSFApply','PSFSign','PSFApprove')
-		THEN
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='PSFLoanNeed')
-		ELSE
-			1
-		END)  	
   </select>
   
   <!-- 结案数 -->
@@ -447,23 +413,6 @@ from (
 	<if test="mo != null">
 	AND DATEPART(m,historyTask.END_TIME)=#{mo,jdbcType=VARCHAR}
   	</if>
-	AND 1=(
-	CASE 
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('ComLoanProcess')
-		THEN 
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='ComLoanNeed')
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('LoanlostApply','LoanlostApproveDirector','LoanlostApproveManager','SelfLoanApprove')
-		THEN
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='SelfLoanNeed')
-		WHEN 
-			historytask.TASK_DEF_KEY IN ('PSFApply','PSFSign','PSFApprove')
-		THEN
-			(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='PSFLoanNeed')
-		ELSE
-			1
-		END)  	  	
   </select>
   
   <select id="staEvaFee" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.util.Map">
