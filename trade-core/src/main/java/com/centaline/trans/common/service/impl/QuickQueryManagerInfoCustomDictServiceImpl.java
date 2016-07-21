@@ -43,7 +43,7 @@ public class QuickQueryManagerInfoCustomDictServiceImpl implements CustomDictSer
 			}
 			String key = keys.get(i).get("ORG_ID").toString();
 			Map<String,Object> map = new HashMap<String,Object>();
-			List<User> managerInfoList = uamUserOrgService.getUserByOrgIdAndJobCode(key,jobCode);
+			List<User> managerInfoList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(key,jobCode);
 			User  user = null;
 			if(managerInfoList.size()>0){
 					user=managerInfoList.get(0);
