@@ -69,14 +69,14 @@
 			<div class="row form-group">
 				<label class="col-sm-2 control-label">贷款银行：</label>
 				<div class="col-md-4" style="height: 38px">
-					<select name="bank_type" class="form-control" id="bank_type" disabled="true" >
+					<select name="bank_type" class="form-control" id="bank_type" ${post ne 'manager'?'disabled="true"':''} >
 					</select>
 				</div>
 
 				<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：
 				</label>
 				<div class="col-md-4" style="height: 38px">
-					<select name="finOrgCode" class="form-control" id="finOrgCode" disabled="true" >
+					<select name="finOrgCode" class="form-control" id="finOrgCode" ${post ne 'manager'?'disabled="true"':''} >
 					</select>
 				</div>
 			</div>
@@ -119,7 +119,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">备注</label>
+						<label class="col-sm-2 control-label">拒绝原因</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="temBankRejectReason" name="temBankRejectReason" value="" disabled="disabled" >
 						</div>
