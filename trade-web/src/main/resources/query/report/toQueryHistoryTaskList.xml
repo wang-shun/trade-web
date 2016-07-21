@@ -113,15 +113,15 @@
 					AND 1=(
 					CASE 
 						WHEN 
-							historytask.NAME IN ('ComLoanProcess')
+							historytask.TASK_DEF_KEY IN ('ComLoanProcess')
 						THEN 
 							(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='ComLoanNeed')
 						WHEN 
-							historytask.NAME IN ('LoanlostApply','LoanlostApproveDirector','LoanlostApproveManager','SelfLoanApprove')
+							historytask.TASK_DEF_KEY IN ('LoanlostApply','LoanlostApproveDirector','LoanlostApproveManager','SelfLoanApprove')
 						THEN
 							(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='SelfLoanNeed')
 						WHEN 
-							historytask.NAME IN ('PSFApply','PSFSign','PSFApprove')
+							historytask.TASK_DEF_KEY IN ('PSFApply','PSFSign','PSFApprove')
 						THEN
 							(SELECT TOP 1 LONG_  FROM  sctrans.ACT_HI_VARINST  WHERE proc_inst_id_=historytask.PROC_INST_ID AND NAME_='PSFLoanNeed')
 						ELSE
