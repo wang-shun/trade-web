@@ -286,6 +286,12 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     and status=0
   </select>
+   <select id="queryAllInstCodesByCaseCode" resultType="java.lang.String" parameterType="java.lang.String" >
+    select 
+    INST_CODE
+    from sctrans.T_TO_WORKFLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
   <select id="queryToWorkFlowByCaseCodeBusKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />

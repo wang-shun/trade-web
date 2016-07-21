@@ -635,12 +635,18 @@ public class CaseDetailController {
 			}
 		}
 		SessionUser sessionUser = uamSessionService.getSessionUser();
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
-			TaskHistoricQuery tq = new TaskHistoricQuery();
-			tq.setProcessInstanceId(toWorkFlow.getInstCode());
-			tq.setFinished(true);
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+				tasks.addAll(taskList1);
+			}
 			// 本人做的任务
-			List<TaskVo>tasks=taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
@@ -1146,12 +1152,18 @@ public class CaseDetailController {
 			}
 		}
 		SessionUser sessionUser = uamSessionService.getSessionUser();
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
-			TaskHistoricQuery tq = new TaskHistoricQuery();
-			tq.setProcessInstanceId(toWorkFlow.getInstCode());
-			tq.setFinished(true);
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+				tasks.addAll(taskList1);
+			}
 			// 本人做的任务
-			List<TaskVo>tasks=taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
