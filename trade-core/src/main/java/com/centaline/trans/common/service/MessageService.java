@@ -1,6 +1,9 @@
 package com.centaline.trans.common.service;
 
+import java.util.List;
+
 import com.centaline.trans.engine.bean.ExecuteAction;
+import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 
 public interface MessageService {
@@ -15,6 +18,9 @@ public interface MessageService {
 	 *  由过户边界事件发送消息
 	 */
 	void sendMortgageSelectMsgByBoudary(String instanceId);
+	
+	
+    void sendMortgageSelectMsgByBoudary(String instanceId,List<RestVariable> variables);
 	
 	/***
 	 *  基础消息发送事件

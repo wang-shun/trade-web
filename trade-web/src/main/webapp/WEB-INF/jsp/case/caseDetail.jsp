@@ -114,16 +114,16 @@
 										<dl class="dl-horizontal col-sm-6">
 											<dt>上家姓名</dt>
 											<dd>
-												<a class="hint hint-left" data-hint="${caseDetailVO.sellerMobile}">
-													<p class="bb">${caseDetailVO.sellerName}</p>
+												<a class="hint hint-top1" data-hint="${caseDetailVO.sellerMobile}">
+													<p class="bb" id="sellerNames"></p>
 												</a>
 											</dd>
 										</dl>
 										<dl class="dl-horizontal col-sm-6">
 											<dt>下家姓名</dt>
 											<dd>
-												<a class="hint hint-left" data-hint="${caseDetailVO.buyerMobile}">
-													<p class="bb">${caseDetailVO.buyerName}</p>
+												<a class="hint hint-top1" data-hint="${caseDetailVO.buyerMobile}">
+													<p class="bb" id="buyerNames"></p>
 												</a>
 											</dd>
 										</dl>
@@ -133,17 +133,17 @@
 										<dl class="dl-horizontal">
 											<dt>姓名</dt>
 											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${toCaseInfo.agentPhone}">
-													${caseDetailVO.agentName}</a>
+												<a class="hint hint-top" data-hint="${toCaseInfo.agentPhone}">
+													${caseDetailVO.agentName}
+												</a>
 											</dd>
 											<dt>所属分行</dt>
 											<dd>${toCaseInfo.grpName }</dd>
 											<dt>直管经理</dt>
 											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.mcMobile}">
-													${caseDetailVO.mcName} </a>
+												<a class="hint hint-top" data-hint="${caseDetailVO.mcMobile}">
+													${caseDetailVO.mcName} 
+												</a>
 											</dd>
 										</dl>
 									</div>
@@ -154,9 +154,9 @@
 										<dl class="dl-horizontal">
 											<dt>交易顾问</dt>
 											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.cpMobile}">
-													${caseDetailVO.cpName} </a>
+												<a class="hint hint-top" data-hint="${caseDetailVO.cpMobile}">
+													${caseDetailVO.cpName}
+												</a>
 											</dd>
 											<c:if test="${empty caseDetailVO.proList}">
 												<dt>合作顾问</dt>
@@ -166,17 +166,17 @@
 												<c:forEach items="${caseDetailVO.proList}" var="pro">
 													<dt>合作顾问</dt>
 													<dd>
-														<a data-toggle="popover" data-placement="right"
-															data-content="${pro.processorMobile}">
-															${pro.processorName} </a>
+														<a class="hint hint-top" data-hint="${pro.processorMobile}">
+															${pro.processorName} 
+														</a>
 													</dd>
 												</c:forEach>
 											</c:if>
 											<dt>助理</dt>
 											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.asMobile}">
-													${caseDetailVO.asName} </a>
+												<a class="hint hint-top" data-hint="${caseDetailVO.asMobile}">
+													${caseDetailVO.asName} 
+												</a>
 											</dd>
 										</dl>
 									</div>
@@ -1099,7 +1099,12 @@
 	        		$("#isFixed").removeClass("istauk");
 	        		
 	        	}
-	        } 
+	        }
+			
+			var buyerNames="${caseDetailVO.buyerName}";
+			var sellerNames="${caseDetailVO.sellerName}"
+			$('#buyerNames').text(buyerNames.length>7?buyerNames.substring(0,6)+'...':buyerNames);
+			$('#sellerNames').text(sellerNames.length>7?sellerNames.substring(0,6)+'...':sellerNames);
 		})
 		//监听滚动事件
         jQuery(function($) {

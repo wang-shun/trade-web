@@ -80,14 +80,14 @@ public class TaskController {
 			request.setAttribute("source", source);
 			request.setAttribute("caseCode", caseCode);
 		}
-
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");
 			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();
-			return "redirect:" + absoluteUrl + formKeys[1] + UriUtility.getQueryString(queryParameters);
+			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
 		} else {
-			return "forward:" + task.getFormKey() + UriUtility.getQueryString(queryParameters);
+			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
 		}
 
 	}
+
 }

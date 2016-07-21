@@ -23,22 +23,25 @@
 						sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
 						sum(case when status='30001003' then 1 else 0 end) as qianyue ,
 						sum(case when status='30001004' then 1 else 0 end) as guohu,
-						DatePart(mm, c.CREATE_TIME) mouth,
+						DatePart(mm, c.CREATE_TIME) month,
 						DatePart(yyyy, c.CREATE_TIME) years
 					from sctrans.T_TO_CASE c 
-					<if test="serviceJobCode == 'director' ">
+					<if test="serviceDepHierarchy == 'yucui_district'">
 					left join sctrans.sys_org org on org.id = c.org_id 
 					</if>
 					where  c.STATUS!='30003001' and  c.STATUS!='30003005' and c.CREATE_TIME>=#startDate# 
                         <if test="serviceJobCode == 'consultant' ">
                 			and c.LEADING_PROCESS_ID = #sessionUserId#
                 		</if>
-                		 <if test="serviceJobCode == 'Manager' or serviceJobCode == 'TeamAssistant'">
-                			and c.ORG_ID=#serviceDepId#
+                		<if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+                			and c.org_id =#serviceDepId#
                 		</if>
-                		<if test="serviceJobCode == 'director' ">
-						    and org.parent_id =#serviceDepId#
-						</if>
+                		<if test="serviceDepHierarchy == 'BUSIGRP'">
+                			and c.org_id =#serviceDepId#
+                		</if>
+                		<if test="serviceDepHierarchy == 'yucui_district'">
+                			and org.parent_id =#serviceDepId#
+                		</if>
 						GROUP BY DatePart(mm, c.CREATE_TIME),DatePart(yyyy, c.CREATE_TIME)	
 				]]>
 			</baseSql>
@@ -49,7 +52,7 @@
 				<column name="qianyue"   />
 				<column name="guohu"   />
 			    <column name="years"   />
-				<column name="mouth"   />
+				<column name="month"   />
 			</table-row>
 		</grid>
 	</query>

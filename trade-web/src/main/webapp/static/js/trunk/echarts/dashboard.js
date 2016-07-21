@@ -1,8 +1,3 @@
-//获取当前年月
-var mydate = new Date();
-var year= mydate.getFullYear();
-var month=mydate.getMonth()+1;
-
 //返回背景颜色
 function getColor(colors){
 	 return{
@@ -22,6 +17,7 @@ function reloadStatus() {
 	 data.sessionUserId  = $("#userId").val();
 	 data.serviceDepId  = $("#serviceDepId").val();
 	 data.serviceJobCode = $("#serviceJobCode").val();
+	 data.serviceDepHierarchy = $("#serviceDepHierarchy").val();
 
 	$.ajax({
 			  async: false,
@@ -39,14 +35,16 @@ function reloadStatus() {
         	var qianyue=[];
         	var guohu=[];
         	var time=[];
+        	var xAxis = [];
+        	var j=0;
         	$.each(all, function(i,item){
-    			time.push(item.mouth);
+    			time.push(item.month);
+    			xAxis.push(item.month+"月");
     			jiedan.push(item.jiedan);
     			qianyue.push(item.qianyue);
     			guohu.push(item.guohu);
         	});   
-        	
-        	StatusEchart(jiedan,qianyue,guohu,time);
+        	StatusEchart(jiedan,qianyue,guohu,xAxis);
         },
         error:function(){
         	$("#mainwe").addClass("nullData");
@@ -56,7 +54,7 @@ function reloadStatus() {
 
 
 //柱状图
-function StatusEchart(jiedan,qianyue,guohu,time){
+function StatusEchart(jiedan,qianyue,guohu,xAxis){
 	// 基于准备好的dom，初始化echarts实例
 	var myChart = echarts.init(document.getElementById('mainwe'));
 
@@ -105,7 +103,7 @@ function StatusEchart(jiedan,qianyue,guohu,time){
 		},
 		xAxis : [ {
 			type : 'category',
-			data : time
+			data :xAxis
 		} ],
 		yAxis : [ {
 			type : 'value'

@@ -1271,6 +1271,9 @@ $(document).ready(function () {
 	 				return deleteAndModify();
 	 			}
 	 			return false;
+	 		}else if(currentIndex == 4 && newIndex == 5){
+	 			//报告步骤点击‘下一步’执行临时银行审批流程
+	 			startWorkFlow();
 	 		}
 
 	 		return true;
@@ -1287,7 +1290,7 @@ $(document).ready(function () {
 	 		}else if(currentIndex == 3 && priorIndex !=2){
 	 			getMortgageInfo($("#caseCode").val(),1);
 	 		}else if(currentIndex == 4){
-	 			
+	 			getMortgageInfo($("#caseCode").val(),1);
 	 			getReportList("table_list_4","pager_list_4",1);
 	 		}else if(currentIndex == 5){
 	 			getCompleteMortInfo(1);
@@ -1354,7 +1357,7 @@ $(document).ready(function () {
  		}else if(currentIndex == 3 && priorIndex != 2){
  			getMortgageInfo($("#caseCode").val(),0);
  		}else if(currentIndex == 4){
-
+ 			getMortgageInfo($("#caseCode").val(),0);
  			getReportList("table_list_6","pager_list_6",0);
  		}else if(currentIndex == 5){
  			getCompleteMortInfo(0);
