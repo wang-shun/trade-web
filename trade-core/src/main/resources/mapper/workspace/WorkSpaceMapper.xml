@@ -239,15 +239,13 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-
 			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
 	INNER JOIN
-
-		sctrans.t_HI_workflow wf
+		sctrans.T_TO_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
@@ -319,15 +317,13 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-
 			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
 	INNER JOIN
-
-		sctrans.t_HI_workflow wf
+		sctrans.T_TO_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
@@ -376,15 +372,13 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-
 			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
 		)historyTask
 	INNER JOIN
-
-		sctrans.t_HI_workflow wf
+		sctrans.T_TO_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 

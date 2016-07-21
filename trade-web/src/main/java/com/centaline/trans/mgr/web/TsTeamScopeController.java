@@ -20,6 +20,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.task.service.TsTeamScopeArService;
 import com.centaline.trans.task.service.TsTeamScopeGrpService;
@@ -135,7 +136,7 @@ public class TsTeamScopeController {
     @RequestMapping(value="getTeamCodeList")
     @ResponseBody
     public List<Org> getTeamCodeList(){
-    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.YU_TEAM);
+    	List<Org> list = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, DepTypeEnum.TYCTEAM.getCode());
     	
     	return list;
     }
