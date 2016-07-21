@@ -114,16 +114,16 @@
 										<dl class="dl-horizontal col-sm-6">
 											<dt>上家姓名</dt>
 											<dd>
-												<a class="hint hint-left" data-hint="${caseDetailVO.sellerMobile}">
-													<p class="bb">${caseDetailVO.sellerName}</p>
+												<a class="hint hint-top1" data-hint="${caseDetailVO.sellerMobile}">
+													<p class="bb" id="sellerNames"></p>
 												</a>
 											</dd>
 										</dl>
 										<dl class="dl-horizontal col-sm-6">
 											<dt>下家姓名</dt>
 											<dd>
-												<a class="hint hint-left" data-hint="${caseDetailVO.buyerMobile}">
-													<p class="bb">${caseDetailVO.buyerName}</p>
+												<a class="hint hint-top1" data-hint="${caseDetailVO.buyerMobile}">
+													<p class="bb" id="buyerNames"></p>
 												</a>
 											</dd>
 										</dl>
@@ -1099,7 +1099,12 @@
 	        		$("#isFixed").removeClass("istauk");
 	        		
 	        	}
-	        } 
+	        }
+			
+			var buyerNames="${caseDetailVO.buyerName}";
+			var sellerNames="${caseDetailVO.sellerName}"
+			$('#buyerNames').text(buyerNames.length>7?buyerNames.substring(0,6)+'...':buyerNames);
+			$('#sellerNames').text(sellerNames.length>7?sellerNames.substring(0,6)+'...':sellerNames);
 		})
 		//监听滚动事件
         jQuery(function($) {

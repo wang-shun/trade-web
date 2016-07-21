@@ -291,7 +291,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 
-		if(wordkFlowDB!=null && wordkFlowDB.getProcessDefinitionId().equals(WorkFlowEnum.OPERATION_PROCESS)) {
+		if(wordkFlowDB!=null && wordkFlowDB.getProcessDefinitionId().equals(WorkFlowEnum.OPERATION_PROCESS.getCode())) {
 			messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
 			// 设置主流程任务的assignee
 			workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), wordkFlowDB.getCaseCode());
