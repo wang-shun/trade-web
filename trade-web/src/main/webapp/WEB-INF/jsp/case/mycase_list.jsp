@@ -97,7 +97,10 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
-
+#exportExcel{
+	width:84px;
+	float:right;
+}
 </style>
 
 </head>
@@ -226,29 +229,15 @@ text-decoration: underline !important;
 									</div>
 								</div>
 							</div>
+							<div id="exportExcel">
+                            	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
+								<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
+								</shiro:hasPermission>
+							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col-lg-12 col-md-12">
-				<div class="ibox ">
-					<div class="ibox-title">
-						<h5>我的案件列表</h5>
-					</div>
-
-					<div class="ibox-content">
-						<div class="jqGrid_wrapper">
-							<table id="table_list_1"></table>
-							<div id="pager_list_1"></div>
-							
-                            <shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-							<a data-toggle="modal" class="btn btn-primary"
-								href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
-								</shiro:hasPermission>
-						</div>
-					</div>
-				</div>
-			</div> -->
 
 			<div class="data-wrap">
 				<div class="data-wrap-in">

@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,45 @@ public class UriUtility {
 
 		return result.toString();
 	}
+	/**
+	 * Gets a valid query-string based on the given parameters.
+	 */
+	public static String getQueryString(String url,Map<String, String> parameters) {
+		StringBuilder result = new StringBuilder();
+		String ac="";
+		String urlParameter="";
+		if(url.indexOf("#")>-1){
+			ac=url.substring(url.indexOf("#"));
+			url=url.substring(0, url.indexOf("#"));
+		}
+		if(urlParameter.indexOf("?")>-1){
+			urlParameter=url.substring(url.indexOf("?"));
+			url=url.substring(0, url.indexOf("?"));
+			result.append(urlParameter);
+		}else{
+			result.append(url);
+		}
+		if (parameters != null) {
+			for (Entry<String, String> param : parameters.entrySet()) {
+				final String encodedName = encode(param.getKey(), null);
+				final String value = param.getValue();
+				final String encodedValue = value != null ? encode(value, null)
+						: "";
+				if (result.indexOf(QUERY_STRING_SEPARATOR) > 0) {
+					result.append(PARAMETER_SEPARATOR);
+				} else {
+					result.append(QUERY_STRING_SEPARATOR);
+				}
+				result.append(encodedName);
+				result.append(NAME_VALUE_SEPARATOR);
+				result.append(encodedValue);
+			}
+		}
 
+		return result.append(ac).toString();
+	}
+	
+	
 	/**
 	 * Gets full path based on the given parts.
 	 */
