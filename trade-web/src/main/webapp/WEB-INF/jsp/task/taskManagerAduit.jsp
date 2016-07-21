@@ -165,7 +165,6 @@
 	<script>    
 		$(document).ready(function(){
 			$("input[name='tmpBankCheck']").click(function(){
-				alert($(this).val());
 				if($(this).val() == 'false'){
 					 $("#temBankRejectReason").prop("disabled",false);
 				}else if($(this).val() == 'true'){
