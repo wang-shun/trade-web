@@ -95,16 +95,16 @@
                             </div>
                             <div class="panel-body" style="height:184px;">
                             	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.sellerName}">
-                                	<p class="bb">上家姓名：${caseBaseVO.buyerSellerInfo.sellerName}</p>
+                                	<p class="bb"><span style="color: #676a6c;">上家姓名：</span>${caseBaseVO.buyerSellerInfo.sellerName}</p>
                             	</a><br/>
                             	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.sellerMobile}">
-                                	<p class="bb">电话：${caseBaseVO.buyerSellerInfo.sellerMobile}</p>
+                                	<p class="bb"><span style="color: #676a6c;">电话：</span>${caseBaseVO.buyerSellerInfo.sellerMobile}</p>
                             	</a><br/>
                             	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.buyerName}">
-                                	<p class="bb">下家姓名：${caseBaseVO.buyerSellerInfo.buyerName}</p>
+                                	<p class="bb"><span style="color: #676a6c;">下家姓名：</span>${caseBaseVO.buyerSellerInfo.buyerName}</p>
                             	</a><br/>
                             	<a class="hint hint-top" data-hint="${caseBaseVO.buyerSellerInfo.buyerMobile}">
-                               		<p class="bb">电话：${caseBaseVO.buyerSellerInfo.buyerMobile}</p>
+                               		<p class="bb"><span style="color: #676a6c;">电话：</span>${caseBaseVO.buyerSellerInfo.buyerMobile}</p>
                             	</a><br/>
                                 <p></p>
                                 <p></p>
