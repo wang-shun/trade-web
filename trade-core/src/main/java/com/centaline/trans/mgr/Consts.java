@@ -17,8 +17,6 @@ public class Consts {
 	
 	public static final String BUSIAR = "BUSIAR";
 	
-	public static final String YU_TEAM = "yucui_team";
-
 	public static final String PART_CODE_SPV_OUT_APPLY = "spvOutApply";
 	
 	public static final String SPV_OUT_APPLY_CONTENT = "资金监管解除申请";

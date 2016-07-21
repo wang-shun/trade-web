@@ -23,6 +23,7 @@
 						sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
 						sum(case when status='30001003' then 1 else 0 end) as qianyue ,
 						sum(case when status='30001004' then 1 else 0 end) as guohu,
+						sum(case when status='30001005' then 1 else 0 end) as jiean,
 						DatePart(mm, c.CREATE_TIME) month,
 						DatePart(yyyy, c.CREATE_TIME) years
 					from sctrans.T_TO_CASE c 
@@ -51,6 +52,7 @@
 				<column name="jiedan"   />
 				<column name="qianyue"   />
 				<column name="guohu"   />
+				<column name="jiean"   />
 			    <column name="years"   />
 				<column name="month"   />
 			</table-row>
