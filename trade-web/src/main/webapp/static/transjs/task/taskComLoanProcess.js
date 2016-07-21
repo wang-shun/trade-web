@@ -1271,6 +1271,9 @@ $(document).ready(function () {
 	 				return deleteAndModify();
 	 			}
 	 			return false;
+	 		}else if(currentIndex == 4){
+	 			//报告步骤点击‘下一步’执行临时银行审批流程
+	 			startWorkFlow();
 	 		}
 
 	 		return true;
