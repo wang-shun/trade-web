@@ -18,24 +18,11 @@ function reloadStatus() {
 	var data={};
 	 data.queryId="getStatus";
 	 data.pagination = false;
-	var serviceDepHierarchy=$("#serviceDepHierarchy").val();
-	var userId=$("#userId").val();
-	var serviceDepId=$("#serviceDepId").val();
-	console.info(userId+"...."+serviceDepId);
-	console.info(serviceDepHierarchy);
-	if(serviceDepHierarchy=="yucui_team"){//个人服务部
-		data.orgID=null;
-		data.itemId=userId
-		data.districtId=null;
-	}else if(serviceDepHierarchy=="yucui_district"){  //贵宾                    
-		data.orgID=null;
-		data.itemId=null
-		data.districtId=serviceDepId;
-	}else if(serviceDepHierarchy=="BUSIGRP"){  //组
-		data.orgID=serviceDepId;
-		data.itemId=null
-		data.districtId=null;
-	}
+	 data.startDate = $("#startDate").val();
+	 data.sessionUserId  = $("#userId").val();
+	 data.serviceDepId  = $("#serviceDepId").val();
+	 data.serviceJobCode = $("#serviceJobCode").val();
+
 	$.ajax({
 			  async: false,
    	          url:ctx+ "/quickGrid/findPage" ,
@@ -53,13 +40,11 @@ function reloadStatus() {
         	var guohu=[];
         	var time=[];
         	$.each(all, function(i,item){
-	        		if(item.years==year&&item.mouth<=month&&item.mouth>=month-5){
-	        			time.push(item.mouth)
-	        			jiedan.push(item.jiedan);
-	        			qianyue.push(item.qianyue);
-	        			guohu.push(item.guohu)
-	        		}
-        		});   
+    			time.push(item.mouth);
+    			jiedan.push(item.jiedan);
+    			qianyue.push(item.qianyue);
+    			guohu.push(item.guohu);
+        	});   
         	
         	StatusEchart(jiedan,qianyue,guohu,time);
         },

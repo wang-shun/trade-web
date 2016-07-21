@@ -216,7 +216,10 @@ text-decoration: underline !important;
                                     </div> -->
                                      <input type="hidden" id="serviceDepHierarchy" value="${sessionUser.serviceDepHierarchy }">
                                      <input type="hidden" id="userId" value="${sessionUser.id }">
-                                      <input type="hidden" id="serviceDepId" value="${sessionUser.serviceDepId }">
+                                     <input type="hidden" id="serviceDepId" value="${sessionUser.serviceDepId }">
+                                     <input type="hidden" id="serviceJobCode" value="${sessionUser.serviceJobCode }">
+                                     <input type="hidden" id="startDate" value="${startDate}">
+                                      
                                     <div id="mainwe" style="height:250px;width:100%;"></div>
                                 </div>
                             </div>
