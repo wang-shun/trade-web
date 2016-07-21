@@ -189,7 +189,7 @@ text-decoration: underline !important;
                         <div class="col-md-9 " id="div_target">
                             <div class="ibox float-e-margins no-records">
                                 <div class="ibox-title">
-                                    <h5>本月目标达成度</h5>
+                                    <h5>半年案件分布统计</h5>
                                 </div>
                                 <div class="ibox-content" >
                                     <!-- <div class="row">
@@ -220,6 +220,7 @@ text-decoration: underline !important;
                                      <input type="hidden" id="serviceJobCode" value="${sessionUser.serviceJobCode }">
                                      <input type="hidden" id="startDate" value="${startDate}">
                                       
+
                                     <div id="mainwe" style="height:250px;width:100%;"></div>
                                 </div>
                             </div>
