@@ -121,7 +121,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">备注</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="temBankRejectReason" name="temBankRejectReason" value="">
+							<input type="text" class="form-control" id="temBankRejectReason" name="temBankRejectReason" value="" disabled="disabled" >
 						</div>
 					</div>
 				</form>
@@ -162,7 +162,18 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script>
+	<script>    
+		$(document).ready(function(){
+			$("input[name='tmpBankCheck']").click(function(){
+				alert($(this).val());
+				if($(this).val() == 'false'){
+					 $("#temBankRejectReason").prop("disabled",false);
+				}else if($(this).val() == 'true'){
+					 $("#temBankRejectReason").prop("disabled",true);
+				}
+			});
+			})
+		
 		/**提交数据*/
 		function submit() {
 			save();
