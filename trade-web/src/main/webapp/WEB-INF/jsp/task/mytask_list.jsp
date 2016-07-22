@@ -333,7 +333,8 @@ text-decoration: underline !important;
                     </td>					
 			
 					<td class="t-left"><a class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">{{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}</a></td>
-					<td class="t-left"><a class="hint  hint-top1" data-hint="下家信息: {{item.BUYER}}">{{(item.BUYER).length>11?(item.SELLER).substring(0,8)+'...':(item.BUYER)}}</a></td>
+
+					<td class="t-left"><a class="hint  hint-top1" data-hint="下家信息: {{item.BUYER}}">{{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}</a></td>
 					<td class="t-left">{{item.CREATE_TIME}}</td>
 					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>

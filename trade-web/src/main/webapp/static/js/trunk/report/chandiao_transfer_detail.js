@@ -267,6 +267,16 @@ function exportToExcel() {
 	var prCompleteTimeStartPre = $("#prCompleteTimeStart").val();
 	var prCompleteTimeEndPre = $("#prCompleteTimeEnd").val();
 	
+	if(prApplyTimeEndPre&&prApplyTimeEndPre!=''){
+		prApplyTimeEndPre = prApplyTimeEndPre +' 23:59:59';
+	}
+	if(prAccpetTimeEndPre&&prAccpetTimeEndPre!=''){
+		prAccpetTimeEndPre = prAccpetTimeEndPre +' 23:59:59';
+	}
+	if(prCompleteTimeEndPre&&prCompleteTimeEndPre!=''){
+		prCompleteTimeEndPre = prCompleteTimeEndPre +' 23:59:59';
+	}
+	
 	/*var start = $('#dtBegin_0').val();
 	if(start&&start!=''){
 		prApplyTimePre = start;

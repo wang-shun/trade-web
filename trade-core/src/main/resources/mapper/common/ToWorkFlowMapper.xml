@@ -49,7 +49,15 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_WORKFLOW
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{instCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteWorkFlowByInstCode" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_WORKFLOW
+    where INST_CODE = #{instCode,jdbcType=VARCHAR};
+    
+    update sctrans.T_HI_WORKFLOW SET STATUS = 2, UPDATE_BY = @{SESSION_USER_ID},UPDATE_TIME = GETDATE()
+    where INST_CODE = #{instCode,jdbcType=VARCHAR};
+    select 1 ;
   </delete>
   <delete id="deleteWorkFlowByProperty" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     delete from sctrans.T_TO_WORKFLOW
@@ -278,6 +286,12 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     and status=0
   </select>
+   <select id="queryAllInstCodesByCaseCode" resultType="java.lang.String" parameterType="java.lang.String" >
+    select 
+    INST_CODE
+    from sctrans.T_TO_WORKFLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
   <select id="queryToWorkFlowByCaseCodeBusKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />
@@ -299,7 +313,7 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TO_WORKFLOW
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    AND BUSINESS_KEY in ('ComLoan_Process','LoanLost_Process','LoanLost_Process')
+    AND BUSINESS_KEY in ('ComLoan_Process','PSFLoan_Process','LoanLost_Process')
     and status=0
   </select>
   <select id="queryActiveToWorkFlowByCaseCode" resultMap="BaseResultMap" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >

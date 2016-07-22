@@ -1,41 +1,24 @@
-//获取当前年月
-var mydate = new Date();
-var year= mydate.getFullYear();
-var month=mydate.getMonth()+1;
 
-//返回背景颜色
-function getColor(colors){
-	 return{
-			normal : {
-				color : colors,
+// 返回背景颜色
+function getColor(colors) {
+	return {
+		normal : {
+			color : colors,
 
-			}
 		}
-	
+	}
+
 }
 
 function reloadStatus() {
 	var data={};
 	 data.queryId="getStatus";
 	 data.pagination = false;
-	var serviceDepHierarchy=$("#serviceDepHierarchy").val();
-	var userId=$("#userId").val();
-	var serviceDepId=$("#serviceDepId").val();
-/*	console.info(userId+"...."+serviceDepId);
-	console.info(serviceDepHierarchy);*/
-	if(serviceDepHierarchy=="yucui_team"){//个人服务部
-		data.orgID=null;
-		data.itemId=userId
-		data.districtId=null;
-	}else if(serviceDepHierarchy=="yucui_district"){  //贵宾                    
-		data.orgID=null;
-		data.itemId=null
-		data.districtId=serviceDepId;
-	}else if(serviceDepHierarchy=="BUSIGRP"){  //组
-		data.orgID=serviceDepId;
-		data.itemId=null
-		data.districtId=null;
-	}
+	 data.startDate = $("#startDate").val();
+	 data.sessionUserId  = $("#userId").val();
+	 data.serviceDepId  = $("#serviceDepId").val();
+	 data.serviceJobCode = $("#serviceJobCode").val();
+	 data.serviceDepHierarchy = $("#serviceDepHierarchy").val();
 	$.ajax({
 			  async: false,
    	          url:ctx+ "/quickGrid/findPage" ,
@@ -51,15 +34,16 @@ function reloadStatus() {
         	var jiedan=[];
         	var qianyue=[];
         	var guohu=[];
+        	var jiean=[];
+        	var xAxis = [];
         	$.each(all, function(i,item){
-	        		if(item.years==year&&item.mouth<=month&&item.mouth>=month-5){
-	        			jiedan.push(item.jiedan);
-	        			qianyue.push(item.jiedan);
-	        			guohu.push(item.guohu)
-	        		}
-        		});   
-        	
-        	StatusEchart(jiedan,qianyue,guohu);
+    			xAxis.push(item.month+"月");
+    			jiedan.push(item.jiedan);
+    			qianyue.push(item.qianyue);
+    			guohu.push(item.guohu);
+    			jiean.push(item.jiean);
+        	});   
+        	StatusEchart(jiedan,qianyue,guohu,jiean,xAxis);
         },
         error:function(){
         	$("#mainwe").addClass("nullData");
@@ -67,20 +51,18 @@ function reloadStatus() {
   });
 }
 
-
-//柱状图
-function StatusEchart(jiedan,qianyue,guohu){
+function StatusEchart(jiedan, qianyue, guohu, jiean,xAxis) {
 	// 基于准备好的dom，初始化echarts实例
 	var myChart = echarts.init(document.getElementById('mainwe'));
 
 	// 指定图表的配置项和数据
-	
-	option = {
+
+	var option = {
 /*		title : {
 			x : 'center',
-			text : year+'年上半年内状态数量',
-			subtext : 'Rainbow bar example',
-			link : 'http://echarts.baidu.com/doc/example.html'
+			text : '半年案件分布统计',
+			subtext : year + '年',
+		 link : 'http://echarts.baidu.com/doc/example.html' 
 		},*/
 		tooltip : {
 			trigger : 'axis',
@@ -107,7 +89,10 @@ function StatusEchart(jiedan,qianyue,guohu){
 			orient : 'vertical',
 			x : 'right',
 			y : 'center',
-			data : [ '接单', '签约', '过户' ]
+			data : [ '接单', '签约', '过户', '结案' ],
+			selected : {
+				'结案' : false
+			}
 
 		},
 		grid : {
@@ -118,7 +103,8 @@ function StatusEchart(jiedan,qianyue,guohu){
 		},
 		xAxis : [ {
 			type : 'category',
-			data : [ month-5+'月', month-4+'月', month-3+'月', month-2+'月',month-1+'月',month+'月' ]
+
+			data :xAxis
 		} ],
 		yAxis : [ {
 			type : 'value'
@@ -128,26 +114,32 @@ function StatusEchart(jiedan,qianyue,guohu){
 			type : 'bar',
 			barWidth : 40,
 			stack : '7月',
-			itemStyle :getColor('#f784a5'),
+			itemStyle : getColor('#f784a5'),
 			data : jiedan
 		}, {
 			name : '签约',
 			type : 'bar',
 			barWidth : 40,
 			stack : '7月',
-			itemStyle :getColor('#ffad6b'),
+			itemStyle : getColor('#ffad6b'),
 			data : qianyue
 		}, {
 			name : '过户',
 			type : 'bar',
 			barWidth : 40,
 			stack : '7月',
-			itemStyle :getColor('#52bdbd'),
+			itemStyle : getColor('#52bdbd'),
 			data : guohu
-		}]
+		}, {
+			name : '结案',
+			type : 'bar',
+			barWidth : 40,
+			stack : '7月',
+			itemStyle : getColor('#295aa5'),
+			data : jiean
+		} ]
 	};
-
 	// 使用刚指定的配置项和数据显示图表。
 	myChart.setOption(option);
-	
+
 }

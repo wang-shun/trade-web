@@ -21,6 +21,8 @@ public interface ToWorkFlowMapper {
 	List<String> queryCaseCodesByInstCode(String instCode);
 
 	List<String> queryInstCodesByCaseCode(String caseCode);
+	
+	List<String> queryAllInstCodesByCaseCode(String caseCode);
 
 	ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
 
@@ -36,5 +38,7 @@ public interface ToWorkFlowMapper {
 	int deleteWorkFlowByProperty(ToWorkFlow record);
 	
 	int updateWorkFlowByInstCode(ToWorkFlow record);
+	
+	void deleteWorkFlowByInstCode(String instCode);
 	
 }

@@ -108,7 +108,7 @@ function searchMethod(page) {
 $('#cleanButton').click(function() {
 	$("input[name='caseCode']").val('');
 	$("input[name='propertyAddr']").val('');
-	$("input[name='realName']").val('');
+	$("input[name='radioOrgName']").val('');
 	$("input[name='dtBegin']").datepicker('update', '');
 	$("input[name='dtEnd']").datepicker('update', '');
 	$("input[id='inTextVal']").val('');
@@ -238,7 +238,7 @@ function getParamsValue() {
 	}
 
 	//经办人
-	var realName =$("#realName").val().trim();
+	var realName =$("#inTextVal").val().trim();
 	if(realName==""||realName==null){
 		realName=null;
 	}
