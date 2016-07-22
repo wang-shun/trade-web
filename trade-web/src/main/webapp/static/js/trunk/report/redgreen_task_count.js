@@ -63,6 +63,15 @@ $('#searchButton').click(function() {
 	searchMethod();
 });
 
+/*//查询贵宾服务部
+$('#searchButtonGb').click(function() {
+	//$("#inTextVal").attr('hVal',"");
+});
+// 查询组别
+$('#searchButtonZb').click(function() {
+	//alert("searchButtonZb");
+});*/
+
  //查询
 function searchMethod(page) {
 	if(!page) {
