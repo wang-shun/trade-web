@@ -90,7 +90,6 @@
 				<form method="get" class="form-horizontal" id="lamform">
 				    <input type="hidden" name="post" value="${post}">
 				    <input type="hidden" name="bankCode" id="bankCode">
-				    <input type="hidden" name="jobCode" value="${jobCode}">
 				    <input type="hidden" name="prAddress" value="${caseBaseVO.toPropertyInfo.propertyAddr }">
 		            <input type="hidden" name="tmpBankName" id="tmpBankName">
 		            <input type="hidden" name="pkid" value="${mortage.pkid }">

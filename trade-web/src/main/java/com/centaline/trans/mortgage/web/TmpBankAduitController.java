@@ -123,8 +123,7 @@ public class TmpBankAduitController {
 	public String TmpBankAduitProcess(Model model, HttpServletRequest request, String taskitem,
     		String caseCode, String taskId, String instCode,String source,String post){
 		SessionUser user = uamSessionService.getSessionUser();
-		String jobCode = user.getServiceJobCode();
-		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode(caseCode);
+		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		
 		request.setAttribute("post", post);
 		request.setAttribute("taskId", taskId);
@@ -167,13 +166,19 @@ public class TmpBankAduitController {
 				
 			//更新案件信息
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
-			mortageDb.setLastLoanBank(bankCode);
-			mortageDb.setFinOrgCode(bankCode);
-			mortageDb.setTmpBankUpdateBy(user.getId());
-			mortageDb.setTmpBankUpdateTime(new Date());
+
 			if(!isManagerApprove){
+				mortageDb.setTmpBankUpdateBy("");
+				mortageDb.setIsTmpBank("0");
+				mortageDb.setLastLoanBank("");
+				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+			}else{
+				mortageDb.setTmpBankUpdateBy(user.getId());
+				mortageDb.setTmpBankUpdateTime(new Date());
+				mortageDb.setTmpBankStatus("");
+				mortageDb.setTmpBankRejectReason("");
 			}
 			toMortgageService.updateToMortgage(mortageDb);	
 			
@@ -190,11 +195,17 @@ public class TmpBankAduitController {
 
 			//更新案件信息
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
-			mortageDb.setTmpBankUpdateBy(user.getId());
-			mortageDb.setTmpBankUpdateTime(new Date());
+
 			if(!isSeniorManagerApprove ){
+				mortageDb.setTmpBankUpdateBy("");
+				mortageDb.setIsTmpBank("0");
+				mortageDb.setLastLoanBank("");
+				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+			}else{
+				mortageDb.setTmpBankUpdateBy(user.getId());
+				mortageDb.setTmpBankUpdateTime(new Date());
 			}
 			toMortgageService.updateToMortgage(mortageDb);	
 			
@@ -207,13 +218,17 @@ public class TmpBankAduitController {
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
 			ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
 			//更新案件信息
-			mortageDb.setTmpBankUpdateBy(user.getId());
-			mortageDb.setTmpBankUpdateTime(new Date());
 			if("false".equals(tmpBankCheck)){
+				mortageDb.setTmpBankUpdateBy("");
+				mortageDb.setIsTmpBank("0");
+				mortageDb.setLastLoanBank("");
+				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else if("true".equals(tmpBankCheck)){
 				mortageDb.setTmpBankStatus("1");
+				mortageDb.setTmpBankUpdateBy(user.getId());
+				mortageDb.setTmpBankUpdateTime(new Date());
 			}
 			toMortgageService.updateToMortgage(mortageDb);
 			
