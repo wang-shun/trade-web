@@ -105,7 +105,12 @@ public class GuohuApproveController {
 		return "task/taskGuohuApprove";
 	}
 	
-	
+	@RequestMapping("showPic")
+	public String showPic(HttpServletRequest request, 
+			HttpServletResponse response, String picUrl){
+		request.setAttribute("picUrl", picUrl);
+		return "task/showPicture";
+	}
 	
 	
 	

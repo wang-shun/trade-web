@@ -4,7 +4,15 @@ function downLoad(fileId, fileName) {
 }
 
 function show(fileId) {
+	
 	window.open(appCtx['shcl-image-web']+"/image/"+fileId);
+	
+	
+//	var picUrl = appCtx['shcl-image-web']+"/image/"+fileId;
+	
+//	window.open(ctx+'/task/showPicture.jsp?picUrl='+picUrl);
+	
+//	window.open(ctx+"/task/guohuApprove/showPic?&picUrl="+picUrl);
 }
 
 
