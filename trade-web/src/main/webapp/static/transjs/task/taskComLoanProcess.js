@@ -353,7 +353,7 @@ function completeMortgage(form){
 	}
 
 	//提交时
-	if($('#mortgageForm1').find("input[name='isTmpBank']").is(':checked') && $("#tmpBankStatus").val() != '1'){
+	if($("#isTmpBank").is(':checked') && $("#tmpBankStatus").val() != '1'){
 		alert("临时银行审批未完成或不通过！");
 		return;
 	}
@@ -503,7 +503,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){	
 	    		//获取临时银行审批状态和拒绝原因
-	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);
+	    		//$("#tmpBankStatus").val(data.content.tmpBankStatus);--放到提交步骤
 	    		if(data.content.tmpBankStatus == '0'){
 	    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
 		    		$("#tmpBankRejectReason").text("已被拒绝:"+reason);
@@ -841,6 +841,7 @@ function getCompleteMortInfo(isMainLoanBank){
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){
+	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);
 	    		var f=$("#completeForm1");
 	    		if(isMainLoanBank == 1)
                 f=$("#completeForm");
