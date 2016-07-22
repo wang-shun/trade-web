@@ -172,8 +172,9 @@ text-decoration: underline !important;
 						<th class="t-left pd-l">总监</th>
 						<th class="t-left pd-l">组别</th>
 						<th class="t-left pd-l">主管</th>
-						<th class="t-left pd-l">黄灯</th>
 						<th class="t-left pd-l">红灯</th>
+						<th class="t-left pd-l">黄灯</th>
+						<th class="t-left pd-l">合计</th>
 						<th class="t-left pd-l">操作</th>
 					</tr>
 				</thead>
@@ -225,6 +226,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName2}}</td>
 						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.yellow}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l">{{(item.yellow)+(item.red)}}</td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
                         </td>

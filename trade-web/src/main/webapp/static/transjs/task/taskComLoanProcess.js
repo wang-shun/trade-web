@@ -504,12 +504,12 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    	success:function(data){	
 	    		//获取临时银行审批状态和拒绝原因
 	    		//$("#tmpBankStatus").val(data.content.tmpBankStatus);--放到提交步骤
-	    		if(data.content.tmpBankStatus == '0'){
+	    		if(data.content != null && data.content.tmpBankStatus == '0'){
 	    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
 		    		$("#tmpBankRejectReason").text("已被拒绝:"+reason);
 	    		}
-
-	    		if(queryCustCodeOnly){
+	    		 
+	    		if(queryCustCodeOnly){	
 	    			if(data.content != null && data.content.custCode != null){
 	    				mCustCode=data.content.custCode;
 	    			}
@@ -1306,8 +1306,6 @@ $(document).ready(function () {
 	 			getMortgageInfo($("#caseCode").val(),1);
 	 			getReportList("table_list_4","pager_list_4",1);
 	 		}else if(currentIndex == 5){
-	 			//提交时需要获取临时银行审批的信息
-	 			getMortgageInfo($("#caseCode").val(),1);
 	 			getCompleteMortInfo(1);
 	 		}
 	 	},
@@ -1378,8 +1376,6 @@ $(document).ready(function () {
  			getMortgageInfo($("#caseCode").val(),0);
  			getReportList("table_list_6","pager_list_6",0);
  		}else if(currentIndex == 5){
- 			//提交时需要获取临时银行审批的信息
- 			getMortgageInfo($("#caseCode").val(),0);
  			getCompleteMortInfo(0);
  		}
  	},
