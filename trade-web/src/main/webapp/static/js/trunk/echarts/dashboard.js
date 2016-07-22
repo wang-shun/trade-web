@@ -1,12 +1,13 @@
-//返回背景颜色
-function getColor(colors){
-	 return{
-			normal : {
-				color : colors,
 
-			}
+// 返回背景颜色
+function getColor(colors) {
+	return {
+		normal : {
+			color : colors,
+
 		}
-	
+	}
+
 }
 
 function reloadStatus() {
@@ -18,7 +19,6 @@ function reloadStatus() {
 	 data.serviceDepId  = $("#serviceDepId").val();
 	 data.serviceJobCode = $("#serviceJobCode").val();
 	 data.serviceDepHierarchy = $("#serviceDepHierarchy").val();
-
 	$.ajax({
 			  async: false,
    	          url:ctx+ "/quickGrid/findPage" ,
@@ -34,17 +34,16 @@ function reloadStatus() {
         	var jiedan=[];
         	var qianyue=[];
         	var guohu=[];
-        	var time=[];
+        	var jiean=[];
         	var xAxis = [];
-        	var j=0;
         	$.each(all, function(i,item){
-    			time.push(item.month);
     			xAxis.push(item.month+"月");
     			jiedan.push(item.jiedan);
     			qianyue.push(item.qianyue);
     			guohu.push(item.guohu);
+    			jiean.push(item.jiean);
         	});   
-        	StatusEchart(jiedan,qianyue,guohu,xAxis);
+        	StatusEchart(jiedan,qianyue,guohu,jiean,xAxis);
         },
         error:function(){
         	$("#mainwe").addClass("nullData");
@@ -52,20 +51,18 @@ function reloadStatus() {
   });
 }
 
-
-//柱状图
-function StatusEchart(jiedan,qianyue,guohu,xAxis){
+function StatusEchart(jiedan, qianyue, guohu, jiean,xAxis) {
 	// 基于准备好的dom，初始化echarts实例
 	var myChart = echarts.init(document.getElementById('mainwe'));
 
 	// 指定图表的配置项和数据
-	
-	option = {
+
+	var option = {
 /*		title : {
 			x : 'center',
-			text : year+'年上半年内状态数量',
-			subtext : 'Rainbow bar example',
-			link : 'http://echarts.baidu.com/doc/example.html'
+			text : '半年案件分布统计',
+			subtext : year + '年',
+		 link : 'http://echarts.baidu.com/doc/example.html' 
 		},*/
 		tooltip : {
 			trigger : 'axis',
@@ -92,7 +89,10 @@ function StatusEchart(jiedan,qianyue,guohu,xAxis){
 			orient : 'vertical',
 			x : 'right',
 			y : 'center',
-			data : [ '接单', '签约', '过户' ]
+			data : [ '接单', '签约', '过户', '结案' ],
+			selected : {
+				'结案' : false
+			}
 
 		},
 		grid : {
@@ -103,6 +103,7 @@ function StatusEchart(jiedan,qianyue,guohu,xAxis){
 		},
 		xAxis : [ {
 			type : 'category',
+
 			data :xAxis
 		} ],
 		yAxis : [ {
@@ -113,26 +114,32 @@ function StatusEchart(jiedan,qianyue,guohu,xAxis){
 			type : 'bar',
 			barWidth : 40,
 			stack : '7月',
-			itemStyle :getColor('#f784a5'),
+			itemStyle : getColor('#f784a5'),
 			data : jiedan
 		}, {
 			name : '签约',
 			type : 'bar',
 			barWidth : 40,
 			stack : '7月',
-			itemStyle :getColor('#ffad6b'),
+			itemStyle : getColor('#ffad6b'),
 			data : qianyue
 		}, {
 			name : '过户',
 			type : 'bar',
 			barWidth : 40,
 			stack : '7月',
-			itemStyle :getColor('#52bdbd'),
+			itemStyle : getColor('#52bdbd'),
 			data : guohu
-		}]
+		}, {
+			name : '结案',
+			type : 'bar',
+			barWidth : 40,
+			stack : '7月',
+			itemStyle : getColor('#295aa5'),
+			data : jiean
+		} ]
 	};
-
 	// 使用刚指定的配置项和数据显示图表。
 	myChart.setOption(option);
-	
+
 }

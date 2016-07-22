@@ -46,6 +46,7 @@
 						GROUP BY DatePart(mm, c.CREATE_TIME),DatePart(yyyy, c.CREATE_TIME)	
 				]]>
 			</baseSql>
+			ORDER BY  DatePart(mm, c.CREATE_TIME) 
 		</searchSql>
 		<grid>
 			<table-row>
