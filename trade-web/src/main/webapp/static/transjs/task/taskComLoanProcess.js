@@ -351,13 +351,18 @@ function completeMortgage(form){
 		alert("审批时间为必选项！");
 		return;
 	}
-	
-	
+
+	//提交时
+	if($('#mortgageForm1').find("input[name='isTmpBank']").is(':checked') && $("#tmpBankStatus").val() != '1'){
+		alert("临时银行审批未完成或不通过！");
+		return;
+	}
+
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
 		lastLoanBank = form.find("input[name='finOrgCode']").val();
 	}
-	
+
 	$.ajax({
 		url:ctx+"/task/completeMortgage",
 		method:"post",
@@ -497,6 +502,13 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){	
+	    		//获取临时银行审批状态和拒绝原因
+	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);
+	    		if(data.content.tmpBankStatus == '0'){
+	    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
+		    		$("#tmpBankRejectReason").text("已被拒绝:"+reason);
+	    		}
+
 	    		if(queryCustCodeOnly){
 	    			if(data.content != null && data.content.custCode != null){
 	    				mCustCode=data.content.custCode;
@@ -1293,6 +1305,8 @@ $(document).ready(function () {
 	 			getMortgageInfo($("#caseCode").val(),1);
 	 			getReportList("table_list_4","pager_list_4",1);
 	 		}else if(currentIndex == 5){
+	 			//提交时需要获取临时银行审批的信息
+	 			getMortgageInfo($("#caseCode").val(),1);
 	 			getCompleteMortInfo(1);
 	 		}
 	 	},
@@ -1341,6 +1355,9 @@ $(document).ready(function () {
  				return deleteAndModify();
  			}
  			return false;
+ 		}else if(currentIndex == 4 && newIndex == 5){
+ 			//报告步骤点击‘下一步’执行临时银行审批流程
+ 			startWorkFlow();
  		}
  		
  		return true;
@@ -1360,6 +1377,8 @@ $(document).ready(function () {
  			getMortgageInfo($("#caseCode").val(),0);
  			getReportList("table_list_6","pager_list_6",0);
  		}else if(currentIndex == 5){
+ 			//提交时需要获取临时银行审批的信息
+ 			getMortgageInfo($("#caseCode").val(),0);
  			getCompleteMortInfo(0);
  		}
  	},

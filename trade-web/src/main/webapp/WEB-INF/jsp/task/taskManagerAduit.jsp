@@ -162,8 +162,13 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script>    
+	<script>   
 		$(document).ready(function(){
+			//添加银行和支行 
+			getParentBank($("#bank_type"),$("#finOrgCode"),"${mortage.finOrgCode}");
+			$("#bank_type").change(function(){
+		    	getBranchBankList($("#finOrgCode"),$("#bank_type").val());
+		    });
 			$("input[name='tmpBankCheck']").click(function(){
 				if($(this).val() == 'false'){
 					 $("#temBankRejectReason").prop("disabled",false);
@@ -198,15 +203,15 @@
 	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	    				$(".blockOverlay").css({'z-index':'9998'});
 	                },
-	            complete: function() {  
-	            	     $.unblockUI();   
-	                     if(status=='timeout'){//超时,status还有success,error等值的情况
+	            complete: function() {
+  		                 $.unblockUI(); 
+	                     if(status=='timeout'){ //超时,status还有success,error等值的情况
 	    	          	  Modal.alert(
 	    				  {
 	    				    msg:"抱歉，系统处理超时。"
 	    				  }); 
 	    		                } 
-	    		            } , 
+	    		            } ,   
 				success : function(data) {   
 						/*if(data.message){
 							alert(data.message);
@@ -267,14 +272,6 @@
 				}
 			});*/
 		}
-		
-		//添加主银行和支行
-		$(document).ready(function() {
-			getParentBank($("#bank_type"),$("#finOrgCode"),"${mortage.finOrgCode}");
-			$("#bank_type").change(function(){
-		    	getBranchBankList($("#finOrgCode"),$("#bank_type").val());
-		    });
-		});
 		
 		function fCheck(){
 			if(''==$("#finOrgCode").val()){
