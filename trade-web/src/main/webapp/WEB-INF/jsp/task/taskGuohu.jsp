@@ -93,14 +93,14 @@
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<div class="form-group" id="data_1">
+ 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">实际过户时间<font color="red">*</font></label>
 						<div class="input-group date readOnly_date">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="realHtTime"
 									name="realHtTime" value="<fmt:formatDate  value='${houseTransfer.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 						</div>
-					</div>
+					</div> 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">房产税<font color="red">*</font></label>
 						<div class="col-sm-10 input-group">
@@ -481,15 +481,15 @@
 			        },
 	
 		});
-	
-				$('#data_1 .input-group.date').datepicker({
-					todayBtn : "linked",
-					keyboardNavigation : false,
-					forceParse : false,
-					calendarWeeks : true,
-					autoclose : true
-				});
-				
+			/**日期组件*/
+			$('#data_1 .input-group.date').datepicker({
+				todayBtn : "linked",
+				keyboardNavigation : false,
+				forceParse : false,
+				calendarWeeks : false,
+				autoclose : true
+			});	
+			
 				//GuoHuApproveList.init('${ctx}','/quickGrid/findPage','approve_list','approve_pager');
 				var ctx = "${ctx}";
 				var taskitem = "${taskitem}";
