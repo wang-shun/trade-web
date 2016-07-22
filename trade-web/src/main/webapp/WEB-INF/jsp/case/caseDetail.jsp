@@ -114,17 +114,21 @@
 										<dl class="dl-horizontal col-sm-6">
 											<dt>上家姓名</dt>
 											<dd>
-												<a class="hint hint-top1" data-hint="${caseDetailVO.sellerMobile}">
-													<p class="bb" id="sellerNames"></p>
-												</a>
+                            					<div class="tooltip-demo">
+                            						<p id="sellers" style="width:93px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" data-toggle="tooltip" data-placement="top" title="">
+                            							${caseDetailVO.sellerName}
+                            						</p>
+                            					</div>
 											</dd>
 										</dl>
 										<dl class="dl-horizontal col-sm-6">
 											<dt>下家姓名</dt>
 											<dd>
-												<a class="hint hint-top1" data-hint="${caseDetailVO.buyerMobile}">
-													<p class="bb" id="buyerNames"></p>
-												</a>
+                            					<div class="tooltip-demo">
+                            						<p id="buyers"  style="width:93px;white-space:nowrap;overflow: hidden;text-overflow:ellipsis;" data-toggle="tooltip" data-placement="top" title="">
+                            							${caseDetailVO.buyerName}
+                            						</p>												
+												</div>
 											</dd>
 										</dl>
 									</div>
@@ -136,6 +140,11 @@
 												<a class="hint hint-top" data-hint="${toCaseInfo.agentPhone}">
 													${caseDetailVO.agentName}
 												</a>
+<%--                             					<div class="tooltip-demo">
+                            						<p data-toggle="tooltip" data-placement="top" title="${toCaseInfo.agentPhone}">
+                            							${caseDetailVO.agentName}
+                            						</p>
+                            					</div>	 --%>											
 											</dd>
 											<dt>所属分行</dt>
 											<dd>${toCaseInfo.grpName }</dd>
@@ -918,9 +927,8 @@
 		</div>
 	</div>
 	</div>
-
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> <!-- Peity --> 
+	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
 		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
@@ -928,22 +936,28 @@
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
 		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
 	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script> <script
 		src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> <!-- 校验 -->
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/stickUp.js"></script> <script
-		src="${ctx}/toastr.min.js"></script> <!-- 放款监管信息  --> <script
+	<script src="${ctx}/js/stickUp.js"></script> 
+	<script src="${ctx}/toastr.min.js"></script> <!-- 放款监管信息  --> <script
 		src="${ctx}/transjs/task/caseflowlist.js"></script> <script
 		type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> <script
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <!-- 各个环节的备注信息  -->
-	<script src="${ctx}/js/trunk/case/caseRemark.js"></script> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script>
+		src="${ctx}/js/trunk/comment/caseComment.js"></script>
+		<script src="${ctx}/js/inspinia.js"></script> 
+<%-- 		<script src="${ctx}/html/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="${ctx}/html/js/plugins/slimscroll/jquery.slimscroll.min.js"></script> --%>
+		<!-- 各个环节的备注信息  -->
+	<script src="${ctx}/js/trunk/case/caseRemark.js"></script> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+	<script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";
@@ -1101,10 +1115,25 @@
 	        	}
 	        }
 			
-			var buyerNames="${caseDetailVO.buyerName}";
-			var sellerNames="${caseDetailVO.sellerName}"
-			$('#buyerNames').text(buyerNames.length>7?buyerNames.substring(0,6)+'...':buyerNames);
-			$('#sellerNames').text(sellerNames.length>7?sellerNames.substring(0,6)+'...':sellerNames);
+		   var sellerPhone = '${caseDetailVO.sellerMobile}';	
+ 	       var sellersPhones = sellerPhone.split('/');
+ 	       if(sellersPhones.length>0){
+ 	    	  sellerPhone='';
+ 	    	   for(var i=0; i<sellersPhones.length; i++){
+ 	    		  sellerPhone+=sellersPhones[i]+' ';
+ 	    	   }
+ 	       }
+ 	      $('#sellers').attr('title',sellerPhone.substring(0,sellerPhone.length));
+ 	      
+		   var buyerPhone = '${caseDetailVO.buyerMobile}';	
+ 	       var buyersPhones = sellerPhone.split('/');
+ 	       if(buyersPhones.length>0){
+ 	    	  buyerPhone='';
+ 	    	   for(var i=0; i<buyersPhones.length; i++){
+ 	    		  buyerPhone+=buyersPhones[i]+' ';
+ 	    	   }
+ 	       }
+ 	      $('#buyers').attr('title',buyerPhone.substring(0,buyerPhone.length));
 		})
 		//监听滚动事件
         jQuery(function($) {
