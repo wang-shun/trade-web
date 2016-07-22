@@ -24,6 +24,7 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.MessageService;
+import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ExecuteAction;
@@ -71,6 +72,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	MessageService messageService;
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
+	@Autowired(required = true)
+	private PropertyUtilsService propertyUtilsService;
 	
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
@@ -143,7 +146,11 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	public void loanRequirementChange(MortgageSelecteVo vo) {
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
 		// 如果是新流程图
-		if(workF!=null && workF.getProcessDefinitionId().equals(WorkFlowEnum.OPERATION_PROCESS.getCode())) {
+		boolean isNewFlow = false;
+		if(workF!=null &&"operation_process:34:620096".compareTo(workF.getProcessDefinitionId())<=0){
+			isNewFlow=true;
+		}
+		if(isNewFlow) {
 			doBusiness(vo);
 			
 			String mortType = vo.getMortageService();
@@ -154,12 +161,21 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			ProcessInstance processIns = new ProcessInstance();
 			wf.setCaseCode(vo.getCaseCode());
 			if(mortType.equals(ConstantsUtil.NO_LOAN)) {
-				// 删除所有的贷款流程
-				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送边界消息
 				List<RestVariable> variables = new ArrayList<RestVariable>();
 				editRestVariables(variables, vo.getMortageService());
 				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);
+				ActRuEventSubScr event = new ActRuEventSubScr();
+				event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
+				event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+				event.setProcInstId(vo.getProcessInstanceId());
+				event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+				List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
+				if (CollectionUtils.isEmpty(subScrsList)) {
+					throw new BusinessException("当前流程下不允许变更贷款需求！");
+				}
+				// 删除所有的贷款流程
+				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
 				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 				// 设置主流程任务的assignee
@@ -168,13 +184,13 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				return;
 			} else if(mortType.equals(ConstantsUtil.COM_LOAN)) {
 				wf.setBusinessKey(WorkFlowEnum.COMLOAN_PROCESS.getName());
-				processIns.setProcessDefinitionId(WorkFlowEnum.COMLOAN_PROCESS.getCode());
+				processIns.setProcessDefinitionId(propertyUtilsService.getProcessDfId("ComLoan_Process"));
 			} else if(mortType.equals(ConstantsUtil.PSF_LOAN)) {
 				wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
-				processIns.setProcessDefinitionId(WorkFlowEnum.PSFLOAN_PROCESS.getCode());
+				processIns.setProcessDefinitionId(propertyUtilsService.getProcessDfId("PSFLoan_Process"));
 			} else {
 				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
-				processIns.setProcessDefinitionId(WorkFlowEnum.LOANLOST_PROCESS.getCode());
+				processIns.setProcessDefinitionId(propertyUtilsService.getProcessDfId("LoanLost_Process"));
 			}
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {
