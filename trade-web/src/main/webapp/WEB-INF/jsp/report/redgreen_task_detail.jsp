@@ -115,11 +115,11 @@ text-decoration: underline !important;
 									               <span class="label ">全部</span>
 									</label> 
 									<label> 
-									    <input type="radio" value="1" id="lamp1" name="lampRadios"/> 
+									    <input type="radio" value="0" id="lamp1" name="lampRadios"/> 
 									    <span class="label label-danger">红灯${Lamp[2]}</span>
 									</label>
 									<label> 
-									       <input type="radio" value="0" id="lamp2" name="lampRadios">
+									       <input type="radio" value="1" id="lamp2" name="lampRadios">
 									       <span class="label label-warning">黄灯${Lamp[1]}</span>
 									</label>
 							   </div>

@@ -23,29 +23,37 @@
 						sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
 						sum(case when status='30001003' then 1 else 0 end) as qianyue ,
 						sum(case when status='30001004' then 1 else 0 end) as guohu,
+						sum(case when status='30001005' then 1 else 0 end) as jiean,
 						DatePart(mm, c.CREATE_TIME) month,
 						DatePart(yyyy, c.CREATE_TIME) years
-					from sctrans.T_TO_CASE c
-					inner join sctrans.t_yucui_org_hierarchy oh on c.ORG_ID = oh.ORG_ID
-					where  c.STATUS!='30003001' and  c.STATUS!='30003005' 
-                        <if test="orgID != null and orgID != '' ">
-                			and c.ORG_ID=#orgID#
+					from sctrans.T_TO_CASE c 
+					<if test="serviceDepHierarchy == 'yucui_district'">
+					left join sctrans.sys_org org on org.id = c.org_id 
+					</if>
+					where  c.STATUS!='30003001' and  c.STATUS!='30003005' and c.CREATE_TIME>=#startDate# 
+                        <if test="serviceJobCode == 'consultant' ">
+                			and c.LEADING_PROCESS_ID = #sessionUserId#
                 		</if>
-                		 <if test="itemId != null and itemId != '' ">
-                			and c.LEADING_PROCESS_ID=#itemId#
+                		<if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+                			and c.org_id =#serviceDepId#
                 		</if>
-                		<if test="districtId != null  and districtId != '' ">
-						     and  oh.DISTRICT_ID = #districtId#
-						</if>
+                		<if test="serviceDepHierarchy == 'BUSIGRP'">
+                			and c.org_id =#serviceDepId#
+                		</if>
+                		<if test="serviceDepHierarchy == 'yucui_district'">
+                			and org.parent_id =#serviceDepId#
+                		</if>
 						GROUP BY DatePart(mm, c.CREATE_TIME),DatePart(yyyy, c.CREATE_TIME)	
 				]]>
 			</baseSql>
+			ORDER BY  DatePart(mm, c.CREATE_TIME) 
 		</searchSql>
 		<grid>
 			<table-row>
 				<column name="jiedan"   />
 				<column name="qianyue"   />
 				<column name="guohu"   />
+				<column name="jiean"   />
 			    <column name="years"   />
 				<column name="month"   />
 			</table-row>

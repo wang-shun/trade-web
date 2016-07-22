@@ -104,6 +104,8 @@
 	<input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
 	<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 	<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
+	<!-- 临时银行审批 -->
+	<input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
 	<div class="row wrapper border-bottom white-bg page-heading">
 		<div class="col-lg-10">
 			<h2>商贷审批</h2>
@@ -797,7 +799,8 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank">是
+										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank">是
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="tmpBankRejectReason" style="color:red"></span>
 										<!-- <input type="button" class="btn btn-primary btn-xm btn-activity" onclick="javascript:startWorkFlow()" value="启动流程" > -->
 									</div>    
 									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>

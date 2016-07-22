@@ -67,9 +67,10 @@
 							ASSIGNEE_ AS ASSIGNEE,
 							START_TIME_ AS START_TIME,
 							END_TIME_ AS END_TIME,
+							DELETE_REASON_ AS DELETE_REASON,
 							(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG,
-							(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
-							(SELECT TOP 1 DISTRICT_ID FROM sctrans.t_yucui_org_hierarchy WHERE ORG_ID=(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant'))AS DISTRICT
+							(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
+							(SELECT TOP 1 DISTRICT_ID FROM sctrans.t_yucui_org_hierarchy WHERE ORG_ID=(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant')) AS DISTRICT
 						FROM 
 							sctrans.ACT_HI_TASKINST
 						)historytask
@@ -95,6 +96,8 @@
 						SYSUSER.ID = ci.AGENT_CODE
 					WHERE
 						historytask.END_TIME IS NOT NULL
+					AND historytask.DELETE_REASON = 'completed'
+					    
 					<ifNotNull taskName>	
 						AND TASK_DEF_KEY= #taskName#
 					</ifNotNull>

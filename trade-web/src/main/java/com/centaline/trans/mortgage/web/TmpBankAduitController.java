@@ -105,7 +105,6 @@ public class TmpBankAduitController {
 	ProcessInstance process = new ProcessInstance(
 			propertyUtilsService.getProcessTmpBankAuditDfKey(), caseCode, variables);
 	StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, manager.getUsername(),caseCode);
-
 	//插入工作流表
 	ToWorkFlow toWorkFlow = new ToWorkFlow();
 	toWorkFlow.setBusinessKey(caseCode);
@@ -173,6 +172,7 @@ public class TmpBankAduitController {
 			mortageDb.setTmpBankUpdateBy(user.getId());
 			mortageDb.setTmpBankUpdateTime(new Date());
 			if(!isManagerApprove){
+				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}
 			toMortgageService.updateToMortgage(mortageDb);	
@@ -193,6 +193,7 @@ public class TmpBankAduitController {
 			mortageDb.setTmpBankUpdateBy(user.getId());
 			mortageDb.setTmpBankUpdateTime(new Date());
 			if(!isSeniorManagerApprove ){
+				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}
 			toMortgageService.updateToMortgage(mortageDb);	
@@ -209,6 +210,7 @@ public class TmpBankAduitController {
 			mortageDb.setTmpBankUpdateBy(user.getId());
 			mortageDb.setTmpBankUpdateTime(new Date());
 			if("false".equals(tmpBankCheck)){
+				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else if("true".equals(tmpBankCheck)){
 				mortageDb.setTmpBankStatus("1");
