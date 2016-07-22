@@ -239,7 +239,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			DELETE_REASON_ AS DELETE_REASON,
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
@@ -266,6 +267,7 @@ from (
 		SYSUSER.ID = ci.AGENT_CODE	
 	WHERE
 		historyTask.END_TIME IS NOT NULL
+	AND historytask.DELETE_REASON = 'completed'	
 	AND historyTask.TASK_DEF_KEY='TransSign'
 	<if test="userId != null">
 	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
@@ -317,7 +319,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			DELETE_REASON_ AS DELETE_REASON,
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
@@ -344,6 +347,7 @@ from (
 		SYSUSER.ID = ci.AGENT_CODE			
 	WHERE
 		historyTask.END_TIME IS NOT NULL
+	AND historytask.DELETE_REASON = 'completed'
 	AND historyTask.TASK_DEF_KEY='ComLoanProcess'
 	<if test="userId != null">
 	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
@@ -372,7 +376,8 @@ from (
 			ASSIGNEE_ AS ASSIGNEE,
 			START_TIME_ AS START_TIME,
 			END_TIME_ AS END_TIME,
-			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS consultant,
+			DELETE_REASON_ AS DELETE_REASON,
+			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
 			sctrans.ACT_HI_TASKINST
@@ -399,6 +404,7 @@ from (
 		SYSUSER.ID = ci.AGENT_CODE			
 	WHERE
 		historyTask.END_TIME IS NOT NULL
+	AND historytask.DELETE_REASON = 'completed'
 	AND historyTask.TASK_DEF_KEY='CaseClose'
 	<if test="userId != null">
 	AND #{userId,jdbcType=DECIMAL} = historyTask.consultant
