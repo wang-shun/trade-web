@@ -38,10 +38,10 @@ function reloadStatus() {
         	var xAxis = [];
         	$.each(all, function(i,item){
     			xAxis.push(item.month+"月");
-    			jiedan[i-1]=(item.jiedan);
-    			qianyue[i-1]=(item.qianyue);
-    			guohu[i-1]=(item.guohu);
-    			jiean[i-1]=(item.jiean);
+    			jiedan.push(item.jiedan);
+    			qianyue.push(item.qianyue);
+    			guohu.push(item.guohu);
+    			jiean.push(item.jiean);
         	});   
         	StatusEchart(jiedan,qianyue,guohu,jiean,xAxis);
         },
