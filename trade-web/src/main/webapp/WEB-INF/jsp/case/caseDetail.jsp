@@ -1111,7 +1111,7 @@
  			var str='';
  			for (var i=0; i<nameArr.length; i++) {
  				if(i%2==0){
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;&nbsp;';
+ 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;';
  				}else{
  					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
  				}
