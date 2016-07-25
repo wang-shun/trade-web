@@ -110,4 +110,8 @@ public interface WorkFlowManager {
 	 */
 	void  setAssginee(String processInstanceId, String caseowner,String caseCode);
 	
+	/***
+	 *  为流程设置变量
+	 */
+	RestVariable setVariableByProcessInsId(String processInstanceId,String variableName,RestVariable restVariable);
 }
