@@ -9,6 +9,7 @@
 	<modules>
 		<module>trade-core</module>
 		<module>trade-web</module>
+		<module>trade-service</module>
 	</modules>
 	
 	<scm>
