@@ -85,7 +85,7 @@
     </div>
  
 </div>
-    	<!-- 左侧菜单栏 -->
+    	<!-- 左侧菜单栏 01-->
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
@@ -131,16 +131,17 @@
 								<c:choose><c:when test='${l1_menu.type=="MEN"}'><a href="${ctx}${l1_menu.url}"><i class="fa ${l1_menu.icon}"></i> <span class="nav-label">${l1_menu.menuName }</span> <span class="fa arrow"></span></a></c:when>
 								<c:otherwise><a href="#"><i class="fa ${l1_menu.icon}"></i> <span class="nav-label">${l1_menu.menuName }</span><span class="fa arrow"></span></a></c:otherwise>
 								</c:choose> 
-								<c:choose><c:when test='${l1_menu.type=="MDL"}'>
-									<ul class="nav nav-second-level">
-										<c:forEach items="${l1_menu.children}" var="l2_menu" >
-										<c:if test='${not empty l2_menu.resource.resourceCode}'>
-												<li><a href="${ctx}${l2_menu.url}?<%=new Date().getTime() %>"><i class="fa ${l2_menu.icon}"></i>
-												${l2_menu.menuName}</a></li>
-										</c:if>
-										</c:forEach>
-									</ul>
-							</c:when>
+								<c:choose>
+									<c:when test='${l1_menu.type=="MDL"}'>
+										<ul class="nav nav-second-level">
+											<c:forEach items="${l1_menu.children}" var="l2_menu" >
+											<c:if test='${not empty l2_menu.resource.resourceCode}'>
+													<li><a href="${ctx}${l2_menu.url}?<%=new Date().getTime() %>"><i class="fa ${l2_menu.icon}"></i>
+													${l2_menu.menuName}</a></li>
+											</c:if>
+											</c:forEach>
+										</ul>
+									</c:when>
 							</c:choose>
 						</li>
 					</c:forEach>
@@ -211,6 +212,31 @@
 	  	orgJob.getOrgJob();	
 		message.getMessage();
 		setInterval(message.getMessage,1000*60*5);
+		
+		
+		$(function() { 
+			var side_menu = $("#side-menu");
+			var aList = side_menu.find("a");
+			var winHref = window.location.href;
+			
+			var winHrefEnd = winHref.indexOf("?");
+			winHref = winHrefEnd < 0 ? winHref : winHref.substring(0,winHrefEnd );
+			var i = 0;
+			aList.each(function(){
+				var aHref = $(this).attr("href");
+				var end = aHref.indexOf("?");
+				var liHref = end <0 ? aHref : aHref.substring(0,end);
+			    if( liHref == winHref ){
+			    	var li = $(this).parent();
+			    	li.attr("class","active");
+			    	
+			    	var ul = $(this).parent().parent();
+			    	if(ul.attr("id") != "side-menu" ){
+			    		$(this).parent().parent().attr("class","nav nav-second-level collapse in");
+			    	}
+			    }
+			});
+		});
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
     <script>
