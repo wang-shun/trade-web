@@ -799,7 +799,7 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank">是
+										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank" ${disabled_ }>是
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="tmpBankRejectReason" style="color:red"></span>
 										<!-- <input type="button" class="btn btn-primary btn-xm btn-activity" onclick="javascript:startWorkFlow()" value="启动流程" > -->
 									</div>    
@@ -828,7 +828,7 @@
 										<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
 										<div class="col-md-4" style="height:38px">
 											<select  name="finOrgCode" class="form-control"
-																	id="finOrgCode"  >
+																	id="finOrgCode" >
 
 											</select>
 											
