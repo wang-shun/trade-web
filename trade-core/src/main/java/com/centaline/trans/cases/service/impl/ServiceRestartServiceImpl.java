@@ -23,6 +23,7 @@ import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
@@ -54,6 +55,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
+	@Autowired
+	private ToWorkFlowMapper toWorkFlowMapper;
 	@Override
 	@Transactional(readOnly=false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
@@ -170,6 +173,41 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
 		wf.setInstCode(spi.getId());
 		toWorkFlowService.insertSelective(wf);
+	}
+	@Override
+	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
+		ToWorkFlow wf=new ToWorkFlow();
+		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+		wf.setCaseCode(vo.getCaseCode());
+		ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if(sameOne!=null){
+			throw new BusinessException("褰撳墠閲嶅惎娴佺▼灏氭湭缁撴潫锛�");
+		}
+		deleteMortFlowByCaseCode(vo.getCaseCode());
+		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
+		StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
+		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+		wf.setCaseCode(vo.getCaseCode());
+		wf.setProcessOwner(vo.getUserId());
+		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
+		wf.setInstCode(spv.getId());
+		toWorkFlowService.insertSelective(wf);
+		return spv;
+	}
+	
+	/****
+	 *  删除该案件下的所有贷款类型
+	 * 
+	 * 
+	 */
+	private void deleteMortFlowByCaseCode(String caseCode) {
+		ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setCaseCode(caseCode);
+		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper.getMortToWorkFlowByCaseCode(workFlow);
+		for(ToWorkFlow workFlowDB : wordkFlowDBList) {
+			workFlowManager.deleteProcess(workFlowDB.getInstCode());
+			toWorkFlowMapper.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
+		}
 	}
 
 }

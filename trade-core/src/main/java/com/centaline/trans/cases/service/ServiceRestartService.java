@@ -8,4 +8,6 @@ public interface ServiceRestartService {
 	boolean apply(ServiceRestartVo vo);
 	boolean approve(ServiceRestartVo vo);
 	
+	StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo);
+	
 }
