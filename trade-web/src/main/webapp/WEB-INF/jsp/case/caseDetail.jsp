@@ -200,7 +200,7 @@
 				<div class="panel " id="serviceFlow">
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#settings" data-toggle="tab">操作纪录</a>
+							<li class="active"><a href="#settings" data-toggle="tab">操作记录</a>
 							</li>
 							<li class=""><a href="#profile" data-toggle="tab">案件基本操作</a>
 							</li>
