@@ -239,6 +239,7 @@
 					</ifNotNull>
 					<choose>
 						<when test	="mortageType==0">
+						  and B.STATUS != '30001001'
 					      AND NOT EXISTS (
 					     SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND CASE_CODE = B.CASE_CODE
 							 )

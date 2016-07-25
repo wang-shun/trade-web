@@ -197,6 +197,12 @@ margin-left:15px;}
     border:none;
     background-color:#f4f4f4;
 }
+.bb{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:77px;
+}
 .btnx1{width:120px; margin-left:146px;}
 .btnx2{width:120px; margin-left:10px;}
 .case_time {
@@ -382,7 +388,7 @@ margin-left:15px;}
 						{{item.CONSULTANT_NAME}}
 					</a>
 				</td>
-				<td>上家: {{item.SELLER}}</td>
+				<td><a class="hint hint-left" data-hint="上家: {{item.SELLER}}"><p class="bb"><span style="color:#333">上家:</span>{{item.SELLER}}</p></a></td>
 			</tr>
         {{else}}
             <tr class="tr-2">
@@ -395,11 +401,11 @@ margin-left:15px;}
 				<td>{{item.PROPERTY_ADDR}}</td>
 				<td><i class="sl-lable">始</i>{{item.START_TIME}}</td>
 				<td rowspan="2" class="pl10">
-					<a class="hint  hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}}">
+					<a class="hint hint-left" data-hint="电话: {{item.CONSULTANT_TEL}}  所属组织: {{item.YUCUI_ORG_ID}}">
 						{{item.CONSULTANT_NAME}}
 					</a>
 				</td>
-				<td>上家: {{item.SELLER}}</td>
+				<td><a class="hint hint-left" data-hint="上家: {{item.SELLER}}"><p class="bb"><span style="color:#333">上家:</span>{{item.SELLER}}</p></a></td>
 			</tr>
         {{/if}}
 
@@ -416,7 +422,7 @@ margin-left:15px;}
 					</a>
 				</td>
 				<td><i class="sl-lable">完</i>{{item.END_TIME}}</td>
-				<td>下家: {{item.BUYER}}</td>
+				<td><a class="hint hint-left" data-hint="下家: {{item.BUYER}}"><p class="bb"><span style="color:#333">下家:</span>{{item.BUYER}}</p></a></td>
 			</tr>
        {{/each}}		
 	</script> 

@@ -622,15 +622,14 @@
 		
 		/**提交数据*/
 		function submit() {
-
-		if ($("#optionsRadios2").checked == true) {
+		if ($('#optionsRadios2:checked').val() == "30003001") {
 				if ($('input[name=invalid_reason]').val() == '') {
 					alert("无效案件必须填写失效原因!");
-					return;
 					$('input[name=invalid_reason]').focus();
 					return;
 				}
 			}
+		
 			save(true);
 		}
 

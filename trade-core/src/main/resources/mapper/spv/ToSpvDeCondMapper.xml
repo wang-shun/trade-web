@@ -5,11 +5,12 @@
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
     <result column="DE_AMOUNT" property="deAmount" jdbcType="DECIMAL" />
+  
     <result column="DE_PRE_TIME" property="dePreTime" jdbcType="TIMESTAMP" />
     
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.spv.entity.ToSpvDeCond" extends="BaseResultMap" >
-    <result column="DE_CONDITION" property="deCondition" jdbcType="LONGVARCHAR" />
+    <result column="DE_CONDITION" property="deCondition" jdbcType="NVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, SPV_CODE, DE_AMOUNT,DE_PRE_TIME
@@ -33,7 +34,7 @@
     insert into sctrans.T_TO_SPV_DE_COND (SPV_CODE, DE_AMOUNT, 
       DE_CONDITION,DE_PRE_TIME)
     values (#{spvCode,jdbcType=VARCHAR}, #{deAmount,jdbcType=DECIMAL}, 
-      #{deCondition,jdbcType=LONGVARCHAR},#{dePreTime,jdbcType=TIMESTAMP})
+      #{deCondition,jdbcType=NVARCHAR},#{dePreTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeCond" >
     insert into sctrans.T_TO_SPV_DE_COND
@@ -59,7 +60,7 @@
         #{deAmount,jdbcType=DECIMAL},
       </if>
       <if test="deCondition != null" >
-        #{deCondition,jdbcType=LONGVARCHAR},
+        #{deCondition,jdbcType=NVARCHAR},
       </if>
       <if test="dePreTime != null" >
         #{dePreTime,jdbcType=TIMESTAMP},
@@ -76,7 +77,7 @@
         DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
       </if>
       <if test="deCondition != null" >
-        DE_CONDITION = #{deCondition,jdbcType=LONGVARCHAR},
+        DE_CONDITION = #{deCondition,jdbcType=NVARCHAR},
       </if>
       <if test="dePreTime != null" >
         DE_PRE_TIME = #{dePreTime,jdbcType=TIMESTAMP},
@@ -88,7 +89,7 @@
     update sctrans.T_TO_SPV_DE_COND
     set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
       DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
-      DE_CONDITION = #{deCondition,jdbcType=LONGVARCHAR},
+      DE_CONDITION = #{deCondition,jdbcType=NVARCHAR},
       DE_PRE_TIME = #{dePreTime,jdbcType=TIMESTAMP},
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>

@@ -27,6 +27,8 @@ import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
 
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -62,6 +64,9 @@ public class CaseChangeController {
 	private UamBasedataService uamBasedataService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 
@@ -164,13 +169,13 @@ public class CaseChangeController {
 		
 		int updatecoope=0;
 		TgServItemAndProcessor pro=null;
-		List<TaskVo>tasks=null;
-		if(processorIdList!=null&&!processorIdList.isEmpty()){
+		List<TaskVo>tasks=new ArrayList<TaskVo>();
+		/*if(processorIdList!=null&&!processorIdList.isEmpty()){
 			TaskQuery tq=new TaskQuery();
 			tq.setProcessInstanceId(instCode);
 			tq.setFinished(false);
 			tasks=workFlowManager.listTasks(tq).getData();
-		}
+		}*/
 		
 		for (int i=0; i<processorIdList.size(); i++) {
 			String caseCode=caseCodeList.get(i);
@@ -186,9 +191,18 @@ public class CaseChangeController {
 			pro.setOrgId(orgId);
 			TgServItemAndProcessor proDb=tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 			updatecoope=tgservItemAndProcessorService.updateCoope(pro);
+			
+			// 查询该案件下的所有任务
+			List<String> insCodeList = toWorkFlowService.queryInstCodesByCaseCode(caseCode);
+			for(String insCode : insCodeList) {
+				TaskQuery tq = new TaskQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(false);
+				
+				List<TaskVo> taskList1 = workFlowManager.listTasks(tq).getData();
+				tasks.addAll(taskList1);
+			}
 			updateWorkflow(srvCode,processorId,tasks,proDb.getProcessorId(),caseCode);
-			
-			
 		}
 		
 		if(updatecoope>0){

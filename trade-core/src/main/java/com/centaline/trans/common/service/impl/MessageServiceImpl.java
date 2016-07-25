@@ -8,6 +8,7 @@ import com.centaline.trans.common.enums.EventTypeEnum;
 import com.centaline.trans.common.enums.MessageEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.engine.bean.ExecuteAction;
+import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
@@ -61,6 +62,22 @@ public class MessageServiceImpl implements MessageService {
 				workFlowManager.executeAction(action);
 			}
 		}
+	}
+
+	@Override
+	public void sendMortgageSelectMsgByBoudary(String instanceId, List<RestVariable> variables) {
+		ActRuEventSubScr event = new ActRuEventSubScr();
+		event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
+		event.setEventName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
+		event.setProcInstId(instanceId);
+		event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
+		
+		ExecuteAction action = new ExecuteAction();
+		action.setAction(EventTypeEnum.TRADEBOUNDARYMSG.getEventType());
+		action.setMessageName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
+		action.setVariables(variables);
+		
+		sendMessage(event,action);
 	}
 	
 }
