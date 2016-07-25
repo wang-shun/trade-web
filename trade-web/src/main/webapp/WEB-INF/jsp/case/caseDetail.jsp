@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@  taglib  uri="http://java.sun.com/jsp/jstl/functions"   prefix="fn"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
+
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -36,6 +40,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
 <link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -78,7 +83,6 @@
 	<div class="wrapper wrapper-content">
 		<div class="row animated fadeInDown">
 			<div class="scroll_box fadeInDown animated">
-
 				<div class="top12 panel" id="basicInfo">
 					<div class="panel-body">
 						<div class="ibox-content-head">
@@ -114,17 +118,13 @@
 										<dl class="dl-horizontal col-sm-6">
 											<dt>上家姓名</dt>
 											<dd>
-												<a class="hint hint-top1" data-hint="${caseDetailVO.sellerMobile}">
-													<p class="bb" id="sellerNames"></p>
-												</a>
+												<div id="seller"></div>
 											</dd>
 										</dl>
 										<dl class="dl-horizontal col-sm-6">
 											<dt>下家姓名</dt>
 											<dd>
-												<a class="hint hint-top1" data-hint="${caseDetailVO.buyerMobile}">
-													<p class="bb" id="buyerNames"></p>
-												</a>
+												<div id="buyer"></div>
 											</dd>
 										</dl>
 									</div>
@@ -133,17 +133,17 @@
 										<dl class="dl-horizontal">
 											<dt>姓名</dt>
 											<dd>
-												<a class="hint hint-top" data-hint="${toCaseInfo.agentPhone}">
-													${caseDetailVO.agentName}
-												</a>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${toCaseInfo.agentPhone}">
+													${caseDetailVO.agentName}</a>
 											</dd>
 											<dt>所属分行</dt>
 											<dd>${toCaseInfo.grpName }</dd>
 											<dt>直管经理</dt>
 											<dd>
-												<a class="hint hint-top" data-hint="${caseDetailVO.mcMobile}">
-													${caseDetailVO.mcName} 
-												</a>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.mcMobile}">
+													${caseDetailVO.mcName} </a>
 											</dd>
 										</dl>
 									</div>
@@ -154,9 +154,9 @@
 										<dl class="dl-horizontal">
 											<dt>交易顾问</dt>
 											<dd>
-												<a class="hint hint-top" data-hint="${caseDetailVO.cpMobile}">
-													${caseDetailVO.cpName}
-												</a>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.cpMobile}">
+													${caseDetailVO.cpName} </a>
 											</dd>
 											<c:if test="${empty caseDetailVO.proList}">
 												<dt>合作顾问</dt>
@@ -166,17 +166,17 @@
 												<c:forEach items="${caseDetailVO.proList}" var="pro">
 													<dt>合作顾问</dt>
 													<dd>
-														<a class="hint hint-top" data-hint="${pro.processorMobile}">
-															${pro.processorName} 
-														</a>
+														<a data-toggle="popover" data-placement="right"
+															data-content="${pro.processorMobile}">
+															${pro.processorName} </a>
 													</dd>
 												</c:forEach>
 											</c:if>
 											<dt>助理</dt>
 											<dd>
-												<a class="hint hint-top" data-hint="${caseDetailVO.asMobile}">
-													${caseDetailVO.asName} 
-												</a>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.asMobile}">
+													${caseDetailVO.asName} </a>
 											</dd>
 										</dl>
 									</div>
@@ -187,7 +187,6 @@
 					</div>
 				</div>
 				<!-- 服务流程 -->
-
 				<div class="panel " id="serviceFlow">
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
@@ -202,10 +201,8 @@
 
 						<div class="tab-content">
 
-
 							<div class="tab-pane active fade in" id="settings">
 								<div class="jqGrid_wrapper row">
-
 									<table id="operation_history_table"></table>
 									<div id="operation_history_pager"></div>
 								</div>
@@ -616,12 +613,11 @@
 										<iframe frameborder="no" border="0" marginwidth="0"
 											marginheight="0" scrolling="auto" allowtransparency="yes"
 											overflow:auto;
-												style="height: 650px; width: 100%;"
+												style="height: 1068px; width: 100%;"
 											src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 									</c:if>
 								</c:if>
 							</div>
-
 							<div class="tab-pane fade" id="home">
 								<table id="caseCommenTable"></table>
 								<div id="caseCommenPager"></div>
@@ -633,7 +629,7 @@
 
 				<!-- 相关信息 -->
 				<div class="panel " id="aboutInfo" style="min-height: 800px;">
-					<a style="float: right; margin-right: 12px; margin-top: 12px"
+					<a style="float: right; margin-right: 12px; margin-top: 10px;"
 						href="javascript:showChangeFormModal();">我要修改</a>
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
@@ -649,7 +645,7 @@
 							</li>
 							<li class=""><a href="#ctm_info" data-toggle="tab">ctm附件</a>
 							</li>
-							<li class=""><a href="#caseComment-info" data-toggle="tab">案件跟进内容</a>
+							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
 							</li>
 						</ul>
 
@@ -960,6 +956,8 @@
 		</shiro:hasPermission>
 		var isNewFlow =${isNewFlow}; 
 		var isCaseManager=${isCaseManager};
+	      $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
+ 	      $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,
@@ -1073,22 +1071,25 @@
 			/*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
 			window.open(encodeURI(encodeURI(url)));*/
 		}
-			
-		var caseCode = $('#caseCode').val();
+
+		//加载页面获取屏幕高度
  		$(function(){
- 			//备注信息
- 			$("#caseCommentList").caseCommentGrid({
- 				caseCode : caseCode,
- 				srvCode : null
- 			});
-			//点击任何位置隐藏电话号码
-	        $("body").bind("click",function(evt){
-              if($(evt.target).attr("data-toggle")!='popover') 
-                {
-               	$('a[data-toggle="popover"]').popover('hide');
-               	}
-            });
-			//隐藏头部信息
+ 			
+			var caseCode = $('#caseCode').val();
+		
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : null
+			});
+/* 	        var h= window.screen.availHeight;
+			$("#scroll").css("height",h-h*0.32); */ 
+			  //点击浏览器任何位置隐藏提示信息
+		      $("body").bind("click",function(evt){
+	              if($(evt.target).attr("data-toggle")!='popover'){
+	             	$('a[data-toggle="popover"]').popover('hide');
+	              }
+	          });
+	    	//隐藏头部信息
  	        window.onscroll = function(){ 
 	        	if(document.body.scrollTop>62){
 	        		$("#isFixed").css("position","fixed");
@@ -1100,13 +1101,24 @@
 	        		
 	        	}
 	        }
-			
-			var buyerNames="${caseDetailVO.buyerName}";
-			var sellerNames="${caseDetailVO.sellerName}"
-			$('#buyerNames').text(buyerNames.length>7?buyerNames.substring(0,6)+'...':buyerNames);
-			$('#sellerNames').text(sellerNames.length>7?sellerNames.substring(0,6)+'...':sellerNames);
-		})
-		//监听滚动事件
+
+		});
+		
+		/*动态生成上下家*/
+		function generateSellerAndBuyer(name, phone){
+ 			var nameArr = name.split('/');
+ 			var phoneArr = phone.split('/');
+ 			var str='';
+ 			for (var i=0; i<nameArr.length; i++) {
+ 				if(i%2==0){
+ 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;&nbsp;';
+ 				}else{
+ 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
+ 				}
+ 			}
+ 			return str;
+ 		}
+		
         jQuery(function($) {
             $(document).ready( function() {
                $('.stickup-nav-bar').stickUp({
@@ -1121,8 +1133,12 @@
                                     marginTop: 'auto'
                                   });
 
+           
+
             });
         });
+	       
 	</script> </content>
 </body>
 </html>
+
