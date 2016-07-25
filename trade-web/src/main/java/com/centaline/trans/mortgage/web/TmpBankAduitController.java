@@ -107,7 +107,7 @@ public class TmpBankAduitController {
 
 	//启动 
 	ProcessInstance process = new ProcessInstance(
-			propertyUtilsService.getProcessTmpBankAuditDfKey(), "TempBankAudit_Process", variables);
+			propertyUtilsService.getProcessTmpBankAuditDfKey(), caseCode, variables);
 	StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, manager.getUsername(),caseCode);
 	//插入工作流表
 	ToWorkFlow toWorkFlow = new ToWorkFlow();
