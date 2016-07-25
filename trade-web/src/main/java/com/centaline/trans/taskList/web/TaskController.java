@@ -304,6 +304,8 @@ public class TaskController {
         		request.setAttribute("evaCode", "");
     		}
     		
+    		request.setAttribute("readonly_", "readonly='readonly'");
+    		
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
     		getAccesoryList(request, taskitem);
     		/**这里应该和自办贷款一样*/
