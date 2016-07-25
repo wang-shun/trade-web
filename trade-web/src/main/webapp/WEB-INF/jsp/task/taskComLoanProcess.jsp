@@ -1788,8 +1788,17 @@ function checkInt(obj){
 		return false;
 	}
 	
-	function startWorkFlow(){
-		if(!$("input[name='isTmpBank']:enabled").is(':checked')){
+	function startTmpBankWorkFlow(finOrgCode_){
+		var checkFlag = true;
+		if(!$("#isTmpBank").is(':checked')){
+			checkFlag = false;
+		}
+		
+		var f=$("#mortgageForm");
+		if(isMainLoanBank != 1){
+			f=$('#mortgageForm1');
+		}
+		if(finOrgCode_ != null && finOrgCode_ == f.find("select[name='finOrgCode']").val()){
 			return;
 		}
 		
@@ -1797,7 +1806,7 @@ function checkInt(obj){
 		    url:ctx+"/mortgage/tmpBankAudit/start",
 	    	method:"post",
 	    	dataType:"json",
-	    	data:{caseCode:$("#caseCode").val()},
+	    	data:{caseCode:$("#caseCode").val(),checkFlag:checkFlag},
 	    	success:function(data){
 	    		console.log(JSON.stringify(data));
 	    	}

@@ -43,6 +43,7 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
@@ -179,9 +180,17 @@ public class ToMortgageController {
 	 */
 	@RequestMapping(value="/completeMortgage")  
 	@ResponseBody
-    public AjaxResponse<String> completeMortgage(ToMortgage toMortgage,HttpServletRequest request) {
+    public AjaxResponse<String> completeMortgage(ToMortgage toMortgage,HttpServletRequest request,String check) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		
+		//如果没有选中但已经开启临时银行流程则删除流程
+		if("false".equals(check)){
+			ToWorkFlow wf=new ToWorkFlow();
+			wf.setBusinessKey(toMortgage.getCaseCode());
+			wf.setCaseCode(toMortgage.getCaseCode());
+			toMortgageService.deleteTmpBankProcess(wf);
+		}
+
 		try{
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
 			/*entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));

@@ -1,4 +1,5 @@
 var popInited=false;
+var finOrgCode_ = null;
 function checkAssess(){
 	
 	if($("#building_no").val() == ""){
@@ -355,6 +356,9 @@ function completeMortgage(form){
 		alert("临时银行审批未完成或不通过！");
 		return;
 	}
+	
+	//未选中临时银行但临时银行审批状态存在
+    var check = $("#isTmpBank").is(':checked');
 
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
@@ -365,7 +369,7 @@ function completeMortgage(form){
 		url:ctx+"/task/completeMortgage",
 		method:"post",
 		dataType:"json",
-		data:{pkid:pkid,caseCode:$("#caseCode").val(),apprDate:$("#apprDate").val(),lastLoanBank:lastLoanBank,partCode:$("#partCode").val()},
+		data:{pkid:pkid,caseCode:$("#caseCode").val(),apprDate:$("#apprDate").val(),lastLoanBank:lastLoanBank,partCode:$("#partCode").val(),check:check},
 		success:function(data){
 			if(data.success){
 				if('caseDetails'==source){
@@ -572,6 +576,9 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				f.find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
+		    			//如果银行未变，则不需要重新开启临时银行流程
+		    			finOrgCode_ = data.content.finOrgCode;
+		    			//
 		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
 		    			f.find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			f.find("input[name='remark']").val(data.content.remark);
@@ -1282,9 +1289,9 @@ $(document).ready(function () {
 	 				return deleteAndModify();
 	 			}
 	 			return false;
-	 		}else if(currentIndex == 4 && newIndex == 5){
-	 			//报告步骤点击‘下一步’执行临时银行审批流程
-	 			startWorkFlow();
+	 		}else if(currentIndex == 4){
+	 			//离开报告步骤执行临时银行审批流程
+	 			startTmpBankWorkFlow(finOrgCode_);
 	 		}
 
 	 		return true;
@@ -1352,9 +1359,9 @@ $(document).ready(function () {
  				return deleteAndModify();
  			}
  			return false;
- 		}else if(currentIndex == 4 && newIndex == 5){
- 			//报告步骤点击‘下一步’执行临时银行审批流程
- 			startWorkFlow();
+ 		}else if(currentIndex == 4){
+ 			//离开报告步骤执行临时银行审批流程
+ 			startTmpBankWorkFlow(finOrgCode_);
  		}
  		
  		return true;

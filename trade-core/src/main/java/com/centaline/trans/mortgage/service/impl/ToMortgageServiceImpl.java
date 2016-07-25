@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -23,6 +24,7 @@ import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
 public class ToMortgageServiceImpl implements ToMortgageService {
@@ -42,6 +44,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	MessageService messageService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -302,6 +306,25 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			workFlowOld.setStatus("4");
 			workFlowOld.setInstCode(processInstanceId);
 			toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+		}
+		
+	}
+	
+	/**
+	 * 删除临时银行审批流程
+	 * @param twf
+	 */
+	@Override
+	public void deleteTmpBankProcess(ToWorkFlow twf){
+		try{
+			ToWorkFlow temBankWF= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			//删除临时银行审批任务和流程
+			if(temBankWF != null){
+				unlocatedTaskService.deleteByInstCode(temBankWF.getInstCode());
+				workFlowManager.deleteProcess(temBankWF.getInstCode());
+			}
+		}catch(Exception e){
+			throw new BusinessException("删除临时银行任务和流程失败！");
 		}
 		
 	}
