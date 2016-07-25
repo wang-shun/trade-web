@@ -61,7 +61,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
 
 		ToWorkFlow twf=new ToWorkFlow();
-		twf.setBusinessKey(vo.getCaseCode());
+		twf.setBusinessKey("TempBankAudit_Process");
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 
