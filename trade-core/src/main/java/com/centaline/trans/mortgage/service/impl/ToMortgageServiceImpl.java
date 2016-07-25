@@ -114,6 +114,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				tgGuestInfoService.updateByPrimaryKeySelective(guest);
 			}
 		}
+		// 为主流程设置变量
+	    setEvaReportNeedAtLoanRelease(toMortgage);
 	}
 
 	@Override
@@ -327,6 +329,22 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			throw new BusinessException("删除临时银行任务和流程失败！");
 		}
 		
+	}
+	
+	private void setEvaReportNeedAtLoanRelease(ToMortgage toMortgage) {
+			ToWorkFlow wf=new ToWorkFlow();
+			wf.setCaseCode(toMortgage.getCaseCode());
+			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+			// 是否需要发起评估报告
+			if(StringUtils.isNotBlank(toMortgage.getIfReportBeforeLend()) && "1".equals(toMortgage.getIfReportBeforeLend()) && wordkFlowDB!=null
+					&& "operation_process:34:620096".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+				String variableName = "EvaReportNeedAtLoanRelease";
+				RestVariable restVariable = new RestVariable();
+				restVariable.setType("boolean");
+				restVariable.setValue(true);
+				workFlowManager.setVariableByProcessInsId(wordkFlowDB.getInstCode(), variableName, restVariable);
+			}
 	}
 
 }
