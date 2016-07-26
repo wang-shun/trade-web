@@ -350,7 +350,7 @@ public class CaseDistributeController {
     @RequestMapping(value="/bindCaseTeam")
     @ResponseBody
 	public AjaxResponse<?>  bindCaseTeam(@RequestBody TeamTransferVO teamTransferVO,HttpServletRequest request) {
-    	
+    	SessionUser sessionUser = uamSessionService.getSessionUser();
     	List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(teamTransferVO.getOrgId(), TransJobs.TJYZG.getCode());
     	if(CollectionUtils.isEmpty(managerUsers)){
     		return AjaxResponse.fail("未找到交易主管！");
@@ -366,15 +366,11 @@ public class CaseDistributeController {
     		ToCase toCase = toCaseService.findToCaseByCaseCode(toCaseInfoNew.getCaseCode());
     		if(toCase != null) {
     			
-    			//页面传过来的是leadingProcessId
-    			String pageLeadingProcessId = toCaseInfoNew.getRequireProcessorId();
-    			String thisLeadingProcessId = toCase.getLeadingProcessId() ;
-    			//多页面同时打开操作列表时，如果案件已经在其他页面分配过，则再进行分配操作时不做任何操作。
-    			if(StringUtils.isNotBlank(thisLeadingProcessId) && !thisLeadingProcessId.equals(pageLeadingProcessId)){
-    				continue;
-    			}
-    			//案件已属于将分配的负责人，则不需要进行分配
-    			if(StringUtils.isNotBlank(thisLeadingProcessId) && thisLeadingProcessId.equals(managerUser.getId())){
+    			TsTeamScopeTarget teamScopeTarget = new TsTeamScopeTarget();
+    			teamScopeTarget.setGrpCode(toCaseInfoNew.getTargetCode());
+    			teamScopeTarget.setYuTeamCode(sessionUser.getServiceDepCode());
+    			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetListByProperty(teamScopeTarget);
+    			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
     				continue;
     			}
     			

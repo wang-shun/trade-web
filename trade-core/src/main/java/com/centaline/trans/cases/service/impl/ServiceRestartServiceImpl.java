@@ -128,30 +128,19 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	}
 
 	/****
-
 	 *  删除该案件下的所有贷款类型
-
-	 * 
-
-	 * 
-
 	 */
 	
 	private void deleteMortFlowByCaseCode(String caseCode) {
 	
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(caseCode);
-	
 		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper.getMortToWorkFlowByCaseCode(workFlow);
 	
 		for(ToWorkFlow workFlowDB : wordkFlowDBList) {
-	
 			workFlowManager.deleteProcess(workFlowDB.getInstCode());
-	
 			toWorkFlowMapper.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
-	
 		}
-	
 	}
 	
 	@Transactional(readOnly=false)
@@ -191,7 +180,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return true;
 	}
 	/**
-	 * 瀹℃壒鍚屾剰鎿嶄綔
+	 * 审批同意操作
 	 * @param vo
 	 */
 	private void doApproved(ServiceRestartVo vo){
@@ -215,12 +204,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ToCase cas=toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		cas.setStatus(CaseStatusEnum.YFD.getCode());
-		//鏇存柊Case琛�
+		//更新Case表
 		toCaseService.updateByCaseCodeSelective(cas);
 		User u=uamUserOrgService.getUserById(cas.getLeadingProcessId());
-		//鏃犳晥涓氬姟琛ㄥ崟
+		//无效业务表单
 		toWorkFlowService.inActiveForm(vo.getCaseCode());
-    	//鏇存柊褰撳墠娴佺▼涓虹粨鏉�
+		//更新当前流程为结束
 		ToWorkFlow tf= toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
 		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
@@ -228,7 +217,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ProcessInstance process = new ProcessInstance();
     	process.setBusinessKey(vo.getCaseCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-    	/*娴佺▼寮曟搸鐩稿叧*/
+    	/*流程引擎相关*/
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	    Iterator it = defValsMap.keySet().iterator();  
