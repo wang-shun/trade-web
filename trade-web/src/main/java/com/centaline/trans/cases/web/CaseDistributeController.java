@@ -45,8 +45,10 @@ import com.centaline.trans.task.entity.TsPrResearchMap;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsPrResearchMapService;
 import com.centaline.trans.team.entity.TsTeamProperty;
+import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.entity.TsTeamTransfer;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.team.service.TsTeamTransferService;
 import com.centaline.trans.team.vo.TeamTransferVO;
 
@@ -92,6 +94,8 @@ public class CaseDistributeController {
 	TsTeamTransferService tsTeamTransferService;
 	@Autowired(required = true)
 	TsPrResearchMapService tsPrResearchMapService;
+	@Autowired(required = true)
+	TsTeamScopeTargetService tsTeamScopeTargetService;
 	
 	/**
 	 * 页面初始化
@@ -284,11 +288,20 @@ public class CaseDistributeController {
     @ResponseBody
 	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,HttpServletRequest request) {
     	SessionUser sessionUser = uamSessionService.getSessionUser();
-    	for(String caseCode:caseCodes){	    
+    	for(String caseCode:caseCodes){
     		try {
     			//非自己组的案件，不能进行分配
     			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-    			if(toCaseInfo==null || !sessionUser.getId().equals(toCaseInfo.getRequireProcessorId())){
+    			
+    			if(toCaseInfo==null){
+    				continue;
+    			}
+    			
+				TsTeamScopeTarget teamScopeTarget = new TsTeamScopeTarget();
+    			teamScopeTarget.setGrpCode(toCaseInfo.getTargetCode());
+    			teamScopeTarget.setYuTeamCode(sessionUser.getServiceDepCode());
+    			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetListByProperty(teamScopeTarget);
+    			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
     				continue;
     			}
     			
