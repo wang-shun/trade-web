@@ -159,7 +159,6 @@ public class CaseDistributeController {
             vo.setUserCaseCount(userCaseCount);
             vo.setUserCaseMonthCount(userCaseMonthCount);
             vo.setUserCaseUnTransCount(userCaseUnTransCount);
-            vo.setOrgId(sessionUser.getServiceDepId());
             String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user.getEmployeeCode()+".jpg";
            
             
