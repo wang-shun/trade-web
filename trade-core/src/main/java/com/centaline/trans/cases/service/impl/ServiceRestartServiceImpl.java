@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -28,10 +27,10 @@ import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
@@ -57,10 +56,18 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private ToWorkFlowMapper toWorkFlowMapper;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	
 	@Override
 	@Transactional(readOnly=false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
-		
+
+		ToWorkFlow twf=new ToWorkFlow();
+		twf.setBusinessKey(vo.getCaseCode());
+		twf.setCaseCode(vo.getCaseCode());
+		toMortgageService.deleteTmpBankProcess(twf);
+
 		ToWorkFlow wf=new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
@@ -79,6 +86,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toWorkFlowService.insertSelective(wf);
 		return spv;
 	}
+	
 	@Transactional(readOnly=false)
 	@Override
 	public boolean apply(ServiceRestartVo vo) {

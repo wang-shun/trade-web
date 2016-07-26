@@ -17,7 +17,7 @@ public class QuickQueryCustomValueColorServiceImpl implements CustomDictService{
 			String val = "";
 			Object color = key.get("color");
 			if(color!=null){
-				val = "1".equals(color.toString())?"红灯":"0".equals(color.toString())?"黄灯":"红黄灯";
+				val = "1".equals(color.toString())?"黄灯":"0".equals(color.toString())?"红灯":"红黄灯";
 			}
 			key.put("val", val);
 		}

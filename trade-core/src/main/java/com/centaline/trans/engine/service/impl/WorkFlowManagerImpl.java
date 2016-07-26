@@ -533,13 +533,13 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Override
 	public RestVariable setVariableByProcessInsId(String processInstanceId, String variableName,
 			RestVariable restVariable) {
-		Map<String, String> vars = new HashMap<>();
-		vars.put("variableName", variableName);
-		vars.put("processInstanceId", processInstanceId);
-		//vars.put("name", variableName);
-		vars.put("type", restVariable.getType());
-		vars.put("value", restVariable.getValue()==null?"":restVariable.getValue().toString());
-		restVariable.setName(variableName);
-		return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class, restVariable, vars);
+				Map<String, String> vars = new HashMap<>();
+			vars.put("variableName", variableName);
+			vars.put("processInstanceId", processInstanceId);
+			//vars.put("name", variableName);
+			vars.put("type", restVariable.getType());
+			vars.put("value", restVariable.getValue()==null?"":restVariable.getValue().toString());
+			restVariable.setName(variableName);
+			return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class, restVariable, vars);
 	}
 }

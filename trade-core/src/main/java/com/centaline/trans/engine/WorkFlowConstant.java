@@ -93,9 +93,6 @@ public class WorkFlowConstant {
 	
 	public static final String PUT_VARIABLE_KEY ="put-variable-key";
 	public static final String PUT_VARIABLE = HTTP_TYPE_PUT+"runtime/process-instances/{processInstanceId}/variables/{variableName}";
-	 
-	
-	
 	
 	
 	/**
