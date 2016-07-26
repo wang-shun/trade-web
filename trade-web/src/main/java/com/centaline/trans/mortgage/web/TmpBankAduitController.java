@@ -80,7 +80,7 @@ public class TmpBankAduitController {
 	@ResponseBody
 	public StartProcessInstanceVo startWorkFlow(String caseCode,String checkFlag) {
 	ToWorkFlow twf = new ToWorkFlow();
-	twf.setBusinessKey(caseCode);
+	twf.setBusinessKey("TempBankAudit_Process");
 	twf.setCaseCode(caseCode);
 	toMortgageService.deleteTmpBankProcess(twf);
 	
@@ -97,10 +97,7 @@ public class TmpBankAduitController {
 	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
 	String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
 	//查询高级主管
-	User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "Senior_Manager");
-
-	parsentId = seniorManager == null?parsentId:uamUserOrgService.getOrgById(orgId).getParentId();
-	
+	User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 	//查询总监
 	User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
 	
@@ -114,7 +111,7 @@ public class TmpBankAduitController {
 	StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, manager.getUsername(),caseCode);
 	//插入工作流表
 	ToWorkFlow toWorkFlow = new ToWorkFlow();
-	toWorkFlow.setBusinessKey(caseCode);
+	toWorkFlow.setBusinessKey("TempBankAudit_Process");
 	toWorkFlow.setCaseCode(caseCode);
 	toWorkFlow.setInstCode(vo.getId());
 	toWorkFlow.setProcessDefinitionId(propertyUtilsService.getProcessTmpBankAuditDfKey());

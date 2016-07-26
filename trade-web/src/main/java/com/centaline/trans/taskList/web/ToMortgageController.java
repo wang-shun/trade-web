@@ -186,7 +186,7 @@ public class ToMortgageController {
 		//如果没有选中但已经开启临时银行流程则删除流程
 		if("false".equals(check)){
 			ToWorkFlow wf=new ToWorkFlow();
-			wf.setBusinessKey(toMortgage.getCaseCode());
+			wf.setBusinessKey("TempBankAudit_Process");
 			wf.setCaseCode(toMortgage.getCaseCode());
 			toMortgageService.deleteTmpBankProcess(wf);
 		}

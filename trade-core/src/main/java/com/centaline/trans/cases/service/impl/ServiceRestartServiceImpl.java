@@ -64,7 +64,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
 
 		ToWorkFlow twf=new ToWorkFlow();
-		twf.setBusinessKey(vo.getCaseCode());
+		twf.setBusinessKey("TempBankAudit_Process");
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 
@@ -73,7 +73,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		wf.setCaseCode(vo.getCaseCode());
 		ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 		if(sameOne!=null){
-			throw new BusinessException("褰撳墠閲嶅惎娴佺▼灏氭湭缁撴潫锛�");
+			throw new BusinessException("当前重启流程尚未结束！");
 		}
 		
 		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
@@ -101,7 +101,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	
 	if(sameOne!=null){
 	
-		throw new BusinessException("褰撳墠閲嶅惎娴佺▼灏氭湭缁撴潫锛�");
+		throw new BusinessException("当前重启流程尚未结束！");
 	
 	}
 	
@@ -196,7 +196,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	 */
 	private void doApproved(ServiceRestartVo vo){
 		toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
-		//鍒犻櫎鍘熶富娴佺▼ 鏇存柊鍘熶富娴佺▼璁板綍
+		//删除原主流程 更新原主流程记录
 		ToWorkFlow t=new ToWorkFlow();
 		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		t.setCaseCode(vo.getCaseCode());
@@ -211,7 +211,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			mainflow.setStatus(WorkFlowStatus.TERMINATE.getCode());
 			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		}
-		//鍚姩鏂扮殑涓绘祦绋嬪苟璁板綍娴佺▼琛�
+		//启动新的主流程并记录流程表
 		ToCase cas=toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		cas.setStatus(CaseStatusEnum.YFD.getCode());
