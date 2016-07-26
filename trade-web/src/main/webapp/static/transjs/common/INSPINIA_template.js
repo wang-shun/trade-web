@@ -150,7 +150,7 @@ var message = {
 	    imgSpan.append(img);
 		messageBox.append($('<a>').addClass('pull-left').append(imgSpan));
 		 var urlRegu = /([a-zA-z]+:\/\/[^\s]*)/gi;
-         var urlTemplate = "<br/><a href=\"$1\" style=\"word-break:break-all;\" target=\"_blank\">$1</a>";
+         var urlTemplate = "<a href=\"$1\" style=\"word-break:break-all;font-size:12px!important;padding:0px!important;\" target=\"_blank\">$1</a>";
          var _content=obj.content;
          _content=_content.replace(urlRegu, urlTemplate);	
 		messageBox.append(mediaBody.append(t).append($("<br>")).append(
