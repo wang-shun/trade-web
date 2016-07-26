@@ -91,6 +91,8 @@
 		<mapper resource="mapper/team/TsTeamScopeArMapper.xml" />
 		<mapper resource="mapper/team/TsTeamScopeGrpMapper.xml" />
 		<mapper resource="mapper/team/TsTeamTransferMapper.xml" />
+		<mapper resource="mapper/team/TsTeamScopeTargetMapper.xml" />
+		
 		<!-- 监管 -->
 		<mapper resource="mapper/spv/ToSpvMapper.xml" />
 		<mapper resource="mapper/spv/ToCashFlowMapper.xml" />
