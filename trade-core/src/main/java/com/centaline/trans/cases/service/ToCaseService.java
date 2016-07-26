@@ -71,7 +71,7 @@ public interface ToCaseService {
 	 * @param userId
 	 * @param sessionUser
 	 */
-	void caseAssign(String caseCode, String userId, SessionUser sessionUser);
+	void caseAssign(String caseCode, String userId,String orgId, SessionUser sessionUser);
 	/**
 	 * 案件分配消息提醒
 	 * @param caseCode

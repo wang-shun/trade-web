@@ -155,6 +155,7 @@ public class CaseDistributeController {
             vo.setUserCaseCount(userCaseCount);
             vo.setUserCaseMonthCount(userCaseMonthCount);
             vo.setUserCaseUnTransCount(userCaseUnTransCount);
+            vo.setOrgId(sessionUser.getServiceDepId());
             String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user.getEmployeeCode()+".jpg";
            
             
@@ -282,7 +283,7 @@ public class CaseDistributeController {
 	 */
     @RequestMapping(value="/bindCaseDist")
     @ResponseBody
-	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,HttpServletRequest request) {
+	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,String orgId,HttpServletRequest request) {
     	SessionUser sessionUser = uamSessionService.getSessionUser();
     	for(String caseCode:caseCodes){	    
     		try {
@@ -292,7 +293,7 @@ public class CaseDistributeController {
     				continue;
     			}
     			
-	    		toCaseService.caseAssign(caseCode, userId, sessionUser);
+	    		toCaseService.caseAssign(caseCode, userId,orgId, sessionUser);
 	    		toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
     		}catch (BusinessException | WorkFlowException e) {
     			e.printStackTrace();
