@@ -271,15 +271,7 @@
 				}
 			});*/
 		}
-		
-		function fCheck(){
-			if(''==$("#finOrgCode").val()){
-				alert('请选择贷款支行');
-				return false;
-			}
-			return true;
-		}
-		
+
 		function getParentBank(selector,selectorBranch,finOrgCode){
 			var bankHtml = "<option value=''>请选择</option>";
 		    $.ajax({

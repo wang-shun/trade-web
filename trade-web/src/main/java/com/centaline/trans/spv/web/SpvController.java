@@ -135,7 +135,7 @@ public class SpvController {
      */
     @RequestMapping(value="saveSpv")
     @ResponseBody
-    public AjaxResponse<String> saveSpv(ToSpv toSpv,String toSpvDeCondList,String[] delIds,String toCashFlow,String toCashFlowList){
+    public AjaxResponse<String> saveSpv(ToSpv toSpv,String toSpvDeCondList,String[] delIds,String[] delFlowIds,String toCashFlow,String toCashFlowList){
     	AjaxResponse<String> response = new AjaxResponse<String>();
     	try{
     		SpvVo spvVo = new SpvVo();
@@ -143,7 +143,8 @@ public class SpvController {
     		spvVo.setToSpvDeCondList(JSONObject.parseArray(toSpvDeCondList, ToSpvDeCond.class));
     		spvVo.setToCashFlow(JSONObject.parseObject(toCashFlow, ToCashFlow.class));
     		spvVo.setToCashFlowList(JSONObject.parseArray(toCashFlowList, ToCashFlow.class));
-    		//spvVo.setDelIds(delIds);
+    		spvVo.setDelIds(delIds);
+    		spvVo.setDelFlowIds(delFlowIds);
     		ToCase toCase = toCaseService.findToCaseByCaseCode(toSpv.getCaseCode());
     		toSpvService.saveToSpv(spvVo);
     		response.setContent(String.valueOf(toCase.getPkid()));
