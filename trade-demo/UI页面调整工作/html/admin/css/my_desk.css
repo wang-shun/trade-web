@@ -252,3 +252,10 @@ body {
 .blank-panel .panel-heading {
   padding-bottom: 6px !important;
 }
+.main_titile {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+.smaller {
+  font-weight: normal;
+}
