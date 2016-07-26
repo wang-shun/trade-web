@@ -20,8 +20,6 @@ public class VCaseDistributeUserVO {
 	/**头像url**/
 	private String imgUrl;
 	
-	private String orgId;
-	
 	public String getId() {
 		return id;
 	}
@@ -71,14 +69,6 @@ public class VCaseDistributeUserVO {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
-	}
-
-	public String getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
 	}
 	
 }

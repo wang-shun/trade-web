@@ -225,7 +225,6 @@ function showModal(data){
 		addHtml += '<div class="col-sm-8">';
 		addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
 		addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
-		addHtml += '<input id="userOrgId_'+i+'" type="hidden" value="'+n.orgId+'">';
 		addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
 		addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
 		addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
@@ -279,8 +278,6 @@ function distributeCase(index){
 			ids.push(id);
 		});
 		var userId =$("#user_"+index).val();
-		var userOrgId =$("#userOrgId_"+index).val();
-		
 		
 		var url = "/case/isTransferOtherDistrict";
 		var ctx = $("#ctx").val();
@@ -324,7 +321,7 @@ function distributeCase(index){
 					var url = "/case/bindCaseDist";
 					var ctx = $("#ctx").val();
 					url = ctx + url;
-					var params='&userId='+userId+'&orgId='+userOrgId+'&caseCodes='+ids;
+					var params='&userId='+userId+'&caseCodes='+ids;
 					 $.ajax({
 							cache : false,
 							async: true,

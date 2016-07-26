@@ -45,8 +45,10 @@ import com.centaline.trans.task.entity.TsPrResearchMap;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsPrResearchMapService;
 import com.centaline.trans.team.entity.TsTeamProperty;
+import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.entity.TsTeamTransfer;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.team.service.TsTeamTransferService;
 import com.centaline.trans.team.vo.TeamTransferVO;
 
@@ -92,6 +94,8 @@ public class CaseDistributeController {
 	TsTeamTransferService tsTeamTransferService;
 	@Autowired(required = true)
 	TsPrResearchMapService tsPrResearchMapService;
+	@Autowired(required = true)
+	TsTeamScopeTargetService tsTeamScopeTargetService;
 	
 	/**
 	 * 页面初始化
@@ -283,17 +287,26 @@ public class CaseDistributeController {
 	 */
     @RequestMapping(value="/bindCaseDist")
     @ResponseBody
-	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,String orgId,HttpServletRequest request) {
+	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,HttpServletRequest request) {
     	SessionUser sessionUser = uamSessionService.getSessionUser();
-    	for(String caseCode:caseCodes){	    
+    	for(String caseCode:caseCodes){
     		try {
     			//非自己组的案件，不能进行分配
     			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-    			if(toCaseInfo==null || !sessionUser.getId().equals(toCaseInfo.getRequireProcessorId())){
+    			
+    			if(toCaseInfo==null){
     				continue;
     			}
     			
-	    		toCaseService.caseAssign(caseCode, userId,orgId, sessionUser);
+				TsTeamScopeTarget teamScopeTarget = new TsTeamScopeTarget();
+    			teamScopeTarget.setGrpCode(toCaseInfo.getTargetCode());
+    			teamScopeTarget.setYuTeamCode(sessionUser.getServiceDepCode());
+    			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetListByProperty(teamScopeTarget);
+    			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
+    				continue;
+    			}
+    			
+	    		toCaseService.caseAssign(caseCode, userId, sessionUser);
 	    		toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
     		}catch (BusinessException | WorkFlowException e) {
     			e.printStackTrace();
@@ -338,7 +351,7 @@ public class CaseDistributeController {
     @RequestMapping(value="/bindCaseTeam")
     @ResponseBody
 	public AjaxResponse<?>  bindCaseTeam(@RequestBody TeamTransferVO teamTransferVO,HttpServletRequest request) {
-    	
+    	SessionUser sessionUser = uamSessionService.getSessionUser();
     	List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(teamTransferVO.getOrgId(), TransJobs.TJYZG.getCode());
     	if(CollectionUtils.isEmpty(managerUsers)){
     		return AjaxResponse.fail("未找到交易主管！");
@@ -354,15 +367,11 @@ public class CaseDistributeController {
     		ToCase toCase = toCaseService.findToCaseByCaseCode(toCaseInfoNew.getCaseCode());
     		if(toCase != null) {
     			
-    			//页面传过来的是leadingProcessId
-    			String pageLeadingProcessId = toCaseInfoNew.getRequireProcessorId();
-    			String thisLeadingProcessId = toCase.getLeadingProcessId() ;
-    			//多页面同时打开操作列表时，如果案件已经在其他页面分配过，则再进行分配操作时不做任何操作。
-    			if(StringUtils.isNotBlank(thisLeadingProcessId) && !thisLeadingProcessId.equals(pageLeadingProcessId)){
-    				continue;
-    			}
-    			//案件已属于将分配的负责人，则不需要进行分配
-    			if(StringUtils.isNotBlank(thisLeadingProcessId) && thisLeadingProcessId.equals(managerUser.getId())){
+    			TsTeamScopeTarget teamScopeTarget = new TsTeamScopeTarget();
+    			teamScopeTarget.setGrpCode(toCaseInfoNew.getTargetCode());
+    			teamScopeTarget.setYuTeamCode(sessionUser.getServiceDepCode());
+    			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetListByProperty(teamScopeTarget);
+    			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
     				continue;
     			}
     			
