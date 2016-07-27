@@ -155,7 +155,7 @@ text-decoration: underline !important;
                          </div> 
 	                         <div class="col-lg-5 col-md-5 ">    
 	                       			<div class="form-group">
-	                                   <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
+	                                   <label class="col-lg-3 col-md-3 control-label font_w">经办人</label>
 	                                   <div class="col-lg-9 col-md-9">
 	                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
 									 readonly="readonly" onclick="userSelect_back()" />
@@ -195,18 +195,6 @@ text-decoration: underline !important;
 		    			</div>
 						<div class="col-lg-5 col-md-5 "> 
 						   <div class="form-group">
-							<label class="col-lg-3 col-md-3 control-label font_w">经办人 </label>
-		    				<div class="col-md-3">
-		    					<input type="text" id="realName" name="search_realName" class="form-control"/>
-		    				</div> 
-		    			</div> 
-		    			</div> 
-		    			</div> 
-		    				<br>
-		    			
-		    			<div class="row"> 
-			    			<div class="col-lg-5 col-md-5 "> 
-									<div class="form-group">
 								<label class="col-lg-3 col-md-3 control-label font_w">预计完成时间</label>
 								<div id="dateDiv_0"  class="col-md-6">
 								<div id="datepicker_0"
@@ -224,15 +212,12 @@ text-decoration: underline !important;
 							</div>
 							</div>
 							</div>
-							</div>
-						
-							<div class="col-lg-5 col-md-5 "> 
-							
-							</div>
-						</div>
-						 
-				  </div>
-						<div class="row date-info">
+		    			</div> 
+		    			</div> 
+		    				<br>
+		    			
+		    			<div class="row"> 
+			    			<div class="row date-info">
 						 <div class="row">
 							<div class="col-md-6"></div>
 							<div class="col-md-3">
@@ -246,6 +231,10 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						</div>
+						</div>
+						 
+				  </div>
+						
 					</form>
 				</div> 
 				
