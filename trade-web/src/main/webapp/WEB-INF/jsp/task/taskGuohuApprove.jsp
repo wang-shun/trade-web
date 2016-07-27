@@ -365,6 +365,7 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 显示上传的附件 -->
 	
 <%-- 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%>
+
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
 	
 	
