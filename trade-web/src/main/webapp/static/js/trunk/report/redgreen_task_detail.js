@@ -123,14 +123,15 @@ function reloadGrid(data) {
 	//页面参数值
 	var dtBegin = $("input[name='dtBegin']").val();
 	var dtEnd = $("input[name='dtEnd']").val();
-	var realName = $.trim($("input[name='search_realName']").val());
+	//var realName = $.trim($("input[name='search_realName']").val());
+	var realName = $("#inTextVal").val();
 	var propertyAddr = $.trim($("input[name='search_propertyAddr']").val());
 	var taskName = $("input[name='search_taskName']").val();
 	var caseCodes = $.trim($("#caseCode").val());
 	var lampRadios = $('input[name="lampRadios"]:checked').val();
 	var proOrggbName = $("#txt_proOrgId_gb").val();
 	var proOrgName =   $("#txt_proOrgId").val();
-	var TextValName = $("#inTextVal").val();
+	//var TextValName = $("#inTextVal").val();
 	
 	if(lampRadios == 2)
 		lampRadios=null;
@@ -171,7 +172,7 @@ function reloadGrid(data) {
     data.proOrggbName = proOrggbName;
     data.proOrgName = proOrgName;
     data.jobName = jobNames;
-    if(""!=jobNames)
+   /* if(""!=jobNames)
     	jobNames = jobNames.substring(jobNames.length-2)
     if(jobNames == '总监'){
     	data.TextValNameZj = TextValName;
@@ -180,7 +181,7 @@ function reloadGrid(data) {
     if(jobNames == '主管'){
     	data.TextValName = TextValName;
     	data.TextValNameZj = null;
-    }
+    }*/
     	
     
     	
@@ -399,7 +400,7 @@ function userSelect_back(){
 			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,
 				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 		}else{
-			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
+			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
 				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 		}
 		

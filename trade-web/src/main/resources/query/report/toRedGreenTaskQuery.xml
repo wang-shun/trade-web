@@ -461,14 +461,6 @@ t1 inner join(select * from (
 							   and t1.orgName1 =#proOrggbName#
 				  </ifNotNull>
 				  
-				  <ifNotNull TextValName>
-							   and t1.realName2 =#TextValName#
-				  </ifNotNull>
-				  
-				  <ifNotNull TextValNameZj>
-							   and t1.realName1 =#TextValNameZj#
-				  </ifNotNull>
-				  
 				  <ifNotNull proOrgName>
 							   and t1.orgName2 =#proOrgName#
 				  </ifNotNull>
