@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	                //第一次进入界面查询条件组别、主管不要显示
+					document.getElementById("zb").style.display="none";
+					document.getElementById("zg").style.display="none";
+	
 					cleanForm();
 					//基本信息等高
 					var url = "/quickGrid/findPage";
@@ -629,7 +633,7 @@ function userSelect_back(){
 		}
 		
 	}else{
-		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
+		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
 			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 	}
 }
