@@ -218,17 +218,7 @@ text-decoration: underline !important;
 		    				<br>
 		    			
 		    			<div class="row"> 
-			    			<div class="col-lg-5 col-md-5 "> 
-							
-							</div>
-						
-							<div class="col-lg-5 col-md-5 "> 
-							
-							</div>
-						</div>
-						 
-				  </div>
-						<div class="row date-info">
+			    			<div class="row date-info">
 						 <div class="row">
 							<div class="col-md-6"></div>
 							<div class="col-md-3">
@@ -242,6 +232,10 @@ text-decoration: underline !important;
 							</div>
 						</div>
 						</div>
+						</div>
+						 
+				  </div>
+						
 					</form>
 				</div> 
 				
