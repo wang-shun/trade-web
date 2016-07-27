@@ -40,7 +40,7 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 					+ " left join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = so.id "
 					+ " left join sctrans.SYS_JOB sj on uoj.JOB_ID = sj.ID "
 					+ " left join sctrans.SYS_USER su on su.ID = uoj.USER_ID "
-					+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) and sj.JOB_CODE = 'Manager' ";
+					+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1";
 			List<Map<String, Object>> userList = jdbcTemplate.queryForList(sql1, key);
 			String managerInfo = getJoinUserInfo(userList);
 			return managerInfo;
