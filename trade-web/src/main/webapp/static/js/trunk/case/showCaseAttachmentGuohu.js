@@ -33,6 +33,8 @@ function getShowAttachment() {
 			dataLength=data.length;
 			//将返回的数据进行包装
 			var trStr = "";
+
+			var ssss="";
 			
 			var oldType = "";
 			$.each(data, function(indexAcc, value){
@@ -46,12 +48,16 @@ function getShowAttachment() {
 						trStr += '<label class="col-sm-2 control-label" style="line-height:90px;text-align:center;">'+value.preFileName+'</label>';
 						trStr += '<div class="col-sm-10 lightBoxGallery" style="text-align:left">';
 					}
-					trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/_f.jpg\")' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
-					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='padding-bottom: 5px;padding-top: 5px;'>";
+//					trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/_f.jpg\")' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
+					trStr += "<a href='#' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
+//					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='padding-bottom: 5px;padding-top: 5px;'>";
+					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/__f.jpg' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
 					trStr += "</a>";
+					
 				}
 			});
 			$("#imgShow").append(trStr);
+			$('#imgShow').viewer();
 		},
 		error : function(errors) {
 		}

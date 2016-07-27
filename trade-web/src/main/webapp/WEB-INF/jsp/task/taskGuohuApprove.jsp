@@ -363,13 +363,10 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 显示上传的附件 -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
 	
+<%-- 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%>
+	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
 	
-	<script src="${ctx}/js/rotate/jquery.rotate.min.js"></script>
-	
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
-	<script src="${ctx}/js/viewer/main.js"></script>
 	
 	
 	 <script
@@ -377,7 +374,9 @@
 		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
+		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+		<script src="${ctx}/js/viewer/viewer.min.js"></script>
+		<script>
 			function appendNotApprove(isAppend, content) {
 				if (isAppend) {
 					var oldVal = $("#GuohuApprove_response").val();
@@ -528,10 +527,10 @@
 
 			$(function() {
 				getShowAttachment();
-
+				
 				//jqGrid 初始化
 
-			})
+			});
 
 			/**提交数据*/
 			function submit() {

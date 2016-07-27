@@ -30,9 +30,13 @@
 .viewer-list,
 .viewer-navbar,
 .viewer-open,
-.viewer-title,
+/* .viewer-title, */
 .viewer-toolbar,
 .viewer-toolbar>li {
+	overflow-x: hidden
+}
+
+.viewer-title{
 	overflow: hidden
 }
 
