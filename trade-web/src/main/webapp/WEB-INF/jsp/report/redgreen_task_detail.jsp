@@ -194,19 +194,7 @@ text-decoration: underline !important;
 		    			</div>
 		    			</div>
 						<div class="col-lg-5 col-md-5 "> 
-						  <!--  <div class="form-group">
-							<label class="col-lg-3 col-md-3 control-label font_w">经办人 </label>
-		    				<div class="col-md-3">
-		    					<input type="text" id="realName" name="search_realName" class="form-control"/>
-		    				</div> --> 
-		    			</div> 
-		    			</div> 
-		    			</div> 
-		    				<br>
-		    			
-		    			<div class="row"> 
-			    			<div class="col-lg-5 col-md-5 "> 
-									<div class="form-group">
+						  <div class="form-group">
 								<label class="col-lg-3 col-md-3 control-label font_w">预计完成时间</label>
 								<div id="dateDiv_0"  class="col-md-6">
 								<div id="datepicker_0"
@@ -224,6 +212,14 @@ text-decoration: underline !important;
 							</div>
 							</div>
 							</div>
+		    			</div> 
+		    			</div> 
+		    			</div> 
+		    				<br>
+		    			
+		    			<div class="row"> 
+			    			<div class="col-lg-5 col-md-5 "> 
+							
 							</div>
 						
 							<div class="col-lg-5 col-md-5 "> 
