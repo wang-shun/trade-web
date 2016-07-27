@@ -2,6 +2,7 @@ package com.centaline.trans.mortgage.service;
 
 import java.util.List;
 
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
@@ -68,5 +69,7 @@ public interface ToMortgageService {
 	 *  @param toMortgage
 	 */
 	void submitMortgage(ToMortgage toMortgage,List<RestVariable> variables,String taskId,String processInstanceId);
+
+	void deleteTmpBankProcess(ToWorkFlow twf);
 
 }

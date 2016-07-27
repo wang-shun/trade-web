@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,7 +32,6 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
@@ -80,7 +78,16 @@ public class TmpBankAduitController {
 	
 	@RequestMapping("start")
 	@ResponseBody
-	public StartProcessInstanceVo startWorkFlow(String caseCode) {	
+	public StartProcessInstanceVo startWorkFlow(String caseCode,String checkFlag) {
+	ToWorkFlow twf = new ToWorkFlow();
+	twf.setBusinessKey("TempBankAudit_Process");
+	twf.setCaseCode(caseCode);
+	toMortgageService.deleteTmpBankProcess(twf);
+	
+	if("false".equals(checkFlag)){
+		return null;
+	}
+	
 	/*流程引擎相关*/
 	List<RestVariable> variables = new ArrayList<RestVariable>();
 	ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
@@ -90,10 +97,7 @@ public class TmpBankAduitController {
 	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
 	String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
 	//查询高级主管
-	User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "Senior_Manager");
-
-	parsentId = seniorManager == null?parsentId:uamUserOrgService.getOrgById(orgId).getParentId();
-	
+	User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 	//查询总监
 	User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
 	
@@ -107,7 +111,7 @@ public class TmpBankAduitController {
 	StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, manager.getUsername(),caseCode);
 	//插入工作流表
 	ToWorkFlow toWorkFlow = new ToWorkFlow();
-	toWorkFlow.setBusinessKey(caseCode);
+	toWorkFlow.setBusinessKey("TempBankAudit_Process");
 	toWorkFlow.setCaseCode(caseCode);
 	toWorkFlow.setInstCode(vo.getId());
 	toWorkFlow.setProcessDefinitionId(propertyUtilsService.getProcessTmpBankAuditDfKey());
@@ -175,6 +179,8 @@ public class TmpBankAduitController {
 				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else{
+				mortageDb.setFinOrgCode(bankCode);
+				mortageDb.setLastLoanBank(tmpBankName);
 				mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 				mortageDb.setTmpBankStatus("");
@@ -263,6 +269,8 @@ public class TmpBankAduitController {
 		return AjaxResponse.success();
 		
 	}
+	
+
 
 
 }

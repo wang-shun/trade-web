@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -23,14 +22,15 @@ import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
@@ -54,16 +54,26 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
+	@Autowired
+  	private ToWorkFlowMapper toWorkFlowMapper;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	
 	@Override
 	@Transactional(readOnly=false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
-		
+
+		ToWorkFlow twf=new ToWorkFlow();
+		twf.setBusinessKey("TempBankAudit_Process");
+		twf.setCaseCode(vo.getCaseCode());
+		toMortgageService.deleteTmpBankProcess(twf);
+
 		ToWorkFlow wf=new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
 		ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 		if(sameOne!=null){
-			throw new BusinessException("褰撳墠閲嶅惎娴佺▼灏氭湭缁撴潫锛�");
+			throw new BusinessException("当前重启流程尚未结束！");
 		}
 		
 		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
@@ -76,6 +86,63 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toWorkFlowService.insertSelective(wf);
 		return spv;
 	}
+	
+	@Override
+
+	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
+
+		ToWorkFlow wf=new ToWorkFlow();
+	
+	wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+	
+	wf.setCaseCode(vo.getCaseCode());
+	
+	ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+	
+	if(sameOne!=null){
+	
+		throw new BusinessException("当前重启流程尚未结束！");
+	
+	}
+	
+	deleteMortFlowByCaseCode(vo.getCaseCode());
+	
+	ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
+	
+	StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
+	
+	wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+	
+	wf.setCaseCode(vo.getCaseCode());
+	
+	wf.setProcessOwner(vo.getUserId());
+	
+	wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
+	
+	wf.setInstCode(spv.getId());
+	
+	toWorkFlowService.insertSelective(wf);
+	
+	return spv;
+	
+	}
+
+	/****
+	 *  删除该案件下的所有贷款类型
+	 */
+	
+	private void deleteMortFlowByCaseCode(String caseCode) {
+	
+		ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setCaseCode(caseCode);
+		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper.getMortToWorkFlowByCaseCode(workFlow);
+	
+		for(ToWorkFlow workFlowDB : wordkFlowDBList) {
+			workFlowManager.deleteProcess(workFlowDB.getInstCode());
+			toWorkFlowMapper.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
+		}
+	}
+	
 	@Transactional(readOnly=false)
 	@Override
 	public boolean apply(ServiceRestartVo vo) {
@@ -113,12 +180,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return true;
 	}
 	/**
-	 * 瀹℃壒鍚屾剰鎿嶄綔
+	 * 审批同意操作
 	 * @param vo
 	 */
 	private void doApproved(ServiceRestartVo vo){
 		toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
-		//鍒犻櫎鍘熶富娴佺▼ 鏇存柊鍘熶富娴佺▼璁板綍
+		//删除原主流程 更新原主流程记录
 		ToWorkFlow t=new ToWorkFlow();
 		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		t.setCaseCode(vo.getCaseCode());
@@ -133,16 +200,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			mainflow.setStatus(WorkFlowStatus.TERMINATE.getCode());
 			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		}
-		//鍚姩鏂扮殑涓绘祦绋嬪苟璁板綍娴佺▼琛�
+		//启动新的主流程并记录流程表
 		ToCase cas=toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		cas.setStatus(CaseStatusEnum.YFD.getCode());
-		//鏇存柊Case琛�
+		//更新Case表
 		toCaseService.updateByCaseCodeSelective(cas);
 		User u=uamUserOrgService.getUserById(cas.getLeadingProcessId());
-		//鏃犳晥涓氬姟琛ㄥ崟
+		//无效业务表单
 		toWorkFlowService.inActiveForm(vo.getCaseCode());
-    	//鏇存柊褰撳墠娴佺▼涓虹粨鏉�
+		//更新当前流程为结束
 		ToWorkFlow tf= toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
 		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
@@ -150,7 +217,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ProcessInstance process = new ProcessInstance();
     	process.setBusinessKey(vo.getCaseCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-    	/*娴佺▼寮曟搸鐩稿叧*/
+    	/*流程引擎相关*/
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	    Iterator it = defValsMap.keySet().iterator();  

@@ -176,8 +176,8 @@
 							<div class="input-group date" id="deflowDate_${status.index }" >
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="flowTime_${status.index }" name="flowTime" value="<fmt:formatDate  value='${toCashFlow.flowTime }' type='both' pattern='yyyy-MM-dd'/>">
-								<span class="input-group-addon"><a href="javascript:removeFlowLine('${status.index }');">删除</a></span>
 							</div>
+							<span class="input-group-addon"><a href="javascript:removeFlowLine('${status.index }');">删除</a></span>
 						</div>
 					</div>
 						</c:forEach>
@@ -196,8 +196,8 @@
 							<div class="input-group date" id="deflowDate_0" >
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="flowTime_0" name="flowTime" value="">
-								<span class="input-group-addon"><a href="javascript:removeFlowLine('0');">删除</a></span>
 							</div>
+							<span class="input-group-addon"><a href="javascript:removeFlowLine('0');">删除</a></span>
 						</div>
 					</div>
 						

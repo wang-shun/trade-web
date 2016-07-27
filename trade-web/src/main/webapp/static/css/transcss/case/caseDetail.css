@@ -175,7 +175,7 @@ p.title {
 }
 
 .else_conn {
-	height: 40px;
+	height: 60px;
 	line-height: 40px;
 	margin-bottom: 15px;
 }
@@ -189,7 +189,7 @@ p.title {
 }
 
 .else_conn_two {
-	min-height: 132px;
+	min-height: 112px;
 }
 
 .tab-content .tab-pane p {

@@ -147,7 +147,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
 		// 如果是新流程图
 		boolean isNewFlow = false;
-		if(workF!=null &&"operation_process:34:620096".compareTo(workF.getProcessDefinitionId())<=0){
+		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
 		if(isNewFlow) {
