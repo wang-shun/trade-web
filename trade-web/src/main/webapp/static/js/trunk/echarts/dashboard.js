@@ -19,6 +19,7 @@ function reloadStatus() {
 	 data.serviceDepId  = $("#serviceDepId").val();
 	 data.serviceJobCode = $("#serviceJobCode").val();
 	 data.serviceDepHierarchy = $("#serviceDepHierarchy").val();
+	 var startMonth=new Date($("#startDate").val()).getMonth()+1;
 	$.ajax({
 			  async: false,
    	          url:ctx+ "/quickGrid/findPage" ,
@@ -27,7 +28,7 @@ function reloadStatus() {
    	          data: data,
         success: function(data){
         	var all=data.rows;
-        	if(all.length<=1){
+     	  if(all.length<=1){
         		$("#mainwe").addClass("nullData");
         		return;
         	}
@@ -37,7 +38,11 @@ function reloadStatus() {
         	var jiean=[];
         	var xAxis = [];
         	$.each(all, function(i,item){
-    			xAxis.push(item.month+"月");
+        		if(item.mm==0){
+        			xAxis.push(startMonth+"月以前");
+        		}else{
+        			xAxis.push(item.mm+"月");
+        		}
     			jiedan.push(item.jiedan);
     			qianyue.push(item.qianyue);
     			guohu.push(item.guohu);
