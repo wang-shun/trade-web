@@ -799,8 +799,8 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank" ${disabled_ }>是
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="tmpBankRejectReason" style="color:red"></span>
+										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank" ${empty source?'':'disabled="true"' }>是
+										<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="tmpBankRejectReason" style="color:red"></span> -->
 										<!-- <input type="button" class="btn btn-primary btn-xm btn-activity" onclick="javascript:startWorkFlow()" value="启动流程" > -->
 									</div>    
 									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
@@ -997,7 +997,7 @@
 								<input type="hidden" name="finOrgCode" />
 								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
 								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
+								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行审批结果：</label><span id="tmpBankRejectReason" class="col-sm-3"></span></div>
 								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
 								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
 									<label class="checkbox-inline" > <input type="checkbox"
@@ -1808,7 +1808,7 @@ function checkInt(obj){
 	    	dataType:"json",
 	    	data:{caseCode:$("#caseCode").val(),checkFlag:checkFlag},
 	    	success:function(data){
-	    		console.log(JSON.stringify(data));
+	    		//console.log(JSON.stringify(data));
 	    	}
 	 	});
 
