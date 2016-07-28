@@ -40,6 +40,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
+
 					SELECT ctd.pkid
 						,ctd.CASE_CODE
 						,ctd.CTM_CODE

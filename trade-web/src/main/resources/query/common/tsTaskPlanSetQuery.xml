@@ -36,7 +36,7 @@
 				    SELECT 
 				        PKID,
 				        PART_CODE,
-				        PART_CODE AS PART_NAME,
+				        PART_CODE AS PART_NAME_OLD,
 				        PLAN_DAYS,
 				        IS_MANUAL_SET,
 				        CREATE_TIME 
@@ -52,7 +52,8 @@
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="提醒事项CODE" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="desc" resizable="" />
-				<column type="both" name="PART_NAME" index="" checkbox="" display="提醒任务" customDict="getPartNameByCode" sysDict="" format="" width="0" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="PART_NAME_OLD" index="" checkbox="" display="提醒任务" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="virtual" name="PART_NAME" display="提醒任务" customDict="getPartNameByCode" referencecol="PART_NAME_OLD" isSort="true" align="" halign="" order="desc" />
 				<column type="both" name="PLAN_DAYS" index="" checkbox="" display="计划天数" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_MANUAL_SET" index="" checkbox="" display="是否人工设置" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

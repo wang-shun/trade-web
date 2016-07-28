@@ -101,7 +101,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					        ab.SRV_CODE,
+					        ab.SRV_CODE AS SRV_CODE_OLD,
 					        ab.BASE_AMOUNT,
 					        ab.SRV_PART_IN,
 					        ab.SRV_PART_TOTAL,
@@ -109,7 +109,7 @@
 					        pd.AWARD_KPI_MONEY,
 					        pm.FIN_ORDER,
 					        pm.FIN_ORDER_ROLL,
-					        ab.PARTICIPANT
+					        ab.PARTICIPANT AS PARTICIPANT_OLD
 					from sctrans.t_ts_award_base ab 
 					 left join sctrans.T_TS_KPI_SRV_CASE sc 
 					        on ab.SRV_CODE = sc.SRV_CODE and ab.case_code =sc.case_code
@@ -140,7 +140,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column name="SRV_CODE"   customDict="qqcdSrvCode" />
+				<column name="SRV_CODE_OLD"   customDict="" />
+				<column type="virtual" name="SRV_CODE" customDict="qqcdSrvCode" referencecol="SRV_CODE_OLD"  />
 				<column name="BASE_AMOUNT"   />
 				<column name="SRV_PART_IN"   />
 				<column name="SRV_PART_TOTAL"   />
@@ -149,7 +150,8 @@
 				<column name="AWARD_KPI_MONEY"   />
 				<column name="FIN_ORDER"   />
 				<column name="FIN_ORDER_ROLL"   />
-				<column name="PARTICIPANT"   customDict="qqcdUserIdName"/>
+				<column name="PARTICIPANT_OLD"   customDict=""/>
+				<column type="virtual" name="PARTICIPANT" customDict="qqcdUserIdName" referencecol="PARTICIPANT_OLD"  />
 			</table-row>
 		</grid>
 	</query>
@@ -160,7 +162,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					        ab.SRV_CODE,
+					        ab.SRV_CODE AS SRV_CODE_OLD,
 					        ab.BASE_AMOUNT,
 					        cast(ab.SRV_PART_IN as varchar) SRV_PART_IN,
 					        cast(ab.SRV_PART_TOTAL as varchar) SRV_PART_TOTAL,
@@ -169,7 +171,7 @@
 					        pm.FIN_ORDER,
 					        pm.FIN_ORDER_ROLL,
 					        
-					        ab.PARTICIPANT,
+					        ab.PARTICIPANT AS PARTICIPANT_OLD,
 					        ab.case_code,pi.property_addr,ab.guohu_time,ab.paid_time
 					from sctrans.t_ts_award_base ab 
 					 left join sctrans.T_TS_KPI_SRV_CASE sc 
@@ -213,10 +215,11 @@
 				<column name="GUOHU_TIME"   beanFormatter="dateFormatter" title="过户时间"/>
 				<column name="PAID_TIME"   beanFormatter="dateFormatter" title="生成时间"/>
 			
-				<column name="SRV_CODE"   customDict="qqcdSrvCode" title="服务"/>
+				<column name="SRV_CODE_OLD"   customDict="" title="服务"/>
+				<column type="virtual" name="SRV_CODE" customDict="qqcdSrvCode" referencecol="SRV_CODE_OLD"  title="服务"/>
 				<column name="BASE_AMOUNT"   title="基础奖金" />
-				<column name="SRV_PART_IN_TOTAL" customDict="qqcdSrvPart" referencecol="SRV_PART_IN,SRV_PART_TOTAL"  title="环节占比" />
-				<column name="FIN_ORDER_CNT" customDict="qqcdFin" referencecol="FIN_ORDER,FIN_ORDER_ROLL"  title="金融单量" />
+				<column type="virtual" name="SRV_PART_IN_TOTAL" customDict="qqcdSrvPart" referencecol="SRV_PART_IN,SRV_PART_TOTAL"  title="环节占比" />
+				<column type="virtual" name="FIN_ORDER_CNT" customDict="qqcdFin" referencecol="FIN_ORDER,FIN_ORDER_ROLL"  title="金融单量" />
 				
 				<column name="SATISFACTION"   title="满意度"/>
 				<column name="AWARD_KPI_MONEY"   title="最终奖金"/>
@@ -225,7 +228,8 @@
 				<column name="SRV_PART_IN" />
 				<column name="SRV_PART_TOTAL" />
 				
-				<column name="PARTICIPANT"   customDict="qqcdUserIdName" title="人员"/>
+				<column name="PARTICIPANT_OLD"   customDict="" title="人员"/>
+				<column type="virtual" name="PARTICIPANT" title="人员" customDict="qqcdUserIdName" referencecol="PARTICIPANT_OLD"  />
 			</table-row>
 		</grid>
 	</query>

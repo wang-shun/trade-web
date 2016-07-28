@@ -37,7 +37,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT
-					PKID, owner, assignee, status,status as statusCode,CREATE_DATE as createDate,CLOSE_DATE as closeDate
+					PKID, owner, assignee AS assignee_OLD, status AS status_OLD,status as statusCode,CREATE_DATE as createDate,CLOSE_DATE as closeDate
 					FROM sctrans.T_TS_TASK_DELEGATE 
 					where 1 = 1
 				]]>
@@ -49,8 +49,10 @@
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="owner" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="assignee" index="" checkbox="" display="" customDict="getUserRealNameByUsername" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="status" index="" checkbox="" display="" customDict="getStatus" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="assignee_OLD" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="assignee" display="" referencecol="assignee_OLD"  customDict="getUserRealNameByUsername" isSort="true" hidden="false"/>
+				<column type="both" name="status_OLD" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="status" display="" referencecol="status_OLD"  customDict="getStatus" hidden="false"/>
 				<column type="both" name="createDate" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="closeDate" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />						
 				<column type="both" name="statusCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>

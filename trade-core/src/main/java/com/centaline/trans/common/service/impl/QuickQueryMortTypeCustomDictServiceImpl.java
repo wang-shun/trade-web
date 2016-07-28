@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.uam.basedata.remote.UamBasedataService;
 
@@ -17,6 +19,7 @@ public class QuickQueryMortTypeCustomDictServiceImpl implements CustomDictServic
 	private String dictType;
 	
 	@Override
+	@Cacheable(value="QuickQueryMortTypeCustomDictServiceImpl",key="#root.target.getTransPosition()+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		if (CollectionUtils.isNotEmpty(keys)) {
 			 for(Map<String, Object> m:keys){

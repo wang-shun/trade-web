@@ -44,7 +44,7 @@
 					SELECT
 					TER.PKID,
 					TER.CASE_CODE,
-					TER.REPORT_TYPE,
+					TER.REPORT_TYPE AS REPORT_TYPE_OLD,
 					TER.REPORT_ARISE_TIME,
 					TER.REPORT_RESPONSE_TIME,
 					TER.FEEDBACK,
@@ -79,7 +79,8 @@
 				<column type="both" name="PKID" index="" checkbox="true" display="报告ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="评估编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="SERIAL_NUMBER" index="" checkbox="" display="报告序列" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="REPORT_TYPE" index="" checkbox="" display="报告类型" customDict="getReportType" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REPORT_TYPE_OLD" index="" checkbox="" display="报告类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="REPORT_TYPE" display="报告类型" referencecol="REPORT_TYPE_OLD"  customDict="getReportType" isSort="true" />
 				<column type="both" name="FEEDBACK" index="" checkbox="" display="当前状态" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REPORT_RESPONSE_TIME" index="" checkbox="" display="状态时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_FINAL_REPORT" index="" checkbox="" display="是否最终报告" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="" resizable=""/>
