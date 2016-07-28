@@ -505,12 +505,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){	
 	    		//获取临时银行审批状态和拒绝原因
-	    		//$("#tmpBankStatus").val(data.content.tmpBankStatus);--放到提交步骤
-	    		if(data.content != null && data.content.tmpBankStatus == '0'){
-	    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
-		    		$("#tmpBankRejectReason").text("已被拒绝:"+reason);
-	    		}
-	    		 
+	    		//$("#tmpBankStatus").val(data.content.tmpBankStatus);--放到提交步骤    		 
 	    		if(queryCustCodeOnly){	
 	    			if(data.content != null && data.content.custCode != null){
 	    				mCustCode=data.content.custCode;
@@ -846,7 +841,17 @@ function getCompleteMortInfo(isMainLoanBank){
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){
-	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);
+	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);    		
+	    		
+	    		if(data.content != null){
+	    			if(data.content.tmpBankStatus == '0'){
+		    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
+			    		$("#tmpBankRejectReason").text("已拒绝:"+reason);
+		    		}else if(data.content.tmpBankStatus == '1'){
+		    			$("#tmpBankRejectReason").text("已通过！");
+		    		}
+	    		}
+	    		
 	    		var f=$("#completeForm1");
 	    		if(isMainLoanBank == 1)
                 f=$("#completeForm");
@@ -1359,9 +1364,6 @@ $(document).ready(function () {
  				return deleteAndModify();
  			}
  			return false;
- 		}else if(currentIndex == 4){
- 			//离开报告步骤执行临时银行审批流程
- 			startTmpBankWorkFlow(finOrgCode_);
  		}
  		
  		return true;

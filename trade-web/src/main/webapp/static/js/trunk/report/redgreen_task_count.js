@@ -1,4 +1,8 @@
 $(document).ready(function() {
+					//第一次进入界面查询条件组别、主管不要显示
+					document.getElementById("zb").style.display="none";
+					document.getElementById("zg").style.display="none";
+					
 					cleanForm();
 					//基本信息等高
 					var url = "/quickGrid/findPage";
@@ -213,7 +217,9 @@ function reloadGrid(data) {
         }  
   });
 }
-function reloadGridGb(data) {
+
+function getDatabase(data){
+	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -250,8 +256,11 @@ function reloadGridGb(data) {
 		data.TextValName = TextValName;
 		data.TextValNameZj = null;
 	}
+}
+
+function reloadGridGb(data) {
 	
-	 //searchGbcleanForm();
+	getDatabase(data);
 	
 	$.ajax({
 		async: true,
@@ -371,8 +380,9 @@ function exportTExcel() {
 	displayColomn.push('realName1');
 	displayColomn.push('orgName2');
 	displayColomn.push('realName2');
-	displayColomn.push('yellow');
 	displayColomn.push('red');
+	displayColomn.push('yellow');
+	displayColomn.push('allcolor');
 	displayColomn.push('importtime');
 	
 	displayColomn.push('EVAL_FEE');
@@ -400,6 +410,9 @@ function exportTExcel() {
 	var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 	var params = getParamsValue();
+	
+	getDatabase(params);
+	
 	var queryId = '&queryId=queryRedGreenTaskCountExcelList';
 	var colomns = '&colomns=' + displayColomn;
 	
@@ -460,6 +473,8 @@ function exportToExcel(organId) {
 	}*/
 	params.organId = organId;
 	/*params.prApplyTime = prApplyTime;*/
+	
+	
 	
 	var queryId = '&queryId=queryRedGreenTaskExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
@@ -541,9 +556,9 @@ function queryRedGreenTaskDetail(id){
 	
 }
 //添加颜色参数
-function queryRedGreenTaskDetailColour(id,colourId,orgName1){
+function queryRedGreenTaskDetailColour(id,colourId,orgName1,orgName2){
 	//var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1);
+	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1+"&orgName2="+orgName2);
 	
 }
 
@@ -621,7 +636,7 @@ function userSelect_back(){
 		
 		if(($("#h_proOrgId_gb").val() != "" || $("#h_proOrgId_gb").val() !=null)&&(!(serviceDepId != null) || serviceDepId == "")){
 			serviceDepIda = $("#h_proOrgId_gb").val();
-			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,
+			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,jobCode:'Manager,Senior_Manager,director',
 				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 		}else{
 			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
@@ -629,7 +644,7 @@ function userSelect_back(){
 		}
 		
 	}else{
-		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
+		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
 			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 	}
 }

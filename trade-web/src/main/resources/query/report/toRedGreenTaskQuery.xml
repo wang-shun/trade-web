@@ -362,6 +362,22 @@ on org2.ID=uoj1.ORG_ID
 							  
 							  )as a where color &lt;&gt; '2' group by id,color)
 							  t3 on t1.id=t3.orgId and t3.color=1
+							   where 1=1 
+							   <ifNotNull proOrggbName>
+										   and t1.orgName1 =#proOrggbName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValName>
+										   and t1.realName2 =#TextValName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValNameZj>
+										   and t1.realName1 =#TextValNameZj#
+							  </ifNotNull>
+							  
+							  <ifNotNull proOrgName>
+										   and t1.orgName2 =#proOrgName#
+							  </ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -461,14 +477,6 @@ t1 inner join(select * from (
 							   and t1.orgName1 =#proOrggbName#
 				  </ifNotNull>
 				  
-				  <ifNotNull TextValName>
-							   and t1.realName2 =#TextValName#
-				  </ifNotNull>
-				  
-				  <ifNotNull TextValNameZj>
-							   and t1.realName1 =#TextValNameZj#
-				  </ifNotNull>
-				  
 				  <ifNotNull proOrgName>
 							   and t1.orgName2 =#proOrgName#
 				  </ifNotNull>
@@ -510,6 +518,10 @@ t1 inner join(select * from (
 	
 	<query id="queryRedGreenTaskExcelItemList" cacheCount="true">
 		<searchCondition>
+		    <condition field="t2.PROPERTY_ADDR" name="propertyAddr" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.REAL_NAME" name="realName" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.CASE_CODE" name="caseCode" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.PART_CODE" name="taskDfKey" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -560,12 +572,28 @@ t1 inner join(select * from (
                   group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
         
                   )as a ) t2 on t1.id=t2.orgId 
-                  where 1=1 
-                  <ifNotNull organId>
-							   and t1.id = #organId#
+                   <ifNotNull organId>
+							   where t1.id = #organId#
 				  </ifNotNull>
-                  <ifNotNull orgName1>
-							   and t1.orgName1 = #orgName1#
+				  <ifNotNull colourId>
+							   and t2.color =#colourId#
+				  </ifNotNull>
+				  <ifNotNull dtBegin>
+							   and t2.EST_PART_TIME >=#dtBegin#
+				  </ifNotNull>
+				  <ifNotNull dtEnd>
+							   and t2.EST_PART_TIME &lt;=#dtEnd#
+				  </ifNotNull>
+				  <ifNotNull lampRadios>
+							   and t2.color =#lampRadios#
+				  </ifNotNull>
+				  
+				  <ifNotNull proOrggbName>
+							   and t1.orgName1 =#proOrggbName#
+				  </ifNotNull>
+				  
+				  <ifNotNull proOrgName>
+							   and t1.orgName2 =#proOrgName#
 				  </ifNotNull>
 				]]>
 			</baseSql>

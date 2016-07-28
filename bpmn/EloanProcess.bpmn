@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="EloanyProcess" name="Eloan process" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="EloanApply" name="E+贷款申请" activiti:candidateGroups="consultant" activiti:formKey="/task/eloanApply/process"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="EloanApply"></sequenceFlow>
+    <userTask id="EloanApplyConfirm" name="E+申请确认" activiti:candidateGroups="Manager" activiti:formKey="/task/eloanApplyConfirm/process"></userTask>
+    <sequenceFlow id="flow2" sourceRef="EloanApply" targetRef="EloanApplyConfirm"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow3" sourceRef="EloanApplyConfirm" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="EloanSign" name="E+贷款签约" activiti:candidateGroups="consultant" activiti:formKey="/task/eloanSign/process"></userTask>
+    <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="EloanSign">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ApplyApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <userTask id="EloanSignConfirm" name="E+签约确认" activiti:candidateGroups="Manager" activiti:formKey="/task/eloanSignConfirm/process"></userTask>
+    <userTask id="EloanRelease" name="E+贷款放款" activiti:candidateGroups="consultant" activiti:formKey="/task/eloanRelease/process"></userTask>
+    <userTask id="EloanReleaseConfirm" name="E+放款确认" activiti:candidateGroups="Manager" activiti:formKey="/task/eloanReleaseConfirm/process"></userTask>
+    <endEvent id="endevent2" name="End"></endEvent>
+    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow7" sourceRef="EloanReleaseConfirm" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway3" targetRef="endevent2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ReleaseApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="EloanRelease" targetRef="EloanReleaseConfirm"></sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="EloanSign" targetRef="EloanSignConfirm"></sequenceFlow>
+    <sequenceFlow id="flow11" sourceRef="EloanSignConfirm" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="EloanRelease">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SignApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="exclusivegateway1" targetRef="EloanApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ApplyApprove==false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="exclusivegateway2" targetRef="EloanSign">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SignApprove==false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow15" sourceRef="exclusivegateway3" targetRef="EloanRelease">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ReleaseApprove==false}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_EloanyProcess">
+    <bpmndi:BPMNPlane bpmnElement="EloanyProcess" id="BPMNPlane_EloanyProcess">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EloanApply" id="BPMNShape_EloanApply">
+        <omgdc:Bounds height="55.0" width="105.0" x="191.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EloanApplyConfirm" id="BPMNShape_EloanApplyConfirm">
+        <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="590.0" y="207.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EloanSign" id="BPMNShape_EloanSign">
+        <omgdc:Bounds height="55.0" width="111.0" x="710.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="1119.0" y="207.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EloanSignConfirm" id="BPMNShape_EloanSignConfirm">
+        <omgdc:Bounds height="55.0" width="111.0" x="950.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EloanRelease" id="BPMNShape_EloanRelease">
+        <omgdc:Bounds height="55.0" width="131.0" x="1210.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EloanReleaseConfirm" id="BPMNShape_EloanReleaseConfirm">
+        <omgdc:Bounds height="55.0" width="105.0" x="1440.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1640.0" y="213.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
+        <omgdc:Bounds height="40.0" width="40.0" x="1570.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="75.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="191.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="296.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="515.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="590.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="630.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="710.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="1545.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1570.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="1610.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1640.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="1341.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1440.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="821.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="950.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="1061.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1119.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="1159.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1210.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="610.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="610.0" y="339.0"></omgdi:waypoint>
+        <omgdi:waypoint x="244.0" y="339.0"></omgdi:waypoint>
+        <omgdi:waypoint x="243.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="1139.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1138.0" y="340.0"></omgdi:waypoint>
+        <omgdi:waypoint x="765.0" y="340.0"></omgdi:waypoint>
+        <omgdi:waypoint x="765.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="1590.0" y="250.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1591.0" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1275.0" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1275.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
