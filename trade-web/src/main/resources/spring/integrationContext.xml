@@ -13,7 +13,7 @@
 		<property name="serviceInterface" value="com.aist.filesvr.upload.remote.FilesvrUploadService" />
 	</bean>
 	
-	<bean name="httpCommFindUserService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!-- <bean name="httpCommFindUserService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
     	<property name="service" ref="commFindUserService"/> 
     	<property name="serviceInterface" value="com.centaline.trans.engine.service.CommFindUserService"/> 
     </bean> 
@@ -23,5 +23,5 @@
                 <prop key="/remote/commFindUserService">httpCommFindUserService</prop>  
             </props>  
         </property>  
-    </bean> 
+    </bean>  -->
 </beans>
