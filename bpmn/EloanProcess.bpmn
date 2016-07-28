@@ -17,7 +17,7 @@
     <userTask id="EloanRelease" name="E+贷款放款" activiti:assignee="${Consultant}" activiti:formKey="/loan/task/eloanRelease/process">
       <extensionElements>
         <activiti:formProperty id="ReleaseAmount" name="本次放贷金额" type="integer"></activiti:formProperty>
-        <activiti:formProperty id="isCompletedRelease" name="是否完成放款"></activiti:formProperty>
+        <activiti:formProperty id="isCompletedRelease" name="是否完成放款" type="boolean"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="EloanReleaseConfirm" name="E+放款确认" activiti:assignee="${Manager}" activiti:formKey="/loan/task/eloanReleaseConfirm/process"></userTask>
