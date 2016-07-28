@@ -40,11 +40,11 @@
 			<baseSql>
 				<![CDATA[
 					SELECT
-					PART_CODE, 
-					OPERATOR, 
+					PART_CODE AS PART_CODE_OLD, 
+					OPERATOR AS OPERATOR_OLD, 
 					OPERATOR_TIME,
 					CONTENT,
-					NOT_APPROVE  
+					NOT_APPROVE AS NOT_APPROVE_OLD   
 					FROM sctrans.T_TO_APPROVE_RECORD TR
 					where 1 = 1 
 				]]>
@@ -54,11 +54,14 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="PART_CODE" index="" display="环节编码" customDict="getDictPartName"/>
-				<column type="both" name="OPERATOR" index="" checkbox="" display="操作人" customDict="getUserNameByCode" />
+				<column type="both" name="PART_CODE_OLD" index="" display="环节编码" customDict=""/>
+				<column type="virtual" name="PART_CODE" display="环节编码" referencecol="PART_CODE_OLD"  customDict="getDictPartName" hidden="false"/>
+				<column type="both" name="OPERATOR_OLD" index="" checkbox="" display="操作人" customDict="" />
+				<column type="virtual" name="OPERATOR" display="操作人" referencecol="OPERATOR_OLD"  customDict="getUserNameByCode" hidden="false"/>
 				<column type="both" name="OPERATOR_TIME" index="" checkbox="true" display="操作时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" format="" width="0" align="" halign="" order="asc" resizable=""/>
 				<column type="both" name="CONTENT" index="" checkbox="" display="内容" />
-				<column type="both" name="NOT_APPROVE" index="" display="未通过原因" customDict="getDictNotAppeove"/>
+				<column type="both" name="NOT_APPROVE_OLD" index="" display="未通过原因" customDict=""/>
+				<column type="virtual" name="NOT_APPROVE" display="未通过原因" referencecol="NOT_APPROVE_OLD"  customDict="getDictNotAppeove" hidden="false"/>
 			</table-row>
 		</grid>
 	</query>

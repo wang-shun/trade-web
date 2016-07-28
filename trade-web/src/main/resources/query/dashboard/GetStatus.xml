@@ -19,34 +19,61 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[ 
-					select  
-						sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
-						sum(case when status='30001003' then 1 else 0 end) as qianyue ,
-						sum(case when status='30001004' then 1 else 0 end) as guohu,
-						sum(case when status='30001005' then 1 else 0 end) as jiean,
-						DatePart(mm, c.CREATE_TIME) month,
-						DatePart(yyyy, c.CREATE_TIME) years
-					from sctrans.T_TO_CASE c 
-					<if test="serviceDepHierarchy == 'yucui_district'">
-					left join sctrans.sys_org org on org.id = c.org_id 
-					</if>
-					where  c.STATUS!='30003001' and  c.STATUS!='30003005' and c.CREATE_TIME>=#startDate# 
-                        <if test="serviceJobCode == 'consultant' ">
-                			and c.LEADING_PROCESS_ID = #sessionUserId#
-                		</if>
-                		<if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
-                			and c.org_id =#serviceDepId#
-                		</if>
-                		<if test="serviceDepHierarchy == 'BUSIGRP'">
-                			and c.org_id =#serviceDepId#
-                		</if>
-                		<if test="serviceDepHierarchy == 'yucui_district'">
-                			and org.parent_id =#serviceDepId#
-                		</if>
-						GROUP BY DatePart(mm, c.CREATE_TIME),DatePart(yyyy, c.CREATE_TIME)	
+				select * from (
+			        select  
+			        sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
+			        sum(case when status='30001003' then 1 else 0 end) as qianyue ,
+			        sum(case when status='30001004' then 1 else 0 end) as guohu,
+			        sum(case when status='30001005' then 1 else 0 end) as jiean,
+			        0 mm,
+			        0 years
+			        from sctrans.T_TO_CASE c 
+			        <if test="serviceDepHierarchy == 'yucui_district'">
+			        left join sctrans.sys_org org on org.id = c.org_id 
+			        </if>
+			        where  c.STATUS!='30003001' and  c.STATUS!='30003005' and c.CREATE_TIME &lt; #startDate# 
+			        <if test="serviceJobCode == 'consultant' ">
+			        and c.LEADING_PROCESS_ID = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+			        and c.org_id =#serviceDepId#
+			        </if>
+			        <if test="serviceDepHierarchy == 'BUSIGRP'">
+			        and c.org_id =#serviceDepId#
+			        </if>
+			        <if test="serviceDepHierarchy == 'yucui_district'">
+			        and org.parent_id =#serviceDepId#
+			        </if>
+			UNION
+			        select  
+			        sum(case when status='30001001' or  status='30001002' then 1 else 0 end) as jiedan, 
+			        sum(case when status='30001003' then 1 else 0 end) as qianyue ,
+			        sum(case when status='30001004' then 1 else 0 end) as guohu,
+			        sum(case when status='30001005' then 1 else 0 end) as jiean,
+			        DatePart(mm, c.CREATE_TIME) mm,
+			        DatePart(yyyy, c.CREATE_TIME) years
+			        from sctrans.T_TO_CASE c 
+			        <if test="serviceDepHierarchy == 'yucui_district'">
+			        left join sctrans.sys_org org on org.id = c.org_id 
+			        </if>
+			        where  c.STATUS!='30003001' and  c.STATUS!='30003005' and c.CREATE_TIME>=#startDate# 
+			        <if test="serviceJobCode == 'consultant' ">
+			        and c.LEADING_PROCESS_ID = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+			        and c.org_id =#serviceDepId#
+			        </if>
+			        <if test="serviceDepHierarchy == 'BUSIGRP'">
+			        and c.org_id =#serviceDepId#
+			        </if>
+			        <if test="serviceDepHierarchy == 'yucui_district'">
+			        and org.parent_id =#serviceDepId#
+			        </if>
+			        GROUP BY DatePart(mm, c.CREATE_TIME),DatePart(yyyy, c.CREATE_TIME)	
+			) d	order by d.years,d.mm
 				]]>
 			</baseSql>
-			ORDER BY  DatePart(mm, c.CREATE_TIME) 
+			
 		</searchSql>
 		<grid>
 			<table-row>
@@ -54,8 +81,8 @@
 				<column name="qianyue"   />
 				<column name="guohu"   />
 				<column name="jiean"   />
-			    <column name="years"   />
-				<column name="month"   />
+				<column name="mm"   />
+				<column name="years"   />
 			</table-row>
 		</grid>
 	</query>

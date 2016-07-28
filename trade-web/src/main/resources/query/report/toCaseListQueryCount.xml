@@ -35,7 +35,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						a.DISTRICT_ID AS ORG_ID, 
+						a.DISTRICT_ID AS ORG_ID_OLD, 
 						ISNULL(b.recived_count,0) AS RECEIVED_COUNT, 
 						ISNULL(c.sign_count,0) AS SIGN_COUNT, 
 						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
@@ -125,7 +125,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="ORG_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_ID_OLD"  index="" checkbox="" display="组织" customDict="" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ORG_ID"  display="组织" referencecol="ORG_ID_OLD"  customDict="qqcdOrgIdName" isSort="true" />
 				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
@@ -142,7 +143,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						a.ORG_ID AS ORG_ID, 
+						a.ORG_ID AS ORG_ID_OLD, 
 						ISNULL(b.recived_count,0) AS RECEIVED_COUNT, 
 						ISNULL(c.sign_count,0) AS SIGN_COUNT, 
 						ISNULL(d.house_tranfer_count,0) AS HOUSE_TRANFER_COUNT, 
@@ -230,7 +231,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="ORG_ID"  index="" checkbox="" display="组织" customDict="qqcdOrgIdName" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_ID_OLD"  index="" checkbox="" display="组织" customDict="" sysDict="" format=""  width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ORG_ID"  display="组织" referencecol="ORG_ID_OLD"  customDict="qqcdOrgIdName" isSort="true" />
 				<column type="both" name="RECEIVED_COUNT" index="" checkbox="" display="接单数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_COUNT" index="" checkbox="" display="签约数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="HOUSE_TRANFER_COUNT" index="" checkbox="" display="过户数" customDict="" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />

@@ -44,8 +44,8 @@
 					TEP.EVA_CODE,
 					TEP.ARISE_TIME,
 					TEP.RESPONSE_TIME,
-					TEP.STATUS,
-					TEP.RESULT,
+					TEP.STATUS AS STATUS_OLD,
+					TEP.RESULT AS RESULT_OLD,
 					TEP.RESULT RESULT_CODE,
 					TEP.UNIT_PRICE,
 					convert(decimal(18,2),TEP.TOTAL_PRICE/10000) TOTAL_PRICE,
@@ -78,9 +78,11 @@
 				<column type="both" name="PKID" index="" checkbox="true" display="询价ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="评估编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="RESIDENCE_NAME" index="" checkbox="" display="物业地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="STATUS" index="" checkbox="" display="询价状态" customDict="getStatusByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="STATUS_OLD" index="" checkbox="" display="询价状态" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="STATUS" display="询价状态" referencecol="STATUS_OLD"  customDict="getStatusByCode" isSort="true" />
 				<column type="both" name="ARISE_TIME" index="" checkbox="" display="询价时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="RESULT" index="" checkbox="" display="询价结果" customDict="getResultByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RESULT_OLD" index="" checkbox="" display="询价结果" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="RESULT" display="询价结果" referencecol="RESULT_OLD"  customDict="getResultByCode" isSort="true" />
 				<column type="both" name="UNIT_PRICE" index="" checkbox="" display="单价（元）" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="TOTAL_PRICE" index="" checkbox="" display="总价(万元)" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="目标银行" customDict="" sysDict="" format=""  width="150" isSort="" align="" halign="" order="" resizable="" />			

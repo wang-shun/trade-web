@@ -103,6 +103,7 @@ public class ChandiaoTransferController {
 	@RequestMapping(value="chandiaoDetail")
 	public String chandiaoDetail (HttpServletRequest request){
 		
+		String  flag = request.getParameter("flag");
 		String  prCompleteTimeStart = request.getParameter("prCompleteTimeStart");
 		String  prCompleteTimeEnd = request.getParameter("prCompleteTimeEnd");
 		
@@ -112,11 +113,13 @@ public class ChandiaoTransferController {
 		int dayOfWeek=c1.get(Calendar.DAY_OF_WEEK)-1;
 		c1.add(Calendar.DATE, -dayOfWeek-6);
 		c2.add(Calendar.DATE, -dayOfWeek);
-		if(StringUtils.isEmpty(prCompleteTimeStart)){
-			prCompleteTimeStart = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
-		}
-		if(StringUtils.isEmpty(prCompleteTimeEnd)){
-			prCompleteTimeEnd = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+		if(flag==null){
+			if(StringUtils.isEmpty(prCompleteTimeStart)){
+				prCompleteTimeStart = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
+			}
+			if(StringUtils.isEmpty(prCompleteTimeEnd)){
+				prCompleteTimeEnd = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+			}
 		}
 		
 		String  organId = request.getParameter("organId");

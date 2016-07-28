@@ -50,7 +50,7 @@
 						F.BUYER,
 						G.PKID AS EVALID,
 						G.EVAL_FEE,
-						G.IS_EVAL_FEE_GET,
+						G.IS_EVAL_FEE_GET AS IS_EVAL_FEE_GET_OLD,
 						G.RECORD_TIME
 					
 					FROM
@@ -157,7 +157,8 @@
 				<column type="both" name="SELLER" index="" checkbox="" display="上家" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="BUYER" index="" checkbox="" display="下家" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="EVAL_FEE" index="" checkbox="" display="评估费" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="IS_EVAL_FEE_GET" index="" checkbox="" display="足额收取" customDict="getIsFeeGetNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="IS_EVAL_FEE_GET_OLD" index="" checkbox="" display="足额收取" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="IS_EVAL_FEE_GET" display="足额收取" customDict="getIsFeeGetNameByCode" referencecol="IS_EVAL_FEE_GET_OLD"  />
 				<column type="both" name="RECORD_TIME" index="" checkbox="" display="最后收取时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
 		</grid>

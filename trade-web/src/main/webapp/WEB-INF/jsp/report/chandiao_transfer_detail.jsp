@@ -217,7 +217,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	
-	<input type="hidden" id="organId" value="${organId}" />
+	<input type="hidden" id="organId" name="organId" value="${organId}" />
 	<%-- <input type="hidden" id="prApplyTimePre" value="${prApplyTime}" />
 	<input type="hidden" id="prApplyTimeEndPre" value="${prApplyTimeEnd}" />
 	<input type="hidden" id="prAccpetTimeStartPre" value="${prAccpetTimeStart}" />

@@ -2,6 +2,7 @@ package com.centaline.trans.common.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,34 @@ public class QuickQueryUOJByUserIdCustomerDictServiceImpl implements CustomDictS
 			return StringUtils.join(orgNameList.toArray(),"/");
 		}
 		return key;
+	}
+	
+	@Override
+	@Cacheable(value="QuickQueryUOJByUserIdCustomerDictServiceImpl",key="#root.target.getProp()+'/'+#keys")
+	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		for(Map<String, Object> keyer:keys){
+			String val = "";
+			Object key = keyer.values().iterator().next();
+			if(key!=null){
+				List<UserOrgJob> uojList = uamUserOrgService.getUserOrgJobByUserId(key.toString());
+				if("orgName".equals(prop)){
+					List<String> orgNameList = new ArrayList<String>();
+					for(UserOrgJob uoj : uojList){
+						orgNameList.add(uoj.getOrgName());
+					}
+					val = StringUtils.join(orgNameList.toArray(),"/");
+				}
+			}
+			
+			keyer.put("val", val);
+		}
+		
+		return keys;
+	}
+	
+	@Override
+	public Boolean getIsBatch() {
+		return true;
 	}
 
 	public void setProp(String prop) {

@@ -152,5 +152,7 @@
 		
 		<!-- 评论模块 -->
 		<mapper resource="mapper/comment/ToCaseCommentMapper.xml" />
+		<!-- 快速查询接口 -->
+		<mapper resource="mapper/common/KeyValueMapper.xml" />
 	</mappers>
 </configuration>
