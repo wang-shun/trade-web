@@ -289,7 +289,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','');" target="_blank">{{item.yellowall}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','');" target="_blank">{{(item.yellowall)+(item.redall)}}</a></td>
 						<td class="t-left pd-l">
-                            <a href="javascript:exportToExcelGb('{{item.orgName1}}');" target="_blank">导出</a>
+                            <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','');" target="_blank">导出</a>
                         </td>
 				
 
@@ -311,7 +311,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
 						<td class="t-left pd-l">
-                            <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
+                            <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','{{item.orgName2}}');" target="_blank">导出</a>
                         </td>
 						
 				  </tr>

@@ -170,6 +170,7 @@ function getDatebase(data){
     data.caseCode = caseCodes;
     data.lampRadios = lampRadios;
     data.taskDfKey = taskDfKey;
+   // data.taskDfKey = "'"+taskDfKey+"'";
     data.proOrggbName = proOrggbName;
     data.proOrgName = proOrgName;
     data.jobName = jobNames;
