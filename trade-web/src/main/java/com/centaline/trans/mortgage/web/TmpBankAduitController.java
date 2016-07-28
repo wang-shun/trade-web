@@ -172,6 +172,7 @@ public class TmpBankAduitController {
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
 
 			if(!isManagerApprove){
+				mortageDb.setRecLetterNo("");
 				mortageDb.setTmpBankUpdateBy("");
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
@@ -203,6 +204,7 @@ public class TmpBankAduitController {
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
 
 			if(!isSeniorManagerApprove ){
+				mortageDb.setRecLetterNo("");
 				mortageDb.setTmpBankUpdateBy("");
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
@@ -225,6 +227,7 @@ public class TmpBankAduitController {
 			ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
 			//更新案件信息
 			if("false".equals(tmpBankCheck)){
+				mortageDb.setRecLetterNo("");
 				mortageDb.setTmpBankUpdateBy("");
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
