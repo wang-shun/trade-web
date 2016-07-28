@@ -125,10 +125,10 @@ text-decoration: underline !important;
 							   </div>
 							   </div>
 							</div>
-						<div class="col-lg-5 col-md-5">    
+						<div class="col-lg-6 col-md-5">    
                           		 <div class="form-group">
-                                      <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
-                                      <div class="col-lg-9 col-md-9">
+                                      <label class="col-lg-3 col-md-13 control-label font_w">贵宾服务部</label>
+                                      <div class="col-lg-5 col-md-9">
                                           <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 								   chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBackgb})" value='${serOrgName }'>
@@ -153,7 +153,7 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div> 
-	                         <div class="col-lg-5 col-md-5 ">    
+	                         <div class="col-lg-6 col-md-5 ">    
 	                       			<div class="form-group">
 	                                   <label class="col-lg-3 col-md-3 control-label font_w">经办人</label>
 	                                   <div class="col-lg-9 col-md-9">
@@ -172,7 +172,7 @@ text-decoration: underline !important;
 		    				</div>
 		    				</div>
 		    			</div>
-						<div class="col-lg-5 col-md-5 "> 
+						<div class="col-lg-6 col-md-5 "> 
 						    <div class="form-group">
 							         <label class="col-lg-3 col-md-3 control-label font_w">任务名 </label>
 									<div class="col-md-5">
@@ -185,34 +185,28 @@ text-decoration: underline !important;
 		    			</div>
 		    			</div>
 		    			<div class="row"> 
-						<div class="col-lg-5 col-md-5 "> 
-						<div class="form-group">
-							<label class="col-lg-3 col-md-3 control-label font_w">产证地址 </label>
-		    				<div class="col-md-9">
-		    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
-		    				</div>
-		    			</div>
-		    			</div>
-						<div class="col-lg-5 col-md-5 "> 
-						   <div class="form-group">
-								<label class="col-lg-3 col-md-3 control-label font_w">预计完成时间</label>
-								<div id="dateDiv_0"  class="col-md-6">
-								<div id="datepicker_0"
-									class="input-group input-medium date-picker input-daterange pull-left"
-									data-date-format="yyyy-mm-dd">
-									<input id="dtBegin_0" name="dtBegin" class="form-control"
-										style="font-size: 13px;" type="text" value=""
-										placeholder="开始日期"> <span class="input-group-addon">到</span>
-									<input id="dtEnd_0" name="dtEnd" class="form-control"
-										style="font-size: 13px;" type="text" value=""
-										placeholder="结束日期" />
-								</div>
-								<div id="addLine" class="pull-left m-l">
+							<div class="col-lg-5 col-md-5 "> 
+							<div class="form-group">
+								<label class="col-lg-3 col-md-3 control-label font_w">产证地址 </label>
+			    				<div class="col-md-9">
+			    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
+			    				</div>
+			    			</div>
+			    			</div>
+			    			
+							<div class="col-lg-6 col-md-5 "> 
+							   <div class="form-group">
+									<label class="col-lg-3 col-md-3 control-label font_w" >预计完成时间</label>
+									<div id="dateDiv_0"  class="col-lg-9 col-md-7" >
+										<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+											<input id="dtBegin_0" name="dtBegin" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="开始日期"> 
+											<span class="input-group-addon">到</span>
+											<input id="dtEnd_0" name="dtEnd" class="form-control date-picker-input" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+										</div>
 								
-							</div>
-							</div>
-							</div>
-		    			</div> 
+								    </div>
+								</div>
+			    			</div> 
 		    			</div> 
 		    				<br>
 		    			
