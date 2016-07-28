@@ -260,8 +260,8 @@ function exportToExcel() {
 	var params = getParamsValue();
 	
 	var yuCuiOriGrpIdPre = $("#organId").val();
-	var prApplyTimePre = $("#prApplyTime").val();
-	var prApplyTimeEndPre = $("#prApplyTimeEnd").val();
+	var prApplyTimePre = $("#dtBegin_0").val();
+	var prApplyTimeEndPre = $("#dtBegin_1").val();
 	var prAccpetTimeStartPre = $("#prAccpetTimeStart").val();
 	var prAccpetTimeEndPre = $("#prAccpetTimeEnd").val();
 	var prCompleteTimeStartPre = $("#prCompleteTimeStart").val();
@@ -345,6 +345,6 @@ $('#cleanButton').click(function() {
 	$("input[name='prCompleteTimeStart']").datepicker('update', '');
 	$("input[name='prCompleteTimeEnd']").datepicker('update', '');
 	$("input[name='prAddress']").val('');
-	
+	$("#organId").val('');
 	$("select").val("");
 });
