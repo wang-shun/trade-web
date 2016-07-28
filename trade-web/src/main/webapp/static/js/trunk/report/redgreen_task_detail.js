@@ -173,6 +173,17 @@ function getDatebase(data){
     data.proOrggbName = proOrggbName;
     data.proOrgName = proOrgName;
     data.jobName = jobNames;
+   /* if(""!=jobNames)
+    	jobNames = jobNames.substring(jobNames.length-2)
+   /* if(jobNames == '总监'){
+    	data.TextValNameZj = TextValName;
+    	data.TextValName = null;
+    }
+    if(jobNames == '主管'){
+    	data.TextValName = TextValName;
+    	data.TextValNameZj = null;
+    }*/
+    	
 }
 
 function reloadGrid(data) {
