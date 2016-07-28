@@ -276,6 +276,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="organId" value="${organId}" />
 	<input type="hidden" id="orgName1" value="${orgName1}" />
 	<input type="hidden" id="colourId" value="${colourId}" />
+	<input type="hidden" id="orgName2" value="${orgName2}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 

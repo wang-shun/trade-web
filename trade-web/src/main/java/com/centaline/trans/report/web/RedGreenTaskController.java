@@ -132,6 +132,7 @@ public class RedGreenTaskController {
 		String organId = request.getParameter("organId");
 		String colourId = request.getParameter("colourId");
 		String orgName1 = request.getParameter("orgName1");
+		String orgName2 = request.getParameter("orgName2");
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
@@ -165,6 +166,7 @@ public class RedGreenTaskController {
 		request.setAttribute("organId", organId);
 		request.setAttribute("colourId", colourId);
 		request.setAttribute("orgName1", orgName1);
+		request.setAttribute("orgName2", orgName2);
 		return "report/redgreen_task_detail";
 	}
 	
