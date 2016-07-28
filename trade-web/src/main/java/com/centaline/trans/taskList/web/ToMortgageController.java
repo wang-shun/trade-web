@@ -186,7 +186,7 @@ public class ToMortgageController {
 		//如果没有选中但已经开启临时银行流程则删除流程
 		if("false".equals(check)){
 			ToWorkFlow wf=new ToWorkFlow();
-			wf.setBusinessKey(toMortgage.getCaseCode());
+			wf.setBusinessKey("TempBankAudit_Process");
 			wf.setCaseCode(toMortgage.getCaseCode());
 			toMortgageService.deleteTmpBankProcess(wf);
 		}
@@ -286,7 +286,7 @@ public class ToMortgageController {
 			wf.setCaseCode(processInstanceVO.getCaseCode());
 			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-			if(wordkFlowDB!=null && "operation_process:34:620096".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+			if(wordkFlowDB!=null && "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
 				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
 				//设置主流程任务的assignee
 				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());

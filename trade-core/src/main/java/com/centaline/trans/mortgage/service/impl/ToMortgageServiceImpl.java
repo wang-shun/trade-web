@@ -117,23 +117,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		// 为主流程设置变量
 		setEvaReportNeedAtLoanRelease(toMortgage);
 	}
-	
-	private void setEvaReportNeedAtLoanRelease(ToMortgage toMortgage) {
-		ToWorkFlow wf=new ToWorkFlow();
-		wf.setCaseCode(toMortgage.getCaseCode());
-		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-		// 是否需要发起评估报告
-		if(StringUtils.isNotBlank(toMortgage.getIfReportBeforeLend()) && "1".equals(toMortgage.getIfReportBeforeLend()) && wordkFlowDB!=null
-				&& "operation_process:34:620096".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
-			String variableName = "EvaReportNeedAtLoanRelease";
-			RestVariable restVariable = new RestVariable();
-			restVariable.setType("boolean");
-			restVariable.setValue(true);
-			
-			workFlowManager.setVariableByProcessInsId(wordkFlowDB.getInstCode(), variableName, restVariable);
-		}
-	}
 
 	@Override
 	public ToMortgage findToMortgageById(Long id) {
@@ -314,7 +297,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 
-		if(wordkFlowDB!=null &&  "operation_process:34:620096".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+		if(wordkFlowDB!=null &&  "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
 			messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
 			// 设置主流程任务的assignee
 			workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), wordkFlowDB.getCaseCode());
@@ -347,4 +330,22 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		}
 		
 	}
+
+	
+	private void setEvaReportNeedAtLoanRelease(ToMortgage toMortgage) {
+			ToWorkFlow wf=new ToWorkFlow();
+			wf.setCaseCode(toMortgage.getCaseCode());
+			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+			// 是否需要发起评估报告
+			if(StringUtils.isNotBlank(toMortgage.getIfReportBeforeLend()) && "1".equals(toMortgage.getIfReportBeforeLend()) && wordkFlowDB!=null
+					&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+				String variableName = "EvaReportNeedAtLoanRelease";
+				RestVariable restVariable = new RestVariable();
+				restVariable.setType("boolean");
+				restVariable.setValue(true);
+				workFlowManager.setVariableByProcessInsId(wordkFlowDB.getInstCode(), variableName, restVariable);
+			}
+	}
+
 }

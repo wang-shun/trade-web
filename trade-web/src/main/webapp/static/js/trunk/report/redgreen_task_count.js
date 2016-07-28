@@ -1,4 +1,8 @@
 $(document).ready(function() {
+					//第一次进入界面查询条件组别、主管不要显示
+					document.getElementById("zb").style.display="none";
+					document.getElementById("zg").style.display="none";
+					
 					cleanForm();
 					//基本信息等高
 					var url = "/quickGrid/findPage";
@@ -621,7 +625,7 @@ function userSelect_back(){
 		
 		if(($("#h_proOrgId_gb").val() != "" || $("#h_proOrgId_gb").val() !=null)&&(!(serviceDepId != null) || serviceDepId == "")){
 			serviceDepIda = $("#h_proOrgId_gb").val();
-			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,
+			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,jobCode:'Manager,Senior_Manager,director',
 				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 		}else{
 			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
@@ -629,7 +633,7 @@ function userSelect_back(){
 		}
 		
 	}else{
-		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,
+		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
 			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 	}
 }
