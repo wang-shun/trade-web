@@ -221,15 +221,13 @@ function getParamsValue() {
 
 
 function queryChandiaoDetail(id){
-	var url = "/report/chandiaoDetail?organId="+id;
+	var url = "/report/chandiaoDetail?flag=1";
 	var ctx = $("#ctx").val();
 	var params = getParamsValue();
-	
 	//params.organId = id; + jQuery.param(params)
-	
 	url = ctx + url;
 	$('#chandiaoDetail').attr('action', url);
-	
+	$("#organId").val(id);
 	$('#chandiaoDetail').method="post" ;
 	$('#chandiaoDetail').submit();
 	
