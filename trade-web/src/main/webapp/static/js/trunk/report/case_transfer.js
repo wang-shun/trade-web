@@ -249,10 +249,11 @@ function caseTransferExportToExcel() {
 	// excel导出列
 	var displayColomn = new Array;
 	displayColomn.push('BIGAREA');
+	displayColomn.push('VREAL_NAME');	
 	displayColomn.push('AGENT_ORG_NAME');
 	displayColomn.push('AGENT_NAME');
-	displayColomn.push('GUOHU_ORG_NAME');
-	displayColomn.push('GUOHU_REAL_NAME');
+/*	displayColomn.push('GUOHU_ORG_NAME');
+	displayColomn.push('GUOHU_REAL_NAME');*/
 	displayColomn.push('GUOHUDJ');
 	displayColomn.push('dist_name');
 	displayColomn.push('REAL_HT_TIME');
@@ -282,12 +283,13 @@ function caseTransferExportToExcel() {
 	displayColomn.push('status1');
 	displayColomn.push('ASSESSOR');
 	displayColomn.push('CONTENT');	
+	
 	displayColomn.push('MANAGER_REAL_NAME');
 	displayColomn.push('MANAGER_ORG_NAME');
 	displayColomn.push('GRP_NAME');
 	displayColomn.push('MANAGER_AR_NAME');
-	displayColomn.push('ORG_NAME');
-	displayColomn.push('REAL_NAME');	
+	displayColomn.push('VORG_NAME');
+
 
 
 
@@ -400,7 +402,7 @@ function chooseManager(id) {
 			jobCode : 'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
-		$("#yuCuiOriGrpId").val("");
+		//$("#yuCuiOriGrpId").val("");
 	} else {
 		userSelect({
 			startOrgId : serviceDepId,
