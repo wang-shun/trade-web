@@ -259,7 +259,7 @@
 						
 						from SCTRANS.T_TO_CASE C 		
 							LEFT JOIN SCTRANS.T_TO_CASE_INFO CF on C.CASE_CODE=CF.CASE_CODE  /*关联查询 三级市场相应信息*/
-							INNER JOIN SCTRANS.V_USER_ORG_JOB V on  CF.AGENT_NAME=V.REAL_NAME /*关联查询 三级市场人员对应的组别信息*/
+							INNER JOIN SCTRANS.V_USER_ORG_JOB V on  CF.AGENT_USERNAME=V.USERNAME /*关联查询 三级市场人员对应的组别信息*/
 							INNER JOIN SCTRANS.T_TO_MORTGAGE M on C.CASE_CODE = M.CASE_CODE	 /*贷款、按揭方面的所有信息*/
 							INNER JOIN SCTRANS.T_TS_FIN_ORG FO on M.FIN_ORG_CODE = FO.FIN_ORG_CODE /*关联贷款机构 查询银行、分行信息*/
 							INNER JOIN SCTRANS.T_TG_GUEST_INFO PR on M.CUST_CODE=PR.PKID	/*关联客户表查询主贷人信息*/			
