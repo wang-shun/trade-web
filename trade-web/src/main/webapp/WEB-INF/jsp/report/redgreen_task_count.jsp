@@ -117,8 +117,8 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div>
-						 <div class="col-lg-5 col-md-5" id="zb"   >    
-                          		 <div class="form-group">
+						 <div class="col-lg-5 col-md-5" id="zb"  >    
+                          		 <div class="form-group" >
                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
                                           <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
@@ -131,7 +131,7 @@ text-decoration: underline !important;
                                   </div>
                          </div> 
                          <div class="col-lg-5 col-md-5 " id="zg"  >    
-                       			<div class="form-group">
+                       			<div class="form-group"  >
                                    <label class="col-lg-3 col-md-3 control-label font_w">主管</label>
                                    <div class="col-lg-9 col-md-9">
                                    	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
@@ -310,7 +310,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.redall}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.yellowall}}</a></td>
-						<td class="t-left pd-l">{{(item.yellowall)+(item.redall)}}</td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}');" target="_blank">{{(item.yellowall)+(item.redall)}}</a></td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcelGb('{{item.orgName1}}');" target="_blank">导出</a>
                         </td>
@@ -332,7 +332,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName2}}</td>
 						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.yellow}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.red}}</a></td>
-						<td class="t-left pd-l">{{(item.yellow)+(item.red)}}</td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}');" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
                         </td>

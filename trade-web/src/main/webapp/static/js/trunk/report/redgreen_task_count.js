@@ -3,6 +3,7 @@ $(document).ready(function() {
 					document.getElementById("zb").style.display="none";
 					document.getElementById("zg").style.display="none";
 					
+	     
 					cleanForm();
 					//基本信息等高
 					var url = "/quickGrid/findPage";

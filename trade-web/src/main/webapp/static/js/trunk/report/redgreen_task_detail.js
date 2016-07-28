@@ -174,7 +174,7 @@ function reloadGrid(data) {
     data.jobName = jobNames;
    /* if(""!=jobNames)
     	jobNames = jobNames.substring(jobNames.length-2)
-    if(jobNames == '总监'){
+   /* if(jobNames == '总监'){
     	data.TextValNameZj = TextValName;
     	data.TextValName = null;
     }

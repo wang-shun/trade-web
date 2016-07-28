@@ -139,7 +139,7 @@ var message = {
 		var defImg = ctx + "/img/a5.png";
 		var li = $("<li>");
 		var messageBox = $("<div>").addClass("dropdown-messages-box");
-		var mediaBody = $("<div>").addClass("media-body");
+		var mediaBody = $("<div>").addClass("media-body wd212");
 		var t = $("<strong>").text(obj.title);
 		// var c=$("<strong>").text(obj.centent);
 		var small = $("<small>").addClass("text-muted").text(obj.senderTime);
@@ -149,9 +149,16 @@ var message = {
 		});
 	    imgSpan.append(img);
 		messageBox.append($('<a>').addClass('pull-left').append(imgSpan));
+		 var urlRegu = /([a-zA-z]+:\/\/[^\s]*)/gi;
+         var urlTemplate = "<a href=\"$1\" style=\"word-break:break-all;font-size:12px!important;padding:0px!important;\" target=\"_blank\">$1</a>";
+         var _content=obj.content;
+         _content=_content.replace(urlRegu, urlTemplate);	
 		messageBox.append(mediaBody.append(t).append($("<br>")).append(
-				obj.content).append($("<br>")).append(small));
+				_content).append($("<br>")).append(small));
 		li.append(messageBox);
+		
+
+         
 		return li;
 	},
 	readSiteMsg : function(title, id) {
