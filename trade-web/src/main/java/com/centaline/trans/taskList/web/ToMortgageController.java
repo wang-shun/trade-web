@@ -37,6 +37,7 @@ import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
@@ -183,12 +184,17 @@ public class ToMortgageController {
     public AjaxResponse<String> completeMortgage(ToMortgage toMortgage,HttpServletRequest request,String check) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		
-		//如果没有选中但已经开启临时银行流程则删除流程
+		//如果没有选中但已经开启临时银行流程则更新工作流表状态为‘2’：非正常结束
 		if("false".equals(check)){
-			ToWorkFlow wf=new ToWorkFlow();
-			wf.setBusinessKey("TempBankAudit_Process");
-			wf.setCaseCode(toMortgage.getCaseCode());
-			toMortgageService.deleteTmpBankProcess(wf);
+			//更新流程状态为‘4’：已完成
+			ToWorkFlow twf = new ToWorkFlow();
+			twf.setBusinessKey("TempBankAudit_Process");
+			twf.setCaseCode(toMortgage.getCaseCode());
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			if(record != null){
+				record.setStatus(WorkFlowStatus.TERMINATE.getCode());
+				toWorkFlowService.updateByPrimaryKey(record);
+			}
 		}
 
 		try{
