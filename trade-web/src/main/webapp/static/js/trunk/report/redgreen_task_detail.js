@@ -3,6 +3,7 @@ $(document).ready(function() {
 					
 					initradio('lampRadios',$("#colourId").val());
 					$("#txt_proOrgId_gb").val($("#orgName1").val());
+					$("#txt_proOrgId").val($("#orgName2").val());
 					
 					//基本信息等高
 					var url = "/quickGrid/findPage";
@@ -102,7 +103,8 @@ function searchMethod(page) {
 };
 
 var jobNames = "";
-function reloadGrid(data) {
+
+function getDatebase(data){
 	//添加排序-----
     aist.wrap(data);
 	
@@ -123,7 +125,6 @@ function reloadGrid(data) {
 	//页面参数值
 	var dtBegin = $("input[name='dtBegin']").val();
 	var dtEnd = $("input[name='dtEnd']").val();
-	//var realName = $.trim($("input[name='search_realName']").val());
 	var realName = $("#inTextVal").val();
 	var propertyAddr = $.trim($("input[name='search_propertyAddr']").val());
 	var taskName = $("input[name='search_taskName']").val();
@@ -131,7 +132,7 @@ function reloadGrid(data) {
 	var lampRadios = $('input[name="lampRadios"]:checked').val();
 	var proOrggbName = $("#txt_proOrgId_gb").val();
 	var proOrgName =   $("#txt_proOrgId").val();
-	//var TextValName = $("#inTextVal").val();
+	
 	
 	if(lampRadios == 2)
 		lampRadios=null;
@@ -183,7 +184,11 @@ function reloadGrid(data) {
     	data.TextValNameZj = null;
     }*/
     	
+}
+
+function reloadGrid(data) {
     
+	getDatebase(data);
     	
 	$.ajax({
 		async: true,
@@ -301,12 +306,9 @@ function exportToExcel() {
 	var params = getParamsValue();
 	
 	var organId = $("#organId").val();
-	/*var start = $('#dtBegin_0').val();
-	if(start&&start!=''){
-		prApplyTime = start;
-	}*/
 	params.organId = organId;
-	/*params.prApplyTime = prApplyTime;*/
+	
+	getDatebase(params);
 	
 	var queryId = '&queryId=queryRedGreenTaskExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
@@ -329,7 +331,6 @@ function cleanForm() {
 
 //清空
 $('#cleanButton').click(function() {
-	
 	$("input[name='dtBegin']").datepicker('update', '');
 	$("input[name='dtEnd']").datepicker('update', '');
 	
@@ -337,7 +338,7 @@ $('#cleanButton').click(function() {
 	$("input[name='search_propertyAddr']").val('');
 	$("input[name='search_taskName']").val('');
 	$("input[name='search_caseCode']").val('');
-	$("input[name='taskDfKey']").val('');
+	$("input[name='taskDfKey']").val('');		
 	$('input[name="lampRadios"]:checked').val('');
 	$("select").val("");
 	
@@ -356,6 +357,8 @@ $('#cleanButton').click(function() {
 	$('input:radio[name="lampRadios"]').attr("checked",false);
 	
 	jobNames = "";
+	
+	$("#organId").val('');
 	
 });
 

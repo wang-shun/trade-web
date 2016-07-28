@@ -174,111 +174,91 @@
 		</searchCondition>
 		<searchSql>
 			<baseSql>
-				<![CDATA[
-				SELECT
-					DISTINCT(T.CASE_CODE),	
-					T.BIGAREA,
-					T.AGENT_ORG_NAME,
-					T.AGENT_NAME,
-					T.GUOHU_ORG_NAME,
-					T.GUOHU_REAL_NAME,
-					T.GUOHUDJ,
-					T.dist_name,
-					T.REAL_HT_TIME,
-					T.CTM_CODE,
-					T.CUST_NAME,
-					T.GUEST_PHONE,
-					T.PROPERTY_ADDR,
-					T.CON_PRICE,
-					T.FIN_ORG_NAME,
-					T.FIN_ORG_NAME_YC,
-					T.COM_AMOUNT,
-					T.PRF_AMOUNT,
-					T.ACCOUNT,
-					T.COM_DISCOUNT,
-					T.LOANER_NAME,
-					T.LOANER_PHONE,
-					T.SDSTATUS,
-					T.IS_LOANER_ARRIVE,
-					T.transferDate,
-					T.caseTransferDate,
-					T.ASSESSOR,			
-					<!-- T.ISAPPROVE, -->
-					T.status,
-					T.CONTENT,
-					T.MANAGER_REAL_NAME,
-					T.MANAGER_ORG_NAME,
-					GRP_NAME, 
-					MANAGER_AR_NAME,  
-					WZ.ORG_NAME, 
-					WZ.REAL_NAME 
-				FROM (		
-						select	
-							C.CASE_CODE,	
-							C.CTM_CODE,		
-							(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID =v.ORG_ID) AS BIGAREA,			
-							CF.AGENT_NAME, 	
-							V.ORG_NAME as AGENT_ORG_NAME,		
-							M.COM_AMOUNT,	
-							M.PRF_AMOUNT,
-							M.COM_DISCOUNT,
-							M.COM_AMOUNT+m.PRF_AMOUNT as ACCOUNT,
-							M.LOANER_NAME,
-							M.LOANER_PHONE,
-							M.CUST_NAME,  
-							PR.GUEST_PHONE,			
-							case when M.IS_LOANER_ARRIVE=1 then '是' when M.IS_LOANER_ARRIVE = 0 then '否' end   IS_LOANER_ARRIVE,	
-							(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE= M.FIN_ORG_CODE ) FIN_ORG_NAME,  
-							(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE= M.FIN_ORG_CODE ) FIN_ORG_NAME_YC,  
-							case 
-								when C.LOAN_REQ=1 and m.MORT_TYPE in('30016001','30016002') and m.IS_DELEGATE_YUCUI=1   then '收单' 
-								when C.LOAN_REQ=1 and m.MORT_TYPE in('30016001','30016002') and m.IS_DELEGATE_YUCUI=0   then '流失' end   SDSTATUS,				
-							
-							VJ.ORG_NAME as GUOHU_ORG_NAME,	   
-							VJ.REAL_NAME as GUOHU_REAL_NAME,   
-				
-							case 			       	/*计算过户单价、保留2位小数、考虑面积为0和null的情况*/
-							WHEN  p.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
-							ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,p.SQUARE),1),2)
-							END  GUOHUDJ,
-								
-							PM.dist_name,			/*过户区域*/
-							(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= C.CASE_CODE ) REAL_HT_TIME,  /*实际过户时间 可优化*/	
-							S.CON_PRICE, 						 /*合同金额   可优化*/
-							P.PROPERTY_ADDR,					 /*产证地址*/
-							V2.REAL_NAME AS  MANAGER_REAL_NAME,  /*主管姓名*/
-							V2.ORG_NAME  AS MANAGER_ORG_NAME,   /*主管所在组别*/
-							CF.AR_NAME AS MANAGER_AR_NAME,		/*主管所在区域*/
-							CF.GRP_CODE,
-							CF.GRP_NAME, 
-							(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=AR.OPERATOR  AND AR.PART_CODE='GuohuApprove') AS ASSESSOR,
-							(select TOP 1 A.CONTENT from SCTRANS.T_TO_APPROVE_RECORD A where C.CASE_CODE=A.CASE_CODE  AND AR.PART_CODE='GuohuApprove') AS CONTENT,
-							(select top 1 tgh.end_time_ from SCTRANS.act_hi_taskinst tgh where w.INST_CODE = tgh.proc_inst_id_ and tgh.task_def_key_='Guohu' order by id_ desc) AS transferDate , 
-							(select top 1 tgha.end_time_ from SCTRANS.act_hi_taskinst tgha where w.INST_CODE = tgha.proc_inst_id_ and tgha.task_def_key_='GuohuApprove' order by id_ desc) AS caseTransferDate, 
-							hv.long_ as status
-						
-						from SCTRANS.T_TO_CASE C 		
-							LEFT JOIN SCTRANS.T_TO_CASE_INFO CF on C.CASE_CODE=CF.CASE_CODE  /*关联查询 三级市场相应信息*/
-							INNER JOIN SCTRANS.V_USER_ORG_JOB V on  CF.AGENT_USERNAME=V.USERNAME /*关联查询 三级市场人员对应的组别信息*/
-							INNER JOIN SCTRANS.T_TO_MORTGAGE M on C.CASE_CODE = M.CASE_CODE	 /*贷款、按揭方面的所有信息*/
-							INNER JOIN SCTRANS.T_TS_FIN_ORG FO on M.FIN_ORG_CODE = FO.FIN_ORG_CODE /*关联贷款机构 查询银行、分行信息*/
-							INNER JOIN SCTRANS.T_TG_GUEST_INFO PR on M.CUST_CODE=PR.PKID	/*关联客户表查询主贷人信息*/			
-							INNER JOIN SCTRANS.T_SYS_ORG_HIERARCHY SOH on v.ORG_ID=SOH.GROUP_ID	/*查询大区*/
-				
-							LEFT JOIN SCTRANS.T_TO_WORKFLOW W on C.CASE_CODE = w.case_code  and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-							INNER JOIN SCTRANS.ACT_HI_TASKINST AHT on W.INST_CODE=AHT.PROC_INST_ID_ AND AHT.TASK_DEF_KEY_ ='Guohu'--IN ('Guohu','GuohuApprove')	/*关联工作流，查询过户操作员*/
-							INNER JOIN SCTRANS.V_USER_ORG_JOB VJ on  aht.ASSIGNEE_=VJ.USERNAME
-				
-							INNER JOIN SCTRANS.T_TO_PROPERTY_INFO P on C.CASE_CODE=P.CASE_CODE /*关联物业信息，查询产权地址*/
-							INNER JOIN SCTRANS.T_TS_PR_RESEARCH_MAP PM on P.DIST_CODE=PM.dist_code /* 关联基本区域，查询产调区域信息*/
-							INNER JOIN SCTRANS.T_TO_SIGN S on C.CASE_CODE=S.CASE_CODE /* 关联签约，查询合同金额*/	
-							LEFT JOIN SCTRANS.V_USER_ORG_JOB V2 on C.ORG_ID = V2.ORG_ID and V2.JOB_CODE ='manager' /* 查询CASE的主管信息*/			
-							LEFT JOIN SCTRANS.act_hi_varinst hv on hv.PROC_INST_ID_ = w.INST_CODE AND hv.name_='GuohuApprove'
-							LEFT JOIN SCTRANS.T_TO_APPROVE_RECORD AR on C.CASE_CODE=AR.CASE_CODE  AND AR.PART_CODE='GuohuApprove' --内连接和左连接的区别			 
-							)T  	
-							LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
-							LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
-							LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
+				<![CDATA[				
+						SELECT 
+								TAB.CASE_CODE, 
+								TAB.CTM_CODE,
+								TAB.AGENT_NAME,  --三级市场经纪人姓名
+								TAB.GRP_NAME, 
+								TAB.PKID,
+								TAB.PROPERTY_ADDR ,
+								(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID =TAB.ORG_ID) AS BIGAREA,
+								TAB.REAL_NAME as MANAGER_REAL_NAME,  --主管姓名
+								TAB.ORG_NAME as MANAGER_ORG_NAME,	 -- 主管组别
+								TAB.transferDate, 
+								TAB.caseTransferDate , 
+								TAB.status,
+								TAB.GRP_NAME AS AGENT_ORG_NAME, --分行
+								TAB.AR_NAME as MANAGER_AR_NAME ,  
+								TAB.VORG_NAME , 
+								TAB.VREAL_NAME,	
+								---贷款信息
+								M.COM_AMOUNT,/*商贷金额*/			
+								M.PRF_AMOUNT,/*公积金金额*/
+								M.COM_DISCOUNT,/*商贷折扣*/
+								M.COM_AMOUNT+m.PRF_AMOUNT as ACCOUNT,/*贷款总额*/
+								M.LOANER_NAME,/*货代专员姓名*/
+								M.LOANER_PHONE,/*货代人电话*/
+								M.CUST_NAME,  /*主贷人姓名*/
+								(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID=M.CUST_CODE) AS GUEST_PHONE, /*主贷人电话*/
+								case when M.IS_LOANER_ARRIVE=1 then '是' when M.IS_LOANER_ARRIVE = 0 then '否' end   IS_LOANER_ARRIVE,
+								case 
+									when TAB.LOAN_REQ=1 and m.MORT_TYPE in('30016001','30016002') and m.IS_DELEGATE_YUCUI=1   then '收单' 
+									when TAB.LOAN_REQ=1 and m.MORT_TYPE in('30016001','30016002') and m.IS_DELEGATE_YUCUI=0   then '流失' end   SDSTATUS,/*收单状态*/	
+								(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE= M.FIN_ORG_CODE ) FIN_ORG_NAME,  --银行
+								(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE= M.FIN_ORG_CODE ) FIN_ORG_NAME_YC,  --支行
+								----过户信息
+								(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=T.OPERATOR  AND T.PART_CODE='GuohuApprove') AS ASSESSOR,
+								T.CONTENT,
+								(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= TAB.CASE_CODE ) REAL_HT_TIME, /*实际过户时间 可优化*/
+								(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=T.OPERATOR  AND T.PART_CODE='Guohu') AS GUOHU_REAL_NAME,
+								(select TOP 1 ORG_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=T.OPERATOR  AND T.PART_CODE='Guohu') AS GUOHU_ORG_NAME,
+								S.CON_PRICE, 						 /*合同金额   可优化*/
+								case 			       	/*计算过户单价、保留2位小数、考虑面积为0和null的情况*/
+								WHEN  TAB.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
+								ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,TAB.SQUARE),1),2)
+								END  GUOHUDJ,
+								(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE TAB.DIST_CODE=PM.dist_code)AS dist_name							
+						FROM 
+							(select 					
+									distinct(CASE_CODE),
+									AGENT_NAME, 
+									CTM_CODE,
+									LOAN_REQ,
+									T.ORG_ID,									
+									PKID,
+									PROPERTY_ADDR ,
+									SQUARE,
+									DIST_CODE,
+									T.REAL_NAME , 
+									T.ORG_NAME, 
+									transferDate, 
+									caseTransferDate , 
+									status,
+									GRP_NAME, 
+									AR_NAME ,  
+									wz.ORG_NAME AS VORG_NAME , 
+									WZ.REAL_NAME AS VREAL_NAME 
+							from (
+									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, zg.ORG_ID,i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,
+									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
+									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
+									v.long_ AS  status
+									from sctrans.t_to_case c 
+									inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
+									left join sctrans.V_USER_ORG_JOB zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
+									inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
+									inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
+									and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
+									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
+									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
+									LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
+									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1				
+								)TAB 
+									lEFT JOIN SCTRANS.T_TO_MORTGAGE M  ON M.CASE_CODE =TAB.CASE_CODE  AND M.IS_ACTIVE=1
+									LEFT JOIN  ( select  * from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.case_code)) T ON T.CASE_CODE=TAB.CASE_CODE
+									INNER JOIN SCTRANS.T_TO_SIGN S ON TAB.CASE_CODE=S.CASE_CODE
+
 					where 1=1
 					 <ifNotNull caseTransferDateStart>
 						AND t.caseTransferDate &gt; #caseTransferDateStart#
@@ -322,14 +302,16 @@
 			<table-row>
 				<column type="both" name="BIGAREA" title="大区" customDict=""
 					hidden="false" />
+				<column type="both" name="VREAL_NAME" title="区董" customDict=""
+					hidden="false" />
 				<column type="both" name="AGENT_ORG_NAME" title="分行"
 					customDict="" hidden="false" />
 				<column type="both" name="AGENT_NAME" title="业务员姓名"
 					customDict="" hidden="false" />
-				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
+<!-- 				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
 					customDict="" hidden="false" />
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"
-					customDict="" hidden="false" />
+					customDict="" hidden="false" /> -->
 				<column type="both" name="GUOHUDJ" title="过户单价" customDict=""
 					hidden="false" />
 				<column type="both" name="dist_name" title="过户区域" customDict=""
@@ -408,15 +390,12 @@
 				<column type="both" name="MANAGER_REAL_NAME" title="主管"
 					customDict="" hidden="false" />
 				<column type="both" name="MANAGER_ORG_NAME" title="主管组别"
-					customDict="" hidden="false" />
-				<column type="both" name="GRP_NAME" title="店组" customDict=""
-					hidden="false" />
+					customDict="" hidden="false" />	
 				<column type="both" name="MANAGER_AR_NAME" title="片区"
 					customDict="" hidden="false" />
-				<column type="both" name="ORG_NAME" title="区域" customDict=""
+				<column type="both" name="VORG_NAME" title="区域" customDict=""
 					hidden="false" />
-				<column type="both" name="REAL_NAME" title="区董" customDict=""
-					hidden="false" />
+
 			</table-row>
 		</grid>
 	</query>
