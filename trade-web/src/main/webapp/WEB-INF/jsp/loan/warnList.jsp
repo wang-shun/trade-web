@@ -103,8 +103,8 @@
 		
 		
 			               
-		<script src="${ctx}/transjs/eloan/warn.list.js"></script>
-		<script src="${ctx}/transjs/eloan/change.list.js"></script>
+		<script src="${ctx}/transjs/loan/warn.list.js"></script>
+		<script src="${ctx}/transjs/loan/change.list.js"></script>
 
 		<script>
 			jQuery(document).ready(function() {
@@ -246,7 +246,7 @@
 		    		cache:false,
 					async:false,
 					type:"GET",
-		    		url:ctx+"/eloan/updateWarnListTime?idStr="+ids,
+		    		url:ctx+"/loan/updateWarnListTime?idStr="+ids,
 		    		dataType:"json",
 		    		success:function(data){
 		    			//alert(data.message)
