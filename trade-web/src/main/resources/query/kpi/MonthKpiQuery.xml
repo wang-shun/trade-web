@@ -37,9 +37,9 @@
                   <![CDATA[
 					SELECT 
 					  PKID,
-					  PARTICIPANT,
-					  TEAM_ID,
-					  DISTRICT_ID,
+					  PARTICIPANT AS PARTICIPANT_OLD,
+					  TEAM_ID AS TEAM_ID_OLD,
+					  DISTRICT_ID AS DISTRICT_ID_OLD,
 					  TYPE,
 					  FIN_ORDER,
 					  FIN_ORDER_ROLL,
@@ -60,9 +60,12 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" title="主键" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="PARTICIPANT" index="" checkbox="" title="人员" customDict="qqcdUserIdName" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="TEAM_ID" index="" checkbox="" title="所在组别" customDict="qqcdOrgIdName" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="所属贵宾服务部" customDict="qqcdOrgIdName" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="PARTICIPANT_OLD" index="" checkbox="" title="人员" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="virtual" name="PARTICIPANT" title="人员" referencecol="PARTICIPANT_OLD"  customDict="qqcdUserIdName"/>
+				<column type="both" name="TEAM_ID_OLD" index="" checkbox="" title="所在组别" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="virtual" name="TEAM_ID" title="所在组别" referencecol="TEAM_ID_OLD"  customDict="qqcdOrgIdName"/>
+				<column type="both" name="DISTRICT_ID_OLD" index="" checkbox="" title="所属贵宾服务部" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="virtual" name="DISTRICT_ID" title="所属贵宾服务部" referencecol="DISTRICT_ID_OLD"  customDict="qqcdOrgIdName"/>
 				<column type="both" name="TYPE" index="" checkbox="" title="类型" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="FIN_ORDER" index="" checkbox="" title="当月金融产品数" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="FIN_ORDER_ROLL" index="" checkbox="" title="上月滚存数" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>

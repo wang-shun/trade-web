@@ -32,6 +32,7 @@ import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.entity.LoanStatusChange;
 import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.mgr.Consts;
 
 @Controller
 @RequestMapping("/loan")
@@ -273,6 +274,63 @@ public class LoanAgentController {
 	public Object doDelete(LoanAgent loanAgent) {
 		loanAgentService.doDelete(loanAgent);
 		return loanAgent;
+	}
+	
+	/**
+	 * 警示列表
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="warnList")
+	public String warnList(ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		String userOrgId = user.getServiceDepId();
+		request.setAttribute("queryOrg", userOrgId);
+		
+		String adminOrg = "";
+		if(StringUtils.isNotBlank(user.getAdminOrg())) {
+			adminOrg = user.getAdminOrg().trim();
+		}
+		request.setAttribute("adminOrg", adminOrg);
+
+		List<Org> districtOrgList = uamUserOrgService.getOrgByDepHierarchy(Consts.YU_SH_ORG_ROOT, Consts.YU_DISTRICT);
+		List<Org> showOrgList = new ArrayList<Org>();
+		if(StringUtils.isNotBlank(adminOrg)) {
+			for(Org org : districtOrgList) {
+			     String[] adminOrgs = adminOrg.split(",");
+				 for(int i = 0 ;i< adminOrgs.length;i++) {
+					 String adminO = adminOrgs[i];
+					 if(org.getId().equals(adminO)) {
+						 showOrgList.add(org);
+					 }
+				 }
+			}
+		}
+		request.setAttribute("districtOrgList", showOrgList);
+		
+		return "loan/warnList";
+	}
+	
+	@RequestMapping(value="updateWarnListTime")
+	@ResponseBody
+	public AjaxResponse<LoanAgent> batchUpdateExportTime(Model model, ServletRequest request,String idStr){
+		AjaxResponse<LoanAgent> result = new AjaxResponse<>();
+		try {
+			String[] pkidArr = idStr.split(",");
+			for(String pkId : pkidArr) {
+				LoanAgent loanAgent = new LoanAgent();
+				loanAgent.setPkid(Long.parseLong(pkId));
+				loanAgent.setLastExceedExportTime(new Date());
+			    loanAgentService.updateLoanAgent(loanAgent);
+			}
+			result.setSuccess(true);
+			result.setMessage("处理成功!");
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("处理失败!");
+		}
+		return result;
 	}
 
 }

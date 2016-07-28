@@ -17,6 +17,7 @@
                   <prop key="/remote/unlocateGrpAdisedJob">/remote/unlocateGrpAdisedJob</prop>
                   <prop key="/remote/ProcessWaitTimeJob">/remote/ProcessWaitTimeJob</prop>
                   <prop key="/remote/ProcessingTimeJob">/remote/ProcessingTimeJob</prop>
+                  <prop key="/remote/commFindUserService">/remote/commFindUserService</prop>
             </props>
         </property>
     </bean>

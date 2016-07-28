@@ -1,5 +1,8 @@
 package com.centaline.trans.common.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,6 +30,41 @@ public class QuickQuerySrvsDictCustomDictServiceImpl implements CustomDictServic
 		} 
 		reStrs.deleteCharAt(reStrs.length()-1); 
 		return reStrs.toString();
+	}
+	
+	@Override
+	@Cacheable(value="QuickQuerySrvsDictCustomDictServiceImpl",key="#root.target.getDictType()+'/'+#keys")
+	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		for(Map<String, Object> keyer:keys){
+			String val = "";
+			try {
+				Object key = keyer.values().iterator().next();
+				if(key!=null){
+					String[] strs = key.toString().split("/");
+					StringBuffer reStrs = new StringBuffer();
+					for(String s:strs){
+						String value = uamBasedataService.getDictValue(dictType, s);
+						reStrs.append(value);
+						reStrs.append("/");
+					} 
+					reStrs.deleteCharAt(reStrs.length()-1); 
+					val = reStrs.toString();
+				}
+				
+			} catch (Exception e) {
+			} 
+			if(val==null || val.equals("null")){
+				val = "";
+			}
+			keyer.put("val", val);
+		}
+		
+		return keys;
+	}
+	
+	@Override
+	public Boolean getIsBatch() {
+		return true;
 	}
 
 	public String getDictType() {

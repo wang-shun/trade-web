@@ -54,7 +54,7 @@
 						ci.GRP_NAME AS GRP_NAME,
 						ci.AGENT_PHONE AS AGENT_PHONE,
 						property.PROPERTY_ADDR AS PROPERTY_ADDR,
-						historytask.ORG AS YUCUI_ORG_ID,
+						historytask.ORG AS YUCUI_ORG_ID_OLD,
 						historytask.consultant AS CONSULTANT_ID,
 						LEFT(CONVERT(varchar(100), historytask.START_TIME, 120), 10) as START_TIME, 
 						LEFT(CONVERT(varchar(100), historytask.END_TIME, 120), 10) as END_TIME, 
@@ -139,7 +139,8 @@
 				<column type="both" name="END_TIME" index="" checkbox="" title="结束时间" display="结束时间" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
 				<column type="both" name="CONSULTANT_ID" index="" checkbox="" display="CONSULTANT_ID" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="CONSULTANT_NAME" referencecol="CONSULTANT_ID" index="" checkbox="" title="经办人" display="经办人" customDict="qqcdUserIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>						
-				<column type="both" name="YUCUI_ORG_ID" index="" checkbox="" title="经办人组织" display="经办人组织" customDict="qqcdOrgIdName" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="YUCUI_ORG_ID_OLD" index="" checkbox="" title="经办人组织" display="经办人组织" customDict="" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="YUCUI_ORG_ID"  title="经办人组织" display="经办人组织" referencecol="YUCUI_ORG_ID_OLD"  customDict="qqcdOrgIdName" isSort="" />
 				<column type="virtual" name="CONSULTANT_TEL" referencecol="CONSULTANT_ID" index="" checkbox="" title="经办人电话" display="经办人电话" customDict="qqcdUserIdMobile" sysDict="" width="" isSort="" align="" halign="" order="" resizable=""/>							
 			</table-row>
 		</grid>

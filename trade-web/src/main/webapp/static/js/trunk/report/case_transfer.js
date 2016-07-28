@@ -252,8 +252,8 @@ function caseTransferExportToExcel() {
 	displayColomn.push('VREAL_NAME');	
 	displayColomn.push('AGENT_ORG_NAME');
 	displayColomn.push('AGENT_NAME');
-/*	displayColomn.push('GUOHU_ORG_NAME');
-	displayColomn.push('GUOHU_REAL_NAME');*/
+	displayColomn.push('GUOHU_ORG_NAME');
+	displayColomn.push('GUOHU_REAL_NAME');
 	displayColomn.push('GUOHUDJ');
 	displayColomn.push('dist_name');
 	displayColomn.push('REAL_HT_TIME');

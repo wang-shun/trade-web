@@ -55,7 +55,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
-  	private ToWorkFlowMapper toWorkFlowMapper;
+	private ToWorkFlowMapper toWorkFlowMapper;
 	@Autowired
 	private ToMortgageService toMortgageService;
 	
@@ -87,44 +87,27 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return spv;
 	}
 	
+
 	@Override
 
 	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
-
 		ToWorkFlow wf=new ToWorkFlow();
-	
-	wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
-	
-	wf.setCaseCode(vo.getCaseCode());
-	
-	ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-	
-	if(sameOne!=null){
-	
-		throw new BusinessException("当前重启流程尚未结束！");
-	
-	}
-	
-	deleteMortFlowByCaseCode(vo.getCaseCode());
-	
-	ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
-	
-	StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
-	
-	wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
-	
-	wf.setCaseCode(vo.getCaseCode());
-	
-	wf.setProcessOwner(vo.getUserId());
-	
-	wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
-	
-	wf.setInstCode(spv.getId());
-	
-	toWorkFlowService.insertSelective(wf);
-	
-	return spv;
-	
+	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+	    wf.setCaseCode(vo.getCaseCode());
+	    ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+	    if(sameOne!=null){
+		    throw new BusinessException("当前重启流程尚未结束！");
+	    }
+	    deleteMortFlowByCaseCode(vo.getCaseCode());
+	    ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
+	    StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
+	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+	    wf.setCaseCode(vo.getCaseCode());
+	    wf.setProcessOwner(vo.getUserId());
+	    wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
+	    wf.setInstCode(spv.getId());
+	    toWorkFlowService.insertSelective(wf);
+	    return spv;
 	}
 
 	/****

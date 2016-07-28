@@ -44,9 +44,9 @@
 					    A.PKID, 
 					    case A.IS_RESPONSED 
 					    	when '1' then C.STATUS
-							else  '未分单'
+							else  'A'
 						end 
-					    as STATUS,
+					    as STATUS_OLD,
 						tp.PROPERTY_ADDR,
                         A.CASE_CODE,
                         A.CTM_CODE,
@@ -77,7 +77,8 @@
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />						
+				<column type="both" name="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行"  sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="TARGET_CODE" />
 				<column type="virtual" name="MANAGER" referencecol="CASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			

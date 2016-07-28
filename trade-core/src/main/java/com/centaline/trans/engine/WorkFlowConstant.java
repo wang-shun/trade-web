@@ -90,7 +90,7 @@ public class WorkFlowConstant {
 	
 	public static final String GET_HIS_INSTANCES_KEY="get-historic-instances";
 	public static final String GET_HIS_INSTANCES= HTTP_TYPE_GET+"history/historic-process-instances/{processInstanceId}";
-	 
+	
 	public static final String PUT_VARIABLE_KEY ="put-variable-key";
 	public static final String PUT_VARIABLE = HTTP_TYPE_PUT+"runtime/process-instances/{processInstanceId}/variables/{variableName}";
 	

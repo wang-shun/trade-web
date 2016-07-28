@@ -484,7 +484,10 @@ public class FirstFollowController {
 
 //			variables = editRestVariables(variables, firstFollowVO.getMortageService());
 		}
-
+		RestVariable signAssignee	 = new RestVariable();
+		signAssignee.setName("signAssignee");
+		signAssignee.setValue(user.getUsername());
+		variables.add(signAssignee);
 		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO.getCaseCode());
 		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(), firstFollowVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());

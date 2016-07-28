@@ -32,6 +32,7 @@ import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.FindUserLogic;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.utils.WorkFlowUtils;
 import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -168,7 +169,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@SuppressWarnings("unchecked")
 	@Override
 	public StartProcessInstanceVo startCaseWorkFlow(ProcessInstance process, String userName, String caseCode) {
-		// TODO Auto-generated method stub
+
 		StartProcessInstanceVo sPVo = this.startWorkFlow(process);
 		TaskQuery tq = new TaskQuery(sPVo.getId(), true);
 		PageableVo pageableVo = this.listTasks(tq);
@@ -212,7 +213,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Override
 	public StartProcessInstanceVo startCaseWorkFlow1(ProcessInstance process, String caseCode, String caseOwner) {
 		StartProcessInstanceVo sPVo = this.startWorkFlow(process);
-		TaskQuery tq = new TaskQuery(sPVo.getId(), true);
+	/*	TaskQuery tq = new TaskQuery(sPVo.getId(), true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
 		for (Object taskObj : taskList) {
@@ -231,7 +232,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 			TaskVo reVo = operaterTask(taskOperate);
 			doOptTaskPlan(vo.getTaskDefinitionKey(), caseCode);
 
-		}
+		}*/
 		return sPVo;
 	}
 	@Override
@@ -300,7 +301,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		taskOperate.setVariables(variables);
 		this.operaterTask(taskOperate);
 
-		TaskQuery tq = new TaskQuery(task.getProcessInstanceId(), true);
+		/*TaskQuery tq = new TaskQuery(task.getProcessInstanceId(), true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
 		for (Object taskObj : taskList) {
@@ -308,7 +309,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 			if (StringUtils.isBlank(vo.getAssignee())) {
 				TaskOperate taskOperate1 = new TaskOperate(vo.getId().toString(), "claim");
 
-				/**/
+				
 				String owner = findUserLogic.findWorkFlowUser(vo.getGroup(), caseowner,
 						tgServItemAndProcessorService.findServiceMap(caseCode), vo.getTaskDefinitionKey(),
 						processInstanceId);
@@ -329,7 +330,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 					this.operaterTask(taskOperate2);
 				}
 			}
-		}
+		}*/
 		return true;
 	}
 

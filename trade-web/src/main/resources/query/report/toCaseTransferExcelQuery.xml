@@ -179,7 +179,10 @@
 								TAB.CASE_CODE, 
 								TAB.CTM_CODE,
 								TAB.AGENT_NAME,  --三级市场经纪人姓名
+								(select TOP 1 U.ORG_NAME FROM sctrans.V_USER_ORG_JOB U WHERE  TAB.AGENT_USERNAME=U.USERNAME ) AGENT_ORG_NAME,
 								TAB.GRP_NAME, 
+								TAB.GUOHU_ORG_NAME,
+								TAB.GUOHU_REAL_NAME,
 								TAB.PKID,
 								TAB.PROPERTY_ADDR ,
 								(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID =TAB.ORG_ID) AS BIGAREA,
@@ -188,7 +191,7 @@
 								TAB.transferDate, 
 								TAB.caseTransferDate , 
 								TAB.status,
-								TAB.GRP_NAME AS AGENT_ORG_NAME, --分行
+								TAB.GRP_NAME, --分行
 								TAB.AR_NAME as MANAGER_AR_NAME ,  
 								TAB.VORG_NAME , 
 								TAB.VREAL_NAME,	
@@ -225,7 +228,8 @@
 									AGENT_NAME, 
 									CTM_CODE,
 									LOAN_REQ,
-									T.ORG_ID,									
+									T.ORG_ID,
+									AGENT_USERNAME,									
 									PKID,
 									PROPERTY_ADDR ,
 									SQUARE,
@@ -238,9 +242,11 @@
 									GRP_NAME, 
 									AR_NAME ,  
 									wz.ORG_NAME AS VORG_NAME , 
-									WZ.REAL_NAME AS VREAL_NAME 
+									WZ.REAL_NAME AS VREAL_NAME,
+									GUOHU_ORG_NAME,
+									GUOHU_REAL_NAME
 							from (
-									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, zg.ORG_ID,i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,
+									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, zg.ORG_ID,i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,VJ.ORG_NAME as GUOHU_ORG_NAME,VJ.REAL_NAME as GUOHU_REAL_NAME,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 									v.long_ AS  status
@@ -250,7 +256,12 @@
 									inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
 									inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
 									and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
+									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove'
+
+									INNER JOIN SCTRANS.ACT_HI_TASKINST AHT on W.INST_CODE=AHT.PROC_INST_ID_ AND AHT.TASK_DEF_KEY_ ='Guohu'    /*关联工作流，查询过户操作员*/
+									INNER JOIN SCTRANS.V_USER_ORG_JOB VJ on  aht.ASSIGNEE_=VJ.USERNAME
+									
+									) t 
 									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
 									LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
 									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1				
@@ -261,34 +272,34 @@
 
 					where 1=1
 					 <ifNotNull caseTransferDateStart>
-						AND t.caseTransferDate &gt; #caseTransferDateStart#
+						AND TAB.caseTransferDate &gt; #caseTransferDateStart#
 					</ifNotNull>
 					<ifNotNull caseTransferDateEnd>
-						AND t.caseTransferDate &lt; #caseTransferDateEnd#
+						AND TAB.caseTransferDate &lt; #caseTransferDateEnd#
 					</ifNotNull>					
 					<ifNotNull transferDateStart>
-						AND t.transferDate &gt; #transferDateStart#
+						AND TAB.transferDate &gt; #transferDateStart#
 					</ifNotNull>
 					<ifNotNull transferDateEnd>
-						AND t.transferDate &lt; #transferDateEnd#
+						AND TAB.transferDate &lt; #transferDateEnd#
 					</ifNotNull>
 					<ifNotNull caseCode>
-						AND CASE_CODE = #caseCode#
+						AND TAB.CASE_CODE = #caseCode#
 					</ifNotNull>					
 					<ifNotNull orgName>
-						AND T.MANAGER_ORG_NAME like '%' + #orgName# + '%' 
+						AND TAB.MANAGER_ORG_NAME like '%' + #orgName# + '%' 
 					</ifNotNull>
 					<ifNotNull TransferStatus>
-						AND status = #TransferStatus#
+						AND TAB.status = #TransferStatus#
 					</ifNotNull>
 					<ifNotNull vrealName>
-						AND WZ.REAL_NAME like '%' + #vrealName# + '%' 
+						AND TAB.REAL_NAME like '%' + #vrealName# + '%' 
 					</ifNotNull>
 					<ifNotNull managerName>
-						AND T.MANAGER_REAL_NAME like '%' + #managerName# + '%' 
+						AND TAB.MANAGER_REAL_NAME like '%' + #managerName# + '%' 
 					</ifNotNull>
 					<ifNotNull propertyAddr>
-						AND PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+						AND TAB.PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
 					</ifNotNull>
 				]]>
 			</baseSql>
@@ -308,10 +319,10 @@
 					customDict="" hidden="false" />
 				<column type="both" name="AGENT_NAME" title="业务员姓名"
 					customDict="" hidden="false" />
-<!-- 				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
+				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
 					customDict="" hidden="false" />
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"
-					customDict="" hidden="false" /> -->
+					customDict="" hidden="false" /> 
 				<column type="both" name="GUOHUDJ" title="过户单价" customDict=""
 					hidden="false" />
 				<column type="both" name="dist_name" title="过户区域" customDict=""

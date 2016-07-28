@@ -115,7 +115,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			}
 		}
 		// 为主流程设置变量
-	    setEvaReportNeedAtLoanRelease(toMortgage);
+		setEvaReportNeedAtLoanRelease(toMortgage);
 	}
 
 	@Override
@@ -330,6 +330,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		}
 		
 	}
+
 	
 	private void setEvaReportNeedAtLoanRelease(ToMortgage toMortgage) {
 			ToWorkFlow wf=new ToWorkFlow();
