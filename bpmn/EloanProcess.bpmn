@@ -25,7 +25,7 @@
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow7" sourceRef="EloanReleaseConfirm" targetRef="exclusivegateway3"></sequenceFlow>
     <sequenceFlow id="flow8" sourceRef="exclusivegateway3" targetRef="endevent2">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ReleaseApprove}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ReleaseApprove && isRelFinish}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="EloanRelease" targetRef="EloanReleaseConfirm"></sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="EloanSign" targetRef="EloanSignConfirm"></sequenceFlow>
@@ -40,7 +40,7 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SignApprove==false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow15" sourceRef="exclusivegateway3" targetRef="EloanRelease">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ReleaseApprove==false || isCompletedRelease==false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ReleaseApprove==false || isRelFinish==false}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_EloanProcess">
@@ -73,7 +73,7 @@
         <omgdc:Bounds height="59.0" width="123.0" x="698.0" y="291.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
-        <omgdc:Bounds height="35.0" width="35.0" x="1060.0" y="181.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1050.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
         <omgdc:Bounds height="40.0" width="40.0" x="940.0" y="177.0"></omgdc:Bounds>
@@ -102,7 +102,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
         <omgdi:waypoint x="980.0" y="197.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1060.0" y="198.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1050.0" y="197.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
         <omgdi:waypoint x="756.0" y="225.0"></omgdi:waypoint>
