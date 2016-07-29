@@ -282,12 +282,11 @@ function caseTransferExportToExcel() {
 /*	displayColomn.push('ISAPPROVE');*/
 	displayColomn.push('status1');
 	displayColomn.push('ASSESSOR');
-	displayColomn.push('CONTENT');	
-	
-	displayColomn.push('MANAGER_REAL_NAME');
-	displayColomn.push('MANAGER_ORG_NAME');
+	displayColomn.push('CONTENT');
+	displayColomn.push('REAL_NAME');
+	displayColomn.push('ORG_NAME');
 	displayColomn.push('GRP_NAME');
-	displayColomn.push('MANAGER_AR_NAME');
+	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
 
 
