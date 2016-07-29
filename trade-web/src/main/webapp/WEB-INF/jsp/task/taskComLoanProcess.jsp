@@ -1789,9 +1789,9 @@ function checkInt(obj){
 	}
 	
 	function startTmpBankWorkFlow(finOrgCode_){
-		var checkFlag = true;
+
 		if(!$("#isTmpBank").is(':checked')){
-			checkFlag = false;
+			return;
 		}
 		
 		var f=$("#mortgageForm");
@@ -1806,7 +1806,7 @@ function checkInt(obj){
 		    url:ctx+"/mortgage/tmpBankAudit/start",
 	    	method:"post",
 	    	dataType:"json",
-	    	data:{caseCode:$("#caseCode").val(),checkFlag:checkFlag},
+	    	data:{caseCode:$("#caseCode").val()},
 	    	success:function(data){
 	    		//console.log(JSON.stringify(data));
 	    	}

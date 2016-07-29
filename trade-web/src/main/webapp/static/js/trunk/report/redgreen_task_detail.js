@@ -4,6 +4,7 @@ $(document).ready(function() {
 					initradio('lampRadios',$("#colourId").val());
 					$("#txt_proOrgId_gb").val($("#orgName1").val());
 					$("#txt_proOrgId").val($("#orgName2").val());
+					$("#h_proOrgId_gb").val($("#organId").val());
 					
 					//基本信息等高
 					var url = "/quickGrid/findPage";
@@ -170,6 +171,7 @@ function getDatebase(data){
     data.caseCode = caseCodes;
     data.lampRadios = lampRadios;
     data.taskDfKey = taskDfKey;
+   // data.taskDfKey = "'"+taskDfKey+"'";
     data.proOrggbName = proOrggbName;
     data.proOrgName = proOrgName;
     data.jobName = jobNames;
