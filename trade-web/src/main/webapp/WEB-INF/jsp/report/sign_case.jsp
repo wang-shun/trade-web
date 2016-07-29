@@ -142,7 +142,7 @@ text-decoration: underline !important;
 												id="orgName" name="orgName" readonly="readonly"
 												onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 													   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
-													   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
+													   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,chkLast:'true',
 													   expandNodeId:''})" />
 											<input class="m-wrap " type="hidden" id="yuCuiOriGrpId"
 												name="yuCuiOriGrpId">
