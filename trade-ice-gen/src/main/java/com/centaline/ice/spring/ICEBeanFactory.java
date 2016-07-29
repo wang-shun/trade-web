@@ -10,26 +10,30 @@ import org.springframework.context.SmartLifecycle;
 
 import Ice.ObjectPrx;
 
-public class ICEUtil implements SmartLifecycle{
+public class ICEBeanFactory implements SmartLifecycle{
 	
 	private final Logger LOGGER        = LoggerFactory.getLogger(this.getClass());
     
 	private static volatile Ice.Communicator ic = null;
 
-	private static String iceLocator = null;
+	private String iceLocator = null;
+
+	public void setIceLocator(String iceLocator) {
+		this.iceLocator = iceLocator;
+	}
 
 	private static final String locatorKey = "--Ice.Default.Locator";
 
 	private Ice.Communicator getIceCommunicator() {
 		if (ic == null) {
-			synchronized (ICEUtil.class) {
+			synchronized (ICEBeanFactory.class) {
 				if (ic == null) {
-					if (iceLocator == null) {
-						ResourceBundle rb = ResourceBundle.getBundle("ice", Locale.ENGLISH);
-						iceLocator = rb.getString(locatorKey);
-						LOGGER.info("Ice client locator is " + iceLocator);
-					}
+//					if (iceLocator == null) {
+//						ResourceBundle rb = ResourceBundle.getBundle("ice", Locale.ENGLISH);
+//						iceLocator = rb.getString(locatorKey);
+//					}
 
+					LOGGER.info("Ice client locator is " + iceLocator);
 					String[] initParams = new String[] { locatorKey + "=" + iceLocator };
 					ic = Ice.Util.initialize(initParams);
 				}

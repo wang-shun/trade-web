@@ -9,7 +9,8 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<description>全局配置，跟平台和部署无关</description>
  
@@ -48,8 +49,12 @@
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 	
-	<bean class="com.centaline.ice.spring.ICEUtil" />
+	<bean id="iceBeanFactory" class="com.centaline.ice.spring.ICEBeanFactory">
+		<property name="iceLocator" value="${Ice.Default.Locator}" />
+	</bean>
+	
 	<bean class="com.centaline.ice.spring.ICEInvokeFactoryBean" >
+		<property name="iceBeanFactory" ref="iceBeanFactory"  />
 		<property name="iceProxy" value="com.centaline.ice.gen.baseData.UserBaseDataPrx"></property>
 	</bean>
 </beans>

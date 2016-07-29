@@ -1,8 +1,6 @@
 package com.centaline.ice.spring;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ICEInvokeFactoryBean implements FactoryBean<Object>{
 
@@ -16,17 +14,20 @@ public class ICEInvokeFactoryBean implements FactoryBean<Object>{
 		this.iceProxy = iceProxy;
 	}
 
+	public void setIceBeanFactory(ICEBeanFactory iceBeanFactory) {
+		this.iceBeanFactory = iceBeanFactory;
+	}
+
 	private Object serviceProxy ;
 	
-	@Autowired
-	private ICEUtil iceUtil;
+	private ICEBeanFactory iceBeanFactory;
 	
 	@Override
 	public Object getObject() throws Exception {
-		if(StringUtils.isBlank(iceProxy)){
+		if(null == iceProxy || "".equals(iceProxy.trim())){
 			throw new RuntimeException("iceProxy 不能为空！");
 		}
-		this.serviceProxy = iceUtil.createIceProxy(getObjectType());
+		this.serviceProxy = iceBeanFactory.createIceProxy(getObjectType());
 		return this.serviceProxy;
 	}
 

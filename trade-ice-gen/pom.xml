@@ -11,6 +11,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ice.version>3.6.2</ice.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
+		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
 
 	<dependencies>
@@ -19,5 +21,46 @@
 			<artifactId>ice</artifactId>
 			<version>${ice.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 	</dependencies>
+	
+	<build>  
+	    <plugins>  
+	      <plugin>  
+	        <groupId>org.apache.maven.plugins</groupId>  
+	        <artifactId>maven-compiler-plugin</artifactId>  
+	        <configuration>  
+	          <source>1.8</source>
+	          <target>1.8</target>  
+	        </configuration>  
+	      </plugin>  
+	    </plugins>  
+	</build> 
 </project>
