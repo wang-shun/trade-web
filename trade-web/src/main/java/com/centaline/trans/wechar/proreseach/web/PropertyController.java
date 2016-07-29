@@ -123,10 +123,21 @@ public class PropertyController {
 		if (StringUtils.isBlank(msg)) {
 			msg = "产调信息提交成功！";
 		}
-		request.setAttribute("userList", propertyService.getZLList(districtId));
+		request.setAttribute("userList", removeDuplicate(propertyService.getZLList(districtId)));
 		request.setAttribute("msg", msg);
 		return "mobile/propresearch/wecharaddResult";
 	}
+	
+	private List<User> removeDuplicate(List<User> list) { 
+		for ( int i = 0 ; i < list.size() - 1 ; i ++ ) { 
+			for ( int j = list.size() - 1 ; j > i; j -- ) { 
+				if (list.get(j).getId().equals(list.get(i).getId())) { 
+					list.remove(j); 
+				} 
+			} 
+		}
+		return list;
+	} 
 
 	@RequestMapping("show")
 	public String show(String prCode, HttpServletRequest request) {

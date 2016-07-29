@@ -331,7 +331,7 @@ function saveMortgage(form){
 
 //完成贷款审批
 function completeMortgage(form){
-
+	
 	var pkid=form.find("input[name='pkid']").val();
 
 	var lastBankSub = form.find("input[name='lastBankSub']:checked");
@@ -351,14 +351,13 @@ function completeMortgage(form){
 		return;
 	}
 
+	var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
+	
 	//提交时
-	if($("#isTmpBank").is(':checked') && $("#tmpBankStatus").val() != '1'){
+	if(tmpBankCheckflag && $("#tmpBankStatus").val() != '1'){
 		alert("临时银行审批未完成或不通过！");
 		return;
 	}
-	
-	//未选中临时银行但临时银行审批状态存在
-    var check = $("#isTmpBank").is(':checked');
 
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
@@ -369,7 +368,7 @@ function completeMortgage(form){
 		url:ctx+"/task/completeMortgage",
 		method:"post",
 		dataType:"json",
-		data:{pkid:pkid,caseCode:$("#caseCode").val(),apprDate:$("#apprDate").val(),lastLoanBank:lastLoanBank,partCode:$("#partCode").val(),check:check},
+		data:{pkid:pkid,caseCode:$("#caseCode").val(),apprDate:$("#apprDate").val(),lastLoanBank:lastLoanBank,partCode:$("#partCode").val(),check:tmpBankCheckflag},
 		success:function(data){
 			if(data.success){
 				if('caseDetails'==source){
@@ -867,10 +866,12 @@ function getCompleteMortInfo(isMainLoanBank){
 	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
 	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
 	    				f.find('#sp_is_tmp_bank').text("是");
+	    				f.find('#fl_is_tmp_bank').val("1");
 	    				f.find(".tmpBankDiv").show();
 	    			}else{
 	    				f.find(".tmpBankDiv").hide();
 	    				f.find('#sp_is_tmp_bank').text("否");
+	    				f.find('#fl_is_tmp_bank').val("0");
 	    			}
 	    			
 	    			if(isMainLoanBank == 1){
