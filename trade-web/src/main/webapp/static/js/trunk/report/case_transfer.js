@@ -250,7 +250,7 @@ function caseTransferExportToExcel() {
 	var displayColomn = new Array;
 	displayColomn.push('BIGAREA');
 	displayColomn.push('VREAL_NAME');	
-	displayColomn.push('AGENT_ORG_NAME');
+	displayColomn.push('GRP_NAME');
 	displayColomn.push('AGENT_NAME');
 	displayColomn.push('GUOHU_ORG_NAME');
 	displayColomn.push('GUOHU_REAL_NAME');
@@ -282,10 +282,9 @@ function caseTransferExportToExcel() {
 /*	displayColomn.push('ISAPPROVE');*/
 	displayColomn.push('status1');
 	displayColomn.push('ASSESSOR');
-	displayColomn.push('CONTENT');
+	displayColomn.push('LAST_CONTENT');
 	displayColomn.push('REAL_NAME');
 	displayColomn.push('ORG_NAME');
-	displayColomn.push('GRP_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
 

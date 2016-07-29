@@ -9,4 +9,6 @@ public interface KeyValueService {
 	public List<Map<String,Object>> queryGuestInfoCustomDict(List<Map<String, Object>> keys,String dictType);
 	public List<Map<String, Object>> queryGuestInfoPhoneCustomDict(List<Map<String, Object>> keys,String dictType);
 	public List<Map<String, Object>> queryProcessorNameCustomDict(List<Map<String, Object>> keys); 
+	public List<Map<String, Object>> queryGetLastContentCustomDict(List<Map<String, Object>> keys,String partCode); 
+	
 }

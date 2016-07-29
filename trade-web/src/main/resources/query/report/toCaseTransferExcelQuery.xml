@@ -7,6 +7,8 @@
 		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
 		<customDict id="qqcdSellerPhone" beanName="qqcdSellerPhone" />
 		<customDict id="qqcdBuyerPhone" beanName="qqcdBuyerPhone" />
+		<customDict id="lastContent" beanName="lastContent" />
+		
 	</dicts>
 	<formatters>
 		<formatter id="newDateFormatter" ref=""
@@ -51,7 +53,7 @@
 									distinct(T.CASE_CODE),
 									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.V_USER_ORG_JOB v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
 									AGENT_NAME, 
-									(select TOP 1 U.ORG_NAME FROM sctrans.V_USER_ORG_JOB U WHERE  T.AGENT_USERNAME=U.USERNAME ) AGENT_ORG_NAME,
+									GRP_NAME  AGENT_ORG_NAME,
 									(select top 1 vj.real_name from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_REAL_NAME,
 									(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
 									case 		       	
@@ -77,8 +79,7 @@
 									T.ORG_NAME, 
 									transferDate, 
 									caseTransferDate , 
-									status,
-									GRP_NAME, 
+									status,								
 									AR_NAME ,  
 									wz.ORG_NAME AS VORG_NAME , 
 									WZ.REAL_NAME AS VREAL_NAME,								
@@ -100,6 +101,7 @@
 									end   SDSTATUS  ,/*收单状态*/								
 									(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=ar.OPERATOR  AND ar.PART_CODE='GuohuApprove') AS ASSESSOR,
 									ar.CONTENT,
+									ar.NOT_APPROVE,
 									(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= T.CASE_CODE ) REAL_HT_TIME
 
 							from (
@@ -164,7 +166,7 @@
 				<column type="both" name="BIGAREA" title="大区" customDict="" hidden="false" />					
 				<column type="both" name="VREAL_NAME" title="区董" customDict=""
 					hidden="false" />
-				<column type="both" name="AGENT_ORG_NAME" title="分行"
+				<column type="both" name="GRP_NAME" title="分行"
 					customDict="" hidden="false" />
 				<column type="both" name="AGENT_NAME" title="业务员姓名"
 					customDict="" hidden="false" />
@@ -211,6 +213,12 @@
 					hidden="false" />
 				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"
 					customDict="" hidden="false" />
+					
+				<column type="virtual" name="LAST_CONTENT" title="最终审核结果"
+					referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"
+					customDict="lastContent" sysDict="" format="" width="60" isSort="true"
+					align="" halign="" order="" resizable="" />
+					
 				<column type="virtual" name="SELLER" title="上家姓名"
 					referencecol="CASE_CODE" index="" checkbox="" display="上家"
 					customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"
@@ -241,14 +249,14 @@
 					referencecol="status" customDict="convertValue" />
 				<column type="both" name="CONTENT" title="审核结果" customDict=""
 					hidden="false" />
+				<column type="both" name="NOT_APPROVE" title="不通过原因" customDict=""
+					hidden="false" />
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID"
 					customDict="" sysDict="" format="" width="90" isSort="" align=""
 					halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" title="主管"
 					customDict="" hidden="false" />
 				<column type="both" name="ORG_NAME" title="主管组别"
-					customDict="" hidden="false" />
-				<column type="both" name="GRP_NAME" title="店组"
 					customDict="" hidden="false" />
 				<column type="both" name="AR_NAME" title="片区"
 					customDict="" hidden="false" />

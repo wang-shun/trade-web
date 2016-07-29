@@ -245,6 +245,7 @@
     	<property name="transPosition" value="30006001"></property>
     </bean>
     
+    
     <bean name="qqManagerInfo" class="com.centaline.trans.common.service.impl.QuickQueryManagerInfoCustomDictServiceImpl">
     	<property name="jobCode" value="JFHJL"></property>
     </bean>
@@ -302,6 +303,11 @@
     <bean name="convertColor" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueColorServiceImpl" />
     
     <bean name="qqMainOrgByUserId" class="com.centaline.trans.common.service.impl.QuickQueryMainUOJByUserIdCustomerDictServiceImpl" />
+    
+    
+   	<bean name="lastContent" class="com.centaline.trans.common.service.impl.QuickQueryGetLastContentDictServiceImpl">
+    	<property name="partCode" value="GuohuApprove"></property>
+    </bean>
     
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
