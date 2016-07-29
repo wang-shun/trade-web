@@ -12,5 +12,4 @@
 		<property name="serviceUrl"	 value="${filesvr.client.remote.service.url}/remote/filesvrUploadService" />
 		<property name="serviceInterface" value="com.aist.filesvr.upload.remote.FilesvrUploadService" />
 	</bean>
-    
 </beans>
