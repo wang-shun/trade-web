@@ -283,6 +283,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('status1');
 	displayColomn.push('ASSESSOR');
 	displayColomn.push('LAST_CONTENT');
+	displayColomn.push('NOT_APPROVE');
 	displayColomn.push('REAL_NAME');
 	displayColomn.push('ORG_NAME');
 	displayColomn.push('AR_NAME');

@@ -249,7 +249,7 @@
 					referencecol="status" customDict="convertValue" />
 				<column type="both" name="CONTENT" title="审核结果" customDict=""
 					hidden="false" />
-				<column type="both" name="NOT_APPROVE" title="不通过原因" customDict=""
+				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""
 					hidden="false" />
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID"
 					customDict="" sysDict="" format="" width="90" isSort="" align=""
