@@ -232,9 +232,9 @@ text-decoration: underline !important;
 						<th class="t-left pd-l"><span>产证地址</span></th>
 						<th class="t-left pd-l"><span>经办人</span></th>
 						<th class="t-left pd-l"><span>组别</span></th>
-						<th class="t-left pd-l"><span>申请金额</span></th>
-						<th class="t-left pd-l"><span>面签金额</span></th>
-						<th class="t-left pd-l"><span>放款金额</span></th>
+						<th class="t-left pd-l"><span>申请金额（万）</span></th>
+						<th class="t-left pd-l"><span>面签金额（万）</span></th>
+						<th class="t-left pd-l"><span>放款金额（万）</span></th>
 					    <th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_TIME' sord='desc'>面签时间</span></th>
 					</tr>
 				</thead>
