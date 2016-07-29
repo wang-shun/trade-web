@@ -1,5 +1,8 @@
 package com.centaline.trans.common.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +29,30 @@ public class QuickQueryOrgCustomDictServiceImpl implements CustomDictService{
 			return null;
 		} 
 		return value;
+	}
+	
+	@Override
+	@Cacheable(value="QuickQueryOrgCustomDictServiceImpl",key="#root.target.getProp()+'/'+#keys")
+	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		for(Map<String, Object> keyer:keys){
+			String val = "";
+			try {
+				Object key = keyer.values().iterator().next();
+				if(key!=null){
+					Org u = uamUserOrgService.getOrgById(key.toString());
+					val = BeanUtils.getProperty(u, prop);
+				}
+			} catch (Exception e) {
+			} 
+			keyer.put("val", val);
+		}
+		
+		return keys;
+	}
+	
+	@Override
+	public Boolean getIsBatch() {
+		return true;
 	}
 	
 	public String getProp() {

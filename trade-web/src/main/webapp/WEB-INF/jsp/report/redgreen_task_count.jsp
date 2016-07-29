@@ -164,25 +164,6 @@ text-decoration: underline !important;
 			</div>
 		</div>
 			<div class="data-wrap">
-		<!-- <div class="data-wrap-in">
-			<table border="1" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th class="t-left pd-l">贵宾服务部</th>
-						<th class="t-left pd-l">总监</th>
-						<th class="t-left pd-l">组别</th>
-						<th class="t-left pd-l">主管</th>
-						<th class="t-left pd-l">红灯</th>
-						<th class="t-left pd-l">黄灯</th>
-						<th class="t-left pd-l">合计</th>
-						<th class="t-left pd-l">操作</th>
-					</tr>
-				</thead>
-				<tbody id="redgreenTaskList">
-					
-				</tbody>
-			</table>
-		</div> -->
 		
 			<div class="panel " id="serviceFlow">
 					<div class="panel-body">
@@ -193,9 +174,6 @@ text-decoration: underline !important;
 							</li>
 							
 						</ul>
-<!-- 
-						<div class="tab-content"> -->
-
 							
 							<div class="tab-pane active fade in" id="setGbList">
 								<div class="jqGrid_wrapper row">
@@ -307,11 +285,11 @@ text-decoration: underline !important;
     	
 						<td class="t-left pd-l">{{item.orgName1}}</td>
 						<td class="t-left pd-l">{{item.realName1}}</td>
-						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.redall}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.yellowall}}</a></td>
-						<td class="t-left pd-l">{{(item.yellowall)+(item.redall)}}</td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','');" target="_blank">{{item.redall}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','');" target="_blank">{{item.yellowall}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','');" target="_blank">{{(item.yellowall)+(item.redall)}}</a></td>
 						<td class="t-left pd-l">
-                            <a href="javascript:exportToExcelGb('{{item.orgName1}}');" target="_blank">导出</a>
+                            <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','');" target="_blank">导出</a>
                         </td>
 				
 
@@ -329,11 +307,11 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
-						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.yellow}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.red}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}');" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.yellow}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
 						<td class="t-left pd-l">
-                            <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
+                            <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','{{item.orgName2}}');" target="_blank">导出</a>
                         </td>
 						
 				  </tr>

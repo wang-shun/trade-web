@@ -33,7 +33,7 @@ function getShowAttachment() {
 			dataLength=data.length;
 			//将返回的数据进行包装
 			var trStr = "";
-
+			
 			var oldType = "";
 			$.each(data, function(indexAcc, value){
 				if(value.partCode !='property_research'){

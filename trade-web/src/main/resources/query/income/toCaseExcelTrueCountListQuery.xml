@@ -42,7 +42,7 @@
 						A.PKID,
 						A.CASE_CODE,
 					    A.ClOSE_TIME,
-                        D.SRV_CODE,
+                        D.SRV_CODE AS SRV_CODE_OLD,
 						D.PROCESSOR_ID,
                         US.REAL_NAME AS PROCESSOR_NAME,
                         US.EMPLOYEE_CODE,
@@ -124,7 +124,8 @@
 			<table-row>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="SRV_CODE"  index="" checkbox="" title="服务名称" customDict="getSrvNameByCode" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="SRV_CODE_OLD"  index="" checkbox="" title="服务名称" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="SRV_CODE" title="服务名称" customDict="getSrvNameByCode" referencecol="SRV_CODE_OLD" isSort="" align="" halign="" order="" />			
 				<column type="both" name="PROCESSOR_NAME" index="" checkbox="" title="服务执行人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EMPLOYEE_CODE" index="" checkbox="" title="员工编号" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ClOSE_TIME" index="" checkbox="" title="结案时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />

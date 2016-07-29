@@ -42,8 +42,8 @@
 					SELECT
 					CF.PKID,
 					CF.CASE_CODE,
-					CF.CASH_FLOW_TYPE,
-					CF.FLOW_DIRECTION,
+					CF.CASH_FLOW_TYPE AS CASH_FLOW_TYPE_OLD,
+					CF.FLOW_DIRECTION AS FLOW_DIRECTION_OLD,
 					CF.FLOW_AMOUNT,
 					CF.FLOW_TIME,
 					PI.PROPERTY_ADDR
@@ -60,8 +60,10 @@
 				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="CASH_FLOW_TYPE" index="" checkbox="" display="类型" customDict="getFlowTypeByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FLOW_DIRECTION" index="" checkbox="" display="流水方向" customDict="getFlowDirectionByCode" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASH_FLOW_TYPE_OLD" index="" checkbox="" display="类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASH_FLOW_TYPE" title="类型" customDict="getFlowTypeByCode" referencecol="CASH_FLOW_TYPE_OLD" isSort="true" align="" halign="" order="" />
+				<column type="both" name="FLOW_DIRECTION_OLD" index="" checkbox="" display="流水方向" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="FLOW_DIRECTION" display="流水方向" customDict="getFlowDirectionByCode" referencecol="FLOW_DIRECTION_OLD" isSort="true" />
 				<column type="both" name="FLOW_AMOUNT" index="" checkbox="" display="金额" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="FLOW_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>

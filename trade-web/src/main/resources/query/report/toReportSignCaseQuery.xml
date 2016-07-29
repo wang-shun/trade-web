@@ -28,13 +28,13 @@
 	        <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="T.ORG_NAME" name="orgName" label="组别" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="ORG_MAN_NAME" name="orgManName" label="区董" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="WZ.REAL_NAME" name="orgManName" label="区董" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 			    select 
-			    T.PKID,
+			    DISTINCT(T.PKID),
   	            T.CASE_CODE, 
   	            T.PROPERTY_ADDR,
   	            T.REAL_NAME, 

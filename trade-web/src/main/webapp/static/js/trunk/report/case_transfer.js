@@ -248,7 +248,58 @@ function caseTransferExportToExcel() {
 	var ctx = $("#ctx").val();
 	// excel导出列
 	var displayColomn = new Array;
+	displayColomn.push('BIGAREA');
+	displayColomn.push('VREAL_NAME');	
+	displayColomn.push('AGENT_ORG_NAME');
+	displayColomn.push('AGENT_NAME');
+	displayColomn.push('GUOHU_ORG_NAME');
+	displayColomn.push('GUOHU_REAL_NAME');
+	displayColomn.push('GUOHUDJ');
+	displayColomn.push('dist_name');
+	displayColomn.push('REAL_HT_TIME');
+	displayColomn.push('CTM_CODE');
+	displayColomn.push('CUST_NAME');
+	displayColomn.push('GUEST_PHONE');
+	displayColomn.push('PROPERTY_ADDR');	
+	displayColomn.push('CON_PRICE');
+	displayColomn.push('FIN_ORG_NAME');
+	displayColomn.push('FIN_ORG_NAME_YC');
+	displayColomn.push('COM_AMOUNT');
+	displayColomn.push('PRF_AMOUNT');
+	displayColomn.push('ACCOUNT');
+	displayColomn.push('COM_DISCOUNT');
 	displayColomn.push('CASE_CODE');
+	displayColomn.push('LOANER_NAME');
+	displayColomn.push('LOANER_PHONE');
+	displayColomn.push('SDSTATUS');
+	displayColomn.push('IS_LOANER_ARRIVE');	
+	displayColomn.push('SELLER');
+	displayColomn.push('SELLER_MOBILE');	
+	displayColomn.push('BUYER');
+	displayColomn.push('BUYER_MOBILE');
+	displayColomn.push('transferDate');
+	displayColomn.push('caseTransferDate');
+/*	displayColomn.push('ISAPPROVE');*/
+	displayColomn.push('status1');
+	displayColomn.push('ASSESSOR');
+	displayColomn.push('CONTENT');
+	displayColomn.push('REAL_NAME');
+	displayColomn.push('ORG_NAME');
+	displayColomn.push('GRP_NAME');
+	displayColomn.push('AR_NAME');
+	displayColomn.push('VORG_NAME');
+
+
+
+
+	
+/*	displayColomn.push('AR_NAME');
+	displayColomn.push('VREAL_NAME');
+	displayColomn.push('GRP_NAME');
+	displayColomn.push('AGENT_NAME');
+	displayColomn.push('REAL_HT_TIME');	
+	displayColomn.push('CASE_CODE');
+	displayColomn.push('CTM_CODE');
 	displayColomn.push('PROPERTY_ADDR');
 	displayColomn.push('REAL_NAME');
 	displayColomn.push('ORG_NAME');
@@ -258,10 +309,15 @@ function caseTransferExportToExcel() {
 	displayColomn.push('GRP_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
-	displayColomn.push('VREAL_NAME');
 	displayColomn.push('EVAL_FEE');
 	displayColomn.push('RECORD_TIME');
-
+	displayColomn.push('SELLER');
+	displayColomn.push('SELLER_MOBILE');	
+	displayColomn.push('BUYER');
+	displayColomn.push('BUYER_MOBILE');
+	displayColomn.push('PROCESSOR_ID');*/
+	
+	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -288,7 +344,8 @@ function caseTransferExportToExcel() {
 	if (argu_queryorgs == null)
 		argu_queryorgs = '&argu_queryorgs=';
 	var params = getParamsValue();
-	var queryId = '&queryId=queryCastTransferExcelItemList';
+	//var queryId = '&queryId=queryCastTransferExcelItemList';
+	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 
 	url = ctx + url + jQuery.param(params) + queryId + argu_idflag
@@ -344,7 +401,7 @@ function chooseManager(id) {
 			jobCode : 'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
-		$("#yuCuiOriGrpId").val("");
+		//$("#yuCuiOriGrpId").val("");
 	} else {
 		userSelect({
 			startOrgId : serviceDepId,

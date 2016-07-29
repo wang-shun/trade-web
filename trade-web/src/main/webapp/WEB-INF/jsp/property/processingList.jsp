@@ -482,7 +482,7 @@
 	 <script>
 		  template.helper("rep", function(a){  
 	          return a.replace(/[\r\n]/g,"");  
-	      });  
+	      });
 	 </script>
 </content>
 </body>

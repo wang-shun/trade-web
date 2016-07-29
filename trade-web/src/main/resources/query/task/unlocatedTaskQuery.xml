@@ -38,7 +38,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT org.org_name groupName,(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, ut.name as name,ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode,isnull(j.job_name,ut.task_Job_Code) as taskJobCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
-					,ut.TASK_DEFINATION_KEY as taskDfKey,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
+					,ut.TASK_DEFINATION_KEY as taskDfKey_OLD,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
 					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
 						on ut.case_code =tca.case_code
 						left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
@@ -67,7 +67,8 @@
 				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="candidateId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="taskDfKey" index="" checkbox="" display="" customDict="getDictPartName" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="taskDfKey_OLD" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="taskDfKey" display="" referencecol="taskDfKey_OLD"  customDict="getDictPartName" hidden="false"/>
 				<column type="both" name="caseId" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="propertyAddr" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				

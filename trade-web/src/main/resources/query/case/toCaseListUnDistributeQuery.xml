@@ -40,6 +40,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
+
 					SELECT ctd.pkid
 						,ctd.CASE_CODE
 						,ctd.CTM_CODE
@@ -51,7 +52,7 @@
 						,tst.YU_TEAM_CODE YU_TEAM_CODE
 						,ctd.AGENT_CODE AS USER_ID
 					FROM sctrans.T_TO_CASE_INFO ctd
-					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE
+					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE and tst.IS_RESPONSE_TEAM = 1
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = ctd.CASE_CODE
 					where (tc.STATUS = '30001001' or tc.STATUS  is null)

@@ -126,7 +126,7 @@ text-decoration: underline !important;
 			    				</div>
 			    				<label class="col-md-1  control-label">贵宾服务部</label>
 			    				<div class="col-md-3">
-			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" value="${teamCode }"
+			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" value="${teamCode }" style="background-color:#FFFFFF"
 											   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 											   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
@@ -217,7 +217,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	
-	<input type="hidden" id="organId" value="${organId}" />
+	<input type="hidden" id="organId" name="organId" value="${organId}" />
 	<%-- <input type="hidden" id="prApplyTimePre" value="${prApplyTime}" />
 	<input type="hidden" id="prApplyTimeEndPre" value="${prApplyTimeEnd}" />
 	<input type="hidden" id="prAccpetTimeStartPre" value="${prAccpetTimeStart}" />

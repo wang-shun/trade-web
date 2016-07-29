@@ -38,10 +38,10 @@
 					SELECT
 					    PKID,
 						CASE_CODE,
-						PART_CODE,
+						PART_CODE AS PART_CODE_OLD,
 						OLD_EST_PART_TIME,
 						NEW_EST_PART_TIME,
-						CHANGER_ID,
+						CHANGER_ID AS CHANGER_ID_OLD,
 						CHANGE_TIME,
 						CHANGE_REASON
 					FROM
@@ -59,10 +59,12 @@
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编号" customDict="getPartNameByCode" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PART_CODE_OLD" index="" checkbox="" display="环节编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="PART_CODE" display="环节编号" referencecol="PART_CODE_OLD"  customDict="getPartNameByCode" order="desc" hidden="false"/>
 				<column type="both" name="OLD_EST_PART_TIME" index="" checkbox="" display="原预计时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="NEW_EST_PART_TIME" index="" checkbox="" display="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CHANGER_ID" index="" checkbox="" display="变更人" customDict="getRealNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGER_ID_OLD" index="" checkbox="" display="变更人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CHANGER_ID" display="变更人" referencecol="CHANGER_ID_OLD"  customDict="getRealNameByUserId" isSort="true" hidden="false"/>
 				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>
