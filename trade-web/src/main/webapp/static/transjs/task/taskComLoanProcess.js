@@ -880,7 +880,7 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
 		    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 		    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null){
+		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 			    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
 		    			}
 
@@ -890,7 +890,7 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
 		    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 		    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null){
+		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 			    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
 
 		    			}
