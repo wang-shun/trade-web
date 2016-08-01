@@ -186,7 +186,7 @@ public class TmpBankAduitController {
 				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 				if(record != null){
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
-					toWorkFlowService.updateByPrimaryKey(record);
+					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 
 			}else{
@@ -228,7 +228,7 @@ public class TmpBankAduitController {
 				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 				if(record != null){
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
-					toWorkFlowService.updateByPrimaryKey(record);
+					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 			}else{
 				mortageDb.setTmpBankUpdateBy(user.getId());
@@ -268,7 +268,7 @@ public class TmpBankAduitController {
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 			if(record != null){
 				record.setStatus(WorkFlowStatus.COMPLETE.getCode());
-				toWorkFlowService.updateByPrimaryKey(record);
+				toWorkFlowService.updateByPrimaryKeySelective(record);
 			}
 			
 			Map<String, Object>params=new HashMap<String, Object>();

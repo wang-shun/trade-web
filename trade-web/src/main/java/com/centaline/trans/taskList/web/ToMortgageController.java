@@ -186,14 +186,13 @@ public class ToMortgageController {
 		
 		//如果没有选中但已经开启临时银行流程则更新工作流表状态为‘2’：非正常结束
 		if("false".equals(check)){
-			//更新流程状态为‘4’：已完成
 			ToWorkFlow twf = new ToWorkFlow();
 			twf.setBusinessKey("TempBankAudit_Process");
 			twf.setCaseCode(toMortgage.getCaseCode());
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 			if(record != null){
 				record.setStatus(WorkFlowStatus.TERMINATE.getCode());
-				toWorkFlowService.updateByPrimaryKey(record);
+				toWorkFlowService.updateByPrimaryKeySelective(record);
 			}
 		}
 
