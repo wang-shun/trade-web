@@ -42,8 +42,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.centaline</groupId>
-			<artifactId>common-frontend</artifactId>
-			<version>1.0.0</version>
+			<artifactId>trade-frontend</artifactId>
+			<version>${version}</version>
 		</dependency>
 
 		<!-- Spring basic -->
