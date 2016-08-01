@@ -35,6 +35,8 @@
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -778,19 +780,19 @@
 									    </c:otherwise>  
 										</c:choose>  --%>
 										
-										<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
-                                            <h5>${accesory.preFileName}</h5>
-                                            <div class="ibox-content">
-                                            <div id="imgShow" class="lightBoxGallery">
-	                                            <a href='#' onClick="show('${accesory.preFileAdress}')" data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>
-	                                                <img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/80_80_f.jpg" style='padding-bottom: 5px;padding-top: 5px;'>
-	                                            </a>
-                                            </div>
-                                        </div>
-                                        </c:forEach>
+										<div id="imgShow" class="lightBoxGallery">
+											<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
+												<div class="row ibox-content">
+													<label class="col-sm-2 control-label" style="line-height:90px;text-align:center;">${accesory.preFileName}</label>
+													<div class="col-sm-10 lightBoxGallery" style="text-align:left">
+														<a href="#" title="Hydrangeas.jpg" data-gallery="">
+															<img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/__f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
+														</a>
+													</div>
+												</div>
+											</c:forEach>
 										</div>
-									
-
+									</div>
                                 </div>
                             </div>
 
@@ -862,9 +864,17 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 		var isAccumulation=false;
 		var loanReq ="${loanReq}";
+		
+		initView();
+		
+		function initView(){
+			$('#imgShow').viewer();
+		}
+		
 		function readOnlyF(){
 			$("#mortType").attr("disabled","disabled");
 			$("#isDelegateYucui").attr("disabled","disabled");

@@ -40,7 +40,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
 <link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
-
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -925,8 +925,10 @@
 		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script> <script
-		src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> <!-- 校验 -->
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script> 
+	<%-- <script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%> 
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	<script src="${ctx}/js/trunk/case/showCaseAttachmentByJagd.js"></script>
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
