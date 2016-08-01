@@ -848,6 +848,8 @@ function getCompleteMortInfo(isMainLoanBank){
 			    		$("#tmpBankRejectReason").text("已拒绝:"+reason);
 		    		}else if(data.content.tmpBankStatus == '1'){
 		    			$("#tmpBankRejectReason").text("已通过！");
+		    		}else if(data.content.tmpBankStatus == '2'){
+		    			$("#tmpBankRejectReason").text("审批中！");
 		    		}
 	    		}
 	    		
@@ -880,9 +882,9 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
 		    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 		    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
-			    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
-		    			}
+//		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
+//			    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
+//		    			}
 
 	    			}else{
 	    				$("#completeForm1").find("input[name='pkid']").val(data.content.pkid);
@@ -890,10 +892,9 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
 		    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 		    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
-			    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
-
-		    			}
+//		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
+//			    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
+//		    			}
 	    			}
 	    		}
 	    	}
@@ -1295,7 +1296,7 @@ $(document).ready(function () {
 	 				return deleteAndModify();
 	 			}
 	 			return false;
-	 		}else if(currentIndex == 4){
+	 		}else if(currentIndex == 4 && newIndex == 5){
 	 			//离开报告步骤执行临时银行审批流程
 	 			startTmpBankWorkFlow(finOrgCode_);
 	 		}
