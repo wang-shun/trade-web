@@ -1,0 +1,29 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.List"%>
+<%@page import="com.aist.uam.permission.remote.vo.App"%>
+<%@page import="com.aist.uam.permission.remote.UamPermissionService"%>
+<%@page import="com.aist.common.utils.SpringUtils" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@taglib prefix="aist" uri="http://uam.aist.com/tags/aisttag" %>
+<%
+	if(pageContext.getSession().getAttribute("ctx")==null){
+		UamPermissionService uamPermissionService = SpringUtils.getBean("uamPermissionServiceClient");
+		String appName = pageContext.getServletContext().getInitParameter("appName");
+		App app = uamPermissionService.getAppByAppName(appName);
+		pageContext.getSession().setAttribute("ctx", app.genAbsoluteUrl());
+		
+		List<App> appList = uamPermissionService.getAllApp();
+		pageContext.getSession().setAttribute("appCtxList", appList);
+		Map<String, String> appCtx = new HashMap<String,String>(appList.size());
+		for(App appitem : appList){
+			appCtx.put(appitem.getAppName(), appitem.genAbsoluteUrl());
+		}
+		pageContext.getSession().setAttribute("appCtx", appCtx);
+	}
+%>
