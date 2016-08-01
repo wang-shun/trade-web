@@ -11,12 +11,14 @@
 		
 	</dicts>
 	<formatters>
-		<formatter id="newDateFormatter" ref=""
+		<!-- 通过id确定时间格式化的样式 -->
+		<formatter id="dateFormatterOne" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
+		
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -98,10 +100,10 @@
 									case 
 									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '收单' 
 									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '流失' 
-									end   SDSTATUS  ,/*收单状态*/								
-									(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=ar.OPERATOR  AND ar.PART_CODE='GuohuApprove') AS ASSESSOR,
-									ar.CONTENT,
-									ar.NOT_APPROVE,
+									end   SDSTATUS  ,/*收单状态*/	
+									(select TOP 1 U.REAL_NAME from SCTRANS.SYS_USER U where U.ID=(select  top 1 OPERATOR from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove'  and ar1.case_code=T.CASE_CODE order by  ar1.OPERATOR_TIME)) AS ASSESSOR,
+									(select  top 1 ar2.CONTENT from  sctrans.T_TO_APPROVE_RECORD ar2  where  ar2.PART_CODE='GuohuApprove'  and ar2.case_code=t.CASE_CODE order by  ar2.OPERATOR_TIME  desc) AS CONTENT,
+									(select  top 1 ar3.NOT_APPROVE from  sctrans.T_TO_APPROVE_RECORD ar3  where  ar3.PART_CODE='GuohuApprove'  and ar3.case_code=t.CASE_CODE order by  ar3.OPERATOR_TIME  desc) AS NOT_APPROVE,
 									(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= T.CASE_CODE ) REAL_HT_TIME
 
 							from (
@@ -119,8 +121,6 @@
 									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
 									LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
 									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
-
-									LEFT JOIN  ( select  * from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.case_code)) ar ON ar.CASE_CODE=T.CASE_CODE
 									INNER JOIN SCTRANS.T_TO_SIGN S ON T.CASE_CODE=S.CASE_CODE
 								where 1=1
 								 <ifNotNull caseTransferDateStart>
@@ -179,8 +179,7 @@
 				<column type="both" name="dist_name" title="过户区域" customDict=""
 					hidden="false" />
 				<column type="both" name="REAL_HT_TIME" title="实际过户时间"
-					customDict="" beanFormatter="newDateFormatter" expType="date" expFmt="yyyy-MM-dd"
-					hidden="false" />
+					customDict="" beanFormatter="dateFormatterOne" 	hidden="false" />
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
 					hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"
