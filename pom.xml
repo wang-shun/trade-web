@@ -11,6 +11,7 @@
 		<module>trade-ice</module -->
 		<module>trade-core</module>
 		<module>trade-web</module>
+		<module>trade-frontend</module>
 	</modules>
 	
 	<scm>
