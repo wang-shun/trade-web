@@ -87,5 +87,32 @@
 		GROUP BY A.CASE_CODE
 		) B
 	</select>
+	
+	<select id="queryGetLastContentCustomDict" resultType="java.util.HashMap">
+		SELECT 
+			CONTENT,
+			SELECT STUFF((select ';' + name from sctrans.SYS_DICT WHERE code IN('
+				
+				SELECT replace(NOT_APPROVE,',',''',''') 
+				FROM  
+				sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.case_code) 
+				<if test="keys!=null">
+					AND
+					<foreach item="item" index="key" collection="keys" open="("
+						close=")" separator="or">
+						ar1.CASE_CODE = #{item.CASE_CODE}
+					</foreach>
+				</if>			
+			')   for xml path('')), 1, 1, '') 			
 
+		FROM  
+			(sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.CASE_CODE) 
+			<if test="keys!=null">
+				AND
+				<foreach item="item" index="key" collection="keys" open="("
+					close=")" separator="or">
+					ar1.CASE_CODE = #{item.CASE_CODE}
+				</foreach>
+			</if>
+	</select>
 </mapper>

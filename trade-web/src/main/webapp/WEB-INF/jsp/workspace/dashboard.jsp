@@ -189,7 +189,7 @@ text-decoration: underline !important;
                         <div class="col-md-9 " id="div_target">
                             <div class="ibox float-e-margins no-records">
                                 <div class="ibox-title">
-                                    <h5>半年案件分布统计</h5>
+                                    <h5>案件分布统计</h5>
                                 </div>
                                 <div class="ibox-content" >
                                     <!-- <div class="row">

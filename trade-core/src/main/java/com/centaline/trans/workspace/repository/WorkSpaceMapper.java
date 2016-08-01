@@ -27,6 +27,8 @@ public interface WorkSpaceMapper {
 	public Double staLoanAgentTransferRate(WorkSpace work);
 
 	public Map staEvaFee(WorkSpace work);
+	public Map staEvaFeeCount(WorkSpace work);
+	
 
 	/*接单数*/
 	public Integer staReceiveCount(WorkSpace work);

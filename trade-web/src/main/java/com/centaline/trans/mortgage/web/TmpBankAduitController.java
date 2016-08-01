@@ -78,16 +78,16 @@ public class TmpBankAduitController {
 	
 	@RequestMapping("start")
 	@ResponseBody
-	public StartProcessInstanceVo startWorkFlow(String caseCode,String checkFlag) {
+	public StartProcessInstanceVo startWorkFlow(String caseCode) {	
 	ToWorkFlow twf = new ToWorkFlow();
 	twf.setBusinessKey("TempBankAudit_Process");
 	twf.setCaseCode(caseCode);
-	toMortgageService.deleteTmpBankProcess(twf);
-	
-	if("false".equals(checkFlag)){
-		return null;
+	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+
+	if(record != null){
+		return new StartProcessInstanceVo();
 	}
-	
+
 	/*流程引擎相关*/
 	List<RestVariable> variables = new ArrayList<RestVariable>();
 	ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
@@ -172,12 +172,23 @@ public class TmpBankAduitController {
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
 
 			if(!isManagerApprove){
+				mortageDb.setRecLetterNo("");
 				mortageDb.setTmpBankUpdateBy("");
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
 				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+				//更新流程状态为‘4’：已完成
+				ToWorkFlow twf = new ToWorkFlow();
+				twf.setBusinessKey("TempBankAudit_Process");
+				twf.setCaseCode(caseCode);
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+				if(record != null){
+					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+					toWorkFlowService.updateByPrimaryKeySelective(record);
+				}
+
 			}else{
 				mortageDb.setFinOrgCode(bankCode);
 				mortageDb.setLastLoanBank(tmpBankName);
@@ -187,10 +198,10 @@ public class TmpBankAduitController {
 				mortageDb.setTmpBankRejectReason("");
 			}
 			toMortgageService.updateToMortgage(mortageDb);	
-			
+	
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			variables.add(new RestVariable("isManagerApprove",isManagerApprove));
-	
+			
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
 
 		}else if("seniorManager".equals(post)){
@@ -203,17 +214,28 @@ public class TmpBankAduitController {
 			ToMortgage mortageDb= toMortgageService.findToMortgageById(mortage.getPkid());
 
 			if(!isSeniorManagerApprove ){
+				mortageDb.setRecLetterNo("");
 				mortageDb.setTmpBankUpdateBy("");
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
 				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus("0");
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+				//更新流程状态为‘4’：已完成
+				ToWorkFlow twf = new ToWorkFlow();
+				twf.setBusinessKey("TempBankAudit_Process");
+				twf.setCaseCode(caseCode);
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+				if(record != null){
+					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+					toWorkFlowService.updateByPrimaryKeySelective(record);
+				}
 			}else{
 				mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 			}
-			toMortgageService.updateToMortgage(mortageDb);	
+			toMortgageService.updateToMortgage(mortageDb);			
+			
 			
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			variables.add(new RestVariable("isSeniorManagerApprove",isSeniorManagerApprove ));
@@ -225,6 +247,7 @@ public class TmpBankAduitController {
 			ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
 			//更新案件信息
 			if("false".equals(tmpBankCheck)){
+				mortageDb.setRecLetterNo("");
 				mortageDb.setTmpBankUpdateBy("");
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
@@ -236,7 +259,17 @@ public class TmpBankAduitController {
 				mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 			}
-			toMortgageService.updateToMortgage(mortageDb);
+			toMortgageService.updateToMortgage(mortageDb);		
+			
+			//更新流程状态为‘4’：已完成
+			ToWorkFlow twf = new ToWorkFlow();
+			twf.setBusinessKey("TempBankAudit_Process");
+			twf.setCaseCode(caseCode);
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			if(record != null){
+				record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateByPrimaryKeySelective(record);
+			}
 			
 			Map<String, Object>params=new HashMap<String, Object>();
 			params.put("case_code", mortageDb.getCaseCode());

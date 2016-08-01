@@ -48,7 +48,8 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
-	
+
+<!-- 图片查看CSS -->
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 	
 <script type="text/javascript">
@@ -366,6 +367,7 @@
 	
 <%-- 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%>
 
+	<!-- 图片查看JS -->
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
 	
 	

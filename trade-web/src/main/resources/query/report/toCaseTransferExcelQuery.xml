@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="convertValue" beanName="convertValue"></customDict>
+		<customDict id="convertValue" beanName="convertValue" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
-		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName"></customDict>
+		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
 		<customDict id="qqcdSellerPhone" beanName="qqcdSellerPhone" />
 		<customDict id="qqcdBuyerPhone" beanName="qqcdBuyerPhone" />
+		<customDict id="lastContent" beanName="lastContent" />
+		
 	</dicts>
 	<formatters>
+		<formatter id="newDateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -34,219 +42,70 @@
 		<formatter id="emailFormater" ref=""
 			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
-	<query id="queryCastTransferExcelItemList" cacheCount="true">
-		<searchCondition>
-		</searchCondition>
-		<searchSql>
-			<baseSql>
-				<![CDATA[
-				select 					
-					distinct(CASE_CODE), 
-					PKID,
-					CTM_CODE,
-					PROPERTY_ADDR ,
-					T.REAL_NAME , 
-					T.ORG_NAME, 
-					transferDate, 
-					caseTransferDate , 
-					status,
-					GRP_NAME, 
-					AR_NAME ,  
-					wz.ORG_NAME AS VORG_NAME , 
-					WZ.REAL_NAME AS VREAL_NAME  
-				from (
-					select c.pkid,c.case_code,c.CTM_CODE, p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
-					(select top 1 tgh.end_time_ from sctrans.act_hi_taskinst tgh where w.INST_CODE = tgh.proc_inst_id_ and tgh.task_def_key_='Guohu' order by id_ desc) transferDate , 
-					(select top 1 tgha.end_time_ from sctrans.act_hi_taskinst tgha where w.INST_CODE = tgha.proc_inst_id_ and tgha.task_def_key_='GuohuApprove' order by id_ desc) caseTransferDate, 
-					v.long_ AS  status
-					from sctrans.t_to_case c 
-					inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
-					left join sctrans.V_USER_ORG_JOB zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
-					inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
-					inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
-					and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-					inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
-					LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
-					LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
-					LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
-					where 1=1
-					 <ifNotNull caseTransferDateStart>
-						AND t.caseTransferDate &gt; #caseTransferDateStart#
-					</ifNotNull>
-					<ifNotNull caseTransferDateEnd>
-						AND t.caseTransferDate &lt; #caseTransferDateEnd#
-					</ifNotNull>					
-					<ifNotNull transferDateStart>
-						AND t.transferDate &gt; #transferDateStart#
-					</ifNotNull>
-					<ifNotNull transferDateEnd>
-						AND t.transferDate &lt; #transferDateEnd#
-					</ifNotNull>
-					<ifNotNull orgName>
-						AND T.ORG_NAME like '%' + #orgName# + '%' 
-					</ifNotNull>
-					<ifNotNull TransferStatus>
-						AND status = #TransferStatus#
-					</ifNotNull>
-					<ifNotNull vrealName>
-						AND WZ.REAL_NAME like '%' + #vrealName# + '%' 
-					</ifNotNull>
-					<ifNotNull managerName>
-						AND T.REAL_NAME like '%' + #managerName# + '%' 
-					</ifNotNull>
-					<ifNotNull caseCode>
-						AND CASE_CODE = #caseCode#
-					</ifNotNull>
-					<ifNotNull propertyAddr>
-						AND PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
-					</ifNotNull>
-				]]>
-			</baseSql>
-			<orderBySql>
-				ORDER BY transferDate DESC,caseTransferDate DESC
-			</orderBySql>
-			<groupSql>
-			</groupSql>
-		</searchSql>
-		<grid>
-			<table-row>
-				<column type="both" name="CASE_CODE" title="案件编号" customDict=""
-					hidden="false" />
-				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
-					hidden="false" />
-				<column type="both" name="PKID" index="" checkbox="" display="案件ID"
-					customDict="" sysDict="" format="" width="90" isSort="" align=""
-					halign="" order="" resizable="" />
-				<column type="both" name="PROPERTY_ADDR" title="产证地址"
-					customDict="" hidden="false" />
-				<column type="both" name="REAL_NAME" title="主管" customDict=""
-					hidden="false" />
-				<column type="both" name="ORG_NAME" title="组别" customDict=""
-					hidden="false" />
-				<column type="both" name="transferDate" title="过户时间"
-					customDict="" beanFormatter="dateFormatter" expType="date"
-					expFmt="yyyy-MM-dd HH:mm:ss" hidden="false" />
-				<column type="both" name="caseTransferDate" title="过户审批时间"
-					customDict="" hidden="false" beanFormatter="dateFormatter" expType="date"
-					expFmt="yyyy-MM-dd HH:mm:ss" />
-				<column type="both" name="status" title="是否审批通过" customDict=""
-					hidden="false" />
-				<column type="virtual" name="status1" title="是否审批通过"
-					referencecol="status" customDict="convertValue" />
-				<column type="both" name="GRP_NAME" title="店组" customDict=""
-					hidden="false" />
-				<column type="both" name="AR_NAME" title="片区" customDict=""
-					hidden="false" />
-				<column type="both" name="VORG_NAME" title="区域" customDict=""
-					hidden="false" />
-				<column type="both" name="VREAL_NAME" title="区董" customDict=""
-					hidden="false" />
-
-				<column type="virtual" name="SELLER" title="上家姓名"
-					referencecol="CASE_CODE" index="" checkbox="" display="上家"
-					customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER" title="下家姓名"
-					referencecol="CASE_CODE" index="" checkbox="" display="下家"
-					customDict="qqcdBuyer" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-				<column type="virtual" name="PROCESSOR_ID" title="经办人"
-					referencecol="CASE_CODE" index="" checkbox="" display="经办人"
-					customDict="qqcdProcessorName" sysDict="" format="" width="60"
-					isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="SELLER_MOBILE" title="上家电话"
-					referencecol="CASE_CODE" index="" checkbox="" display="上家电话"
-					customDict="qqcdSellerPhone" sysDict="" format="" width="60"
-					isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER_MOBILE" title="下家电话"
-					referencecol="CASE_CODE" index="" checkbox="" display="下家电话"
-					customDict="qqcdBuyerPhone" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-
-			</table-row>
-		</grid>
-	</query>
-
-
-
+	
 	<query id="newQueryCastTransferExcelItemList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-						SELECT 
-								TAB.CASE_CODE, 
-								TAB.CTM_CODE,
-								TAB.AGENT_NAME,  --三级市场经纪人姓名
-								(select TOP 1 U.ORG_NAME FROM sctrans.V_USER_ORG_JOB U WHERE  TAB.AGENT_USERNAME=U.USERNAME ) AGENT_ORG_NAME,
-								TAB.GRP_NAME, 
-								TAB.GUOHU_ORG_NAME,
-								TAB.GUOHU_REAL_NAME,
-								TAB.PKID,
-								TAB.PROPERTY_ADDR ,
-								(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID =TAB.ORG_ID) AS BIGAREA,
-								TAB.REAL_NAME as MANAGER_REAL_NAME,  --主管姓名
-								TAB.ORG_NAME as MANAGER_ORG_NAME,	 -- 主管组别
-								TAB.transferDate, 
-								TAB.caseTransferDate , 
-								TAB.status,
-								TAB.GRP_NAME, --分行
-								TAB.AR_NAME as MANAGER_AR_NAME ,  
-								TAB.VORG_NAME , 
-								TAB.VREAL_NAME,	
-								---贷款信息
-								M.COM_AMOUNT,/*商贷金额*/			
-								M.PRF_AMOUNT,/*公积金金额*/
-								M.COM_DISCOUNT,/*商贷折扣*/
-								M.COM_AMOUNT+m.PRF_AMOUNT as ACCOUNT,/*贷款总额*/
-								M.LOANER_NAME,/*货代专员姓名*/
-								M.LOANER_PHONE,/*货代人电话*/
-								M.CUST_NAME,  /*主贷人姓名*/
-								(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID=M.CUST_CODE) AS GUEST_PHONE, /*主贷人电话*/
-								case when M.IS_LOANER_ARRIVE=1 then '是' when M.IS_LOANER_ARRIVE = 0 then '否' end   IS_LOANER_ARRIVE,
-								case 
-									when TAB.LOAN_REQ=1 and m.MORT_TYPE in('30016001','30016002') and m.IS_DELEGATE_YUCUI=1   then '收单' 
-									when TAB.LOAN_REQ=1 and m.MORT_TYPE in('30016001','30016002') and m.IS_DELEGATE_YUCUI=0   then '流失' end   SDSTATUS,/*收单状态*/	
-								(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE= M.FIN_ORG_CODE ) FIN_ORG_NAME,  --银行
-								(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE= M.FIN_ORG_CODE ) FIN_ORG_NAME_YC,  --支行
-								----过户信息
-								(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=T.OPERATOR  AND T.PART_CODE='GuohuApprove') AS ASSESSOR,
-								T.CONTENT,
-								(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= TAB.CASE_CODE ) REAL_HT_TIME, /*实际过户时间 可优化*/
-								(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=T.OPERATOR  AND T.PART_CODE='Guohu') AS GUOHU_REAL_NAME,
-								(select TOP 1 ORG_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=T.OPERATOR  AND T.PART_CODE='Guohu') AS GUOHU_ORG_NAME,
-								S.CON_PRICE, 						 /*合同金额   可优化*/
-								case 			       	/*计算过户单价、保留2位小数、考虑面积为0和null的情况*/
-								WHEN  TAB.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
-								ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,TAB.SQUARE),1),2)
-								END  GUOHUDJ,
-								(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE TAB.DIST_CODE=PM.dist_code)AS dist_name							
-						FROM 
-							(select 					
-									distinct(CASE_CODE),
+							SELECT					
+									distinct(T.CASE_CODE),
+									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.V_USER_ORG_JOB v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
 									AGENT_NAME, 
+									GRP_NAME  as AGENT_ORG_NAME,
+									(select top 1 vj.real_name from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_REAL_NAME,
+									(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
+									case 		       	
+										WHEN  T.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
+										ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,T.SQUARE),1),2)
+									END  GUOHUDJ,
+									(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE T.DIST_CODE=PM.dist_code)AS dist_name	,
+									
 									CTM_CODE,
-									LOAN_REQ,
-									T.ORG_ID,
-									AGENT_USERNAME,									
-									PKID,
+									(select TOP 1 M.CUST_NAME  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) CUST_NAME,
+									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, /*主贷人电话*/
 									PROPERTY_ADDR ,
+									S.CON_PRICE, 
+									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)) FIN_ORG_NAME,  --银行
+									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)) FIN_ORG_NAME_YC,  --支行
+														
+									LOAN_REQ,									
+									AGENT_USERNAME,									
+									T.PKID,								
 									SQUARE,
 									DIST_CODE,
 									T.REAL_NAME , 
 									T.ORG_NAME, 
 									transferDate, 
 									caseTransferDate , 
-									status,
-									GRP_NAME, 
+									status,								
 									AR_NAME ,  
 									wz.ORG_NAME AS VORG_NAME , 
-									WZ.REAL_NAME AS VREAL_NAME,
-									GUOHU_ORG_NAME,
-									GUOHU_REAL_NAME
+									WZ.REAL_NAME AS VREAL_NAME,								
+
+									(select TOP 1 M.COM_AMOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_AMOUNT,
+									(select TOP 1 M.PRF_AMOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) PRF_AMOUNT,
+									(select TOP 1 M.COM_DISCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_DISCOUNT,
+									(select TOP 1 M.COM_AMOUNT+m.PRF_AMOUNT as ACCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) ACCOUNT,
+									(select TOP 1 M.LOANER_NAME from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_NAME,
+									(select TOP 1 M.LOANER_PHONE from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_PHONE,
+									
+									case 
+									when (select TOP 1 M.IS_LOANER_ARRIVE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) =1 then '是' 
+									when (select TOP 1 M.IS_LOANER_ARRIVE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) = 0 then '否' end   IS_LOANER_ARRIVE,
+									
+									case 
+									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '收单' 
+									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '流失' 
+									end   SDSTATUS  ,/*收单状态*/								
+									(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=ar.OPERATOR  AND ar.PART_CODE='GuohuApprove') AS ASSESSOR,
+									ar.CONTENT,
+									ar.NOT_APPROVE,
+									(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= T.CASE_CODE ) REAL_HT_TIME
+
 							from (
-									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, zg.ORG_ID,i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,VJ.ORG_NAME as GUOHU_ORG_NAME,VJ.REAL_NAME as GUOHU_REAL_NAME,
+									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,w.INST_CODE,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 									v.long_ AS  status
@@ -256,51 +115,44 @@
 									inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
 									inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
 									and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove'
-
-									INNER JOIN SCTRANS.ACT_HI_TASKINST AHT on W.INST_CODE=AHT.PROC_INST_ID_ AND AHT.TASK_DEF_KEY_ ='Guohu'    /*关联工作流，查询过户操作员*/
-									INNER JOIN SCTRANS.V_USER_ORG_JOB VJ on  aht.ASSIGNEE_=VJ.USERNAME
-									
-									) t 
+									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
 									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
 									LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
-									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1				
-								)TAB 
-									lEFT JOIN SCTRANS.T_TO_MORTGAGE M  ON M.CASE_CODE =TAB.CASE_CODE  AND M.IS_ACTIVE=1
-									LEFT JOIN  ( select  * from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.case_code)) T ON T.CASE_CODE=TAB.CASE_CODE
-									INNER JOIN SCTRANS.T_TO_SIGN S ON TAB.CASE_CODE=S.CASE_CODE
+									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
 
-					where 1=1
-					 <ifNotNull caseTransferDateStart>
-						AND TAB.caseTransferDate &gt; #caseTransferDateStart#
-					</ifNotNull>
-					<ifNotNull caseTransferDateEnd>
-						AND TAB.caseTransferDate &lt; #caseTransferDateEnd#
-					</ifNotNull>					
-					<ifNotNull transferDateStart>
-						AND TAB.transferDate &gt; #transferDateStart#
-					</ifNotNull>
-					<ifNotNull transferDateEnd>
-						AND TAB.transferDate &lt; #transferDateEnd#
-					</ifNotNull>
-					<ifNotNull caseCode>
-						AND TAB.CASE_CODE = #caseCode#
-					</ifNotNull>					
-					<ifNotNull orgName>
-						AND TAB.MANAGER_ORG_NAME like '%' + #orgName# + '%' 
-					</ifNotNull>
-					<ifNotNull TransferStatus>
-						AND TAB.status = #TransferStatus#
-					</ifNotNull>
-					<ifNotNull vrealName>
-						AND TAB.REAL_NAME like '%' + #vrealName# + '%' 
-					</ifNotNull>
-					<ifNotNull managerName>
-						AND TAB.MANAGER_REAL_NAME like '%' + #managerName# + '%' 
-					</ifNotNull>
-					<ifNotNull propertyAddr>
-						AND TAB.PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
-					</ifNotNull>
+									LEFT JOIN  ( select  * from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.case_code)) ar ON ar.CASE_CODE=T.CASE_CODE
+									INNER JOIN SCTRANS.T_TO_SIGN S ON T.CASE_CODE=S.CASE_CODE
+								where 1=1
+								 <ifNotNull caseTransferDateStart>
+									AND caseTransferDate &gt; #caseTransferDateStart#
+								</ifNotNull>
+								<ifNotNull caseTransferDateEnd>
+									AND  caseTransferDate &lt; #caseTransferDateEnd#
+								</ifNotNull>					
+								<ifNotNull transferDateStart>
+									AND  transferDate &gt; #transferDateStart#
+								</ifNotNull>
+								<ifNotNull transferDateEnd>
+									AND  transferDate &lt; #transferDateEnd#
+								</ifNotNull>
+								<ifNotNull caseCode>
+									AND  CASE_CODE = #caseCode#
+								</ifNotNull>					
+								<ifNotNull orgName>
+									AND T.ORG_NAME like '%' + #orgName# + '%' 
+								</ifNotNull>
+								<ifNotNull TransferStatus>
+									AND  status = #TransferStatus#
+								</ifNotNull>
+								<ifNotNull vrealName>
+									AND  VREAL_NAME like '%' + #vrealName# + '%' 
+								</ifNotNull>
+								<ifNotNull managerName>
+									AND REAL_NAME like '%' + #managerName# + '%' 
+								</ifNotNull>
+								<ifNotNull propertyAddr>
+									AND  PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+								</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -311,8 +163,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="BIGAREA" title="大区" customDict=""
-					hidden="false" />
+				<column type="both" name="BIGAREA" title="大区" customDict="" hidden="false" />					
 				<column type="both" name="VREAL_NAME" title="区董" customDict=""
 					hidden="false" />
 				<column type="both" name="AGENT_ORG_NAME" title="分行"
@@ -322,13 +173,13 @@
 				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
 					customDict="" hidden="false" />
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"
-					customDict="" hidden="false" /> 
+					customDict="" hidden="false" />
 				<column type="both" name="GUOHUDJ" title="过户单价" customDict=""
 					hidden="false" />
 				<column type="both" name="dist_name" title="过户区域" customDict=""
 					hidden="false" />
 				<column type="both" name="REAL_HT_TIME" title="实际过户时间"
-					customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"
+					customDict="" beanFormatter="newDateFormatter" expType="date" expFmt="yyyy-MM-dd"
 					hidden="false" />
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
 					hidden="false" />
@@ -362,6 +213,12 @@
 					hidden="false" />
 				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"
 					customDict="" hidden="false" />
+					
+				<column type="virtual" name="LAST_CONTENT" title="最终审核结果"
+					referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"
+					customDict="lastContent" sysDict="" format="" width="60" isSort="true"
+					align="" halign="" order="" resizable="" />
+					
 				<column type="virtual" name="SELLER" title="上家姓名"
 					referencecol="CASE_CODE" index="" checkbox="" display="上家"
 					customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"
@@ -378,7 +235,7 @@
 					referencecol="CASE_CODE" index="" checkbox="" display="下家电话"
 					customDict="qqcdBuyerPhone" sysDict="" format="" width="60" isSort="true"
 					align="" halign="" order="" resizable="" />
-				<column type="both" name="transferDate" title="过户时间"
+				<column type="both" name="transferDate" title="过户提交时间"
 					customDict="" beanFormatter="dateFormatter" expType="date"
 					expFmt="yyyy-MM-dd HH:mm:ss" hidden="false" />
 				<column type="both" name="caseTransferDate" title="过户审批时间"
@@ -392,23 +249,20 @@
 					referencecol="status" customDict="convertValue" />
 				<column type="both" name="CONTENT" title="审核结果" customDict=""
 					hidden="false" />
-<!-- 					
-				<column type="both" name="ISAPPROVE" title="是否审批通过"
-					customDict="" hidden="false" /> -->
+				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""
+					hidden="false" />
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID"
 					customDict="" sysDict="" format="" width="90" isSort="" align=""
 					halign="" order="" resizable="" />
-				<column type="both" name="MANAGER_REAL_NAME" title="主管"
+				<column type="both" name="REAL_NAME" title="主管"
 					customDict="" hidden="false" />
-				<column type="both" name="MANAGER_ORG_NAME" title="主管组别"
-					customDict="" hidden="false" />	
-				<column type="both" name="MANAGER_AR_NAME" title="片区"
+				<column type="both" name="ORG_NAME" title="主管组别"
+					customDict="" hidden="false" />
+				<column type="both" name="AR_NAME" title="片区"
 					customDict="" hidden="false" />
 				<column type="both" name="VORG_NAME" title="区域" customDict=""
 					hidden="false" />
-
 			</table-row>
 		</grid>
 	</query>
 </querys>
-

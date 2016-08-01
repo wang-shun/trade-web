@@ -1,8 +1,5 @@
 package com.centaline.ice.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -10,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Assert;
 
-import com.centaline.trans.engine.service.impl.FindUserLogicImpl;
+import com.centaline.ice.gen.baseData.UserBaseDataPrx;
 
 public class SpringUtil {
 	
@@ -27,7 +24,6 @@ public class SpringUtil {
 		                "classpath*:com/aist/common/**/META-INF/beans.xml",
 		                "classpath*:com/centaline/trans/**/META-INF/core-beans.xml",
 		                "classpath*:com/centaline/trans/**/META-INF/web-beans.xml",
-		              // "classpath*:com/aist/uam/auth/META-INF/shiro-beans.xml",
 		                "classpath*:com/aist/message/**/META-INF/beans.xml"};
 				applicationContext = new ClassPathXmlApplicationContext(locations);
 			}
@@ -122,18 +118,11 @@ public class SpringUtil {
 
 	public static void main(String[] args) {
 		startSpringContex();
-		FindUserLogicImpl findUserLogic = applicationContext.getBean(FindUserLogicImpl.class);
-//		System.out.println(uamBasedataService.getDictValue("10052", "满二"));
-//		System.out.println("adsadd");
-//		System.out.println(uamBasedataService.getDictValue("10052", "满二"));
 		
-		Map<String, String> serviceMap = new HashMap<String, String>();
-		serviceMap.put("30004010", "ff8080814f491b78014f4a05a7d80022");
-		System.err
-				.println("findUserLogic.findWorkFlowUser:::::::::::::::::::::::::::::::"
-						+ findUserLogic.findWorkFlowUser("consultant",
-								"ff8080814f490473014f49c6f1e30009", serviceMap,
-								"Guohu", ""));
+		UserBaseDataPrx u = applicationContext.getBean(UserBaseDataPrx.class);
+		String val = u.getDictValue("10052", "10052");
+		System.out.println(val);
+		
 	}
 
 }
