@@ -231,7 +231,7 @@ public class TmpBankAduitController {
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 			}else{
-				mortageDb.setTmpBankUpdateBy(user.getId());
+				//mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 			}
 			toMortgageService.updateToMortgage(mortageDb);			
@@ -256,7 +256,7 @@ public class TmpBankAduitController {
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else if("true".equals(tmpBankCheck)){
 				mortageDb.setTmpBankStatus("1");
-				mortageDb.setTmpBankUpdateBy(user.getId());
+				//mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 			}
 			toMortgageService.updateToMortgage(mortageDb);		
