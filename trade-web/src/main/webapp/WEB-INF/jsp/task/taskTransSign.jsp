@@ -696,7 +696,6 @@
 
 				var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
 				var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;
-				;
 
 				var isValid = true;
 				//如果为1开头则验证手机号码  
@@ -709,6 +708,7 @@
 				//如果为0开头则验证固定电话号码  
 				else if (mobile.substring(0, 1) == 0) {
 					if (!isPhone.test(mobile)) {
+						alert("您输入的号码不正确！");
 						isValid = false;
 						return isValid;
 					}
@@ -719,7 +719,7 @@
 
 				return isValid;
 			}
-			
+
 			$("#sendSMS").click(
 					function() {
 						var t = '';
@@ -863,8 +863,12 @@
 			}
 
 			/**保存数据*/
-			function save(b) {				
-				if (!checkForm()) {					
+			function save(b) {
+				if (!phoneUpAndphoneDownCheck()) {
+					return;
+				}
+
+				if (!checkForm()) {
 					return;
 				}
 				if (!$("#transSignForm").valid()) {
@@ -1015,8 +1019,8 @@
 						selects[j].focus();
 						checkGuest = false;
 					} else {
-						checkGuest = checkContactNumber(item.value);						
-						
+						checkGuest = checkContactNumber(item.value);
+
 						if (!checkGuest) {
 							alert("上家电话不符合手机号码或电话号码格式!");
 							selects[j].focus();
@@ -1075,21 +1079,7 @@
 							selects[j].focus();
 
 							return false;
-						}						
-						
-/*  						var selectsPhoneUp = $("input[name='guestPhoneUp']");
-						$.each(selectsPhoneUp, function(i, itemPhoneUp) {
-							if (itemPhoneUp.value != '') {
-								if(item.value.trim()==itemPhoneUp.value.trim()){
-									alert("下家电话"+item.value.trim());
-									alert("上级电话"+itemPhoneUp.value.trim());
-									alert("上、下家电话不能填写一样!");									
-									return false;
-									}
-								}
-							return false;
-						});  */
-
+						}
 					}
 				});
 				if (!checkGuest || selects == null) {
@@ -1190,6 +1180,33 @@
 				}
 				return true;
 			}
+			//上下家电话相同验证
+			function phoneUpAndphoneDownCheck() {
+				var selectsPhoneDown = $("input[name='guestPhoneDown']");//
+				var selectsPhoneUp = $("input[name='guestPhoneUp']");
+
+				$
+						.each(
+								selectsPhoneUp,
+								function(i, itemPhoneUp) {
+									if (itemPhoneUp.value != '') {
+										$
+												.each(
+														selectsPhoneDown,
+														function(j,
+																itemPhoneDown) {
+															if (itemPhoneDown.value != '') {
+																if (itemPhoneUp.value
+																		.trim() == itemPhoneDown.value
+																		.trim()) {
+																	alert("上、下家电话不能填写一样!");
+																	return false;
+																}
+															}
+														})
+									}
+								})
+			}
 
 			var divIndexDown = 1;
 			function addDateDivDown() {
@@ -1205,8 +1222,7 @@
 				txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneDown\" value=''>";
 				txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv(\'dateDivD_'
 						+ divIndexDown + '\');"><font>删除</font></a></span>';
-				txt += '</div></div></div>';
-				// alert(txt);
+				txt += '</div></div></div>';				
 				$("#guestDownDiv").before(txt);
 				divIndexDown++;
 			}
@@ -1225,8 +1241,7 @@
 				txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneUp\" value=''>";
 				txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv(\'dateDivU_'
 						+ divIndexUp + '\');"><font>删除</font></a></span>';
-				txt += '</div></div></div>';
-				// alert(txt);
+				txt += '</div></div></div>';				
 				$("#guestUpDiv").before(txt);
 				divIndexUp++;
 			}
@@ -1334,8 +1349,7 @@
 										txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
 												+ divIndexUp
 												+ ');"><font>删除</font></a></span>';
-										txt += '</div></div></div>';
-										// alert(txt);
+										txt += '</div></div></div>';										
 										$("#guestUpDiv").before(txt);
 										divIndexUp++;
 									}
