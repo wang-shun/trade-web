@@ -49,12 +49,15 @@
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 	
-	<bean id="iceBeanFactory" class="com.centaline.ice.spring.ICEBeanFactory">
+	<!-- ice 注入 配置 -->
+	<!--
+	<bean id="iceBeanFactory" class="com.aist.common.ice.ICEBeanFactory">
 		<property name="iceLocator" value="${Ice.Default.Locator}" />
 	</bean>
 	
-	<bean class="com.centaline.ice.spring.ICEInvokeFactoryBean" >
+	<bean class="com.aist.common.ice.ICEInvokeFactoryBean" >
 		<property name="iceBeanFactory" ref="iceBeanFactory"  />
 		<property name="iceProxy" value="com.centaline.ice.gen.baseData.UserBaseDataPrx"></property>
 	</bean>
+	-->
 </beans>
