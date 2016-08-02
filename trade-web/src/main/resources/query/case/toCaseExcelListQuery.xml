@@ -238,7 +238,8 @@
 							t.end_time_ as GUOHU_APPROVER_TIME
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
-					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
+					LEFT JOIN  sctrans.v_user_job_org_main AS  AC on  AC.user_id = B.AGENT_CODE 
+					<!-- AND AC.job_code = 'JWYGW' -->
 					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					LEFT JOIN SCTRANS.SYS_ORG AS BBA ON AE.BUSIWZ_ID=BBA.ID 
 					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
