@@ -107,3 +107,32 @@ $(document).ready(function() {
 			}; 
 			
 		});
+
+function intextTypeChange(){
+	var inTextType = $('#inTextType').val();
+	var ctx = $("#ctx").val();
+
+	if (inTextType=='3'){
+		initAutocomplete(ctx+"/labelVal/queryOrgInfo");
+	}
+}
+function initAutocomplete(url){
+	$("#inTextVal").AutoComplete({
+		data:url,
+		'itemHeight': 20,
+        'width': 280,
+        maxItems:10,
+        ajaxType:'POST',
+        beforeLoadDataHandler:function(){
+        	$("#inTextVal").attr('hVal','');
+        	return true;
+        },
+        afterSelectedHandler:function(data){ 
+        	if(data&&data.value){
+        		$("#inTextVal").attr('hVal',data.value);
+        	}else{
+        		$("#inTextVal").attr('hVal','');
+        	}
+		}
+    }).AutoComplete('show');
+}

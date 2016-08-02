@@ -84,6 +84,37 @@ a:hover {
 
 	</div> -->
 	
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" style="padding: 10px 10px 10px 10px;">
+					<form method="get" class="form-horizontal">
+						<div class="form-group">
+							
+								<div class="col-sm-2">
+								   <select id="inTextType" data-placeholder= "搜索条件设定"
+		                                        class= "btn btn-white chosen-select" style="float :right;" onchange="intextTypeChange()">
+											<option value="1" selected>产证地址</option>
+											<option value="4">案件编号</option>
+										</select>
+								</div>
+								<div class="col-sm-9" style="line-height:32px">
+							      <input id="inTextVal" type="text" class="form-control">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							
+							<div class="col-sm-11">
+								<button id="searchButton" type="button" style="width:98%;" class="btn btn-primary pull-right">查询</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<a href="javascript:;" class="top"><i class="pic-top"></i></a>
         <article class="list" style="background-color:#fff;">
             <ul id="content" >
@@ -202,6 +233,20 @@ a:hover {
 		    
 		    var postData={queryId:"queryMobileTaskListItemList",rows:10,page:1};
 		    function initScrollPaggination(){
+		    	postData.propertyAddr = '';
+		    	postData.caseCode = '';
+		    	postData.page = 1;
+		    	var inTextVal = $('#inTextVal').val();
+		    	var hVal = $('#inTextVal').attr('hVal');
+		    	if (inTextVal != null && inTextVal.trim() != "") {
+		    		var inTextType = $('#inTextType').val();
+		    		if (inTextType == '1') {
+		    			postData.propertyAddr = inTextVal.trim();
+		    		} else if (inTextType == '4') {
+		    			postData.caseCode = inTextVal.trim();
+		    		}
+		    	}
+		    	$('#content').empty();
 		       	$('#content').scrollPagination({
 		       		'contentPage': ctx+'/quickGrid/findPage',
 		       		'contentData': postData, // these are the variables you can pass to the request, for example: children().size() to know which page you are
@@ -212,16 +257,16 @@ a:hover {
 		       		},
 		       		'dataType':'json',
 		       		'afterLoad': function(elementsLoaded){ // after loading content, you can use this function to animate your new elements
-		       			 $('#loading').fadeOut();
-		       			 if(elementsLoaded){
-		       			 	postData.page+=1;
-		       			 }
-		       			 $(elementsLoaded).fadeInWithDelay();
 		       			 
-		       			 if ($(elementsLoaded).children().size() == 0){ 
-		    			 	$('#nomoreresults').fadeIn();
-		    				$('#content').stopScrollPagination();
-		    			 }
+		       			$('#loading').fadeOut();
+						if ($.isEmptyObject(elementsLoaded)
+								|| elementsLoaded.length == 0) {
+							$('#nomoreresults').show();
+							setTimeout(nomoreresultsOut, 2000);
+						} else {
+							postData.page += 1;
+						}
+						$(elementsLoaded).fadeInWithDelay();
 
 		       		},
 		       		'render':function(data){
@@ -230,6 +275,13 @@ a:hover {
 		       		}
 		       	});
 		   	}
+		    function nomoreresultsOut() {
+				$('#nomoreresults').fadeOut()
+			}
+		    
+		    $("#searchButton").click(function() {
+				initScrollPaggination();
+			});
 	    
 	    </script>
 	    
