@@ -863,8 +863,8 @@
 			}
 
 			/**保存数据*/
-			function save(b) {
-				if (!checkForm()) {
+			function save(b) {				
+				if (!checkForm()) {					
 					return;
 				}
 				if (!$("#transSignForm").valid()) {
@@ -1022,16 +1022,6 @@
 							selects[j].focus();
 							return false;
 						}
-						
-						var selectsNameUp = $("input[name='guestNameUp']");
-						$.each(selects, function(i, itemNameUp) {
-							if (itemNameUp.value != '') {
-								if(item.value==itemNameUp.value){
-									alert("上、下家电话不能填写一样!");									
-									return false;
-									}
-								}
-						});
 					}
 				});
 
@@ -1085,9 +1075,21 @@
 							selects[j].focus();
 
 							return false;
-						}
-						//checkGuest = true;
-						//return false;
+						}						
+						
+/*  						var selectsPhoneUp = $("input[name='guestPhoneUp']");
+						$.each(selectsPhoneUp, function(i, itemPhoneUp) {
+							if (itemPhoneUp.value != '') {
+								if(item.value.trim()==itemPhoneUp.value.trim()){
+									alert("下家电话"+item.value.trim());
+									alert("上级电话"+itemPhoneUp.value.trim());
+									alert("上、下家电话不能填写一样!");									
+									return false;
+									}
+								}
+							return false;
+						});  */
+
 					}
 				});
 				if (!checkGuest || selects == null) {
