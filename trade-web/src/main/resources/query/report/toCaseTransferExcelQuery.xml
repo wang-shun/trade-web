@@ -53,8 +53,9 @@
 				<![CDATA[				
 							SELECT					
 									distinct(T.CASE_CODE),
-									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.V_USER_ORG_JOB v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
+									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.SYS_USER v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
 									AGENT_NAME, 
+									(select top 1 UU.MOBILE from SCTRANS.SYS_USER UU where UU.USERNAME=AGENT_USERNAME)AGENT_MOBILE, 
 									GRP_NAME  as AGENT_ORG_NAME,
 									(select top 1 UU.real_name from SCTRANS.SYS_USER UU where UU.ID=T.LEADING_PROCESS_ID) SPONSOR,
 									(select top 1 vj.real_name from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_REAL_NAME,
@@ -188,6 +189,8 @@
 				<column type="both" name="AGENT_ORG_NAME" title="分行"
 					customDict="" hidden="false" />
 				<column type="both" name="AGENT_NAME" title="业务员姓名"
+					customDict="" hidden="false" />
+				<column type="both" name="AGENT_MOBILE" title="业务员电话"
 					customDict="" hidden="false" />
 				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
 					customDict="" hidden="false" />
