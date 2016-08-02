@@ -154,6 +154,18 @@
 	<mvc:resources mapping="/template/**" location="/static/template/" /> 	
 	<mvc:resources mapping="/static/tbsp/**" location="/WEB-INF/static/tbsp/" /> 
 	
+	<mvc:resources mapping="/static/css/**" location="/static_res/css/" />
+	<mvc:resources mapping="/static/aist-steps/**" location="/static_res/aist-steps/" />
+	<mvc:resources mapping="/static/font-awesome/**" location="/static_res/font-awesome/" />
+	<mvc:resources mapping="/static/fonts/**" location="/static_res/fonts/" />
+	<mvc:resources mapping="/static/iconfont/**" location="/static_res/iconfont/" />
+	<mvc:resources mapping="/static/img/**" location="/static_res/img/" />
+	<mvc:resources mapping="/static/js/**" location="/static_res/js/" />
+	<mvc:resources mapping="/static/less/**" location="/static_res/less/" />
+	<mvc:resources mapping="/static/trans/**" location="/static_res/trans/" />
+	<mvc:resources mapping="/static/email_templates/**" location="/static_res/email_templates/" />
+	<mvc:resources mapping="/static/design_doc/**" location="/static_res/design_doc/" />
+	
     <!-- ========================= VIEW定义 ========================= -->
     <!-- 内容协商视图解析器；根据客户端的不同的请求决定不同的 view进行响应, 如 /blog/1.json /blog/1.xml -->
     <!-- 会自动根据解析的contentType来决定使用哪个视图解析器（默认使用整个web应用中的viewResolver） -->
