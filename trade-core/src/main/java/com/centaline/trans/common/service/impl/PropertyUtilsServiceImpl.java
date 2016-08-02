@@ -38,6 +38,22 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	private String processOperationDfKey;
 	@Value("${process.def.vals.operation_process}")
 	private String processDefVals;
+	
+	@Value("${process.df.key.tempBankAudit}")
+	private String processTmpBankAuditDfKey;
+	
+	@Value("${process.df.key.ComLoan_Process}")
+	private String processComLoanDfKey;
+	
+	@Value("${process.df.key.LoanLost_Process}")
+	private String processLoanLostDfKey;
+	
+	@Value("${process.df.key.PSFLoan_Process}")
+	private String processPSFLoanDfKey;
+
+	public String getProcessTmpBankAuditDfKey() {
+		return processTmpBankAuditDfKey;
+	}
 
 	private Map<String, String> processOperationDfKeyMap;
 	private Map<String, Map<String, Object>> processDefValsMap;
@@ -149,5 +165,17 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	public void setSpvOut(String spvOut) {
 		this.spvOut = spvOut;
 	}
-	
+
+	public String getProcessComLoanDfKey() {
+		return processComLoanDfKey;
+	}
+
+	public String getProcessLoanLostDfKey() {
+		return processLoanLostDfKey;
+	}
+
+	public String getProcessPSFLoanDfKey() {
+		return processPSFLoanDfKey;
+	}
+
 }

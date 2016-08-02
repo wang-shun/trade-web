@@ -36,6 +36,8 @@
 	<result column="TMP_BANK_UPDATE_TIME" property="tmpBankUpdateTime" jdbcType="TIMESTAMP"/>
 	<result column="TMP_BANK_UPDATE_BY" property="tmpBankUpdateBy" jdbcType="VARCHAR"/>
 	<result column="TMP_BANK_REASON"  property="tmpBankReason" jdbcType="VARCHAR"/>
+	<result column="TMP_BANK_STATUS"  property="tmpBankStatus" jdbcType="VARCHAR"/>
+	<result column="TMP_BANK_REJECT_REASON" property="tmpBankRejectReason" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
     <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
@@ -303,9 +305,9 @@
    
         COM_YEAR = #{comYear,jdbcType=INTEGER},
      
-      <if test="comDiscount != null" >
+ <!--      <if test="comDiscount != null" > -->
         COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
-      </if>
+     <!--  </if> -->
       
         PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
      
@@ -383,6 +385,12 @@
       </if>
       <if test="tmpBankReason != null">
       	TMP_BANK_REASON=#{tmpBankReason,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankStatus != null">
+        TMP_BANK_STATUS=#{tmpBankStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankRejectReason != null">
+        TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR}
       </if>
     </set>
     ,IS_ACTIVE='1'

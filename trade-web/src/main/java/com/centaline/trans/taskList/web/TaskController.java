@@ -303,7 +303,7 @@ public class TaskController {
         		request.setAttribute("isMainLoanBank", "1");
         		request.setAttribute("evaCode", "");
     		}
-    		
+	
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
     		getAccesoryList(request, taskitem);
     		/**这里应该和自办贷款一样*/
@@ -480,6 +480,14 @@ public class TaskController {
 			reVo.setAsName(assistUser.getRealName());
 			reVo.setAsMobile(assistUser.getMobile());
 		}
+		//贷款流失类型 
+		String loanLostType = tsFinOrgService.getLoanLostTypeValue(caseCode); 
+		if(loanLostType != null){
+			reVo.setLoanLostType(loanLostType);
+		}else{
+			reVo.setLoanLostType("");
+		}
+
 		
 		if(toMortgage!=null){
 			//贷款类型

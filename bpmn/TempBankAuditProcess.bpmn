@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <process id="TempBankAudit_Process" name="TempBankAudit_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="ManagerAduit" name="主管审批"></userTask>
-    <userTask id="SuperManagerAudit" name="高级主管审批"></userTask>
-    <userTask id="DirectorAudit" name="总监审批"></userTask>
+    <userTask id="ManagerAduit" name="主管审批" activiti:assignee="${Manager}" activiti:formKey="/mortgage/tmpBankAudit/process?post=manager"></userTask>
+    <userTask id="SuperManagerAudit" name="高级主管审批" activiti:assignee="${SeniorManager}" activiti:formKey="/mortgage/tmpBankAudit/process?post=seniorManager"></userTask>
+    <userTask id="DirectorAudit" name="总监审批" activiti:assignee="${director}" activiti:formKey="/mortgage/tmpBankAudit/process?post=director"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="ManagerAduit"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="ManagerAduit" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow3" sourceRef="SuperManagerAudit" targetRef="exclusivegateway2"></sequenceFlow>
-    <sequenceFlow id="flow4" sourceRef="DirectorAudit" targetRef="exclusivegateway3"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
-    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="exclusivegateway2" targetRef="DirectorAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSuperManagerApprove == true}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="flow6" sourceRef="exclusivegateway3" targetRef="endevent1"></sequenceFlow>
-    <sequenceFlow id="flow7" sourceRef="exclusivegateway3" targetRef="SuperManagerAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasSuperManager == true && isManagerApprove == false}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="flow8" sourceRef="exclusivegateway3" targetRef="ManagerAduit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasSuperManager == false && isDirectorApprove == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSeniorManagerApprove == true && SeniorManager!=director}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="SuperManagerAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasSuperManager == true && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager != null && isManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="exclusivegateway1" targetRef="DirectorAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasSuperManager == false && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isManagerApprove == true && (SeniorManager == null || SeniorManager == Manager)}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="ManagerAduit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSuperManagerApprove == false}]]></conditionExpression>
+    <sequenceFlow id="flow12" sourceRef="exclusivegateway1" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isManagerApprove == false || isManagerApprove == true && SeniorManager == null  && Manager == director}]]></conditionExpression>
     </sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSeniorManagerApprove  == false || SeniorManager==director && isSeniorManagerApprove == true}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="DirectorAudit" targetRef="endevent1"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_TempBankAudit_Process">
     <bpmndi:BPMNPlane bpmnElement="TempBankAudit_Process" id="BPMNPlane_TempBankAudit_Process">
@@ -56,9 +51,6 @@
       <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="530.0" y="87.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
-        <omgdc:Bounds height="40.0" width="40.0" x="750.0" y="87.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="85.0" y="107.0"></omgdi:waypoint>
         <omgdi:waypoint x="180.0" y="107.0"></omgdi:waypoint>
@@ -71,30 +63,9 @@
         <omgdi:waypoint x="495.0" y="107.0"></omgdi:waypoint>
         <omgdi:waypoint x="530.0" y="107.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
-        <omgdi:waypoint x="715.0" y="107.0"></omgdi:waypoint>
-        <omgdi:waypoint x="750.0" y="107.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="570.0" y="107.0"></omgdi:waypoint>
         <omgdi:waypoint x="610.0" y="107.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
-        <omgdi:waypoint x="790.0" y="107.0"></omgdi:waypoint>
-        <omgdi:waypoint x="830.0" y="107.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
-        <omgdi:waypoint x="770.0" y="87.0"></omgdi:waypoint>
-        <omgdi:waypoint x="770.0" y="22.0"></omgdi:waypoint>
-        <omgdi:waypoint x="624.0" y="22.0"></omgdi:waypoint>
-        <omgdi:waypoint x="442.0" y="22.0"></omgdi:waypoint>
-        <omgdi:waypoint x="442.0" y="80.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
-        <omgdi:waypoint x="770.0" y="87.0"></omgdi:waypoint>
-        <omgdi:waypoint x="769.0" y="48.0"></omgdi:waypoint>
-        <omgdi:waypoint x="231.0" y="48.0"></omgdi:waypoint>
-        <omgdi:waypoint x="232.0" y="80.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
         <omgdi:waypoint x="360.0" y="107.0"></omgdi:waypoint>
@@ -106,11 +77,22 @@
         <omgdi:waypoint x="662.0" y="168.0"></omgdi:waypoint>
         <omgdi:waypoint x="662.0" y="135.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="340.0" y="87.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="48.0"></omgdi:waypoint>
+        <omgdi:waypoint x="593.0" y="48.0"></omgdi:waypoint>
+        <omgdi:waypoint x="847.0" y="48.0"></omgdi:waypoint>
+        <omgdi:waypoint x="847.0" y="90.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
         <omgdi:waypoint x="550.0" y="87.0"></omgdi:waypoint>
-        <omgdi:waypoint x="549.0" y="48.0"></omgdi:waypoint>
-        <omgdi:waypoint x="232.0" y="48.0"></omgdi:waypoint>
-        <omgdi:waypoint x="232.0" y="80.0"></omgdi:waypoint>
+        <omgdi:waypoint x="550.0" y="48.0"></omgdi:waypoint>
+        <omgdi:waypoint x="847.0" y="48.0"></omgdi:waypoint>
+        <omgdi:waypoint x="847.0" y="90.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="715.0" y="107.0"></omgdi:waypoint>
+        <omgdi:waypoint x="830.0" y="107.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

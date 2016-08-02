@@ -218,7 +218,7 @@ public class CaseDetailController {
 			reVo.setAgentOrgId(agentUser.getOrgId());
 			reVo.setAgentOrgName(agentUser.getOrgName());
 			// 分行经理
-			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
 					TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
 
@@ -635,12 +635,18 @@ public class CaseDetailController {
 			}
 		}
 		SessionUser sessionUser = uamSessionService.getSessionUser();
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
-			TaskHistoricQuery tq = new TaskHistoricQuery();
-			tq.setProcessInstanceId(toWorkFlow.getInstCode());
-			tq.setFinished(true);
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+				tasks.addAll(taskList1);
+			}
 			// 本人做的任务
-			List<TaskVo>tasks=taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
@@ -726,7 +732,7 @@ public class CaseDetailController {
 			reVo.setAgentOrgId(agentUser.getOrgId());
 			reVo.setAgentOrgName(agentUser.getOrgName());
 			// 分行经理
-			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
 					TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
 
@@ -738,7 +744,10 @@ public class CaseDetailController {
 		}
 
 		// 交易顾问
-		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		User consultUser = null;
+		if(null != toCase.getLeadingProcessId()){
+			consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		}
 		if (consultUser != null) {
 			reVo.setCpId(consultUser.getId());
 			reVo.setCpName(consultUser.getRealName());
@@ -1143,12 +1152,18 @@ public class CaseDetailController {
 			}
 		}
 		SessionUser sessionUser = uamSessionService.getSessionUser();
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
-			TaskHistoricQuery tq = new TaskHistoricQuery();
-			tq.setProcessInstanceId(toWorkFlow.getInstCode());
-			tq.setFinished(true);
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+				tasks.addAll(taskList1);
+			}
 			// 本人做的任务
-			List<TaskVo>tasks=taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
@@ -1497,7 +1512,7 @@ public class CaseDetailController {
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-			toWorkFlow.setBusinessKey(pIVo.getBusinessKey());
+			toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
 			toWorkFlow.setProcessOwner(sessionUser.getId());
 			toWorkFlowService.insertSelective(toWorkFlow);
 

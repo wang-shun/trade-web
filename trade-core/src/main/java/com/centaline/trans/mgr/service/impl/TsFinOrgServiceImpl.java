@@ -155,4 +155,8 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	public List<TsFinOrg> queryFinOrgNameLike(String finOrgName) {
 			return tsFinOrgMapper.queryFinOrgNameLike(finOrgName);
 	}
+	@Override
+	public String getLoanLostTypeValue(String caseCode) {
+		return tsFinOrgMapper.getLoanLostTypeValue(caseCode);
+	}
 }

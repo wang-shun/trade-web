@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
-		<version>1.1.18</version>	</parent>
+		<version>1.1.19</version>	</parent>
 	
 	<artifactId>trade-core</artifactId>
 	<packaging>jar</packaging>
@@ -27,5 +27,11 @@
             <artifactId>mybatis-generator-core</artifactId>  
             <version>1.3.2</version>  
         </dependency> 
+ <!--    <dependency>
+			<groupId>com.centaline</groupId>
+			<artifactId>trade-service</artifactId>
+			<version>${version}</version>
+		</dependency> -->
+        
 	</dependencies>
 </project>

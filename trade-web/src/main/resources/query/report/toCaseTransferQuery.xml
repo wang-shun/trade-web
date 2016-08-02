@@ -35,8 +35,9 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select 
+				select 					
 					distinct(CASE_CODE), 
+					PKID,
 					PROPERTY_ADDR ,
 					T.REAL_NAME , 
 					T.ORG_NAME, 
@@ -47,10 +48,11 @@
 					AR_NAME ,  
 					wz.ORG_NAME AS VORG_NAME , 
 					WZ.REAL_NAME AS VREAL_NAME  
+					
 				from (
-					select c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
-					(select top 1 tgh.end_time_ from sctrans.act_hi_taskinst tgh where w.INST_CODE = tgh.proc_inst_id_ and tgh.task_def_key_='Guohu' order by id_ desc) transferDate , 
-					(select top 1 tgha.end_time_ from sctrans.act_hi_taskinst tgha where w.INST_CODE = tgha.proc_inst_id_ and tgha.task_def_key_='GuohuApprove' order by id_ desc) caseTransferDate, 
+					select c.pkid,c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
+					(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
+					(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 					v.long_ AS  status
 					from sctrans.t_to_case c 
 					inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
@@ -87,24 +89,31 @@
 					<ifNotNull managerName>
 						AND T.REAL_NAME like '%' + #managerName# + '%' 
 					</ifNotNull>
+					<ifNotNull caseCode>
+						AND CASE_CODE = #caseCode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY TRANSFERDATE DESC,CASETRANSFERDATE DESC
+				ORDER BY transferDate DESC,caseTransferDate DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
-			<table-row>
+			<table-row>				
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="主管" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="transferDate" index="" checkbox="" display="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="caseTransferDate" index="" checkbox="" display="过户审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="status" index="" checkbox="" display="是否审批通过" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				
+		
 				<column type="both" name="GRP_NAME" index="" checkbox="" display="店组" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="AR_NAME" index="" checkbox="" display="片区" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="VORG_NAME" index="" checkbox="" display="区域" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />

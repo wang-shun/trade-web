@@ -116,7 +116,7 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div>
-						 <div class="col-lg-5 col-md-5">    
+						 <div class="col-lg-5 col-md-5" id="zb"   >    
                           		 <div class="form-group">
                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
@@ -129,9 +129,9 @@ text-decoration: underline !important;
                                       </div>
                                   </div>
                          </div> 
-                         <div class="col-lg-5 col-md-5 ">    
+                         <div class="col-lg-5 col-md-5 " id="zg"  >    
                        			<div class="form-group">
-                                   <label class="col-lg-3 col-md-3 control-label font_w">人员</label>
+                                   <label class="col-lg-3 col-md-3 control-label font_w">主管</label>
                                    <div class="col-lg-9 col-md-9">
                                    	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
 								 readonly="readonly" onclick="userSelect_back()" />
@@ -153,7 +153,7 @@ text-decoration: underline !important;
 								<div>
 								   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
 								   <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
-								   <a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">任务统计导出</a>
+								   <a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">导出</a>
 									</div>
 								</div>
 							</div>
@@ -164,31 +164,89 @@ text-decoration: underline !important;
 			</div>
 		</div>
 			<div class="data-wrap">
-		<div class="data-wrap-in">
-			<table border="1" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th class="t-left pd-l">贵宾服务部</th>
-						<th class="t-left pd-l">总监</th>
-						<th class="t-left pd-l">组别</th>
-						<th class="t-left pd-l">主管</th>
-						<th class="t-left pd-l">黄灯</th>
-						<th class="t-left pd-l">红灯</th>
-						<th class="t-left pd-l">操作</th>
-					</tr>
-				</thead>
-				<tbody id="redgreenTaskList">
-					
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div class="text-center">
-		<span id="currentTotalPage"><strong class="bold"></strong></span>
-		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-    </div>
+		
+			<div class="panel " id="serviceFlow">
+					<div class="panel-body">
+						<ul class="nav nav-tabs">
+						    <li class="active" id="gbli" ><a href="#setGbList" data-toggle="tab">贵宾服务部汇总</a>
+							</li>
+						    <li class="" id="zbli"><a id="setZb"  href="#setZbList" data-toggle="tab">组别汇总</a>
+							</li>
+							
+						</ul>
+							
+							<div class="tab-pane active fade in" id="setGbList">
+								<div class="jqGrid_wrapper row">
 
+									
+									<!-- 按贵宾服务部汇总 st    -->
+									
+									<div class="data-wrap-in">
+										<table border="1" cellpadding="0" cellspacing="0">
+											<thead>
+												<tr>
+													<th class="t-left pd-l">贵宾服务部</th>
+													<th class="t-left pd-l">总监</th>
+													<th class="t-left pd-l">红灯</th>
+													<th class="t-left pd-l">黄灯</th>
+													<th class="t-left pd-l">合计</th>
+													<th class="t-left pd-l">操作</th>
+												</tr>
+											</thead>
+											<tbody id="redgreenTaskListGb">
+												
+											</tbody>
+											
+										</table>
+									</div>
+									 <div class="text-center" id="guibinPager">
+										<span id="currentTotalPageGb"><strong class="bold"></strong></span>
+										<span class="ml15">共<strong class="bold" id="totalPGb"></strong>条</span>&nbsp;
+										<div id="pageBarGb" class="pagination my-pagination text-center m0"></div>  
+								    </div>
+								</div>
+							</div>
+							
+							<!-- 
+   					   </div> -->
+			  
+							
+							<div class="tab-pane active fade in" id="setZbList" style="display: none" >
+								<div class="jqGrid_wrapper row">
+
+									<!-- 按组别汇总 st    -->
+									
+									<div class="data-wrap-in" style="display: block" id="ZbList">
+										<table border="1" cellpadding="0" cellspacing="0" >
+											<thead>
+												<tr>
+													<th class="t-left pd-l">贵宾服务部</th>
+													<th class="t-left pd-l">总监</th>
+													<th class="t-left pd-l">组别</th>
+													<th class="t-left pd-l">主管</th>
+													<th class="t-left pd-l">红灯</th>
+													<th class="t-left pd-l">黄灯</th>
+													<th class="t-left pd-l">合计</th>
+													<th class="t-left pd-l">操作</th>
+												</tr>
+											</thead>
+											<tbody id="redgreenTaskList">
+											</tbody>
+											
+										</table>
+									<!-- 按贵宾服务部汇总 end    -->
+									</div>
+									<div class="text-center" id='zubiePager'>
+										<span id="currentTotalPage"><strong class="bold"></strong></span>
+										<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+										<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+								    </div>
+									<!-- 按组别汇总 end    -->
+								</div>
+							</div>
+					</div>		
+			   </div>
+	</div>
 		</div>
 	</div>
 	<input type="hidden" id="ctx" value="${ctx}" />
@@ -212,7 +270,33 @@ text-decoration: underline !important;
      <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	 <script id="template_redgreenTaskList" type= "text/html">
+	 
+     
+    
+	
+	<script id="template_redgreenTaskListGb" type= "text/html">
+      {{each rows as item index}}
+  				   {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+				
+    	
+						<td class="t-left pd-l">{{item.orgName1}}</td>
+						<td class="t-left pd-l">{{item.realName1}}</td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','');" target="_blank">{{item.redall}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','');" target="_blank">{{item.yellowall}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','');" target="_blank">{{(item.yellowall)+(item.redall)}}</a></td>
+						<td class="t-left pd-l">
+                            <a href="javascript:exportToExcelGb('{{item.orgName1}}');" target="_blank">导出</a>
+                        </td>
+				
+
+				  </tr>
+       {{/each}}
+     </script>
+	<script id="template_redgreenTaskList" type= "text/html">
       {{each rows as item index}}
   				   {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -223,8 +307,9 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
-						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}');" target="_blank">{{item.yellow}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}');" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.yellow}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}');" target="_blank">导出</a>
                         </td>
@@ -232,7 +317,7 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
      </script>
-     <script></script>
+								
 
 	 </content>
 </body>

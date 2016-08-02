@@ -275,7 +275,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		}
 		if (agentUser != null) {
 			// 分行经理
-			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(),
+			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
 					TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
 

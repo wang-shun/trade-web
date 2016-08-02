@@ -154,6 +154,134 @@ on org2.ID=uoj1.ORG_ID
 			</table-row>
 		</grid>
 	</query>
+	<!-- 红绿灯任务统计 贵宾服务部汇总 -->
+	<query id="queryRedGreenTaskCountGbList" cacheCount="true">
+		<searchCondition>
+		
+		    
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				
+
+select case when grouping(k.orgName1)=1 then '合计' else k.orgName1 end as orgName1,
+
+   case when grouping(k.realName1)=1 and grouping(k.orgName1)=0 then '小计' else k.realName1 end realName1,
+
+
+sum(k.red) yellowall,sum(k.yellow) as redall from (
+
+					select t1.orgName1,t1.realName1,t1.orgName2,t1.realName2,ISNULL(t2.count1,0) as yellow, ISNULL(t3.count1,0) as red ,GETDATE()  as importtime,t1.id from (
+select org1.id id,org2.ORG_NAME orgName1,u2.REAL_NAME  realName1,org1.ORG_NAME orgName2  ,u1.REAL_NAME as realName2 from sctrans.sys_org org1
+left join sctrans.V_USER_ORG_JOB uoj
+on org1.ID=uoj.ORG_ID
+right join sctrans.SYS_JOB j
+on j.ID=uoj.JOB_ID and j.JOB_CODE='Manager'
+left join sctrans.SYS_USER u1 on u1.id=uoj.USER_ID
+left join sctrans.V_USER_ORG_JOB uoj1
+on org1.PARENT_ID=uoj1.ORG_ID
+right join sctrans.SYS_JOB j1
+on j1.id=uoj1.JOB_ID and j1.JOB_CODE='director'
+left join sctrans.SYS_USER u2 on u2.id=uoj1.USER_ID
+left join sctrans.SYS_ORG org2 
+on org2.ID=uoj1.ORG_ID 
+
+ where org1.PARENT_ID in ('FF5BC56E0E4B45289DAA5721A494C7C5',
+'8a8493d453141f3301532c9568011af9',
+'d5878adf8b0c4032aeae895c701ed693',
+'de81a98a8ec341caa8e9bc77c46cd370',
+'54b3233fdf994d9987e7c8febc223588',
+'960089538bc54a9a9139ef52ceb45b33',
+'6114AB949B4445828D4383977C4FAC71',
+'6a84979158b942b78a8a5921cc30b8c3') ) t1 
+  LEFT join(select id as orgId,color,count(*) as count1 from (
+					  SELECT min(l.color) as color,t.CASE_CODE as caseCode,t.PART_CODE as taskName,tp.PROPERTY_ADDR as propertyAddress,u.REAL_NAME as realName
+					  	  ,t.EST_PART_TIME as estPartTime,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
+							 left join sctrans.T_TO_PROPERTY_INFO as tp
+							 on t.case_code=tp.case_code
+							  left join sctrans.t_to_workflow as w
+							  on w.case_code=t.CASE_CODE 
+							   left join sctrans.act_ru_task ta
+							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_]and ta.suspension_state_='1'
+							  left join sctrans.LAMP_RULE l
+							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
+							  left join sctrans.SYS_USER as u 
+							  on ta.ASSIGNEE_=u.USERNAME
+							  left join sctrans.V_USER_ORG_JOB as uoj
+							  on uoj.[USER_ID]=u.ID
+							  left join sctrans.SYS_ORG as sysOrg
+							  on sysOrg.ID=uoj.org_id
+							  where u.id is not null
+							  	  
+							  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+						
+							  
+							  )as a where color &lt;&gt; '2' group by id,color)  t2 on t1.id=t2.orgId and t2.color=0
+							  
+ left join(select id as orgId,color,count(*) as count1 from (
+					  SELECT min(l.color) as color,t.CASE_CODE as caseCode,t.PART_CODE as taskName,tp.PROPERTY_ADDR as propertyAddress,u.REAL_NAME as realName
+					  	  ,t.EST_PART_TIME as estPartTime,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
+							 left join sctrans.T_TO_PROPERTY_INFO as tp
+							 on t.case_code=tp.case_code
+							  left join sctrans.t_to_workflow as w
+							  on w.case_code=t.CASE_CODE 
+							   left join sctrans.act_ru_task ta
+							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
+							  left join sctrans.LAMP_RULE l
+							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
+							  left join sctrans.SYS_USER as u 
+							  on ta.ASSIGNEE_=u.USERNAME
+							  left join sctrans.V_USER_ORG_JOB as uoj
+							  on uoj.[USER_ID]=u.ID
+							  left join sctrans.SYS_ORG as sysOrg
+							  on sysOrg.ID=uoj.org_id
+							  where u.id is not null
+							  	  
+							  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+						
+							  
+							  )as a where color &lt;&gt; '2' group by id,color)
+							  t3 on t1.id=t3.orgId and t3.color=1
+							  where 1=1 
+							   <ifNotNull proOrggbName>
+										   and t1.orgName1 =#proOrggbName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValName>
+										   and t1.realName2 =#TextValName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValNameZj>
+										   and t1.realName1 =#TextValNameZj#
+							  </ifNotNull>
+							  
+							  <ifNotNull proOrgName>
+										   and t1.orgName2 =#proOrgName#
+							  </ifNotNull>
+							  
+							  
+							   ) k group by k.orgName1,k.realName1 
+							  
+				]]>
+			</baseSql>
+			
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="orgName1" index="" checkbox="" display="贵宾服务部" customDict=""  />
+				<column type="both" name="realName1" index="" checkbox="" display="总监" customDict=""  />
+				<column type="both" name="yellowall" index="" checkbox="" display="黄灯" customDict=""  />
+				<column type="both" name="redall" index="" checkbox="" display="红灯" customDict=""  />
+				<column type="both" name="importtime" index="" checkbox="" display="导出时间" customDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
+				<column type="both" name="id" index="" checkbox="" display="" customDict=""  />
+			</table-row>
+		</grid>
+	</query>
 	
 	<query id="queryRedGreenTaskCountExcelList" cacheCount="true">
 		<searchCondition>
@@ -234,6 +362,22 @@ on org2.ID=uoj1.ORG_ID
 							  
 							  )as a where color &lt;&gt; '2' group by id,color)
 							  t3 on t1.id=t3.orgId and t3.color=1
+							   where 1=1 
+							   <ifNotNull proOrggbName>
+										   and t1.orgName1 =#proOrggbName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValName>
+										   and t1.realName2 =#TextValName#
+							  </ifNotNull>
+							  
+							  <ifNotNull TextValNameZj>
+										   and t1.realName1 =#TextValNameZj#
+							  </ifNotNull>
+							  
+							  <ifNotNull proOrgName>
+										   and t1.orgName2 =#proOrgName#
+							  </ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -289,11 +433,12 @@ on org2.ID=uoj1.ORG_ID
         '6114AB949B4445828D4383977C4FAC71',
         '6a84979158b942b78a8a5921cc30b8c3') )
 t1 inner join(select * from (
-        SELECT  min(l.color) as color,t.CASE_CODE , (select name from sctrans.sys_dict where type='part_code' and code = t.PART_CODE) TASKNAME,tp.PROPERTY_ADDR,u.REAL_NAME
+        SELECT  min(l.color) as color,t.CASE_CODE ,k.PKID, (select name from sctrans.sys_dict where type='part_code' and code = t.PART_CODE) TASKNAME,tp.PROPERTY_ADDR,u.REAL_NAME
           ,t.EST_PART_TIME,sysOrg.id orgid,T.PART_CODE
                  FROM [sctrans].[T_TO_TRANS_PLAN] as t 
                  left join sctrans.T_TO_PROPERTY_INFO as tp
                  on t.case_code=tp.case_code
+                  left join  sctrans.t_to_case as k on t.CASE_CODE = k.CASE_CODE
                   left join sctrans.t_to_workflow as w
                   on w.case_code=t.CASE_CODE 
                    left join sctrans.act_ru_task ta
@@ -308,7 +453,7 @@ t1 inner join(select * from (
                   on sysOrg.ID=uoj.org_id
                   where u.id is not NULL
                   and l.color != '2'
-                  group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
+                  group by t.CASE_CODE,k.PKID,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
         
                   )as a ) t2 on t1.id=t2.orgId 
                   
@@ -332,14 +477,6 @@ t1 inner join(select * from (
 							   and t1.orgName1 =#proOrggbName#
 				  </ifNotNull>
 				  
-				  <ifNotNull TextValName>
-							   and t1.realName2 =#TextValName#
-				  </ifNotNull>
-				  
-				  <ifNotNull TextValNameZj>
-							   and t1.realName1 =#TextValNameZj#
-				  </ifNotNull>
-				  
 				  <ifNotNull proOrgName>
 							   and t1.orgName2 =#proOrgName#
 				  </ifNotNull>
@@ -350,6 +487,7 @@ t1 inner join(select * from (
 				]]>
 			</baseSql>
 			<orderBySql>
+					order by t2.EST_PART_TIME desc
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -364,11 +502,14 @@ t1 inner join(select * from (
 				
 				<column type="both" name="color" display="红黄灯" customDict="" />
 				<column type="virtual" name="color1" display="红黄灯" referencecol="color"  customDict="convertColor"/>
-				<column type="both" name="CASE_CODE"  display="案件编号" customDict=""  />
+				<column type="both" name="CASE_CODE"  display="案件编号" customDict="" isSort="true" />
+				<column type="both" name="PKID"  display="案件ID" customDict=""  />
 				<column type="both" name="TASKNAME"  display="任务名" customDict=""  />
 				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict="" />
 				<column type="both" name="REAL_NAME"  display="经办人" customDict="" />
-				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd" isSort="true" />
+				
+				
 				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict=""  />
 				<column type="both" name="IMPORTTIME" display="导出时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 			</table-row>
@@ -377,6 +518,10 @@ t1 inner join(select * from (
 	
 	<query id="queryRedGreenTaskExcelItemList" cacheCount="true">
 		<searchCondition>
+		    <condition field="t2.PROPERTY_ADDR" name="propertyAddr" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.REAL_NAME" name="realName" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.CASE_CODE" name="caseCode" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="t2.PART_CODE" name="taskDfKey" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -427,9 +572,28 @@ t1 inner join(select * from (
                   group by t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR ,u.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_,sysOrg.id
         
                   )as a ) t2 on t1.id=t2.orgId 
-                
-                  <ifNotNull organId>
+                   <ifNotNull organId>
 							   where t1.id = #organId#
+				  </ifNotNull>
+				  <ifNotNull colourId>
+							   and t2.color =#colourId#
+				  </ifNotNull>
+				  <ifNotNull dtBegin>
+							   and t2.EST_PART_TIME >=#dtBegin#
+				  </ifNotNull>
+				  <ifNotNull dtEnd>
+							   and t2.EST_PART_TIME &lt;=#dtEnd#
+				  </ifNotNull>
+				  <ifNotNull lampRadios>
+							   and t2.color =#lampRadios#
+				  </ifNotNull>
+				  
+				  <ifNotNull proOrggbName>
+							   and t1.orgName1 =#proOrggbName#
+				  </ifNotNull>
+				  
+				  <ifNotNull proOrgName>
+							   and t1.orgName2 =#proOrgName#
 				  </ifNotNull>
 				]]>
 			</baseSql>

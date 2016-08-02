@@ -18,6 +18,8 @@ public interface ToWorkFlowService {
 	List<String> queryCaseCodesByInstCode(String instCode);
 
 	List<String> queryInstCodesByCaseCode(String caseCode);
+	
+	List<String> queryAllInstCodesByCaseCode(String caseCode);
 
 	ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
 
@@ -33,4 +35,6 @@ public interface ToWorkFlowService {
 	 * @return
 	 */
 	void inActiveForm(String caseCode);
+	
+	int updateWorkFlowByInstCode(ToWorkFlow record);
 }

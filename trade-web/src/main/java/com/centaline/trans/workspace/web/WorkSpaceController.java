@@ -54,6 +54,7 @@ import com.centaline.trans.task.vo.TransPlanVO;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.utils.CheckMobileUtils;
+import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.workspace.entity.LoanStaDetails;
 import com.centaline.trans.workspace.entity.WorkLoad;
 import com.centaline.trans.workspace.entity.WorkSpace;
@@ -123,6 +124,10 @@ public class WorkSpaceController {
 	@RequestMapping(value = "dashboard")
 	public String showWorkSpace(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		//本月目标达成报表，数据查询开始时间
+		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
+		model.addAttribute("startDate",startDate);
+		
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
 			return mainPage(model, request);

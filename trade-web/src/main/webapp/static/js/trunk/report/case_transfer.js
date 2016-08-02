@@ -19,33 +19,28 @@ $(document).ready(function() {
 	}
 
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
-	
-	
+
 	// 过户日期
 	var transferDateBegin = $('#dtBegin_0').val();
 	var transferDateOver = $('#dtEnd_0').val();
-	// 过户审核日期
-	var caseTransferDateBegin = $('#dtBegin_1').val();
-	var caseTransferDateOver = $('#dtEnd_1').val();
-	
+
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
-	if (caseTransferDateOver && caseTransferDateOver != '') {
-		caseTransferDateOver = caseTransferDateOver + ' 23:59:59';
-	}
 	// 设置查询参数
 	var data = {
-		caseTransferDateStart : caseTransferDateBegin,
-		caseTransferDateEnd : caseTransferDateOver,
 		transferDateStart : transferDateBegin,
 		transferDateEnd : transferDateOver,
 	};
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 12;
 	data.page = 1;
-	reloadGrid(data);
 
+	/* 加载排序查询组件 */
+	aist.sortWrapper({
+		reloadGrid : searchMethod
+	});
+	reloadGrid(data);
 });
 
 // select控件
@@ -75,7 +70,7 @@ $('#datepicker_0').datepicker({
 	weekStart : 1,
 	autoclose : true,
 	todayBtn : 'linked',
-	language : 'zh-CN',	
+	language : 'zh-CN',
 });
 $('#datepicker_1').datepicker({
 	format : 'yyyy-mm-dd',
@@ -105,6 +100,7 @@ function searchMethod(page) {
 };
 
 function reloadGrid(data) {
+
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -118,6 +114,13 @@ function reloadGrid(data) {
 		queryOrgs = null;
 		arguUserId = "yes";
 	}
+
+	aist.wrap(data);
+
+	var sortcolumn = $('span.active').attr("sortColumn");
+	var sortgz = $('span.active').attr("sord");
+	data.sidx = sortcolumn;
+	data.sord = sortgz;
 
 	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
@@ -196,12 +199,14 @@ function getParamsValue() {
 	var caseTransferDateBegin = $('#dtBegin_1').val();
 	var caseTransferDateOver = $('#dtEnd_1').val();
 
-	var vrealName = $('#realName').val();
+	var vrealName = $('#realName').val().trim();
 	var orgName = $('#orgName').val();
 	var managerName = $('#managerName').val();
+	var caseCode = $('#caseCode').val().trim();
+	var propertyAddr = $('#propertyAddr').val();
 
 	// 审核状态
-	var TransferStatus = $('#TransferStatus').val();	
+	var TransferStatus = $('#TransferStatus').val();
 	if (transferDateOver && transferDateOver != '') {
 		transferDateOver = transferDateOver + ' 23:59:59';
 	}
@@ -217,22 +222,25 @@ function getParamsValue() {
 		vrealName : vrealName,
 		orgName : orgName,
 		TransferStatus : TransferStatus,
-		managerName : managerName
+		managerName : managerName,
+		caseCode : caseCode,
+		propertyAddr : propertyAddr
 	};
 	return params;
 }
 
 // 清空表单
 function cleanForm() {
-	//$("input[name='transferDateBegin']").val("");
-	//$("input[name='transferDateEnd']").val("");
-	//$("input[name='caseTransferDateBegin']").val("");
-	//$("input[name='caseTransferDateEnd']").val("");
+	// $("input[name='transferDateBegin']").val("");
+	// $("input[name='transferDateEnd']").val("");
+	$("input[name='caseTransferDateBegin']").val("");
+	$("input[name='caseTransferDateEnd']").val("");
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
 	$("input[name='managerName']").val("");
-
+	$("input[name='caseCode']").val("");
+	$("input[name='propertyAddr']").val("");
 }
 
 function caseTransferExportToExcel() {
@@ -240,7 +248,59 @@ function caseTransferExportToExcel() {
 	var ctx = $("#ctx").val();
 	// excel导出列
 	var displayColomn = new Array;
+	displayColomn.push('BIGAREA');
+	displayColomn.push('VREAL_NAME');	
+	displayColomn.push('AGENT_ORG_NAME');
+	displayColomn.push('AGENT_NAME');
+/*	displayColomn.push('GUOHU_ORG_NAME');
+	displayColomn.push('GUOHU_REAL_NAME');*/
+	displayColomn.push('GUOHUDJ');
+	displayColomn.push('dist_name');
+	displayColomn.push('REAL_HT_TIME');
+	displayColomn.push('CTM_CODE');
+	displayColomn.push('CUST_NAME');
+	displayColomn.push('GUEST_PHONE');
+	displayColomn.push('PROPERTY_ADDR');	
+	displayColomn.push('CON_PRICE');
+	displayColomn.push('FIN_ORG_NAME');
+	displayColomn.push('FIN_ORG_NAME_YC');
+	displayColomn.push('COM_AMOUNT');
+	displayColomn.push('PRF_AMOUNT');
+	displayColomn.push('ACCOUNT');
+	displayColomn.push('COM_DISCOUNT');
 	displayColomn.push('CASE_CODE');
+	displayColomn.push('LOANER_NAME');
+	displayColomn.push('LOANER_PHONE');
+	displayColomn.push('SDSTATUS');
+	displayColomn.push('IS_LOANER_ARRIVE');	
+	displayColomn.push('SELLER');
+	displayColomn.push('SELLER_MOBILE');	
+	displayColomn.push('BUYER');
+	displayColomn.push('BUYER_MOBILE');
+	displayColomn.push('transferDate');
+	displayColomn.push('caseTransferDate');
+/*	displayColomn.push('ISAPPROVE');*/
+	displayColomn.push('status1');
+	displayColomn.push('ASSESSOR');
+	displayColomn.push('CONTENT');	
+	
+	displayColomn.push('MANAGER_REAL_NAME');
+	displayColomn.push('MANAGER_ORG_NAME');
+	displayColomn.push('GRP_NAME');
+	displayColomn.push('MANAGER_AR_NAME');
+	displayColomn.push('VORG_NAME');
+
+
+
+
+	
+/*	displayColomn.push('AR_NAME');
+	displayColomn.push('VREAL_NAME');
+	displayColomn.push('GRP_NAME');
+	displayColomn.push('AGENT_NAME');
+	displayColomn.push('REAL_HT_TIME');	
+	displayColomn.push('CASE_CODE');
+	displayColomn.push('CTM_CODE');
 	displayColomn.push('PROPERTY_ADDR');
 	displayColomn.push('REAL_NAME');
 	displayColomn.push('ORG_NAME');
@@ -250,10 +310,15 @@ function caseTransferExportToExcel() {
 	displayColomn.push('GRP_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
-	displayColomn.push('VREAL_NAME');
 	displayColomn.push('EVAL_FEE');
 	displayColomn.push('RECORD_TIME');
-
+	displayColomn.push('SELLER');
+	displayColomn.push('SELLER_MOBILE');	
+	displayColomn.push('BUYER');
+	displayColomn.push('BUYER_MOBILE');
+	displayColomn.push('PROCESSOR_ID');*/
+	
+	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -280,7 +345,8 @@ function caseTransferExportToExcel() {
 	if (argu_queryorgs == null)
 		argu_queryorgs = '&argu_queryorgs=';
 	var params = getParamsValue();
-	var queryId = '&queryId=queryCastTransferExcelItemList';
+	//var queryId = '&queryId=queryCastTransferExcelItemList';
+	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 
 	url = ctx + url + jQuery.param(params) + queryId + argu_idflag
@@ -294,7 +360,7 @@ function caseTransferExportToExcel() {
 }
 
 // 清空
-$('#caseTransferCleanButton').click(function() {	
+$('#caseTransferCleanButton').click(function() {
 	$("input[name='transferDateBegin']").datepicker('update', '');
 	$("input[name='transferDateEnd']").datepicker('update', '');
 	$("input[name='caseTransferDateBegin']").datepicker('update', '');
@@ -302,7 +368,9 @@ $('#caseTransferCleanButton').click(function() {
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
-	$("input[name='managerName']").val("");	
+	$("input[name='managerName']").val("");
+	$("input[name='caseCode']").val("");
+	$("input[name='propertyAddr']").val("");
 });
 
 // 选业务组织的回调函数
@@ -317,7 +385,7 @@ function radioYuCuiOrgSelectCallBack(array) {
 
 	}
 }
-//根据组织 选择主管
+// 根据组织 选择主管
 function chooseManager(id) {
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
@@ -331,10 +399,10 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode:'Manager,Senior_Manager',
+			jobCode : 'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
-		$("#yuCuiOriGrpId").val("");
+		//$("#yuCuiOriGrpId").val("");
 	} else {
 		userSelect({
 			startOrgId : serviceDepId,
@@ -344,7 +412,7 @@ function chooseManager(id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode:'Manager,Senior_Manager',
+			jobCode : 'Manager,Senior_Manager',
 			callBack : caseTranseferSelectUserBack
 		});
 	}

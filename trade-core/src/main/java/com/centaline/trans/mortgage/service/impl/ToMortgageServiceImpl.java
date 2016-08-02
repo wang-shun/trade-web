@@ -8,13 +8,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
 public class ToMortgageServiceImpl implements ToMortgageService {
@@ -26,6 +36,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private ToSupDocuService toSupDocuService;
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
+	@Autowired(required = true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
+	MessageService messageService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -94,6 +114,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				tgGuestInfoService.updateByPrimaryKeySelective(guest);
 			}
 		}
+		// 为主流程设置变量
+	    setEvaReportNeedAtLoanRelease(toMortgage);
 	}
 
 	@Override
@@ -252,6 +274,77 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public void inActiveMortageByCaseCode(String caseCode) {
 		toMortgageMapper.inActiveMortageByCaseCode(caseCode);
+	}
+
+	@Override
+	public void submitMortgage(ToMortgage toMortgage, List<RestVariable> variables, String taskId,
+			String processInstanceId) {
+		
+		// 保存贷款信息
+		ToMortgage mortgage= findToMortgageById(toMortgage.getPkid());
+		mortgage.setApprDate(toMortgage.getApprDate());
+		mortgage.setRemark(toMortgage.getRemark());
+		saveToMortgage(mortgage);
+		
+		// 提交任务
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage.getCaseCode());
+		workFlowManager.submitTask(variables, taskId, processInstanceId, 
+				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
+		
+		// 发送消息
+		ToWorkFlow wf=new ToWorkFlow();
+		wf.setCaseCode(toMortgage.getCaseCode());
+		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+
+		if(wordkFlowDB!=null &&  "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+			messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+			// 设置主流程任务的assignee
+			workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), wordkFlowDB.getCaseCode());
+			
+			// 结束当前流程
+			ToWorkFlow workFlowOld =new ToWorkFlow();
+			// 流程结束状态
+			workFlowOld.setStatus("4");
+			workFlowOld.setInstCode(processInstanceId);
+			toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+		}
+		
+	}
+	
+	/**
+	 * 删除临时银行审批流程
+	 * @param twf
+	 */
+	@Override
+	public void deleteTmpBankProcess(ToWorkFlow twf){
+		try{
+			ToWorkFlow temBankWF= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			//删除临时银行审批任务和流程
+			if(temBankWF != null){
+				unlocatedTaskService.deleteByInstCode(temBankWF.getInstCode());
+				workFlowManager.deleteProcess(temBankWF.getInstCode());
+			}
+		}catch(Exception e){
+			throw new BusinessException("删除临时银行任务和流程失败！");
+		}
+		
+	}
+	
+	private void setEvaReportNeedAtLoanRelease(ToMortgage toMortgage) {
+			ToWorkFlow wf=new ToWorkFlow();
+			wf.setCaseCode(toMortgage.getCaseCode());
+			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+			// 是否需要发起评估报告
+			if(StringUtils.isNotBlank(toMortgage.getIfReportBeforeLend()) && "1".equals(toMortgage.getIfReportBeforeLend()) && wordkFlowDB!=null
+					&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+				String variableName = "EvaReportNeedAtLoanRelease";
+				RestVariable restVariable = new RestVariable();
+				restVariable.setType("boolean");
+				restVariable.setValue(true);
+				workFlowManager.setVariableByProcessInsId(wordkFlowDB.getInstCode(), variableName, restVariable);
+			}
 	}
 
 }

@@ -33,7 +33,17 @@ public class ToCaseInfo {
     private String arCode;
     private String arName;
     
-    public String getOrgId() {
+    private String targetCode;
+    
+    public String getTargetCode() {
+		return targetCode;
+	}
+
+	public void setTargetCode(String targetCode) {
+		this.targetCode = targetCode;
+	}
+
+	public String getOrgId() {
 		return orgId;
 	}
 

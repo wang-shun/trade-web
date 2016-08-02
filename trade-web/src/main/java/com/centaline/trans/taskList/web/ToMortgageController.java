@@ -33,12 +33,18 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
@@ -80,6 +86,10 @@ public class ToMortgageController {
 	private TsFinOrgService tsFinOrgService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 	/**
 	 * 查询贷款信息
 	 * @param toMortgage
@@ -171,9 +181,21 @@ public class ToMortgageController {
 	 */
 	@RequestMapping(value="/completeMortgage")  
 	@ResponseBody
-    public AjaxResponse<String> completeMortgage(ToMortgage toMortgage,HttpServletRequest request) {
+    public AjaxResponse<String> completeMortgage(ToMortgage toMortgage,HttpServletRequest request,String check) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		
+		//如果没有选中但已经开启临时银行流程则更新工作流表状态为‘2’：非正常结束
+		if("false".equals(check)){
+			ToWorkFlow twf = new ToWorkFlow();
+			twf.setBusinessKey("TempBankAudit_Process");
+			twf.setCaseCode(toMortgage.getCaseCode());
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			if(record != null){
+				record.setStatus(WorkFlowStatus.TERMINATE.getCode());
+				toWorkFlowService.updateByPrimaryKeySelective(record);
+			}
+		}
+
 		try{
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
 			/*entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
@@ -263,6 +285,24 @@ public class ToMortgageController {
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
 			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 					toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+			
+			// 发送消息
+			ToWorkFlow wf=new ToWorkFlow();
+			wf.setCaseCode(processInstanceVO.getCaseCode());
+			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+			if(wordkFlowDB!=null && "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+				//设置主流程任务的assignee
+				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
+				
+				ToWorkFlow workFlowOld =new ToWorkFlow();
+				// 流程结束状态
+				workFlowOld.setStatus("4");
+				workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
+				toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+			}
+			
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("操作失败！"+e.getMessage());

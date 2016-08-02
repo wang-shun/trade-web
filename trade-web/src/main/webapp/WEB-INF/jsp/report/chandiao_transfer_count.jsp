@@ -118,7 +118,7 @@ text-decoration: underline !important;
 			    				</div>
 			    				<label class="col-md-1  control-label">贵宾服务部</label>
 			    				<div class="col-md-3">
-			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" 
+			    					<input type="text" class="form-control tbsporg" id="teamCode" name="teamCode" readonly="readonly" style="background-color:#FFFFFF"
 											   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 											   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
@@ -159,6 +159,7 @@ text-decoration: underline !important;
 							</div>
 						</div>
 					</div>	
+					<input type="hidden" id="organId" name="organId" value="" />
 					</form>
 				</div>
 			</div>

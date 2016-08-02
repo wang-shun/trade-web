@@ -19,8 +19,13 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
+import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.MortStep;
@@ -29,9 +34,7 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToEguPricingService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -59,6 +62,23 @@ public class MortgageController {
 	private ToEguPricingService toEguPricingService;
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
+	@Autowired
+	MessageService messageService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	
+	@RequestMapping(value = "test")
+	public String test(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
+			String taskitem, String processInstanceId) {
+		    workFlowManager.deleteProcess("648743");
+			 
+			ProcessInstance processIns = new ProcessInstance();
+			processIns.setProcessDefinitionId("ComLoan_Process:4:645463");
+			processIns.setBusinessKey("ZY-AJ-201512-1384");
+		    workFlowManager.startWorkFlow(processIns);
+		    
+		    return "";
+	}
 
 	@RequestMapping(value = "comLoanProcess/process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
@@ -225,6 +245,25 @@ public class MortgageController {
 		}
 		toMortgage.setIsMainLoanBank("1");
 		toMortgageService.saveToMortgage(toMortgage);
+		
+		// 发送消息
+		ToWorkFlow wf=new ToWorkFlow();
+		wf.setCaseCode(toMortgage.getCaseCode());
+		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if(wordkFlowDB!=null && "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId())<=0) {
+			messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+			//设置主流程任务的assignee
+			ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage.getCaseCode());
+			workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), wordkFlowDB.getCaseCode());
+			
+			// 结束当前流程
+			ToWorkFlow workFlowOld =new ToWorkFlow();
+			// 流程结束状态
+			workFlowOld.setStatus("4");
+			workFlowOld.setInstCode(processInstanceId);
+			toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+		}
 
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();

@@ -622,25 +622,23 @@
 		
 		/**提交数据*/
 		function submit() {
-
-		if ($("#optionsRadios2").checked == true) {
+		if ($('#optionsRadios2:checked').val() == "30003001") {
 				if ($('input[name=invalid_reason]').val() == '') {
 					alert("无效案件必须填写失效原因!");
-					return;
 					$('input[name=invalid_reason]').focus();
 					return;
 				}
 			}
+		
 			save(true);
 		}
 
 		/**保存数据*/
 		function save(b) {
-			if (!b) {
 				if (!checkForm()) {
 					return;
 				}
-			}
+			
 			if (!$("#firstFollowform").valid()) {
 				return;
 			}
@@ -751,8 +749,7 @@
 
 		//验证控件checkUI();
 		function checkForm() {
-			
-			if ($("#cooperationUser0").val() == 0) {
+			if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 				alert("合作顾问未选择");
 				return false;
 			}

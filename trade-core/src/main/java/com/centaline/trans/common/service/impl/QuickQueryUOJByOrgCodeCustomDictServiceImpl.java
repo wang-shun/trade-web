@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,6 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
      * @see com.aist.common.quickQuery.service.CustomDictService#getValue(java.lang.String)
      */
     @Override
-    @Cacheable(value = "QuickQueryUOJByOrgCodeCustomDictServiceImpl", key = "#root.target.getDeptId()+'/'+#root.target.getJobCode()+'/'+#root.target.getProp()+'/'+#key")
     public String getValue(String key) {
     	if(StringUtils.isEmpty(key)){
     		return "";
@@ -63,7 +63,7 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
     		}
 			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), "JQYJL");
 			// 如果区域经理不存在，则取区域总监
-    		if(userOrgJobs == null) {
+    		if(CollectionUtils.isEmpty(userOrgJobs)) {
     			Org org2 = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSISWZ");
     			if(org2==null){
     				return "";

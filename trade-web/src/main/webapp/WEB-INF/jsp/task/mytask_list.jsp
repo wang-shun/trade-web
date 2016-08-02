@@ -71,21 +71,15 @@ text-decoration: underline !important;
 }
 .slash{font-weight:bold !important;}
 
-
-
-
-
-
-
 .hint { position: relative; display: inline-block; }
 
 .hint:before, .hint:after {
-			position: absolute;
-			opacity: 0;
-			z-index: 1000000;
-			-webkit-transition: 0.3s ease;
-			-moz-transition: 0.3s ease;
-  pointer-events: none;
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
 }		
 .hint:hover:before, .hint:hover:after {
 	opacity: 1;
@@ -100,16 +94,14 @@ text-decoration: underline !important;
 .hint:after {
 	content: attr(data-hint);
 	background: rgba(0, 0, 0, 0.8);
-			color: white;
-			padding: 8px 10px;
-			font-size: 12px;
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
 	white-space: nowrap;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-
 /* top */
-
 .hint-top:before {
 	bottom: 100%;
 	left: 50%;
@@ -128,6 +120,27 @@ text-decoration: underline !important;
 	margin-bottom: 2px;
 }
 
+/* top */
+.hint-top1:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top1:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top1:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:280px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
 </style>
 </head>
 
@@ -246,11 +259,11 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th class="text-center" >红绿灯</th>
-						<th><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
-						<th>当前任务</th>
-						<th>上家</th>
-						<th>下家</th>
-						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
+						<th class="t-left pd-l"><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
+						<th class="t-left pd-l">当前任务</th>
+						<th class="t-left pd-l">上家</th>
+						<th class="t-left pd-l">下家</th>
+						<th class="t-left pd-l"><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
 						<th class="text-center"><span class="sort" sortColumn="tp.EST_PART_TIME" sord="asc">预计执行时间</span></th>
 					</tr>
 				</thead>
@@ -317,9 +330,11 @@ text-decoration: underline !important;
 					<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
 						<a href="{{ctx}}/engine/task/{{item.ID}}/process" class="case-task" target="_blank">{{item.NAME}}</a>
-                    </td>
-					<td class="t-left">{{item.SELLER}}</td>
-					<td class="t-left">{{item.BUYER}}</td>
+                    </td>					
+			
+					<td class="t-left"><a class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">{{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}</a></td>
+
+					<td class="t-left"><a class="hint  hint-top1" data-hint="下家信息: {{item.BUYER}}">{{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}</a></td>
 					<td class="t-left">{{item.CREATE_TIME}}</td>
 					<td class="t-center">{{item.EST_PART_TIME}}</td>
 				</tr>

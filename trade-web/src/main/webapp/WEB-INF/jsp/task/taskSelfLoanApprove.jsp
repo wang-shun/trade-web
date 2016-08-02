@@ -367,7 +367,7 @@ function autoCompleteComDiscount(obj){
 		
 		//验证控件checkUI();
 		function checkForm() {
-			if($('input[name=mortType]').val()=='') {
+			if($('#mortType').val()=='') {
                 alert("贷款类型为必填项!");
                 $('input[name=mortType]').focus();
                 return false;
@@ -410,6 +410,13 @@ function autoCompleteComDiscount(obj){
 	        		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 	            	$('input[name=comDiscount]').focus();
 	        		return false;
+	        	}else if($('input[name=comDiscount]').val()<=1.5 || $('input[name=comDiscount]').val()>=0.5){
+	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
+	        		if(reg.test($('input[name=comDiscount]').val())){
+	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	        			$('input[name=comDiscount]').focus();
+	        			return false;
+	        		}
 	        	}
  			} 			
 			
@@ -439,7 +446,10 @@ function autoCompleteComDiscount(obj){
 			var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
 			var mortTotalAmount=parseFloat($("#mortTotalAmount").val());
 			var comAmount=parseFloat($("#comAmount").val());
-			if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount){
+			 
+			var comAmount1 = isNaN(comAmount)?0:comAmount;
+			
+			if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount1){
 				alert('贷款总额必须等于商贷和公积金之和');
 		    	return false;
 			}

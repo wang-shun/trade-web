@@ -48,6 +48,9 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
+	
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+	
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -226,7 +229,8 @@
 				</label>
 			</div>
 			<div class="row ">
-				<label class="col-sm-12 control-label">备注：${toMortgage.remark}</label>
+				<label class="col-sm-3 control-label">备注：${toMortgage.remark}</label>
+				<label class="col-sm-9 control-label">贷款流失类型：${caseDetailVO.loanLostType}</label>
 			</div>
 		</div>
 	</div>
@@ -327,8 +331,8 @@
 		<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
 	</div>
 	</div>
-
-
+	
+	
 	<content tag="local_script"> <!-- Peity --> <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -359,7 +363,16 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 显示上传的附件 -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> <script
+	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script>
+	
+	
+	<script src="${ctx}/js/rotate/jquery.rotate.min.js"></script>
+	
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	<script src="${ctx}/js/viewer/main.js"></script>
+	
+	
+	 <script
 		src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> <script
 		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script

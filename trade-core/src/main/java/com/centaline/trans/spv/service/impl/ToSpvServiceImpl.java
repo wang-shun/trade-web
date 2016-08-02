@@ -157,7 +157,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		List<ToCashFlow> toCashFlowList = spvVo.getToCashFlowList();
 		if(CollectionUtils.isNotEmpty(toCashFlowList)){
 			for(ToCashFlow entity : toCashFlowList){
-				entity.setFlowAmount(entity.getFlowAmount()!=null?entity.getFlowAmount().multiply(new BigDecimal(10000)):null);
+				entity.setFlowAmount(entity.getFlowAmount()!=null?entity.getFlowAmount().multiply(new BigDecimal(10000)):new BigDecimal(0));
+				entity.setCaseCode(toSpv.getCaseCode());
 				if(entity.getPkid() != null){
 					toCashFlowMapper.updateByPrimaryKeySelective(entity);
 				}else{

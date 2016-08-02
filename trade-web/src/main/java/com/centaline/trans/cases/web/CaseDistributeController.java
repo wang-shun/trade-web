@@ -45,8 +45,10 @@ import com.centaline.trans.task.entity.TsPrResearchMap;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsPrResearchMapService;
 import com.centaline.trans.team.entity.TsTeamProperty;
+import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.entity.TsTeamTransfer;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.team.service.TsTeamTransferService;
 import com.centaline.trans.team.vo.TeamTransferVO;
 
@@ -92,6 +94,8 @@ public class CaseDistributeController {
 	TsTeamTransferService tsTeamTransferService;
 	@Autowired(required = true)
 	TsPrResearchMapService tsPrResearchMapService;
+	@Autowired(required = true)
+	TsTeamScopeTargetService tsTeamScopeTargetService;
 	
 	/**
 	 * 页面初始化
@@ -284,29 +288,31 @@ public class CaseDistributeController {
     @ResponseBody
 	public AjaxResponse<?>  bindCaseDist(String[] caseCodes ,String userId,HttpServletRequest request) {
     	SessionUser sessionUser = uamSessionService.getSessionUser();
-    	for(String caseCode:caseCodes){	    
+    	for(String caseCode:caseCodes){
     		try {
-        		/*下面限制待转组案件在多个页面同时打开，在一个页面转组案件后，再在其他页面分配该案件的情况*/
-            	TsTeamTransfer lastTransfer =  getLastTsTeamTransfer(caseCode);
-            	if(lastTransfer!=null && !lastTransfer.getTeamNow().equals(sessionUser.getServiceDepCode())){
-            		continue;
-            	}
+    			//非自己组的案件，不能进行分配
+    			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+    			
+    			if(toCaseInfo==null){
+    				continue;
+    			}
+    			
+				TsTeamScopeTarget teamScopeTarget = new TsTeamScopeTarget();
+    			teamScopeTarget.setGrpCode(toCaseInfo.getTargetCode());
+    			teamScopeTarget.setYuTeamCode(sessionUser.getServiceDepCode());
+    			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetListByProperty(teamScopeTarget);
+    			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
+    				continue;
+    			}
+    			
 	    		toCaseService.caseAssign(caseCode, userId, sessionUser);
 	    		toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
     		}catch (BusinessException | WorkFlowException e) {
     			e.printStackTrace();
-    			//return AjaxResponse.fail(e.getMessage());
+    			return AjaxResponse.fail(e.getMessage());
 			}
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
-    }
-    
-    //获取最后一条转组信息
-    private TsTeamTransfer getLastTsTeamTransfer(String caseCode){
-		TsTeamTransfer teamTransfer = new TsTeamTransfer();
-    	teamTransfer.setIsDelete("0");
-    	teamTransfer.setCaseCode(caseCode);
-    	return tsTeamTransferService.getTsTeamTransferByProperty(teamTransfer);
     }
     
     /****
@@ -315,26 +321,26 @@ public class CaseDistributeController {
      *  @param caseCode
      *  @return
      */
-    private int addTeamTransferLog(String caseCode,String grpCode,String orgId)  {
-    		//获取最后一条转组记录
-        	TsTeamTransfer lastTransfer =  getLastTsTeamTransfer(caseCode);
-        	if(lastTransfer != null) {
-            	//逻辑删除旧转组记录
-        	  	lastTransfer.setIsDelete("1");
-            	tsTeamTransferService.updateByPrimaryKeySelective(lastTransfer);
+    private int addTeamTransferLog(ToCaseInfo toCaseInfo,String orgId)  {
+    		TsTeamTransfer teamTransfer = new TsTeamTransfer();
+        	//未被删除,更新状态
+        	teamTransfer.setIsDelete("0");
+        	teamTransfer.setCaseCode(toCaseInfo.getCaseCode());
+        	teamTransfer.setTeamOrigin(toCaseInfo.getGrpCode());
+        	TsTeamTransfer tsTeamTransferOld =  tsTeamTransferService.getTsTeamTransferByProperty(teamTransfer);
+        	if(tsTeamTransferOld != null) {
+        	  	tsTeamTransferOld.setIsDelete("1");
+            	int updateCount = tsTeamTransferService.updateByPrimaryKeySelective(tsTeamTransferOld);
         	}
-        	//得到转组后的机构
         	Org org = uamUserOrgService.getOrgById(orgId);
-        	if(org==null){
-        		return 0;
-        	}
-        	//添加新转组记录
         	TsTeamTransfer teamTransferNew = new TsTeamTransfer();
-        	teamTransferNew.setCaseCode(caseCode);
+        	teamTransferNew.setCaseCode(toCaseInfo.getCaseCode());
         	teamTransferNew.setIsDelete("0");
-        	teamTransferNew.setTeamOrigin(grpCode);
+        	teamTransferNew.setTeamOrigin(toCaseInfo.getGrpCode());
         	teamTransferNew.setTeamNow(org.getOrgCode());
-        	return tsTeamTransferService.insertSelective(teamTransferNew);
+        	int addCount = tsTeamTransferService.insertSelective(teamTransferNew);
+    	
+    	    return addCount;
     }
     /**
 	 * 分配组别
@@ -344,7 +350,7 @@ public class CaseDistributeController {
     @RequestMapping(value="/bindCaseTeam")
     @ResponseBody
 	public AjaxResponse<?>  bindCaseTeam(@RequestBody TeamTransferVO teamTransferVO,HttpServletRequest request) {
-    	
+    	SessionUser sessionUser = uamSessionService.getSessionUser();
     	List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(teamTransferVO.getOrgId(), TransJobs.TJYZG.getCode());
     	if(CollectionUtils.isEmpty(managerUsers)){
     		return AjaxResponse.fail("未找到交易主管！");
@@ -352,30 +358,32 @@ public class CaseDistributeController {
     	
     	User managerUser= managerUsers.get(0);
     	List<ToCaseInfo> caseInfoList  = teamTransferVO.getCaseInfoList();
+    	Org org = uamUserOrgService.getOrgById(teamTransferVO.getOrgId());
     	for(ToCaseInfo toCaseInfoNew:caseInfoList){	    
-    		String caseCode = toCaseInfoNew.getCaseCode();
-    		String grpCode  = toCaseInfoNew.getGrpCode();
-    		String orgId = teamTransferVO.getOrgId();
-        	//得到登录人信息
-    		SessionUser sessionUser = uamSessionService.getSessionUser();
-    		/*下面限制待转组案件在多个页面同时打开，在一个页面转组案件后，再在其他页面转组该案件的情况*/
-        	TsTeamTransfer lastTransfer =  getLastTsTeamTransfer(caseCode);
-        	if(lastTransfer!=null && !lastTransfer.getTeamNow().equals(sessionUser.getServiceDepCode())){
-        		continue;
-        	}
-        	//添加案件转组记录
-    		if(addTeamTransferLog(caseCode,grpCode,orgId) == 0){
-    			return AjaxResponse.fail("案件信息转组记录日志失败！");
-    		}
-        	//更新案件归属信息
-    		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+    		int addTeamTrasLogCount = addTeamTransferLog(toCaseInfoNew, teamTransferVO.getOrgId());
+    		if(addTeamTrasLogCount == 0)return AjaxResponse.fail("案件信息转组记录日志失败！");
+        	//案件信息更新
+    		ToCase toCase = toCaseService.findToCaseByCaseCode(toCaseInfoNew.getCaseCode());
     		if(toCase != null) {
+    			
+    			TsTeamScopeTarget teamScopeTarget = new TsTeamScopeTarget();
+    			teamScopeTarget.setGrpCode(toCaseInfoNew.getTargetCode());
+    			teamScopeTarget.setYuTeamCode(sessionUser.getServiceDepCode());
+    			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetListByProperty(teamScopeTarget);
+    			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
+    				continue;
+    			}
+    			
     			toCase.setLeadingProcessId(managerUser.getId());
-        		toCase.setOrgId(orgId);
-        		if(toCaseService.updateByPrimaryKey(toCase) == 0){
-        			return AjaxResponse.fail("案件基本表更新失败！");
-        		}
+        		toCase.setOrgId(teamTransferVO.getOrgId());
+        		int reToCase = toCaseService.updateByPrimaryKey(toCase);
+        		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
     		}
+    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCaseInfoNew.getCaseCode());
+    		toCaseInfo.setRequireProcessorId(managerUser.getId());
+    		toCaseInfo.setTargetCode(org.getOrgCode());
+	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
+    		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
     }

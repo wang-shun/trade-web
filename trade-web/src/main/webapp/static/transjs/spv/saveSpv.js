@@ -24,9 +24,8 @@
 
 		txt += '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>';
 		txt += '<input type="text" class="form-control"  name="dePreTime" value="">';
-		txt += '<span class="input-group-addon"><a href="javascript:removeLine('+divIndex+');">删除</a></span>';
-
-		txt += '</div></div>';
+		txt += '</div>';
+		txt += '<span class="input-group-addon"><a href="javascript:removeLine('+divIndex+');">删除</a></span></div>';
 
 		txt += '</div>';
 	
@@ -63,8 +62,8 @@
 		txt += '<div class="input-group date" id="deflowDate_'+flowDivIndex+'">';
 		txt += '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>';
 		txt += '<input type="text" class="form-control"  name="flowTime" value="">';
-		txt += '<span class="input-group-addon"><a href="javascript:removeFlowLine('+flowDivIndex+');">删除</a></span>';
-		txt += '</div></div>';
+		txt += '</div>';
+		txt += '<span class="input-group-addon"><a href="javascript:removeFlowLine('+flowDivIndex+');">删除</a></span></div>';	
 		txt += '</div>';
 		$("#addFlowLine").before(txt);
 		$("#deflowDate_"+flowDivIndex).datepicker({

@@ -52,6 +52,8 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 		// TODO Auto-generated method stub
 		return toWorkFlowMapper.queryInstCodesByCaseCode(caseCode);
 	}
+	
+	
 
 	@Override
 	public ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
@@ -84,5 +86,15 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	@Override
 	public void inActiveForm(String caseCode) {
 		toWorkFlowMapper.inActiveForm(caseCode);
+	}
+
+	@Override
+	public int updateWorkFlowByInstCode(ToWorkFlow record) {
+		return toWorkFlowMapper.updateWorkFlowByInstCode(record);
+	}
+
+	@Override
+	public List<String> queryAllInstCodesByCaseCode(String caseCode) {
+		return toWorkFlowMapper.queryAllInstCodesByCaseCode(caseCode);
 	}
 }

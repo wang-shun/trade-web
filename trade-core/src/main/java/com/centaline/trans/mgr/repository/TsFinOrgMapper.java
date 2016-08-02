@@ -80,4 +80,5 @@ public interface TsFinOrgMapper {
     List<TsFinOrg> findAllFinOrg();
     
     List<TsFinOrg> queryFinOrgNameLike(@Param("finOrgName")String finOrgName) ;
+    String getLoanLostTypeValue(String caseCode) ;
 }

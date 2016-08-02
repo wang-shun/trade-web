@@ -1,3 +1,4 @@
+<%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -6,6 +7,7 @@
 response.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
 response.setHeader("Pragrma","no-cache");
 response.setDateHeader("Expires",0);
+request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 %>
 <html>
 
@@ -71,9 +73,11 @@ response.setDateHeader("Expires",0);
 	.pl0{padding-left: 0!important}
 
 	.warning-info .ibox-content{height: 385px;overflow-x:hidden;overflow-y: auto }
-	.no-records .ibox-content{background:#fff url(../img/no-records.png) center center no-repeat;}
+	.nullData {
+	background: #fff url(../img/no-records.png) center center no-repeat; 
+    }
 	#div_target .ibox-content{
-		height: 160px;overflow-x:hidden;overflow-y:auto;  padding: 9px 20px;
+		height: 270px;overflow-x:hidden;overflow-y:auto;  padding: 9px 20px;
 	}
 
 			.case-num{
@@ -185,7 +189,7 @@ text-decoration: underline !important;
                         <div class="col-md-9 " id="div_target">
                             <div class="ibox float-e-margins no-records">
                                 <div class="ibox-title">
-                                    <h5>本月目标达成度</h5>
+                                    <h5>半年案件分布统计</h5>
                                 </div>
                                 <div class="ibox-content" >
                                     <!-- <div class="row">
@@ -210,6 +214,14 @@ text-decoration: underline !important;
                                             <span class="sr-only">40% Complete (success)</span>
                                         </div>
                                     </div> -->
+                                     <input type="hidden" id="serviceDepHierarchy" value="${sessionUser.serviceDepHierarchy }">
+                                     <input type="hidden" id="userId" value="${sessionUser.id }">
+                                     <input type="hidden" id="serviceDepId" value="${sessionUser.serviceDepId }">
+                                     <input type="hidden" id="serviceJobCode" value="${sessionUser.serviceJobCode }">
+                                     <input type="hidden" id="startDate" value="${startDate}">
+                                      
+
+                                    <div id="mainwe" style="height:250px;width:100%;"></div>
                                 </div>
                             </div>
                         </div>
@@ -1023,6 +1035,8 @@ text-decoration: underline !important;
     <script src="${ctx}/static/js/aist-modal.js"  type="text/javascript"></script>
 	<script src="${ctx}/static/js/bootstrap-modal.js" type="text/javascript"></script>
 	<script src="${ctx}/static/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+    <script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
+	<script src="${ctx}/js/trunk/echarts/dashboard.js" type="text/javascript"></script>
     <script>
 
     jQuery(document).ready(function() {
@@ -1064,6 +1078,9 @@ text-decoration: underline !important;
 	    $('#sp_evalFee').on('click',evalFeeClick);
 
 	    //queryConutCaseByDate();
+	    
+	    //加载echarts
+	    reloadStatus();
     });
     </script>
  </content>

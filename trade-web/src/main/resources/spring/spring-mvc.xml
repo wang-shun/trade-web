@@ -13,8 +13,8 @@
 
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
-
-    <context:component-scan base-package="com.centaline.trans.**.web,com.aist.common.quickQuery.**,com.centaline.trans.auth.aop.**,com.aist.uam.admin.web"
+    
+    <context:component-scan base-package="com.centaline.trans.**.web,com.aist.common.quickQuery.**,com.centaline.trans.**.aop.**,com.aist.uam.admin.web"
     	use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>

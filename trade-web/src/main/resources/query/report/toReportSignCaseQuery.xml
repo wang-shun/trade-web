@@ -34,7 +34,7 @@
 			<baseSql>
 				<![CDATA[
 			    select 
-			    T.PKID,
+			    DISTINCT(T.PKID),
   	            T.CASE_CODE, 
   	            T.PROPERTY_ADDR,
   	            T.REAL_NAME, 

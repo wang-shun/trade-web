@@ -24,6 +24,7 @@ public class InvalidCaseApproveController {
 	private InvalidCaseApproveService invalidCaseApproveService;
 	@Autowired
 	private ToCaseService toCaseService;
+	@Autowired
 	private UamSessionService uamSessionService;
 	@RequestMapping(value="process")
 	public String toProcess(HttpServletRequest request,
@@ -35,7 +36,7 @@ public class InvalidCaseApproveController {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		return "task/taskLoanClose";
+		return "task/taskInvalidCaseApprove";
 	}
 	@RequestMapping(value = "invalidCaseApprove")
 	@ResponseBody

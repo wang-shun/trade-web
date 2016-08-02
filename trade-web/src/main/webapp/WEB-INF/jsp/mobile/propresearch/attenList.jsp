@@ -60,7 +60,7 @@
 	</c:if>
 	<c:forEach var="att" items="${attachments }">
 		<div class="row">
-			<img src="<aist:appCtx appName="img-centanet"/>/image/${att.preFileAdress}.jpg" width="100%">
+			<img src="<aist:appCtx appName="img-centanet"/>/image/${att.preFileAdress}/1280_1024_f.jpg" width="100%">
 		</div>
 	</c:forEach>
 

@@ -135,7 +135,7 @@ text-decoration: underline !important;
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group ">
-											<label class="col-md-1 control-label m-l">物业地址</label>
+											<label class="col-md-1 control-label m-l">产证地址</label>
 											<div class="col-md-8 dizhi">
 												<input type="text" class="form-control" id="propertyAddr"
 													name="propertyAddr" value="" />
@@ -149,8 +149,12 @@ text-decoration: underline !important;
 										<div class="form-group ">
 											<label class="col-md-1 control-label m-l">经办人</label>
 											<div class="col-md-10 dizhi">
-												<input type="text" class="form-control" id="realName"
-													name="realName" value="" />
+												<input type="text" id="inTextVal" style="background-color:#FFFFFF;width:350px;" name="radioOrgName" class="form-control tbspuser" hVal="${consultantId}" value="${consultantName }"
+													readonly="readonly" onclick="userSelect({startOrgId:'${depId}',expandNodeId:'${depId}',
+													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+											
+												<!-- <input type="text" class="form-control" id="realName"
+													name="realName" value="" /> -->
 											</div>
 										</div>
 									</div>
@@ -179,7 +183,7 @@ text-decoration: underline !important;
 					<div class="row date-info">
 						<div class="col-md-12">
 							<div class="form-group">
-							<label class="col-md-1 control-label m-l">签约时间</label>
+							<label class="col-md-1 control-label m-l">面签时间</label>
 							<div id="dateDiv_0">
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
@@ -225,13 +229,13 @@ text-decoration: underline !important;
 					<tr>
 						<th class="t-left pd-l"><span class='sort' sortColumn='l.CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l"><span>产品名称</span></th>
-						<th class="t-left pd-l"><span>物业地址</span></th>
+						<th class="t-left pd-l"><span>产证地址</span></th>
 						<th class="t-left pd-l"><span>经办人</span></th>
-						<th class="t-left pd-l"><span>级别</span></th>
-						<th class="t-left pd-l"><span class='sort' sortColumn='l.LOAN_AMOUNT' sord='desc'>申请金额</span></th>
-						<th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_AMOUNT' sord='desc'>面签金额</span></th>
-						<th class="t-left pd-l"><span class='sort' sortColumn='l.ACTUAL_AMOUNT' sord='desc'>放款金额</span></th>
-					    <th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_TIME' sord='desc'>签约时间</span></th>
+						<th class="t-left pd-l"><span>组别</span></th>
+						<th class="t-left pd-l"><span>申请金额（万）</span></th>
+						<th class="t-left pd-l"><span>面签金额（万）</span></th>
+						<th class="t-left pd-l"><span>放款金额（万）</span></th>
+					    <th class="t-left pd-l"><span class='sort' sortColumn='l.SIGN_TIME' sord='desc'>面签时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="signFaceList">
