@@ -26,6 +26,7 @@
     <link href="../static/trans/css/demo/eloan/eloan/eloan.css" rel="stylesheet"/>
     <link href="../static/trans/css/common/input.css" rel="stylesheet"/>
     <link href="../static/trans/css/common/table.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
 
 
 
@@ -293,570 +294,7 @@
                     <div class="ibox-content" id="base_info">
                         <div class="main_titile" style="position: relative;">
                             <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal4">关联案件</button></h5>
-
-                            <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
-                                <div class="modal-dialog" style="width: 1070px;">
-                                    <div class="modal-content animated fadeIn">
-                                        <form action="" class="form_list">
-                                            <div class="form_content">
-                                                <label class="control-label sign_left">
-                                                    产证地址
-                                                </label>
-                                                <input class="sign_right input_type" placeholder="请输入" value="">
-                                            </div>
-                                        </form>
-                                        <button type="button" class="close close_blue" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <table class="table table_blue table-striped table-bordered table-hover " id="editable">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center light_icon">
-                                            <i class="iconfont icon_light">
-                                                
-                                            </i>
-                                        </th>
-                                        <th>
-                                            <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
-                                        </th>
-                                        <th>
-                                            当前任务
-                                        </th>
-                                        <th>
-                                            创建时间
-                                        </th>
-                                        <th>
-                                            上家
-                                        </th>
-                                        <th>
-                                            下家
-                                        </th>
-                                        <th>
-                                            流程环节<a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
-                                        </th>
-                                        <th>
-                                            操作
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                交易过户流程
-                                            </p>
-                                            <p>
-                                                <i class="sign_blue">
-                                                    总监审批
-                                                </i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td>
-                                            <p>E+金融产品</p>
-                                            <p>
-                                                <i class="sign_blue">总监审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-                                                <a class="salesman-info" href="javascript:;" title="hahahah">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-                                                <a class="salesman-info" href="javascript:;" title="hahahah">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-                                                <a class="salesman-info" href="javascript:;" data-toggle="tooltip" data-placement="top" title="hahahah" data-original-title="Tooltip on top">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-                                                <a class="salesman-info" href="javascript:;" title="hahahah">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-                                                <a class="salesman-info" href="javascript:;" title="hahahah">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                       <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-                                                <a class="salesman-info" href="javascript:;" title="hahahah">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                           <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                            <div class="sk-double-bounce1 red_light"></div>
-                                             <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">ZY-AJ-201605-0958</a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2150
-                                            </p>
-                                        </td>
-                                        <td>
-
-                                            <p class="big">上海杨浦区平路街道（内环）鞍山八村29号0608室</p>
-                                            <p>
-                                                <i class="salesman-icon"></i>
-
-                                                <a class="salesman-info" href="javascript:;" title="hahahah">
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                       <td>
-                                            <p>
-                                                <i class="sign_normal">创</i>
-                                                2016-05-30
-                                            </p>
-                                            <p>
-                                                <i class="sign_normal">预</i>
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">张春伟</p>
-                                            <p class="big">张伟伟</p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">陈一财</p>
-                                            <p class="big">陈一财</p>
-                                        </td>
-                                        <td class="center">
-                                            <p>交易过户流程</p>
-                                            <p>
-                                                <i class="sign_blue">临时银行审批</i>
-                                            </p>
-                                        </td>
-                                        <td class="text-center">
-                                            <i class="iconfont icon_revise">
-                                                
-                                            </i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                                            <button type="button" class="btn btn-primary">保存</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                       <!--  <div class="case_content">
+                            <div class="case_content">
                            <div class="case_row">
                                <div class="case_lump">
                                    <p><em>案件编号</em><span class="span_one">ZY-AJ-201605-0958</span></p>
@@ -881,7 +319,684 @@
                                    <p><em>下家姓名</em><span class="span_two">郭静</span></p>
                                </div>
                            </div>
-                       </div> -->
+                       </div>
+
+                            <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
+                                <div class="modal-dialog" style="width: 1070px;">
+                                    <div class="modal-content animated fadeIn apply_box">
+                                        <form action="" class="form_list clearfix">
+                                            <div class="form_tan">
+                                                <label class="control-label sign_left">
+                                                    产证地址
+                                                </label>
+                                                <input class="sign_right input_type" placeholder="请输入" value="">
+                                            </div>
+                                            <div class="form_tan tan_space">
+                                                <div class="add_btn">
+                                                    <button type="button" class="btn btn-success">
+                                                        查询
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong">
+                                                &#xe60a;
+                                            </i></button>
+                                            <div class="apply_table">
+                                        <table class="table table_blue table-striped table-bordered table-hover " id="editable">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>
+                                                        <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                                    </th>
+                                                    <th>
+                                                        产证地址
+                                                    </th>
+                                                    <th>
+                                                        工作人员
+                                                    </th>
+                                                    <th>
+                                                        上家
+                                                    </th>
+                                                    <th>
+                                                        下家
+                                                    </th>
+                                                    <th>
+                                                        操作
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="big">
+                                                            <a href="javascript:;">
+                                                                ZY-AJ-201605-0952
+                                                            </a>
+                                                        </p>
+                                                        <p>
+                                                            <i class="tag_sign">c</i>
+                                                            BKS-2-451341-2154
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="big">
+                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                        </p>
+                                                        <p class="tooltip-demo">
+                                                            <i class="salesman-icon">
+                                                            </i>
+                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="name">
+                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
+                                                        </p>
+                                                        <p class="name">
+                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            张春伟
+                                                        </p>
+                                                        <p class="big">
+                                                            张伟伟
+                                                        </p>
+                                                    </td>
+                                                    <td class="center">
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                        <p class="big">
+                                                            陈一财
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" class="btn btn-success">
+                                                        关联案件
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <div class="text-center page_box">
+                                            <span id="currentTotalPage">
+                                                <strong>
+                                                    1/8
+                                                </strong>
+                                            </span>
+                                            <span class="ml15">
+                                                共
+                                                <strong id="totalP">
+                                                    144
+                                                </strong>
+                                                条
+                                            </span>
+                                            &nbsp;
+                                            <div id="pageBar" class="pagination text-center">
+                                                <ul class="pagination">
+                                                    <li class="first disabled">
+                                                        <a href="#"><i class="fa fa-step-backward"></i></a>
+                                                    </li>
+                                                    <li class="prev disabled">
+                                                        <a href="#"><i class="fa fa-chevron-left"></i></a>
+                                                    </li>
+                                                    <li class="page active">
+                                                        <a href="#">
+                                                            1
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            2
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            3
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            4
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            5
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            6
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            7
+                                                        </a>
+                                                    </li>
+                                                    <li class="page">
+                                                        <a href="#">
+                                                            8
+                                                        </a>
+                                                    </li>
+                                                    <li class="next">
+                                                        <a href="#"><i class="fa fa-chevron-right"></i></a>
+                                                    </li>
+                                                    <li class="last">
+                                                        <a href="#"><i class="fa fa-step-forward"></i></a>
+                                                    </li>
+                                                </ul>
+                                                <div class="pagergoto">
+                                                    <span class="go_text">
+                                                        跳转至
+                                                    </span>
+                                                    <span>
+                                                    <input type="text" class="go_input" value="">
+                                                    <input type="button" class="go_btn" value="GO"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="ibox-content" id="zj_info">
@@ -903,7 +1018,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产权类型
+                                        合作机构
                                     </label>
                                     <select class="select_control sign_right_two">
                                         <option value="">
@@ -921,13 +1036,13 @@
                                     <label class="control-label sign_left_two">
                                         客户姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="" placeholder="请输入">
+                                    <input class="input_type sign_right_two" value="" >
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         客户电话
                                     </label>
-                                    <input class="input_type sign_right_two" value="" placeholder="请输入">
+                                    <input class="input_type sign_right_two" value="" >
                                 </div>
                             </li>
                             <li>
@@ -973,125 +1088,18 @@
                                     </label>
                                     <input class="input_type sign_right_two" value="">
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        分成比例贷款
-                                    </label>
-                                    <input class="input_type sign_right_two" value="">
-                                </div>
+
                             </li>
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产品部合作人
+                                        产品部姓名
                                     </label>
                                     <input class="input_type sign_right_two" value="" >
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        合作人姓名
-                                    </label>
-                                    <input class="input_type sign_right_two" value="">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        合作人员工编号
-                                    </label>
-                                    <input class="input_type sign_right_two" value="">
-                                </div>
-                            </li>
-                        </ul>
-                        <input type="submit" class="btn btn-success submit_btn" value="提交" />
-
-                        </form>
-                    </div>
-
-                    <div class="ibox-content" id="loan_info">
-                        <form method="get" class="form_list">
-                        <ul class="form_lump">
-                            <li>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        产权类型
-                                    </label>
-                                    <select class="select_control sign_right_two">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            这里为文字内容测试
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        产权类型
-                                    </label>
-                                    <select class="select_control sign_right_two">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            这里为文
-                                        </option>
-                                    </select>
-                                </div>
-
-                            </li>
-                            <li>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        客户姓名
-                                    </label>
-                                    <input class="input_type sign_right_two" value="" placeholder="请输入">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        客户电话
-                                    </label>
-                                    <input class="input_type sign_right_two" value="" placeholder="请输入">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        申请金额
-                                    </label>
-                                    <input class="input_type sign_right_two" value="" >
-                                    <div class="input-group date_icon">
-                                        <span class="danwei">万</span>
-                                    </div>
-
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        申请时间
-                                    </label>
-                                    <input class="input_type sign_right_two" value="" />
-                                    <div class="input-group date_icon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        申请期数
-                                    </label>
-                                    <input class="input_type sign_right_two" value="">
-                                    <div class="input-group date_icon">
-                                        <span class="danwei">月</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        转介人姓名
-                                    </label>
-                                    <input class="input_type sign_right_two" value="" >
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        转介人员工编号
+                                        产品部员工编号
                                     </label>
                                     <input class="input_type sign_right_two" value="">
                                 </div>
@@ -1105,19 +1113,19 @@
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产品部合作人
+                                        合作人姓名
                                     </label>
                                     <input class="input_type sign_right_two" value="" >
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        合作人姓名
+                                        合作人员工编号
                                     </label>
                                     <input class="input_type sign_right_two" value="">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        合作人员工编号
+                                        分成比例贷款
                                     </label>
                                     <input class="input_type sign_right_two" value="">
                                 </div>
