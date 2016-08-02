@@ -1,5 +1,4 @@
 var popInited=false;
-var finOrgCode_ = null;
 function checkAssess(){
 	
 	if($("#building_no").val() == ""){
@@ -570,9 +569,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				f.find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			//如果银行未变，则不需要重新开启临时银行流程
-		    			finOrgCode_ = data.content.finOrgCode;
-		    			//
+
 		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
 		    			f.find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			f.find("input[name='remark']").val(data.content.remark);
@@ -1298,7 +1295,7 @@ $(document).ready(function () {
 	 			return false;
 	 		}else if(currentIndex == 4 && newIndex == 5){
 	 			//离开报告步骤执行临时银行审批流程
-	 			startTmpBankWorkFlow(finOrgCode_);
+	 			startTmpBankWorkFlow();
 	 		}
 
 	 		return true;

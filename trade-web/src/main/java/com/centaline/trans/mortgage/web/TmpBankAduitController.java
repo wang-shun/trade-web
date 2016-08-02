@@ -85,7 +85,7 @@ public class TmpBankAduitController {
 	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 
 	if(record != null){
-		return new StartProcessInstanceVo();
+		return null;
 	}
 
 	/*流程引擎相关*/
