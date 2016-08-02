@@ -270,7 +270,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('COM_DISCOUNT');
 	displayColomn.push('CASE_CODE');
 	displayColomn.push('LOANER_NAME');
-	displayColomn.push('LOANER_PHONE');
+	displayColomn.push('SPONSOR');
 	displayColomn.push('SDSTATUS');
 	displayColomn.push('IS_LOANER_ARRIVE');	
 	displayColomn.push('SELLER');

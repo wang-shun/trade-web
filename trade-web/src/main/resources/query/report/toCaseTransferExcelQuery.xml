@@ -56,8 +56,27 @@
 									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.V_USER_ORG_JOB v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
 									AGENT_NAME, 
 									GRP_NAME  as AGENT_ORG_NAME,
+									(select top 1 UU.real_name from SCTRANS.SYS_USER UU where UU.ID=T.LEADING_PROCESS_ID) SPONSOR,
 									(select top 1 vj.real_name from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_REAL_NAME,
-									(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
+									(select top 1 org2.ORG_NAME orgName1	
+												from sctrans.sys_org org1
+												left join sctrans.V_USER_ORG_JOB uoj
+												on org1.ID=uoj.ORG_ID
+												left join sctrans.V_USER_ORG_JOB uoj1
+												on org1.PARENT_ID=uoj1.ORG_ID
+												left join sctrans.SYS_ORG org2 
+												on org2.ID=uoj1.ORG_ID 
+												 where org1.PARENT_ID in (
+												'FF5BC56E0E4B45289DAA5721A494C7C5',
+												'8a8493d453141f3301532c9568011af9',
+												'd5878adf8b0c4032aeae895c701ed693',
+												'de81a98a8ec341caa8e9bc77c46cd370',
+												'54b3233fdf994d9987e7c8febc223588',
+												'960089538bc54a9a9139ef52ceb45b33',
+												'6114AB949B4445828D4383977C4FAC71',
+												'6a84979158b942b78a8a5921cc30b8c3')
+												and org1.ID=(select top 1 vj.ORG_ID from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_)) GUOHU_ORG_NAME,
+									--(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
 									case 		       	
 										WHEN  T.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
 										ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,T.SQUARE),1),2)
@@ -90,7 +109,7 @@
 									(select TOP 1 M.COM_DISCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_DISCOUNT,
 									(select TOP 1 ROUND(CONVERT(float,(M.COM_AMOUNT+m.PRF_AMOUNT))/10000,2) as ACCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) ACCOUNT,
 									(select TOP 1 M.LOANER_NAME from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_NAME,
-									(select TOP 1 M.LOANER_PHONE from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_PHONE,
+									--(select TOP 1 M.LOANER_PHONE from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_PHONE,
 									
 									case 
 									when (select TOP 1 M.IS_LOANER_ARRIVE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) =1 then '是' 
@@ -107,7 +126,7 @@
 									(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= T.CASE_CODE ) REAL_HT_TIME
 
 							from (
-									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,w.INST_CODE,
+									select c.pkid,c.case_code,c.LEADING_PROCESS_ID,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,w.INST_CODE,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 									v.long_ AS  status
@@ -136,7 +155,7 @@
 									AND  transferDate &lt; #transferDateEnd#
 								</ifNotNull>
 								<ifNotNull caseCode>
-									AND  CASE_CODE = #caseCode#
+									AND  T.CASE_CODE = #caseCode#
 								</ifNotNull>					
 								<ifNotNull orgName>
 									AND T.ORG_NAME like '%' + #orgName# + '%' 
@@ -145,10 +164,10 @@
 									AND  status = #TransferStatus#
 								</ifNotNull>
 								<ifNotNull vrealName>
-									AND  VREAL_NAME like '%' + #vrealName# + '%' 
+									AND  WZ.REAL_NAME like '%' + #vrealName# + '%' 
 								</ifNotNull>
 								<ifNotNull managerName>
-									AND REAL_NAME like '%' + #managerName# + '%' 
+									AND T.REAL_NAME like '%' + #managerName# + '%' 
 								</ifNotNull>
 								<ifNotNull propertyAddr>
 									AND  PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
@@ -206,7 +225,7 @@
 					hidden="false" />
 				<column type="both" name="LOANER_NAME" title="货代专员"
 					customDict="" hidden="false" />
-				<column type="both" name="LOANER_PHONE" title="专员电话"
+				<column type="both" name="SPONSOR" title="案件主办人"
 					customDict="" hidden="false" />
 				<column type="both" name="SDSTATUS" title="收单状况" customDict=""
 					hidden="false" />
