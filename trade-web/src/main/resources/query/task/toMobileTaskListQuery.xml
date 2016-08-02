@@ -54,6 +54,13 @@
 				        AND ART.SUSPENSION_STATE_ = '1'
 				    ) tx WHERE 1=1
 				    AND PART_CODE IN ('PSFApply','PSFSign','PurchaseLimit','Pricing','TaxReview','Guohu','ComLoanProcess','HouseBookGet')
+				    <ifNotNull caseCode>	
+   						AND CASE_CODE like '%'+#caseCode#+'%'
+					</ifNotNull>
+					<ifNotNull propertyAddr>	
+   						AND PROPERTY_ADDR like '%'+#propertyAddr#+'%'
+					</ifNotNull>
+				    
 				]]>
 			</baseSql>
 			<orderBySql>
