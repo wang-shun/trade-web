@@ -56,8 +56,8 @@ function getShowAttachment() {
 					}
 				}
 			});
-			$("#fujian_info").append(trStr);
-			$('#fujian_info').viewer();
+			$("#imgShow").append(trStr);
+			$('.wrapper-content').viewer();
 		},
 		error : function(errors) {
 		}
