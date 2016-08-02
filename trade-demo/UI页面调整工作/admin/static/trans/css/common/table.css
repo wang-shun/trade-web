@@ -57,7 +57,7 @@ table.dataTable thead .sorting:after {
 }
 
 table p {
-  margin: 5px 0px;
+  margin: 2px 0px;
   font-size: 12px;
   max-width: 400px;
   overflow: hidden;
@@ -72,7 +72,7 @@ table p {
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   border-top: 1px solid #e7eaec;
   line-height: 1.42857;
-  padding: 2px 8px 5px;
+  padding: 0px 8px;
 }
 
 table p.big {
@@ -82,7 +82,11 @@ table p.big {
 table tr td {
   vertical-align: middle !important;
 }
-
+.tooltip-demo a {
+  text-decoration: none!important;
+  color: #5a5a5a;
+  font-size: 13px;
+}
 .sk-spinner-double-bounce .sk-double-bounce1, .sk-spinner-double-bounce .sk-double-bounce2 {
   opacity: 0.9;
 }
@@ -224,4 +228,13 @@ table thead tr th {
   font-style: normal;
   border-radius: 2px;
   background-color: #52cdec;
+}
+.sign_grey {
+  margin-right: 5px;
+  padding: 0px 1px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background-color: #ccc;
 }

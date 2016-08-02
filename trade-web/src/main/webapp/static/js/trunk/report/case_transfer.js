@@ -238,7 +238,7 @@ function cleanForm() {
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
-	$("input[name='managerName']").val("");
+	$("input[name='managerName']").val("");	
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
 }
@@ -370,6 +370,7 @@ $('#caseTransferCleanButton').click(function() {
 	$("input[name='managerName']").val("");
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
+	$("#yuCuiOriGrpId").val("");
 });
 
 // 选业务组织的回调函数
