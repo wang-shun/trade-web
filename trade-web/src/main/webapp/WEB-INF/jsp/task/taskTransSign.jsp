@@ -691,33 +691,42 @@
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script>
 			//验证手机和电话号码
-			function checkContactNumber(ContactNumber) {
+			function checkContactNumber(ContactNumber) {				
 				var mobile = $.trim(ContactNumber);
-
-				var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
-				var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;
+				
+				var phone=/^(0|17951)?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/;
+				var telephone=/^[0-9]{5,11}$/;
+				
+				//var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+				//var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;
 
 				var isValid = true;
 				//如果为1开头则验证手机号码  
-				if (mobile.substring(0, 1) == 1) {
-					if (!isMobile.exec(mobile) && mobile.length != 11) {
+				if (mobile.substring(0, 1) == 1) {					
+					if (!phone.exec(mobile) && mobile.length < 11) {							
 						isValid = false;
 						return isValid;
 					}
 				}
 				//如果为0开头则验证固定电话号码  
-				else if (mobile.substring(0, 1) == 0) {
-					if (!isPhone.test(mobile)) {
-						alert("您输入的号码不正确！");
-						isValid = false;
-						return isValid;
+				else if (mobile.substring(0, 1) == 0) {					
+					if(mobile.length <= 11){						
+						if (!telephone.test(mobile)) {								
+							isValid = false;
+							return isValid;
+						}
+					}else{						
+						if (!phone.exec(mobile)) {								
+							isValid = false;
+							return isValid;
+						}
 					}
-				} else {
+
+				} else {					
 					isValid = false;
 					return isValid;
 				}
-
-				return isValid;
+			
 			}
 
 			$("#sendSMS").click(
@@ -864,13 +873,16 @@
 
 			/**保存数据*/
 			function save(b) {
-				if (!phoneUpAndphoneDownCheck()) {
-					return;
-				}
-
 				if (!checkForm()) {
 					return;
 				}
+				if (!phoneUpAndphoneDownCheck()) {
+					return;
+				}
+				if (!upAndDownCheck()) {				
+					return;
+				}			
+				
 				if (!$("#transSignForm").valid()) {
 					return;
 				}
@@ -982,110 +994,6 @@
 					return false;
 
 				}
-				var selects = $("input[name='guestNameUp']");
-				$.each(selects, function(j, item) {
-					if (item.value == '') {
-						alert("上家姓名为必填项!");
-						selects[j].focus();
-						checkGuest = false;
-						return false;
-					} else if (item.value.trim().indexOf(" ") > -1) {
-						alert("上家姓名中不能包含空格!");
-						selects[j].focus();
-						checkGuest = false;
-						return false;
-					} else if (item.value.indexOf("先生") > 0
-							|| item.value.indexOf("小姐") > 0
-							|| item.value.indexOf("叔叔") > 0
-							|| item.value.indexOf("阿姨") > 0
-							|| item.value.indexOf("女士") > 0) {
-						alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
-						selects[j].focus();
-						checkGuest = false;
-						return false;
-					} else {
-						$(selects[j]).val(item.value.trim());
-						checkGuest = true;
-					}
-				});
-				if (!checkGuest || selects == null) {
-					return false;
-				}
-				selects = null;
-				selects = $("input[name='guestPhoneUp']");
-				$.each(selects, function(j, item) {
-					if (item.value == '') {
-						alert("上家电话为必填项!");
-						selects[j].focus();
-						checkGuest = false;
-					} else {
-						checkGuest = checkContactNumber(item.value);
-
-						if (!checkGuest) {
-							alert("上家电话不符合手机号码或电话号码格式!");
-							selects[j].focus();
-							return false;
-						}
-					}
-				});
-
-				if (!checkGuest || selects == null) {
-					return false;
-				}
-
-				selects = null;
-				selects = $("input[name='guestNameDown']");
-				$.each(selects, function(j, item) {
-					if (item.value == '') {
-						alert("下家姓名为必填项!");
-						selects[j].focus();
-						checkGuest = false;
-						return false;
-					} else if (item.value.trim().indexOf(" ") > -1) {
-						alert("下家姓名中不能包含空格!");
-						selects[j].focus();
-						checkGuest = false;
-						return false;
-					} else if (item.value.indexOf("先生") > 0
-							|| item.value.indexOf("小姐") > 0
-							|| item.value.indexOf("叔叔") > 0
-							|| item.value.indexOf("阿姨") > 0
-							|| item.value.indexOf("女士") > 0) {
-						alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
-						selects[j].focus();
-						checkGuest = false;
-						return false;
-					} else {
-						$(selects[j]).val(item.value.trim());
-						checkGuest = true;
-					}
-				});
-				if (!checkGuest || selects == null) {
-					return false;
-				}
-				//验证下家电话号码
-				selects = null;
-				selects = $("input[name='guestPhoneDown']");
-				$.each(selects, function(j, item) {
-					if (item.value == '') {
-						alert("下家电话为必填项!");
-						selects[j].focus();
-						checkGuest = false;
-					} else {
-						checkGuest = checkContactNumber(item.value);
-
-						if (!checkGuest) {
-							alert("下家电话不符合手机号码或电话号码格式!");
-							selects[j].focus();
-
-							return false;
-						}
-					}
-				});
-				if (!checkGuest || selects == null) {
-					return false;
-				}
-
 				if ($('input[name=conPrice]').val() == '') {
 					alert("合同价为必填项!");
 					$('input[name=conPrice]').focus();
@@ -1182,9 +1090,47 @@
 			}
 			//上下家电话相同验证
 			function phoneUpAndphoneDownCheck() {
-				var selectsPhoneDown = $("input[name='guestPhoneDown']");//
-				var selectsPhoneUp = $("input[name='guestPhoneUp']");
-
+				var checkGuestPhone= true;
+				var selectsPhoneDown = $("input[name='guestPhoneDown']");
+				var selectsPhoneUp = $("input[name='guestPhoneUp']");				
+				
+				
+				$.each(selectsPhoneUp, function(j, item) {
+					if (item.value == '') {
+						alert("上家电话为必填项!");
+						selectsPhoneUp[j].focus();
+						checkGuestPhone = false;						
+					} else {						
+						checkGuestPhone = checkContactNumber(item.value);
+						if (!checkGuestPhone) {						
+							alert("上家电话不符合手机号码或电话号码格式!");
+							selectsPhoneUp[j].focus();
+							return false;
+						}
+					}
+				});
+				if (!checkGuestPhone || selectsPhoneUp == null) {
+					return false;
+				}
+				//验证下家电话号码
+				$.each(selectsPhoneDown, function(j, item) {
+					if (item.value == '') {
+						alert("下家电话为必填项!");
+						selectsPhoneDown[j].focus();
+						checkGuestPhone = false;
+					} else {
+						checkGuestPhone = checkContactNumber(item.value);
+						if (!checkGuestPhone) {
+							alert("下家电话不符合手机号码或电话号码格式!");
+							selectsPhoneDown[j].focus();
+							return false;
+						}
+					}
+				});
+				if (!checkGuestPhone || selectsPhoneDown == null) {
+					return false;
+				}
+				
 				$
 						.each(
 								selectsPhoneUp,
@@ -1207,7 +1153,70 @@
 									}
 								})
 			}
+			
+			function  upAndDownCheck(){
+				var checkGuest = true;
+				var selectsUp = $("input[name='guestNameUp']");
+				$.each(selectsUp, function(j, item) {
+					if (item.value == '') {
+						alert("上家姓名为必填项!");
+						selectsUp[j].focus();
+						checkGuest = false;
+						return false;
+					} else if (item.value.trim().indexOf(" ") > -1) {
+						alert("上家姓名中不能包含空格!");
+						selectsUp[j].focus();
+						checkGuest = false;
+						return false;
+					} else if (item.value.indexOf("先生") > 0
+							|| item.value.indexOf("小姐") > 0
+							|| item.value.indexOf("叔叔") > 0
+							|| item.value.indexOf("阿姨") > 0
+							|| item.value.indexOf("女士") > 0) {
+						alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+						selectsUp[j].focus();
+						checkGuest = false;
+						return false;
+					} else {
+						$(selectsUp[j]).val(item.value.trim());
+						checkGuest = true;
+					}
+				});
+				if (!checkGuest || selectsUp == null) {
+					return false;
+				}	
 
+				selectsDown = $("input[name='guestNameDown']");
+				$.each(selectsDown, function(j, item) {
+					if (item.value == '') {
+						alert("下家姓名为必填项!");
+						selectsDown[j].focus();
+						checkGuest = false;
+						return false;
+					} else if (item.value.trim().indexOf(" ") > -1) {
+						alert("下家姓名中不能包含空格!");
+						selectsDown[j].focus();
+						checkGuest = false;
+						return false;
+					} else if (item.value.indexOf("先生") > 0
+							|| item.value.indexOf("小姐") > 0
+							|| item.value.indexOf("叔叔") > 0
+							|| item.value.indexOf("阿姨") > 0
+							|| item.value.indexOf("女士") > 0) {
+						alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+						selectsDown[j].focus();
+						checkGuest = false;
+						return false;
+					} else {
+						$(selectsDown[j]).val(item.value.trim());
+						checkGuest = true;
+					}
+				});
+				if (!checkGuest || selectsDown == null) {
+					return false;
+				}
+
+			}
 			var divIndexDown = 1;
 			function addDateDivDown() {
 
