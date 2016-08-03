@@ -702,8 +702,8 @@
 
 				var isValid = true;
 				//如果为1开头则验证手机号码  
-				if (mobile.substring(0, 1) == 1) {					
-					if (!phone.exec(mobile) && mobile.length < 11) {							
+				if (mobile.substring(0, 1) == 1) {						
+					if (!phone.exec(mobile) || mobile.length < 11) {						
 						isValid = false;
 						return isValid;
 					}
@@ -711,22 +711,22 @@
 				//如果为0开头则验证固定电话号码  
 				else if (mobile.substring(0, 1) == 0) {					
 					if(mobile.length <= 11){						
-						if (!telephone.test(mobile)) {								
+						if (!telephone.test(mobile)) {						
 							isValid = false;
 							return isValid;
 						}
-					}else{						
+					}else{							
 						if (!phone.exec(mobile)) {								
 							isValid = false;
 							return isValid;
 						}
 					}
 
-				} else {					
+				} else {				
 					isValid = false;
 					return isValid;
 				}
-			
+				return isValid;
 			}
 
 			$("#sendSMS").click(
