@@ -82,11 +82,13 @@ public class TmpBankAduitController {
 	ToWorkFlow twf = new ToWorkFlow();
 	twf.setBusinessKey("TempBankAudit_Process");
 	twf.setCaseCode(caseCode);
+
 	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 
 	if(record != null){
-		return new StartProcessInstanceVo();
+		return null;
 	}
+
 
 	/*流程引擎相关*/
 	List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -118,6 +120,11 @@ public class TmpBankAduitController {
 	toWorkFlow.setProcessOwner(user.getId());
 	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 	toWorkFlowService.insertSelective(toWorkFlow);
+	
+	//更新贷款表临时银行状态为审批中：‘2’
+	ToMortgage mortageDb = toMortgageService.findToMortgageByCaseCode(caseCode);
+	mortageDb.setTmpBankStatus("2");
+	toMortgageService.updateToMortgage(mortageDb);
 	
 	return vo;
 	}
@@ -231,6 +238,7 @@ public class TmpBankAduitController {
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 			}else{
+
 				//mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 			}
@@ -256,9 +264,11 @@ public class TmpBankAduitController {
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else if("true".equals(tmpBankCheck)){
 				mortageDb.setTmpBankStatus("1");
+
 				//mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 			}
+
 			toMortgageService.updateToMortgage(mortageDb);		
 			
 			//更新流程状态为‘4’：已完成
