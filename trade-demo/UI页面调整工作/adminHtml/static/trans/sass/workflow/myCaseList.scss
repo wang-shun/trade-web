@@ -97,27 +97,12 @@ label {
 .sign_radius {
     border-radius: 2px!important;
 }
-.btn_more,.btn_more:visited,.btn_more:active,.btn_more:focus {
-    background-color: #fff;
-    border: 1px solid #1a7bb9;
-    font-size: 14px;
-    color: #333;
-}
-.btn_more:hover {
-    background-color: #1a7bb9;
-    border: 1px solid #1a7bb9;
-    font-size: 14px;
-    color: #fff;
+.btn_more {
+    background-color: #fff!important;
+    border: 1px solid #f9ad4b!important;
+    font-size: 14px!important;
+    color: #333!important;
 }
 .goods_type .btn {
     margin-bottom: 5px;
-}
-.blue-text {
-    color: #337ab7;;
-}
-.blue-text:hover {
-    color: #337ab7;;
-}
-.btn_grey {
-    background: #eee;
 }

@@ -31,7 +31,10 @@ button, input, select, textarea {
 
 .add_btn .btn {
   vertical-align: middle;
+  background: url(../../img/search.png) no-repeat 10px center!important;
   height: 34px;
+  padding-left: 38px;
+  padding-right: 8px;
   font-size: 14px;
 }
 
