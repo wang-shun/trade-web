@@ -302,7 +302,7 @@
 								<div class="">
 									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
 							        <div class="preview"><span class="fade"></span></div>
 									<!--  错误信息 -->
@@ -334,6 +334,7 @@
 									<script id="templateDownload${accesory.pkid }"
 										type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
+								<input type="hidden" value="{%=file.thumbnail_url%}" />
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
 							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
@@ -356,6 +357,8 @@
 							        </div>
 							    </div>
 							{% } %}
+
+							
 						</script>
 								</div>
 							</div>
