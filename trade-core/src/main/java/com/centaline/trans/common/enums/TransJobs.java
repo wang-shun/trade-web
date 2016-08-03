@@ -5,7 +5,7 @@ public enum TransJobs {
 			"Manager", "交易主管"), TQYMS("yucui_secretary", "区域秘书"), TFHJL(
 			"JFHJL", "分行经理"), TZJL("GeneralManager", "誉萃总经理"), TZJ("director",
 			"誉萃总监"), YCPRODUCT("yucui_product", "产品研发"),TSJYZG("Senior_Manager","高级交易主管"),
-	YCADM("yucui_admin","誉萃管理员");
+	YCADM("yucui_admin","誉萃管理员"),JYUZTGW("JYUZTGW","中台顾问");
 
 	private String name;
 

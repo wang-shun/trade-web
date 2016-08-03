@@ -505,7 +505,9 @@ function mortageService() {
 				$.each(data.users, function(j, user){
 					txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 				});
-				txt += "<option value='-1'>---跨区选择---</option>";
+				if($.trim(data.orgcode)!='033F045'){
+					txt += "<option value='-1'>---跨区选择---</option>";
+				}
 				txt += '</select></div></div>';
 				txt += "</div>";
 				txt += "</div>";
@@ -670,7 +672,6 @@ function ChangeModal(data) {
 				addHtml += "<label class='col-md-3 control-label'>合作顾问</label>";
 			}
 		addHtml += "<div class=\"col-md-9\">";
-		
 		if(value.users !=""&&value.users.length!=0){
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
 			aa=index;
@@ -684,7 +685,10 @@ function ChangeModal(data) {
 				}
 				oldOrgId=value.orgId;
 			});
-			addHtml += "<option value='-1'>---跨区选择---</option>";
+			if(data.orgcode!='033F045'){
+				addHtml += "<option value='-1'>---跨区选择---</option>";
+			}
+			
 			addHtml += "</select>";
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<input type='hidden'  id='processorId"+index+"' name='processorId' value=''/>";

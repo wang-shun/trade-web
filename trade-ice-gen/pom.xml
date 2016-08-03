@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ice.version>3.6.2</ice.version>
-		<spring.version>4.0.6.RELEASE</spring.version>
+		<spring.version>4.2.6.RELEASE</spring.version>
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
 

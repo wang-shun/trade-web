@@ -799,7 +799,7 @@
 									<div class="form-group">
 									<label class="col-sm-2 control-label">是否临时银行：</label>
 									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank" ${empty source?'':'disabled="true"' }>是
+										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank" ${empty source?'':'readonly="true"' }>是
 										<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="tmpBankRejectReason" style="color:red"></span> -->
 										<!-- <input type="button" class="btn btn-primary btn-xm btn-activity" onclick="javascript:startWorkFlow()" value="启动流程" > -->
 									</div>    
@@ -1789,8 +1789,12 @@ function checkInt(obj){
 		return false;
 	}
 	
-	function startTmpBankWorkFlow(finOrgCode_){
-
+	function startTmpBankWorkFlow(){
+		//'我要修改'页面不触发流程 
+		if(source != null && source !=''){
+			return;
+		}
+		
 		if(!$("#isTmpBank").is(':checked')){
 			return;
 		}
@@ -1799,9 +1803,6 @@ function checkInt(obj){
 		if(isMainLoanBank != 1){
 			f=$('#mortgageForm1');
 		}
-		if(finOrgCode_ != null && finOrgCode_ == f.find("select[name='finOrgCode']").val()){
-			return;
-		}
 		
 	 	$.ajax({
 		    url:ctx+"/mortgage/tmpBankAudit/start",
@@ -1809,6 +1810,8 @@ function checkInt(obj){
 	    	dataType:"json",
 	    	data:{caseCode:$("#caseCode").val()},
 	    	success:function(data){
+	    		if(data != null)
+	    		  alert("已成功开启临时银行审批流程！");
 	    		//console.log(JSON.stringify(data));
 	    	}
 	 	});

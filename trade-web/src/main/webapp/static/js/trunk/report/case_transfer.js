@@ -238,7 +238,7 @@ function cleanForm() {
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
-	$("input[name='managerName']").val("");
+	$("input[name='managerName']").val("");	
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
 }
@@ -252,6 +252,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('VREAL_NAME');	
 	displayColomn.push('AGENT_ORG_NAME');
 	displayColomn.push('AGENT_NAME');
+	displayColomn.push('AGENT_MOBILE');	
 	displayColomn.push('GUOHU_ORG_NAME');
 	displayColomn.push('GUOHU_REAL_NAME');
 	displayColomn.push('GUOHUDJ');
@@ -270,7 +271,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('COM_DISCOUNT');
 	displayColomn.push('CASE_CODE');
 	displayColomn.push('LOANER_NAME');
-	displayColomn.push('LOANER_PHONE');
+	displayColomn.push('SPONSOR');
 	displayColomn.push('SDSTATUS');
 	displayColomn.push('IS_LOANER_ARRIVE');	
 	displayColomn.push('SELLER');
@@ -290,34 +291,6 @@ function caseTransferExportToExcel() {
 	displayColomn.push('VORG_NAME');
 
 
-
-
-	
-/*	displayColomn.push('AR_NAME');
-	displayColomn.push('VREAL_NAME');
-	displayColomn.push('GRP_NAME');
-	displayColomn.push('AGENT_NAME');
-	displayColomn.push('REAL_HT_TIME');	
-	displayColomn.push('CASE_CODE');
-	displayColomn.push('CTM_CODE');
-	displayColomn.push('PROPERTY_ADDR');
-	displayColomn.push('REAL_NAME');
-	displayColomn.push('ORG_NAME');
-	displayColomn.push('transferDate');
-	displayColomn.push('caseTransferDate');
-	displayColomn.push('status1');
-	displayColomn.push('GRP_NAME');
-	displayColomn.push('AR_NAME');
-	displayColomn.push('VORG_NAME');
-	displayColomn.push('EVAL_FEE');
-	displayColomn.push('RECORD_TIME');
-	displayColomn.push('SELLER');
-	displayColomn.push('SELLER_MOBILE');	
-	displayColomn.push('BUYER');
-	displayColomn.push('BUYER_MOBILE');
-	displayColomn.push('PROCESSOR_ID');*/
-	
-	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -370,6 +343,7 @@ $('#caseTransferCleanButton').click(function() {
 	$("input[name='managerName']").val("");
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
+	$("#yuCuiOriGrpId").val("");
 });
 
 // 选业务组织的回调函数

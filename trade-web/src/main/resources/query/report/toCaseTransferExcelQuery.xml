@@ -11,12 +11,14 @@
 		
 	</dicts>
 	<formatters>
-		<formatter id="newDateFormatter" ref=""
+		<!-- 通过id确定时间格式化的样式 -->
+		<formatter id="dateFormatterOne" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
+		
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -51,11 +53,31 @@
 				<![CDATA[				
 							SELECT					
 									distinct(T.CASE_CODE),
-									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.V_USER_ORG_JOB v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
+									(SELECT (SELECT TOP 1 ORG_NAME FROM SCTRANS.SYS_Org WHERE ID = H.BUSIBA_Id) 	FROM [SCTRANS].[T_SYS_ORG_HIERARCHY] H WHERE GROUP_ID = (select top 1 v.org_id from SCTRANS.SYS_USER v where t.AGENT_USERNAME=V.USERNAME)) AS BIGAREA,
 									AGENT_NAME, 
+									(select top 1 UU.MOBILE from SCTRANS.SYS_USER UU where UU.USERNAME=AGENT_USERNAME)AGENT_MOBILE, 
 									GRP_NAME  as AGENT_ORG_NAME,
+									(select top 1 UU.real_name from SCTRANS.SYS_USER UU where UU.ID=T.LEADING_PROCESS_ID) SPONSOR,
 									(select top 1 vj.real_name from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_REAL_NAME,
-									(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
+									(select top 1 org2.ORG_NAME orgName1	
+												from sctrans.sys_org org1
+												left join sctrans.V_USER_ORG_JOB uoj
+												on org1.ID=uoj.ORG_ID
+												left join sctrans.V_USER_ORG_JOB uoj1
+												on org1.PARENT_ID=uoj1.ORG_ID
+												left join sctrans.SYS_ORG org2 
+												on org2.ID=uoj1.ORG_ID 
+												 where org1.PARENT_ID in (
+												'FF5BC56E0E4B45289DAA5721A494C7C5',
+												'8a8493d453141f3301532c9568011af9',
+												'd5878adf8b0c4032aeae895c701ed693',
+												'de81a98a8ec341caa8e9bc77c46cd370',
+												'54b3233fdf994d9987e7c8febc223588',
+												'960089538bc54a9a9139ef52ceb45b33',
+												'6114AB949B4445828D4383977C4FAC71',
+												'6a84979158b942b78a8a5921cc30b8c3')
+												and org1.ID=(select top 1 vj.ORG_ID from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_)) GUOHU_ORG_NAME,
+									--(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
 									case 		       	
 										WHEN  T.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
 										ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,T.SQUARE),1),2)
@@ -66,7 +88,7 @@
 									(select TOP 1 M.CUST_NAME  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) CUST_NAME,
 									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, /*主贷人电话*/
 									PROPERTY_ADDR ,
-									S.CON_PRICE, 
+									 ROUND(CONVERT(float,S.CON_PRICE)/10000,2) AS CON_PRICE, 									
 									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)) FIN_ORG_NAME,  --银行
 									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)) FIN_ORG_NAME_YC,  --支行
 														
@@ -82,14 +104,13 @@
 									status,								
 									AR_NAME ,  
 									wz.ORG_NAME AS VORG_NAME , 
-									WZ.REAL_NAME AS VREAL_NAME,								
-
-									(select TOP 1 M.COM_AMOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_AMOUNT,
-									(select TOP 1 M.PRF_AMOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) PRF_AMOUNT,
+									WZ.REAL_NAME AS VREAL_NAME,
+									(select TOP 1 ROUND(CONVERT(float,M.COM_AMOUNT)/10000,2) from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_AMOUNT,
+									(select TOP 1 ROUND(CONVERT(float,M.PRF_AMOUNT)/10000,2) from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) PRF_AMOUNT,
 									(select TOP 1 M.COM_DISCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_DISCOUNT,
-									(select TOP 1 M.COM_AMOUNT+m.PRF_AMOUNT as ACCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) ACCOUNT,
+									(select TOP 1 ROUND(CONVERT(float,(M.COM_AMOUNT+m.PRF_AMOUNT))/10000,2) as ACCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) ACCOUNT,
 									(select TOP 1 M.LOANER_NAME from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_NAME,
-									(select TOP 1 M.LOANER_PHONE from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_PHONE,
+									--(select TOP 1 M.LOANER_PHONE from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_PHONE,
 									
 									case 
 									when (select TOP 1 M.IS_LOANER_ARRIVE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) =1 then '是' 
@@ -98,14 +119,15 @@
 									case 
 									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '收单' 
 									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '流失' 
-									end   SDSTATUS  ,/*收单状态*/								
-									(select TOP 1 REAL_NAME from SCTRANS.V_USER_ORG_JOB where USER_ID=ar.OPERATOR  AND ar.PART_CODE='GuohuApprove') AS ASSESSOR,
-									ar.CONTENT,
-									ar.NOT_APPROVE,
+									end   SDSTATUS  ,/*收单状态*/
+									(select TOP 1 U.REAL_NAME from SCTRANS.SYS_USER U where U.ID=(select  top 1 OPERATOR from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove'  and ar1.case_code=T.CASE_CODE order by  ar1.OPERATOR_TIME)) AS ASSESSOR,
+									(select  top 1 ar2.CONTENT from  sctrans.T_TO_APPROVE_RECORD ar2  where  ar2.PART_CODE='GuohuApprove'  and ar2.case_code=t.CASE_CODE order by  ar2.OPERATOR_TIME  desc) AS CONTENT,
+									(select  top 1 ar3.NOT_APPROVE from  sctrans.T_TO_APPROVE_RECORD ar3  where  ar3.PART_CODE='GuohuApprove'  and ar3.case_code=t.CASE_CODE order by  ar3.OPERATOR_TIME  desc) AS NOT_APPROVE,
+
 									(select TOP 1 HT.REAL_HT_TIME FROM SCTRANS.T_TO_HOUSE_TRANSFER HT WHERE HT.CASE_CODE= T.CASE_CODE ) REAL_HT_TIME
 
 							from (
-									select c.pkid,c.case_code,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,w.INST_CODE,
+									select c.pkid,c.case_code,c.LEADING_PROCESS_ID,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,w.INST_CODE,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
 									(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 									v.long_ AS  status
@@ -119,8 +141,6 @@
 									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
 									LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
 									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
-
-									LEFT JOIN  ( select  * from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove' and ar1.OPERATOR_TIME=(select max(ar2.OPERATOR_TIME) from sctrans.T_TO_APPROVE_RECORD ar2 where ar2.CASE_CODE = ar1.case_code)) ar ON ar.CASE_CODE=T.CASE_CODE
 									INNER JOIN SCTRANS.T_TO_SIGN S ON T.CASE_CODE=S.CASE_CODE
 								where 1=1
 								 <ifNotNull caseTransferDateStart>
@@ -136,7 +156,7 @@
 									AND  transferDate &lt; #transferDateEnd#
 								</ifNotNull>
 								<ifNotNull caseCode>
-									AND  CASE_CODE = #caseCode#
+									AND  T.CASE_CODE = #caseCode#
 								</ifNotNull>					
 								<ifNotNull orgName>
 									AND T.ORG_NAME like '%' + #orgName# + '%' 
@@ -145,10 +165,10 @@
 									AND  status = #TransferStatus#
 								</ifNotNull>
 								<ifNotNull vrealName>
-									AND  VREAL_NAME like '%' + #vrealName# + '%' 
+									AND  WZ.REAL_NAME like '%' + #vrealName# + '%' 
 								</ifNotNull>
 								<ifNotNull managerName>
-									AND REAL_NAME like '%' + #managerName# + '%' 
+									AND T.REAL_NAME like '%' + #managerName# + '%' 
 								</ifNotNull>
 								<ifNotNull propertyAddr>
 									AND  PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
@@ -170,6 +190,8 @@
 					customDict="" hidden="false" />
 				<column type="both" name="AGENT_NAME" title="业务员姓名"
 					customDict="" hidden="false" />
+				<column type="both" name="AGENT_MOBILE" title="业务员电话"
+					customDict="" hidden="false" />
 				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
 					customDict="" hidden="false" />
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"
@@ -179,8 +201,7 @@
 				<column type="both" name="dist_name" title="过户区域" customDict=""
 					hidden="false" />
 				<column type="both" name="REAL_HT_TIME" title="实际过户时间"
-					customDict="" beanFormatter="newDateFormatter" expType="date" expFmt="yyyy-MM-dd"
-					hidden="false" />
+					customDict="" beanFormatter="dateFormatterOne" 	hidden="false" />
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
 					hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"
@@ -189,17 +210,17 @@
 					customDict="" hidden="false" />
 				<column type="both" name="PROPERTY_ADDR" title="产权地址"
 					customDict="" hidden="false" />
-				<column type="both" name="CON_PRICE" title="合同价" customDict=""
+				<column type="both" name="CON_PRICE" title="合同价(万元)" customDict=""
 					hidden="false" />
 				<column type="both" name="FIN_ORG_NAME" title="银行"
 					customDict="" hidden="false" />
 				<column type="both" name="FIN_ORG_NAME_YC" title="支行"
 					customDict="" hidden="false" />
-				<column type="both" name="COM_AMOUNT" title="商贷金额"
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"
 					customDict="" hidden="false" />
-				<column type="both" name="PRF_AMOUNT" title="公积金金额"
+				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"
 					customDict="" hidden="false" />
-				<column type="both" name="ACCOUNT" title="贷款总额" customDict=""
+				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""
 					hidden="false" />
 				<column type="both" name="COM_DISCOUNT" title="贷款利率"
 					customDict="" hidden="false" />
@@ -207,7 +228,7 @@
 					hidden="false" />
 				<column type="both" name="LOANER_NAME" title="货代专员"
 					customDict="" hidden="false" />
-				<column type="both" name="LOANER_PHONE" title="专员电话"
+				<column type="both" name="SPONSOR" title="案件主办人"
 					customDict="" hidden="false" />
 				<column type="both" name="SDSTATUS" title="收单状况" customDict=""
 					hidden="false" />

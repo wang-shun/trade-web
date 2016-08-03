@@ -313,6 +313,9 @@ public class FirstFollowController {
 		if (null != us) {
 			orgCode = us.getServiceDepCode(); // 得到 orgCode
 		}
+		
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取用户的所在的贵宾服务部
+		
 		List<JSONObject> jsonList = new ArrayList<>();
 		List<TsTeamScope> tsTeamScopes = tsTeamScopeService.selectByOrgCode(orgCode);
 		Set<String>orgs=new HashSet<String>();
@@ -340,8 +343,15 @@ public class FirstFollowController {
 		}
 		for (String orgStr : orgs) {
 				Org org = uamUserOrgService.getOrgByCode(orgStr);
-				List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-						TransJobs.TJYGW.getCode());
+				List<User> list = null;
+				if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
+					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+							TransJobs.JYUZTGW.getCode());
+				}else{
+					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+							TransJobs.TJYGW.getCode());
+				}
+			
 				for (User user3 : list) {
 					int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
 					JSONObject jsonObject = new JSONObject();
@@ -354,7 +364,7 @@ public class FirstFollowController {
 		}
 		result.put("dic", dict);
 		result.put("users", jsonList);
-		
+		result.put("orgcode", myDistrict.getOrgCode());
 
 		return result;
 	}

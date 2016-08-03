@@ -102,6 +102,17 @@ width:160px;
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-md-5 col-sm-12">
+								<div class="form-group ">
+									<label class="col-md-3 control-label">所在区域：</label>
+									<div class="col-md-8">
+										<aist:dict clazz="form-control" id="distCode" name="distCode" display="select" defaultvalue="" dictType="yu_shanghai_district" />
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						<div class="row">
 							<%-- <div class="col-md-5">
 								<div class="form-group ">
 									<label class="col-md-2 control-label">组织：</label>

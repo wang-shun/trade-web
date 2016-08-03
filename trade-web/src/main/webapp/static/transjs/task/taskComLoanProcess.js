@@ -1,5 +1,4 @@
 var popInited=false;
-var finOrgCode_ = null;
 function checkAssess(){
 	
 	if($("#building_no").val() == ""){
@@ -570,9 +569,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			if(data.content.ifReportBeforeLend == 1){
 		    				f.find("input[name='ifReportBeforeLend']").prop("checked",true);
 		    			}
-		    			//如果银行未变，则不需要重新开启临时银行流程
-		    			finOrgCode_ = data.content.finOrgCode;
-		    			//
+
 		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
 		    			f.find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
 		    			f.find("input[name='remark']").val(data.content.remark);
@@ -848,6 +845,8 @@ function getCompleteMortInfo(isMainLoanBank){
 			    		$("#tmpBankRejectReason").text("已拒绝:"+reason);
 		    		}else if(data.content.tmpBankStatus == '1'){
 		    			$("#tmpBankRejectReason").text("已通过！");
+		    		}else if(data.content.tmpBankStatus == '2'){
+		    			$("#tmpBankRejectReason").text("审批中！");
 		    		}
 	    		}
 	    		
@@ -864,7 +863,7 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			}
 	    			if(!!~~data.content.isTmpBank){
 	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
-	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
+	    				if(data.content.tmpBankStatus == '1') f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
 	    				f.find('#sp_is_tmp_bank').text("是");
 	    				f.find('#fl_is_tmp_bank').val("1");
 	    				f.find(".tmpBankDiv").show();
@@ -880,7 +879,7 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
 		    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 		    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null){
+		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 			    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
 		    			}
 
@@ -890,9 +889,8 @@ function getCompleteMortInfo(isMainLoanBank){
 		    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
 		    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 		    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null){
+		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 			    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
-
 		    			}
 	    			}
 	    		}
@@ -1295,9 +1293,9 @@ $(document).ready(function () {
 	 				return deleteAndModify();
 	 			}
 	 			return false;
-	 		}else if(currentIndex == 4){
+	 		}else if(currentIndex == 4 && newIndex == 5){
 	 			//离开报告步骤执行临时银行审批流程
-	 			startTmpBankWorkFlow(finOrgCode_);
+	 			startTmpBankWorkFlow();
 	 		}
 
 	 		return true;
