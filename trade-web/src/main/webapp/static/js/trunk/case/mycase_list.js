@@ -789,5 +789,6 @@ $('#cleanButton').click(function() {
 	$("input[name='teamCode']").val('');
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
+	$("span[name='srvCode']").removeClass("selected");
 	$("select").val("");
 });
