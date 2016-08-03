@@ -18,6 +18,7 @@ body {
 }
 
 .task_light {
+	margin-left: 10px;
   padding-top: 20px;
   font-size: 16px;
 }
