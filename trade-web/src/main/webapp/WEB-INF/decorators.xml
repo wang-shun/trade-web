@@ -19,9 +19,10 @@
 		<pattern>/*</pattern>
 	</decorator>
 	<!-- 工作台模板 -->
-	<decorator name="dashbord" page="INSPINIA_template_new.jsp">
+	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
-	</decorator>	
+		<pattern>/task/myTaskList</pattern>
+	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
 	</decorator>

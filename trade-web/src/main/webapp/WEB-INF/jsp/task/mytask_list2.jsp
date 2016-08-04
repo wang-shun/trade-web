@@ -298,43 +298,14 @@ text-decoration: underline !important;
 	</div> 
 	</div>
 	
-	
-	 <div class="text-center page_box">
-		<span id="currentTotalPage"><strong ></strong></span>
-		<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
-		<div id="pageBar" class="pagergoto">
-			<!-- <ul class="pagination">
-                <li class="first disabled">
-                    <a href="#"><i class="fa fa-step-backward"></i></a>
-                </li>
-                <li class="prev disabled">
-                    <a href="#"><i class="fa fa-chevron-left"></i></a>
-                </li>
-             
-              <li class="next">
-                  <a href="#"><i class="fa fa-chevron-right"></i></a>
-              </li>
-              <li class="last">
-                  <a href="#"><i class="fa fa-step-forward"></i></a>
-              </li>
-              </ul>    -->
-		</div>  
-		 <!-- <div class="pagergoto">
-                                        <span class="go_text">
-                                            跳转至
-                                        </span>
-                                        <span>
-                                        <input type="text" class="go_input" value="">
-                                        <input type="button" class="go_btn" value="GO"></span>
-                                    </div> -->
-    </div> 
-    
-   <!--  <div class="text-center">
-		<span id="currentTotalPage"><strong class="bold"></strong></span>
-		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-    </div> -->
-    
+			
+			 <div class="text-center page_box">
+				<span id="currentTotalPage"><strong ></strong></span>
+				<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+				<div id="pageBar" class="pagergoto">
+				</div>  
+		    </div> 
+		    
 		</div>
 	</div>
 
