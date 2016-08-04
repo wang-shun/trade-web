@@ -203,11 +203,11 @@
 												<%} %>
 												<div class="" id="fileupload_div_pic<%=j%>">
 													<form id="fileupload"
-														action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+														action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 														method="POST" enctype="multipart/form-data">
 														<noscript>
 															<input type="hidden" name="redirect"
-																value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload">
+																value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
 															<input type="hidden" id="preFileCode" name="preFileCode"
 																value="<%=j%>">
 														</noscript>
@@ -226,7 +226,7 @@
 																			<i class="fa fa-plus"></i>
 																		</div> <input id="picFileupload<%=j %>" type="file"
 																		name="files[]" multiple
-																		data-url="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+																		data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 																		data-sequential-uploads="true">
 																	</span>
 																</div>
@@ -286,7 +286,7 @@
 							            </div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-179px;">
-							           <button data-url="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
