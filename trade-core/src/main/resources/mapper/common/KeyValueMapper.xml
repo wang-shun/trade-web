@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.KeyValueMapper">
+
+	<select id="queryToPropertyInfoByCaseCode" resultType="java.util.HashMap">
+		select CODE,NAME from sctrans.sys_dict where TYPE = #{dictType}
+		<if test="keys!=null">
+			AND
+			<foreach item="item" index="key" collection="keys" open="("
+				close=")" separator="or">
+				CODE = #{item.CODE}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="queryGuestInfoCustomDict" resultType="java.util.HashMap">
+		SELECT
+		B.CASE_CODE AS CODE,
+		CASE WHEN LEN(StuList)=0 THEN  ''	
+		ELSE LEFT(StuList,LEN(StuList)-1) 
+		END NAME		
+		
+		FROM (
+		SELECT CASE_CODE,
+		(SELECT GUEST_NAME+'/' FROM sctrans.T_TG_GUEST_INFO
+		WHERE CASE_CODE=A.CASE_CODE AND TRANS_POSITION = A.TRANS_POSITION
+		FOR
+		XML PATH('')) AS StuList
+		FROM sctrans.T_TG_GUEST_INFO A
+		WHERE
+		A.TRANS_POSITION = #{dictType}
+		<if test="keys!=null">
+			AND
+			<foreach item="item" index="key" collection="keys" open="("
+				close=")" separator="or">
+				A.CASE_CODE = #{item.CASE_CODE}
+			</foreach>
+		</if>
+		GROUP BY A.CASE_CODE,A.TRANS_POSITION
+		) B
+	</select>
+
+	<select id="queryGuestInfoPhoneCustomDict" resultType="java.util.HashMap">
+		SELECT
+		B.CASE_CODE AS CODE,
+		CASE WHEN LEN(StuList)=0 THEN  ''	
+		ELSE LEFT(StuList,LEN(StuList)-1) 
+		END NAME	
+		FROM (
+		SELECT CASE_CODE,
+		(SELECT GUEST_PHONE+'/' FROM sctrans.T_TG_GUEST_INFO
+		WHERE CASE_CODE=A.CASE_CODE AND TRANS_POSITION = A.TRANS_POSITION
+		FOR
+		XML PATH('')) AS StuList
+		FROM sctrans.T_TG_GUEST_INFO A
+		WHERE
+		A.TRANS_POSITION = #{dictType}
+		<if test="keys!=null">
+			AND
+			<foreach item="item" index="key" collection="keys" open="("
+				close=")" separator="or">
+				A.CASE_CODE = #{item.CASE_CODE}
+			</foreach>
+		</if>
+		GROUP BY A.CASE_CODE,A.TRANS_POSITION
+		) B
+	</select>
+
+	<select id="queryProcessorNameCustomDict" resultType="java.util.HashMap">
+		SELECT
+		B.CASE_CODE AS CODE,
+		CASE WHEN LEN(StuList)=0 THEN  ''	
+		ELSE LEFT(StuList,LEN(StuList)-1) 
+		END NAME
+		FROM
+		(SELECT CASE_CODE,
+		(SELECT real_name+'/' FROM
+		(SELECT c.CASE_CODE,u.real_name FROM sctrans.T_TO_CASE c inner join
+		sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id
+		UNION
+		SELECT p.CASE_CODE,u.real_name FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p
+		inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id) d
+		WHERE d.CASE_CODE = A.CASE_CODE
+		FOR XML PATH('')) AS StuList
+		FROM
+		(
+		SELECT CASE_CODE,u.real_name FROM sctrans.T_TO_CASE c inner join
+		sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id
+		UNION
+		SELECT CASE_CODE,u.real_name FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p
+		inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id
+		) A
+		<if test="keys!=null">
+		WHERE
+		<foreach item="item" index="key" collection="keys" open="("
+				close=")" separator="or">
+				A.CASE_CODE = #{item.CASE_CODE}
+			</foreach>
+		</if>
+		GROUP BY A.CASE_CODE
+		) B
+	</select>
+</mapper>

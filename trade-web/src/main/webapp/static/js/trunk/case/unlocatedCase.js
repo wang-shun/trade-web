@@ -127,6 +127,7 @@ function loadGrid(){
 		postData : {
 			queryId : "queryUnlocatedCase",
 			search_proAddr:$("#txt_prd_addr").val(),
+			distCode:$("#distCode").val(),
 			search_dtBegin:$("#dtBegin_0").val(),
 			search_dtEnd:$("#dtEnd_0").val()?($("#dtEnd_0").val()+' 23:59:59'):$("#dtEnd_0").val(),
 			argu_oriGrpId:$("#oriGrpId").val()
@@ -141,6 +142,7 @@ function clean(){
 	$("input[name='dtEnd']").val('');
 	$("input[name='radioOrgName']").val('');
 	$("input[name='oriGrpId']").val('');
+	$("#distCode ").get(0).selectedIndex=0;
 }
 /**
  * 案件转组初始化

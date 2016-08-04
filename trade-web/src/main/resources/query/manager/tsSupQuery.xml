@@ -43,9 +43,9 @@
 					SUP.FIN_ORG_CODE,
 					SUP.CONTACT_NAME,
 					SUP.CONTACT_PHONE,
-					SUP.SUP_CAT,
+					SUP.SUP_CAT AS SUP_CAT_OLD,
 					SUP.REL_FIN_ORG_CODE,
-					SUP.CO_LEVEL,
+					SUP.CO_LEVEL AS CO_LEVEL_OLD,
 					TFO.FIN_ORG_NAME,
 					SUP.TAGS
 					FROM sctrans.T_TS_SUP SUP
@@ -63,8 +63,10 @@
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="供应商名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CONTACT_NAME" index="" checkbox="" display="联系人姓名" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CONTACT_PHONE" index="" checkbox="" display="联系人电话" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="SUP_CAT" index="" checkbox="" display="供应商类型" customDict="getSupCatByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CO_LEVEL" index="" checkbox="" display="合作等级" customDict="getCoLevelByCode" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SUP_CAT_OLD" index="" checkbox="" display="供应商类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SUP_CAT" display="供应商类型" customDict="getSupCatByCode" referencecol="SUP_CAT_OLD" isSort="true"/>
+				<column type="both" name="CO_LEVEL_OLD" index="" checkbox="" display="合作等级" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CO_LEVEL" display="合作等级" customDict="getCoLevelByCode" referencecol="CO_LEVEL_OLD" isSort="true"/>
 				<column type="both" name="TAGS" index="" checkbox="" display="标签"  sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
 
 			</table-row>

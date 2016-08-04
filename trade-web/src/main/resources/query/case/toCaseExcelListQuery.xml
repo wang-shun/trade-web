@@ -140,7 +140,7 @@
 				<![CDATA[
 					SELECT
 					    B.PKID, 
-					    B.STATUS,
+					    B.STATUS AS STATUS_OLD,
 					    B.RED_COUNT,
                         B.PROPERTY_ADDR,
                         (CASE B.LOAN_REQ WHEN '0' THEN '否' WHEN '1' THEN '是' ELSE '' END) LOAN_REQ,
@@ -157,7 +157,7 @@
                         B.ORG_ID OP_ORG_ID,
                         B.CREATE_TIME,
                         B.RES_DATE,
-                        B.CASE_PROPERTY,
+                        B.CASE_PROPERTY AS CASE_PROPERTY_OLD,
                         B.CLOSE_TIME, 
                         E.MORT_TYPE,
 						E.MORT_TOTAL_AMOUNT,
@@ -173,7 +173,7 @@
 						E.CUST_PHONE,  --主贷人电话
 						E.EVA_ORG_CODE,
 						E.BANK_CODE,
-						E.SPV_TYPE,
+						E.SPV_TYPE AS SPV_TYPE_OLD,
 						E.AMOUNT,
 						E.SIGN_TIME,
 						E.CON_PRICE,
@@ -238,7 +238,8 @@
 							t.end_time_ as GUOHU_APPROVER_TIME
 					FROM sctrans.V_CASE_LIST_BASE B 
 					INNER JOIN [sctrans].[V_CASE_LIST_EXCEL] E ON B.CASE_CODE = E.CASE_CODE
-					LEFT JOIN  sctrans.V_USER_ORG_JOB AS  AC on  AC.user_id = B.AGENT_CODE AND AC.job_code = 'JWYGW'
+					LEFT JOIN  sctrans.v_user_job_org_main AS  AC on  AC.user_id = B.AGENT_CODE 
+					<!-- AND AC.job_code = 'JWYGW' -->
 					LEFT JOIN  sctrans.T_SYS_ORG_HIERARCHY AS  AE on  AE.GROUP_ID = AC.ORG_id
 					LEFT JOIN SCTRANS.SYS_ORG AS BBA ON AE.BUSIWZ_ID=BBA.ID 
 					left join  sctrans.sys_user as u1 on u1.id=b.LEADING_PROCESS_ID 
@@ -498,11 +499,14 @@
 				<column type="both" name="RES_DATE" title="分单日期" customDict=""
 					hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
 
-				<column type="both" name="CASE_PROPERTY" title="案件性质"
-					customDict="getPropertyNameByCode" />
+				<column type="both" name="CASE_PROPERTY_OLD" title="案件性质"
+					customDict="" />
+				<column type="virtual" name="CASE_PROPERTY" title="案件性质" customDict="getPropertyNameByCode" referencecol="CASE_PROPERTY_OLD"  />
 
-				<column type="both" name="STATUS" title="案件状态" customDict="getStatusNameByCode"
+				<column type="both" name="STATUS_OLD" title="案件状态" customDict=""
 					hidden="true" />
+				<column type="virtual" name="STATUS" title="案件状态"
+					customDict="getStatusNameByCode" referencecol="STATUS_OLD"/>
 				<column type="both" name="LOAN_REQ" title="是否贷款" 	hidden="true" />
 				<column type="both" name="MORT_TYPE" 	hidden="true" />
 
@@ -578,8 +582,9 @@
 				<column type="both" name="CLOSE_TIME" title="结案时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
-				<column type="both" name="SPV_TYPE" title="监管类型" customDict="getSrvNameByCode"
+				<column type="both" name="SPV_TYPE_OLD" title="监管类型" customDict=""
 					hidden="true" />
+				<column type="virtual" name="SPV_TYPE" title="监管类型" customDict="getSrvNameByCode" referencecol="SPV_TYPE_OLD"  hidden="true"/>
 
 				<column type="both" name="AMOUNT" title="监管金额" customDict=""
 					hidden="true" />

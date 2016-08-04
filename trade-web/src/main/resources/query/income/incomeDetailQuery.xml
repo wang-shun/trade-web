@@ -36,7 +36,7 @@
 						TIS.PKID,
 						TIS.CASE_CODE,
 						TIS.INCOME_CAT,
-						TIS.INCOME_ITEM,
+						TIS.INCOME_ITEM AS INCOME_ITEM_OLD,
 						TIS.INCOME_AMOUNT,
 						TIS.IMPORT_TIME,
 						TIS.IMPORT_NO,
@@ -62,7 +62,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="INCOME_ITEM" index="" checkbox="" title="收入名目" customDict="getItemNameByCode" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="INCOME_ITEM_OLD" index="" checkbox="" title="收入名目" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="INCOME_ITEM" title="收入名目" customDict="getItemNameByCode" referencecol="INCOME_ITEM_OLD" isSort="true" align="" halign="" order="desc" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="INCOME_AMOUNT"  index="" checkbox="" title="收入总数" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="OR_PAR" index="" checkbox="" title="获得比例" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>

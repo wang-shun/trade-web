@@ -28,7 +28,7 @@
 					select tbv.pkid as pkid
 ,tbv.CASE_CODE as caseCode,u.REAL_NAME as userName,u.EMPLOYEE_CODE as employeeCode
 ,jb.JOB_NAME as jobName,orj.ORG_NAME as teamName,orj1.org_name as disName,ttp.PROPERTY_ADDR as caseAddress,tbv.base_amount as amount,tbv.CREATE_TIME as createTime
- ,LTRIM(STR(tbv.SRV_PART_IN))+'/'+LTRIM(STR(tbv.SRV_PART_TOTAL)) as srvPart,tbv.SRV_CODE as srvCode
+ ,LTRIM(STR(tbv.SRV_PART_IN))+'/'+LTRIM(STR(tbv.SRV_PART_TOTAL)) as srvPart,tbv.SRV_CODE as srvCode_OLD
   from sctrans.T_TS_AWARD_BASE  tbv
 left join sctrans.SYS_USER u on u.ID=tbv.PARTICIPANT
 left join sctrans.T_TO_PROPERTY_INFO as ttp
@@ -73,9 +73,10 @@ where tbv.IS_DELETED='0'
 				<column type="both" name="srvPart" index="" checkbox=""
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
-				<column type="both" name="srvCode" index="" checkbox=""
-					display="" customDict="qqcdSrvCode" sysDict="" format=""
+				<column type="both" name="srvCode_OLD" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="virtual" name="srvCode" customDict="qqcdSrvCode" referencecol="srvCode_OLD"  display=""/>
 				<column type="both" name="employeeCode" index="" checkbox=""
 					display="" customDict="" sysDict="" format=""
 					width="90" isSort="true" align="" halign="" order="desc" resizable="" />

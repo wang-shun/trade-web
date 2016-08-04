@@ -1,0 +1,27 @@
+.tbsporg{
+	background:#fff url(sitemap.png) no-repeat right;
+	cursor: pointer!important;
+}
+.tbspuser{
+	background:#fff url(user.png) no-repeat right;
+	cursor: pointer!important;
+}
+.tbspjob{
+	background:#fff url(job.png) no-repeat right;
+}
+div.org_select .dom_container .yixuanuserDelBtn1,div.user_select .dom_container .yixuanuserDelBtn1{ 
+	width:16px;
+	height:16px; 
+	background:url('delete.png') no-repeat; 
+	position:absolute; 
+	border:0px;
+	border:none;
+	background-position:-1px -3px; 
+	cursor: pointer;
+	margin-left:3px; 
+}
+div.org_select .dom_container .yixuanuserDelBtn1:HOVER,div.user_select .dom_container .yixuanuserDelBtn1:HOVER {
+	width:19px;
+	height:19px;
+	background-position:-22px -2px; 
+}

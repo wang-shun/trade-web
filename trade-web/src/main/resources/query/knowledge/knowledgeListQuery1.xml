@@ -41,8 +41,8 @@
 						knowledge.TITLE,
 						knowledge.CONTENT,
 						knowledge.PB_TIME,
-						knowledge.PUBLISHER as employeeCode,
-						knowledge.PUBLISHER as pubisher,
+						knowledge.PUBLISHER as employeeCode_OLD,
+						knowledge.PUBLISHER as pubisher_OLD,
 						knowledge.click_sum as clickSum,
 						knowledge.is_top as isTop,
 						knowledge.is_recommand as isRecommand,
@@ -72,8 +72,10 @@
 				<column type="both" name="isTop" index="" checkbox="" display="知识正文" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PB_TIME" index="" checkbox="" display="发布时间"  customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="isLiked" index="" checkbox="" display="是否点赞" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="employeeCode" index="" checkbox="" display="发布人" customDict="getUserEmployeeCodeByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="pubisher" index="" checkbox="" display="发布人" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="employeeCode_OLD" index="" checkbox="" display="发布人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="employeeCode"  display="发布人" customDict="getUserEmployeeCodeByUserId" referencecol="employeeCode_OLD"  isSort="true"/>
+				<column type="both" name="pubisher_OLD" index="" checkbox="" display="发布人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="pubisher"  display="发布人" customDict="getUserNameByUserId" referencecol="pubisher_OLD"  isSort="true"/>
 			</table-row>
 		</grid>
 	</query>

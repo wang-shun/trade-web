@@ -114,5 +114,4 @@ public interface WorkFlowManager {
 	 *  为流程设置变量
 	 */
 	RestVariable setVariableByProcessInsId(String processInstanceId,String variableName,RestVariable restVariable);
-	
 }

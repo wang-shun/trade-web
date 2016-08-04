@@ -9,7 +9,7 @@ var FormFileUpload = function () {
             $('#fileupload').fileupload({
                 // Uncomment the following to send cross-domain cookies:
                 //xhrFields: {withCredentials: true},
-                url: appCtx['aist-filesvr-web']+'/servlet/jqueryFileUpload'
+                url: appCtx['shcl-filesvr-web']+'/servlet/jqueryFileUpload'
             });
 
             // Load existing files:
@@ -17,7 +17,7 @@ var FormFileUpload = function () {
             $.ajax({
                 // Uncomment the following to send cross-domain cookies:
                 //xhrFields: {withCredentials: true},
-                url: $('#fileupload').fileupload('option', appCtx['aist-filesvr-web']+'/servlet/jqueryFileUpload'),
+                url: $('#fileupload').fileupload('option', appCtx['shcl-filesvr-web']+'/servlet/jqueryFileUpload'),
                 //dataType: 'json',
                 async : false,
                 autoUpload: false,
@@ -49,7 +49,7 @@ var FormFileUpload = function () {
                 	async : false,
                     dataType : 'jsonp',
                 	//jsonp : 'callback',
-                    url: appCtx['aist-filesvr-web']+'/servlet/jqueryFileUpload'
+                    url: appCtx['shcl-filesvr-web']+'/servlet/jqueryFileUpload'
                 }).fail(function () {
                     $('<span class="alert alert-error"/>')
                         .text('Upload server currently unavailable - ' +

@@ -35,7 +35,7 @@
 				<![CDATA[
 					SELECT 
 						CASE_CODE, 
-						PART_CODE, 
+						PART_CODE AS PART_CODE_OLD, 
 						COMMENT 
 					FROM sctrans.V_COMMENT_LIST 
 						where PART_CODE is not null 
@@ -47,7 +47,8 @@
 		<grid>
 			<table-row>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
-				<column type="both" name="PART_CODE" index="" checkbox="" title="环节编码" customDict="partName" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="PART_CODE_OLD" index="" checkbox="" title="环节编码" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="virtual" name="PART_CODE" title="环节编码" customDict="partName" referencecol="PART_CODE_OLD"  />
 				<column type="both" name="COMMENT" index="" checkbox="" title="备注信息" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
 			</table-row>
 		</grid>

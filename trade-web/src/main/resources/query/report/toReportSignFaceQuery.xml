@@ -88,9 +88,9 @@
 				<column type="both" name="SIGN_TIME" index="" checkbox="" title="面签时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="经办人" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="ORG_NAME" index="" checkbox="" title="组别" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="LOAN_AMOUNT"  index="" checkbox="" title="申请金额" customDict="" sysDict="" beanFormatter="numberFormater" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="SIGN_AMOUNT" index="" checkbox="" title="面签金额" 	sysDict="" beanFormatter="numberFormater" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />	
-				<column type="both" name="ACTUAL_AMOUNT" index="" checkbox="" title="放款金额" sysDict="" beanFormatter="numberFormater" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />						
+				<column type="both" name="LOAN_AMOUNT"  index="" checkbox="" title="申请金额(万元)" customDict="" sysDict="" beanFormatter="numberFormater" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="SIGN_AMOUNT" index="" checkbox="" title="面签金额(万元)" 	sysDict="" beanFormatter="numberFormater" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />	
+				<column type="both" name="ACTUAL_AMOUNT" index="" checkbox="" title="放款金额(万元)" sysDict="" beanFormatter="numberFormater" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />						
 			</table-row>
 		</grid>
 	</query>

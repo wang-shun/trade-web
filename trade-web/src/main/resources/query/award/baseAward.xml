@@ -67,7 +67,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-					        ab.SRV_CODE,
+					        ab.SRV_CODE AS SRV_CODE_OLD,
 					        ab.BASE_AMOUNT,
 					        ab.SRV_PART_IN,
 					        ab.SRV_PART_TOTAL,
@@ -90,7 +90,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column name="SRV_CODE"   customDict="qqcdSrvCode" />
+				<column name="SRV_CODE_OLD"   customDict="" />
+				<column type="virtual" name="SRV_CODE" customDict="qqcdSrvCode" referencecol="SRV_CODE_OLD"  />
 				<column name="BASE_AMOUNT"   />
 				<column name="SRV_PART_IN"   />
 				<column name="SRV_PART_TOTAL"   />

@@ -168,7 +168,7 @@ public class PropertyCortroller {
 	public String resultGet(Model model, ServletRequest request,String caseCode){
 		List<ToAttachment>	toAttachmentList = toAttachmentService.findToAttachmentByCaseCode(caseCode);
 		//List<ToAttachment>	toAttachmentList = toAttachmentService.findToAttachmentByIdAndCaseCode(id,caseCode);
-		App regApp = uamPermissionService.getAppByAppName("aist-filesvr-web");
+		App regApp = uamPermissionService.getAppByAppName("shcl-filesvr-web");
         String imgHost = regApp.genAbsoluteUrl();
 		model.addAttribute("toAttachmentList", toAttachmentList);
 		model.addAttribute("toAttachmentListLength", toAttachmentList.size());

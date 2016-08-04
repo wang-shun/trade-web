@@ -5,7 +5,8 @@
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
 
-		<version>1.1.19</version>	</parent>
+
+		<version>1.1.20</version>	</parent>
 
 
 	<artifactId>trade-web</artifactId>
@@ -35,10 +36,16 @@
 			<artifactId>trade-core</artifactId>
 			<version>${version}</version>
 		</dependency>
+		<!-- dependency>
+			<groupId>com.centaline</groupId>
+
+			<artifactId>trade-ice</artifactId>
+			<version>${version}</version>
+		</dependency -->
 		<dependency>
 			<groupId>com.centaline</groupId>
-			<artifactId>common-frontend</artifactId>
-			<version>1.0.0</version>
+			<artifactId>trade-frontend</artifactId>
+			<version>${version}</version>
 		</dependency>
 
 		<!-- Spring basic -->
@@ -200,12 +207,12 @@
 			<version>3.1.SONATYPE</version>
 		</dependency>
 
-		<!-- commons-codec-1.3.jar -->
+		<!-- commons-codec-1.3.jar 
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>20041127.091804</version>
-		</dependency>
+		</dependency>-->
 		
 		<!-- gson-2.2.4.jar -->
 		<dependency>

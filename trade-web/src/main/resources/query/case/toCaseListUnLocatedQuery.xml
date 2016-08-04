@@ -33,6 +33,7 @@
             <condition field="pi.PROPERTY_ADDR" name="proAddr"  searchType="LIKE" />
             <condition field="tci.IMPORT_TIME" name="dtBegin"  searchType="GTE" />
             <condition field="tci.IMPORT_TIME" name="dtEnd"  searchType="LTE" />
+            <condition field="pi.DIST_CODE" name="distCode"  searchType="eq" />
             </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -53,8 +54,8 @@
 					where not exists (
 						select 1 from sctrans.T_TS_TEAM_SCOPE_TARGET tst where tci.TARGET_CODE = tst.GRP_CODE
 						)
-						and tci.is_responsed = 0
-				]]>
+						and (tci.is_responsed = 0 or tci.is_responsed is null)
+ 				]]>
 			</baseSql>
 			<orderBySql>
 			  ORDER BY tci.CASE_CODE DESC

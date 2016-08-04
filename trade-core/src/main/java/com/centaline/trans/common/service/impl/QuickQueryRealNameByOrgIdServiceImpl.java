@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
 
@@ -19,6 +21,7 @@ public class QuickQueryRealNameByOrgIdServiceImpl implements CustomDictService {
 	private QuickQueryJdbcTemplate jdbcTemplate;
 
 	@Override
+	@Cacheable(value="QuickQueryRealNameByOrgIdServiceImpl",key="#root.targetClass + #root.methodName")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		if (CollectionUtils.isNotEmpty(keys)) {
 			 List<Map<String,Object>> totalList = new ArrayList<Map<String,Object>>();

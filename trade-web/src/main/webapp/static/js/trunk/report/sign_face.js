@@ -114,7 +114,10 @@ $('#cleanButton').click(function() {
 	$("input[id='inTextVal']").val('');
 	$("input[name='orgName']").val('');
 	$("select").val("");
-	
+	//清空产品名称
+	$("span[name='srvCode'].selected").each(function(){
+		$(this).click();
+	});
 });
 
 function reloadGrid(data) {

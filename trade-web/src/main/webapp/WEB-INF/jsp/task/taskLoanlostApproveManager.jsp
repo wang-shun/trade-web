@@ -24,6 +24,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -145,13 +146,15 @@
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
-	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<%-- <script src="${ctx}/transjs/task/showAttachment.js"></script>  --%>
+	<script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
+    <script src="${ctx}/js/jquery.blockui.min.js"></script>
 
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 		$(function(){
 			getShowAttachment();
