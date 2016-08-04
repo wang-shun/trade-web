@@ -439,7 +439,7 @@
         });
 		
         function initMortageService() {
-			
+        	
 			var url = "${ctx}/task/firstFollow/queryMortageServiceByServiceCode";
 			$("#hzxm").html("");
 			$.ajax({
@@ -450,7 +450,6 @@
 				dataType : "json",
 				data : {"serviceCode":'3000401002'},
 				success : function(data) {
-					
 						    txt = "<div class='row'>";
 						    txt += "<div class='col-xs-12 col-md-8'>";
 						    txt += "<div class='form-group'  name='isYouXiao'>";
@@ -471,7 +470,9 @@
 									txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 								
 							});
-							txt += "<option value='-1'>----跨区选择----</option>";
+							if($.trim(data.orgcode)!='033F045'){
+								txt += "<option value='-1'>----跨区选择----</option>";
+							}
 							txt += '</select>';
 							txt += '<input type="hidden" id="coUser'+index+'" name="cooperationUser" value=""/>';
 							txt += "</div></div></div>";

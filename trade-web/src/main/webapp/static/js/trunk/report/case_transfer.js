@@ -291,34 +291,6 @@ function caseTransferExportToExcel() {
 	displayColomn.push('VORG_NAME');
 
 
-
-
-	
-/*	displayColomn.push('AR_NAME');
-	displayColomn.push('VREAL_NAME');
-	displayColomn.push('GRP_NAME');
-	displayColomn.push('AGENT_NAME');
-	displayColomn.push('REAL_HT_TIME');	
-	displayColomn.push('CASE_CODE');
-	displayColomn.push('CTM_CODE');
-	displayColomn.push('PROPERTY_ADDR');
-	displayColomn.push('REAL_NAME');
-	displayColomn.push('ORG_NAME');
-	displayColomn.push('transferDate');
-	displayColomn.push('caseTransferDate');
-	displayColomn.push('status1');
-	displayColomn.push('GRP_NAME');
-	displayColomn.push('AR_NAME');
-	displayColomn.push('VORG_NAME');
-	displayColomn.push('EVAL_FEE');
-	displayColomn.push('RECORD_TIME');
-	displayColomn.push('SELLER');
-	displayColomn.push('SELLER_MOBILE');	
-	displayColomn.push('BUYER');
-	displayColomn.push('BUYER_MOBILE');
-	displayColomn.push('PROCESSOR_ID');*/
-	
-	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();

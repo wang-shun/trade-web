@@ -90,39 +90,60 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li>
+                            <li class="active">
                                 <a href="myCaseList.html">
-                                    <i class="fa">
+                                    <i class="fa ">
                                     </i>
                                     案件总览
                                 </a>
                             </li>
-                            <li class="active">
-                                <a href="myTaskList.html">
+                            <li class="">
+                                <a href="../workflow/caseDistribute.html">
+                                    <i class="fa ">
+                                    </i>
+                                    待分配案件
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../workflow/myTaskList.html">
                                     <i class="fa ">
                                     </i>
                                     待办任务
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="../workflow/unlocatedTasks.html">
                                     <i class="fa ">
                                     </i>
                                     无主任务
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="unlocatedCase.html">
+                                    <i class="fa ">
+                                    </i>
+                                    无主案件
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tracking.html">
                                     <i class="fa ">
                                     </i>
                                     案件追踪
                                 </a>
                             </li>
                             <li>
-                                <a href="../case/mortgageApproveLost.html">
+                                <a href="mortgageApproveLost.html">
                                     <i class="fa ">
                                     </i>
                                     流失案件
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../workflow/toTaskOfGroupList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    本组待办列表
                                 </a>
                             </li>
                         </ul>
@@ -409,6 +430,8 @@
                 </ul>
                 </nav>
             </div>
+
+            <!--*********************** HTML_main*********************** -->
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
@@ -535,10 +558,13 @@
                                 <tbody>
                                     <tr>
                                         <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
+                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
                                                 <div class="sk-double-bounce1 red_light"></div>
                                                 <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
+                                            </div>
+                                            <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -611,10 +637,13 @@
                                     </tr>
                                     <tr>
                                         <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
+                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
                                                 <div class="sk-double-bounce1 red_light"></div>
                                                 <div class="sk-double-bounce2 red_light"></div>
                                              </div>
+                                             <p class="text-center clock clock_red">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -674,6 +703,9 @@
                                                 <div class="sk-double-bounce1 orange_light"></div>
                                                 <div class="sk-double-bounce2 orange_light"></div>
                                              </div>
+                                             <p class="text-center clock clock_red">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -728,6 +760,9 @@
                                                 <div class="sk-double-bounce1 orange_light"></div>
                                                 <div class="sk-double-bounce2 orange_light"></div>
                                              </div>
+                                             <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -786,6 +821,9 @@
                                                 <div class="sk-double-bounce1 red_light"></div>
                                                 <div class="sk-double-bounce2 red_light"></div>
                                              </div>
+                                             <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -845,6 +883,9 @@
                                                 <div class="sk-double-bounce1 orange_light"></div>
                                                 <div class="sk-double-bounce2 orange_light"></div>
                                              </div>
+                                             <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -903,6 +944,9 @@
                                                 <div class="sk-double-bounce1 red_light"></div>
                                                 <div class="sk-double-bounce2 red_light"></div>
                                              </div>
+                                             <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -961,6 +1005,9 @@
                                                 <div class="sk-double-bounce1 orange_light"></div>
                                                 <div class="sk-double-bounce2 orange_light"></div>
                                              </div>
+                                             <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -1019,6 +1066,9 @@
                                             <div class="sk-double-bounce1 red_light"></div>
                                              <div class="sk-double-bounce2 red_light"></div>
                                              </div>
+                                             <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                                            </p>
                                         </td>
                                         <td>
                                             <p class="big">
@@ -1159,6 +1209,7 @@
                     </div>
                 </div>
             </div>
+            <!--*********************** HTML_main*********************** -->
         </div>
     </div>
     <!-- Mainly scripts -->

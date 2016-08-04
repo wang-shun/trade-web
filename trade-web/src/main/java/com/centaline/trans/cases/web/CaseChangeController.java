@@ -25,6 +25,7 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToWorkFlowService;
@@ -104,6 +105,9 @@ public class CaseChangeController {
 		// 1 查询案件服务项目
 		List<TgServItemAndProcessor> servitemList=tgservItemAndProcessorService.selectBycasecodeandProcessorid(caseCode);
 		SessionUser user = uamSessionService.getSessionUser();
+		
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取用户的所在的贵宾服务部
+		
 		String depCode = user.getServiceDepCode();
 		List<TsTeamScope> tsTeamScopes = tsTeamScopeService.selectByOrgCode(depCode);
 		Map<String, List<User>> orgUserMap = new HashMap<>();// 对应组相关人员
@@ -130,8 +134,16 @@ public class CaseChangeController {
 					if (orgUserMap.get(orgCode) == null) {
 						Org org = uamUserOrgService.getOrgByCode(orgCode);
 						if(org==null) continue;
-						List<User> uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-								TransJobs.TJYGW.getCode());
+						
+						List<User> uList = null;
+						if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
+							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+									TransJobs.JYUZTGW.getCode());
+						}else{
+							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+									TransJobs.TJYGW.getCode());
+						}
+						
 						orgUserMap.put(orgCode, uList);
 						list.removeAll(uList);
 						list.addAll(uList);
@@ -149,7 +161,7 @@ public class CaseChangeController {
 		
 		map.put("servitemList", servitemList);  // 1 查询案件服务项目
 		//map.put("userList", userList);  // 3 获取到的合作交易顾问
-		
+		map.put("orgcode", myDistrict.getOrgCode());
 		return map;
 	}
 

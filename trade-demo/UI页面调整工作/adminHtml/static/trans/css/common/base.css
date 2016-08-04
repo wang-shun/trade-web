@@ -36,11 +36,12 @@ button, input, select, textarea {
 }
 
 .add_btn .btn_blue {
-  background-color: #428fcc!important;
+  background-color: #428fcc !important;
   color: #fff;
 }
+
 .add_btn .btn_orange {
-  background-color: #f8ac59!important;
+  background-color: #f8ac59 !important;
   color: #fff;
 }
 

@@ -51,7 +51,7 @@ function getShowAttachment() {
 //					trStr += "<a href='#' onClick='show(\""+value.preFileAdress+"/_f.jpg\")' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
 					trStr += "<a href='#' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
 //					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='padding-bottom: 5px;padding-top: 5px;'>";
-					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/__f.jpg' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
+					trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/_f.jpg' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
 					trStr += "</a>";
 					
 				}

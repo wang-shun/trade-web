@@ -90,14 +90,14 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li>
+                            <li class="active">
                                 <a href="myCaseList.html">
-                                    <i class="fa">
+                                    <i class="fa ">
                                     </i>
                                     案件总览
                                 </a>
                             </li>
-                            <li class="active">
+                            <li class="">
                                 <a href="caseDistribute.html">
                                     <i class="fa ">
                                     </i>
@@ -112,24 +112,38 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="unlocatedTasks.html">
                                     <i class="fa ">
                                     </i>
                                     无主任务
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="unlocatedCase.html">
+                                    <i class="fa ">
+                                    </i>
+                                    无主案件
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tracking.html">
                                     <i class="fa ">
                                     </i>
                                     案件追踪
                                 </a>
                             </li>
                             <li>
-                                <a href="../case/mortgageApproveLost.html">
+                                <a href="mortgageApproveLost.html">
                                     <i class="fa ">
                                     </i>
                                     流失案件
+                                </a>
+                            </li>
+                            <li>
+                                <a href="toTaskOfGroupList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    本组待办列表
                                 </a>
                             </li>
                         </ul>
@@ -416,6 +430,8 @@
                 </ul>
                 </nav>
             </div>
+
+            <!--*********************** HTML_main*********************** -->
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
@@ -449,10 +465,17 @@
                                         <input type="text" class="form-control pull-left">
                                     </div>
                                 </div>
-                                <button id="searchButton" type="button" class="btn btn-success" style="margin-left: 10px;">
-                                <i class="icon iconfont">&#xe635;</i>
+                                <button type="button" class="btn btn-success" style="margin-left: 10px;">
+                                    <i class="icon iconfont">&#xe635;</i>
                                     查询
                                  </button>
+                                 <button type="button" class="btn btn-success" style="margin-left: 10px;">
+                                    案件转组
+                                 </button>
+                                 <button type="button" class="btn btn-success" style="margin-left: 10px;">
+                                    案件分配
+                                 </button>
+
                             </div>
                     </form>
                 </div>
@@ -1019,6 +1042,7 @@
                     </div>
                 </div>
             </div>
+            <!--*********************** HTML_main*********************** -->
         </div>
     </div>
     <!-- Mainly scripts -->

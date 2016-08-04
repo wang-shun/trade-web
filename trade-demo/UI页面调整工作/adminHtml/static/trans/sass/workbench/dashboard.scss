@@ -30,18 +30,23 @@ body {
   margin-right: 15px;
   font-size: 28px;
 }
+
 .task_light .fa_red .fa-bell {
   color: #ea5863;
 }
+
 .task_light .fa_red small {
   color: #ea5863;
 }
+
 .task_light .fa_orange .fa-bell {
   color: #f8ab59;
 }
+
 .task_light .fa_orange small {
   color: #f8ab59;
 }
+
 .task_light small {
   margin-left: 32px;
   font-size: 16px;
@@ -55,23 +60,28 @@ body {
 .table_loan thead tr {
   background: #f9f9f9;
 }
+
 .table_loan thead th {
   font-size: 16px;
   font-weight: normal;
   border: 1px solid #eaeaea;
 }
+
 .table_loan tbody tr:nth-child(odd) {
   background: #fff;
 }
+
 .table_loan tbody tr:nth-child(even) {
   background: #f9f9f9;
 }
+
 .table_loan tr td {
   border: 1px solid #eaeaea;
   border-top: 0px !important;
   border-bottom: 0px !important;
   font-size: 14px;
 }
+
 .table_loan .text-center tr td:nth-child(1) {
   text-align: left;
   padding-left: 15px;
@@ -252,10 +262,12 @@ body {
 .blank-panel .panel-heading {
   padding-bottom: 6px !important;
 }
+
 .main_titile {
   margin-bottom: 15px;
   font-size: 14px;
 }
+
 .smaller {
   font-weight: normal;
 }

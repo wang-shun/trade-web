@@ -50,5 +50,10 @@
 			<server-instance template="HelloServerTemp" id="1" />
 			<server-instance template="HelloServerTemp" id="2" />
 		</node>
+		
+		<node name="node2">
+			<server-instance template="HelloServerTemp" id="3" />
+			<server-instance template="HelloServerTemp" id="4" />
+		</node>
 	</application>
 </icegrid>
