@@ -103,7 +103,7 @@ public class KnowledgeController {
 	public String toKnowledgeDetail(Model model, String knowledgePkid) {
 		model.addAttribute("knowledgePkid", knowledgePkid); // ID
 		// 图片服务器的路径
-		App app = uamPermissionService.getAppByAppName("aist-filesvr-web");
+		App app = uamPermissionService.getAppByAppName("shcl-filesvr-web");
 		model.addAttribute("filesvr", app.genAbsoluteUrl());
 
 		return "knowledge/knowledgeDetail";

@@ -138,7 +138,7 @@
 									inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
 									and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
 									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
-									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE
+									LEFT JOIN SCTRANS.SYS_ORG O ON T.GRP_CODE = O.ORG_CODE AND O.IS_DELETED=0
 									LEFT JOIN SCTRANS.T_SYS_ORG_HIERARCHY OH ON O.ID = OH.ORG_ID
 									LEFT JOIN SCTRANS.V_USER_ORG_JOB WZ ON WZ.ORG_ID = OH.BUSIWZ_ID AND WZ.JOB_CODE = 'JQYDS' AND WZ.IS_LEADER = 1
 									INNER JOIN SCTRANS.T_TO_SIGN S ON T.CASE_CODE=S.CASE_CODE

@@ -15,7 +15,12 @@
 
 	<select id="queryGuestInfoCustomDict" resultType="java.util.HashMap">
 		SELECT
-		B.CASE_CODE AS CODE,LEFT(StuList,LEN(StuList)-1) as NAME FROM (
+		B.CASE_CODE AS CODE,
+		CASE WHEN LEN(StuList)=0 THEN  ''	
+		ELSE LEFT(StuList,LEN(StuList)-1) 
+		END NAME		
+		
+		FROM (
 		SELECT CASE_CODE,
 		(SELECT GUEST_NAME+'/' FROM sctrans.T_TG_GUEST_INFO
 		WHERE CASE_CODE=A.CASE_CODE AND TRANS_POSITION = A.TRANS_POSITION
@@ -37,7 +42,11 @@
 
 	<select id="queryGuestInfoPhoneCustomDict" resultType="java.util.HashMap">
 		SELECT
-		B.CASE_CODE AS CODE,LEFT(StuList,LEN(StuList)-1) as NAME FROM (
+		B.CASE_CODE AS CODE,
+		CASE WHEN LEN(StuList)=0 THEN  ''	
+		ELSE LEFT(StuList,LEN(StuList)-1) 
+		END NAME	
+		FROM (
 		SELECT CASE_CODE,
 		(SELECT GUEST_PHONE+'/' FROM sctrans.T_TG_GUEST_INFO
 		WHERE CASE_CODE=A.CASE_CODE AND TRANS_POSITION = A.TRANS_POSITION
@@ -59,7 +68,11 @@
 
 	<select id="queryProcessorNameCustomDict" resultType="java.util.HashMap">
 		SELECT
-		B.CASE_CODE AS CODE,LEFT(StuList,LEN(StuList)-1) as NAME FROM
+		B.CASE_CODE AS CODE,
+		CASE WHEN LEN(StuList)=0 THEN  ''	
+		ELSE LEFT(StuList,LEN(StuList)-1) 
+		END NAME
+		FROM
 		(SELECT CASE_CODE,
 		(SELECT real_name+'/' FROM
 		(SELECT c.CASE_CODE,u.real_name FROM sctrans.T_TO_CASE c inner join
