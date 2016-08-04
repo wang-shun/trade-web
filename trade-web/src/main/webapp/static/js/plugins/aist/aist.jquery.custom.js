@@ -244,6 +244,7 @@ function($, window) {
 		var templeteId = settings.templeteId;
 		var templeteSource = settings.templeteSource;
 		var columns = settings.columns;
+		var gridClass = settings.gridClass;
 		
 		var data = ($.isBlank(settings.data))?{}:settings.data;
 		data.queryId = queryId;
@@ -253,7 +254,12 @@ function($, window) {
 		if(typeof(columns) == "undefined") {
 		
 		} else {
-			var table = $("<table></table");
+			if (typeof(gridClass) == "undefined"){
+				var table = $("<table></table");
+			} else {
+				var table = $("<table class=\""+gridClass+"\"></table");
+			}
+			
 			var tbody = $("<tbody></tbody");
 			var thead = $("<thead></thead>");
 		    var tr = $("<tr></tr>");
