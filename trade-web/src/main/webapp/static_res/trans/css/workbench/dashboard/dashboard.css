@@ -18,8 +18,9 @@ body {
 }
 
 .task_light {
-  padding-top: 20px;
-  font-size: 16px;
+	margin-left: 20px;
+	padding-top: 20px;
+	font-size: 16px;
 }
 
 #base_info {
