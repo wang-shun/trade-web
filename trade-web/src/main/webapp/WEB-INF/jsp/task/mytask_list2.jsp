@@ -277,17 +277,17 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						 <th class="text-center light_icon">
-                            <i class="iconfont icon_light">
-                                &#xe604;
-                            </i>
+                             <i class="iconfont icon_light">
+                                 &#xe604;
+                             </i>
                         </th>
-						<th class="t-left pd-l"><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
-						<th class="t-left pd-l">当前任务</th>
-						<th class="t-left pd-l"><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
-						<th class="t-left pd-l">上家</th>
-						<th class="t-left pd-l">下家</th>
-						<th class="t-left pd-l"><span class="sort" sortColumn="WFE_NAME" sord="asc">流程环节</span></th>
-						<th class="text-center">操作</th>
+						<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
+						<th >当前任务</th>
+						<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
+						<th >上家</th>
+						<th >下家</th>
+						<th ><span class="sort" sortColumn="WFE_NAME" sord="asc">流程环节</span></th>
+						<th >操作</th>
 					</tr>
 				</thead>
 				<tbody id="myTaskList">
