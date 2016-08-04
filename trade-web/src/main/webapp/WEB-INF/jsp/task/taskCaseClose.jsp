@@ -786,7 +786,7 @@
 													<label class="col-sm-2 control-label" style="line-height:90px;text-align:center;">${accesory.preFileName}</label>
 													<div class="col-sm-10 lightBoxGallery" style="text-align:left">
 														<a href="#" title="Hydrangeas.jpg" data-gallery="">
-															<img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/__f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
+															<img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
 														</a>
 													</div>
 												</div>

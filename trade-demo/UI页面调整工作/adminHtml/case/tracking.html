@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>
-            流失案件
+            案件追踪
         </title>
         <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
@@ -19,8 +19,9 @@
          <!-- index_css -->
         <link rel="stylesheet" href="../static/trans/css/common/base.css" />
         <link rel="stylesheet" href="../static/trans/css/common/table.css" />
-        <link rel="stylesheet" href="../static/trans/css/common/input.css" />
-    </head>
+        <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
+        <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+        </head>
     <body>
         <div id="wrapper">
             <nav class="navbar-default navbar-static-side" role="navigation">
@@ -419,53 +420,42 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">
-                            贷款流失筛选
+                            案件筛选
                         </h2>
-                        <form method="get" class="form_list">
-                            <div class="form_content">
-                                <label class="control-label sign_left">
-                                    主办
-                                </label>
-                                <input class="teamcode input_type" placeholder="请输入" value="" />
-                            </div>
-                            <div class="form_content">
-                                <label class="control-label sign_left">
-                                    案件组织
-                                </label>
-                                <input class="teamcode input_type" placeholder="请输入" value="" />
-                            </div>
-                            <div class="form_content">
-                                <label class="control-label sign_left select_style mend_select">
-                                    审批日期
-                                </label>
-                                <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                                    <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                    <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                        <form method="get" class="form-horizontal form_box">
+                            <div class="row clearfix">
+                                <div class="form_content">
+                                    <label class="sign_left control-label">
+                                        案件编号
+                                    </label>
+                                    <div class="sign_right teamcode">
+                                        <input type="text" class="teamcode form-control" />
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="sign_left control-label">
+                                        CTM编号
+                                    </label>
+                                    <div class="sign_right teamcode">
+                                        <input type="text" class="teamcode form-control" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form_content">
-                                <label class="control-label sign_left">
-                                    案件编号
-                                </label>
-                                <input class="teamcode input_type" placeholder="请输入" value="" />
-                            </div>
-                            <div class="form_content">
-                                <label class="control-label sign_left">
-                                    产证地址
-                                </label>
-                                <input class="teamcode input_type" placeholder="请输入" value="" />
-                            </div>
-                            <div class="form_content space">
-                                <div class="add_btn">
-                                    <button type="button" class="btn btn_orange">
-                                        查询
-                                    </button>
-                                    <button type="button" class="btn btn_orange">
-                                        导出列表
-                                    </button>
+                            <div class="row clearfix">
+                                <div id="select_div_1" class="form_content">
+                                    <label class="sign_left control-label">
+                                        产证地址
+                                    </label>
+                                    <div class="sign_right intextval">
+                                        <input type="text" class="form-control pull-left">
+                                    </div>
                                 </div>
+                                <button id="searchButton" type="button" class="btn btn-success" style="margin-left: 10px;">
+                                <i class="icon iconfont">&#xe635;</i>
+                                    查询
+                                 </button>
                             </div>
-                        </form>
+                    </form>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -480,13 +470,16 @@
                                         产权地址
                                     </th>
                                     <th>
-                                        审批时间
+                                        上家
+                                    </th>
+                                    <th>
+                                        下家
                                     </th>
                                     <th>
                                         经办人
                                     </th>
                                     <th>
-                                        贷款类型<a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                        案件状态<a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
                                     </th>
                                 </tr>
                             </thead>
@@ -498,6 +491,9 @@
                                                 ZY-AJ-201605-0952
                                             </a>
                                         </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="big">
@@ -512,22 +508,30 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="smll_sign">
-                                            <i class="sign_normal">创</i>
-                                            2016-05-30 9:20
+                                        <p class="big">
+                                            林申
                                         </p>
-
-
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
                                     </td>
                                     <td class="center">
-                                        <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
                                         <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
-                                        <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
                                     </td>
                                     <td class="center">
                                         <p>
                                             <i class="sign_blue">
-                                                纯商贷
+                                                未处理
                                             </i>
                                         </p>
                                     </td>
@@ -539,6 +543,9 @@
                                                 ZY-AJ-201605-0952
                                             </a>
                                         </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="big">
@@ -553,22 +560,30 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="smll_sign">
-                                            <i class="sign_normal">创</i>
-                                            2016-05-30 9:20
+                                        <p class="big">
+                                            林申
                                         </p>
-
-
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
                                     </td>
                                     <td class="center">
-                                        <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
                                         <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
-                                        <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
                                     </td>
                                     <td class="center">
                                         <p>
                                             <i class="sign_blue">
-                                                纯商贷
+                                                未处理
                                             </i>
                                         </p>
                                     </td>
@@ -580,6 +595,9 @@
                                                 ZY-AJ-201605-0952
                                             </a>
                                         </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="big">
@@ -594,22 +612,30 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="smll_sign">
-                                            <i class="sign_normal">创</i>
-                                            2016-05-30 9:20
+                                        <p class="big">
+                                            林申
                                         </p>
-
-
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
                                     </td>
                                     <td class="center">
-                                        <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
                                         <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
-                                        <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
                                     </td>
                                     <td class="center">
                                         <p>
                                             <i class="sign_blue">
-                                                纯商贷
+                                                未处理
                                             </i>
                                         </p>
                                     </td>
@@ -621,6 +647,9 @@
                                                 ZY-AJ-201605-0952
                                             </a>
                                         </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="big">
@@ -635,22 +664,30 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="smll_sign">
-                                            <i class="sign_normal">创</i>
-                                            2016-05-30 9:20
+                                        <p class="big">
+                                            林申
                                         </p>
-
-
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
                                     </td>
                                     <td class="center">
-                                        <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
                                         <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
-                                        <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
                                     </td>
                                     <td class="center">
                                         <p>
                                             <i class="sign_blue">
-                                                纯商贷
+                                                未处理
                                             </i>
                                         </p>
                                     </td>
@@ -662,6 +699,9 @@
                                                 ZY-AJ-201605-0952
                                             </a>
                                         </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="big">
@@ -676,22 +716,30 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="smll_sign">
-                                            <i class="sign_normal">创</i>
-                                            2016-05-30 9:20
+                                        <p class="big">
+                                            林申
                                         </p>
-
-
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
                                     </td>
                                     <td class="center">
-                                        <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
                                         <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
-                                        <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
                                     </td>
                                     <td class="center">
                                         <p>
                                             <i class="sign_blue">
-                                                纯商贷
+                                                未处理
                                             </i>
                                         </p>
                                     </td>
@@ -703,6 +751,9 @@
                                                 ZY-AJ-201605-0952
                                             </a>
                                         </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="big">
@@ -717,24 +768,243 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="smll_sign">
-                                            <i class="sign_normal">创</i>
-                                            2016-05-30 9:20
+                                        <p class="big">
+                                            林申
+                                        </p>
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
                                         </p>
                                     </td>
                                     <td class="center">
-                                        <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
                                         <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
-                                        <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
                                     </td>
                                     <td class="center">
                                         <p>
                                             <i class="sign_blue">
-                                                纯商贷
+                                                未处理
                                             </i>
                                         </p>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p>
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" >
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            林申
+                                        </p>
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
+                                    </td>
+                                    <td class="center">
+                                        <p>
+                                            <i class="sign_blue">
+                                                未处理
+                                            </i>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p>
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" >
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            林申
+                                        </p>
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
+                                    </td>
+                                    <td class="center">
+                                        <p>
+                                            <i class="sign_blue">
+                                                未处理
+                                            </i>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p>
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" >
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            林申
+                                        </p>
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
+                                    </td>
+                                    <td class="center">
+                                        <p>
+                                            <i class="sign_blue">
+                                                未处理
+                                            </i>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p>
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" >
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            林申
+                                        </p>
+                                        <p class="big">
+                                            张思
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            李收益
+                                        </p>
+                                        <p class="big">
+                                            赵压机
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
+                                        <span class="manager"><a href="#"><em>经纪人：</em>顾小峰</a></span>
+                                        <span class="manager"><a href="#"><em>主管：</em>许庆祺</a></span>
+                                    </td>
+                                    <td class="center">
+                                        <p>
+                                            <i class="sign_blue">
+                                                未处理
+                                            </i>
+                                        </p>
+                                    </td>
+                                </tr>
+
                             </tbody>
                         </table>
                         <div class="text-center page_box">

@@ -198,7 +198,6 @@ public class TmpBankAduitController {
 
 			}else{
 				mortageDb.setFinOrgCode(bankCode);
-				mortageDb.setLastLoanBank(tmpBankName);
 				mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
 				mortageDb.setTmpBankStatus("");
