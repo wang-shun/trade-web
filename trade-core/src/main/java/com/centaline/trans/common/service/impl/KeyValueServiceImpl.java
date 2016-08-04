@@ -37,20 +37,13 @@ public class KeyValueServiceImpl implements KeyValueService {
 			this.transfer(subList,batchList);
 
 			//将处理好的结果保存到最终列表
-			finalList.addAll(batchList);
+			finalList.addAll(subList);
 			
 			//修改下一批次开始下标
 			fromIndex = toIndex;
 			toIndex   = fromIndex + BATCH_COUNT;
 		}while(toIndex<lastIndex);
 		return finalList;
-	}
-	
-	private void convert(List<Map<String, Object>> list,String key){
-		for(Map<String, Object> map:list){
-			Object val = map.get(key);
-			map.put("val", val);
-		}
 	}
 	
 	@Override
@@ -67,27 +60,19 @@ public class KeyValueServiceImpl implements KeyValueService {
 		do{
 			if(toIndex>lastIndex){
 				toIndex = lastIndex;
-				System.out.println("toIndex = lastIndex;");
 			}
 			//根据起始和结束下标获取批次
 			List<Map<String, Object>> subList = keys.subList(fromIndex,toIndex);
-			System.out.println("fromIndex====="+fromIndex);
-			System.out.println("toIndex====="+toIndex);
-			System.out.println("subList.size====="+subList.size());
-			System.out.println("subList====="+subList);
 			//进行批次数据处理
 			List<Map<String, Object>> batchList = keyValueMapper.queryGuestInfoCustomDict(subList, dictType);
-			System.out.println("batchList.size====="+batchList.size());
 			this.transfer(subList,batchList);
-
 			//将处理好的结果保存到最终列表
-			finalList.addAll(batchList);
+			finalList.addAll(subList);
 			
 			//修改下一批次开始下标
 			fromIndex = toIndex;
 			toIndex   = fromIndex + BATCH_COUNT;
 		}while(toIndex<lastIndex);
-		
 		return finalList;
 	}
 	
@@ -112,10 +97,8 @@ public class KeyValueServiceImpl implements KeyValueService {
 			//进行批次数据处理
 			List<Map<String, Object>> batchList = keyValueMapper.queryGuestInfoPhoneCustomDict(subList, dictType);
 			this.transfer(subList,batchList);
-
 			//将处理好的结果保存到最终列表
 			finalList.addAll(subList);
-			
 			//修改下一批次开始下标
 			fromIndex = toIndex;
 			toIndex   = fromIndex + BATCH_COUNT;
@@ -124,7 +107,6 @@ public class KeyValueServiceImpl implements KeyValueService {
 		return finalList;
 	}
 	
-
 	@Override
 	public List<Map<String, Object>> queryProcessorNameCustomDict(List<Map<String, Object>> keys) {
 		//批次开始下标
@@ -135,8 +117,6 @@ public class KeyValueServiceImpl implements KeyValueService {
 		int lastIndex  = keys.size() - 1;
 		//最终结果列表
 		List<Map<String, Object>> finalList = new ArrayList<Map<String, Object>>();
-		//批次数据列表
-		List<Map<String, Object>> batchList = new ArrayList<Map<String, Object>>();
 		do{
 			if(toIndex>lastIndex){
 				toIndex = lastIndex;
@@ -144,11 +124,10 @@ public class KeyValueServiceImpl implements KeyValueService {
 			//根据起始和结束下标获取批次
 			List<Map<String, Object>> subList = keys.subList(fromIndex,toIndex);
 			//进行批次数据处理
-			batchList = keyValueMapper.queryProcessorNameCustomDict(subList);
-			convert(batchList,"NAME");
-
+			List<Map<String, Object>> batchList = keyValueMapper.queryProcessorNameCustomDict(subList);
+			this.transfer(subList,batchList);
 			//将处理好的结果保存到最终列表
-			finalList.addAll(batchList);
+			finalList.addAll(subList);
 			
 			//修改下一批次开始下标
 			fromIndex = toIndex;
