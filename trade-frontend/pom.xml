@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
-		<version>1.1.21-SNAPSHOT</version>
+		<version>1.1.20</version>
 	</parent>
 
 	<artifactId>trade-frontend</artifactId>
