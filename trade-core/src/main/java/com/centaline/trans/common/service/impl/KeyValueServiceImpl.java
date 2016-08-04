@@ -23,7 +23,7 @@ public class KeyValueServiceImpl implements KeyValueService {
 		//批次结束下标
 		int toIndex    = BATCH_COUNT;
 		//列表最末下标
-		int lastIndex  = keys.size() - 1;
+		int lastIndex  = keys.size();
 		//最终结果列表
 		List<Map<String, Object>> finalList = new ArrayList<Map<String, Object>>();
 		do{
@@ -53,7 +53,7 @@ public class KeyValueServiceImpl implements KeyValueService {
 		//批次结束下标
 		int toIndex    = BATCH_COUNT;
 		//列表最末下标
-		int lastIndex  = keys.size() - 1;
+		int lastIndex  = keys.size();
 		//最终结果列表
 		List<Map<String, Object>> finalList = new ArrayList<Map<String, Object>>();
 		//批次数据列表
@@ -84,7 +84,7 @@ public class KeyValueServiceImpl implements KeyValueService {
 		//批次结束下标
 		int toIndex    = BATCH_COUNT;
 		//列表最末下标
-		int lastIndex  = keys.size() - 1;
+		int lastIndex  = keys.size();
 		//最终结果列表
 		List<Map<String, Object>> finalList = new ArrayList<Map<String, Object>>();
 		//批次数据列表
@@ -114,7 +114,7 @@ public class KeyValueServiceImpl implements KeyValueService {
 		//批次结束下标
 		int toIndex    = 0;
 		//列表最末下标
-		int lastIndex  = keys.size() - 1;
+		int lastIndex  = keys.size();
 		//最终结果列表
 		List<Map<String, Object>> finalList = new ArrayList<Map<String, Object>>();
 		do{
