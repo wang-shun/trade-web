@@ -876,10 +876,12 @@
 				if (!checkForm()) {
 					return;
 				}
-				if (!phoneUpAndphoneDownCheck()) {
+				
+				if (!phoneUpAndphoneDownCheck()) {					
 					return;
 				}
-				if (!upAndDownCheck()) {				
+				
+				if (!upAndDownCheck()) {					
 					return;
 				}			
 				
@@ -1129,32 +1131,24 @@
 				});
 				if (!checkGuestPhone || selectsPhoneDown == null) {
 					return false;
-				}
-				
-				$
-						.each(
-								selectsPhoneUp,
-								function(i, itemPhoneUp) {
-									if (itemPhoneUp.value != '') {
-										$
-												.each(
-														selectsPhoneDown,
-														function(j,
-																itemPhoneDown) {
-															if (itemPhoneDown.value != '') {
-																if (itemPhoneUp.value
-																		.trim() == itemPhoneDown.value
-																		.trim()) {
-																	alert("上、下家电话不能填写一样!");
-																	return false;
-																}
-															}
-														})
+				}				
+				$.each(selectsPhoneUp,function(i, itemPhoneUp) {
+						if (itemPhoneUp.value != '') {
+							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
+								if (itemPhoneDown.value != '') {
+									if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
+												alert("上、下家电话不能填写一样!");
+												checkGuestPhone=false;
+												return checkGuestPhone;
 									}
-								})
+								}
+							})							
+					    }
+				})				
+				return checkGuestPhone;
 			}
 			
-			function  upAndDownCheck(){
+			function  upAndDownCheck(){				
 				var checkGuest = true;
 				var selectsUp = $("input[name='guestNameUp']");
 				$.each(selectsUp, function(j, item) {
@@ -1210,13 +1204,14 @@
 					} else {
 						$(selectsDown[j]).val(item.value.trim());
 						checkGuest = true;
-					}
+					}					
 				});
 				if (!checkGuest || selectsDown == null) {
 					return false;
-				}
-
+				}			
+				return checkGuest;
 			}
+			
 			var divIndexDown = 1;
 			function addDateDivDown() {
 
