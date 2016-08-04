@@ -62,7 +62,7 @@ body{font-family: 微软雅黑, Microsoft YaHei, Tahoma, Arial, Helvetica, Sans-
 					<p style="font-size: 18px;color: #000000">${data.knowledgeRepo.content}</p>
 								<c:forEach items="${data.knowledgeRepoAttachmentList}" var="atta">
 			<div class="row">
-				<div class="col-lg-12"><a href="<aist:appCtx appName='aist-filesvr-web'/>/filesvr/downLoad?id=${atta.knowledgeFileCode}" download="${atta.fileName }">${atta.fileName }</a>
+				<div class="col-lg-12"><a href="<aist:appCtx appName='shcl-filesvr-web'/>/filesvr/downLoad?id=${atta.knowledgeFileCode}" download="${atta.fileName }">${atta.fileName }</a>
 				</div>
 			</div>
 			</c:forEach>

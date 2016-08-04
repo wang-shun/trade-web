@@ -58,7 +58,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 
 	<!-- modal -->
-	<link href="${ctx}/static/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+	<link href="${ctx}/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
 
 	<link href="${ctx}/css/bootstrap.css" rel="stylesheet" />
 	<style type="text/css">
@@ -1032,9 +1032,9 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
         <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
-    <script src="${ctx}/static/js/aist-modal.js"  type="text/javascript"></script>
-	<script src="${ctx}/static/js/bootstrap-modal.js" type="text/javascript"></script>
-	<script src="${ctx}/static/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+    <script src="${ctx}/js/aist-modal.js"  type="text/javascript"></script>
+	<script src="${ctx}/js/bootstrap-modal.js" type="text/javascript"></script>
+	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript"></script>
     <script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
 	<script src="${ctx}/js/trunk/echarts/dashboard.js" type="text/javascript"></script>
     <script>
