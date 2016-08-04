@@ -6,7 +6,7 @@
     <artifactId>trade-parent</artifactId>
     <packaging>pom</packaging>
 
-    <version>1.1.20-SNAPSHOT</version>    <name>trade-parent</name>
+    <version>1.1.21-SNAPSHOT</version>    <name>trade-parent</name>
 	<modules>
 		<!-- module>trade-ice-gen</module>
 		<module>trade-ice</module -->
