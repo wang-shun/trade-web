@@ -144,34 +144,34 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     	<div style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                 </div>
-                                                <span class="right-label pt10">4000万</span>
+                                                <span class="right-label pt10" id="sp_loanAmount">4000万</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label">E+面签金额</span>
-                                                                <div class="data-bar">
-                                                                    <div class="progress progress-small">
-                                                                        <div style="width: 80%;" class="progress-bar bar-yellow"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <span class="right-label">2000万</span>
+                                            	<span class="left-label">E+面签金额</span>
+                                                <div class="data-bar">
+                                                	<div class="progress progress-small">
+                                                    	<div style="width: 80%;" class="progress-bar bar-yellow"></div>
+                                                    </div>
+                                                </div>
+                                                <span class="right-label" id="sp_signAmount">2000万</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label">E+放款金额</span>
-                                                                <div class="data-bar">
-                                                                    <div class="progress progress-small">
-                                                                        <div style="width: 56%;" class="progress-bar bar-yellow"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <span class="right-label">2000万</span>
+                                            	<span class="left-label">E+放款金额</span>
+                                                <div class="data-bar">
+                                                	<div class="progress progress-small">
+                                                    	<div style="width: 56%;" class="progress-bar bar-yellow"></div>
+                                                    </div>
+                                                 </div>
+                                                 <span class="right-label" id="sp_actualAmount">2000万</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label h50 pb10">评估费</span>
-                                                                <div class="data-bar">
-                                                                    <div class="progress progress-small">
-                                                                        <div style="width: 30%;" class="progress-bar bar-red"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <span class="right-label pb10">6万</span>
+                                            	<span class="left-label h50 pb10">评估费</span>
+                                                <div class="data-bar">
+                                                	<div class="progress progress-small">
+                                                    	<div style="width: 30%;" class="progress-bar bar-red"></div>
+                                                 	</div>
+                                                 </div>
+                                                 <span class="right-label pb10" id="sp_evalFee">6万</span>
                                             </div>
                                         </div>
                                         <div class="data-progress data2">
