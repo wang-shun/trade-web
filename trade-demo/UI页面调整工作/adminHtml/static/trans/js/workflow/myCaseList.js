@@ -1,143 +1,9 @@
-$(document).ready(function() {
-
-					// Examle data for jqGrid
-					// Configuration for jqGrid Example 1
-					// /$("#case_date").addClass('btn btn-white chosen-select');
-					cleanForm();
-					//基本信息等高
-					var cpDivWidth = $("#case_date_0").next().width();
-					$('#inTextType').next().css("width", cpDivWidth);
-					var url = "/quickGrid/findPage";
-					var ctx = $("#ctx").val();
-					url = ctx + url;
-					var queryOrgFlag = $("#queryOrgFlag").val();
-					var isAdminFlag = $("#isAdminFlag").val();
-					var queryOrgs = $("#queryOrgs").val();
-					var arguUserId=null;
-					if(queryOrgFlag == 'true'){
-						arguUserId=null;
-						if(isAdminFlag == 'true'){
-							queryOrgs=null;
-						}
-					}else{
-						queryOrgs= null;
-						arguUserId="yes";
-					}
-
-					var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-					//queryOrgs = "'ff8080814f459a78014f45a8104c0008','ff8080814f459a78014f45a8e2ef0009'";
-					// jqGrid 初始化
-					/*$("#table_list_1").jqGrid(
-					{
-						url : url,
-						mtype : 'POST',
-						datatype : "json",
-						height : 550,
-						autowidth : true,
-						shrinkToFit : true,
-						forceFit : true,
-						rowNum : 20,
-						 rowList: [10, 20, 30],
-						colNames : [ 'id', '案件编号','CTM编号', '产证地址',
-								'经纪人','所属分行', '上家', '下家', '经办人', '案件状态','红灯数' ],
-						colModel : [ {
-							name : 'PKID',
-							index : 'PKID',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'CASE_CODE',
-							index : 'CASE_CODE',
-							width : 80,
-							formatter : function(cellvalue, options, rawObject){
-								var a=("<a class='aline' href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
-								return a;
-							}
-						},{
-							name:"ctmCode",
-							index:"ctmCode",
-							align:"center",
-								width:80
-						} ,
-						{
-							name : 'PROPERTY_ADDR',
-							index : 'PROPERTY_ADDR',
-							width : 160
-						}, {
-							name : 'AGENT_NAME',
-							index : 'AGENT_NAME',
-							width : 40
-						}, {
-							name : 'AGENT_ORG_NAME',
-							index : 'AGENT_ORG_NAME',
-							width : 70
-						}, {
-							name : 'SELLER',
-							index : 'SELLER',
-							width : 40
-						}, {
-							name : 'BUYER',
-							index : 'BUYER',
-							width : 40
-						}, {
-							name : 'PROCESSOR_ID',
-							index : 'PROCESSOR_ID',
-							width : 90
-						}, {
-							name : 'STATUS',
-							index : 'STATUS',
-							width : 35
-						}, {
-							name : 'RED_COUNT',
-							index : 'RED_COUNT',
-							width : 30
-						},
-
-						],
-						pager : "#pager_list_1",
-						viewrecords : true,
-						pagebuttions : true,
-						hidegrid : false,
-						recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-						pgtext : " {0} 共 {1} 页",
-
-						onSelectRow : function(rowid, status) {
-
-						},
-						postData : {
-							queryId : "queryCastListItemList",
-							argu_idflag: arguUserId,
-							argu_queryorgs:orgArray
-						}
-
-					});*/
-
-					/*// Add responsive to jqGrid
-					$(window).bind('resize', function() {
-						var width = $('.jqGrid_wrapper').width();
-						$('#table_list_1').setGridWidth(width);
-
-						$("#table_list_1").setGridHeight($(window).height()*0.68);
-
-					});*/
-					// 初始化列表
-					var data = {};
-		    	    data.queryId = "queryCastListItemList";
-		    	    data.rows = 12;
-		    	    data.page = 1;
-		    	    data.argu_isNotResearchCloseCase = "true";
-		    		reloadGrid(data);
-
-					//$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
-					$("span[name='srvCode']").click(function(){
-						var id = $(this).attr("id");
-						$("span[id='"+id+"']").changeSelect();
-					});
-
-				});
+$(function() {
+	$("#productType").hide();
+	$("#more").click(function() {
+		$("#productType").toggle();
+	});
+})
 
 // select控件
 var config = {
@@ -156,18 +22,6 @@ var config = {
 	}
 };
 
-for ( var selector in config) {
-	$(selector).chosen(config[selector]);
-};
-
-// 日期控件
-$('#datepicker_0').datepicker({
-	format : 'yyyy-mm-dd',
-	weekStart : 1,
-	autoclose : true,
-	todayBtn : 'linked',
-	language : 'zh-CN'
-});
 
 // 查询
 $('#searchButton').click(function() {
@@ -179,10 +33,10 @@ var count = $('#case_date_0 option:last').index();
 function addDateDiv() {
 
 	var txt = '<div class="row clearfix add_group"><div id="dateDiv_' + divIndex + '" class="input-group">';
-	txt += '<div class="input-group-btn">';
+	txt += '<div class="add_sign">';
 	txt += '    <select id="case_date_'
 			+ divIndex
-			+ '" class="btn btn-white chosen-select chosen_space" name="case_date" type="select" >';
+			+ '" class="form-control sign_radius" name="case_date" >';
 	txt += $("#case_date_0").html()
 	txt += '</select></div>';
 	txt += '<div id="datepicker_'
@@ -190,11 +44,11 @@ function addDateDiv() {
 			+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
 	txt += '    <input id="dtBegin_'
 			+ divIndex
-			+ '" name="dtBegin" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="起始日期"> ';
+			+ '" name="dtBegin" class="form-control date_sign" type="text" value="" placeholder="起始日期"> ';
 	txt += '    <span class="input-group-addon">到</span>';
 	txt += '    <input id="dtEnd_'
 			+ divIndex
-			+ '" name="dtEnd" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="结束日期"/>';
+			+ '" name="dtEnd" class="form-control date_sign" type="text" value="" placeholder="结束日期"/>';
 	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
 			+ divIndex + ');"><font>删除</font></a></span>';
 	txt += '</div></div></div>';
@@ -208,13 +62,6 @@ function addDateDiv() {
 		todayBtn : 'linked',
 		language : 'zh-CN'
 	});
-	// 设置初始选中
-	var selIndex = findFirstNoCheckVal();
-	$("#case_date_" + divIndex).get(0).selectedIndex = selIndex;
-	for ( var selector in config) {
-		$(selector).chosen(config[selector]);
-	}
-	;
 
 	divIndex++;
 }
@@ -270,49 +117,6 @@ function searchMethod(page) {
 
 };
 
-function reloadGrid(data) {
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-
-	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
-    data.argu_queryorgs = orgArray;
-
-	$.ajax({
-		async: true,
-        url:ctx+ "/quickGrid/findPage" ,
-        method: "post",
-        dataType: "json",
-        data: data,
-        beforeSend: function () {
-        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
-			$(".blockOverlay").css({'z-index':'9998'});
-        },
-        success: function(data){
-          $.unblockUI();
-      	  data.ctx = ctx;
-      	  var myCaseList = template('template_myCaseList' , data);
-			  $("#myCaseList").empty();
-			  $("#myCaseList").html(myCaseList);
-			  // 显示分页
-            initpage(data.total,data.pagesize,data.page, data.records);
-        },
-        error: function (e, jqxhr, settings, exception) {
-        	$.unblockUI();
-        }
-  });
-}
 
 
 

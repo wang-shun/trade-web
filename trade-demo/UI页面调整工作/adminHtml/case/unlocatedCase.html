@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>案件总览</title>
+    <title>无主案件</title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="../static/css/animate.css" />
@@ -15,15 +13,12 @@
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-    <link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
 
     <!-- index_css -->
     <link rel="stylesheet" href="../static/trans/css/common/base.css" />
     <link rel="stylesheet" href="../static/trans/css/common/table.css" />
+    <link rel="stylesheet" href="../static/trans/css/common/input.css" />
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
-    <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
-
 
 </head>
 
@@ -95,60 +90,46 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="active">
+                            <li>
                                 <a href="myCaseList.html">
-                                    <i class="fa ">
+                                    <i class="fa">
                                     </i>
                                     案件总览
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="../workflow/caseDistribute.html">
+                            <li class="active">
+                                <a href="caseDistribute.html">
                                     <i class="fa ">
                                     </i>
                                     待分配案件
                                 </a>
                             </li>
                             <li class="">
-                                <a href="../workflow/myTaskList.html">
+                                <a href="myTaskList.html">
                                     <i class="fa ">
                                     </i>
                                     待办任务
                                 </a>
                             </li>
                             <li>
-                                <a href="../workflow/unlocatedTasks.html">
+                                <a href="#">
                                     <i class="fa ">
                                     </i>
                                     无主任务
                                 </a>
                             </li>
                             <li>
-                                <a href="unlocatedCase.html">
-                                    <i class="fa ">
-                                    </i>
-                                    无主案件
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tracking.html">
+                                <a href="#">
                                     <i class="fa ">
                                     </i>
                                     案件追踪
                                 </a>
                             </li>
                             <li>
-                                <a href="mortgageApproveLost.html">
+                                <a href="../case/mortgageApproveLost.html">
                                     <i class="fa ">
                                     </i>
                                     流失案件
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../workflow/toTaskOfGroupList.html">
-                                    <i class="fa ">
-                                    </i>
-                                    本组待办列表
                                 </a>
                             </li>
                         </ul>
@@ -435,235 +416,93 @@
                 </ul>
                 </nav>
             </div>
-
-            <!--*********************** HTML_main*********************** -->
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
-                        案件总览
+                        任务筛选
                     </h2>
-                        <form method="get" class="form-horizontal form_box">
-                            <div class="row clearfix">
-                                <div class="form_content">
-                                    <label class="sign_left control-label">
-                                        案件类型
-                                    </label>
-                                    <div class="sign_right big_pad">
-                                        <select id="" name="" class="form-control patch_formatone">
-                                            <option value="" selected="selected">
-                                                请选择
-                                            </option>
-                                            <option value="">
-                                                全部案件
-                                            </option>
-                                            <option value="">
-                                                在途案件
-                                            </option>
-                                            <option value="">
-                                                无效案件
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="sign_left_one control-label">
-                                        案件状态
-                                    </label>
-                                    <div class="sign_right big_pad">
-                                        <select id="" name="" class="form-control">
-                                            <option value="" selected="selected">
-                                                请选择
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="sign_left_two control-label">
-                                        案件组织
-                                    </label>
-                                    <div class="sign_right teamcode">
-                                        <input type="text" class="teamcode form-control" />
-                                    </div>
-                                </div>
+                    <form method="get" class="form_list">
+                        <div class="form_content">
+                            <label class="control-label sign_left">
+                                红绿灯
+                            </label>
+                            <div class="checkbox i-checks radio-inline sign sign_right">
+                                <label>
+                                    <input type="radio" value="0" id="lamp0" name="lamp" checked="checked" />
+                                    全部
+                                </label>
+                                <label>
+                                    <input type="radio" value="1" id="lamp1" name="lamp"/>
+                                    <span class="label label-danger">
+                                        红灯
+                                    </span>
+                                </label>
+                                <label>
+                                    <input type="radio" value="2" id="lamp2" name="lamp"/>
+                                    <span class="label label-warning">
+                                        黄灯
+                                    </span>
+                                </label>
+                                <label>
+                                    <input type="radio" value="3" id="lamp3" name="lamp"/>
+                                    <span class="label label-info">
+                                        绿灯
+                                    </span>
+                                </label>
                             </div>
-                            <div class="row clearfix">
-                                <div id="select_div_1" class="form_content">
-                                    <div class="sign_left">
-                                        <select class="form-control">
-                                            <option value="1" selected="selected">
-                                                产证地址
-                                            </option>
-                                            <option value="0">
-                                                客户姓名
-                                            </option>
-                                            <option value="2">
-                                                经纪人姓名
-                                            </option>
-                                            <option value="4">
-                                                交易顾问
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="sign_right intextval">
-                                        <input type="text" class="form-control pull-left">
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="sign_left_two control-label">
-                                        贷款需求选择
-                                    </label>
-                                    <div class="sign_right">
-                                        <select name="" class="form-control">
-                                            <option value="" selected="selected">
-                                                请选择
-                                            </option>
-                                            <option value="0">
-                                                无贷款
-                                            </option>
-                                            <option value="1">
-                                                商贷／组合贷款（委托中原）
-                                            </option>
-                                            <option value="2">
-                                                纯公积金（委托中原）
-                                            </option>
-                                            <option value="3">
-                                                商贷／组合贷款（自办）
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left">
+                                授权待办
+                            </label>
+                            <div class="checkbox i-checks radio-inline sign sign_right">
+                                <label>
+                                    <input type="radio" value="0" id="lamp0" name="lampRadios" checked="checked"/>
+                                    全部
+                                </label>
+                                <label>
+                                    <input type="radio" value="1" id="lamp1" name="lampRadios"/>
+                                    <span class="label label-danger">
+                                        本身
+                                    </span>
+                                </label>
+                                <label>
+                                    <input type="radio" value="2" id="lamp2" name="lampRadios"/>
+                                    <span class="label label-warning">
+                                        待办
+                                    </span>
+                                </label>
                             </div>
-                            <div class="row date-info clearfix">
-                                <div class="form_content">
-                                    <div id="dateDiv_0">
-                                        <div class="sign_left">
-                                            <select name="case_date" class="form-control" id="case_date_0">
-                                                <option value="">
-                                                    签约日期
-                                                </option>
-                                                <option value="">
-                                                    过户日期
-                                                </option>
-                                                <option value="">
-                                                    领证日期
-                                                </option>
-                                                <option value="" selected="selected">
-                                                    放贷日期(贷款)
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left"
-                                        data-date-format="yyyy-mm-dd">
-                                            <input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px; width: 159px; border-radius: 2px;"
-                                            type="text" value="" placeholder="起始日期">
-                                            <span class="input-group-addon">
-                                                到
-                                            </span>
-                                            <input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px; width: 159px; border-radius: 2px;"
-                                            type="text" value="" placeholder="结束日期">
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="form_content">
+                            <select class="form-control select_control sign_left">
+                                <option value="">
+                                    产权地址
+                                </option>
+                            </select>
+                            <input class="sign_right input_type" value="" placeholder="请输入" />
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left">
+                                任务名
+                            </label>
+                            <select class="select_control sign_right_one">
+                                <option value="">
+                                    请选择
+                                </option>
+                                <option value="">
+                                    这里为文字内容测试
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form_content space">
+                            <div class="add_btn">
+                                <button type="button" class="btn btn_blue">
+                                    查询
+                                </button>
                             </div>
-
-                            <div class="row clearfix">
-                                <div class="form_content">
-                                    <a class="add_btn" href="javascript:addDateDiv();">
-                                        <span class="retrieve">
-                                            添加日期检索
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="row product-type" id="productType" style="">
-                                <div class="form_content">
-                                    <label class="sign_left control-label">
-                                        产品类型
-                                    </label>
-                                    <div class="sign_right goods_type">
-                                        <span id="srvCode_0_0" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            交易过户
-                                        </span>
-                                        <span id="srvCode_0_1" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            首付贷（抵押类）
-                                        </span>
-                                        <span id="srvCode_0_2" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            佣金卡
-                                        </span>
-                                        <span id="srvCode_0_3" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            商业贷款
-                                        </span>
-                                        <span id="srvCode_0_4" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            税费卡
-                                        </span>
-                                        <span id="srvCode_0_5" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            代收代付
-                                        </span>
-                                        <span id="srvCode_0_6" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            资金监管/安心宝
-                                        </span>
-                                        <span id="srvCode_0_7" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            纯公积金贷款
-                                        </span>
-                                        <span id="srvCode_0_8" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            首付贷
-                                        </span>
-                                        <span id="srvCode_0_9" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            消费贷
-                                        </span>
-                                        <span id="srvCode_0_10" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            换房贷
-                                        </span>
-                                        <span id="srvCode_0_11" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            抵押贷
-                                        </span>
-                                        <span id="srvCode_0_12" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            委托贷
-                                        </span>
-                                        <span id="srvCode_0_13" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            赎楼贷
-                                        </span>
-                                        <span id="srvCode_0_14" name="srvCode" class="btn btn-white" onclick=""
-                                        value="">
-                                            全款贷
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-t-sm">
-                                <div class="form_content">
-                                    <div class="more_btn">
-                                        <button id="more" type="button" class="btn  btn-default btn_more">
-                                            更多搜索条件
-                                            <i class="fa fa-caret-up">
-                                            </i>
-                                        </button>
-                                        <button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>
-                                            查询
-                                        </button>
-                                        <button id="cleanButton" type="button" class="btn btn_grey blue-text">
-                                            清空
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="exportExcel">
-                            </div>
-                        </form>
+                        </div>
+                    </form>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -671,10 +510,8 @@
                             <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
                                 <thead>
                                     <tr>
-                                        <th class="text-center light_icon">
-                                            <i class="iconfont icon_light">
-                                                &#xe604;
-                                            </i>
+                                        <th class="">
+                                            <input type="checkbox"  class="i-checks" name="input[]">
                                         </th>
                                         <th>
                                             <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
@@ -683,38 +520,23 @@
                                             产证地址
                                         </th>
                                         <th>
-                                            上家
+                                            导入时间<a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
                                         </th>
                                         <th>
-                                            下家
-                                        </th>
-                                        <th>
-                                            经办人
-                                        </th>
-                                        <th>
-                                            案件状态
+                                            负责人
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
+                                            <input type="checkbox" checked="" class="i-checks" name="input[]">
                                         </td>
                                         <td>
                                             <p class="big">
                                                 <a href="javascript:;">
                                                     ZY-AJ-201605-0952
                                                 </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
                                             </p>
                                         </td>
                                         <td>
@@ -729,52 +551,27 @@
                                                 </a>
                                             </p>
                                         </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
                                             </p>
                                         </td>
                                         <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
+                                            <input type="checkbox" class="i-checks" name="input[]">
                                         </td>
                                         <td>
                                             <p class="big">
                                                 <a href="javascript:;">
                                                     ZY-AJ-201605-0952
                                                 </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
                                             </p>
                                         </td>
                                         <td>
@@ -789,510 +586,300 @@
                                                 </a>
                                             </p>
                                         </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
                                             </p>
                                         </td>
                                         <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
                                             <p class="big">
-                                                陈一财
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
                                             </p>
+                                        </td>
+                                        <td>
                                             <p class="big">
-                                                陈一财
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
                                             </p>
                                         </td>
                                         <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                            <p class="tooltip-demo">
+                                                <i class="salesman-icon">
+                                                </i>
+                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
+                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">导</i>
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <span class="manager"><a href="#"><em>区经：</em>金娇娇</a></span>
+                                            <span class="manager"><a href="#"><em>区总：</em>顾小峰</a></span>
+                                            <span class="manager"><a href="#"><em>经纪人：</em>史课</a></span>
+                                        </td>
+                                    </tr>
 
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock clock_red">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr><tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
 
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr><tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock clock_red">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                             <p class="text-center clock clock_red">
-                                                <i class="icon iconfont clock_icon"></i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon"></i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>处理人：</em>顾新峰</a></span>
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                             </div>
-                                             <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon"></i>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                            <p class="tooltip-demo">
-                                                <i class="salesman-icon">
-                                                </i>
-                                                <a class="salesman-info" href="javascript:;" title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体" data-toggle="tooltip" data-placement="top" >
-                                                    张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                张春伟
-                                            </p>
-                                            <p class="big">
-                                                张伟伟
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                            <p class="big">
-                                                陈一财
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <span class="manager"><a href="#"><em>交易顾问：</em>顾小峰</a></span>
-                                        </td>
-                                        <td class="center">
-                                            <p>
-                                                <i class="sign_blue">
-                                                    未分单
-                                                </i>
-                                            </p>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                             <div class="text-center page_box">
@@ -1379,7 +966,6 @@
                     </div>
                 </div>
             </div>
-            <!--*********************** HTML_main*********************** -->
         </div>
     </div>
     <!-- Mainly scripts -->
@@ -1390,24 +976,5 @@
     <!-- Custom and plugin javascript -->
     <script src="../static/js/inspinia.js"></script>
     <script src="../static/js/plugins/pace/pace.min.js"></script>
-
-    <script src="../static/trans/js/workflow/myCaseList.js"></script>
-    <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-    <!-- Index_js -->
-    <script src="../static/js/workflow/myCaseList.js"></script>
-
-    <script>
-        $(document).ready(function () {
-
-            $('.input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
-
-
-        });
-    </script>
-
 </body>
 </html>
