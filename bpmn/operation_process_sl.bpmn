@@ -64,13 +64,12 @@
     <sequenceFlow id="sid-4706A536-89B5-4165-93C1-F66D903907D5" sourceRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E" targetRef="Guohu"></sequenceFlow>
     <sequenceFlow id="flow8" sourceRef="EvaReportArise" targetRef="HouseBookGet"></sequenceFlow>
     <sequenceFlow id="sid-C110D8E0-BDCB-4A48-8040-97029C03207B" sourceRef="CaseCloseFirstApprove" targetRef="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53"></sequenceFlow>
-
     <sequenceFlow id="flow9" sourceRef="HouseBookGet" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="sid-41F44FA3-13C1-4625-AF89-63981D620CE7" sourceRef="CaseClose" targetRef="CaseCloseFirstApprove"></sequenceFlow>
     <sequenceFlow id="sid-3B7379D8-8318-4B82-BE7B-08386DD45139" sourceRef="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53" targetRef="CaseClose">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseFirstCheck == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow5" sourceRef="inclusivegateway1" targetRef="Guohu">
+    <sequenceFlow id="flow5" sourceRef="inclusivegateway1" targetRef="GuohuInfoModify">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${GuohuApprove== false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="inclusivegateway1" targetRef="EvaReportArise">
@@ -113,8 +112,6 @@
       <sequenceFlow id="flow28" sourceRef="PurchaseLimit" targetRef="inclusivegateway2"></sequenceFlow>
       <sequenceFlow id="flow29" sourceRef="TaxReview" targetRef="inclusivegateway2"></sequenceFlow>
       <sequenceFlow id="flow30" sourceRef="LoanClose" targetRef="inclusivegateway2"></sequenceFlow>
-  
-
     </subProcess>
     <sequenceFlow id="flow25" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="tradeSubProc"></sequenceFlow>
     <sequenceFlow id="flow34" sourceRef="tradeSubProc" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
@@ -132,7 +129,7 @@
     <intermediateCatchEvent id="MortgageFinishMsgEventCatch" name="MortgageFinishMsgEventCatch">
       <messageEventDefinition messageRef="MortgageFinishMsg"></messageEventDefinition>
     </intermediateCatchEvent>
-    <sequenceFlow id="flow42" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
+    <sequenceFlow id="flow42" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="MortgageSelect"></sequenceFlow>
     <sequenceFlow id="flow43" sourceRef="MortgageFinishMsgEventCatch" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
     <sequenceFlow id="flow44" sourceRef="TradeBoundaryMsg" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
@@ -142,6 +139,14 @@
     <sequenceFlow id="sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715" sourceRef="exclusivegateway1" targetRef="CaseClose">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed == false && PSFLoanNeed == false&&SelfLoanNeed == false}]]></conditionExpression>
     </sequenceFlow>
+    <userTask id="GuohuInfoModify" name="过户信息修改" activiti:assignee="${member}" activiti:candidateGroups="consultant" activiti:formKey="task/guohuApprove/guohuInfoModify">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${members}" activiti:elementVariable="member">
+        <completionCondition>${nrOfCompletedInstances == nrOfInstances}</completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="flow45" sourceRef="GuohuInfoModify" targetRef="GuohuApprove"></sequenceFlow>
+    <userTask id="MortgageSelect" name="贷款需求选择" activiti:candidateGroups="consultant" activiti:formKey="/task/mortgageSelect/process"></userTask>
+    <sequenceFlow id="flow46" sourceRef="MortgageSelect" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_operation_process">
     <bpmndi:BPMNPlane bpmnElement="operation_process" id="BPMNPlane_operation_process">
@@ -167,46 +172,36 @@
         <omgdc:Bounds height="62.0" width="105.0" x="933.0" y="362.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="LoanRelease" id="BPMNShape_LoanRelease">
-
         <omgdc:Bounds height="55.0" width="105.0" x="1218.0" y="455.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="CaseCloseFirstApprove" id="BPMNShape_CaseCloseFirstApprove">
-
         <omgdc:Bounds height="55.0" width="105.0" x="1440.0" y="367.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53" id="BPMNShape_sid-87823D66-F26C-4FF6-A9AE-717F202D3B53">
-
         <omgdc:Bounds height="40.0" width="40.0" x="1565.0" y="373.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="CaseCloseSecondApprove" id="BPMNShape_CaseCloseSecondApprove">
-
         <omgdc:Bounds height="55.0" width="105.0" x="1620.0" y="366.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="sid-1B840D36-B258-4BF8-A93F-7967F6B64B4E" id="BPMNShape_sid-1B840D36-B258-4BF8-A93F-7967F6B64B4E">
-
         <omgdc:Bounds height="40.0" width="40.0" x="1740.0" y="375.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="sid-F8293B1F-1BC9-4968-A070-83E7342FEFC1" id="BPMNShape_sid-F8293B1F-1BC9-4968-A070-83E7342FEFC1">
-
         <omgdc:Bounds height="35.0" width="35.0" x="1807.0" y="378.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="sid-4410EBCE-BE04-429C-90CA-715CF640402E" id="BPMNShape_sid-4410EBCE-BE04-429C-90CA-715CF640402E">
         <omgdc:Bounds height="40.0" width="40.0" x="758.0" y="376.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="EvaReportArise" id="BPMNShape_EvaReportArise">
-
         <omgdc:Bounds height="66.0" width="105.0" x="1097.0" y="450.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="inclusivegateway1" id="BPMNShape_inclusivegateway1">
-
         <omgdc:Bounds height="40.0" width="40.0" x="1057.0" y="376.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="HouseBookGet" id="BPMNShape_HouseBookGet">
-
         <omgdc:Bounds height="55.0" width="105.0" x="1114.0" y="369.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="CaseClose" id="BPMNShape_CaseClose">
-
         <omgdc:Bounds height="55.0" width="105.0" x="1310.0" y="367.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="sid-79756F09-FF56-4641-9144-8A782FF1E98F" id="BPMNShape_sid-79756F09-FF56-4641-9144-8A782FF1E98F">
@@ -245,7 +240,6 @@
       <bpmndi:BPMNShape bpmnElement="inclusivegateway2" id="BPMNShape_inclusivegateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="627.0" y="326.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-
       <bpmndi:BPMNShape bpmnElement="TradeBoundaryMsg" id="BPMNShape_TradeBoundaryMsg">
         <omgdc:Bounds height="30.0" width="30.0" x="592.0" y="451.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -258,41 +252,41 @@
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="1250.0" y="376.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="GuohuInfoModify" id="BPMNShape_GuohuInfoModify">
+        <omgdc:Bounds height="55.0" width="105.0" x="933.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MortgageSelect" id="BPMNShape_MortgageSelect">
+        <omgdc:Bounds height="55.0" width="105.0" x="179.0" y="502.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203" id="BPMNEdge_sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203">
         <omgdi:waypoint x="61.0" y="36.0"></omgdi:waypoint>
         <omgdi:waypoint x="61.0" y="62.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-F8E6B3A2-7A77-418C-9943-E7DD6C05D58E" id="BPMNEdge_sid-F8E6B3A2-7A77-418C-9943-E7DD6C05D58E">
-
         <omgdi:waypoint x="1725.0" y="393.0"></omgdi:waypoint>
         <omgdi:waypoint x="1740.0" y="395.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-082496DF-1C42-4214-A669-038D612DB562" id="BPMNEdge_sid-082496DF-1C42-4214-A669-038D612DB562">
-
         <omgdi:waypoint x="1605.0" y="393.0"></omgdi:waypoint>
         <omgdi:waypoint x="1620.0" y="393.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-BA4C7C10-0394-42CB-8235-8F6C9AEA641F" id="BPMNEdge_sid-BA4C7C10-0394-42CB-8235-8F6C9AEA641F">
-
         <omgdi:waypoint x="1760.0" y="415.0"></omgdi:waypoint>
         <omgdi:waypoint x="1759.0" y="484.0"></omgdi:waypoint>
         <omgdi:waypoint x="1492.0" y="484.0"></omgdi:waypoint>
         <omgdi:waypoint x="1492.0" y="422.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-EB48AF5A-5145-4526-A0DB-F2F8AEBD0109" id="BPMNEdge_sid-EB48AF5A-5145-4526-A0DB-F2F8AEBD0109">
-
         <omgdi:waypoint x="1780.0" y="395.0"></omgdi:waypoint>
         <omgdi:waypoint x="1807.0" y="395.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-6D4B18DF-BC6A-42BB-BDFE-4CE264CA9FF8" id="BPMNEdge_sid-6D4B18DF-BC6A-42BB-BDFE-4CE264CA9FF8">
-
         <omgdi:waypoint x="1323.0" y="482.0"></omgdi:waypoint>
         <omgdi:waypoint x="1362.0" y="482.0"></omgdi:waypoint>
         <omgdi:waypoint x="1362.0" y="422.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
         <omgdi:waypoint x="1038.0" y="393.0"></omgdi:waypoint>
-
         <omgdi:waypoint x="1057.0" y="396.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-D8A31BF4-CA18-49D1-99D5-822B00604AF1" id="BPMNEdge_sid-D8A31BF4-CA18-49D1-99D5-822B00604AF1">
@@ -304,48 +298,39 @@
         <omgdi:waypoint x="811.0" y="393.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
-
         <omgdi:waypoint x="1202.0" y="483.0"></omgdi:waypoint>
         <omgdi:waypoint x="1152.0" y="449.0"></omgdi:waypoint>
         <omgdi:waypoint x="1166.0" y="424.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-C110D8E0-BDCB-4A48-8040-97029C03207B" id="BPMNEdge_sid-C110D8E0-BDCB-4A48-8040-97029C03207B">
-
         <omgdi:waypoint x="1545.0" y="394.0"></omgdi:waypoint>
         <omgdi:waypoint x="1565.0" y="393.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
-
         <omgdi:waypoint x="1219.0" y="396.0"></omgdi:waypoint>
         <omgdi:waypoint x="1250.0" y="396.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-41F44FA3-13C1-4625-AF89-63981D620CE7" id="BPMNEdge_sid-41F44FA3-13C1-4625-AF89-63981D620CE7">
-
         <omgdi:waypoint x="1415.0" y="394.0"></omgdi:waypoint>
         <omgdi:waypoint x="1440.0" y="394.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-3B7379D8-8318-4B82-BE7B-08386DD45139" id="BPMNEdge_sid-3B7379D8-8318-4B82-BE7B-08386DD45139">
-
         <omgdi:waypoint x="1585.0" y="373.0"></omgdi:waypoint>
         <omgdi:waypoint x="1585.0" y="332.0"></omgdi:waypoint>
         <omgdi:waypoint x="1370.0" y="332.0"></omgdi:waypoint>
         <omgdi:waypoint x="1362.0" y="367.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
-
         <omgdi:waypoint x="1077.0" y="376.0"></omgdi:waypoint>
         <omgdi:waypoint x="1076.0" y="330.0"></omgdi:waypoint>
-        <omgdi:waypoint x="863.0" y="330.0"></omgdi:waypoint>
-        <omgdi:waypoint x="863.0" y="360.0"></omgdi:waypoint>
+        <omgdi:waypoint x="985.0" y="275.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
-
         <omgdi:waypoint x="1077.0" y="416.0"></omgdi:waypoint>
         <omgdi:waypoint x="1076.0" y="482.0"></omgdi:waypoint>
         <omgdi:waypoint x="1097.0" y="483.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
-
         <omgdi:waypoint x="1097.0" y="396.0"></omgdi:waypoint>
         <omgdi:waypoint x="1114.0" y="396.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
@@ -361,7 +346,7 @@
         <omgdi:waypoint x="81.0" y="177.0"></omgdi:waypoint>
         <omgdi:waypoint x="169.0" y="177.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="81.0" y="177.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="81.0" y="177.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-CD38C35B-323F-4F72-8263-FA0F9B71C6B1" id="BPMNEdge_sid-CD38C35B-323F-4F72-8263-FA0F9B71C6B1">
@@ -412,7 +397,6 @@
         <omgdi:waypoint x="646.0" y="421.0"></omgdi:waypoint>
         <omgdi:waypoint x="647.0" y="366.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-
       <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
         <omgdi:waypoint x="81.0" y="343.0"></omgdi:waypoint>
         <omgdi:waypoint x="101.0" y="344.0"></omgdi:waypoint>
@@ -437,7 +421,7 @@
       <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
         <omgdi:waypoint x="61.0" y="363.0"></omgdi:waypoint>
         <omgdi:waypoint x="61.0" y="529.0"></omgdi:waypoint>
-        <omgdi:waypoint x="665.0" y="529.0"></omgdi:waypoint>
+        <omgdi:waypoint x="179.0" y="529.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
         <omgdi:waypoint x="700.0" y="529.0"></omgdi:waypoint>
@@ -455,6 +439,14 @@
       <bpmndi:BPMNEdge bpmnElement="sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715" id="BPMNEdge_sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715">
         <omgdi:waypoint x="1290.0" y="396.0"></omgdi:waypoint>
         <omgdi:waypoint x="1310.0" y="394.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
+        <omgdi:waypoint x="985.0" y="275.0"></omgdi:waypoint>
+        <omgdi:waypoint x="985.0" y="362.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
+        <omgdi:waypoint x="284.0" y="529.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="529.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
