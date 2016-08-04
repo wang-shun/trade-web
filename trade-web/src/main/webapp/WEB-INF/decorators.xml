@@ -18,10 +18,6 @@
 	<decorator name="default" page="INSPINIA_template.jsp">
 		<pattern>/*</pattern>
 	</decorator>
-	<!-- 工作台模板 -->
-	<decorator name="dashbord" page="INSPINIA_template_new.jsp">
-		<pattern>/workspace/dashboard</pattern>
-	</decorator>	
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
 	</decorator>
