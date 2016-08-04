@@ -790,5 +790,9 @@ $('#cleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
 	$("span[name='srvCode']").removeClass("selected");
-	$("select").val("");
+	//$("select").val("");
+	$("#caseProperty").val("");
+	$("#status").val("");
+	$("#mortageService").val("");
+	
 });
