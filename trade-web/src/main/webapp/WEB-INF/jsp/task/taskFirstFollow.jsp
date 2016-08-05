@@ -470,9 +470,10 @@
 									txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 								
 							});
-							if($.trim(data.orgcode)!='033F045'){
+							/* if($.trim(data.orgcode)!='033F045'){
 								txt += "<option value='-1'>----跨区选择----</option>";
-							}
+							} */
+							txt += "<option value='-1'>----跨区选择----</option>";
 							txt += '</select>';
 							txt += '<input type="hidden" id="coUser'+index+'" name="cooperationUser" value=""/>';
 							txt += "</div></div></div>";
