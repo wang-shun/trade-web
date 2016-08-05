@@ -480,11 +480,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body">
-                                                                	<div class="scroller" data-height="315px" data-always-visible="1" data-rail-visible="0">
-                                                                    	<div id="div_messagelist1" class="widget-main">
-                                                                    	</div>
-                                                                    </div>	
+                                                                <div class="widget-body" style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    <div id="div_messagelist1" class="widget-main">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -499,11 +497,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body">
-                                                                	<div class="scroller" data-height="315px" data-always-visible="1" data-rail-visible="0">
-                                                                    	<div id="div_messagelist2" class="widget-main">
-                                                                    	</div>   
-                                                                    </div>
+                                                                <div class="widget-body" style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    <div id="div_messagelist2" class="widget-main">
+                                                                    </div>  
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -519,7 +515,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 </div>
 
                                                                 <div class="widget-body">
-                                                                	<div class="scroller" data-height="315px" data-always-visible="1" data-rail-visible="0">
+                                                                	<div style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
                                                                     	<div id="div_messagelist3" class="widget-main">
                                                                     	</div>
                                                                     </div>
@@ -549,8 +545,8 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                 						<c:forEach items="${rank.loanAmountRankList}"  var="item">
                                                     					<div class="feed-element">
                                                         					<a href="#" class="pull-left">
-                                                        						<span class="shead img-circle">
-																					<img class="himg"  src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
+                                                        						<span class="shead">
+																					<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
 																				</span>
                                                         						<span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         					</a>
@@ -587,7 +583,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     <div class="feed-element">
                                                         <a class="pull-left">
                                                         <span class="shead img-circle">
-															<img class="himg"  src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
+															<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
 														</span>
 
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
@@ -625,7 +621,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     <div class="feed-element">
                                                         <a href="#" class="pull-left">
                                                         <span class="shead img-circle">
-															<img class="himg"  src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
+															<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
 														</span>
                                                         <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
                                                         </a>
