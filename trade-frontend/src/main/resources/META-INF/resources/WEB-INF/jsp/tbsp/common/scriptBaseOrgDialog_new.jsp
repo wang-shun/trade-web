@@ -15,8 +15,8 @@
 <%-- <link href="${ctx}/static/tbsp/js/ligerui/skins/Aqua/css/gzl-style.css" rel="stylesheet" type="text/css" />   --%>
 <link href="${ctx}/static/tbsp/js/ligerui/skins/Aqua/css/ligerui-tree.css" rel="stylesheet" type="text/css" /> 
 <%-- <link href="${ctx}/static/tbsp/css/fonts/font-awesome.css" rel="stylesheet" type="text/css" />   --%>
-<link href="${ctx}/media/css/midifiedStyle.css" rel="stylesheet" type="text/css">
-<link href="${ctx}/media/css/custom-mika.css" rel="stylesheet" type="text/css">
+<%-- <link href="${ctx}/media/css/midifiedStyle.css" rel="stylesheet" type="text/css">
+<link href="${ctx}/media/css/custom-mika.css" rel="stylesheet" type="text/css"> --%>
 <%-- <script src="${ctx}/static/tbsp/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script> --%>
 <%-- <script src="${ctx}/static/tbsp/js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>    
  --%><script src="${ctx}/static/tbsp/js/jquery-blockUI/jquery.blockUI.js" type="text/javascript"></script>

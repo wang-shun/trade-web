@@ -663,24 +663,102 @@ public class WorkSpaceController {
 		Map map = new HashMap<>();
 		WorkSpace work = new WorkSpace();
 		work.setUserId(user.getId());
-		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {
+		String jobCode = user.getServiceJobCode();
+		List<String> args = new ArrayList<String>();
+		if (TransJobs.TZJL.getCode().equals(jobCode)) { //总经理
 			work.setRankType(TransJobs.TZJ.getCode());
-		} else {
-			work.setRankType(user.getServiceJobCode());
+			work.setOrgId(null);
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					User u = new User();
+					args.add(toOrgVo.getId());
+				}
+			}
+			work.setOrgs(args);
+			
 			work.setRankCat("loan_amount");
+			map.put("loanAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRankList", workSpaceService.topRankList(work));
+			
+			map.put("loanAmountRank", null);
+			map.put("signAmountRank", null);
+			map.put("actualAmountRank", null);
+			
+		} else if(TransJobs.TZJ.getCode().equals(jobCode)) { //总监
+			work.setRankType(jobCode);
+			work.setOrgId(null);
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCZB.getCode()).getId(), DepTypeEnum.TYCQY.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					args.add(toOrgVo.getId());
+				}
+			}
+			work.setOrgs(args);			
+		
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRankList", workSpaceService.topRankList(work));
+			
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRank", workSpaceService.getRank(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRank", workSpaceService.getRank(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRank", workSpaceService.getRank(work));
+			
+		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
+			work.setRankType(TransJobs.TJYZG.getCode());
+			work.setOrgId(null);
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					args.add(toOrgVo.getId());
+				}
+			}
+			work.setOrgs(args);			
+		
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRankList", workSpaceService.topRankList(work));
+			
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRank", workSpaceService.getRank(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRank", workSpaceService.getRank(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRank", workSpaceService.getRank(work));
+		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { //交易顾问
+			work.setRankType(jobCode);
+			work.setOrgs(null);
 			work.setOrgId(user.getServiceDepId());
+			
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRankList", workSpaceService.topRankList(work));
+			
+			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("sign_amount");
 			map.put("signAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRank", workSpaceService.getRank(work));
 		}
-		work.setRankCat("loan_amount");
-		map.put("loanAmountRankList", workSpaceService.topRankList(work));
-		work.setRankCat("sign_amount");
-		map.put("signAmountRankList", workSpaceService.topRankList(work));
-		work.setRankCat("actual_amount");
-		map.put("actualAmountRankList", workSpaceService.topRankList(work));
+
 		return map;
 	}
 

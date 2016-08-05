@@ -17,7 +17,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 
     <!-- stickUp fixed css -->
     <link href="${ctx}/static/css/plugins/stickup/stickup.css" rel="stylesheet">
-    <%-- <link href="${ctx}/static/trans/css/common/stickDash.css" rel="stylesheet"> --%>
 
     <link href="${ctx}/static/css/plugins/aist-steps/steps.css" rel="stylesheet">
     <link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
@@ -25,11 +24,23 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<!-- ION-RANGESLIDER -->
 	<link href="${ctx}/static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
     <link href="${ctx}/static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+	
+	<!-- fullcalendar -->
+	<link href="${ctx}/static/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
 
 	<!-- morris -->
 	<link href="${ctx}/static/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 	
+	<!-- fancybox -->
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/jquery.fancybox-buttons.css?v=1.0.5" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/jquery.fancybox-thumbs.css?v=1.0.7" />
+	
 	<link href="${ctx}/static/trans/css/common/stickDash.css" rel="stylesheet">
+	
+	<!-- iCheck -->
+	<link href="${ctx}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
 	
     <!-- index_css  -->
     <link href="${ctx}/static/trans/css/workbench/dashboard/dashboard.css" rel="stylesheet">
@@ -39,7 +50,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
   	 function imgLoad(img){
 	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
 	   	 }
-  	 var showSta=false;
 </script>
 <body>
 <input type="hidden" id="serviceDepHierarchy" value="${sessionUser.serviceDepHierarchy }">
@@ -128,7 +138,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         	</select>
                                         </div>
                                         <div class="col-md-2" style="padding-left:0">
-                                        	<button class="btn btn-warning " type="button" id="btn_sta">
+                                        	<button class="btn btn-warning " type="button" id="btn_sta" onclick="queryConutCaseByDate()">
                                         		<i class="fa fa-search"></i>
                                         		<span class="bold">搜索</span>
                                             </button>
@@ -141,7 +151,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                             	<span class="left-label h50 pt10">E+申请金额</span>
                                                 <div class="data-bar">
                                                 	<div class="progress progress-small">
-                                                    	<div style="width: 100%;" class="progress-bar bar-yellow"></div>
+                                                    	<div id="sp_loanAmount_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                 </div>
                                                 <span class="right-label pt10" id="sp_loanAmount">4000万</span>
@@ -150,7 +160,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                             	<span class="left-label">E+面签金额</span>
                                                 <div class="data-bar">
                                                 	<div class="progress progress-small">
-                                                    	<div style="width: 80%;" class="progress-bar bar-yellow"></div>
+                                                    	<div id="sp_signAmount_bar" style="width: 80%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                 </div>
                                                 <span class="right-label" id="sp_signAmount">2000万</span>
@@ -159,7 +169,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                             	<span class="left-label">E+放款金额</span>
                                                 <div class="data-bar">
                                                 	<div class="progress progress-small">
-                                                    	<div style="width: 56%;" class="progress-bar bar-yellow"></div>
+                                                    	<div id="sp_actualAmount_bar" style="width: 56%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                  </div>
                                                  <span class="right-label" id="sp_actualAmount">2000万</span>
@@ -168,7 +178,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                             	<span class="left-label h50 pb10">评估费</span>
                                                 <div class="data-bar">
                                                 	<div class="progress progress-small">
-                                                    	<div style="width: 30%;" class="progress-bar bar-red"></div>
+                                                    	<div id="sp_evalFee_bar" style="width: 30%;" class="progress-bar bar-red"></div>
                                                  	</div>
                                                  </div>
                                                  <span class="right-label pb10" id="sp_evalFee">6万</span>
@@ -179,19 +189,19 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span class="left-label wd105 h90 pt50">E+转换率</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
-                                                                        <div style="width: 100%;" class="progress-bar bar-yellow"></div>
+                                                                        <div id="sp_convRate_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span class="right-label pt50">100%</span>
+                                                                <span id="sp_convRate" class="right-label pt50">100%</span>
                                                             </div>
                                                             <div class="data-left">
                                                                 <span class="left-label wd105 h90 pb20">评估费转换率</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
-                                                                        <div style="width: 30%;" class="progress-bar bar-red"></div>
+                                                                        <div id="sp_efConvRate_bar" style="width: 30%;" class="progress-bar bar-red"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span class="right-label pt40">30%</span>
+                                                                <span id="sp_efConvRate" class="right-label pt40">30%</span>
                                                             </div>
                                         </div>
                                         <div class="data-progress data3">
@@ -199,37 +209,37 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span class="left-label wd64 h50 pt10">接单数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
-                                                                        <div style="width: 40%;" class="progress-bar bar-blue"></div>
+                                                                        <div id="sp_receiveCount_bar" style="width: 40%;" class="progress-bar bar-blue"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span class="right-label pt10">43单</span>
+                                                                <span id="sp_receiveCount" class="right-label pt10">43单</span>
                                             </div>
                                             <div class="data-left">
                                                                 <span class="left-label wd64 ">签约数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
-                                                                        <div style="width: 100%;" class="progress-bar bar-blue"></div>
+                                                                        <div id="sp_signCount_bar" style="width: 100%;" class="progress-bar bar-blue"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span class="right-label">1亿&nbsp;&nbsp;4单</span>
+                                                                <span id="sp_signCount" class="right-label">1亿&nbsp;&nbsp;4单</span>
                                             </div>
                                             <div class="data-left">
                                                                 <span class="left-label wd64">贷款申请数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
-                                                                        <div style="width: 56%;" class="progress-bar bar-blue"></div>
+                                                                        <div id="sp_loanApplyCount_bar" style="width: 56%;" class="progress-bar bar-blue"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span class="right-label">13单</span>
+                                                                <span id="sp_loanApplyCount" class="right-label">13单</span>
                                             </div>
                                             <div class="data-left">
                                                                 <span class="left-label wd64 h50 pb10">结案数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
-                                                                        <div style="width: 30%;" class="progress-bar bar-blue"></div>
+                                                                        <div id="sp_closeCount_bar" style="width: 30%;" class="progress-bar bar-blue"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span class="right-label pb10">23单</span>
+                                                                <span id="sp_closeCount" class="right-label pb10">23单</span>
                                             </div>
                                         </div>
                                     </div>
@@ -471,9 +481,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 </div>
 
                                                                 <div class="widget-body">
-                                                                    <div class="widget-main">
-                                                                        <img src="../static/img/no_idea.jpg" alt="">
-                                                                    </div>
+                                                                	<div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+                                                                    	<div id="div_messagelist1" class="widget-main">
+                                                                    	</div>
+                                                                    </div>	
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -483,14 +494,15 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     <h4 class="smaller">作业提醒</h4>
                                                                     <div class="widget-toolbar">
                                                                         <label>
-                                                                           <span class="label label-blue">1</span>
+                                                                           <span class="label label-blue">0</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="widget-body">
-                                                                    <div class="widget-main">
-                                                                        <img src="../static/img/no_idea.jpg" alt="">
+                                                                	<div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+                                                                    	<div id="div_messagelist2" class="widget-main">
+                                                                    	</div>   
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -501,14 +513,15 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     <h4 class="smaller">止损提醒</h4>
                                                                     <div class="widget-toolbar">
                                                                         <label>
-                                                                           <span class="label label-blue">2</span>
+                                                                           <span class="label label-blue">0</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="widget-body">
-                                                                    <div class="widget-main">
-                                                                        <img src="../static/img/no_idea.jpg" alt="">
+                                                                	<div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+                                                                    <div id="div_messagelist3" class="widget-main">
+                                                                    </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -648,19 +661,37 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 <content tag="local_script">
     <!-- stickup plugin -->
     <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+    <!-- owner -->
     <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>
 
     <!-- Toastr script -->
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
     <script src="${ctx}/static/js/morris/morris.js"></script>
     <script src="${ctx}/static/js/morris/raphael-min.js"></script>
-
+    <!-- messageGrid -->
+    <script src="${ctx}/static/js/messageGrid.js"></script>
+    <!-- jquery.formatMoney -->
+    <script src="${ctx}/static/js/jquery.formatMoney.js"></script>
+    <!-- fullcalendar -->
+	<script src="${ctx}/static/js/plugins/fullcalendar/moment.min.js"></script>
+ 	<script src="${ctx}/static/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+	<script src="${ctx}/static/js/plugins/fullcalendar/zh-cn.js"></script>
 	<!-- IonRangeSlider -->
 	<script src="${ctx}/static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <!-- Add fancyBox main JS and CSS files -->
+	<script src="${ctx}/static/js/jquery.fancybox.js?v=2.1.5"></script>
+	<script src="${ctx}/static/js/jquery.fancybox-buttons.js?v=1.0.5"></script>
+	<script src="${ctx}/static/js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+	<script src="${ctx}/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
     
     <!-- ChartJS morris -->
-    <script src="${ctx}/static/js/plugins/morris/raphael-2.1.0.min.js"></script>
-    <script src="${ctx}/static/js/plugins/morris/morris.js"></script>
+<%--     <script src="${ctx}/static/js/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="${ctx}/static/js/plugins/morris/morris.js"></script> --%>
+    
+	<!-- iCheck -->
+	<script src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script>    
     
     <!-- ECharts.js -->
     <script src="${ctx}/static/js/echarts.min.js"></script>    
@@ -671,25 +702,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 		    //加载echarts
 		    reloadStatus();
 		    
-		    //生成ion.rangeslider
-			$("#ionrange_4").ionRangeSlider({
-				values : [ "一月", "二月", "三月", "四月", "五月", "六月",
-					"七月", "八月", "九月", "十月", "十一月", "十二月" ],
-				dateType : 'single',
-				hasGrid : true
-
-			});
-			var month = new Date().getMonth();
-			var maxMonths = new Array("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月",
-					"九月", "十月", "十一月", "十二月");
-			var w = $(".irs-line").width() / 12 * (month) + 12.5;
-			// 月份位置/添加月份文字/光标位置
-			$(".irs-single").attr("style", "left: " + (month / 12 * 100 + 3) + "%;");
-			$(".irs-single").text(maxMonths[month]);
-			$(".irs-slider").attr("style", "left: " + (month / 12 * 100 + 3) + "%;");
-			$("#ionrange_4").val(month);
+			reloadMonth();
 			
-			//
+			queryConutCaseByDate()
+			$('#sp_evalFee').on('click',evalFeeClick);
 	 });
 	</script>
 </content>	
