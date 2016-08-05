@@ -2,6 +2,7 @@
 <querys>
 <dicts>
 		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="qqcdJlOrZjOrNameByOrgCode" beanName="qqcdJlOrZjOrNameByOrgCode" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
