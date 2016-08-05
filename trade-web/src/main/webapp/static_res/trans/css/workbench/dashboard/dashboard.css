@@ -47,6 +47,15 @@ body {
   margin-left: 32px;
   font-size: 16px;
 }
+.shead {
+    width: 38px;
+    height: 38px;
+    display: inline-block;
+    border-radius: 50%;
+    background-size: 38px 50.66px;
+    vertical-align: middle;
+    background-image: url(../img/a5.png);
+}
 
 .table_loan {
   border: 1px solid #eaeaea;
@@ -91,6 +100,7 @@ body {
 
 .widget-main {
   padding: 12px;
+  border-bottom: 1px solid #e7eaec;
 }
 
 .widget-header {
