@@ -1,0 +1,31 @@
+.btn_small {
+  padding: 4px 10px;
+}
+
+.month {
+  overflow: hidden;
+}
+
+.month span {
+  display: inline-block;
+  float: left;
+  margin: 0px 20px;
+  font-size: 22px;
+  line-height: 30px;
+  color: #333;
+}
+
+.notes {
+  padding-left: 15px;
+  padding-right: 15px;
+  font-family: "Microsoft Yahei";
+  font-size: 14px;
+}
+
+.spread {
+  text-decoration: underline;
+}
+
+.table_content .table > tbody > tr {
+  height: 48px;
+}

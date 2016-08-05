@@ -235,19 +235,24 @@ table thead tr th {
 .go_text {
   font-family: "Microsoft Yahei";
 }
+
 .mt3 {
-  margin-top: 3px!important;
+  margin-top: 3px !important;
 }
+
 .clock {
   margin: 6px 0px 0px;
-  color:#ccc;
+  color: #ccc;
 }
+
 .clock_red {
   color: #ed5565;
 }
+
 .clock_icon {
   font-size: 18px;
 }
+
 .sign_normal {
   margin-right: 5px;
   padding: 0px 1px;
