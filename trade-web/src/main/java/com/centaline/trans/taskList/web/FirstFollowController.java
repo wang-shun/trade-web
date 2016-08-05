@@ -343,15 +343,16 @@ public class FirstFollowController {
 		}
 		for (String orgStr : orgs) {
 				Org org = uamUserOrgService.getOrgByCode(orgStr);
-				List<User> list = null;
+				/*List<User> list = null;
 				if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
 					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 							TransJobs.JYUZTGW.getCode());
 				}else{
 					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 							TransJobs.TJYGW.getCode());
-				}
-			
+				}*/
+				List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+						TransJobs.TJYGW.getCode());
 				for (User user3 : list) {
 					int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
 					JSONObject jsonObject = new JSONObject();
@@ -364,7 +365,7 @@ public class FirstFollowController {
 		}
 		result.put("dic", dict);
 		result.put("users", jsonList);
-		result.put("orgcode", myDistrict.getOrgCode());
+		/*result.put("orgcode", myDistrict.getOrgCode());*/
 
 		return result;
 	}
