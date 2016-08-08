@@ -96,9 +96,9 @@ public class LoanlostApproveController {
 	@RequestMapping(value="loanlostApprove/loanlostApproveFirst")
 	@ResponseBody
 	public Boolean loanlostApproveFirst(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response) {
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response,String loanLostManagerNotApprove) {
 		/*保存审核记录*/
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_manager, LoanLost_manager_response);
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_manager, LoanLost_manager_response,loanLostManagerNotApprove);
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -124,9 +124,9 @@ public class LoanlostApproveController {
 	@RequestMapping(value="loanlostApprove/loanlostApproveSecond")
 	@ResponseBody
 	public Boolean loanlostApproveSecond(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO, String LoanLost_director, String LoanLost_director_response) {
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_director, String LoanLost_director_response,String loanLostDirectorNotApprove) {
 		/*保存审核记录*/
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_director, LoanLost_director_response);
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_director, LoanLost_director_response,loanLostDirectorNotApprove);
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -151,10 +151,10 @@ public class LoanlostApproveController {
 	@RequestMapping(value="loanlostApprove/loanlostApproveThird")
 	@ResponseBody
 	public Boolean loanlostApproveThird(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO, String LoanLost_GeneralManager, String LoanLost_GeneralManager_response) {
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_GeneralManager, String LoanLost_GeneralManager_response,String loanLostGeneralManagerNotApprove) {
 		
 		/*保存审核记录*/
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_GeneralManager, LoanLost_GeneralManager_response);
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_GeneralManager, LoanLost_GeneralManager_response,loanLostGeneralManagerNotApprove);
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -184,7 +184,8 @@ public class LoanlostApproveController {
 	 * @param loanLost_response
 	 */
 	private ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String loanLost, String loanLost_response) {
+			String loanLost, String loanLost_response,String notApprove) {
+		
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 //		toApproveRecord.setPkid(loanlostApproveVO.getLapPkid());
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
@@ -192,11 +193,16 @@ public class LoanlostApproveController {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setApproveType(loanlostApproveVO.getApproveType());
 		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
-		boolean b = loanLost.equals("true");
-		toApproveRecord.setContent((b?"通过":"不通过") + (",审批意见为"+loanLost_response));
+		boolean b = "true".equals(loanLost);
+		boolean c = loanLost_response == null || loanLost_response.intern().length() == 0;
+		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为："+loanLost_response));
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
+		//审核不通过原因
+		toApproveRecord.setNotApprove(notApprove);
+		
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
-		return toApproveRecord;
+		return toApproveRecord;	
+
 	}
 	
 	/**
