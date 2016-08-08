@@ -419,13 +419,13 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
                     </td>
                     <td class="center">
                           <p  title="{{item.SELLER}}">
-                                                {{item.SELLER}}
+                                                {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
                           </p>
                          
                     </td>
                     <td class="center">
                           <p  title="{{item.BUYER}}">
-                                                 {{item.BUYER}}
+                                                {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
                           </p>
                           
                     </td>
