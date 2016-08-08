@@ -74,7 +74,7 @@ text-decoration: underline;
 text-decoration: underline !important;
 }
 .text-center{text-align:center;}
-#inTextVal{width:42%;}
+
 #inTextType_chosen{margin-left:0}
 .chosen-container{float:left;margin-right:10px}
 
@@ -169,78 +169,63 @@ text-decoration: underline !important;
 
 	<div class="row">
 		
-		<div class="wrapper wrapper-content  animated fadeInRight">
-			<div class="col-lg-12 col-md-12">
-			<div class="ibox float-e-margins">	
-				<div class="ibox-title">
-					<h5>任务筛选</h5>
-				</div>
-				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-							<label class="col-md-2 control-label">红绿灯</label>
-							<div class="checkbox i-checks radio-inline">
-								<label> <input type="radio" value="0" id="lamp0"
-									name="lampRadios"> 全部
-								</label> <label> <input type="radio" value="1" id="lamp1"
-									name="lampRadios"> <span class="label label-danger">红灯${Lamp[2]}</span>
-								</label> <label> <input type="radio" value="2" id="lamp2"
-									name="lampRadios"> <span class="label label-warning">黄灯${Lamp[1]}</span>
-								</label> <label> <input type="radio" value="3" id="lamp3"
-									name="lampRadios"> <span class="label label-info">绿灯${Lamp[0]}</span>
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="ibox-content border-bottom clearfix space_box">
+				 <h2 class="title">
+                       	任务筛选
+                  </h2>
+					<form method="get" class="form_list">
+						<div class="form_content">
+							<label class="control-label sign_left">红绿灯</label>
+							<div class="checkbox i-checks radio-inline sign sign_right">
+								<label> 
+									<input type="radio" value="0" id="lamp0" name="lampRadios"> 全部
+								</label> 
+								<label> 
+								    <input type="radio" value="1" id="lamp1" name="lampRadios"> <span class="label label-danger">红灯${Lamp[2]}</span>
 								</label>
-
-							</div>
-						</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-							<label class="col-md-2 control-label">授权代办</label>
-							<div class="radio i-checks radio-inline">
-								<label> <input type="radio" value="0" id="owner0"
-									name="ownerRadios"> 全部
-								</label> <label> <input type="radio" value="1" id="owner1"
-									name="ownerRadios">  <span class="label label-danger">本身</span>
-								</label> <label> <input type="radio" value="2" id="owner2"
-									name="ownerRadios"> <span class="label label-warning">代办</span>
+								<label>
+								     <input type="radio" value="2" id="lamp2" name="lampRadios"> <span class="label label-warning">黄灯${Lamp[1]}</span>
+								</label>
+								<label> 
+								     <input type="radio" value="3" id="lamp3" name="lampRadios"> <span class="label label-info">绿灯${Lamp[0]}</span>
 								</label>
 							</div>
 						</div>
-							</div>
 							
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="col-md-2 control-label"></label>
-									<div class="control-div">
-									       <select id="inTextType" data-placeholder= "搜索条件设定"
-		                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-											<option value="1" selected>产证地址</option>
-											<option value="0" >客户姓名</option>
-											<option value="2">经纪人姓名</option>
-											<option value="3">所属分行</option>
-											<option value="4">案件编号</option>
-											<option value="5">CTM编号</option>
-										</select>
-								<input id="inTextVal" type="text" class="form-control pull-left">
-									</div>
-							</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="col-md-2 control-label">任务名</label>
-									<div class="col-md-4">
-										<aist:dict id="taskDfKey" name="taskDfKey"
-										clazz="form-control m-b" display="select"
-										dictType="part_code" defaultvalue="" />
-								
-									</div>
-								</div>
+							
+						<div class="form_content">
+							<label class="control-label sign_left">授权代办</label>
+							<div class="checkbox i-checks radio-inline sign sign_right">
+								<label> 
+								      <input type="radio" value="0" id="owner0" name="ownerRadios"> 全部
+								</label> 
+								<label> 
+									 <input type="radio" value="1" id="owner1" name="ownerRadios">  <span class="label label-danger">本身</span>
+								</label> 
+								<label> 
+								     <input type="radio" value="2" id="owner2" name="ownerRadios"> <span class="label label-warning">代办</span>
+								</label>
 							</div>
 						</div>
+							
+						<div class="form_content">
+						      <select id="inTextType"   class="form-control select_control sign_left"  onchange="intextTypeChange()">
+								<option value="1" selected>产证地址</option>
+								<option value="0" >客户姓名</option>
+								<option value="2">经纪人姓名</option>
+								<option value="3">所属分行</option>
+								<option value="4">案件编号</option>
+								<option value="5">CTM编号</option>
+							</select>
+							<input id="inTextVal" type="text" class="sign_right input_type"   placeholder="请输入">
+						</div>
+							
+						<div class="form_content">
+							<label class="control-label sign_left">任务名</label>
+							<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+						</div>
+							
 						<div class="form_content space">
                              <div class="add_btn" align="center">
                                  <button id="searchButton" type="button" class="btn btn_blue" ><i class="icon iconfont">&#xe635;</i>
@@ -250,8 +235,6 @@ text-decoration: underline !important;
                          </div>
 						
 					</form>
-				</div>
-			</div>
 		</div>
 		<!-- 	<form method="get" class="form-horizontal"></form>
 
