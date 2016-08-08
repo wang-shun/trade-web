@@ -135,4 +135,7 @@
 	<import resource="query/report/toReportSignCaseQuery.xml" />
 		<!-- 案件状态统计 -->
 	<import resource="query/dashboard/GetStatus.xml" />
+	
+	<!-- 商贷预警 -->
+	<import resource="query/bizwarn/bizwarnListQuery.xml" />
 </queryConfig>
