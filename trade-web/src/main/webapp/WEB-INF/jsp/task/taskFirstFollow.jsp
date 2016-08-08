@@ -129,7 +129,6 @@
 										</c:choose>
 									</div>
 								</div>
-								
 							</div>
 						</div>
 						<div class="col-xs-12 col-md-5">
@@ -293,6 +292,32 @@
 					</div> --%>
 					<div id="hzxm">
 					</div>
+					<hr>
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group">
+								<label class="col-md-2 control-label">是否需要商贷预警</label>
+								<div class="col-md-4">
+									<div class="radio i-checks radio-inline">
+										<label> <input type="radio" value="true"
+											id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
+										</label>
+										<label> <input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if>
+											value="false" id="optionsRadios2" name="businessLoanWarn">否
+										</label>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-xs-12 col-md-5" id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
+								<div class="form-group">
+										<label class="col-md-4 control-label"><font color="red">*</font>预警内容</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="content" name="content" value="${bizWarnInfo.content }" style="width:754px;">
+										</div>
+								</div>
+						   </div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -362,6 +387,17 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
+			
+			$("input[name=businessLoanWarn]").change(function(){
+				var value = this.value;
+				
+				if(value == "true"){
+					$("#divContent").show();
+				}
+				else {
+					$("#divContent").hide();
+				}
+			});
 			
 			TaskFirstFollowValidate.init("firstFollowform","");
 			
@@ -645,6 +681,7 @@
 			}
 
 			var jsonData = $("#firstFollowform").serializeArray();
+			
 			var result = ''
 			$("span.selected[name='srvCode']").each(function() {
 				result += $(this).attr('value') + ',';
@@ -750,6 +787,7 @@
 
 		//验证控件checkUI();
 		function checkForm() {
+			
 			if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 				alert("合作顾问未选择");
 				return false;
@@ -834,6 +872,17 @@
 				alert("正在加载合作项目!");
 				return false;
 			}
+			
+			if($("input[name=businessLoanWarn]:checked").val() == "true"){
+				var content = $("input[name=content]").val();
+				
+				if(content == ""){
+					alert("请填写预警内容！");
+					$('input[name=content]').focus();
+					return false;
+				}
+			}
+			
 			return true;
 		}
 	</script> 

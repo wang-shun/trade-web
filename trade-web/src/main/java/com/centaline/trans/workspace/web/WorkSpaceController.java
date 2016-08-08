@@ -38,6 +38,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONArray;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
@@ -100,6 +101,9 @@ public class WorkSpaceController {
 	private TsTransPlanHistoryService tsTransPlanHistoryService;
 	@Autowired
 	private TsTeamPropertyService teamPropertyService;
+	
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
 
 	/**
 	 * 检查访问方式是否为移动端
@@ -213,6 +217,10 @@ public class WorkSpaceController {
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
+		
+		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
+		
+		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
 		model.addAttribute("yeLight", yeLight);
 		model.addAttribute("userId", user.getId());
