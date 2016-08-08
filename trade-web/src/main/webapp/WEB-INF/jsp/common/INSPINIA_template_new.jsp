@@ -200,7 +200,7 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
-    <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
     <script type="text/javascript">
     	var ctx = '${ctx}';
     	window.ctx=ctx;

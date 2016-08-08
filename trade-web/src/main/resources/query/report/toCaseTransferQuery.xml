@@ -51,8 +51,10 @@
 					
 				from (
 					select c.pkid,c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
-					(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
-					(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
+					(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=C.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) transferDate,
+					(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=C.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) caseTransferDate,
+					--(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
+					--(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 					v.long_ AS  status
 					from sctrans.t_to_case c 
 					inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 

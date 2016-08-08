@@ -33,6 +33,7 @@ import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -40,6 +41,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.FirstFollowService;
 import com.centaline.trans.task.service.LoanlostApproveService;
+import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.vo.FirstFollowVO;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
@@ -74,6 +76,8 @@ public class FirstFollowController {
 	private FirstFollowService firstFollowService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
+	@Autowired
+	private MortgageSelectService mortgageSelectService;
 	
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
@@ -494,7 +498,7 @@ public class FirstFollowController {
 
 //			variables = editRestVariables(variables, firstFollowVO.getMortageService());
 		}
-
+		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO.getCaseCode());
 		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(), firstFollowVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());

@@ -258,6 +258,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('GUOHUDJ');
 	displayColomn.push('dist_name');
 	displayColomn.push('REAL_HT_TIME');
+	displayColomn.push('START_TIME');
 	displayColomn.push('CTM_CODE');
 	displayColomn.push('CUST_NAME');
 	displayColomn.push('GUEST_PHONE');
@@ -279,8 +280,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('BUYER');
 	displayColomn.push('BUYER_MOBILE');
 	displayColomn.push('transferDate');
-	displayColomn.push('caseTransferDate');
-/*	displayColomn.push('ISAPPROVE');*/
+	displayColomn.push('caseTransferDate');	
 	displayColomn.push('status1');
 	displayColomn.push('ASSESSOR');
 	displayColomn.push('LAST_CONTENT');

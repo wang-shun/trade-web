@@ -391,8 +391,8 @@ on org2.ID=uoj1.ORG_ID
 				<column type="both" name="realName1"  title="总监" customDict=""  hidden="false" />
 				<column type="both" name="orgName2"  title="组别" customDict=""  hidden="false"/>
 				<column type="both" name="realName2"  title="主管" customDict=""  hidden="false" />
-				<column type="both" name="yellow"  title="黄灯" customDict=""  hidden="false"/>
-				<column type="both" name="red"  title="红灯" customDict=""  hidden="false"/>
+				<column type="both" name="red"  title="黄灯" customDict=""  hidden="false"/>
+				<column type="both" name="yellow"  title="红灯" customDict=""  hidden="false"/>
 				<column type="both" name="allcolor"  title="合计" customDict=""  hidden="false"/>
 				<column type="both" name="importtime"  title="导出时间" customDict=""  hidden="false"  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
 				<column type="both" name="id"  title="" customDict=""  hidden="false"/>
