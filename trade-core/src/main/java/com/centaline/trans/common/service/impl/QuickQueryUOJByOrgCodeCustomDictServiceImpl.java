@@ -5,6 +5,7 @@
 package com.centaline.trans.common.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.aist.common.quickQuery.service.CustomDictService;
+import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -40,6 +42,9 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
     // 组织层级
     private String         deptId; 
 
+    @Autowired
+    protected QuickQueryJdbcTemplate jdbcTemplate;
+    
     /** 
      * @see com.aist.common.quickQuery.service.CustomDictService#getValue(java.lang.String)
      */
@@ -101,18 +106,25 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
 			String val = "";
 			Object key = keyer.get("AGENT_ORG_CODE");
 			if(key!=null){
-				Org keyOrg = uamUserOrgService.getOrgByCode(key.toString());
+				
+				String sql = "select top 1 id from sctrans.SYS_ORG where org_code = :code order by is_deleted asc, UPDATE_DATE desc";
+				Map<String,Object> paramMap = new HashMap<String,Object>();
+				paramMap.put("code", key);
+				List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, paramMap);
+				
+//				Org keyOrg = uamUserOrgService.getOrgByCode(key.toString());
 		    	
-		    	if(keyOrg==null) {
+		    	if(list==null || list.isEmpty() || null == list.get(0) || null == list.get(0).get("id")) {
 		    		keyer.put("val", val);
 					continue;
 		    	}
+		    	String orgId = String.valueOf(list.get(0).get("id"));
 		    	
 		    	List<User> userOrgJobs = new ArrayList<User>();
 		    	if(StringUtils.isBlank(deptId)) {
-		    		userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(keyOrg.getId(), jobCode);
+		    		userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, jobCode);
 		    	} else if("BUSIARORBUSISWZ".equals(deptId)) {
-		    		Org org = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSIAR");
+		    		Org org = uamUserOrgService.getParentOrgByDepHierarchy(orgId, "BUSIAR");
 		    		if(org==null){
 		    			keyer.put("val", val);
 						continue;
@@ -120,7 +132,7 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
 					userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), "JQYJL");
 					// 如果区域经理不存在，则取区域总监
 		    		if(userOrgJobs == null) {
-		    			Org org2 = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), "BUSISWZ");
+		    			Org org2 = uamUserOrgService.getParentOrgByDepHierarchy(orgId, "BUSISWZ");
 		    			if(org2==null){
 		    				keyer.put("val", val);
 		    				continue;
@@ -128,7 +140,7 @@ public class QuickQueryUOJByOrgCodeCustomDictServiceImpl implements CustomDictSe
 		    			userOrgJobs = uamUserOrgService.getUserByOrgIdAndJobCode(org2.getId(), "JQYZJ");
 		    		}
 		    	} else {
-					Org org = uamUserOrgService.getParentOrgByDepHierarchy(keyOrg.getId(), deptId);
+					Org org = uamUserOrgService.getParentOrgByDepHierarchy(orgId, deptId);
 					if(org==null){
 						keyer.put("val", val);
 						continue;
