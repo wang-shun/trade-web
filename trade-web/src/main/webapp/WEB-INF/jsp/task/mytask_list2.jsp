@@ -282,7 +282,7 @@ text-decoration: underline !important;
                              </i>
                         </th>
 						<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
-						<th >当前任务</th>
+						<th >案件地址</th>
 						<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
 						<th >上家</th>
 						<th >下家</th>
@@ -416,19 +416,16 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
                           <i class="sign_normal">预</i>
                                 {{item.EST_PART_TIME}}          
                           </p>
-                          <i class="sign_grey">完</i>
-                                        
-                          </p>
                     </td>
                     <td class="center">
                           <p  title="{{item.SELLER}}">
-                                                {{item.SELLER}}
+                                                {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
                           </p>
                          
                     </td>
                     <td class="center">
                           <p  title="{{item.BUYER}}">
-                                                 {{item.BUYER}}
+                                                {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
                           </p>
                           
                     </td>
