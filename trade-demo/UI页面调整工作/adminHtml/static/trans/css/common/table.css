@@ -180,6 +180,14 @@ table thead tr th {
   color: #fff;
 }
 
+.fa_up {
+  position: relative;
+  left: 4px;
+  top: 6px;
+  font-size: 18px;
+  color: #fff;
+}
+
 .big a {
   text-decoration: underline;
 }
