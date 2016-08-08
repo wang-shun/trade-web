@@ -141,6 +141,18 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		return workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 
 	}
+	
+	@Override
+	public boolean submit2(MortgageSelecteVo vo) {
+		
+		loanRequirementChange(vo);
+		
+		// 开始处理流程引擎
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		editRestVariables(variables, vo.getMortageService());
+
+		return workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
+	};
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
