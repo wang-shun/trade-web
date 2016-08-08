@@ -15,8 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aist.uam.permission.remote.UamPermissionService;
-import com.centaline.trans.bizwarn.entity.BizWarnInfo;
-import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -35,11 +33,6 @@ public class TaskController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private UamPermissionService uamPermissionService;
-	
-	@Autowired
-	private BizWarnInfoService bizWarnInfoService;
-	
-	
 
 	/**
 	 * 任务处理跳转
@@ -62,12 +55,6 @@ public class TaskController {
 			StartProcessInstanceVo processInstance = workFlowManager.getHistoryInstances(instCode);
 			caseCode = processInstance.getBusinessKey();
 		}
-		
-		if("FirstFollow".equals(task.getTaskDefinitionKey())){
-			BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
-			request.setAttribute("bizWarnInfo", bizWarnInfo);
-		}
-		
 		Map<String, String> queryParameters = new HashMap<String, String>();
 
 		queryParameters.put("processInstanceId", instCode);

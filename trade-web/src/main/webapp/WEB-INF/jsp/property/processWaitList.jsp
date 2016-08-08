@@ -124,11 +124,15 @@
 	    <script src="${ctx}/js/jquery.blockui.min.js"></script>
 		<script src="${ctx}/js/trunk/property/processWaitList.js?v=1.0.1"></script>
 	 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	 	
 	 	<!-- 分页控件  -->
 	    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	 	
+<!-- 	 	<span><i class="invalid-label">受</i></span> -->
+<!-- 		<span><i class="invalid-label">完</i></span> -->
 	 	<script id="template_processWaitList" type= "text/html">
          	{{each rows as item index}}
                  {{if index%2 == 0}}

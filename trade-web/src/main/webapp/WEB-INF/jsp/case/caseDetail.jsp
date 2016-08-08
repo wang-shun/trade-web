@@ -647,8 +647,6 @@
 							</li>
 							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
 							</li>
-							<li class=""><a href="#bizwarn-info" data-toggle="tab">商贷预警信息</a>
-							</li>
 						</ul>
 
 						<div class="tab-content">
@@ -909,105 +907,12 @@
 							<div class="tab-pane fade" id="caseComment-info">
 								<div id="caseCommentList" class="add_form"></div>
 							</div>
-							
-							<div class="tab-pane fade" id="bizwarn-info">
-								<div class="row ">
-									<c:choose>
-										<c:when test="${!empty bizWarnInfo }">
-											<label class="col-sm-3 control-label" style="width:12%;">预警类型：<c:if test="${bizWarnInfo.warnType == 'LOANLOSS' }">贷款流失</c:if></label>
-											<label class="col-sm-3 control-label" style="width:12%;">预警时间：<fmt:formatDate value="${bizWarnInfo.warnTime}" type="date" pattern="yyyy-MM-dd"/></label>
-											<label class="col-sm-3 control-label" style="width:12%;">预警内容：${bizWarnInfo.content }</label>
-											<label class="col-sm-3 control-label" style="width:12%;">状态：
-												<span id="spnStatus">
-													<c:if test="${bizWarnInfo.status == '0' }">生效</c:if>
-													<c:if test="${bizWarnInfo.status == '1' }">解除</c:if>
-												</span>
-											</label>
-											<label class="col-sm-3 control-label" style="width:12%;">解除时间：
-												<span id="spnRelieveTime">
-													<c:choose>
-													<c:when test="${!empty bizWarnInfo.relieveTime }">
-														<fmt:formatDate value="${bizWarnInfo.relieveTime}" type="date" pattern="yyyy-MM-dd"/>
-													</c:when>
-													<c:otherwise>
-														无
-													</c:otherwise>
-												</c:choose>
-												</span>
-											</label>
-											<label class="col-sm-3 control-label" style="width:12%;">
-												<input type="hidden" name="status" value="${bizWarnInfo.status }"/>
-												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="relieve">解除</div>
-												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="edit">修改</div>
-											</label>
-										</c:when>
-										<c:otherwise>
-											<label class="col-sm-3 control-label" style="width:10%;">无商贷预警信息！ </label>
-											<label class="col-sm-3 control-label" style="width:10%;">
-												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="add">添加</div>
-											</label>
-										</c:otherwise>
-									</c:choose>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-	
-	<div id="bizwarnForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
-		<div class="modal-dialog" style="width: 1000px">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h4 class="modal-title" id="plan-modal-title">添加商贷预警信息</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-3" style="margin-top: 9px; margin-left: 15px;">预警内容:</div>
-							<div class="col-lg-3">
-								<input type="hidden" name="caseId" value="${toCase.pkid}" />
-								<input type="hidden" name="caseCode" value="${toCase.caseCode}"/>
-								<input type="text" name="content" style="width:550px;"/>
-							</div>
-						</div>					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default"
-						data-dismiss="modal">关闭</button>
-					<button class="btn btn-primary" id="btnSave">添加</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div id="editBizwarnForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
-		<div class="modal-dialog" style="width: 1000px">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h4 class="modal-title" id="plan-modal-title">修改商贷预警信息</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-3" style="margin-top: 9px; margin-left: 15px;">预警内容:</div>
-							<div class="col-lg-3">
-								<input type="hidden" name="caseId" value="${toCase.pkid}" />
-								<input type="hidden" name="caseCode" value="${toCase.caseCode}"/>
-								<input type="text" name="content" style="width:550px;"/>
-							</div>
-						</div>					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default"
-						data-dismiss="modal">关闭</button>
-					<button class="btn btn-primary" id="btnEdit">修改</button>
-				</div>
-			</div>
-		</div>
 	</div>
 
 	<content tag="local_script"> <!-- Peity --> <script
@@ -1055,124 +960,6 @@
 		var isCaseManager=${isCaseManager};
 	      $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
  	      $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
- 	      
- 	     function getCurrentDate(){
- 	    	var d = new Date()
- 	    	var vYear = d.getFullYear();
- 	    	var vMon = d.getMonth() + 1;
- 	    	var vDay = d.getDate();
- 	    	
- 	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
-	    	return str;
-    	  }
- 	      
- 	      $("#btnSave").click(function(){
- 	    	  var content = $("#bizwarnForm-modal-form input[name=content]").val();
- 	    	  var caseCode = $("#bizwarnForm-modal-form input[name=caseCode]").val();
- 	    	  var caseId = $("#bizwarnForm-modal-form input[name=caseId]").val();
- 	    	  
- 	    	 $.ajax({
-					cache:false,
-					async:true,
-					type:"POST",
-					dataType:"json",
-					url:ctx+"/bizwarn/addBizWarnInfo",
-					data:{caseCode:caseCode,content:content},
-					success:function(data){
-						if(data.success){
-							location.href = "../case/caseDetail?caseId=" + caseId;
-						}else{
-							alert('添加失败');
-						}
-					}
-				});
- 	    	  
- 	      });
- 	      
- 	      $("#add").click(function(){
- 	    	  $("#bizwarnForm-modal-form").modal("show");
- 	      });
- 	      
- 	     $("#edit").click(function(){
- 	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
- 	    	 
- 	    	 
- 	    	 var status;
- 	    	 var content;
- 	    	 $.ajax({
-					cache:false,
-					async:false,
-					type:"POST",
-					dataType:"json",
-					url:ctx+"/bizwarn/getBizWarnInfo",
-					data:{caseCode:caseCode},
-					success:function(data){
-						status = data.status;
-						content = data.content
-					}
-				});
- 	    	  
- 	    	 	if(status == "1"){
- 	    	 		alert("解除状态不能修改商贷预警信息！");
- 	    	 		return false;
- 	    	 	}
- 	    	 	
- 	    	  $("#editBizwarnForm-modal-form input[name=content]").val(content);
-	    	  $("#editBizwarnForm-modal-form").modal("show");
-	      });
- 	     
- 	     $("#btnEdit").click(function(){
- 	    	 var content = $("#editBizwarnForm-modal-form input[name=content]").val();
-	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
-	    	 var caseId = $("#editBizwarnForm-modal-form input[name=caseId]").val(); 
-	    	 
-	    	 $.ajax({
-					cache:false,
-					async:true,
-					type:"POST",
-					dataType:"json",
-					url:ctx+"/bizwarn/editBizWarnInfo",
-					data:{caseCode:caseCode,content:content},
-					success:function(data){
-						if(data.success){
-							location.href = "../case/caseDetail?caseId=" + caseId;
-						}else{
-							alert('修改失败');
-						}
-					}
-				});
- 	     });
- 	      
- 	      $("#relieve").click(function(){
- 	    	  var status = $("input[name=status]").val();
- 	    	  
- 	    	  if(status == "1"){
- 	    		  alert("该案件已经处于解除状态！");
-	    		  return false; 
- 	    	  }
- 	    	  
- 	    	 if(confirm("是否确定解除？")){
-  				$.ajax({
-  					cache:false,
-  					async:true,
-  					type:"POST",
-  					dataType:"json",
-  					url:ctx+"/bizwarn/relieve",
-  					data:{caseCode:caseCode},
-  					success:function(data){
-  						if(data.success){
-  							$("#spnStatus").html("解除");
-  							console.log(getCurrentDate());
-  							$("#spnRelieveTime").html(getCurrentDate());
-  							$("input[name=status]").val("1");
-  						}else{
-  							alert('解除失败');
-  						}
-  					}
-  				});
- 	    	 }
- 	      });
- 	      
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,

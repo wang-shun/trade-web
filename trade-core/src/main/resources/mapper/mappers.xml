@@ -154,11 +154,5 @@
 		<mapper resource="mapper/comment/ToCaseCommentMapper.xml" />
 		<!-- 快速查询接口 -->
 		<mapper resource="mapper/common/KeyValueMapper.xml" />
-		
-		<!-- 快速查询接口 -->
-		<mapper resource="mapper/common/KeyValueMapper.xml" />
-		
-		<!-- 贷款预警借口 -->
-		<mapper resource="mapper/bizwarn/BizWarnInfoMapper.xml" />
 	</mappers>
 </configuration>

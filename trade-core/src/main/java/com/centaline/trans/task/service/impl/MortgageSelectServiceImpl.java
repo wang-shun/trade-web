@@ -12,8 +12,6 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.bizwarn.entity.BizWarnInfo;
-import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -76,8 +74,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private ToCaseService toCaseService;
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
-	@Autowired
-	private BizWarnInfoMapper bizWarnInfoMapper;
 	
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
@@ -136,10 +132,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			}
 
 		}
-		
-		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
-		bizWarnInfo.setStatus("1");
-		bizWarnInfoMapper.updateStatusInMortgageSelect(bizWarnInfo);   //当操作人确定好贷款选择之后，商贷预警信息状态就更改为已解除
 
 		// 开始处理流程引擎
 
