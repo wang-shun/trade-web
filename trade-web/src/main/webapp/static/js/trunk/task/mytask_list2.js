@@ -367,3 +367,27 @@ function callback() {
 	setTimeout('searchMethod()',1000); 
 }
 
+function caseCodeSort(){
+	if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
+	}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
+
+function createTimeSort(){
+	if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#createTimeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
+
+
+
+
+

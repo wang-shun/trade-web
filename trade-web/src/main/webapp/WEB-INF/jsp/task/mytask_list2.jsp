@@ -264,12 +264,12 @@ text-decoration: underline !important;
                                  &#xe604;
                              </i>
                         </th>
-						<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc">案件编号</span></th>
+						<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 						<th >案件地址</th>
-						<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc">创建时间</span></th>
+						<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 						<th >上家</th>
 						<th >下家</th>
-						<th ><span class="sort" sortColumn="WFE_NAME" sord="asc">流程环节</span></th>
+						<th >流程环节</th>
 						<th >操作</th>
 					</tr>
 				</thead>
