@@ -122,7 +122,7 @@ public class TmpBankAduitController {
 	toWorkFlowService.insertSelective(toWorkFlow);
 	
 	//更新贷款表临时银行状态为审批中：‘2’
-	ToMortgage mortageDb = toMortgageService.findToMortgageByCaseCode(caseCode);
+	ToMortgage mortageDb = toMortgageService.findToMortgageByCaseCode2(caseCode);
 	mortageDb.setTmpBankStatus("2");
 	toMortgageService.updateToMortgage(mortageDb);
 	
