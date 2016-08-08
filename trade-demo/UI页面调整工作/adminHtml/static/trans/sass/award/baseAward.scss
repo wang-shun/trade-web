@@ -1,17 +1,27 @@
 @charset "utf-8";
-.btn_small {
-    padding: 4px 10px;
-}
 .month {
     overflow: hidden;
 }
-.month span {
-    display: inline-block;
-    float: left;
-    margin: 0px 20px;
-    font-size: 22px;
-    line-height: 30px;
-    color: #333;
+.month {
+    span {
+        display: inline-block;
+        float: left;
+        margin: 0px 15px;
+        font-size: 22px;
+        line-height: 34px;
+        color: #333;
+    }
+    span.explain {
+        font-family: "Microsoft Yahei";
+        font-size: 14px!important;
+        color: #ed5565;
+    }
+    .icon_arrow {
+        font-size: 16px;
+    }
+    .btn_small {
+        padding: 3px 8px;
+    }
 }
 .notes {
     padding-left: 15px;
@@ -19,9 +29,29 @@
     font-family: "Microsoft Yahei";
     font-size: 14px;
 }
+.notes p {
+    margin: 0 0 5px 0;
+}
 .spread {
     text-decoration: underline;
 }
 .table_content .table > tbody > tr {
     height: 48px;
 }
+.spread_tab thead tr th {
+    height: 48px;
+    background: #f9f9f9;
+    color: #343434;
+    border: 1px solid #f3f3f4;
+}
+.spread_td {
+    padding: 20px;
+    width: 100%;
+}
+.spread_tab {
+    width: 98%;
+    margin: 10px auto;
+    border: 1px solid #f3f3f4;
+    border-bottom:none;
+}
+
