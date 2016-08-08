@@ -51,9 +51,10 @@ public class TaskController {
 		TaskVo task = workFlowManager.getHistoryTask(taskId);
 		String instCode = task.getProcessInstanceId();
 		String formKey = task.getFormKey();
+		String businessKey = "";
 		if (caseCode == null) {
 			StartProcessInstanceVo processInstance = workFlowManager.getHistoryInstances(instCode);
-			caseCode = processInstance.getBusinessKey();
+			businessKey = processInstance.getBusinessKey();
 		}
 		Map<String, String> queryParameters = new HashMap<String, String>();
 
@@ -63,7 +64,8 @@ public class TaskController {
 		queryParameters.put("taskitem", task.getTaskDefinitionKey());
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);
-		queryParameters.put("caseCode", caseCode);
+		queryParameters.put("caseCode", caseCode!=null?caseCode:businessKey);
+		queryParameters.put("businessKey", businessKey);
 		Boolean sameSever = false;// 是否同服务器
 		if (StringUtils.isNotBlank(formKey)) {
 			if (!formKey.contains(":")) {
@@ -78,7 +80,8 @@ public class TaskController {
 			request.setAttribute("taskitem", task.getTaskDefinitionKey());
 			request.setAttribute("taskId", taskId);
 			request.setAttribute("source", source);
-			request.setAttribute("caseCode", caseCode);
+			request.setAttribute("businessKey", businessKey);
+			request.setAttribute("caseCode", caseCode!=null?caseCode:businessKey);
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");

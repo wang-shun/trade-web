@@ -23,6 +23,7 @@ public class WorkFlowUtils {
 			RestVariable v = new RestVariable();
 			v.setName(key);
 			v.setValue(vars.get(key));
+			returnVars.add(v);
 		}
 		return returnVars;
 	}
