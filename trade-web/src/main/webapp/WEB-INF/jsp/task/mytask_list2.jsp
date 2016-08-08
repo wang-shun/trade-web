@@ -157,6 +157,7 @@ text-decoration: underline !important;
 	white-space: normal!important;
 	word-break:break-all!important;
 }
+
 </style> 
 </head>
 
@@ -242,7 +243,7 @@ text-decoration: underline !important;
 						</div>
 						<div class="form_content space">
                              <div class="add_btn" align="center">
-                                 <button id="searchButton" type="button" class="btn btn_blue" >
+                                 <button id="searchButton" type="button" class="btn btn_blue" ><i class="icon iconfont">&#xe635;</i>
                                   	   查询
                                  </button>
                              </div>
@@ -252,9 +253,9 @@ text-decoration: underline !important;
 				</div>
 			</div>
 		</div>
-			<form method="get" class="form-horizontal"></form>
+		<!-- 	<form method="get" class="form-horizontal"></form>
 
-		<!-- 	<div class="col-lg-12 col-md-12">
+			<div class="col-lg-12 col-md-12">
 				<div class="ibox ">
 					<div class="ibox-title">
 						<h5>我的任务列表</h5>
@@ -270,7 +271,6 @@ text-decoration: underline !important;
 					</div>
 				</div>
 			</div> -->
-	<div class="row">
 	 <div class="col-md-12">
 		<div class="table_content">
 			<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped table-bordered table-hover ">
@@ -307,7 +307,6 @@ text-decoration: underline !important;
 		    </div> 
 		    
 		</div>
-	</div>
 
 	<content tag="local_script"> 
 
@@ -322,13 +321,12 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
  src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 <!-- iCheck -->
 <script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-<script src="${ctx}/js/trunk/task/mytask_list.js?version=1.1.1"></script> 
+<script src="${ctx}/js/trunk/task/mytask_list2.js?version=1.1.1"></script> 
 <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 <!-- 分页控件  -->
    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-
 
 	 
 	 
@@ -340,31 +338,59 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
                        <tr class="tr-2">
                    {{/if}}
 						{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
-							<td>
-               
-                             </td>
-						{{else if item.DATELAMP < lamp2}}
-                           			<td>
-                 <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                 <div class="sk-double-bounce1" style="background-color:green"></div>
-                 <div class="sk-double-bounce2" style="background-color:green"></div>
-                 </div>
-                             </td>
-				        {{else if item.DATELAMP < lamp3}}
-							<td> <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                	<div class="sk-double-bounce1 orange_light"></div>
-                    <div class="sk-double-bounce2 orange_light"></div>
-                 </div></td>
-  						{{else}}
+			 	 <td></td>
+			{{else if item.DATELAMP < lamp2}}
+                 <td>
+                         <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 		 	<div class="sk-double-bounce1 green_light"></div>
+                		 	<div class="sk-double-bounce2 green_light"></div>
+                		 </div>
+						{{if item.RED_LOCK==1}}
+							 <p class="text-center clock clock_red">
+                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                             </p>
+						{{else}}
+                            <p class="text-center clock">
+          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
+      						 </p>
+						{{/if}}
+                 </td>
+			{{else if item.DATELAMP < lamp3}}
+				 <td>  <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                			<div class="sk-double-bounce1 orange_light"></div>
+                    		<div class="sk-double-bounce2 orange_light"></div>
+               		   </div>
+						{{if item.RED_LOCK==1}}
+							 <p class="text-center clock clock_red">
+                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                             </p>
+						{{else}}
+                            <p class="text-center clock">
+          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
+      						 </p>
+						{{/if}}
+				  </td>
+  			{{else}}
    				 <td>
                       <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                     <div class="sk-double-bounce1 red_light"></div>
-                     <div class="sk-double-bounce1 red_light"></div>
-                 </div></td>
+                     		<div class="sk-double-bounce1 red_light"></div>
+                    		<div class="sk-double-bounce1 red_light"></div>
+                 	  </div>
+						{{if item.RED_LOCK==1}}
+							 <p class="text-center clock clock_red">
+                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                             </p>
+						{{else}}
+                            <p class="text-center clock">
+          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
+      						 </p>
 						{{/if}}
+				 </td>
+			{{/if}}
+				
 					<td class="t-left">
 						<p class="big">
-                       		<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" >
+                       		<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">
 								{{item.CASE_CODE}}
 							</a>
 						</p>
@@ -378,7 +404,7 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
 						</p>
 						 <p class="tooltip-demo">
 							<i class="salesman-icon"></i>
- 							<a class="salesman-info" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+ 							<a class="salesman-info"  title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
 						</p>
 					</td>
 					<td>
@@ -390,22 +416,21 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
                           <i class="sign_normal">预</i>
                                 {{item.EST_PART_TIME}}          
                           </p>
-                    </td>
-                    <td class="center">
-                          <p class="big">
-                                                {{item.SELLER}}
-                          </p>
-                          <p class="big">
-                                                {{item.SELLER}}
+                          <i class="sign_grey">完</i>
+                                        
                           </p>
                     </td>
                     <td class="center">
-                          <p class="big">
+                          <p  title="{{item.SELLER}}">
+                                                {{item.SELLER}}
+                          </p>
+                         
+                    </td>
+                    <td class="center">
+                          <p  title="{{item.BUYER}}">
                                                  {{item.BUYER}}
                           </p>
-                          <p class="big">
-                                                {{item.BUYER}}
-                          </p>
+                          
                     </td>
 					<td>
 							<p>
@@ -413,13 +438,13 @@ src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
                             </p>
                             <p>
                               <i class="sign_blue">
-                                 {{item.NAME}}
+									{{item.NAME}}
                               </i>
                             </p>
 					</td>
                     <td class="text-center">
                            <i class="iconfont icon_revise">
-                             <a href="{{ctx}}/engine/task/{{item.ID}}/process" >&#xe603;</a>
+                             <a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >&#xe603;</a>
                          </i>
                      </td>
 
