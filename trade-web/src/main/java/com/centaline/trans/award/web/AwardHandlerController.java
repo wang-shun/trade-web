@@ -26,16 +26,29 @@ public class AwardHandlerController {
 	@Resource(name = "quickGridService")
 	private QuickGridService quickGridService;
 
+	/**
+	 * 个人绩效奖金数据展示
+	 * @return
+	 */
 	@RequestMapping(value = "personalAward")
 	public String personalAward() {
 		return "award/personalAwardDetail";
 	}
 
+	/**
+	 * 所有人绩效奖金数据展示
+	 * @return
+	 */
 	@RequestMapping(value = "allAward")
 	public String allAward() {
 		return "award/allAward";
 	}
 
+	/**
+	 * 可计件奖金案件展示
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "kjjianCase")
 	public String kjjianCase(HttpServletRequest request) {
 
