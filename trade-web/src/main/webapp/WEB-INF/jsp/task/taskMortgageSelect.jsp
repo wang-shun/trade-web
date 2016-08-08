@@ -376,7 +376,7 @@
 			}
 			var jsonData = $("#firstFollowform").serializeArray();
 			var 
-				url = "${ctx}/task/mortgageSelect/loanRequirementChange";
+				url = "${ctx}/task/mortgageSelect/submit";
 		
 			
 			$.ajax({
