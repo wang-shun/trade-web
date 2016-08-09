@@ -353,7 +353,7 @@
 						<td class="text-center">{{item.status1}}</td>
 						<td class="t-left">{{item.GRP_NAME}}</td>
 						<td class="t-left">{{item.AR_NAME}}</td>
-						<td class="t-left">{{item.VORG_NAME}}</td>
+						<td class="t-left">{{item.WZ_NAME}}</td>
 						<td class="t-left">{{item.VREAL_NAME}}</td>
 				  </tr>
        {{/each}}
