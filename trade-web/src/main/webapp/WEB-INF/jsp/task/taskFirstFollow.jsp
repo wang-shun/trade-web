@@ -296,7 +296,7 @@
 					<div class="row">
 						<div class="col-xs-12 col-md-7">
 							<div class="form-group">
-								<label class="col-md-2 control-label">是否需要商贷预警</label>
+								<label class="col-md-2 control-label" style="width:140px;">是否需要商贷预警</label>
 								<div class="col-md-4">
 									<div class="radio i-checks radio-inline">
 										<label> <input type="radio" value="true"
@@ -310,10 +310,10 @@
 							</div>
 							
 							<div class="col-xs-12 col-md-5" id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
-								<div class="form-group">
-										<label class="col-md-4 control-label"><font color="red">*</font>预警内容</label>
+								<div class="form-group" style="width:800px;">
+										<label class="col-md-4 control-label" style="width:120px;"><font color="red">*</font>预警内容</label>
 										<div class="col-md-8">
-											<input type="text" class="form-control" id="content" name="content" value="${bizWarnInfo.content }" style="width:754px;">
+											<input type="text" class="form-control" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
 										</div>
 								</div>
 						   </div>
