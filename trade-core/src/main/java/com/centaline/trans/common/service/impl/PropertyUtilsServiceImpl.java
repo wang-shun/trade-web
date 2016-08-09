@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -50,9 +49,15 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	
 	@Value("${process.df.key.PSFLoan_Process}")
 	private String processPSFLoanDfKey;
+	
+	@Value("${process.df.key.Eloan_Process}")
+	private String processEloanDfKey;
 
 	public String getProcessTmpBankAuditDfKey() {
 		return processTmpBankAuditDfKey;
+	}
+	public String getProcessEloanDfKey() {
+		return processEloanDfKey;
 	}
 
 	private Map<String, String> processOperationDfKeyMap;
