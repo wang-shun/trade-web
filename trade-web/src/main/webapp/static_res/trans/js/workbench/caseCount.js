@@ -1,3 +1,7 @@
+//E+贷款
+var d1;
+var d2;
+
 /*根据日期查询统计 */
 function queryConutCaseByDate(){
 	var sUserId = $("#sUserId").val();
@@ -75,14 +79,21 @@ function queryConutCaseByDate(){
 				
 				setStaDetailDef();
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
-   	 			var d1 =toDonutData($(data.staLoanSign),'count');
-   	 			var d2 =toDonutData($(data.staLoanSign),'amount');
+   	 			d1 = toDonutData($(data.staLoanSign),'count');
+   	 			d2 = toDonutData($(data.staLoanSign),'amount');
    	 			setDonut(d1,d2);
 				
 				addLinkHref(month,sUserId);
 			}
 	 });
 }
+
+/*
+$('a[href="#tab-3"]').click(function (e) {
+	  //e.preventDefault()
+	  $(this).tab('show')
+	  setDonut(d1,d2);
+})*/
 
 // 申请金额/面签金额/放款金额增加链接
 function addLinkHref(month,sUserId) {
