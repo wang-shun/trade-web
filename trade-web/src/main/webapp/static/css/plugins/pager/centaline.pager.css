@@ -1,5 +1,5 @@
-.my-pagination ul>li.active>a:hover, .my-pagination ul>li.active>a:focus{background: #d84a38!important;color: #fff;}
-.my-pagination li.active a{background: #d84a38;color: #fff}
+.my-pagination ul>li.active>a:hover, .my-pagination ul>li.active>a:focus{background: #428fcc!important;color: #fff;}
+.my-pagination li.active a{background: #428fcc;color: #fff}
 .my-pagination li.disabled a{background: #f7f9f9;cursor:not-allowed!important }
 
 .pagination {
@@ -10,3 +10,20 @@
 #pagerGotodiv{display:inline-block;}
 .bold{font-weight:bold !important;}
 .pagination{margin:10px;}
+
+
+#pagerGotodiv input[type=button]{
+	height: 24px;
+    border: 1px solid #428fcc;
+    background: #428fcc;
+    color: #fff;
+    margin-left:3px;
+    border-radius: 2px;
+    width:30px;
+}    
+#pagerGotodiv input[type=text]{
+    width: 80px;
+    height: 26px;
+    padding: 2px 2px 2px 5px;
+    border: 1px solid #e5e6e7;
+}   

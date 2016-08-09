@@ -52,6 +52,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	vars.put("Consultant", user.getUsername());
     	vars.put("Manager", manager==null?null:manager.getUsername());
     	
+    	String demo=propertyUtilsService.getProcessEloanDfKey();
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(tEloanCase.getCaseCode());
@@ -87,5 +88,10 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if(isUpdate) {
 			toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
 		}
+	}
+
+	@Override
+	public ToEloanCase getToEloanCaseByPkId(Long pkid) {
+		return toEloanCaseMapper.selectByPrimaryKey(pkid);
 	}
 }

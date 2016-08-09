@@ -284,6 +284,7 @@
 				},
 				success : function(data) {
 					alert(data.message);
+					window.location.href=ctx+"/loan/submit";
 				},
 				error : function(errors) {
 					alert("数据保存出错");

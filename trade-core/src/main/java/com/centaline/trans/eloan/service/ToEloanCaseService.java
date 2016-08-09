@@ -8,6 +8,8 @@ import com.centaline.trans.eloan.entity.ToEloanCase;
 
 public interface ToEloanCaseService {
 	
+	ToEloanCase getToEloanCaseByPkId(Long pkid);
+	
     void saveEloanApply(SessionUser user,ToEloanCase tEloanCase);
     
     void saveEloanSign(String taskId,ToEloanCase tEloanCase);

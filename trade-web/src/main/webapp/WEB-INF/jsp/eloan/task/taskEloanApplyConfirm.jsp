@@ -318,6 +318,7 @@
 				success : function(data) {
 				  	$.unblockUI();
 					alert(data.message);
+					window.location.href=ctx+"/loan/submit";
 				},
 				error : function(errors) {
 				  	$.unblockUI();

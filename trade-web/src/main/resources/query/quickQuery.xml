@@ -135,4 +135,5 @@
 	<import resource="query/report/toReportSignCaseQuery.xml" />
 		<!-- 案件状态统计 -->
 	<import resource="query/dashboard/GetStatus.xml" />
+	<import resource="query/eloan/ELoanCaseList.xml" />
 </queryConfig>

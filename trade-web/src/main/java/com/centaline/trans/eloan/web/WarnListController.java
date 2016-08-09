@@ -1,7 +1,10 @@
 package com.centaline.trans.eloan.web;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +52,7 @@ import com.centaline.trans.loan.enums.LoanCompany;
 import com.centaline.trans.loan.enums.LoanType;
 import com.centaline.trans.loan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 
 @Controller
 @RequestMapping(value="/eloan")
@@ -64,9 +68,10 @@ public class WarnListController {
 	
 	@Autowired
 	LoanAgentService loanAgentService;
-	
 	@Autowired
 	OrgService orgService;
+	@Autowired
+	TsFinOrgService finorgService;
 	@Autowired
 	ToEloanCaseService toEloanCaseService;
 	@Autowired
@@ -81,10 +86,70 @@ public class WarnListController {
 	ToCaseInfoService toCaseInfoService;
 	@Autowired(required = true)
 	TgGuestInfoService tgGuestInfoService;
-	
+
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(ServletRequest request){
     	return "eloan/task/taskEloanApply";
+	}
+	
+	@RequestMapping("getEloanCaseDetails")
+	public String getEloanDetail(Long pkid, Model model) {
+		if (pkid != null) {
+			ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
+			ToCase toCase= toCaseService.findToCaseByCaseCode(eloanCase.getCaseCode());
+			//人物信息
+			User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+			User excutor =uamUserOrgService.getUserById(eloanCase.getExcutorId());
+			Map<String,Object> object = new HashMap<String,Object>();
+			if(excutor!=null){
+			object.put("excutorName", excutor.getRealName());
+			object.put("excutorPhone", excutor.getMobile());
+			}
+			object.put("jingbanName", jingban.getRealName());
+			object.put("jingbanPhone",jingban.getMobile());
+			// 物业信息
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+			object.put("propertyAddr", toPropertyInfo.getPropertyAddr());
+			//放款信息
+			BigDecimal releaseAmount=new BigDecimal(0);
+			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+			for (ToEloanRel toEloanRel : eloanRels) {
+				if(toEloanRel.getConfirmStatus().equals("1")){
+					releaseAmount=releaseAmount.add(toEloanRel.getReleaseAmount());
+				
+				}
+			}
+			object.put("releaseAmount",releaseAmount);
+			//状态
+			String status="";
+			if(eloanCase.getApplyTime()!=null){
+				status="apply";
+			}
+			if(eloanCase.getApplyConfTime()!=null){
+				status="confirmApply";
+			}
+			if(eloanCase.getSignTime()!=null){
+				status="sign";
+			}
+		    if(eloanCase.getApplyConfTime()!=null){
+				status="confirmSign";
+			}
+			if(eloanRels.size()>0){
+				status="release";
+			}
+			object.put("status",status);
+			//申请时间
+			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String applyTime=dateFormat.format(eloanCase.getApplyTime());
+			object.put("applyTime",applyTime );
+			//合作机构查询
+			String finOrgName=finorgService.findBankByFinOrg(eloanCase.getFinOrgCode()).getFinOrgName();
+			object.put("finOrgName",finOrgName );
+			model.addAttribute("info", object);
+			model.addAttribute("eloanCase", eloanCase);
+		}
+
+		return "/eloan/task/taskEloanDetail";
 	}
 	
 	@RequestMapping(value="saveEloanApply")
