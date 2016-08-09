@@ -351,10 +351,10 @@ text-decoration: underline !important;
 						<p class="big">
                        		{{item.PROPERTY_ADDR}}
 						</p>
-						 <p class="tooltip-demo">
+						 <span >
 							<i class="salesman-icon"></i>
- 							<a class="salesman-info"  title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
-						</p>
+ 							<a class="hint  hint-top1" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+						</span>
 					</td>
 					<td>
                          <p>
@@ -367,15 +367,15 @@ text-decoration: underline !important;
                           </p>
                     </td>
                     <td class="center">
-                          <p  title="上家信息: {{item.SELLER}}">
+                          <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
                                                 {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
-                          </p>
+                          </span>
                          
                     </td>
                     <td class="center">
-                          <p  title="下家信息:{{item.BUYER}}">
+                          <span  class="hint  hint-top1" data-hint="下家信息:{{item.BUYER}}">
                                                 {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
-                          </p>
+                          </span>
                           
                     </td>
 					
