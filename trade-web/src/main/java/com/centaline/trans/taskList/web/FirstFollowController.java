@@ -33,6 +33,7 @@ import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -40,6 +41,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.FirstFollowService;
 import com.centaline.trans.task.service.LoanlostApproveService;
+import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.vo.FirstFollowVO;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
@@ -74,6 +76,8 @@ public class FirstFollowController {
 	private FirstFollowService firstFollowService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
+	@Autowired
+	private MortgageSelectService mortgageSelectService;
 	
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
@@ -343,6 +347,7 @@ public class FirstFollowController {
 		}
 		for (String orgStr : orgs) {
 				Org org = uamUserOrgService.getOrgByCode(orgStr);
+				/*浦东合作顾问选中台 */
 				List<User> list = null;
 				if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
 					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
@@ -364,7 +369,7 @@ public class FirstFollowController {
 		}
 		result.put("dic", dict);
 		result.put("users", jsonList);
-		result.put("orgcode", myDistrict.getOrgCode());
+		result.put("orgcode", myDistrict.getOrgCode());/*浦东合作顾问选中台 */
 
 		return result;
 	}

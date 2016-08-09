@@ -18,8 +18,9 @@ body {
 }
 
 .task_light {
-  padding-top: 20px;
-  font-size: 16px;
+	margin-left: 20px;
+	padding-top: 20px;
+	font-size: 16px;
 }
 
 #base_info {
@@ -46,7 +47,6 @@ body {
   margin-left: 32px;
   font-size: 16px;
 }
-
 .table_loan {
   border: 1px solid #eaeaea;
   color: #333333;
@@ -90,6 +90,7 @@ body {
 
 .widget-main {
   padding: 12px;
+  border-bottom: 1px solid #e7eaec;
 }
 
 .widget-header {
@@ -217,6 +218,10 @@ body {
   width: 105px;
 }
 
+.wd90 {
+	width: 90px;
+}
+
 .data-progress .data-bar {
   width: 42%;
   display: inline-block;
@@ -258,4 +263,11 @@ body {
 }
 .smaller {
   font-weight: normal;
+}
+.feed-element{
+	border-bottom: 1px solid #eee;
+}
+.no_border{
+	border:none !important;
+	boder-style:none !important;
 }

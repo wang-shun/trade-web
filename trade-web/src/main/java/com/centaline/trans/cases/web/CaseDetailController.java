@@ -31,6 +31,8 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -73,6 +75,7 @@ import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -180,6 +183,11 @@ public class CaseDetailController {
 	private ToPropertyResearchService toPropertyResarchService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
+	
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	
 	/**
 	 * 页面初始化
@@ -650,6 +658,7 @@ public class CaseDetailController {
 			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
+		
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
 				.getServiceDepCode());
 		boolean isBackTeam = false;
@@ -670,6 +679,7 @@ public class CaseDetailController {
 		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
 			isCaseManager=true;
 		}
+		
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -1187,6 +1197,11 @@ public class CaseDetailController {
 		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
 			isCaseManager=true;
 		}
+		
+		//商贷预警信息
+		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
+		
+		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -1488,10 +1503,10 @@ public class CaseDetailController {
 				return AjaxResponse.fail("已发起服务变更申请，无法重复发起！");
 			}
 			// 启动流程引擎
-			ProcessInstance process = new ProcessInstance();
+			/*ProcessInstance process = new ProcessInstance();
 			process.setBusinessKey(caseCode);
 			process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()));
-			/* 流程引擎相关 */
+			 流程引擎相关 
 			Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.SRV_BUSSKEY.getCode());
 			if (defValsMap != null) {
 				List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -1507,7 +1522,13 @@ public class CaseDetailController {
 			}
 			// 更新本地数据
 			StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, sessionUser.getUsername(),
-					caseCode);
+					caseCode);*/
+			
+			Map<String,Object>vars=new HashMap<>();
+		    User manager=uamUserOrgService.getLeaderUserByOrgIdAndJobCode(sessionUser.getServiceDepId(), "Manager");
+		    vars.put("consultant", sessionUser.getUsername());
+		    vars.put("Manager", manager.getUsername());
+		    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()), caseCode, vars);
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());

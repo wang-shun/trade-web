@@ -39,7 +39,7 @@ public class MortgageSelectController {
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
 		}
-		return mortgageSelectService.submit(vo);
+		return mortgageSelectService.submit2(vo);
 	}
 	@ResponseBody
 	@RequestMapping(value = "getLoanReleasePlan")

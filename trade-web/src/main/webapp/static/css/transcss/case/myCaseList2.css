@@ -1,0 +1,26 @@
+/* 表格2.0样式 */
+*{padding:0;margin:0;box-sizing: border-box;}
+.data-wrap{width:100%;padding:15px;}
+.data-wrap-in{width:100%;}
+.data-wrap-in .t-left{text-align:left;}
+.data-wrap-in table{width:100%;text-align: center;border:1px solid #ddd;}
+.data-wrap-in thead{height:36px;line-height:36px;background-color:#a1cdeb;color:#fff;font-size:14px;background-color: #52CDEC;}
+.data-wrap-in tbody{color:#000;font-size:14px;}
+.data-wrap-in tbody tr{height:36px;line-height:36px;}
+.data-wrap-in tbody tr.tr-1{background-color:#f6f9fb;}
+.data-wrap-in tbody tr.tr-2{background-color:#F3F3F4;}
+
+.data-wrap-in .red-green{width:19px;height:19px;border-radius:50%;display:inline-block;background-color:#6cb723;vertical-align:middle;}
+.data-wrap-in .case-num,.data-wrap-in .case-task{color:#1a5f8e;}
+.data-wrap-in .case-num:visited,.data-wrap-in .case-task:visited{color:#000;}
+.data-wrap-in .case-task{font-weight:bold;}
+.data-wrap-in .time-icon{width:17px;height:16px;display:inline-block;background:url(../../../img/transimg/task/data_time_icon01.png) no-repeat center;vertical-align:middle;}
+.data-wrap-in .time-off{background-image:url(../../../img/transimg/task/data_time_icon02.png);}
+.data-wrap-in .ctm-tag{width:13px;height:14px;border-radius:2px;color:#fff;font-size:14px;font-weight:bold;line-height:0;padding:2px 4px;background-color:#bababa;margin-right:5px;} 
+.data-wrap-in .salesman-icon{width:15px;height:16px;display:inline-block;background:url(../../../img/transimg/task/data_salary_icon.png) no-repeat center;vertical-align: -3px;margin-right:5px;}
+.data-wrap-in .salesman-info{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.data-wrap-in .case-deal{width:61px;height:25px;display:inline-block;background:url(../../../img/transimg/task/data_deal_icon.png) no-repeat center;vertical-align:-6px;}
+/* 表格4.0样式 */
+.pd-l{padding-left:15px;}
+.data-wrap-in .fd{width:61px;height:23px;line-height:23px;display:inline-block;color:#fff;background-color:#ff975f;border-radius:3px;margin-left:10px;text-align:center;}
+.data-wrap-in .red-num{width:20px;height:20px;line-height:20px;color:#fff;display:inline-block;background-color: #da342c;border-radius: 50%;}

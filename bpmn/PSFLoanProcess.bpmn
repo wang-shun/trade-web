@@ -3,16 +3,16 @@
   <process id="PSFLoan_Process" name="PSFLoan_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="PSFApply" name="纯公积金贷款申请" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFApply/process"></userTask>
-    <userTask id="PSFSign" name="纯公积金贷款签约" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFSign/process"></userTask>
-    <userTask id="PSFApprove" name="纯公积金贷款审批" activiti:candidateGroups="consultant" activiti:formKey="/task/PSFApprove/process"></userTask>
+    <userTask id="PSFApply" name="纯公积金贷款申请" activiti:assignee="${partner}" activiti:formKey="/task/PSFApply/process"></userTask>
+    <userTask id="PSFSign" name="纯公积金贷款签约" activiti:assignee="#{commonUserService.getLastExecutor(execution,'PSFApply')}" activiti:formKey="/task/PSFSign/process"></userTask>
+    <userTask id="PSFApprove" name="纯公积金贷款审批" activiti:assignee="#{commonUserService.getLastExecutor(execution,'PSFApply')}" activiti:formKey="/task/PSFApprove/process"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="PSFApply"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="PSFApply" targetRef="PSFSign"></sequenceFlow>
     <sequenceFlow id="flow3" sourceRef="PSFSign" targetRef="PSFApprove"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="PSFApprove" targetRef="endevent1"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_ComLoan_Process">
-    <bpmndi:BPMNPlane bpmnElement="ComLoan_Process" id="BPMNPlane_ComLoan_Process">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_PSFLoan_Process">
+    <bpmndi:BPMNPlane bpmnElement="PSFLoan_Process" id="BPMNPlane_PSFLoan_Process">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="50.0" y="56.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>

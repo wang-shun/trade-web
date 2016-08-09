@@ -1,5 +1,5 @@
 function openUploadDialog(data){
-	var url = appCtx['aist-filesvr-web'];
+	var url = appCtx['shcl-filesvr-web'];
 	var option = {
 			dialogId : "uploadDialog",
 			dialog:{
@@ -16,11 +16,11 @@ function openUploadDialog(data){
 	openDialog(option);
 }
 function downLoad(id){
-	var url = appCtx['aist-filesvr-web'];
+	var url = appCtx['shcl-filesvr-web'];
 	window.location.href = url+"/filesvr/downLoad?id="+id;
 }
 function downLoadZip(data){
-	var url = appCtx['aist-filesvr-web']+"/filesvr/downLoadZip";
+	var url = appCtx['shcl-filesvr-web']+"/filesvr/downLoadZip";
 	if (url && data) {
 		var inputs = '';
 		$.each(data, function(i) {

@@ -6,7 +6,7 @@
 		<artifactId>trade-parent</artifactId>
 
 
-		<version>1.1.20-SNAPSHOT</version>	</parent>
+		<version>1.1.21-SNAPSHOT</version>	</parent>
 
 
 	<artifactId>trade-web</artifactId>
@@ -36,12 +36,12 @@
 			<artifactId>trade-core</artifactId>
 			<version>${version}</version>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>com.centaline</groupId>
 
 			<artifactId>trade-ice</artifactId>
 			<version>${version}</version>
-		</dependency>
+		</dependency -->
 		<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-frontend</artifactId>

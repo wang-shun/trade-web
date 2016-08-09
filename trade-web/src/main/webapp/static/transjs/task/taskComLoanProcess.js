@@ -387,15 +387,19 @@ function completeMortgage(form){
 	});
 }
 //查询分行信息
-function getParentBank(selector,selectorBranch,finOrgCode,flag){
+function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
 	var bankHtml = "<option value=''>请选择</option>";
+	var param = {nowCode:finOrgCode};
+	if(tag == 'cl'){
+		param.tag = 'cl';
+	}
     $.ajax({
     	cache:true,
     	url:ctx+"/manage/queryParentBankList",
 		method:"post",
 		dataType:"json",
 		async:false,
-		data:{tag:'cl',nowCode:finOrgCode},
+		data:param,
 		success:function(data){
 			if(data != null){
 				for(var i = 0;i<data.length;i++){
@@ -405,7 +409,10 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 					}
 				}
 			}
-		}
+		},
+       error:function(e){
+    	   alert(e);
+       }
      });
     selector.find('option').remove();
 	 selector.append($(bankHtml));
@@ -423,22 +430,26 @@ function getParentBank(selector,selectorBranch,finOrgCode,flag){
 		});
 	 //selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 	 
-	 getBranchBankList(selectorBranch,selector.val(),finOrgCode,flag);
+	 getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
 
 	 return bankHtml;
 }
 //查询支行信息
-function getBranchBankList(selectorBranch,pcode,finOrgCode,flag){
+function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 	selectorBranch.find('option').remove();
 	selectorBranch[0];
 	selectorBranch.append($("<option value=''>请选择</option>"));
+	var param = {faFinOrgCode:pcode,flag:flag,nowCode:finOrgCode};
+	if(tag == 'cl'){
+		param.tag = 'cl';
+	}
 	$.ajax({
 		cache:true,
 	    url:ctx+"/manage/queryBankListByParentCode",
 	    method:"post",
 	    dataType:"json",
 		async:false,
-	    data:{faFinOrgCode:pcode,flag:flag,tag:'cl',nowCode:finOrgCode},
+	    data:param,
 	    	success:function(data){
 	    		if(data != null){
 	    			for(var i = 0;i<data.length;i++){
@@ -528,11 +539,21 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 			
     				getGuestInfo(fStr);
 
-	  				getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
+    				if(data.content && data.content.isTmpBank=='1'){
+    					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
+    				}else{
+    					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
+    				}
+	  				
 	  				
 	  				f.find("select[name='bank_type']").change(function(){
 	  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
-				    	getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+	  					if(data.content && data.content.isTmpBank=='1'){
+	  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+	  					}else{
+	  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
+	  					}
+				    	
 				    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
 				    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
 				    }); 
@@ -583,13 +604,9 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
 		    				f.find("input[name='recLetterNo']").prop('disabled',true);
-		    				f.find("select[name='bank_type']").attr('disabled',true);
-		    				f.find("select[name='finOrgCode']").attr('disabled',true);
 		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
 		    				f.find("input[name='recLetterNo']").prop('disabled',false);
-		    				f.find("select[name='bank_type']").attr('disabled',false);
-		    				f.find("select[name='finOrgCode']").attr('disabled',false);
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
@@ -609,16 +626,22 @@ function isTmpBankChange(){
 	}
 	var f=$(this).closest('form');
 	if($(this).prop('checked')){
+		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
+		f.find("select[name='bank_type']").change(function(){
+		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+    }); 
 		f.find("input[name='recLetterNo']").prop('disabled',true);
-		f.find("select[name='bank_type']").attr('disabled',true);
-		f.find("select[name='finOrgCode']").attr('disabled',true);
 		f.find(".tmpBankReasonDiv").show();
 	}else{
+		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
+		f.find("select[name='bank_type']").change(function(){
+		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
+    }); 
 		f.find("input[name='recLetterNo']").prop('disabled',false);
-		f.find("select[name='bank_type']").attr('disabled',false);
-		f.find("select[name='finOrgCode']").attr('disabled',false);
 		f.find(".tmpBankReasonDiv").hide();
 	}
+	
+	
 }
 
 //加载已上传的附件信息
@@ -854,13 +877,9 @@ function getCompleteMortInfo(isMainLoanBank){
 	    		if(isMainLoanBank == 1)
                 f=$("#completeForm");
 	    		if(data != null && data.content != null){
-	    			if(!~~data.content.isTmpBank || !!data.content.tmpBankUpdateBy){
-	    				f.find("[id='sp_bank']").text(data.content.parentBankName);
-		    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
-	    			}else{
-	    				f.find("[id='sp_bank']").text('');
-		    			f.find("[id='sp_sub_bank']").text('');
-	    			}
+    				f.find("[id='sp_bank']").text(data.content.parentBankName);
+	    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
+
 	    			if(!!~~data.content.isTmpBank){
 	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
 	    				if(data.content.tmpBankStatus == '1') f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
@@ -1069,11 +1088,11 @@ function getPricingList(tableId,pageId,isMainLoanBank){
   				   
   				   
   				 //银行下拉列表
-  				getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"","egu");
+  				getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"",null,"egu");
   				
   				$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
   					/*$("#bank_branch_id").chosen("destroy");*/
-			    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"","egu");
+			    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
 			    }); 
     		}
 	    }); 

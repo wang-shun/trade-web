@@ -309,5 +309,11 @@
     	<property name="partCode" value="GuohuApprove"></property>
     </bean>
     
+    <!-- 获取商贷预警类型 -->
+    <bean name="getShowWarnType" class="com.centaline.trans.common.service.impl.QuickQueryGetShowWarnTypeServiceImpl"></bean>
+    
+    <!-- 获取商贷预警状态 -->
+    <bean name="getShowStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetShowStatusServiceImpl"></bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

@@ -14,7 +14,7 @@ import com.centaline.trans.task.service.ToTransPlanService;
 public class AutoPlanServiceImpl implements AutoPlanService {
 	@Autowired
 	private TaskPlanSetService taskPlanSetService;
-	
+	@Autowired
 	private ToTransPlanService toTransPlanService;
 	@Override
 	public void autoGenerateTaskPlan(String taskDfkey, String caseCode) {

@@ -12,7 +12,7 @@
     <appender name="APILOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_DIR}/APILOG.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>365</maxHistory>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
 
         <encoder>

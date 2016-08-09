@@ -21,4 +21,9 @@
     	<property name="service" ref="autoPlanService"/> 
     	<property name="serviceInterface" value="com.centaline.trans.remote.service.AutoPlanService"/> 
     </bean> 
+    <bean name="/remote/taskDelegateService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+    	<property name="service" ref="taskDelegateService"/> 
+    	<property name="serviceInterface" value="com.centaline.trans.remote.service.TaskDelegateService"/> 
+    </bean> 
+    
 </beans>

@@ -248,7 +248,7 @@ function caseTransferExportToExcel() {
 	var ctx = $("#ctx").val();
 	// excel导出列
 	var displayColomn = new Array;
-	displayColomn.push('BIGAREA');
+	displayColomn.push('BA_NAME');
 	displayColomn.push('VREAL_NAME');	
 	displayColomn.push('AGENT_ORG_NAME');
 	displayColomn.push('AGENT_NAME');
@@ -258,6 +258,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('GUOHUDJ');
 	displayColomn.push('dist_name');
 	displayColomn.push('REAL_HT_TIME');
+	displayColomn.push('START_TIME');
 	displayColomn.push('CTM_CODE');
 	displayColomn.push('CUST_NAME');
 	displayColomn.push('GUEST_PHONE');
@@ -279,8 +280,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('BUYER');
 	displayColomn.push('BUYER_MOBILE');
 	displayColomn.push('transferDate');
-	displayColomn.push('caseTransferDate');
-/*	displayColomn.push('ISAPPROVE');*/
+	displayColomn.push('caseTransferDate');	
 	displayColomn.push('status1');
 	displayColomn.push('ASSESSOR');
 	displayColomn.push('LAST_CONTENT');
@@ -316,8 +316,7 @@ function caseTransferExportToExcel() {
 	});
 	if (argu_queryorgs == null)
 		argu_queryorgs = '&argu_queryorgs=';
-	var params = getParamsValue();
-	//var queryId = '&queryId=queryCastTransferExcelItemList';
+	var params = getParamsValue();	
 	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 

@@ -58,7 +58,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 
 	<!-- modal -->
-	<link href="${ctx}/static/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+	<link href="${ctx}/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
 
 	<link href="${ctx}/css/bootstrap.css" rel="stylesheet" />
 	<style type="text/css">
@@ -252,6 +252,22 @@ text-decoration: underline !important;
                                         </div>
                                         <div class="col-xs-9 text-right">
                                             <a href="${ctx }/workspace/ryLightList?color=1" target="_blank"><h2 class="font-bold text-warning">${yeLight }</h2></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    	商贷流失预警案件数
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row vertical-align">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-bell fa-2x text-warning"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <a href="${ctx }/bizwarn/list?status=0" target="_blank"><h2 class="font-bold text-warning">${bizwarnCaseCount }</h2></a>
                                         </div>
                                     </div>
                                 </div>
@@ -1032,9 +1048,9 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
         <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
-    <script src="${ctx}/static/js/aist-modal.js"  type="text/javascript"></script>
-	<script src="${ctx}/static/js/bootstrap-modal.js" type="text/javascript"></script>
-	<script src="${ctx}/static/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+    <script src="${ctx}/js/aist-modal.js"  type="text/javascript"></script>
+	<script src="${ctx}/js/bootstrap-modal.js" type="text/javascript"></script>
+	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript"></script>
     <script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
 	<script src="${ctx}/js/trunk/echarts/dashboard.js" type="text/javascript"></script>
     <script>

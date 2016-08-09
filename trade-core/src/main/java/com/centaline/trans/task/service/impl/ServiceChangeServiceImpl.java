@@ -33,6 +33,7 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.exception.WorkFlowException;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -67,6 +68,8 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	
 	
 	@Autowired
@@ -172,12 +175,12 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
     		if(reUp == 0) {
     			return 2;
     		}
-        	ProcessInstance process = new ProcessInstance();
+        	/*ProcessInstance process = new ProcessInstance();
         	process.setBusinessKey(caseCode);
-        	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+        	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));*/
         	/*流程引擎相关*/
         	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-    		List<RestVariable> variables = new ArrayList<RestVariable>();
+    		/*List<RestVariable> variables = new ArrayList<RestVariable>();
     	    Iterator<String> it = defValsMap.keySet().iterator();  
     	    while (it.hasNext()) {  
 	            String key = it.next();  
@@ -186,12 +189,15 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	    		restVariable.setValue(defValsMap.get(key));
 	    		variables.add(restVariable);
 		    }
-        	process.setVariables(variables);
+        	process.setVariables(variables);*/
         	
         	User user = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
        		ToWorkFlow toWorkFlow = new ToWorkFlow();
         	try {
-	        	StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
+	        	//StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
+	        	defValsMap.put("caseOwner", user.getUsername());
+	        	StartProcessInstanceVo pIVo=processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), caseCode, defValsMap);
+	        	
 	        	if(pIVo==null||pIVo.getId()==null) {
 	        		return 4;
 	        	}

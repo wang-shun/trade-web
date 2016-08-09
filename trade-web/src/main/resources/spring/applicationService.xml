@@ -19,6 +19,7 @@
                   <prop key="/remote/ProcessingTimeJob">/remote/ProcessingTimeJob</prop>
                   <prop key="/remote/commFindUserService">/remote/commFindUserService</prop>
                   <prop key="/remote/autoPlanService">/remote/autoPlanService</prop>
+                  <prop key="/remote/taskDelegateService">/remote/taskDelegateService</prop>
                   
             </props>
         </property>
