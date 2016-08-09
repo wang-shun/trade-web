@@ -357,14 +357,29 @@ text-decoration: underline !important;
 						</span>
 					</td>
 					<td>
-                         <p>
+
+						{{if item.CREATE_TIME!=null}}
+						   <p>  
                               <i class="sign_normal">创</i>
                                  {{item.CREATE_TIME}}          
                           </p>
-                          <p>
-                          <i class="sign_normal">预</i>
-                                {{item.EST_PART_TIME}}          
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">创</i>
+                                 {{item.CREATE_TIME}}          
+                           </p>
+						{{/if}}
+						{{if item.EST_PART_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">预</i>
+                                 {{item.EST_PART_TIME}}          
                           </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">预</i>
+                                 {{item.EST_PART_TIME}}          
+                           </p>
+						{{/if}}
                     </td>
                     <td class="center">
                           <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
