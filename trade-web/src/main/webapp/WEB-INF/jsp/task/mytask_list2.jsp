@@ -136,7 +136,7 @@ text-decoration: underline !important;
 }
 .hint-top1:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
+	width:80px!important;
 	white-space: normal!important;
 	word-break:break-all!important;
 }
