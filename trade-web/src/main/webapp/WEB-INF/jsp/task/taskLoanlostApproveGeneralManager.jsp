@@ -87,7 +87,7 @@
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
 					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<div class="form-group">
+<!-- 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批结果</label>
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
@@ -99,7 +99,39 @@
 								</label>
 							</div>
 						</div>
+					</div> -->
+					
+					<!-- 流失案件高级主管主管审核 -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">审批结果</label>
+						<div class="radio i-checks radio-inline">
+							<label> <input type="radio" checked="checked"
+								value="true" id="optionsRadios1" name="LoanLost_director"
+								onClick="$('#loanLostGeneralManagerNotApproves').hide();">审批通过
+							</label>
+						</div>
+						<div class="radio i-checks radio-inline">
+							<label> <input type="radio" value="false"
+								id="optionsRadios2" name="LoanLost_director"
+								onClick="$('#loanLostGeneralManagerNotApproves').show();getNotApproves();">审批未通过
+							</label>
+						</div>
+						<div class="form_sign col-sm-12 clearfix" id="loanLostGeneralManagerNotApproves"
+							style="display: none">
+							<c:forEach items="${loanLostNotApproves}"
+								var="loanLostGeneralManagerNotApprove">
+								<div class="col-sm-6 sign">
+									<input type="checkbox"
+										value="${loanLostGeneralManagerNotApprove.code}"
+										name="loanLostGeneralManagerNotApprove" class="btn btn-white"
+										onClick="loanLostGeneralManagerAppendNotApprove(this.checked,'${loanLostGeneralManagerNotApprove.name}');">
+									<label>${loanLostGeneralManagerNotApprove.name}</label>
+								</div>
+							</c:forEach>
+						</div>
 					</div>
+					
+					
 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批意见</label>
 						<div class="col-sm-10">
@@ -142,6 +174,17 @@
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
+		/**高级主管审核意见 */
+		function loanLostGeneralManagerAppendNotApprove(isAppend, content) {
+			if (isAppend) {
+				var oldVal = $("#LoanLost_GeneralManager_response").val();
+				if (oldVal != '') {
+					oldVal += '；';
+				}
+				$("#LoanLost_GeneralManager_response").val(oldVal + content);
+			}
+		}
+		
 		/**提交数据*/
 		function submit() {
 			save();

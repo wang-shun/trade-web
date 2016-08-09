@@ -248,7 +248,7 @@ function caseTransferExportToExcel() {
 	var ctx = $("#ctx").val();
 	// excel导出列
 	var displayColomn = new Array;
-	displayColomn.push('BIGAREA');
+	displayColomn.push('BA_NAME');
 	displayColomn.push('VREAL_NAME');	
 	displayColomn.push('AGENT_ORG_NAME');
 	displayColomn.push('AGENT_NAME');
@@ -316,8 +316,7 @@ function caseTransferExportToExcel() {
 	});
 	if (argu_queryorgs == null)
 		argu_queryorgs = '&argu_queryorgs=';
-	var params = getParamsValue();
-	//var queryId = '&queryId=queryCastTransferExcelItemList';
+	var params = getParamsValue();	
 	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 

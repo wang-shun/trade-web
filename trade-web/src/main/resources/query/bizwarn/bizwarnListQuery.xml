@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
-		<customDict id="getStatusAndWarnType" beanName="getStatusAndWarnType"></customDict>
+		<customDict id="getShowWarnType" beanName="getShowWarnType"></customDict>
+		<customDict id="getShowStatus" beanName="getShowStatus"></customDict>
 </dicts>
 
 <formatters>
@@ -85,10 +86,10 @@
 				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="caseCode" index="" checkbox="" display="交易单编号" title="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="propertyAddress" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="status" display="状态" title="状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="status1" title="状态" referencecol="status" customDict="getShowStatus" />
 				<column type="both" name="warnType" index="" checkbox="" display="预警类型" title="预警类型" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="warnType1" title="预警类型" referencecol="warnType" customDict="getStatusAndWarnType" />
-				<column type="both" name="status" index="" checkbox="" display="状态" title="状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="status1" title="状态" referencecol="status" customDict="getStatusAndWarnType" />
+				<column type="virtual" name="warnType1" title="预警类型" referencecol="warnType" customDict="getShowWarnType" /> 
 				<column type="both" name="warnDatetime" index="" checkbox="" display="预警时间" title="预警时间" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="relieveDatetime" index="" checkbox="" display="解除时间" title="解除时间" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 			</table-row>
