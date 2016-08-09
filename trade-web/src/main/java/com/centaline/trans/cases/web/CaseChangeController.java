@@ -134,16 +134,15 @@ public class CaseChangeController {
 					if (orgUserMap.get(orgCode) == null) {
 						Org org = uamUserOrgService.getOrgByCode(orgCode);
 						if(org==null) continue;
-						List<User> uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-								TransJobs.TJYGW.getCode());
-						/*List<User> uList = null;
+						
+						List<User> uList = null;/* 浦东合作顾问选中台 */
 						if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
 							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 									TransJobs.JYUZTGW.getCode());
 						}else{
 							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 									TransJobs.TJYGW.getCode());
-						}*/
+						}
 						
 						orgUserMap.put(orgCode, uList);
 						list.removeAll(uList);
@@ -162,7 +161,7 @@ public class CaseChangeController {
 		
 		map.put("servitemList", servitemList);  // 1 查询案件服务项目
 		//map.put("userList", userList);  // 3 获取到的合作交易顾问
-		/*map.put("orgcode", myDistrict.getOrgCode());*/
+		map.put("orgcode", myDistrict.getOrgCode());/* 浦东合作顾问选中台 */
 		return map;
 	}
 

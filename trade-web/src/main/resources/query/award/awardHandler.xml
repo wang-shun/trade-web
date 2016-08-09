@@ -248,7 +248,9 @@ FROM    sctrans.t_ts_award_base A
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT  c.CASE_CODE CASE_CODE ,
+					SELECT  
+		c.PKID,			
+		c.CASE_CODE CASE_CODE ,
         c.CTM_CODE CTM_CODE ,
         pi.PROPERTY_ADDR PROPERTY_ADDRESS , 
         d.name CASE_STATUS , 
@@ -304,6 +306,7 @@ WHERE   C.CASE_CODE IN ( SELECT DISTINCT
 		</searchSql>
 		<grid>
 			<table-row>
+			    <column type="both" name="PKID" />
 				<column type="both" name="CASE_CODE" display="案件编号" title="案件编号"/>
 				<column type="both" name="PROPERTY_ADDRESS" display="产证地址" title="产证地址"/>
 				<column type="both" name="CASE_STATUS" display="案件状态" title="案件状态"/>
