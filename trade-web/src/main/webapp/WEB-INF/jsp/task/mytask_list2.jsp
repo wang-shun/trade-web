@@ -127,9 +127,11 @@ text-decoration: underline !important;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top1:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 .hint-top1:hover:before {
 	margin-bottom: -10px;
@@ -137,6 +139,27 @@ text-decoration: underline !important;
 .hint-top1:hover:after {
 	margin-bottom: 2px;
 	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
+	margin-bottom: 2px;
+	width:280px!important;
 	white-space: normal!important;
 	word-break:break-all!important;
 }
@@ -353,7 +376,7 @@ text-decoration: underline !important;
 						</p>
 						 <span >
 							<i class="salesman-icon"></i>
- 							<a class="hint  hint-top1" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+ 							<a class="hint  hint-top2" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
 						</span>
 					</td>
 					<td>
