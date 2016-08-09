@@ -1,22 +1,16 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.bizwarn.entity.BizWarnInfo;
-import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
@@ -41,8 +35,6 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 	@Autowired
 	private ToSignMapper toSignMapper;
 	@Autowired
-	private BizWarnInfoMapper bizWarnInfoMapper;
-	@Autowired
 	private ToPropertyInfoMapper toPropertyInfoMapper;
 	@Autowired
 	private TgServItemAndProcessorMapper tgServItemAndProcessorMapper;
@@ -55,9 +47,6 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 	
 	@Autowired
 	private ToFirstFollowMapper toFirstFollowMapper;
-	
-	@Autowired
-	private UamSessionService uamSesstionService;
 	
 	
 	@Override
@@ -222,50 +211,11 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 		ff.setIsPerchaseReserachNeed(isPerchaseReserachNeed); // 查限购情况
 		ff.setComment(firstFollowVO.getComment());
 		ToFirstFollow isExist= toFirstFollowMapper.selectByCaseCode(firstFollowVO.getCaseCode());
-		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(firstFollowVO.getCaseCode());
-		SessionUser currentUser = uamSesstionService.getSessionUser();
-		
 		if(isExist!=null){ // 如果数据库中存在记录则做updaate操作, 否则做insert操作 
 			ff.setPkid(isExist.getPkid());
 			toFirstFollowMapper.updateByPrimaryKeySelective(ff);
 		}else{
 			toFirstFollowMapper.insertSelective(ff);
-		}
-		
-		if(bizWarnInfo != null){
-			
-			if("true".equals(firstFollowVO.getBusinessLoanWarn())){
-				bizWarnInfo.setContent(firstFollowVO.getContent());
-				
-				bizWarnInfoMapper.updateByCaseCode(bizWarnInfo);
-			}
-			else {
-				bizWarnInfoMapper.deleteByCaseCode(firstFollowVO.getCaseCode());
-			}
-			
-		}
-		else {
-			
-			if("true".equals(firstFollowVO.getBusinessLoanWarn())){
-				bizWarnInfo = new BizWarnInfo();
-				
-				bizWarnInfo.setCaseCode(firstFollowVO.getCaseCode());
-				bizWarnInfo.setContent(firstFollowVO.getContent());
-				bizWarnInfo.setWarnType("LOANLOSS");
-				bizWarnInfo.setCreateBy(currentUser.getId());
-				bizWarnInfo.setParticipant(toCase.getLeadingProcessId());
-				bizWarnInfo.setTeamId(toCase.getOrgId());
-				bizWarnInfo.setStatus("0");
-				bizWarnInfo.setCreateTime(new Date());
-				bizWarnInfo.setWarnTime(new Date());
-				
-				Org currentOrg = uamUserOrgService.getOrgById(toCase.getOrgId());
-				Org parentOrg = uamUserOrgService.getOrgById(currentOrg.getParentId());
-				
-				bizWarnInfo.setDistrictId(parentOrg.getId());
-				
-				bizWarnInfoMapper.insertSelective(bizWarnInfo);
-			}
 		}
 	    
 		return false;  
