@@ -156,6 +156,7 @@ public class GuohuApproveController {
 			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
 			paramsApproveRecord.setPartCode("Guohu");
 			paramsApproveRecord.setCaseCode(caseCode);
+			//查询 上一步操作人
 			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
 			if(lastApproveRecord!=null){
 				String recevier = lastApproveRecord.getOperator();

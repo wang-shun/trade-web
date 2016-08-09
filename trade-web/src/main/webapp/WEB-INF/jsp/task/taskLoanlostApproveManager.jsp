@@ -127,13 +127,13 @@
 						<label class="col-sm-2 control-label">审批结果</label>
 						<div class="radio i-checks radio-inline">
 							<label> <input type="radio" checked="checked"
-								value="true" id="optionsRadios1" name="LoanLost_director"
+								value="true" id="optionsRadios1" name="LoanLost_manager"
 								onClick="$('#loanLostManagerNotApproves').hide();">审批通过
 							</label>
 						</div>
 						<div class="radio i-checks radio-inline">
 							<label> <input type="radio" value="false"
-								id="optionsRadios2" name="LoanLost_director"
+								id="optionsRadios2" name="LoanLost_manager"
 								onClick="$('#loanLostManagerNotApproves').show();getNotApproves();">审批未通过
 							</label>
 						</div>
@@ -212,7 +212,8 @@
 				getShowAttachment();
 			});
 			/**提交数据*/
-			function submit() {
+			function submit() {		
+				
 				save();
 			}
 

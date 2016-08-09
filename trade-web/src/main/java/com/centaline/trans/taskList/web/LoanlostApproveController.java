@@ -97,8 +97,9 @@ public class LoanlostApproveController {
 	@ResponseBody
 	public Boolean loanlostApproveFirst(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response,String loanLostManagerNotApprove) {
-		/*保存审核记录*/
+	   	/*保存审核记录*/
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_manager, LoanLost_manager_response,loanLostManagerNotApprove);
+		
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -106,8 +107,9 @@ public class LoanlostApproveController {
 		RestVariable restVariable = new RestVariable();
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		restVariable.setName("LoanLost_manager");
-		restVariable.setValue(LoanLost_manager.equals("true"));
+		restVariable.setValue(LoanLost_manager.equals("true"));		
 		variables.add(restVariable);
+		//非空判断
 		if(!StringUtils.isBlank(LoanLost_manager_response)) {
 			RestVariable restVariable1 = new RestVariable();
 			restVariable1.setName("LoanLost_manager_response");
@@ -198,8 +200,7 @@ public class LoanlostApproveController {
 		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为："+loanLost_response));
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
 		//审核不通过原因
-		toApproveRecord.setNotApprove(notApprove);
-		
+		toApproveRecord.setNotApprove(notApprove);		
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 		return toApproveRecord;	
 
