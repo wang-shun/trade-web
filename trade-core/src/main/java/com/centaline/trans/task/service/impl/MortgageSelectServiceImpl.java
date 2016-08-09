@@ -416,12 +416,5 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			return null;
 		return dictF.getCode();
 	}
-	/* (non-Javadoc)
-	 * @see com.centaline.trans.task.service.MortgageSelectService#submit2(com.centaline.trans.task.vo.MortgageSelecteVo)
-	 */
-	@Override
-	public boolean submit2(MortgageSelecteVo vo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 }
