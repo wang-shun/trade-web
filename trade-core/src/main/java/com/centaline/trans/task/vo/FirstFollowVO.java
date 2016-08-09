@@ -56,7 +56,39 @@ public class FirstFollowVO {
 
     private boolean isrepeat;  // 判断用户是否重复提交表单[true 表示重复提交]
     
+    private String businessLoanWarn;   //是否需要商贷预警(是：true,否：false)
     
+    private String content;   //商业预警内容
+    
+    
+	/**
+	 * @return the businessLoanWarn
+	 */
+	public String getBusinessLoanWarn() {
+		return businessLoanWarn;
+	}
+
+	/**
+	 * @param businessLoanWarn the businessLoanWarn to set
+	 */
+	public void setBusinessLoanWarn(String businessLoanWarn) {
+		this.businessLoanWarn = businessLoanWarn;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public String getCaseCode() {
 		return caseCode;
 	}

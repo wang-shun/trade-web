@@ -38,6 +38,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONArray;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
@@ -100,6 +101,9 @@ public class WorkSpaceController {
 	private TsTransPlanHistoryService tsTransPlanHistoryService;
 	@Autowired
 	private TsTeamPropertyService teamPropertyService;
+	
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
 
 	/**
 	 * 检查访问方式是否为移动端
@@ -213,6 +217,10 @@ public class WorkSpaceController {
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
+		
+		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
+		
+		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
 		model.addAttribute("yeLight", yeLight);
 		model.addAttribute("userId", user.getId());
@@ -305,8 +313,8 @@ public class WorkSpaceController {
 			}
 			
 			/*交易顾问工作数据显示,贷款详情,E+贷款*/
-			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);
+/*			Map sta = doSta(null, (now.getMonth() + 1) + "");
+			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
 			model.addAttribute("rank", doGetRank(user));
@@ -326,8 +334,8 @@ public class WorkSpaceController {
 			}
 			
 			/*交易顾问工作数据显示,贷款详情,E+贷款*/
-			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);
+/*			Map sta = doSta(null, (now.getMonth() + 1) + "");
+			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
 			model.addAttribute("rank", doGetRank(user));
@@ -338,11 +346,11 @@ public class WorkSpaceController {
 			model.addAttribute("rank", doGetRank(user));
 			
 			/*高级交易主管添加待办事项*/
-			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.RANK")) {
+			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
 				model.addAttribute("rank", doGetRank(user));
 			}
 			
-			if (isBackTeam) {
+			if (isBackTeam) { //后台(高级)交易主管
 				/*工作数据显示*/
 				WorkSpace work = new WorkSpace();
 				work.setOrgId(user.getServiceDepId());
@@ -350,7 +358,7 @@ public class WorkSpaceController {
 				model.addAttribute("managerWorkLoad",workloadManagerBackoffice(work));
 				
 				return "workbench/dashboard_manager_back";
-			} else {
+			} else { //前台(高级)交易主管
 				/*各个交易顾问*/
 				List<User> userList = uamUserOrgService.getUserByOrgIdAndJobCode(userOrgId, TransJobs.TJYGW.getCode());
 				for (User users : userList) {
@@ -364,10 +372,10 @@ public class WorkSpaceController {
 				}
 				
 				/*交易顾问工作数据显示,贷款详情,E+贷款*/
-				Map sta = doSta(null, (now.getMonth() + 1) + "");
-				model.addAttribute("sta", sta);
+/*				Map sta = doSta(null, (now.getMonth() + 1) + "");
+				model.addAttribute("sta", sta);*/
 				
-				return "workbench/dashboard_manager_front";
+				return "workbench/dashboard_manager_fornt";
 			}
 
 		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { //交易顾问
@@ -395,7 +403,7 @@ public class WorkSpaceController {
 			/*待办事项*/
 			model.addAttribute("rank", doGetRank(user));
 			
-			if (isBackTeam) {
+			if (isBackTeam) { //后台交易顾问
 				/*工作数据显示*/
 				WorkSpace work = new WorkSpace();
 				work.setOrgId(user.getServiceDepId());
@@ -403,16 +411,16 @@ public class WorkSpaceController {
 				model.addAttribute("workLoadConsultant", workSpaceService.workloadConsultantBackoffice(work));
 				
 				return "workbench/dashboard_consultant_back";
-			} else {
+			} else { //前台交易顾问
 				/*交易顾问工作数据显示,贷款详情,E+贷款*/
-				Map sta = doSta(null, (now.getMonth() + 1) + "");
-				model.addAttribute("sta", sta);
+/*				Map sta = doSta(null, (now.getMonth() + 1) + "");
+				model.addAttribute("sta", sta);*/
 				
-				return "workbench/dashboard_consultant_front";
+				return "workbench/dashboard_consultant_fornt";
 			}
 		} else {
 			
-			return "dashboard_salesman";
+			return "workbench/dashboard_salesman";
 		}
 	}
 	

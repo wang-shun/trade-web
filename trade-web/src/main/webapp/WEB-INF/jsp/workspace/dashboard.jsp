@@ -256,6 +256,22 @@ text-decoration: underline !important;
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    	商贷预警案件数
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row vertical-align">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-bell fa-2x text-warning"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <a href="${ctx }/bizwarn/list?status=0" target="_blank"><h2 class="font-bold text-warning">${bizwarnCaseCount }</h2></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                   <!-- 计划任务开始 -->
