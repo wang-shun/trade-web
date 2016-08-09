@@ -83,7 +83,7 @@
                         <iframe id="tmp_downloadhelper_iframe" style="display: none;">
                         </iframe>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="#">
                             <i class="fa fa-th-large">
                             </i>
@@ -94,7 +94,7 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="active">
+                            <li class="">
                                 <a href="myCaseList.html">
                                     <i class="fa ">
                                     </i>
@@ -172,7 +172,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a href="#">
                             <i class="fa fa-cny">
                             </i>
@@ -184,24 +184,31 @@
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <li>
-                                <a href="#">
+                                <a href="read.html">
                                     <i class="fa ">
                                     </i>
                                     佣金查看
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="personBonus.html">
                                     <i class="fa ">
                                     </i>
                                     我的计件奖金
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
+                            <li class="active">
+                                <a href="baseAward.html">
                                     <i class="fa ">
                                     </i>
                                     我的基础计件奖金
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="baseAwardReport.html">
+                                    <i class="fa ">
+                                    </i>
+                                    计件奖金报表
                                 </a>
                             </li>
                         </ul>
@@ -439,9 +446,10 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <p class="month">
-                        <button type="button" class="btn btn-success btn_small pull-left"><i class="fa fa-chevron-left"></i></button>
+                        <button type="button" class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe60d;</i></button>
                             <span>2014/01月</span>
-                        <button class="btn btn-success btn_small pull-left"><i class="fa fa-chevron-right "></i></button>
+                        <button class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe614;</i></button>
+                        <span class="explain">此日期为计件奖金的生成日期。如需查看某月过户的案件计件奖金，请按过户日期搜索</span>
                     </p>
                     <form method="get" class="form_list">
                             <div class="line">
@@ -489,7 +497,7 @@
                             </p>
                         </div>
                         <div class="table_content">
-                            <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                            <table class="table table_blue table-hover table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>
@@ -542,10 +550,329 @@
                                             </p>
                                         </td>
                                         <td class="center">
+                                            <a href="" class="spread">收起</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="spread_line">
+                                        <td colspan="7" class="spread_td">
+                                            <table class="table spread_tab table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>服务</th>
+                                                        <th>基础奖金</th>
+                                                        <th>环节占比</th>
+                                                        <th>满意度</th>
+                                                        <th>满意度占比</th>
+                                                        <th>金融单数</th>
+                                                        <th>贷款流失率</th>
+                                                        <th>绩效系统数</th>
+                                                        <th>最终奖金</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>总监</td>
+                                                        <td>40</td>
+                                                        <td>3/3</td>
+                                                        <td>22</td>
+                                                        <td>26/100</td>
+                                                        <td>22</td>
+                                                        <td>22.5%</td>
+                                                        <td>22</td>
+                                                        <td>22000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
                                             <a href="" class="spread">展开</a>
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                40
+                                            </p>
+                                        </td>
+                                        <td class="center">
+                                            <a href="" class="spread">展开</a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <div class="text-center page_box">

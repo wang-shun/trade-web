@@ -95,7 +95,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
         </div>
 
 
-
         <div class="ibox-content" id="zj_info">
         	<div class="row m-t-sm" id="">
             	<div class="col-lg-12">
@@ -206,7 +205,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
-                                                                <span class="left-label wd64 h50 pt10">接单数</span>
+                                                                <span class="left-label wd90 h50 pt10">接单数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_receiveCount_bar" style="width: 40%;" class="progress-bar bar-blue"></div>
@@ -215,7 +214,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_receiveCount" class="right-label pt10">43单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64 ">签约数</span>
+                                                                <span class="left-label wd90 ">签约数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_signCount_bar" style="width: 100%;" class="progress-bar bar-blue"></div>
@@ -224,7 +223,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_signCount" class="right-label">1亿&nbsp;&nbsp;4单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64">贷款申请数</span>
+                                                                <span class="left-label wd90">贷款申请数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_loanApplyCount_bar" style="width: 56%;" class="progress-bar bar-blue"></div>
@@ -233,7 +232,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_loanApplyCount" class="right-label">13单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64 h50 pb10">结案数</span>
+                                                                <span class="left-label wd90 h50 pb10">结案数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_closeCount_bar" style="width: 30%;" class="progress-bar bar-blue"></div>

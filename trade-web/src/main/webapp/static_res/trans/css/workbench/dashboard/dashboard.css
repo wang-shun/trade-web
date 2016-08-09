@@ -218,6 +218,10 @@ body {
   width: 105px;
 }
 
+.wd90 {
+	width: 90px;
+}
+
 .data-progress .data-bar {
   width: 42%;
   display: inline-block;
@@ -262,4 +266,8 @@ body {
 }
 .feed-element{
 	border-bottom: 1px solid #eee;
+}
+.no_border{
+	border:none !important;
+	boder-style:none !important;
 }

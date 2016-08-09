@@ -300,6 +300,18 @@
 									onClick="appendNotApprove(this.checked,'${notApprove.name}');">
 								<label>${notApprove.name}</label>
 							</div>
+						</c:forEach>	
+						<div class="col-sm-6 sign">&nbsp;</div>
+						<div class="col-sm-6 sign">&nbsp;</div>
+                        <div class="col-sm-6 sign">&nbsp;</div>
+						<div class="col-sm-6 sign">分配人员：</div>
+						<div class="col-sm-6 sign">&nbsp;</div>
+						<c:forEach items="${users}" var="user">
+							<div class="col-sm-6 sign">
+								<input type="checkbox" value="${user.username }"
+									name="members" class="btn btn-white" >                                                                                                                                                                                                                                                                               
+								<label>${user.realName}</label>
+							</div>
 						</c:forEach>
 					</div>
 				</div>
@@ -546,6 +558,7 @@
 			/**保存数据*/
 			function save() {
 				var jsonData = $("#guohuApproveForm").serializeArray();
+				console.log(JSON.stringify(jsonData));
 				/**deleteAndModify();*/
 				$.ajax({
 					cache : true,
