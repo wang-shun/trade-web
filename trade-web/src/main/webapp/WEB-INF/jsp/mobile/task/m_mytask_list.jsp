@@ -91,7 +91,7 @@ a:hover {
 					<form method="get" class="form-horizontal">
 						<div class="form-group">
 							
-								<div class="col-sm-2">
+								<div class="col-sm-2" style="float: left;">
 								   <select id="inTextType" data-placeholder= "搜索条件设定"
 		                                        class= "btn btn-white chosen-select" style="float :right;" onchange="intextTypeChange()">
 											<option value="1" selected>产证地址</option>

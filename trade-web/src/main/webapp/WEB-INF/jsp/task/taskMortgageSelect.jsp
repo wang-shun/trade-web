@@ -228,10 +228,9 @@
 								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 							}
 						});
-						/* if($.trim(data.orgcode)!='033F045'){
+						if($.trim(data.orgcode)!='033F045'){/* 浦东合作顾问选中台*/
 							txt += "<option value='-1'>----跨区选择----</option>";
-						} */
-						txt += "<option value='-1'>----跨区选择----</option>";
+						}
 						txt += '</select>';
 						txt += "<input type='hidden'  id='partner"+index+"' name='partner' value=''/>";
 						txt += '</div></div>';

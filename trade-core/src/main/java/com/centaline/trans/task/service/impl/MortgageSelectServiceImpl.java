@@ -136,10 +136,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			}
 
 		}
-		
-		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
-		bizWarnInfo.setStatus("1");
-		bizWarnInfoMapper.updateStatusInMortgageSelect(bizWarnInfo);   //当操作人确定好贷款选择之后，商贷预警信息状态就更改为已解除
 
 		// 开始处理流程引擎
 
@@ -149,6 +145,23 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		return workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 
 	}
+	
+	@Override
+	public boolean submit2(MortgageSelecteVo vo) {
+		
+		loanRequirementChange(vo);
+		
+		boolean b = submit(vo);
+
+		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
+		if(bizWarnInfo != null){
+			bizWarnInfo.setStatus("1");
+			bizWarnInfoMapper.updateStatusInMortgageSelect(bizWarnInfo);   //当操作人确定好贷款选择之后，商贷预警信息状态就更改为已解除
+		}
+		messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+		
+		return b;
+	};
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
@@ -185,7 +198,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
-				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+				//messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 				// 设置主流程任务的assignee
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 				workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
@@ -412,12 +425,5 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			return null;
 		return dictF.getCode();
 	}
-	/* (non-Javadoc)
-	 * @see com.centaline.trans.task.service.MortgageSelectService#submit2(com.centaline.trans.task.vo.MortgageSelecteVo)
-	 */
-	@Override
-	public boolean submit2(MortgageSelecteVo vo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 }
