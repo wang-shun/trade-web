@@ -12,6 +12,8 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -74,6 +76,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private ToCaseService toCaseService;
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private BizWarnInfoMapper bizWarnInfoMapper;
 	
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
@@ -147,11 +151,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		
 		loanRequirementChange(vo);
 		
-		// 开始处理流程引擎
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		editRestVariables(variables, vo.getMortageService());
+		boolean b = submit(vo);
 
-		return workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
+		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
+		if(bizWarnInfo != null){
+			bizWarnInfo.setStatus("1");
+			bizWarnInfoMapper.updateStatusInMortgageSelect(bizWarnInfo);   //当操作人确定好贷款选择之后，商贷预警信息状态就更改为已解除
+		}
+		messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+		
+		return b;
 	};
 
 	@Override
@@ -189,7 +198,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
-				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
+				//messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 				// 设置主流程任务的assignee
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 				workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
