@@ -164,7 +164,7 @@
 			</div>
 		</div>
 		<h5>
-			附件浏览：贷款流失申请书<br>
+			附件浏览：贷款流失确认函、贷款流失申请书<br>
 		</h5>
 		<div class="ibox-content">
 			<div id="imgShow" class="lightBoxGallery"></div>
