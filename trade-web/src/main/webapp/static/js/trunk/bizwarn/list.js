@@ -50,8 +50,8 @@ function getParams() {
 	
 	var warnType = $("#warnType option:selected").val();
 	var status = $("#status option:selected").val();
-	var caseCode = $("#caseCode").val();
-	var propertyAddr = $("#addr").val();
+	var caseCode = $.trim($("#caseCode").val());
+	var propertyAddr = $.trim($("#addr").val());
 	var warnTimeStart = $("#warnTimeStart").val();
 	var warnTimeEnd = $("#warnTimeEnd").val();
 	
