@@ -38,12 +38,12 @@
 
 	<!-- The file upload form used as target for the file upload widget -->
 
-    <form id="fileupload"  action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload" method="POST" enctype="multipart/form-data">
+    <form id="fileupload"  action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" method="POST" enctype="multipart/form-data">
 
 
 		<!-- Redirect browsers with JavaScript disabled to the origin page -->
 
-		<noscript><input type="hidden" name="redirect" value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"></noscript>
+		<noscript><input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"></noscript>
 
 		<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 
@@ -60,7 +60,7 @@
 				<span>选择图片...</span>
 
 				<input id="pic-fileupload"  type="file" name="files[]" multiple 
-					data-url="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+					data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 								data-sequential-uploads="true" >
 
 				</span>

@@ -26,6 +26,7 @@ public class QuickQueryGetLastContentDictServiceImpl implements CustomDictServic
 			if(objectNOT_APPROVE!=null){
 				String[] reasons =  objectNOT_APPROVE.toString().split(",");
 				for(String reason:reasons){
+					//Dict 数据字典类   接口参数(String dictType, String dictCode)
 					Dict dict = uamBasedataService.findDictByTypeAndCode("guohu_not_approve",reason);
 					if(dict!=null){
 						if(lastContent.length()>0){

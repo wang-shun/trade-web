@@ -525,11 +525,11 @@
 						varStatus="status">
 						<div class="" id="fileupload_div_pic">
 							<form id="fileupload"
-								action="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+								action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 								method="POST" enctype="multipart/form-data">
 								<noscript>
 									<input type="hidden" name="redirect"
-										value="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload">
+										value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
 									<input type="hidden" id="preFileCode" name="preFileCode"
 										value="${accesory.accessoryCode }">
 								</noscript>
@@ -550,7 +550,7 @@
 													<i class="fa fa-plus"></i>
 												</div> <input id="picFileupload${accesory.pkid }" type="file"
 												name="files[]" multiple
-												data-url="<aist:appCtx appName='aist-filesvr-web'/>/servlet/jqueryFileUpload"
+												data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 												data-sequential-uploads="true">
 											</span>
 										</div>
@@ -563,7 +563,7 @@
 							<div class="">
 								<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
 							        <div class="preview"><span class="fade"></span></div>
 									<!--  错误信息 -->
@@ -876,10 +876,12 @@
 				if (!checkForm()) {
 					return;
 				}
-				if (!phoneUpAndphoneDownCheck()) {
+				
+				if (!phoneUpAndphoneDownCheck()) {					
 					return;
 				}
-				if (!upAndDownCheck()) {				
+				
+				if (!upAndDownCheck()) {					
 					return;
 				}			
 				
@@ -1129,32 +1131,25 @@
 				});
 				if (!checkGuestPhone || selectsPhoneDown == null) {
 					return false;
-				}
-				
-				$
-						.each(
-								selectsPhoneUp,
-								function(i, itemPhoneUp) {
-									if (itemPhoneUp.value != '') {
-										$
-												.each(
-														selectsPhoneDown,
-														function(j,
-																itemPhoneDown) {
-															if (itemPhoneDown.value != '') {
-																if (itemPhoneUp.value
-																		.trim() == itemPhoneDown.value
-																		.trim()) {
-																	alert("上、下家电话不能填写一样!");
-																	return false;
-																}
-															}
-														})
+				}				
+				$.each(selectsPhoneUp,function(i, itemPhoneUp) {
+						if (itemPhoneUp.value != '') {
+							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
+								if (itemPhoneDown.value != '') {
+									if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
+												alert("上、下家电话不能填写一样!");
+												checkGuestPhone=false;
+												return checkGuestPhone;
 									}
-								})
+								}
+							})							
+					    }
+				if(checkGuestPhone==false) {return  false;}
+				})				
+				return checkGuestPhone;
 			}
 			
-			function  upAndDownCheck(){
+			function  upAndDownCheck(){				
 				var checkGuest = true;
 				var selectsUp = $("input[name='guestNameUp']");
 				$.each(selectsUp, function(j, item) {
@@ -1210,13 +1205,14 @@
 					} else {
 						$(selectsDown[j]).val(item.value.trim());
 						checkGuest = true;
-					}
+					}					
 				});
 				if (!checkGuest || selectsDown == null) {
 					return false;
-				}
-
+				}			
+				return checkGuest;
 			}
+			
 			var divIndexDown = 1;
 			function addDateDivDown() {
 

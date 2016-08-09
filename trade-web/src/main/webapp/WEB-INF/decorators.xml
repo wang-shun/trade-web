@@ -18,6 +18,15 @@
 	<decorator name="default" page="INSPINIA_template.jsp">
 		<pattern>/*</pattern>
 	</decorator>
+	<!-- 工作台模板 -->
+	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
+		<pattern>/workspace/dashboard2</pattern>
+		<pattern>/task/myTaskList</pattern>
+	<!-- 	<pattern>/mortgage/mortgageApproveLost2</pattern>
+		<pattern>/case/caseDistribute2</pattern>
+		<pattern>/task/unlocatedTask2</pattern>
+		<pattern>/case/unlocatedCase2</pattern> -->
+	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
 	</decorator>
