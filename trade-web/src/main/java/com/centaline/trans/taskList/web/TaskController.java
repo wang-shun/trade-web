@@ -332,8 +332,13 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
-    		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
-			
+    		/*贷款流失审批 添加流失原因*/
+    		Dict dict = uamBasedataService.findDictByType("guohu_not_approve");
+    		if(dict!=null){
+        		request.setAttribute("loanLostNotApproves", dict.getChildren());
+    		}    		
+    		
+    		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);			
 			if(mortgage!=null && mortgage.getCustCode()!=null){
 				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
 				if(null !=guest){

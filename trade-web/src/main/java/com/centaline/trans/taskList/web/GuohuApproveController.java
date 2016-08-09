@@ -145,8 +145,11 @@ public class GuohuApproveController {
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
 			String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
 		/*流程引擎相关*/
+		List<String> membersList = null;
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		List<String> membersList = Arrays.asList(members.split(","));
+		if(members != null && members.length() > 0){
+			membersList = Arrays.asList(members.split(","));
+		}
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response,notApprove);
 		if(!"true".equals(GuohuApprove)){
 			//没未通过审核，发站内信通知案件负责人
@@ -156,6 +159,7 @@ public class GuohuApproveController {
 			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
 			paramsApproveRecord.setPartCode("Guohu");
 			paramsApproveRecord.setCaseCode(caseCode);
+			//查询 上一步操作人
 			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
 			if(lastApproveRecord!=null){
 				String recevier = lastApproveRecord.getOperator();

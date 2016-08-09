@@ -229,11 +229,11 @@ text-decoration: underline !important;
                             </i>
                        </th>
 					<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+					<th >流程环节</th>
 					<th >案件地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 					<th >上家</th>
 					<th >下家</th>
-					<th >流程环节</th>
 					<th >操作</th>
 				</tr>
 			</thead>
@@ -337,6 +337,16 @@ text-decoration: underline !important;
 							<i class="tag_sign">c</i>{{item.CTM_CODE}}
 						 </p>
 					</td>
+					<td>
+							<p>
+                               {{item.WFE_NAME}}
+                            </p>
+                            <p>
+                              <i class="sign_blue">
+									<a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
+                              </i>
+                            </p>
+					</td>
 					<td class="t-left">
 						<p class="big">
                        		{{item.PROPERTY_ADDR}}
@@ -368,16 +378,7 @@ text-decoration: underline !important;
                           </p>
                           
                     </td>
-					<td>
-							<p>
-                               {{item.WFE_NAME}}
-                            </p>
-                            <p>
-                              <i class="sign_blue">
-									{{item.NAME}}
-                              </i>
-                            </p>
-					</td>
+					
                     <td class="text-center">
                            <i class="iconfont icon_revise">
                              <a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >&#xe603;</a>

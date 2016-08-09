@@ -5,60 +5,60 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Toastr style -->
-    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<!-- Toastr style -->
+<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
-    <!-- Gritter -->
-	<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-	<link href="${ctx}/css/animate.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-	<link href="${ctx}/css/style.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
-	<link href="${ctx}/css/common/common.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
-	<link href="${ctx}/css/transcss/case/myCaseList2.css" rel="stylesheet">
-    <!-- 分页控件 -->
-	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	
-	 <!-- Data Tables -->
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<!-- Gritter -->
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="${ctx}/css/animate.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/case/myCaseList2.css" rel="stylesheet">
+<!-- 分页控件 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 
-    <!-- index_css -->
-    <link rel="stylesheet" href="../static/trans/css/common/base.css" />
-    <link rel="stylesheet" href="../static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
-    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+<!-- Data Tables -->
+<link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
+<link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
+<link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+
+<!-- index_css -->
+<link rel="stylesheet" href="../static/trans/css/common/base.css" />
+<link rel="stylesheet" href="../static/trans/css/common/table.css" />
+<link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
+<link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
 	
-    <style type="text/css">
-    .ibox-button {
-		margin-top: 10px;
-	}
-	.userHead{
-	width: 80px;
-		  height: 80px;
-		  display: inline-block;
-		  border-radius: 50%;
-		  background-size: 80px 108px;
-		  vertical-align: middle;
-		  background-image:url(../img/a5.png);
-	
-	}
-	
-	.bianhao{width:221px;padding-left:0;}
-	.dizhi{width:542px}
-	
-    </style>
+<style type="text/css">
+   .ibox-button {
+	margin-top: 10px;
+}
+.userHead{
+width: 80px;
+	  height: 80px;
+	  display: inline-block;
+	  border-radius: 50%;
+	  background-size: 80px 108px;
+	  vertical-align: middle;
+	  background-image:url(../img/a5.png);
+
+}
+
+.bianhao{width:221px;padding-left:0;}
+.dizhi{width:542px}
+
+   </style>
 </head>
 
 <body>
@@ -68,57 +68,53 @@
 <input type="hidden" id="queryUserId" value="${queryUserId}"/>
 <input type="hidden" id="queryOrgId" value="${queryOrgId}"/>
 
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox ">
-				<div class="ibox-title">
-					<h5>我的待分配案件列表</h5>
-				</div>
-
-				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
-					
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group ">
-								<label class="col-md-1 control-label m-l">案件编号</label>
-								<div class="col-md-10">
-									<div class="col-md-2 bianhao">
-										<input type="text" class="form-control" id="caseNo" name="caseNo" value=""/>
-									</div>
-								<label class="col-md-1 control-label">CTM编号</label>
-								<div class="col-md-2 bianhao">
-									<input type="text" class="form-control" id="ctmNo" name="ctmNo" value=""/>
-								</div>
+	<div class="wrapper wrapper-content animated fadeInRight">
+         <div class="ibox-content border-bottom clearfix space_box">
+              <h2 class="title">
+           		   待分配案件 
+              </h2>
+				<form method="get" class="form-horizontal form_box">
+						<div class="row clearfix">
+							<div class="form_content">
+								<label class="sign_left control-label">
+									案件编号
+								</label>
+								<div class="sign_right teamcode">
+										<input type="text" class="teamcode form-control" id="caseNo" name="caseNo" value=""/>
 								</div>
 							</div>
-						</div>
-					</div>
-						
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group ">
-								<label class="col-md-1 control-label m-l">产证地址</label>
-								<div class="col-md-10 dizhi">
-									<input type="text" class="form-control" id="caseAddr" name="caseAddr" value=""/>
+							<div class="form_content">	
+								<label class="sign_left control-label">
+									CTM编号
+								</label>
+								<div class="sign_right teamcode">
+									<input type="text" class="teamcode form-control"  id="ctmNo" name="ctmNo" value=""/>
 								</div>
 							</div>
 						</div>
-					</div>						
 						
-					<div class="row m-t-sm">
-						<div class="col-md-12">
-							<div class="form-group">
-							<label class="col-md-1 control-label m-l-lg"></label>
-							<div>
-								<button id="searchButton" type="button" class="btn btn-success" style="margin-left: 10px;" > <i class="icon iconfont">&#xe635;</i>查询</button>
+						<div class="row clearfix">
+							<div class="form_content">
+								<label class="sign_left control-label">
+									产证地址
+								</label>
+								 <div class="sign_right intextval">
+									<input type="text" class="form-control pull-left" id="caseAddr" name="caseAddr" value=""/>
+								</div>
 							</div>
-							</div>
+							<button id="searchButton" type="button" class="btn btn-success" style="margin-left: 10px;" >
+							 	<i class="icon iconfont">&#xe635;</i>
+							  	查询
+							</button>
+							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;">
+                                                                               案件分配                                               
+                            </button>
+                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;">
+                                                                               案件转组
+                            </button>
 						</div>
-					</div>
-						
 					</form>
-
+				</div>
 					<div class="data-wrap">
 						<div class="data-wrap-in">
 							<table border="0" cellpadding="0" cellspacing="0">
@@ -145,15 +141,10 @@
 						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
     				</div>	
 					
-					<div class="ibox-button text-center">
-						<a class="btn btn-primary" href="javascript:caseDistribute()" disabled="true" id="caseDistributeButton">案件分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
-						<a class="btn btn-primary" href="javascript:caseChangeTeam()" disabled="true" id="caseChangeTeamButton">案件转组</a>
-					</div>
+				
 					
-				</div>
-			</div>
+			
 		</div>
-	</div>
 	
 	<div class="wrapper wrapper-content  animated fadeInRight">
 		<div id="modal-form" class="modal fade" aria-labelledby="modal-title"

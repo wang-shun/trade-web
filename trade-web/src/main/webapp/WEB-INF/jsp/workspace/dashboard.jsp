@@ -259,7 +259,7 @@ text-decoration: underline !important;
                             
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
-                                    	商贷预警案件数
+                                    	商贷流失预警案件数
                                 </div>
                                 <div class="panel-body">
                                     <div class="row vertical-align">

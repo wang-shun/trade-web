@@ -98,7 +98,7 @@
 		<div class="col-md-12">
 			<div class="ibox float-e-margins" style="margin-top: 10px;margin-bottom: 5px;">
 				<div class="ibox-title">
-					<h4>商贷预警案件列表</h4>
+					<h4>商贷流失预警案件列表</h4>
 				</div>
 				<div class="ibox-content" style="padding-bottom: 5px;">
 					<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id ='myForm'>

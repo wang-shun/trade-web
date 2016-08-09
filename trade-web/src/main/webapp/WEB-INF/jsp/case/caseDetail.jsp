@@ -647,7 +647,7 @@
 							</li>
 							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
 							</li>
-							<li class=""><a href="#bizwarn-info" data-toggle="tab">商贷预警信息</a>
+							<li class=""><a href="#bizwarn-info" data-toggle="tab">商贷流失预警信息</a>
 							</li>
 						</ul>
 
@@ -914,16 +914,16 @@
 								<div class="row ">
 									<c:choose>
 										<c:when test="${!empty bizWarnInfo }">
-											<label class="col-sm-3 control-label" style="width:12%;">预警类型：<c:if test="${bizWarnInfo.warnType == 'LOANLOSS' }">贷款流失</c:if></label>
-											<label class="col-sm-3 control-label" style="width:12%;">预警时间：<fmt:formatDate value="${bizWarnInfo.warnTime}" type="date" pattern="yyyy-MM-dd"/></label>
-											<label class="col-sm-3 control-label" style="width:12%;">预警内容：${bizWarnInfo.content }</label>
-											<label class="col-sm-3 control-label" style="width:12%;">状态：
+											<label class="col-sm-3 control-label" style="width:15%;">预警类型：<c:if test="${bizWarnInfo.warnType == 'LOANLOSS' }">贷款流失</c:if></label>
+											<label class="col-sm-3 control-label" style="width:15%;">预警时间：<fmt:formatDate value="${bizWarnInfo.warnTime}" type="date" pattern="yyyy-MM-dd"/></label>
+											<label class="col-sm-3 control-label" style="width:15%;">预警内容：${bizWarnInfo.content }</label>
+											<label class="col-sm-3 control-label" style="width:15%;">状态：
 												<span id="spnStatus">
 													<c:if test="${bizWarnInfo.status == '0' }">生效</c:if>
 													<c:if test="${bizWarnInfo.status == '1' }">解除</c:if>
 												</span>
 											</label>
-											<label class="col-sm-3 control-label" style="width:12%;">解除时间：
+											<label class="col-sm-3 control-label" style="width:15%;">解除时间：
 												<span id="spnRelieveTime">
 													<c:choose>
 													<c:when test="${!empty bizWarnInfo.relieveTime }">
@@ -935,14 +935,14 @@
 												</c:choose>
 												</span>
 											</label>
-											<label class="col-sm-3 control-label" style="width:12%;">
+											<label class="col-sm-3 control-label" style="width:15%;">
 												<input type="hidden" name="status" value="${bizWarnInfo.status }"/>
 												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="relieve">解除</div>
 												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="edit">修改</div>
 											</label>
 										</c:when>
 										<c:otherwise>
-											<label class="col-sm-3 control-label" style="width:10%;">无商贷预警信息！ </label>
+											<label class="col-sm-3 control-label" style="width:12%;">无商贷预警信息！ </label>
 											<label class="col-sm-3 control-label" style="width:10%;">
 												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="add">添加</div>
 											</label>
