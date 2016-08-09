@@ -57,6 +57,7 @@ import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.exception.WorkFlowException;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -107,8 +108,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToTransPlanService toTransPlanService;
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
-	@Autowired(required = true)
-	private WorkFlowManager workFlowManager;
 	@Autowired(required=true)
 	private UamTemplateService uamTemplateService;
 	@Autowired(required=true)
@@ -118,6 +117,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
 		// TODO Auto-generated method stub
@@ -398,19 +399,9 @@ public class ToCaseServiceImpl implements ToCaseService {
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
     	//流程引擎相关
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-	    Iterator it = defValsMap.keySet().iterator();  
-	    while (it.hasNext()) {  
-            String key = it.next().toString();  
-    		RestVariable restVariable = new RestVariable();
-    		restVariable.setName(key); 
-    		restVariable.setValue(defValsMap.get(key));
-    		variables.add(restVariable);
-	    }
-    	process.setVariables(variables);
     	User user = uamUserOrgService.getUserById(userId);
-
-        StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
+    	defValsMap.put("caseOwner", user.getUsername());
+        StartProcessInstanceVo pIVo = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), caseCode, defValsMap);
 
     	toWorkFlow.setInstCode(pIVo.getId());
     	toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
@@ -465,13 +456,13 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Override
 	public void changeTaskAssignee(String caseCode, String taskId, String userId) {
-		TaskVo task= workFlowManager.getTask(taskId);
+		TaskVo task= workflowManager.getTask(taskId);
 		String username=uamUserOrgService.getUserById(userId).getUsername();
 		if(StringUtils.isBlank(task.getAssignee())){
-			workFlowManager.doOptTaskPlan(task.getTaskDefinitionKey(), caseCode);
+			workflowManager.doOptTaskPlan(task.getTaskDefinitionKey(), caseCode);
 			TaskOperate opt=new TaskOperate(taskId, "claim"); 
 			opt.setAssignee(username);
-			workFlowManager.operaterTask(opt);
+			workflowManager.operaterTask(opt);
 		}else{
 			taskReassingtLogService.record(task, username, caseCode);
 			task.setAssignee(username);

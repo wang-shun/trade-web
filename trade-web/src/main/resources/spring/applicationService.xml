@@ -18,6 +18,8 @@
                   <prop key="/remote/ProcessWaitTimeJob">/remote/ProcessWaitTimeJob</prop>
                   <prop key="/remote/ProcessingTimeJob">/remote/ProcessingTimeJob</prop>
                   <prop key="/remote/commFindUserService">/remote/commFindUserService</prop>
+                  <prop key="/remote/autoPlanService">/remote/autoPlanService</prop>
+                  
             </props>
         </property>
     </bean>

@@ -15,6 +15,10 @@
 	
 	<bean name="/remote/commFindUserService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
     	<property name="service" ref="commFindUserService"/> 
-    	<property name="serviceInterface" value="com.centaline.trans.engine.service.CommFindUserService"/> 
+    	<property name="serviceInterface" value="com.centaline.trans.remote.service.CommFindUserService"/> 
+    </bean> 
+    	<bean name="/remote/autoPlanService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+    	<property name="service" ref="autoPlanService"/> 
+    	<property name="serviceInterface" value="com.centaline.trans.remote.service.AutoPlanService"/> 
     </bean> 
 </beans>

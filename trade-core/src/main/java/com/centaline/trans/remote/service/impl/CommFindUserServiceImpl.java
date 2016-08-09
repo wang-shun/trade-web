@@ -1,4 +1,4 @@
-package com.centaline.trans.engine.service.impl;
+package com.centaline.trans.remote.service.impl;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,7 +20,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.engine.service.CommFindUserService;
+import com.centaline.trans.remote.service.CommFindUserService;
 import com.centaline.trans.task.service.impl.TsTaskDelegateServiceImpl;
 
 @Service(value = "commFindUserService")
