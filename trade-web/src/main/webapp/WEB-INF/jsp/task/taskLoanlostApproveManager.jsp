@@ -84,8 +84,11 @@
 						<label class="col-sm-5 control-label">承办银行：${caseDetail.lastLoanBank}</label>
 						<label class="col-sm-4 control-label">贷款流失金额：${caseDetail.mortTotalAmount/10000}万</label>
 					</div>
-					<div class="row ">
-						<label class="col-sm-10 control-label">流失原因：${caseDetail.content}</label>
+					<div class="row ">					
+						<label class="col-sm-10 control-label">贷款流失主要原因：${caseDetail.loanLostApplyReason}</label>
+					</div>
+					<div class="row ">					
+						<label class="col-sm-10 control-label">贷款流失详细情况说明：${caseDetail.content}</label>
 					</div>
 				</div>
 			</div>

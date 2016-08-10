@@ -64,6 +64,7 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 			caseDetail.put("lastLoanBank", tsFinOrg.getFinOrgName());
 			caseDetail.put("mortTotalAmount", toMortgage.getMortTotalAmount());
 			caseDetail.put("content", toMortgage.getSelfDelReason());
+			caseDetail.put("loanLostApplyReason", toMortgage.getLoanLostApplyReason());
 		} 
 		if(toPropertyInfo != null) {
 			caseDetail.put("propertyAddr", toPropertyInfo.getPropertyAddr());
