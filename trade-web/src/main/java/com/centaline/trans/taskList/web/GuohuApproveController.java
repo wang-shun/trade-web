@@ -36,6 +36,7 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -122,10 +123,16 @@ public class GuohuApproveController {
 		
 		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
 		String orgId = te.getOrgId();
-		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, "consultant");
-		if(users!=null){
-    		request.setAttribute("users", users);
+		List<User> users = new ArrayList<User>();
+		User cpUser = uamUserOrgService.getUserById(caseBaseVO.getAgentManagerInfo().getCpId());
+		List<CaseDetailProcessorVO> proList = caseBaseVO.getAgentManagerInfo().getProList();
+		for(CaseDetailProcessorVO vo:proList){
+			User proUser = uamUserOrgService.getUserById(vo.getProcessorId());
+			users.add(proUser);
 		}
+		users.add(cpUser);
+		
+    	request.setAttribute("users", users);
 		
 		return "task/taskGuohuApprove";
 	}
