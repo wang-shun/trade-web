@@ -85,8 +85,11 @@
 						<label class="col-sm-5 control-label">承办银行：${caseDetail.lastLoanBank}</label>
 						<label class="col-sm-4 control-label">贷款流失金额：${caseDetail.mortTotalAmount/10000}万</label>
 					</div>
-					<div class="row ">
-						<label class="col-sm-10 control-label">流失原因：${caseDetail.content}</label>
+					<div class="row ">					
+						<label class="col-sm-10 control-label">贷款流失主要原因：${caseDetail.loanLostApplyReason}</label>
+					</div>
+					<div class="row ">					
+						<label class="col-sm-10 control-label">贷款流失详细情况说明：${caseDetail.content}</label>
 					</div>
 				</div>
 			</div>
@@ -108,21 +111,20 @@
 						value="${approveType }"> <input type="hidden" id="lapPkid"
 						name="lapPkid" value="${toApproveRecord.pkid }"> <input
 						type="hidden" id="operator" name="operator" value="${operator }">
-					<!-- 					<div class="form-group">
+					<div class="form-group">
 						<label class="col-sm-2 control-label">审批结果</label>
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
-								<label> 
-									<input type="radio" checked="checked"  value="true" id="optionsRadios1" name="LoanLost_director">审批通过
-								</label>
-								<label> 
-									<input type="radio" value="false" id="optionsRadios2" name="LoanLost_director">审批不通过
+								<label> <input type="radio" checked="checked"
+									value="true" id="optionsRadios1" name="LoanLost_director">审批通过
+								</label> <label> <input type="radio" value="false"
+									id="optionsRadios2" name="LoanLost_director">审批不通过
 								</label>
 							</div>
 						</div>
-					</div> -->
+					</div>
 
-					<!-- 流失案件总监审核 -->
+					<%-- 					<!-- 流失案件总监审核 -->
 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批结果</label>
 						<div class="radio i-checks radio-inline">
@@ -150,7 +152,7 @@
 								</div>
 							</c:forEach>
 						</div>
-					</div>
+					</div> --%>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">备注</label>
 						<div class="col-sm-10">
@@ -197,7 +199,7 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
 		src="${ctx}/js/viewer/viewer.min.js"></script> <script>
-			function loanLostDirectorAppendNotApprove(isAppend, content) {
+/* 			function loanLostDirectorAppendNotApprove(isAppend, content) {
 				if (isAppend) {
 					var oldVal = $("#LoanLost_director_response").val();
 					if (oldVal != '') {
@@ -205,7 +207,7 @@
 					}
 					$("#LoanLost_director_response").val(oldVal + content);
 				}
-			}
+			} */
 
 			$(function() {
 				getShowAttachment();

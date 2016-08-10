@@ -209,7 +209,7 @@
                                     <label class="control-label sign_left_two">
                                         合作机构
                                     </label>
-                                    <select class="select_control sign_right_two" name="finOrgCode" id="finOrgCode">
+                                    <select  class="select_control sign_right_two" name="finOrgCode" id="finOrgCode">
                                     </select>
                                 </div>
 
@@ -299,7 +299,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        分成比例贷款
+                                        产品部分成比例
                                     </label>
                                     <input class="input_type sign_right_two" value="" name="pdPart" id="pdPart">
                                     <div class="input-group date_icon">
@@ -322,7 +322,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        分成比例贷款
+                                     人员分配比例
                                     </label>
                                     <input class="input_type sign_right_two" value="" name="coPart" id="coPart">
                                     <div class="input-group date_icon">
@@ -526,7 +526,22 @@
 		    	}
 			  });
 		}
-		
+		/**
+		根据银行选择产品分成比例
+		*/
+		$("#finOrgCode").change(function(){
+			var finOrgCode=$("#finOrgCode").val();
+			if(finOrgCode=="W0001"){
+				$("#pdPart").val(20);
+				$("#pdPart").attr("disabled",true);
+			}else if(finOrgCode=="W0003"||finOrgCode=="W0004"){
+				$("#pdPart").val(10);
+				$("#pdPart").attr("disabled",true);
+			}else{
+				$("#pdPart").val('');
+				$("#pdPart").attr("disabled",false);	
+			}
+		})
 		function saveEloanApply() {
 			var jsonData = $("#eloanApplyForm").serializeArray();
 			var url = "${ctx}/eloan/saveEloanApply";
