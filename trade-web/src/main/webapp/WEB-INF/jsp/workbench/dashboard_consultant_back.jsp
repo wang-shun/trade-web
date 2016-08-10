@@ -49,11 +49,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
     <link href="${ctx}/static/trans/css/workbench/dashboard/dashboard.css" rel="stylesheet">
 </head>
 
-<script type="text/javascript">
-	function imgLoad(img){
-		img.parentNode.style.backgroundImage="url("+img.src+")";
-	}
-</script>
 <body>
 <input type="hidden" id="serviceDepHierarchy" value="${sessionUser.serviceDepHierarchy }">
 <input type="hidden" id="userId" value="${sessionUser.id }">
@@ -217,9 +212,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body" style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    <div id="div_messagelist1" class="widget-main">
-                                                                    </div>
+																<div class="widget-body">
+                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    	<div id="div_messagelist1" style="min-height:320px;" class="widget-main"></div>
+                                                                	</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -234,9 +230,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body" style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    <div id="div_messagelist2" class="widget-main">
-                                                                    </div>  
+																<div class="widget-body">
+                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    	<div id="div_messagelist2" style="min-height:320px;" class="widget-main"></div>
+                                                                	</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -251,11 +248,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body">
-                                                                	<div style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    	<div id="div_messagelist3" class="widget-main">
-                                                                    	</div>
-                                                                    </div>
+																<div class="widget-body">
+                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    	<div id="div_messagelist3" style="min-height:320px;" class="widget-main"></div>
+                                                                	</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -264,6 +260,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                 
                                                 <!-- 龙虎榜 -->
                                                 <div class="tab-pane" id="tab-3">
+												<script type="text/javascript">
+													function imgLoad(img){
+														img.parentNode.style.backgroundImage="url("+img.src+")";
+													}
+												</script>
                                                     <div class="row dragon">
                                                         <div class="col-md-6">
                                                             <div class="panel panel-danger">

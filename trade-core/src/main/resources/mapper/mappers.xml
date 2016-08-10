@@ -160,5 +160,8 @@
 		
 		<!-- 贷款预警借口 -->
 		<mapper resource="mapper/bizwarn/BizWarnInfoMapper.xml" />
+		
+		<mapper resource="mapper/eloan/ToEloanCaseMapper.xml" />
+		<mapper resource="mapper/eloan/ToEloanRelMapper.xml" />
 	</mappers>
 </configuration>

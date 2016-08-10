@@ -232,7 +232,7 @@ text-decoration: underline !important;
 						
 					<div class="form_content space">
                             <div class="add_btn" align="center">
-                                <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe61f;</i>
+                                <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
                                  	   查询
                                 </button>
                             </div>
@@ -436,7 +436,6 @@ text-decoration: underline !important;
 			reloadGrid : searchMethod
 		}); 
 	 </script>
-	
 	
 	</content>
 </body>

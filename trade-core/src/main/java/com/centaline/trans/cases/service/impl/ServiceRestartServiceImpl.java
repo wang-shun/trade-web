@@ -71,6 +71,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		twf.setBusinessKey("TempBankAudit_Process");
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
+		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
 
 		ToWorkFlow wf=new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
@@ -93,13 +94,14 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	
 
 	@Override
-
 	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {	
 		
+		/*删除临时银行流程相关*/
 		ToWorkFlow twf=new ToWorkFlow();
 		twf.setBusinessKey("TempBankAudit_Process");
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
+		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
 		
 		ToWorkFlow wf=new ToWorkFlow();
 	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());

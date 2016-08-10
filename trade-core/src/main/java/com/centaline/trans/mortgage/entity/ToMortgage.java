@@ -84,7 +84,12 @@ public class ToMortgage {
     /**推荐函编号*/
     private String recLetterNo;
     
-    private String isTmpBank;
+    /**申请贷款流失原因*/
+    private String loanLostApplyReason;
+    
+
+
+	private String isTmpBank;
     private String tmpBankUpdateByStr;
     private String tmpBankUpdateBy;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
@@ -449,7 +454,13 @@ public class ToMortgage {
 	public void setTmpBankRejectReason(String tmpBankRejectReason) {
 		this.tmpBankRejectReason = tmpBankRejectReason;
 	}	
-	
+    public String getLoanLostApplyReason() {
+		return loanLostApplyReason;
+	}
+
+	public void setLoanLostApplyReason(String loanLostApplyReason) {
+		this.loanLostApplyReason = loanLostApplyReason;
+	}
 	
     
 }
