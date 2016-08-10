@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>我的计件奖金</title>
+    <title>已受理产调</title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css">
     <link rel="stylesheet" href="../static/css/animate.css" />
     <link rel="stylesheet" href="../static/css/style.css" />
 
@@ -16,13 +16,10 @@
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
     <link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
-
     <!-- index_css -->
     <link rel="stylesheet" href="../static/trans/css/common/base.css" />
     <link rel="stylesheet" href="../static/trans/css/common/table.css" />
     <link rel="stylesheet" href="../static/trans/css/common/input.css" />
-    <link rel="stylesheet" href="../static/trans/css/award/baseAward.css" ">
-
 
 </head>
 
@@ -172,7 +169,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="#">
                             <i class="fa fa-cny">
                             </i>
@@ -184,45 +181,68 @@
                         </a>
                         <ul class="nav nav-second-level collapse">
                             <li>
-                                <a href="read.html">
+                                <a href="#">
                                     <i class="fa ">
                                     </i>
                                     佣金查看
                                 </a>
                             </li>
-                            <li class="active">
-                                <a href="personBonus.html">
+                            <li>
+                                <a href="#">
                                     <i class="fa ">
                                     </i>
                                     我的计件奖金
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="baseAward.html">
+                            <li>
+                                <a href="#">
                                     <i class="fa ">
                                     </i>
                                     我的基础计件奖金
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="baseAwardReport.html">
-                                    <i class="fa ">
-                                    </i>
-                                    计件奖金报表
-                                </a>
-                            </li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a href="#">
-                            <i class="fa fa-comment">
+                            <i class="fa fa-cny">
                             </i>
                             <span class="nav-label">
-                                产调结果
+                                产调处理
                             </span>
                             <span class="fa arrow">
                             </span>
                         </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li class="">
+                                <a href="processWaitList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    待处理产调
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="processingList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    已受理产调
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="successList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    已完成产调
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="resultGet.html">
+                                    <i class="fa ">
+                                    </i>
+                                    产调结果
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="">
                         <a href="#">
@@ -445,75 +465,65 @@
             <!--*********************** HTML_main*********************** -->
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
-                    <p class="month">
-                        <button type="button" class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe60d;</i></button>
-                            <span>2014/01月</span>
-                        <button class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe614;</i></button>
-                        <span class="explain">此日期为计件奖金的生成日期。如需查看某月过户的案件计件奖金，请按过户日期搜索</span>
-                    </p>
+                    <h2 class="title">
+                        已受理产调
+                    </h2>
                     <form method="get" class="form_list">
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left">
-                                        案件编号
-                                    </label>
-                                    <input type="text" class="select_control sign_right_one" />
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        过户时间
-                                    </label>
-                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
-                                    </div>
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left">
+                                    行政区域
+                                </label>
+                                <select class="select_control sign_right_one">
+                                    <option value="">
+                                        请选择
+                                    </option>
+                                    <option value="">
+                                        这里为文字内容测试
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left">
+                                    产证地址
+                                </label>
+                                <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
+                            </div>
+                            <div class="form_content space">
+                                <div class="add_btn">
+                                    <button type="button" class="btn btn-success">
+                                        <i class="icon iconfont"></i>
+                                        查询
+                                    </button>
+                                    <button type="button" class="btn btn-success">
+                                        <i class="icon iconfont"></i>
+                                        导出至Excel
+                                    </button>
                                 </div>
                             </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left">
-                                        产证地址
-                                    </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
-                                </div>
-                                <div class="form_content space">
-                                    <div class="add_btn">
-                                        <button type="button" class="btn btn-success">
-                                            <i class="icon iconfont"></i>
-                                            查询
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
+                        </div>
+                    </form>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="notes">
-                            <p class="pull-left">我的计件奖金</p>
-                            <p class="pull-right">
-                                交易单数：9，环节总数：31.00，交易单加权：9.00
-                            </p>
-                        </div>
                         <div class="table_content">
-                            <table class="table table_blue table-hover table-striped table-bordered">
+                            <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
                                 <thead>
                                     <tr>
                                         <th>
-                                            <span>案件编码</span>
+                                            行政区域
                                         </th>
                                         <th>
                                             产证地址
                                         </th>
                                         <th>
-                                            过户时间
+                                            产调申请时间
                                         </th>
                                         <th>
-                                            生产时间
+                                            是否有效
                                         </th>
                                         <th>
-                                            基础奖金
+                                            产调申请
                                         </th>
                                         <th>
                                             操作
@@ -523,406 +533,83 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
+                                            <p class="big deep_grey">
+                                                上海杨浦区银行
+                                            </p>
+                                            <p class="big deep_grey" style="color:#808080;">
+                                                上海杨浦区
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
+                                            <p class="big tint_grey">
                                                 上海杨浦区平路街道（内环）鞍山八村29号0608室
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">申</i>
+                                                2016-05-30 11:00
+                                            </p>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">受</i>
+                                                2016-05-30 12:30
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
+                                            <p class="smll_sign">
+                                                <i class="sign_grey">否</i>78787878
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            <span class="manager"><a href="#"><em>申请人：</em>金娇娇</a>　<i class="sign_red">经</i></span></span>
+                                            <span class="manager"><a href="#"><em>执行人：</em>顾小峰</a></span>
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">收起</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="spread_line">
-                                        <td colspan="7" class="spread_td">
-                                            <table class="table spread_tab table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>人员</th>
-                                                        <th>角色</th>
-                                                        <th>基础奖金</th>
-                                                        <th>环节占比</th>
-                                                        <th>满意度</th>
-                                                        <th>满意度占比</th>
-                                                        <th>金融单数</th>
-                                                        <th>贷款流失率</th>
-                                                        <th>绩效系统数</th>
-                                                        <th>最终奖金</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>金娇娇</td>
-                                                        <td>总监</td>
-                                                        <td>40</td>
-                                                        <td>3/3</td>
-                                                        <td>22</td>
-                                                        <td>26/100</td>
-                                                        <td>22</td>
-                                                        <td>22.5%</td>
-                                                        <td>22</td>
-                                                        <td>22000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>金娇娇</td>
-                                                        <td>总监</td>
-                                                        <td>40</td>
-                                                        <td>3/3</td>
-                                                        <td>22</td>
-                                                        <td>26/100</td>
-                                                        <td>22</td>
-                                                        <td>22.5%</td>
-                                                        <td>22</td>
-                                                        <td>22000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>金娇娇</td>
-                                                        <td>总监</td>
-                                                        <td>40</td>
-                                                        <td>3/3</td>
-                                                        <td>22</td>
-                                                        <td>26/100</td>
-                                                        <td>22</td>
-                                                        <td>22.5%</td>
-                                                        <td>22</td>
-                                                        <td>22000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>金娇娇</td>
-                                                        <td>总监</td>
-                                                        <td>40</td>
-                                                        <td>3/3</td>
-                                                        <td>22</td>
-                                                        <td>26/100</td>
-                                                        <td>22</td>
-                                                        <td>22.5%</td>
-                                                        <td>22</td>
-                                                        <td>22000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>金娇娇</td>
-                                                        <td>总监</td>
-                                                        <td>40</td>
-                                                        <td>3/3</td>
-                                                        <td>22</td>
-                                                        <td>26/100</td>
-                                                        <td>22</td>
-                                                        <td>22.5%</td>
-                                                        <td>22</td>
-                                                        <td>22000</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <td class="text-center">
+                                            <i class="iconfont icon_revise">
+                                                &#xe603;
+                                            </i>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
+                                            <p class="big deep_grey">
+                                                上海杨浦区银行
+                                            </p>
+                                            <p class="big deep_grey" style="color:#808080;">
+                                                上海杨浦区
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
+                                            <p class="big tint_grey">
                                                 上海杨浦区平路街道（内环）鞍山八村29号0608室
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">申</i>
+                                                2016-05-30 11:00
+                                            </p>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">受</i>
+                                                2016-05-30 12:30
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
+                                            <p class="smll_sign">
+                                                <i class="sign_grey">否</i>78787878
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            <span class="manager"><a href="#"><em>申请人：</em>金娇娇</a>　<i class="sign_normal">誉</i></span>
+                                            <span class="manager"><a href="#"><em>执行人：</em>顾小峰</a></span>
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td class="text-center">
+                                            <i class="iconfont icon_revise">
+                                                &#xe603;
+                                            </i>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                             <div class="text-center page_box">
@@ -1002,7 +689,6 @@
                                         <input type="text" class="go_input" value="">
                                         <input type="button" class="go_btn" value="GO"></span>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

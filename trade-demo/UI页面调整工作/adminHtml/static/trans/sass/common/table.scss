@@ -28,7 +28,6 @@ table.dataTable thead .sorting:after {
   margin-bottom: 15px;
   border-bottom: 2px solid #eee;
 }
-
 .task-list tr td.pl10 {
   padding: 0 0 0 10px;
 }
@@ -59,7 +58,6 @@ table.dataTable thead .sorting:after {
 
 table p {
   margin: 7px 0px;
-  font-size: 12px;
   max-width: 400px;
   overflow: hidden;
   white-space: nowrap;
@@ -68,6 +66,7 @@ table p {
 
 .manager {
   display: block;
+  margin: 7px 0;
 }
 
 .manager a em {
@@ -119,7 +118,12 @@ table tr td {
   width: 18px !important;
   height: 18px !important;
 }
-
+.deep_grey {
+  color: #333;
+}
+.tint_grey {
+  color: #808080;
+}
 .tag_sign {
   width: 13px;
   height: 14px;
@@ -131,6 +135,18 @@ table tr td {
   padding: 0 4px 1px;
   background-color: #ccc;
   margin-right: 3px;
+}
+.sign_red {
+  margin-right: 5px;
+  padding: 0px 1px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background-color: #ed5565;;
+}
+.sign_blue a {
+  color: #fff;
 }
 
 table.dataTable thead .sorting_asc {
