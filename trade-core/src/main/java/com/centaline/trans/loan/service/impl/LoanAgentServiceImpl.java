@@ -57,7 +57,7 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	private void buildFCaseCode(LoanAgent loanAgent) {
 		if (!StringUtils.isBlank(loanAgent.getCaseCode()) && StringUtils.isBlank(loanAgent.getFinCaseCode())) {
 			if (LoanType.ZY_XD.getCode().equals(loanAgent.getLoanSrvCode())) {
-				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("ZYDK_CODE", new Date()));
+				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("ZYDK_CODE","XD", new Date()));
 			} else {
 				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("WDDK_CODE",
 						LoanCompany.getCaseValueByCode(loanAgent.getFinOrgCode()), new Date()));

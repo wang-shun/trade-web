@@ -1,5 +1,6 @@
 package com.centaline.trans.mortgage.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -123,8 +124,13 @@ public class TmpBankAduitController {
 	
 	//更新贷款表临时银行状态为审批中：‘2’
 	ToMortgage mortageDb = toMortgageService.findToMortgageByCaseCode2(caseCode);
-	mortageDb.setTmpBankStatus("2");
-	toMortgageService.updateToMortgage(mortageDb);
+	if(mortageDb != null){
+		mortageDb.setComAmount(mortageDb.getComAmount() != null?mortageDb.getComAmount().multiply(new BigDecimal(10000)):null);
+		mortageDb.setMortTotalAmount(mortageDb.getMortTotalAmount() != null?mortageDb.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
+		mortageDb.setPrfAmount(mortageDb.getPrfAmount() != null?mortageDb.getPrfAmount().multiply(new BigDecimal(10000)):null);
+		mortageDb.setTmpBankStatus("2");
+		toMortgageService.updateToMortgage(mortageDb);
+	}
 	
 	return vo;
 	}

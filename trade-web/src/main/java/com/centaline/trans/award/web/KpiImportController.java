@@ -41,7 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
 @Controller
-@RequestMapping(value = "award")
+@RequestMapping(value = "/award")
 public class KpiImportController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
