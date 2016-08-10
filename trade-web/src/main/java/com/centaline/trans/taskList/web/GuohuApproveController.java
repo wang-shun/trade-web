@@ -125,12 +125,12 @@ public class GuohuApproveController {
 		String orgId = te.getOrgId();
 		List<User> users = new ArrayList<User>();
 		User cpUser = uamUserOrgService.getUserById(caseBaseVO.getAgentManagerInfo().getCpId());
+		users.add(cpUser);
 		List<CaseDetailProcessorVO> proList = caseBaseVO.getAgentManagerInfo().getProList();
 		for(CaseDetailProcessorVO vo:proList){
 			User proUser = uamUserOrgService.getUserById(vo.getProcessorId());
 			users.add(proUser);
 		}
-		users.add(cpUser);
 		
     	request.setAttribute("users", users);
 		
