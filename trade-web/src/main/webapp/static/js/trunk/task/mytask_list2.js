@@ -15,7 +15,7 @@ $(document).ready(function() {
 			// 初始化列表
 			var data = {};
     	    data.queryId = "queryTaskListItemList";
-    	    data.rows = 20;
+    	    data.rows = 10;
     	    data.page = 1;
     	    aist.wrap(data);
     		reloadGrid(data);
@@ -130,7 +130,7 @@ $('#orderByButton').click(function() {
 			search_propertyAddr : propertyAddr,
 			argu_allType: allTypeFlag,
 			queryId : "queryTaskListItemList",
-			rows : 20,
+			rows : 10,
 			page : 1,
 			sortname : "ID",
 			sortorder : "ASC"
@@ -260,7 +260,7 @@ function searchMethod(page){
 			argu_allType: allTypeFlag,
 			search_taskDfKey:taskDfKey,
 			queryId : "queryTaskListItemList",
-			rows : 20,
+			rows : 10,
 			page : page
 		};
 	
