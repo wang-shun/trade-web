@@ -107,21 +107,20 @@
 						value="${approveType }"> <input type="hidden"
 						id="operator" name="operator" value="${operator }">
 
-					<!-- 					<div class="form-group">
+					<div class="form-group">
 						<label class="col-sm-2 control-label">审批结果</label>
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
-								<label> 
-									<input type="radio" checked="checked" value="true" id="optionsRadios1" name="LoanLost_manager">审批通过
-								</label>
-								<label> 
-									<input type="radio"  value="false" id="optionsRadios2" name="LoanLost_manager">审批不通过
+								<label> <input type="radio" checked="checked"
+									value="true" id="optionsRadios1" name="LoanLost_manager">审批通过
+								</label> <label> <input type="radio" value="false"
+									id="optionsRadios2" name="LoanLost_manager">审批不通过
 								</label>
 							</div>
 						</div>
-					</div> -->
+					</div>
 
-					<!-- 流失案件主管审核 -->
+					<%-- 					<!-- 流失案件主管审核 -->
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批结果</label>
@@ -150,7 +149,7 @@
 								</div>
 							</c:forEach>
 						</div>
-					</div>
+					</div> --%>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批意见</label>
 						<div class="col-sm-10">
@@ -212,8 +211,8 @@
 				getShowAttachment();
 			});
 			/**提交数据*/
-			function submit() {		
-				
+			function submit() {
+
 				save();
 			}
 

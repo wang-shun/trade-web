@@ -305,7 +305,13 @@ public class TaskController {
     		}
 	
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
-    		getAccesoryList(request, taskitem);
+    		getAccesoryList(request, taskitem);   		
+    		
+    		/*贷款流失审批 添加流失原因*/
+    		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");   
+    		if(dict!=null){
+    				request.setAttribute("loanLostApplyReasons", dict.getChildren());
+    		}  
     		/**这里应该和自办贷款一样*/
     		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
     		request.setAttribute("mortgage", mortgage);
@@ -334,10 +340,10 @@ public class TaskController {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		
     		/*贷款流失审批 添加流失原因*/
-    		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");
+/*    		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");
     		if(dict!=null){
     				request.setAttribute("loanLostNotApproves", dict.getChildren());
-    		}  
+    		}  */
     		
     		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);			
 			if(mortgage!=null && mortgage.getCustCode()!=null){

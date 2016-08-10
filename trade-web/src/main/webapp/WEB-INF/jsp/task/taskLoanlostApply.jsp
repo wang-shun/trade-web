@@ -143,20 +143,58 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款流失原因</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="selfDelReason"
-								name="selfDelReason" value="${mortgage.selfDelReason }">
-						</div>
-					</div>
-
-					<div class="form-group">
 						<label class="col-sm-2 control-label">自办贷款确认函编号</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="recLetterNo"
 								name="recLetterNo" value="${mortgage.recLetterNo}">
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">贷款流失原因</label>
+						<!-- 						<div class="radio i-checks radio-inline">
+							<label> <input type="radio" checked="checked"
+								value="true" id="optionsRadios1" name="LoanLost_manager"
+								onClick="$('#loanLostApply').hide();">隐藏原因
+							</label>
+						</div>
+						<div class="radio i-checks radio-inline">
+							<label> <input type="radio" value="false"
+								id="optionsRadios2" name="LoanLost_manager"
+								onClick="$('#loanLostApply').show();getNotApproves();">显示原因
+							</label>
+						</div> -->
+						<div class="form_sign col-sm-10 clearfix" id="loanLostApply"
+							style="display: block">
+							<c:forEach items="${loanLostApplyReasons}"
+								var="loanLostApplyReason">
+								<div class="col-sm-6 sign">
+									<input type="checkbox" value="${loanLostApplyReason.code}"
+										name="loanLostApplyReasonByCode" class="btn btn-white"
+										onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReason.name}');">
+									<label>${loanLostApplyReason.name}</label>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">已勾选原因</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="loanLostApplyReason"
+								name="loanLostApplyReason"
+								value="${mortgage.loanLostApplyReason}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">贷款流失具体原因<span
+							class="star">*</span></label>
+						<div class="col-sm-10">
+							<textarea rows="3" class="form-control" id="selfDelReason"
+								name="selfDelReason">${mortgage.selfDelReason }</textarea>
+						</div>
+					</div>
+
+
 				</form>
 
 			</div>
@@ -167,51 +205,51 @@
 		<div class="ibox-title">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
-				<h5>上传备件</h5>
+					<h5>上传备件</h5>
 					<div class="ibox-content"
 						style="height: 280px; overflow-y: scroll;">
-						<h5>${accesoryList[0].accessoryName }</h5>					
-					<c:forEach var="accesory" items="${accesoryList}"
-						varStatus="status">
-						<div class="" id="fileupload_div_pic">
-							<form id="fileupload"
-								action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-								method="POST" enctype="multipart/form-data">
-								<noscript>
-									<input type="hidden" name="redirect"
-										value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-									<input type="hidden" id="preFileCode" name="preFileCode"
-										value="${accesory.accessoryCode }">
-								</noscript>
-								<c:if test="${status.index != 0}">
-									<h5 align="left">
-										<br>${accesory.accessoryName }</h5>
-								</c:if>
-								<div class="row-fluid fileupload-buttonbar">
-									<div class="" style="height: auto">
-										<div role="presentation" class="table table-striped "
-											style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-											<div id="picContainer${accesory.pkid }" class="files"
-												data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-											<span class=" fileinput-button "
-												style="margin-left: 10px !important; width: 80px;">
-												<div id="chandiaotuBtn" class=""
-													style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-													<i class="fa fa-plus"></i>
-												</div> <input id="picFileupload${accesory.pkid }" type="file"
-												name="files[]" multiple
-												data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-												data-sequential-uploads="true">
-											</span>
+						<h5>${accesoryList[0].accessoryName }</h5>
+						<c:forEach var="accesory" items="${accesoryList}"
+							varStatus="status">
+							<div class="" id="fileupload_div_pic">
+								<form id="fileupload"
+									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect"
+											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.accessoryCode }">
+									</noscript>
+									<c:if test="${status.index != 0}">
+										<h5 align="left">
+											<br>${accesory.accessoryName }</h5>
+									</c:if>
+									<div class="row-fluid fileupload-buttonbar">
+										<div class="" style="height: auto">
+											<div role="presentation" class="table table-striped "
+												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+												<div id="picContainer${accesory.pkid }" class="files"
+													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<span class=" fileinput-button "
+													style="margin-left: 10px !important; width: 80px;">
+													<div id="chandiaotuBtn" class=""
+														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+														<i class="fa fa-plus"></i>
+													</div> <input id="picFileupload${accesory.pkid }" type="file"
+													name="files[]" multiple
+													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													data-sequential-uploads="true">
+												</span>
+											</div>
 										</div>
 									</div>
-								</div>
-							</form>
-						</div>
+								</form>
+							</div>
 
-						<div class="row-fluid">
-							<div class="">
-								<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+							<div class="row-fluid">
+								<div class="">
+									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
@@ -242,8 +280,8 @@
 							    </div>
 							{% } %}
 						</script>
-								<script id="templateDownload${accesory.pkid }"
-									type="text/x-tmpl">
+									<script id="templateDownload${accesory.pkid }"
+										type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
@@ -268,20 +306,20 @@
 							    </div>
 							{% } %}
 						</script>
+								</div>
 							</div>
-						</div>
-					</c:forEach>
+						</c:forEach>
 
-					<div class="row-fluid" style="display: none;">
-						<div class="span4">
-							<div class="control-group">
-								<a class="btn blue start" id="startUpload"
-									style="height: 30px; width: 50px"> <i
-									class="icon-upload icon-white"></i> <span>上传</span>
-								</a>
+						<div class="row-fluid" style="display: none;">
+							<div class="span4">
+								<div class="control-group">
+									<a class="btn blue start" id="startUpload"
+										style="height: 30px; width: 50px"> <i
+										class="icon-upload icon-white"></i> <span>上传</span>
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -344,6 +382,28 @@
 					}
 				});
 			}
+
+			function loanLostApplyReasonAppend(isAppend, content) {
+				if (isAppend) {
+					var oldVal = $("#loanLostApplyReason").val();
+					if (oldVal != '') {
+						oldVal += ';';
+					}
+					$("#loanLostApplyReason").val(oldVal + content);
+				} else {
+					var oldVal = $("#loanLostApplyReason").val();
+					var oldValArray = oldVal.split(";");
+					var newVal = "";
+					for (var i = 0; i < oldValArray.length; i++) {
+						if (oldValArray[i] != content) {
+							newVal += oldValArray[i] + ";";
+						}
+					}
+					newVal = newVal.substr(0, newVal.length - 1);
+					$("#loanLostApplyReason").val(newVal);
+				}
+			}
+
 			//查询客户信息
 			function getGuestInfo() {
 				$.ajax({
@@ -405,12 +465,16 @@
 				if (!checkForm()) {
 					return;
 				}
+
+				if (!checkLoanLostApplyReasons()) {
+					return;
+				}
 				$("#finOrgCode").val($("#lastLoanBank").val());
 				var jsonData = $("#loanlostApplyForm").serializeArray();
 				deleteAndModify();
 
 				var url = "${ctx}/task/mortgage/saveLoanlostApply";
-				if (b) {
+				if (b) {					
 					url = "${ctx}/task/mortgage/submitLoanlostApply";
 				}
 
@@ -490,12 +554,34 @@
 				$("input[name='custName']").val(
 						$("select[name='custCode']").find("option:selected")
 								.text());
-				/* if($('input[name=commet]').val()=='') {
-				    alert("备注为必填项!");
-				    $('input[name=commet]').focus();
-				    return false;
-				} */
+
 				return true;
+			}
+
+			//验证贷款流失相应字段信息
+			function checkLoanLostApplyReasons() {
+				var loanLostApplyFlag = true
+				if ($("input[name='loanLostApplyReason']").val() == '') {
+					alert("贷款流失必须勾选相应原因!");
+					$("input[name='loanLostApplyReason']").focus();
+					loanLostApplyFlag = false;
+					return loanLostApplyFlag;
+				}
+				//获取textarea文本域的值
+				if ($("#selfDelReason").val() == '') {
+					alert("贷款流失具体原因不能为空!");
+					$("#selfDelReason").focus();
+					loanLostApplyFlag = false;
+					return loanLostApplyFlag;
+				} else {
+					if ($("#selfDelReason").val().length < 30) {
+						alert("贷款流失具体原因不详细,具体原因不能少于30字！");
+						$("#selfDelReason").focus();
+						loanLostApplyFlag = false;
+						return loanLostApplyFlag;
+					}
+				}
+				return loanLostApplyFlag;
 			}
 
 			/*获取银行列表*/
