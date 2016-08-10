@@ -186,7 +186,7 @@
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="loanLostApplyReason"
 								name="loanLostApplyReason"
-								value="${mortgage.loanLostApplyReason}">
+								value="${mortgage.loanLostApplyReason}" readonly="readonly">
 						</div>
 					</div>
 					<%-- <div class="form_sign col-sm-10 clearfix" id="loanLostApply"
