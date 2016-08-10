@@ -135,7 +135,7 @@ public class WarnListController {
 			if(eloanCase.getSignTime()!=null){
 				status="sign";
 			}
-		    if(eloanCase.getApplyConfTime()!=null){
+		    if(eloanCase.getSignConfTime()!=null){
 				status="confirmSign";
 			}
 			if(eloanRels.size()>0){
