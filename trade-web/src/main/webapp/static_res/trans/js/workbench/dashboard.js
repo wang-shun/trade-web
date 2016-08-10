@@ -13,6 +13,7 @@ function setStaVal(f, s, l) {
 	setStaValItem(s, 'td:eq(2)');
 	setStaValItem(l, 'td:eq(3)');
 }
+/*
 function setDonut(d1, d2) {
 	$("#doughnutChart1").empty();
 	$("#doughnutChart2").empty();
@@ -38,7 +39,7 @@ function setDonut(d1, d2) {
 		resize : true,
 		colors : [ '#87d6c6', '#54cdb4', '#1ab394' ],
 	});
-}
+}*/
 function setStaValItem(d, c) {
 	if (d) {
 		$(d).each(function(i) {

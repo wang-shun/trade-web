@@ -254,7 +254,9 @@ width: 80px;
 				</td>
 				<td >
 						<p class="big">
-                          {{item.CASE_CODE}}
+							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">
+                          		{{item.CASE_CODE}}
+							</a>
                          </p>
                         <p>
                           <i class="tag_sign">c</i>
@@ -272,21 +274,38 @@ width: 80px;
     				 </p>
 				</td>
 				<td >
- 					  <p class="smll_sign">
+						{{if item.CREATE_TIME!=null}}
+						  <p class="smll_sign">
                                     <i class="sign_normal">派</i>
-						{{item.CREATE_TIME}}
-    				 </p>
+									{{item.CREATE_TIME}}
+    				 	  </p>
+
+						{{else}}
+                           <p class="sign_grey">
+                                    <i class="sign_normal">派</i>
+						    		{{item.CREATE_TIME}}
+    						</p>
+
+						{{/if}}
+
 				</td>
 				<td class="center">
-                        <p class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></p>
-                        <p class="manager"><a href="#"><em>区总：</em></a></p>
+                        <span class="manager"><em>区经：</em><a href="#">{{item.LEADER}}</a></span>
+                         <span class="manager"><em>区总：</em><a href="#"></a></span>
                  </td>
 				<td class="center">
-                         <p>
-                           <i class="sign_blue">
-                                                    {{item.STATUS}}
-                           </i>
-                         </p>
+                         
+						{{if item.STATUS!=null}}
+						  <p class="smll_sign">
+                                    {{item.STATUS}}
+    				 	  </p>
+
+						{{else}}
+                           <p >
+                                    
+    						</p>
+
+						{{/if}}
                  </td>
 				
 				</tr>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
 
@@ -41,8 +42,8 @@
 			    				<div class="col-md-3">
 			    					<select id="status" class="form-control pull-left">
 			    						<option value="">请选择</option>
-			    						<option value="0" <c:if test="${status == '0' }">selected="selected"</c:if>>生效</option>
-			    						<option value="1" <c:if test="${status == '1' }">selected="selected"</c:if>>解除</option>
+			    						<option value="0" <c:if test="${status == '0' }">selected</c:if> >生效</option>
+			    						<option value="1" <c:if test="${status == '1' }">selected</c:if> >解除</option>
 			    					</select> 
 			    				</div>
 				    		</div> 

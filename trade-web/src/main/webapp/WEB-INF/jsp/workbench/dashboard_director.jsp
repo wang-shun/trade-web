@@ -206,7 +206,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
-                                                                <span class="left-label wd64 h50 pt10">接单数</span>
+                                                                <span class="left-label wd90 h50 pt10">接单数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_receiveCount_bar" style="width: 40%;" class="progress-bar bar-blue"></div>
@@ -215,7 +215,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_receiveCount" class="right-label pt10">43单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64 ">签约数</span>
+                                                                <span class="left-label wd90 ">签约数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_signCount_bar" style="width: 100%;" class="progress-bar bar-blue"></div>
@@ -224,7 +224,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_signCount" class="right-label">1亿&nbsp;&nbsp;4单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64">贷款申请数</span>
+                                                                <span class="left-label wd90">贷款申请数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_loanApplyCount_bar" style="width: 56%;" class="progress-bar bar-blue"></div>
@@ -233,7 +233,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_loanApplyCount" class="right-label">13单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64 h50 pb10">结案数</span>
+                                                                <span class="left-label wd90 h50 pb10">结案数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_closeCount_bar" style="width: 30%;" class="progress-bar bar-blue"></div>
@@ -448,7 +448,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             	 		<h5>E+贷款(面签单数)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="">
-                                                            			<div id="doughnutChart1"></div>
+                                                            			<div id="doughnutChart1" style="height:380px;width:460px;position:center;"></div>
                                                             	 	</div>
                                                                 </div>
                                                             </div>
@@ -458,7 +458,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             	 		<h5>E+贷款(面签金额)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="doughnutChart">
-                                                            			<div id="doughnutChart2"></div>
+                                                            			<div id="doughnutChart2" style="height:380px;width:460px;position:center;"></div>
                                                             	 </div>
                                                                 </div>
                                                             </div>
@@ -480,9 +480,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body" style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    <div id="div_messagelist1" class="widget-main">
-                                                                    </div>
+																<div class="widget-body">
+                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    	<div id="div_messagelist1" style="min-height:320px;" class="widget-main"></div>
+                                                                	</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -497,9 +498,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body" style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    <div id="div_messagelist2" class="widget-main">
-                                                                    </div>  
+																<div class="widget-body">
+                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    	<div id="div_messagelist2" style="min-height:320px;" class="widget-main"></div>
+                                                                	</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -514,11 +516,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="widget-body">
-                                                                	<div style="height:315px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    	<div id="div_messagelist3" class="widget-main">
-                                                                    	</div>
-                                                                    </div>
+																<div class="widget-body">
+                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                                    	<div id="div_messagelist3" style="min-height:320px;" class="widget-main"></div>
+                                                                	</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -527,6 +528,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                 
                                                 <!-- 龙虎榜 -->
                                                 <div class="tab-pane" id="tab-5">
+                                                	<script type="text/javascript">
+  														 function imgLoad(img){
+	   		 												img.parentNode.style.backgroundImage="url("+img.src+")";
+	   													 }
+													</script>                                                
                                                     <div class="row dragon">
                                                         <div class="col-md-6">
                                                             <div class="panel panel-danger">
