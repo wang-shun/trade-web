@@ -152,7 +152,7 @@
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款流失原因</label>
-						<!-- 						<div class="radio i-checks radio-inline">
+						<!--<div class="radio i-checks radio-inline">
 							<label> <input type="radio" checked="checked"
 								value="true" id="optionsRadios1" name="LoanLost_manager"
 								onClick="$('#loanLostApply').hide();">隐藏原因
@@ -164,7 +164,32 @@
 								onClick="$('#loanLostApply').show();getNotApproves();">显示原因
 							</label>
 						</div> -->
+
 						<div class="form_sign col-sm-10 clearfix" id="loanLostApply"
+							style="display: block">
+							<c:forEach items="${loanLostApplyReasons}"
+								var="loanLostApplyReasonForShow">
+								<div class="col-sm-6 sign">
+									<input type="checkbox"
+										value="${loanLostApplyReasonForShow.name}"
+										id="loanLostApplyReasonShow" name="loanLostApplyReasonShow"
+										class="btn btn-white"
+										onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReasonForShow.name}');">
+									<label>${loanLostApplyReasonForShow.name}</label>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+					<!--存code的话 设置为hidden-->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">已勾选原因</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="loanLostApplyReason"
+								name="loanLostApplyReason"
+								value="${mortgage.loanLostApplyReason}">
+						</div>
+					</div>
+					<%-- <div class="form_sign col-sm-10 clearfix" id="loanLostApply"
 							style="display: block">
 							<c:forEach items="${loanLostApplyReasons}"
 								var="loanLostApplyReason">
@@ -177,6 +202,7 @@
 							</c:forEach>
 						</div>
 					</div>
+					
 					<div class="form-group">
 						<label class="col-sm-2 control-label">已勾选原因</label>
 						<div class="col-sm-10">
@@ -184,7 +210,7 @@
 								name="loanLostApplyReason"
 								value="${mortgage.loanLostApplyReason}">
 						</div>
-					</div>
+					</div> --%>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款流失具体原因<span
 							class="star">*</span></label>
@@ -193,8 +219,6 @@
 								name="selfDelReason">${mortgage.selfDelReason }</textarea>
 						</div>
 					</div>
-
-
 				</form>
 
 			</div>
@@ -434,6 +458,8 @@
 			}
 
 			$(document).ready(function() {
+				forLoanLostApplyReasonShow();
+
 				if ('caseDetails' == source) {
 					readOnlyForm();
 				}
@@ -474,7 +500,7 @@
 				deleteAndModify();
 
 				var url = "${ctx}/task/mortgage/saveLoanlostApply";
-				if (b) {					
+				if (b) {
 					url = "${ctx}/task/mortgage/submitLoanlostApply";
 				}
 
@@ -667,6 +693,27 @@
 								}
 							}
 						});
+			}
+			//页面初始化时  初始化复选框按钮
+			function forLoanLostApplyReasonShow() {
+				var oldVal = $("#loanLostApplyReason").val();
+				var oldValArray = oldVal.split(";");
+				var forReasonsArray = [];
+
+				$("input[name='loanLostApplyReasonShow']").each(function() {
+					forReasonsArray.push($(this).val());
+				})
+
+				for (var i = 0; i < oldValArray.length; i++) {
+					for (var j = 0; j < forReasonsArray.length; j++) {
+						if (forReasonsArray[j] == oldValArray[i]) {
+							var obj = $("input[name='loanLostApplyReasonShow']")[j];
+							$(obj).attr("checked", true)
+							//$("input[name='loanLostApplyReasonShow'][j]:checkbox").attr("checked", true);
+
+						}
+					}
+				}
 			}
 		</script> </content>
 </body>
