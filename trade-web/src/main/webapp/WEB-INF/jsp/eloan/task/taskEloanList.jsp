@@ -94,7 +94,7 @@
 					<div class=" btn-sign pull-right">
 						<div class="add_btn">
 							<button type="button" class="btn btn_blue" id="btn_search">
-								<i class="icon iconfont">&#xe630;</i>
+								<i class="icon iconfont"></i>
 								查询</button>
 								<a type="button"
 						class="btn btn_blue " href="${ctx}/eloan/task/eloanApply/process">
@@ -213,7 +213,6 @@
 	    	};
 	  //查询数据
 	    $("#btn_search").click(function() {
-	    	alert(111)
 	    	/* params.search_status = $("#sel_applyStatus").val() */
 	    	var sel_time=$("#sel_time").val();
 	    	if(sel_time=="applyTime"){
