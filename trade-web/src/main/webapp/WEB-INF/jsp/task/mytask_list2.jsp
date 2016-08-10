@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="${ctx}/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />	  
+<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 
 <style type="text/css">
 #selectDiv {
@@ -232,7 +232,7 @@ text-decoration: underline !important;
 						
 					<div class="form_content space">
                             <div class="add_btn" align="center">
-                                <button id="searchButton" type="button" class="btn btn_blue" ><i class="icon iconfont">&#xe635;</i>
+                                <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe61f;</i>
                                  	   查询
                                 </button>
                             </div>
@@ -240,9 +240,8 @@ text-decoration: underline !important;
 					
 				</form>
 	  </div>
-    </div>
-    
-	<div class="table_content">
+	  
+	  <div class="table_content">
 		<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped table-bordered table-hover ">
 			<thead>
 				<tr>
@@ -272,6 +271,10 @@ text-decoration: underline !important;
 		<div id="pageBar" class="pagergoto">
 		</div>  
     </div> 	
+	  
+    </div>
+    
+	
 		    
 	<content tag="local_script"> 
 
@@ -362,13 +365,14 @@ text-decoration: underline !important;
 					</td>
 					<td>
 							<p>
-                               {{item.WFE_NAME}}
-                            </p>
-                            <p>
                               <i class="sign_blue">
-									<a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
+									<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
                               </i>
                             </p>
+							<p>
+                               {{item.WFE_NAME}}
+                            </p>
+                            
 					</td>
 					<td class="t-left">
 						<p class="big">
