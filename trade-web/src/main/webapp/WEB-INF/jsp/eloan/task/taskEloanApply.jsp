@@ -37,6 +37,7 @@
 
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <div id="wrapper">
             <!-- main Start -->
             <div class="row wrapper border-bottom nav_heading">
@@ -193,6 +194,7 @@
                     <div class="ibox-content" id="zj_info">
                         <form method="get" class="form_list" id="eloanApplyForm">
                         <input type="hidden" name="caseCode" id="caseCode"/>
+                        <input type="hidden" id="excutorId" name="excutorId" value="${excutorId}"/>
                         <ul class="form_lump">
                             <li>
                                 <div class="form_content">
@@ -225,6 +227,18 @@
                                     </label>
                                     <input class="input_type sign_right_two" value="" name="custPhone" id="custPhone">
                                 </div>
+                                <shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
+                                 <div class="form_content">
+								     <label class="control-label sign_left_two">
+                                        案件归属
+                                    </label>
+									<input type="text" id="excutorName" name="excutorName" class="form-control tbspuser"
+									    style="width:170px;display: inline-block;"
+										hVal="${excutorId}" value="${excutorName}" readonly="readonly"
+										onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+								 </div>
+								</shiro:hasPermission>
                             </li>
                             <li>
                                 <div class="form_content">
@@ -423,6 +437,9 @@
 			getBankList('');
 			
 			$('.submit_btn').click(function(){
+				if(!$.isBlank($("#excutorName").attr('hVal'))) {
+					$("#excutorId").val($("#excutorName").attr('hVal'));
+				}
 				saveEloanApply();
 			})
 
@@ -544,6 +561,15 @@
 					alert("数据保存出错");
 				}
 			});
+		}
+		function selectUserBack(array){
+			if(array && array.length >0){
+		        $("#excutorName").val(array[0].username);
+				$("#excutorName").attr('hVal',array[0].userId);
+			}else{
+				$("#executorName").val("");
+				$("#executorName").attr('hVal',"");
+			}
 		}
     </script>
     </content>

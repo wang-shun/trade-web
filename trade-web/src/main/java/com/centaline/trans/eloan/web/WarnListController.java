@@ -89,6 +89,10 @@ public class WarnListController {
 
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		request.setAttribute("orgId", user.getServiceDepId());
+		request.setAttribute("excutorId", user.getId());
+		request.setAttribute("excutorName", user.getRealName());
     	return "eloan/task/taskEloanApply";
 	}
 	
