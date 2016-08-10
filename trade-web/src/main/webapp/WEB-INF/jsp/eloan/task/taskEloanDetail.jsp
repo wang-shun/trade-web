@@ -70,13 +70,13 @@
 									<dl class="dl-horizontal">
 										<dt>借款人</dt>
 										<dd>
-											<span data-container="body" data-toggle="popover"
-												data-placement="right" data-content="手机：${eloanCase.custPhone}"><a>${eloanCase.custName}</a></span>
+											<a data-container="body" data-toggle="popover"
+												data-placement="right" data-content="手机：${eloanCase.custPhone}">${eloanCase.custName}</a>
 										</dd>
 										<dt>贷款专员</dt>
 										<dd>
-											<span data-container="body" data-toggle="popover"
-												data-placement="right" data-content="手机：${info.excutorPhone}"><a>${info.excutorName}</a></span>
+											<a data-container="body" data-toggle="popover"
+												data-placement="right" data-content="手机：${info.excutorPhone}">${info.excutorName}</a>
 										</dd>
 										<dt>贷款转介人</dt>
 										<dd>
@@ -203,10 +203,10 @@
 		
 		  //点击浏览器任何位置隐藏提示信息
 	      $("body").bind("click",function(evt){
-            if($(evt.target).attr("data-toggle")!='popover'){
-           	$('span[data-toggle="popover"]').popover('hide');
-            }
-        });
+          if($(evt.target).attr("data-toggle")!='popover'){
+         	$('a[data-toggle="popover"]').popover('hide');
+          }
+      });
 		</script>
 		</content>
 </body>

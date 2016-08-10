@@ -213,7 +213,6 @@
 	    	};
 	  //查询数据
 	    $("#btn_search").click(function() {
-	    	alert(111)
 	    	/* params.search_status = $("#sel_applyStatus").val() */
 	    	var sel_time=$("#sel_time").val();
 	    	if(sel_time=="applyTime"){
