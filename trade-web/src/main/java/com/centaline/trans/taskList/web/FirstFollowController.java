@@ -358,6 +358,9 @@ public class FirstFollowController {
 					if(OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())){
 						list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 								TransJobs.JYUZTGW.getCode());
+					}else{
+						list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+								TransJobs.TJYGW.getCode());
 					}
 				}else{
 					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
