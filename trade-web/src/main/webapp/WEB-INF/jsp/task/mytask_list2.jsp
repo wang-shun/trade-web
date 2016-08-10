@@ -127,14 +127,37 @@ text-decoration: underline !important;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top1:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 .hint-top1:hover:before {
 	margin-bottom: -10px;
 }
 .hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
 	margin-bottom: 2px;
 	width:280px!important;
 	white-space: normal!important;
@@ -229,11 +252,11 @@ text-decoration: underline !important;
                             </i>
                        </th>
 					<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+					<th >流程环节</th>
 					<th >案件地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 					<th >上家</th>
 					<th >下家</th>
-					<th >流程环节</th>
 					<th >操作</th>
 				</tr>
 			</thead>
@@ -337,47 +360,63 @@ text-decoration: underline !important;
 							<i class="tag_sign">c</i>{{item.CTM_CODE}}
 						 </p>
 					</td>
-					<td class="t-left">
-						<p class="big">
-                       		{{item.PROPERTY_ADDR}}
-						</p>
-						 <p class="tooltip-demo">
-							<i class="salesman-icon"></i>
- 							<a class="salesman-info"  title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
-						</p>
-					</td>
-					<td>
-                         <p>
-                              <i class="sign_normal">创</i>
-                                 {{item.CREATE_TIME}}          
-                          </p>
-                          <p>
-                          <i class="sign_normal">预</i>
-                                {{item.EST_PART_TIME}}          
-                          </p>
-                    </td>
-                    <td class="center">
-                          <p  title="上家信息: {{item.SELLER}}">
-                                                {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
-                          </p>
-                         
-                    </td>
-                    <td class="center">
-                          <p  title="下家信息:{{item.BUYER}}">
-                                                {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
-                          </p>
-                          
-                    </td>
 					<td>
 							<p>
                                {{item.WFE_NAME}}
                             </p>
                             <p>
                               <i class="sign_blue">
-									{{item.NAME}}
+									<a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
                               </i>
                             </p>
 					</td>
+					<td class="t-left">
+						<p class="big">
+                       		{{item.PROPERTY_ADDR}}
+						</p>
+						 <span >
+							<i class="salesman-icon"></i>
+ 							<a class="hint  hint-top2" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+						</span>
+					</td>
+					<td>
+
+						{{if item.CREATE_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">创</i>
+                                 {{item.CREATE_TIME}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">创</i>
+                                 {{item.CREATE_TIME}}          
+                           </p>
+						{{/if}}
+						{{if item.EST_PART_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">预</i>
+                                 {{item.EST_PART_TIME}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">预</i>
+                                 {{item.EST_PART_TIME}}          
+                           </p>
+						{{/if}}
+                    </td>
+                    <td class="center">
+                          <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
+                                                {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
+                          </span>
+                         
+                    </td>
+                    <td class="center">
+                          <span  class="hint  hint-top1" data-hint="下家信息:{{item.BUYER}}">
+                                                {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
+                          </span>
+                          
+                    </td>
+					
                     <td class="text-center">
                            <i class="iconfont icon_revise">
                              <a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >&#xe603;</a>

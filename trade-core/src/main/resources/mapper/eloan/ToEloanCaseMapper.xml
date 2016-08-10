@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eloan.repository.ToEloanCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eloan.entity.ToEloanCase" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ELOAN_CODE" property="eloanCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="LOAN_SRV_CODE" property="loanSrvCode" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="NVARCHAR" />
+    <result column="CUST_PHONE" property="custPhone" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="MONTH" property="month" jdbcType="INTEGER" />
+    <result column="SIGN_AMOUNT" property="signAmount" jdbcType="DECIMAL" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="EXCUTOR_ID" property="excutorId" jdbcType="VARCHAR" />
+    <result column="EXCUTOR_TEAM" property="excutorTeam" jdbcType="VARCHAR" />
+    <result column="EXCUTOR_DISTRICT" property="excutorDistrict" jdbcType="VARCHAR" />
+    <result column="ZJ_NAME" property="zjName" jdbcType="NVARCHAR" />
+    <result column="ZJ_CODE" property="zjCode" jdbcType="VARCHAR" />
+    <result column="CO_NAME" property="coName" jdbcType="NVARCHAR" />
+    <result column="CO_CODE" property="coCode" jdbcType="VARCHAR" />
+    <result column="CO_PART" property="coPart" jdbcType="DOUBLE" />
+    <result column="PD_CODE" property="pdCode" jdbcType="VARCHAR" />
+    <result column="PD_NAME" property="pdName" jdbcType="NVARCHAR" />
+    <result column="PD_PART" property="pdPart" jdbcType="DOUBLE" />
+    <result column="APPLY_CONF_TIME" property="applyConfTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_CONF_USER" property="applyConfUser" jdbcType="VARCHAR" />
+    <result column="SIGN_CONF_TIME" property="signConfTime" jdbcType="TIMESTAMP" />
+    <result column="SIGN_CONF_USER" property="signConfUser" jdbcType="VARCHAR" />
+    <result column="IS_REL_FINISH" property="isRelFinish" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, ELOAN_CODE, CASE_CODE, LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, CUST_PHONE, 
+    APPLY_TIME, APPLY_AMOUNT, MONTH, SIGN_AMOUNT, SIGN_TIME, EXCUTOR_ID, EXCUTOR_TEAM, 
+    EXCUTOR_DISTRICT, ZJ_NAME, ZJ_CODE, CO_NAME, CO_CODE, CO_PART, PD_CODE, PD_NAME, 
+    PD_PART, APPLY_CONF_TIME, APPLY_CONF_USER, SIGN_CONF_TIME, SIGN_CONF_USER, IS_REL_FINISH, 
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ELOAN_CASE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_ELOAN_CASE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    insert into sctrans.T_TO_ELOAN_CASE (PKID, ELOAN_CODE, CASE_CODE, 
+      LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, 
+      CUST_PHONE, APPLY_TIME, APPLY_AMOUNT, 
+      MONTH, SIGN_AMOUNT, SIGN_TIME, 
+      EXCUTOR_ID, EXCUTOR_TEAM, EXCUTOR_DISTRICT, 
+      ZJ_NAME, ZJ_CODE, CO_NAME, 
+      CO_CODE, CO_PART, PD_CODE, 
+      PD_NAME, PD_PART, APPLY_CONF_TIME, 
+      APPLY_CONF_USER, SIGN_CONF_TIME, SIGN_CONF_USER, 
+      IS_REL_FINISH, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{eloanCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{loanSrvCode,jdbcType=VARCHAR}, #{finOrgCode,jdbcType=VARCHAR}, #{custName,jdbcType=NVARCHAR}, 
+      #{custPhone,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{applyAmount,jdbcType=DECIMAL}, 
+      #{month,jdbcType=INTEGER}, #{signAmount,jdbcType=DECIMAL}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{excutorId,jdbcType=VARCHAR}, #{excutorTeam,jdbcType=VARCHAR}, #{excutorDistrict,jdbcType=VARCHAR}, 
+      #{zjName,jdbcType=NVARCHAR}, #{zjCode,jdbcType=VARCHAR}, #{coName,jdbcType=NVARCHAR}, 
+      #{coCode,jdbcType=VARCHAR}, #{coPart,jdbcType=DOUBLE}, #{pdCode,jdbcType=VARCHAR}, 
+      #{pdName,jdbcType=NVARCHAR}, #{pdPart,jdbcType=DOUBLE}, #{applyConfTime,jdbcType=TIMESTAMP}, 
+      #{applyConfUser,jdbcType=VARCHAR}, #{signConfTime,jdbcType=TIMESTAMP}, #{signConfUser,jdbcType=VARCHAR}, 
+      #{isRelFinish,jdbcType=CHAR}, GETDATE(),@{SESSION_USER_ID},GETDATE(), @{SESSION_USER_ID})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    insert into sctrans.T_TO_ELOAN_CASE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="eloanCode != null" >
+        ELOAN_CODE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="loanSrvCode != null" >
+        LOAN_SRV_CODE,
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="custPhone != null" >
+        CUST_PHONE,
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME,
+      </if>
+      <if test="applyAmount != null" >
+        APPLY_AMOUNT,
+      </if>
+      <if test="month != null" >
+        MONTH,
+      </if>
+      <if test="signAmount != null" >
+        SIGN_AMOUNT,
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME,
+      </if>
+      <if test="excutorId != null" >
+        EXCUTOR_ID,
+      </if>
+      <if test="excutorTeam != null" >
+        EXCUTOR_TEAM,
+      </if>
+      <if test="excutorDistrict != null" >
+        EXCUTOR_DISTRICT,
+      </if>
+      <if test="zjName != null" >
+        ZJ_NAME,
+      </if>
+      <if test="zjCode != null" >
+        ZJ_CODE,
+      </if>
+      <if test="coName != null" >
+        CO_NAME,
+      </if>
+      <if test="coCode != null" >
+        CO_CODE,
+      </if>
+      <if test="coPart != null" >
+        CO_PART,
+      </if>
+      <if test="pdCode != null" >
+        PD_CODE,
+      </if>
+      <if test="pdName != null" >
+        PD_NAME,
+      </if>
+      <if test="pdPart != null" >
+        PD_PART,
+      </if>
+      <if test="applyConfTime != null" >
+        APPLY_CONF_TIME,
+      </if>
+      <if test="applyConfUser != null" >
+        APPLY_CONF_USER,
+      </if>
+      <if test="signConfTime != null" >
+        SIGN_CONF_TIME,
+      </if>
+      <if test="signConfUser != null" >
+        SIGN_CONF_USER,
+      </if>
+      <if test="isRelFinish != null" >
+        IS_REL_FINISH,
+      </if>
+        CREATE_TIME,
+        CREATE_BY,
+        UPDATE_TIME,
+        UPDATE_BY,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="eloanCode != null" >
+        #{eloanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSrvCode != null" >
+        #{loanSrvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=NVARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyAmount != null" >
+        #{applyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="signAmount != null" >
+        #{signAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excutorId != null" >
+        #{excutorId,jdbcType=VARCHAR},
+      </if>
+      <if test="excutorTeam != null" >
+        #{excutorTeam,jdbcType=VARCHAR},
+      </if>
+      <if test="excutorDistrict != null" >
+        #{excutorDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="zjName != null" >
+        #{zjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="zjCode != null" >
+        #{zjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coName != null" >
+        #{coName,jdbcType=NVARCHAR},
+      </if>
+      <if test="coCode != null" >
+        #{coCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coPart != null" >
+        #{coPart,jdbcType=DOUBLE},
+      </if>
+      <if test="pdCode != null" >
+        #{pdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdName != null" >
+        #{pdName,jdbcType=NVARCHAR},
+      </if>
+      <if test="pdPart != null" >
+        #{pdPart,jdbcType=DOUBLE},
+      </if>
+      <if test="applyConfTime != null" >
+        #{applyConfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyConfUser != null" >
+        #{applyConfUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signConfTime != null" >
+        #{signConfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signConfUser != null" >
+        #{signConfUser,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelFinish != null" >
+        #{isRelFinish,jdbcType=CHAR},
+      </if>
+        GETDATE(),
+        @{SESSION_USER_ID},
+        GETDATE(),
+        @{SESSION_USER_ID}
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    update sctrans.T_TO_ELOAN_CASE
+    <set >
+      <if test="eloanCode != null" >
+        ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSrvCode != null" >
+        LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyAmount != null" >
+        APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        MONTH = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="signAmount != null" >
+        SIGN_AMOUNT = #{signAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excutorId != null" >
+        EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR},
+      </if>
+      <if test="excutorTeam != null" >
+        EXCUTOR_TEAM = #{excutorTeam,jdbcType=VARCHAR},
+      </if>
+      <if test="excutorDistrict != null" >
+        EXCUTOR_DISTRICT = #{excutorDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="zjName != null" >
+        ZJ_NAME = #{zjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="zjCode != null" >
+        ZJ_CODE = #{zjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coName != null" >
+        CO_NAME = #{coName,jdbcType=NVARCHAR},
+      </if>
+      <if test="coCode != null" >
+        CO_CODE = #{coCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coPart != null" >
+        CO_PART = #{coPart,jdbcType=DOUBLE},
+      </if>
+      <if test="pdCode != null" >
+        PD_CODE = #{pdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdName != null" >
+        PD_NAME = #{pdName,jdbcType=NVARCHAR},
+      </if>
+      <if test="pdPart != null" >
+        PD_PART = #{pdPart,jdbcType=DOUBLE},
+      </if>
+      <if test="applyConfTime != null" >
+        APPLY_CONF_TIME = #{applyConfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyConfUser != null" >
+        APPLY_CONF_USER = #{applyConfUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signConfTime != null" >
+        SIGN_CONF_TIME = #{signConfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signConfUser != null" >
+        SIGN_CONF_USER = #{signConfUser,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelFinish != null" >
+        IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
+      </if>
+        CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+    <update id="updateEloanCaseByEloanCode" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    update sctrans.T_TO_ELOAN_CASE
+    <set>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSrvCode != null" >
+        LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyAmount != null" >
+        APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        MONTH = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="signAmount != null" >
+        SIGN_AMOUNT = #{signAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excutorId != null" >
+        EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR},
+      </if>
+      <if test="excutorTeam != null" >
+        EXCUTOR_TEAM = #{excutorTeam,jdbcType=VARCHAR},
+      </if>
+      <if test="excutorDistrict != null" >
+        EXCUTOR_DISTRICT = #{excutorDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="zjName != null" >
+        ZJ_NAME = #{zjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="zjCode != null" >
+        ZJ_CODE = #{zjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coName != null" >
+        CO_NAME = #{coName,jdbcType=NVARCHAR},
+      </if>
+      <if test="coCode != null" >
+        CO_CODE = #{coCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coPart != null" >
+        CO_PART = #{coPart,jdbcType=DOUBLE},
+      </if>
+      <if test="pdCode != null" >
+        PD_CODE = #{pdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdName != null" >
+        PD_NAME = #{pdName,jdbcType=NVARCHAR},
+      </if>
+      <if test="pdPart != null" >
+        PD_PART = #{pdPart,jdbcType=DOUBLE},
+      </if>
+      <if test="applyConfTime != null" >
+        APPLY_CONF_TIME = #{applyConfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyConfUser != null" >
+        APPLY_CONF_USER = #{applyConfUser,jdbcType=VARCHAR},
+      </if>
+      <if test="signConfTime != null" >
+        SIGN_CONF_TIME = #{signConfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signConfUser != null" >
+        SIGN_CONF_USER = #{signConfUser,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelFinish != null" >
+        IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
+      </if>
+        CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
+    </set>
+    where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    update sctrans.T_TO_ELOAN_CASE
+    set ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR},
+      FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      MONTH = #{month,jdbcType=INTEGER},
+      SIGN_AMOUNT = #{signAmount,jdbcType=DECIMAL},
+      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR},
+      EXCUTOR_TEAM = #{excutorTeam,jdbcType=VARCHAR},
+      EXCUTOR_DISTRICT = #{excutorDistrict,jdbcType=VARCHAR},
+      ZJ_NAME = #{zjName,jdbcType=NVARCHAR},
+      ZJ_CODE = #{zjCode,jdbcType=VARCHAR},
+      CO_NAME = #{coName,jdbcType=NVARCHAR},
+      CO_CODE = #{coCode,jdbcType=VARCHAR},
+      CO_PART = #{coPart,jdbcType=DOUBLE},
+      PD_CODE = #{pdCode,jdbcType=VARCHAR},
+      PD_NAME = #{pdName,jdbcType=NVARCHAR},
+      PD_PART = #{pdPart,jdbcType=DOUBLE},
+      APPLY_CONF_TIME = #{applyConfTime,jdbcType=TIMESTAMP},
+      APPLY_CONF_USER = #{applyConfUser,jdbcType=VARCHAR},
+      SIGN_CONF_TIME = #{signConfTime,jdbcType=TIMESTAMP},
+      SIGN_CONF_USER = #{signConfUser,jdbcType=VARCHAR},
+      IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getToEloanCaseListByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ELOAN_CASE
+  	<where>
+  	  <if test="eloanCode != null" >
+        ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+      </if>
+      <if test="caseCode != null" >
+        AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+      </if>
+	</where>
+  </select>
+  
+</mapper>

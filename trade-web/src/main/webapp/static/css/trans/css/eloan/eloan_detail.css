@@ -1,0 +1,76 @@
+@media (min-width: 768px) {
+  .dl-horizontal dt {
+    float: left;
+    width: 100px;
+    overflow: auto;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px 10px;
+    font-weight: normal;
+    color: #808080;
+  }
+
+  .dl-horizontal dd {
+    margin-left: 85px;
+    padding: 5px;
+    color: #333;
+  }
+}
+strong{
+	font-weight:700!important;
+}
+.elan_detail {
+  font-family: "Microsoft Yahei";
+}
+
+.wrapper-content .ibox-content {
+  padding: 10px 20px 10px 15px;
+  margin-top: 10px;
+}
+
+.wrapper-content .ibox-content .row {
+  background-color: inherit;
+  margin-top: 0;
+  margin-left: -15px;
+  margin-right: -10px;
+}
+
+.wrapper-content .ibox-content .left-align-row {
+  margin-left: 5px;
+}
+
+.wrapper-content .ibox-content .panel-heading {
+  padding: 0 15px 1px 0;
+}
+
+.wrapper-content .ibox-content .panel-body {
+  padding: 15px 15px  15px 0;
+}
+
+.wrapper-content .file-board .file-list a {
+  padding: 0px  20px 20px 20px;
+  color: inherit;
+  line-height: 25px;
+}
+
+.contract-icon-block {
+  text-align: center;
+  float: left;
+  width: 44px;
+  margin-right: 7px;
+  margin-top: -5px;
+}
+
+.feed-element .icon {
+  font-size: 34px;
+}
+.feed-element .icon_blue {
+  color: #52cdec;
+}
+.feed-element .icon_yellow {
+  color: #efba01;
+}
+.feed-element .icon_red {
+  color: #ed5565;
+}

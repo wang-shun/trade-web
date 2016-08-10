@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aist.uam.permission.remote.UamPermissionService;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -33,6 +35,11 @@ public class TaskController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private UamPermissionService uamPermissionService;
+	
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
+	
+	
 
 	/**
 	 * 任务处理跳转
@@ -51,10 +58,17 @@ public class TaskController {
 		TaskVo task = workFlowManager.getHistoryTask(taskId);
 		String instCode = task.getProcessInstanceId();
 		String formKey = task.getFormKey();
+		String businessKey = "";
 		if (caseCode == null) {
 			StartProcessInstanceVo processInstance = workFlowManager.getHistoryInstances(instCode);
-			caseCode = processInstance.getBusinessKey();
+			businessKey = processInstance.getBusinessKey();
 		}
+		
+		if("FirstFollow".equals(task.getTaskDefinitionKey())){
+			BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
+			request.setAttribute("bizWarnInfo", bizWarnInfo);
+		}
+		
 		Map<String, String> queryParameters = new HashMap<String, String>();
 
 		queryParameters.put("processInstanceId", instCode);
@@ -63,7 +77,8 @@ public class TaskController {
 		queryParameters.put("taskitem", task.getTaskDefinitionKey());
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);
-		queryParameters.put("caseCode", caseCode);
+		queryParameters.put("caseCode", caseCode!=null?caseCode:businessKey);
+		queryParameters.put("businessKey", businessKey);
 		Boolean sameSever = false;// 是否同服务器
 		if (StringUtils.isNotBlank(formKey)) {
 			if (!formKey.contains(":")) {
@@ -78,7 +93,8 @@ public class TaskController {
 			request.setAttribute("taskitem", task.getTaskDefinitionKey());
 			request.setAttribute("taskId", taskId);
 			request.setAttribute("source", source);
-			request.setAttribute("caseCode", caseCode);
+			request.setAttribute("businessKey", businessKey);
+			request.setAttribute("caseCode", caseCode!=null?caseCode:businessKey);
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");

@@ -3,6 +3,7 @@ package com.centaline.trans.engine.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -133,12 +134,20 @@ public class TaskServiceImpl implements TaskService {
 	@SuppressWarnings("rawtypes")
 	public PageableVo listTasksBase(String processInstanceId, Boolean finished, Boolean processFinished, Boolean active,
 			String assignee, boolean queryHistory) {
-		Map<String, Object> map = new HashMap<>();
+		Map<String, String> map = new HashMap<>();
 		map.put("processInstanceId", processInstanceId);
-		map.put("finished", finished);
-		map.put("processFinished", processFinished);
-		map.put("active", active);
-		map.put("assignee", assignee);
+		if(finished != null) {
+			map.put("finished", String.valueOf(finished));
+		}
+		if(processFinished != null) {
+			map.put("processFinished", String.valueOf(processFinished));
+		}
+		if(active != null) {
+			map.put("active", String.valueOf(active));
+		}
+		if(StringUtils.isNotBlank(assignee)) {
+			map.put("assignee", String.valueOf(assignee));
+		}
 		String optKey;
 		if (queryHistory) {
 			optKey = WorkFlowConstant.GET_HISTORY_TASK_KEY;

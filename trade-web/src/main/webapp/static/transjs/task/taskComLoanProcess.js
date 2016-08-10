@@ -627,13 +627,21 @@ function isTmpBankChange(){
 	var f=$(this).closest('form');
 	if($(this).prop('checked')){
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
+		f.find("select[name='bank_type']").change(function(){
+		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+    }); 
 		f.find("input[name='recLetterNo']").prop('disabled',true);
 		f.find(".tmpBankReasonDiv").show();
 	}else{
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
+		f.find("select[name='bank_type']").change(function(){
+		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
+    }); 
 		f.find("input[name='recLetterNo']").prop('disabled',false);
 		f.find(".tmpBankReasonDiv").hide();
 	}
+	
+	
 }
 
 //加载已上传的附件信息

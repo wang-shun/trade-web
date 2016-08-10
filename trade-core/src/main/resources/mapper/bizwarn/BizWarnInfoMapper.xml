@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.bizwarn.repository.BizWarnInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.bizwarn.entity.BizWarnInfo" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="WARN_TYPE" property="warnType" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="NVARCHAR" />
+    <result column="WARN_TIME" property="warnTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
+    <result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="PARTICIPANT" property="participant" jdbcType="VARCHAR" />
+    <result column="RELIEVE_TIME" property="relieveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, WARN_TYPE, CONTENT, WARN_TIME, STATUS, TEAM_ID, DISTRICT_ID, CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,PARTICIPANT,RELIEVE_TIME
+  </sql>
+  <insert id="insert" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo" >
+    insert into sctrans.T_TO_BIZ_WARN (PKID, CASE_CODE, WARN_TYPE, 
+      CONTENT, WARN_TIME, STATUS, 
+      TEAM_ID, DISTRICT_ID, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      PARTICIPANT, RELIEVE_TIME)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{warnType,jdbcType=VARCHAR}, 
+      #{content,jdbcType=NVARCHAR}, GETDATE(), #{status,jdbcType=CHAR}, 
+      #{teamId,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, GETDATE(), 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{participant,jdbcType=VARCHAR}, #{relieveTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo" >
+    insert into sctrans.T_TO_BIZ_WARN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="warnType != null" >
+        WARN_TYPE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="warnTime != null" >
+        WARN_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="teamId != null" >
+        TEAM_ID,
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT,
+      </if>
+      <if test="relieveTime != null" >
+        RELIEVE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warnType != null" >
+        #{warnType,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=NVARCHAR},
+      </if>
+      <if test="warnTime != null" >
+        #{warnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="participant != null" >
+        #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="relieveTime != null" >
+        #{relieveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByCaseCode" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo">
+  		update sctrans.T_TO_BIZ_WARN set CONTENT=#{content,jdbcType=NVARCHAR}, UPDATE_TIME = GETDATE(), UPDATE_BY = @{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </update>
+  
+  <update id="updateStatusByCaseCode" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo">
+  		update sctrans.T_TO_BIZ_WARN set STATUS=#{status,jdbcType=CHAR}, RELIEVE_TIME = GETDATE(), UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </update>
+  
+   <update id="updateStatusInMortgageSelect" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo">
+  		update sctrans.T_TO_BIZ_WARN set STATUS=#{status,jdbcType=CHAR}, RELIEVE_TIME = GETDATE() where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </update>
+  
+  <delete id="deleteByCaseCode" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_BIZ_WARN
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+	    select 
+		<include refid="Base_Column_List" />
+	    from sctrans.T_TO_BIZ_WARN
+	    	where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </select> 
+  
+  <select id="getAllBizwarnCount" resultType="java.lang.Integer">
+	    select count(*) 
+	    from sctrans.T_TO_BIZ_WARN
+  		where STATUS = '0';
+  </select> 
+  
+</mapper>

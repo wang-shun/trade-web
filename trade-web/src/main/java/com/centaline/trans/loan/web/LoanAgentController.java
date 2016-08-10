@@ -50,7 +50,7 @@ public class LoanAgentController {
 
 	@RequestMapping("submit")
 	public String submit() {
-		return "/loan/submit";
+		return "/eloan/task/taskEloanList";
 	}
 	
 	@RequestMapping("loanAgentList")

@@ -9,6 +9,7 @@ public enum WorkFlowEnum {
 	WBUSSKEY("operation_process", "businessKey"), 
 	SRV_BUSSKEY("service_change", "businessKey"), 
 	EVA_WBUSSKEY("OfflineEva", "businessKey"),
+	ELOAN_BUSSKEY("EloanProcess", "businessKey"), 
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),
