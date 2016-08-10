@@ -46,7 +46,7 @@
 				      ,bw.STATUS as status
 				      ,bw.RELIEVE_TIME as relieveDatetime
 				      ,c.pkid as PKID
-				  FROM [sctrans_dev].[sctrans].[T_TO_BIZ_WARN] bw
+				  FROM sctrans.T_TO_BIZ_WARN bw
 				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
 				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
 				  where 1=1

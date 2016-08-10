@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -58,6 +59,9 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ToWorkFlowMapper toWorkFlowMapper;
 	@Autowired
 	private ToMortgageService toMortgageService;
+	
+	@Autowired
+	private BizWarnInfoMapper bizWarnInfoMapper;
 	
 	@Override
 	@Transactional(readOnly=false)
@@ -157,9 +161,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
 		toApproveService.insertToApproveRecord(record);
+		
 		if(vo.getIsApproved()){
 			doApproved(vo);
 		}
+		
+		//如果流程重启申请审批通过的话，就删除对应的预警信息
+		if(vo.getIsApproved()){
+			bizWarnInfoMapper.deleteByCaseCode(vo.getCaseCode());
+		}
+		
 		return true;
 	}
 	/**

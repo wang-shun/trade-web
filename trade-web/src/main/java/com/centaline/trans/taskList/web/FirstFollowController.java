@@ -55,6 +55,7 @@ import com.google.gson.JsonObject;
 public class FirstFollowController {
 
 	@Autowired(required = true)
+	
 	private UamSessionService uamSessionService;/* 用户信息 */
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;/* 用户组织信息 */

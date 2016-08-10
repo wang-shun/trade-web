@@ -67,14 +67,14 @@ public class TaskOperateHandleImpl implements TaskOperateHandle {
 		if (!isExpression) {
 			for (int i = 0; i < parameterNames.length; i++) {
 				if (expressionString.equals(parameterNames[i])) {
-					return parameterNames[i];
+					return args[i];
 				}
 			}
 			return null;
 		}
 		ExpressionParser parser = new SpelExpressionParser();
 		EvaluationContext context = new StandardEvaluationContext();
-		for (int i = 0; i < parameterNames.length; i++) {
+		for (int i = 0; i < parameterNames.length; i++) {	
 			String arguName = parameterNames[i];
 			Object arguValue = args[i];
 			context.setVariable(arguName, arguValue);

@@ -127,14 +127,37 @@ text-decoration: underline !important;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top1:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 .hint-top1:hover:before {
 	margin-bottom: -10px;
 }
 .hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
 	margin-bottom: 2px;
 	width:280px!important;
 	white-space: normal!important;
@@ -351,31 +374,46 @@ text-decoration: underline !important;
 						<p class="big">
                        		{{item.PROPERTY_ADDR}}
 						</p>
-						 <p class="tooltip-demo">
+						 <span >
 							<i class="salesman-icon"></i>
- 							<a class="salesman-info"  title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
-						</p>
+ 							<a class="hint  hint-top2" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+						</span>
 					</td>
 					<td>
-                         <p>
+
+						{{if item.CREATE_TIME!=null}}
+						   <p>  
                               <i class="sign_normal">创</i>
                                  {{item.CREATE_TIME}}          
                           </p>
-                          <p>
-                          <i class="sign_normal">预</i>
-                                {{item.EST_PART_TIME}}          
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">创</i>
+                                 {{item.CREATE_TIME}}          
+                           </p>
+						{{/if}}
+						{{if item.EST_PART_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">预</i>
+                                 {{item.EST_PART_TIME}}          
                           </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">预</i>
+                                 {{item.EST_PART_TIME}}          
+                           </p>
+						{{/if}}
                     </td>
                     <td class="center">
-                          <p  title="上家信息: {{item.SELLER}}">
+                          <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
                                                 {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
-                          </p>
+                          </span>
                          
                     </td>
                     <td class="center">
-                          <p  title="下家信息:{{item.BUYER}}">
+                          <span  class="hint  hint-top1" data-hint="下家信息:{{item.BUYER}}">
                                                 {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
-                          </p>
+                          </span>
                           
                     </td>
 					

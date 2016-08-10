@@ -379,7 +379,7 @@
 															.attr(
 																	"action",
 																	ctx
-																			+ "/kpi/doImport");
+																			+ "/award/doImport");
 													$("#excelInForm")
 															.find(
 																	"input[name='currentMonth']")

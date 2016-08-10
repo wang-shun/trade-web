@@ -150,7 +150,7 @@
   
   <select id="getAllBizwarnCount" resultType="java.lang.Integer">
 	    select count(*) 
-	    from [sctrans_dev].[sctrans].[T_TO_BIZ_WARN]
+	    from sctrans.T_TO_BIZ_WARN
   		where STATUS = '0';
   </select> 
   

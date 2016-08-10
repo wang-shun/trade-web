@@ -18,7 +18,7 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/style.css" rel="stylesheet"> 
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
@@ -28,7 +28,6 @@
 <link href="${ctx}/css/transcss/case/myCaseList2.css" rel="stylesheet">
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-
 <!-- Data Tables -->
 <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
 <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
@@ -58,7 +57,9 @@ width: 80px;
 .bianhao{width:221px;padding-left:0;}
 .dizhi{width:542px}
 
-   </style>
+</style>
+   
+
 </head>
 
 <body>
@@ -114,37 +115,35 @@ width: 80px;
                             </button>
 						</div>
 					</form>
-				</div>
-					<div class="data-wrap">
-						<div class="data-wrap-in">
-							<table border="0" cellpadding="0" cellspacing="0">
-							<thead>
-							<tr>
-								<th class="t-left pd-l"><input type="checkbox" id="checkAllNot" class="cbox"/></th>
-								<th class="t-left pd-l">案件编号</th>
-								<th class="t-left pd-l">产证地址</th>
-								<th class="t-left pd-l">派单时间</th>
-								<th class="t-left pd-l">负责人</th>
-								<th class="t-left pd-l">案件状态</th>
-							</tr>
-							</thead>
-							<tbody id="myCaseList">
-					
-							</tbody>							
-							</table>
-						</div>				
-					</div>
-					
-					<div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-    				</div>	
-					
+			</div>
+			<div class="row">
+				 <div class="col-md-12">
+					<div class="table_content">
+						<table class="table table_blue table-striped table-bordered table-hover " >
+						<thead>
+						<tr>
+							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
+							<th >案件编号</th>
+							<th >产证地址</th>
+							<th >派单时间</th>
+							<th >负责人</th>
+							<th >案件状态</th>
+						</tr>
+						</thead>
+						<tbody id="myCaseList">
 				
-					
-			
-		</div>
+						</tbody>							
+						</table>
+								
+						<div class="text-center page_box">
+							<span id="currentTotalPage"><strong class="bold"></strong></span>
+							<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+							<div id="pageBar" class="pagination text-center"></div>  
+			  			</div>	
+	  			</div>	
+	  		</div>
+  		</div>	
+	</div>
 	
 	<div class="wrapper wrapper-content  animated fadeInRight">
 		<div id="modal-form" class="modal fade" aria-labelledby="modal-title"
@@ -228,7 +227,7 @@ width: 80px;
     <script src="${ctx}/js/jquery.blockui.min.js"></script>
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
-	<script src="${ctx}/js/trunk/case/caseDistribute.js"></script>
+	<script src="${ctx}/js/trunk/case/caseDistribute2.js"></script>
 	<script src="${ctx}/js/template.js" type="text/javascript"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
 	<script id="yuCuiFontTeamList" type="text/html">
