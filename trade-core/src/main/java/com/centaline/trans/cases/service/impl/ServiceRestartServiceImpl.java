@@ -94,7 +94,13 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 
 	@Override
 
-	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
+	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {	
+		
+		ToWorkFlow twf=new ToWorkFlow();
+		twf.setBusinessKey("TempBankAudit_Process");
+		twf.setCaseCode(vo.getCaseCode());
+		toMortgageService.deleteTmpBankProcess(twf);
+		
 		ToWorkFlow wf=new ToWorkFlow();
 	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 	    wf.setCaseCode(vo.getCaseCode());

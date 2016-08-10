@@ -1,6 +1,7 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +36,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -79,6 +81,8 @@ public class FirstFollowController {
 	private LoanlostApproveService loanlostApproveService;
 	@Autowired
 	private MortgageSelectService mortgageSelectService;
+	private List<String> orgcodes=Arrays.asList("033K716");//浦东交易1组
+	
 	
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
@@ -348,25 +352,29 @@ public class FirstFollowController {
 		}
 		for (String orgStr : orgs) {
 				Org org = uamUserOrgService.getOrgByCode(orgStr);
-				/*浦东合作顾问选中台 */
+				/*浦东合作顾问选中台  且只选浦东交易1组的中台*/
 				List<User> list = null;
 				if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
-					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-							TransJobs.JYUZTGW.getCode());
+					if(OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())){
+						list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+								TransJobs.JYUZTGW.getCode());
+					}
 				}else{
 					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 							TransJobs.TJYGW.getCode());
 				}
-			
-				for (User user3 : list) {
-					int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("count", userCaseUnTransCount);
-					jsonObject.put("realName", user3.getRealName());
-					jsonObject.put("orgName", user3.getOrgName());
-					jsonObject.put("id", user3.getId());
-					jsonList.add(jsonObject);
+				if(list!=null){
+					for (User user3 : list) {
+						int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
+						JSONObject jsonObject = new JSONObject();
+						jsonObject.put("count", userCaseUnTransCount);
+						jsonObject.put("realName", user3.getRealName());
+						jsonObject.put("orgName", user3.getOrgName());
+						jsonObject.put("id", user3.getId());
+						jsonList.add(jsonObject);
+					}
 				}
+				
 		}
 		result.put("dic", dict);
 		result.put("users", jsonList);

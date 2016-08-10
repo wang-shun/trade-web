@@ -26,6 +26,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToWorkFlowService;
@@ -134,11 +135,13 @@ public class CaseChangeController {
 					if (orgUserMap.get(orgCode) == null) {
 						Org org = uamUserOrgService.getOrgByCode(orgCode);
 						if(org==null) continue;
-						
-						List<User> uList = null;/* 浦东合作顾问选中台 */
+						/* 浦东合作顾问选中台  且只选浦东交易1组的中台*/
+						List<User> uList = null;
 						if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
-							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-									TransJobs.JYUZTGW.getCode());
+							if(OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())){
+								uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+										TransJobs.JYUZTGW.getCode());
+							}
 						}else{
 							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 									TransJobs.TJYGW.getCode());
@@ -155,9 +158,6 @@ public class CaseChangeController {
 				}
 			}
 		}
-		
-		
-
 		
 		map.put("servitemList", servitemList);  // 1 查询案件服务项目
 		//map.put("userList", userList);  // 3 获取到的合作交易顾问
