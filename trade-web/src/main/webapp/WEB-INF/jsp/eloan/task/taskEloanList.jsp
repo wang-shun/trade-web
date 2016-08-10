@@ -94,7 +94,7 @@
 					<div class=" btn-sign pull-right">
 						<div class="add_btn">
 							<button type="button" class="btn btn_blue" id="btn_search">
-								<i class="icon iconfont">&#xe630;</i>
+								<i class="icon iconfont"></i>
 								查询</button>
 								<a type="button"
 						class="btn btn_blue " href="${ctx}/eloan/task/eloanApply/process">
