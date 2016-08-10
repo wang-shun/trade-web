@@ -136,7 +136,7 @@
 											<div class="bs-wizard-info text-center">
 												<dl>
 													<dd>
-														<strong>签约</strong> ${eloanCase.signAmount}万
+														<strong>签约</strong> ${eloanCase.signAmount>0?eloanCase.signAmount:0}万
 													</dd>
 												</dl>
 
@@ -162,7 +162,9 @@
 											<div class="bs-wizard-info text-center">
 												<dl>
 													<dd>
-														<strong>放款 ${info.releaseAmount}万</strong>
+														<strong>放款</strong>
+														${info.releaseAmount>0?info.releaseAmount:0}
+														 万
 													</dd>
 												</dl>
 											</div>
