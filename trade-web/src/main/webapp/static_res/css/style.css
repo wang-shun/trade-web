@@ -6430,3 +6430,9 @@ body.skin-3 {
 .nullData {
     background: #fff url(../img/no-records.png) center center no-repeat;
 }
+.himg {
+    display: none;
+}
+.img-circle {
+    border-radius: 50%;
+}

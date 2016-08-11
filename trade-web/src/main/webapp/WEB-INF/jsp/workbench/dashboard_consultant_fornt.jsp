@@ -720,6 +720,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                 </div>
                             </div>
                         </div>
+                        <div class="portlet-body" style="display: block;">
+							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+ 						</div>                     
                 </div>
             </div>
             <!-- main End -->
@@ -790,14 +793,14 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 		 	$('#sp_evalFee').on('click',evalFeeClick);
 			$('#cacheRemain').click(function(){
 		    	$.ajax({
-					    cache : false,
-					    type:'POST',
-					    url : ctx+'/workspace/cacheRemain',
-					    dataType: 'json',
-						success: function(data) {
-							//alert(data.message);
-						}
-					});
+				    cache : false,
+				    type:'POST',
+				    url : ctx+'/workspace/cacheRemain',
+				    dataType: 'json',
+					success: function(data) {
+						//alert(data.message);
+					}
+				});
 			});	
 
 	 	});

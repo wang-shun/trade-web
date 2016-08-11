@@ -64,20 +64,33 @@ function queryConutCaseByDate(){
 				var signAmount = parseFloat(data.signAmount.replace(/,/g,''));
 				var actualAmount = parseFloat(data.actualAmount.replace(/,/g,''));
 				var max_bar1 = Math.max(loanAmount, signAmount, actualAmount);
-				$('#sp_loanAmount_bar')[0].style.width = loanAmount/max_bar1*100+'%';
-				$('#sp_signAmount_bar')[0].style.width = signAmount/max_bar1*100+'%';
-				$('#sp_actualAmount_bar')[0].style.width = actualAmount/max_bar1*100+'%';
-				
-				$('#sp_evalFee_bar')[0].style.width=parseFloat(data.evalFee.replace(/,/g,''))*1000/loanAmount*100+'%';
+				if(max_bar1){
+					$('#sp_loanAmount_bar')[0].style.width = loanAmount/max_bar1*100+'%';
+					$('#sp_signAmount_bar')[0].style.width = signAmount/max_bar1*100+'%';
+					$('#sp_actualAmount_bar')[0].style.width = actualAmount/max_bar1*100+'%';
+					$('#sp_evalFee_bar')[0].style.width=parseFloat(data.evalFee.replace(/,/g,''))*1000/loanAmount*100+'%';
+				}else{
+					$('#sp_loanAmount_bar')[0].style.width = '0%';
+					$('#sp_signAmount_bar')[0].style.width = '0%';
+					$('#sp_actualAmount_bar')[0].style.width = '0%';
+					$('#sp_evalFee_bar')[0].style.width = '0%';
+				}
 				
 				$('#sp_convRate_bar')[0].style.width=data.convRate;
 				$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
 				
 				var max_bar2 = Math.max(data.receiveCount, data.signCount, data.loanApplyCount, data.closeCount);
-				$('#sp_receiveCount_bar')[0].style.width=parseInt(data.receiveCount)/max_bar2*100+'%';
-				$('#sp_signCount_bar')[0].style.width=parseInt(data.signCount)/max_bar2*100+'%';
-				$('#sp_loanApplyCount_bar')[0].style.width=parseInt(data.loanApplyCount)/max_bar2*100+'%';
-				$('#sp_closeCount_bar')[0].style.width=parseInt(data.closeCount)/max_bar2*100+'%';	
+				if(max_bar2){
+					$('#sp_receiveCount_bar')[0].style.width=parseInt(data.receiveCount)/max_bar2*100+'%';
+					$('#sp_signCount_bar')[0].style.width=parseInt(data.signCount)/max_bar2*100+'%';
+					$('#sp_loanApplyCount_bar')[0].style.width=parseInt(data.loanApplyCount)/max_bar2*100+'%';
+					$('#sp_closeCount_bar')[0].style.width=parseInt(data.closeCount)/max_bar2*100+'%';	
+				}else{
+					$('#sp_receiveCount_bar')[0].style.width = '0%';
+					$('#sp_signCount_bar')[0].style.width='0%';
+					$('#sp_loanApplyCount_bar')[0].style.width='0%';
+					$('#sp_closeCount_bar')[0].style.width='0%';
+				}
 				
 				setStaDetailDef();
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
@@ -106,10 +119,17 @@ function queryConutCaseByDate(){
 function getData(d, it) {
 	var data = [];
 	$.each(d, function(i, item){
-		data.push({
-			value : parseFloat(this[it]).toFixed(2),
-			name : item.staItemStr
-		});
+		if(typeof(this[it])=='string'){
+			data.push({
+				value : parseFloat(this[it].replace(/,/g,'')).toFixed(2),
+				name : item.staItemStr
+			});
+		}else if(typeof(this[it])=='number'){
+			data.push({
+				value : parseFloat(this[it]).toFixed(2),
+				name : item.staItemStr
+			});			
+		}
 	});
 	return data;
 }

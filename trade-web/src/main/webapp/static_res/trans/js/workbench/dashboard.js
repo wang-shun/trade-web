@@ -50,6 +50,7 @@ function setStaValItem(d, c) {
 		});
 	}
 }
+/*
 function toDonutData(d, it) {
 	var dd = new Array();
 	if (d) {
@@ -61,7 +62,7 @@ function toDonutData(d, it) {
 		});
 	}
 	return dd;
-}
+}*/
 var handleScrollers = function() {
 	$('.scroller').each(function() {
 		$(this).slimScroll({
@@ -78,27 +79,27 @@ var handleScrollers = function() {
 handleScrollers();
 $(document).ready(function() {
 	new messageGrid().init({
-				e : $("#div_messagelist1"),
-				u : appCtx['aist-message-web'],
-				c : 'MSG_YU_RESPONSE',
-				ctx : ctx
+		e : $("#div_messagelist1"),
+		u : appCtx['aist-message-web'],
+		c : 'MSG_YU_RESPONSE',
+		ctx : ctx
 	});
 	new messageGrid().init({
-				e : $("#div_messagelist2"),
-				u : appCtx['aist-message-web'],
-				c : 'MSG_YU_WORK',
-				ctx : ctx
+		e : $("#div_messagelist2"),
+		u : appCtx['aist-message-web'],
+		c : 'MSG_YU_WORK',
+		ctx : ctx
 	});
 	new messageGrid().init({
-						e : $("#div_messagelist3"),
-						u : appCtx['aist-message-web'],
-						c : 'MSG_YU_STOPLOSS',
-						ctx : ctx
+		e : $("#div_messagelist3"),
+		u : appCtx['aist-message-web'],
+		c : 'MSG_YU_STOPLOSS',
+		ctx : ctx
 	});
 	
 	$('.i-checks').iCheck({
-						checkboxClass : 'icheckbox_square-green',
-						radioClass : 'iradio_square-green',
+		checkboxClass : 'icheckbox_square-green',
+		radioClass : 'iradio_square-green',
 	});
 
 	$('#external-events div.external-event').each(function() {
@@ -163,13 +164,12 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#ionrange_4").ionRangeSlider(
-	{
+	$("#ionrange_4").ionRangeSlider({
 		values : [ "一月", "二月", "三月", "四月", "五月", "六月",
-				"七月", "八月", "九月", "十月", "十一月", "十二月" ],
+			"七月", "八月", "九月", "十月", "十一月", "十二月" 
+		],
 		dateType : 'single',
 		hasGrid : true
-	
 	});
 
 	});

@@ -654,6 +654,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                 </div>
                             </div>
                         </div>
+                        <div class="portlet-body" style="display: block;">
+							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+ 						</div>
                 </div>
             </div>
             <!-- main End -->
