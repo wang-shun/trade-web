@@ -144,26 +144,27 @@ $(document).ready(function() {
 					return true;
 				}
 				events.push({
-					title : partCode + "\n 物业地址:"
-							+ propertyAddr,
+					title : partCode + "\n 物业地址:" + propertyAddr,
 					start : estPartTimes,
 					backgroundColor : '#f8ac59',
 					borderColor : "#f8ac59"
 				});
 			}
-			$('#calendar').fullCalendar({
-				header : {
-					left : 'prev,next,month,basicWeek,today',
-					center : 'title',
-					right : ''
-				},
-				editable : false,
-				events : events
-			
-			});
+
 		}
 	});
 
+	$('#calendar').fullCalendar({
+		header : {
+			left : 'prev,next today',
+			center : 'title',
+			right : 'month,basicWeek'
+		},
+		editable : false,
+		events : events
+
+	});	
+	
 	$("#ionrange_4").ionRangeSlider({
 		values : [ "一月", "二月", "三月", "四月", "五月", "六月",
 			"七月", "八月", "九月", "十月", "十一月", "十二月" 
@@ -172,7 +173,7 @@ $(document).ready(function() {
 		hasGrid : true
 	});
 
-	});
+});
 jQuery(document).ready(function() {
 	$(".fancybox").fancybox({
 		maxWidth : 650,
