@@ -158,7 +158,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         <div class="col-md-2" style="padding-left:0">
                                         	<button class="btn btn-success" type="button" id="btn_sta" onclick="queryConutCaseByDate()">
                                         		<i class="icon iconfont">&#xe635;</i>
-                                        		搜索
+                                        		查询
                                             </button>
                                         </div>
             </div>
@@ -187,9 +187,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                     </li>
                                     <li class="">
                                     	<a href="#tab-5" data-toggle="tab">龙虎榜</a>
-                                    </li>
-                                    <li class="">
-                                    	<a href="#tab-6" data-toggle="tab">待办事项</a>
                                     </li>
                             	</ul>
                          	</div>
@@ -702,18 +699,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- 待办事项 -->
-                                                <div class="tab-pane" id="tab-6">
-	 											<div class="row">
-	 												<div class="col-lg-12">
-	        											<div class="ibox float-e-margins col-heigth">
-	            											<div class="ibox-content" style="border-width:0px;">
-	                											<div id="calendar"></div>
-	            											</div>
-	        											</div>
-	    											</div>
-												</div>
-												</div>
                                             </div>
                                         </div>
                                     </div>
@@ -722,7 +707,21 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         </div>
                         <div class="portlet-body" style="display: block;">
 							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
- 						</div>                     
+ 						</div>
+  <div class="ibox-content"> 					
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-title" style="border:none !important;padding-top:5px;">
+	                <h5>待办事项 </h5>
+	            </div>
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	</div> 						                     
                 </div>
             </div>
             <!-- main End -->

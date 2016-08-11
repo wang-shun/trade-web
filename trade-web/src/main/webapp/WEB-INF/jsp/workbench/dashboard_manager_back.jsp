@@ -113,11 +113,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                     <li class="">
                                     	<a href="#tab-3" data-toggle="tab">龙虎榜</a>
                                     </li>
-                                    <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
-                                    <li class="">
-                                    	<a href="#tab-4" data-toggle="tab">待办事项</a>
-                                    </li>
-                                    </shiro:hasPermission>
                             	</ul>
                          	</div>
                          </div>
@@ -372,20 +367,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         </div>
                                                     </div>
                                                 </div>
-                                               <!-- 待办事项 -->
-                                                <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
-                                                <div class="tab-pane" id="tab-6">
-	 											<div class="row">
-	 												<div class="col-lg-12">
-	        											<div class="ibox float-e-margins col-heigth">
-	            											<div class="ibox-content" style="border-width:0px;">
-	                											<div id="calendar"></div>
-	            											</div>
-	        											</div>
-	    											</div>
-												</div>
-												</div>
-												</shiro:hasPermission>
                                             </div>
                                         </div>
                                     </div>
@@ -394,7 +375,24 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         </div>
                         <div class="portlet-body" style="display: block;">
 							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
- 						</div>                        
+ 						</div>
+   <!-- 待办事项 -->
+  <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
+  <div class="ibox-content"> 					
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-title" style="border:none !important;padding-top:5px;">
+	                <h5>待办事项 </h5>
+	            </div>
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	</div>
+	</shiro:hasPermission> 						                        
                 </div>
             </div>
             <!-- main End -->
@@ -445,7 +443,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 		    //加载echarts
 		    reloadStatus();
 		    
-			reloadMonth();
+			//reloadMonth();
 			
 			//queryConutCaseByDate()
 			$('#sp_evalFee').on('click',evalFeeClick);

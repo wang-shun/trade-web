@@ -95,23 +95,23 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                     </div>
             </div>
             <div class="row space_line">
-                                    	<div class="col-md-8">
-                                       		 <div id="ionrange_4" class="ionr"></div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        	<select class="form-control m-b ml5" id="sUserId">
-                                        	<option value="">默认</option>
-								            <c:forEach items="${uList}"  var="user">
-							                <option value="${user.id}">${user.realName}</option>
-								            </c:forEach>
-                                        	</select>
-                                        </div>
-                                        <div class="col-md-2" style="padding-left:0">
-                                        	<button class="btn btn-success" type="button" id="btn_sta" onclick="queryConutCaseByDate()">
-                                        		<i class="icon iconfont">&#xe635;</i>
-                                        		搜索
-                                            </button>
-                                        </div>
+            	<div class="col-md-8">
+               		 <div id="ionrange_4" class="ionr"></div>
+                </div>
+                <div class="col-md-2">
+                	<select class="form-control m-b ml5" id="sUserId">
+                	<option value="">默认</option>
+					<c:forEach items="${uList}"  var="user">
+					<option value="${user.id}">${user.realName}</option>
+					 </c:forEach>
+                	</select>
+                </div>
+                <div class="col-md-2" style="padding-left:0">
+                	<button class="btn btn-success" type="button" id="btn_sta" onclick="queryConutCaseByDate()">
+                		<i class="icon iconfont">&#xe635;</i>
+                		查询
+                    </button>
+                </div>
             </div>            
         </div>
 
@@ -139,11 +139,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                     <li class="">
                                     	<a href="#tab-5" data-toggle="tab">龙虎榜</a>
                                     </li>
-                                    <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
-                                    <li class="">
-                                    	<a href="#tab-6" data-toggle="tab">待办事项</a>
-                                    </li>
-                                    </shiro:hasPermission>
                             	</ul>
                          	</div>
                          </div>
@@ -656,29 +651,32 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- 待办事项 -->
-                                                <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
-                                                <div class="tab-pane" id="tab-6">
-	 											<div class="row">
-	 												<div class="col-lg-12">
-	        											<div class="ibox float-e-margins col-heigth">
-	            											<div class="ibox-content" style="border-width:0px;">
-	                											<div id="calendar"></div>
-	            											</div>
-	        											</div>
-	    											</div>
-												</div>
-												</div>
-												</shiro:hasPermission>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                                                <div class="portlet-body" style="display: block;">
+                       <div class="portlet-body" style="display: block;">
 							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
- 						</div>
+ 					</div>
+   <!-- 待办事项 -->
+  <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
+  <div class="ibox-content"> 					
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-title" style="border:none !important;padding-top:5px;">
+	                <h5>待办事项 </h5>
+	            </div>
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	</div>
+	</shiro:hasPermission>					
                 </div>
             </div>
             <!-- main End -->
