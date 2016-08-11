@@ -114,7 +114,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         <div class="col-md-2" style="padding-left:0">
                                         	<button class="btn btn-success" type="button" id="btn_sta" onclick="queryConutCaseByDate()">
                                         		<i class="icon iconfont">&#xe635;</i>
-                                        		搜索
+                                        		查询
                                             </button>
                                         </div>
             </div>          
