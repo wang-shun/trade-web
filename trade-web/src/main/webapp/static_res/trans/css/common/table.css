@@ -11,7 +11,7 @@
 
 .table_blue thead tr th {
   color: #fff;
-  background-color: #52cdec!important;
+  background-color: #52cdec;
   font-weight: normal;
 }
 
@@ -59,7 +59,6 @@ table.dataTable thead .sorting:after {
 
 table p {
   margin: 7px 0px;
-  font-size: 12px;
   max-width: 400px;
   overflow: hidden;
   white-space: nowrap;
@@ -68,6 +67,7 @@ table p {
 
 .manager {
   display: block;
+  margin: 7px 0;
 }
 
 .manager a em {
@@ -107,8 +107,22 @@ table tr td {
   opacity: 0.9;
 }
 
+.label-warning, .badge-warning {
+  background-color: #f8cd59;
+  color: #fff;
+}
+
+.label-info, .badge-info {
+  background-color: #04bc5b;
+  color: #fff;
+}
+
 .sk-spinner-double-bounce .orange_light {
-  background-color: #f8ac59;
+  background-color: #f8cd59;
+}
+
+.sk-spinner-double-bounce .green_light {
+  background-color: #04bc5b;
 }
 
 .sk-spinner-double-bounce .red_light {
@@ -118,6 +132,14 @@ table tr td {
 .sk-spinner-light {
   width: 18px !important;
   height: 18px !important;
+}
+
+.deep_grey {
+  color: #333;
+}
+
+.tint_grey {
+  color: #808080;
 }
 
 .tag_sign {
@@ -131,6 +153,20 @@ table tr td {
   padding: 0 4px 1px;
   background-color: #ccc;
   margin-right: 3px;
+}
+
+.sign_red {
+  margin-right: 5px;
+  padding: 0px 1px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background-color: #ed5565;
+}
+
+.sign_blue a {
+  color: #fff;
 }
 
 table.dataTable thead .sorting_asc {
