@@ -498,6 +498,11 @@
 						alert("请选择申请时间");
 						return false;	
 					}
+				 var month=$('#month').val();
+				 if(month==null||month==''){
+					 alert("请填写申请期数");
+					 return false;	
+				 }
 				 return true;
 			}
 
