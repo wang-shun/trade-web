@@ -590,7 +590,7 @@
 					url : url,
 					dataType : "json",
 					success : function(data) {
-						
+						console.log("数据"+JSON.stringify(data));
 						/*三级联动*/
 						var district = $('#crossDistrict'+index);
 						var org = $('#corssOrg'+index);
@@ -604,17 +604,20 @@
 						
 						district.bind("change", function(){
 							var orgStr="";
-							var myIndex = district.find(":selected").index()-1;
+							var myIndex = district.find(":selected").index()-1;							
 							if(myIndex>=0){
+								//有选择部门   index()取下标  0开始， 0对应部门
 								$.each(data.cross[myIndex].orgs, function(i, items){
 									orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
 								})
+								//显示部门下面的所有组别
 								org.empty().append("<option value='0'>----组别----</option>"+orgStr);
 								var val1 = org.find(":selected").val();
 								if(val1!='0'){
 									changeConsult();
 								}
 							}else{
+								//没有选择部门
 								org.empty().append("<option value='0'>----组别----</option>");
 								consult.empty().append("<option value='0'>----人员----</option>");
 							}
