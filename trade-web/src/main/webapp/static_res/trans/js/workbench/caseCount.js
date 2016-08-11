@@ -76,8 +76,16 @@ function queryConutCaseByDate(){
 					$('#sp_evalFee_bar')[0].style.width = '0%';
 				}
 				
-				$('#sp_convRate_bar')[0].style.width=data.convRate;
-				$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
+				if(parseFloat(data.convRate)>100){
+					$('#sp_convRate_bar')[0].style.width='100%';
+				}else{
+					$('#sp_convRate_bar')[0].style.width=data.convRate;
+				}
+				if(parseFloat(data.efConvRate)>100){
+					$('#sp_efConvRate_bar')[0].style.width='100%';
+				}else{
+					$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
+				}
 				
 				var max_bar2 = Math.max(data.receiveCount, data.signCount, data.loanApplyCount, data.closeCount);
 				if(max_bar2){
