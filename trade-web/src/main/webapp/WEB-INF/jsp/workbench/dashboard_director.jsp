@@ -44,6 +44,8 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	
     <!-- index_css  -->
     <link href="${ctx}/static/trans/css/workbench/dashboard/dashboard.css" rel="stylesheet">
+    <!-- 图标 -->
+    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" rel="stylesheet">
 </head>
 
 <script type="text/javascript">
@@ -89,9 +91,33 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         		黄灯任务
                         		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
                         	</p>
+                        	<p class="fa_orange">
+                        		<i class="fa fa-bell "></i>
+                        		商贷流失预警案件数
+                        		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
+                        	</p>                        	
                     	</div>
                     </div>
             </div>
+            <div class="row space_line">
+                                    	<div class="col-md-8">
+                                       		 <div id="ionrange_4" class="ionr"></div>
+                                        </div>
+                                        <div class="col-md-2">
+                                        	<select class="form-control m-b ml5" id="sUserId">
+                                        	<option value="">默认</option>
+								            <c:forEach items="${uList}"  var="user">
+							                <option value="${user.id}">${user.realName}</option>
+								            </c:forEach>
+                                        	</select>
+                                        </div>
+                                        <div class="col-md-2" style="padding-left:0">
+                                        	<button class="btn btn-success" type="button" id="btn_sta" onclick="queryConutCaseByDate()">
+                                        		<i class="icon iconfont">&#xe635;</i>
+                                        		搜索
+                                            </button>
+                                        </div>
+            </div>          
         </div>
 
 
@@ -125,26 +151,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                          <div class="panel-body">
                          	<div class="tab-content">
                             	<div class="tab-pane active" id="tab-1">
-                                	<div class="row">
-                                    	<div class="col-md-8">
-                                       		 <div id="ionrange_4" class="ionr"></div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        	<select class="form-control m-b" id="sUserId">
-                                        	<option value="">默认</option>
-								            <c:forEach items="${uList}"  var="user">
-							                <option value="${user.id}">${user.realName}</option>
-								            </c:forEach>
-                                        	</select>
-                                        </div>
-                                        <div class="col-md-2" style="padding-left:0">
-                                        	<button class="btn btn-warning " type="button" id="btn_sta" onclick="queryConutCaseByDate()">
-                                        		<i class="fa fa-search"></i>
-                                        		<span class="bold">搜索</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
                                     <div class="data-progress-wrap">
                                     	<div class="data-progress data1">
                                         	<div class="data-left">
@@ -206,7 +212,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
-                                                                <span class="left-label wd90 h50 pt10">接单数</span>
+                                                                <span class="left-label wd88 h50 pt10">接单数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_receiveCount_bar" style="width: 40%;" class="progress-bar bar-blue"></div>
@@ -215,7 +221,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_receiveCount" class="right-label pt10">43单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd90 ">签约数</span>
+                                                                <span class="left-label wd88 ">签约数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_signCount_bar" style="width: 100%;" class="progress-bar bar-blue"></div>
@@ -224,7 +230,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_signCount" class="right-label">1亿&nbsp;&nbsp;4单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd90">贷款申请数</span>
+                                                                <span class="left-label wd88">贷款申请数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_loanApplyCount_bar" style="width: 56%;" class="progress-bar bar-blue"></div>
@@ -233,7 +239,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_loanApplyCount" class="right-label">13单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd90 h50 pb10">结案数</span>
+                                                                <span class="left-label wd88 h50 pb10">结案数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_closeCount_bar" style="width: 30%;" class="progress-bar bar-blue"></div>
@@ -663,10 +669,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 <content tag="local_script">
     <!-- stickup plugin -->
     <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-    <!-- owner -->
-    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>
 
     <!-- Toastr script -->
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
@@ -696,7 +698,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<script src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script>    
     
     <!-- ECharts.js -->
-    <script src="${ctx}/static/js/echarts.min.js"></script>    
+    <script src="${ctx}/static/js/echarts.min.js"></script>
+        <!-- owner -->
+    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>    
     <script src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script>
 	
 	<script type="text/javascript">

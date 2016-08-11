@@ -166,14 +166,14 @@
 	                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 	                        <i class="fa fa-envelope"></i>  <span class="label label-warning" id="sp_badge">0</span>
 	                    </a>
-	                    <ul class="dropdown-menu dropdown-messages" id="messageul">
+	                    <ul class="dropdown-menu dropdown-messages" id="messageul" style="z-index:9999px;">
 	                    </ul>
 	                </li>
 	                <li>
 	                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 	                	切换岗位
 	                </a>
-	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
+	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob" style="z-index:9999px;">
 	                </ul>
 	            </ul>
 	

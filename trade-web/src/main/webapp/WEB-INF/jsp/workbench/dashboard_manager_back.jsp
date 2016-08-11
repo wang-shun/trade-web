@@ -85,6 +85,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         		黄灯任务
                         		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
                         	</p>
+                        	<p class="fa_orange">
+                        		<i class="fa fa-bell "></i>
+                        		商贷流失预警案件数
+                        		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
+                        	</p>                        	
                     	</div>
                     </div>
             </div>
@@ -108,6 +113,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                     <li class="">
                                     	<a href="#tab-3" data-toggle="tab">龙虎榜</a>
                                     </li>
+                                    <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
+                                    <li class="">
+                                    	<a href="#tab-4" data-toggle="tab">待办事项</a>
+                                    </li>
+                                    </shiro:hasPermission>
                             	</ul>
                          	</div>
                          </div>
@@ -118,7 +128,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                     				<div class="row">
                         				<div class="col-md-12">
                             				<div class="ibox float-e-margins">
-                                				<div class="ibox-content">
+                                				<div class="ibox-content" style="border-width:0px;">
                                     				<div class="row">
                                         				<div class="col-md-4">
                                             				<table class="table table-bordered">
@@ -362,6 +372,20 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         </div>
                                                     </div>
                                                 </div>
+                                               <!-- 待办事项 -->
+                                                <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
+                                                <div class="tab-pane" id="tab-6">
+	 											<div class="row">
+	 												<div class="col-lg-12">
+	        											<div class="ibox float-e-margins col-heigth">
+	            											<div class="ibox-content" style="border-width:0px;">
+	                											<div id="calendar"></div>
+	            											</div>
+	        											</div>
+	    											</div>
+												</div>
+												</div>
+												</shiro:hasPermission>
                                             </div>
                                         </div>
                                     </div>
@@ -420,7 +444,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 		    
 			reloadMonth();
 			
-			queryConutCaseByDate()
+			//queryConutCaseByDate()
 			$('#sp_evalFee').on('click',evalFeeClick);
 	 });
 	</script>
