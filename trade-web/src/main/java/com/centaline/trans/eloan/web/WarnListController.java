@@ -32,10 +32,12 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.service.OrgService;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -86,13 +88,21 @@ public class WarnListController {
 	ToCaseInfoService toCaseInfoService;
 	@Autowired(required = true)
 	TgGuestInfoService tgGuestInfoService;
+	@Autowired
+	private MyCaseListService myCaseListService;
 
 	@RequestMapping(value="/task/eloanApply/process")
-	public String eloanApply(ServletRequest request){
+	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
+			String taskitem, String processInstanceId){
 		SessionUser user = uamSessionService.getSessionUser();
-		request.setAttribute("orgId", user.getServiceDepId());
+		Org parentOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("excutorId", user.getId());
 		request.setAttribute("excutorName", user.getRealName());
+		
+		if(StringUtils.isNotBlank(processInstanceId)) {
+			setAttribute(request,response,businessKey,taskitem,processInstanceId);
+		}
     	return "eloan/task/taskEloanApply";
 	}
 	
@@ -161,12 +171,16 @@ public class WarnListController {
 	public AjaxResponse<String> saveEloanApply(Model model,ToEloanCase tEloanCase){
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
-			buildFCaseCode(tEloanCase);
-			toEloanCaseService.saveEloanApply(user, tEloanCase);
-			return AjaxResponse.success("保存E+申请成功");
+			if(StringUtils.isBlank(tEloanCase.getTaskId())) {
+				buildFCaseCode(tEloanCase);
+				toEloanCaseService.saveEloanApply(user, tEloanCase);
+			} else {
+				toEloanCaseService.updateEloanApply(user, tEloanCase);
+			}
+			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+申请失败", e);
-			return AjaxResponse.fail("保存E+申请失败");
+			return AjaxResponse.fail("操作失败");
 		}
 	}
 	
@@ -209,10 +223,10 @@ public class WarnListController {
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
 			
-			return AjaxResponse.success("保存E+申请确认成功");
+			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+申请确认失败", e);
-			return AjaxResponse.fail("保存E+申请确认失败");
+			return AjaxResponse.fail("操作失败");
 		}
 	}
 	
@@ -273,7 +287,7 @@ public class WarnListController {
 		}
 		request.setAttribute("caseCode", toCase.getCaseCode());
 		request.setAttribute("propertyAddr", toPropertyInfo.getPropertyAddr());
-		request.setAttribute("processorName", consultUser.getRealName());
+		request.setAttribute("processorName", consultUser==null?"":consultUser.getRealName());
 		request.setAttribute("agentName", agentUser==null?"":agentUser.getRealName());
 		request.setAttribute("sellerName", seller.toString());
 		request.setAttribute("buyerName", buyer.toString());
@@ -285,10 +299,10 @@ public class WarnListController {
 	public AjaxResponse<String> saveEloanSign(Model model,String taskId ,ToEloanCase tEloanCase){
 		try {
 			toEloanCaseService.saveEloanSign(taskId,tEloanCase);
-			return AjaxResponse.success("保存E+签约成功");
+			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+签约失败", e);
-			return AjaxResponse.fail("保存E+签约失败");
+			return AjaxResponse.fail("操作失败");
 		}
 	}
 	
@@ -318,10 +332,10 @@ public class WarnListController {
 				map.put("SignApprove", false);
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
-			return AjaxResponse.success("保存E+签约确认成功");
+			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+签约确认失败", e);
-			return AjaxResponse.fail("保存E+签约确认失败");
+			return AjaxResponse.fail("操作失败");
 		}
 	}
 	
@@ -348,10 +362,10 @@ public class WarnListController {
 			}
 			
 			toEloanRelService.saveEloanRelease(eloanRelListVO.getTaskId(), eloanRelListVO.getEloanRelList(), map,eloanRelListVO.getIsRelFinish());
-			return AjaxResponse.success("保存E+放款成功");
+			return AjaxResponse.success("操作放款成功");
 		} catch(Exception e) {
 			logger.debug("保存E+放款失败", e);
-			return AjaxResponse.fail("保存E+放款失败");
+			return AjaxResponse.fail("操作放款失败");
 		}
 	}
 	
@@ -380,10 +394,10 @@ public class WarnListController {
 			}
 			
 			toEloanRelService.saveEloanReleaseConfirm(taskId, approved, eloanCode, user, map,processInstanceId);
-			return AjaxResponse.success("保存E+放款确认成功");
+			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+放款确认失败", e);
-			return AjaxResponse.fail("保存E+放款确认失败");
+			return AjaxResponse.fail("操作失败");
 		}
 	}
 
@@ -442,6 +456,14 @@ public class WarnListController {
 			result.setMessage("处理失败!");
 		}
 		return result;
+	}
+	
+	/*根据caseCoded查询客户详情*/
+	@RequestMapping("getCaseDetails")
+	@ResponseBody
+	public List<TgGuestInfo> getCaseDetailsBypkid(String caseCode){
+		List<TgGuestInfo> caseInfos = myCaseListService.findTgGuestInfoByCaseCode(caseCode);
+		return caseInfos;
 	}
 	
 }

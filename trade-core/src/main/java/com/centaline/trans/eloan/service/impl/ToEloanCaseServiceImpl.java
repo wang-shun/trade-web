@@ -82,7 +82,31 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	}
 
 	}
+	
 
+
+
+	@Override
+	public int updateEloanApply(SessionUser user, ToEloanCase tEloanCase) {
+		User excutor = uamUserOrgService.getUserById(tEloanCase.getExcutorId());
+		Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(excutor.getOrgId(), DepTypeEnum.TYCQY.getCode());
+		if(excutor!=null) {
+			tEloanCase.setExcutorTeam(excutor.getOrgId());
+		}
+		if(districtOrg!=null) {
+			tEloanCase.setExcutorDistrict(districtOrg.getId());
+		}
+		
+		ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setStatus("0");
+		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setInstCode(tEloanCase.getProcessInstanceId());
+		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
+		
+		taskService.complete(tEloanCase.getTaskId());
+    	return toEloanCaseMapper.updateEloanCaseByEloanCode(tEloanCase);
+	}
+	
 	@Override
 	public List<ToEloanCase> getToEloanCaseListByProperty(ToEloanCase tEloanCase) {
 		return toEloanCaseMapper.getToEloanCaseListByProperty(tEloanCase);
