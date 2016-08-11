@@ -273,12 +273,14 @@ public class WorkSpaceController {
 		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
 		model.addAttribute("startDate",startDate);
 		
-		//红黄灯
+		//红 黄 商贷流失预警案件数灯
 		WorkSpace wk= buildWorkSpaceBean(null, null);
 		wk.setColor(0);
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
+		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
+		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
 		model.addAttribute("yeLight", yeLight);
 		
