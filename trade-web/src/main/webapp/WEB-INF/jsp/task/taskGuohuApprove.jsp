@@ -552,13 +552,26 @@
 				if (!checkAttachment()) {
 					return;
 				}
+	
+			if($("input[name='GuohuApprove']:checked").val() == 'false'){
+				var flag = false;
+				$("input[name='members']").each(function(i,e){
+					if(e.checked){
+						flag = true;
+					}
+				});
+				if(!flag){
+					alert("请至少选择一个处理人！");
+					return false;
+				}
+			}
+
 				save();
 			}
 
 			/**保存数据*/
 			function save() {
 				var jsonData = $("#guohuApproveForm").serializeArray();
-				console.log(JSON.stringify(jsonData));
 				/**deleteAndModify();*/
 				$.ajax({
 					cache : true,
