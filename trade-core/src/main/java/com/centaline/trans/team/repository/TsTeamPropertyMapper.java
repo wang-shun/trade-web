@@ -36,4 +36,6 @@ public interface TsTeamPropertyMapper {
     List<TsTeamProperty> getTsTeamPropertyListByProperty(TsTeamProperty teamProperty);
     
     List<CaseInfoVO> recoveryTeamScope();
+    
+    List<TsTeamProperty> findTeamPropertyCooperations(TsTeamProperty record);
 }

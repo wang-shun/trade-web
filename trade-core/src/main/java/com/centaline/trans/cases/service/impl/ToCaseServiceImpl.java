@@ -487,6 +487,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
 				tsiap.setCaseCode(caseCode);
 				tsiap.setSrvCode("3000400201");
+				tsiap.setProcessorId(userId);
 				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
 				if (tsiap != null) {
 					tsiap.setProcessorId(applyUser.getId());

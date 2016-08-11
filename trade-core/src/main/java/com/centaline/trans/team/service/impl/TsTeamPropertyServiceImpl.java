@@ -73,6 +73,11 @@ public class TsTeamPropertyServiceImpl implements TsTeamPropertyService {
 	public List<CaseInfoVO> recoveryTeamScope() {
        return  tsTeamPropertyMapper.recoveryTeamScope();		
 	}
+
+	@Override
+	public List<TsTeamProperty> findTeamPropertyCooperations(TsTeamProperty record) {
+		return tsTeamPropertyMapper.findTeamPropertyCooperations(record);
+	}
 	
 
 }
