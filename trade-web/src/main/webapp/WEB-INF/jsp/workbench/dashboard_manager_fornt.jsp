@@ -446,20 +446,20 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_1">
-                                                            	 	<div class="ibox-title">
+                                                            	 	<div class="ibox-title" style="border-width:0px !important;">
                                                             	 		<h5>E+贷款(面签单数)</h5>
                                                             	 	</div>
-                                                            		<div class="ibox-content" id="">
+                                                            		<div class="ibox-content" id="" style="border-width:0px !important;">
                                                             			<div id="doughnutChart1" style="height:380px;width:460px;position:center;"></div>
                                                             	 	</div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_2">
-                                                            	 	<div class="ibox-title">
+                                                            	 	<div class="ibox-title" style="border-width:0px !important;">
                                                             	 		<h5>E+贷款(面签金额)</h5>
                                                             	 	</div>
-                                                            		<div class="ibox-content" id="doughnutChart">
+                                                            		<div class="ibox-content" id="doughnutChart" style="border-width:0px !important;">
                                                             			<div id="doughnutChart2" style="height:380px;width:460px;position:center;"></div>
                                                             	 </div>
                                                                 </div>
