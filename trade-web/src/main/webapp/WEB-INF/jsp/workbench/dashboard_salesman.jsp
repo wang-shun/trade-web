@@ -84,6 +84,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         		黄灯任务
                         		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
                         	</p>
+                        	<p class="fa_orange">
+                        		<i class="fa fa-bell "></i>
+                        		商贷流失预警案件数
+                        		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
+                        	</p>                        	
                     	</div>
                     </div>
             </div>
@@ -93,68 +98,70 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                     <div class="ibox-content" id="zj_info">
                      	<h5 class="main_titile">业务提醒</h5>
                                        <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="widget-box">
-                                                                <div class="widget-header widget-header-flat">
-                                                                    <h4 class="smaller">反馈提醒</h4>
-                                                                    <div class="widget-toolbar">
-                                                                        <label>
-                                                                           <span class="label label-blue">0</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-																<div class="widget-body">
-                                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    	<div id="div_messagelist1" style="min-height:320px;" class="widget-main"></div>
-                                                                	</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="widget-box">
-                                                                <div class="widget-header widget-header-flat">
-                                                                    <h4 class="smaller">作业提醒</h4>
-                                                                    <div class="widget-toolbar">
-                                                                        <label>
-                                                                           <span class="label label-blue">0</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-																
-																<div class="widget-body">
-                                                                	<div style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    	<div id="div_messagelist2" style="min-height:320px;" class="widget-main">
-                                                                    	</div>  
-                                                                	</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="widget-box">
-                                                                <div class="widget-header widget-header-flat">
-                                                                    <h4 class="smaller">止损提醒</h4>
-                                                                    <div class="widget-toolbar">
-                                                                        <label>
-                                                                           <span class="label label-blue">0</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+                                        <div class="col-md-4">
+                                            <div class="widget-box">
+                                                <div class="widget-header widget-header-flat">
+                                                    <h4 class="smaller">反馈提醒</h4>
+                                                    <div class="widget-toolbar">
+                                                        <label>
+                                                           <span class="label label-blue">0</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+<div class="widget-body">
+                                                	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                 	<div id="div_messagelist1" style="min-height:320px;" class="widget-main"></div>
+                                                	</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="widget-box">
+                                                <div class="widget-header widget-header-flat">
+                                                    <h4 class="smaller">作业提醒</h4>
+                                                    <div class="widget-toolbar">
+                                                        <label>
+                                                           <span class="label label-blue">0</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
 
-                                                                <div class="widget-body">
-                                                                	<div style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    	<div id="div_messagelist3" style="min-height:320px;" class="widget-main">
-                                                                    	</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                     </div>
+<div class="widget-body">
+                                                	<div style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                 	<div id="div_messagelist2" style="min-height:320px;" class="widget-main">
+                                                 	</div>  
+                                             	</div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-4">
+                                         <div class="widget-box">
+                                             <div class="widget-header widget-header-flat">
+                                                 <h4 class="smaller">止损提醒</h4>
+                                                 <div class="widget-toolbar">
+                                                     <label>
+                                                        <span class="label label-blue">0</span>
+                                                     </label>
+                                                 </div>
+                                             </div>
+
+                                             <div class="widget-body">
+                                             	<div style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                                 	<div id="div_messagelist3" style="min-height:320px;" class="widget-main">
+                                                 	</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                  </div>
                     </div>
-                    
+                        <div class="portlet-body" style="display: block;">
+							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+ 						</div>                    
                 </div>
             </div>
             <!-- main End -->
-
+			
         </div>
     </div>
 <content tag="local_script">
@@ -201,9 +208,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 		    //加载echarts
 		    reloadStatus();
 		    
-			reloadMonth();
+			//reloadMonth();
 			
-			queryConutCaseByDate()
+			//queryConutCaseByDate()
 			$('#sp_evalFee').on('click',evalFeeClick);
 	 });
 	</script>

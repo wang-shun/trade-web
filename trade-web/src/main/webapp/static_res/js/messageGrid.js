@@ -7,12 +7,12 @@ var messageGrid = function () {
 		_msgCatagory:"",
 		_ctx:"",
     	/**t：目标元素，s:消息类型下拉id,u:message服务地址*/
-        init: function (config) {
-        	 this._config=$.extend(this._config,config);
-             this._tagElement=this._config.e;
-             this._messageServer=this._config.u;
-             this._msgCatagory=this._config.c;
-			 this._ctx=this._config.ctx;
+		init: function (config) {
+			this._config=$.extend(this._config,config);
+			this._tagElement=this._config.e;
+			this._messageServer=this._config.u;
+			this._msgCatagory=this._config.c;
+			this._ctx=this._config.ctx;
 			this.getMessage();
 			var THIS=this;
 			if(this._config.autoGetMsg){

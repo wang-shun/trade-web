@@ -463,6 +463,10 @@
 			getBankList('');
 			
 			$('.submit_btn').click(function(){
+				//关联案件必须填写
+				if(!checkForm()){
+					return;
+				}
 				if(!$.isBlank($("#excutorName").attr('hVal'))) {
 					$("#excutorId").val($("#excutorName").attr('hVal'));
 				}
@@ -472,6 +476,30 @@
 				}
 				saveEloanApply();
 			})
+			//必填项
+			function checkForm(){
+				var ds = $('.case_content').css('display');
+				if(ds=='none'){
+					alert("请选择关联案件");
+					return false;	
+				}
+				 var loanSrvCode=$("#loanSrvCode").val();			
+				 if(loanSrvCode==null||loanSrvCode==''){
+						alert("请选择产品类型");
+						return false;	
+					}
+				 var applyAmount=$("#applyAmount").val();
+				 if(applyAmount==null||applyAmount==''){
+						alert("请填写申请金额");
+						return false;	
+					}
+				 var date=$("#applyTime").val();
+				 if(date==null||date==''){
+						alert("请选择申请时间");
+						return false;	
+					}
+				 return true;
+			}
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",

@@ -134,6 +134,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         		黄灯任务
                         		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
                         	</p>
+                        	<p class="fa_orange">
+                        		<i class="fa fa-bell "></i>
+                        		商贷流失预警案件数
+                        		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
+                        	</p>                        	
                     	</div>
                     </div>
             </div>
@@ -164,10 +169,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                          <div class="panel-body">
                          	<div class="tab-content no_border">
                             	<div class="tab-pane active" id="tab-1">
-<div class="row">
+						<div class="row">
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-content">
+                                <div class="ibox-content" style="border-width:0px;">
                                     <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -386,6 +391,23 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                 </div>
                             </div>
                         </div>
+                        <div class="portlet-body" style="display: block;">
+							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+ 						</div>
+  <div class="ibox-content"> 					
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-title" style="border:none !important;padding-top:5px;">
+	                <h5>待办事项 </h5>
+	            </div>
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	</div> 	 						                        
                 </div>
             </div>
             <!-- main End -->
@@ -395,10 +417,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 <content tag="local_script">
     <!-- stickup plugin -->
     <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-    <!-- owner -->
-    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>
 
     <!-- Toastr script -->
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
@@ -433,34 +451,41 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<script src="${ctx}/static/js/bootstrap-modal.js" type="text/javascript"></script>
     
     <!-- ECharts.js -->
-    <script src="${ctx}/static/js/echarts.min.js"></script>    
+    <script src="${ctx}/static/js/echarts.min.js"></script>
+    <!-- owner -->
+    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>        
     <script src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script>
 	
 	<script type="text/javascript">
 	 $(document).ready(function() {
-		 	Modal.alert({
+		var isJygw = ${isJygw};
+		if (isJygw) {
+	 		Modal.alert({
 	    		Title : '任务小卫士',
 	    		Message : ''
-	    });
-		$('#cacheRemain').click(function(){
-		    	$.ajax({
-					    cache : false,
-					    type:'POST',
-					    url : ctx+'/workspace/cacheRemain',
-					    dataType: 'json',
-						success: function(data) {
-							//alert(data.message);
-						}
-					});
-		});				 
-		 
-		    //加载echarts
-		    reloadStatus();
+	    	});
+		}
+			 
+		//加载echarts
+		reloadStatus();
 		    
-			reloadMonth();
+		//reloadMonth();
 			
-			queryConutCaseByDate()
-			$('#sp_evalFee').on('click',evalFeeClick);
+		//queryConutCaseByDate();
+		$('#sp_evalFee').on('click',evalFeeClick);
+		$('#cacheRemain').click(function(){
+	    	$.ajax({
+				cache : false,
+				    type:'POST',
+				    url : ctx+'/workspace/cacheRemain',
+				    dataType: 'json',
+					success: function(data) {
+						//alert(data.message);
+					}
+			});
+		});	
 	 });
 	</script>
 </content>
