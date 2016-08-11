@@ -156,9 +156,9 @@ $(document).ready(function() {
 
 	$('#calendar').fullCalendar({
 		header : {
-			left : 'prev,next today',
+			left : 'prev,next,month,basicWeek,today',
 			center : 'title',
-			right : 'month,basicWeek'
+			right : ''
 		},
 		editable : false,
 		events : events
