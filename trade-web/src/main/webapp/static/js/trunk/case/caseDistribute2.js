@@ -61,6 +61,7 @@ function reloadGrid(page) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
+        	
         	$.unblockUI();   	 
         	var myCaseList = template('template_myCaseList' , data);
         	$("#myCaseList").empty();
