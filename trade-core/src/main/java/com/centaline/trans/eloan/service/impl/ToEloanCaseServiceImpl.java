@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
@@ -45,11 +49,19 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	//产品类型、案件绑定、合作机构、客户姓名、客户电话、申请金额、申请时间、申请期数
     	//转介人姓名、转介人员工编号、合作人姓名、合作人员工编号、产品部合作人、分成比例贷款。
     	//E+编号
+		User excutor = uamUserOrgService.getUserById(tEloanCase.getExcutorId());
+		Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(excutor.getOrgId(), DepTypeEnum.TYCQY.getCode());
+		if(excutor!=null) {
+			tEloanCase.setExcutorTeam(excutor.getOrgId());
+		}
+		if(districtOrg!=null) {
+			tEloanCase.setExcutorDistrict(districtOrg.getId());
+		}
     	toEloanCaseMapper.insertSelective(tEloanCase);
     	
-    	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "Manager");
+    	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
     	Map<String, Object> vars = new HashMap<String,Object>();
-    	vars.put("Consultant", user.getUsername());
+    	vars.put("Consultant", excutor.getUsername());
     	vars.put("Manager", manager==null?null:manager.getUsername());
     	
     	String demo=propertyUtilsService.getProcessEloanDfKey();

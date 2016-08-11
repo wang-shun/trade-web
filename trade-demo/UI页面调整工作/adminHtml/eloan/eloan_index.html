@@ -410,21 +410,22 @@
                             E+贷款
                         </h2>
                         <form method="get" class="form_list">
-                            <div class="form_content">
+                            <div class="form_content form_nomargin">
                                 <label class="control-label sign_left">
-                                    状态搜索项
+                                    案件信息
                                 </label>
-                                <select class="select_control sign_right_one">
+                                <select class="select_control" style="width: 130px;">
                                     <option value="">
                                         已结账
                                     </option>
                                     <option value="">
-                                        这里为文字内容测试
+                                        未结账
                                     </option>
                                 </select>
+                                <input class="sign_right input_type ml10" placeholder="请输入" value="">
                             </div>
                             <div class="form_content">
-                                <label class="control-label sign_left select_style mend_select">
+                                <label class="control-label sign_left">
                                     时间搜索项
                                 </label>
                                 <select class="select_control" style="width: 130px;">
@@ -438,26 +439,11 @@
                                     <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
                                 </div>
                             </div>
-                            <div class="form_content form_nomargin">
-                                <label class="control-label sign_left">
-                                    案件信息
-                                </label>
-                                <select class="select_control sign_right_one">
-                                    <option value="">
-                                        已结账
-                                    </option>
-                                    <option value="">
-                                        这里为文字内容测试
-                                    </option>
-                                </select>
-                                <input class="sign_right input_type ml10" placeholder="请输入" value="">
-                            </div>
                             <div class="form_content btn-sign">
-                                <div class="add_btn">
-                                    <button type="button" class="btn btn_blue">
-                                        查询
-                                    </button>
-                                </div>
+                                <button type="button" class="btn btn_blue">
+                                    查询
+                                </button>
+                                <a href="eloan.html"><button type="button"  class="btn btn-success btn-blue"><i class=" iconfont">&#xe617;</i> 新增</button></a>
                             </div>
                         </form>
                     </div>
@@ -713,7 +699,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="eloan.html"><button type="button"  class="btn btn-success btn-blue add_sing"><i class="icon_add iconfont">&#xe617;</i> 新增</button></a>
+
                         </div>
                         <div class="text-center page_box">
                             <span id="currentTotalPage">

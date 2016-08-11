@@ -31,7 +31,7 @@
 .stickup-nav-bar {
     padding: 0;
     background: #52cdec;
-    z-index: 1500;
+    z-index: 1;
     margin-left:0;
     margin-right: 0;
 }
@@ -85,8 +85,18 @@
 .wrapper-content .ibox-content .panel-body {
     padding: 15px;
 }
-
-
+.space_line {
+	margin-top: 40px!important;
+}
+#base_info {
+    padding-bottom: 20px!important;
+}
+#zj_info {
+	padding-top:10px;
+}
+.ml5 {
+	margin-left: 5px;
+}
 /*文件查看面板*/
 .wrapper-content .file-board .file-list a {
     padding: 0px  20px 20px 20px;

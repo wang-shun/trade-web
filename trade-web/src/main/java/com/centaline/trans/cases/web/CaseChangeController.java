@@ -141,6 +141,9 @@ public class CaseChangeController {
 							if(OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())){
 								uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
 										TransJobs.JYUZTGW.getCode());
+							}else{
+								uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+										TransJobs.TJYGW.getCode());
 							}
 						}else{
 							uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),

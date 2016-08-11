@@ -85,6 +85,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         		黄灯任务
                         		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
                         	</p>
+                        	<p class="fa_orange">
+                        		<i class="fa fa-bell "></i>
+                        		商贷流失预警案件数
+                        		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
+                        	</p>                        	
                     	</div>
                     </div>
             </div>
@@ -118,7 +123,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                     				<div class="row">
                         				<div class="col-md-12">
                             				<div class="ibox float-e-margins">
-                                				<div class="ibox-content">
+                                				<div class="ibox-content" style="border-width:0px;">
                                     				<div class="row">
                                         				<div class="col-md-4">
                                             				<table class="table table-bordered">
@@ -368,6 +373,26 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                 </div>
                             </div>
                         </div>
+                        <div class="portlet-body" style="display: block;">
+							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+ 						</div>
+   <!-- 待办事项 -->
+  <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
+  <div class="ibox-content"> 					
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-title" style="border:none !important;padding-top:5px;">
+	                <h5>待办事项 </h5>
+	            </div>
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	</div>
+	</shiro:hasPermission> 						                        
                 </div>
             </div>
             <!-- main End -->
@@ -418,9 +443,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 		    //加载echarts
 		    reloadStatus();
 		    
-			reloadMonth();
+			//reloadMonth();
 			
-			queryConutCaseByDate()
+			//queryConutCaseByDate()
 			$('#sp_evalFee').on('click',evalFeeClick);
 	 });
 	</script>

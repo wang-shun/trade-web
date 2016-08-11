@@ -37,6 +37,7 @@
 
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <div id="wrapper">
             <!-- main Start -->
             <div class="row wrapper border-bottom nav_heading">
@@ -193,6 +194,7 @@
                     <div class="ibox-content" id="zj_info">
                         <form method="get" class="form_list" id="eloanApplyForm">
                         <input type="hidden" name="caseCode" id="caseCode"/>
+                        <input type="hidden" id="excutorId" name="excutorId" value="${excutorId}"/>
                         <ul class="form_lump">
                             <li>
                                 <div class="form_content">
@@ -207,7 +209,7 @@
                                     <label class="control-label sign_left_two">
                                         合作机构
                                     </label>
-                                    <select class="select_control sign_right_two" name="finOrgCode" id="finOrgCode">
+                                    <select  class="select_control sign_right_two" name="finOrgCode" id="finOrgCode">
                                     </select>
                                 </div>
 
@@ -225,6 +227,18 @@
                                     </label>
                                     <input class="input_type sign_right_two" value="" name="custPhone" id="custPhone">
                                 </div>
+                                <shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
+                                 <div class="form_content">
+								     <label class="control-label sign_left_two">
+                                        案件归属
+                                    </label>
+									<input type="text" id="excutorName" name="excutorName" class="form-control tbspuser"
+									    style="width:170px;display: inline-block;"
+										hVal="${excutorId}" value="${excutorName}" readonly="readonly"
+										onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+								 </div>
+								</shiro:hasPermission>
                             </li>
                             <li>
                                 <div class="form_content">
@@ -285,7 +299,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        分成比例贷款
+                                        产品部分成比例
                                     </label>
                                     <input class="input_type sign_right_two" value="" name="pdPart" id="pdPart">
                                     <div class="input-group date_icon">
@@ -308,7 +322,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        分成比例贷款
+                                     人员分配比例
                                     </label>
                                     <input class="input_type sign_right_two" value="" name="coPart" id="coPart">
                                     <div class="input-group date_icon">
@@ -423,8 +437,39 @@
 			getBankList('');
 			
 			$('.submit_btn').click(function(){
+				//关联案件必须填写
+				if(!checkForm()){
+					return;
+				}
+				if(!$.isBlank($("#excutorName").attr('hVal'))) {
+					$("#excutorId").val($("#excutorName").attr('hVal'));
+				}
 				saveEloanApply();
 			})
+			//必填项
+			function checkForm(){
+				var ds = $('.case_content').css('display');
+				if(ds=='none'){
+					alert("请选择关联案件");
+					return false;	
+				}
+				 var loanSrvCode=$("#loanSrvCode").val();			
+				 if(loanSrvCode==null||loanSrvCode==''){
+						alert("请选择产品类型");
+						return false;	
+					}
+				 var applyAmount=$("#applyAmount").val();
+				 if(applyAmount==null||applyAmount==''){
+						alert("请填写申请金额");
+						return false;	
+					}
+				 var date=$("#applyTime").val();
+				 if(date==null||date==''){
+						alert("请选择申请时间");
+						return false;	
+					}
+				 return true;
+			}
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
@@ -509,7 +554,22 @@
 		    	}
 			  });
 		}
-		
+		/**
+		根据银行选择产品分成比例
+		*/
+		$("#finOrgCode").change(function(){
+			var finOrgCode=$("#finOrgCode").val();
+			if(finOrgCode=="W0001"){
+				$("#pdPart").val(20);
+				$("#pdPart").attr("disabled",true);
+			}else if(finOrgCode=="W0003"||finOrgCode=="W0004"){
+				$("#pdPart").val(10);
+				$("#pdPart").attr("disabled",true);
+			}else{
+				$("#pdPart").val('');
+				$("#pdPart").attr("disabled",false);	
+			}
+		})
 		function saveEloanApply() {
 			var jsonData = $("#eloanApplyForm").serializeArray();
 			var url = "${ctx}/eloan/saveEloanApply";
@@ -544,6 +604,15 @@
 					alert("数据保存出错");
 				}
 			});
+		}
+		function selectUserBack(array){
+			if(array && array.length >0){
+		        $("#excutorName").val(array[0].username);
+				$("#excutorName").attr('hVal',array[0].userId);
+			}else{
+				$("#executorName").val("");
+				$("#executorName").attr('hVal',"");
+			}
 		}
     </script>
     </content>

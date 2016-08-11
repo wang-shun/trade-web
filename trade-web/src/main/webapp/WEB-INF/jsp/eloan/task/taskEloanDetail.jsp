@@ -70,13 +70,13 @@
 									<dl class="dl-horizontal">
 										<dt>借款人</dt>
 										<dd>
-											<span data-container="body" data-toggle="popover"
-												data-placement="right" data-content="手机：${eloanCase.custPhone}"><a>${eloanCase.custName}</a></span>
+											<a data-container="body" data-toggle="popover"
+												data-placement="right" data-content="手机：${eloanCase.custPhone}">${eloanCase.custName}</a>
 										</dd>
 										<dt>贷款专员</dt>
 										<dd>
-											<span data-container="body" data-toggle="popover"
-												data-placement="right" data-content="手机：${info.excutorPhone}"><a>${info.excutorName}</a></span>
+											<a data-container="body" data-toggle="popover"
+												data-placement="right" data-content="手机：${info.excutorPhone}">${info.excutorName}</a>
 										</dd>
 										<dt>贷款转介人</dt>
 										<dd>
@@ -136,7 +136,7 @@
 											<div class="bs-wizard-info text-center">
 												<dl>
 													<dd>
-														<strong>签约</strong> ${eloanCase.signAmount}万
+														<strong>签约</strong> ${eloanCase.signAmount>0?eloanCase.signAmount:0}万
 													</dd>
 												</dl>
 
@@ -162,7 +162,9 @@
 											<div class="bs-wizard-info text-center">
 												<dl>
 													<dd>
-														<strong>放款 ${info.releaseAmount}万</strong>
+														<strong>放款</strong>
+														${info.releaseAmount>0?info.releaseAmount:0}
+														 万
 													</dd>
 												</dl>
 											</div>
@@ -203,10 +205,10 @@
 		
 		  //点击浏览器任何位置隐藏提示信息
 	      $("body").bind("click",function(evt){
-            if($(evt.target).attr("data-toggle")!='popover'){
-           	$('span[data-toggle="popover"]').popover('hide');
-            }
-        });
+          if($(evt.target).attr("data-toggle")!='popover'){
+         	$('a[data-toggle="popover"]').popover('hide');
+          }
+      });
 		</script>
 		</content>
 </body>
