@@ -11,7 +11,7 @@
 
 .table_blue thead tr th {
   color: #fff;
-  background-color: #52cdec;
+  background-color: #52cdec!important;
   font-weight: normal;
 }
 

@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
     <!-- 分页控件 -->
     <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+    <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 </head>
 
 
@@ -53,29 +54,34 @@
                     <div class="ibox-content" id="base_info">
                         <div class="main_titile" style="position: relative;">
                             <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
-                            <div class="case_content" style="display:none;">
+                            <c:if test="${taskId==null}">
+								<div class="case_content" style="display:none;">
+							</c:if>
+                            <c:if test="${taskId!=null}">
+								<div class="case_content">
+							</c:if>
                            <div class="case_row">
                                <div class="case_lump">
-                                   <p><em>案件编号</em><span class="span_one" id="content_caseCode">ZY-AJ-201605-0958</span></p>
+                                   <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseCode}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>产权地址</em><span class="span_two" id="content_propertyAddr">上海杨浦区平路街道（内环）鞍山八村29号0608室</span></p>
+                                   <p><em>产权地址</em><span class="span_two" id="content_propertyAddr">${propertyAddr}</span></p>
                                </div>
                            </div>
                            <div class="case_row">
                                <div class="case_lump">
-                                   <p><em>交易顾问</em><span class="span_one" id="content_processorId">龙易新</span></p>
+                                   <p><em>交易顾问</em><span class="span_one" id="content_processorId">${processorName}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>上家姓名</em><span class="span_two" id="content_buyer">陈小湾</span></p>
+                                   <p><em>上家姓名</em><span class="span_two" id="content_seller">${sellerName}</span></p>
                                </div>
                            </div>
                            <div class="case_row">
                                <div class="case_lump">
-                                   <p><em>经纪人</em><span class="span_one" id="content_agentName">唐优丽</span></p>
+                                   <p><em>经纪人</em><span class="span_one" id="content_agentName">${agentName}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>下家姓名</em><span class="span_two" id="content_seller">郭静</span></p>
+                                   <p><em>下家姓名</em><span class="span_two" id="content_buyer">${buyerName}</span></p>
                                </div>
                            </div>
                        </div>
@@ -193,8 +199,15 @@
 
                     <div class="ibox-content" id="zj_info">
                         <form method="get" class="form_list" id="eloanApplyForm">
-                        <input type="hidden" name="caseCode" id="caseCode"/>
+                        <input type="hidden" name="caseCode" id="caseCode" value="${caseCode}"/>
                         <input type="hidden" id="excutorId" name="excutorId" value="${excutorId}"/>
+                        
+                         <!-- 流程引擎需要字段 -->
+					     <input type="hidden" id="taskId" name="taskId" value="${taskId }">
+					     <input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+					     <input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+					     <!--  -->
+					     <input type="hidden" id="eloanCode" name="eloanCode" value="${eloanCase.eloanCode}">
                         <ul class="form_lump">
                             <li>
                                 <div class="form_content">
@@ -202,14 +215,14 @@
                                         产品类型
                                     </label>
                       <aist:dict id="loanSrvCode" name="loanSrvCode" clazz="select_control sign_right_two"
-						display="select"  dictType="yu_serv_cat_code_tree" tag="eplus" 
-						ligerui='none' defaultvalue=""></aist:dict>
+						display="select"  dictType="yu_serv_cat_code_tree" tag="Eloan" 
+						ligerui='none' defaultvalue="${eloanCase.loanSrvCode}"></aist:dict>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         合作机构
                                     </label>
-                                    <select  class="select_control sign_right_two" name="finOrgCode" id="finOrgCode">
+                                    <select  class="select_control sign_right_two" name="finOrgCode" id="finOrgCode" value="${eloanCase.finOrgCode}">
                                     </select>
                                 </div>
 
@@ -219,13 +232,20 @@
                                     <label class="control-label sign_left_two">
                                         客户姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="custName" id="custName">
+                                    <div id="custNameParent" style="display:inline-block;"> 
+                                       		<select class="select_control sign_right_two" id="custName" name="custName">
+												<c:if test="${eloanCase.custName !=null}">
+													<option value="${eloanCase.custName }" selected="selected">${eloanCase.custName }</option>
+												</c:if>
+											</select>
+                                    </div>
+                                    <!-- <input class="input_type sign_right_two" value="" name="custName" id="custName"> -->
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         客户电话
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="custPhone" id="custPhone">
+                                    <input class="input_type sign_right_two" value="${eloanCase.custPhone}" name="custPhone" id="custPhone">
                                 </div>
                                 <shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
                                  <div class="form_content">
@@ -245,7 +265,7 @@
                                     <label class="control-label sign_left_two">
                                         申请金额
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="applyAmount" id="applyAmount">
+                                    <input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
                                     <div class="input-group date_icon">
                                         <span class="danwei">万</span>
                                     </div>
@@ -254,7 +274,7 @@
                                     <label class="control-label sign_left_two">
                                         申请时间
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="applyTime" id="applyTime" />
+                                    <input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />" name="applyTime" id="applyTime" />
                                     <div class="input-group date_icon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
@@ -263,7 +283,7 @@
                                     <label class="control-label sign_left_two">
                                         申请期数
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="month" id="month">
+                                    <input class="input_type sign_right_two" value="${eloanCase.month}" name="month" id="month">
                                     <div class="input-group date_icon">
                                         <span class="danwei">月</span>
                                     </div>
@@ -274,13 +294,13 @@
                                     <label class="control-label sign_left_two">
                                         转介人姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="zjName" id="zjName">
+                                    <input class="input_type sign_right_two" value="${eloanCase.zjName}" name="zjName" id="zjName">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         转介人员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="zjCode" id="zjCode">
+                                    <input class="input_type sign_right_two" value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
                                 </div>
 
                             </li>
@@ -289,19 +309,19 @@
                                     <label class="control-label sign_left_two">
                                         产品部姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="pdName" id="pdName">
+                                    <input class="input_type sign_right_two" value="${eloanCase.pdName}" name="pdName" id="pdName">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         产品部员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="pdCode" id="pdCode">
+                                    <input class="input_type sign_right_two" value="${eloanCase.pdCode}" name="pdCode" id="pdCode">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         产品部分成比例
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="pdPart" id="pdPart">
+                                    <input class="input_type sign_right_two" value="${eloanCase.pdPart}" name="pdPart" id="pdPart">
                                     <div class="input-group date_icon">
                                         <span class="danwei">%</span>
                                     </div>
@@ -312,19 +332,19 @@
                                     <label class="control-label sign_left_two">
                                         合作人姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="coName" id="coName">
+                                    <input class="input_type sign_right_two" value="${eloanCase.coName}" name="coName" id="coName">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         合作人员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="coCode" id="coCode">
+                                    <input class="input_type sign_right_two" value="${eloanCase.coCode}" name="coCode" id="coCode">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                      人员分配比例
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="coPart" id="coPart">
+                                    <input class="input_type sign_right_two" value="${eloanCase.coPart}" name="coPart" id="coPart">
                                     <div class="input-group date_icon">
                                         <span class="danwei">%</span>
                                     </div>
@@ -371,6 +391,7 @@
     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
     <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
     <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src="${ctx}/js/jquery.editable-select.min.js"></script>
     <script id="queryCastListItemList" type= "text/html">
                           {{each rows as item index}}
 	<tr>
@@ -425,6 +446,11 @@
 	</script>
     <script>
         $(document).ready(function () {
+        	$('#custName').editableSelect({
+        		effects: 'slide',
+        		filter: false
+        	});
+        	
             $('.input-daterange').datepicker({
             	format : 'yyyy-mm-dd',
         		weekStart : 1,
@@ -443,6 +469,10 @@
 				}
 				if(!$.isBlank($("#excutorName").attr('hVal'))) {
 					$("#excutorId").val($("#excutorName").attr('hVal'));
+				}
+				if($.isBlank($("#caseCode").val())) {
+					alert('请选择关联案件');
+					return false;
 				}
 				saveEloanApply();
 			})
@@ -516,6 +546,8 @@
    	            $("#content_seller").html($("#modal_seller"+index).html());
  				$('.case_content').show();
  				$('#myModal').modal('hide');
+ 				
+ 				getCustomerNameAndTel($("#caseCode").val());
  			});
  			
         });
@@ -524,6 +556,7 @@
         	var propertyAddr = $("#propertyAddr").val();
     	    $(".eloanApply-table").reloadGrid({
     	    	ctx : "${ctx}",
+    	    	rows : '6',
     			queryId : 'queryCastListItemList',
     		    templeteId : 'queryCastListItemList',
     		    wrapperData :{ctx : ctx},
@@ -533,6 +566,7 @@
   
 		/*获取银行列表*/
 		function getBankList(pcode){
+			var fiCode = $("#finOrgCode").attr("value");
 			var friend = $("#finOrgCode");
 			friend.empty();
 			 $.ajax({
@@ -543,7 +577,7 @@
 		    	success:function(data){
 		    		if(data.bankList != null){
 		    			for(var i = 0;i<data.bankList.length;i++){
-		    				if(data.bankCode == data.bankList[i].finOrgCode) {
+		    				if(fiCode == data.bankList[i].finOrgCode) {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"+data.bankList[i].finOrgName+"</option>");
 		    				} else {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"+data.bankList[i].finOrgName+"</option>");
@@ -604,6 +638,40 @@
 					alert("数据保存出错");
 				}
 			});
+		}
+		/*绑定时获取客户名和客户电话号码并生成下拉框*/
+		function getCustomerNameAndTel(case_code){
+			$.ajax({
+				url:ctx+"/eloan/getCaseDetails",
+				method:"post",
+				dataType:"json",
+				data:{"caseCode":case_code},
+				success:function(data){
+					var cusPhone = $('#custPhone');
+					var txt='<select class="select_control sign_right_two" id="custName" name="custName">';
+								
+					$.each(data, function(i, item){
+						if(i==0) {
+							txt +=  "<option value='"+ item.guestName+"' selected>" + item.guestName+"</option>";
+							cusPhone.val(data[i].guestPhone);
+						} else {
+							txt +=  "<option value='"+ item.guestName+"'>" + item.guestName+"</option>";
+						} 
+					});
+					$('#custNameParent').empty().append(txt+'</select>');	
+								
+					$('#custName').editableSelect({
+						effects: 'slide',
+						filter: false,
+						onSelect: function (element) {
+							var myIndex = $(element).index();
+							if(myIndex>=0){
+								cusPhone.val(data[myIndex].guestPhone);
+							}
+						}
+					});
+				}
+			});				
 		}
 		function selectUserBack(array){
 			if(array && array.length >0){

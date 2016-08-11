@@ -243,12 +243,18 @@
   <update id="updateWorkFlowByInstCode" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     update sctrans.T_TO_WORKFLOW
     set STATUS = #{status,jdbcType=VARCHAR},
+       <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+       </if>
         UPDATE_TIME=GETDATE(),
         UPDATE_BY=@{SESSION_USER_ID}
     where INST_CODE = #{instCode,jdbcType=VARCHAR};
     
     update sctrans.T_HI_WORKFLOW
     set STATUS = #{status,jdbcType=VARCHAR},
+       <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+        </if>
         UPDATE_TIME=GETDATE(),
         UPDATE_BY=@{SESSION_USER_ID}
     where INST_CODE = #{instCode,jdbcType=VARCHAR};

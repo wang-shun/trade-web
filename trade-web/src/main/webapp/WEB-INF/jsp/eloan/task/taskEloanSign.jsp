@@ -162,7 +162,7 @@
                                     <label class="control-label sign_left_two">
                                         面签金额
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="signAmount" id="signAmount">
+                                    <input class="input_type sign_right_two" value="${eloanCase.signAmount}" name="signAmount" id="signAmount">
                                     <div class="input-group date_icon">
                                         <span class="danwei">万</span>
                                     </div>
@@ -172,7 +172,7 @@
                                     <label class="control-label sign_left_two">
                                         面签时间
                                     </label>
-                                    <input class="input_type sign_right_two" value=""  name="signTime" id="signTime"/>
+                                    <input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.signTime}" pattern="yyyy-MM-dd" />"  name="signTime" id="signTime"/>
                                     <div class="input-group date_icon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
