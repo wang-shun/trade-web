@@ -181,7 +181,7 @@
 										<div class="icon icon_blue iconfont">&#xe607;</div>
 									</div>
 									<div class="media-body">
-										<strong><a>${eloanCase.caseCode }</a></strong><br />经办人 <strong>${info.jingbanName }</strong>.
+										<strong><a>${eloanCase.caseCode }</a></strong><br />经办人 <strong>${info.jingbanName }</strong>
 										<br /> <!-- <small class="text-muted">2016-06-14 15:30 网签</small> -->
 									</div>
 								</div>

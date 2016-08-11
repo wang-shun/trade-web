@@ -318,7 +318,7 @@
 				success : function(data) {
 				  	$.unblockUI();
 					alert(data.message);
-					window.location.href=ctx+"/loan/submit";
+					window.location.href=ctx+"/eloan/Eloanlist";
 				},
 				error : function(errors) {
 				  	$.unblockUI();

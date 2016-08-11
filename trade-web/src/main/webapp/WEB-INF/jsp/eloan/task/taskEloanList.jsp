@@ -29,7 +29,12 @@
  
     <!-- 分页控件 -->
     <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-
+	<%
+	response.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
+	response.setHeader("Pragrma","no-cache");
+	response.setDateHeader("Expires",0);
+	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
+	%>
 </head>
 
 <body>
