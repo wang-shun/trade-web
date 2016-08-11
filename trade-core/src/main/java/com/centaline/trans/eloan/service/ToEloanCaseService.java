@@ -21,4 +21,6 @@ public interface ToEloanCaseService {
     //void eloanProcessConfirm(String taskId, String approved,ToEloanCase toEloanCase);
     
     void eloanProcessConfirm(String taskId,Map<String,Object> map,ToEloanCase toEloanCase,boolean isUpdate);
+    
+    List<String> validateEloanApply(ToEloanCase tEloanCase);
 }

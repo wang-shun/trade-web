@@ -487,4 +487,16 @@
 	</where>
   </select>
   
+   <select id="validateEloanApply" resultType="java.lang.String" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    select 
+   		CASE_CODE
+    from sctrans.T_TO_ELOAN_CASE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR}
+        union
+    select 
+   		CASE_CODE
+    from sctrans.T_TO_ELOAN_CASE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR} 
+  </select>
+  
 </mapper>

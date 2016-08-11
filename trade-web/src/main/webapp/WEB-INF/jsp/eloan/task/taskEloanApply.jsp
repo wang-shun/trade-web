@@ -474,7 +474,12 @@
 					alert('请选择关联案件');
 					return false;
 				}
-				saveEloanApply();
+				if(validateEloanApply()) {
+					saveEloanApply();
+				} else {
+					alert('该案件的产品已经存在，不允许重复添加');
+					return false;
+				}
 			})
 			//必填项
 			function checkForm(){
@@ -604,12 +609,49 @@
 				$("#pdPart").attr("disabled",false);	
 			}
 		})
+		function validateEloanApply() { 
+			var flag = false;
+			var jsonData = $("#eloanApplyForm").serializeArray();
+			var url = "${ctx}/eloan/validateEloanApply";
+			$.ajax({
+				cache : false,
+				async : true,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				//contentType:"application/json",  
+				data : jsonData,
+				beforeSend : function() {
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '1900'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '1900'
+					});
+				},
+				complete : function() {
+					$.unblockUI();
+				},
+				success : function(data) {
+					flag = data.content;
+				},
+				error : function(errors) {
+					alert("数据保存出错");
+				}
+			});
+			return flag;
+		}
+		
 		function saveEloanApply() {
 			var jsonData = $("#eloanApplyForm").serializeArray();
 			var url = "${ctx}/eloan/saveEloanApply";
 			$.ajax({
 				cache : false,
-				async : false,//false同步，true异步
+				async : true,//false同步，true异步
 				type : "POST",
 				url : url,
 				dataType : "json",

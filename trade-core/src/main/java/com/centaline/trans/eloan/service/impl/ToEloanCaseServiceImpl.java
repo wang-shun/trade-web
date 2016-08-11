@@ -130,4 +130,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	public ToEloanCase getToEloanCaseByPkId(Long pkid) {
 		return toEloanCaseMapper.selectByPrimaryKey(pkid);
 	}
+
+
+
+
+	@Override
+	public List<String> validateEloanApply(ToEloanCase tEloanCase) {
+		return toEloanCaseMapper.validateEloanApply(tEloanCase);
+	}
 }

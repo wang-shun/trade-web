@@ -184,6 +184,27 @@ public class WarnListController {
 		}
 	}
 	
+	@RequestMapping(value="validateEloanApply")
+	@ResponseBody
+	public AjaxResponse<Boolean> validateEloanApply(Model model,ToEloanCase tEloanCase){
+		AjaxResponse<Boolean> response = new AjaxResponse<Boolean>();
+		SessionUser user = uamSessionService.getSessionUser();
+		try {
+			List<String> validate = toEloanCaseService.validateEloanApply(tEloanCase);
+			if(CollectionUtils.isEmpty(validate)) {
+				response.setContent(true);
+				response.setMessage("");
+			} else {
+				response.setContent(false);
+				response.setMessage("该案件的产品已经存在，不允许重复添加");
+			}
+			return response;
+		} catch(Exception e) {
+			logger.debug("保存E+申请失败", e);
+			return AjaxResponse.fail("操作失败");
+		}
+	}
+	
 	private void buildFCaseCode(ToEloanCase tEloanCase) {
 		if (StringUtils.isNotBlank(tEloanCase.getCaseCode())) {
 			if (LoanType.ZY_XD.getCode().equals(tEloanCase.getLoanSrvCode())) {
