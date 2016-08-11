@@ -179,18 +179,9 @@ public class CaseChangeController {
 									continue;
 								/* 浦东合作顾问选中台 且只选浦东交易1组的中台 */
 								List<User> uList = null;
-								if ("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())) {
-									if (OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())) {
-										uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-												TransJobs.JYUZTGW.getCode());
-									} else {
-										uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-												TransJobs.TJYGW.getCode());
-									}
-								} else {
-									uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-											TransJobs.TJYGW.getCode());
-								}
+
+								uList = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+										TransJobs.TJYGW.getCode());
 
 								orgUserMap.put(orgCode, uList);
 								list.removeAll(uList);
