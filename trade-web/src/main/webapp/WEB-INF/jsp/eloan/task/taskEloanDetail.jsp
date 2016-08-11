@@ -13,17 +13,11 @@
 
 <title>E+贷款详情</title>
 
-<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css">
-
-<link rel="stylesheet" href="${ctx}/css/animate.css">
-<link rel="stylesheet" href="${ctx}/css/style.css">
-
-<link rel="stylesheet" href="${ctx}/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/css/plugins/toastr/toastr.min.css">
+ <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+<link href="${ctx}/static/css/plugins/aist-steps/steps.css" rel="stylesheet">
+<link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 <!-- index_css  -->
-<link href="${ctx}/css/trans/css/eloan/eloan_detail.css" rel="stylesheet">
+<link href="${ctx}/static/trans/css/eloan/eloan/eloan_detail.css" rel="stylesheet">
 </head>
 <body>
 					

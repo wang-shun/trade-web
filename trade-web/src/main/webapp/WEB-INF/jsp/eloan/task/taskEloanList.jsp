@@ -8,32 +8,27 @@
 <html>
 
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
 
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
-<!-- stickUp fixed css -->
-<link href="${ctx}/css/plugins/stickup/stickup.css" rel="stylesheet">
-<link href="${ctx}/css/trans/css/common/stickDash.css" rel="stylesheet">
+    <!-- stickUp fixed css -->
+      <link href="${ctx}/static/trans/css/common/hint.css" rel="stylesheet" />
+    <link href="${ctx}/static/css/plugins/stickup/stickup.css" rel="stylesheet">
+    <link href="${ctx}/static/trans/css/common/stickDash.css" rel="stylesheet">
+    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+    <link href="${ctx}/static/css/plugins/aist-steps/steps.css" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <!-- index_css  -->
 
-<link href="${ctx}/css/plugins/aist-steps/steps.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<!-- index_css  -->
-<link href="${ctx}/css/trans/css/eloan/eloan.css" rel="stylesheet" />
-<link href="${ctx}/css/trans/css/common/input.css" rel="stylesheet" />
-<link href="${ctx}/css/trans/css/common/table.css" rel="stylesheet" />
-<link href="${ctx}/css/common/hint.css" rel="stylesheet" />
-<!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+    <link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet"/>
+    <link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
+    <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/>
+ 
+    <!-- 分页控件 -->
+    <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 
 </head>
 

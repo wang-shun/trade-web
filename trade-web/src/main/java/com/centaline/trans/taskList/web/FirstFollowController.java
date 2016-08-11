@@ -57,7 +57,7 @@ import com.google.gson.JsonObject;
 public class FirstFollowController {
 
 	@Autowired(required = true)
-	
+
 	private UamSessionService uamSessionService;/* 用户信息 */
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;/* 用户组织信息 */
@@ -81,23 +81,21 @@ public class FirstFollowController {
 	private LoanlostApproveService loanlostApproveService;
 	@Autowired
 	private MortgageSelectService mortgageSelectService;
-	private List<String> orgcodes=Arrays.asList("033K716");//浦东交易1组
-	
-	
+	private List<String> orgcodes = Arrays.asList("033K716");// 浦东交易1组
+
 	@RequestMapping("process")
-	public String toProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source){
-		SessionUser user=uamSessionService.getSessionUser();
+	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source) {
+		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("ctmCode", caseBaseVO.getToCase().getCtmCode());
-    	request.setAttribute("firstFollow", firstFollowService.queryFirstFollow(caseCode));
+		request.setAttribute("firstFollow", firstFollowService.queryFirstFollow(caseCode));
 		request.setAttribute("approveType", "0");
-		request.setAttribute("operator", user != null ? user.getId():"");
+		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "task/taskFirstFollow";
 	}
-	
+
 	@RequestMapping(value = "saveFirstFollow")
 	public String saveFirstFollow(HttpServletRequest request, FirstFollowVO firstFollowVO) {
 		SessionUser user = uamSessionService.getSessionUser();
@@ -119,7 +117,7 @@ public class FirstFollowController {
 		SessionUser user = uamSessionService.getSessionUser();
 		String depCode = user.getServiceDepCode();
 		TsTeamProperty tsTeamProperty = tsTeamPropertyService.findTeamPropertyByTeamCode(depCode);
-		Set<String>myService=new HashSet<String>();//
+		Set<String> myService = new HashSet<String>();//
 		if (tsTeamProperty != null && tsTeamProperty.getTeamProperty() != null) {
 			Dict dict = uamBasedataService.findDictByType(tsTeamProperty.getTeamProperty());
 			if (dict != null) {
@@ -211,7 +209,7 @@ public class FirstFollowController {
 		Map<String, List<String>> serviceOrgMap = new HashMap<>();// 哪些服务由哪里组来做
 		Map<String, List<String>> orgUserMap = new HashMap<>();// 对应组相关人员
 
-		/* 遍历合作组列表   封装ServiceOrgMap*/
+		/* 遍历合作组列表 封装ServiceOrgMap */
 		for (int i = 0; i < tsTeamScopes.size(); i++) {
 			TsTeamScope ts = tsTeamScopes.get(i);
 			/* 组织查询条件根据tsTeamScope.getYuTeamCode(),IsResponseTeam 判断合作组是否符合条件 */
@@ -233,7 +231,7 @@ public class FirstFollowController {
 								continue;
 							}
 						}
-						if(myService.contains(d.getCode())){
+						if (myService.contains(d.getCode())) {
 							continue;
 						}
 						List<String> tList = serviceOrgMap.get(d.getCode());
@@ -242,14 +240,14 @@ public class FirstFollowController {
 							serviceOrgMap.put(d.getCode(), tList);
 						}
 						tList.add(ttps.getYuTeamCode());
-						
+
 					}
 				}
 
 			}
 		}
 		Map<String, List<JSONObject>> allUserData = new HashMap<>();
-		//查询所有用户相关用户数据
+		// 查询所有用户相关用户数据
 		for (String service : serviceOrgMap.keySet()) {
 			List<String> orgs = serviceOrgMap.get(service);
 			for (String orgStr : orgs) {
@@ -271,8 +269,8 @@ public class FirstFollowController {
 				}
 			}
 		}
-		
-		//**合作项目
+
+		// **合作项目
 		List<Dict> dics = getDictList("task_service");//
 		Iterator<Dict> it = dics.iterator();
 		while (it.hasNext()) {
@@ -286,11 +284,11 @@ public class FirstFollowController {
 					it.remove();
 				}
 			}
-			if(myService.contains(d.getCode())){
+			if (myService.contains(d.getCode())) {
 				it.remove();
 			}
 		}
-		//将合作项目与人员相关数据合并
+		// 将合作项目与人员相关数据合并
 		JSONArray jsonArray = new JSONArray();
 		for (Dict dict : dics) {
 			JSONObject dicJson = new JSONObject();
@@ -311,80 +309,96 @@ public class FirstFollowController {
 		map.put("coList", jsonArray);
 		return map;
 	}
+
 	@RequestMapping(value = "queryMortageServiceByServiceCode")
 	@ResponseBody
-	public Map<String,Object> queryMortageServiceByServiceCode(HttpServletRequest request, String serviceCode) {
+	public Map<String, Object> queryMortageServiceByServiceCode(HttpServletRequest request, String serviceCode) {
 		String orgCode = null;
-		Map<String,Object>result=new HashMap<>();
-		
-		Dict dict= uamBasedataService.findDictByTypeAndCode("yu_all", serviceCode);
+		Map<String, Object> result = new HashMap<>();
+
+		Dict dict = uamBasedataService.findDictByTypeAndCode("yu_all", serviceCode);
 		SessionUser us = uamSessionService.getSessionUser();
 		if (null != us) {
 			orgCode = us.getServiceDepCode(); // 得到 orgCode
 		}
-		
-		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取用户的所在的贵宾服务部
-		
+
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(),
+				DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
+
 		List<JSONObject> jsonList = new ArrayList<>();
 		List<TsTeamScope> tsTeamScopes = tsTeamScopeService.selectByOrgCode(orgCode);
-		Set<String>orgs=new HashSet<String>();
-		/* 遍历合作组列表   封装ServiceOrgMap*/
+		Set<String> orgs = new HashSet<String>();
+		/* 遍历合作组列表 封装ServiceOrgMap */
 		for (int i = 0; i < tsTeamScopes.size(); i++) {
 			TsTeamScope ts = tsTeamScopes.get(i);
 			/* 组织查询条件根据tsTeamScope.getYuTeamCode(),IsResponseTeam 判断合作组是否符合条件 */
 			TsTeamProperty tp = new TsTeamProperty();
 			tp.setYuTeamCode(ts.getYuTeamCode());
-			/*tp.setIsResponseTeam("0");  合作组必须为非主办组 */
-			TsTeamProperty ttps = tsTeamPropertyService.findTeamPropertyCooperation(tp);
-			
-			if (ttps != null) {/* 有符合条件的合作组 */
-				List<Dict> dictList = getDictList(ttps.getTeamProperty());
-				if (dictList != null && dictList.size() > 0) {
-					for (Dict d : dictList) {
-						if(serviceCode.equals(d.getCode())){
-							orgs.add(ts.getYuTeamCode());
-							if(dict==null)dict=d;
-							break;
+			/* tp.setIsResponseTeam("0"); 合作组必须为非主办组 */
+			// TsTeamProperty ttps =
+			// tsTeamPropertyService.findTeamPropertyCooperation(tp);
+			/* 浦东合作顾问选中台 */
+			if ("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())) {
+				tp.setYuTeamCode(orgCode);
+				List<TsTeamProperty> ttpps = tsTeamPropertyService.findTeamPropertyCooperations(tp);
+				if (ttpps != null) {/* 有符合条件的合作组 */
+					for (TsTeamProperty ttp : ttpps) {
+						if (ttp.getYuTeamCode() != null) {
+							orgs.add(ttp.getYuTeamCode());
+						}
+					}
+				}
+			} else {// 非浦东服务部按原来的逻辑
+				TsTeamProperty ttps = tsTeamPropertyService.findTeamPropertyCooperation(tp);
+				if (ttps != null) {/* 有符合条件的合作组 */
+					List<Dict> dictList = getDictList(ttps.getTeamProperty());
+					if (dictList != null && dictList.size() > 0) {
+						for (Dict d : dictList) {
+							if (serviceCode.equals(d.getCode())) {
+								orgs.add(ts.getYuTeamCode());
+								if (dict == null)
+									dict = d;
+								break;
+							}
 						}
 					}
 				}
 			}
+
 		}
 		for (String orgStr : orgs) {
-				Org org = uamUserOrgService.getOrgByCode(orgStr);
-				/*浦东合作顾问选中台  且只选浦东交易1组的中台*/
-				List<User> list = null;
-				if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
-					if(OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())){
-						list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-								TransJobs.JYUZTGW.getCode());
-					}else{
-						list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-								TransJobs.TJYGW.getCode());
-					}
-				}else{
-					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-							TransJobs.TJYGW.getCode());
+			Org org = uamUserOrgService.getOrgByCode(orgStr);
+			/* 浦东合作顾问选中台 且只选浦东交易1组的中台 */
+			List<User> list = null;
+			if ("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())) {
+				if (OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())) {
+					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.JYUZTGW.getCode());
+				} else {
+					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYGW.getCode());
 				}
-				if(list!=null){
-					for (User user3 : list) {
-						int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
-						JSONObject jsonObject = new JSONObject();
-						jsonObject.put("count", userCaseUnTransCount);
-						jsonObject.put("realName", user3.getRealName());
-						jsonObject.put("orgName", user3.getOrgName());
-						jsonObject.put("id", user3.getId());
-						jsonList.add(jsonObject);
-					}
+			} else {
+				list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYGW.getCode());
+			}
+			if (list != null) {
+				for (User user3 : list) {
+					int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("count", userCaseUnTransCount);
+					jsonObject.put("realName", user3.getRealName());
+					jsonObject.put("orgName", user3.getOrgName());
+					jsonObject.put("id", user3.getId());
+					jsonList.add(jsonObject);
 				}
-				
+			}
+
 		}
 		result.put("dic", dict);
 		result.put("users", jsonList);
-		result.put("orgcode", myDistrict.getOrgCode());/*浦东合作顾问选中台 */
+		result.put("orgcode", myDistrict.getOrgCode());/* 浦东合作顾问选中台 */
 
 		return result;
 	}
+
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 
@@ -400,55 +414,55 @@ public class FirstFollowController {
 		return list;
 	}
 
-	/*获取跨区合作的选项*/
+	/* 获取跨区合作的选项 */
 	@RequestMapping("getCrossAeraCooperationItems")
 	@ResponseBody
-	public Map<String,Object> getCrossAeraCooperationItems(HttpServletRequest request)
-	{
-		Map<String,Object>result=new HashMap<String,Object>();
+	public Map<String, Object> getCrossAeraCooperationItems(HttpServletRequest request) {
+		Map<String, Object> result = new HashMap<String, Object>();
 		SessionUser us = uamSessionService.getSessionUser();
-		
-		//获取所有的贵宾服务部
+
+		// 获取所有的贵宾服务部
 		List<ToOrgVo> orgIdList = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCQY.getCode());
-		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取用户的所在的贵宾服务部
-		
-		//获取下拉的贵宾服务组
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(),
+				DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
+
+		// 获取下拉的贵宾服务组
 		List<JSONObject> jsonList1 = new ArrayList<JSONObject>();
-		if (orgIdList != null && orgIdList.size() > 0 && myDistrict != null)
-		{
-			for (ToOrgVo toOrgVo : orgIdList) 
-			{
+		if (orgIdList != null && orgIdList.size() > 0 && myDistrict != null) {
+			for (ToOrgVo toOrgVo : orgIdList) {
 				Org district = uamUserOrgService.getOrgById(toOrgVo.getId());
-				if(!myDistrict.getId().equals(district.getId())&&!"b4c490edc38c431a8dfd7dba98c73fe5".equals(district.getId())&&!"8a8493d4538a517a01539d47b51c1b02".equals(district.getId()))
-				{
+				if (!myDistrict.getId().equals(district.getId())
+						&& !"b4c490edc38c431a8dfd7dba98c73fe5".equals(district.getId())
+						&& !"8a8493d4538a517a01539d47b51c1b02".equals(district.getId())) {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("districtId", district.getId());
 					jsonObject.put("districtName", district.getOrgName());
 					jsonList1.add(jsonObject);
-					
-					//获取该贵宾服务部下的后台组
+
+					// 获取该贵宾服务部下的后台组
 					List<Org> orgList = uamUserOrgService.getOrgByParentId(district.getId());
 					List<JSONObject> jsonList2 = new ArrayList<JSONObject>();
 					if (orgList != null && orgList.size() > 0) {
 						for (Org org : orgList) {
-							TsTeamProperty tsTeamProperty =tsTeamPropertyService.findTeamPropertyByTeamCode(org.getOrgCode());
-							if(tsTeamProperty!=null){
-								if("yu_all".equals(tsTeamProperty.getTeamProperty())||"yu_back".equals(tsTeamProperty.getTeamProperty()))
-								{
+							TsTeamProperty tsTeamProperty = tsTeamPropertyService
+									.findTeamPropertyByTeamCode(org.getOrgCode());
+							if (tsTeamProperty != null) {
+								if ("yu_all".equals(tsTeamProperty.getTeamProperty())
+										|| "yu_back".equals(tsTeamProperty.getTeamProperty())) {
 									JSONObject subJsonObj = new JSONObject();
 									subJsonObj.put("orgId", org.getId());
 									subJsonObj.put("orgName", org.getOrgName());
 									jsonList2.add(subJsonObj);
-									
-									//获取交易顾问
-									List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TransJobs.TJYGW.getCode());
+
+									// 获取交易顾问
+									List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+											TransJobs.TJYGW.getCode());
 									List<JSONObject> jsonList3 = new ArrayList<JSONObject>();
-									if (list != null && list.size() > 0)
-									{
-										for (User user : list) 
-										{
+									if (list != null && list.size() > 0) {
+										for (User user : list) {
 											JSONObject userJsonObj = new JSONObject();
-											int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user.getId());
+											int userCaseUnTransCount = toCaseInfoService
+													.queryCountUnTransCasesByUserId(user.getId());
 											userJsonObj.put("id", user.getId());
 											userJsonObj.put("realName", user.getRealName());
 											userJsonObj.put("count", userCaseUnTransCount);
@@ -464,12 +478,11 @@ public class FirstFollowController {
 				}
 			}
 		}
-		
+
 		result.put("cross", jsonList1);
 		return result;
 	}
-	
-	
+
 	@RequestMapping(value = "submit")
 	@ResponseBody
 	public boolean submit(HttpServletRequest request, FirstFollowVO firstFollowVO, String operator,
@@ -509,9 +522,10 @@ public class FirstFollowController {
 			variables.add(restVariable3);
 			variables.add(restVariable4);
 
-//			variables = editRestVariables(variables, firstFollowVO.getMortageService());
+			// variables = editRestVariables(variables,
+			// firstFollowVO.getMortageService());
 		}
-		
+
 		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO.getCaseCode());
 		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(), firstFollowVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());
