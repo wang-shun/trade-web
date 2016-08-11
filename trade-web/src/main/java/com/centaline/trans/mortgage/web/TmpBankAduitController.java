@@ -32,6 +32,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
@@ -122,13 +123,13 @@ public class TmpBankAduitController {
 	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 	toWorkFlowService.insertSelective(toWorkFlow);
 	
-	//更新贷款表临时银行状态为审批中：‘2’
+	//更新贷款表临时银行状态为默认：‘’
 	ToMortgage mortageDb = toMortgageService.findToMortgageByCaseCode2(caseCode);
 	if(mortageDb != null){
 		mortageDb.setComAmount(mortageDb.getComAmount() != null?mortageDb.getComAmount().multiply(new BigDecimal(10000)):null);
 		mortageDb.setMortTotalAmount(mortageDb.getMortTotalAmount() != null?mortageDb.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
 		mortageDb.setPrfAmount(mortageDb.getPrfAmount() != null?mortageDb.getPrfAmount().multiply(new BigDecimal(10000)):null);
-		mortageDb.setTmpBankStatus("2");
+		mortageDb.setTmpBankStatus(TmpBankStatusEnum.DEFAULT.getCode());
 		toMortgageService.updateToMortgage(mortageDb);
 	}
 	
@@ -190,7 +191,7 @@ public class TmpBankAduitController {
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
 				mortageDb.setFinOrgCode("");
-				mortageDb.setTmpBankStatus("0");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 				//更新流程状态为‘4’：已完成
 				ToWorkFlow twf = new ToWorkFlow();
@@ -206,7 +207,7 @@ public class TmpBankAduitController {
 				mortageDb.setFinOrgCode(bankCode);
 				mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());
-				mortageDb.setTmpBankStatus("");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.INAPPROVAL.getCode());
 				mortageDb.setTmpBankRejectReason("");
 			}
 			toMortgageService.updateToMortgage(mortageDb);	
@@ -231,7 +232,7 @@ public class TmpBankAduitController {
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
 				mortageDb.setFinOrgCode("");
-				mortageDb.setTmpBankStatus("0");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 				//更新流程状态为‘4’：已完成
 				ToWorkFlow twf = new ToWorkFlow();
@@ -265,10 +266,10 @@ public class TmpBankAduitController {
 				mortageDb.setIsTmpBank("0");
 				mortageDb.setLastLoanBank("");
 				mortageDb.setFinOrgCode("");
-				mortageDb.setTmpBankStatus("0");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else if("true".equals(tmpBankCheck)){
-				mortageDb.setTmpBankStatus("1");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.AGREE.getCode());
 
 				//mortageDb.setTmpBankUpdateBy(user.getId());
 				mortageDb.setTmpBankUpdateTime(new Date());

@@ -193,10 +193,10 @@ function($, window) {
 					totalPages:total,
 					visiblePages:9,
 					startPage:page,
-					first:'<i class="icon-step-backward"></i>',
-					prev:'<i class="icon-chevron-left"></i>',
-					next:'<i class="icon-chevron-right"></i>',
-					last:'<i class="icon-step-forward"></i>',
+					first:'<i class="fa fa-step-backward"></i>',
+					prev:'<i class="fa fa-chevron-left"></i>',
+					next:'<i class="fa fa-chevron-right"></i>',
+					last:'<i class="fa fa-step-forward"></i>',
 					showGoto:true,
 					onPageClick: function (event, page) {
 						 //console.log(page);

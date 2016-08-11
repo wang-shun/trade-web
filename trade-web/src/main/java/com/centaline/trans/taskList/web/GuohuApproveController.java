@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
@@ -36,19 +37,21 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
@@ -97,10 +100,12 @@ public class GuohuApproveController {
 	ToWorkFlowService toWorkFlowService;
 	@Autowired(required = true)
 	TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired
+    TaskService taskService;
 	
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source){
+			HttpServletResponse response,String caseCode,String source,String processInstanceId){
 		SessionUser user=uamSessionService.getSessionUser();
 		request.setAttribute("approveType", "2");
 		request.setAttribute("operator", user != null ? user.getId():"");
@@ -126,11 +131,22 @@ public class GuohuApproveController {
 		List<User> users = new ArrayList<User>();
 		User cpUser = uamUserOrgService.getUserById(caseBaseVO.getAgentManagerInfo().getCpId());
 		users.add(cpUser);
-		List<CaseDetailProcessorVO> proList = caseBaseVO.getAgentManagerInfo().getProList();
-		for(CaseDetailProcessorVO vo:proList){
-			User proUser = uamUserOrgService.getUserById(vo.getProcessorId());
-			users.add(proUser);
+
+		User guohuUser = null;
+		TaskHistoricQuery query =new TaskHistoricQuery();
+		query.setFinished(true);
+		query.setTaskDefinitionKey(ToAttachmentEnum.GUOHU.getCode());
+		query.setProcessInstanceId(processInstanceId);
+		PageableVo pageableVo=workFlowManager.listHistTasks(query);
+		if(pageableVo.getData() != null && !pageableVo.getData().isEmpty()){
+			guohuUser = uamUserOrgService.getUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
 		}
+		
+		if(guohuUser == null){
+			throw new BusinessException("没有找到过户环节处理人！");
+		}
+		
+		users.add(guohuUser);
 		
     	request.setAttribute("users", users);
 		
@@ -291,6 +307,20 @@ public class GuohuApproveController {
 		 ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		 request.setAttribute("mortage", mortage);
 		 
+			String loanReqType="FullPay";
+			if (mortage != null) {
+				if("1".equals(mortage.getIsDelegateYucui())){
+					if("30016003".equals(mortage.getMortType())){
+						loanReqType="PSFLoan";
+					}else{
+						loanReqType="ComLoan";
+					}
+				}else{
+					loanReqType="SelfLoan";
+				}
+				}
+			request.setAttribute("loanReqType", loanReqType);
+		 
 		 ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
 		 if(c != null) {
 				CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
@@ -301,7 +331,7 @@ public class GuohuApproveController {
 	}
 	
 	/**
-	 * 过户信息修改
+	 * 过户信息修改提交
 	 * @param caseId
 	 * @param request
 	 * @return

@@ -31,18 +31,19 @@
 
 
 <!-- Morris -->
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
+	rel="stylesheet">
 	
- <!-- Data Tables -->
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" />
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
 
-<!-- index_css -->
-<link rel="stylesheet" href="${ctx}/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+    <!-- index_css -->
+    <link rel="stylesheet" href="../static/trans/css/common/base.css" />
+    <link rel="stylesheet" href="../static/trans/css/common/table.css" />
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
 	
 <style type="text/css">
 #selectDiv {
@@ -82,85 +83,110 @@ text-decoration: underline !important;
 
 <body>
 <input type="hidden" id="taskId">
-  			<div class="wrapper wrapper-content animated fadeInRight">
-             	<div class="ibox-content border-bottom clearfix space_box">
-                    <h2 class="title">
-                       	 未分配任务列表
-                    </h2>
-                    <form method="get" class="form-horizontal form_box">
-                    	<div class="row clearfix">
-                    	 	<div class="form_content">
-								<label class="sign_left control-label"></label>
-									<div class="sign_right teamcode">
-								       	<select id="inTextType"  class="form-control select_control sign_left" onchange="intextTypeChange()">
-											<option value="0" id="propertyAddr">产证地址</option>
-											<option value="1" id="caseCode" selected>案件编号</option>
-										</select>
-									 <div class="sign_right teamcode">
-		                                    <input id="inTextVal" type="text" class="teamcode form-control" value="${caseCode}">
-		                                </div>
-										
-									</div>
-							</div>	
-							 <button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>
-						</div>
-					</form>
-				</div>	
-		 		<div class="row">
-					<div class="col-md-12">
-					 <div class="table_content">
-						<table class="table table_blue table-striped table-bordered table-hover ">
-							<thead>
-								<tr>
-									<th>案件编号</th>
-									<th>产证地址</th>
-									<th>贵宾服务中心</th>
-									<th>开始时间</th>	
-									<th>流程环节</th>
-									<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
-								</tr>
-							</thead>
-							<tbody id="tab_unlocatedTask">
-								
-							</tbody>
-						</table>
-						
-						<div class="text-center page_box">
-							<span id="currentTotalPage"><strong class="bold"></strong></span>
-							<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-							<div id="pageBar" class="pagination text-center"></div>  
-					    </div>
-						<div id="modal-form" class="modal fade" aria-hidden="true">
-							<div class="modal-dialog" style="width: 900px">
-								<div class="modal-content">
-									 <div class="modal-header">
-							            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">  &nbsp; &times; </button>
-							         </div>
-									<div class="modal-body">
-										<div style="padding-bottom: 3px;">
-											<label>员工姓名:</label><input type="text" id="txt_username">&nbsp;&nbsp;<button onclick="loadUser();" class='btn red' >搜索 </button>
-										</div>
-										<div class="jqGrid_wrapper" >
-											<table id="table_list_3"></table>
-											<div id="pager_list_3"></div>
-										</div>
-									</div>
+<div class="row">
+	<div class="wrapper wrapper-content  animated fadeInRight">
+		<div class="col-lg-12">
+			<div class="ibox ">
+				<div class="ibox-title">
+					<h5>未分配任务列表</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="row form-horizontal">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="col-md-2 control-label"></label>
+								<div class="control-div">
+							       	<select id="inTextType" data-placeholder= "搜索条件设定"
+                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
+										<option value="0" id="propertyAddr">产证地址</option>
+										<option value="1" id="caseCode" selected>案件编号</option>
+									</select>
+									<input id="inTextVal" type="text" class="form-control pull-left" value="${caseCode}">
 								</div>
 							</div>
-								<a title="关闭" class="fancybox-item fancybox-close" href="javascript:;"></a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+							    <label class="col-md-2 control-label text-right">
+							        <button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>	
+							     </label>
+<!-- 							     <label class="col-md-2 control-label"> -->
+<!-- 							        <button onclick="javascript:clean()" class="btn btn-primary" type="button"> 清空 </button>	 -->
+<!-- 							     </label> -->
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		
+	</div>
+	
+</div>
+	
+<div class="data-wrap">
+		<div class="data-wrap-in">
+			<table class="table-fenpei" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th>案件编号</th>
+						<th>产证地址</th>
+						<th><span class="sort" >服务名称</span></th>
+						<th>处理角色</th>
+						<th>贵宾服务中心</th>
+						<th>组别名称</th>
+						<th>开始时间</th>						
+						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
+					</tr>
+				</thead>
+				<tbody id="tab_unlocatedTask">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="text-center">
+		<span id="currentTotalPage"><strong class="bold"></strong></span>
+		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+    </div>
+		<div id="modal-form" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog" style="width: 900px">
+				<div class="modal-content">
+				 <div class="modal-header">
+            <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">
+                 &nbsp; &times;
+            </button>
+         </div>
+					<div class="modal-body">
+						<div style="padding-bottom: 3px;">
+						<label>员工姓名:</label><input type="text" id="txt_username">&nbsp;&nbsp;<button onclick="loadUser();" class='btn red' >搜索 </button>
+						</div>
+								<div class="jqGrid_wrapper" >
+									<table id="table_list_3"></table>
+									<div id="pager_list_3"></div>
+								</div>
 
-<content tag="local_script"> <!-- Peity --> 
-<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
-<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-<script src="${ctx}/js/trunk/case/unlocatedTask.js?v=1.1"></script>
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script id="template_unlocatedTask" type="text/html">
+						</div>
+					</div>
+				</div>
+				<a title="关闭" class="fancybox-item fancybox-close" href="javascript:;"></a>
+			</div>
+		</div>
+	</div>
+
+
+	<content tag="local_script"> <!-- Peity --> <script
+		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
+	<script src="${ctx}/js/trunk/case/unlocatedTask.js?v=1.1"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script id="template_unlocatedTask" type="text/html">
          {{each rows as item index}}
  				     <tr class="tr-1">
 						<td><a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank"><span class="sort active">{{item.caseCode}}</span></td>
@@ -190,12 +216,12 @@ text-decoration: underline !important;
 						</td>
 				</tr>
 		{{/each}}
-</script> 
-<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
-<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script>
+	 </script> 
+ 		<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
+		<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+		 <script>
 		var ctx="${ctx}";
 		var taskDelGrid,userGrid;
 		function loadUser(){
@@ -387,7 +413,6 @@ text-decoration: underline !important;
 				});
 			}
 
-</script> 
-</content>
+		</script> </content>
 </body>
 </html>
