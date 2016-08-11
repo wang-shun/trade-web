@@ -107,8 +107,22 @@ table tr td {
   opacity: 0.9;
 }
 
+.label-warning, .badge-warning {
+  background-color: #f8cd59;
+  color: #fff;
+}
+
+.label-info, .badge-info {
+  background-color: #04bc5b;
+  color: #fff;
+}
+
 .sk-spinner-double-bounce .orange_light {
-  background-color: #f8ac59;
+  background-color: #f8cd59;
+}
+
+.sk-spinner-double-bounce .green_light {
+  background-color: #04bc5b;
 }
 
 .sk-spinner-double-bounce .red_light {

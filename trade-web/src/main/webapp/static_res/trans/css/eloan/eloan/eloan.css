@@ -54,10 +54,7 @@
   margin-left: 25px;
   font-family: "Microsoft Yahei";
 }
-.icon_add {
-  font-size: 22px;
 
-}
 .add_sing {
   padding:0px 10px;
   line-height: 30px;
@@ -94,6 +91,12 @@
   padding-right: 8px;
   font-size: 14px;
 }*/
+.add_btn .btn {
+  vertical-align: middle;
+  height: 34px;
+  padding-right: 8px;
+  font-size: 14px;
+}
 
 .add_btn .btn_blue {
   background-color: #428fcc!important;
@@ -231,4 +234,9 @@
 .nav_bar li.active{
     background: #f8ac59;
     font-weight: 700;
+}
+.title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
 }

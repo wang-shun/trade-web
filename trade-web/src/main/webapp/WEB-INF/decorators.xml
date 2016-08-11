@@ -22,6 +22,9 @@
 	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard2</pattern>
 		<pattern>/task/myTaskList</pattern>
+		<pattern>/loan/submit</pattern>
+		<pattern>/eloan/getEloanCaseDetails</pattern>
+		<pattern>/eloan/task/eloanApply/process</pattern>
 	<!-- 	<pattern>/mortgage/mortgageApproveLost2</pattern>
 		<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>

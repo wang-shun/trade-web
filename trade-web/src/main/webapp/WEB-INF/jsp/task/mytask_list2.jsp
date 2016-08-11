@@ -205,10 +205,10 @@ text-decoration: underline !important;
 							      <input type="radio" value="0" id="owner0" name="ownerRadios"> 全部
 							</label> 
 							<label> 
-								 <input type="radio" value="1" id="owner1" name="ownerRadios">  <span class="label label-danger">本身</span>
+								 <input type="radio" value="1" id="owner1" name="ownerRadios">  本身
 							</label> 
 							<label> 
-							     <input type="radio" value="2" id="owner2" name="ownerRadios"> <span class="label label-warning">代办</span>
+							     <input type="radio" value="2" id="owner2" name="ownerRadios"> 代办
 							</label>
 						</div>
 					</div>

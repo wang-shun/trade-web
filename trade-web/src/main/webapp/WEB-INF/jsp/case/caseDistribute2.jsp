@@ -24,8 +24,8 @@
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/case/myCaseList2.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet"><%-- 
+<link href="${ctx}/css/transcss/case/myCaseList2.css" rel="stylesheet"> --%>
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <!-- Data Tables -->
@@ -56,6 +56,102 @@ width: 80px;
 
 .bianhao{width:221px;padding-left:0;}
 .dizhi{width:542px}
+
+
+
+.hint { position: relative; display: inline-block; }
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* top */
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
+}
+
+/* top */
+.hint-top1:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top1:after {
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+.hint-top1:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
+	margin-bottom: 2px;
+	width:280px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
 
 </style>
    
@@ -169,7 +265,6 @@ width: 80px;
 			</div>
 		</div>
 	</div>
-	
  	<!-- 案件转组 -->
     <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
 		<div class="modal-dialog" style="width:700px">
@@ -268,10 +363,10 @@ width: 80px;
 						{{item.PROPERTY_ADDR}}
     				 </p>
 					
- 					<p class="big"><i class="salesman-icon">
+ 					<span class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.ORG_NAME}}"><i class="salesman-icon">
                      </i>
 						{{item.AGENT_NAME}}<span class="slash">/</span>{{item.ORG_NAME}}
-    				 </p>
+    				 </span>
 				</td>
 				<td >
 						{{if item.CREATE_TIME!=null}}
@@ -290,21 +385,21 @@ width: 80px;
 
 				</td>
 				<td class="center">
-                        <span class="manager"><em>区经：</em><a href="#">{{item.LEADER}}</a></span>
-                         <span class="manager"><em>区总：</em><a href="#"></a></span>
+                        <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
+                         <span class="manager"><a href="#"><em>区总：</em></a></span>
                  </td>
 				<td class="center">
                          
-						{{if item.STATUS!=null}}
+						{{if item.STATUS!=null && item.STATUS!="" }}
 						  <p class="smll_sign">
+ 									<i class="sign_blue">
                                     {{item.STATUS}}
+									</i>
     				 	  </p>
 
 						{{else}}
-                           <p >
-                                    
-    						</p>
-
+									<i >
+									</i>
 						{{/if}}
                  </td>
 				

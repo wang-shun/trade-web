@@ -12,6 +12,8 @@ public interface ToEloanCaseService {
 	
     void saveEloanApply(SessionUser user,ToEloanCase tEloanCase);
     
+    int updateEloanApply(SessionUser user, ToEloanCase tEloanCase);
+    
     void saveEloanSign(String taskId,ToEloanCase tEloanCase);
     
     List<ToEloanCase> getToEloanCaseListByProperty(ToEloanCase tEloanCase);
