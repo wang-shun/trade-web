@@ -50,9 +50,20 @@
 					产品类型
 				</div>
 				<div class="col-xs-5">
-					<aist:dict id="select_loanSrvCode" name="loanSrvCode" clazz="form-control"
+				<%--	 <aist:dict id="select_loanSrvCode"  name="loanSrvCode" clazz="form-control"
 						display="select"  dictType="yu_serv_cat_code_tree" tag="eplus" 
-						ligerui='none' defaultvalue="${loanAgent.loanSrvCode }"></aist:dict>
+						ligerui='none' defaultvalue="${loanAgent.loanSrvCode }"></aist:dict> --%>
+ 					<select id="select_loanSrvCode"  name="loanSrvCode" class="form-control">
+						<c:if test="${loanAgent.loanSrvCode!=undefined}">
+						<option value="${loanAgent.loanSrvCode}"><aist:dict id="loanSrvCode" name="loanSrvCode" 
+						display="onlyLabel"  dictType="yu_serv_cat_code_tree" tag="eplus" dictCode="${loanAgent.loanSrvCode}"
+						ligerui='none'></aist:dict></option>
+						</c:if>
+						<c:if test="${loanAgent.loanSrvCode!='30004005' }">
+						<option value="30004005">税费卡</option>
+						</c:if>
+						</select> 
+						
 				</div>
 				
 				<div class="col-xs-1 control-label">
