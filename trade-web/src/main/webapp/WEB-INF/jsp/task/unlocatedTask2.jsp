@@ -1,51 +1,45 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
-<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>\
 
 <html>
-
 <head>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- 分页控件 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />  
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet"><%-- 
+<link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet"> --%>
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-
-
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-
-
 <!-- Morris -->
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
-	rel="stylesheet">
-	
-    <!-- Data Tables -->
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+<!-- Data Tables -->
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" />
 
-    <!-- index_css -->
-    <link rel="stylesheet" href="../static/trans/css/common/base.css" />
-    <link rel="stylesheet" href="../static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
-    <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
-	
+<!-- index_css -->
+<link rel="stylesheet" href="${ctx}/css/common/base.css" />
+<link rel="stylesheet" href="${ctx}/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
+<link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+
+
 <style type="text/css">
+
 #selectDiv {
 	width: 480px;
 }
@@ -78,81 +72,172 @@ text-decoration: underline !important;
 .slash{font-weight:bold !important;}
 .table-fenpei th{text-align:center;}
 .data-wrap-in .fenpei{padding:0 8px;display:inline-block;height: 30px;line-height: 30px;background-color:#ddd;border-radius: 3px;}
-</style>	
-</head>
 
+
+.hint { position: relative; display: inline-block; }
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* top */
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
+}
+
+/* top */
+.hint-top1:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top1:after {
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+.hint-top1:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
+	margin-bottom: 2px;
+	width:280px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+
+</style>	
+
+</head>
 <body>
+
 <input type="hidden" id="taskId">
-<div class="row">
-	<div class="wrapper wrapper-content  animated fadeInRight">
-		<div class="col-lg-12">
-			<div class="ibox ">
-				<div class="ibox-title">
-					<h5>未分配任务列表</h5>
+	 <div class="wrapper wrapper-content animated fadeInRight">
+             <div class="ibox-content border-bottom clearfix space_box">
+                    <h2 class="title">
+                       	 未分配任务列表
+                    </h2>
+                     <form method="get" class="form-horizontal form_box">
+                        <div class="row clearfix">
+                            <div class="form_content">
+                                <label class="sign_left control-label">
+                                   	 案件编号
+                                </label>
+                                <div class="sign_right teamcode">
+                                    <input type="text" class="teamcode form-control" id="caseCode" >
+                                </div>
+                            </div>
+                            <div class="form_content">
+                                <label class="sign_left control-label">
+                                    CTM编号
+                                </label>
+                                <div class="sign_right teamcode">
+                                    <input type="text" class="teamcode form-control" id="ctmCODE" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div id="select_div_1" class="form_content">
+                                <label class="sign_left control-label">
+                                    	产证地址
+                                </label>
+                                <div class="sign_right intextval">
+                                    <input type="text" class="form-control pull-left" id="propertyAddr">
+                                </div>
+                            </div>
+                           <button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>
+                        </div>
+					</form>
 				</div>
-				<div class="ibox-content">
-					<div class="row form-horizontal">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label class="col-md-2 control-label"></label>
-								<div class="control-div">
-							       	<select id="inTextType" data-placeholder= "搜索条件设定"
-                                        class= "btn btn-white chosen-select" style="float :left;" onchange="intextTypeChange()">
-										<option value="0" id="propertyAddr">产证地址</option>
-										<option value="1" id="caseCode" selected>案件编号</option>
-									</select>
-									<input id="inTextVal" type="text" class="form-control pull-left" value="${caseCode}">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-							    <label class="col-md-2 control-label text-right">
-							        <button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>	
-							     </label>
-<!-- 							     <label class="col-md-2 control-label"> -->
-<!-- 							        <button onclick="javascript:clean()" class="btn btn-primary" type="button"> 清空 </button>	 -->
-<!-- 							     </label> -->
-							</div>
-						</div>
+				<div class="row">
+                    <div class="col-md-12">
+                        <div class="table_content">
+							<table class="table table_blue table-striped table-bordered table-hover ">
+								<thead>
+									<tr>
+										<th>案件编号</th>
+										<th>流程环节</th>	
+										<th>产证地址</th>
+										<th>贵宾服务中心</th>
+										<th>开始时间</th>	
+										<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
+									</tr>
+								</thead>
+								<tbody id="tab_unlocatedTask">
+									
+								</tbody>
+							</table>
+							<div class="text-center page_box">
+								<span id="currentTotalPage"><strong ></strong></span>
+								<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagination text-center"></div>  
+						    </div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		
-	</div>
-	
-</div>
-	
-<div class="data-wrap">
-		<div class="data-wrap-in">
-			<table class="table-fenpei" border="0" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th>案件编号</th>
-						<th>产证地址</th>
-						<th><span class="sort" >服务名称</span></th>
-						<th>处理角色</th>
-						<th>贵宾服务中心</th>
-						<th>组别名称</th>
-						<th>开始时间</th>						
-						<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
-					</tr>
-				</thead>
-				<tbody id="tab_unlocatedTask">
-					
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div class="text-center">
-		<span id="currentTotalPage"><strong class="bold"></strong></span>
-		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-    </div>
 		<div id="modal-form" class="modal fade" aria-hidden="true">
 			<div class="modal-dialog" style="width: 900px">
 				<div class="modal-content">
@@ -176,21 +261,22 @@ text-decoration: underline !important;
 				</div>
 				<a title="关闭" class="fancybox-item fancybox-close" href="javascript:;"></a>
 			</div>
-		</div>
-	</div>
 
+<content tag="local_script"> 
+<!-- Peity --> 
+<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
+<script src="${ctx}/js/trunk/case/unlocatedTask.js?v=1.1"></script><%-- 
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> --%>
 
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/trunk/case/unlocatedTask.js?v=1.1"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script id="template_unlocatedTask" type="text/html">
+<!-- 分页控件  -->
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+
+<script id="template_unlocatedTask" type="text/html">
          {{each rows as item index}}
  				     <tr class="tr-1">
-						<td><a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank"><span class="sort active">{{item.caseCode}}</span></td>
-						 <td>
+						<td>
                                 <p class="big">
                                 <a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
                                      {{item.caseCode}}              
@@ -198,30 +284,62 @@ text-decoration: underline !important;
                                 </p>
                                 <p>
                                <i class="tag_sign">c</i>
-                                                
+                                     {{item.CTM_CODE}}                
                                </p>
                         </td>
-						<td><span class="salesman-info">{{item.propertyAddr}}</span></td>
-						<td><span class="case-addr">{{item.taskDfKey}}</span></td>
-						<td><span class="salesman-info">{{item.taskJobCode}}</span></td>
-						<td><span class="salesman-info">{{item.groupParentName}}</span></td>
-						<td><span class="salesman-info">{{item.groupName}}</span></td>
-						<td><span class="salesman-info">{{item.createTime}}</span></td>						
+						<td class="center">
+                                <p class="big">
+                                <i class="sign_blue">
+                                    {{item.taskDfKey}}           
+                                </i>
+                                </p>
+                                <p>
+                                    {{item.WFE_NAME}}                
+                               </p>
+                        </td>
 						<td>
-						 {{if item.candidateId&&item.candidateId!=''}}
-						 <button type="button" class="btn fenpei" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
-						 {{else}}
-						 <button type="button" class="btn fenpei" onclick="showLocate({{item.taskId}})">分配任务</button>
-						 {{/if}}
-						</td>
-				</tr>
+                                <p class="big">
+                                	{{item.propertyAddr}}  
+                                </a>
+                                </p>
+                                <span class="tooltip-demo">
+                               		<i class="salesman-icon"></i>   
+									<a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} " data-toggle="tooltip" data-placement="top" >
+                                    	 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} 
+									</a>	            
+                               </span>
+                        </td>
+						<td>
+                                <p class="big">
+                                     {{item.groupParentName}}            
+                                </p>
+                                <p>
+                                    {{item.taskJobCode}}     
+                               </p>
+                        </td>
+						<td>
+                               <p class="smll_sign">
+                                       	<i class="sign_normal">申</i>
+                                     		{{item.createTime}}    
+										</i>      
+                                </p>
+                                
+                        </td>
+						<td class="center">
+								{{if item.candidateId&&item.candidateId!=''}}
+						 			<button type="button" class="btn btn-success" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
+								{{else}}
+						 			<button type="button" class="btn btn-success" onclick="showLocate({{item.taskId}})">分配任务</button>
+						 		{{/if}}
+                        </td>
+					</tr>
 		{{/each}}
-	 </script> 
- 		<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
-		<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
-		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-		 <script>
+</script> 
+<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
+<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script>
 		var ctx="${ctx}";
 		var taskDelGrid,userGrid;
 		function loadUser(){
@@ -301,18 +419,10 @@ text-decoration: underline !important;
 	    	}
 			function packgeData(page){
         		var data1 = {};
-        		var inTextVal = $('#inTextVal').val();
         		var hVal = $('#inTextVal').attr('hVal');
-        		var propertyAddr = "";
-        		var caseCode = "";
-        		if (inTextVal != null && inTextVal.trim() != "") {
-        			var inTextType = $('#inTextType').val();
-        			if (inTextType == '0') {
-        				propertyAddr = inTextVal.trim();
-        			} else if (inTextType == '1') {
-        				caseCode = inTextVal.trim();
-        			}
-        		}       		        		        		
+        		var propertyAddr = $.trim($('#propertyAddr').val());
+        		var caseCode = $.trim($('#caseCode').val());
+        		var ctmCODE = $.trim($('#ctmCODE').val());
         	    data1.rows = 5;
         	     if(!page) {
         	    	 data1.page = 1;
@@ -324,6 +434,7 @@ text-decoration: underline !important;
         	    data1.argu_managerFlag="${managerFlag}";
         	    data1.argu_caseCode=caseCode;
         	    data1.argu_propertyAddr=propertyAddr;
+        	    data1.argu_ctmCODE=ctmCODE;
         	    return data1;
 			}
 			function fetchData(p){
@@ -364,10 +475,10 @@ text-decoration: underline !important;
 					totalPages:totalCount,
 					visiblePages:9,
 					startPage:currentPage,
-					first:'<i class="icon-step-backward"></i>',
-					prev:'<i class="icon-chevron-left"></i>',
-					next:'<i class="icon-chevron-right"></i>',
-					last:'<i class="icon-step-forward"></i>',
+					first:'<i class="fa fa-step-backward"></i>',
+					prev:'<i class="fa fa-chevron-left"></i>',
+					next:'<i class="fa fa-chevron-right"></i>',
+					last:'<i class="fa fa-step-forward"></i>',
 					showGoto:true,
 					onPageClick: function (event, page) {
 						 //console.log(page);
