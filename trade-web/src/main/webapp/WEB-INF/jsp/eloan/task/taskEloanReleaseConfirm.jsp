@@ -161,7 +161,7 @@
 							                                   <p><em>放款金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
 							                               </div>
 							                               <div class="case_lump">
-							                                   <p><em>放款时间</em><span class="span_two" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
+							                                   <p><em>放款时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
 							                               </div>
 							                             <div class="case_lump">
 							                                   <p><em>放款状态</em><span class="span_one" id="content_caseCode">

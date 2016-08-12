@@ -212,6 +212,7 @@
                                                                                                是否放款完成
                                     </label>
                                     <select name="isRelFinish" id="isRelFinish" class="select_control sign_right_two">
+                                       <option value="">请选择</option>
                                        <option value="1">是</option>
                                        <option value="0">否</option>
                                     </select>
@@ -257,6 +258,7 @@
     <!-- index_js -->
     <script src="${ctx}/static/trans/js/eloan/eloan.js"></script>
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
     <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
    	<script id="addMoneyRelease" type= "text/html">
                            <li id="releaseDiv{{divIndex}}">
@@ -293,10 +295,13 @@
             	var eloanRelList = new Array();
             	var eloanCode =  $('#eloanCode').val();
             	var isRelFinish = $('#isRelFinish').val();
+            	if(isRelFinish==""){
+            		alert("请选择房款是否完成");
+            	}
             	var sumAmount = 0;
             	$(".loan_ul li").each(function(){
             		var releaseAmount = $(this).find("#releaseAmount").val();
-            		sumAmount+=releaseAmount;
+            		sumAmount+=Number(releaseAmount);
             		var releaseTime = $(this).find("#releaseTime").val();
             		
             		var eloanRel = {
@@ -313,16 +318,10 @@
             	}
             	//console.log(eloanRelListVO);
             	var msg = validateIsFinishRelease(eloanCode,sumAmount);
-            	var flag = true;
-            	if(!msg || $.trim(msg) === "") {
-            		flag = false;
-            	}
-            	if(flag) {
-            		if($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) {
-            		} else {
-            			alert(msg);
-                		return false;
-            		}
+            	if(($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) || $.trim(msg) === '操作成功') {
+            	}else {
+            		alert(msg);
+            		return false;
             	}
             	var url = "${ctx}/eloan/saveEloanRelease";
     			$.ajax({
