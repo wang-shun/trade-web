@@ -226,9 +226,16 @@ public class PropertyController {
 			String access_token = GetExistAccessToken.getInstance().getExistAccessToken();
 			// AGENTID 跳转链接时所在的企业应用ID
 			// 管理员须拥有agent的使用权限；AGENTID必须和跳转链接时所在的企业应用ID相同
-			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
-			model.addAttribute("prAppliantId", UserID);
-			return "mobile/propresearch/myProperty";
+			String username = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
+			if(!StringUtils.isBlank(username)){
+				User user = uamUserOrgService.getUserByUsername(username);
+				if(user!=null){
+					model.addAttribute("prAppliantId", user.getId());
+					return "mobile/propresearch/myProperty";
+				}
+			}
+			request.setAttribute("msg", "用户信息不存在！");
+			return "mobile/propresearch/myPropertyResult";
 		} else {
 			request.setAttribute("msg", "用户取消授权！");
 			return "mobile/propresearch/myPropertyResult";
