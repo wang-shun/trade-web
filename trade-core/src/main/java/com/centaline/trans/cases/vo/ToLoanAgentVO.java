@@ -28,8 +28,18 @@ public class ToLoanAgentVO {
 
     private String incomeArriveTime;
 
+    private String releaseAmount;
 
-    public String getLoanSrvName() {
+    
+    public String getReleaseAmount() {
+		return releaseAmount;
+	}
+
+	public void setReleaseAmount(String releaseAmount) {
+		this.releaseAmount = releaseAmount;
+	}
+
+	public String getLoanSrvName() {
 		return loanSrvName;
 	}
 
