@@ -148,7 +148,11 @@ public class GuohuApproveController {
 		
 		users.add(guohuUser);
 		
-    	request.setAttribute("users", users);
+		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
+		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){		
+	    	request.setAttribute("users", users);
+		}
+
 		
 		return "task/taskGuohuApprove";
 	}
