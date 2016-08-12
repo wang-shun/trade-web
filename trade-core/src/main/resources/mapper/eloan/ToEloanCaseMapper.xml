@@ -437,6 +437,36 @@
     </set>
     where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </update>
+   <update id="updateApplyEloanCaseByEloanCode" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    update sctrans.T_TO_ELOAN_CASE
+    set
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR},
+      FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      MONTH = #{month,jdbcType=INTEGER},
+      EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR},
+      EXCUTOR_TEAM = #{excutorTeam,jdbcType=VARCHAR},
+      EXCUTOR_DISTRICT = #{excutorDistrict,jdbcType=VARCHAR},
+      ZJ_NAME = #{zjName,jdbcType=NVARCHAR},
+      ZJ_CODE = #{zjCode,jdbcType=VARCHAR},
+      CO_NAME = #{coName,jdbcType=NVARCHAR},
+      CO_CODE = #{coCode,jdbcType=VARCHAR},
+      CO_PART = #{coPart,jdbcType=DOUBLE},
+      PD_CODE = #{pdCode,jdbcType=VARCHAR},
+      PD_NAME = #{pdName,jdbcType=NVARCHAR},
+      PD_PART = #{pdPart,jdbcType=DOUBLE},
+      APPLY_CONF_TIME = #{applyConfTime,jdbcType=TIMESTAMP},
+      APPLY_CONF_USER = #{applyConfUser,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+   	where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
     update sctrans.T_TO_ELOAN_CASE
     set ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},

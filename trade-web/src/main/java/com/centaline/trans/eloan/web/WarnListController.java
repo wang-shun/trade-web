@@ -210,14 +210,21 @@ public class WarnListController {
 		}
 	}
 	
+	@RequestMapping(value="validateIsFinishRelease")
+	@ResponseBody
+	public AjaxResponse<Boolean> validateIsFinishRelease(Model model,String eloanCode,Double sumAmount){
+		try {
+			AjaxResponse<Boolean>  response = toEloanCaseService.validateIsFinishRelease(eloanCode, sumAmount);
+			return response;
+		} catch(Exception e) {
+			logger.debug("放款校验报错", e);
+			return AjaxResponse.fail("操作失败");
+		}
+	}
+	
 	private void buildFCaseCode(ToEloanCase tEloanCase) {
 		if (StringUtils.isNotBlank(tEloanCase.getCaseCode())) {
-			if (LoanType.ZY_XD.getCode().equals(tEloanCase.getLoanSrvCode())) {
-				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE","XD" ,new Date()));
-			} else {
-				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("WDDK_CODE",
-						LoanCompany.getCaseValueByCode(tEloanCase.getFinOrgCode()), new Date()));
-			}
+			tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE","JR" ,new Date()));
 		}
 	}
 	
