@@ -2,6 +2,7 @@ package com.centaline.trans.wechar.proreseach.web;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,11 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.utils.SpringUtils;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.scheduler.execution.remote.Job;
@@ -54,6 +58,8 @@ public class PropertyController {
 	private UamSessionService uamSesstionService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private QuickGridService quickGridService;
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;
@@ -241,6 +247,13 @@ public class PropertyController {
 			return "mobile/propresearch/myPropertyResult";
 		}
 	}
+	@RequestMapping("findMyPropertyList")
+	@ResponseBody
+	public Page<Map<String, Object>> findMyPropertyList (JQGridParam gp ,String search_prAppliantId,String search_propertyAddr){
+		gp.put("prAppliantId", search_prAppliantId);
+		gp.put("propertyAddr", search_propertyAddr);
+		return quickGridService.findPageForSqlServer(gp);
+	} 
 	
 	@RequestMapping("ProcessingTimeJob")
 	public void TimeJob(HttpServletRequest request, HttpServletResponse response){
