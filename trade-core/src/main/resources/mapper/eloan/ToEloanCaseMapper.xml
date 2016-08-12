@@ -491,12 +491,12 @@
     select 
    		CASE_CODE
     from sctrans.T_TO_ELOAN_CASE
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR} AND ELOAN_CODE != #{eloanCode,jdbcType=VARCHAR}
         union
     select 
    		CASE_CODE
-    from sctrans.T_TO_ELOAN_CASE
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR} 
+    from sctrans.T_TO_LOAN_AGENT
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR} AND FIN_CASE_CODE != #{eloanCode,jdbcType=VARCHAR}
   </select>
   
 </mapper>

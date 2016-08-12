@@ -605,13 +605,13 @@
 			var finOrgCode=$("#finOrgCode").val();
 			if(finOrgCode=="W0001"){
 				$("#pdPart").val(20);
-				$("#pdPart").attr("disabled",true);
+				$("#pdPart").attr("readonly",true);
 			}else if(finOrgCode=="W0003"||finOrgCode=="W0004"){
 				$("#pdPart").val(10);
-				$("#pdPart").attr("disabled",true);
+				$("#pdPart").attr("readonly",true);
 			}else{
 				$("#pdPart").val('');
-				$("#pdPart").attr("disabled",false);	
+				$("#pdPart").attr("readonly",false);	
 			}
 		})
 		function validateEloanApply() { 
