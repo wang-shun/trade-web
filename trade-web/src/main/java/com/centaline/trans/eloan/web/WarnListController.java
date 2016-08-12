@@ -225,7 +225,7 @@ public class WarnListController {
 	
 	private void buildFCaseCode(ToEloanCase tEloanCase) {
 		if (StringUtils.isNotBlank(tEloanCase.getCaseCode())) {
-			tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE","JR" ,new Date()));
+			tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE",new Date()));
 		}
 	}
 	

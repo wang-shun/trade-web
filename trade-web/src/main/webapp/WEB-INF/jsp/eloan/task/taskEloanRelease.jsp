@@ -318,8 +318,11 @@
             		flag = false;
             	}
             	if(flag) {
-            		alert(msg);
-            		return false;
+            		if($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) {
+            		} else {
+            			alert(msg);
+                		return false;
+            		}
             	}
             	var url = "${ctx}/eloan/saveEloanRelease";
     			$.ajax({
