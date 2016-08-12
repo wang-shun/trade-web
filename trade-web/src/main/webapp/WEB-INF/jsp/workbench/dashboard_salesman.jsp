@@ -82,7 +82,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<p class="fa_orange">
                         		<i class="fa fa-bell "></i>
                         		黄灯任务
-                        		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
+                        		<small><a href="${ctx }/workspace/ryLightList?color=1" target="_blank">${yeLight }</a></small>
                         	</p>
                         	<p class="fa_orange">
                         		<i class="fa fa-bell "></i>
