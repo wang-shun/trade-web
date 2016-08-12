@@ -1153,7 +1153,7 @@ public class CaseDetailController {
 				} if(toEloanCase.getSignTime()!=null){
 					toEloanCaseVO.setConfirmStatusName("面签");
 				}if(eloanRels.size()>0){
-					toEloanCaseVO.setConfirmStatusName("房款");
+					toEloanCaseVO.setConfirmStatusName("放款");
 				}
 				//放款金额
 				BigDecimal releaseAmount=new BigDecimal(0);
