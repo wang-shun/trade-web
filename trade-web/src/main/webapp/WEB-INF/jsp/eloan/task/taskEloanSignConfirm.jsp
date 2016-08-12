@@ -284,7 +284,8 @@
 				},
 				success : function(data) {
 					alert(data.message);
-					window.location.href=ctx+"/task/myTaskList";
+					window.close();
+					window.opener.callback();
 				},
 				error : function(errors) {
 					alert("数据保存出错");

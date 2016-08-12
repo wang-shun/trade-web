@@ -1,5 +1,6 @@
 package com.centaline.trans.eloan.service.impl;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
@@ -24,6 +26,7 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.repository.ToEloanCaseMapper;
+import com.centaline.trans.eloan.repository.ToEloanRelMapper;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.engine.annotation.TaskOperate;
 import com.centaline.trans.engine.service.ProcessInstanceService;
@@ -41,6 +44,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private TaskService taskService; 
 	@Autowired
 	private ToEloanCaseMapper toEloanCaseMapper; 
+	@Autowired
+	private ToEloanRelMapper toEloanRelMapper; 
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
@@ -155,7 +160,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	    	unbindServItem(tEloanCase,eloanCaseList.get(0));
 	    }
 		bindServItem(tEloanCase);
-    	return toEloanCaseMapper.updateEloanCaseByEloanCode(tEloanCase);
+    	return toEloanCaseMapper.updateApplyEloanCaseByEloanCode(tEloanCase);
 	}
 	
 	@Override
@@ -189,4 +194,40 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	public List<String> validateEloanApply(ToEloanCase tEloanCase) {
 		return toEloanCaseMapper.validateEloanApply(tEloanCase);
 	}
+
+	@Override
+	public AjaxResponse<Boolean> validateIsFinishRelease(String eloanCode, Double sumAmount) {
+		AjaxResponse response = new AjaxResponse();
+		
+		ToEloanCase property = new ToEloanCase();
+		property.setEloanCode(eloanCode);
+		List<ToEloanCase> eloanCaseList = toEloanCaseMapper.getToEloanCaseListByProperty(property);
+		
+		BigDecimal signAmount = new BigDecimal(0);
+		if(!CollectionUtils.isEmpty(eloanCaseList)) {
+			signAmount = eloanCaseList.get(0).getSignAmount();
+		}
+		// 查询所有的放款记录
+		Double sumReleaseAmount = toEloanRelMapper.getSumReleaseAmountByEloanCode(eloanCode);
+		BigDecimal sumRelAmount = new BigDecimal(0);
+		if(sumReleaseAmount!=null) {
+			sumRelAmount = new BigDecimal(sumReleaseAmount);
+		}
+		
+		
+		BigDecimal sumAmountDecimal = new BigDecimal(sumAmount);
+		if(sumRelAmount.add(sumAmountDecimal).doubleValue()==signAmount.doubleValue()){
+			response.setMessage("请选择放款完成!");
+			response.setContent(false);
+		}
+		else if(sumRelAmount.add(sumAmountDecimal).doubleValue()>signAmount.doubleValue()){
+			response.setMessage("放款总金额不能大于面签金额!");
+			response.setContent(false);
+		} else {
+			response.setContent(true);
+		}
+		return response;
+	}
+
+
 }

@@ -161,7 +161,7 @@
 							                                   <p><em>放款金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
 							                               </div>
 							                               <div class="case_lump">
-							                                   <p><em>放款时间</em><span class="span_two" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
+							                                   <p><em>放款时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
 							                               </div>
 							                             <div class="case_lump">
 							                                   <p><em>放款状态</em><span class="span_one" id="content_caseCode">
@@ -293,8 +293,10 @@
             	var eloanRelList = new Array();
             	var eloanCode =  $('#eloanCode').val();
             	var isRelFinish = $('#isRelFinish').val();
+            	var sumAmount = 0;
             	$(".loan_ul li").each(function(){
             		var releaseAmount = $(this).find("#releaseAmount").val();
+            		sumAmount+=releaseAmount;
             		var releaseTime = $(this).find("#releaseTime").val();
             		
             		var eloanRel = {
@@ -309,7 +311,16 @@
             		isRelFinish : isRelFinish,
             		taskId : $('#taskId').val()
             	}
-            	console.log(eloanRelListVO);
+            	//console.log(eloanRelListVO);
+            	var msg = validateIsFinishRelease(eloanCode,sumAmount);
+            	var flag = true;
+            	if(!msg || $.trim(msg) === "") {
+            		flag = false;
+            	}
+            	if(flag) {
+            		alert(msg);
+            		return false;
+            	}
             	var url = "${ctx}/eloan/saveEloanRelease";
     			$.ajax({
     				cache : true,
@@ -336,7 +347,8 @@
     				},
     				success : function(data) {
     					alert(data.message);
-    					window.location.href=ctx+"/task/myTaskList";
+    					window.close();
+    					window.opener.callback();
     				},
     				error : function(errors) {
     					alert("数据保存出错");
@@ -344,6 +356,44 @@
     			});
             })
         });
+        
+        function validateIsFinishRelease(eloanCode,sumAmount) {
+        	var flag = true;
+        	var msg = '';
+			var url = "${ctx}/eloan/validateIsFinishRelease";
+			$.ajax({
+				cache : false,
+				async : false,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				//contentType:"application/json",  
+				data : {eloanCode:eloanCode,sumAmount:sumAmount},
+				beforeSend : function() {
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '1900'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '1900'
+					});
+				},
+				complete : function() {
+					$.unblockUI();
+				},
+				success : function(data) {
+					flag = data.content;
+					msg = data.message;
+				},
+				error : function(errors) {
+					alert("数据保存出错");
+				}
+			});
+			return msg;
+        }
         
         /*获取银行列表*/
 		function getBankList(){

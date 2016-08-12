@@ -281,7 +281,7 @@
 												}, {
 													colName : "流程时间"
 												}, {
-													colName : "产品部确认状态"
+													colName : "状态"
 												}, {
 													colName : "申请金额"
 												}, {

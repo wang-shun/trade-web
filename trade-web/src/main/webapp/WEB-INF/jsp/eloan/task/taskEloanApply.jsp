@@ -679,7 +679,14 @@
 				},
 				success : function(data) {
 					alert(data.message);
-					window.location.href=ctx+"/eloan/Eloanlist";
+				var bohui=$("#processInstanceId").val();
+				if(bohui!=null&&bohui!=''){
+					window.close();
+					window.opener.callback();
+				}else{
+					window.location.href=ctx+"/eloan/Eloanlist";	
+				}	
+					
 				},
 				error : function(errors) {
 					alert("数据保存出错");
