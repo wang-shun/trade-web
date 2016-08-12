@@ -91,6 +91,11 @@
 										<span data-container="body" data-toggle="popover"
 											data-placement="right"<%-- data-content="手机：${eloanCase.coPhone}" --%>>${eloanCase.coName}</span>
 									</dd>
+									<dt>产品部合作人</dt>
+									<dd>
+										<span data-container="body" data-toggle="popover"
+											data-placement="right"<%-- data-content="手机：${eloanCase.coPhone}" --%>>${eloanCase.pdName}</span>
+									</dd>
 								</dl>
 							</div>
 						</div>
@@ -103,7 +108,7 @@
 										<c:choose>  
 										    <c:when test="${info.status=='apply'}"> active
 										   </c:when>  
-										    <c:when test="${info.status=='confirmApply'||info.status=='release'}"> complete
+										    <c:when test="${info.status!='apply'}"> complete
 										   </c:when>   
 										   <c:otherwise> 
 										   disabled
@@ -124,8 +129,8 @@
 										</div>
 									</div>
 									<div
-										class="col-lg-5 bs-wizard-step  
-										   <c:choose>  
+										class="col-lg-5 bs-wizard-step 
+											   <c:choose>  
 										    <c:when test="${info.status=='sign'}"> active
 										   </c:when>  
 										    <c:when test="${info.status=='confirmSign'||info.status=='release'}"> complete
@@ -146,10 +151,9 @@
 													${eloanCase.signAmount>0?eloanCase.signAmount:0}万
 												</dd>
 											</dl>
-
-
 										</div>
 									</div>
+									
 
 									<div
 										class="col-lg-2 bs-wizard-step 
