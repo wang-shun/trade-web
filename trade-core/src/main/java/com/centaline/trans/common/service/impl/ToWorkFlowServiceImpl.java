@@ -97,4 +97,9 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public List<String> queryAllInstCodesByCaseCode(String caseCode) {
 		return toWorkFlowMapper.queryAllInstCodesByCaseCode(caseCode);
 	}
+
+	@Override
+	public ToWorkFlow queryToWorkFlowByCaseCodeAndStatus(ToWorkFlow record) {
+		return toWorkFlowMapper.queryToWorkFlowByCaseCodeAndStatus(record);
+	}
 }

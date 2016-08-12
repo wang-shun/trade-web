@@ -610,7 +610,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
-		    			if(!!data.content.tmpBankUpdateBy && data.content.tmpBankUpdateBy != ''){
+		    			if((!!data.content.tmpBankUpdateBy && data.content.tmpBankUpdateBy != '')|| data.code == '1'){
 		    				f.find("input[name='isTmpBank']").attr('readOnly',true);
 		    			}else{
 		    				f.find("input[name='isTmpBank']").attr('readOnly',false);

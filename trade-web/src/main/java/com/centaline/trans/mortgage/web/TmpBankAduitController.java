@@ -86,8 +86,10 @@ public class TmpBankAduitController {
 	twf.setCaseCode(caseCode);
 
 	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+	twf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+	ToWorkFlow record1 = toWorkFlowService.queryToWorkFlowByCaseCodeAndStatus(twf);
 
-	if(record != null){
+	if(record != null || record1 != null){
 		return null;
 	}
 
