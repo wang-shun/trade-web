@@ -482,12 +482,22 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/* 浦东合作顾问选中台纯公积金贷款流程除第一个环节外其他环节不需要重新派单  start */
 		String taskDefinitionKey = task.getTaskDefinitionKey();
 		if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
-			if(!StringUtils.isBlank(taskDefinitionKey) && "PSFApply".equals(taskDefinitionKey)){
+			if("PSFApply".equals(taskDefinitionKey)){
 				/*更新纯公积金服务项目和经办人*/
 				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
 				tsiap.setCaseCode(caseCode);
 				tsiap.setSrvCode("3000400201");
-				tsiap.setProcessorId(userId);
+				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
+				if (tsiap != null) {
+					tsiap.setProcessorId(applyUser.getId());
+					tsiap.setOrgId(applyUser.getOrgId());
+					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
+				}
+			}else{
+				/*更新纯公积金服务项目和经办人*/
+				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
+				tsiap.setCaseCode(caseCode);
+				tsiap.setSrvCode("3000401002");//交易过户（除签约外）
 				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
 				if (tsiap != null) {
 					tsiap.setProcessorId(applyUser.getId());

@@ -90,7 +90,11 @@ public class WarnListController {
 	TgGuestInfoService tgGuestInfoService;
 	@Autowired
 	private MyCaseListService myCaseListService;
-
+	//E+列表
+	@RequestMapping("Eloanlist")
+	public String submit() {
+		return "/eloan/task/taskEloanList";
+	}
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
 			String taskitem, String processInstanceId){

@@ -29,7 +29,7 @@
     <link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet"/>
     <link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
     <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
     <!-- 分页控件 -->
     <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
@@ -620,7 +620,7 @@
 			var url = "${ctx}/eloan/validateEloanApply";
 			$.ajax({
 				cache : false,
-				async : true,//false同步，true异步
+				async : false,//false同步，true异步
 				type : "POST",
 				url : url,
 				dataType : "json",
@@ -679,7 +679,7 @@
 				},
 				success : function(data) {
 					alert(data.message);
-					window.location.href=ctx+"/loan/submit";
+					window.location.href=ctx+"/eloan/Eloanlist";
 				},
 				error : function(errors) {
 					alert("数据保存出错");
