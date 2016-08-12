@@ -212,6 +212,7 @@
                                                                                                是否放款完成
                                     </label>
                                     <select name="isRelFinish" id="isRelFinish" class="select_control sign_right_two">
+                                       <option value="">请选择</option>
                                        <option value="1">是</option>
                                        <option value="0">否</option>
                                     </select>
@@ -294,6 +295,9 @@
             	var eloanRelList = new Array();
             	var eloanCode =  $('#eloanCode').val();
             	var isRelFinish = $('#isRelFinish').val();
+            	if(isRelFinish==""){
+            		alert("请选择房款是否完成");
+            	}
             	var sumAmount = 0;
             	$(".loan_ul li").each(function(){
             		var releaseAmount = $(this).find("#releaseAmount").val();
