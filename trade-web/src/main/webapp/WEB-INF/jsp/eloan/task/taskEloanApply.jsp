@@ -212,7 +212,7 @@
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产品类型
+                                       <i class="red">* </i> 产品类型
                                     </label>
                       <aist:dict id="loanSrvCode" name="loanSrvCode" clazz="select_control sign_right_two"
 						display="select"  dictType="yu_serv_cat_code_tree" tag="Eloan" 
@@ -220,7 +220,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        合作机构
+                                         <i class="red">* </i>合作机构
                                     </label>
                                     <select  class="select_control sign_right_two" name="finOrgCode" id="finOrgCode" value="${eloanCase.finOrgCode}">
                                     </select>
@@ -230,7 +230,7 @@
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        客户姓名
+                                     <i class="red">* </i>   客户姓名
                                     </label>
                                     <div id="custNameParent" style="display:inline-block;"> 
                                        		<select class="select_control sign_right_two" id="custName" name="custName">
@@ -243,14 +243,14 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        客户电话
+                                        <i class="red">* </i> 客户电话
                                     </label>
                                     <input class="input_type sign_right_two" value="${eloanCase.custPhone}" name="custPhone" id="custPhone">
                                 </div>
                                 <shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
                                  <div class="form_content">
 								     <label class="control-label sign_left_two">
-                                        案件归属
+                                        <i class="red">* </i> 案件归属
                                     </label>
 									<input type="text" id="excutorName" name="excutorName" class="form-control tbspuser"
 									    style="width:170px;display: inline-block;"
@@ -263,7 +263,7 @@
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        申请金额
+                                       <i class="red">* </i>  申请金额
                                     </label>
                                     <input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
                                     <div class="input-group date_icon">
@@ -272,7 +272,7 @@
                                 </div>
                                 <div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
                                     <label class="control-label sign_left_two">
-                                        申请时间
+                                      <i class="red">* </i>   申请时间
                                     </label>
                                     <input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />" name="applyTime" id="applyTime" />
                                     <div class="input-group date_icon">
@@ -281,7 +281,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        申请期数
+                                        <i class="red">* </i> 申请期数
                                     </label>
                                     <input class="input_type sign_right_two" value="${eloanCase.month}" name="month" id="month">
                                     <div class="input-group date_icon">
@@ -397,7 +397,7 @@
 	<tr>
     <td>
         <p class="big">
-            <a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">
+            <a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">
                <span id="modal_caseCode{{index}}">{{item.CASE_CODE}}</span>
             </a>
         </p>
