@@ -87,9 +87,11 @@ public class TmpBankAduitController {
 
 	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 	twf.setStatus(WorkFlowStatus.COMPLETE.getCode());
-	ToWorkFlow record1 = toWorkFlowService.queryToWorkFlowByCaseCodeAndStatus(twf);
-
-	if(record != null || record1 != null){
+	//更新贷款表临时银行状态为默认：‘’
+	ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+	String status = mortage.getTmpBankStatus();
+	
+	if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
 		return null;
 	}
 
