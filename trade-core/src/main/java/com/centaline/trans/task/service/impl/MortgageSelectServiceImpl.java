@@ -250,17 +250,14 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 		} else {
-			if(workF!=null &&"operation_process:49:695144".compareTo(workF.getProcessDefinitionId())<=0){
-				TaskHistoricQuery query =new TaskHistoricQuery();
-				query.setFinished(true);
-				query.setTaskDefinitionKey("MortgageSelect");
-				query.setProcessInstanceId(vo.getProcessInstanceId());
-				PageableVo pageableVo=workFlowManager.listHistTasks(query);
-				if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
-					throw new BusinessException("请先处理贷款需求选择任务！");
-				}
+			TaskHistoricQuery query =new TaskHistoricQuery();
+			query.setFinished(true);
+			query.setTaskDefinitionKey("MortgageSelect");
+			query.setProcessInstanceId(vo.getProcessInstanceId());
+			PageableVo pageableVo=workFlowManager.listHistTasks(query);
+			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
+				throw new BusinessException("请先处理贷款需求选择任务！");
 			}
-			
 			ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
 			if (subScr == null) {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");
