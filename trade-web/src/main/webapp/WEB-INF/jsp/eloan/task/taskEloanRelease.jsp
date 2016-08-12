@@ -336,7 +336,7 @@
     				},
     				success : function(data) {
     					alert(data.message);
-    					window.location.href=ctx+"/eloan/Eloanlist";
+    					window.location.href=ctx+"/task/myTaskList";
     				},
     				error : function(errors) {
     					alert("数据保存出错");

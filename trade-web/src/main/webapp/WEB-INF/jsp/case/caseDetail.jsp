@@ -847,7 +847,7 @@
 									varStatus="status">
 									<c:forEach var="toLoanAgentVO" items="${toLoanAgentVOs}"
 										begin="${status.index}" end="${status.index}">
-										<div class="row ">
+										<div class="row ">${toLoanAgent.custName}111
 											<label class="col-sm-3 control-label">客户姓名：${toLoanAgent.custName}</label>
 											<label class="col-sm-3 control-label">贷款服务：${toLoanAgentVO.loanSrvName}</label>
 											<label class="col-sm-6 control-label">贷款机构：${toLoanAgentVO.finOrgName}</label>
@@ -892,6 +892,61 @@
 											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
 											<label class="col-sm-3 control-label">超期导出时间：${toLoanAgentVO.lastExceedExportTime}</label>
 										</div>
+										<c:if test="${!status.last}">
+											<div class="hr-line-dashed"></div>
+										</c:if>
+									</c:forEach>
+								</c:forEach>
+								
+								
+								<!-- E+ -->
+								<c:forEach var="toEloanCase" items="${toEloanCases}"
+									varStatus="status">
+									<c:forEach var="toLoanAgentVO" items="${toLoanAgentVOs}"
+										begin="${status.index}" end="${status.index}">
+										<div class="row ">
+											<label class="col-sm-3 control-label">客户姓名：${toEloanCase.custName}</label>
+											<label class="col-sm-3 control-label">贷款服务：${toLoanAgentVO.loanSrvName}</label>
+											<label class="col-sm-6 control-label">贷款机构：${toLoanAgentVO.finOrgName}</label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">客户电话：${toEloanCase.custPhone}</label>
+											<label class="col-sm-3 control-label">贷款金额： 
+			                                                ${toEloanCase.applyAmount}&nbsp&nbsp万元
+			                                            </label> <label
+												class="col-sm-3 control-label">放款金额：
+			                                               ${toLoanAgentVO.releaseAmount>0?toLoanAgentVO.releaseAmount:0}&nbsp&nbsp万元
+			                                            </label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">申请状态：${toLoanAgentVO.applyStatusName}</label>
+											<label class="col-sm-3 control-label">申请期数： <c:if
+													test="${!empty toEloanCase.month}">
+			                                                ${toEloanCase.month}&nbsp&nbsp月
+			                                            </c:if></label> <label
+												class="col-sm-3 control-label">转介人：${toEloanCase.zjName}</label>
+											<label class="col-sm-3 control-label">转介人编号：${toEloanCase.zjCode}</label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">确认状态：${toLoanAgentVO.confirmStatusName}</label>
+											<label class="col-sm-3 control-label">合作人：${toEloanCase.coName}</label>
+											<label class="col-sm-3 control-label">合作人编号：${toEloanCase.coCode}</label>
+											<label class="col-sm-3 control-label">分配比例： <c:if
+													test="${!empty toEloanCase.coPart}">
+			                                                ${toEloanCase.coPart}&nbsp&nbsp%
+			                                            </c:if></label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">申请时间：${toLoanAgentVO.applyTime}</label>
+											<label class="col-sm-3 control-label">确认时间：${toLoanAgentVO.confirmTime}</label>
+											<label class="col-sm-3 control-label">面签时间：${toLoanAgentVO.signTime}</label>
+											<label class="col-sm-3 control-label">放款时间：${toLoanAgentVO.releaseTime}</label>
+										</div>
+									<%-- 	<div class="row ">
+											<label class="col-sm-3 control-label">对账时间：${toLoanAgentVO.incomeConfirmTime}</label>
+											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
+											<label class="col-sm-3 control-label">超期导出时间：${toLoanAgentVO.lastExceedExportTime}</label>
+										</div> --%>
 										<c:if test="${!status.last}">
 											<div class="hr-line-dashed"></div>
 										</c:if>
