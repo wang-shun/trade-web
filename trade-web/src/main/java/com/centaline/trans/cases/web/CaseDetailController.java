@@ -1101,11 +1101,13 @@ public class CaseDetailController {
 		// 金融服务信息
 		List<ToLoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
 		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
+		List<ToLoanAgentVO> toEloanCaseVOs = new ArrayList<ToLoanAgentVO>();
 		// E+金融
 		ToEloanCase eloanCase = new ToEloanCase();
 		eloanCase.setCaseCode(toCase.getCaseCode());
 		List<ToEloanCase> toEloanCases = toEloanCaseService.getToEloanCaseListByProperty(eloanCase);
 		if (toEloanCases.size() > 0) {
+			
 			for (ToEloanCase toEloanCase : toEloanCases) {
 				ToLoanAgentVO toEloanCaseVO = new ToLoanAgentVO();
 				// 贷款服务编码
@@ -1142,8 +1144,18 @@ public class CaseDetailController {
 				} else {
 					toEloanCaseVO.setApplyStatusName("待确认");
 				}
+
 				// 放款时间
-				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
+				// 确认状态
+				if (toEloanCase.getApplyTime()!=null) {
+					toEloanCaseVO.setConfirmStatusName("申请");
+				} if(toEloanCase.getSignTime()!=null){
+					toEloanCaseVO.setConfirmStatusName("面签");
+				}if(eloanRels.size()>0){
+					toEloanCaseVO.setConfirmStatusName("房款");
+				}
+				//放款金额
 				BigDecimal releaseAmount=new BigDecimal(0);
 				for (ToEloanRel eloanRel : eloanRels) {
 					if (eloanRel.getReleaseTime() != null) {
@@ -1155,7 +1167,7 @@ public class CaseDetailController {
 						toEloanCaseVO.setReleaseAmount(releaseAmount.toString());
 					}
 				}
-				toLoanAgentVOs.add(toEloanCaseVO);
+				toEloanCaseVOs.add(toEloanCaseVO);
 			}
 
 		}
@@ -1289,6 +1301,7 @@ public class CaseDetailController {
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		request.setAttribute("toEloanCases", toEloanCases);
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
+		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
 		return "case/caseDetail";
 	}
 

@@ -158,13 +158,14 @@ public class WarnListController {
 			}
 			object.put("status",status);
 			//申请时间
-			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 			String applyTime=dateFormat.format(eloanCase.getApplyTime());
 			object.put("applyTime",applyTime );
 			//合作机构查询
 			String finOrgName=finorgService.findBankByFinOrg(eloanCase.getFinOrgCode()).getFinOrgName();
 			object.put("finOrgName",finOrgName );
 			model.addAttribute("info", object);
+			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
 		}
 
