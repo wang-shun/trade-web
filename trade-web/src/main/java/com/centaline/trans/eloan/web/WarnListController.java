@@ -36,6 +36,7 @@ import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
@@ -212,7 +213,7 @@ public class WarnListController {
 	private void buildFCaseCode(ToEloanCase tEloanCase) {
 		if (StringUtils.isNotBlank(tEloanCase.getCaseCode())) {
 			if (LoanType.ZY_XD.getCode().equals(tEloanCase.getLoanSrvCode())) {
-				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE", new Date()));
+				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE","XD" ,new Date()));
 			} else {
 				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("WDDK_CODE",
 						LoanCompany.getCaseValueByCode(tEloanCase.getFinOrgCode()), new Date()));
