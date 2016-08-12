@@ -297,6 +297,7 @@
             	var isRelFinish = $('#isRelFinish').val();
             	if(isRelFinish==""){
             		alert("请选择房款是否完成");
+            		return;
             	}
             	var sumAmount = 0;
             	$(".loan_ul li").each(function(){
