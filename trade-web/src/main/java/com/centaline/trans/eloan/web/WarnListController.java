@@ -353,7 +353,7 @@ public class WarnListController {
 		try  {
 			ToEloanCase toEloanCase = new ToEloanCase();
 			toEloanCase.setSignConfUser(user.getId());
-			toEloanCase.setSignTime(new Date());
+			toEloanCase.setSignConfTime(new Date());
 			toEloanCase.setEloanCode(eloanCode);
 			
 			boolean isUpdate = false;

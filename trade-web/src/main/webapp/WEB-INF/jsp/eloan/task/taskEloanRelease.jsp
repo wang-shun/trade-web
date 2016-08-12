@@ -319,6 +319,7 @@
             	}
             	if(flag) {
             		alert(msg);
+            		return false;
             	}
             	var url = "${ctx}/eloan/saveEloanRelease";
     			$.ajax({
