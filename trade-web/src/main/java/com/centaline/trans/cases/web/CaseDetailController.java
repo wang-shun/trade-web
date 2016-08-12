@@ -1137,11 +1137,10 @@ public class CaseDetailController {
 					toEloanCaseVO.setSignTime(formatTime);
 				}
 				// 申请状态
-				if (!StringUtils.isEmpty(toEloanCase.getApplyTime().toString())) {
-					toEloanCaseVO.setApplyStatusName("待确认");
-				}
-				if (!StringUtils.isEmpty(toEloanCase.getApplyConfTime().toString())) {
+				if (toEloanCase.getApplyConfTime()!= null) {
 					toEloanCaseVO.setApplyStatusName("已确认");
+				} else {
+					toEloanCaseVO.setApplyStatusName("待确认");
 				}
 				// 放款时间
 				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());

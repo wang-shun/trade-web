@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,12 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
@@ -27,6 +31,7 @@ import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.loan.entity.LoanAgent;
 @Service
 public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	
@@ -42,6 +47,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private PropertyUtilsServiceImpl propertyUtilsService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private TgServItemAndProcessorMapper servItemMapper;
 	
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -57,6 +64,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if(districtOrg!=null) {
 			tEloanCase.setExcutorDistrict(districtOrg.getId());
 		}
+		bindServItem(tEloanCase);
     	toEloanCaseMapper.insertSelective(tEloanCase);
     	
     	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
@@ -83,6 +91,41 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 	}
 	
+	private void bindServItem(ToEloanCase tEloanCase) {
+		TgServItemAndProcessor p = new TgServItemAndProcessor();
+		if(!StringUtils.isBlank(tEloanCase.getCaseCode())){
+			p.setCaseCode(tEloanCase.getCaseCode());
+			p.setSrvCat(tEloanCase.getLoanSrvCode());
+			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
+			boolean isNew=false;
+			if(ts==null){
+				ts=p;
+				isNew=true;
+			}
+			ts.setSrvCat(tEloanCase.getLoanSrvCode());
+			ts.setSrvCode(tEloanCase.getLoanSrvCode()+"01");
+			ts.setProcessorId(tEloanCase.getExcutorId());
+			ts.setOrgId(tEloanCase.getExcutorTeam());
+			if(isNew){
+				servItemMapper.insertSelective(ts);
+			}else{
+				servItemMapper.updateByPrimaryKeySelective(ts);
+			}
+		}
+	}
+
+	private void unbindServItem(ToEloanCase newObj, ToEloanCase obj) {
+		TgServItemAndProcessor p = new TgServItemAndProcessor();
+		if (!StringUtils.isBlank(obj.getCaseCode()) && obj.getLoanSrvCode() != null
+				&& !obj.getLoanSrvCode().equals(newObj.getLoanSrvCode())) {
+			p.setCaseCode(obj.getCaseCode());
+			p.setSrvCat(obj.getLoanSrvCode());
+			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
+			if (ts != null) {
+				servItemMapper.deleteByPrimaryKey(ts.getPkid());//confirmed by xiacheng 
+			}
+		}
+	}
 
 
 
@@ -104,6 +147,14 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
 		
 		taskService.complete(tEloanCase.getTaskId());
+		
+		ToEloanCase property = new ToEloanCase();
+		property.setEloanCode(tEloanCase.getEloanCode());
+		List<ToEloanCase> eloanCaseList = toEloanCaseMapper.getToEloanCaseListByProperty(property);
+	    if(!CollectionUtils.isEmpty(eloanCaseList)) {
+	    	unbindServItem(tEloanCase,eloanCaseList.get(0));
+	    }
+		bindServItem(tEloanCase);
     	return toEloanCaseMapper.updateEloanCaseByEloanCode(tEloanCase);
 	}
 	
