@@ -10,8 +10,8 @@ var BonusList = function () {
   	          data: data1,
   	          success: function(data) {
 	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
-	              $("#TsAwardBaseList").empty();
-	              $("#TsAwardBaseList").html(tsAwardBaseList);
+	              $("#tsAwardBaseList").empty();
+	              $("#tsAwardBaseList").html(tsAwardBaseList);
 	                  
 	              // 显示分页 
 	              initpage(data.total,data.pagesize,data.page, data.records);

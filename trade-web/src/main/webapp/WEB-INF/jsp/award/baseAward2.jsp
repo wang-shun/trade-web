@@ -12,11 +12,13 @@
     <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
     <!-- bootstrap-datapicker3 -->
     <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
+    <!-- 分页控件 -->
+    <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     <!-- index_css -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+    
     <!-- owner css -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/award/baseAward.css" />
 </head>
@@ -166,7 +168,12 @@
 		</td>
 	</script>
     <script>
-        $(document).ready(function () {
+   		 var ctx = "${ctx}";
+		//初始化日期控件
+		var monthSel=new DateSelect($('.month'),{max:new Date(),moveDone:reloadGrid});
+        
+		$(document).ready(function () {
+        	
 			//初始化datepicker插件
             $('.input-daterange').datepicker({
                 keyboardNavigation: false,
@@ -174,8 +181,99 @@
                 autoclose: true
             });
 
-
+    		//初始化数据
+    	    reloadGrid();
+    	 	// 查询
+ 			$('#searchButton').click(function() {
+ 				reloadGrid();
+ 			});
+    	 	
+    		$(document).on("click",".expand",function(){
+				var id = this.id;
+	  			  	if($(this).html() == "展开") {
+	  				  $(this).html("收起");
+	  				  // 发出请求
+	  				    var data = {};
+				    	    data.queryId = "awardInfoList";
+				    	    data.pagination = false;
+				    	    data.caseCode = id;
+				    	 	data.paidTime = monthSel.getDate().format('yyyy-MM-dd');
+				    		$.ajax({
+				    			  async: false,
+				    	          url:ctx+ "/quickGrid/findPage" ,
+				    	          method: "post",
+				    	          dataType: "json",
+				    	          data: data,
+				    	          success: function(data){
+				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
+				    				  $("#toggle"+id).empty();
+				    				  $("#toggle"+id).html(tsAwardSrvList);
+				    	          }
+				    	     });
+   	  			  } else {
+   	  				  $(this).html("展开");
+   	  			  }
+   	  			  $("#toggle"+id).toggle();
+			});			
         });
+
+		function reloadGrid(bm) {
+			if(!bm){
+				bm=monthSel.getDate().format('yyyy-MM-dd');	
+			}else{
+				bm=bm.format('yyyy-MM-dd');
+			}
+    		
+    		var data1 = {};
+    	    data1.queryId = "baseAwardQuery";
+    	    data1.rows = 12;
+    	    data1.page = 1;
+    	    data1.paidTime = bm;
+    	    data1.caseCode = $("#caseCode").val();
+    	    data1.propertyAddr = $("#propertyAddr").val();
+    	    data1.dtBegin=$("#dtBegin").val();
+    	    data1.dtEnd=$("#dtEnd").val();
+    	    var data2 = {
+    	    	paidTime : bm
+    	    }
+    	    BonusList.init(ctx,data1,data2);
+    	    
+    	    var data2 = {};
+    	    data2.paidTime = bm;
+    	    data2.caseCode = $("#caseCode").val();
+    	    data2.propertyAddr = $("#propertyAddr").val();
+    	    data2.dtBegin=$("#dtBegin").val();
+    	    data2.dtEnd=$("#dtEnd").val();
+    	    
+    	  //显示统计信息
+ 			$.ajax({
+    			  async: false,
+    	          url:ctx+ "/award/baseAwardCount" ,
+    	          method: "post",
+    	          dataType: "json",
+    	          data: data2,
+    	          success: function(data){
+    	        	  $("#countMsg").empty();
+    	        	  $("#countMsg").append("<b>" + data.countMsg +"</b>");
+    	          }
+    	     });
+    	}
+    	
+    	function goPage(page) {
+    		var bm=monthSel.getDate().format('yyyy-MM-dd');	
+    		var data1 = {};
+    	    data1.queryId = "baseAwardQuery";
+    	    data1.rows = 12;
+    	    data1.page = page;
+    	    data1.caseCode = $("#caseCode").val();
+    	    data1.propertyAddr = $("#propertyAddr").val();
+    	    data1.paidTime = bm;
+    	    
+    	    var data2 = {
+    	    	paidTime : bm
+    	    }
+    	    BonusList.init(ctx,data1,data2);
+    	}        
     </script>
 </content>
 </body>
