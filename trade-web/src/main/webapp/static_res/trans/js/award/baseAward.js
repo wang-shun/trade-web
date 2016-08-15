@@ -9,7 +9,7 @@ var BonusList = function () {
   	          dataType: "json",
   	          data: data1,
   	          success: function(data) {
-	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
+	        	  var tsAwardBaseList= template('template_tsAwardBaseList' , data);
 	              $("#tsAwardBaseList").empty();
 	              $("#tsAwardBaseList").html(tsAwardBaseList);
 	                  

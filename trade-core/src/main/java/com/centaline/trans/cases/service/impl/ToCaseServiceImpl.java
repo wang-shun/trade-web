@@ -493,8 +493,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 					tsiap.setOrgId(applyUser.getOrgId());
 					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
 				}
-			}else{
-				/*更新纯公积金服务项目和经办人*/
+			}
+			/*else{
+				更新纯公积金服务项目和经办人
 				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
 				tsiap.setCaseCode(caseCode);
 				tsiap.setSrvCode("3000401002");//交易过户（除签约外）
@@ -504,7 +505,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 					tsiap.setOrgId(applyUser.getOrgId());
 					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
 				}
-			}
+			}*/
 		}/* end*/
 		
 		String username=uamUserOrgService.getUserById(userId).getUsername();

@@ -22,4 +22,6 @@ public interface ToEloanRelMapper {
     List<ToEloanRel> getEloanRelByEloanCode(String eloanCode);
     
     int updateEloanRelByEloanCode(ToEloanRel record);
+    
+    Double getSumReleaseAmountByEloanCode(String eloanCode);
 }

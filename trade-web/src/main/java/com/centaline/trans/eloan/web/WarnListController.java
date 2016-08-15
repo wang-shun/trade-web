@@ -36,6 +36,7 @@ import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
@@ -157,13 +158,14 @@ public class WarnListController {
 			}
 			object.put("status",status);
 			//申请时间
-			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 			String applyTime=dateFormat.format(eloanCase.getApplyTime());
 			object.put("applyTime",applyTime );
 			//合作机构查询
 			String finOrgName=finorgService.findBankByFinOrg(eloanCase.getFinOrgCode()).getFinOrgName();
 			object.put("finOrgName",finOrgName );
 			model.addAttribute("info", object);
+			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
 		}
 
@@ -209,14 +211,21 @@ public class WarnListController {
 		}
 	}
 	
+	@RequestMapping(value="validateIsFinishRelease")
+	@ResponseBody
+	public AjaxResponse<Boolean> validateIsFinishRelease(Model model,String eloanCode,Double sumAmount){
+		try {
+			AjaxResponse<Boolean>  response = toEloanCaseService.validateIsFinishRelease(eloanCode, sumAmount);
+			return response;
+		} catch(Exception e) {
+			logger.debug("放款校验报错", e);
+			return AjaxResponse.fail("操作失败");
+		}
+	}
+	
 	private void buildFCaseCode(ToEloanCase tEloanCase) {
 		if (StringUtils.isNotBlank(tEloanCase.getCaseCode())) {
-			if (LoanType.ZY_XD.getCode().equals(tEloanCase.getLoanSrvCode())) {
-				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ZYDK_CODE", new Date()));
-			} else {
-				tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("WDDK_CODE",
-						LoanCompany.getCaseValueByCode(tEloanCase.getFinOrgCode()), new Date()));
-			}
+			tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ELOAN_CODE",new Date()));
 		}
 	}
 	
@@ -345,7 +354,7 @@ public class WarnListController {
 		try  {
 			ToEloanCase toEloanCase = new ToEloanCase();
 			toEloanCase.setSignConfUser(user.getId());
-			toEloanCase.setSignTime(new Date());
+			toEloanCase.setSignConfTime(new Date());
 			toEloanCase.setEloanCode(eloanCode);
 			
 			boolean isUpdate = false;

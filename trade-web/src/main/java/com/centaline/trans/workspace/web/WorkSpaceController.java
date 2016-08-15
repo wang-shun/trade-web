@@ -125,7 +125,7 @@ public class WorkSpaceController {
 		return isFromMobile;
 	}
 
-	@RequestMapping(value = "dashboard")
+/*	@RequestMapping(value = "dashboard")
 	public String showWorkSpace(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		//本月目标达成报表，数据查询开始时间
@@ -259,9 +259,9 @@ public class WorkSpaceController {
 					workSpaceService.workloadConsultantBackoffice(work));
 		}
 		return "workspace/dashboard";
-	}
+	}*/
 
-	@RequestMapping(value = "dashboard2")
+	@RequestMapping(value = "dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		/*判断是否为移动端登录*/
 		boolean isMobile = checkMobile(request);
@@ -348,9 +348,9 @@ public class WorkSpaceController {
 			model.addAttribute("rank", doGetRank(user));
 			
 			/*高级交易主管添加待办事项*/
-			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
+/*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
 				model.addAttribute("rank", doGetRank(user));
-			}
+			}*/
 			
 			if (isBackTeam) { //后台(高级)交易主管
 				/*工作数据显示*/
@@ -727,13 +727,15 @@ public class WorkSpaceController {
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
 			work.setRankType(TransJobs.TJYZG.getCode());
 			work.setOrgId(null);
+			/* 主管只看当前组织
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
 					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
-			}
+			}*/
+			args.add(user.getServiceDepId());
 			work.setOrgs(args);			
 		
 			work.setRankCat("loan_amount");
