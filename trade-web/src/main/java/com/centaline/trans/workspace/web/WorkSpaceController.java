@@ -701,13 +701,13 @@ public class WorkSpaceController {
 		} else if(TransJobs.TZJ.getCode().equals(jobCode)) { //总监
 			work.setRankType(jobCode);
 			work.setOrgId(null);
-			/*List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
 					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCZB.getCode()).getId(), DepTypeEnum.TYCQY.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
-			}*/
+			}
 			args.add(user.getServiceDepId());
 			work.setOrgs(args);			
 		
@@ -718,6 +718,7 @@ public class WorkSpaceController {
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
 			
+			work.setOrgId(user.getServiceDepId());
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("sign_amount");
@@ -728,14 +729,14 @@ public class WorkSpaceController {
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
 			work.setRankType(TransJobs.TJYZG.getCode());
 			work.setOrgId(null);
-			/* 主管只看当前组织
+			// 主管只看当前组织
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
 					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
-			}*/
+			}
 			args.add(user.getServiceDepId());
 			work.setOrgs(args);			
 		
@@ -746,6 +747,7 @@ public class WorkSpaceController {
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
 			
+			work.setOrgId(user.getServiceDepId());
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("sign_amount");
