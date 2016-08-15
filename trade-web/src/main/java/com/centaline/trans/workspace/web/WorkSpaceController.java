@@ -125,7 +125,7 @@ public class WorkSpaceController {
 		return isFromMobile;
 	}
 
-	@RequestMapping(value = "dashboard")
+/*	@RequestMapping(value = "dashboard")
 	public String showWorkSpace(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		//本月目标达成报表，数据查询开始时间
@@ -259,9 +259,9 @@ public class WorkSpaceController {
 					workSpaceService.workloadConsultantBackoffice(work));
 		}
 		return "workspace/dashboard";
-	}
+	}*/
 
-	@RequestMapping(value = "dashboard2")
+	@RequestMapping(value = "dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		/*判断是否为移动端登录*/
 		boolean isMobile = checkMobile(request);
