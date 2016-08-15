@@ -110,7 +110,7 @@
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
     <!-- owner -->
     <script src="${ctx}/static/trans/js/award/baseAward.js"></script>
-    <script id="tsAwardBaseList" type= "text/html">
+    <script id="template_tsAwardBaseList" type= "text/html">
     	{{each rows as item index}}
  			<tr>
             	<td>
@@ -137,7 +137,7 @@
             <tr class="spread_line" id="toggle{{item.CASE_CODE}}" style="display:none;"></tr>
 		{{/each}}	
 	</script>
-	<script id="tsAwardSrvList" type= "text/html">
+	<script id="template_tsAwardSrvList" type= "text/html">
     	<td colspan="7" class="spread_td">
         	<table class="table spread_tab table-bordered">
             	<thead>
@@ -188,7 +188,7 @@
  				reloadGrid();
  			});
     	 	
-    		$(document).on("click",".expand",function(){
+    		$(document).on("click",".spread",function(){
 				var id = this.id;
 	  			  	if($(this).html() == "展开") {
 	  				  $(this).html("收起");
@@ -205,7 +205,7 @@
 				    	          dataType: "json",
 				    	          data: data,
 				    	          success: function(data){
-				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
+				    	        	  var tsAwardSrvList= template('template_tsAwardSrvList' , data);
 				    				  $("#toggle"+id).empty();
 				    				  $("#toggle"+id).html(tsAwardSrvList);
 				    	          }
