@@ -30,7 +30,7 @@
 		var commentButton = '<div class="input_line">';
 		commentButton+='<input type="hidden" name="caseComment_caseCode" id="caseComment_caseCode"/>';
 		commentButton+='<input type="hidden" name="caseComment_srvCode" id="caseComment_srvCode"/>';
-		commentButton+='<input type="text" placeholder="填写内容" name="caseComment" id="caseComment">';
+		commentButton+='<input type="text" placeholder="填写内容" name="caseComment" id="caseComment" style="width:1030px;">';
 		commentButton+='<div class="btn btn-primary add_btn" onclick="saveCaseComment()">添加案件跟进</div>';
 		commentButton+='</div>';
 		$(this).after(commentButton);

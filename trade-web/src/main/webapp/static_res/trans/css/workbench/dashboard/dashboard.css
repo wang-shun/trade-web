@@ -18,9 +18,9 @@ body {
 }
 
 .task_light {
-	margin-left: 20px;
-	padding-top: 20px;
-	font-size: 16px;
+	margin-left: 0px;
+	padding-top: 30px;
+	font-size: 14px;
 }
 
 #base_info {
@@ -47,7 +47,6 @@ body {
   margin-left: 32px;
   font-size: 16px;
 }
-
 .table_loan {
   border: 1px solid #eaeaea;
   color: #333333;
@@ -91,6 +90,7 @@ body {
 
 .widget-main {
   padding: 12px;
+  border-bottom: 1px solid #e7eaec;
 }
 
 .widget-header {
@@ -169,17 +169,17 @@ body {
 }
 
 .data1 {
-  width: 34%;
+  width: 35%;
   margin-right: 1%;
 }
 
 .data2 {
-  width: 30%;
+  width: 34%;
   margin-right: 1%;
 }
 
 .data3 {
-  width: 33%;
+  width: 28%;
   margin-right: 0;
 }
 
@@ -216,6 +216,13 @@ body {
 
 .wd105 {
   width: 105px;
+}
+
+.wd90 {
+	width: 90px;
+}
+.wd88 {
+	width: 88px;
 }
 
 .data-progress .data-bar {
@@ -259,4 +266,11 @@ body {
 }
 .smaller {
   font-weight: normal;
+}
+.feed-element{
+	border-bottom: 1px solid #eee;
+}
+.no_border{
+	border:none !important;
+	boder-style:none !important;
 }

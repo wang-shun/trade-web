@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -69,6 +72,10 @@ import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
+import com.centaline.trans.eloan.entity.ToEloanCase;
+import com.centaline.trans.eloan.entity.ToEloanRel;
+import com.centaline.trans.eloan.service.ToEloanCaseService;
+import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
@@ -180,7 +187,16 @@ public class CaseDetailController {
 	private ToPropertyResearchService toPropertyResarchService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
-	
+
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
+
+	// E+金融
+	@Autowired
+	private ToEloanRelService toEloanRelService;
+	@Autowired
+	private ToEloanCaseService toEloanCaseService;
+
 	/**
 	 * 页面初始化
 	 * 
@@ -189,7 +205,7 @@ public class CaseDetailController {
 	 * @return
 	 */
 	@RequestMapping(value = "caseCodeDetail")
-	public String caseDetail(String caseCode , ServletRequest request) {
+	public String caseDetail(String caseCode, ServletRequest request) {
 		if (caseCode == null)
 			return "case/caseList";
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
@@ -237,8 +253,7 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
-				TransJobs.TJYZL.getCode());
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
 		if (asList != null && asList.size() > 0) {
 			User assistUser = asList.get(0);
 			reVo.setAsId(assistUser.getId());
@@ -323,16 +338,16 @@ public class CaseDetailController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		// 贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
-		String loanReqType="FullPay";
+		String loanReqType = "FullPay";
 		if (toMortgage != null) {
-			if("1".equals(toMortgage.getIsDelegateYucui())){
-				if("30016003".equals(toMortgage.getMortType())){
-					loanReqType="PSFLoan";
-				}else{
-					loanReqType="ComLoan";
+			if ("1".equals(toMortgage.getIsDelegateYucui())) {
+				if ("30016003".equals(toMortgage.getMortType())) {
+					loanReqType = "PSFLoan";
+				} else {
+					loanReqType = "ComLoan";
 				}
-			}else{
-				loanReqType="SelfLoan";
+			} else {
+				loanReqType = "SelfLoan";
 			}
 			// 贷款类型
 			if (!StringUtils.isEmpty(toMortgage.getMortType())) {
@@ -638,38 +653,40 @@ public class CaseDetailController {
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
-			for(String insCode : insCodeList) {
+			for (String insCode : insCodeList) {
 				TaskHistoricQuery tq = new TaskHistoricQuery();
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-				
+
 				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
-			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
+					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			request.setAttribute("myTasks", filterMyTask(myServiceCase, tasks));
 		}
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
-				.getServiceDepCode());
+
+		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
-		boolean isCaseOwner=false;
-		boolean isNewFlow=false;
-		boolean isCaseManager=false;
-		
+		boolean isCaseOwner = false;
+		boolean isNewFlow = false;
+		boolean isCaseManager = false;
+
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-		
-		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
-			isCaseOwner=true;
+
+		if (sessionUser.getId().equals(toCase.getLeadingProcessId())) {
+			isCaseOwner = true;
 		}
-		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
-			isNewFlow=true;
+		if (toWorkFlow != null && "operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId()) <= 0) {
+			isNewFlow = true;
 		}
-		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
-			isCaseManager=true;
+		if (isCaseOwner && TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())) {
+			isCaseManager = true;
 		}
+
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -678,7 +695,7 @@ public class CaseDetailController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-		
+
 		request.setAttribute("isBackTeam", isBackTeam);
 		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
@@ -694,7 +711,7 @@ public class CaseDetailController {
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
 	}
-	
+
 	/**
 	 * 页面初始化
 	 * 
@@ -745,7 +762,7 @@ public class CaseDetailController {
 
 		// 交易顾问
 		User consultUser = null;
-		if(null != toCase.getLeadingProcessId()){
+		if (null != toCase.getLeadingProcessId()) {
 			consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		}
 		if (consultUser != null) {
@@ -754,8 +771,7 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
-				TransJobs.TJYZL.getCode());
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
 		if (asList != null && asList.size() > 0) {
 			User assistUser = asList.get(0);
 			reVo.setAsId(assistUser.getId());
@@ -840,16 +856,16 @@ public class CaseDetailController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		// 贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
-		String loanReqType="FullPay";
+		String loanReqType = "FullPay";
 		if (toMortgage != null) {
-			if("1".equals(toMortgage.getIsDelegateYucui())){
-				if("30016003".equals(toMortgage.getMortType())){
-					loanReqType="PSFLoan";
-				}else{
-					loanReqType="ComLoan";
+			if ("1".equals(toMortgage.getIsDelegateYucui())) {
+				if ("30016003".equals(toMortgage.getMortType())) {
+					loanReqType = "PSFLoan";
+				} else {
+					loanReqType = "ComLoan";
 				}
-			}else{
-				loanReqType="SelfLoan";
+			} else {
+				loanReqType = "SelfLoan";
 			}
 			// 贷款类型
 			if (!StringUtils.isEmpty(toMortgage.getMortType())) {
@@ -1085,6 +1101,76 @@ public class CaseDetailController {
 		// 金融服务信息
 		List<ToLoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
 		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
+		List<ToLoanAgentVO> toEloanCaseVOs = new ArrayList<ToLoanAgentVO>();
+		// E+金融
+		ToEloanCase eloanCase = new ToEloanCase();
+		eloanCase.setCaseCode(toCase.getCaseCode());
+		List<ToEloanCase> toEloanCases = toEloanCaseService.getToEloanCaseListByProperty(eloanCase);
+		if (toEloanCases.size() > 0) {
+			
+			for (ToEloanCase toEloanCase : toEloanCases) {
+				ToLoanAgentVO toEloanCaseVO = new ToLoanAgentVO();
+				// 贷款服务编码
+				if (!StringUtils.isEmpty(toEloanCase.getLoanSrvCode())) {
+					String loanSrvName = uamBasedataService.getDictValue(TransDictEnum.TFWBM.getCode(),
+							toEloanCase.getLoanSrvCode());
+					toEloanCaseVO.setLoanSrvName(loanSrvName);
+				}
+				// 贷款机构
+				if (toEloanCase.getFinOrgCode() != null) {
+					TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(toEloanCase.getFinOrgCode());
+					if (tsFinOrg != null && !StringUtils.isEmpty(tsFinOrg.getFinOrgName())) {
+						toEloanCaseVO.setFinOrgName(tsFinOrg.getFinOrgName());
+					}
+				}
+				// 申请时间
+				if (toEloanCase.getApplyTime() != null) {
+					String applyTime = format.format(toEloanCase.getApplyTime());
+					toEloanCaseVO.setApplyTime(applyTime);
+				}
+				// 确认时间
+				if (toEloanCase.getApplyConfTime() != null) {
+					String formatTime = format.format(toEloanCase.getApplyConfTime());
+					toEloanCaseVO.setConfirmTime(formatTime);
+				}
+				// 面签时间
+				if (toEloanCase.getSignTime() != null) {
+					String formatTime = format.format(toEloanCase.getSignTime());
+					toEloanCaseVO.setSignTime(formatTime);
+				}
+				// 申请状态
+				if (toEloanCase.getApplyConfTime()!= null) {
+					toEloanCaseVO.setApplyStatusName("已确认");
+				} else {
+					toEloanCaseVO.setApplyStatusName("待确认");
+				}
+
+				// 放款时间
+				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
+				// 确认状态
+				if (toEloanCase.getApplyTime()!=null) {
+					toEloanCaseVO.setConfirmStatusName("申请");
+				} if(toEloanCase.getSignTime()!=null){
+					toEloanCaseVO.setConfirmStatusName("面签");
+				}if(eloanRels.size()>0){
+					toEloanCaseVO.setConfirmStatusName("放款");
+				}
+				//放款金额
+				BigDecimal releaseAmount=new BigDecimal(0);
+				for (ToEloanRel eloanRel : eloanRels) {
+					if (eloanRel.getReleaseTime() != null) {
+						String formatTime = format.format(eloanRel.getReleaseTime());
+						toEloanCaseVO.setReleaseTime(formatTime);
+					}
+					if(eloanRel.getConfirmStatus().equals("1")){
+						releaseAmount=releaseAmount.add(eloanRel.getReleaseAmount());
+						toEloanCaseVO.setReleaseAmount(releaseAmount.toString());
+					}
+				}
+				toEloanCaseVOs.add(toEloanCaseVO);
+			}
+
+		}
 		if (toLoanAgents.size() > 0) {
 			for (ToLoanAgent toLoanAgent : toLoanAgents) {
 				ToLoanAgentVO toLoanAgentVO = new ToLoanAgentVO();
@@ -1155,38 +1241,43 @@ public class CaseDetailController {
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
-			for(String insCode : insCodeList) {
+			for (String insCode : insCodeList) {
 				TaskHistoricQuery tq = new TaskHistoricQuery();
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-				
+
 				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
-			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
+					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			request.setAttribute("myTasks", filterMyTask(myServiceCase, tasks));
 		}
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
-				.getServiceDepCode());
+		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
-		boolean isCaseOwner=false;
-		boolean isNewFlow=false;
-		boolean isCaseManager=false;
-		
+		boolean isCaseOwner = false;
+		boolean isNewFlow = false;
+		boolean isCaseManager = false;
+
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-		
-		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
-			isCaseOwner=true;
+
+		if (sessionUser.getId().equals(toCase.getLeadingProcessId())) {
+			isCaseOwner = true;
 		}
-		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
-			isNewFlow=true;
+		if (toWorkFlow != null && "operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId()) <= 0) {
+			isNewFlow = true;
 		}
-		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
-			isCaseManager=true;
+		if (isCaseOwner && TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())) {
+			isCaseManager = true;
 		}
+
+		// 商贷预警信息
+		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
+
+		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -1195,7 +1286,7 @@ public class CaseDetailController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-		
+
 		request.setAttribute("isBackTeam", isBackTeam);
 		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
@@ -1207,33 +1298,38 @@ public class CaseDetailController {
 		request.setAttribute("caseInfo", caseInfo);
 		request.setAttribute("toSpv", toSpv);
 		request.setAttribute("cashFlows", cashFlows);
-		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toLoanAgents", toLoanAgents);
+		request.setAttribute("toEloanCases", toEloanCases);
+		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
+		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
 		return "case/caseDetail";
 	}
-	
-	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
-		if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
-		Set<String>taskDfKeys=new HashSet<>();
-		mySerivceItems.parallelStream().forEach(item->{
-			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
-			if(d!=null&&d.getChildren()!=null){
-				d.getChildren().parallelStream().forEach(sc->{
-					if(!taskDfKeys.contains(sc.getCode())){
+
+	private List<TaskVo> filterMyTask(List<TgServItemAndProcessor> mySerivceItems, List<TaskVo> tasks) {
+		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
+			return tasks;
+		}
+		Set<String> taskDfKeys = new HashSet<>();
+		mySerivceItems.parallelStream().forEach(item -> {
+			Dict d = uamBasedataService.findDictByType(item.getSrvCode());
+			if (d != null && d.getChildren() != null) {
+				d.getChildren().parallelStream().forEach(sc -> {
+					if (!taskDfKeys.contains(sc.getCode())) {
 						taskDfKeys.add(sc.getCode());
 					}
 				});
 			}
 		});
-		Iterator<TaskVo> it=tasks.iterator();
+		Iterator<TaskVo> it = tasks.iterator();
 		while (it.hasNext()) {
-			TaskVo task=it.next();
-			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
+			TaskVo task = it.next();
+			if (!taskDfKeys.contains(task.getTaskDefinitionKey())) {
 				it.remove();
 			}
 		}
 		return tasks;
 	}
+
 	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
 		Map<String, TaskVo> hashMap = new HashMap<>();
 		/*
@@ -1351,7 +1447,7 @@ public class CaseDetailController {
 		return AjaxResponse.success("变更成功！");
 	}
 
-	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
+	public void updateWorkflow(String userId, List<TaskVo> tasks, String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (TaskVo taskVo : tasks) {
 				User u = uamUserOrgService.getUserById(userId);
@@ -1387,12 +1483,12 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> startCasePrairses(String caseCode, String[] prItems, HttpServletRequest request) {
 		SessionUser user = uamSessionService.getSessionUser();
-	
+
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 		if (toPropertyInfo == null || toPropertyInfo.getPkid() == null)
 			return AjaxResponse.fail("无法找到物业信息！");
-		ToCaseInfo cInfo =toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-		if(cInfo==null){
+		ToCaseInfo cInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		if (cInfo == null) {
 			return AjaxResponse.fail("无法找到案件信息！");
 		}
 		ToPropertyResearchVo vo = new ToPropertyResearchVo();
@@ -1413,14 +1509,14 @@ public class CaseDetailController {
 			vo.setDistrictId(qyOrg.getId());
 		}
 		vo.setDistrict(toPropertyInfo.getDistCode());
-		
+
 		vo.setAppliant(user.getId());
 		vo.setPrApplyOrgId(user.getServiceDepId());
 		vo.setPrApplyOrgName(user.getServiceDepName());
 		vo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
 		vo.setAgentCode(cInfo.getAgentCode());
-		int reInt=toPropertyResarchService.recordProperty(vo);
-		
+		int reInt = toPropertyResarchService.recordProperty(vo);
+
 		if (reInt == 0)
 			return AjaxResponse.fail("产调表更新失败！");
 
@@ -1855,6 +1951,7 @@ public class CaseDetailController {
 
 		return toCaseInfoCountVo;
 	}
+
 	/**
 	 * 变更交易计划
 	 * 
@@ -1864,12 +1961,12 @@ public class CaseDetailController {
 	@RequestMapping(value = "/changeTaskAssignee")
 	@ResponseBody
 	public AjaxResponse<?> changeTaskAssignee(ChangeTaskAssigneeVO vo) {
-		List<Integer> tasks=vo.getTaskIds();
-		List<String> caseCode=vo.getCaseCodes();
-		
+		List<Integer> tasks = vo.getTaskIds();
+		List<String> caseCode = vo.getCaseCodes();
+
 		for (int i = 0; i < tasks.size(); i++) {
-			toCaseService.changeTaskAssignee(caseCode.get(i), tasks.get(i)+"", vo.getUserId());
-		}	
+			toCaseService.changeTaskAssignee(caseCode.get(i), tasks.get(i) + "", vo.getUserId());
+		}
 		return AjaxResponse.success("变更成功！");
 	}
 }

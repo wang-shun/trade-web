@@ -1,10 +1,14 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
@@ -25,6 +30,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -32,12 +38,21 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
+import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -79,10 +94,18 @@ public class GuohuApproveController {
 	private ToHouseTransferService toHouseTransferService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
+	@Autowired(required = true)
+	ToWorkFlowService toWorkFlowService;
+	@Autowired(required = true)
+	TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired
+    TaskService taskService;
 	
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source){
+			HttpServletResponse response,String caseCode,String source,String processInstanceId){
 		SessionUser user=uamSessionService.getSessionUser();
 		request.setAttribute("approveType", "2");
 		request.setAttribute("operator", user != null ? user.getId():"");
@@ -102,6 +125,35 @@ public class GuohuApproveController {
 		if(dict!=null){
 			request.setAttribute("notApproves", dict.getChildren());
 		}
+		
+		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
+		String orgId = te.getOrgId();
+		List<User> users = new ArrayList<User>();
+		User cpUser = uamUserOrgService.getUserById(caseBaseVO.getAgentManagerInfo().getCpId());
+		users.add(cpUser);
+
+		User guohuUser = null;
+		TaskHistoricQuery query =new TaskHistoricQuery();
+		query.setFinished(true);
+		query.setTaskDefinitionKey(ToAttachmentEnum.GUOHU.getCode());
+		query.setProcessInstanceId(processInstanceId);
+		PageableVo pageableVo=workFlowManager.listHistTasks(query);
+		if(pageableVo.getData() != null && !pageableVo.getData().isEmpty()){
+			guohuUser = uamUserOrgService.getUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
+		}
+		
+		if(guohuUser == null){
+			throw new BusinessException("没有找到过户环节处理人！");
+		}
+		
+		users.add(guohuUser);
+		
+		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
+		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){		
+	    	request.setAttribute("users", users);
+		}
+
+		
 		return "task/taskGuohuApprove";
 	}
 	
@@ -118,8 +170,13 @@ public class GuohuApproveController {
 	@RequestMapping(value="guohuApprove")
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String GuohuApprove, String GuohuApprove_response,String notApprove) {
-		
+			String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
+		/*流程引擎相关*/
+		List<String> membersList = null;
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		if(members != null && members.length() > 0){
+			membersList = Arrays.asList(members.split(","));
+		}
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response,notApprove);
 		if(!"true".equals(GuohuApprove)){
 			//没未通过审核，发站内信通知案件负责人
@@ -129,15 +186,15 @@ public class GuohuApproveController {
 			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
 			paramsApproveRecord.setPartCode("Guohu");
 			paramsApproveRecord.setCaseCode(caseCode);
+			//查询 上一步操作人
 			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
 			if(lastApproveRecord!=null){
 				String recevier = lastApproveRecord.getOperator();
 				sendMessage(sender,recevier,caseCode,result);
 			}
+			variables.add(new RestVariable("members",membersList));
 		}
-		
-		/*流程引擎相关*/
-		List<RestVariable> variables = new ArrayList<RestVariable>();
+	
 		RestVariable restVariable = new RestVariable();
 		restVariable.setName("GuohuApprove");
 		restVariable.setValue(GuohuApprove.equals("true"));
@@ -216,6 +273,120 @@ public class GuohuApproveController {
 		/*接收人*/
 		uamMessageService.sendMessageByDist(message, recevier);
 	}
+	
+	/**
+	 * 过户信息修改
+	 * @param caseId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("guohuInfoModify")
+	public String guohuInfoModify(String caseCode,HttpServletRequest request){
+		// 基本信息
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		// 工作流
+		ToWorkFlow inWorkFlow = new ToWorkFlow();
+		inWorkFlow.setBusinessKey("operation_process");
+		inWorkFlow.setCaseCode(toCase.getCaseCode());
+		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+		// 已完成任务
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
+		if (toWorkFlow != null) {
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+				tasks.addAll(taskList1);
+			}
+			// 本人做的任务
+			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			request.setAttribute("toWorkFlow", toWorkFlow);
+			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;	   
+		    }
+		 request.setAttribute("toCase", toCase);
+		 
+		 ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		 request.setAttribute("mortage", mortage);
+		 
+			String loanReqType="FullPay";
+			if (mortage != null) {
+				if("1".equals(mortage.getIsDelegateYucui())){
+					if("30016003".equals(mortage.getMortType())){
+						loanReqType="PSFLoan";
+					}else{
+						loanReqType="ComLoan";
+					}
+				}else{
+					loanReqType="SelfLoan";
+				}
+				}
+			request.setAttribute("loanReqType", loanReqType);
+		 
+		 ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
+		 if(c != null) {
+				CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+				request.setAttribute("caseBaseVO", caseBaseVO);
+			}
+
+		 return "task/taskGuohuInfoModify";
+	}
+	
+	/**
+	 * 过户信息修改提交
+	 * @param caseId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("guohuInfoModifySubmit")
+	@ResponseBody
+	public Boolean guohuInfoModifySubmit(HttpServletRequest request,String taskId, String processInstanceId, String caseCode){
+		// 基本信息
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		return workFlowManager.submitTask(variables, taskId, processInstanceId, 
+				toCase.getLeadingProcessId(), caseCode);
+	}
+	
+	
+	
+		private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
+			if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
+			Set<String>taskDfKeys=new HashSet<>();
+			mySerivceItems.parallelStream().forEach(item->{
+				Dict d =uamBasedataService.findDictByType(item.getSrvCode());
+				if(d!=null&&d.getChildren()!=null){
+					d.getChildren().parallelStream().forEach(sc->{
+						if(!taskDfKeys.contains(sc.getCode())){
+							taskDfKeys.add(sc.getCode());
+						}
+					});
+				}
+			});
+			Iterator<TaskVo> it=tasks.iterator();
+			while (it.hasNext()) {
+				TaskVo task=it.next();
+				if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
+					it.remove();
+				}
+			}
+			return tasks;
+		}
+		
+		private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
+			Map<String, TaskVo> hashMap = new HashMap<>();
+			/*
+			 * hashMap=oList.stream().collect(Collectors.toMap(TaskVo::
+			 * getTaskDefinitionKey, (p) -> p));
+			 */
+			for (TaskVo taskVo : oList) {
+				hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
+			}
+			List<TaskVo> result = new ArrayList<>(hashMap.values());
+			return result;
+		}
 	
 	
 }

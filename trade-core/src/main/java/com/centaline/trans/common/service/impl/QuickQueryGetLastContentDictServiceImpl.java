@@ -1,6 +1,5 @@
 package com.centaline.trans.common.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,58 +14,6 @@ public class QuickQueryGetLastContentDictServiceImpl implements CustomDictServic
 	@Autowired
 	private UamBasedataService uamBasedataService;
 	private String partCode;
-
-/*	@Override
-	@Cacheable(value="QuickQueryGetLastContentDictServiceImpl",key="#root.target.getPartCode()+'/'+#rows")
-	public List<Map<String, Object>> findDicts(List<Map<String, Object>> rows) {
-		int i=0;
-		int k=0;
-		List<Map<String,Object>> totalList = new ArrayList<Map<String,Object>>();
-		for(Map<String, Object> row:rows){
-			Object objectContent = row.get("CONTENT");
-			Object objectNOT_APPROVE = row.get("NOT_APPROVE");
-			String lastContent = "";
-			i++;
-			
-			if(row.get("NOT_APPROVE")==null) {
-				 if(i != 0 && i<1000){
-					 k=1;
-				 }
-				 continue;
-			 }
-			//添加复选框选择的原因
-			 
-			 
-			if(i==1000 || k==1) {
-				if(objectNOT_APPROVE!=null){
-					String[] reasons =  objectNOT_APPROVE.toString().split(",");
-					for(String reason:reasons){
-						Dict dict = uamBasedataService.findDictByTypeAndCode("guohu_not_approve",reason);
-						if(dict!=null){
-							if(lastContent.length()>0){
-								lastContent+=";";
-							}
-							lastContent+=dict.getName();
-						}
-					}
-				}
-			
-			//添加复选框选择的原因句号
-			if(lastContent.length()>0){
-				lastContent+="。  ";
-			}
-			//添加备注框内容
-			if(objectContent!=null){
-				lastContent+=objectContent.toString();
-			}
-			row.put("val",lastContent);
-			totalList.add(row);
-			i=0;	
-			k=0;
-			}
-		}
-		return totalList;		
-	}*/
 	
 	@Override
 	@Cacheable(value="QuickQueryGetLastContentDictServiceImpl",key="#root.target.getPartCode()+'/'+#rows")
@@ -79,6 +26,7 @@ public class QuickQueryGetLastContentDictServiceImpl implements CustomDictServic
 			if(objectNOT_APPROVE!=null){
 				String[] reasons =  objectNOT_APPROVE.toString().split(",");
 				for(String reason:reasons){
+					//Dict 数据字典类   接口参数(String dictType, String dictCode)
 					Dict dict = uamBasedataService.findDictByTypeAndCode("guohu_not_approve",reason);
 					if(dict!=null){
 						if(lastContent.length()>0){

@@ -24,6 +24,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -40,12 +41,14 @@ import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
@@ -118,6 +121,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
+	@Autowired
+	private TgServItemAndProcessorMapper tgServItemAndProcessorMapper;
+	@Autowired
+	private UamSessionService uamSessionService;
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
 		// TODO Auto-generated method stub
@@ -465,7 +472,42 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Override
 	public void changeTaskAssignee(String caseCode, String taskId, String userId) {
+		
 		TaskVo task= workFlowManager.getTask(taskId);
+		/* 浦东合作顾问选中台纯公积金贷款流程除第一个环节外其他环节不需要重新派单 */
+		SessionUser user = uamSessionService.getSessionUser();
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取执行任务变更的人所在的贵宾服务部
+		User applyUser = uamUserOrgService.getUserById(userId);//下个纯公积金申请人信息
+		
+		/* 浦东合作顾问选中台纯公积金贷款流程除第一个环节外其他环节不需要重新派单  start */
+		String taskDefinitionKey = task.getTaskDefinitionKey();
+		if("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())){
+			if("PSFApply".equals(taskDefinitionKey)){
+				/*更新纯公积金服务项目和经办人*/
+				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
+				tsiap.setCaseCode(caseCode);
+				tsiap.setSrvCode("3000400201");
+				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
+				if (tsiap != null) {
+					tsiap.setProcessorId(applyUser.getId());
+					tsiap.setOrgId(applyUser.getOrgId());
+					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
+				}
+			}
+			/*else{
+				更新纯公积金服务项目和经办人
+				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
+				tsiap.setCaseCode(caseCode);
+				tsiap.setSrvCode("3000401002");//交易过户（除签约外）
+				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
+				if (tsiap != null) {
+					tsiap.setProcessorId(applyUser.getId());
+					tsiap.setOrgId(applyUser.getOrgId());
+					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
+				}
+			}*/
+		}/* end*/
+		
 		String username=uamUserOrgService.getUserById(userId).getUsername();
 		if(StringUtils.isBlank(task.getAssignee())){
 			workFlowManager.doOptTaskPlan(task.getTaskDefinitionKey(), caseCode);

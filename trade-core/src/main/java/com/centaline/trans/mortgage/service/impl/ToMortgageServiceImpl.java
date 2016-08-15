@@ -49,13 +49,15 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
-
+		//有记录  update、反之 insert
 		if (toMortgage.getPkid() != null) {
 				toMortgageMapper.update(toMortgage);
 		} else {
 				toMortgageMapper.insertSelective(toMortgage);
 		}
+		//formCommLoan 是否商贷
 		if("1".equals(toMortgage.getFormCommLoan())&&StringUtils.isNotBlank(toMortgage.getLastLoanBank())){
+			//   重新设定最终贷款银行（商贷）
 			toMortgageMapper.restSetLastLoanBank(toMortgage);	
 		}
 		

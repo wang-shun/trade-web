@@ -166,14 +166,14 @@
 	                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 	                        <i class="fa fa-envelope"></i>  <span class="label label-warning" id="sp_badge">0</span>
 	                    </a>
-	                    <ul class="dropdown-menu dropdown-messages" id="messageul">
+	                    <ul class="dropdown-menu dropdown-messages" id="messageul" style="z-index:9999px;">
 	                    </ul>
 	                </li>
 	                <li>
 	                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 	                	切换岗位
 	                </a>
-	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
+	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob" style="z-index:9999px;">
 	                </ul>
 	            </ul>
 	
@@ -200,7 +200,7 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
-    <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
     <script type="text/javascript">
     	var ctx = '${ctx}';
     	window.ctx=ctx;

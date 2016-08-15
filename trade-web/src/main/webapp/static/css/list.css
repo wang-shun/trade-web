@@ -6,7 +6,7 @@ ul,li{list-style: none;}
 .list li span{display: inline-block;float: left;width: 31.333%;line-height: 30px; }
 [class^=pic]{display: inline-block;width:14px;height:14px;background-repeat: no-repeat;background-size: 100% 100%}
 .list li span:first-child{color: #555;width: 40%}
-.list li span:nth-child(2){width: 25%}
+.list li span:nth-child(2){width: 28%}
 .list li span:nth-child(3){width: 32%;text-align: right;}
 .pic-person{background-image: url(../img/icon_person.jpg);}
 .pic-calendar{background-image: url(../img/icon-calendar.jpg);} 

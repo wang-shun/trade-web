@@ -305,7 +305,13 @@ public class TaskController {
     		}
 	
     	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
-    		getAccesoryList(request, taskitem);
+    		getAccesoryList(request, taskitem);   		
+    		
+    		/*贷款流失审批 添加流失原因*/
+    		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");    		
+    		if(dict!=null){    				
+    				request.setAttribute("loanLostApplyReasons", dict.getChildren());
+    		}  
     		/**这里应该和自办贷款一样*/
     		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
     		request.setAttribute("mortgage", mortgage);
@@ -332,8 +338,14 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
-    		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);
-			
+    		
+    		/*贷款流失审批 添加流失原因*/
+/*    		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");
+    		if(dict!=null){
+    				request.setAttribute("loanLostNotApproves", dict.getChildren());
+    		}  */
+    		
+    		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);			
 			if(mortgage!=null && mortgage.getCustCode()!=null){
 				TgGuestInfo guest=tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
 				if(null !=guest){
@@ -342,7 +354,8 @@ public class TaskController {
 				}
 			};
     		String approveType = "1";/*流失审批*/
-    		initApproveRecord(request, caseCode, approveType);
+    		initApproveRecord(request, caseCode, approveType);  		
+    		
     	} else if(taskitem.equals("CaseCloseThirdApprove") || 
     			taskitem.equals("CaseCloseFirstApprove") || taskitem.equals("CaseCloseSecondApprove")) {/*结案审批*/
     		initApproveRecord(request, caseCode, "3");

@@ -139,7 +139,7 @@
     <sequenceFlow id="sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715" sourceRef="exclusivegateway1" targetRef="CaseClose">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed == false && PSFLoanNeed == false&&SelfLoanNeed == false}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="GuohuInfoModify" name="过户信息修改" activiti:assignee="${member}" activiti:candidateGroups="consultant" activiti:formKey="task/guohuApprove/guohuInfoModify">
+    <userTask id="GuohuInfoModify" name="过户信息修改" activiti:assignee="${member}" activiti:candidateGroups="consultant" activiti:formKey="/task/guohuApprove/guohuInfoModify">
       <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${members}" activiti:elementVariable="member">
         <completionCondition>${nrOfCompletedInstances == nrOfInstances}</completionCondition>
       </multiInstanceLoopCharacteristics>

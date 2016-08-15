@@ -129,7 +129,6 @@
 										</c:choose>
 									</div>
 								</div>
-								
 							</div>
 						</div>
 						<div class="col-xs-12 col-md-5">
@@ -293,6 +292,32 @@
 					</div> --%>
 					<div id="hzxm">
 					</div>
+					<hr>
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group">
+								<label class="col-md-2 control-label" style="width:140px;">是否需要商贷预警</label>
+								<div class="col-md-4">
+									<div class="radio i-checks radio-inline">
+										<label> <input type="radio" value="true"
+											id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
+										</label>
+										<label> <input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if>
+											value="false" id="optionsRadios2" name="businessLoanWarn">否
+										</label>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-xs-12 col-md-5" id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
+								<div class="form-group" style="width:800px;">
+										<label class="col-md-4 control-label" style="width:120px;"><font color="red">*</font>预警内容</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
+										</div>
+								</div>
+						   </div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -362,6 +387,17 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
+			
+			$("input[name=businessLoanWarn]").change(function(){
+				var value = this.value;
+				
+				if(value == "true"){
+					$("#divContent").show();
+				}
+				else {
+					$("#divContent").hide();
+				}
+			});
 			
 			TaskFirstFollowValidate.init("firstFollowform","");
 			
@@ -554,7 +590,7 @@
 					url : url,
 					dataType : "json",
 					success : function(data) {
-						
+						console.log("数据"+JSON.stringify(data));
 						/*三级联动*/
 						var district = $('#crossDistrict'+index);
 						var org = $('#corssOrg'+index);
@@ -568,17 +604,20 @@
 						
 						district.bind("change", function(){
 							var orgStr="";
-							var myIndex = district.find(":selected").index()-1;
+							var myIndex = district.find(":selected").index()-1;							
 							if(myIndex>=0){
+								//有选择部门   index()取下标  0开始， 0对应部门
 								$.each(data.cross[myIndex].orgs, function(i, items){
 									orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
 								})
+								//显示部门下面的所有组别
 								org.empty().append("<option value='0'>----组别----</option>"+orgStr);
 								var val1 = org.find(":selected").val();
 								if(val1!='0'){
 									changeConsult();
 								}
 							}else{
+								//没有选择部门
 								org.empty().append("<option value='0'>----组别----</option>");
 								consult.empty().append("<option value='0'>----人员----</option>");
 							}
@@ -645,6 +684,7 @@
 			}
 
 			var jsonData = $("#firstFollowform").serializeArray();
+			
 			var result = ''
 			$("span.selected[name='srvCode']").each(function() {
 				result += $(this).attr('value') + ',';
@@ -750,6 +790,7 @@
 
 		//验证控件checkUI();
 		function checkForm() {
+			
 			if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 				alert("合作顾问未选择");
 				return false;
@@ -834,6 +875,17 @@
 				alert("正在加载合作项目!");
 				return false;
 			}
+			
+			if($("input[name=businessLoanWarn]:checked").val() == "true"){
+				var content = $("input[name=content]").val();
+				
+				if(content == ""){
+					alert("请填写预警内容！");
+					$('input[name=content]').focus();
+					return false;
+				}
+			}
+			
 			return true;
 		}
 	</script> 

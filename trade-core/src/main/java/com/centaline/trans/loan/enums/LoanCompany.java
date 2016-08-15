@@ -29,7 +29,8 @@ public enum LoanCompany {
 
 	public static String getCaseValueByCode(String code) {
 		if (StringUtils.isBlank(code)) {
-			return "";
+			//返回其他
+			return "qt";
 		}
 		LoanCompany[] enums = LoanCompany.values();
 		for (LoanCompany e : enums) {

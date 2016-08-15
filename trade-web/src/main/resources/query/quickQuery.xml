@@ -135,4 +135,12 @@
 	<import resource="query/report/toReportSignCaseQuery.xml" />
 		<!-- 案件状态统计 -->
 	<import resource="query/dashboard/GetStatus.xml" />
+
+	<!-- 绩效奖金模块 -->
+	<import resource="query/award/awardHandler.xml" />
+
+	
+	<!-- 商贷预警 -->
+	<import resource="query/bizwarn/bizwarnListQuery.xml" />
+	<import resource="query/eloan/ELoanCaseList.xml" />
 </queryConfig>

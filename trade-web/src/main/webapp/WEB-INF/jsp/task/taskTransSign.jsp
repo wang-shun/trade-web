@@ -1144,6 +1144,7 @@
 								}
 							})							
 					    }
+				if(checkGuestPhone==false) {return  false;}
 				})				
 				return checkGuestPhone;
 			}

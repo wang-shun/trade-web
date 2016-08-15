@@ -49,12 +49,14 @@ public class QuickQueryEvaFeeServiceImpl implements CustomDictService {
 				 }
 			 }
 			 
-			 Map<String,Object> map = new HashMap<String,Object>();
-			 map.put("caseCodes", caseCodeList1);
-			 String hql = "SELECT CASE_CODE,EVAL_FEE,CONVERT(varchar(100), RECORD_TIME, 23) AS RECORD_TIME FROM sctrans.T_TO_EVA_FEE_RECORD WHERE CASE_CODE IN (:caseCodes)";
-				 
-			 List<Map<String,Object>> result1 = jdbcTemplate.queryForList(hql, map);
-			 totalList.addAll(result1);
+			 if(CollectionUtils.isNotEmpty(caseCodeList1)) {
+				 Map<String,Object> map = new HashMap<String,Object>();
+				 map.put("caseCodes", caseCodeList1);
+				 String hql = "SELECT CASE_CODE,EVAL_FEE,CONVERT(varchar(100), RECORD_TIME, 23) AS RECORD_TIME FROM sctrans.T_TO_EVA_FEE_RECORD WHERE CASE_CODE IN (:caseCodes)";
+					 
+				 List<Map<String,Object>> result1 = jdbcTemplate.queryForList(hql, map);
+				 totalList.addAll(result1);
+			 }
 			 
 			/* if(CollectionUtils.isNotEmpty(result)){
 				for(Map<String,Object> m: result){

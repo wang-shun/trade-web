@@ -41,6 +41,7 @@
 	rel="stylesheet" />
 <link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -647,6 +648,8 @@
 							</li>
 							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
 							</li>
+							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
+							</li>
 						</ul>
 
 						<div class="tab-content">
@@ -894,6 +897,63 @@
 										</c:if>
 									</c:forEach>
 								</c:forEach>
+								
+								<c:if test="${toEloanCases.size()>0&&toLoanAgents.size()>0}">
+								<div class="hr-line-dashed"></div>
+								</c:if>
+								<!-- E+ -->
+								<c:forEach var="toEloanCase" items="${toEloanCases}"
+									varStatus="status">
+									<c:forEach var="toEloanCaseVO" items="${toEloanCaseVOs}"
+										begin="${status.index}" end="${status.index}">
+										<div class="row ">
+											<label class="col-sm-3 control-label">客户姓名：${toEloanCase.custName}</label>
+											<label class="col-sm-3 control-label">贷款服务：${toEloanCaseVO.loanSrvName}</label>
+											<label class="col-sm-6 control-label">贷款机构：${toEloanCaseVO.finOrgName}</label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">客户电话：${toEloanCase.custPhone}</label>
+											<label class="col-sm-3 control-label">贷款金额： 
+			                                                ${toEloanCase.applyAmount}&nbsp&nbsp万元
+			                                            </label> <label
+												class="col-sm-3 control-label">放款金额：
+			                                               ${toEloanCaseVO.releaseAmount!=null?toEloanCaseVO.releaseAmount:0}&nbsp&nbsp万元
+			                                            </label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">申请状态：${toEloanCaseVO.applyStatusName}</label>
+											<label class="col-sm-3 control-label">申请期数： <c:if
+													test="${!empty toEloanCase.month}">
+			                                                ${toEloanCase.month}&nbsp&nbsp月
+			                                            </c:if></label> <label
+												class="col-sm-3 control-label">转介人：${toEloanCase.zjName}</label>
+											<label class="col-sm-3 control-label">转介人编号：${toEloanCase.zjCode}</label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">确认状态：${toEloanCaseVO.confirmStatusName}</label>
+											<label class="col-sm-3 control-label">合作人：${toEloanCase.coName}</label>
+											<label class="col-sm-3 control-label">合作人编号：${toEloanCase.coCode}</label>
+											<label class="col-sm-3 control-label">分配比例： <c:if
+													test="${!empty toEloanCase.coPart}">
+			                                                ${toEloanCase.coPart}&nbsp&nbsp%
+			                                            </c:if></label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">申请时间：${toEloanCaseVO.applyTime}</label>
+											<label class="col-sm-3 control-label">确认时间：${toEloanCaseVO.confirmTime}</label>
+											<label class="col-sm-3 control-label">面签时间：${toEloanCaseVO.signTime}</label>
+											<label class="col-sm-3 control-label">放款时间：${toEloanCaseVO.releaseTime}</label>
+										</div>
+									<%-- 	<div class="row ">
+											<label class="col-sm-3 control-label">对账时间：${toEloanCaseVO.incomeConfirmTime}</label>
+											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
+											<label class="col-sm-3 control-label">超期导出时间：${toLoanAgentVO.lastExceedExportTime}</label>
+										</div> --%>
+										<c:if test="${!status.last}">
+											<div class="hr-line-dashed"></div>
+										</c:if>
+									</c:forEach>
+								</c:forEach>
 							</div>
 							<div class="tab-pane fade" id="fujian_info">
 								<div class="panel-body">
@@ -907,6 +967,48 @@
 							<div class="tab-pane fade" id="caseComment-info">
 								<div id="caseCommentList" class="add_form"></div>
 							</div>
+							
+							<div class="tab-pane fade" id="bizwarn-info">
+								<div class="row">
+									<c:choose>
+										<c:when test="${!empty bizWarnInfo }">
+											<label class="col-sm-3 control-label" style="width:18%;">预警类型：<c:if test="${bizWarnInfo.warnType == 'LOANLOSS' }">贷款流失</c:if></label>
+											<label class="col-sm-3 control-label" style="width:18%;">预警时间：<fmt:formatDate value="${bizWarnInfo.warnTime}" type="date" pattern="yyyy-MM-dd"/></label>
+											<label class="col-sm-3 control-label" style="width:18%;">预警内容：${bizWarnInfo.content }</label>
+											<label class="col-sm-3 control-label" style="width:15%;">状态：
+												<span id="spnStatus">
+													<c:if test="${bizWarnInfo.status == '0' }">生效</c:if>
+													<c:if test="${bizWarnInfo.status == '1' }">解除</c:if>
+												</span>
+											</label>
+											<label class="col-sm-3 control-label" style="width:18%;">解除时间：
+												<span id="spnRelieveTime">
+													<c:choose>
+													<c:when test="${!empty bizWarnInfo.relieveTime }">
+														<fmt:formatDate value="${bizWarnInfo.relieveTime}" type="date" pattern="yyyy-MM-dd"/>
+													</c:when>
+													<c:otherwise>
+														无
+													</c:otherwise>
+												</c:choose>
+												</span>
+											</label>
+											<label class="col-sm-3 control-label" style="width:10%;">
+												
+												<c:if test="${bizWarnInfo.status == '0' }">
+													<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="relieve">解除</div>
+												</c:if>
+											</label>
+										</c:when>
+										<c:otherwise>
+											<label class="col-sm-3 control-label" style="width:12%;">无商贷预警信息！ </label>
+											<label class="col-sm-3 control-label" style="width:10%;">
+												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="add">添加</div>
+											</label>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -914,7 +1016,33 @@
 		</div>
 	</div>
 	</div>
-
+	
+	<div id="bizwarnForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+		<div class="modal-dialog" style="width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="plan-modal-title">添加商贷预警信息</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-3" style="margin-top: 9px; margin-left: 15px;">预警内容:</div>
+							<div class="col-lg-3">
+								<input type="hidden" name="caseId" value="${toCase.pkid}" />
+								<input type="hidden" name="caseCode" value="${toCase.caseCode}"/>
+								<input type="text" name="content" style="width:550px;"/>
+							</div>
+						</div>					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭</button>
+					<button class="btn btn-primary" id="btnSave">添加</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<content tag="local_script"> <!-- Peity --> <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -960,6 +1088,118 @@
 		var isCaseManager=${isCaseManager};
 	      $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
  	      $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+ 	      
+ 	     function getCurrentDate(){
+ 	    	var d = new Date()
+ 	    	var vYear = d.getFullYear();
+ 	    	var vMon = d.getMonth() + 1;
+ 	    	var vDay = d.getDate();
+ 	    	
+ 	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
+	    	return str;
+    	  }
+ 	      
+ 	      $("#btnSave").click(function(){
+ 	    	  var content = $("#bizwarnForm-modal-form input[name=content]").val();
+ 	    	  var caseCode = $("#bizwarnForm-modal-form input[name=caseCode]").val();
+ 	    	  var caseId = $("#bizwarnForm-modal-form input[name=caseId]").val();
+ 	    	  
+ 	    	 $.ajax({
+					cache:false,
+					async:true,
+					type:"POST",
+					dataType:"json",
+					url:ctx+"/bizwarn/addBizWarnInfo",
+					data:{caseCode:caseCode,content:content},
+					success:function(data){
+						if(data.success){
+							location.href = "../case/caseDetail?caseId=" + caseId;
+						}else{
+							alert('添加失败');
+						}
+					}
+				});
+ 	    	  
+ 	      });
+ 	      
+ 	      $("#add").click(function(){
+ 	    	  $("#bizwarnForm-modal-form").modal("show");
+ 	      });
+ 	      
+ 	     $("#edit").click(function(){
+ 	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
+ 	    	 
+ 	    	 
+ 	    	 var status;
+ 	    	 var content;
+ 	    	 $.ajax({
+					cache:false,
+					async:false,
+					type:"POST",
+					dataType:"json",
+					url:ctx+"/bizwarn/getBizWarnInfo",
+					data:{caseCode:caseCode},
+					success:function(data){
+						status = data.status;
+						content = data.content
+					}
+				});
+ 	    	  
+ 	    	 	if(status == "1"){
+ 	    	 		alert("解除状态不能修改商贷预警信息！");
+ 	    	 		return false;
+ 	    	 	}
+ 	    	 	
+ 	    	  $("#editBizwarnForm-modal-form input[name=content]").val(content);
+	    	  $("#editBizwarnForm-modal-form").modal("show");
+	      });
+ 	     
+ 	     $("#btnEdit").click(function(){
+ 	    	 var content = $("#editBizwarnForm-modal-form input[name=content]").val();
+	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
+	    	 var caseId = $("#editBizwarnForm-modal-form input[name=caseId]").val(); 
+	    	 
+	    	 $.ajax({
+					cache:false,
+					async:true,
+					type:"POST",
+					dataType:"json",
+					url:ctx+"/bizwarn/editBizWarnInfo",
+					data:{caseCode:caseCode,content:content},
+					success:function(data){
+						if(data.success){
+							location.href = "../case/caseDetail?caseId=" + caseId;
+						}else{
+							alert('修改失败');
+						}
+					}
+				});
+ 	     });
+ 	      
+ 	      $("#relieve").click(function(){
+ 	    	  var status = $("input[name=status]").val();
+ 	    	  
+ 	    	 if(confirm("是否确定解除？")){
+  				$.ajax({
+  					cache:false,
+  					async:true,
+  					type:"POST",
+  					dataType:"json",
+  					url:ctx+"/bizwarn/relieve",
+  					data:{caseCode:caseCode},
+  					success:function(data){
+  						if(data.success){
+  							$("#spnStatus").html("解除");
+  							$("#spnRelieveTime").html(getCurrentDate());
+  							$("#relieve").hide();
+  						}else{
+  							alert('解除失败');
+  						}
+  					}
+  				});
+ 	    	 }
+ 	      });
+ 	      
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,
