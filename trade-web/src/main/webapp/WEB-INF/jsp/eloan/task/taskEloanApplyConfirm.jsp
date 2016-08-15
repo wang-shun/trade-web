@@ -318,7 +318,8 @@
 				success : function(data) {
 				  	$.unblockUI();
 					alert(data.message);
-					window.location.href=ctx+"/eloan/Eloanlist";
+					window.close();
+					window.opener.callback();
 				},
 				error : function(errors) {
 				  	$.unblockUI();

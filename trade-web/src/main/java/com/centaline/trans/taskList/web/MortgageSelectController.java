@@ -60,15 +60,18 @@ public class MortgageSelectController {
 	@RequestMapping(value = "loanRequirementChange")
 	public AjaxResponse<?> loanRequirementChange(MortgageSelecteVo vo) {	
 		//判断是否完成‘贷款需求选择’待办任务
-		TaskHistoricQuery query =new TaskHistoricQuery();
-		query.setFinished(true);
-		query.setTaskDefinitionKey("MortgageSelect");
-		query.setProcessInstanceId(vo.getProcessInstanceId());
-		PageableVo pageableVo=workFlowManager.listHistTasks(query);
-		if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
-			//请先处理贷款需求选择任务
-			return AjaxResponse.fail("请先处理贷款需求选择任务！");
+		if(vo!=null &&"operation_process:49:695144".compareTo(vo.getProcessInstanceId())<=0){
+			TaskHistoricQuery query =new TaskHistoricQuery();
+			query.setFinished(true);
+			query.setTaskDefinitionKey("MortgageSelect");
+			query.setProcessInstanceId(vo.getProcessInstanceId());
+			PageableVo pageableVo=workFlowManager.listHistTasks(query);
+			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
+				//请先处理贷款需求选择任务
+				return AjaxResponse.fail("请先处理贷款需求选择任务！");
+			}
 		}
+
 		if (StringUtils.isBlank(vo.getPartner())) {
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
