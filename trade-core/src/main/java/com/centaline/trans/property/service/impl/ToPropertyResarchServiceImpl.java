@@ -24,6 +24,7 @@ import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.entity.TsPrResearchMap;
 import com.centaline.trans.task.repository.ToPropertyResearchMapper;
 import com.centaline.trans.task.repository.TsPrResearchMapMapper;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
@@ -76,7 +77,9 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 			}
 		}
 
-		String prCode = uamBasedataService.nextSeqVal("CHANDIAO_CODE", new Date());
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+		String month = dateStr.substring(0, 6);
+		String prCode = uamBasedataService.nextSeqVal("CHANDIAO_CODE", month);
 		vo.setPrCode(prCode);
 		ToPropertyResearch tpr = buildPrResearch(vo);
 		return mapper.insertSelective(tpr);
