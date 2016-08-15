@@ -377,7 +377,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
  						</div>
    <!-- 待办事项 -->
-  <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
   <div class="ibox-content"> 					
 	 <div class="row">
 	 	<div class="col-lg-12">
@@ -392,7 +391,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	    </div>
 	</div>
 	</div>
-	</shiro:hasPermission> 						                        
                 </div>
             </div>
             <!-- main End -->

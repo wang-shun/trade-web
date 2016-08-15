@@ -348,9 +348,9 @@ public class WorkSpaceController {
 			model.addAttribute("rank", doGetRank(user));
 			
 			/*高级交易主管添加待办事项*/
-			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
+/*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
 				model.addAttribute("rank", doGetRank(user));
-			}
+			}*/
 			
 			if (isBackTeam) { //后台(高级)交易主管
 				/*工作数据显示*/
