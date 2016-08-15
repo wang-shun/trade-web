@@ -701,13 +701,14 @@ public class WorkSpaceController {
 		} else if(TransJobs.TZJ.getCode().equals(jobCode)) { //总监
 			work.setRankType(jobCode);
 			work.setOrgId(null);
-			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+			/*List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
 					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCZB.getCode()).getId(), DepTypeEnum.TYCQY.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
-			}
+			}*/
+			args.add(user.getServiceDepId());
 			work.setOrgs(args);			
 		
 			work.setRankCat("loan_amount");
