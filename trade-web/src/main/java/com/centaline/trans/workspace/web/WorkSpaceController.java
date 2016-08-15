@@ -727,13 +727,15 @@ public class WorkSpaceController {
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
 			work.setRankType(TransJobs.TJYZG.getCode());
 			work.setOrgId(null);
+			/* 主管只看当前组织
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
 					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
-			}
+			}*/
+			args.add(user.getServiceDepId());
 			work.setOrgs(args);			
 		
 			work.setRankCat("loan_amount");

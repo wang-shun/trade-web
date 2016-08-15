@@ -3,6 +3,7 @@ package com.centaline.trans.eloan.service;
 import java.util.List;
 import java.util.Map;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 
@@ -23,4 +24,6 @@ public interface ToEloanCaseService {
     void eloanProcessConfirm(String taskId,Map<String,Object> map,ToEloanCase toEloanCase,boolean isUpdate);
     
     List<String> validateEloanApply(ToEloanCase tEloanCase);
+    
+    AjaxResponse<Boolean> validateIsFinishRelease(String eloanCode,Double sumAmount);
 }

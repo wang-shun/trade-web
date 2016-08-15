@@ -181,4 +181,12 @@
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
+  <select id="getSumReleaseAmountByEloanCode" resultType="java.lang.Double" parameterType="java.lang.String">
+ 	SELECT SUM(RELEASE_AMOUNT) FROM sctrans.T_TO_ELOAN_REL 
+ 	WHERE CONFIRM_STATUS = 1
+    AND
+    ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </select>
+ 
 </mapper>

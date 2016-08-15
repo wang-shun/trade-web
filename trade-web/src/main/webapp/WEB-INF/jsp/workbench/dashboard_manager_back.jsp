@@ -83,11 +83,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<p class="fa_orange">
                         		<i class="fa fa-bell "></i>
                         		黄灯任务
-                        		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
+                        		<small><a href="${ctx }/workspace/ryLightList?color=1" target="_blank">${yeLight }</a></small>
                         	</p>
                         	<p class="fa_orange">
                         		<i class="fa fa-bell "></i>
-                        		商贷流失预警案件数
+                        		流失预警
                         		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
                         	</p>                        	
                     	</div>

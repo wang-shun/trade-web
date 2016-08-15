@@ -69,13 +69,19 @@
 			<div class="row form-group">
 				<label class="col-sm-2 control-label">贷款银行：</label>
 				<div class="col-md-4" style="height: 38px">
+
+<<<<<<< .mine
 					<select name="bank_type" class="form-control" id="bank_type"  ${post ne 'manager'?'disabled="true"':''} >
+=======
+					<select name="bank_type" class="form-control" id="bank_type" ${post ne 'manager'?'disabled="true"':''} >
+>>>>>>> .theirs
 					</select>
 				</div>
 
 				<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：
 				</label>
 				<div class="col-md-4" style="height: 38px">
+
 					<select name="finOrgCode" class="form-control" id="finOrgCode" ${post ne 'manager'?'disabled="true"':''} >
 					</select>
 				</div>
