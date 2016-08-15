@@ -29,9 +29,9 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <p class="month">
-            <button type="button" class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe60d;</i></button>
+            <button type="button" name="dateButton" class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe60d;</i></button>
                 <span id="month">yyyy/MM月</span>
-            <button class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe614;</i></button>
+            <button name="dateButton" class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow">&#xe614;</i></button>
             <span class="explain">此日期为计件奖金的生成日期。如需查看某月过户的案件计件奖金，请按过户日期搜索</span>
         </p>
         <form method="get" class="form_list">
@@ -66,7 +66,7 @@
         <div class="col-md-12">
             <div class="notes">
                 <p class="pull-left">我的基金案件奖金</p>
-                <p class="pull-right">
+                <p class="pull-right" id="countMsg">
                     交易单数：9，环节总数：31.00，交易单加权：9.00
                 </p>
             </div>
@@ -105,7 +105,7 @@
     <!-- 分页控件  -->
     <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
     <!-- dateSelect -->
-    <script	src="${ctx}/static/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>    
+    <script	src="${ctx}/static/js/plugins/dateSelect/dateSelect.js"></script>    
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
     <!-- owner -->
@@ -254,7 +254,7 @@
     	          data: data2,
     	          success: function(data){
     	        	  $("#countMsg").empty();
-    	        	  $("#countMsg").append("<b>" + data.countMsg +"</b>");
+    	        	  $("#countMsg").append(data.countMsg);
     	          }
     	     });
     	}

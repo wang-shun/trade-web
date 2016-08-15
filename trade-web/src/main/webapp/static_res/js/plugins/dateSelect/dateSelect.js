@@ -38,7 +38,7 @@
 		this._moveDone=this._opts.moveDone;
 		this._stepExp = this._opts.stepExp;
 		this._formate = this._opts.formate;
-		this._move_btn = $(el).find('button[type=button]');
+		this._move_btn = $(el).find('button[name="dateButton"]');
 		this._move_btn_l = $(this._move_btn[0]);
 		this._move_btn_r = $(this._move_btn[1]);
 		this._move_btn_l.attr('ms-btn', 'l');
