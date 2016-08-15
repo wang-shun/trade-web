@@ -98,7 +98,7 @@ public class ToMortgageController {
 	 */
 	@RequestMapping(value="/getMortgageInfo")  
 	@ResponseBody
-    public AjaxResponse<ToMortgage> getMortgageInfo(ToMortgage toMortgage,HttpServletRequest request) {
+    public AjaxResponse<ToMortgage> getMortgageInfo(ToMortgage toMortgage,HttpServletRequest request) {	
 		AjaxResponse<ToMortgage> response = new AjaxResponse<ToMortgage>();
 		try{
 			ToMortgage mortgage = toMortgageService.findToMortgageByCaseCodeWithCommLoan(toMortgage);
@@ -123,6 +123,20 @@ public class ToMortgageController {
 			response.setSuccess(false);
 			response.setMessage("查询出错！"+e.getMessage());
 		}
+		
+		//临时银行开启时不允许反选
+		ToWorkFlow twf = new ToWorkFlow();
+		twf.setBusinessKey("TempBankAudit_Process");
+		twf.setCaseCode(toMortgage.getCaseCode());
+		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+		if(record != null){
+			//流程已开启
+			response.setCode("1");
+		}else{
+			//流程未开启
+			response.setCode("0");
+		}
+		
         return response;
     }
 	

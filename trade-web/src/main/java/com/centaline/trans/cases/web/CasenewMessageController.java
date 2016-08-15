@@ -44,6 +44,7 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.service.ToCashFlowService;
+import com.centaline.trans.utils.DateUtil;
 
 import org.json.JSONException;
 
@@ -118,7 +119,9 @@ public class CasenewMessageController {
 	 * @author zhangxb16
 	 */
 	public String generateCode(){
-		String caseCodeGenerate = uamBasedataService.nextSeqVal("CASE_CODE", new Date());
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+		String month = dateStr.substring(0, 6);
+		String caseCodeGenerate = uamBasedataService.nextSeqVal("CASE_CODE", month);
 		return caseCodeGenerate;
 	}
 	

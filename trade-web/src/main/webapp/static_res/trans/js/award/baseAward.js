@@ -8,23 +8,21 @@ var BonusList = function () {
   	          method: "post",
   	          dataType: "json",
   	          data: data1,
-  	          success: function(data){
-  	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
-	                  $("#TsAwardBaseList").empty();
-	                  $("#TsAwardBaseList").html(tsAwardBaseList);
+  	          success: function(data) {
+	        	  var tsAwardBaseList= template('template_tsAwardBaseList' , data);
+	              $("#tsAwardBaseList").empty();
+	              $("#tsAwardBaseList").html(tsAwardBaseList);
 	                  
-	                 // 显示分页 
-	                 initpage(data.total,data.pagesize,data.page, data.records);
+	              // 显示分页 
+	              initpage(data.total,data.pagesize,data.page, data.records);
   	          }
   	     });
-  		
 		}
 	 };
 }();
 
-function initpage(totalCount,pageSize,currentPage,records)
-{
-	if(totalCount>1500){
+function initpage(totalCount,pageSize,currentPage,records) {
+	if(totalCount>1500) {
 		totalCount = 1500;
 	}
 	var currentTotalstrong=$('#currentTotalPage').find('strong');
@@ -44,10 +42,10 @@ function initpage(totalCount,pageSize,currentPage,records)
 		totalPages:totalCount,
 		visiblePages:9,
 		startPage:currentPage,
-		first:'<i class="icon-step-backward"></i>',
-		prev:'<i class="icon-chevron-left"></i>',
-		next:'<i class="icon-chevron-right"></i>',
-		last:'<i class="icon-step-forward"></i>',
+		first:'<i class="fa fa-step-backward"></i>',
+		prev:'<i class="fa fa-chevron-left"></i>',
+		next:'<i class="fa fa-chevron-right"></i>',
+		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
 			 //console.log(page);

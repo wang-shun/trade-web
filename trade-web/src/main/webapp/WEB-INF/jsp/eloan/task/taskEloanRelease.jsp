@@ -161,7 +161,7 @@
 							                                   <p><em>放款金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
 							                               </div>
 							                               <div class="case_lump">
-							                                   <p><em>放款时间</em><span class="span_two" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
+							                                   <p><em>放款时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
 							                               </div>
 							                             <div class="case_lump">
 							                                   <p><em>放款状态</em><span class="span_one" id="content_caseCode">
@@ -212,6 +212,7 @@
                                                                                                是否放款完成
                                     </label>
                                     <select name="isRelFinish" id="isRelFinish" class="select_control sign_right_two">
+                                       <option value="">请选择</option>
                                        <option value="1">是</option>
                                        <option value="0">否</option>
                                     </select>
@@ -257,6 +258,7 @@
     <!-- index_js -->
     <script src="${ctx}/static/trans/js/eloan/eloan.js"></script>
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
     <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
    	<script id="addMoneyRelease" type= "text/html">
                            <li id="releaseDiv{{divIndex}}">
@@ -293,8 +295,14 @@
             	var eloanRelList = new Array();
             	var eloanCode =  $('#eloanCode').val();
             	var isRelFinish = $('#isRelFinish').val();
+            	if(isRelFinish==""){
+            		alert("请选择房款是否完成");
+            		return;
+            	}
+            	var sumAmount = 0;
             	$(".loan_ul li").each(function(){
             		var releaseAmount = $(this).find("#releaseAmount").val();
+            		sumAmount+=Number(releaseAmount);
             		var releaseTime = $(this).find("#releaseTime").val();
             		
             		var eloanRel = {
@@ -309,7 +317,13 @@
             		isRelFinish : isRelFinish,
             		taskId : $('#taskId').val()
             	}
-            	console.log(eloanRelListVO);
+            	//console.log(eloanRelListVO);
+            	var msg = validateIsFinishRelease(eloanCode,sumAmount);
+            	if(($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) || $.trim(msg) === '操作成功') {
+            	}else {
+            		alert(msg);
+            		return false;
+            	}
             	var url = "${ctx}/eloan/saveEloanRelease";
     			$.ajax({
     				cache : true,
@@ -336,7 +350,8 @@
     				},
     				success : function(data) {
     					alert(data.message);
-    					window.location.href=ctx+"/eloan/Eloanlist";
+    					window.close();
+    					window.opener.callback();
     				},
     				error : function(errors) {
     					alert("数据保存出错");
@@ -344,6 +359,44 @@
     			});
             })
         });
+        
+        function validateIsFinishRelease(eloanCode,sumAmount) {
+        	var flag = true;
+        	var msg = '';
+			var url = "${ctx}/eloan/validateIsFinishRelease";
+			$.ajax({
+				cache : false,
+				async : false,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				//contentType:"application/json",  
+				data : {eloanCode:eloanCode,sumAmount:sumAmount},
+				beforeSend : function() {
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '1900'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '1900'
+					});
+				},
+				complete : function() {
+					$.unblockUI();
+				},
+				success : function(data) {
+					flag = data.content;
+					msg = data.message;
+				},
+				error : function(errors) {
+					alert("数据保存出错");
+				}
+			});
+			return msg;
+        }
         
         /*获取银行列表*/
 		function getBankList(){

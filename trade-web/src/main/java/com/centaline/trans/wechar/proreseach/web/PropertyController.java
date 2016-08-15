@@ -2,6 +2,7 @@ package com.centaline.trans.wechar.proreseach.web;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,11 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.utils.SpringUtils;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.scheduler.execution.remote.Job;
@@ -54,6 +58,8 @@ public class PropertyController {
 	private UamSessionService uamSesstionService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private QuickGridService quickGridService;
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;
@@ -226,14 +232,28 @@ public class PropertyController {
 			String access_token = GetExistAccessToken.getInstance().getExistAccessToken();
 			// AGENTID 跳转链接时所在的企业应用ID
 			// 管理员须拥有agent的使用权限；AGENTID必须和跳转链接时所在的企业应用ID相同
-			String UserID = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
-			model.addAttribute("prAppliantId", UserID);
-			return "mobile/propresearch/myProperty";
+			String username = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
+			if(!StringUtils.isBlank(username)){
+				User user = uamUserOrgService.getUserByUsername(username);
+				if(user!=null){
+					model.addAttribute("prAppliantId", user.getId());
+					return "mobile/propresearch/myProperty";
+				}
+			}
+			request.setAttribute("msg", "用户信息不存在！");
+			return "mobile/propresearch/myPropertyResult";
 		} else {
 			request.setAttribute("msg", "用户取消授权！");
 			return "mobile/propresearch/myPropertyResult";
 		}
 	}
+	@RequestMapping("findMyPropertyList")
+	@ResponseBody
+	public Page<Map<String, Object>> findMyPropertyList (JQGridParam gp ,String search_prAppliantId,String search_propertyAddr){
+		gp.put("prAppliantId", search_prAppliantId);
+		gp.put("propertyAddr", search_propertyAddr);
+		return quickGridService.findPageForSqlServer(gp);
+	} 
 	
 	@RequestMapping("ProcessingTimeJob")
 	public void TimeJob(HttpServletRequest request, HttpServletResponse response){

@@ -9,8 +9,8 @@
 		<meta name="apple-touch-fullscreen" content="yes"  />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 		<meta name="format-detection" content="telephone=no">
-		<link href="${ctx}/css/myproperty/myproperty.css" rel="stylesheet">
-		<link href="${ctx}/css/plugins/scrollpagination/scrollpagination.css" rel="stylesheet" />
+		<link href="${ctx}/momedia/css/property/myproperty.css" rel="stylesheet">
+		<link href="${ctx}/momedia/css/scrollpagination.css" rel="stylesheet" />
 	</head>
 	<body>
 		<header class="u-header">
@@ -55,11 +55,11 @@
 			</article>
 		</section>
 		<content tag="local_script">
-		<script src="${ctx}/js/template.js" type="text/javascript"></script>
-		<script src="${ctx}/js/plugins/scrollpagination/scrollpagination.js?v=1.1.1"></script>
+		<script src="${ctx}/momedia/js/template.js" type="text/javascript"></script>
+		<script src="${ctx}/momedia/js/scrollpagination.js?v=1.1.1"></script>
 		<script id="myPropertyList" type="text/html">
-			{{if rows.length>0}}
-				{{each rows as item}}
+			{{if content.length>0}}
+				{{each content as item}}
 					<li>
 						<div class="productcontent">
 		                	<a href="#"><p class="pdes pl10"><strong>{{item.DIST_CODE}}</strong><a href="#" onclick="doProcess('{{item.prCode}}');">{{item.PROPERTY_ADDR}}</p></a>
@@ -149,7 +149,7 @@
 				postData.search_propertyAddr = $("#propertyAddr").val();
 				$('#content').empty();
 				$('#content').scrollPagination({
-					'contentPage' : ctx + '/quickGrid/findPage',
+					'contentPage' : ctx + '/mobile/property/box/findMyPropertyList',
 					'contentData' : postData, // these are the variables you can pass to the request, for example: children().size() to know which page you are
 					'scrollTarget' : $(window), // who gonna scroll? in this example, the full window
 					'heightOffset' : 10, // it gonna request when scroll is 10 pixels before the page ends
