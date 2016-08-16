@@ -143,7 +143,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">自办贷款确认函编号</label>
+						<label class="col-sm-2 control-label">贷款自办确认函编号</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="recLetterNo"
 								name="recLetterNo" value="${mortgage.recLetterNo}">
