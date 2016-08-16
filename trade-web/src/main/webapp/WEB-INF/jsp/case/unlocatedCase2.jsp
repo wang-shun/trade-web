@@ -1,14 +1,11 @@
 
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-	
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
-
 <head>
 
 <meta charset="utf-8">
@@ -17,280 +14,330 @@
 <!-- Toastr style -->
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
+<!-- 分页控件 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />  
+<!-- Toastr style -->
+<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+<!-- Morris -->
+<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
 
 <!-- Data Tables -->
-<link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
-<link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
-<link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-<link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 
 <!-- index_css -->
-<link rel="stylesheet" href="../static/trans/css/common/base.css" />
-<link rel="stylesheet" href="../static/trans/css/common/table.css" />
-<link rel="stylesheet" href="../static/trans/css/common/input.css" />
-<link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+<link rel="stylesheet" href="${ctx}/css/common/base.css" />
+<link rel="stylesheet" href="${ctx}/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/css/common/input.css" />
+<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+
 <style type="text/css">
-.radio.radio-inline>label {
-	margin-left: 10px;
+
+.hint { position: relative; display: inline-block; }
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.radio.radio-inline>input {
-	margin-left: 10px;
+/* top */
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
 }
 
-.checkbox.checkbox-inline>div {
-	margin-left: 25px;
+/* top */
+.hint-top1:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top1:after {
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
-
-.checkbox.checkbox-inline>input {
-	margin-left: 20px;
+.hint-top1:hover:before {
+	margin-bottom: -10px;
 }
-.ui-state-hover{
-	cursor:pointer;
+.hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
-.btn-xm{
-margin-left: 10px;
-margin-top: 10px;
-width:160px;
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
 }
-.tbsporg {
- width: 80%;;
- height:30px;
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
+	margin-bottom: 2px;
+	width:280px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 </style>
 </head>
-
 <body>
+
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 <input type="hidden" id="ctx" value="${ctx}"/>
 <input type="hidden" id="queryUserId" value="${queryUserId}"/>	
-		<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox">
-				<div class="ibox-title">
-					<h5>无主案件</h5>
-				</div>
-				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
-						<div class="row">
-							<div class="col-md-5 col-sm-12">
-								<div class="form-group ">
-									<label class="col-md-3 control-label">产证地址：</label>
-									<div class="col-md-8">
-										<input type="text" id="txt_prd_addr" name="txt_prd_addr" placeholder=""class="form-control" >
-									</div>
-								</div>
-							</div>
-							<div class="col-md-5 col-sm-12">
-								<div class="form-group">
-									<label class="col-md-3  col-sm-4 control-label">导入时间:</label>
-									<div class="col-md-8">
-									   	<div id="datepicker" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-											<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> 
-											<span class="input-group-addon">到</span>
-											<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-5 col-sm-12">
-								<div class="form-group ">
-									<label class="col-md-3 control-label">所在区域：</label>
-									<div class="col-md-8">
-										<aist:dict clazz="form-control" id="distCode" name="distCode" display="select" defaultvalue="" dictType="yu_shanghai_district" />
-									</div>
-								</div>
-							</div>
-							
-						</div>
-						<div class="row">
-							<%-- <div class="col-md-5">
-								<div class="form-group ">
-									<label class="col-md-2 control-label">组织：</label>
-									<div class="col-md-10">
-											<input type="text" class="span12 tbsporg" id="radioOrgName" name="radioOrgName" readonly="readonly" 
-												   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-												   startOrgId:'${nonBusinessOrg.id}', orgType:'',departmentType:'',departmentHeriarchy:'',
-												   chkStyle:'radio',callBack:radioOrgSelectCallBack,
-												   expandNodeId:''})" />
-											<input class="m-wrap " type="hidden" id="oriGrpId" name="oriGrpId"> 
-									</div>
-								</div>
-							</div> --%>
-							<div class="col-md-5 col-sm-12">
-							   <div class="form-group">
-							     <label class="col-md-3  col-sm-4 control-label">
-							        <button type="button" class="btn btn-success" onclick="javascript:loadGrid()"> <i class="icon iconfont"></i>查询 </button>	
-							     </label>
-							     <label class="col-md-1  col-sm-4 control-label">
-							        <button type="button" class="btn btn-success" onclick="javascript:clean()"> 清空 </button>	
-							     </label>
-							   </div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox ">
-				<div class="ibox-title">
-					<h5>我的案件列表</h5>
-				</div>
 
-				<div class="ibox-content">
-					<div class="jqGrid_wrapper">
-						<table id="table_list_1"></table>
-						<div id="pager_list_1"></div>
-						
-			
-					</div><div class="ibox-button text-center"><a class="btn btn-primary" href="javascript:caseChangeTeam()"
-							disabled="true" id="caseChangeTeamButton">案件派单</a></div>
+ <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox-content border-bottom clearfix space_box">
+            <h2 class="title">
+                	无主案件
+            </h2>
+		    <form method="get" class="form_list">
+				<div class="line">
+				    <div class="form_content">
+						<label class="control-label sign_left">所在区域：</label>
+						<aist:dict clazz="select_control sign_right_one"   id="distCode" name="distCode" display="select" defaultvalue="" dictType="yu_shanghai_district" />
+					</div>
+					<div class="form_content">
+							<label class="control-label sign_left_small select_style mend_select">导入时间:</label>
+						   	<div id="datepicker" class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
+								<input id="dtBegin_0" name="dtBegin" class="form-control data_style"  type="text" value="" placeholder="起始日期"> 
+								<span class="input-group-addon">到</span>
+								<input id="dtEnd_0" name="dtEnd" class="form-control data_style" style="font-size: 13px;" type="text" value="" placeholder="结束日期" />
+							</div>
+								
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left">产证地址：</label>
+						<input type="text" id="txt_prd_addr" name="txt_prd_addr" class="teamcode input_type" style="width:435px;" placeholder="请输入" >
+					</div>
+					<div class="form_content space">
+					 	<div class="add_btn">		
+					        <button type="button" class="btn btn-success" onclick="javascript:loadGrid(1)"> <i class="icon iconfont"></i>查询 </button>	
+					        <button type="button" class="btn btn-success" onclick="javascript:clean()"> 清空 </button>	
+					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton"> 案件分配 </button>	
+					     </div>
+					 </div>
+			    </div>
+			</form>
+		</div>
+		
+		<div class="row">
+				 <div class="col-md-12">
+					<div class="table_content">
+						<table class="table table_blue table-striped table-bordered table-hover " >
+						<thead>
+						<tr>
+							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
+							<th >案件编号</th>
+							<th >产证地址</th>
+							<th >导入时间</th>
+							<th > 经办人</th>
+						</tr>
+						</thead>
+						<tbody id="myCaseList">
+				
+						</tbody>							
+						</table>
+								
+						<div class="text-center page_box">
+							<span id="currentTotalPage"><strong class="bold"></strong></span>
+							<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+							<div id="pageBar" class="pagination text-center"></div>  
+			  			</div>	
+	  			</div>	
+	  		</div>
+  		</div>	
+	</div>  
+		
+		<!-- <div class="row">
+            <div class="col-md-12">
+               <div class="table_content">	
+					<table id="table_list_1"></table>
+					<div id="pager_list_1"></div>
 				</div>
 			</div>
-		</div>
-	</div>
+		</div> -->
  <!-- 案件转组 -->
-            <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
-	             <div class="modal-dialog" style="width:700px">
-	                <div class="modal-content">
-	                    <div class="modal-header">
-						   <button type="button" class="close" data-dismiss="modal"
-						      aria-hidden="true">×
-						   </button>
-						   <h4 class="modal-title" id="team-modal-title">
-						      案件转组
-						   </h4>
-					   </div>
-                       <div class="modal-body">
-                       <div class="row">
-                       <form  id="team-form">
-		                       <div class="form-group">
-		                            <label class="col-lg-2 control-label">请选择组别:</label>
-		                            <div class="col-lg-8" id="fontTeam">
-										
-									</div>
-		                       </div>
-			            </form>
-			            </div>
-                     </div> 
-                     <div class="modal-footer">
-			            <button type="button" class="btn btn-default"
-			               data-dismiss="modal">关闭
-			            </button>
-			            <button type="button" class="btn btn-primary" onclick="javascript:changeCaseTeam()">
-			                                提交
-			            </button>
-                     </div>
-                     </div>
-                 </div>
-             </div>  
-              <!-- 案件转组 
-            <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
-	             <div class="modal-dialog" style="width:700px">
-	                <div class="modal-content">
-	                    <div class="modal-header">
-						   <button type="button" class="close" data-dismiss="modal"
-						      aria-hidden="true">×
-						   </button>
-						   <h4 class="modal-title" id="team-modal-title">
-						      案件转组
-						   </h4>
-					   </div>
-                       <div class="modal-body">
-                       <div class="row">
-                       <form  id="team-form" class="form-horizontal">
-                       		<div class="col-lg-12">
-								<div class="form-group ">
-									<label class="col-md-6">请选择片区：</label>
-									<div class="col-md-6">
-											<input type="text" class="span12 tbsporg" id="radioOrgName1" name="radioOrgName1" readonly="readonly" 
-												   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-												   startOrgId:'${nonBusinessOrg.id}', orgType:'',departmentType:'',departmentHeriarchy:'',
-												   chkStyle:'radio',callBack:radioOrgSelectCallBack1,
-												   expandNodeId:''})" />
-											<input class="m-wrap " type="hidden" id="oriGrpId1" name="oriGrpId1"> 
-									</div>
-								</div>
-							</div>
-                       
-			            </form>
-			            </div>
-                     </div> 
-                     <div class="modal-footer">
-			            <button type="button" class="btn btn-default"
-			               data-dismiss="modal">关闭
-			            </button>
-			            <button type="button" class="btn btn-primary" onclick="javascript:changeCaseTeam()">
-			                                提交
-			            </button>
-                     </div>
-                     </div>
-                 </div>
-             </div> 
-             --> 
-	<content tag="local_script"> <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-		 <script
-		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  <!-- iCheck --> <script
-		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-	
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
-<%-- 	<jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include> --%>
-    <script src="${ctx}/js/jquery.blockui.min.js"></script> 
-    <script src="${ctx}/js/trunk/case/unlocatedCase2.js"></script>
-    <script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
-	<script id="yuCuiFontTeamList" type="text/html">
+<div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
+  <div class="modal-dialog" style="width:700px">
+         <div class="modal-content">
+             <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">× </button>
+				 <h4 class="modal-title" id="team-modal-title"> 案件转组 </h4>
+			</div>
+            <div class="modal-body">
+               <div class="row">
+               		<form  id="team-form">
+                		<div class="form-group">
+                     		<label class="col-lg-2 control-label">请选择组别:</label>
+                     				<div class="col-lg-8" id="fontTeam"> </div>
+                		</div>
+      				</form>
+   				</div>
+         	</div> 
+         	<div class="modal-footer">
+	   			<button type="button" class="btn btn-success" data-dismiss="modal">关闭 </button>
+	   			<button type="button" class="btn btn-success" onclick="javascript:changeCaseTeam()">  提交 </button>
+         	</div>
+         </div>
+     </div>
+ </div>  
+              
+<content tag="local_script"> 
+
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  
+<!-- iCheck --> 
+<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
+<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+<script src="${ctx}/js/trunk/case/unlocatedCase2.js"></script>
+<script src="${ctx}/js/template.js" type="text/javascript"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+
+<!-- 分页控件  -->
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+
+<script id="yuCuiFontTeamList" type="text/html">
 		 <select class="form-control" name="yuTeamCode">
                 {{each data as item}}
                       <option value ="{{item.id}}">{{item.orgName}}</option>
                 {{/each}}
 		</select>
-	</script>
-	<script>
+</script>
+
+<script id="template_myCaseList" type= "text/html">
+    	{{each rows as item index}}
+  			{{if index%2 == 0}}
+ 		    	<tr class="tr-1">
+            {{else}}
+            	<tr class="tr-2">
+            {{/if}}
+				<td class="center">
+					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" /> 
+					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
+					<input type="hidden" name="yu_team_code" value="{{item.YU_TEAM_CODE}}"/>
+					<input type="hidden" name="leading_process_id" value="{{item.LEADING_PROCESS_ID}}"/>
+
+				</td>
+				<td >
+						<p class="big">
+							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">
+                          		{{item.CASE_CODE}}
+							</a>
+                         </p>
+                        <p>
+                          <i class="tag_sign">c</i>
+                                {{item.CASE_CODE}}                
+                       </p>
+				</td>
+				<td >
+ 					<p class="big">
+						{{item.PROPERTY_ADDR}}
+    				 </p>
+					
+ 					<span >
+						<i class="salesman-icon"> </i>
+                        <a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >
+                           {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
+                        </a>
+    				 </span>
+				</td>
+				<td >
+						{{if item.IMPORT_TIME!=null}}
+						  <p class="smll_sign">
+                                    <i class="sign_normal">导</i>
+									{{item.IMPORT_TIME}}
+    				 	  </p>
+
+						{{else}}
+                           <p class="sign_grey">
+                                   
+    						</p>
+
+						{{/if}}
+
+				</td>
+				<td class="center">
+                        <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
+                         <span class="manager"><a href="#"><em>区总：</em></a></span>
+                 </td>
+				</tr>
+       {{/each}}
+</script>
+<script>
 	/**
 	 * 选择组别modal
 	 * @param data
 	 */
 	function showTeamModal(data){
-	/*	var inHtml = '';
-		inHtml+='<div class="form-group"><label class="col-lg-3 control-label">';
-		inHtml+= '请选择组别：';
-		inHtml+='</label><div class="col-lg-9" style="text-align:left; margin-top:-10px;" >';
-		$.each(data,function(i, n){
-			inHtml+='<div class="checkbox i-checks"><label>';
-			inHtml+='<input type="radio" name="teamRadio" value="'+n.id+'"/>  '+n.orgName+' </label></div>';
-		})
-		inHtml+='</div></div>';
-		$("#team-form").html(inHtml);*/
 		 var d = {
 			data : data	 
 		 }
@@ -394,7 +441,8 @@ width:160px;
 			}); 
 		}
 	}
-	</script>	
- </content>
+</script>	
+
+</content>
 </body>
 </html>

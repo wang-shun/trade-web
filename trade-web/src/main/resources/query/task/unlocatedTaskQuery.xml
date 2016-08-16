@@ -31,19 +31,23 @@
 	<query id="queryUnlocatedTask">
 		<searchCondition>
             <condition field="owner" name="owner" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
-            <condition field="b.case_Code"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="b.case_Code"  name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="b.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="tca.CTM_CODE"  name="ctmCODE" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT org.org_name groupName,(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, ut.name as name,ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode,isnull(j.job_name,ut.task_Job_Code) as taskJobCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
 					,ut.TASK_DEFINATION_KEY as taskDfKey_OLD,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
+					,tca.CTM_CODE as CTM_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME
 					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
 						on ut.case_code =tca.case_code
+						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ut.INST_CODE  = tw.INST_CODE
 						left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
 						left join sctrans.v_case_list_base b on b.case_code = ut.case_code
 						left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
+						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
 					 where ut.IS_DELETE='0'
 					 <ifNotNull mOrgId>
 						and (ut.candidate_Id=#candidateId# or (ut.candidate_Id is null and tca.org_id=#mOrgId#))
@@ -76,6 +80,12 @@
 				<column type="both" name="groupParentName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="groupName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<!--2016.6.23 add columns:groupName,groupParentName  end -->	
+				<column type="both" name="WFE_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GRP_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				
 							
 			</table-row>
 		</grid>
