@@ -481,10 +481,13 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<div class="panel-options">
                             	<ul class="nav nav-tabs">
                                 	<li class="active">
-                                    	<a href="#tab-01" data-toggle="tab">业务提醒</a>
+                                    	<a href="#tab-01" data-toggle="tab">待办事项</a>
+                                    </li>                            	
+                                	<li id="yewu" class="">
+                                    	<a href="#tab-02" data-toggle="tab">业务提醒</a>
                                     </li>
-                                    <li id="yewu" class="">
-                                    	<a href="#tab-02" data-toggle="tab">龙虎榜</a>
+                                    <li class="">
+                                    	<a href="#tab-03" data-toggle="tab">龙虎榜</a>
                                     </li>
                             	</ul>
                          	</div>
@@ -492,7 +495,18 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 
                          <div class="panel-body">
                          	<div class="tab-content">
-                             <div   class="tab-pane active" id="tab-01">
+                            	<div class="tab-pane active" id="tab-01">
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important; padding-left:0px !important; padding-right:0px !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	</div>
+	</div> 
+                                </div>                         	
+                             <div   class="tab-pane" id="tab-02">
                                   <div class="row">
                                      <div class="col-md-4">
                                          <div class="widget-box">
@@ -552,7 +566,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                           </div>
                                                 
                                           <!-- 龙虎榜 -->
-                                          <div class="tab-pane" id="tab-02">
+                                          <div class="tab-pane" id="tab-03">
 						<script type="text/javascript">
 										function imgLoad(img){
  											img.parentNode.style.backgroundImage="url("+img.src+")";
