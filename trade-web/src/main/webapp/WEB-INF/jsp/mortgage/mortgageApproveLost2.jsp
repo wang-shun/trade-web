@@ -9,14 +9,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>流失案件</title>
 <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
-<link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="../static/font-awesome/css/font-awesome.css"
+	rel="stylesheet" />
 <link href="../static/css/animate.css" rel="stylesheet" />
 <link href="../static/css/style.css" rel="stylesheet" />
 <!-- Data Tables -->
-<link href="../static/css/plugins/dataTables/dataTables.bootstrap.css"	rel="stylesheet" />
-<link href="../static/css/plugins/dataTables/dataTables.responsive.css"	rel="stylesheet" />
-<link href="../static/css/plugins/dataTables/dataTables.tableTools.min.css"	rel="stylesheet" />
-<link href="../static/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="../static/css/plugins/dataTables/dataTables.bootstrap.css"
+	rel="stylesheet" />
+<link href="../static/css/plugins/dataTables/dataTables.responsive.css"
+	rel="stylesheet" />
+<link
+	href="../static/css/plugins/dataTables/dataTables.tableTools.min.css"
+	rel="stylesheet" />
+<link href="../static/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 
 <!-- index_css -->
 <link rel="stylesheet" href="../static/trans/css/common/base.css" />
@@ -51,19 +57,20 @@
 				<div class="form_content">
 					<label class="control-label sign_left_small"> 案件编号 </label> <input
 						class="teamcode input_type" style="width: 152px;"
-						placeholder="请输入" value="" id="caseCode" name="caseCode"/>
+						placeholder="请输入" value="" id="caseCode" name="caseCode" />
 				</div>
 				<div class="form_content">
 					<label class="control-label sign_left_small"> 主办 </label> <input
 						class="teamcode input_type" style="width: 152px;"
-						placeholder="请输入" value=""  id="realName" name="realName"/>
+						placeholder="请输入" value="" id="realName" name="realName" />
 				</div>
 				<div class="form_content">
-					<label class="control-label sign_left_small"> 案件组织 </label> 
-					<input class="teamcode input_type" placeholder="请输入" value="" id="orgName" 
-					onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value=''>
-                                    <input type="hidden" id="yuCuiOriGrpId" value="">					
+					<label class="control-label sign_left_small"> 案件组织 </label> <input
+						class="teamcode input_type" placeholder="请输入" value=""
+						id="orgName"
+						onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
+						value=''> <input type="hidden" id="yuCuiOriGrpId" value="">
 					<div class="input-group float_icon organize_icon">
 						<i class="icon iconfont">&#xe61b;</i>
 					</div>
@@ -73,30 +80,34 @@
 				<div class="form_content">
 					<label class="control-label sign_left_small"> 产证地址 </label> <input
 						class="teamcode input_type" style="width: 435px;"
-						placeholder="请输入" value=""  id="propertyAddr" name="propertyAddr"/>
+						placeholder="请输入" value="" id="propertyAddr" name="propertyAddr" />
 				</div>
 			</div>
-			
+
 			<div class="line">
+
 				<div class="form_content">
 					<label
 						class="control-label sign_left_small select_style mend_select">
 						审批日期 </label>
+
 					<div class="input-group sign-right dataleft input-daterange"
-						data-date-format="yyyy-mm-dd">
-						<input name="" class="form-control data_style" type="text"
-							value="" placeholder="起始日期"> <span
-							class="input-group-addon">到</span> <input name=""
-							class="form-control data_style" type="text" value=""
-							placeholder="结束日期">
+						data-date-format="yyyy-mm-dd" id="datepicker_0">
+						<input id="dtBegin_0" name="dtBegin"
+							class="form-control data_style" type="text" value="${startTime}"
+							placeholder="起始日期"> <span class="input-group-addon">到</span>
+						<input id="dtEnd_0" name="dtEnd" class="form-control data_style"
+							type="text" value="${endTime}" placeholder="结束日期">
 					</div>
 				</div>
+
 				<div class="form_content space">
 					<div class="add_btn">
-						<button type="button" class="btn btn-success">
+						<button id="searchButton" type="button" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="button" class="btn btn-success">导出列表</button>
+						<button type="button" id="exportExcelButton"
+							class="btn btn-primary" onclick="javascript:exportToExcel()">导出列表</button>
 					</div>
 				</div>
 			</div>
