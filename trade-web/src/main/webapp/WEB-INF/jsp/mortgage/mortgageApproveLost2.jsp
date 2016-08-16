@@ -8,33 +8,28 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>流失案件</title>
-<link href="../static/css/bootstrap.min.css" rel="stylesheet" />
-<link href="../static/font-awesome/css/font-awesome.css"
-	rel="stylesheet" />
-<link href="../static/css/animate.css" rel="stylesheet" />
-<link href="../static/css/style.css" rel="stylesheet" />
+<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="${ctx}/css/animate.css" rel="stylesheet" />
+<link href="${ctx}/css/style.css" rel="stylesheet" />
 <!-- Data Tables -->
-<link href="../static/css/plugins/dataTables/dataTables.bootstrap.css"
+<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"
 	rel="stylesheet" />
-<link href="../static/css/plugins/dataTables/dataTables.responsive.css"
+<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"
 	rel="stylesheet" />
-<link
-	href="../static/css/plugins/dataTables/dataTables.tableTools.min.css"
+<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"
 	rel="stylesheet" />
-<link href="../static/css/plugins/datapicker/datepicker3.css"
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 
 <!-- index_css -->
-<link rel="stylesheet" href="../static/trans/css/common/base.css" />
-<link rel="stylesheet" href="../static/trans/css/common/table.css" />
-<link rel="stylesheet" href="../static/trans/css/common/input.css" />
-<link rel="stylesheet" href="../static/iconfont/iconfont.css"">
-<%--         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>首页</title>
-        <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-        <link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<%--    
+        
+       
         <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
         <!-- IonRangeSlider -->
         <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
@@ -85,12 +80,10 @@
 			</div>
 
 			<div class="line">
-
 				<div class="form_content">
 					<label
 						class="control-label sign_left_small select_style mend_select">
 						审批日期 </label>
-
 					<div class="input-group sign-right dataleft input-daterange"
 						data-date-format="yyyy-mm-dd" id="datepicker_0">
 						<input id="dtBegin_0" name="dtBegin"
@@ -107,100 +100,12 @@
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
 						<button type="button" id="exportExcelButton"
-							class="btn btn-primary" onclick="javascript:exportToExcel()">导出列表</button>
+							class="btn btn-success" onclick="javascript:exportToExcel()">导出列表</button>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-
-
-
-	<%-- 		 <div class="row">
-			<div class="col-md-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>贷款流失筛选</h5>
-				</div>
-				<div class="ibox-content">
-					<form method="get" class="form-horizontal">
-						<div class="row">
-						   <div class="col-md-6">
-								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">主办</label>
-									<div class="col-md-8"> 
-										 <input type="text" id="realName" name="realName" class="form-control" value=""> 
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group ">
-									<label class="col-md-2 control-label m-l">案件组织</label>
-									<div class="col-md-8">
-										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value=''>
-                                          <input type="hidden" id="yuCuiOriGrpId" value="">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">审批日期</label>
-									<div class="col-md-8">
-										<div id="datepicker_0" 
-											class="input-group input-medium date-picker input-daterange "
-											data-date-format="yyyy-mm-dd">
-											<input id="dtBegin_0" name="dtBegin" class="form-control"
-												style="font-size: 13px;" type="text" value="${startTime}"
-												placeholder="起始日期"> <span class="input-group-addon">到</span>
-											<input id="dtEnd_0" name="dtEnd" class="form-control"
-												style="font-size: 13px;" type="text" value="${endTime}"
-												placeholder="结束日期" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="col-md-2 control-label m-l">案件编号</label>
-									<div class="col-md-8">
-									    <input type="text" class="form-control" id="caseCode" name="caseCode"/>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group ">
-									<label class="col-md-3 control-label m-l">产证地址</label>
-									<div class="col-md-8"> 	
-										<input type="text" class="form-control" id="propertyAddr" name="propertyAddr">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6"  style="">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6"></div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label class="col-md-4 control-label m-l-lg"></label>
-									<div>
-									   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
-									   <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出列表</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div> --%>
 	<div class="bonus-table"></div>
 
 	<!-- End page wrapper-->
@@ -209,15 +114,15 @@
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- Custom and plugin javascript --> <script
-		src="${ctx}/js/inspinia.js"></script> <script
-		src="${ctx}/js/plugins/pace/pace.min.js"></script> <!-- 选择组织控件 --> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <!-- 分页控件  -->
+	<!-- Custom and plugin javascript --> 
+	<script	src="${ctx}/js/inspinia.js"></script> 
+	<script	src="${ctx}/js/plugins/pace/pace.min.js"></script> <!-- 选择组织控件 --> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/plugins/jquery.custom.js"></script> <script
-		id="queryMortgageApproveLost" type="text/html">
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<script id="queryMortgageApproveLost" type="text/html">
                            {{each rows as item index}}
  							  	   {{if index%2 == 0}}
  				                     <tr class="tr-1">
