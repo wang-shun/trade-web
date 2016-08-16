@@ -49,6 +49,7 @@
 						tci.GRP_NAME as ORG_NAME,
 						tci.grp_code as AGENT_ORG_CODE,
 						pi.PROPERTY_ADDR
+						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
 					FROM
 						sctrans.T_TO_CASE_INFO AS tci
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS pi ON tci.CASE_CODE = pi.CASE_CODE
@@ -70,7 +71,7 @@
 				<column type="both" name="AGENT_NAME"  display="经纪人" />
 				<column type="both" name="ORG_NAME" display="组别"  />
 				<column type="both" name="IMPORT_TIME"  display="导入时间"  beanFormatter="dateFormatter1"   />			
-				<column type="virtual" name="LEADER"  	title="区经/区总" 	customDict="qqcdJlOrZjOrNameByOrgCode" referencecol="AGENT_ORG_CODE" />	
+				<column type="both" name="LEADER"  	title="区经/区总" />	
 			</table-row>
 		</grid>
 	</query>
