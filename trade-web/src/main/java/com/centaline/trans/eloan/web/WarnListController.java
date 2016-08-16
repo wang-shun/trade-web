@@ -56,6 +56,7 @@ import com.centaline.trans.loan.enums.LoanType;
 import com.centaline.trans.loan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
+import com.centaline.trans.utils.DateUtil;
 
 @Controller
 @RequestMapping(value="/eloan")
@@ -225,7 +226,9 @@ public class WarnListController {
 	
 	private void buildFCaseCode(ToEloanCase tEloanCase) {
 		if (StringUtils.isNotBlank(tEloanCase.getCaseCode())) {
-			tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ELOAN_CODE",new Date()));
+			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+			String month = dateStr.substring(0, 6);
+			tEloanCase.setEloanCode(uamBasedataService.nextSeqVal("ELOAN_CODE",month));
 		}
 	}
 	

@@ -34,6 +34,10 @@ public class AwardHandlerController {
 	public String personalAward() {
 		return "award/personalAwardDetail";
 	}
+	@RequestMapping(value = "personalAward2")
+	public String personalAward2() {
+		return "award/personalAwardDetail2";
+	}
 
 	/**
 	 * 所有人绩效奖金数据展示
@@ -42,6 +46,10 @@ public class AwardHandlerController {
 	@RequestMapping(value = "allAward")
 	public String allAward() {
 		return "award/allAward";
+	}
+	@RequestMapping(value = "allAward2")
+	public String allAward2() {
+		return "award/allAward2";
 	}
 
 	/**

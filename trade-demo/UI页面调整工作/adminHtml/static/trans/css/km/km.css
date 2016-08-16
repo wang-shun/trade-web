@@ -1,0 +1,43 @@
+.wrapper-content {
+  padding: 20px 15px 15px;
+}
+
+.km_content:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.wrapper .form_list .btn-sign {
+  margin-left: 10px;
+}
+
+.km_content .chat-discussion {
+  background: #fff;
+  padding: 0px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.message {
+  background-color: #fff;
+  border: none;
+  padding: 0px 10px;
+  position: relative;
+}
+.message .col-md-12 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.message .col-md-7 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.message .col-md-5 {
+  padding-left: 0;
+  padding-right: 0;
+}

@@ -38,7 +38,7 @@
 		this._moveDone=this._opts.moveDone;
 		this._stepExp = this._opts.stepExp;
 		this._formate = this._opts.formate;
-		this._move_btn = $(el).find('button[type=button]');
+		this._move_btn = $(el).find('button[name="dateButton"]');
 		this._move_btn_l = $(this._move_btn[0]);
 		this._move_btn_r = $(this._move_btn[1]);
 		this._move_btn_l.attr('ms-btn', 'l');
@@ -50,7 +50,13 @@
 	DateSelect.prototype = {
 		constructor : DateSelect,
 		_move : function(e) {
-			var rl = $(e.target).attr('ms-btn') == 'l' ? -1 : 1;
+			var rl;
+			if($(e.target).attr('ms-btn') == 'l' || $(e.target).parent('button[name="dateButton"]').attr('ms-btn') == 'l'){
+				rl=-1;
+			}else{
+				rl=1;
+			}
+			//var rl = $(e.target).attr('ms-btn') == 'l' ? -1 : 1;
 			var cDate = this.getDate();
 			switch (this._stepExp) {
 			case 'yyyy':

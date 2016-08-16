@@ -27,6 +27,7 @@ import com.centaline.trans.income.repository.TsOverridingMapper;
 import com.centaline.trans.income.service.ProfitService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class ProfitServiceImpl implements ProfitService {
@@ -318,8 +319,12 @@ public class ProfitServiceImpl implements ProfitService {
 			Org org = uamUserOrgSerivce.getOrgById(incomeSta.getOrgId());
 			TsTeamProperty teamPro = teamPropertyService
 					.findTeamPropertyByTeamCode(org.getOrgCode());
+			
+			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+			String month = dateStr.substring(0, 6);
+			
 			finCode = uamBasedataService.nextSeqVal("CJBH_CODE",
-					teamPro.getFinTeamCode(), new Date());
+					teamPro.getFinTeamCode(), month);
 		} else {
 			Date belongDay = ts.getIncomeBelongDay();
 			if (belongDay != null) {
