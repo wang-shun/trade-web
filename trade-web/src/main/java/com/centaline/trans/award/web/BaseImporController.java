@@ -111,10 +111,6 @@ public class BaseImporController {
 	public String baseAward() {
 		return "award/baseAward";
 	}
-	@RequestMapping(value = "baseAward2")
-	public String baseAward2() {
-		return "award/baseAward2";
-	}
 
 	@RequestMapping(value = "baseAwardCount")
 	@ResponseBody

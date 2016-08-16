@@ -50,7 +50,13 @@
 	DateSelect.prototype = {
 		constructor : DateSelect,
 		_move : function(e) {
-			var rl = $(e.target).attr('ms-btn') == 'l' ? -1 : 1;
+			var rl;
+			if($(e.target).attr('ms-btn') == 'l' || $(e.target).parent('button[name="dateButton"]').attr('ms-btn') == 'l'){
+				rl=-1;
+			}else{
+				rl=1;
+			}
+			//var rl = $(e.target).attr('ms-btn') == 'l' ? -1 : 1;
 			var cDate = this.getDate();
 			switch (this._stepExp) {
 			case 'yyyy':
