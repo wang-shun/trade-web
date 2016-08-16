@@ -15,13 +15,13 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.repository.KeyValueMapper;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
+import com.centaline.trans.common.service.KeyValueService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
@@ -34,7 +34,7 @@ import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.loan.entity.LoanAgent;
+
 @Service
 public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	
@@ -61,6 +61,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	//产品类型、案件绑定、合作机构、客户姓名、客户电话、申请金额、申请时间、申请期数
     	//转介人姓名、转介人员工编号、合作人姓名、合作人员工编号、产品部合作人、分成比例贷款。
     	//E+编号
+		
+		//申请人信息
 		User excutor = uamUserOrgService.getUserById(tEloanCase.getExcutorId());
 		Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(excutor.getOrgId(), DepTypeEnum.TYCQY.getCode());
 		if(excutor!=null) {
@@ -70,12 +72,18 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 			tEloanCase.setExcutorDistrict(districtOrg.getId());
 		}
 		bindServItem(tEloanCase);
-    	toEloanCaseMapper.insertSelective(tEloanCase);
+    	toEloanCaseMapper.insertSelective(tEloanCase);    	
     	
     	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
     	Map<String, Object> vars = new HashMap<String,Object>();
     	vars.put("Consultant", excutor.getUsername());
-    	vars.put("Manager", manager==null?null:manager.getUsername());
+    	//当前申请人是否是主管   
+    	String jobCode=user.getServiceJobCode();
+    	if("Manager".equals(jobCode)){
+    		vars.put("Manager", user.getUsername());
+    	}else{
+    		vars.put("Manager", manager==null?null:manager.getUsername());
+    	}	
     	
     	String demo=propertyUtilsService.getProcessEloanDfKey();
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);

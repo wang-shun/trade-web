@@ -188,6 +188,8 @@
 						E.REAL_PROPERTY_GET_TIME,
 						E.LOAN_LOST_TYPE,
 						E.REC_LETTER_NO,
+						E.SELF_DEL_REASON,
+						E.loanlost_apply_reason,
 						AC.org_name AS  AGENT_ORG,
 						AE.JFHJL_MGR AS AGENT_FHJL,
 						AE.JQYJL_MGR AS AGENT_QYJL,
@@ -544,7 +546,14 @@
 					hidden="true" />
 				<column type="both" name="CUST_PHONE" title="主贷人电话"
 					customDict="" hidden="true" />
-
+					
+				<column type="both" name="REC_LETTER_NO" title="推荐函编号"
+					customDict="" />
+				<column type="both" name="loanlost_apply_reason" title="贷款流失主要原因"
+					customDict="" />
+				<column type="both" name="SELF_DEL_REASON" title="贷款流失详情"
+					customDict="" />
+					
 				<column type="both" name="SIGN_DATE" title="签贷时间" customDict=""
 					hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="both" name="APPR_DATE" title="批贷时间" customDict=""
@@ -596,8 +605,7 @@
 				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费,评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
-				<column type="both" name="REC_LETTER_NO" title="推荐函编号"
-					customDict="" />
+
 			</table-row>
 		</grid>
 	</query>
