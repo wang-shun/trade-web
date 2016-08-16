@@ -19,7 +19,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-						sab.case_code,pi.property_addr,tab.guohu_time,
+						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,
 						sab.sum_base_amount,tab.paid_time,pd.AWARD_KPI_MONEY_SUM
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
@@ -86,8 +86,9 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column name="CASE_CODE"   />
-				<column name="PROPERTY_ADDR"   />
+				<column name="PKID"/>
+				<column name="CASE_CODE" />
+				<column name="PROPERTY_ADDR" />
 				<column name="GUOHU_TIME"   beanFormatter="dateFormatter"/>
 				<column name="SUM_BASE_AMOUNT"   />
 				<column name="PAID_TIME"   beanFormatter="dateFormatter"/>
