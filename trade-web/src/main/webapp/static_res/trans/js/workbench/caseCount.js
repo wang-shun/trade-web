@@ -38,6 +38,7 @@ function queryConutCaseByDate(){
 				$("#sp_actualAmount").text(data.actualAmount);
 				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
+				$("#ef_converRt").text(data.efConverRt);//评估费转化率
 
 				$("#sp_receiveCount").html(
 					"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received&arg="+sUserId+"' target='_blank'>" +
@@ -85,6 +86,11 @@ function queryConutCaseByDate(){
 					$('#sp_efConvRate_bar')[0].style.width='100%';
 				}else{
 					$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
+				}
+				if(parseFloat(data.efConverRt)>100){
+					$('#ef_converRt_bar')[0].style.width='100%';
+				}else{
+					$('#ef_converRt_bar')[0].style.width=data.efConverRt;
 				}
 				
 				var max_bar2 = Math.max(data.receiveCount, data.signCount, data.loanApplyCount, data.closeCount);
@@ -168,13 +174,19 @@ function ePlusLoanCount(dom, data, formatter) {
 		        {
 		            name:'E+贷款',
 		            type:'pie',
-		            radius: ['50%', '80%'],
+		            radius: ['40%', '70%'],
 		            avoidLabelOverlap: false,
 		            
 		            label: {
 		                normal: {
 		                    show: true,
-		                    position: 'outside'
+		                    position: 'outside',
+		                    textStyle: {
+		                        fontSize: '13',
+		                        fontWeight: 'bold',
+		                       // color : 'black',
+		                    }
+		                    
 		                },
 		                emphasis: {
 		                    show: true,

@@ -174,14 +174,23 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                  </div>
                                                  <span class="right-label" id="sp_actualAmount" style="color:#337ab7;cursor:pointer;">2000万</span>
                                             </div>
-                                            <div class="data-left">
-                                            	<span class="left-label h50 pb10">评估费</span>
+                                           <div class="data-left">
+                                            	<span class="left-label">评估费</span>
                                                 <div class="data-bar">
                                                 	<div class="progress progress-small">
                                                     	<div id="sp_evalFee_bar" style="width: 30%;" class="progress-bar bar-red"></div>
                                                  	</div>
                                                  </div>
-                                                 <span class="right-label pb10" id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span>
+                                                 <span class="right-label" id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span>
+                                            </div>
+                                            <div class="data-left">
+                                            	<span class="left-label h50 pb10">评估费转化率</span>
+                                                <div class="data-bar">
+                                                	<div class="progress progress-small">
+                                                    	<div id="ef_converRt_bar" style="width: 30%;" class="progress-bar bar-red"></div>
+                                                 	</div>
+                                                 </div>
+                                                 <span class="right-label pb10" id="ef_converRt" style="color:#337ab7;cursor:pointer;">100%</span>
                                             </div>
                                         </div>
                                         <div class="data-progress data2">
@@ -195,7 +204,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_convRate" class="right-label pt50">100%</span>
                                                             </div>
                                                             <div class="data-left">
-                                                                <span class="left-label wd105 h90 pb20">评估费转换率</span>
+                                                                <span class="left-label wd105 h90 pb20">评估费折扣率</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_efConvRate_bar" style="width: 30%;" class="progress-bar bar-red"></div>
@@ -481,10 +490,13 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<div class="panel-options">
                             	<ul class="nav nav-tabs">
                                 	<li class="active">
-                                    	<a href="#tab-01" data-toggle="tab">业务提醒</a>
+                                    	<a href="#tab-01" data-toggle="tab">待办事项</a>
+                                    </li>                            	
+                                	<li id="yewu" class="">
+                                    	<a href="#tab-02" data-toggle="tab">业务提醒</a>
                                     </li>
-                                    <li id="yewu" class="">
-                                    	<a href="#tab-02" data-toggle="tab">龙虎榜</a>
+                                    <li class="">
+                                    	<a href="#tab-03" data-toggle="tab">龙虎榜</a>
                                     </li>
                             	</ul>
                          	</div>
@@ -492,7 +504,18 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 
                          <div class="panel-body">
                          	<div class="tab-content">
-                             <div   class="tab-pane active" id="tab-01">
+                            	<div class="tab-pane active" id="tab-01">
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important; padding-left:0px !important; padding-right:0px !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	</div>
+	</div> 
+                                </div>                         	
+                             <div   class="tab-pane" id="tab-02">
                                   <div class="row">
                                      <div class="col-md-4">
                                          <div class="widget-box">
@@ -552,7 +575,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                           </div>
                                                 
                                           <!-- 龙虎榜 -->
-                                          <div class="tab-pane" id="tab-02">
+                                          <div class="tab-pane" id="tab-03">
 						<script type="text/javascript">
 										function imgLoad(img){
  											img.parentNode.style.backgroundImage="url("+img.src+")";
