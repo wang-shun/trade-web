@@ -65,7 +65,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="notes">
-                <p class="pull-left">我的基础计件奖金</p>
+                <p class="pull-left">基础计件奖金</p>
                 <p class="pull-right" id="countMsg">
                     交易单数：9，环节总数：31.00，交易单加权：9.00
                 </p>
@@ -109,7 +109,7 @@
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
     <!-- owner -->
-    <script src="${ctx}/static/trans/js/award/personalAward.js"></script>
+    <script src="${ctx}/static/trans/js/award/allAward.js"></script>
     <script id="template_tsAwardBaseList" type= "text/html">
     	{{each rows as item index}}
  			<tr>
@@ -142,7 +142,8 @@
         	<table class="table spread_tab table-bordered">
             	<thead>
                 <tr>
-                                                    <th>服务</th>
+                                                    <th>相关人</th>
+													<th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>环节占比</th>
 													<th>满意度</th>
@@ -156,6 +157,7 @@
                 <tbody>
 					{{each rows as item index}}
                                                 <tr> 
+													<td>{{item.REAL_NAME}}</td>
                                                     <td>{{item.SRV_CODE}}</td>
 													<td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SRV_PART_IN}}/{{item.SRV_PART_TOTAL}}</td>
@@ -202,7 +204,7 @@
 	  				  $(this).html("收起");
 	  				  // 发出请求
 	  				    var data = {};
-				    	    data.queryId = "awardrInfoList";
+				    	    data.queryId = "allAwardrInfoList";
 				    	    data.pagination = false;
 				    	    data.caseCode = id;
 				    	 	data.paidTime = monthSel.getDate().format('yyyy-MM-dd');
@@ -233,7 +235,7 @@
 			}
     		
     		var data1 = {};
-    	    data1.queryId = "baseAwardrQuery";
+    	    data1.queryId = "allBaseAwardrQuery";
     	    data1.rows = 12;
     	    data1.page = 1;
     	    data1.paidTime = bm;
@@ -256,7 +258,7 @@
     	  //显示统计信息
  			$.ajax({
     			  async: false,
-    	          url:ctx+ "/award/baseAwardCount" ,
+    	          url:ctx+ "/awards/allBaseAwardCount" ,
     	          method: "post",
     	          dataType: "json",
     	          data: data2,
@@ -270,7 +272,7 @@
     	function goPage(page) {
     		var bm=monthSel.getDate().format('yyyy-MM-dd');	
     		var data1 = {};
-    	    data1.queryId = "baseAwardrQuery";
+    	    data1.queryId = "allBaseAwardrQuery";
     	    data1.rows = 12;
     	    data1.page = page;
     	    data1.caseCode = $("#caseCode").val();
