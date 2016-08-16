@@ -97,18 +97,19 @@ function checkMortgageForm(formId){
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
 	} 
+	
+	if(formId.find("select[name='finOrgCode']").val() == ""){
+		formId.find("select[name='finOrgCode']").css("border-color","red");
+		return false;
+    }
+	
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
 		if(afterTimeFlag){
 			if (formId.find("input[name='recLetterNo']").val()==""){
 				formId.find("input[name='recLetterNo']").css("border-color","red");
 				return false;
 			}
-		}
-		if(formId.find("select[name='finOrgCode']").val() == ""){
-				formId.find("select[name='finOrgCode']").css("border-color","red");
-				return false;
-		}
-		
+		}		
 	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
 			formId.find("input[name='tmpBankReason']").css("border-color","red");
