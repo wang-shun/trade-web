@@ -51,6 +51,7 @@
 						,ctd.IMPORT_TIME AS CREATE_TIME
 						,tst.YU_TEAM_CODE YU_TEAM_CODE
 						,ctd.AGENT_CODE AS USER_ID
+						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
 					FROM sctrans.T_TO_CASE_INFO ctd
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE and tst.IS_RESPONSE_TEAM = 1
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
@@ -73,7 +74,7 @@
 				<column type="both" name="CREATE_TIME"   display="派单时间"   beanFormatter="dateFormatter1"  />
 				
 				<column type="both" name="AGENT_ORG_CODE"  />
-				<column type="virtual" name="LEADER"  	title="区经/区总" 	customDict="qqcdJlOrZjOrNameByOrgCode" referencecol="AGENT_ORG_CODE" />	
+				<column type="both" name="LEADER"  	title="区经/区总" />	
 				
 				<column type="both" name="YU_TEAM_CODE" display="YU_TEAM_CODE"/>
 				<column type="both" name="AGENT_NAME" display="经纪人" />
