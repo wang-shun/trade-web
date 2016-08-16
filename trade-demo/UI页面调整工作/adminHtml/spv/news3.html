@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>知识库</title>
-
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>监管资金及账户信息</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="../static/css/animate.css" />
+    <link rel="stylesheet" href="../static/css/style.css" />
 
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
 
-    <link rel="stylesheet" href="../static/css/animate.css">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- index_css -->
+    <link rel="stylesheet" href="../static/trans/css/common/base.css" />
+    <link rel="stylesheet" href="../static/trans/css/maimai/input.css" />
 
-
-    <link rel="stylesheet" href="../static/css/plugins/aist-steps/steps.css">
-    <link rel="stylesheet" href="../static/css/plugins/toastr/toastr.min.css">
-    <link rel="stylesheet" href="../static/css/plugins/datapicker/datepicker3.css">
-    <!-- index_css  -->
-    <link rel="stylesheet" href="../static/trans/css/km/km.css">
-    <link rel="stylesheet" href="../static/trans/css/common/input.css">
-
-
+</head>
 
 <body>
-
     <div id="wrapper">
-
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                             <span>
-                                <img alt="image" class="img-circle" src="../static/img/profile_small.jpg">
+                                <img alt="image" class="img-circle" src="../static/img/profile_small.jpg"/>
                             </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs">
-                                        <strong class="font-bold">金姣姣</strong>
+                                        <strong class="font-bold">
+                                            金姣姣
+                                        </strong>
                                     </span>
-                                    <span class="text-muted text-xs block">交易顾问</span>
+                                    <span class="text-muted text-xs block">
+                                        交易顾问
+                                    </span>
                                     <span class="text-muted text-xs block">
                                         虹口杨浦贵宾服务部A组
-                                        <b class="caret"></b>
+                                        <b class="caret">
+                                        </b>
                                     </span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li>
-                                    <a href="#">我的信息</a>
+                                    <a href="#">
+                                        我的信息
+                                    </a>
                                 </li>
                                 <li class="divider">
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onclick="LogoutUtils.logout();return false;">
+                                    <a href="javascript:void(0)" onClick="LogoutUtils.logout();return false;">
                                         注销
                                     </a>
                                 </li>
@@ -68,7 +68,7 @@
                         </div>
                     </li>
                     <li class="">
-                        <a href="dashboard（manager）.html">
+                        <a href="../workbench/dashboard（manager）.html">
                             <i class="fa fa-home">
                             </i>
                             <span class="nav-label">
@@ -78,54 +78,77 @@
                         <iframe id="tmp_downloadhelper_iframe" style="display: none;">
                         </iframe>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a href="#">
                             <i class="fa fa-th-large">
                             </i>
-                            <span class="nav-label">我的案件</span>
+                            <span class="nav-label">
+                                我的案件
+                            </span>
                             <span class="fa arrow">
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li>
-                                <a href="#">
+                            <li class="active">
+                                <a href="myCaseList.html">
                                     <i class="fa ">
                                     </i>
                                     案件总览
                                 </a>
                             </li>
                             <li class="">
-                                <a href="myTaskList.html">
+                                <a href="../workflow/caseDistribute.html">
+                                    <i class="fa ">
+                                    </i>
+                                    待分配案件
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../workflow/myTaskList.html">
                                     <i class="fa ">
                                     </i>
                                     待办任务
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="../workflow/unlocatedTasks.html">
                                     <i class="fa ">
                                     </i>
                                     无主任务
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="unlocatedCase.html">
+                                    <i class="fa ">
+                                    </i>
+                                    无主案件
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tracking.html">
                                     <i class="fa ">
                                     </i>
                                     案件追踪
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="mortgageApproveLost.html">
                                     <i class="fa ">
                                     </i>
                                     流失案件
                                 </a>
                             </li>
+                            <li>
+                                <a href="../workflow/toTaskOfGroupList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    本组待办列表
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="">
-                        <a href="#">
+                        <a href="">
                             <i class="fa fa-glass">
                             </i>
                             <span class="nav-label">
@@ -135,8 +158,8 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="">
-                                <a href="#">
+                            <li>
+                                <a href="../eloan/eloan_index.html">
                                     <i class="fa ">
                                     </i>
                                     金融产品信息填写
@@ -189,7 +212,7 @@
                             </span>
                         </a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="#">
                             <i class="fa fa-calendar-o">
                             </i>
@@ -200,8 +223,8 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="active">
-                                <a href="knowledge.html">
+                            <li>
+                                <a href="#">
                                     <i class="fa ">
                                     </i>
                                     知识库
@@ -246,15 +269,23 @@
                 </ul>
             </div>
         </nav>
-
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
-                </div>
-                <div class="navbar-header" style="margin-left: 30%;"><h2 class="welcome">欢迎使用誉萃交易平台！</h2><iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
-                <ul class="nav navbar-top-links navbar-right">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#">
+                            <i class="fa fa-bars">
+                            </i>
+                        </a>
+                    </div>
+                    <div class="navbar-header" style="margin-left: 30%;">
+                        <h2 class="welcome">
+                            欢迎使用誉萃交易平台！
+                        </h2>
+                        <iframe id="tmp_downloadhelper_iframe" style="display:none;">
+                        </iframe>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <span class="m-r-sm text-muted welcome-message">    </span>
                     </li>
@@ -396,145 +427,146 @@
                     <li><a href="javascript:void(0);" onclick="orgJob.changeOrgJob(&quot;8dc9766035cc47819e7eb28ad2c16bc6&quot;,&quot;ff8080814f459a78014f45ab2c39000d&quot;)">交易顾问@虹口杨浦贵宾服务部A组</a></li></ul>
                     </li>
                 </ul>
-            </nav>
+                </nav>
             </div>
 
-
-            <div class="row">
-                <div class="wrapper wrapper-content animated fadeInUp">
-                    <div class="ibox-content km_content">
-                        <h2 class="title">
-                            知识库
-                        </h2>
-                        <form method="get" class="form_list">
-                            <div class="form_content form_nomargin">
-                                <input class="sign_right input_type ml10" placeholder="请输入" value="">
-                            </div>
-                            <div class="form_content btn-sign">
-                                <button type="button" class="btn btn-success">
-                                    <i class=" iconfont">&#xe635;</i> 查询
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- <div class="ibox"> -->
-                    <div class="ibox-content km_content">
-                        <div class="table-box-know">
-                            <table class="table">
-                                <tr>
-                                    <td>
-                                        <p><img width="50" src="../static/img/client1.png" alt="" /></p>
-                                        <p class="name">马慧才</p>
-                                    </td>
-                                    <td>
-                                        <p class="head">交易知识100</p>
-                                        <p>
-                                            这是我在多年交易服务过程中总结出来的相关支持。其中包括1：签约部分；2：评估部分；
-                                            3：贷款部分；4：过户部分。 希望在某种程度上帮助到大家！这是我在多年交易服务过程中
-                                        </p>
-                                    </td>
-                                    <td class="text-right" style="width:32%;">
-                                        <p class="data">2016-03-21 10:21:54</p>
-                                        <p class="sum_type">
-                                            <label class="btn btn-smar btn-white" >置顶</label>
-                                            <label class="btn btn-smar btn-white" >推荐</label>
-                                            <label class="btn btn-smar btn-white" >点击量（9）</label>
-                                            <label class="btn btn-smar btn-white" >取消赞（9）</label>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p><img width="50" src="../static/img/client1.png" alt="" /></p>
-                                        <p class="name">马慧才</p>
-                                    </td>
-                                    <td>
-                                        <p class="head">交易知识100</p>
-                                        <p>
-                                            这是我在多年交易服务过程中总结出来的相关支持。其中包括1：签约部分；2：评估部分；
-                                            3：贷款部分；4：过户部分。 希望在某种程度上帮助到大家！这是我在多年交易服务过程中
-                                        </p>
-                                    </td>
-                                    <td class="text-right" style="width:32%;">
-                                        <p class="data">2016-03-21 10:21:54</p>
-                                        <p class="sum_type">
-                                            <label class="btn btn-smar btn-white" >置顶</label>
-                                            <label class="btn btn-smar btn-white" >推荐</label>
-                                            <label class="btn btn-smar btn-white" >点击量（9）</label>
-                                            <label class="btn btn-smar btn-white" >取消赞（9）</label>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p><img width="50" src="../static/img/client1.png" alt="" /></p>
-                                        <p class="name">马慧才</p>
-                                    </td>
-                                    <td>
-                                        <p class="head">交易知识100</p>
-                                        <p>
-                                            这是我在多年交易服务过程中总结出来的相关支持。其中包括1：签约部分；2：评估部分；
-                                            3：贷款部分；4：过户部分。 希望在某种程度上帮助到大家！这是我在多年交易服务过程中
-                                        </p>
-                                    </td>
-                                    <td class="text-right" style="width:32%;">
-                                        <p class="data">2016-03-21 10:21:54</p>
-                                        <p class="sum_type">
-                                            <label class="btn btn-smar btn-white" >置顶</label>
-                                            <label class="btn btn-smar btn-white" >推荐</label>
-                                            <label class="btn btn-smar btn-white" >点击量（9）</label>
-                                            <label class="btn btn-smar btn-white" >取消赞（9）</label>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
+            <!--*********************** HTML_main*********************** -->
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="ibox-content border-bottom clearfix space_box">
+                    <form class="form-inline">
+                        <div class="title">
+                            监管资金及账户信息
                         </div>
-                    </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >监管总金额</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                                <div class="input-group date_icon">
+                                    <span class="danwei">万</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="title">
+                            监管资金的支付
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >买方自有资金支付金额</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >买方贷款资金支付金额</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >其中：商业贷款金额</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >公积金贷款金额</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+                        <div class="title">
+                            资金监管账号信息
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >卖方收款账号名称</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >电话</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >开户行</label>
+                                <input type="text" class="form-control input-two" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >所属地</label>
+                                <input type="text" class="form-control input-two" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >账号</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >买方退款账号名称</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >电话</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >开户行</label>
+                                <input type="text" class="form-control input-two" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >所属地</label>
+                                <input type="text" class="form-control input-two" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >账号</label>
+                                <input type="text" class="form-control left-extent" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >托管账户名称</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >账号</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-row form-rowbot">
+                            <div class="form-group form-margin form-space-one left-extent">
+                                <label for="" class="lable-one" >资金方账户名称</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                            <div class="form-group form-margin form-space-one">
+                                <label for="" class="lable-one" >账号</label>
+                                <input type="text" class="form-control input-one" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-btn">
+                            <div class="btn-left btn-left-space">
+                                <button type="submit" class="btn btn-success">保存</button>
+                                <button type="submit" class="btn btn-success">下一步</button>
+                                <button type="submit" class="btn btn-success">取消</button>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
+
             </div>
-
-
-            <!-- main End -->
+            <!--*********************** HTML_main*********************** -->
         </div>
     </div>
-
     <!-- Mainly scripts -->
     <script src="../static/js/jquery-2.1.1.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
     <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- ECharts.js -->
-    <script src="../static/js/echarts.min.js"></script>
-
-
-
     <!-- Custom and plugin javascript -->
     <script src="../static/js/inspinia.js"></script>
     <script src="../static/js/plugins/pace/pace.min.js"></script>
-
-
-
-    <!-- Toastr script -->
-    <script src="../static/js/plugins/toastr/toastr.min.js"></script>
-    <script src="../static/js/morris/morris.js"></script>
-    <script src="../static/js/morris/raphael-min.js"></script>
-
-    <!-- index_js -->
-    <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            $('.input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
-
-
-        });
-    </script>
-
-
 </body>
-
 </html>

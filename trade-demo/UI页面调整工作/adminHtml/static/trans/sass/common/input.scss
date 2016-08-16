@@ -240,7 +240,7 @@ input {
     color: #333;
   }
   .lable-one {
-    width: 80px;
+    width: 70px;
   }
   .input-one {
     width: 150px;
@@ -249,15 +249,35 @@ input {
     width: 447px;
   }
   .select-one {
-    width: 100px;
+    width: 105px;
   }
 }
+.toright {
+  margin-right: 36px;
+}
 .form-btn {
-  margin-top: 40px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    overflow: hidden;
   .btn-left-space {
-    margin-left: 104px;
+    margin-left: 94px;
   }
 }
 .form-inline .input-group .date-width {
   width: 130px;
+}
+.form-inline {
+  .btn-left {
+  float: left;
+  }
+  .btn-right {
+    float: right;
+  }
+  .btn-right a {
+    color: #fff;
+  }
+  .btn-default {
+    color:#428fcc;
+    background-color:#e4e4e4;
+}
 }
