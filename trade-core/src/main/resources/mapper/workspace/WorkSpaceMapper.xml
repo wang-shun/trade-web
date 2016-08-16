@@ -117,11 +117,10 @@ from (
   </select>
   <select id="staLoanAgentLoanAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   	select  SUM(ISNULL(la.loan_amount,0) + ISNULL(tec.APPLY_AMOUNT,0)*10000) as loanAmount
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
-	 on la.CASE_CODE=tsi.CASE_CODE
-	 LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON la.CASE_CODE = tec.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null
+	 FROM    sctrans.t_to_sign AS tsi
+        LEFT JOIN sctrans.T_TO_LOAN_AGENT AS la ON la.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON tec.CASE_CODE = tsi.CASE_CODE
+	 where 1=1
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -139,12 +138,10 @@ from (
   <!-- E+转换率 -->
   <select id="staLoanAgentTransferRate" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   	select  SUM(ISNULL(la.SIGN_AMOUNT,0)+ISNULL(tec.SIGN_AMOUNT,0)*10000)/sum(tsi.CON_PRICE) as  tansferRate
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
-	 on la.CASE_CODE=tsi.CASE_CODE
-	 LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON la.CASE_CODE = tec.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.sign_time is not null
-	 and tsi.CON_PRICE is not null
+	 FROM    sctrans.t_to_sign AS tsi
+        LEFT JOIN sctrans.T_TO_LOAN_AGENT AS la ON la.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON tec.CASE_CODE = tsi.CASE_CODE
+	 where 1=1
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -161,11 +158,10 @@ from (
   </select>
   <select id="staLoanAgentSignAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   	select  sum(ISNULL(la.SIGN_AMOUNT,0)+ISNULL(tec.SIGN_AMOUNT,0)*10000) as  signAmount
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
-	 on la.CASE_CODE=tsi.CASE_CODE
-	 LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON la.CASE_CODE = tec.CASE_CODE
-	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.sign_time is not null
+	 FROM    sctrans.t_to_sign AS tsi
+     LEFT JOIN sctrans.T_TO_LOAN_AGENT AS la ON la.CASE_CODE = tsi.CASE_CODE
+     LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON tec.CASE_CODE = tsi.CASE_CODE
+	 where 1=1
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -184,15 +180,15 @@ from (
   	select SUM(ISNULL(la.ACTUAL_AMOUNT, 0) + ISNULL(t.RELEASE_AMOUNT, 0) * 10000) as actualAmount,
 
 	(sum(la.SIGN_AMOUNT)/(case when SUM(tsi.REAL_PRICE)=0 THEN  0.001 else SUM(tsi.REAL_PRICE)  end)*100) as convRate 
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
-	 on la.CASE_CODE=tsi.CASE_CODE
-	 LEFT JOIN ( SELECT  SUM(ttr.RELEASE_AMOUNT) AS RELEASE_AMOUNT ,
+	 FROM    sctrans.t_to_sign AS tsi
+        LEFT JOIN sctrans.T_TO_LOAN_AGENT AS la ON la.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_ELOAN_CASE tec ON tsi.CASE_CODE = tec.CASE_CODE
+        LEFT JOIN ( SELECT  SUM(ttr.RELEASE_AMOUNT) AS RELEASE_AMOUNT ,
                             ttc.CASE_CODE
                     FROM    sctrans.T_TO_ELOAN_CASE ttc
                             LEFT JOIN sctrans.T_TO_ELOAN_REL ttr ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
                     GROUP BY ttc.CASE_CODE
-                  ) t ON t.CASE_CODE = la.CASE_CODE
+                  ) t ON t.CASE_CODE = tsi.CASE_CODE
 	 where la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' 
 	 <if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
