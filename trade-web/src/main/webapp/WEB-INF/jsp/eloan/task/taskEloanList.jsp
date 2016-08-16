@@ -191,7 +191,7 @@
 					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
 				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">详情</button>
 				   </a>		
-	                <shiro:hasPermission name="TRADE.ELOAN.DELETE">
+	                <shiro:hasPermission name="TRADE.ELONE.DELETE">
 				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
                     </shiro:hasPermission>                 
                </td>
@@ -233,7 +233,7 @@
 								data:{pkid:pkid},
 								success:function(data){
 										alert(data.message);
-										caseList.trigger("initData");//刷新列表
+										initData();//刷新列表
 									    $.unblockUI();
 								}
 							});
