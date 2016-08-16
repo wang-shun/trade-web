@@ -405,10 +405,10 @@
         TMP_BANK_STATUS=#{tmpBankStatus,jdbcType=VARCHAR},
       </if>
       <if test="tmpBankRejectReason != null">
-        TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR}
+        TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR},
       </if>
       <if test="loanLostApplyReason !=null">
-      	LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR}      	
+      	LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR},      	
       </if>
       <if test="loanLostConfirmCode !=null">
       	LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR}      	
