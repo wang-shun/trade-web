@@ -23,6 +23,7 @@
 		<pattern>/workspace/dashboard</pattern>
 		<pattern>/awards/personalAward2</pattern>		
 		<pattern>/awards/allAward2</pattern>		
+		<pattern>/award/baseAwardReport2</pattern>		
 		<pattern>/task/myTaskList</pattern>
 		<pattern>/eloan/Eloanlist</pattern>
 		<pattern>/eloan/getEloanCaseDetails</pattern>
