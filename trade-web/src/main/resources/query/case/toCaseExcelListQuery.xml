@@ -190,6 +190,7 @@
 						E.REC_LETTER_NO,
 						E.SELF_DEL_REASON,
 						E.loanlost_apply_reason,
+						E.LOANLOST_CONFIRM_CODE,
 						AC.org_name AS  AGENT_ORG,
 						AE.JFHJL_MGR AS AGENT_FHJL,
 						AE.JQYJL_MGR AS AGENT_QYJL,
@@ -548,6 +549,8 @@
 					customDict="" hidden="true" />
 					
 				<column type="both" name="REC_LETTER_NO" title="推荐函编号"
+					customDict="" />
+				<column type="both" name="LOANLOST_CONFIRM_CODE" title="贷款流失确认函编号"
 					customDict="" />
 				<column type="both" name="loanlost_apply_reason" title="贷款流失主要原因"
 					customDict="" />
