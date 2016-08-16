@@ -50,13 +50,12 @@ public class MortgageLostController {
 				isAdminFlag=true;
 			}
 		}
-		request.setAttribute("queryOrgs", reBuffer.toString());
-		request.setAttribute("queryOrgFlag", queryOrgFlag);
-		request.setAttribute("isAdminFlag", isAdminFlag);
-		
-		request.setAttribute("serviceDepId",user.getServiceDepId());
+		request.setAttribute("queryOrgs", reBuffer.toString());//org_id至jsp、js分割-->数组
+		request.setAttribute("queryOrgFlag", queryOrgFlag);//判断是否是交易顾问 即判断是否有上下级组织
+		request.setAttribute("isAdminFlag", isAdminFlag);		
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 	
 				
-		return "mortgage/mortgageApproveLost";
+		return "mortgage/mortgageApproveLost2";
 	}
 }
