@@ -138,7 +138,7 @@
 						AND I.REAL_PROPERTY_GET_TIME &lt;= #realPropertyGetTimeEnd#
 					</ifNotNull>
 
-					where m.IS_TMP_BANK = '1' and
+					where m.IS_TMP_BANK = '1' and m.APPR_DATE is not null and
 					  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = B.CASE_CODE  
 					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
 					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
