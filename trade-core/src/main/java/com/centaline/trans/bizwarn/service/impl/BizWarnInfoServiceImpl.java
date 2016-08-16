@@ -51,8 +51,8 @@ public class BizWarnInfoServiceImpl implements BizWarnInfoService {
 	}
 
 	@Override
-	public int getAllBizwarnCount() {
-		return bizWarnInfoMapper.getAllBizwarnCount();
+	public int getAllBizwarnCount(String userLoginName) {
+		return bizWarnInfoMapper.getAllBizwarnCount(userLoginName);
 	}
 
 }
