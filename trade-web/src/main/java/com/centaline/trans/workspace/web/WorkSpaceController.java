@@ -263,6 +263,8 @@ public class WorkSpaceController {
 
 	@RequestMapping(value = "dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		
 		/*判断是否为移动端登录*/
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
@@ -279,7 +281,7 @@ public class WorkSpaceController {
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
-		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
+		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
 		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
 		model.addAttribute("yeLight", yeLight);
