@@ -500,4 +500,20 @@ public class WarnListController {
 		return caseInfos;
 	}
 	
+	/*根据pkId删除案件*/
+	@RequestMapping("deteleItem")
+	@ResponseBody
+	public AjaxResponse<LoanAgent> deteleItem(Long pkid, ServletRequest request){
+		AjaxResponse<LoanAgent> result = new AjaxResponse<>();
+		try {
+			toEloanCaseService.deleteById(pkid);
+			result.setSuccess(true);
+			result.setMessage("删除成功!");
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("删除失败!");
+		}
+		return result;
+	}
+	
 }

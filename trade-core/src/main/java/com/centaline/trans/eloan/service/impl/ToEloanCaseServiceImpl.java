@@ -237,5 +237,10 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		return response;
 	}
 
+	@Override
+	public void deleteById(Long pkid) {
+		toEloanCaseMapper.deleteByPrimaryKey(pkid);
+	}
+
 
 }
