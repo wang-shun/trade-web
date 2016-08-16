@@ -41,15 +41,19 @@
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">人员</label>
-                        <input type="text" id="inTextVal" name="radioOrgName" class="teamcode input_type tbspuser" style="width:152px;" placeholder="请输入" readonly="readonly"  hVal="${serUserId }" value="${userInfo }" 
+                        <input type="text" id="inTextVal" name="radioOrgName" class="teamcode input_type" style="width:152px;" placeholder="请选择" readonly="readonly"  hVal="${serUserId }" value="${userInfo }" 
                         onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+                        <div class="input-group float_icon organize_icon" style="cursor:pointer;" onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})">
+                        	<i class="icon iconfont">&#xe627;</i>
+                        </div>
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">案件组织</label>
-                        <input id="teamCode" name="teamCode" class="teamcode input_type" placeholder="请输入"  readonly="readonly" value="" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+                        <input id="teamCode" name="teamCode" class="teamcode input_type" placeholder="请选择"  readonly="readonly" value="" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 							startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:''})" />
 						<input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
-                        <div class="input-group float_icon organize_icon">
+                        <div class="input-group float_icon organize_icon" style="cursor:pointer;" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+							startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:''})">
                             <i class="icon iconfont">&#xe61b;</i>
                         </div>
                     </div>
@@ -108,6 +112,7 @@
         </div>
     </div>
 </div>
+<form action="#" accept-charset="utf-8" method="post" id="excelChangeForm"></form>
 <!--*********************** HTML_main*********************** -->
 </div>
 </div>
