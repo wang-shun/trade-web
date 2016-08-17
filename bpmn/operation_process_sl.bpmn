@@ -58,7 +58,11 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseSecondCheck}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-6D4B18DF-BC6A-42BB-BDFE-4CE264CA9FF8" sourceRef="LoanRelease" targetRef="CaseClose"></sequenceFlow>
-    <userTask id="CaseClose" name="结案归档" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/CaseClose/process"></userTask>
+    <userTask id="CaseClose" name="结案归档" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/CaseClose/process">
+      <extensionElements>
+        <activiti:taskListener event="create" delegateExpression="${autoPlanEventListener}"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow4" sourceRef="GuohuApprove" targetRef="inclusivegateway1"></sequenceFlow>
     <sequenceFlow id="sid-D8A31BF4-CA18-49D1-99D5-822B00604AF1" sourceRef="Guohu" targetRef="GuohuApprove"></sequenceFlow>
     <sequenceFlow id="sid-4706A536-89B5-4165-93C1-F66D903907D5" sourceRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E" targetRef="Guohu"></sequenceFlow>
@@ -100,7 +104,11 @@
       <sequenceFlow id="sid-587B869A-595D-4177-B090-52196DB9E505" sourceRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39" targetRef="LoanClose">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanCloseNeed}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="TransPlanFilling" name="填写交易计划" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/transPlan/process"></userTask>
+      <userTask id="TransPlanFilling" name="填写交易计划" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/transPlan/process">
+        <extensionElements>
+          <activiti:taskListener event="create" delegateExpression="${autoPlanEventListener}"></activiti:taskListener>
+        </extensionElements>
+      </userTask>
       <sequenceFlow id="sid-3C19F394-57FE-4EC7-9B47-384695CE9EA7" sourceRef="TransPlanFilling" targetRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39"></sequenceFlow>
       <userTask id="TransSign" name="签约" activiti:assignee="${caseOwner}" activiti:formKey="/task/sign/process "></userTask>
       <sequenceFlow id="flow10" sourceRef="TransSign" targetRef="TransPlanFilling"></sequenceFlow>
