@@ -160,10 +160,10 @@ function ePlusLoanCount(dom, data, formatter) {
 	var myChart = echarts.init(dom);
 	
 	var option = {
-		    tooltip: {
+		    /*tooltip: {
 		        trigger: 'item',
 		        formatter: formatter
-		    },
+		    },*/
 		    /*legend: {
 		        orient: 'vertical',
 		        x: 'left',
@@ -181,6 +181,7 @@ function ePlusLoanCount(dom, data, formatter) {
 		                normal: {
 		                    show: true,
 		                    position: 'outside',
+		                    formatter : formatter,
 		                    textStyle: {
 		                        fontSize: '13',
 		                        fontWeight: 'bold',

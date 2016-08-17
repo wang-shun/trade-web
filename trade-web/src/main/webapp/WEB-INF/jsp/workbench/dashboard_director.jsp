@@ -130,13 +130,13 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<div class="panel-options">
                             	<ul class="nav nav-tabs">
                                 	<li class="active">
-                                    	<a href="#tab-1" style="font-size:16px !important;" data-toggle="tab">交易顾问工作数据显示</a>
+                                    	<a href="#tab-1" data-toggle="tab">交易顾问工作数据显示</a>
                                     </li>
                                     <li class="">
-                                    	<a href="#tab-2" style="font-size:16px !important;" data-toggle="tab">贷款详情</a>
+                                    	<a href="#tab-2" data-toggle="tab">贷款详情</a>
                                     </li>
                                     <li class="">
-                                    	<a href="#tab-3" style="font-size:16px !important;" data-toggle="tab">E＋贷款</a>
+                                    	<a href="#tab-3" data-toggle="tab">E＋贷款</a>
                                     </li>
                             	</ul>
                          	</div>
