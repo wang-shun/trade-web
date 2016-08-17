@@ -300,7 +300,9 @@
 									onClick="appendNotApprove(this.checked,'${notApprove.name}');">
 								<label>${notApprove.name}</label>
 							</div>
-						</c:forEach>	
+						</c:forEach>
+						
+						<c:if test="${not empty users }">	
 						<div class="col-sm-6 sign">&nbsp;</div>
 						<div class="col-sm-6 sign">&nbsp;</div>
                         <div class="col-sm-6 sign">&nbsp;</div>
@@ -313,6 +315,8 @@
 								<label>${user.realName}</label>
 							</div>
 						</c:forEach>
+						</c:if>
+						
 					</div>
 				</div>
 
@@ -552,13 +556,26 @@
 				if (!checkAttachment()) {
 					return;
 				}
+
+			if($("input[name='GuohuApprove']:checked").val() == 'false' && '${users}' != ''){
+				var flag = false;
+				$("input[name='members']").each(function(i,e){
+					if(e.checked){
+						flag = true;
+					}
+				});
+				if(!flag){
+					alert("请至少选择一个处理人！");
+					return false;
+				}
+			}
+
 				save();
 			}
 
 			/**保存数据*/
 			function save() {
 				var jsonData = $("#guohuApproveForm").serializeArray();
-				console.log(JSON.stringify(jsonData));
 				/**deleteAndModify();*/
 				$.ajax({
 					cache : true,

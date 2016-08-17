@@ -26,6 +26,7 @@ table.dataTable thead .sorting:after {
   width: 100%;
   max-width: 100%;
   margin-bottom: 15px;
+  border-bottom: 2px solid #eee;
 }
 
 .task-list tr td.pl10 {
@@ -57,12 +58,22 @@ table.dataTable thead .sorting:after {
 }
 
 table p {
-  margin: 5px 0px;
-  font-size: 12px;
+  margin: 7px 0px;
   max-width: 400px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.manager {
+  display: block;
+  margin: 7px 0;
+}
+
+.manager a em {
+  display: inline-block;
+  font-style: normal;
+  color: #676a6c;
 }
 
 .light_icon {
@@ -72,23 +83,46 @@ table p {
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   border-top: 1px solid #e7eaec;
   line-height: 1.42857;
-  padding: 2px 8px 5px;
+  padding: 0px 8px;
 }
 
 table p.big {
   font-size: 14px;
 }
 
+.smll_sign {
+  margin: 3px 0px;
+}
+
 table tr td {
   vertical-align: middle !important;
+}
+
+.tooltip-demo a {
+  text-decoration: none !important;
+  font-size: 13px;
 }
 
 .sk-spinner-double-bounce .sk-double-bounce1, .sk-spinner-double-bounce .sk-double-bounce2 {
   opacity: 0.9;
 }
 
+.label-warning, .badge-warning {
+  background-color: #f8cd59;
+  color: #fff;
+}
+
+.label-info, .badge-info {
+  background-color: #04bc5b;
+  color: #fff;
+}
+
 .sk-spinner-double-bounce .orange_light {
-  background-color: #f8ac59;
+  background-color: #f8cd59;
+}
+
+.sk-spinner-double-bounce .green_light {
+  background-color: #04bc5b;
 }
 
 .sk-spinner-double-bounce .red_light {
@@ -98,6 +132,14 @@ table tr td {
 .sk-spinner-light {
   width: 18px !important;
   height: 18px !important;
+}
+
+.deep_grey {
+  color: #333;
+}
+
+.tint_grey {
+  color: #808080;
 }
 
 .tag_sign {
@@ -110,7 +152,21 @@ table tr td {
   line-height: 0;
   padding: 0 4px 1px;
   background-color: #ccc;
+  margin-right: 3px;
+}
+
+.sign_red {
   margin-right: 5px;
+  padding: 0px 1px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background-color: #ed5565;
+}
+
+.sign_blue a {
+  color: #fff;
 }
 
 table.dataTable thead .sorting_asc {
@@ -156,6 +212,14 @@ table thead tr th {
   position: relative;
   left: 4px;
   bottom: 2px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.fa_up {
+  position: relative;
+  left: 4px;
+  top: 6px;
   font-size: 18px;
   color: #fff;
 }
@@ -216,6 +280,23 @@ table thead tr th {
   font-family: "Microsoft Yahei";
 }
 
+.mt3 {
+  margin-top: 3px !important;
+}
+
+.clock {
+  margin: 6px 0px 0px;
+  color: #ccc;
+}
+
+.clock_red {
+  color: #ed5565;
+}
+
+.clock_icon {
+  font-size: 18px;
+}
+
 .sign_normal {
   margin-right: 5px;
   padding: 0px 1px;
@@ -224,4 +305,17 @@ table thead tr th {
   font-style: normal;
   border-radius: 2px;
   background-color: #52cdec;
+}
+
+.sign_grey {
+  margin-right: 5px;
+  padding: 0px 1px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background-color: #ccc;
+}
+.sign_blue a {
+  color: #fff;
 }

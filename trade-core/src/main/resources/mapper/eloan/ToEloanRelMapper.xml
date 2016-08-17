@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eloan.repository.ToEloanRelMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eloan.entity.ToEloanRel" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ELOAN_CODE" property="eloanCode" jdbcType="VARCHAR" />
+    <result column="RELEASE_AMOUNT" property="releaseAmount" jdbcType="DECIMAL" />
+    <result column="RELEASE_TIME" property="releaseTime" jdbcType="TIMESTAMP" />
+    <result column="CONFIRM_TIME" property="confirmTime" jdbcType="TIMESTAMP" />
+    <result column="CONFIRM_STATUS" property="confirmStatus" jdbcType="CHAR" />
+    <result column="CONFIRM_USER" property="confirmUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, ELOAN_CODE, RELEASE_AMOUNT, RELEASE_TIME, CONFIRM_TIME, CONFIRM_STATUS, CONFIRM_USER, 
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ELOAN_REL
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="getEloanRelByEloanCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ELOAN_REL
+    WHERE
+       	ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_ELOAN_REL
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToEloanRel" >
+    insert into sctrans.T_TO_ELOAN_REL (PKID, ELOAN_CODE, RELEASE_AMOUNT, 
+      RELEASE_TIME, CONFIRM_TIME, CONFIRM_STATUS, 
+      CONFIRM_USER, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{eloanCode,jdbcType=VARCHAR}, #{releaseAmount,jdbcType=DECIMAL}, 
+      #{releaseTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, #{confirmStatus,jdbcType=CHAR}, 
+      #{confirmUser,jdbcType=VARCHAR},   GETDATE(),
+        @{SESSION_USER_ID},
+        GETDATE(),
+        @{SESSION_USER_ID})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToEloanRel" >
+    insert into sctrans.T_TO_ELOAN_REL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="eloanCode != null" >
+        ELOAN_CODE,
+      </if>
+      <if test="releaseAmount != null" >
+        RELEASE_AMOUNT,
+      </if>
+      <if test="releaseTime != null" >
+        RELEASE_TIME,
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME,
+      </if>
+      <if test="confirmStatus != null" >
+        CONFIRM_STATUS,
+      </if>
+      <if test="confirmUser != null" >
+        CONFIRM_USER,
+      </if>
+        CREATE_TIME,
+        CREATE_BY,
+        UPDATE_TIME,
+        UPDATE_BY,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="eloanCode != null" >
+        #{eloanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseAmount != null" >
+        #{releaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="releaseTime != null" >
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null" >
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmStatus != null" >
+        #{confirmStatus,jdbcType=CHAR},
+      </if>
+      <if test="confirmUser != null" >
+        #{confirmUser,jdbcType=VARCHAR},
+      </if>
+        GETDATE(),
+        @{SESSION_USER_ID},
+        GETDATE(),
+        @{SESSION_USER_ID}
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToEloanRel" >
+    update sctrans.T_TO_ELOAN_REL
+    <set >
+      <if test="eloanCode != null" >
+        ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseAmount != null" >
+        RELEASE_AMOUNT = #{releaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="releaseTime != null" >
+        RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmStatus != null" >
+        CONFIRM_STATUS = #{confirmStatus,jdbcType=CHAR},
+      </if>
+      <if test="confirmUser != null" >
+        CONFIRM_USER = #{confirmUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+   <update id="updateEloanRelByEloanCode" parameterType="com.centaline.trans.eloan.entity.ToEloanRel" >
+    update sctrans.T_TO_ELOAN_REL
+    <set>
+      <if test="releaseAmount != null" >
+        RELEASE_AMOUNT = #{releaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="releaseTime != null" >
+        RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmStatus != null" >
+        CONFIRM_STATUS = #{confirmStatus,jdbcType=CHAR},
+      </if>
+      <if test="confirmUser != null" >
+        CONFIRM_USER = #{confirmUser,jdbcType=VARCHAR},
+      </if>
+        CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
+    </set>
+    where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+    and CONFIRM_TIME IS NULL
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToEloanRel" >
+    update sctrans.T_TO_ELOAN_REL
+    set ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
+      RELEASE_AMOUNT = #{releaseAmount,jdbcType=DECIMAL},
+      RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
+      CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      CONFIRM_STATUS = #{confirmStatus,jdbcType=CHAR},
+      CONFIRM_USER = #{confirmUser,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getSumReleaseAmountByEloanCode" resultType="java.lang.Double" parameterType="java.lang.String">
+ 	SELECT SUM(RELEASE_AMOUNT) FROM sctrans.T_TO_ELOAN_REL 
+ 	WHERE CONFIRM_STATUS = 1
+    AND
+    ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </select>
+ 
+</mapper>

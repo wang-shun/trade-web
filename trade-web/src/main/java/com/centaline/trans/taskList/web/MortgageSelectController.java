@@ -15,6 +15,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.service.ToTransPlanService;
@@ -31,6 +34,8 @@ public class MortgageSelectController {
 	private ToTransPlanService toTransPlanService;
 	@Inject
 	private ToCaseService toCaseService;
+	@Inject
+	private WorkFlowManager workFlowManager;
 
 	@ResponseBody
 	@RequestMapping(value = "submit")
@@ -53,7 +58,20 @@ public class MortgageSelectController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "loanRequirementChange")
-	public AjaxResponse<?> loanRequirementChange(MortgageSelecteVo vo) {
+	public AjaxResponse<?> loanRequirementChange(MortgageSelecteVo vo) {	
+		//判断是否完成‘贷款需求选择’待办任务
+		if(vo!=null &&"operation_process:49:695144".compareTo(vo.getProcessInstanceId())<=0){
+			TaskHistoricQuery query =new TaskHistoricQuery();
+			query.setFinished(true);
+			query.setTaskDefinitionKey("MortgageSelect");
+			query.setProcessInstanceId(vo.getProcessInstanceId());
+			PageableVo pageableVo=workFlowManager.listHistTasks(query);
+			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
+				//请先处理贷款需求选择任务
+				return AjaxResponse.fail("请先处理贷款需求选择任务！");
+			}
+		}
+
 		if (StringUtils.isBlank(vo.getPartner())) {
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());

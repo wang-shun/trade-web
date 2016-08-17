@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="${ctx}/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />	  
+<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 
 <style type="text/css">
 #selectDiv {
@@ -127,14 +127,37 @@ text-decoration: underline !important;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top1:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 .hint-top1:hover:before {
 	margin-bottom: -10px;
 }
 .hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
 	margin-bottom: 2px;
 	width:280px!important;
 	white-space: normal!important;
@@ -182,10 +205,10 @@ text-decoration: underline !important;
 							      <input type="radio" value="0" id="owner0" name="ownerRadios"> 全部
 							</label> 
 							<label> 
-								 <input type="radio" value="1" id="owner1" name="ownerRadios">  <span class="label label-danger">本身</span>
+								 <input type="radio" value="1" id="owner1" name="ownerRadios">  本身
 							</label> 
 							<label> 
-							     <input type="radio" value="2" id="owner2" name="ownerRadios"> <span class="label label-warning">代办</span>
+							     <input type="radio" value="2" id="owner2" name="ownerRadios"> 代办
 							</label>
 						</div>
 					</div>
@@ -209,7 +232,7 @@ text-decoration: underline !important;
 						
 					<div class="form_content space">
                             <div class="add_btn" align="center">
-                                <button id="searchButton" type="button" class="btn btn_blue" ><i class="icon iconfont">&#xe635;</i>
+                                <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
                                  	   查询
                                 </button>
                             </div>
@@ -217,9 +240,8 @@ text-decoration: underline !important;
 					
 				</form>
 	  </div>
-    </div>
-    
-	<div class="table_content">
+	  
+	  <div class="table_content">
 		<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped table-bordered table-hover ">
 			<thead>
 				<tr>
@@ -249,6 +271,10 @@ text-decoration: underline !important;
 		<div id="pageBar" class="pagergoto">
 		</div>  
     </div> 	
+	  
+    </div>
+    
+	
 		    
 	<content tag="local_script"> 
 
@@ -339,43 +365,59 @@ text-decoration: underline !important;
 					</td>
 					<td>
 							<p>
-                               {{item.WFE_NAME}}
-                            </p>
-                            <p>
                               <i class="sign_blue">
-									<a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
+									<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
                               </i>
                             </p>
+							<p>
+                               {{item.WFE_NAME}}
+                            </p>
+                            
 					</td>
 					<td class="t-left">
 						<p class="big">
                        		{{item.PROPERTY_ADDR}}
 						</p>
-						 <p class="tooltip-demo">
+						 <span >
 							<i class="salesman-icon"></i>
- 							<a class="salesman-info"  title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
-						</p>
+ 							<a class="hint  hint-top2" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+						</span>
 					</td>
 					<td>
-                         <p>
+
+						{{if item.CREATE_TIME!=null}}
+						   <p>  
                               <i class="sign_normal">创</i>
                                  {{item.CREATE_TIME}}          
                           </p>
-                          <p>
-                          <i class="sign_normal">预</i>
-                                {{item.EST_PART_TIME}}          
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">创</i>
+                                 {{item.CREATE_TIME}}          
+                           </p>
+						{{/if}}
+						{{if item.EST_PART_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">预</i>
+                                 {{item.EST_PART_TIME}}          
                           </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">预</i>
+                                 {{item.EST_PART_TIME}}          
+                           </p>
+						{{/if}}
                     </td>
                     <td class="center">
-                          <p  title="上家信息: {{item.SELLER}}">
+                          <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
                                                 {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
-                          </p>
+                          </span>
                          
                     </td>
                     <td class="center">
-                          <p  title="下家信息:{{item.BUYER}}">
+                          <span  class="hint  hint-top1" data-hint="下家信息:{{item.BUYER}}">
                                                 {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
-                          </p>
+                          </span>
                           
                     </td>
 					
@@ -394,7 +436,6 @@ text-decoration: underline !important;
 			reloadGrid : searchMethod
 		}); 
 	 </script>
-	
 	
 	</content>
 </body>

@@ -22,6 +22,8 @@ public interface ToWorkFlowService {
 	List<String> queryAllInstCodesByCaseCode(String caseCode);
 
 	ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
+	
+	ToWorkFlow queryToWorkFlowByCaseCodeAndStatus(ToWorkFlow record);
 
 	List<ToOutTimeTask> queryOutTimeTaskList();
 

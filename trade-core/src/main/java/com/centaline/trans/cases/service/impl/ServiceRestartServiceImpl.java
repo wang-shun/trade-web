@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -66,6 +67,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ProcessInstanceService processInstanceService;
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private BizWarnInfoMapper bizWarnInfoMapper;
 	@Override
 	@Transactional(readOnly=false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
@@ -74,6 +77,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		twf.setBusinessKey("TempBankAudit_Process");
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
+		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
 
 		ToWorkFlow wf=new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
@@ -96,8 +100,15 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	
 
 	@Override
-
-	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
+	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {	
+		
+		/*删除临时银行流程相关*/
+		ToWorkFlow twf=new ToWorkFlow();
+		twf.setBusinessKey("TempBankAudit_Process");
+		twf.setCaseCode(vo.getCaseCode());
+		toMortgageService.deleteTmpBankProcess(twf);
+		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
+		
 		ToWorkFlow wf=new ToWorkFlow();
 	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 	    wf.setCaseCode(vo.getCaseCode());
@@ -176,6 +187,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		if(vo.getIsApproved()){
 			doApproved(vo);
 		}
+		
+		//如果流程重启申请审批通过的话，就删除对应的预警信息
+		if(vo.getIsApproved()){
+			bizWarnInfoMapper.deleteByCaseCode(vo.getCaseCode());
+		}
+		
 		return true;
 	}
 	/**

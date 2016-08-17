@@ -97,18 +97,19 @@ function checkMortgageForm(formId){
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
 	} 
+	
+	if(formId.find("select[name='finOrgCode']").val() == ""){
+		formId.find("select[name='finOrgCode']").css("border-color","red");
+		return false;
+    }
+	
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
 		if(afterTimeFlag){
 			if (formId.find("input[name='recLetterNo']").val()==""){
 				formId.find("input[name='recLetterNo']").css("border-color","red");
 				return false;
 			}
-		}
-		if(formId.find("select[name='finOrgCode']").val() == ""){
-				formId.find("select[name='finOrgCode']").css("border-color","red");
-				return false;
-		}
-		
+		}		
 	}else{
 		if(formId.find("input[name='tmpBankReason']").val() == ""){
 			formId.find("input[name='tmpBankReason']").css("border-color","red");
@@ -610,10 +611,14 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    		
-		    			if(!!data.content.tmpBankUpdateBy && data.content.tmpBankUpdateBy != ''){
+		    			if((!!data.content.tmpBankUpdateBy && data.content.tmpBankUpdateBy != '')|| data.code == '1'){
 		    				f.find("input[name='isTmpBank']").attr('readOnly',true);
+		    				f.find("select[name='bank_type']").attr('disabled',true);
+		    				f.find("select[name='finOrgCode']").attr('disabled',true);
 		    			}else{
 		    				f.find("input[name='isTmpBank']").attr('readOnly',false);
+		    				f.find("select[name='bank_type']").attr('disabled',false);
+		    				f.find("select[name='finOrgCode']").attr('disabled',false);
 		    			}
 	    			
 	    		}

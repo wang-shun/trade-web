@@ -89,8 +89,8 @@
 									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, /*主贷人电话*/
 									PROPERTY_ADDR ,
 									 ROUND(CONVERT(float,S.CON_PRICE)/10000,2) AS CON_PRICE, 									
-									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)) FIN_ORG_NAME,  --银行
-									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)) FIN_ORG_NAME_YC,  --支行
+									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 AND M.LAST_LOAN_BANK is not null)) FIN_ORG_NAME,  --银行
+									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1  AND M.LAST_LOAN_BANK is not null)) FIN_ORG_NAME_YC,  --支行
 														
 									LOAN_REQ,									
 									AGENT_USERNAME,									
@@ -203,7 +203,7 @@
 					hidden="false" />
 				<column type="both" name="REAL_HT_TIME" title="实际过户时间"
 					customDict="" beanFormatter="dateFormatterOne" 	hidden="false" />
-				<column type="both" name="START_TIME"   title="过户开始时间" customDict=""
+				<column type="both" name="START_TIME"   title="过户创建时间" customDict=""
 					beanFormatter="dateFormatter"  hidden="false" />
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
 					hidden="false" />
@@ -238,7 +238,7 @@
 				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"
 					customDict="" hidden="false" />
 					
-				<column type="virtual" name="LAST_CONTENT" title="最终审核结果"
+				<column type="virtual" name="LAST_CONTENT" title="审批意见"
 					referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"
 					customDict="lastContent" sysDict="" format="" width="60" isSort="true"
 					align="" halign="" order="" resizable="" />

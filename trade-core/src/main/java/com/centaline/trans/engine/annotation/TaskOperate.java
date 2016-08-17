@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 public @interface TaskOperate {
 	public String value() default "taskId";
 
-	public String assignee() default "assignee";
+	public String assignee() default "";
 
 	public Action action() default Action.SUBMIT;
 

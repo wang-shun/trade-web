@@ -41,6 +41,7 @@
 	rel="stylesheet" />
 <link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -647,7 +648,7 @@
 							</li>
 							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
 							</li>
-							<li class=""><a href="#bizwarn-info" data-toggle="tab">商贷流失预警信息</a>
+							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
 							</li>
 						</ul>
 
@@ -896,6 +897,63 @@
 										</c:if>
 									</c:forEach>
 								</c:forEach>
+								
+								<c:if test="${toEloanCases.size()>0&&toLoanAgents.size()>0}">
+								<div class="hr-line-dashed"></div>
+								</c:if>
+								<!-- E+ -->
+								<c:forEach var="toEloanCase" items="${toEloanCases}"
+									varStatus="status">
+									<c:forEach var="toEloanCaseVO" items="${toEloanCaseVOs}"
+										begin="${status.index}" end="${status.index}">
+										<div class="row ">
+											<label class="col-sm-3 control-label">客户姓名：${toEloanCase.custName}</label>
+											<label class="col-sm-3 control-label">贷款服务：${toEloanCaseVO.loanSrvName}</label>
+											<label class="col-sm-6 control-label">贷款机构：${toEloanCaseVO.finOrgName}</label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">客户电话：${toEloanCase.custPhone}</label>
+											<label class="col-sm-3 control-label">贷款金额： 
+			                                                ${toEloanCase.applyAmount}&nbsp&nbsp万元
+			                                            </label> <label
+												class="col-sm-3 control-label">放款金额：
+			                                               ${toEloanCaseVO.releaseAmount!=null?toEloanCaseVO.releaseAmount:0}&nbsp&nbsp万元
+			                                            </label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">申请状态：${toEloanCaseVO.applyStatusName}</label>
+											<label class="col-sm-3 control-label">申请期数： <c:if
+													test="${!empty toEloanCase.month}">
+			                                                ${toEloanCase.month}&nbsp&nbsp月
+			                                            </c:if></label> <label
+												class="col-sm-3 control-label">转介人：${toEloanCase.zjName}</label>
+											<label class="col-sm-3 control-label">转介人编号：${toEloanCase.zjCode}</label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">确认状态：${toEloanCaseVO.confirmStatusName}</label>
+											<label class="col-sm-3 control-label">合作人：${toEloanCase.coName}</label>
+											<label class="col-sm-3 control-label">合作人编号：${toEloanCase.coCode}</label>
+											<label class="col-sm-3 control-label">分配比例： <c:if
+													test="${!empty toEloanCase.coPart}">
+			                                                ${toEloanCase.coPart}&nbsp&nbsp%
+			                                            </c:if></label>
+										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">申请时间：${toEloanCaseVO.applyTime}</label>
+											<label class="col-sm-3 control-label">确认时间：${toEloanCaseVO.confirmTime}</label>
+											<label class="col-sm-3 control-label">面签时间：${toEloanCaseVO.signTime}</label>
+											<label class="col-sm-3 control-label">放款时间：${toEloanCaseVO.releaseTime}</label>
+										</div>
+									<%-- 	<div class="row ">
+											<label class="col-sm-3 control-label">对账时间：${toEloanCaseVO.incomeConfirmTime}</label>
+											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
+											<label class="col-sm-3 control-label">超期导出时间：${toLoanAgentVO.lastExceedExportTime}</label>
+										</div> --%>
+										<c:if test="${!status.last}">
+											<div class="hr-line-dashed"></div>
+										</c:if>
+									</c:forEach>
+								</c:forEach>
 							</div>
 							<div class="tab-pane fade" id="fujian_info">
 								<div class="panel-body">
@@ -911,19 +969,19 @@
 							</div>
 							
 							<div class="tab-pane fade" id="bizwarn-info">
-								<div class="row ">
+								<div class="row">
 									<c:choose>
 										<c:when test="${!empty bizWarnInfo }">
-											<label class="col-sm-3 control-label" style="width:15%;">预警类型：<c:if test="${bizWarnInfo.warnType == 'LOANLOSS' }">贷款流失</c:if></label>
-											<label class="col-sm-3 control-label" style="width:15%;">预警时间：<fmt:formatDate value="${bizWarnInfo.warnTime}" type="date" pattern="yyyy-MM-dd"/></label>
-											<label class="col-sm-3 control-label" style="width:15%;">预警内容：${bizWarnInfo.content }</label>
+											<label class="col-sm-3 control-label" style="width:18%;">预警类型：<c:if test="${bizWarnInfo.warnType == 'LOANLOSS' }">贷款流失</c:if></label>
+											<label class="col-sm-3 control-label" style="width:18%;">预警时间：<fmt:formatDate value="${bizWarnInfo.warnTime}" type="date" pattern="yyyy-MM-dd"/></label>
+											<label class="col-sm-3 control-label" style="width:18%;">预警内容：${bizWarnInfo.content }</label>
 											<label class="col-sm-3 control-label" style="width:15%;">状态：
 												<span id="spnStatus">
 													<c:if test="${bizWarnInfo.status == '0' }">生效</c:if>
 													<c:if test="${bizWarnInfo.status == '1' }">解除</c:if>
 												</span>
 											</label>
-											<label class="col-sm-3 control-label" style="width:15%;">解除时间：
+											<label class="col-sm-3 control-label" style="width:18%;">解除时间：
 												<span id="spnRelieveTime">
 													<c:choose>
 													<c:when test="${!empty bizWarnInfo.relieveTime }">
@@ -935,10 +993,11 @@
 												</c:choose>
 												</span>
 											</label>
-											<label class="col-sm-3 control-label" style="width:15%;">
-												<input type="hidden" name="status" value="${bizWarnInfo.status }"/>
-												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="relieve">解除</div>
-												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="edit">修改</div>
+											<label class="col-sm-3 control-label" style="width:10%;">
+												
+												<c:if test="${bizWarnInfo.status == '0' }">
+													<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="relieve">解除</div>
+												</c:if>
 											</label>
 										</c:when>
 										<c:otherwise>
@@ -984,32 +1043,6 @@
 		</div>
 	</div>
 	
-	<div id="editBizwarnForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
-		<div class="modal-dialog" style="width: 1000px">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h4 class="modal-title" id="plan-modal-title">修改商贷预警信息</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-3" style="margin-top: 9px; margin-left: 15px;">预警内容:</div>
-							<div class="col-lg-3">
-								<input type="hidden" name="caseId" value="${toCase.pkid}" />
-								<input type="hidden" name="caseCode" value="${toCase.caseCode}"/>
-								<input type="text" name="content" style="width:550px;"/>
-							</div>
-						</div>					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default"
-						data-dismiss="modal">关闭</button>
-					<button class="btn btn-primary" id="btnEdit">修改</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<content tag="local_script"> <!-- Peity --> <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -1146,11 +1179,6 @@
  	      $("#relieve").click(function(){
  	    	  var status = $("input[name=status]").val();
  	    	  
- 	    	  if(status == "1"){
- 	    		  alert("该案件已经处于解除状态！");
-	    		  return false; 
- 	    	  }
- 	    	  
  	    	 if(confirm("是否确定解除？")){
   				$.ajax({
   					cache:false,
@@ -1162,9 +1190,8 @@
   					success:function(data){
   						if(data.success){
   							$("#spnStatus").html("解除");
-  							console.log(getCurrentDate());
   							$("#spnRelieveTime").html(getCurrentDate());
-  							$("input[name=status]").val("1");
+  							$("#relieve").hide();
   						}else{
   							alert('解除失败');
   						}

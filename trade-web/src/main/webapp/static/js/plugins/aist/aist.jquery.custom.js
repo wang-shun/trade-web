@@ -193,10 +193,10 @@ function($, window) {
 					totalPages:total,
 					visiblePages:9,
 					startPage:page,
-					first:'<i class="icon-step-backward"></i>',
-					prev:'<i class="icon-chevron-left"></i>',
-					next:'<i class="icon-chevron-right"></i>',
-					last:'<i class="icon-step-forward"></i>',
+					first:'<i class="fa fa-step-backward"></i>',
+					prev:'<i class="fa fa-chevron-left"></i>',
+					next:'<i class="fa fa-chevron-right"></i>',
+					last:'<i class="fa fa-step-forward"></i>',
 					showGoto:true,
 					onPageClick: function (event, page) {
 						 //console.log(page);
@@ -244,6 +244,7 @@ function($, window) {
 		var templeteId = settings.templeteId;
 		var templeteSource = settings.templeteSource;
 		var columns = settings.columns;
+		var gridClass = settings.gridClass;
 		
 		var data = ($.isBlank(settings.data))?{}:settings.data;
 		data.queryId = queryId;
@@ -253,7 +254,12 @@ function($, window) {
 		if(typeof(columns) == "undefined") {
 		
 		} else {
-			var table = $("<table></table");
+			if (typeof(gridClass) == "undefined"){
+				var table = $("<table></table");
+			} else {
+				var table = $("<table class=\""+gridClass+"\"></table");
+			}
+			
 			var tbody = $("<tbody></tbody");
 			var thead = $("<thead></thead>");
 		    var tr = $("<tr></tr>");

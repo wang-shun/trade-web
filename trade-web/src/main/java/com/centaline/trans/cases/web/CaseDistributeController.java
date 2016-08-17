@@ -260,9 +260,9 @@ public class CaseDistributeController {
     		String districtCode = "";
     		ViHouseDelBaseVo housevo = toPropertyInfoService.getHouseBaseByHoudelCode(delCode);
     		if(housevo != null && StringUtils.isNotBlank(housevo.getDISTRICT_CODE())) {
-    			districtCode = housevo.getDISTRICT_CODE();
+    			districtCode = housevo.getDISTRICT_CODE().trim();
     			for(TsPrResearchMap tsPrResearchMap :tsPrResearchMapList) {
-    				if(districtCode.equals(tsPrResearchMap.getDistCode())) {
+    				if(districtCode.equalsIgnoreCase(tsPrResearchMap.getDistCode().trim())) {
     					isExistNoPatter = false;
     					continue;
     				}

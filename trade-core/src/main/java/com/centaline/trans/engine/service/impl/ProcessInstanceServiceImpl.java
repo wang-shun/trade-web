@@ -72,6 +72,7 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
 		process.setMessage(message);
 		process.setProcessDefinitionKey(processDefinitionKey);
 		process.setBusinessKey(businessKey);
+
 		process.setVariables(WorkFlowUtils.mapToVarList(vars));
 
 		StartProcessInstanceVo obj = (StartProcessInstanceVo) engine

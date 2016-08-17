@@ -173,7 +173,18 @@ public class BaseImporController {
 		map.put("sctransUserId", sesssionUser.getId());
 		Boolean isJL = TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode());
 		map.put("isManage", isJL ? "1" : "0");
-		return new ModelAndView("award/baseAwardReport",map);
+		return new ModelAndView("award/baseAwardReport2",map);
 	}
+/*	@RequestMapping(value = "baseAwardReport2")
+	public ModelAndView baseReport2() {
+		SessionUser sesssionUser = uamSessionService.getSessionUser();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("serviceDepId", sesssionUser.getServiceDepId());
+		map.put("sctransUserId", sesssionUser.getId());
+		Boolean isJL = TransJobs.TZJL.getCode().equals(sesssionUser.getServiceJobCode());
+		map.put("isManage", isJL ? "1" : "0");
+		return new ModelAndView("award/baseAwardReport2",map);
+	}*/
 
 }

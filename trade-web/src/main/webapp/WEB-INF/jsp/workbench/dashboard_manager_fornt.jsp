@@ -44,13 +44,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	
     <!-- index_css  -->
     <link href="${ctx}/static/trans/css/workbench/dashboard/dashboard.css" rel="stylesheet">
+    <!-- 图标 -->
+    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" rel="stylesheet">    
 </head>
 
-<script type="text/javascript">
-  	 function imgLoad(img){
-	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
-	   	 }
-</script>
 <body>
 <input type="hidden" id="serviceDepHierarchy" value="${sessionUser.serviceDepHierarchy }">
 <input type="hidden" id="userId" value="${sessionUser.id }">
@@ -87,13 +84,36 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<p class="fa_orange">
                         		<i class="fa fa-bell "></i>
                         		黄灯任务
-                        		<small><a href="${ctx }/workspace/ryLightList?color=0" target="_blank">${yeLight }</a></small>
+                        		<small><a href="${ctx }/workspace/ryLightList?color=1" target="_blank">${yeLight }</a></small>
                         	</p>
+                        	<p class="fa_orange">
+                        		<i class="fa fa-bell "></i>
+                        		流失预警
+                        		<small><a href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
+                        	</p>                        	
                     	</div>
                     </div>
             </div>
+            <div class="row space_line">
+            	<div class="col-md-8">
+               		 <div id="ionrange_4" class="ionr"></div>
+                </div>
+                <div class="col-md-2">
+                	<select class="form-control m-b ml5" id="sUserId">
+                	<option value="">默认</option>
+					<c:forEach items="${uList}"  var="user">
+					<option value="${user.id}">${user.realName}</option>
+					 </c:forEach>
+                	</select>
+                </div>
+                <div class="col-md-2" style="padding-left:0">
+                	<button class="btn btn-success" type="button" id="btn_sta" onclick="queryConutCaseByDate()">
+                		<i class="icon iconfont">&#xe635;</i>
+                		查询
+                    </button>
+                </div>
+            </div>            
         </div>
-
 
 
         <div class="ibox-content" id="zj_info">
@@ -109,20 +129,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                     <li class="">
                                     	<a href="#tab-2" data-toggle="tab">贷款详情</a>
                                     </li>
-                                    <li class="">
+                                    <li class="" id="ePlusLoan">
                                     	<a href="#tab-3" data-toggle="tab">E＋贷款</a>
                                     </li>
-                                    <li class="">
-                                    	<a href="#tab-4" data-toggle="tab">业务提醒</a>
-                                    </li>
-                                    <li class="">
-                                    	<a href="#tab-5" data-toggle="tab">龙虎榜</a>
-                                    </li>
-                                    <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
-                                    <li class="">
-                                    	<a href="#tab-6" data-toggle="tab">待办事项</a>
-                                    </li>
-                                    </shiro:hasPermission>
                             	</ul>
                          	</div>
                          </div>
@@ -130,25 +139,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                          <div class="panel-body">
                          	<div class="tab-content">
                             	<div class="tab-pane active" id="tab-1">
-                                	<div class="row">
-                                    	<div class="col-md-8">
-                                       		 <div id="ionrange_4" class="ionr"></div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        	<select class="form-control m-b" id="sUserId">
-                                        	<option value="">默认</option>
-								            <c:forEach items="${uList}"  var="user">
-							                <option value="${user.id}">${user.realName}</option>
-								            </c:forEach>
-                                        	</select>
-                                        </div>
-                                        <div class="col-md-2" style="padding-left:0">
-                                        	<button class="btn btn-warning " type="button" id="btn_sta" onclick="queryConutCaseByDate()">
-                                        		<i class="fa fa-search"></i>
-                                        		<span class="bold">搜索</span>
-                                            </button>
-                                        </div>
-                                    </div>
 
                                     <div class="data-progress-wrap">
                                     	<div class="data-progress data1">
@@ -159,7 +149,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     	<div id="sp_loanAmount_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                 </div>
-                                                <span class="right-label pt10" id="sp_loanAmount">4000万</span>
+                                                <span class="right-label pt10" id="sp_loanAmount" style="color:#337ab7;cursor:pointer;">4000万</span>
                                             </div>
                                             <div class="data-left">
                                             	<span class="left-label">E+面签金额</span>
@@ -168,7 +158,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     	<div id="sp_signAmount_bar" style="width: 80%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                 </div>
-                                                <span class="right-label" id="sp_signAmount">2000万</span>
+                                                <span class="right-label" id="sp_signAmount" style="color:#337ab7;cursor:pointer;">2000万</span>
                                             </div>
                                             <div class="data-left">
                                             	<span class="left-label">E+放款金额</span>
@@ -177,7 +167,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     	<div id="sp_actualAmount_bar" style="width: 56%;" class="progress-bar bar-yellow"></div>
                                                     </div>
                                                  </div>
-                                                 <span class="right-label" id="sp_actualAmount">2000万</span>
+                                                 <span class="right-label" id="sp_actualAmount" style="color:#337ab7;cursor:pointer;">2000万</span>
                                             </div>
                                             <div class="data-left">
                                             	<span class="left-label h50 pb10">评估费</span>
@@ -186,7 +176,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                     	<div id="sp_evalFee_bar" style="width: 30%;" class="progress-bar bar-red"></div>
                                                  	</div>
                                                  </div>
-                                                 <span class="right-label pb10" id="sp_evalFee">6万</span>
+                                                 <span class="right-label pb10" id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span>
                                             </div>
                                         </div>
                                         <div class="data-progress data2">
@@ -211,7 +201,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
-                                                                <span class="left-label wd64 h50 pt10">接单数</span>
+                                                                <span class="left-label wd88 h50 pt10">接单数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_receiveCount_bar" style="width: 40%;" class="progress-bar bar-blue"></div>
@@ -220,7 +210,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_receiveCount" class="right-label pt10">43单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64 ">签约数</span>
+                                                                <span class="left-label wd88 ">签约数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_signCount_bar" style="width: 100%;" class="progress-bar bar-blue"></div>
@@ -229,7 +219,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_signCount" class="right-label">1亿&nbsp;&nbsp;4单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64">贷款申请数</span>
+                                                                <span class="left-label wd88">贷款申请数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_loanApplyCount_bar" style="width: 56%;" class="progress-bar bar-blue"></div>
@@ -238,7 +228,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                 <span id="sp_loanApplyCount" class="right-label">13单</span>
                                             </div>
                                             <div class="data-left">
-                                                                <span class="left-label wd64 h50 pb10">结案数</span>
+                                                                <span class="left-label wd88 h50 pb10">结案数</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_closeCount_bar" style="width: 30%;" class="progress-bar bar-blue"></div>
@@ -449,21 +439,21 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_1">
-                                                            	 	<div class="ibox-title">
+                                                            	 	<div class="ibox-title" style="border-width:0px !important;">
                                                             	 		<h5>E+贷款(面签单数)</h5>
                                                             	 	</div>
-                                                            		<div class="ibox-content" id="">
-                                                            			<div id="doughnutChart1"></div>
+                                                            		<div class="ibox-content" id="" style="border-width:0px !important;">
+                                                            			<div id="doughnutChart1" style="height:380px;width:460px;position:center;"></div>
                                                             	 	</div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_2">
-                                                            	 	<div class="ibox-title">
+                                                            	 	<div class="ibox-title" style="border-width:0px !important;">
                                                             	 		<h5>E+贷款(面签金额)</h5>
                                                             	 	</div>
-                                                            		<div class="ibox-content" id="doughnutChart">
-                                                            			<div id="doughnutChart2"></div>
+                                                            		<div class="ibox-content" id="doughnutChart" style="border-width:0px !important;">
+                                                            			<div id="doughnutChart2" style="height:380px;width:460px;position:center;"></div>
                                                             	 </div>
                                                                 </div>
                                                             </div>
@@ -471,199 +461,232 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 
                                                 </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="portlet-body" style="display: block;">
+							<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+ 					</div>
 
-                                                <div class="tab-pane" id="tab-4">
-                                                     <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="widget-box">
-                                                                <div class="widget-header widget-header-flat">
-                                                                    <h4 class="smaller">反馈提醒</h4>
-                                                                    <div class="widget-toolbar">
-                                                                        <label>
-                                                                           <span class="label label-blue">0</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+        <div class="ibox-content" id="">
+        	<div class="row m-t-sm" id="">
+            	<div class="col-lg-12">
+                	<div class="panel blank-panel">
+                    	<div class="panel-heading">
+                        	<div class="panel-options">
+                            	<ul class="nav nav-tabs">
+                                	<li class="active">
+                                    	<a href="#tab-01" data-toggle="tab">待办事项</a>
+                                    </li>
+                                    <li id="yewu" class="">
+                                    	<a href="#tab-02" data-toggle="tab">业务提醒</a>
+                                    </li>
+                                    <li class="">
+                                    	<a href="#tab-03" data-toggle="tab">龙虎榜</a>
+                                    </li>
+                            	</ul>
+                         	</div>
+                         </div>
 
-                                                                <div class="widget-body" style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    <div id="div_messagelist1" class="widget-main">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="widget-box">
-                                                                <div class="widget-header widget-header-flat">
-                                                                    <h4 class="smaller">作业提醒</h4>
-                                                                    <div class="widget-toolbar">
-                                                                        <label>
-                                                                           <span class="label label-blue">0</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="widget-body" style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    <div id="div_messagelist2" class="widget-main">
-                                                                    </div>  
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="widget-box">
-                                                                <div class="widget-header widget-header-flat">
-                                                                    <h4 class="smaller">止损提醒</h4>
-                                                                    <div class="widget-toolbar">
-                                                                        <label>
-                                                                           <span class="label label-blue">0</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="widget-body">
-                                                                	<div class="widget-body" style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
-                                                                    	<div id="div_messagelist3" class="widget-main">
-                                                                    	</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                     </div>
-                                                </div>
+                         <div class="panel-body">
+                         	<div class="tab-content">
+                            	<div class="tab-pane active" id="tab-01">
+	 <div class="row">
+	 	<div class="col-lg-12">
+	        <div class="ibox float-e-margins col-heigth">
+	            <div class="ibox-content" style="margin-top:0px !important;border:none !important; padding-left:0px !important; padding-right:0px !important;">
+	                <div id="calendar"></div>
+	            </div>
+	        </div>
+	</div>
+	</div> 
+                                </div>
                                                 
-                                                <!-- 龙虎榜 -->
-                                                <div class="tab-pane" id="tab-5">
-                                                    <div class="row dragon">
-                                                        <div class="col-md-6">
-                                                            <div class="panel panel-danger">
-                                                                <div class="panel-heading">
-                                                                	E+金融申请榜
-                                                                	<c:if test="${not empty rank.loanAmountRank}">
-                                                                	<span class="btn btn-xs btn-white pull-right">
-                                                                		<strong class="text-danger">
-                                                                			你的排名：${rank.loanAmountRank}
-                                                                		</strong>
-                                                                	</span>
-                                                                	</c:if>                                                                	
-                                                                </div>
-                                                                <div class="panel-body">
-                                                                    <div class="feed-activity-list">
-                                                						<c:forEach items="${rank.loanAmountRankList}"  var="item">
-                                                    					<div class="feed-element">
-                                                        					<a href="#" class="pull-left">
-                                                        						<span class="shead">
-																					<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
-																				</span>
-                                                        						<span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
-                                                        					</a>
-                                                        				<div class="media-body ">
-                                                            				<span class="pull-right">
-                                                            					<strong class="fa-2x text-danger">
-                                                            						<fmt:formatNumber value="${item.rankValue/10000}" pattern='###,##0.00'/>万
-                                                            					</strong>
-                                                            				</span>
-                                                           					<strong>${item.realName }</strong><br>
-                                                            				<small class="text-muted">${item.belongOrgName }</small>
-                                                        				</div>
-                                                    					</div>
-                                                    					</c:forEach>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="panel panel-warning">
-                                                                <div class="panel-heading">
-                                                                	E+金融签约榜
-                                                                	<c:if test="${not empty rank.signAmountRank}" >
-                                                                	<span class="btn btn-xs btn-white pull-right">
-                                                                		<strong class="text-danger">
-                                                                			你的排名：${rank.signAmountRank}
-                                                                		</strong>
-                                                                	</span>
-                                                                	</c:if>
-                                                                </div>
-                                                                <div class="panel-body">
-                                                                    <div class="feed-activity-list">
-                                                    <c:forEach items="${rank.signAmountRankList}"  var="item">
-                                                    <div class="feed-element">
-                                                        <a class="pull-left">
-                                                        <span class="shead img-circle">
-															<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
-														</span>
 
-                                                        <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
-                                                        </a>
-                                                        <div class="media-body ">
-                                                            <span class="pull-right">
-                                                            	<strong class="fa-2x text-danger">
-                                                            		<fmt:formatNumber value="${item.rankValue/10000 }" pattern='###,##0.00'/>万
-                                                            	</strong>
-                                                            </span>
-                                                            <strong>${item.realName }</strong><br>
-                                                            <small class="text-muted">${item.belongOrgName }</small>
-                                                        </div>
-                                                    </div>
-                                                    </c:forEach>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="panel panel-info">
-                                                                <div class="panel-heading">
-                                                                	E+金融放款榜
-                                                                	<c:if test="${ not empty rank.actualAmountRank}">
-                                                                	<span class="btn btn-xs btn-white pull-right">
-                                                                		<strong class="text-danger">你的排名：${rank.actualAmountRank}</strong>
-                                                                	</span>
-                                                                	</c:if>                                                                
-                                                                </div>
-                                                                <div class="panel-body">
-                                                                    <div class="feed-activity-list">
-                                                     <c:forEach items="${rank.actualAmountRankList}"  var="item">
-                                                    <div class="feed-element">
-                                                        <a href="#" class="pull-left">
-                                                        <span class="shead img-circle">
+                             <div   class="tab-pane" id="tab-02">
+                                  <div class="row">
+                                     <div class="col-md-4">
+                                         <div class="widget-box">
+                                             <div class="widget-header widget-header-flat">
+                                                 <h4 class="smaller">反馈提醒</h4>
+                                                 <div class="widget-toolbar">
+                                                     <label>
+                                                        <span class="label label-blue">0</span>
+                                                     </label>
+                                                 </div>
+                                             </div>
+
+									<div class="widget-body">
+                                             	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                              	<div id="div_messagelist1" style="min-height:320px;" class="widget-main"></div>
+                                             	</div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-4">
+                                         <div class="widget-box">
+                                             <div class="widget-header widget-header-flat">
+                                                 <h4 class="smaller">作业提醒</h4>
+                                                 <div class="widget-toolbar">
+                                                     <label>
+                                                        <span class="label label-blue">0</span>
+                                                     </label>
+                                                 </div>
+                                             </div>
+
+									<div class="widget-body">
+                                             	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                              	<div id="div_messagelist2" style="min-height:320px;" class="widget-main"></div>
+                                             	</div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-4">
+                                         <div class="widget-box">
+                                             <div class="widget-header widget-header-flat">
+                                                 <h4 class="smaller">止损提醒</h4>
+                                                 <div class="widget-toolbar">
+                                                     <label>
+                                                        <span class="label label-blue">0</span>
+                                                     </label>
+                                                 </div>
+                                             </div>
+
+								<div class="widget-body">
+                                             	<div  style="height:320px; overflow:hidden;overflow-y:scroll;width:100%;">
+                                              	<div id="div_messagelist3" style="min-height:320px;" class="widget-main"></div>
+                                          	</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                               </div>
+                          </div>
+                                                
+                                          <!-- 龙虎榜 -->
+                                          <div class="tab-pane" id="tab-03">
+						<script type="text/javascript">
+										function imgLoad(img){
+ 											img.parentNode.style.backgroundImage="url("+img.src+")";
+											}
+						</script>                                                
+                                              <div class="row dragon">
+                                                  <div class="col-md-6">
+                                                      <div class="panel panel-danger">
+                                                          <div class="panel-heading">
+                                                          	E+金融申请榜
+                                                          	<c:if test="${not empty rank.loanAmountRank}">
+                                                          	<span class="btn btn-xs btn-white pull-right">
+                                                          		<strong class="text-danger">
+                                                          			你的排名：${rank.loanAmountRank}
+                                                          		</strong>
+                                                          	</span>
+                                                          	</c:if>                                                                	
+                                                          </div>
+                                                          <div class="panel-body">
+                                                              <div class="feed-activity-list">
+                                          						<c:forEach items="${rank.loanAmountRankList}"  var="item">
+                                              					<div class="feed-element">
+                                                  					<a href="#" class="pull-left">
+                                                  						<span class="shead">
 															<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
 														</span>
-                                                        <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
-                                                        </a>
-                                                        <div class="media-body ">
-                                                            <span class="pull-right">
-                                                            	<strong class="fa-2x text-danger">
-                                                            		<fmt:formatNumber value="${item.rankValue/10000 }" pattern='###,##0.00'/>万
-                                                            	</strong>
-                                                            </span>
-                                                            <strong>${item.realName }</strong><br>
-                                                            <small class="text-muted">${item.belongOrgName }</small>
-                                                        </div>
-                                                    </div>
-                                                    </c:forEach>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- 待办事项 -->
-                                                <shiro:hasPermission name="TRADE.WORKSPACE.CALENDAR">
-                                                <div class="tab-pane" id="tab-6">
-	 											<div class="row">
-	 												<div class="col-lg-12">
-	        											<div class="ibox float-e-margins col-heigth">
-	            											<div class="ibox-title">
-	                											<h5>待办事项 </h5>
-	            											</div>
-	            											<div class="ibox-content">
-	                											<div id="calendar"></div>
-	            											</div>
-	        											</div>
-	    											</div>
-												</div>
-												</div>
-												</shiro:hasPermission>
+                                                  						<span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
+                                                  					</a>
+                                                  				<div class="media-body ">
+                                                      				<span class="pull-right">
+                                                      					<strong class="fa-2x text-danger">
+                                                      						<fmt:formatNumber value="${item.rankValue/10000}" pattern='###,##0.00'/>万
+                                                      					</strong>
+                                                      				</span>
+                                                     					<strong>${item.realName }</strong><br>
+                                                      				<small class="text-muted">${item.belongOrgName }</small>
+                                                  				</div>
+                                              					</div>
+                                              					</c:forEach>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                      <div class="panel panel-warning">
+                                                          <div class="panel-heading">
+                                                          	E+金融签约榜
+                                                          	<c:if test="${not empty rank.signAmountRank}" >
+                                                          	<span class="btn btn-xs btn-white pull-right">
+                                                          		<strong class="text-danger">
+                                                          			你的排名：${rank.signAmountRank}
+                                                          		</strong>
+                                                          	</span>
+                                                          	</c:if>
+                                                          </div>
+                                                          <div class="panel-body">
+                                                              <div class="feed-activity-list">
+                                              <c:forEach items="${rank.signAmountRankList}"  var="item">
+                                              <div class="feed-element">
+                                                  <a class="pull-left">
+                                                  <span class="shead img-circle">
+									<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
+								</span>
+
+                                                  <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
+                                                  </a>
+                                                  <div class="media-body ">
+                                                      <span class="pull-right">
+                                                      	<strong class="fa-2x text-danger">
+                                                      		<fmt:formatNumber value="${item.rankValue/10000 }" pattern='###,##0.00'/>万
+                                                      	</strong>
+                                                      </span>
+                                                      <strong>${item.realName }</strong><br>
+                                                      <small class="text-muted">${item.belongOrgName }</small>
+                                                  </div>
+                                              </div>
+                                              </c:forEach>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-md-6">
+                                                      <div class="panel panel-info">
+                                                          <div class="panel-heading">
+                                                          	E+金融放款榜
+                                                          	<c:if test="${ not empty rank.actualAmountRank}">
+                                                          	<span class="btn btn-xs btn-white pull-right">
+                                                          		<strong class="text-danger">你的排名：${rank.actualAmountRank}</strong>
+                                                          	</span>
+                                                          	</c:if>                                                                
+                                                          </div>
+                                                          <div class="panel-body">
+                                                              <div class="feed-activity-list">
+                                               <c:forEach items="${rank.actualAmountRankList}"  var="item">
+                                              <div class="feed-element">
+                                                  <a href="#" class="pull-left">
+                                                  <span class="shead img-circle">
+									<img class="himg" style="height:38px;width:38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg" onload="javascript:imgLoad(this);" >
+								</span>
+                                                  <span class="badge ${ item.rankNo == 1 ? "badge-danger" : item.rankNo == 2 ? "badge-orange" : item.rankNo == 3 ? "badge-warning" : "text-white" }">${item.rankNo }</span>
+                                                  </a>
+                                                  <div class="media-body ">
+                                                      <span class="pull-right">
+                                                      	<strong class="fa-2x text-danger">
+                                                      		<fmt:formatNumber value="${item.rankValue/10000 }" pattern='###,##0.00'/>万
+                                                      	</strong>
+                                                      </span>
+                                                      <strong>${item.realName }</strong><br>
+                                                      <small class="text-muted">${item.belongOrgName }</small>
+                                                  </div>
+                                              </div>
+                                              </c:forEach>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
                                             </div>
                                         </div>
                                     </div>
@@ -679,10 +702,6 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 <content tag="local_script">
     <!-- stickup plugin -->
     <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-    <!-- owner -->
-    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>
 
     <!-- Toastr script -->
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
@@ -712,7 +731,11 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<script src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script>    
     
     <!-- ECharts.js -->
-    <script src="${ctx}/static/js/echarts.min.js"></script>    
+    <script src="${ctx}/static/js/echarts.min.js"></script>
+    <!-- owner -->
+    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>    
     <script src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script>
 	
 	<script type="text/javascript">

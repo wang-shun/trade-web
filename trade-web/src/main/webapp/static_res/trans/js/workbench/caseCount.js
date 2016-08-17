@@ -1,7 +1,3 @@
-//E+贷款
-var d1;
-var d2;
-
 /*根据日期查询统计 */
 function queryConutCaseByDate(){
 	var sUserId = $("#sUserId").val();
@@ -64,36 +60,147 @@ function queryConutCaseByDate(){
 					"</a>"						
 				);
 				
-				$('#sp_loanAmount_bar')[0].style.width=parseFloat(data.loanAmount.replace(',',''))/1000*100+'%';
-				$('#sp_signAmount_bar')[0].style.width=parseFloat(data.signAmount.replace(',',''))/1000*100+'%';
-				$('#sp_actualAmount_bar')[0].style.width=parseFloat(data.actualAmount.replace(',',''))/1000*100+'%';
-				$('#sp_evalFee_bar')[0].style.width=parseFloat(data.evalFee.replace(',',''))/5000*100+'%';
+				var loanAmount = parseFloat(data.loanAmount.replace(/,/g,''));
+				var signAmount = parseFloat(data.signAmount.replace(/,/g,''));
+				var actualAmount = parseFloat(data.actualAmount.replace(/,/g,''));
+				var max_bar1 = Math.max(loanAmount, signAmount, actualAmount);
+				if(max_bar1){
+					$('#sp_loanAmount_bar')[0].style.width = loanAmount/max_bar1*100+'%';
+					$('#sp_signAmount_bar')[0].style.width = signAmount/max_bar1*100+'%';
+					$('#sp_actualAmount_bar')[0].style.width = actualAmount/max_bar1*100+'%';
+					$('#sp_evalFee_bar')[0].style.width=parseFloat(data.evalFee.replace(/,/g,''))*1000/loanAmount*100+'%';
+				}else{
+					$('#sp_loanAmount_bar')[0].style.width = '0%';
+					$('#sp_signAmount_bar')[0].style.width = '0%';
+					$('#sp_actualAmount_bar')[0].style.width = '0%';
+					$('#sp_evalFee_bar')[0].style.width = '0%';
+				}
 				
-				$('#sp_convRate_bar')[0].style.width=data.convRate;
-				$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
+				if(parseFloat(data.convRate)>100){
+					$('#sp_convRate_bar')[0].style.width='100%';
+				}else{
+					$('#sp_convRate_bar')[0].style.width=data.convRate;
+				}
+				if(parseFloat(data.efConvRate)>100){
+					$('#sp_efConvRate_bar')[0].style.width='100%';
+				}else{
+					$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
+				}
 				
-				$('#sp_receiveCount_bar')[0].style.width=parseInt(data.receiveCount)/200*100+'%';
-				$('#sp_signCount_bar')[0].style.width=parseInt(data.signCount)/200*100+'%';
-				$('#sp_loanApplyCount_bar')[0].style.width=parseInt(data.loanApplyCount)/200*100+'%';
-				$('#sp_closeCount_bar')[0].style.width=parseInt(data.closeCount)/200*100+'%';	
+				var max_bar2 = Math.max(data.receiveCount, data.signCount, data.loanApplyCount, data.closeCount);
+				if(max_bar2){
+					$('#sp_receiveCount_bar')[0].style.width=parseInt(data.receiveCount)/max_bar2*100+'%';
+					$('#sp_signCount_bar')[0].style.width=parseInt(data.signCount)/max_bar2*100+'%';
+					$('#sp_loanApplyCount_bar')[0].style.width=parseInt(data.loanApplyCount)/max_bar2*100+'%';
+					$('#sp_closeCount_bar')[0].style.width=parseInt(data.closeCount)/max_bar2*100+'%';	
+				}else{
+					$('#sp_receiveCount_bar')[0].style.width = '0%';
+					$('#sp_signCount_bar')[0].style.width='0%';
+					$('#sp_loanApplyCount_bar')[0].style.width='0%';
+					$('#sp_closeCount_bar')[0].style.width='0%';
+				}
 				
 				setStaDetailDef();
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
-   	 			d1 = toDonutData($(data.staLoanSign),'count');
-   	 			d2 = toDonutData($(data.staLoanSign),'amount');
-   	 			setDonut(d1,d2);
-				
+   	 			//d1 = toDonutData($(data.staLoanSign),'count');
+   	 			//d2 = toDonutData($(data.staLoanSign),'amount');
+   	 			//setDonut(d1,d2);
+				var d1 = getData($(data.staLoanSign), 'count');
+				var d2 = getData($(data.staLoanSign), 'amount');
+   	 			if (!d1 || $.isEmptyObject(d1)) {
+   	 				$("#bt_1").addClass("hide");
+   	 			} else {
+   	 				$("#bt_1").removeClass("hide");
+   	 			}
+   	 			if (!d2 || $.isEmptyObject(d2)) {
+   	 				$("#bt_2").addClass("hide");
+   	 			} else {
+   	 				$("#bt_2").removeClass("hide");
+   	 			}
+   	 			ePlusLoanCount(document.getElementById('doughnutChart1'), d1, '{b}\n{c}');
+   	 			ePlusLoanCount(document.getElementById('doughnutChart2'), d2, '{b}\n{c}万');
 				addLinkHref(month,sUserId);
 			}
 	 });
 }
 
-/*
-$('a[href="#tab-3"]').click(function (e) {
-	  //e.preventDefault()
-	  $(this).tab('show')
-	  setDonut(d1,d2);
-})*/
+function getData(d, it) {
+	var data = [];
+	$.each(d, function(i, item){
+		if(typeof(this[it])=='string'){
+			data.push({
+				value : parseFloat(this[it].replace(/,/g,'')).toFixed(2),
+				name : item.staItemStr
+			});
+		}else if(typeof(this[it])=='number'){
+			data.push({
+				value : parseFloat(this[it]).toFixed(2),
+				name : item.staItemStr
+			});			
+		}
+	});
+	return data;
+}
+
+/*function getLegend(data) {
+	var d = [];
+	$.each(data,function(i,item) {
+		d.push(item.name);
+	});
+	return d;	
+}*/
+
+function ePlusLoanCount(dom, data, formatter) {
+	var myChart = echarts.init(dom);
+	
+	var option = {
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: formatter
+		    },
+		    /*legend: {
+		        orient: 'vertical',
+		        x: 'left',
+		        data: getLegend(data)
+		    },*/
+		    color: [ '#87d6c6', '#54cdb4', '#1ab394'],
+		    series: [
+		        {
+		            name:'E+贷款',
+		            type:'pie',
+		            radius: ['50%', '80%'],
+		            avoidLabelOverlap: false,
+		            
+		            label: {
+		                normal: {
+		                    show: true,
+		                    position: 'outside'
+		                },
+		                emphasis: {
+		                    show: true,
+		                    
+		                    //formatter : "{b}\n{c}万",
+		                    /*formatter : formatter,
+		                    textStyle: {
+		                        fontSize: '25',
+		                        fontWeight: 'bold',
+		                        color : 'black',
+		                    }*/
+		                }
+		            },
+		            
+		            labelLine: {
+		                normal: {
+		                    show: true
+		                }
+		            },
+		            data:data
+		        }
+		    ]
+		};
+	myChart.setOption(option);
+}
+
 
 // 申请金额/面签金额/放款金额增加链接
 function addLinkHref(month,sUserId) {

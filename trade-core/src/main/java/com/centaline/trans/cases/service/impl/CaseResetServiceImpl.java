@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.CaseResetService;
@@ -37,6 +38,10 @@ public class CaseResetServiceImpl implements CaseResetService {
 	private TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
 	private WorkFlowManager workflowManager;
+	
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
+	
 	@Override
 	public void reset(CaseResetVo vo) {
 		//更新Workflow表为终止状态
@@ -79,5 +84,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 				
 			}
 		}
+		
+		bizWarnInfoService.deleteByCaseCode(vo.getCaseCode());   //删除商贷流失预警信息
 	}
 }

@@ -13,6 +13,7 @@ function setStaVal(f, s, l) {
 	setStaValItem(s, 'td:eq(2)');
 	setStaValItem(l, 'td:eq(3)');
 }
+/*
 function setDonut(d1, d2) {
 	$("#doughnutChart1").empty();
 	$("#doughnutChart2").empty();
@@ -38,7 +39,7 @@ function setDonut(d1, d2) {
 		resize : true,
 		colors : [ '#87d6c6', '#54cdb4', '#1ab394' ],
 	});
-}
+}*/
 function setStaValItem(d, c) {
 	if (d) {
 		$(d).each(function(i) {
@@ -49,6 +50,7 @@ function setStaValItem(d, c) {
 		});
 	}
 }
+/*
 function toDonutData(d, it) {
 	var dd = new Array();
 	if (d) {
@@ -60,7 +62,7 @@ function toDonutData(d, it) {
 		});
 	}
 	return dd;
-}
+}*/
 var handleScrollers = function() {
 	$('.scroller').each(function() {
 		$(this).slimScroll({
@@ -75,101 +77,103 @@ var handleScrollers = function() {
 	});
 };
 handleScrollers();
-$(document).ready(
-		function() {
-			new messageGrid().init({
-				e : $("#div_messagelist1"),
-				u : appCtx['aist-message-web'],
-				c : 'MSG_YU_RESPONSE',
-				ctx : ctx
-			});
-			new messageGrid().init({
-				e : $("#div_messagelist2"),
-				u : appCtx['aist-message-web'],
-				c : 'MSG_YU_WORK',
-				ctx : ctx
-			});
-			new messageGrid().init({
-						e : $("#div_messagelist3"),
-						u : appCtx['aist-message-web'],
-						c : 'MSG_YU_STOPLOSS',
-						ctx : ctx
-			});
-					$('.i-checks').iCheck({
-						checkboxClass : 'icheckbox_square-green',
-						radioClass : 'iradio_square-green',
-					});
+$(document).ready(function() {
+	new messageGrid().init({
+		e : $("#div_messagelist1"),
+		u : appCtx['aist-message-web'],
+		c : 'MSG_YU_RESPONSE',
+		ctx : ctx
+	});
+	new messageGrid().init({
+		e : $("#div_messagelist2"),
+		u : appCtx['aist-message-web'],
+		c : 'MSG_YU_WORK',
+		ctx : ctx
+	});
+	new messageGrid().init({
+		e : $("#div_messagelist3"),
+		u : appCtx['aist-message-web'],
+		c : 'MSG_YU_STOPLOSS',
+		ctx : ctx
+	});
+	
+	$('.i-checks').iCheck({
+		checkboxClass : 'icheckbox_square-green',
+		radioClass : 'iradio_square-green',
+	});
 
-					$('#external-events div.external-event').each(function() {
-						$(this).data('event', {
-							title : $.trim($(this).text()), // use the element's
+	$('#external-events div.external-event').each(function() {
+		$(this).data('event', {
+			title : $.trim($(this).text()), // use the element's
 															// text as the event
 															// title
-							stick : true
+			stick : true
 						// maintain when user navigates (see docs on the
 						// renderEvent method)
-						});
-						$(this).draggable({
-							zIndex : 1111999,
-							revert : true, // will cause the event to go back
+		});
+		$(this).draggable({
+			zIndex : 1111999,
+			revert : true, // will cause the event to go back
 											// to its
-							revertDuration : 0
+			revertDuration : 0
 						// original position after the drag
-						});
-					});
-					// 获取待办事项数据
-					$.ajax({
-								url : ctx + '/transplan/getToTransPlan',
-								data : "",
-								type : "post",
-								dataType : "json",
-								async : false,
-								success : function(data) {
-									// console.info(data);
-									if (data.toTransPlanOrToPropertyInfoList == null)
-										return;
-									var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;
-									for (var i = 0; i < toTransPlanOrToPropertyInfoList.length; i++) {
-										var calssstyle = "popy";
-										var partCode = toTransPlanOrToPropertyInfoList[i].partCode;
-										var estPartTimes = toTransPlanOrToPropertyInfoList[i].estPartTime;
-										var propertyAddr = toTransPlanOrToPropertyInfoList[i].propertyAddr;
-										if (propertyAddr == undefined) {
-											propertyAddr = "无";
-										}
-										if(estPartTimes == undefined || estPartTimes=='') {
-											return true;
-										}
-										events.push({
-											title : partCode + "\n 物业地址:"
-													+ propertyAddr,
-											start : estPartTimes,
-											backgroundColor : '#f8ac59',
-											borderColor : "#f8ac59"
-										});
-									}
-								}
-							});
-					$('#calendar').fullCalendar({
-						header : {
-							left : 'prev,next today',
-							center : 'title',
-							right : 'month,basicWeek'
-						},
-						editable : false,
-						events : events
-
-					});
-					$("#ionrange_4").ionRangeSlider(
-							{
-								values : [ "一月", "二月", "三月", "四月", "五月", "六月",
-										"七月", "八月", "九月", "十月", "十一月", "十二月" ],
-								dateType : 'single',
-								hasGrid : true
-
-							});
-
+		});
+	});
+	
+	// 获取待办事项数据
+	$.ajax({
+		url : ctx + '/transplan/getToTransPlan',
+		data : "",
+		type : "post",
+		dataType : "json",
+		async : false,
+		success : function(data) {
+			// console.info(data);
+			if (data.toTransPlanOrToPropertyInfoList == null)
+				return;
+			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;
+			for (var i = 0; i < toTransPlanOrToPropertyInfoList.length; i++) {
+				var calssstyle = "popy";
+				var partCode = toTransPlanOrToPropertyInfoList[i].partCode;
+				var estPartTimes = toTransPlanOrToPropertyInfoList[i].estPartTime;
+				var propertyAddr = toTransPlanOrToPropertyInfoList[i].propertyAddr;
+				if (propertyAddr == undefined) {
+					propertyAddr = "无";
+				}
+				if(estPartTimes == undefined || estPartTimes=='') {
+					return true;
+				}
+				events.push({
+					title : partCode + "\n 物业地址:" + propertyAddr,
+					start : estPartTimes,
+					backgroundColor : '#f8ac59',
+					borderColor : "#f8ac59"
 				});
+			}
+
+		}
+	});
+
+	$('#calendar').fullCalendar({
+		header : {
+			left : 'prev,next,month,basicWeek,today',
+			center : 'title',
+			right : ''
+		},
+		editable : false,
+		events : events
+
+	});	
+	
+	$("#ionrange_4").ionRangeSlider({
+		values : [ "一月", "二月", "三月", "四月", "五月", "六月",
+			"七月", "八月", "九月", "十月", "十一月", "十二月" 
+		],
+		dateType : 'single',
+		hasGrid : true
+	});
+
+});
 jQuery(document).ready(function() {
 	$(".fancybox").fancybox({
 		maxWidth : 650,

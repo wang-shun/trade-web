@@ -29,6 +29,7 @@
 	var caseCode = "${caseCode}";
 	var processInstanceId = "${processInstanceId}";
 	var approveType = "${approveType }";
+	var loanReqType = "${loanReqType}";
 </script>
 <style type="text/css">
 .radio.radio-inline > label{
@@ -172,8 +173,39 @@
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>   
-	$(document).ready(
+	/**
+	 * 案件详情
+	 * @wanggh
+	 */
+	Array.prototype.contains = function(obj){
+		 var i = this.length;
+	     while (i--) {
+	         if (this[i] === obj) {
+	         return true;
+	         }
+	     }
+	     return false;
+	};
+	var changeTaskList=['TransSign','PurchaseLimit','Pricing','TaxReview','LoanClose','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
+	                    'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
+	var comLoanTasks=['ComLoanProcess'];
+	var psfLoanTasks=["PSFApply","PSFSign","PSFApprove"];
+	var loanLostTasks=['LoanlostApply','LoanlostApproveManager','LoanlostApproveDirector','SelfLoanApprove'];
+	var fullPay=[];
+	var loanTasks={'PSFLoan':psfLoanTasks,'ComLoan':comLoanTasks,SelfLoan:loanLostTasks,"FullPay":fullPay};
+	var loanTaskArry= new Array();
+	loanTaskArry = loanTaskArry.concat(comLoanTasks,psfLoanTasks,loanLostTasks,fullPay);
+
+	$(document).ready(			
 			function() {
+				$("#sel_changeFrom option").each(function(){
+					var _this=$(this);
+					var taskDfKey=_this.val();
+					if(!changeTaskList.contains(taskDfKey) ||(loanTaskArry.contains(taskDfKey)&&!loanTasks[loanReqType].contains(taskDfKey))){
+						_this.remove();
+					}
+				});
+
 				$("#sel_changeFrom").change(function(){
 					$("#changeForm-form").attr('action','../../../task/'+$("#sel_changeFrom").val());
 				});

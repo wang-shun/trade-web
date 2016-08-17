@@ -160,4 +160,17 @@
        <result column="LEADING_PROCESS_ID" property="leadingProcessId" javaType="java.lang.String" jdbcType="VARCHAR"/>
   </resultMap>
   
+  <select id="findTeamPropertyCooperations" parameterType="com.centaline.trans.team.entity.TsTeamProperty" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TEAM_PROPERTY 
+    WHERE   YU_TEAM_CODE IN (
+        SELECT DISTINCT
+                t2.YU_TEAM_CODE
+        FROM    sctrans.T_TS_TEAM_SCOPE t1
+                INNER JOIN sctrans.T_TS_TEAM_SCOPE t2 ON t1.YU_AGENT_TEAM_CODE = t2.YU_AGENT_TEAM_CODE
+        WHERE   t1.YU_TEAM_CODE = #{yuTeamCode,jdbcType=VARCHAR} )
+        AND IS_RESPONSE_TEAM = 0
+  </select>
+  
 </mapper>

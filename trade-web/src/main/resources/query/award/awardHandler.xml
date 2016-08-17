@@ -17,7 +17,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-						sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                <ifNotNull userId>
@@ -58,6 +58,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column name="PKID" />
 				<column name="CASE_CODE" />
 				<column name="PROPERTY_ADDR" />
 				<column name="GUOHU_TIME" beanFormatter="dateFormatter" />
@@ -118,7 +119,7 @@ FROM    sctrans.t_ts_award_base A
 			<baseSql>
 				<![CDATA[
 					select 
-						sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                group by case_code) sab
@@ -153,6 +154,7 @@ FROM    sctrans.t_ts_award_base A
 		</searchSql>
 		<grid>
 			<table-row>
+				<column name="PKID" />
 				<column name="CASE_CODE" />
 				<column name="PROPERTY_ADDR" />
 				<column name="GUOHU_TIME" beanFormatter="dateFormatter" />

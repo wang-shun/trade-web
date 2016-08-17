@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
+import com.centaline.trans.eloan.entity.ToEloanCase;
+import com.centaline.trans.eloan.entity.ToEloanRel;
+import com.centaline.trans.eloan.service.ToEloanCaseService;
+import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
@@ -183,12 +188,18 @@ public class CaseDetailController {
 	private ToPropertyResearchService toPropertyResarchService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
-	
+
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
 	@Autowired
 	private ProcessInstanceService processInstanceService;
-	
+
+	// E+金融
+	@Autowired
+	private ToEloanRelService toEloanRelService;
+	@Autowired
+	private ToEloanCaseService toEloanCaseService;
+
 	/**
 	 * 页面初始化
 	 * 
@@ -245,8 +256,7 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
-				TransJobs.TJYZL.getCode());
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
 		if (asList != null && asList.size() > 0) {
 			User assistUser = asList.get(0);
 			reVo.setAsId(assistUser.getId());
@@ -655,12 +665,12 @@ public class CaseDetailController {
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
+					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
 		
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
-				.getServiceDepCode());
+		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
 		boolean isCaseOwner=false;
 		boolean isNewFlow=false;
@@ -764,8 +774,7 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
-				TransJobs.TJYZL.getCode());
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
 		if (asList != null && asList.size() > 0) {
 			User assistUser = asList.get(0);
 			reVo.setAsId(assistUser.getId());
@@ -1095,6 +1104,76 @@ public class CaseDetailController {
 		// 金融服务信息
 		List<ToLoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
 		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
+		List<ToLoanAgentVO> toEloanCaseVOs = new ArrayList<ToLoanAgentVO>();
+		// E+金融
+		ToEloanCase eloanCase = new ToEloanCase();
+		eloanCase.setCaseCode(toCase.getCaseCode());
+		List<ToEloanCase> toEloanCases = toEloanCaseService.getToEloanCaseListByProperty(eloanCase);
+		if (toEloanCases.size() > 0) {
+			
+			for (ToEloanCase toEloanCase : toEloanCases) {
+				ToLoanAgentVO toEloanCaseVO = new ToLoanAgentVO();
+				// 贷款服务编码
+				if (!StringUtils.isEmpty(toEloanCase.getLoanSrvCode())) {
+					String loanSrvName = uamBasedataService.getDictValue(TransDictEnum.TFWBM.getCode(),
+							toEloanCase.getLoanSrvCode());
+					toEloanCaseVO.setLoanSrvName(loanSrvName);
+				}
+				// 贷款机构
+				if (toEloanCase.getFinOrgCode() != null) {
+					TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(toEloanCase.getFinOrgCode());
+					if (tsFinOrg != null && !StringUtils.isEmpty(tsFinOrg.getFinOrgName())) {
+						toEloanCaseVO.setFinOrgName(tsFinOrg.getFinOrgName());
+					}
+				}
+				// 申请时间
+				if (toEloanCase.getApplyTime() != null) {
+					String applyTime = format.format(toEloanCase.getApplyTime());
+					toEloanCaseVO.setApplyTime(applyTime);
+				}
+				// 确认时间
+				if (toEloanCase.getApplyConfTime() != null) {
+					String formatTime = format.format(toEloanCase.getApplyConfTime());
+					toEloanCaseVO.setConfirmTime(formatTime);
+				}
+				// 面签时间
+				if (toEloanCase.getSignTime() != null) {
+					String formatTime = format.format(toEloanCase.getSignTime());
+					toEloanCaseVO.setSignTime(formatTime);
+				}
+				// 申请状态
+				if (toEloanCase.getApplyConfTime()!= null) {
+					toEloanCaseVO.setApplyStatusName("已确认");
+				} else {
+					toEloanCaseVO.setApplyStatusName("待确认");
+				}
+
+				// 放款时间
+				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
+				// 确认状态
+				if (toEloanCase.getApplyTime()!=null) {
+					toEloanCaseVO.setConfirmStatusName("申请");
+				} if(toEloanCase.getSignTime()!=null){
+					toEloanCaseVO.setConfirmStatusName("面签");
+				}if(eloanRels.size()>0){
+					toEloanCaseVO.setConfirmStatusName("放款");
+				}
+				//放款金额
+				BigDecimal releaseAmount=new BigDecimal(0);
+				for (ToEloanRel eloanRel : eloanRels) {
+					if (eloanRel.getReleaseTime() != null) {
+						String formatTime = format.format(eloanRel.getReleaseTime());
+						toEloanCaseVO.setReleaseTime(formatTime);
+					}
+					if(eloanRel.getConfirmStatus().equals("1")){
+						releaseAmount=releaseAmount.add(eloanRel.getReleaseAmount());
+						toEloanCaseVO.setReleaseAmount(releaseAmount.toString());
+					}
+				}
+				toEloanCaseVOs.add(toEloanCaseVO);
+			}
+
+		}
 		if (toLoanAgents.size() > 0) {
 			for (ToLoanAgent toLoanAgent : toLoanAgents) {
 				ToLoanAgentVO toLoanAgentVO = new ToLoanAgentVO();
@@ -1174,11 +1253,11 @@ public class CaseDetailController {
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
+					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser
-				.getServiceDepCode());
+		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
 		boolean isCaseOwner=false;
 		boolean isNewFlow=false;
@@ -1222,13 +1301,17 @@ public class CaseDetailController {
 		request.setAttribute("caseInfo", caseInfo);
 		request.setAttribute("toSpv", toSpv);
 		request.setAttribute("cashFlows", cashFlows);
-		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toLoanAgents", toLoanAgents);
+		request.setAttribute("toEloanCases", toEloanCases);
+		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
+		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
 		return "case/caseDetail";
 	}
 	
 	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
-		if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
+		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
+			return tasks;
+		}
 		Set<String>taskDfKeys=new HashSet<>();
 		mySerivceItems.parallelStream().forEach(item->{
 			Dict d =uamBasedataService.findDictByType(item.getSrvCode());

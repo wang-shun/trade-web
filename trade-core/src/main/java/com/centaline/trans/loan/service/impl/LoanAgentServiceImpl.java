@@ -20,6 +20,7 @@ import com.centaline.trans.loan.enums.LoanType;
 import com.centaline.trans.loan.repository.LoanAgentMapper;
 import com.centaline.trans.loan.repository.LoanStatusChangeMapper;
 import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class LoanAgentServiceImpl implements LoanAgentService {
@@ -56,11 +57,13 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 
 	private void buildFCaseCode(LoanAgent loanAgent) {
 		if (!StringUtils.isBlank(loanAgent.getCaseCode()) && StringUtils.isBlank(loanAgent.getFinCaseCode())) {
+			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+			String month = dateStr.substring(0, 6);
 			if (LoanType.ZY_XD.getCode().equals(loanAgent.getLoanSrvCode())) {
-				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("ZYDK_CODE", new Date()));
+				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("ZYDK_CODE","XD", month));
 			} else {
 				loanAgent.setFinCaseCode(uamBasedataService.nextSeqVal("WDDK_CODE",
-						LoanCompany.getCaseValueByCode(loanAgent.getFinOrgCode()), new Date()));
+						LoanCompany.getCaseValueByCode(loanAgent.getFinOrgCode()), month));
 			}
 		}
 	}

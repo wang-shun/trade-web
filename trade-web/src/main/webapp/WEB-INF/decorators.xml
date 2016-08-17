@@ -20,8 +20,14 @@
 	</decorator>
 	<!-- 工作台模板 -->
 	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
-		<pattern>/workspace/dashboard2</pattern>
+		<pattern>/workspace/dashboard</pattern>
+		<pattern>/awards/personalAward</pattern>		
+		<pattern>/awards/allAward</pattern>		
+		<pattern>/award/baseAwardReport</pattern>		
 		<pattern>/task/myTaskList</pattern>
+		<pattern>/eloan/Eloanlist</pattern>
+		<pattern>/eloan/getEloanCaseDetails</pattern>
+		<pattern>/eloan/task/eloanApply/process</pattern>
 	<!-- 	<pattern>/mortgage/mortgageApproveLost2</pattern>
 		<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>

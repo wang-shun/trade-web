@@ -153,17 +153,19 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	
 	@Override
 	public boolean submit2(MortgageSelecteVo vo) {
+		// 开始处理流程引擎
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		editRestVariables(variables, vo.getMortageService());
+
+		boolean b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 		
 		loanRequirementChange(vo);
-		
-		boolean b = submit(vo);
 
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
 		if(bizWarnInfo != null){
 			bizWarnInfo.setStatus("1");
 			bizWarnInfoMapper.updateStatusInMortgageSelect(bizWarnInfo);   //当操作人确定好贷款选择之后，商贷预警信息状态就更改为已解除
 		}
-		messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 		
 		return b;
 	};
