@@ -56,7 +56,7 @@ left join sctrans.v_case_list_base b
 	on b.case_code = pro.BUSINESS_KEY_
 left join sctrans.SYS_ORG org
 	ON tca.ORG_ID=org.id
-left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
+left join sctrans.SYS_WFE_TEMPLATE as wfe on pro.BUSINESS_KEY_=wfe.WFE_CODE
 where task.ASSIGNEE_ is null and ilink.TYPE_='participant'
 <ifNotNull mOrgId>
 						and (ilink.user_id_=#candidateId# or (ilink.user_id_ is null and tca.org_id=#mOrgId#))
@@ -74,7 +74,7 @@ from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
 left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
 left join sctrans.v_case_list_base b on b.case_code = ut.case_code
 left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
-left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
+left join sctrans.SYS_WFE_TEMPLATE as wfe on ut.CASE_CODE=wfe.WFE_CODE
  where ut.IS_DELETE='0'
 					 <ifNotNull mOrgId>
 						and (ut.candidate_Id=#candidateId# or (ut.candidate_Id is null and tca.org_id=#mOrgId#))
