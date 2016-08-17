@@ -59,6 +59,7 @@ import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.PrChannelEnum;
 import com.centaline.trans.common.enums.PropertyStatusEnum;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.ToPropertyResearchEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.TransJobs;
@@ -1273,10 +1274,22 @@ public class CaseDetailController {
 		if (isCaseOwner && TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())) {
 			isCaseManager = true;
 		}
+		
+		TaskHistoricQuery query =new TaskHistoricQuery();
+		query.setFinished(true);
+		query.setTaskDefinitionKey("MortgageSelect");
+		query.setProcessInstanceId(toWorkFlow.getInstCode());
+		PageableVo pageableVo=workFlowManager.listHistTasks(query);
+		
+		boolean isMortgageSelect = false;   //是否贷款选择操作已完成，如果为true，说明该操作已完成;返回false,该操作未完成。
+		if(pageableVo.getSize() > 0){
+			isMortgageSelect = true;    
+		}
 
 		// 商贷预警信息
 		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
 
+		request.setAttribute("isMortgageSelect", isMortgageSelect);
 		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
