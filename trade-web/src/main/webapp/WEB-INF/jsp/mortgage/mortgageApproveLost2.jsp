@@ -31,6 +31,104 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+
+<style type="text/css">
+.hint { position: relative; display: inline-block; }
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 6px solid transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 8px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* top */
+.hint-top:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top:hover:after {
+	margin-bottom: 2px;
+}
+
+/* top */
+.hint-top1:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top1:after {
+    bottom: 100%;
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+.hint-top1:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top1:hover:after {
+	margin-bottom: 2px;
+	width:80px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+/* top */
+.hint-top2:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top2:after {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top2:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top2:hover:after {
+	margin-bottom: 2px;
+	width:280px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+
+</style> 
+</style>
 </head>
 <body class="pace-done">
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -45,9 +143,15 @@
 						placeholder="请输入" value="" id="caseCode" name="caseCode" />
 				</div>
 				<div class="form_content">
-					<label class="control-label sign_left_small"> 主办 </label> <input
-						class="teamcode input_type" style="width: 152px;"
-						placeholder="请输入" value="" id="caseoperator" name="caseoperator" />
+					<label class="control-label sign_left_small"> 主办 </label> 
+<!-- 					<input	class="teamcode input_type" style="width: 152px;"
+						placeholder="请输入" value="" id="caseoperator" name="caseoperator" /> -->
+						
+					<input id="caseoperator"  name="caseoperator" class="teamcode input_type" value="" hVal="" placeholder="请输入"
+					class="teamcode input_type" style="width: 152px;"	onclick="chooseCaseOperator('${serviceDepId}')" />
+					<div class="input-group float_icon organize_icon">
+						<i class="icon iconfont">&#xe61b;</i>
+					</div>
 				</div>
 				<div class="form_content">
 					<label class="control-label sign_left_small"> 案件组织 </label> <input
@@ -107,7 +211,7 @@
 								class="fa fa-sort-desc fa_down"></i></th>
 							<th>案件地址</th>
 							<th><span class="sort" sortColumn="START_TIME_" sord="desc"
-								onclick="createTimeSort();">创建时间</span><i id="createTimeSorti"
+								onclick="createTimeSort();">审核时间</span><i id="createTimeSorti"
 								class="fa fa-sort-asc fa_up"></i></th>
 							<th>经办人</th>
 							<th>贷款类型</th>
@@ -160,12 +264,12 @@
 					<p class="big">{{item.PROPERTY_ADDR}}</p>
 					<span >
 						<i class="salesman-icon"></i>
- 						<a class="hint  hint-top2"  data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}</a>					 
+ 						<a class="hint  hint-top2"  data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}"  data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}</a>					 
 					</span>
 			</td>                
              <td>						
 					<p>  
-                        <i class="sign_normal">创</i>{{item.START_TIME_}}          
+                        <i class="sign_normal">审</i>{{item.END_TIME_}}          
                     </p>
 			</td> 
 			
@@ -176,7 +280,7 @@
             </td> 
 			<td>
 				<p>
-                     <i class="sign_blue">{{item.MORT_TYPE}}</i>
+                     <i class="sign_blue">{{item.MORT_TYPE==""?"未选择":item.MORT_TYPE}}</i>
                 </p>       
 			</td>
 				
@@ -266,9 +370,8 @@ function reloadGrid(data) {
 						},
 					success : function(data) {
 							$.unblockUI();
-							data.ctx = ctx;
-							console.log("====Result===="+JSON.stringify(data));
-
+							data.ctx = ctx;						
+							console.log("数据"+JSON.stringify(data));
 							var myMortgageApproveLostList = template('template_myMortgageApproveLostList', data);
 							$("#myMortgageApproveLostList").empty();
 							$("#myMortgageApproveLostList").html(myMortgageApproveLostList);
@@ -300,10 +403,10 @@ function initpage(totalCount, pageSize, currentPage, records) {
 				totalPages : totalCount,
 				visiblePages : 9,
 				startPage : currentPage,
-				first : '<i class="icon-step-backward"></i>',
-				prev : '<i class="icon-chevron-left"></i>',
-				next : '<i class="icon-chevron-right"></i>',
-				last : '<i class="icon-step-forward"></i>',
+				first : '<i class="fa fa-step-backward"></i>',
+				prev : '<i class="fa fa-chevron-left"></i>',
+				next : '<i class="fa fa-chevron-right"></i>',
+				last : '<i class="fa fa-step-forward"></i>',
 				showGoto : true,
 				onPageClick : function(event, page) {				
 				searchMethod(page);
@@ -311,8 +414,7 @@ function initpage(totalCount, pageSize, currentPage, records) {
 		});
 }
 //获取参数					
-function getParams() {
-		//;yuCuiOriGrpId;;
+function getParams() {	
 		var startDate = $("#dtBegin_0").val();
 		var endDate = '';
 		if (!$.isBlank($("#dtEnd_0").val())) {
@@ -383,6 +485,59 @@ function loanLostCaseExportToExcel() {
 				data : data
 			})
 }
+//选取人员的回调函数
+function loanLostCaseSelectUserBack(array){
+ 	if(array && array.length >0){
+        $("#caseoperator").val(array[0].username);
+		$("#caseoperator").attr('hVal',array[0].userId);
+
+	}else{
+		$("#caseoperator").val("");
+		$("#caseoperator").attr('hVal',"");
+	} 
+}
+
+function chooseCaseOperator(id){
+	var serviceDepId = id;
+	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
+
+	if (yuCuiOriGrpId != "") {
+		userSelect({
+			startOrgId : yuCuiOriGrpId,
+			expandNodeId : yuCuiOriGrpId,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : 'consultant',
+			callBack : loanLostCaseSelectUserBack
+		});
+		//$("#yuCuiOriGrpId").val("");
+	} else {
+		userSelect({
+			startOrgId : serviceDepId,
+			expandNodeId : serviceDepId,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : 'Manager,Senior_Manager',
+			callBack : loanLostCaseSelectUserBack
+		});
+	}
+}
+//案件创建时间排序图标变化函数
+function createTimeSort(){
+	if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#createTimeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
 
 //案件case_code排序图标变化函数
 function caseCodeSort(){
@@ -395,16 +550,6 @@ function caseCodeSort(){
 	}
 }
 
-//案件创建时间排序图标变化函数
-function createTimeSort(){
-	if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down"){
-		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
-	}else if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
-		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
-	}else{
-		$("#createTimeSorti").attr("class",'fa fa-sort-desc fa_down');
-	}
-}
 					</script> </content>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
