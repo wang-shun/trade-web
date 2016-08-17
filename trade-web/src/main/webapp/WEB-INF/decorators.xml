@@ -28,8 +28,8 @@
 		<pattern>/eloan/Eloanlist</pattern>
 		<pattern>/eloan/getEloanCaseDetails</pattern>
 		<pattern>/eloan/task/eloanApply/process</pattern>
-	<!-- 	<pattern>/mortgage/mortgageApproveLost2</pattern>
-		<pattern>/case/caseDistribute2</pattern>
+		<pattern>/mortgage/mortgageApproveLost</pattern>
+		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->
 	</decorator>	 
