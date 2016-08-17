@@ -523,7 +523,7 @@ function chooseCaseOperator(id){
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode : 'Manager,Senior_Manager',
+			jobCode : 'consultant',
 			callBack : loanLostCaseSelectUserBack
 		});
 	}
