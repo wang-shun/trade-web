@@ -98,6 +98,7 @@
                             <th>过户时间</th>
                             <th>生成时间</th>
                             <th>基础奖金</th>
+                            <th>最终奖金</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -150,6 +151,9 @@
 				</td>
                 <td>
 					<p class="big">{{item.SUM_BASE_AMOUNT}}</p>
+				</td>
+                <td>
+					<p class="big">{{item.AWARD_KPI_MONEY_SUM}}</p>
 				</td>
                 <td class="center">
 					<a href="#" class="spread" id="{{item.CASE_CODE}}">展开</a>
