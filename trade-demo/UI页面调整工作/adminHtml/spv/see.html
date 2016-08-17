@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>我的工作台</title>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+
+    <link rel="stylesheet" href="../static/css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css" rel="stylesheet">
+
+    <!-- stickUp fixed css -->
+    <link rel="stylesheet" href="../static/css/plugins/stickup/stickup.css">
+    <link rel="stylesheet" href="../static/trans/css/common/stickmenu.css">
+
+    <link rel="stylesheet" href="../static/css/plugins/aist-steps/steps.css">
+    <link rel="stylesheet" href="../static/css/plugins/toastr/toastr.min.css">
+
+    <!-- index_css  -->
+    <link rel="stylesheet" href="../static/trans/css/spv/table.css" />
+    <link rel="stylesheet" href="../static/trans/css/spv/input.css" />
+    <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span>
+                                <img alt="image" class="img-circle" src="../static/img/profile_small.jpg">
+                            </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs">
+                                        <strong class="font-bold">金姣姣</strong>
+                                    </span>
+                                    <span class="text-muted text-xs block">交易顾问</span>
+                                    <span class="text-muted text-xs block">
+                                        虹口杨浦贵宾服务部A组
+                                        <b class="caret"></b>
+                                    </span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li>
+                                    <a href="#">我的信息</a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" onclick="LogoutUtils.logout();return false;">
+                                        注销
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            YUCUI+
+                        </div>
+                    </li>
+                    <li class="active">
+                        <a href="dashboard（manager）.html">
+                            <i class="fa fa-home">
+                            </i>
+                            <span class="nav-label">
+                                个人工作台
+                            </span>
+                        </a>
+                        <iframe id="tmp_downloadhelper_iframe" style="display: none;">
+                        </iframe>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-th-large">
+                            </i>
+                            <span class="nav-label">我的案件</span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    案件总览
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../workflow/myTaskList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    待办任务
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    无主任务
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    案件追踪
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../case/mortgageApproveLost.html">
+                                    <i class="fa ">
+                                    </i>
+                                    流失案件
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-glass">
+                            </i>
+                            <span class="nav-label">
+                                E+贷款
+                            </span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="../eloan/eloan.html">
+                                    <i class="fa ">
+                                    </i>
+                                    金融产品信息填写
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-cny">
+                            </i>
+                            <span class="nav-label">
+                                佣金管理
+                            </span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    佣金查看
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    我的计件奖金
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    我的基础计件奖金
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-comment">
+                            </i>
+                            <span class="nav-label">
+                                产调结果
+                            </span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-calendar-o">
+                            </i>
+                            <span class="nav-label">
+                                知识管理
+                            </span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    知识库
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    我的知识
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-user">
+                            </i>
+                            <span class="nav-label">
+                                个人设置
+                            </span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    我的信息
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    授权代办
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <div class="navbar-header" style="margin-left: 30%;"><h2 class="welcome">欢迎使用誉萃交易平台！</h2><iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">    </span>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-envelope"></i>  <span class="label label-warning" id="sp_badge">766</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages" id="messageul">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a class="pull-left">
+                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
+                                        </span>
+                                    </a>
+                                    <div class="media-body">
+                                        <strong>
+                                            跟进提醒
+                                        </strong>
+                                        <br>
+                                        编号为ZY-NAJ-201607-0863，地址为上海杨浦区五角场街道国权路43号独栋号2411室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                        <br>
+                                        <small class="text-muted">
+                                            2016-07-22
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="divider">
+                            </div>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a class="pull-left">
+                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
+                                        </span>
+                                    </a>
+                                    <div class="media-body">
+                                        <strong>
+                                            跟进提醒
+                                        </strong>
+                                        <br>
+                                        编号为ZY-NAJ-201607-0866，地址为上海杨浦区五角场镇市京一村13号0502室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                        <br>
+                                        <small class="text-muted">
+                                            2016-07-22
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="divider">
+                            </div>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a class="pull-left">
+                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
+                                        </span>
+                                    </a>
+                                    <div class="media-body">
+                                        <strong>
+                                            临时银行处理提醒
+                                        </strong>
+                                        <br>
+                                        编号为ZY-AJ-201605-1527，地址为上海黄浦区西藏南路片区西藏南路1374弄21号0403室的案件临时银行已经处理. 临时银行为顾村公园支行(其他),
+                                        请及时跟进.
+                                        <br>
+                                        <small class="text-muted">
+                                            2016-07-22
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="divider">
+                            </div>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a class="pull-left">
+                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
+                                        </span>
+                                    </a>
+                                    <div class="media-body">
+                                        <strong>
+                                            跟进提醒
+                                        </strong>
+                                        <br>
+                                        编号为ZY-NAJ-201607-0862，地址为上海杨浦区五角场街道国权路43号独栋号2410室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                        <br>
+                                        <small class="text-muted">
+                                            2016-07-22
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="divider">
+                            </div>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a class="pull-left">
+                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
+                                        </span>
+                                    </a>
+                                    <div class="media-body">
+                                        <strong>
+                                            跟进提醒
+                                        </strong>
+                                        <br>
+                                        编号为ZY-NAJ-201607-0865，地址为上海杨浦区五角场镇浣纱六村(浣沙六村)31号0603室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                        <br>
+                                        <small class="text-muted">
+                                            2016-07-22
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="divider">
+                            </div>
+                            <li class="text-center link-block">
+                                <div>
+                                </div>
+                                <a href="http://trade.centaline.com:8083/trade-web/message/box/siteList.html"
+                                target="messageContent">
+                                    <i class="fa fa-envelope">
+                                    </i>
+                                    <strong>
+                                        去消息中心
+                                    </strong>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        切换岗位
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
+                    <li><a href="javascript:void(0);" onclick="orgJob.changeOrgJob(&quot;8dc9766035cc47819e7eb28ad2c16bc6&quot;,&quot;ff8080814f459a78014f45ab2c39000d&quot;)">交易顾问@虹口杨浦贵宾服务部A组</a></li></ul>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+
+            <!-- main Start -->
+            <div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
+               <ul class="nav navbar-nav">
+                    <li class="menuItem active"><a href="#base_info">基础信息</a></li>
+                    <li class="menuItem"><a href="#spvone_info">附件</a></li>
+                    <li class="menuItem"><a href="#spvtwo_info">出流水账单</a></li>
+                    <li class="menuItem"><a href="#spvthree_info">相关合约状态</a></li>
+                </ul>
+                <div class="menu_btn" style="float: right;
+    margin-right: 250px;margin-top: 6px">
+                    <button class="btn btn-warning">保存</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="wrapper wrapper-content animated fadeInUp">
+                    <!-- <div class="ibox"> -->
+                    <div class="ibox-content elan_detail">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="row" id="">
+                                    <div class="col-lg-12">
+                                        <div class="m-b-md">
+                                            <h4>换房贷</h4>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row" id="">
+                                    <div class="col-lg-5" id="cluster_info">
+                                            <dl class="dl-horizontal">
+                                                    <dt>案件编号</dt>
+                                                <dd><a herf="#">ZY-JR-201609-0001</a></dd>
+                                                <dt>产权地址</dt>
+                                                <dd>上海市普陀区蕰川路1613弄11号109室</dd>
+                                                 <dt>合作机构</dt>
+                                               <dd>及时雨小贷</dd>
+                                            </dl>
+                                        </div>
+                                    <div class="col-lg-4" id="cluster_info">
+                                        <dl class="dl-horizontal" >
+                                            <dt>申请时间</dt>
+                                            <dd>2016-8-5</dd>
+                                            <dt>申请期数</dt>
+                                            <dd>12个月</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <dl class="dl-horizontal">
+                                            <dt>借款人</dt>
+                                            <dd><span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>王明</a></span> </dd>
+                                            <dt>贷款专员</dt>
+                                            <dd><span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>廖容</a></span></dd>
+                                            <dt>贷款转介人</dt>
+                                            <dd>
+                                                <span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>王嘉明</a></span>
+                                            </dd>
+                                            <dt>合作信贷员</dt>
+                                            <dd><span data-container="body" data-toggle="popover" data-placement="right" data-content="手机：137 9541 0234"><a>王小明</a></span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row bs-wizard" style="border-bottom:0; margin-left:15px">
+                                              <div class="col-lg-4 bs-wizard-step complete">
+                                                  <div class="progress">
+                                                      <div class="progress-bar"></div>
+                                                  </div>
+                                                  <a href="#" class="bs-wizard-dot"></a>
+                                                  <div class="bs-wizard-info text-center">
+                                                    <dl>
+                                                        <dd><strong>申请</strong>  253万</dd>
+                                                    </dl>
+                                                  </div>
+                                              </div>
+                                              <div class="col-lg-5 bs-wizard-step active">
+                                                  <div class="progress">
+                                                      <div class="progress-bar"></div>
+                                                  </div>
+                                                  <a href="#" class="bs-wizard-dot"></a>
+                                                  <div class="bs-wizard-info text-center">
+                                                    <dl>
+                                                        <dd><strong>签约</strong>  253万</dd>
+                                                    </dl>
+
+
+                                                  </div>
+                                              </div>
+                                              <div class="col-lg-2 bs-wizard-step disabled">
+                                                  <div class="progress">
+                                                      <div class="progress-bar"></div>
+                                                  </div>
+                                                  <a href="#" class="bs-wizard-dot"></a>
+                                                  <div class="bs-wizard-info text-center">
+                                                        <dl>
+                                                        <dd><strong>放款 253万</strong> </dd>
+                                                    </dl>
+                                                  </div>
+                                              </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="m-b-md">
+                                            <h4>关联合约</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-activity-list">
+                                    <div class="feed-element">
+                                        <div class="pull-lef contract-icon-block" >
+                                            <div class="icon icon_blue iconfont">&#xe607;</div>
+                                        </div>
+                                        <div class="media-body">
+                                            <strong><a>YC-AJ-201606142394</a></strong><br/>经办人  <strong>胡俊楠</strong>. <br/>
+                                            <small class="text-muted">2016-06-14 15:30 网签</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ibox-content" id="base_info">
+
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="title">
+                                服务进度信息
+                            </div>
+                            </div>
+                            <div class="col-sm-7 m-b-xs tabs">
+                                <div data-toggle="buttons" class="btn-group" id="tabs">
+                                    <label class="btn btn-sm btn-white active">
+                                        <input type="radio" id="option1" name="options">
+                                        买卖双方
+                                    </label>
+                                    <label class="btn btn-sm btn-white ">
+                                        <input type="radio" id="option2" name="options">
+                                        房产及交易
+                                    </label>
+                                    <label class="btn btn-sm btn-white">
+                                        <input type="radio" id="option3" name="options">
+                                        资金监管及账户
+                                    </label>
+                                    <label class="btn btn-sm btn-white" id="label4">
+                                        <input type="radio" id="option4" name="options">
+                                        监管资金的支付
+                                    </label>
+                                    <label class="btn btn-sm btn-white">
+                                        <input type="radio" id="option5" name="options">
+                                        资金划入
+                                    </label>
+                                    <label class="btn btn-sm btn-white">
+                                        <input type="radio" id="option6" name="options">
+                                        资金划出
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" placeholder="搜索服务记录" class="input-sm form-control">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-info">
+                                            搜!
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tabs-body" class="tabs-body">
+                            <div style="display:block">
+                                <table class="table table-bordered table-hover customerinfo">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                客户类型
+                                            </th>
+                                            <th>
+                                                客户姓名
+                                            </th>
+                                            <th>
+                                                性别
+                                            </th>
+                                            <th>
+                                                家庭住址
+                                            </th>
+                                            <th>
+                                                证件类型
+                                            </th>
+                                            <th>
+                                                证件号码
+                                            </th>
+                                            <th>
+                                                证件有效期
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                买家
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" title="" >
+                                                    王胖头
+                                                </a>
+                                            </td>
+                                            <td>
+                                                男
+                                            </td>
+                                            <td>
+                                                上海市静安区华盛世纪广场12号楼房1791
+                                            </td>
+                                            <td>
+                                                身份证
+                                            </td>
+                                            <td>
+                                                039394049399044494
+                                            </td>
+                                            <td>
+                                                长期有效
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                卖家
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" title="" >
+                                                    胡飞
+                                                </a>
+                                            </td>
+                                            <td>
+                                                男
+                                            </td>
+                                            <td>
+                                                上海市普陀区世纪广场13号楼1s9
+                                            </td>
+                                            <td>
+                                                身份证
+                                            </td>
+                                            <td>
+                                                0393940493990666666
+                                            </td>
+                                            <td>
+                                                长期有效
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display:none">
+                                <table class="table table-bordered table-hover customerinfo">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                房产证号
+                                            </th>
+                                            <th>
+                                                房产权利人
+                                            </th>
+                                            <th>
+                                                房屋住址
+                                            </th>
+                                            <th>
+                                                面积
+                                            </th>
+                                            <th>
+                                                网签合同号
+                                            </th>
+                                            <th>
+                                                买方自有金额支付金额
+                                            </th>
+                                            <th>
+                                                下家付款方式
+                                            </th>
+                                            <th>
+                                                金额大写
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                沪私09090030号
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" title="" >
+                                                    胡飞
+                                                </a>
+                                            </td>
+                                            <td>
+                                                上海市长宁区太平洋中心886号16
+                                            </td>
+                                            <td>
+                                                110平米
+                                            </td>
+                                            <td>
+                                                wq3498232324
+                                            </td>
+                                            <td>
+                                                5500000
+                                            </td>
+                                             <td>
+                                                全款
+                                            </td>
+                                            <td>
+                                                伍佰伍拾万元整
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display:none">
+                                <table class="table table-bordered table-hover customerinfo">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                监管总金额
+                                            </th>
+                                            <th>
+                                                金额大写
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                5500000
+                                            </td>
+                                            <td>
+                                                伍佰伍拾万元整
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display:none">
+                                <table class="table table-bordered table-hover customerinfo">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                账户归属
+                                            </th>
+                                            <th>
+                                                姓名
+                                            </th>
+                                            <th>
+                                                归属地
+                                            </th>
+                                            <th>
+                                                开户行
+                                            </th>
+                                            <th>
+                                                账号
+                                            </th>
+                                            <th>
+                                                买方自有金额支付金额
+                                            </th>
+                                            <th>
+                                                金额大写
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                收款账户
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" title="" >
+                                                    胡飞
+                                                </a>
+                                            </td>
+                                            <td>
+                                                上海市
+                                            </td>
+                                            <td>
+                                                上海市普陀区光大江苏路分行
+                                            </td>
+                                            <td>
+                                                110548754562525252
+                                            </td>
+                                            <td>
+                                                5500000
+                                            </td>
+                                            <td>
+                                                伍佰伍拾万元整
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                退款账户
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" title="" >
+                                                    李磊
+                                                </a>
+                                            </td>
+                                            <td>
+                                                上海市
+                                            </td>
+                                            <td>
+                                                上海市中山公园龙之梦分行
+                                            </td>
+                                            <td>
+                                                232325256895856852
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display:none">
+                                <table class="table table-bordered table-hover customerinfo">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                监管资金划入次数
+                                            </th>
+                                            <th>
+                                                划转条件
+                                            </th>
+                                            <th>
+                                                每次划转金额
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                2
+                                            </td>
+                                            <td>
+                                                2016年5月15号
+                                            </td>
+                                            <td>
+                                                240万
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                申请交易过户登记后
+                                            </td>
+                                            <td>
+                                                180万
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                合计
+                                            </td>
+                                            <td>
+                                                420万
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display:none">
+                                <table class="table table-bordered table-hover customerinfo">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                监管资金划入次数
+                                            </th>
+                                            <th>
+                                                划转条件
+                                            </th>
+                                            <th>
+                                                每次划转金额
+                                            </th>
+                                            <th>
+                                                卖方账户
+                                            </th>
+                                            <th>
+                                                资金方
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                2
+                                            </td>
+                                            <td>
+                                                申请交易过户登记后
+                                            </td>
+                                            <td>
+                                                240万
+                                            </td>
+                                            <td>
+                                                100万
+                                            </td>
+                                            <td>
+                                                140万
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                标准交易过户申请后
+                                            </td>
+                                            <td>
+                                                180万
+                                            </td>
+                                            <td>
+                                                180万
+                                            </td>
+                                            <td>
+                                                0万
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                合计
+                                            </td>
+                                            <td>
+                                                300万
+                                            </td>
+                                            <td>
+                                                250万
+                                            </td>
+                                            <td>
+                                                50万
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <!-- main End -->
+
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="../static/js/jquery-2.1.1.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../static/js/inspinia.js"></script>
+    <script src="../static/js/plugins/pace/pace.min.js"></script>
+
+    <!-- stickup plugin -->
+    <script src="../static/js/plugins/stickup/stickUp.js"></script>
+    <script src="../static/trans/js/spv/see.js"></script>
+    <!-- <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tabs li").bind("click", function () {
+                var index = $(this).index();
+                var divs = $("#tabs-body > div");
+                $(this).parent().children("li").attr("class", "tab-nav");//将所有选项置为未选中
+                $(this).attr("class", "tab-nav-action"); //设置当前选中项为选中样式
+                divs.hide();//隐藏所有选中项内容
+                divs.eq(index).show(); //显示选中项对应内容
+            });
+
+        });
+    </script> -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tabs label").bind("click", function () {
+                var index = $(this).index();
+                var divs = $("#tabs-body > div");
+                divs.hide();//隐藏所有选中项内容
+                divs.eq(index).show(); //显示选中项对应内容
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>
