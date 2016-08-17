@@ -403,7 +403,7 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 			var length = $("#picContainer"+value).find("img").length;
 			if($("#fileFlagCode"+value).val() == 'loan_lost_confirmation'){
 				if(length != 0){
-					alert("【贷款流失确认函】备件须与【贷款流失确认函编号】同步！");
+					alert("【贷款自办确认函】备件须与【贷款自办确认函编号】同步！");
 					checkAtt = false;
 					return false;
 				}else{
