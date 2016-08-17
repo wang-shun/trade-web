@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvCustMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvCust" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="TRADE_POSITION" property="tradePosition" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="NVARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="ID_CODE" property="idCode" jdbcType="NVARCHAR" />
+    <result column="ID_VALI_DATE" property="idValiDate" jdbcType="DATE" />
+    <result column="ID_ISSUE_INST" property="idIssueInst" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="HOME_ADDR" property="homeAddr" jdbcType="NVARCHAR" />
+    <result column="HAS_DELE" property="hasDele" jdbcType="CHAR" />
+    <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR" />
+    <result column="AGENT_ID_TYPE" property="agentIdType" jdbcType="VARCHAR" />
+    <result column="AGENT_ID_CODE" property="agentIdCode" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.spv.entity.ToSpvCust" extends="BaseResultMap" >
+    <result column="ID_TYPE" property="idType" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, SPV_CODE, TRADE_POSITION, NAME, GENDER, ID_CODE, ID_VALI_DATE, ID_ISSUE_INST, 
+    PHONE, HOME_ADDR, HAS_DELE, AGENT_NAME, AGENT_ID_TYPE, AGENT_ID_CODE, IS_DELETED, 
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <sql id="Blob_Column_List" >
+    ID_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SPV_CUST
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_CUST
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
+    insert into sctrans.T_TO_SPV_CUST (PKID, SPV_CODE, TRADE_POSITION, 
+      NAME, GENDER, ID_CODE, 
+      ID_VALI_DATE, ID_ISSUE_INST, PHONE, 
+      HOME_ADDR, HAS_DELE, AGENT_NAME, 
+      AGENT_ID_TYPE, AGENT_ID_CODE, IS_DELETED, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY, ID_TYPE)
+    values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{tradePosition,jdbcType=VARCHAR}, 
+      #{name,jdbcType=NVARCHAR}, #{gender,jdbcType=VARCHAR}, #{idCode,jdbcType=NVARCHAR}, 
+      #{idValiDate,jdbcType=DATE}, #{idIssueInst,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{homeAddr,jdbcType=NVARCHAR}, #{hasDele,jdbcType=CHAR}, #{agentName,jdbcType=VARCHAR}, 
+      #{agentIdType,jdbcType=VARCHAR}, #{agentIdCode,jdbcType=VARCHAR}, #{isDeleted,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{idType,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
+    insert into sctrans.T_TO_SPV_CUST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="spvCode != null" >
+        SPV_CODE,
+      </if>
+      <if test="tradePosition != null" >
+        TRADE_POSITION,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="idCode != null" >
+        ID_CODE,
+      </if>
+      <if test="idValiDate != null" >
+        ID_VALI_DATE,
+      </if>
+      <if test="idIssueInst != null" >
+        ID_ISSUE_INST,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="homeAddr != null" >
+        HOME_ADDR,
+      </if>
+      <if test="hasDele != null" >
+        HAS_DELE,
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME,
+      </if>
+      <if test="agentIdType != null" >
+        AGENT_ID_TYPE,
+      </if>
+      <if test="agentIdCode != null" >
+        AGENT_ID_CODE,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="idType != null" >
+        ID_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null" >
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePosition != null" >
+        #{tradePosition,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="idCode != null" >
+        #{idCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="idValiDate != null" >
+        #{idValiDate,jdbcType=DATE},
+      </if>
+      <if test="idIssueInst != null" >
+        #{idIssueInst,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="homeAddr != null" >
+        #{homeAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="hasDele != null" >
+        #{hasDele,jdbcType=CHAR},
+      </if>
+      <if test="agentName != null" >
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentIdType != null" >
+        #{agentIdType,jdbcType=VARCHAR},
+      </if>
+      <if test="agentIdCode != null" >
+        #{agentIdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        #{idType,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
+    update sctrans.T_TO_SPV_CUST
+    <set >
+      <if test="spvCode != null" >
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePosition != null" >
+        TRADE_POSITION = #{tradePosition,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="idCode != null" >
+        ID_CODE = #{idCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="idValiDate != null" >
+        ID_VALI_DATE = #{idValiDate,jdbcType=DATE},
+      </if>
+      <if test="idIssueInst != null" >
+        ID_ISSUE_INST = #{idIssueInst,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="homeAddr != null" >
+        HOME_ADDR = #{homeAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="hasDele != null" >
+        HAS_DELE = #{hasDele,jdbcType=CHAR},
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentIdType != null" >
+        AGENT_ID_TYPE = #{agentIdType,jdbcType=VARCHAR},
+      </if>
+      <if test="agentIdCode != null" >
+        AGENT_ID_CODE = #{agentIdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        ID_TYPE = #{idType,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
+    update sctrans.T_TO_SPV_CUST
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      TRADE_POSITION = #{tradePosition,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=NVARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      ID_CODE = #{idCode,jdbcType=NVARCHAR},
+      ID_VALI_DATE = #{idValiDate,jdbcType=DATE},
+      ID_ISSUE_INST = #{idIssueInst,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      HOME_ADDR = #{homeAddr,jdbcType=NVARCHAR},
+      HAS_DELE = #{hasDele,jdbcType=CHAR},
+      AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      AGENT_ID_TYPE = #{agentIdType,jdbcType=VARCHAR},
+      AGENT_ID_CODE = #{agentIdCode,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=LONGVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
+    update sctrans.T_TO_SPV_CUST
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      TRADE_POSITION = #{tradePosition,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=NVARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      ID_CODE = #{idCode,jdbcType=NVARCHAR},
+      ID_VALI_DATE = #{idValiDate,jdbcType=DATE},
+      ID_ISSUE_INST = #{idIssueInst,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      HOME_ADDR = #{homeAddr,jdbcType=NVARCHAR},
+      HAS_DELE = #{hasDele,jdbcType=CHAR},
+      AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      AGENT_ID_TYPE = #{agentIdType,jdbcType=VARCHAR},
+      AGENT_ID_CODE = #{agentIdCode,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvDeMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvDe" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="SPV_CON_CODE" property="spvConCode" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, SPV_CODE, SPV_CON_CODE, IS_DELETED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_DE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_DE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvDe" >
+    insert into sctrans.T_TO_SPV_DE (PKID, SPV_CODE, SPV_CON_CODE, 
+      IS_DELETED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{spvConCode,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvDe" >
+    insert into sctrans.T_TO_SPV_DE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="spvCode != null" >
+        SPV_CODE,
+      </if>
+      <if test="spvConCode != null" >
+        SPV_CON_CODE,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null" >
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvConCode != null" >
+        #{spvConCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvDe" >
+    update sctrans.T_TO_SPV_DE
+    <set >
+      <if test="spvCode != null" >
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvConCode != null" >
+        SPV_CON_CODE = #{spvConCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvDe" >
+    update sctrans.T_TO_SPV_DE
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      SPV_CON_CODE = #{spvConCode,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

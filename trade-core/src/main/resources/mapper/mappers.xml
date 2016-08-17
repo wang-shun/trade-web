@@ -98,6 +98,12 @@
 		<mapper resource="mapper/spv/ToCashFlowMapper.xml" />
 		<mapper resource="mapper/spv/ToSpvDeCondMapper.xml" />
 		<mapper resource="mapper/spv/ToSpvDeRecMapper.xml" />
+		
+		<mapper resource="mapper/spv/ToSpvAccountMapper.xml" />
+		<mapper resource="mapper/spv/ToSpvCustMapper.xml" />
+		<mapper resource="mapper/spv/ToSpvDeDetailMapper.xml" />
+		<mapper resource="mapper/spv/ToSpvDeMapper.xml" />
+		<mapper resource="mapper/spv/ToSpvPropertyMapper.xml" />
 
 		<!-- 知识库 -->
 		<mapper resource="mapper/knowledge/KnowledgeRepoMapper.xml" />

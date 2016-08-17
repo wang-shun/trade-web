@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvPropertyMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvProperty" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="HOUSE_ID" property="houseId" jdbcType="VARCHAR" />
+    <result column="HOUSE_ADDR" property="houseAddr" jdbcType="NVARCHAR" />
+    <result column="SIGN_AMOUNT" property="signAmount" jdbcType="DECIMAL" />
+    <result column="SIGN_NO" property="signNo" jdbcType="VARCHAR" />
+    <result column="PR_NO" property="prNo" jdbcType="VARCHAR" />
+    <result column="PR_ADDR" property="prAddr" jdbcType="NVARCHAR" />
+    <result column="PR_OWNER_NAME" property="prOwnerName" jdbcType="NVARCHAR" />
+    <result column="PR_SIZE" property="prSize" jdbcType="DECIMAL" />
+    <result column="IS_MORT_CLEAR" property="isMortClear" jdbcType="CHAR" />
+    <result column="MORTGAGEE_NAME" property="mortgageeName" jdbcType="NVARCHAR" />
+    <result column="MORTGAGEE_BANK" property="mortgageeBank" jdbcType="NVARCHAR" />
+    <result column="MORTGAGEE_ACCOUNT" property="mortgageeAccount" jdbcType="VARCHAR" />
+    <result column="LEFT_AMOUNT" property="leftAmount" jdbcType="DECIMAL" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, SPV_CODE, HOUSE_ID, HOUSE_ADDR, SIGN_AMOUNT, SIGN_NO, PR_NO, PR_ADDR, PR_OWNER_NAME, 
+    PR_SIZE, IS_MORT_CLEAR, MORTGAGEE_NAME, MORTGAGEE_BANK, MORTGAGEE_ACCOUNT, LEFT_AMOUNT, 
+    IS_DELETED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_PROPERTY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_PROPERTY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvProperty" >
+    insert into sctrans.T_TO_SPV_PROPERTY (PKID, SPV_CODE, HOUSE_ID, 
+      HOUSE_ADDR, SIGN_AMOUNT, SIGN_NO, 
+      PR_NO, PR_ADDR, PR_OWNER_NAME, 
+      PR_SIZE, IS_MORT_CLEAR, MORTGAGEE_NAME, 
+      MORTGAGEE_BANK, MORTGAGEE_ACCOUNT, LEFT_AMOUNT, 
+      IS_DELETED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{houseId,jdbcType=VARCHAR}, 
+      #{houseAddr,jdbcType=NVARCHAR}, #{signAmount,jdbcType=DECIMAL}, #{signNo,jdbcType=VARCHAR}, 
+      #{prNo,jdbcType=VARCHAR}, #{prAddr,jdbcType=NVARCHAR}, #{prOwnerName,jdbcType=NVARCHAR}, 
+      #{prSize,jdbcType=DECIMAL}, #{isMortClear,jdbcType=CHAR}, #{mortgageeName,jdbcType=NVARCHAR}, 
+      #{mortgageeBank,jdbcType=NVARCHAR}, #{mortgageeAccount,jdbcType=VARCHAR}, #{leftAmount,jdbcType=DECIMAL}, 
+      #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvProperty" >
+    insert into sctrans.T_TO_SPV_PROPERTY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="spvCode != null" >
+        SPV_CODE,
+      </if>
+      <if test="houseId != null" >
+        HOUSE_ID,
+      </if>
+      <if test="houseAddr != null" >
+        HOUSE_ADDR,
+      </if>
+      <if test="signAmount != null" >
+        SIGN_AMOUNT,
+      </if>
+      <if test="signNo != null" >
+        SIGN_NO,
+      </if>
+      <if test="prNo != null" >
+        PR_NO,
+      </if>
+      <if test="prAddr != null" >
+        PR_ADDR,
+      </if>
+      <if test="prOwnerName != null" >
+        PR_OWNER_NAME,
+      </if>
+      <if test="prSize != null" >
+        PR_SIZE,
+      </if>
+      <if test="isMortClear != null" >
+        IS_MORT_CLEAR,
+      </if>
+      <if test="mortgageeName != null" >
+        MORTGAGEE_NAME,
+      </if>
+      <if test="mortgageeBank != null" >
+        MORTGAGEE_BANK,
+      </if>
+      <if test="mortgageeAccount != null" >
+        MORTGAGEE_ACCOUNT,
+      </if>
+      <if test="leftAmount != null" >
+        LEFT_AMOUNT,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null" >
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="houseId != null" >
+        #{houseId,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAddr != null" >
+        #{houseAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="signAmount != null" >
+        #{signAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signNo != null" >
+        #{signNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prNo != null" >
+        #{prNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prAddr != null" >
+        #{prAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="prOwnerName != null" >
+        #{prOwnerName,jdbcType=NVARCHAR},
+      </if>
+      <if test="prSize != null" >
+        #{prSize,jdbcType=DECIMAL},
+      </if>
+      <if test="isMortClear != null" >
+        #{isMortClear,jdbcType=CHAR},
+      </if>
+      <if test="mortgageeName != null" >
+        #{mortgageeName,jdbcType=NVARCHAR},
+      </if>
+      <if test="mortgageeBank != null" >
+        #{mortgageeBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="mortgageeAccount != null" >
+        #{mortgageeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="leftAmount != null" >
+        #{leftAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvProperty" >
+    update sctrans.T_TO_SPV_PROPERTY
+    <set >
+      <if test="spvCode != null" >
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="houseId != null" >
+        HOUSE_ID = #{houseId,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAddr != null" >
+        HOUSE_ADDR = #{houseAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="signAmount != null" >
+        SIGN_AMOUNT = #{signAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="signNo != null" >
+        SIGN_NO = #{signNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prNo != null" >
+        PR_NO = #{prNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prAddr != null" >
+        PR_ADDR = #{prAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="prOwnerName != null" >
+        PR_OWNER_NAME = #{prOwnerName,jdbcType=NVARCHAR},
+      </if>
+      <if test="prSize != null" >
+        PR_SIZE = #{prSize,jdbcType=DECIMAL},
+      </if>
+      <if test="isMortClear != null" >
+        IS_MORT_CLEAR = #{isMortClear,jdbcType=CHAR},
+      </if>
+      <if test="mortgageeName != null" >
+        MORTGAGEE_NAME = #{mortgageeName,jdbcType=NVARCHAR},
+      </if>
+      <if test="mortgageeBank != null" >
+        MORTGAGEE_BANK = #{mortgageeBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="mortgageeAccount != null" >
+        MORTGAGEE_ACCOUNT = #{mortgageeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="leftAmount != null" >
+        LEFT_AMOUNT = #{leftAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvProperty" >
+    update sctrans.T_TO_SPV_PROPERTY
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      HOUSE_ID = #{houseId,jdbcType=VARCHAR},
+      HOUSE_ADDR = #{houseAddr,jdbcType=NVARCHAR},
+      SIGN_AMOUNT = #{signAmount,jdbcType=DECIMAL},
+      SIGN_NO = #{signNo,jdbcType=VARCHAR},
+      PR_NO = #{prNo,jdbcType=VARCHAR},
+      PR_ADDR = #{prAddr,jdbcType=NVARCHAR},
+      PR_OWNER_NAME = #{prOwnerName,jdbcType=NVARCHAR},
+      PR_SIZE = #{prSize,jdbcType=DECIMAL},
+      IS_MORT_CLEAR = #{isMortClear,jdbcType=CHAR},
+      MORTGAGEE_NAME = #{mortgageeName,jdbcType=NVARCHAR},
+      MORTGAGEE_BANK = #{mortgageeBank,jdbcType=NVARCHAR},
+      MORTGAGEE_ACCOUNT = #{mortgageeAccount,jdbcType=VARCHAR},
+      LEFT_AMOUNT = #{leftAmount,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
