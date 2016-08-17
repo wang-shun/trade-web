@@ -63,6 +63,17 @@ public class PropertyCortroller {
 		}
 		return "property/processWaitList";
 	}
+	@RequestMapping(value="processWaitList2")
+	public String processWaitList2(Model model, ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		Org orgProWait = uamUserOrgService.getOrgById(user.getServiceDepId());
+		if(orgProWait.getDepHierarchy().equals(DepTypeEnum.TYCTEAM.getCode())){
+			model.addAttribute("prDistrictId",orgProWait.getParentId());
+		}else{
+			model.addAttribute("prDistrictId",orgProWait.getId());
+		}
+		return "property/processWaitList2";
+	}
 	
 	/**
 	 * 进入 已受理产调
