@@ -124,13 +124,13 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                         	<div class="panel-options">
                             	<ul class="nav nav-tabs">
                                 	<li class="active">
-                                    	<a href="#tab-1" data-toggle="tab">交易顾问工作数据显示</a>
+                                    	<a href="#tab-1" style="font-size:16px !important;" data-toggle="tab">交易顾问工作数据显示</a>
                                     </li>
                                     <li class="">
-                                    	<a href="#tab-2" data-toggle="tab">贷款详情</a>
+                                    	<a href="#tab-2" style="font-size:16px !important;" data-toggle="tab">贷款详情</a>
                                     </li>
                                     <li class="" id="ePlusLoan">
-                                    	<a href="#tab-3" data-toggle="tab">E＋贷款</a>
+                                    	<a href="#tab-3" style="font-size:16px !important;" data-toggle="tab">E＋贷款</a>
                                     </li>
                             	</ul>
                          	</div>
@@ -449,7 +449,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_1">
                                                             	 	<div class="ibox-title" style="border-width:0px !important;">
-                                                            	 		<h5>E+贷款(面签单数)</h5>
+                                                            	 		<h5 style="font-size: 16px !important;">E+贷款(面签单数)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="" style="border-width:0px !important;">
                                                             			<div id="doughnutChart1" style="height:380px;width:460px;position:center;"></div>
@@ -459,7 +459,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_2">
                                                             	 	<div class="ibox-title" style="border-width:0px !important;">
-                                                            	 		<h5>E+贷款(面签金额)</h5>
+                                                            	 		<h5 style="font-size: 16px !important;">E+贷款(面签金额)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="doughnutChart" style="border-width:0px !important;">
                                                             			<div id="doughnutChart2" style="height:380px;width:460px;position:center;"></div>
