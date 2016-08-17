@@ -38,7 +38,7 @@ function queryConutCaseByDate(){
 				$("#sp_actualAmount").text(data.actualAmount);
 				$("#sp_evalFee").text(data.evalFee).attr({mo:month,serachId:sUserId});
 				$("#sp_efConvRate").text(data.efConvRate);
-				$("#ef_converRt").text(data.efConverRt);//评估费转化率
+				$("#ef_converRt").text(data.efConverRt);//评估单转化率
 
 				$("#sp_receiveCount").html(
 					"<a href='"+ctx+"/report/statis/caseDetail?createTimeStart="+createTimeStart+"&createTimeEnd="+createTimeEnd+"&status=received&arg="+sUserId+"' target='_blank'>" +

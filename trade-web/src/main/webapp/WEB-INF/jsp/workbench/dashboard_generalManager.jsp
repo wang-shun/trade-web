@@ -175,36 +175,37 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                  <span class="right-label" id="sp_actualAmount" style="color:#337ab7;cursor:pointer;">2000万</span>
                                             </div>
                                             <div class="data-left">
-                                            	<span class="left-label">评估费</span>
-                                                <div class="data-bar">
-                                                	<div class="progress progress-small">
-                                                    	<div id="sp_evalFee_bar" style="width: 30%;" class="progress-bar bar-red"></div>
-                                                 	</div>
-                                                 </div>
-                                                 <span class="right-label" id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span>
-                                            </div>
-                                            <div class="data-left">
-                                            	<span class="left-label h50 pb10">评估费转化率</span>
-                                                <div class="data-bar">
-                                                	<div class="progress progress-small">
-                                                    	<div id="ef_converRt_bar" style="width: 30%;" class="progress-bar bar-red"></div>
-                                                 	</div>
-                                                 </div>
-                                                 <span class="right-label pb10" id="ef_converRt" style="color:#337ab7;cursor:pointer;">100%</span>
-                                            </div>
-                                        </div>
-                                        <div class="data-progress data2">
-                                                            <div class="data-left">
-                                                                <span class="left-label wd105 h90 pt50">E+转换率</span>
+                                                                <span class="left-label h50 pb10">E+转换率</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_convRate_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span id="sp_convRate" class="right-label pt50">100%</span>
-                                                            </div>
+                                                                <span id="sp_convRate" class="right-label">100%</span>
+                                           </div>
+                                            
+                                        </div>
+                                        <div class="data-progress data2">
                                                             <div class="data-left">
-                                                                <span class="left-label wd105 h90 pb20">评估费折扣率</span>
+                                            						<span class="left-label wd105 h50 pt10">评估费</span>
+                                                					<div class="data-bar">
+                                                					<div class="progress progress-small">
+                                                    				<div id="sp_evalFee_bar" style="width: 30%;" class="progress-bar bar-red"></div>
+                                                 	  				</div>
+                                                 			</div>
+                                                           <span class="right-label" id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span>
+                                            </div>
+                                            <div class="data-left">
+                                            	<span class="left-label  wd105 h50 pt10">评估单转化率</span>
+                                                <div class="data-bar">
+                                                	<div class="progress progress-small">
+                                                    	<div id="ef_converRt_bar" style="width: 30%;" class="progress-bar bar-red"></div>
+                                                 	</div>
+                                                 </div>
+                                                 <span class="right-label" id="ef_converRt" style="color:#337ab7;cursor:pointer;">100%</span>
+                                            </div>
+                                                            <div class="data-left">
+                                                                <span class="left-label wd105 h90 pb20">评估费折扣</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_efConvRate_bar" style="width: 30%;" class="progress-bar bar-red"></div>
