@@ -83,6 +83,19 @@
 				    WHERE 
 				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
 				    
+				    <ifNotNull applyTimeStart>
+						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
+					</ifNotNull>
+					<ifNotNull applyTimeEnd>
+						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
+					</ifNotNull>
+					<ifNotNull signTimeStart>
+						and loanAgent.SIGN_TIME &gt;= #applyTimeStart#
+					</ifNotNull>
+					<ifNotNull signTimeEnd>
+						and loanAgent.SIGN_TIME &lt; #applyTimeEnd#
+					</ifNotNull>
+				    
 				    <ifNotNull releaseTimeStart>
 						and loanAgent.RELEASE_TIME &gt;= #releaseTimeStart#
 					</ifNotNull>
