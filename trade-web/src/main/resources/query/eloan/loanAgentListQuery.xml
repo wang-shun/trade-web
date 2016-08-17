@@ -90,10 +90,10 @@
 						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
 					</ifNotNull>
 					<ifNotNull signTimeStart>
-						and loanAgent.SIGN_TIME &gt;= #applyTimeStart#
+						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
 					</ifNotNull>
 					<ifNotNull signTimeEnd>
-						and loanAgent.SIGN_TIME &lt; #applyTimeEnd#
+						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
 					</ifNotNull>
 				    
 				    <ifNotNull releaseTimeStart>
@@ -107,7 +107,7 @@
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
 					</ifNotNull>
 					
-					UNION 
+					UNION ALL
 SELECT 
 					  c.PKID,
 					  loanAgent.CASE_CODE,
