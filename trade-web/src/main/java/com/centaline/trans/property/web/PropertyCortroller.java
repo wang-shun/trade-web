@@ -61,9 +61,9 @@ public class PropertyCortroller {
 		}else{
 			model.addAttribute("prDistrictId",orgProWait.getId());
 		}
-		return "property/processWaitList";
+		return "property/processWaitList2";
 	}
-	@RequestMapping(value="processWaitList2")
+/*	@RequestMapping(value="processWaitList2")
 	public String processWaitList2(Model model, ServletRequest request){
 		SessionUser user = uamSessionService.getSessionUser();
 		Org orgProWait = uamUserOrgService.getOrgById(user.getServiceDepId());
@@ -73,7 +73,7 @@ public class PropertyCortroller {
 			model.addAttribute("prDistrictId",orgProWait.getId());
 		}
 		return "property/processWaitList2";
-	}
+	}*/
 	
 	/**
 	 * 进入 已受理产调
