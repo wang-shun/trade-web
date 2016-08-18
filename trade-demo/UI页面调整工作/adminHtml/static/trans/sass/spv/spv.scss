@@ -6,6 +6,9 @@
       color: #52cdec;
   }
 }
+.fund-title {
+  font-weight: normal;
+}
 .customerinfo tbody tr td{
   height: 48px;
   vertical-align: middle;
@@ -21,4 +24,18 @@
 }
 .customerinfo tr th:last-child,.customerinfo tr td:last-child {
   border-right: none!important;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none;
+    border-color: #ddd #ddd rgba(0, 0, 0, 0);
+    border-bottom: #fff;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #555;
+    cursor: default;
 }
