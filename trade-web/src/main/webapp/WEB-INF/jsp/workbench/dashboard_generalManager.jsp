@@ -174,22 +174,25 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                  </div>
                                                  <span class="right-label" id="sp_actualAmount" style="color:#337ab7;cursor:pointer;">2000万</span>
                                             </div>
-                                            <div class="data-left">
+                                           <div class="data-left">
                                                                 <span class="left-label h50 pb10">E+转换率</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_convRate_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span id="sp_convRate" class="right-label" >100%</span>
+                                                                <span id="sp_convRate" class="right-label hint hint-top1" data-hint="E+转换率=总的面签金额/总的合同价">100%</span>
                                            </div>
                                             
                                         </div>
                                         <div class="data-progress data2">
                                                             <p><span>评估费</span><em><span id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span></em></p>
-                                                            <p><span>评估单转化率</span><em><span id="ef_converRt" >100%</span></em></p>
-                                                            <p><span>评估费折扣</span><em><span id="sp_efConvRate" >30%</span></em></p>
-                                        </div>
+                                                            <p>
+                                                            <span>评估单转化率</span>
+                                                            <em><span id="ef_converRt" class="hint hint-top1" data-hint="评估单转化率=收取评估费的单数/有商贷金额的单数(商贷流程提交)">100%</span></em>
+                                                            </p>
+                                                            <p><span>评估费折扣</span><em><span id="sp_efConvRate" class="hint hint-top1" data-hint="评估费折扣=收取的评估费总额/有收取评估费的合同价金额的千一">30%</span></em></p>
+                                                        </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
                                                                 <span class="left-label wd88 h50 pt10">接单数</span>
