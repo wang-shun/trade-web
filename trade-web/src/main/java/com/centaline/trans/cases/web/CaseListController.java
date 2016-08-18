@@ -76,6 +76,8 @@ public class CaseListController {
 
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
 		return "case/mycase_list";
 	}
 	
