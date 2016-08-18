@@ -375,13 +375,22 @@ text-decoration: underline !important;
                             
 					</td>
 					<td class="t-left">
-						<p class="big">
-                       		{{item.PROPERTY_ADDR}}
-						</p>
-						 <span >
+						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+{{if item.PROPERTY_ADDR.length>24}}
+{{item.PROPERTY_ADDR.substring(0,24)}}...
+{{else}}
+{{item.PROPERTY_ADDR}}
+{{/if}}						 
+
+						</span><br/>
+						<span>
 							<i class="salesman-icon"></i>
- 							<a class="hint  hint-top2" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >
-							{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}
+ 							<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}
+{{/if}}	
 							</a>						 
 						</span>
 					</td>
@@ -412,13 +421,48 @@ text-decoration: underline !important;
                     </td>
                     <td class="center">
                           <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
-                                                {{(item.SELLER).length>11?(item.SELLER).substring(0,8)+'...':(item.SELLER)}}
-                          </span>
+{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+{{if item.SELLER.split("/").length-1 >1}}
+{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+{{
+(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+}}</br>...
+{{else}}
+{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+{{
+(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+}}</br>
+{{/if}}
+{{else}}
+{{ if item.SELLER.length>4}}
+{{item.SELLER.substring(0,4)}}...
+{{else}}
+{{item.SELLER}}
+{{/if}}
+{{/if}}                          </span>
                          
                     </td>
                     <td class="center">
                           <span  class="hint  hint-top1" data-hint="下家信息:{{item.BUYER}}">
-                                                {{(item.BUYER).length>11?(item.BUYER).substring(0,8)+'...':(item.BUYER)}}
+{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
+{{if item.BUYER.split("/").length-1 >1}}
+{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+{{
+(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
+}}</br>...
+{{else}}
+{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+{{
+(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
+}}</br>
+{{/if}}
+{{else}}
+{{ if item.BUYER.length>4}}
+{{item.BUYER.substring(0,4)}}...
+{{else}}
+{{item.BUYER}}
+{{/if}}
+{{/if}}                                              
                           </span>
                           
                     </td>
