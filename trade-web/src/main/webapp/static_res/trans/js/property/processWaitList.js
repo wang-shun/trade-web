@@ -76,7 +76,7 @@ function getParams() {
  */
 function caseDistribute(){
 		var pkidList ;
-		pkidList = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
+		//pkidList = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
 		$.ajax({
 				cache : false,
 				type : "POST",
@@ -107,7 +107,7 @@ function exportToExcel() {
 			return false;
 		}
 		var pkid ;
-		pkid = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
+		//pkid = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
 		var url = "/quickGrid/findPage?xlsx&";
 		var ctx = $("#ctx").val();
 		var displayColomn = new Array;

@@ -5,15 +5,20 @@
 <head>
 	<!-- 图标 -->
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-
+    <!-- Toastr style -->
+    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+	<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
     <!-- Data Tables -->
     <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
     <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
     <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
     <!-- 分页控件 -->
-    <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+    <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 	<!-- aist列表样式 -->
-    <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
+    <link href="${ctx}/static/css/common/aist.grid.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <!-- index_css -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
@@ -28,6 +33,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <form action="#" method="post" id="excelForm"></form>
 <input type="hidden" id="ctx" value="${ctx}"/>
 <input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
@@ -66,24 +72,29 @@
     <script src="${ctx}/static/js/template.js"></script>
     <!-- 分页控件  -->
     <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- blockUI -->
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
     <!-- 组织 -->
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>    
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
     <!-- owner -->    
     <script src="${ctx}/static/trans/js/property/processWaitList.js"></script>
 	<script id="template_processWaitList" type= "text/html">
     	{{each rows as item index}}
  			<tr>
-				<td><p class="big deep_grey">{{item.DIST_CODE}}</p></td>
-				<td><p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p></td>
+				<td>
+					<p class="big deep_grey">{{item.DIST_CODE}}</p>
+					<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
+				</td>
 				<td><p class="big tint_grey">{{item.PROPERTY_ADDR}}</p></td>
 				<td><p class="smll_sign"><i class="sign_normal">申</i>{{item.PR_APPLY_TIME}}</p></td>
                 <td>
                 	<span class="manager">
 						<a href="#"><em>申请人：</em>{{item.PR_APPLIANT}}</a>
-						<i class="sign_red">经</i>
 						{{if item.CHANNEL == '经纪人'}}
 							<i class="sign_red">经</i>
 						{{else}}
