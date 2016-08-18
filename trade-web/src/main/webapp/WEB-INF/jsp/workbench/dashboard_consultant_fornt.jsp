@@ -230,7 +230,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                         </div>
                                         <div class="data-progress data2">
                                                             <p><span>评估费</span><em><span id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span></em></p>
-                                                            <p><span>评估单转化率</span><em><span id="ef_converRt" style="color:#337ab7;cursor:pointer;">100%</span></em></p>
+                                                            <p>
+                                                            <span>评估单转化率</span>
+                                                            <em><span id="ef_converRt" style="color:#337ab7;cursor:pointer;">100%</span></em>
+                                                            </p>
                                                             <p><span>评估费折扣</span><em><span id="sp_efConvRate" style="color:#337ab7;cursor:pointer;">30%</span></em></p>
                                                         </div>
                                         <div class="data-progress data3">

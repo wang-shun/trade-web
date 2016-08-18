@@ -69,7 +69,7 @@ function queryConutCaseByDate(){
 					$('#sp_loanAmount_bar')[0].style.width = loanAmount/max_bar1*100+'%';
 					$('#sp_signAmount_bar')[0].style.width = signAmount/max_bar1*100+'%';
 					$('#sp_actualAmount_bar')[0].style.width = actualAmount/max_bar1*100+'%';
-					$('#sp_evalFee_bar')[0].style.width=parseFloat(data.evalFee.replace(/,/g,''))*1000/loanAmount*100+'%';
+					//$('#sp_evalFee_bar')[0].style.width=parseFloat(data.evalFee.replace(/,/g,''))*1000/loanAmount*100+'%';
 				}else{
 					$('#sp_loanAmount_bar')[0].style.width = '0%';
 					$('#sp_signAmount_bar')[0].style.width = '0%';
@@ -82,16 +82,16 @@ function queryConutCaseByDate(){
 				}else{
 					$('#sp_convRate_bar')[0].style.width=data.convRate;
 				}
-				if(parseFloat(data.efConvRate)>100){
+				/*if(parseFloat(data.efConvRate)>100){
 					$('#sp_efConvRate_bar')[0].style.width='100%';
 				}else{
 					$('#sp_efConvRate_bar')[0].style.width=data.efConvRate;
-				}
-				if(parseFloat(data.efConverRt)>100){
+				}*/
+				/*if(parseFloat(data.efConverRt)>100){
 					$('#ef_converRt_bar')[0].style.width='100%';
 				}else{
 					$('#ef_converRt_bar')[0].style.width=data.efConverRt;
-				}
+				}*/
 				
 				var max_bar2 = Math.max(data.receiveCount, data.signCount, data.loanApplyCount, data.closeCount);
 				if(max_bar2){

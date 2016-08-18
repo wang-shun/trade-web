@@ -144,7 +144,7 @@ FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
 	 	    and tec.EXCUTOR_TEAM=#{orgId,jdbcType=VARCHAR}
 	     </if>
 	     <if test="orgs != null">
-	 	    and tec.executor_team in
+	 	    and tec.excutor_team in
 	 	    <foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	     </if>
 	     <if test="mo != null">
