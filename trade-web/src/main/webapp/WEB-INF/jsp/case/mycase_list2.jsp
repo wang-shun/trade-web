@@ -477,8 +477,14 @@ text-decoration: underline !important;
                           
                         </td>
 						<td class="center">
-							<span class="manager"><a href="#"><em>交易顾问：</em>{{item.PROCESSOR_ID}}</a></span>
-							<span class="manager"><a href="#"><em>合作顾问：</em></a></span>
+							<span class="manager"><a class="hint  hint-top1" data-hint="{{item.FONT_NAME}}"><em>交易顾问：</em>{{item.FONT_NAME}}</a></span>
+							<span class="manager"><a class="hint  hint-top1" data-hint="{{item.PROCESSOR_ID}}"><em>合作顾问：</em>
+							{{ if item.PROCESSOR_ID !="" && item.PROCESSOR_ID !=null && item.PROCESSOR_ID.indexOf("/") >-1}}
+							{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...
+						   {{else}}
+							{{item.PROCESSOR_ID}}
+						   {{/if}}
+					       </a></span>
 						</td>
 						<td class="center">
  							<p >
