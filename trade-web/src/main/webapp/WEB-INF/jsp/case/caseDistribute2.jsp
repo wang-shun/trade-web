@@ -203,10 +203,10 @@ width: 80px;
 							 	<i class="icon iconfont">&#xe635;</i>
 							  	查询
 							</button>
-							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;">
+							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;" disabled="true">
                                                                                案件分配                                               
                             </button>
-                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;">
+                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;" disabled="true">
                                                                                案件转组
                             </button>
 						</div>
@@ -219,9 +219,9 @@ width: 80px;
 						<thead>
 						<tr>
 							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
-							<th >案件编号</th>
+							<th ><span class="sort" sortColumn="ctd.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 							<th >产证地址</th>
-							<th >派单时间</th>
+							<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >派单时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 							<th >负责人</th>
 							<th >案件状态</th>
 						</tr>

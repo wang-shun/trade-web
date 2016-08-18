@@ -53,7 +53,7 @@
                         A.AGENT_NAME,
                         A.AGENT_CODE,
                         A.TARGET_CODE,
-                        B.ORG_NAME as AGENT_ORG_NAME
+                        B.ORG_NAME as AGENT_ORG_NAME,a.AGENT_PHONE
 					FROM SCTRANS.T_TO_CASE_INFO A 
 					LEFT JOIN SCTRANS.T_TO_PROPERTY_INFO tp ON tp.CASE_CODE=A.CASE_CODE 
 					LEFT JOIN SCTRANS.V_USER_ORG_JOB B ON A.AGENT_CODE=B.USER_ID
@@ -80,6 +80,7 @@
 				<column type="both" name="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行"  sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_PHONE"  index="" checkbox="" display="电话"  sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="TARGET_CODE" />
 				<column type="virtual" name="MANAGER" referencecol="CASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />			
 			</table-row>

@@ -217,12 +217,12 @@ text-decoration: underline !important;
 							<table class="table table_blue table-striped table-bordered table-hover ">
 								<thead>
 									<tr>
-										<th>案件编号</th>
+										<th ><span class="sort" sortColumn="b.case_Code" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 										<th>流程环节</th>	
 										<th>产证地址</th>
 										<th>贵宾服务中心</th>
-										<th>开始时间</th>	
-										<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
+										<th ><span class="sort" sortColumn="createTime" sord="asc" onclick="createTimeSort();" >开始时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
+										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody id="tab_unlocatedTask">
@@ -288,7 +288,7 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-<script src="${ctx}/js/trunk/case/unlocatedTask.js?v=1.1"></script><%-- 
+<script src="${ctx}/js/trunk/case/unlocatedTask2.js?v=1.1"></script><%-- 
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> --%>
 
 <!-- 分页控件  -->
@@ -375,6 +375,8 @@ function loadUser(){
 }
 
 $(document).ready(
+		
+		
 				function() {
 				userGrid=$("#table_list_3").jqGrid(
 			{
@@ -430,14 +432,25 @@ $(document).ready(
 				pgtext : " {0} 共 {1} 页",
 
 			});
+				/*加载排序查询组件*/
+				aist.sortWrapper({
+					reloadGrid : reloadGrid
+				});
+				//添加排序------------	
 			reloadGrid();
 	});
 
 function reloadGrid(page) {
 	var data1=packgeData(page);
 	data1.queryId = "queryUnlocatedTask";
-	//aist.wrap(data1);
-     	    fetchData(data1);
+	aist.wrap(data1);
+	
+	var sortcolumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	data1.sidx=sortcolumn;
+	data1.sord=sortgz;
+	
+    fetchData(data1);
   	}
 function packgeData(page){
      		var data1 = {};
@@ -546,6 +559,25 @@ function doLocateTask(candidateId) {
 	});
 }
 
+function caseCodeSort(){
+	if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
+	}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
+
+function createTimeSort(){
+	if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#createTimeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
 </script> 
 </content>				
 </body>

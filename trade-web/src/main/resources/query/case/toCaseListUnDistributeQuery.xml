@@ -62,7 +62,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY ctd.CASE_CODE DESC
+			  ORDER BY ctd.CASE_CODE,CREATE_TIME DESC
 			</orderBySql>
 		</searchSql>
 		<grid>

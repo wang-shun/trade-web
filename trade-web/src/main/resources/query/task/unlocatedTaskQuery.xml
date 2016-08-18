@@ -58,6 +58,9 @@
 
 				]]>
 			</baseSql>
+			<orderBySql>
+					order by b.case_Code,createTime desc
+			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
