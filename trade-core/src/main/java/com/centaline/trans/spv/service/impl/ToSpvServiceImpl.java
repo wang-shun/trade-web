@@ -3,7 +3,9 @@ package com.centaline.trans.spv.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.formula.functions.T;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -25,6 +29,8 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -42,6 +48,7 @@ import com.centaline.trans.spv.repository.ToSpvDeCondMapper;
 import com.centaline.trans.spv.repository.ToSpvDeRecMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -82,6 +89,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 	
 	@Autowired
 	private ToApproveRecordService toApproveRecordService;
+	
+	@Autowired
+	private ProcessInstanceService processInstanceService; 
+	@Autowired
+	private TaskService taskService; 
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
 	
     /**
      * 房款监管签约记录
@@ -397,6 +411,34 @@ public class ToSpvServiceImpl implements ToSpvService {
 			String endDate) {
 	
 		return toSpvMapper.countToSignByIdList(idList,startDate,endDate);
+	}
+
+	@Override
+	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
+		//保存相关信息
+		// come here ...
+		
+		// 查询风控总监
+	  	/*User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "");
+    	Map<String, Object> vars = new HashMap<String,Object>();
+    	vars.put("RiskControlOfficer", user.getUsername());
+    	vars.put("RiskControlDirector", manager==null?null:manager.getUsername());
+    	
+    	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
+		ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
+		workFlow.setInstCode(processInstance.getId());
+		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+		workFlow.setProcessOwner(user.getId());
+		workFlow.setStatus("0");
+		toWorkFlowService.insertSelective(workFlow);
+    	
+    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
+    	List<TaskVo> taskList = pageableVo.getData();
+    	for(TaskVo task : taskList) {
+    		taskService.complete(task.getId()+"");
+    	}*/
 	}
 
 }

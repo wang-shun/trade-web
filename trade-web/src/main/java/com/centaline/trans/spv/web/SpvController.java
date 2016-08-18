@@ -39,6 +39,7 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -152,6 +153,30 @@ public class SpvController {
     	}catch(Exception e){
     		response.setMessage(e.getMessage());
     		
+    	}
+    	return response;
+    }
+    
+    /**
+     * 保存资金监管签约
+     * @param toSpv
+     * @param toSpvDeCondList
+     * @param delIds
+     * @return
+     */
+    @RequestMapping(value="saveNewSpv")
+    @ResponseBody
+    public AjaxResponse<String> saveNewSpv(SpvBaseInfoVO spvBaseInfoVO){
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.saveNewSpv(spvBaseInfoVO,user);
+    		response.setSuccess(true);
+    		response.setMessage("保存房款监管签约成功！");
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
     	}
     	return response;
     }

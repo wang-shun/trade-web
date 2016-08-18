@@ -2,12 +2,14 @@ package com.centaline.trans.spv.service;
 
 import java.util.List;
 
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -33,6 +35,12 @@ public interface ToSpvService {
      * @param spvVo
      */
     void saveToSpv(SpvVo spvVo);
+    
+    /**
+     * 保存资金监管签约信息
+     * @param spvVo
+     */
+    void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
     
     /**
      * 根据案件编号查询资金监管签约信息
