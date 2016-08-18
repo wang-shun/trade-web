@@ -119,22 +119,15 @@ SELECT
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
 					  loanAgent.CREATE_TIME,
-					 -- loanAgent.RELEASE_TIME,
-					   (SELECT MIN(rel.RELEASE_TIME) FROM sctrans.T_TO_ELOAN_REL rel WHERE rel.ELOAN_CODE = loanAgent.ELOAN_CODE
-					      <ifNotNull releaseTimeStart>
-						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
-					</ifNotNull>
-					<ifNotNull releaseTimeEnd>
-						and rel.RELEASE_TIME &lt; #releaseTimeEnd#
-					</ifNotNull>
-					   ) AS RELEASE_TIME,
-					  isnull(Convert(decimal(18,2),loanAgent.APPLY_AMOUNT),0) as 'LOAN_AMOUNT',
-					  isnull(Convert(decimal(18,2),loanAgent.SIGN_AMOUNT),0) as 'SIGN_AMOUNT',
-					  isnull(Convert(decimal(18,2),(SELECT SUM(rel.RELEASE_AMOUNT) FROM sctrans.T_TO_ELOAN_REL rel WHERE rel.ELOAN_CODE = loanAgent.ELOAN_CODE)),0) as 'ACTUAL_AMOUNT' 
+					 rel.RELEASE_TIME AS RELEASE_TIME,
+        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
+        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
+					ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT'
 					FROM 
 					   sctrans.T_TO_ELOAN_CASE loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
+					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE
 					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN  SCTRANS.SYS_USER us ON loanAgent.EXCUTOR_ID = us.id and us.is_deleted='0' 
 					<ifNotNull isJygw>
@@ -143,7 +136,12 @@ SELECT
 					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
 				    WHERE 
 				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
-				    
+				    <ifNotNull releaseTimeStart>
+						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
+					</ifNotNull>
+					<ifNotNull releaseTimeEnd>
+						and rel.RELEASE_TIME &lt; #releaseTimeEnd#
+					</ifNotNull>
 				    <ifNotNull yuCuiOriGrpId>
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
 					</ifNotNull>
