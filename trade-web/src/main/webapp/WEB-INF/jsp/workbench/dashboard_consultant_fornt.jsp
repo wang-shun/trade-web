@@ -224,7 +224,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                                         <div id="sp_convRate_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span id="sp_convRate" class="right-label" style="color:#337ab7;cursor:pointer;">100%</span>
+                                                                <span id="sp_convRate" class="right-label">100%</span>
                                            </div>
                                             
                                         </div>
@@ -232,9 +232,9 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             <p><span>评估费</span><em><span id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span></em></p>
                                                             <p>
                                                             <span>评估单转化率</span>
-                                                            <em><span id="ef_converRt" style="color:#337ab7;cursor:pointer;">100%</span></em>
+                                                            <em><span id="ef_converRt" >100%</span></em>
                                                             </p>
-                                                            <p><span>评估费折扣</span><em><span id="sp_efConvRate" style="color:#337ab7;cursor:pointer;">30%</span></em></p>
+                                                            <p><span>评估费折扣</span><em><span id="sp_efConvRate" >30%</span></em></p>
                                                         </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
