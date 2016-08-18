@@ -8,24 +8,6 @@ $(document).ready(function() {
 					//基本信息等高
 					var cpDivWidth = $("#case_date_0").next().width();
 					$('#inTextType').next().css("width", cpDivWidth);
-					var url = "/quickGrid/findPage";
-					var ctx = $("#ctx").val();
-					url = ctx + url;
-					var queryOrgFlag = $("#queryOrgFlag").val();
-					var isAdminFlag = $("#isAdminFlag").val();
-					var queryOrgs = $("#queryOrgs").val();
-					var arguUserId=null;
-					if(queryOrgFlag == 'true'){
-						arguUserId=null;
-						if(isAdminFlag == 'true'){
-							queryOrgs=null;
-						}
-					}else{
-						queryOrgs= null;
-						arguUserId="yes";
-					}
-
-					var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 					// 初始化列表
 					var data = {};
 		    	    data.queryId = "queryCastListItemList";
@@ -189,6 +171,7 @@ function reloadGrid(data) {
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
+	var serviceDepId = $("#serviceDepId").val();
 	var arguUserId=null;
 	if(queryOrgFlag == 'true'){
 		arguUserId=null;
@@ -686,7 +669,7 @@ function initAutocomplete(url){
     }).AutoComplete('show');
 }
 //选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array){
+/*function radioYuCuiOrgSelectCallBack(array){
     if(array && array.length >0){
         $("#teamCode").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
@@ -697,6 +680,17 @@ function radioYuCuiOrgSelectCallBack(array){
 		$("#teamCode").val("");
 		$("#yuCuiOriGrpId").val("");
 	}
+}*/
+
+//选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array) {
+		if (array && array.length > 0) {
+				$("#teamCode").val(array[0].name);
+				$("#yuCuiOriGrpId").val(array[0].id);
+		} else {
+				$("#teamCode").val("");
+				$("#yuCuiOriGrpId").val("");
+		}
 }
 //清空
 $('#cleanButton').click(function() {

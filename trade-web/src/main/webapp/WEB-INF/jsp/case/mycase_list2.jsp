@@ -228,9 +228,9 @@ text-decoration: underline !important;
                           </label>
                           <div class="sign_right teamcode">
                                 <input type="text" class="teamcode form-control" id="teamCode" name="teamCode" readonly="readonly"
-										onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-						   				startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
-						   				chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack, expandNodeId:''})" ></input>
+										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
+										   value="${serviceDepName}"></input>
 								<input class="teamcode form-control" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
                             </div>
                       </div>
@@ -399,6 +399,7 @@ text-decoration: underline !important;
 <input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 <input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 <input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 <content tag="local_script"> 
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
