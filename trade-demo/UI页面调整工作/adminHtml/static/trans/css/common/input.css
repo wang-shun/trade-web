@@ -242,7 +242,7 @@ input {
   color: #333;
 }
 .form-margin .lable-one {
-  width: 80px;
+  width: 70px;
 }
 .form-margin .input-one {
   width: 150px;
@@ -251,16 +251,36 @@ input {
   width: 447px;
 }
 .form-margin .select-one {
-  width: 100px;
+  width: 105px;
+}
+
+.toright {
+  margin-right: 36px;
 }
 
 .form-btn {
-  margin-top: 40px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 .form-btn .btn-left-space {
-  margin-left: 104px;
+  margin-left: 94px;
 }
 
 .form-inline .input-group .date-width {
   width: 130px;
+}
+
+.form-inline .btn-left {
+  float: left;
+}
+.form-inline .btn-right {
+  float: right;
+}
+.form-inline .btn-right a {
+  color: #fff;
+}
+.form-inline .btn-default {
+  color: #428fcc;
+  background-color: #e4e4e4;
 }

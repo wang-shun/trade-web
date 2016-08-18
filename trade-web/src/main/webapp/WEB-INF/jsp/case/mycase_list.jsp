@@ -375,7 +375,7 @@ text-decoration: underline !important;
                    {{/if}}
 						<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.ctmCode}}</span></td>
 						<td colspan="2" class="t-left pd-l"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
-						<td colspan="2" class="t-left pd-l"><span class="jbr">经办人：{{item.PROCESSOR_ID}}</span></td>
+						<td colspan="2" class="t-left pd-l"><span class="jbr">经办人：{{item.FONT_NAME}}/{{item.PROCESSOR_ID}}</span></td>
 						<td></td>
 					</tr>
        {{/each}}

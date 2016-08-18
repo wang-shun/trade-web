@@ -1,0 +1,24 @@
+.feed-element {
+  .icon {
+    font-size: 34px;
+  }
+  .icon_blue {
+      color: #52cdec;
+  }
+}
+.customerinfo tbody tr td{
+  height: 48px;
+  vertical-align: middle;
+}
+.customerinfo {
+  border: none!important;
+}
+.customerinfo tr th,.customerinfo tr td {
+  border: 1px solid #f3f3f3!important;
+}
+.customerinfo tr th:first-child,.customerinfo tr td:first-child {
+  border-left: none!important;
+}
+.customerinfo tr th:last-child,.customerinfo tr td:last-child {
+  border-right: none!important;
+}

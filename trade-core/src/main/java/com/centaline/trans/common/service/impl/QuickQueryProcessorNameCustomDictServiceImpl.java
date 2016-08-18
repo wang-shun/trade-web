@@ -15,6 +15,8 @@ import com.centaline.trans.common.service.KeyValueService;
 
 public class QuickQueryProcessorNameCustomDictServiceImpl implements CustomDictService {
 	
+	
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired

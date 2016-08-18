@@ -7,6 +7,7 @@
 }
 
 .title {
+  font-family: "Microsoft Yahei";
   font-size: 14px;
   font-weight: 700;
   line-height: 24px;
@@ -16,28 +17,42 @@
   margin-left: 10px;
 }
 
-.km_content .chat-discussion {
-  background: #fff;
-  padding: 0px;
-  height: 400px;
-  overflow-y: auto;
+.table-box-know .table tr td {
+  height: 90px;
+  overflow: hidden;
+  font-family: "Microsoft Yahei";
 }
-
-.message {
-  background-color: #fff;
-  border: none;
-  padding: 0px 10px;
-  position: relative;
+.table-box-know .table tr td {
+  border-top: 0px !important;
+  border-bottom: 1px solid #eee;
+  padding: 0;
+  vertical-align: middle;
 }
-.message .col-md-12 {
-  padding-left: 0;
-  padding-right: 0;
+.table-box-know .head {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #006ecd;
 }
-.message .col-md-7 {
-  padding-left: 0;
-  padding-right: 0;
+.table-box-know p {
+  margin: 2px 10px;
+  font-size: 12px;
+  color: #808080;
 }
-.message .col-md-5 {
-  padding-left: 0;
-  padding-right: 0;
+.table-box-know .data {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.table-box-know .btn-smar {
+  font-size: 12px;
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+.table-box-know .sum_type {
+  margin-top: 20px;
+}
+.table-box-know img {
+  border-radius: 3px;
+}
+.table-box-know .name {
+  text-align: center;
 }

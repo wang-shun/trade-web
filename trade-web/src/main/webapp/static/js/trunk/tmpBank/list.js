@@ -628,7 +628,7 @@ function exportToExcel() {
 		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var params = getParamsValue();
-		var queryId = '&queryId=queryCaseExcelItemList';
+		var queryId = '&queryId=queryTmpBankCaseExcelItemList';
 		var colomns = '&colomns=' + displayColomn;
 		
 		
