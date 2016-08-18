@@ -243,6 +243,14 @@
 						$("#btn_search")
 								.click(
 										function() {
+											params.search_applyTimeStart=null;		
+											params.search_applyTimeEnd=null;
+											params.search_signTimeStart=null;
+											params.search_signTimeEnd=null;
+											params.releaseTimeStart=null;
+											params.releaseTimeEnd=null;
+											params.search_propertyAddr=null;
+											params.search_custName=null;
 											/* params.search_status = $("#sel_applyStatus").val() */
 											var sel_time = $("#sel_time").val();
 											if (sel_time == "applyTime") {
@@ -252,18 +260,20 @@
 												params.search_applyTimeEnd = $(
 														"input[name='dtEnd']")
 														.val();
-											} else if (sel_time == "releaseTime") {
-												params.search_releaseTimeStart = $(
+											} 
+											 else if (sel_time == "signTime") {
+												    params.search_signTimeStart = $(
+															"input[name='dtBegin']")
+															.val();
+													params.search_signTimeEnd = $(
+															"input[name='dtEnd']")
+															.val();
+										    }
+											else if (sel_time == "releaseTime") {
+												params.releaseTimeStart = $(
 														"input[name='dtBegin']")
 														.val();
-												params.search_releaseTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-											} else {
-												params.search_signTimeStart = $(
-														"input[name='dtBegin']")
-														.val("");
-												params.search_signTimeEnd = $(
+												params.releaseTimeEnd = $(
 														"input[name='dtEnd']")
 														.val();
 											}

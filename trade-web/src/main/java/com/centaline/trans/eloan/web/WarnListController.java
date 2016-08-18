@@ -37,12 +37,16 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.entity.ToOutTimeTask;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.OrgService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
@@ -50,6 +54,9 @@ import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.eloan.vo.ToEloanRelListVO;
 import com.centaline.trans.eloan.vo.ToEloanRelVO;
 import com.centaline.trans.engine.annotation.TaskOperate;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.enums.LoanCompany;
 import com.centaline.trans.loan.enums.LoanType;
@@ -91,6 +98,11 @@ public class WarnListController {
 	TgGuestInfoService tgGuestInfoService;
 	@Autowired
 	private MyCaseListService myCaseListService;
+	@Autowired
+	ToWorkFlowService flowService;
+	@Autowired
+	ProcessInstanceService processInstanceService;
+	
 	//E+列表
 	@RequestMapping("Eloanlist")
 	public String submit() {
@@ -503,10 +515,23 @@ public class WarnListController {
 	/*根据pkId删除案件*/
 	@RequestMapping("deteleItem")
 	@ResponseBody
-	public AjaxResponse<LoanAgent> deteleItem(Long pkid, ServletRequest request){
-		AjaxResponse<LoanAgent> result = new AjaxResponse<>();
+	public AjaxResponse<ToEloanCase> deteleItem(Long pkid, ServletRequest request){
+		AjaxResponse<ToEloanCase> result = new AjaxResponse<>();
 		try {
-			toEloanCaseService.deleteById(pkid);
+			ToEloanCase eloanCase=toEloanCaseService.getToEloanCaseByPkId(pkid);
+			if(eloanCase!=null){
+				ToWorkFlow record=new ToWorkFlow();
+				record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
+				record.setCaseCode(eloanCase.getCaseCode());
+			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+				if(workFlow!=null){
+					workFlow.setStatus("4");
+			    flowService.updateByPrimaryKey(workFlow);
+				toEloanCaseService.deleteById(eloanCase.getPkid());
+				 processInstanceService.deleteProcess(workFlow.getInstCode());
+				}
+			
+			}
 			result.setSuccess(true);
 			result.setMessage("删除成功!");
 		} catch (Exception e) {
