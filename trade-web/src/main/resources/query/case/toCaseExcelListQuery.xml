@@ -308,7 +308,17 @@
 					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
 			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = B.CASE_CODE 
 			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
-			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>))	
+			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>)
+			    	  OR EXISTS ( SELECT    1
+                      FROM      SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR A  
+                                INNER JOIN ( SELECT T.*,S.id
+                                             FROM   SCTRANS.T_TL_TASK_REASSIGNT_LOG T
+                                                    LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
+                                           ) L ON L.id = A.PROCESSOR_ID and L.case_code = A.case_code
+                                             <ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
+                      WHERE     B.CASE_CODE = A.CASE_CODE
+                                AND A.SRV_CODE IN ( '3000400201', '3000401002' ) )
+                      )	
      				<ifNotNull guestname>
 						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = B.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
 					</ifNotNull>
