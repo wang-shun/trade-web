@@ -236,7 +236,13 @@
     <bean name="qqcdUojByUserId" class="com.centaline.trans.common.service.impl.QuickQueryUOJByUserIdCustomerDictServiceImpl">
     	<property name="prop" value="orgName"></property>
     </bean>
+    
+    <!--查询CASE_CODE 对应的前后台交易顾问-->
     <bean name="qqcdProcessorName" class="com.centaline.trans.common.service.impl.QuickQueryProcessorNameCustomDictServiceImpl">
+    </bean>    
+    
+    <!--查询CASE_CODE 对应的后台交易顾问-->
+    <bean name="qqcdBackProcessorName" class="com.centaline.trans.common.service.impl.QuickQueryBackProcessorNameCustomDictServiceImpl">
     </bean>
 
 	<bean name="qqcdCaseManager" class="com.centaline.trans.common.service.impl.QuickQueryCaseManagerServiceImpl">
