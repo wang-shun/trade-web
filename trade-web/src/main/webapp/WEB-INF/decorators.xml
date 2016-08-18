@@ -25,7 +25,7 @@
 		<pattern>/awards/allAward</pattern>		
 		<pattern>/award/baseAwardReport</pattern>
 		<pattern>/property/processWaitList</pattern>	
-		<pattern>/property/processingList2</pattern>
+		<pattern>/property/processingList</pattern>
 		<pattern>/task/myTaskList</pattern>
 		<pattern>/eloan/Eloanlist</pattern>
 		<pattern>/eloan/getEloanCaseDetails</pattern>
