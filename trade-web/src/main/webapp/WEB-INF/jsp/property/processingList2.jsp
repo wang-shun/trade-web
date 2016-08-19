@@ -30,7 +30,7 @@
     
 	<!-- owner -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
-    <link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
+    <link href="${ctx}/static/trans/css/property/popmac.css" rel="stylesheet" />
 	
 	<script type="text/javascript">
 		var optTransferRole=false;
@@ -244,7 +244,7 @@
         				</table>
 		            </form>
                 </div>
-                <div class="modal-footer text-center" style="padding-top:20px !important;">
+                <div class="modal-footer btn-center" style="padding-top:20px !important;">
                     <input type="button" class="btn btn-success" id="btn_save" value="保存"> 
                     <input type="button" class="btn btn-success" id="btn_done" value="完成">
                 </div>
