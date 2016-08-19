@@ -169,7 +169,7 @@ function ePlusLoanCount(dom, data, formatter) {
 		        x: 'left',
 		        data: getLegend(data)
 		    },*/
-		    color: [ '#ffae6b','#275da5','#4dbcbe', '#0a8dc9', '#f989a5','#13bfa1'],
+		    color: [ '#87d6c6', '#54cdb4', '#1ab394'],
 		    series: [
 		        {
 		            name:'E+贷款',
