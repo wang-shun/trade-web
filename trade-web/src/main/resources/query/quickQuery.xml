@@ -148,8 +148,4 @@
 	<import resource="query/tmpBank/toTmpBankCaseListQuery.xml" />
 	<!-- 临时银行案件列表导出 -->
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
-			
-	<!-- 贷款信息列表 -->
-	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />
-	
 </queryConfig>
