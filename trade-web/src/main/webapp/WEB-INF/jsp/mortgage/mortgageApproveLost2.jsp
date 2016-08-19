@@ -187,12 +187,14 @@
 							type="text" value="${endTime}" placeholder="结束日期">
 					</div>
 				</div>
-
+				
 				<div class="form_content space">
 					<div class="add_btn">
 						<button id="searchButton" type="button" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
+						<button type="button" id="loanLostCleanButton"
+							class="btn btn-success">清&nbsp;&nbsp;空</button>
 						<button type="button" id="exportExcelButton"
 							class="btn btn-success" onclick="javascript:loanLostCaseExportToExcel()">导出列表</button>
 					</div>
@@ -523,6 +525,8 @@ function loanLostCaseSelectUserBack(array){
 	} 
 }
 
+
+//选择组织之后 级联选择主办人信息
 function chooseCaseOperator(id){
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
@@ -586,8 +590,8 @@ function cleanSearchForm() {
 
 //点击清除按钮的时候清空表单
 $('#loanLostCleanButton').click(function() {
-	$("input[name='dtBegin_0']").datepicker('update', '');
-	$("input[name='dtEnd_0']").datepicker('update', '');	
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');	
 	$("input[name='caseCode']").val("");
 	$("input[name='orgName']").val("");
 	$("input[name='caseoperator']").val("");
