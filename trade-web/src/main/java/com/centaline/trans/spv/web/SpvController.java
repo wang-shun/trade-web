@@ -63,7 +63,17 @@ public class SpvController {
 	 
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
+	//列表页面
+	@RequestMapping("spvList")
+	public String spvList(){
+		return "spv/SpvList";
+	}
 	
+	//新增页面
+	@RequestMapping("saveHTML")
+	public String savaHTML(){
+		return "spv/saveSpvCase";
+	}
 	@RequestMapping("spvOutApply/process")
 	public String toSpvOutApplyProcess(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){

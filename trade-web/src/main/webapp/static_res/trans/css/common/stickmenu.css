@@ -5,6 +5,10 @@
  *   version 2.0
  *
 */
+body {
+  font-family: "Microsoft Yahei";
+}
+
 @media (min-width: 768px) {
   .dl-horizontal dt {
     float: left;
@@ -34,7 +38,7 @@
 }
 
 .wrapper-content {
-  padding: 20px 15px 40px;
+  padding: 5px 15px 40px;
 }
 
 .stickup-nav-bar .navbar-nav a {
@@ -65,7 +69,7 @@
 }
 
 .wrapper-content .ibox-content {
-  padding: 10px 15px 10px 15px;
+  padding: 20px 15px 10px 15px;
   margin-top: 10px;
 }
 

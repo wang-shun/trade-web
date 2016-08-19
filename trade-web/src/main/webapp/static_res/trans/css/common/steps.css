@@ -1,4 +1,125 @@
 @charset "UTF-8";
+.bs-wizard {
+  margin-top: 40px;
+}
+
+/*Form Wizard*/
+.bs-wizard {
+  border-bottom: solid 1px #e0e0e0;
+  padding: 0 0 10px 0;
+}
+
+.bs-wizard > .bs-wizard-step {
+  padding: 0;
+  position: relative;
+}
+
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {
+  color: #595959;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.bs-wizard > .bs-wizard-step .bs-wizard-info {
+  color: #999;
+  font-size: 14px;
+}
+
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: block;
+  background: #5bc0de;
+  top: 45px;
+  left: 5%;
+  margin-top: -35px;
+  margin-left: -15px;
+  border-radius: 50%;
+}
+
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {
+  content: ' ';
+  width: 14px;
+  height: 14px;
+  background: #428bca;
+  border-radius: 50px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.bs-wizard > .bs-wizard-step > .progress {
+  position: relative;
+  border-radius: 0px;
+  height: 8px;
+  box-shadow: none;
+  margin: 20px 0;
+}
+
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar {
+  width: 0px;
+  box-shadow: none;
+  background: #5bc0de;
+}
+
+.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {
+  width: 100%;
+}
+
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {
+  width: 50%;
+}
+
+.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {
+  width: 0%;
+}
+
+.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {
+  width: 100%;
+}
+
+.bs-wizard > .bs-wizard-step > .progress {
+  background-color: #cccccc;
+}
+
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {
+  background-color: #cccccc;
+}
+
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {
+  opacity: 0;
+}
+
+.bs-wizard > .bs-wizard-step:first-child > .progress {
+  /*left: 50%;*/
+  left: 10%;
+  width: 90%;
+}
+
+.bs-wizard > .bs-wizard-step:last-child > .progress {
+  /*width: 50%;*/
+  width: 0%;
+}
+
+.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot {
+  pointer-events: none;
+}
+
+/*END Form Wizard*/
+.bs-wizard > .bs-wizard-step .bs-wizard-info dl {
+  margin-top: -15px;
+  margin-bottom: 20px;
+  /*margin-left: 60%;
+  margin-right: -95px;*/
+  text-align: left;
+  margin-left: 18%;
+}
+
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {
+  /*text-align: left;*/
+}
+
 /*
  *
  *   AIST - Mobile style for YC
@@ -15,6 +136,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 5px;
+    /*font-family:"Microsoft YaHei"; */
     font-weight: bold;
     color: #999c9e;
   }
@@ -28,13 +150,10 @@
 .stickup-nav-bar {
   padding: 0;
   background: #52cdec;
+  /*border-color: #398439;*/
   z-index: 1500;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.wrapper-content {
-  padding: 20px 15px 40px;
+  width: 100%;
+  margin: auto;
 }
 
 .stickup-nav-bar .navbar-nav a {
@@ -42,7 +161,7 @@
 }
 
 .stickup-nav-bar .navbar-nav a:hover {
-  color: #f9f9f9;
+  color: #0A64A4;
   background: #f8ac59;
   border-color: white;
 }
@@ -65,7 +184,7 @@
 }
 
 .wrapper-content .ibox-content {
-  padding: 10px 15px 10px 15px;
+  padding: 10px 20px 10px 15px;
   margin-top: 10px;
 }
 
@@ -73,15 +192,19 @@
   background-color: inherit;
   margin-top: 0;
   margin-left: -15px;
-  margin-right: -15px;
+  margin-right: -10px;
 }
 
 .wrapper-content .ibox-content .left-align-row {
   margin-left: 5px;
 }
 
+.wrapper-content .ibox-content .panel-heading {
+  padding: 0 15px 1px 0;
+}
+
 .wrapper-content .ibox-content .panel-body {
-  padding: 15px;
+  padding: 15px 15px  15px 0;
 }
 
 /*文件查看面板*/
@@ -93,6 +216,8 @@
 
 .contract-icon-block {
   position: relative;
+  /*top: 0;
+  left: 10px;*/
   width: 33px;
   height: 33px;
   border-radius: 50%;
@@ -103,28 +228,24 @@
 }
 
 .timeline-qz-icon {
-  background: url(../img/yc-icon/bljd－qz@x2.png) no-repeat top;
   background-size: cover;
   border-radius: 0;
   border: 0px solid #52cdec;
 }
 
 .timeline-aj-icon {
-  background: url(../img/yc-icon/bljd－按揭@x2.png) no-repeat top;
   background-size: cover;
   border-radius: 0;
   border: 0px solid #52cdec;
 }
 
 .timeline-ej-icon {
-  background: url(../img/yc-icon/bljd－e+@x2.png) no-repeat top;
   background-size: cover;
   border-radius: 0;
   border: 0px solid #52cdec;
 }
 
 .timeline-jg-icon {
-  background: url(../img/yc-icon/bljd－资金监管@x3.png) no-repeat top;
   background-size: cover;
   border-radius: 0;
   border: 0px solid #52cdec;
@@ -133,7 +254,7 @@
 /*zhenglei css for fs START*/
 .hr-line-fs {
   border-top: 1px dashed #000000;
-  color: #000000;
+  color: #0000;
   background-color: #ffffff;
   height: 1px;
   margin: 20px 0;
