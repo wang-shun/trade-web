@@ -48,6 +48,7 @@
 								A.status AS status_OLD,
 								A.create_time,
 								(select max(uoj.org_id) from sctrans.v_user_org_job uoj where uoj.username=a.ASSIGNEE) as ORG_ID
+								,a.WFE_NAME 
 					   FROM ((SELECT
 							    ART.ID_ AS ID,
 								TW.CASE_CODE,
@@ -60,12 +61,12 @@
 								TP.EST_PART_TIME,
 								TP.RED_LOCK,
 								NULL AS END_TIME,
-								'RUN' as status
+								'RUN' as status,wfe.WFE_NAME as WFE_NAME
 							FROM
 							    sctrans.T_HI_WORKFLOW TW
 								INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
 								LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
-							
+							    left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
 							WHERE 1=1
 	     				<ifNotNull casecode>	
 	     						AND TW.CASE_CODE = #casecode#
@@ -83,12 +84,12 @@
 								TP.EST_PART_TIME,
 								TP.RED_LOCK,
 								AHT.END_TIME_ AS END_TIME
-								,AHT.DELETE_REASON_ as status
+								,AHT.DELETE_REASON_ as status,wfe.WFE_NAME as WFE_NAME
 							FROM
 							 	sctrans.T_HI_WORKFLOW TW
 								INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED' or AHT.DELETE_REASON_='deleted')
 								LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
-							
+							    left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
 							WHERE 1=1
      				<ifNotNull casecode>	
      						AND TW.CASE_CODE = #casecode#
@@ -118,7 +119,7 @@
 				<column type="both" name="status_OLD" index="" checkbox="" display="状态" customDict="" sysDict="" beanFormatter=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="status" display="状态" referencecol="status_OLD"  customDict="getTaskStatus" isSort="true" hidden="false"/>
 				<column type="both" name="ORG_ID" index="" checkbox="" display="执行人OrgID" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
-							
+				<column type="both" name="WFE_NAME" index="" checkbox="" display="所属流程信息" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>			
 			</table-row>
 		</grid>
 	</query>

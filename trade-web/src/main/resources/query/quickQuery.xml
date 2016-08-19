@@ -143,4 +143,8 @@
 	<!-- 商贷预警 -->
 	<import resource="query/bizwarn/bizwarnListQuery.xml" />
 	<import resource="query/eloan/ELoanCaseList.xml" />
+	
+	<!-- 商贷信息列表 -->
+	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />
+	
 </queryConfig>

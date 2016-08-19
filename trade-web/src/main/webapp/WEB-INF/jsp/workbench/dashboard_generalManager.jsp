@@ -43,7 +43,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	<link href="${ctx}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
 	
     <!-- index_css  -->
-    <link href="${ctx}/static/trans/css/workbench/dashboard/dashboard.css" rel="stylesheet">
+    <link href="${ctx}/css/trans/css/workbench/dashboard/dashboard.css" rel="stylesheet">
     <!-- 图标 -->
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" rel="stylesheet">
 </head>
@@ -174,36 +174,25 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                  </div>
                                                  <span class="right-label" id="sp_actualAmount" style="color:#337ab7;cursor:pointer;">2000万</span>
                                             </div>
-                                            <div class="data-left">
-                                            	<span class="left-label h50 pb10">评估费</span>
-                                                <div class="data-bar">
-                                                	<div class="progress progress-small">
-                                                    	<div id="sp_evalFee_bar" style="width: 30%;" class="progress-bar bar-red"></div>
-                                                 	</div>
-                                                 </div>
-                                                 <span class="right-label pb10" id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span>
-                                            </div>
-                                        </div>
-                                        <div class="data-progress data2">
-                                                            <div class="data-left">
-                                                                <span class="left-label wd105 h90 pt50">E+转换率</span>
+                                           <div class="data-left">
+                                                                <span class="left-label h50 pb10">E+转换率</span>
                                                                 <div class="data-bar">
                                                                     <div class="progress progress-small">
                                                                         <div id="sp_convRate_bar" style="width: 100%;" class="progress-bar bar-yellow"></div>
                                                                     </div>
                                                                 </div>
-                                                                <span id="sp_convRate" class="right-label pt50">100%</span>
-                                                            </div>
-                                                            <div class="data-left">
-                                                                <span class="left-label wd105 h90 pb20">评估费转换率</span>
-                                                                <div class="data-bar">
-                                                                    <div class="progress progress-small">
-                                                                        <div id="sp_efConvRate_bar" style="width: 30%;" class="progress-bar bar-red"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <span id="sp_efConvRate" class="right-label pt40">30%</span>
-                                                            </div>
+                                                                <span id="sp_convRate" class="right-label hint hint-top1" data-hint="E+转换率=总的面签金额/总的合同价">100%</span>
+                                           </div>
+                                            
                                         </div>
+                                        <div class="data-progress data2">
+                                                            <p><span>评估费</span><em><span id="sp_evalFee" style="color:#337ab7;cursor:pointer;">6万</span></em></p>
+                                                            <p>
+                                                            <span>评估单转化率</span>
+                                                            <em><span id="ef_converRt" class="hint hint-top1" data-hint="评估单转化率=收取评估费的单数/有商贷金额的单数(商贷流程提交)">100%</span></em>
+                                                            </p>
+                                                            <p><span>评估费折扣</span><em><span id="sp_efConvRate" class="hint hint-top1" data-hint="评估费折扣=收取的评估费总额/有收取评估费的合同价金额的千一">30%</span></em></p>
+                                                        </div>
                                         <div class="data-progress data3">
                                         	<div class="data-left">
                                                                 <span class="left-label wd88 h50 pt10">接单数</span>
@@ -445,7 +434,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_1">
                                                             	 	<div class="ibox-title" style="border-width:0px !important;">
-                                                            	 		<h5>E+贷款(面签单数)</h5>
+                                                            	 		<h5 style="font-size: 16px !important;">E+贷款(面签单数)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="" style="border-width:0px !important;">
                                                             			<div id="doughnutChart1" style="height:380px;width:460px;position:center;"></div>
@@ -455,7 +444,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_2">
                                                             	 	<div class="ibox-title" style="border-width:0px !important;">
-                                                            	 		<h5>E+贷款(面签金额)</h5>
+                                                            	 		<h5 style="font-size: 16px !important;">E+贷款(面签金额)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="doughnutChart" style="border-width:0px !important;">
                                                             			<div id="doughnutChart2" style="height:380px;width:460px;position:center;"></div>
