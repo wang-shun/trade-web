@@ -41,8 +41,8 @@
             <condition field="loanAgent.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <!-- <condition field="loanAgent.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="loanAgent.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
             <condition field="loanAgent.CREATE_TIME" name="createTimeStart" label="创建开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.CREATE_TIME" name="createTimeEnd" label="创建结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
@@ -82,9 +82,70 @@
 				        orgHierarchy.ORG_ID = loanAgent.executor_team
 				    WHERE 
 				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
+				    
+				    <ifNotNull applyTimeStart>
+						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
+					</ifNotNull>
+					<ifNotNull applyTimeEnd>
+						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
+					</ifNotNull>
+					<ifNotNull signTimeStart>
+						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
+					</ifNotNull>
+					<ifNotNull signTimeEnd>
+						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
+					</ifNotNull>
+				    
+				    <ifNotNull releaseTimeStart>
+						and loanAgent.RELEASE_TIME &gt;= #releaseTimeStart#
+					</ifNotNull>
+					<ifNotNull releaseTimeEnd>
+						and loanAgent.RELEASE_TIME &lt; #releaseTimeEnd#
+					</ifNotNull>
+				    
 				    <ifNotNull yuCuiOriGrpId>
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
 					</ifNotNull>
+					
+					UNION ALL
+SELECT 
+					  c.PKID,
+					  loanAgent.CASE_CODE,
+					  INFO.PROPERTY_ADDR,
+					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
+					  loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
+					  loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
+					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
+					  loanAgent.APPLY_TIME,
+					  loanAgent.SIGN_TIME,
+					  loanAgent.CREATE_TIME,
+					 rel.RELEASE_TIME AS RELEASE_TIME,
+        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
+        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
+					ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT'
+					FROM 
+					   sctrans.T_TO_ELOAN_CASE loanAgent
+					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
+					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
+					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE
+					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
+					INNER JOIN  SCTRANS.SYS_USER us ON loanAgent.EXCUTOR_ID = us.id and us.is_deleted='0' 
+					<ifNotNull isJygw>
+						and loanAgent.EXCUTOR_ID = #userId#
+					</ifNotNull>
+					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
+				    WHERE 
+				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
+				    <ifNotNull releaseTimeStart>
+						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
+					</ifNotNull>
+					<ifNotNull releaseTimeEnd>
+						and rel.RELEASE_TIME &lt; #releaseTimeEnd#
+					</ifNotNull>
+				    <ifNotNull yuCuiOriGrpId>
+						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
+					</ifNotNull>
+					
 				]]>
 			</baseSql>
 			<orderBySql>

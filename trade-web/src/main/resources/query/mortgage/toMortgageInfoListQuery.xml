@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>		
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>	
+	
+	<query id="findToMortgageIsActive">
+	    <searchCondition>
+		   <condition field="m.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="p.property_addr" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="m.cust_name"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+                select 
+                c.pkid,
+                p.property_addr,
+                m.case_code,
+                m.mort_type as MORT_TYPE_OLD,
+                ISNULL(m.mort_total_amount,0)/10000 mort_total_amount,
+                m.fin_org_code as FIN_ORG_CODE_OLD,
+                m.cust_name,
+                ISNULL(m.com_amount,0)/10000 com_amount,
+                m.com_year,
+                m.com_discount,
+                m.prf_amount,
+                m.SIGN_DATE,
+                m.LEND_DATE
+                from sctrans.T_TO_MORTGAGE m 
+                left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
+                left join sctrans.T_TO_CASE c on m.case_code = c.case_code 
+                where m.is_active = '1'          
+                    				     
+				<ifNotNull finCode>
+						AND m.mort_type IN (#finCode#)
+				</ifNotNull>
+				
+				<ifNotNull signTimeStart>
+				     and m.SIGN_DATE >= #signTimeStart#
+				</ifNotNull>
+				
+				<ifNotNull signTimeEnd>
+				     and m.SIGN_DATE &lt;= #signTimeEnd#
+				</ifNotNull>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
+				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="FIN_ORG_CODE_OLD" index="" checkbox=""   customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="FIN_ORG_CODE" title="贷款机构" referencecol="FIN_ORG_CODE_OLD" customDict="qqcdFinOrgNameDict" isSort="true" order="desc"/>
+				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="COM_YEAR" index="" checkbox="" title="商贷年限" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="COM_DISCOUNT" index="" checkbox="" title="商贷利率折扣" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PRF_AMOUNT"  title="公积金金额" beanFormatter="numberFormater" isSort="true" order="desc"/>
+				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

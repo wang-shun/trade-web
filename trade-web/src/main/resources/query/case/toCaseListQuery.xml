@@ -150,7 +150,7 @@
                                 INNER JOIN ( SELECT T.*,S.id
                                              FROM   SCTRANS.T_TL_TASK_REASSIGNT_LOG T
                                                     LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
-                                           ) L ON L.id = A.PROCESSOR_ID
+                                           ) L ON L.id = A.PROCESSOR_ID and L.case_code = A.case_code
                                              <ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
                       WHERE     B.CASE_CODE = A.CASE_CODE
                                 AND A.SRV_CODE IN ( '3000400201', '3000401002' ) )

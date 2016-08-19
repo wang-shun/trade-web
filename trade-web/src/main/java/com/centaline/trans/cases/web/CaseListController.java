@@ -54,12 +54,15 @@ public class CaseListController {
 		boolean isAdminFlag = false;
 
         StringBuffer reBuffer = new StringBuffer();
+        //如果登录用户不是交易顾问
 		if(!userJob.equals(TransJobs.TJYGW.getCode())){
 			queryOrgFlag=true;
 			String depString = user.getServiceDepHierarchy();
 			String userOrgIdString = user.getServiceDepId();
+			//组别
 			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
 				reBuffer.append(userOrgIdString);
+			//区域
 			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
 				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
 				for(Org org:orgList){

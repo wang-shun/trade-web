@@ -61,6 +61,9 @@ public class LoanAgentController {
 		if(TransJobs.TJYGW.getCode().equals(jobCode)) {
 			request.setAttribute("isJygw",true);
 		}
+		if(TransJobs.YCPRODUCT.getCode().equals(jobCode)) {
+			request.setAttribute("isProduct",true);
+		}
 		
 		request.setAttribute("isLoanAgentTimeType",request.getParameter("isLoanAgentTimeType"));
 		if(!StringUtils.isBlank(request.getParameter("isLoanAgentTimeType"))) {
