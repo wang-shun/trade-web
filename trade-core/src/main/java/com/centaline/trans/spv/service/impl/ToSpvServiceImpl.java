@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -26,6 +27,7 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -69,8 +71,8 @@ public class ToSpvServiceImpl implements ToSpvService {
     @Autowired
     private ToSpvDeRecMapper toSpvDeRecMapper;
     
-    @Autowired
-    private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private PropertyUtilsServiceImpl propertyUtilsService;
     
     @Autowired
     private ToCaseService toCaseService;
@@ -96,6 +98,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 	private TaskService taskService; 
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 	
     /**
      * 房款监管签约记录
@@ -415,19 +419,20 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
+		createSpvCode(spvBaseInfoVO.getToSpv());
 		//保存相关信息
 		// come here ...
 		
 		// 查询风控总监
-	  	/*User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "");
+	  	//User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "");
     	Map<String, Object> vars = new HashMap<String,Object>();
     	vars.put("RiskControlOfficer", user.getUsername());
-    	vars.put("RiskControlDirector", manager==null?null:manager.getUsername());
+    	vars.put("RiskControlDirector", user.getUsername());
     	
-    	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
+    	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getSpvProcessDfKey(),spvBaseInfoVO.getToSpv().getSpvCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setCaseCode(tEloanCase.getCaseCode());
-		workFlow.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
+		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		workFlow.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
 		workFlow.setProcessOwner(user.getId());
@@ -438,7 +443,11 @@ public class ToSpvServiceImpl implements ToSpvService {
     	List<TaskVo> taskList = pageableVo.getData();
     	for(TaskVo task : taskList) {
     		taskService.complete(task.getId()+"");
-    	}*/
+    	}
+	}
+	
+	private void createSpvCode(ToSpv toSpv) {
+		toSpv.setSpvCode(uamBasedataService.nextSeqVal("SPV_CODE",new Date()));
 	}
 
 }

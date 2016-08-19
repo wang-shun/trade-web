@@ -2,6 +2,8 @@ package com.centaline.trans.spv.vo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDe;
@@ -9,6 +11,8 @@ import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvProperty;
 
 public class SpvBaseInfoVO {
+
+	private ToSpv toSpv;
 
 	private List<ToSpvCust> spvCustList = new ArrayList<ToSpvCust>();
 
@@ -58,6 +62,14 @@ public class SpvBaseInfoVO {
 
 	public void setToSpvDeDetailList(List<ToSpvDeDetail> toSpvDeDetailList) {
 		this.toSpvDeDetailList = toSpvDeDetailList;
+	}
+
+	public ToSpv getToSpv() {
+		return toSpv;
+	}
+
+	public void setToSpv(ToSpv toSpv) {
+		this.toSpv = toSpv;
 	}
 
 }
