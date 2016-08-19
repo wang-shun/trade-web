@@ -149,4 +149,6 @@
 	
 	<!-- 临时银行案件列表导出 -->
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
+	<!-- 金额监管列表 -->
+	<import resource="query/spv/spvList.xml" />
 </queryConfig>

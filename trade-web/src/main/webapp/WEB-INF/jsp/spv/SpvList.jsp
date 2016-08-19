@@ -163,44 +163,43 @@
                                         </td>
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
+                                                <a href="${ctx}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
+								                     {{item.CASE_CODE}}
+							                    </a>
                                             </p>
                                             <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
+                                                <i class="tag_sign">c</i>{{item.CTM_CODE}}
                                             </p>
                                         </td>
                                         <td>
                                                 <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                           <a class="hint hint-top" data-hint="张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
-                                <p class="bb"> <i class="salesman-icon">
-                                                </i>  张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体</p>
-                           </a>
+                       		                     {{item.PR_ADDR}}
+												</p>
+						 						<span >
+												  <i class="salesman-icon"></i>
+ 							                      <a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+						                      </span>
                                         </td>
                                         <td class="center">
                                             <p class="managerstyle">
-                                                监管金额<span>400万</span>
+                                                监管金额<span>{{item.AMOUNT}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>400万</span>
+                                                入账金额<span>万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>400万</span>
+                                                出账金额<span>万</span>
                                             </p>
                                         </td>
                                         <td>
                                             <p class="smll_sign">
                                                 <i class="sign_normal">申</i>
-                                                2016-05-30
+                                                {{item.CREATE_TIME}}
                                             </p>
                                         </td>
                                         <td class="center">
                                             <span class="manager">
-                                                <a href="#"><em>申请人：</em>金娇娇</a>
+                                                <a href="#"><em>申请人：</em>{{item.CREATE_BY}}</a>
                                             </span>
                                             <span class="manager">
                                                 <a href="#"><em>经办人：</em>顾小峰</a>
@@ -281,7 +280,7 @@
 									.aistGrid(
 											{
 												ctx : "${ctx}",
-												queryId : 'EloanCaseListQuery',
+												queryId : 'ToSpvCaseListQuery',
 												templeteId : 'queryMortgageApproveLost',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,

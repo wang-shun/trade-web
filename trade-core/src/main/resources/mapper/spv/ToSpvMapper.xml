@@ -292,20 +292,20 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
-  <select id="queryToSpvByCaseCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="queryToSpvByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    
+   <!-- , <include refid="Blob_Column_List" /> -->
     from sctrans.T_TO_SPV
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   
-  <select id="findToSpvBySpvCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="findToSpvBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    
+    <!-- ,<include refid="Blob_Column_List" /> -->
     from sctrans.T_TO_SPV
     where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
   </select>
