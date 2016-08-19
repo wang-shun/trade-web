@@ -213,7 +213,9 @@
 							sessionUserId : $("#userId").val(),
 							serviceDepId : $("#serviceDepId").val(),
 							serviceJobCode : serviceJobCode,
-							serviceDepHierarchy :serviceDepHierarchy
+							serviceDepHierarchy :serviceDepHierarchy,
+							releaseTimeStart:'',
+						    releaseTimeEnd:''
 						};
 						//删除
 						function deleteItem(pkid){
@@ -247,8 +249,8 @@
 											params.search_applyTimeEnd=null;
 											params.search_signTimeStart=null;
 											params.search_signTimeEnd=null;
-											params.releaseTimeStart=null;
-											params.releaseTimeEnd=null;
+											params.releaseTimeStart='';
+											params.releaseTimeEnd='';
 											params.search_propertyAddr=null;
 											params.search_custName=null;
 											/* params.search_status = $("#sel_applyStatus").val() */

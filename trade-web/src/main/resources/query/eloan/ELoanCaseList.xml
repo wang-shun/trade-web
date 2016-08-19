@@ -59,13 +59,13 @@
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
 			WHERE 1=1 
 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
-			    <if test="releaseTimeStart!=null ||releaseTimeEnd!=null">
+			    <if test="releaseTimeStart !='' ||releaseTimeStart !=''">
 			      where ers.ELOAN_CODE = ec.ELOAN_CODE
-			       <if test="releaseTimeStart!=null">
+			       <if test="releaseTimeStart !=''">
 			       and ers.RELEASE_TIME &gt;= #releaseTimeStart#
 			       </if>
-			       <if test="releaseTimeEnd!=null">
-			       and ers.RELEASE_TIME  &lt;= #releaseTimeEnd#
+			       <if test="releaseTimeStart !=''">
+			       and ers.RELEASE_TIME &lt;= #releaseTimeEnd#
 			       </if>
 			    </if>
 			 )
