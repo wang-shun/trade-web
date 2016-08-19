@@ -145,13 +145,13 @@ text-decoration: underline !important;
 /* top */
 .hint-top2:before {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top2:after {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -6px -10px;
 }
 .hint-top2:hover:before {
@@ -159,9 +159,6 @@ text-decoration: underline !important;
 }
 .hint-top2:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
 }
 
 </style> 
@@ -376,8 +373,8 @@ text-decoration: underline !important;
 					</td>
 					<td class="t-left">
 						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
-{{if item.PROPERTY_ADDR.length>24}}
-{{item.PROPERTY_ADDR.substring(0,24)}}...
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
 {{item.PROPERTY_ADDR}}
 {{/if}}						 
@@ -443,7 +440,7 @@ text-decoration: underline !important;
                          
                     </td>
                     <td class="center">
-                          <span  class="hint  hint-top1" data-hint="下家信息:{{item.BUYER}}">
+                          <span  class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}">
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
