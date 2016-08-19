@@ -121,13 +121,13 @@
 /* top */
 .hint-top2:before {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top2:after {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -6px -10px;
 }
 .hint-top2:hover:before {
@@ -135,9 +135,6 @@
 }
 .hint-top2:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
 }
 </style>
 </head>
@@ -299,16 +296,24 @@
                        </p>
 				</td>
 				<td >
- 					<p class="big">
-						{{item.PROPERTY_ADDR}}
-    				 </p>
+ 					<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+{{else}}
+{{item.PROPERTY_ADDR}}
+{{/if}}						 
+						</span><br/>
 					
- 					<span >
-						<i class="salesman-icon"> </i>
-                        <a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >
-                           {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
-                        </a>
-    				 </span>
+							<span class="tooltip-demo">
+                                  <i class="salesman-icon"> </i>
+								  <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}} ">
+{{if item.ORG_NAME !="" && item.ORG_NAME !=null && item.ORG_NAME.length>8}}							
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
+{{/if}}		
+							</a>
+							</span>
 				</td>
 				<td >
 						{{if item.IMPORT_TIME!=null}}

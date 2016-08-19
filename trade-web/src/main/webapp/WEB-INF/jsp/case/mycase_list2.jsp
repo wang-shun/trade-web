@@ -175,16 +175,17 @@ text-decoration: underline !important;
 	white-space: normal!important;
 	word-break:break-all!important;
 }
+
 /* top */
 .hint-top2:before {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top2:after {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -6px -10px;
 }
 .hint-top2:hover:before {
@@ -192,9 +193,6 @@ text-decoration: underline !important;
 }
 .hint-top2:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
 }
 </style>
 </head>
@@ -446,11 +444,11 @@ text-decoration: underline !important;
 						</td>
 						<td >
 						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
-{{if item.PROPERTY_ADDR.length>24}}
-{{item.PROPERTY_ADDR.substring(0,24)}}...
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
 {{item.PROPERTY_ADDR}}
-{{/if}}						 
+{{/if}}					 
 						</span><br/>
  							<span >
 								 <i class="salesman-icon"> </i>
@@ -467,7 +465,7 @@ text-decoration: underline !important;
 						
 						<td class="center">
                           <span  >
-						<a class="hint  hint-top1" data-hint="{{item.SELLER}}" >
+						<a class="hint  hint-top1" data-hint="上家信息:{{item.SELLER}}" >
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
@@ -493,7 +491,7 @@ text-decoration: underline !important;
                        </td>
                        <td class="center">
                           <span  >
-							<a class="hint  hint-top1" data-hint="{{item.BUYER}}" >
+							<a class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}" >
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>

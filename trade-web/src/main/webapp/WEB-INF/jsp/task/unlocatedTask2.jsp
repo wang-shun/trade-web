@@ -149,13 +149,13 @@ text-decoration: underline !important;
 /* top */
 .hint-top2:before {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top2:after {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -6px -10px;
 }
 .hint-top2:hover:before {
@@ -163,9 +163,6 @@ text-decoration: underline !important;
 }
 .hint-top2:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
 }
 
 </style>	
@@ -319,16 +316,25 @@ text-decoration: underline !important;
                                </p>
                         </td>
 						<td>
-                                <p class="big">
-                                	{{item.propertyAddr}}  
-                                </a>
-                                </p>
-                                <span class="tooltip-demo">
-                               		<i class="salesman-icon"></i>   
-									<a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} " data-toggle="tooltip" data-placement="top" >
-                                    	 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} 
-									</a>	            
-                               </span>
+                       <span class="hint  hint-top" data-hint="{{item.propertyAddr}}">
+{{if item.propertyAddr != null && item.propertyAddr!="" && item.propertyAddr.length>24}}
+{{item.propertyAddr.substring(item.propertyAddr.length-24,item.propertyAddr.length)}}
+{{else}}
+{{item.propertyAddr}}
+{{/if}}						 
+
+						</span><br/>
+
+							<span class="tooltip-demo">
+                                  <i class="salesman-icon"> </i>
+<a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} ">
+{{if item.GRP_NAME !="" && item.GRP_NAME !=null && item.GRP_NAME.length>8}}							
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}
+{{/if}}		
+</a>							  
+							</span>
                         </td>
 						<td>
                                 <p class="big">
