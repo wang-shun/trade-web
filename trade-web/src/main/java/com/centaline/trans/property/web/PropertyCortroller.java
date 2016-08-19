@@ -61,8 +61,19 @@ public class PropertyCortroller {
 		}else{
 			model.addAttribute("prDistrictId",orgProWait.getId());
 		}
-		return "property/processWaitList";
+		return "property/processWaitList2";
 	}
+/*	@RequestMapping(value="processWaitList2")
+	public String processWaitList2(Model model, ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		Org orgProWait = uamUserOrgService.getOrgById(user.getServiceDepId());
+		if(orgProWait.getDepHierarchy().equals(DepTypeEnum.TYCTEAM.getCode())){
+			model.addAttribute("prDistrictId",orgProWait.getParentId());
+		}else{
+			model.addAttribute("prDistrictId",orgProWait.getId());
+		}
+		return "property/processWaitList2";
+	}*/
 	
 	/**
 	 * 进入 已受理产调
@@ -85,8 +96,25 @@ public class PropertyCortroller {
 			model.addAttribute("serviceDepId", org.getId());
 		}
 		
-		return "property/processingList";
+		return "property/processingList2";
 	}
+/*	@RequestMapping(value="processingList2")
+	public String processingList2(Model model, ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		Org orgPro = uamUserOrgService.getOrgById(user.getServiceDepId());
+		if(orgPro.getDepHierarchy().equals(DepTypeEnum.TYCTEAM.getCode())){
+			model.addAttribute("prDistrictId",orgPro.getParentId());
+		}else{
+			model.addAttribute("prDistrictId",orgPro.getId());
+		}
+		
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null){
+			model.addAttribute("serviceDepId", org.getId());
+		}
+		
+		return "property/processingList2";
+	}*/
 	/**
 	 * 进入 已完成产调
 	 * @param model

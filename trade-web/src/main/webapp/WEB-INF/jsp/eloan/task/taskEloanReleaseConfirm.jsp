@@ -84,7 +84,7 @@
                                    <div class="case_lump">
                                        <p><em>产品类型</em><span class="span_one">
                                        <aist:dict id="loanSrvCode" name="loanSrvCode" clazz="select_control sign_right_two"
-						display="onlyLabel"  dictType="yu_serv_cat_code_tree" tag="Eloan" dictCode="${eloanCase.loanSrvCode}"
+						display="onlyLabel"  dictType="yu_serv_cat_code_tree" tag="eplus" dictCode="${eloanCase.loanSrvCode}"
 						ligerui='none'></aist:dict></span></p>
                                    </div>
                                    <div class="case_lump">

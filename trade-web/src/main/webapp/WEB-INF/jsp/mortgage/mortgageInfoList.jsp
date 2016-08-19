@@ -175,7 +175,27 @@ text-decoration: underline !important;
 						</div>
 						</div>
 							</div>
-						</div>	
+					</div>	
+					<br>
+					<div class="row date-info">
+						<div class="col-md-12">
+							<div class="form-group">
+							<label class="col-md-1 control-label m-l">放款时间</label>
+							<div id="dateDiv_2">
+							<div id="datepicker_2"
+								class="input-group input-medium date-picker input-daterange pull-left"
+								data-date-format="yyyy-mm-dd">
+								<input id="dtBegin2" name="dtBegin2" class="form-control" style="font-size: 13px;" type="text" value="${lendTimeStart}" placeholder="起始日期">
+								<span class="input-group-addon">到</span>
+								<input id="dtEnd2" name="dtEnd2" class="form-control" style="font-size: 13px;" type="text" value="${lendTimeEnd}" placeholder="结束日期" />
+							</div>
+							<div id="addLine" class="pull-left m-l">
+							
+						</div>
+						</div>
+						</div>
+							</div>
+					</div>	
 						
 						<div class="row m-t-sm">
 							<div class="col-md-6">
@@ -211,6 +231,7 @@ text-decoration: underline !important;
 					    <th class="t-left pd-l"><span>商贷利率折扣</span></th>
 					    <th class="t-left pd-l"><span class='sort' sortColumn='m.SIGN_DATE' sord='desc'>签约时间</span></th>
 					    <th class="t-left pd-l"><span class='sort' sortColumn='m.LEND_DATE' sord='desc'>放款时间</span></th>
+					    <th class="t-left pd-l"><span>临时银行</span></th>
 					</tr>
 				</thead>
 				<tbody id="mortgageInfoList">
@@ -278,6 +299,7 @@ text-decoration: underline !important;
                         <td class="t-left pd-l">{{item.COM_DISCOUNT}}</td>
                         <td class="t-left pd-l">{{item.SIGN_DATE}}</td>
                         <td class="t-left pd-l">{{item.LEND_DATE}}</td>
+                        <td class="t-left pd-l">{{item.IS_TMP_BANK}}</td>
 				  </tr>
        {{/each}}
      </script>

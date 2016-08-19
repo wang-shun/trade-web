@@ -3,21 +3,18 @@
  */
 
 $(document).ready(function() {
-	// Examle data for jqGrid
-	// Configuration for jqGrid Example 1
-	loadGrid();
-
-	// Add responsive to jqGrid
-	$(window).bind('resize', function() {
+	loadGrid(1);
+	/*$(window).bind('resize', function() {
 		var width = $('.jqGrid_wrapper').width();
 		$('#table_list_1').setGridWidth(width);
 
 	});
 	 $('.contact-box').each(function() {
          animationHover(this, 'pulse');
-     });
+     });*/
 					
 });
+
 
 // select控件
 var config = {
@@ -49,7 +46,95 @@ $('#datepicker').datepicker({
 	language : 'zh-CN'
 });
 
-function loadGrid(){
+
+
+/*获取未分配案件列表*/
+function loadGrid(page) {
+
+	var data = getQueryParams(page);
+	var ctx = $("#ctx").val();
+	
+	$.ajax({
+		async: true,
+        url:ctx+ "/quickGrid/findPage" ,
+        method: "post",
+        dataType: "json",
+        data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
+        success: function(data){
+        	
+        	$.unblockUI();   	 
+        	var myCaseList = template('template_myCaseList' , data);
+        	$("#myCaseList").empty();
+        	$("#myCaseList").html(myCaseList);
+			// 显示分页 
+            initpage(data.total,data.pagesize,data.page, data.records);
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
+  });
+}
+
+/*分页栏*/
+function initpage(totalCount,pageSize,currentPage,records) {
+	
+	if(totalCount>1500){
+		totalCount = 1500;
+	}
+	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1){
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalP').text(records);
+	
+	
+	$("#pageBar").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="fa fa-step-backward"></i>',
+		prev:'<i class="fa fa-chevron-left"></i>',
+		next:'<i class="fa fa-chevron-right"></i>',
+		last:'<i class="fa fa-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			loadGrid(page);
+	    }
+	});
+}
+
+/*获取查询参数*/
+function getQueryParams(page){
+	
+	if(!page){
+		page=1;
+	}
+	
+	var params = {
+		search_proAddr:$.trim($("#txt_prd_addr").val()),
+		distCode:$("#distCode").val(),
+		search_dtBegin:$("#dtBegin_0").val(),
+		search_dtEnd:$("#dtEnd_0").val()?($("#dtEnd_0").val()+' 23:59:59'):$("#dtEnd_0").val(),
+		argu_oriGrpId:$("#oriGrpId").val(),
+		queryId : 'queryUnlocatedCase',
+		rows : 10,
+	    page : page
+	};
+	
+	return params;	
+}
+
+
+function loadGrid2(){
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
@@ -149,111 +234,22 @@ function clean(){
  */
 function caseChangeTeam(){
 	showTeamModal();
-	/*var url = "/case/getAllTeamList";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	
-	$.ajax({
-		cache : false,
-		async:true,
-		type : "POST",
-		url : url,
-		dataType : "json",
-		timeout: 10000,
-	    data : "", 
-		success : function(data) {
-			showTeamModal(data);
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	}); 
-*/}
+	}
 
 /**
  * 选择组别modal
  * @param data
  */
 function showTeamModal(data){
-	/*var inHtml = '';
-	inHtml+='<div class="form-group"><label class="col-lg-3 control-label">';
-	inHtml+= '请选择组别：';
-	inHtml+='</label><div class="col-lg-9" style="text-align:left; margin-top:-10px;" >';
-	$.each(data,function(i, n){
-		inHtml+='<div class="checkbox i-checks"><label>';
-		inHtml+='<input type="radio" name="teamRadio" value="'+n.id+'"/>  '+n.orgName+' </label></div>';
-	})
-	inHtml+='</div></div>';
-	$("#team-form").html(inHtml);*/
 	$('#team-modal-form').modal("show");
 }
 
-/**
- * 案件转组
- * @param index
- */
-/*function changeCaseTeam(){
-	
-
-		var orgName=$("#radioOrgName1").val();
-		var orgId=$("#oriGrpId1").val();
-		if(orgName==''||orgId==''){
-			alert('请选择一个片区');
-			return false;
-		}
-		var url = "/case/bindUnLocatedCaseTeam";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		var caseCodes=$("#table_list_1").jqGrid("getGridParam","selarrrow");
-		var params='&orgId='+orgId+'&caseCodes='+caseCodes;
-		
-		$.ajax({
-			cache : false,
-			async:true,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			timeout: 10000,
-		    data : params, 
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
-            },  
-            complete: function() {  
-                $.unblockUI();   
-                if(status=='timeout'){//超时,status还有success,error等值的情况
-	          	  Modal.alert(
-				  {
-				    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
-				  });
-		  		 $(".btn-primary").one("click",function(){
-		  				parent.$.fancybox.close();
-		  			});	 
-		                }
-		            } , 
-			success : function(data) {
-				if(data.success){
-					alert("分配成功");
-					$('#team-modal-form').modal("hide");
-					//jqGrid reload
-					$("#table_list_1").trigger('reloadGrid');
-				}else{
-					alert(data.message);
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				
-			}
-		}); 
-}*/
 
 //选组织的回调函数
 function radioOrgSelectCallBack1(array){
     if(array && array.length >0){
         $("#radioOrgName1").val(array[0].name);
 		$("#oriGrpId1").val(array[0].id);
-		
-/*		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
-		$("#oldactiveName").attr("onclick",userSelect);*/
 	}else{
 		$("#radioOrgName1").val("");
 		$("#oriGrpId1").val("");
@@ -264,9 +260,6 @@ function radioOrgSelectCallBack(array){
     if(array && array.length >0){
         $("#radioOrgName").val(array[0].name);
 		$("#oriGrpId").val(array[0].id);
-		
-/*		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
-		$("#oldactiveName").attr("onclick",userSelect);*/
 	}else{
 		$("#radioOrgName").val("");
 		$("#oriGrpId").val("");

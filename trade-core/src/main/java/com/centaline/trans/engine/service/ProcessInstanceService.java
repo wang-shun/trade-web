@@ -2,7 +2,6 @@ package com.centaline.trans.engine.service;
 
 import java.util.Map;
 
-import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 
 public interface ProcessInstanceService {
@@ -26,9 +25,5 @@ public interface ProcessInstanceService {
 	void deleteProcess(String processInstanceId);
 
 	StartProcessInstanceVo getHistoryInstances(String processInstanceId);
-
-	PageableVo getByBusinessKey(String businessKey);
-
-	void deleteByBusinessKey(String businessKey);
 
 }

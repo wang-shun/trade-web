@@ -8,6 +8,8 @@ $(document).ready(function() {
 	url = ctx + url;
 	var signTimeStart = $("#signTimeStart").val();
 	var signTimeEnd = $("#signTimeEnd").val();
+	var lendTimeStart = $("#lendTimeStart").val();
+	var lendTimeEnd = $("#lendTimeEnd").val();
 	var org = $("#org").val();
 	if (org=="ff8080814f459a78014f45a73d820006") {
 		org = null;
@@ -32,6 +34,8 @@ $(document).ready(function() {
 	data.page = 1;
 	data.signTimeStart=signTimeStart;
 	data.signTimeEnd=signTimeEnd;
+	data.lendTimeStart=lendTimeStart;
+	data.lendTimeEnd=lendTimeEnd;
 	
 	/*加载排序查询组件*/
 	aist.sortWrapper({
@@ -78,6 +82,14 @@ $('#datepicker_0').datepicker({
 	language : 'zh-CN'
 });
 
+$('#datepicker_2').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+
 /*查询按钮查询*/
 $('#searchButton').click(function() {
 	searchMethod();
@@ -86,6 +98,8 @@ $('#searchButton').click(function() {
 //日期类型
 var signTimeStart;
 var signTimeEnd;
+var lendTimeStart;
+var lendTimeEnd;
 
 //查询方法
 function searchMethod(page) {
@@ -110,6 +124,8 @@ $('#cleanButton').click(function() {
 	$("input[name='propertyAddr']").val('');
 	$("input[name='dtBegin']").datepicker('update', '');
 	$("input[name='dtEnd']").datepicker('update', '');
+	$("input[name='dtBegin2']").datepicker('update', '');
+	$("input[name='dtEnd2']").datepicker('update', '');
 	$("input[id='inTextVal']").val('');
 	$("input[name='custName']").val('');
 	$("select").val("");
@@ -191,9 +207,15 @@ function getSearchDateValues() {
 
 	signTimeStart = null;
 	signTimeEnd = null;
+	lendTimeStart = null;
+	lendTimeEnd = null;
 
 	var start = $('#dtBegin').val();
 	var end = $('#dtEnd').val();
+	var start2 = $('#dtBegin2').val();
+	var end2 = $('#dtEnd2').val();
+	
+	//签约时间
 	if (end && end != '') {
 		end = end + ' 23:59:59';
 	}
@@ -209,6 +231,23 @@ function getSearchDateValues() {
 	}
 	if (end == "") {
 		signTimeEnd = "";
+	}
+	//放款时间
+	if (end2 && end2 != '') {
+		end2 = end2 + ' 23:59:59';
+	}
+
+	if (start2 != "") {
+		lendTimeStart = start2;
+	}
+	if (start2 == "") {
+		lendTimeStart = "";
+	}
+	if (end2 != "") {
+		lendTimeEnd = end2;
+	}
+	if (end2 == "") {
+		lendTimeEnd = "";
 	}
 		
 	return true;
@@ -252,6 +291,8 @@ function getParamsValue() {
 	var params = {};
 	params.signTimeStart = signTimeStart;
 	params.signTimeEnd = signTimeEnd;
+	params.lendTimeStart = lendTimeStart;
+	params.lendTimeEnd = lendTimeEnd;
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
@@ -284,82 +325,6 @@ function selectUserBack(array){
 		$("#inTextVal").val("");
 		$("#inTextVal").attr('hVal',"");
 	}
-}
-
-//添加日期查询条件
-var divIndex = 1;
-var count = $('#case_date_0 option:last').index();
-function addDateDiv() {
-
-	var txt = '<div class="col-md-12 form-group"><label class="col-md-1  col-sm-2 control-label"></label><div id="dateDiv_' + divIndex + '" class="input-group m-b-xs m-t-xs">';
-	txt += '<div class="input-group-btn">';
-	txt += '    <select id="case_date_'
-			+ divIndex
-			+ '" class="btn btn-white chosen-select" name="case_date" ltype="select" >';
-	txt += $("#case_date_0").html()
-	txt += '</select></div>';
-	txt += '<div id="datepicker_'
-			+ divIndex
-			+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
-	txt += '    <input id="dtBegin_'
-			+ divIndex
-			+ '" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> ';
-	txt += '    <span class="input-group-addon">到</span>';
-	txt += '    <input id="dtEnd_'
-			+ divIndex
-			+ '" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期"/>';
-	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
-			+ divIndex + ');"><font>删除</font></a></span>';
-	txt += '</div></div></div>';
-	// alert(txt);
-	$("#addLine").before(txt);
-	// 日期控件
-	$('#datepicker_' + divIndex).datepicker({
-		format : 'yyyy-mm-dd',
-		weekStart : 1,
-		autoclose : true,
-		todayBtn : 'linked',
-		language : 'zh-CN'
-	});
-	// 设置初始选中
-	var selIndex = findFirstNoCheckVal();
-	$("#case_date_" + divIndex).get(0).selectedIndex = selIndex;
-	for ( var selector in config) {
-		$(selector).chosen(config[selector]);
-	}
-	;
-
-	divIndex++;
-}
-
-//查看未被选择的日期类型
-function findFirstNoCheckVal() {
-
-	var onUseArray = new Array();
-	if (divIndex > count)
-		return 0;
-	for (var r = 0; r < divIndex; r++) {
-		var onUse = $('#case_date_' + r + ' option:selected').index();
-		onUseArray.push(onUse);
-
-	}
-	for (var s = 0; s < count; s++) {
-		var onUseFlag = false;
-		for (var m = 0; m < onUseArray.length; m++) {
-			if (s == onUseArray[m]) {
-				onUseFlag = true;
-				break;
-			}
-		}
-		if (!onUseFlag)
-			return s;
-	}
-	return 0;
-}
-
- //删除日期控件
-function removeDateDiv(index) {
-	$("#dateDiv_" + index).remove();
 }
 
 //产品类型

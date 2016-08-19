@@ -35,11 +35,9 @@
 	response.setDateHeader("Expires",0);
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	%>
-	
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="serviceDepHierarchy"
 		value="${sessionUser.serviceDepHierarchy }">
@@ -104,6 +102,7 @@
 			</div>
 			<!-- <div class="ibox"> -->
 		</div>
+
 		<div class="row white_bg">
 			<div class="bonus-table "></div>
 		</div>
@@ -189,68 +188,26 @@
 				</td>
 				<td class="text-center">
 					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
-				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">详情</button>
-				   </a>		
-	                <shiro:hasPermission name="TRADE.ELONE.DELETE">
-				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
-                    </shiro:hasPermission>                 
-               </td>
+				    <button type="button" id="link_btn" onclick="opendetail({{item.pkId}})" class="btn btn-success btn-blue">详情</button>
+				   </a>				
+                 </td>
 			</tr>
 			{{/each}}          
 	    </script> <script>
-	   
-	    
 						//初始化数据
-						 var  rule=false;
-						var serviceJobCode=$("#serviceJobCode").val();
-						var serviceDepHierarchy=$("#serviceDepHierarchy").val();
-						if(serviceJobCode=='consultant'){
-							rule=true;
-						}
 						var params = {
 							rows : 10,
 							page : 1,
 							sessionUserId : $("#userId").val(),
 							serviceDepId : $("#serviceDepId").val(),
-							serviceJobCode : serviceJobCode,
-							serviceDepHierarchy :serviceDepHierarchy
+							serviceJobCode : $("#serviceJobCode").val(),
+							serviceDepHierarchy : $("#serviceDepHierarchy")
+									.val()
 						};
-						//删除
-						function deleteItem(pkid){
-							/* if(serviceJobCode != 'consultant') */
-							
-							var confim= confirm("确定要删除这条数据吗？")
-							if(!confim){
-							return
-							}
-							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
-							$.ajax({
-								cache:false,
-								async:true,
-								type:"POST",
-								url:ctx+"/eloan/deteleItem",
-								dataType:'json',
-								data:{pkid:pkid},
-								success:function(data){
-										alert(data.message);
-										initData();//刷新列表
-									    $.unblockUI();
-								}
-							});
-							
-						}
 						//查询数据
 						$("#btn_search")
 								.click(
 										function() {
-											params.search_applyTimeStart=null;		
-											params.search_applyTimeEnd=null;
-											params.search_signTimeStart=null;
-											params.search_signTimeEnd=null;
-											params.releaseTimeStart=null;
-											params.releaseTimeEnd=null;
-											params.search_propertyAddr=null;
-											params.search_custName=null;
 											/* params.search_status = $("#sel_applyStatus").val() */
 											var sel_time = $("#sel_time").val();
 											if (sel_time == "applyTime") {
@@ -260,20 +217,18 @@
 												params.search_applyTimeEnd = $(
 														"input[name='dtEnd']")
 														.val();
-											} 
-											 else if (sel_time == "signTime") {
-												    params.search_signTimeStart = $(
-															"input[name='dtBegin']")
-															.val();
-													params.search_signTimeEnd = $(
-															"input[name='dtEnd']")
-															.val();
-										    }
-											else if (sel_time == "releaseTime") {
-												params.releaseTimeStart = $(
+											} else if (sel_time == "releaseTime") {
+												params.search_releaseTimeStart = $(
 														"input[name='dtBegin']")
 														.val();
-												params.releaseTimeEnd = $(
+												params.search_releaseTimeEnd = $(
+														"input[name='dtEnd']")
+														.val();
+											} else {
+												params.search_signTimeStart = $(
+														"input[name='dtBegin']")
+														.val("");
+												params.search_signTimeEnd = $(
 														"input[name='dtEnd']")
 														.val();
 											}

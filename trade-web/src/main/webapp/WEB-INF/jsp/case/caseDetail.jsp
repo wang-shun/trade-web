@@ -1002,11 +1002,9 @@
 										</c:when>
 										<c:otherwise>
 											<label class="col-sm-3 control-label" style="width:12%;">无商贷预警信息！ </label>
-											<c:if test="${!isMortgageSelect }">
-												<label class="col-sm-3 control-label" style="width:10%;">
-													<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="add">添加</div>
-												</label>
-											</c:if>
+											<label class="col-sm-3 control-label" style="width:10%;">
+												<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="add">添加</div>
+											</label>
 										</c:otherwise>
 									</c:choose>
 								</div>

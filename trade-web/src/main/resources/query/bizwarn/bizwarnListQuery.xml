@@ -39,51 +39,44 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT t.CASE_CODE AS caseCode,t.PROPERTY_ADDR AS propertyAddress,t.WARN_TYPE as warnType,t.WARN_TIME as warnDatetime,
-t.STATUS as status,t.RELIEVE_TIME as relieveDatetime,t.pkid as PKID FROM
-(SELECT distinct bw.CASE_CODE 
-				      ,ttpi.PROPERTY_ADDR 
-				      ,bw.WARN_TYPE
-				      ,bw.WARN_TIME
-				      ,bw.STATUS
-				      ,bw.RELIEVE_TIME 
-				      ,c.pkid
-							,ART.ASSIGNEE_
-              ,ART.SUSPENSION_STATE_
-              ,bw.CREATE_TIME
+					SELECT bw.CASE_CODE as caseCode
+				      ,ttpi.PROPERTY_ADDR as propertyAddress
+				      ,bw.WARN_TYPE as warnType
+				      ,bw.WARN_TIME as warnDatetime
+				      ,bw.STATUS as status
+				      ,bw.RELIEVE_TIME as relieveDatetime
+				      ,c.pkid as PKID
 				  FROM sctrans.T_TO_BIZ_WARN bw
 				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
 				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
-				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
-				  LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
-				  where t.ASSIGNEE_ = #userLoginName# AND t.SUSPENSION_STATE_ = '1'
+				  where 1=1
 				  <ifNotNull warnType>	
-   						and t.WARN_TYPE=#warnType# 
+   						and bw.WARN_TYPE=#warnType# 
 				  </ifNotNull>
 				  
 				  <ifNotNull status>	
-   						and t.STATUS=#status# 
+   						and bw.STATUS=#status# 
 				  </ifNotNull>
 				  
 				  <ifNotNull caseCode>	
-   						and t.CASE_CODE=#caseCode# 
+   						and bw.CASE_CODE=#caseCode# 
 				  </ifNotNull>
 				  
 				  <ifNotNull propertyAddr>
-					AND t.PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+					AND ttpi.PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
 				  </ifNotNull>
 				  
 				  <ifNotNull warnTimeStart>
-						AND t.WARN_TIME >= #warnTimeStart#
+						AND bw.WARN_TIME >= #warnTimeStart#
 				  </ifNotNull>
 				  
 				  <ifNotNull warnTimeEnd>
-						AND t.WARN_TIME &lt;= #warnTimeEnd#
+						AND bw.WARN_TIME &lt;= #warnTimeEnd#
 				  </ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY t.CREATE_TIME DESC
+			  ORDER BY bw.CREATE_TIME DESC
 		    </orderBySql>
 			<groupSql>
 			</groupSql>

@@ -42,8 +42,8 @@
             <condition field="ec.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <!-- <condition field="ers.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="ers.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
+            <condition field="ec.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ec.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.CREATE_TIME" name="createTimeStart" label="创建开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.CREATE_TIME" name="createTimeEnd" label="创建结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
@@ -53,22 +53,16 @@
 			SELECT
 			    ec.PKID as pkId,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
 			    ec.EXCUTOR_ID as excutorName,u.MOBILE as phone, ec.CUST_NAME as custName,ec.APPLY_TIME as applyTime,ec.SIGN_TIME as signTime,
-			   (select MAX(RELEASE_TIME) from sctrans.T_TO_ELOAN_REL WHERE ELOAN_CODE = ec.ELOAN_CODE)as releaseTime,ec.APPLY_AMOUNT as Applymoney
+			    er.RELEASE_TIME as releaseTime,ec.APPLY_AMOUNT as Applymoney
 			FROM sctrans.T_TO_ELOAN_CASE ec
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =  ec.CASE_CODE
+			LEFT JOIN (
+						SELECT ELOAN_CODE ,MAX(RELEASE_TIME) as RELEASE_TIME from sctrans.T_TO_ELOAN_REL  
+						group by ELOAN_CODE
+						) er ON  ec.ELOAN_CODE=er.ELOAN_CODE
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
-			WHERE 1=1 
-			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
-			    <if test="releaseTimeStart!=null ||releaseTimeEnd!=null">
-			      where ers.ELOAN_CODE = ec.ELOAN_CODE
-			       <if test="releaseTimeStart!=null">
-			       and ers.RELEASE_TIME &gt;= #releaseTimeStart#
-			       </if>
-			       <if test="releaseTimeEnd!=null">
-			       and ers.RELEASE_TIME  &lt;= #releaseTimeEnd#
-			       </if>
-			    </if>
-			 )
+			WHERE 1=1
+			       
 		        <if test="serviceJobCode == 'consultant' ">
 		        and ec.EXCUTOR_ID = #sessionUserId#
 		        </if>

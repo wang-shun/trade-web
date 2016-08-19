@@ -87,17 +87,7 @@ public class ToMortgage {
     /**申请贷款流失原因*/
     private String loanLostApplyReason;
     
-    /**贷款流失确认函编号*/
-    private String loanLostConfirmCode;
 
-
-	public String getLoanLostConfirmCode() {
-		return loanLostConfirmCode;
-	}
-
-	public void setLoanLostConfirmCode(String loanLostConfirmCode) {
-		this.loanLostConfirmCode = loanLostConfirmCode;
-	}
 
 	private String isTmpBank;
     private String tmpBankUpdateByStr;

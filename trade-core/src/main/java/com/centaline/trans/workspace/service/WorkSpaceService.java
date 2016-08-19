@@ -60,5 +60,4 @@ public interface WorkSpaceService {
 	public List<Rank> staCpfLoanRank(String orgId);
 	public List<Rank> staBusinessOrComLoanRank(String orgId);
 	public List<SimpleLoanAgent>listNewLoanAgent(String orgId);
-	public Double staEvaFeeCount(WorkSpace work);
 }

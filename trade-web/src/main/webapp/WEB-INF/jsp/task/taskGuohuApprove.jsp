@@ -308,11 +308,11 @@
                         <div class="col-sm-6 sign">&nbsp;</div>
 						<div class="col-sm-6 sign">分配人员：</div>
 						<div class="col-sm-6 sign">&nbsp;</div>
-						<c:forEach items="${users}" var="user" varStatus="var">
+						<c:forEach items="${users}" var="user">
 							<div class="col-sm-6 sign">
 								<input type="checkbox" value="${user.username }"
 									name="members" class="btn btn-white" >                                                                                                                                                                                                                                                                               
-								<label>${user.realName}(${var.index eq 0 ? '前台':'后台' })</label>
+								<label>${user.realName}</label>
 							</div>
 						</c:forEach>
 						</c:if>
@@ -407,7 +407,7 @@
 			}
 			var url = "/quickGrid/findPage";
 			var ctx = "${ctx}";
-			var ctmCode = "${caseBaseVO.toCaseInfo.ctmCode}";
+			var ctmCode = "${toCaseInfo.ctmCode}";
 			var r1 = false;
 			var changeTaskRole = false;
 			var serivceDepId = '${serivceDefId}';

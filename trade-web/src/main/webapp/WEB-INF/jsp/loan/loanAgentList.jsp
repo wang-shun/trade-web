@@ -105,7 +105,7 @@ text-decoration: underline !important;
 										   expandNodeId:''})" />
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
 										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${isProduct==true?'ff8080814f459a78014f45a73d820006':serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
                                           <input type="hidden" id="yuCuiOriGrpId" value="${serOrgId==null?serviceDepId:serOrgId}">
 									</div>
@@ -137,7 +137,7 @@ text-decoration: underline !important;
 									<div class="col-md-8"> 	
 										<aist:dict id="loanSrvCode" name="loanSrvCode"
 											clazz="btn btn-white " display="select"
-											defaultvalue="" dictType="yu_serv_cat_code_tree" tag="eplus,Eloan"/>
+											defaultvalue="" dictType="yu_serv_cat_code_tree" tag="eplus"/>
 									</div>
 								</div>
 							</div>
@@ -298,11 +298,6 @@ text-decoration: underline !important;
 	     var argu_signTime = "${argu_signTime}";
 	     var argu_releaseTime = "${argu_releaseTime}";
 	     var argu_yuCuiOriGrpId = "${orgId}";
-	     // 如果是产品部，查询所有的
-	     var isProduct = "${isProduct}";
-	     if(isProduct==true) {
-	    	 argu_yuCuiOriGrpId = '';
-	     }
 	     
 	 	 var orgName = "${sUserName}";
 	 	 

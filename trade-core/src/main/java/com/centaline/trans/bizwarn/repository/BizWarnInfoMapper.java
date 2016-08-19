@@ -8,7 +8,7 @@ public interface BizWarnInfoMapper {
 	
 	int updateStatusInMortgageSelect(BizWarnInfo bizWarnInfo);
 	
-	int getAllBizwarnCount(String userLoginName);
+	int getAllBizwarnCount();
 
     int insert(BizWarnInfo bizWarnInfo);
 

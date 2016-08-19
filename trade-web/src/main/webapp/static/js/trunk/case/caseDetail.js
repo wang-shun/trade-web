@@ -108,7 +108,7 @@ $(document).ready(
 			url = ctx + url;
 			// Configuration for jqGrid Example 1
 			var dispCols=[ 'TASKID', 'CASECODE', 'PARTCODE',
-							'INSTCODE', '红绿灯', '红灯记录', '所属流程信息','任务名', '执行人', '预计执行时间',
+							'INSTCODE', '红绿灯', '红灯记录', '任务名', '执行人', '预计执行时间',
 							'执行时间','任务状态' ];
 			var colModels=
 			[ {
@@ -155,10 +155,6 @@ $(document).ready(
 				width : 30,
 				editable : true,
 				formatter : isRedFormatter
-			}, {
-				name : 'WFE_NAME',
-				index : 'WFE_NAME',
-				width : 30
 			}, {
 				name : 'NAME',
 				index : 'NAME',

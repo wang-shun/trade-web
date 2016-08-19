@@ -134,13 +134,13 @@ width: 80px;
 /* top */
 .hint-top2:before {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top2:after {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -6px -10px;
 }
 .hint-top2:hover:before {
@@ -148,9 +148,6 @@ width: 80px;
 }
 .hint-top2:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
 }
 
 </style>
@@ -203,10 +200,10 @@ width: 80px;
 							 	<i class="icon iconfont">&#xe635;</i>
 							  	查询
 							</button>
-							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;">
+							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;" disabled="true">
                                                                                案件分配                                               
                             </button>
-                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;">
+                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;" disabled="true">
                                                                                案件转组
                             </button>
 						</div>
@@ -219,9 +216,9 @@ width: 80px;
 						<thead>
 						<tr>
 							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
-							<th >案件编号</th>
+							<th ><span class="sort" sortColumn="ctd.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 							<th >产证地址</th>
-							<th >派单时间</th>
+							<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >派单时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 							<th >负责人</th>
 							<th >案件状态</th>
 						</tr>
@@ -266,74 +263,64 @@ width: 80px;
 		</div>
 	</div>
  	<!-- 案件转组 -->
-    <div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
-		<div class="modal-dialog" style="width:700px">
-	                <div class="modal-content">
-	                    <div class="modal-header">
-						   <button type="button" class="close" data-dismiss="modal"
-						      aria-hidden="true">×
-						   </button>
-						   <h4 class="modal-title" id="team-modal-title">
-						      案件转组
-						   </h4>
-					   </div>
-                       <div class="modal-body">
-                       <div class="row">
-                       <form  id="team-form">
-		                       <div class="form-group">
-		                            <label class="col-lg-2 control-label">请选择组别:</label>
-		                            <div class="col-lg-8" id="fontTeam">
-										
-									</div>
-		                       </div>
-			            </form>
-			            </div>
-                     </div> 
-                     <div class="modal-footer">
-			            <button type="button" class="btn btn-default"
-			               data-dismiss="modal">关闭
-			            </button>
-			            <button type="button" class="btn btn-primary" onclick="javascript:changeCaseTeam()">
-			                                提交
-			            </button>
-                     </div>
-                     </div>
+<div id="team-modal-form" class="modal fade" role="dialog" aria-labelledby="team-modal-title" aria-hidden="true">
+	<div class="modal-dialog" style="width:700px">
+    	 <div class="modal-content">
+              <div class="modal-header">
+				   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">× </button>
+				   <h4 class="modal-title" id="team-modal-title">  案件转组 </h4>
+			   </div>
+               <div class="modal-body">
+	               <div class="row">
+		               <form  id="team-form">
+		                 <div class="form-group">
+		                      <label class="col-lg-2 control-label">请选择组别:</label>
+		                      <div class="col-lg-8" id="fontTeam"> </div>
+		                 </div>
+		      		  </form>
+	              </div>
+              </div> 
+                 <div class="modal-footer">
+			           <button type="button" class="btn btn-success" data-dismiss="modal">关闭 </button>
+			           <button type="button" class="btn btn-success" onclick="javascript:changeCaseTeam()"> 提交 </button>
                  </div>
-             </div>
+        </div>
+     </div>
+</div>
                
-	<content tag="local_script">
+<content tag="local_script">
 
-    <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-    <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-	<!-- 排序插件 -->
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-	<!-- 分页控件  -->
-    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="${ctx}/js/jquery.blockui.min.js"></script>
+<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<!-- 排序插件 -->
+<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<!-- 分页控件  -->
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 
-    <!-- Custom and plugin javascript -->
-    <script src="${ctx}/js/jquery.blockui.min.js"></script>
-    <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="${ctx}/js/jquery.blockui.min.js"></script>
+<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
-	<script src="${ctx}/js/trunk/case/caseDistribute2.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
-	<script id="yuCuiFontTeamList" type="text/html">
+<script src="${ctx}/js/trunk/case/caseDistribute2.js"></script>
+<script src="${ctx}/js/template.js" type="text/javascript"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+<script id="yuCuiFontTeamList" type="text/html">
 		 <select class="form-control" name="yuTeamCode">
                 {{each data as item}}
                       <option value ="{{item.id}}">{{item.orgName}}</option>
                 {{/each}}
 		</select>
-	</script>	
+</script>	
 
-	<script id="template_myCaseList" type= "text/html">
+<script id="template_myCaseList" type= "text/html">
     	{{each rows as item index}}
   			{{if index%2 == 0}}
  		    	<tr class="tr-1">
@@ -359,13 +346,22 @@ width: 80px;
                        </p>
 				</td>
 				<td >
- 					<p class="big">
-						{{item.PROPERTY_ADDR}}
-    				 </p>
+				<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+{{else}}
+{{item.PROPERTY_ADDR}}
+{{/if}}
+    				</span><br/>
 					
- 					<span class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.ORG_NAME}}"><i class="salesman-icon">
-                     </i>
-						{{item.AGENT_NAME}}<span class="slash">/</span>{{item.ORG_NAME}}
+ 					<span >
+						 <a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" ><i class="salesman-icon"> </i>
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.ORG_NAME.length>8}}							
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
+{{/if}}
+						</a>
     				 </span>
 				</td>
 				<td >
@@ -386,7 +382,7 @@ width: 80px;
 				</td>
 				<td class="center">
                         <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
-                         <span class="manager"><a href="#"><em>区总：</em></a></span>
+                        <span class="manager"><a href="#"><em>区总：</em>{{item.qyzjNAME}}</a></span>
                  </td>
 				<td class="center">
                          
