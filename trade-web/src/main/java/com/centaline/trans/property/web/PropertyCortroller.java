@@ -136,8 +136,25 @@ public class PropertyCortroller {
 			model.addAttribute("serviceDepId", org.getId());
 		}
 		
-		return "property/successList";
+		return "property/successList2";
 	}
+/*	@RequestMapping(value="successList2")
+	public String successList2(Model model, ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		Org orgSuc = uamUserOrgService.getOrgById(user.getServiceDepId());
+		if(orgSuc.getDepHierarchy().equals(DepTypeEnum.TYCTEAM.getCode())){
+			model.addAttribute("prDistrictId",orgSuc.getParentId());
+		}else{
+			model.addAttribute("prDistrictId",orgSuc.getId());
+		}
+		
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null){
+			model.addAttribute("serviceDepId", org.getId());
+		}
+		
+		return "property/successList2";
+	}*/
 	
 	/**
 	 * 进入 上传附件页面
