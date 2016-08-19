@@ -61,7 +61,7 @@
 					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID
 					FROM 
 					
-					(SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0) mortgage
+					(SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND MORT_TYPE IN ('30016001','30016002')) mortgage
 					INNER JOIN sctrans.V_CASE_LIST_BASE base	ON  mortgage.CASE_CODE = base.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u 				ON u.ID = base.LEADING_PROCESS_ID
 					INNER JOIN sctrans.T_HI_WORKFLOW w 			ON base.CASE_CODE = w.CASE_CODE
@@ -69,9 +69,9 @@
 					AND w.STATUS IN ('0', '4')
 					AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
 					INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
-					AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') AND taskInst.end_time_ is not null
+					AND taskInst.task_def_key_ in ('LoanlostApproveDirector') 
 					AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_
-					AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') AND end_time_ is not null)
+					AND task_def_key_ in ('LoanlostApproveDirector'))
 					INNER JOIN sctrans.sys_user guser 
 					ON guser.username = taskInst.ASSIGNEE_ 
 					AND guser.available = '1'
