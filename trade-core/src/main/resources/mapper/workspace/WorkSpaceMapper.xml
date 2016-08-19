@@ -117,6 +117,7 @@ from (
   </select>
   <select id="staLoanAgentLoanAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
 
+
   SELECT  SUM(APPLY_AMOUNT) as loanAmount
 FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
           FROM      sctrans.T_TO_LOAN_AGENT la
@@ -132,7 +133,6 @@ FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>
 	  <if test="mo != null">
-
 	  	     and DATEDIFF(YYYY, la.APPLY_TIME, GETDATE())=0 and DatePart(m, la.APPLY_TIME)=#{mo,jdbcType=VARCHAR}
 	  </if>
           UNION ALL
@@ -564,17 +564,19 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 
   <select id="staEvaFeeCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   	SELECT 
-
-		CAST( ( COUNT(tf.CASE_CODE) )/( CASE WHEN COUNT(tsi.CASE_CODE) = 0 THEN 0.001 ELSE COUNT(tsi.CASE_CODE) END ) * 100  AS DECIMAL(10,2)) AS efCount
-	FROM
-		sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
-	INNER JOIN
-		sctrans.T_TO_CASE tc
-	ON tc.CASE_CODE=tsi.CASE_CODE
-	LEFT JOIN
-		sctrans.T_TO_EVA_FEE_RECORD as tf
-	ON tsi.CASE_CODE=tf.CASE_CODE
-	INNER JOIN sctrans.T_TO_MORTGAGE tm ON tm.CASE_CODE = tsi.CASE_CODE AND tm.APPR_DATE IS NOT NULL
+		CAST(( COUNT(tf.CASE_CODE) )/( CASE WHEN COUNT(tm.CASE_CODE) = 0 THEN 0.001 ELSE COUNT(tm.CASE_CODE) END ) * 100 AS DECIMAL(10, 2)) AS efCount
+	FROM    sctrans.T_TG_SERV_ITEM_AND_PROCESSOR AS tsi
+        INNER JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD AS tf ON tsi.CASE_CODE = tf.CASE_CODE
+                 <if test="mo != null">
+					and DATEDIFF(YYYY, tf.RECORD_TIME, GETDATE())=0 and DatePart(m, tf.RECORD_TIME)=#{mo,jdbcType=VARCHAR}
+				</if>
+        LEFT JOIN sctrans.T_TO_MORTGAGE tm ON tm.CASE_CODE = tsi.CASE_CODE
+                                              AND tm.APPR_DATE IS NOT NULL
+                                              AND tm.IS_ACTIVE = '1'
+                <if test="mo != null">
+					and DATEDIFF(YYYY, tm.APPR_DATE, GETDATE())=0 and DatePart(m, tm.APPR_DATE)=#{mo,jdbcType=VARCHAR}
+				</if>	INNER JOIN sctrans.T_TO_MORTGAGE tm ON tm.CASE_CODE = tsi.CASE_CODE AND tm.APPR_DATE IS NOT NULL
 	WHERE
 		tsi.SRV_CODE='3000400101'
 	 <if test="userId != null">
@@ -587,11 +589,11 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 	 	and tsi.org_id in
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
 	 </if>		
+
 	<if test="mo != null">
 
 	AND DATEPART(m, tc.CREATE_TIME)=#{mo,jdbcType=VARCHAR}
-	</if>	
-  </select>
+	</if>	  </select>
   
   <select id="getRank" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Integer">
   	select 
@@ -608,9 +610,11 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   	AND belong_org_id=#{orgId,jdbcType=VARCHAR}   
   	</if>	
 
+
 <!--    	<if test="orgs!=null">
    	AND belong_org_id IN
 	 	<foreach collection="orgs" item="org1" index="index1" open="(" separator="," close=")">#{org1}</foreach>
+
 
    	</if> -->
   	and 
@@ -641,9 +645,11 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   		RANK_DURATION=#{rankDuration,jdbcType=VARCHAR} 
   	order by 
 
+
   		RANK_NO asc
   </select>
     <select id="topRankList1" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultMap="rank">
+
 
   	select top 6 * from sctrans.T_TS_DAYLY_RANK where RANK_CAT=#{rankCat,jdbcType=VARCHAR}  and RANK_TYPE=#{rankType,jdbcType=VARCHAR} and DATEDIFF(day, RANK_DAY, GETDATE())=0 and RANK_DURATION=#{rankDuration,jdbcType=VARCHAR} order by RANK_NO asc
   </select>
@@ -667,6 +673,7 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 		   and uoj.ORG_ID=#{orgId,jdbcType=VARCHAR}
 		   group by DATEDIFF(day, ttp.EST_PART_TIME, GETDATE()) ,u.id,u.REAL_NAME,at.name_ 
 
+
 	  ) as a) as b
   </select>
   
@@ -684,6 +691,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	 where ttp.CASE_CODE is not null
 	   and (DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=0 or DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=-1)
 	   and at.ASSIGNEE_=#{username,jdbcType=VARCHAR} 
+
 
 	   group by DATEDIFF(day, ttp.EST_PART_TIME, GETDATE()),at.name_ ) as a) as b
   </select>
@@ -781,6 +789,7 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	 and o.PARENT_ID=#{orgId,jdbcType=VARCHAR}
 	group by o.id,o.ORG_NAME,u.employee_code
 
+
 	order by COUNT(a.case_code) desc	
 </select>
 <select id="staSignRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
@@ -799,6 +808,7 @@ where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
  and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 
+
 order by COUNT(a.case_code) desc
 </select>
 <select id="staHouseTranRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
@@ -816,6 +826,7 @@ on j.id=uoj.job_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
  and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
+
 
 order by COUNT(a.case_code) desc
 </select>
@@ -836,6 +847,7 @@ where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 
+
 order by COUNT(a.case_code) desc
 </select>
 <select id="staBusinessOrComLoanRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
@@ -855,6 +867,7 @@ where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
 
+
 order by COUNT(a.case_code) desc
 	
 </select>
@@ -865,6 +878,7 @@ left join sctrans.sys_user u
 on u.id=la.EXECUTOR_ID
 left join sctrans.sys_org org
 on org.id=la.EXECUTOR_TEAM
+
 
  where datediff(MI,la.create_time,getdate())&lt;  =1 and la.create_time is not null and org.PARENT_ID=#{orgId,jdbcType=VARCHAR}
 </select>
