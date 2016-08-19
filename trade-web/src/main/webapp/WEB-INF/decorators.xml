@@ -18,7 +18,8 @@
 	<decorator name="default" page="INSPINIA_template.jsp">
 		<pattern>/*</pattern>
 	</decorator>
-	<!-- 工作台模板 -->
+	
+	<!-- 新模板 -->
 	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
 		<pattern>/awards/personalAward</pattern>		
@@ -26,6 +27,7 @@
 		<pattern>/award/baseAwardReport</pattern>
 		<pattern>/property/processWaitList</pattern>	
 		<pattern>/property/processingList</pattern>
+		<pattern>/property/successList</pattern>
 		<pattern>/task/myTaskList</pattern>
 		<pattern>/eloan/Eloanlist</pattern>
 		<pattern>/eloan/getEloanCaseDetails</pattern>

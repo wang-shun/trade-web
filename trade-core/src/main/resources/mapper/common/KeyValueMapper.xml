@@ -100,4 +100,11 @@
 		GROUP BY A.CASE_CODE
 		) B
 	</select>
+	
+	
+	<select id="queryManagerByUserIdAndJobCode" resultType="java.util.HashMap">
+		select * from sctrans.V_USER_ORG_JOB 
+		
+		where USER_ID = #{UserId,jdbcType=VARCHAR} and JOB_CODE=#{JobCode,jdbcType=VARCHAR}
+	</select>
 </mapper>

@@ -149,18 +149,18 @@
 						
 					<input id="caseoperator"  name="caseoperator" class="teamcode input_type" value="" hVal="" placeholder="请输入"
 					class="teamcode input_type" style="width: 152px;"	onclick="chooseCaseOperator('${serviceDepId}')" />
-					<div class="input-group float_icon organize_icon">
+					<div class="input-group float_icon organize_icon" id="managerOnclick">
 						<i class="icon iconfont">&#xe61b;</i>
 					</div>
 				</div>
 				<div class="form_content">
 					<label class="control-label sign_left_small"> 案件组织 </label> <input
 						class="teamcode input_type" placeholder="请输入" value=""
-						id="orgName"
+						id="orgName"  name="orgName"
 						onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
 						value=''> <input type="hidden" id="yuCuiOriGrpId" value="">
-					<div class="input-group float_icon organize_icon">
+					<div class="input-group float_icon organize_icon"  id="organizeOnclick">
 						<i class="icon iconfont">&#xe61b;</i>
 					</div>
 				</div>
@@ -187,12 +187,14 @@
 							type="text" value="${endTime}" placeholder="结束日期">
 					</div>
 				</div>
-
+				
 				<div class="form_content space">
 					<div class="add_btn">
 						<button id="searchButton" type="button" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
+						<button type="button" id="loanLostCleanButton"
+							class="btn btn-success">清&nbsp;&nbsp;空</button>
 						<button type="button" id="exportExcelButton"
 							class="btn btn-success" onclick="javascript:loanLostCaseExportToExcel()">导出列表</button>
 					</div>
@@ -211,7 +213,7 @@
 								class="fa fa-sort-desc fa_down"></i></th>
 							<th>案件地址</th>
 							<th><span class="sort" sortColumn="START_TIME_" sord="desc"
-								onclick="createTimeSort();">审核时间</span><i id="createTimeSorti"
+								onclick="createTimeSort();">审批日期</span><i id="createTimeSorti"
 								class="fa fa-sort-asc fa_up"></i></th>
 							<th>经办人</th>
 							<th>贷款类型</th>
@@ -292,8 +294,17 @@ var ctx = "${ctx}";
 var serviceDepId = "${serviceDepId}";
 						
 jQuery(document).ready(function() {
+		//情况查询条件
+		cleanSearchForm();
 		// 初始化列表
+		var startDate = $("#dtBegin_0").val();
+		var endDate = '';
+		if (!$.isBlank($("#dtEnd_0").val())) {
+				endDate = $("#dtEnd_0").val() + " 23:59:59";
+		}		
 		var data = {};
+		data.startDate = startDate;
+		data.endDate = endDate;
 		data.queryId = "queryMortgageApproveLost";
 		data.rows = 10;
 		data.page = 1;
@@ -303,14 +314,32 @@ jQuery(document).ready(function() {
 			reloadGrid : searchMethod
 		});
 							
-		reloadGrid(data);									
+		reloadGrid(data);	
+		
 });
 
 // 查询
 $('#searchButton').click(function() {
 	searchMethod();
 });
-						
+
+//组织图标选择
+$('#organizeOnclick').click(function() {
+	orgSelect({
+		displayId:'oriGrpId',
+		displayName:'radioOrgName', 
+		startOrgId:serviceDepId, 
+		orgType:'',departmentType:'',
+		departmentHeriarchy:'',
+		chkStyle:'radio',
+		callBack:radioYuCuiOrgSelectCallBack})
+});
+//主办图标选择
+$('#managerOnclick').click(function() {
+	chooseCaseOperator(serviceDepId);
+});
+
+
 // 查询
 function searchMethod(page) {
 	if (!page) {
@@ -370,8 +399,7 @@ function reloadGrid(data) {
 						},
 					success : function(data) {
 							$.unblockUI();
-							data.ctx = ctx;						
-							console.log("数据"+JSON.stringify(data));
+							data.ctx = ctx;	
 							var myMortgageApproveLostList = template('template_myMortgageApproveLostList', data);
 							$("#myMortgageApproveLostList").empty();
 							$("#myMortgageApproveLostList").html(myMortgageApproveLostList);
@@ -497,6 +525,8 @@ function loanLostCaseSelectUserBack(array){
 	} 
 }
 
+
+//选择组织之后 级联选择主办人信息
 function chooseCaseOperator(id){
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
@@ -549,6 +579,26 @@ function caseCodeSort(){
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
 }
+//页面初始化的时候清空表单
+function cleanSearchForm() {
+	//$("select").val("");
+	$("input[name='caseCode']").val("");
+	$("input[name='orgName']").val("");
+	$("input[name='caseoperator']").val("");
+	$("input[name='propertyAddr']").val("");
+}
+
+//点击清除按钮的时候清空表单
+$('#loanLostCleanButton').click(function() {
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');	
+	$("input[name='caseCode']").val("");
+	$("input[name='orgName']").val("");
+	$("input[name='caseoperator']").val("");
+	$("input[name='propertyAddr']").val("");
+	//$("select").val("");
+	//$("#yuCuiOriGrpId").val("");
+});
 
 					</script> </content>
 	<input type="hidden" id="ctx" value="${ctx}" />

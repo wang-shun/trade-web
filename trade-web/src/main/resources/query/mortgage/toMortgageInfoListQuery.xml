@@ -97,7 +97,6 @@
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
 				<column type="both" name="COM_YEAR" index="" checkbox="" title="商贷年限" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="COM_DISCOUNT" index="" checkbox="" title="商贷利率折扣" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="PRF_AMOUNT"  title="公积金金额" beanFormatter="numberFormater" isSort="true" order="desc"/>
 				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="IS_TMP_BANK" index="" checkbox="" title="临时银行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.MyBatisRepository;
 
 /**
@@ -19,5 +20,5 @@ public interface KeyValueMapper {
 	List<Map<String, Object>> queryGuestInfoCustomDict(@Param("keys") List<Map<String, Object>> keys,@Param("dictType") String dictType);
 	public List<Map<String, Object>> queryGuestInfoPhoneCustomDict(@Param("keys") List<Map<String, Object>> keys,@Param("dictType") String dictType);
 	public List<Map<String, Object>> queryProcessorNameCustomDict(@Param("keys") List<Map<String, Object>> keys);
-
+	public User queryManagerByUserIdAndJobCode(@Param("UserId")String UserId,@Param("JobCode")String JobCode); 
 }
