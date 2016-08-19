@@ -85,6 +85,10 @@ table p {
   margin-left: 6px;
 }
 
+.sign-left {
+  margin-left: 8px;
+}
+
 .light_icon {
   padding: 0px 3px !important;
 }

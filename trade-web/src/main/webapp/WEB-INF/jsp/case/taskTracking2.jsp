@@ -124,13 +124,13 @@
 /* top */
 .hint-top2:before {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }		
 .hint-top2:after {
 	bottom: 100%;
-	left: 50%;
+	right: 50%;
 	margin: 0 0 -6px -10px;
 }
 .hint-top2:hover:before {
@@ -138,9 +138,24 @@
 }
 .hint-top2:hover:after {
 	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
+}
+/* top */
+.hint-top3:before {
+	bottom: 100%;
+	right: 15%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top3:after {
+	bottom: 100%;
+	right: 15%;
+	margin: 0 0 -6px -10px;
+}
+.hint-top3:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top3:hover:after {
+	margin-bottom: 2px;
 }
 
 
@@ -249,44 +264,87 @@
 						</p>
 					</td>
 					<td >
- 						<p class="big">
-							{{item.PROPERTY_ADDR}}
-						</p>
+ 						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+{{else}}
+{{item.PROPERTY_ADDR}}
+{{/if}}						 
+
+						</span><br/>
  							<span class="tooltip-demo">
                                   <i class="salesman-icon"> </i>
-								  <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}} ">{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}</a>
+								  <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}} ">
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
+{{/if}}		
+							</a>
 							</span>
 						</p>
 					</td>
 					<td >
- 						<span >
-						{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
-							<a class="hint  hint-top1" data-hint="{{item.SELLER}}" >{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}...</a>
-						{{else}}
-							<a class="hint  hint-top1" data-hint="{{item.SELLER}}" >{{item.SELLER}}</a>
-						{{/if}}
-						</span>
+ <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
+{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+{{if item.SELLER.split("/").length-1 >1}}
+{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+{{
+(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+}}</br>...
+{{else}}
+{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+{{
+(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+}}</br>
+{{/if}}
+{{else}}
+{{ if item.SELLER.length>4}}
+{{item.SELLER.substring(0,4)}}...
+{{else}}
+{{item.SELLER}}
+{{/if}}
+{{/if}}                          </span>
+
 					</td>
 					<td >
- 						<span >
-						{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
-							<a class="hint  hint-top1" data-hint="{{item.BUYER}}" >{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}...</a>
-						{{else}}
-							<a class="hint  hint-top1" data-hint="{{item.BUYER}}" >{{item.BUYER}}</a>
-						{{/if}}
-						</span>
+  <span  class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}">
+{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
+{{if item.BUYER.split("/").length-1 >1}}
+{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+{{
+(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
+}}</br>...
+{{else}}
+{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+{{
+(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
+}}</br>
+{{/if}}
+{{else}}
+{{ if item.BUYER.length>4}}
+{{item.BUYER.substring(0,4)}}...
+{{else}}
+{{item.BUYER}}
+{{/if}}
+{{/if}}                                              
+                        </span>
 					</td>
 					<td >
+					<span class="manager" ><a class="hint  hint-top3" data-hint="{{item.PROCESSOR_ID}}" ><em>经办人：</em>
 						{{ if item.PROCESSOR_ID !="" && item.PROCESSOR_ID !=null && item.PROCESSOR_ID.indexOf("/") >-1 }}
-                        		<span class="manager" ><a class="hint  hint-top1" data-hint="{{item.PROCESSOR_ID}}" ><em>经办人：</em>{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...</a></span>
+                        		{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...
 						{{else}}
-							<span class="manager" ><a class="hint  hint-top1" data-hint="{{item.PROCESSOR_ID}}" ><em>经办人：</em>{{item.PROCESSOR_ID}}</a></span>
+							    {{item.PROCESSOR_ID}}
 						{{/if}}
+						</a></span>
+						<span class="manager" ><a class="hint  hint-top3" data-hint="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>
 						{{ if item.MANAGER !="" && item.MANAGER !=null && item.MANAGER.indexOf(";") >-1 }}
-                        	<span class="manager" ><a class="hint  hint-top1" data-hint="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>{{item.MANAGER.substring(0,item.MANAGER.indexOf(";"))}}...</a></span>
+                        	{{item.MANAGER.substring(0,item.MANAGER.indexOf(";"))}}...
 						{{else}}
-							<span class="manager" ><a class="hint  hint-top1" data-hint="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>{{item.MANAGER}}</a></span>
+							{{item.MANAGER}}
 						{{/if}}
+						</a></span>
 					</td>
 
 					<td >

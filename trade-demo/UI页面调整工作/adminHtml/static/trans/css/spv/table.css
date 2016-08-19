@@ -1,5 +1,5 @@
 .table-box {
-  padding: 0 166px;
+  padding: 0;
 }
 
 .table-box-copy {
@@ -12,33 +12,41 @@
   font-weight: normal;
   color: #fff;
 }
+
 .table .spacing-table-one {
   display: block;
   width: 270px;
 }
+
 .table .spacing-table-two {
   display: block;
   width: 170px;
 }
+
 .table .top-spacing {
   margin: 35px auto 20px;
 }
+
 .table .bottom-spacing {
   margin: 0 auto 35px;
 }
+
 .table .num-input {
   position: relative;
   width: 270px;
   margin: 0 auto;
 }
+
 .table .num-input-two {
   position: relative;
   width: 170px;
   margin: 0 auto;
 }
+
 .table .spacing {
   padding: 0 20px !important;
 }
+
 .table .unit {
   position: absolute;
   top: 8px;
@@ -56,6 +64,7 @@
   margin-right: 20px;
   font-weight: normal;
 }
+
 .input-money .unit-two {
   position: absolute;
   top: 8px;

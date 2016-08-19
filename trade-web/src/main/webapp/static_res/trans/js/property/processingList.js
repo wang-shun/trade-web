@@ -61,7 +61,7 @@ $(document).ready(function() {
 		reloadGrid();
 	});
 
-	$('#processingList table').addClass("apply-table");
+	$('#processingList table').addClass("table table_blue table-striped table-bordered table-hover");
 	
 });
 
@@ -127,35 +127,36 @@ function checkIsExistFile(isSubmit){
 			alert("处理出错,请刷新后再次尝试！");
 		}
 	});
-	}
-	//处理产调
-	function commitDispose(isSubmit){
-		var isScuess=$('input[name="isScuess"]:checked ').val();
-		var executorId = $("#executor").attr('hVal');
-		$.ajax({
-			cache : false,
-			type : "POST",
-			url : ctx + '/property/saveProcessingList',
-			dataType : "json",
-			data :  {
-				pkid:pkid,
-				isScuess :isScuess ,
-				unSuccessReason:$("#unSuccessReason").val(),
-				isSubmit:!!isSubmit,
-				executorId:executorId
-			} ,
-			success : function(data) {
-				alert(data.message)
-				if (data.success) {
-					$("#modal-form").modal("hide");
-					reloadGrid();
-				}
-			},
-			error : function(errors) {
-				alert("处理出错,请刷新后再次尝试！");
+}
+
+//处理产调
+function commitDispose(isSubmit){
+	var isScuess=$('input[name="isScuess"]:checked ').val();
+	var executorId = $("#executor").attr('hVal');
+	$.ajax({
+		cache : false,
+		type : "POST",
+		url : ctx + '/property/saveProcessingList',
+		dataType : "json",
+		data :  {
+			pkid:pkid,
+			isScuess :isScuess ,
+			unSuccessReason:$("#unSuccessReason").val(),
+			isSubmit:!!isSubmit,
+			executorId:executorId
+		} ,
+		success : function(data) {
+			alert(data.message)
+			if (data.success) {
+				$("#modal-form").modal("hide");
+				reloadGrid();
 			}
-		});
-	}
+		},
+		error : function(errors) {
+			alert("处理出错,请刷新后再次尝试！");
+		}
+	});
+}
 
 //	function reloadGrid(){
 //		$('#table_property_list').jqGrid('setGridParam',{
@@ -165,40 +166,40 @@ function checkIsExistFile(isSubmit){
 //		}).trigger('reloadGrid');
 //	}
 
-	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
-			distcode, executorId, executorName) {
-		
-		if (cd == null || cd == "") {
-			$("#caseCode").val(pr);
-		} else {
-			$("#caseCode").val(cd);
-		}
+function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
+		distcode, executorId, executorName) {
+	
+	if (cd == null || cd == "") {
 		$("#caseCode").val(pr);
-		caseCode = pr;
-		prCode = pr;
-		pkid = id;
-		taskitem = pc;
-		getAttchInfo();
-		if(isS=='否'){
-			isS='0';
-		}else{
-			isS='1';
-		}
-
-		$('#address').text(addr);
-		$('#prcat').text(prcat);
-		$('#applyOrgName').text(applyOrgName);
-		$('#orgMgr').text(orgMgr);
-		$('#distcode').text(distcode);
-		$("#executor").attr('hVal', executorId);
-		$("#executor").val(executorName);
-
-		$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
-		if(uns){
-			$('#unSuccessReason').val(uns);
-		}
-		$("#modal-form").modal("show");
+	} else {
+		$("#caseCode").val(cd);
 	}
+	$("#caseCode").val(pr);
+	caseCode = pr;
+	prCode = pr;
+	pkid = id;
+	taskitem = pc;
+	getAttchInfo();
+	if(isS=='否'){
+		isS='0';
+	}else{
+		isS='1';
+	}
+
+	$('#address').text(addr);
+	$('#prcat').text(prcat);
+	$('#applyOrgName').text(applyOrgName);
+	$('#orgMgr').text(orgMgr);
+	$('#distcode').text(distcode);
+	$("#executor").attr('hVal', executorId);
+	$("#executor").val(executorName);
+
+	$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
+	if(uns){
+		$('#unSuccessReason').val(uns);
+	}
+	$("#modal-form").modal("show");
+}
 
 	function getAttchInfo() {
 
@@ -233,7 +234,7 @@ function checkIsExistFile(isSubmit){
 													+ value.pkid
 													+ ");\" class=\"btn red\"";
 											trStr += "style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
-											trStr += "<i class=\"icon-remove\"></i>";
+											trStr += "<i class=\"iconfont\">&#xe60a;</i>";
 											trStr += "</button>";
 											trStr += "</div>";
 											trStr += "</div>";
