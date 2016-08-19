@@ -143,10 +143,13 @@
 	<!-- 商贷预警 -->
 	<import resource="query/bizwarn/bizwarnListQuery.xml" />
 	<import resource="query/eloan/ELoanCaseList.xml" />
-	
-	<!-- 临时银行案件管理列表 -->
+	<!-- 商贷信息列表 -->
+	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />	<!-- 临时银行案件管理列表 -->
 	<import resource="query/tmpBank/toTmpBankCaseListQuery.xml" />
-	
 	<!-- 临时银行案件列表导出 -->
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
+			
+	<!-- 贷款信息列表 -->
+	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />
+	
 </queryConfig>

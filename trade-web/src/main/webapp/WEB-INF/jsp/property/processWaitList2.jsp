@@ -16,7 +16,7 @@
     <!-- 分页控件 -->
     <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 	<!-- aist列表样式 -->
-    <link href="${ctx}/static/css/common/aist.grid.css" rel="stylesheet">
+<%--     <link href="${ctx}/static/css/common/aist.grid.css" rel="stylesheet"> --%>
     <!-- jQuery UI -->
     <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <!-- index_css -->

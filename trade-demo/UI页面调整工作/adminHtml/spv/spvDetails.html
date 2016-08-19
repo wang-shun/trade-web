@@ -24,6 +24,10 @@
     <!-- index_css  -->
     <link rel="stylesheet" href="../static/trans/css/spv/table.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/input.css" />
+    <link rel="stylesheet" href="../static/trans/css/spv/see.css" />
+    <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
+
+
 
 </head>
 
@@ -405,8 +409,7 @@
                     <li class="menuItem active"><a href="#base_info">客户信息</a></li>
                     <li class="menuItem"><a href="#spvone_info">房产及交易信息</a></li>
                     <li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
-                    <li class="menuItem"><a href="#spvthree_info">资金入账约定</a></li>
-                    <li class="menuItem"><a href="#spvfour_info">资金出款约定</a></li>
+                    <li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
                 </ul>
                 <div class="menu_btn" style="float: right;
     margin-right: 250px;margin-top: 6px">
@@ -430,42 +433,45 @@
                                 </div>
                                 <div class="form-group form-margin form-space-one ">
                                     <label for="" class="lable-one" >买方性别</label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="sex" id="sex1" value="option1" checked=""> 男
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="sex" id="sex2" value="option2"> 女
-                                    </label>
+                                    <span class="sex-char">
+                                        <label class="radio-inline">
+                                          <input type="radio" name="sex" id="sex1" value="option1" checked=""> 男
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="sex" id="sex2" value="option2"> 女
+                                        </label>
+                                    </span>
+                                </div>
+                                <div class="form-group form-margin form-space-one left-extent">
+                                    <label for="" class="lable-one" >买方手机号码</label>
+                                    <input type="text" class="form-control input-one" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >买方证件类型</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <select name="" id="" class="form-control input-one">
+                                        <option value="">证件类型</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-margin form-space-one left-extent">
+                                    <label for="" class="lable-one" >证件有效期</label>
+                                    <input type="text" class="form-control input-one" placeholder="如：2010-08">
                                 </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
+
                             </div>
                             <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >证件有效期</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >发证机关</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >买方手机号码</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-four" placeholder="">
                                 </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >买方家庭地址</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-five" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
@@ -478,23 +484,23 @@
                                       <input type="radio" name="RadioOptions" id="BuyRadio2" value="option2"> 否
                                     </label>
                                 </div>
-                                 <div class="form-group form-margin form-space-one left-extent buyinfo">
+
+                            </div>
+                            <div class="form-row form-rowbot">
+                                <div class="form-group form-margin form-space-one left-extent buyinfo">
                                     <label for="" class="lable-one" >委托人姓名</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent buyinfo">
                                     <label for="" class="lable-one" >委托人证件类型</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
                                 <div class="form-group form-margin form-space-one buyinfo">
                                     <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
                             </div>
                         </form>
-                        <div class="form-line"></div>
                         <form class="form-inline">
                             <div class="title">
                                 卖方客户信息
@@ -507,42 +513,46 @@
                                 </div>
                                 <div class="form-group form-margin form-space-one ">
                                     <label for="" class="lable-one" >卖方性别</label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="sex" id="sex1" value="option1" checked=""> 男
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="sex" id="sex2" value="option2"> 女
-                                    </label>
+                                    <span class="sex-char">
+                                        <label class="radio-inline">
+                                          <input type="radio" name="sex" id="sex3" value="option1" checked=""> 男
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="sex" id="sex4" value="option2"> 女
+                                        </label>
+                                    </span>
+                                </div>
+                                <div class="form-group form-margin form-space-one left-extent">
+                                    <label for="" class="lable-one" >卖方手机号码</label>
+                                    <input type="text" class="form-control input-one" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >卖方证件类型</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <select name="" id="" class="form-control input-one">
+                                        <option value="">证件类型</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-margin form-space-one left-extent">
+                                    <label for="" class="lable-one" >证件有效期</label>
+                                    <input type="text" class="form-control input-one" placeholder="如：2010-08">
                                 </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
+
                             </div>
                             <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >证件有效期</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
+
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >发证机关</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >卖方手机号码</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-four" placeholder="">
                                 </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >卖方家庭地址</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-five" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
@@ -555,29 +565,21 @@
                                       <input type="radio" name="RadioOptions" id="SellRadio2" value="option2"> 否
                                     </label>
                                 </div>
+                            </div>
+                            <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent sellinfo">
                                     <label for="" class="lable-one" >委托人姓名</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent sellinfo">
                                     <label for="" class="lable-one" >委托人证件类型</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
                                 <div class="form-group form-margin form-space-one sellinfo">
                                     <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
                             </div>
-                             <!-- <div class="form-btn">
-                                <div class="btn-left btn-left-space">
-                                    <button type="submit" class="btn btn-success">保存</button>
-                                    <button type="submit" class="btn btn-success">下一步</button>
-                                    <button type="submit" class="btn btn-success">取消</button>
-
-                                </div>
-                                                         </div> -->
                         </form>
                     </div>
                     <div class="ibox-content" id="spvone_info">
@@ -590,22 +592,10 @@
                                     <label for="" class="lable-one" >房产证号</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >房屋地址</label>
-                                    <input type="text" class="form-control input-three" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >房产权利人</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >面积</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >委托人姓名</label>
                                     <input type="text" class="form-control input-one" placeholder="">
@@ -613,36 +603,46 @@
                             </div>
                             <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-two" >交易房屋抵押贷款是否清偿还</label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="adio1" value="option1" checked=""> 是
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="Radio2" value="option2"> 否
-                                    </label>
-                                    <span class="span-tag">交易房屋抵押贷信息</span>
+                                    <label for="" class="lable-one" >面积</label>
+                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <span class="date_icon">平方米</span>
+                                </div>
+                                <div class="form-group form-margin form-space-one">
+                                    <label for="" class="lable-one" >房屋地址</label>
+                                    <input type="text" class="form-control input-five" placeholder="">
                                 </div>
                             </div>
-                            <div class="form-row form-rowbot text-center single">
-                                <div class="form-group form-margin form-space-one ">
+                            <div class="form-row form-rowbot">
+
+                            </div>
+                            <div class="form-row form-rowbot">
+                                <div class="form-group form-margin form-space-one">
+                                    <label for="" class="lable-two" >是否偿清</label>
+                                    <label class="radio-inline">
+                                      <input type="radio" name="RadioOptions" id="Pledge1" value="option1"> 是
+                                    </label>
+                                    <label class="radio-inline">
+                                      <input type="radio" name="RadioOptions" id="Pledge2" value="option2"> 否
+                                    </label>
+                                    <span class="span-tag pledgeinfo">交易房屋抵押贷信息</span>
+                                </div>
+                            </div>
+                            <div class="form-row form-rowbot">
+                                <div class="form-group form-margin form-space-one left-extent pledgeinfo">
                                     <label for="" class="lable-one" >抵押方</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row form-rowbot text-center single">
-                                <div class="form-group form-margin form-space-one ">
+                                <div class="form-group form-margin form-space-one pledgeinfo">
                                     <label for="" class="lable-one" >开户行</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-four" placeholder="">
                                 </div>
                             </div>
-                            <div class="form-row form-rowbot text-center single">
-                                <div class="form-group form-margin form-space-one ">
+                            <div class="form-row form-rowbot">
+                                <div class="form-group form-margin form-space-one left-extent pledgeinfo">
                                     <label for="" class="lable-one" >未偿还金额</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row form-rowbot text-center single">
-                                <div class="form-group form-margin form-space-one ">
+                                <div class="form-group form-margin form-space-one pledgeinfo">
                                     <label for="" class="lable-one" >金额大写</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
@@ -653,19 +653,15 @@
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
                                 <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >网签金额</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="input-group date_icon">
-                                        <span class="danwei">万</span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >下家付款方式</label>
                                     <select class="form-control input-one">
                                         <option value="">全数</option>
                                     </select>
+                                </div>
+                                <div class="form-group form-margin form-space-one left-extent">
+                                    <label for="" class="lable-one" >网签金额</label>
+                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <span class="date_icon">元</span>
                                 </div>
                             </div>
                         </form>
@@ -679,9 +675,7 @@
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >监管总金额</label>
                                     <input type="text" class="form-control input-one" placeholder="">
-                                    <div class="input-group date_icon">
-                                        <span class="danwei">万</span>
-                                    </div>
+                                    <span class="date_icon">元</span>
                                 </div>
                             </div>
                             <div class="title">
@@ -689,23 +683,27 @@
                             </div>
                             <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >买方自有资金支付金额</label>
+                                    <label for="" class="lable-one" >自筹资金</label>
+                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <span class="date_icon">元</span>
+                                </div>
+                                <div class="form-group form-margin form-space-one">
+                                    <label for="" class="lable-one" >贷款资金</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
                                 <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >买方贷款资金支付金额</label>
+                                    <label for="" class="rate" >其中： 商业贷款</label>
                                     <input type="text" class="form-control input-one" placeholder="">
+                                    <span class="date_icon">元</span>
+                                </div>
+                                <div class="form-group form-margin form-space-one">
+                                    <label for="" class="rate" >公积金贷款</label>
+                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <span class="date_icon">元</span>
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >其中：商业贷款金额</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >公积金贷款金额</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
+
                             </div>
                             <div class="title">
                                 资金监管账号信息
@@ -719,21 +717,15 @@
                                     <label for="" class="lable-one" >电话</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >开户行</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >所属地</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
+                                    <input type="text" class="form-control input-four" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
                                 <div class="form-group form-margin form-space-one left-extent">
                                     <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
@@ -745,21 +737,15 @@
                                     <label for="" class="lable-one" >电话</label>
                                     <input type="text" class="form-control input-one" placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >开户行</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
                                 <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >所属地</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
+                                    <label for="" class="lable-one" >开户行</label>
+                                    <input type="text" class="form-control input-four" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
+                                <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control left-extent" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
@@ -769,7 +755,7 @@
                                 </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
                             </div>
                             <div class="form-row form-rowbot">
@@ -779,168 +765,54 @@
                                 </div>
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
+                                    <input type="text" class="form-control input-two" placeholder="">
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="ibox-content" id="spvthree_info">
-                        <form class="form-inline">
-                            <div class="title">
-                                资金入账约定
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >监管资金入账次数</label>
-                                    <select class="form-control input-one">
-                                        <option value="">1000.00</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="table-box">
-                                <table class="table table-bordered">
-                                  <thead>
-                                    <tr>
-                                      <th class="text-center">划转条件</th>
-                                      <th ></th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                        <td class="text-center">
-                                            <select class="form-control spacing-table-one top-spacing">
-                                                <option value="">买方贷款审批完成</option>
-                                            </select>
-                                             <input type="text" class="form-control spacing-table-one bottom-spacing" placeholder="">
-                                        </td>
-                                        <td class="text-center">
-                                            <p class="num-input"><input type="text" class="form-control spacing-table-one top-spacing" value="1000">
-                                            <span class="unit">万</span></p>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <select class="form-control spacing-table-one top-spacing">
-                                                <option value="">其他</option>
-                                            </select>
-                                             <input type="text" class="form-control spacing-table-one bottom-spacing" placeholder="协议签定10月内">
-                                        </td>
-                                        <td class="text-center">
-                                            <p class="num-input"><input type="text" class="form-control spacing-table-one top-spacing" value="1000">
-                                            <span class="unit">万</span></p>
-
-                                        </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ibox-content" id="spvfour_info">
-                        <form class="form-inline">
-                            <div class="title">
+                            <div class="agree-tile">
                                 资金出款约定
                             </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >监管资金入账次数</label>
-                                    <select class="form-control input-one">
-                                        <option value="">1000.00</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="table-box-copy">
-                                <table class="table table-bordered">
-                                  <thead>
-                                    <tr>
-                                      <th class="text-center">划转条件</th>
-                                      <th class="text-center">每次划转金额</th>
-                                      <th class="text-center">金额分类</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                        <td rowspan="2" class="text-center spacing">
-                                            <p>
-                                                <select class="form-control spacing-table-two top-spacing">
+                        <form class="form-inline table-capital">
+                            <p>监管资金次数合计<span id="sum"> 1</span> 次</p>
+                            <div class="table-box" >
+                                <table class="table table-bordered customerinfo">
+                                    <thead>
+                                        <th>划转条件</th>
+                                        <th>账户</th>
+                                        <th style="width: 16%;">金额</th>
+                                        <th>备注</th>
+                                        <th>操作</th>
+                                    </thead>
+                                    <tbody id="addTr">
+                                        <tr align="center">
+                                            <td class="text-left">
+                                                <select class="table-select" >
                                                     <option value="">买方贷款审批完成</option>
                                                 </select>
-                                            </p>
-                                            <p>
-                                                <input type="text" class="form-control spacing-table-two bottom-spacing" placeholder="">
-                                            </p>
-                                        </td>
-                                        <td rowspan="2" class="text-center spacing">
-                                            <p class="num-input-two ">
-                                                <input type="text" class="form-control spacing-table-two top-spacing" value="1000">
-                                                <span class="unit">万</span>
-                                            </p>
-                                        </td>
-                                        <td class="text-center spacing">
-                                            <p class="form-group input-money">
-                                                <label for="" >卖方账号</label>
-                                                <input type="text" class="form-control " placeholder="">
-                                                <span class="unit">万</span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center spacing">
-                                            <p class="form-group input-money">
-                                                <label for="label" class="" >资金方</label>
-                                                <input type="text" class="form-control " placeholder="">
-                                                <span class="unit">万</span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2" class="text-center spacing">
-                                            <p>
-                                                <select class="form-control spacing-table-two top-spacing">
-                                                    <option value="">其他</option>
+                                            </td>
+                                            <td class="text-left">
+                                                <select class="table-select">
+                                                    <option value="">资金方</option>
+                                                    <option value="">卖方</option>
                                                 </select>
-                                            </p>
-                                            <p>
-                                                <input type="text" class="form-control spacing-table-two bottom-spacing" placeholder="">
-                                            </p>
-                                        </td>
-                                        <td rowspan="2" class="text-center spacing">
-                                            <p class="num-input-two ">
-                                                <input type="text" class="form-control spacing-table-two top-spacing" value="1000">
-                                                <span class="unit">万</span>
-                                            </p>
-
-                                        </td>
-                                        <td class="text-center spacing">
-                                             <p class="form-group input-money">
-                                                <label for="" >卖方账号</label>
-                                                <input type="text" class="form-control " placeholder="">
-                                                <span class="unit">万</span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                      <td class="text-center spacing">
-                                            <p class="form-group input-money">
-                                                <label for="" >资金方</label>
-                                                <input type="text" class="form-control " placeholder="">
-                                                <span class="unit">万</span>
-                                            </p>
-                                      </td>
-                                    </tr>
-                                  </tbody>
+                                            </td>
+                                            <td><input class="table-input-one" type="text" placeholder="请输入金额" />元</td>
+                                            <td class="text-left" ><input class="table-input" type="text" placeholder="" /></td>
+                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                        </tr>
+                                    </tbody>
                                 </table>
+                                <div class="form-btn">
+                            <div >
+                                <button type="submit" class="btn btn-success">提交申请</button>
+                                <button type="submit" class="btn btn-default">取消</button>
                             </div>
-
-                            <div class="form-btn">
-                                <div class="btn-left btn-left-space">
-                                    <button type="submit" class="btn btn-success">提交申请</button>
-                                    <button type="submit" class="btn btn-success">取消</button>
-
-                                </div>
+                        </div>
                             </div>
                         </form>
+
                     </div>
 
                 </div>
@@ -966,8 +838,7 @@
     <script src="../static/trans/js/spv/spvDetails.js"></script>
 
     <script>
-        $(".buyinfo").hide();
-        $(".sellinfo").hide();
+        $(".buyinfo, .sellinfo, .pledgeinfo").hide();
         $("#BuyRadio1").on("click",function() {
             $(".buyinfo").show();
         });
@@ -976,13 +847,59 @@
         });
         $("#SellRadio1").on("click",function() {
             $(".sellinfo").show();
-        })
+        });
         $("#SellRadio2").on("click",function() {
             $(".sellinfo").hide();
-        })
-
+        });
+        $("#Pledge1").on("click",function() {
+            $(".pledgeinfo").show();
+        });
+        $("#Pledge2").on("click",function() {
+            $(".pledgeinfo").hide();
+        });
     </script>
+<script>
+var sum=1; //定义sum为全局变量
+/*$(function(){
+    $("#getAtr").click(function(){
+        $str='';
+        $str+="<tr align='center'>";
+        $str+="<td>2</td>";
+        $str+="<td>2</td>";
+        $str+="<td>2</td>";
+        $str+="<td>2</td>";
+        $str+="<td onClick='getDel(this)'><a href='javascript:void(0)'>删除</a></td>";
+        $str+="</tr>";
+        $("#addTr").append($str);
+        sum ++;
+        $("#sum").html(sum);
+    });
+});*/
 
+
+
+function getAtr(i){
+    $str='';
+    $str+="<tr align='center'>";
+    $str+="<td class='text-left'><select class='table-select'><option value=''>买方贷款审批完成</option></select></td>";
+    $str+="<td class='text-left'><select class='table-select'><option value=''>资金方</option><option value=''>卖方</option></select></td>";
+
+    $str+="<td><input class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
+    $str+="<td class='text-left' ><input class='table-input' type='text' placeholder='' /></td>";
+    $str+="<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
+    $str+="</tr>";
+    $("#addTr").append($str);
+    sum ++;
+    $("#sum").html(sum);
+}
+function getDel(k){
+    $(k).parents('tr').remove();
+    sum --;
+    $("#sum").html(sum);
+}
+
+
+</script>
 
 
 </body>
