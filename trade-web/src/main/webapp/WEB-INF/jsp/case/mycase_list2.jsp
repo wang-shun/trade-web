@@ -452,7 +452,7 @@ text-decoration: underline !important;
 						</span><br/>
  							<span >
 								 <i class="salesman-icon"> </i>
-								 <a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+								 <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}

@@ -111,12 +111,18 @@ text-decoration: underline !important;
 	bottom: 100%;
 	left: 50%;
 	margin: 0 0 -6px -10px;
+	width:210px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 .hint-top:hover:before {
 	margin-bottom: -10px;
 }
 .hint-top:hover:after {
 	margin-bottom: 2px;
+	width:210px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 
 /* top */
@@ -382,7 +388,7 @@ text-decoration: underline !important;
 						</span><br/>
 						<span>
 							<i class="salesman-icon"></i>
- 							<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >
+ 							<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息：{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}} " data-toggle="tooltip" data-placement="top" >
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}

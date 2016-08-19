@@ -81,8 +81,8 @@
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* top */
 
+/* top */
 .hint-top:before {
 	bottom: 100%;
 	left: 50%;
@@ -93,16 +93,20 @@
 	bottom: 100%;
 	left: 50%;
 	margin: 0 0 -6px -10px;
+	width:250px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
 .hint-top:hover:before {
 	margin-bottom: -10px;
 }
 .hint-top:hover:after {
 	margin-bottom: 2px;
+	width:250px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
 }
-.data-wrap-in .bg-assgin{
-	background-image: url("../img/ico_assign.png");
-}
+
 
 
 </style>
@@ -273,7 +277,7 @@
 						</span><br/>
  							<span class="tooltip-demo">
                                   <i class="salesman-icon"> </i>
-<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">
+<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息: {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}">
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
