@@ -12,8 +12,6 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.Org;
-import com.centaline.trans.api.service.SalesApiResponse;
 import com.centaline.trans.api.service.SalesDealApiService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -47,8 +45,6 @@ public class ToHouseTransferController {
 	@Autowired
 	private ToCaseInfoService tocaseInfoService;
 	
-	@Autowired
-	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
@@ -100,11 +96,6 @@ public class ToHouseTransferController {
 	public Result submitToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,
 			LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId) {
 
-		/**
-		 * 思路： 1 用户点击提交按钮, 先调用checkCanHouseTransfer接口。
-		 * 	   2  调用checkCanHouseTransfer接口成功[或者是不等于虹口杨浦贵宾服务部 6114AB949B4445828D4383977C4FAC71] -> 执行交易系统的代码 -> 调用noticeSalesDeal接口 -> 不论调用 noticeSalesDeal接口成功与否都需要记录到数据库中。
-		 *     3 调用checkCanHouseTransfer接口失败 -> 提示失败信息即可。
-		 */
 		Result rs=new Result();
 		String ctmCode=null;
 
@@ -113,48 +104,26 @@ public class ToHouseTransferController {
 			ctmCode=caseInfo.getCtmCode();
 		}
 		
-		// 根据 caseCode 到 T_TO_CASE 表中查询出 orgId, 然后再根据orgId 到 SYS_ORG 表中查询 PARENT_ID  
-		String orgId=null;
-		ToCase tocase=toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
-		if(null!=tocase){
-			orgId=tocase.getOrgId();
-		}
-		String pid="6114AB949B4445828D4383977C4FAC71";  // 虹口杨浦贵宾服务部
-		String parentId=null;
-		Org oo=uamUserOrgService.getOrgById(orgId);
-		if(null!=oo){
-			parentId=oo.getParentId();
-		}
-		
 		if(null==ctmCode){
 			rs.setMessage("ctmCode不可为空");
 			return rs;
 		}
-		// 1 调用validCtmDeal接口
-		//SalesApiResponse canHouseTransResult=salesdealApiService.checkCanHouseTransfer(ctmCode);
-		//if(canHouseTransResult.getSuccess() || !parentId.equals(pid)){// 成功
-			
-			//2
-			toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
-			
-			// 3 调用noticeSalesDeal接口
-			if(parentId.equals(pid)){  // 虹口杨浦贵宾服务部
-				salesdealApiService.noticeSalesDeal(ctmCode);
-			}
-			
-			/**
-			 * 功能: 给客户发送短信
-			 * 作者：zhangxb16
-			 */
-			int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
-			
-			if(result<=0){
-				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
-		//}
-		//else{ // 失败
-			//rs.setMessage("房源过户检查失败，原因为："+canHouseTransResult.getMessage());
-		//}
+
+		toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
+		
+		// 回写三级市场, 交易过户
+		salesdealApiService.noticeSalesDeal(ctmCode);
+		
+		/**
+		 * 功能: 给客户发送短信
+		 * 作者：zhangxb16
+		 */
+		int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
+		
+		if(result<=0){
+			rs.setMessage("短信发送失败, 请您线下手工再次发送！");
+		}
+
 			
 		return rs;
 	}
