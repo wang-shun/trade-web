@@ -92,7 +92,9 @@
 .hint-top:hover:after {
 	margin-bottom: 2px;
 }
-
+.goods_type  .selected {
+	border-color: #1c84c6;
+}
 /* top */
 .hint-top1:before {
 	bottom: 100%;
@@ -143,7 +145,6 @@
 	white-space: normal !important;
 	word-break: break-all !important;
 }
-</style>
 </style>
 </head>
 <body class="pace-done">
@@ -208,7 +209,7 @@
 				<div class="line">
 					<div class="form_content">
 						<label class="control-label sign_left_small">案件编号 </label> <input
-							class="teamcode input_type" style="width: 152px;"
+							class="teamcode input_type" 
 							placeholder="请输入" value="" id="caseCode" name="caseCode" />
 					</div>
 					<div class="form_content">
@@ -223,12 +224,11 @@
 					<div class="form_content">
 						<label class="control-label sign_left_small">主办 </label> <input
 							id="caseoperator" name="caseoperator" class="teamcode input_type"
-							value="" hVal="" placeholder="请输入" class="teamcode input_type"
-							style="width: 152px;"
+							value="" hVal="" placeholder="请输入" class="teamcode input_type"							
 							onclick="chooseCaseOperator('${serviceDepId}')" />
 						<div class="input-group float_icon organize_icon"
 							id="managerOnclick">
-							<i class="icon iconfont">&#xe61b;</i>
+							 <i class="icon iconfont">&#xe627;</i>
 						</div>
 					</div>
 					<div class="form_content">
@@ -260,30 +260,30 @@
 					</div>
 					<div class="form_content">
 						<div class="goods_type themelist">
-							<label class="control-label sign_left_small"> 贷款类型 </label> <span
+							<label class="control-label sign_left_small"> 贷款类型 </label> 
+						<span
 								id="srvCode_0_0" name="srvCode" class="btn btn-white" onclick=""
-								value=""> 未选择 </span> <span id="srvCode_0_1" name="srvCode"
-								class="btn btn-white" onclick="" value=""> 纯商贷 </span> <span
+								value=" "> 未选择 </span> <span id="srvCode_0_1" name="srvCode"
+								class="btn btn-white" onclick="" value="30016001"> 纯商贷 </span> <span
 								id="srvCode_0_3" name="srvCode" class="btn btn-white" onclick=""
-								value=""> 组合贷 </span>
+								value="30016002"> 组合贷 </span> 
 						</div>
 					</div>
 				</div>
-
-				<div class="form_content space">
+			
+				<div class="form_content space" style="margin-left:122px;">
 					<div class="add_btn">
 						<button id="searchButton" type="button" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="button" id="loanLostCleanButton"
-							class="btn btn-success">清&nbsp;&nbsp;空</button>
 						<button type="button" id="exportExcelButton"
 							class="btn btn-success"
 							onclick="javascript:loanLostCaseExportToExcel()">导出列表</button>
+						<button type="button" id="loanLostCleanButton"
+							class="btn btn-grey">清&nbsp;&nbsp;空</button>
 					</div>
 				</div>
-			</form>
-		</div>		
+			</form>			
 	</div>
 	<div class="table_content">
 		<table border="0" cellpadding="0" cellspacing="0"
@@ -398,6 +398,11 @@
 							});
 
 							reloadGrid(data);
+							
+							$("span[name='srvCode']").click(function(){								
+								var id = $(this).attr("id");								
+								$("span[id='"+id+"']").changeSelect();
+							});
 
 						});
 
@@ -548,12 +553,11 @@
 								endDate = $("#dtEnd_0").val() + " 23:59:59";
 							}
 
-							var data = {};
+							var data = {};//data = getCheckBoxValues2("srvCode");	
 							//todo  查询条件需要补充完善
 							data.startDate = startDate;
 							data.endDate = endDate;
-							data.caseCode = $("#caseCode").val();
-							data.caseCode = $("#caseCode").val();
+							data.caseCode = $("#caseCode").val();							
 							data.propertyAddr = $("#propertyAddr").val();
 							data.caseoperator = $("#caseoperator").val();
 							// 获取组织或者人员
@@ -572,8 +576,7 @@
 							}
 							var orgArray = queryOrgs == null ? null : queryOrgs
 									.split(",");
-							data.argu_idflag = arguUserId;
-							//data.search_realName = $("#realName").val();
+							data.argu_idflag = arguUserId;							
 							var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();//案件组织id
 
 							if ($.isBlank(yuCuiOriGrpId)) {
@@ -581,6 +584,22 @@
 							} else {
 								data.argu_queryorgs = yuCuiOriGrpId;
 							}
+							
+							// 贷款类型选择
+							var srvCode = getCheckBoxValues("srvCode");	
+							//getCheckBoxValues2("srvCode");
+							//遍历数组
+ /* 						$.each(srvCode, function(index, item) { 								
+								if (item == 0) {									
+									data.srvCode="";	
+								}else if (item == 1) {									
+									data.srvCode="30016001";
+								}else if (item == 2) {								
+									data.srvCode="30016002";
+								}
+							});  */
+
+							data.srvCode=srvCode;
 							return data;
 						}
 
@@ -708,9 +727,41 @@
 									$("input[name='orgName']").val("");
 									$("input[name='caseoperator']").val("");
 									$("input[name='propertyAddr']").val("");
+									//清空产品名称
+									$("span[name='srvCode'].selected").each(function(){
+										$(this).click();
+									});
 									//$("select").val("");
 									//$("#yuCuiOriGrpId").val("");
-								});
+								});						
+					
+						//产品类型
+						function getCheckBoxValues(name) {
+							var srvCode = [];
+							$("span[name='srvCode'].selected").each(function() {
+								var val = $(this).attr('value');							
+								srvCode.push(val);
+							});							
+							return srvCode;
+						}
+						function getCheckBoxValues2(name) {
+							var srvCode = {};
+							$("span[name='srvCode'].selected").each(function() {
+								var id = $(this).attr('id');
+								var val = $(this).attr('value');							
+								srvCode[id]=val;
+							});			
+							alert($.stringify(srvCode));
+							return srvCode;
+						}
+						
+						 jQuery.fn.changeSelect = function(params){							 	
+								if(this.hasClass("selected")) {
+									this.removeClass("selected");
+								} else {
+									this.addClass("selected");
+								}
+						};
 					</script> </content>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />

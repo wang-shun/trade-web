@@ -36,8 +36,8 @@
 		   <condition field="taskInst.END_TIME_"    name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="taskInst.END_TIME_"    name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="base.CASE_CODE"   		name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="U.REAL_NAME"   		name="caseoperator"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="U.REAL_NAME"   		name="caseoperator"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -61,7 +61,7 @@
 					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID
 					FROM 
 					
-					(SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND MORT_TYPE IN ('30016001','30016002')) mortgage
+					(SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND  (MORT_TYPE IN ('30016001','30016002','') OR MORT_TYPE IS NULL)) mortgage
 					INNER JOIN sctrans.V_CASE_LIST_BASE base	ON  mortgage.CASE_CODE = base.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u 				ON u.ID = base.LEADING_PROCESS_ID
 					INNER JOIN sctrans.T_HI_WORKFLOW w 			ON base.CASE_CODE = w.CASE_CODE
@@ -89,6 +89,9 @@
 					  	   			 </ifNotNull>
 					  	   			 )
 					)
+				<ifNotNull srvCode> 
+						AND mortgage.MORT_TYPE IN (#srvCode#)
+				</ifNotNull>
 				]]>
 			</baseSql>
 			<groupSql>
