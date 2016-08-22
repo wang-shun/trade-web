@@ -53,7 +53,7 @@
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_SPV_CUST
-    where PKID = #{pkid,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
     insert into sctrans.T_TO_SPV_CUST (PKID, SPV_CODE, TRADE_POSITION, 
