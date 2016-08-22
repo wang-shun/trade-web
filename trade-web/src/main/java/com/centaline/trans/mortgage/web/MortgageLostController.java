@@ -56,6 +56,7 @@ public class MortgageLostController {
 		request.setAttribute("queryOrgFlag", queryOrgFlag);//判断是否是交易顾问 即判断是否有上下级组织
 		request.setAttribute("isAdminFlag", isAdminFlag);		
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
 		
 		//默认显示上周一至周日的时间
 		Calendar c1 = Calendar.getInstance();

@@ -298,10 +298,10 @@
 		{{each rows as item index}}
 		<tr>
 			<td>
-				<p class="big deep_grey">{{item.DIST_CODE}}</p>
 				<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
 			</td>
             <td>
+				<p class="big deep_grey">{{item.DIST_CODE}}</p>
                 <p class="big tint_grey">{{item.PROPERTY_ADDR}}</p>
             </td>
             <td>
@@ -310,14 +310,14 @@
             </td>
             <td>
 				{{if item.IS_SUCCESS == '是'}}
-                	<p class="smll_sign"><i class="sign_sharp52bdbd">是</i></p>
+                	<p class="smll_sign"><i class="sign_sharp52bdbd">有效</i></p>
 				{{else if item.IS_SUCCESS == '否'}}
-                	<p class="smll_sign"><i class="sign_grey">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
+                	<p class="smll_sign"><i class="sign_grey">无效</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
 				{{else}}
 				{{/if}}
             </td>
             <td>
-            	<span class="manager">
+            	<span class="manager" style="margin:0px !important;">
 					<a href="#"><em>申请人：{{item.PR_APPLIANT}}</em></a>
 					{{if item.CHANNEL == '经纪人'}}
 						<i class="sign_red">经</i>
@@ -325,15 +325,16 @@
 						<i class="sign_normal">誉</i>
 					{{/if}}
 				</span>
-                <span class="manager"><a href="#"><em>执行人：{{item.PR_EXECUTOR}}</em></a></span>
-                <span class="manager"><a href="#"><em>区董：{{item.orgMgr}}</em></a></span>
+                <span class="manager" style="margin:0px !important;"><a href="#"><em>执行人：{{item.PR_EXECUTOR}}</em></a></span>
+                <span class="manager" style="margin:0px !important;"><a href="#"><em>区董：{{item.orgMgr}}</em></a></span>
             </td>
             <td class="text-center">
 				{{if wrapperData.optTransferRole}}
-					<p><button type="button" class="btn btn-success" id="teamCode" name="teamCode" readonly="readonly" onclick="showOrgSelect({{item.PKID}})" value='' >转组</button></p>
+					<p><button type="button" style="padding:0px 5px;" class="btn btn-success" id="teamCode" name="teamCode" readonly="readonly" onclick="showOrgSelect({{item.PKID}})" value='' >转组</button></p>
+					<p><button type="button" style="padding:0px 5px;" onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class="btn btn-success">处理</button></p>
 				{{else}}
-				{{/if}}
 				<p><button type="button" onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class="btn btn-success">处理</button></p>
+				{{/if}}
             </td>
 		</tr>
 		{{/each}}

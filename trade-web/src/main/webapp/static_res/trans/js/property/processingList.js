@@ -41,7 +41,7 @@ $(document).ready(function() {
 	    data : data,
 	    wrapperData : data,
 	    columns : [{
-	           		   colName :"行政区域"
+	           		   colName :"来源归属"
 	    		  },{
 	    	           colName :"产证地址"
 	    	      },{

@@ -252,7 +252,7 @@
 						rowNum : 13,
 						/*   rowList: [10, 20, 30], */
 						colNames : [ '主键', '案件编码', '环节', '所在组别', '所属贵宾服务部',
-								'类型', '满意度', '是否接通' ],
+								'类型', '满意度','占比', '是否接通' ],
 						colModel : [
 								{
 									name : 'pkid',
@@ -309,6 +309,13 @@
 								{
 									name : 'SATISFACTION',
 									index : 'SATISFACTION',
+									align : "center",
+									width : 80,
+									resizable : true
+								},
+								{
+									name : 'SRV_PART',
+									index : 'SRV_PART',
 									align : "center",
 									width : 80,
 									resizable : true
