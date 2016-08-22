@@ -278,6 +278,7 @@
 												params.releaseTimeEnd = $(
 														"input[name='dtEnd']")
 														.val();
+												params.releaseTimeEnd+=" 23:59:59";
 											}
 											var sel_caseInfo = $(
 													"#sel_caseInfo").val();
