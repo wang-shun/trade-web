@@ -298,10 +298,10 @@
 		{{each rows as item index}}
 		<tr>
 			<td>
-				<p class="big deep_grey">{{item.DIST_CODE}}</p>
 				<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
 			</td>
             <td>
+				<p class="big deep_grey">{{item.DIST_CODE}}</p>
                 <p class="big tint_grey">{{item.PROPERTY_ADDR}}</p>
             </td>
             <td>
@@ -310,9 +310,9 @@
             </td>
             <td>
 				{{if item.IS_SUCCESS == '是'}}
-                	<p class="smll_sign"><i class="sign_sharp52bdbd">是</i></p>
+                	<p class="smll_sign"><i class="sign_sharp52bdbd">有效</i></p>
 				{{else if item.IS_SUCCESS == '否'}}
-                	<p class="smll_sign"><i class="sign_grey">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
+                	<p class="smll_sign"><i class="sign_grey">无效</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
 				{{else}}
 				{{/if}}
             </td>

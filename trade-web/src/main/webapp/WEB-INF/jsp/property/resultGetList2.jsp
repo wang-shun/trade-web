@@ -69,10 +69,10 @@
 		{{each rows as item index}}
 			<tr>
             	<td>
-                	<p class="big deep_grey">{{item.DIST_CODE}}</p>
                 	<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
                 </td>
                 <td>
+					<p class="big deep_grey">{{item.DIST_CODE}}</p>
                 	<p class="big tint_grey">
 						<a href="../mobile/property/box/show?prCode={{item.PR_CODE}}" style="text-decoration: none;" target="_blank">{{item.PROPERTY_ADDR}}</a>
 					</p>
@@ -103,9 +103,9 @@
                 <td>
                 	<p class="smll_sign">
 						{{if item.IS_SUCCESS == '是'}}
-							<i class="sign_sharp52bdbd">是</i>
+							<i class="sign_sharp52bdbd">有效</i>
 						{{else if item.IS_SUCCESS == '否'}}
-							<i class="sign_grey">否</i><em style="word-break:break-all;font-size: 14px;font-style: normal;color: #808080;">{{item.UNSUCCESS_REASON}}</em>
+							<i class="sign_grey">无效</i><em style="word-break:break-all;font-size: 14px;font-style: normal;color: #808080;">{{item.UNSUCCESS_REASON}}</em>
 						{{else}}
                  		{{/if}}
 					</p>
