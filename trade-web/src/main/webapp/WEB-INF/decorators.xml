@@ -28,6 +28,7 @@
 		<pattern>/property/processWaitList</pattern>	
 		<pattern>/property/processingList</pattern>
 		<pattern>/property/successList</pattern>
+		<pattern>/property/resultGet</pattern>
 		<pattern>/task/myTaskList</pattern>
 		<pattern>/eloan/Eloanlist</pattern>
 		<pattern>/eloan/getEloanCaseDetails</pattern>

@@ -17,7 +17,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						ca.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                <ifNotNull userId>
@@ -36,6 +36,7 @@
 			                ) tab
 			        on sab.case_code = tab.case_code
 			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        inner join sctrans.T_TO_CASE ca on ca.case_code = tab.case_code
 			        where 1 = 1
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and sab.case_code = #caseCode#
@@ -119,7 +120,7 @@ FROM    sctrans.t_ts_award_base A
 			<baseSql>
 				<![CDATA[
 					select 
-						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						ca.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                group by case_code) sab
@@ -132,6 +133,7 @@ FROM    sctrans.t_ts_award_base A
 			                ) tab
 			        on sab.case_code = tab.case_code
 			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        inner join sctrans.T_TO_CASE ca on ca.case_code = tab.case_code
 			        where 1 = 1
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and sab.case_code = #caseCode#

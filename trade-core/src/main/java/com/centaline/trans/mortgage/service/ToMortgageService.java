@@ -2,8 +2,10 @@ package com.centaline.trans.mortgage.service;
 
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
 public interface ToMortgageService {
@@ -71,5 +73,31 @@ public interface ToMortgageService {
 	void submitMortgage(ToMortgage toMortgage,List<RestVariable> variables,String taskId,String processInstanceId);
 
 	void deleteTmpBankProcess(ToWorkFlow twf);
+
+	/**
+	 * 启动临时银行流程
+	 * @param caseCode
+	 * @return
+	 */
+	StartProcessInstanceVo startTmpBankWorkFlow(String caseCode);
+	
+    /**
+     * 临时银行三级审批
+     * @param mortage
+     * @param prAddress
+     * @param tmpBankName
+     * @param tmpBankCheck
+     * @param taskId
+     * @param bankCode
+     * @param temBankRejectReason
+     * @param processInstanceId
+     * @param caseCode
+     * @param post
+     * @return
+     */
+	AjaxResponse<?> tmpBankThriceAduit(ToMortgage mortage,String prAddress,
+			String tmpBankName,String tmpBankCheck,String taskId,
+			String bankCode,String temBankRejectReason,
+			String processInstanceId,String caseCode,String post);
 
 }

@@ -115,7 +115,7 @@
  			<tr>
             	<td>
 					<p class="big">
-						<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}">{{item.CASE_CODE}}</a>
+						<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a>
 					</p>
 				</td>
                 <td>
