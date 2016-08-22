@@ -718,16 +718,17 @@ function radioYuCuiOrgSelectCallBack(array) {
 		}
 }
 //清空
-$('#cleanButton').click(function() {
+$('#myCaseListCleanButton').click(function() {
 	//$("input[id='inTextVal']").val('');
 	//$("input[name='teamCode']").val('');
-	//$("input[name='dtBegin']").val('');
-	//$("input[name='dtEnd']").val('');
+	$("input[name='dtBegin']").val('');
+	$("input[name='dtEnd']").val('');
 	$("span[name='srvCode']").removeClass("selected");
 	//$("select").val("");
 	$("#caseProperty").val("");
 	$("#status").val("");
 	$("#mortageService").val("");
+	$("#inTextVal").val("");
 	
 });
 
