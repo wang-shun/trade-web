@@ -32,14 +32,12 @@
 	</formatters>
 	<query  id="ToSpvCaseListQuery">
 	    <searchCondition>
-            <!-- <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-            <condition field="DELEGATION_" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-		    <condition field="A.AGENT_Name" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="O.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="tw.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		    <condition field="spv.CREATE_TIME" name="startDate" label="开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.CREATE_TIME" name="endDate" label="结束时间" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.STATUS" name="status" label="合约状态" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <!-- <condition field="A.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="ART.TASK_DEF_KEY_" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
              -->
         </searchCondition>
@@ -48,24 +46,39 @@
 				<![CDATA[
 			       SELECT   spv.PKID,
 							spv.CASE_CODE,
-							A.CTM_CODE,
+							a.CTM_CODE,
 							spv.SPV_CODE,
+							DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
+							tp.RED_LOCK,
 							spv.CREATE_TIME,
 							spv.CREATE_BY ,
 							sp.PR_ADDR,
+							spv.STATUS,
 							spv.AMOUNT,
-							A.GRP_NAME AS AGENT_ORG_NAME,
-							A.AGENT_NAME,
+							a.GRP_NAME AS AGENT_ORG_NAME,
+							a.AGENT_NAME,
 							a.agent_phone as MOBILE,
 							SYSUSER.ORG_ID,
-							b.pkid as caseId
+							c.pkid as caseId,
+							(
+                    SELECT SUM(sde.DE_AMOUNT) FROM sctrans.T_TO_SPV_DE_DETAIL sde
+                     left join sctrans.T_TO_SPV_ACCOUNT sa on sa.PKID=sde.PAYEE_ACCOUNT_ID
+                     left JOIN sctrans.T_TO_SPV sp on  sp.SPV_CODE=sa.SPV_CODE
+                     where sa.ACCOUNT_TYPE='2' GROUP BY sde.PAYEE_ACCOUNT_ID) as ru,
+                     (
+                    SELECT SUM(sde.DE_AMOUNT) FROM sctrans.T_TO_SPV_DE_DETAIL sde
+                     left join sctrans.T_TO_SPV_ACCOUNT sa on sa.PKID=sde.PAYEE_ACCOUNT_ID
+                     left JOIN sctrans.T_TO_SPV sp on  sp.SPV_CODE=sa.SPV_CODE
+                     where sa.ACCOUNT_TYPE !='2' GROUP BY sde.PAYEE_ACCOUNT_ID) as chu
 							FROM sctrans.T_TO_SPV spv
 					LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp on spv.SPV_CODE=sp.SPV_CODE
-					INNER JOIN sctrans.T_TO_CASE_INFO AS A ON spv.CASE_CODE=A.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON spv.CASE_CODE=a.CASE_CODE
 					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
-					LEFT join sctrans.T_TO_SPV_DE sde on spv.SPV_CODE=sde.SPV_CODE
-					left JOIN sctrans.T_TO_SPV_DE_DETAIL sd on  sde.PKID=sd.DE_ID
-					LEFT JOIN sctrans.T_TO_CASE as b on b.case_code=a.case_code
+					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=spv.case_code
+					LEFT JOIN sctrans.T_TO_TRANS_PLAN AS tp ON a.CASE_CODE = tp.CASE_CODE 
+                    LEFT join sctrans.ACT_RU_TASK ART on tp.PART_CODE = ART.TASK_DEF_KEY_
+                    
+                   where 1=1
 				]]>
 			</baseSql>
 		</searchSql>
@@ -75,9 +88,12 @@
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SPV_CODE" index="" checkbox="" display="SPV_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="RED_LOCK" index="" checkbox="" display="红灯记录" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CREATE_BY" index="" checkbox="" display="CREATE_BY" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_ADDR" index="" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="STATUS" index="" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AMOUNT" index="" checkbox="" display="AMOUNT" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_ORG_NAME" index="" checkbox="" display="AGENT_ORG_NAME" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="AGENT_NAME" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
@@ -86,6 +102,8 @@
 				
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="caseId" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+			<column type="both" name="ru" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+			<column type="both" name="chu" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 			</table-row>
 		</grid>
 	</query>

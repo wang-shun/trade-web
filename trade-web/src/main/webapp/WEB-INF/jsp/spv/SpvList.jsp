@@ -56,19 +56,19 @@
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content border-bottom clearfix space_box">
 			<h2 class="title">贷款申请任务</h2>
-			<form class="form-inline">
+			<form class="form-inline" id="serachForm">
 				<div class="form-row form-rowbot">
 					<div class="form-group form-margin form-space-one">
 						<label for="" class="lable-one">案件编号</label> <input type="text"
-							class="form-control input-one" placeholder="">
+							class="form-control input-one" placeholder="请输入案件编号" name="caseCode">
 					</div>
 					<div class="form-group form-margin form-space-one">
 						<label for="" class="lable-one">网签编号</label> <input type="text"
-							class="form-control input-one" placeholder="">
+							class="form-control input-one" placeholder="请输入网签编号" name="signNo">
 					</div>
 					<div class="form-group form-margin form-space-one">
 						<label for="" class="lable-one">协议起草</label> <select
-							class="form-control select-one">
+							class="form-control select-one" name="qicao">
 							<option>最新协议</option>
 							<option>最新协议</option>
 							<option>最新协议</option>
@@ -78,7 +78,7 @@
 					</div>
 					<div class="form-group form-margin">
 						<label for="" class="lable-one">交易状态</label> <select
-							class="form-control select-one">
+							class="form-control select-one" name="status">
 							<option>已完成</option>
 							<option>已完成</option>
 							<option>已完成</option>
@@ -90,22 +90,22 @@
 						<label class="font-noraml lable-one">申请时间</label>
 						<div class="input-daterange input-group"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
-							<input type="text" class="form-control date-width" name="start"
+							<input type="text" class="form-control date-width" name="startDate"
 								value=""> <span class="input-group-addon">到</span> <input
-								type="text" class="form-control date-width" name="end" value="">
+								type="text" class="form-control date-width" name="endDate" value="">
 						</div>
 					</div>
 					<div class="form-group form-margin">
 						<label for="" class="lable-one">物业地址</label> <input type="text"
-							class="form-control input-widest" placeholder="">
+							class="form-control input-widest" placeholder="" name="prAddress">
 					</div>
 				</div>
 				<div class="form-btn">
 					<div class="btn-left btn-left-space">
-						<button type="submit" class="btn btn-success">
+						<button type="submit" id="btn_search" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="submit" class="btn btn-success">清空</button>
+						<button type="submit" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
 						<button type="submit" class="btn btn-success">
@@ -148,19 +148,67 @@
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
 	<script id="queryMortgageApproveLost" type="text/html">
          {{each rows as item index}}
-			                                    <<tr>
-                                        <td class="text-center">
-                                            <input type="checkbox" name="item" value="{{}}"/>
-                                        </td>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 red_light"></div>
-                                                <div class="sk-double-bounce2 red_light"></div>
-                                            </div>
-                                            <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon"></i>
-                                            </p>
-                                        </td>
+
+                 {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+                    <td class="text-center">
+                          <input type="checkbox" name="item" value="{{}}"/>
+                    </td>
+
+
+						{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
+			 	 <td></td>
+			{{else if item.DATELAMP < lamp2}}
+                 <td>
+                         <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 		 	<div class="sk-double-bounce1 green_light"></div>
+                		 	<div class="sk-double-bounce2 green_light"></div>
+                		 </div>
+						{{if item.RED_LOCK==1}}
+							 <p class="text-center clock clock_red">
+                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                             </p>
+						{{else}}
+                            <p class="text-center clock">
+          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
+      						 </p>
+						{{/if}}
+                 </td>
+			{{else if item.DATELAMP < lamp3}}
+				 <td>  <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                			<div class="sk-double-bounce1 orange_light"></div>
+                    		<div class="sk-double-bounce2 orange_light"></div>
+               		   </div>
+						{{if item.RED_LOCK==1}}
+							 <p class="text-center clock clock_red">
+                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                             </p>
+						{{else}}
+                            <p class="text-center clock">
+          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
+      						 </p>
+						{{/if}}
+				  </td>
+  			{{else}}
+   				 <td>
+                      <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                     		<div class="sk-double-bounce1 red_light"></div>
+                    		<div class="sk-double-bounce1 red_light"></div>
+                 	  </div>
+						{{if item.RED_LOCK==1}}
+							 <p class="text-center clock clock_red">
+                                <i class="icon iconfont clock_icon">&#xe60b;</i>
+                             </p>
+						{{else}}
+                            <p class="text-center clock">
+          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
+      						 </p>
+						{{/if}}
+				 </td>
+			{{/if}}
                                         <td>
                                             <p class="big">
                                                 <a href="${ctx}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
@@ -177,7 +225,7 @@
 												</p>
 						 						<span >
 												  <i class="salesman-icon"></i>
- 							                      <a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+ 							                      <a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName==null?"":item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
 						                      </span>
                                         </td>
                                         <td class="center">
@@ -185,10 +233,10 @@
                                                 监管金额<span>{{item.AMOUNT}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>万</span>
+                                                入账金额<span>{{item.ru}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>万</span>
+                                                出账金额<span>{{item.chu}}万</span>
                                             </p>
                                         </td>
                                         <td>
@@ -202,7 +250,7 @@
                                                 <a href="#"><em>申请人：</em>{{item.CREATE_BY}}</a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人：</em>顾小峰</a>
+                                                <a href="#"><em>经办人：</em>{{item.CREATE_BY}}</a>
                                             </span>
                                         </td>
                                         <td class="text-center">
@@ -222,6 +270,11 @@
 									.val()
 						};
 						//查询数据
+						function clearForm(){  
+						 $("#serachForm").find().val("")
+						}
+					 
+						//清空数据
 						$("#btn_search")
 								.click(
 										function() {
