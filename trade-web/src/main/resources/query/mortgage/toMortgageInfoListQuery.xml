@@ -44,12 +44,15 @@
                 m.mort_type as MORT_TYPE_OLD,
                 ISNULL(m.mort_total_amount,0)/10000 mort_total_amount,
                 m.fin_org_code as FIN_ORG_CODE_OLD,
-                m.cust_name,
+                m.cust_name,                
+                ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
                 ISNULL(m.com_amount,0)/10000 com_amount,
                 ISNULL(m.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
+                m.LOANER_NAME,
                 m.SIGN_DATE,
                 m.LEND_DATE,
-                (CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK
+                (CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,
+                (CASE m.IS_DELEGATE_YUCUI WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_ZY_TRANSACTION
                 from sctrans.T_TO_MORTGAGE m 
                 left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
                 left join sctrans.T_TO_CASE c on m.case_code = c.case_code 

@@ -262,10 +262,10 @@
 						<div class="goods_type themelist">
 							<label class="control-label sign_left_small"> 贷款类型 </label> 
 						<span
-								id="srvCode_0_0" name="srvCode" class="btn btn-white" onclick=""
-								value=" "> 未选择 </span> <span id="srvCode_0_1" name="srvCode"
+								id="srvCode_Null_OR_Empty" name="srvCode" class="btn btn-white" onclick=""
+								value="NULL"> 未选择 </span> <span id="srvCode_Singleness" name="srvCode"
 								class="btn btn-white" onclick="" value="30016001"> 纯商贷 </span> <span
-								id="srvCode_0_3" name="srvCode" class="btn btn-white" onclick=""
+								id="srvCode_Mixture" name="srvCode" class="btn btn-white" onclick=""
 								value="30016002"> 组合贷 </span> 
 						</div>
 					</div>
@@ -553,7 +553,7 @@
 								endDate = $("#dtEnd_0").val() + " 23:59:59";
 							}
 
-							var data = {};//data = getCheckBoxValues2("srvCode");	
+							var data = {};//getCheckBoxValues2("srvCode");	
 							//todo  查询条件需要补充完善
 							data.startDate = startDate;
 							data.endDate = endDate;
@@ -586,8 +586,7 @@
 							}
 							
 							// 贷款类型选择
-							var srvCode = getCheckBoxValues("srvCode");	
-							//getCheckBoxValues2("srvCode");
+							var srvCode = getCheckBoxValues("srvCode");								
 							//遍历数组
  /* 						$.each(srvCode, function(index, item) { 								
 								if (item == 0) {									
@@ -745,13 +744,14 @@
 							return srvCode;
 						}
 						function getCheckBoxValues2(name) {
+							
 							var srvCode = {};
 							$("span[name='srvCode'].selected").each(function() {
 								var id = $(this).attr('id');
 								var val = $(this).attr('value');							
 								srvCode[id]=val;
-							});			
-							alert($.stringify(srvCode));
+							}); 
+							//alert(JSON.stringify(data));							
 							return srvCode;
 						}
 						

@@ -89,11 +89,23 @@
 					  	   			 </ifNotNull>
 					  	   			 )
 					)
-
-				<ifNotNull srvCode> 
-						AND mortgage.MORT_TYPE IN (#srvCode#)
-				</ifNotNull> 
+					  <if test="srvCode!=null">
+						AND (
+						   1=2
+							<if test="srvCode.contains('NULL')"> 
+							 or	(mortgage.MORT_TYPE ='' or mortgage.mort_type is null)					
+							</if>
+							<if test="srvCode.contains('30016001')"> 
+							 or	( mortgage.mort_type ='30016001')					
+							</if>
+							<if test="srvCode.contains('30016002')"> 
+							 or	( mortgage.mort_type ='30016002')					
+							</if>
+					 	)
+					 </if>
+					
 				]]>
+			
 			</baseSql>
 			<groupSql>
 			</groupSql>
