@@ -1,6 +1,5 @@
 $(document).ready(function() {
 					cleanForm();
-					
 					 aist.sortWrapper({
 			    			reloadGrid : searchMethod
 			    		});
@@ -149,7 +148,6 @@ function searchMethod(page) {
 			"postData" : params,
 			"page":1 
 		}).trigger('reloadGrid');*/
-		
 		reloadGrid(params);
 	} else {
 		alert("请不要选择同样的日期类型！");
@@ -158,7 +156,6 @@ function searchMethod(page) {
 };
 
 function reloadGrid(data) {
-	
 	//添加排序-----
     aist.wrap(data);
 	
@@ -186,7 +183,7 @@ function reloadGrid(data) {
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
-	
+    data.rows = 10;
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -204,7 +201,29 @@ function reloadGrid(data) {
 			  $("#myCaseList").empty();
 			  $("#myCaseList").html(myCaseList);
 			  // 显示分页 
-            initpage(data.total,data.pagesize,data.page, data.records);
+            mycase_initpage(data.total,data.pagesize,data.page, data.records);
+            
+            $('.demo-left').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'left',
+    			alignY: 'center',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
+
+    		//top
+    		$('.demo-top').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'center',
+    			alignY: 'top',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
+    		
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -214,7 +233,7 @@ function reloadGrid(data) {
 
 
 
-function initpage(totalCount,pageSize,currentPage,records)
+function mycase_initpage(totalCount,pageSize,currentPage,records)
 {
 	if(totalCount>1500){
 		totalCount = 1500;
@@ -230,7 +249,6 @@ function initpage(totalCount,pageSize,currentPage,records)
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
 	$('#totalP').text(records);
-	
 	
 	$("#pageBar").twbsPagination({
 		totalPages:totalCount,

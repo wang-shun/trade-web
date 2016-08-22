@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>本组待办任务列表11</title>
+<title>本组待办任务列表</title>
 <%-- <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
@@ -47,67 +47,10 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
-
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 <style type="text/css">
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-			position: absolute;
-			opacity: 0;
-			z-index: 1000000;
-			-webkit-transition: 0.3s ease;
-			-moz-transition: 0.3s ease;
-  pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-			color: white;
-			padding: 8px 10px;
-			font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-	width:250px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-	width:250px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-
-
 
 </style>
 </head>
@@ -145,7 +88,7 @@
 		
 	</div>
 	
-	<div class="table_content">
+	<div class="table_content">  <form id="form1"> <input type="hidden" id="h_userId" name="userId">
 		<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped table-bordered table-hover ">
 			<thead>
 				<tr>
@@ -168,7 +111,7 @@
 			<tbody id="myTaskList">
 				
 			</tbody>
-		</table>
+		</table>  </form>
 	</div>
 			
 	<div class="text-center page_box">
@@ -205,6 +148,8 @@
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script id="template_myTaskList" type= "text/html">
                {{each rows as item index}}
@@ -267,24 +212,24 @@
 						</p>
 					</td>
 					<td >
-						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+						
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
 {{item.PROPERTY_ADDR}}
-{{/if}}						 
-
-						</span><br/>
- 							<span class="tooltip-demo">
-                                  <i class="salesman-icon"> </i>
-<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息: {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}">
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								 <a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息: {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}" >
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}
-{{/if}}		
-</a>							  
-							</span>
+{{/if}}	
+								 </a>
+							</p>
 					</td>
 					<td >
  						

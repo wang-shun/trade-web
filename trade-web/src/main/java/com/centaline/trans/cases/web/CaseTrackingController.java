@@ -14,4 +14,8 @@ public class CaseTrackingController {
 	public String tracking() {
 		return "/case/taskTracking";
 	}
+	@RequestMapping("tracking2")
+	public String tracking2() {
+		return "/case/taskTracking2";
+	}
 }

@@ -26,4 +26,14 @@ public class TaskOfGroupController {
 		request.setAttribute("serviceDepId", suser.getServiceDepId());
 		return "/task/toTaskOfGroupList";
 	}
+	@RequestMapping("toTaskOfGroupList2")
+	private String toTaskOfGroupList2(ServletRequest request){
+		String[] lamps = LampEnum.getCodes();
+		request.setAttribute("Lamp1", lamps[0]);
+		request.setAttribute("Lamp2", lamps[1]);
+		request.setAttribute("Lamp3", lamps[2]);
+		SessionUser suser= uamSessionService.getSessionUser();
+		request.setAttribute("serviceDepId", suser.getServiceDepId());
+		return "/task/toTaskOfGroupList2";
+	}
 }
