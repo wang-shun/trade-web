@@ -24,7 +24,7 @@
     <!-- 分页控件 -->
     <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     
-    <link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
+    <link href="${ctx}/static/trans/css/property/popmac.css" rel="stylesheet" />
     
     <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
@@ -32,6 +32,7 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
 	<!-- owner -->
 	<link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
+	
 	<script type="text/javascript">
 		var optTransferRole=false;
 		<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
@@ -310,8 +311,8 @@
         				</table>
 		            </form>
                 </div>
-                <div class="modal-footer text-center">
-                    <input type="button" class="btn btn-warning" id="btn_done" value="完成">
+                <div class="modal-footer btn-center">
+                    <input type="button" class="btn btn-success" id="btn_done" value="完成">
                 </div>
             </div>
          </div>

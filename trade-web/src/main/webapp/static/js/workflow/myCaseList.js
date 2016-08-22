@@ -1,28 +1,9 @@
-$(document).ready(function() {
-					cleanForm();
-					 aist.sortWrapper({
-			    			reloadGrid : searchMethod
-			    		});
-					 
-					//基本信息等高
-					var cpDivWidth = $("#case_date_0").next().width();
-					$('#inTextType').next().css("width", cpDivWidth);
-					// 初始化列表
-					var data = {};
-		    	    data.queryId = "queryCastListItemList";
-		    	    data.rows = 10;
-		    	    data.page = 1;
-		    	    data.argu_isNotResearchCloseCase = "true";
-		    	    aist.wrap(data);
-		    		reloadGrid(data);
-
-					//$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
-					$("span[name='srvCode']").click(function(){
-						var id = $(this).attr("id");
-						$("span[id='"+id+"']").changeSelect();
-					});
-				
-				});
+$(function() {
+	$("#productType").hide();
+	$("#more").click(function() {
+		$("#productType").toggle();
+	});
+})
 
 // select控件
 var config = {
@@ -41,18 +22,6 @@ var config = {
 	}
 };
 
-for ( var selector in config) {
-	$(selector).chosen(config[selector]);
-};
-
-// 日期控件
-$('#datepicker_0').datepicker({
-	format : 'yyyy-mm-dd',
-	weekStart : 1,
-	autoclose : true,
-	todayBtn : 'linked',
-	language : 'zh-CN'
-});
 
 // 查询
 $('#searchButton').click(function() {
@@ -64,10 +33,10 @@ var count = $('#case_date_0 option:last').index();
 function addDateDiv() {
 
 	var txt = '<div class="row clearfix add_group"><div id="dateDiv_' + divIndex + '" class="input-group">';
-	txt += '<div class="input-group-btn">';
+	txt += '<div class="add_sign">';
 	txt += '    <select id="case_date_'
 			+ divIndex
-			+ '" class="btn btn-white chosen-select chosen_space" name="case_date" type="select" >';
+			+ '" class="form-control sign_radius" name="case_date" >';
 	txt += $("#case_date_0").html()
 	txt += '</select></div>';
 	txt += '<div id="datepicker_'
@@ -75,11 +44,11 @@ function addDateDiv() {
 			+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
 	txt += '    <input id="dtBegin_'
 			+ divIndex
-			+ '" name="dtBegin" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="起始日期"> ';
+			+ '" name="dtBegin" class="form-control date_sign" type="text" value="" placeholder="起始日期"> ';
 	txt += '    <span class="input-group-addon">到</span>';
 	txt += '    <input id="dtEnd_'
 			+ divIndex
-			+ '" name="dtEnd" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="结束日期"/>';
+			+ '" name="dtEnd" class="form-control date_sign" type="text" value="" placeholder="结束日期"/>';
 	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
 			+ divIndex + ');"><font>删除</font></a></span>';
 	txt += '</div></div></div>';
@@ -93,13 +62,6 @@ function addDateDiv() {
 		todayBtn : 'linked',
 		language : 'zh-CN'
 	});
-	// 设置初始选中
-	var selIndex = findFirstNoCheckVal();
-	$("#case_date_" + divIndex).get(0).selectedIndex = selIndex;
-	for ( var selector in config) {
-		$(selector).chosen(config[selector]);
-	}
-	;
 
 	divIndex++;
 }
@@ -141,12 +103,12 @@ function searchMethod(page) {
 	if (getSearchDateValues()) {
 		var params = getParamsValue();
 		params.page = page;
-		params.rows = 10;
+		params.rows = 12;
 		params.queryId = "queryCastListItemList";
 		// jqGrid reload
 		/*$("#table_list_1").setGridParam({
 			"postData" : params,
-			"page":1 
+			"page":1
 		}).trigger('reloadGrid');*/
 		reloadGrid(params);
 	} else {
@@ -155,85 +117,10 @@ function searchMethod(page) {
 
 };
 
-function reloadGrid(data) {
-	//添加排序-----
-    aist.wrap(data);
-	
-	var sortcolumn=$('span.active').attr("sortColumn");
-	var sortgz=$('span.active').attr("sord");
-	data.sidx=sortcolumn;
-	data.sord=sortgz;
-	//添加排序----------
-	
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var serviceDepId = $("#serviceDepId").val();
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-
-	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
-    data.argu_queryorgs = orgArray;
-    data.rows = 10;
-	$.ajax({
-		async: true,
-        url:ctx+ "/quickGrid/findPage" ,
-        method: "post",
-        dataType: "json",
-        data: data,
-        beforeSend: function () {  
-        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			$(".blockOverlay").css({'z-index':'9998'});
-        },  
-        success: function(data){
-          $.unblockUI();   	 
-      	  data.ctx = ctx;
-      	  var myCaseList = template('template_myCaseList' , data);
-			  $("#myCaseList").empty();
-			  $("#myCaseList").html(myCaseList);
-			  // 显示分页 
-            mycase_initpage(data.total,data.pagesize,data.page, data.records);
-            
-            $('.demo-left').poshytip({
-    			className: 'tip-twitter',
-    			showTimeout: 1,
-    			alignTo: 'target',
-    			alignX: 'left',
-    			alignY: 'center',
-    			offsetX: 8,
-    			offsetY: 5,
-    		});
-
-    		//top
-    		$('.demo-top').poshytip({
-    			className: 'tip-twitter',
-    			showTimeout: 1,
-    			alignTo: 'target',
-    			alignX: 'center',
-    			alignY: 'top',
-    			offsetX: 8,
-    			offsetY: 5,
-    		});
-    		
-        },
-        error: function (e, jqxhr, settings, exception) {
-        	$.unblockUI();   	 
-        }  
-  });
-}
 
 
 
-function mycase_initpage(totalCount,pageSize,currentPage,records)
+function initpage(totalCount,pageSize,currentPage,records)
 {
 	if(totalCount>1500){
 		totalCount = 1500;
@@ -249,15 +136,16 @@ function mycase_initpage(totalCount,pageSize,currentPage,records)
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
 	$('#totalP').text(records);
-	
+
+
 	$("#pageBar").twbsPagination({
 		totalPages:totalCount,
 		visiblePages:9,
 		startPage:currentPage,
-		first:'<i class="fa fa-step-backward"></i>',
-		prev:'<i class="fa fa-chevron-left"></i>',
-		next:'<i class="fa fa-chevron-right"></i>',
-		last:'<i class="fa fa-step-forward"></i>',
+		first:'<i class="icon-step-backward"></i>',
+		prev:'<i class="icon-chevron-left"></i>',
+		next:'<i class="icon-chevron-right"></i>',
+		last:'<i class="icon-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
 			 //console.log(page);
@@ -354,11 +242,11 @@ function getParamsValue() {
 		search_createTimeEnd : createTimeEnd,
 		search_resDateEnd : resDateEnd,
 		search_approveTimeEnd : approveTimeEnd,
-		
+
 		argu_realConTimeStart : realConTimeStart,
 		argu_realConTimeEnd : realConTimeEnd,
 		argu_realConTime : (realConTimeStart == null && realConTimeEnd == null ? null : true),
-		
+
 		argu_realHtTimeStart : realHtTimeStart,
 		argu_realHtTimeEnd : realHtTimeEnd,
 		argu_realHtTime : (realHtTimeStart == null && realHtTimeEnd == null ? null : true),
@@ -372,11 +260,11 @@ function getParamsValue() {
 		argu_lendDateStart : lendDateStart,
 		argu_lendDateEnd : lendDateEnd,
 		argu_signlendDate : (signDateStart == null && signDateEnd == null && lendDateStart == null && lendDateEnd == null ? null : true),
-		
+
 		argu_guohuApproveTimeStart : guohuApproveTimeStart,
 		argu_guohuApproveTimeEnd : guohuApproveTimeEnd,
 		argu_guohuApproveTime : (guohuApproveTimeStart == null && guohuApproveTimeEnd == null ? null : true),
-		
+
 		argu_yuCuiOriGrpId : yuCuiOriGrpId,
 		argu_isNotResearchCloseCase : isNotResearchCloseCase
 
@@ -552,7 +440,7 @@ function unCheckAllItem() {
 		$(".excel_in").removeAttr("checked");
 		 $("#unCheckAll").hide();
 		 $("#checkAll").show();
-		
+
 }
 //show modal
 function showExcelIn() {
@@ -636,21 +524,21 @@ function exportToExcel() {
 		var orgArray = queryOrgs==null?'':queryOrgs.split(",");
 
 		var argu_idflag = '&argu_idflag='+arguUserId;
-		
+
 		if(arguUserId==null)argu_idflag='&argu_idflag=';
 		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var params = getParamsValue();
 		var queryId = '&queryId=queryCaseExcelItemList';
 		var colomns = '&colomns=' + displayColomn;
-		
-		
+
+
 		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 		//url+= "&_s(earch=true";
 		//url= decodeURI(url);
 //		alert(url);
 		$('#excelForm').attr('action', url);
-		
+
 		$('#excelForm').method="post" ;
 		$('#excelForm').submit();
 	} else {
@@ -677,7 +565,7 @@ function initAutocomplete(url){
         	$("#inTextVal").attr('hVal','');
         	return true;
         },
-        afterSelectedHandler:function(data){ 
+        afterSelectedHandler:function(data){
         	if(data&&data.value){
         		$("#inTextVal").attr('hVal',data.value);
         	}else{
@@ -687,28 +575,17 @@ function initAutocomplete(url){
     }).AutoComplete('show');
 }
 //选业务组织的回调函数
-/*function radioYuCuiOrgSelectCallBack(array){
+function radioYuCuiOrgSelectCallBack(array){
     if(array && array.length >0){
         $("#teamCode").val(array[0].name);
 		$("#yuCuiOriGrpId").val(array[0].id);
-		
+
 		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
 		$("#oldactiveName").attr("onclick",userSelect);
 	}else{
 		$("#teamCode").val("");
 		$("#yuCuiOriGrpId").val("");
 	}
-}*/
-
-//选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array) {
-		if (array && array.length > 0) {
-				$("#teamCode").val(array[0].name);
-				$("#yuCuiOriGrpId").val(array[0].id);
-		} else {
-				$("#teamCode").val("");
-				$("#yuCuiOriGrpId").val("");
-		}
 }
 //清空
 $('#cleanButton').click(function() {
@@ -716,28 +593,5 @@ $('#cleanButton').click(function() {
 	$("input[name='teamCode']").val('');
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
-	$("span[name='srvCode']").removeClass("selected");
-	//$("select").val("");
-	$("#caseProperty").val("");
-	$("#status").val("");
-	$("#mortageService").val("");
-	
+	$("select").val("");
 });
-
-
-function caseCodeSort(){
-	if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
-		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
-	}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
-		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
-	}else{
-		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
-	}
-}
-
-
-
-
-
-
-

@@ -199,8 +199,14 @@ public class PropertyCortroller {
 	public String resultGet(Model model, ServletRequest request){
 		SessionUser user = uamSessionService.getSessionUser();
 		model.addAttribute("userId",user.getId());
-		return "property/resultGetList";
+		return "property/resultGetList2";
 	}
+/*	@RequestMapping(value="resultGet2")
+	public String resultGet2(Model model, ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("userId",user.getId());
+		return "property/resultGetList2";
+	}*/
 
 	/**
 	 * 进入查看产调结果

@@ -160,7 +160,10 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
                     SUM(tsi.CON_PRICE) AS CON_PRICE
           FROM      sctrans.T_TO_LOAN_AGENT la
                     LEFT JOIN sctrans.t_to_sign tsi ON la.CASE_CODE = tsi.CASE_CODE
-          WHERE    1=1
+          WHERE
+             la.CASE_CODE IS NOT NULL
+             AND la.CASE_CODE &lt;&gt; ''
+             AND la.APPLY_TIME IS NOT NULL
           	<if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
@@ -179,7 +182,9 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
                     SUM(tsi.CON_PRICE) AS CON_PRICE
           FROM      sctrans.T_TO_ELOAN_CASE tec
                     LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE
-          WHERE     1=1
+          WHERE     tec.CASE_CODE IS NOT NULL
+                    AND tec.CASE_CODE &lt;&gt; ''
+                    AND tec.APPLY_TIME IS NOT NULL
           <if test="userId != null">
 	 	and tec.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 </if>
