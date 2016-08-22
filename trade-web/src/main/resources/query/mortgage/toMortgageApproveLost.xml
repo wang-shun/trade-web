@@ -89,9 +89,10 @@
 					  	   			 </ifNotNull>
 					  	   			 )
 					)
+
 				<ifNotNull srvCode> 
 						AND mortgage.MORT_TYPE IN (#srvCode#)
-				</ifNotNull>
+				</ifNotNull> 
 				]]>
 			</baseSql>
 			<groupSql>
