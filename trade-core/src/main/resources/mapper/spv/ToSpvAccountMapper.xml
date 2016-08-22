@@ -31,7 +31,6 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_ACCOUNT
     where SPV_CODE = #{pkid,jdbcType=VARCHAR}
-    and 
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
