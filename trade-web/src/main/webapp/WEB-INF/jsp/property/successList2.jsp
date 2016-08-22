@@ -387,7 +387,7 @@
                     </p>
                 </td>
                 <td>
-                	<span class="manager">
+                	<span class="manager" style="margin:0px !important;">
 						<a href="#"><em>申请人：</em>{{item.PR_APPLIANT}}</a>
 						{{if item.CHANNEL == '经纪人'}}
 							<i class="sign_red">经</i>
@@ -395,15 +395,16 @@
                  			<i class="sign_normal">誉</i>
 						{{/if}}
 					</span>
-                    <span class="manager"><a href="#"><em>执行人：</em>{{item.PR_EXECUTOR}}</a></span>
-                    <span class="manager"><a href="#"><em>区董：</em>{{item.QUDS}}</a></span>
+                    <span class="manager" style="margin:0px !important;"><a href="#"><em>执行人：</em>{{item.PR_EXECUTOR}}</a></span>
+                    <span class="manager" style="margin:0px !important;"><a href="#"><em>区董：</em>{{item.QUDS}}</a></span>
                 </td>
 				<td>
 					{{if wrapperData.optTransferRole}}
-						<p><button type="button" class="btn btn-success" onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs btn-y'>修改</button></p>
+						<p><button type="button" style="padding:0px 5px;" class="btn btn-success" onclick="showAttchBox('{{item.CASE_CODE}}','{{item.prCode}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.QUDS}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class='btn btn-warning btn-xs btn-y'>修改</button></p>
+						<p><a href='../mobile/property/box/show?prCode={{item.prCode}}' style="padding:0px 5px;" class="btn btn-success" target='_blank'>查看附件</a></p>
 					{{else}}
+						<p><a href='../mobile/property/box/show?prCode={{item.prCode}}' class="btn btn-success" target='_blank'>查看附件</a></p>
                  	{{/if}}
-					<p><a href='../mobile/property/box/show?prCode={{item.prCode}}' class="btn btn-success" target='_blank'>查看附件</a></p>
 				</td>			
 			</tr>
 		{{/each}}
