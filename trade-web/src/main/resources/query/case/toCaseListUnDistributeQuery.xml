@@ -50,7 +50,7 @@
 						,tc.status
 						,ctd.IMPORT_TIME AS CREATE_TIME
 						,tst.YU_TEAM_CODE YU_TEAM_CODE
-						,ctd.AGENT_CODE AS USER_ID
+						,ctd.AGENT_CODE AS USER_ID,ctd.AGENT_PHONE,ctd.QYZJ_NAME as qyzjNAME
 						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
 					FROM sctrans.T_TO_CASE_INFO ctd
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE and tst.IS_RESPONSE_TEAM = 1
@@ -81,6 +81,8 @@
 				<column type="both" name="USER_ID" />
 				<column type="virtual" name="ORG_NAME"  referencecol="USER_ID" title="组别"  customDict="qqMainOrgByUserId"/>			
 				<column type="both" name="CTM_CODE" display="ctmCode" />
+				<column type="both" name="AGENT_PHONE" display="ctmCode" />
+				<column type="both" name="qyzjNAME" display="qyzjNAME" />
 				
 			</table-row>
 		</grid>

@@ -119,6 +119,23 @@ public class CaseDistributeController {
 		request.setAttribute("queryOrgId", queryOrgId);
 		return "case/caseDistribute";
 	}
+	@RequestMapping(value="caseDistribute2")
+	public String caseDistribute2(Model model, ServletRequest request){
+		//TODO
+		SessionUser user = uamSessionService.getSessionUser();
+		String userJob=user.getServiceJobCode();
+		String queryUserId = user.getId();
+		String queryOrgId = user.getServiceDepId();
+		if(userJob.equals(TransJobs.TJYZL.getCode())){
+			List<User> userList = uamUserOrgService.getUserByOrgIdAndJobCode(user.getServiceDepId(), TransJobs.TJYZG.getCode());
+			if(userList!=null && userList.size()>0){
+				queryUserId = userList.get(0).getId();
+			}
+		}
+		request.setAttribute("queryUserId", queryUserId);
+		request.setAttribute("queryOrgId", queryOrgId);
+		return "case/caseDistribute2";
+	}
 
 	/**
 	 * 页面初始化
@@ -130,6 +147,12 @@ public class CaseDistributeController {
 		Org o= uamUserOrgService.getOrgByCode("033F275");
 		model.addAttribute("nonBusinessOrg", o);
 		return "case/unlocatedCase";
+	}
+	@RequestMapping(value="unlocatedCase2")
+	public String unlocatedCase2(Model model, ServletRequest request){
+		Org o= uamUserOrgService.getOrgByCode("033F275");
+		model.addAttribute("nonBusinessOrg", o);
+		return "case/unlocatedCase2";
 	}
 
 	/**

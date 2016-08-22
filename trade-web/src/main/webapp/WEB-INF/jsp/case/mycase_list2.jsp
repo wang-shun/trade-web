@@ -41,6 +41,8 @@
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 <style type="text/css">
 .radio label {
@@ -103,97 +105,6 @@ text-decoration: underline !important;
 }
 
 
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-}
 </style>
 </head>
 <body>
@@ -224,12 +135,17 @@ text-decoration: underline !important;
                           <label class="sign_left_two control-label">
                                                                               案件组织
                           </label>
-                          <div class="sign_right teamcode">
+                          <div class="sign_right teamcode" style="position:relative;">
                                 <input type="text" class="teamcode form-control" id="teamCode" name="teamCode" readonly="readonly"
 										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
 										   value="${serviceDepName}"></input>
 								<input class="teamcode form-control" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
+								<div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
+										   value="${serviceDepName}">
+                                        <i class="icon iconfont"></i>
+                                </div>
                             </div>
                       </div>
              </div>
@@ -324,10 +240,11 @@ text-decoration: underline !important;
 				</div>
 			</div>
 			<div class="text-center page_box">
-				<span id="currentTotalPage"><strong ></strong></span> 
-				<span class="ml15">共<strong class="bold" id="totalP"></strong>条 </span>&nbsp;
-				<div id="pageBar" class="pagination text-center"></div>
-			</div>
+				<span id="currentTotalPage"><strong ></strong></span>
+				<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+				<div id="pageBar" class="pagergoto">
+				</div>  
+		    </div> 	
 	</div>
 </div>
 		<div id="modal-form" class="modal fade" aria-hidden="true">
@@ -419,7 +336,9 @@ text-decoration: underline !important;
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
-
+<script src="${ctx}/js/workflow/myCaseList.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script id="template_myCaseList" type="text/html">
 
@@ -443,29 +362,28 @@ text-decoration: underline !important;
 							</p>
 						</td>
 						<td >
-						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+						<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
 {{item.PROPERTY_ADDR}}
 {{/if}}					 
-						</span><br/>
- 							<span >
+						</p>
+ 							<p >
 								 <i class="salesman-icon"> </i>
-								 <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
 {{/if}}	
 								 </a>
-                        	</span>
 							</p>
 						</td>
 						
 						<td class="center">
-                          <span  >
-						<a class="hint  hint-top1" data-hint="上家信息:{{item.SELLER}}" >
+                          <p  >
+						<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
@@ -486,12 +404,12 @@ text-decoration: underline !important;
 {{/if}}
 {{/if}}
 						</a>
-						</span>
+						</p>
                          
                        </td>
                        <td class="center">
-                          <span  >
-							<a class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}" >
+                          <p  >
+							<a class="demo-left" title="下家信息:{{item.BUYER}}" >
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
@@ -512,7 +430,7 @@ text-decoration: underline !important;
 {{/if}}
 {{/if}}
 							</a>
-                          </span>
+                          </p>
                           
                         </td>
 						<td class="center">
@@ -535,12 +453,18 @@ text-decoration: underline !important;
 </script> 
 <script>
 	$(function() {
+		
 		$("#productType").hide();
 		$("#more").click(function() {
 			$("#productType").toggle();
 		});
+		
+		
 	})
 </script> 
+<script type="text/javascript">
+
+</script>
 </content>
 </body>
 </html>

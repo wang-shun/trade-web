@@ -62,14 +62,17 @@ public class MortgageInfoListController {
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);	
 		
-		//默认显示上周数据
+		//默认显示上月数据
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
-		int dayOfWeek=c1.get(Calendar.DAY_OF_WEEK)-1;
-		c1.add(Calendar.DATE, -dayOfWeek-6);
-		c2.add(Calendar.DATE, -dayOfWeek);
-		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
-		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+		
+		c1.set(Calendar.DAY_OF_MONTH, 1); 
+		c1.add(Calendar.MONTH,-1);
+		
+		c2.set(Calendar.DAY_OF_MONTH, 0); 
+
+		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Month start
+		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Month end
 		
 		String signTimeStart = request.getParameter("signTimeStart");
 		String signTimeEnd = request.getParameter("signTimeEnd");

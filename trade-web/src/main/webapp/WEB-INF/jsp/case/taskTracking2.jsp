@@ -26,9 +26,9 @@
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
-<!-- aist列表样式 -->
+<!-- aist列表样式 --><%-- 
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/style.css" rel="stylesheet"> --%>
 <!-- 分页控件 -->									
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />									
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />  									
@@ -44,119 +44,11 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 
 <style type="text/css">
-
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:130px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:130px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-}
-/* top */
-.hint-top3:before {
-	bottom: 100%;
-	right: 15%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top3:after {
-	bottom: 100%;
-	right: 15%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top3:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top3:hover:after {
-	margin-bottom: 2px;
-}
 
 
 </style>
@@ -246,6 +138,8 @@
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 
 <script id="template_myTaskList" type= "text/html">
@@ -264,28 +158,29 @@
 						</p>
 					</td>
 					<td >
- 						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
 {{item.PROPERTY_ADDR}}
-{{/if}}						 
-
-						</span><br/>
- 							<span class="tooltip-demo">
-                                  <i class="salesman-icon"> </i>
-								  <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}} ">
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
-{{/if}}		
-							</a>
-							</span>
-						</p>
+{{/if}}	
+								 </a>
+							</p>
 					</td>
 					<td >
- <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
+
+ <p  >
+						<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
@@ -304,11 +199,15 @@
 {{else}}
 {{item.SELLER}}
 {{/if}}
-{{/if}}                          </span>
+{{/if}}
+						</a>
+						</p>
+
 
 					</td>
 					<td >
-  <span  class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}">
+  <p  >
+							<a class="demo-left" title="下家信息:{{item.BUYER}}" >
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
@@ -327,18 +226,19 @@
 {{else}}
 {{item.BUYER}}
 {{/if}}
-{{/if}}                                              
-                        </span>
+{{/if}}
+							</a>
+                          </p>
 					</td>
 					<td >
-					<span class="manager" ><a class="hint  hint-top3" data-hint="{{item.PROCESSOR_ID}}" ><em>经办人：</em>
+					<span class="manager" ><a class="demo-left" title="{{item.PROCESSOR_ID}}" ><em>经办人：</em>
 						{{ if item.PROCESSOR_ID !="" && item.PROCESSOR_ID !=null && item.PROCESSOR_ID.indexOf("/") >-1 }}
                         		{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...
 						{{else}}
 							    {{item.PROCESSOR_ID}}
 						{{/if}}
 						</a></span>
-						<span class="manager" ><a class="hint  hint-top3" data-hint="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>
+						<span class="manager" ><a class="demo-left" title="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>
 						{{ if item.MANAGER !="" && item.MANAGER !=null && item.MANAGER.indexOf(";") >-1 }}
                         	{{item.MANAGER.substring(0,item.MANAGER.indexOf(";"))}}...
 						{{else}}

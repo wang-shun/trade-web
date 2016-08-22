@@ -14,13 +14,34 @@ function reloadGrid(data) {
         dataType: "json",
         data: data,
         success: function(data){
-        	console.log("数据"+JSON.stringify(data));
+        	//console.log("数据"+JSON.stringify(data));
       	  var myTaskList = template('template_myTaskList' , data);
 			  $("#myTaskList").empty();
 			  $("#myTaskList").html(myTaskList);
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
+              $('.demo-left').poshytip({
+        			className: 'tip-twitter',
+        			showTimeout: 1,
+        			alignTo: 'target',
+        			alignX: 'left',
+        			alignY: 'center',
+        			offsetX: 8,
+        			offsetY: 5,
+        		});
+
+        		//top
+        		$('.demo-top').poshytip({
+        			className: 'tip-twitter',
+        			showTimeout: 1,
+        			alignTo: 'target',
+        			alignX: 'center',
+        			alignY: 'top',
+        			offsetX: 8,
+        			offsetY: 5,
+        		});
               $.unblockUI(); 
+             
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
