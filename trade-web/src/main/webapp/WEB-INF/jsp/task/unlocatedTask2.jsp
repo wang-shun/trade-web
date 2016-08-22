@@ -230,18 +230,23 @@ text-decoration: underline !important;
                         </td>
 						<td>
 
-<p class="demo-top" title="{{item.propertyAddr}}">
+
 {{if item.propertyAddr != null && item.propertyAddr!="" && item.propertyAddr.length>24}}
+<p class="demo-top" title="{{item.propertyAddr}}">
 {{item.propertyAddr.substring(item.propertyAddr.length-24,item.propertyAddr.length)}}
-{{else}}
+{{else}}</p><p>
 {{item.propertyAddr}}
 {{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
 								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}" >
-{{if item.GRP_NAME !="" && item.GRP_NAME !=null && item.GRP_NAME.length>8}}							
+{{if item.GRP_NAME !="" && item.GRP_NAME !=null && item.GRP_NAME.length>11}}		
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,11)}}...
+{{/if}}					
 {{else}}
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}
 {{/if}}	
@@ -259,7 +264,7 @@ text-decoration: underline !important;
                         </td>
 						<td>
                                <p class="smll_sign">
-                                       	<i class="sign_normal">申</i>
+                                       	<i class="sign_normal">创</i>
                                      		{{item.createTime}}    
 										</i>      
                                 </p>

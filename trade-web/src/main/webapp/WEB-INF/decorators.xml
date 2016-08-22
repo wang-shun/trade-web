@@ -44,6 +44,7 @@
 		<pattern>/task/toTaskOfGroupList2</pattern>
 		<pattern>/case/taskTracking2</pattern> 
 		<pattern>/case/tracking2</pattern> 
+		<pattern>/unlocatedTasks</pattern> 
 		
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">

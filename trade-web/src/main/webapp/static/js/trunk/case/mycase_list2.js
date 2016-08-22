@@ -1,4 +1,11 @@
 $(document).ready(function() {
+	
+					$("#productType").hide();
+					$("#more").click(function() {
+						$("#productType").toggle();
+					});
+					
+	
 					cleanForm();
 					 aist.sortWrapper({
 			    			reloadGrid : searchMethod
@@ -712,10 +719,10 @@ function radioYuCuiOrgSelectCallBack(array) {
 }
 //清空
 $('#cleanButton').click(function() {
-	$("input[id='inTextVal']").val('');
-	$("input[name='teamCode']").val('');
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
+	//$("input[id='inTextVal']").val('');
+	//$("input[name='teamCode']").val('');
+	//$("input[name='dtBegin']").val('');
+	//$("input[name='dtEnd']").val('');
 	$("span[name='srvCode']").removeClass("selected");
 	//$("select").val("");
 	$("#caseProperty").val("");

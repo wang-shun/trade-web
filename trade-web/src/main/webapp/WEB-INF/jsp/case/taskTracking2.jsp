@@ -92,7 +92,7 @@
 			<thead>
 				<tr>
 					<th ><span class="sort" sortColumn="A.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
-					<th >产权地址</th>
+					<th >产证地址</th>
 					<th >上家</th>
 					<th >下家</th>
 					<th >经办人</th>
@@ -151,7 +151,7 @@
                    {{/if}}
 					<td >
  						<p class="big">
-							<a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
+							{{item.CASE_CODE}}
 						</p>
  						<p class="big">
 							<i class="tag_sign">c</i>{{item.CTM_CODE}}
@@ -159,30 +159,39 @@
 					</td>
 					<td >
 
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+</p><p>
 {{item.PROPERTY_ADDR}}
 {{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
-								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+								
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11}}	
+ <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}						
+</a></p><p>
+{{else}}<a>
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
 {{/if}}	
-								 </a>
+								</a>
 							</p>
 					</td>
 					<td >
 
  <p  >
-						<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+						
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
+<a  class="demo-left" title="上家信息:{{item.SELLER}}" >
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
@@ -193,23 +202,20 @@
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
 }}</br>
 {{/if}}
-{{else}}
-{{ if item.SELLER.length>4}}
-{{item.SELLER.substring(0,4)}}...
-{{else}}
+{{else}}</a></p><p>
 {{item.SELLER}}
 {{/if}}
-{{/if}}
-						</a>
+						
 						</p>
 
 
 					</td>
 					<td >
   <p  >
-							<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+							
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
+<a class="demo-left" title="下家信息:{{item.BUYER}}" >
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
@@ -219,32 +225,15 @@
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
 }}</br>
-{{/if}}
-{{else}}
-{{ if item.BUYER.length>4}}
-{{item.BUYER.substring(0,4)}}...
+{{/if}}</a></p><p>
 {{else}}
 {{item.BUYER}}
 {{/if}}
-{{/if}}
-							</a>
                           </p>
 					</td>
 					<td >
-					<span class="manager" ><a class="demo-left" title="{{item.PROCESSOR_ID}}" ><em>经办人：</em>
-						{{ if item.PROCESSOR_ID !="" && item.PROCESSOR_ID !=null && item.PROCESSOR_ID.indexOf("/") >-1 }}
-                        		{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...
-						{{else}}
-							    {{item.PROCESSOR_ID}}
-						{{/if}}
-						</a></span>
-						<span class="manager" ><a class="demo-left" title="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>
-						{{ if item.MANAGER !="" && item.MANAGER !=null && item.MANAGER.indexOf(";") >-1 }}
-                        	{{item.MANAGER.substring(0,item.MANAGER.indexOf(";"))}}...
-						{{else}}
-							{{item.MANAGER}}
-						{{/if}}
-						</a></span>
+					   <p >经办人：{{item.PROCESSOR_ID}}</p>
+					   <p>主&nbsp;&nbsp;&nbsp;&nbsp;管：{{item.MANAGER}}</p>
 					</td>
 
 					<td >

@@ -224,13 +224,13 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
-							    <th class="text-center light_icon"> 红灯数<!-- <i class="iconfont icon_light">  &#xe604; </i> --> </th>
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+								<th >案件状态</th>
 								<th >产证地址</th>
 								<th >上家</th>
 								<th >下家</th>
 								<th >经办人</th>
-								<th >案件状态</th>
+								<th class="text-center light_icon"> <i class="iconfont icon_light">  &#xe604; </i>  </th>
 							</tr>
 						</thead>
 						<tbody id="myCaseList">
@@ -348,11 +348,7 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td> 
-							{{if item.RED_COUNT!=null}}
-                                <span class="red-num">{{item.RED_COUNT}}</span>
-							 {{/if}}
-						</td>
+						
 						<td >
  							<p class="big">
 								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
@@ -361,20 +357,33 @@ text-decoration: underline !important;
 								<i class="tag_sign">c</i>{{item.ctmCode}}
 							</p>
 						</td>
+						<td class="center">
+ 							<p >
+								  <i class="sign_blue">{{item.STATUS}}</i>
+							</p>
+						</td>
 						<td >
-						<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+						
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+<p>
 {{item.PROPERTY_ADDR}}
 {{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
-								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+								 
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11 }}		
+<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}
+{{else}}
+</a><a>
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
 {{/if}}	
 								 </a>
@@ -383,9 +392,10 @@ text-decoration: underline !important;
 						
 						<td class="center">
                           <p  >
-						<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+						
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
+<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
@@ -395,23 +405,19 @@ text-decoration: underline !important;
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
 }}</br>
+</a></p><p>
 {{/if}}
-{{else}}
-{{ if item.SELLER.length>4}}
-{{item.SELLER.substring(0,4)}}...
 {{else}}
 {{item.SELLER}}
 {{/if}}
-{{/if}}
-						</a>
 						</p>
                          
                        </td>
                        <td class="center">
-                          <p  >
-							<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+                         <p>
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
+<a class="demo-left" title="下家信息:{{item.BUYER}}" >
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
@@ -421,32 +427,25 @@ text-decoration: underline !important;
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
 }}</br>
+</a></p><p>
 {{/if}}
 {{else}}
-{{ if item.BUYER.length>4}}
-{{item.BUYER.substring(0,4)}}...
-{{else}}
+
 {{item.BUYER}}
 {{/if}}
-{{/if}}
-							</a>
                           </p>
                           
                         </td>
 						<td class="center">
-							<span class="manager"><a class="hint  hint-top1" data-hint="{{item.FONT_NAME}}"><em>交易顾问：</em>{{item.FONT_NAME}}</a></span>
-							<span class="manager"><a class="hint  hint-top1" data-hint="{{item.PROCESSOR_ID}}"><em>合作顾问：</em>
-							{{ if item.PROCESSOR_ID !="" && item.PROCESSOR_ID !=null && item.PROCESSOR_ID.indexOf("/") >-1}}
-							{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...
-						   {{else}}
-							{{item.PROCESSOR_ID}}
-						   {{/if}}
-					       </a></span>
+							<p >交易顾问：{{item.FONT_NAME}}</p>
+							<p >合作顾问：{{item.PROCESSOR_ID}}</p>
+							
 						</td>
-						<td class="center">
- 							<p >
-								  <i class="sign_blue">{{item.STATUS}}</i>
-							</p>
+						
+						<td> 
+							{{if item.RED_COUNT!=null}}
+                                <span class="red-num">{{item.RED_COUNT}}</span>
+							 {{/if}}
 						</td>
 				  </tr>
        {{/each}}
