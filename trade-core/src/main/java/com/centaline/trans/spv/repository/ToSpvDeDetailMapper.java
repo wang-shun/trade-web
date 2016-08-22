@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 
@@ -16,4 +18,6 @@ public interface ToSpvDeDetailMapper {
     int updateByPrimaryKeySelective(ToSpvDeDetail record);
 
     int updateByPrimaryKey(ToSpvDeDetail record);
+    
+    List<ToSpvDeDetail> selectByDeId(String deId);
 }

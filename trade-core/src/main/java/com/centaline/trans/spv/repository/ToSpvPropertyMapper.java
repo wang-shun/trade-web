@@ -16,4 +16,6 @@ public interface ToSpvPropertyMapper {
     int updateByPrimaryKeySelective(ToSpvProperty record);
 
     int updateByPrimaryKey(ToSpvProperty record);
+    
+    ToSpvProperty selectBySpvCode(String spvCode);
 }

@@ -5,9 +5,9 @@
 package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -27,12 +26,9 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.ToAccesoryListService;
-import com.centaline.trans.engine.bean.ProcessInstance;
+import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
@@ -42,9 +38,6 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
-import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.entity.ToHouseTransfer;
-import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 
@@ -63,6 +56,10 @@ public class SpvController {
 	 
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
+	
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	
 	//列表页面
 	@RequestMapping("spvList")
 	public String spvList(){
@@ -71,7 +68,11 @@ public class SpvController {
 	
 	//新增页面
 	@RequestMapping("saveHTML")
-	public String savaHTML(){
+	public String savaHTML(String caseCode,ServletRequest request){
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(caseCode);
+		
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+
 		return "spv/saveSpvCase";
 	}
 	@RequestMapping("spvOutApply/process")
@@ -319,6 +320,102 @@ public class SpvController {
     	}
     	return response;
     }
+    
+    /**
+     * 资金监管申请页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+    @RequestMapping("spvApply/process")
+	public String toSpvApplyProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
+
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		toAccesoryListService.getAccesoryList(request, taskitem);
+    	ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
+		request.setAttribute("toSpv", toSpv);
+		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
+		request.setAttribute("spvDeRecVo", spvDeRecVo);
+		return "task/taskSpvApply";
+	}
+    
+    /**
+     * 资金监管申请操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+    @RequestMapping("spvApply/deal")
+	public String spvApply(HttpServletRequest request,Boolean SpvApplyApprove,
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		return "task/taskSpvApply";
+	}
+    
+    /**
+     * 资金监管审批页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("spvApprove/process")
+	public String toSpvApproveProcess(HttpServletRequest request,
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
+		SessionUser user= uamSessionService.getSessionUser();
+		request.setAttribute("source", source);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		
+		toAccesoryListService.getAccesoryList(request, taskitem);
+		
+		request.setAttribute("approveType", "6");
+		request.setAttribute("operator", user != null ? user.getId():"");
+		
+		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
+		
+		request.setAttribute("spvDeRecVo", spvDeRecVo);
+		return "task/taskSpvApprove";
+	}
+
+	/**
+     * 资金监管审批操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("spvApprove/deal")
+	public String spvApprove(HttpServletRequest request,Boolean SpvApplyApprove,
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+
+		return "task/taskSpvApprove";
+	}
 
 }
 

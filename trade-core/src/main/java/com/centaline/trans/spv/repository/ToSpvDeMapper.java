@@ -16,4 +16,6 @@ public interface ToSpvDeMapper {
     int updateByPrimaryKeySelective(ToSpvDe record);
 
     int updateByPrimaryKey(ToSpvDe record);
+    
+    ToSpvDe selectBySpvCode(String spvCode);
 }

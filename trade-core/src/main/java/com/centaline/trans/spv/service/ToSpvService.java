@@ -2,6 +2,8 @@ package com.centaline.trans.spv.service;
 
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -160,5 +162,7 @@ public interface ToSpvService {
 
 	int countToSignByIdList(List<String> idList, String startDate,
 			String endDate);
+	
+	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(String caseCode);
 
 }

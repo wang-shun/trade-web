@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToSpvAccount;
 
@@ -16,4 +18,6 @@ public interface ToSpvAccountMapper {
     int updateByPrimaryKeySelective(ToSpvAccount record);
 
     int updateByPrimaryKey(ToSpvAccount record);
+    
+    List<ToSpvAccount> selectBySpvCode(String spvCode);
 }

@@ -41,9 +41,19 @@
     from sctrans.T_TO_SPV_CUST
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  
+  <select id="selectBySpvCode"  resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sctrans.T_TO_SPV_CUST
+    where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_SPV_CUST
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCust" >
     insert into sctrans.T_TO_SPV_CUST (PKID, SPV_CODE, TRADE_POSITION, 
