@@ -77,7 +77,8 @@
         A.BASE_AMOUNT ,              
         A.SRV_PART_IN ,              
         A.SRV_PART_TOTAL ,           
-        B.SATISFACTION ,             
+        B.SATISFACTION , 
+        B.SRV_PART,            
         C.AWARD_KPI_MONEY ,          
         D.FIN_ORDER ,
         D.FIN_ORDER_ROLL,
@@ -107,6 +108,7 @@ FROM    sctrans.t_ts_award_base A
 				<column name="SRV_PART_TOTAL" />
 
 				<column name="SATISFACTION" />
+				<column name="SRV_PART" />
 				<column name="AWARD_KPI_MONEY" />
 				<column name="FIN_ORDER" />
 				<column name="FIN_ORDER_ROLL" />
@@ -175,7 +177,8 @@ FROM    sctrans.t_ts_award_base A
         A.BASE_AMOUNT ,              
         A.SRV_PART_IN ,              
         A.SRV_PART_TOTAL ,           
-        B.SATISFACTION ,             
+        B.SATISFACTION ,  
+        B.SRV_PART,           
         C.AWARD_KPI_MONEY ,          
         D.FIN_ORDER ,
         D.FIN_ORDER_ROLL,
@@ -204,6 +207,7 @@ FROM    sctrans.t_ts_award_base A
 				<column name="SRV_PART_TOTAL" />
 
 				<column name="SATISFACTION" />
+				<column name="SRV_PART" />
 				<column name="AWARD_KPI_MONEY" />
 				<column name="FIN_ORDER" />
 				<column name="FIN_ORDER_ROLL" />

@@ -161,7 +161,7 @@
                                                     <td>{{item.SRV_PART_IN}}/{{item.SRV_PART_TOTAL}}</td>
 
 													<td>{{item.SATISFACTION}}</td>
-													<td></td>
+													<td>{{item.SRV_PART}}</td>
 													<td>{{item.FIN_ORDER}}
 															{{if item.FIN_ORDER != null && item.FIN_ORDER_ROLL != null }}+{{/if}}
 														{{item.FIN_ORDER_ROLL}}
