@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -540,7 +538,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		//TEST
 		caseCode = "ZY-AJ-201601-2889";
 		/**1.toSpv*/
-		ToSpv toSpv = queryToSpvByCaseCode(caseCode);
+		ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode);
 		String spvCode = " " + toSpv.getSpvCode();
 		/**2.spvCustList*/
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);

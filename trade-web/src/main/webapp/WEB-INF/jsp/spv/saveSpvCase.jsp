@@ -37,6 +37,44 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <!-- stickUp fixed css -->
 </head>
+<%--客户信息列表分离 --%>
+<c:forEach items="${spvBaseInfoVO.spvCustList}" var="spvCust" varStatus="status"> 
+     <c:if test="${spvCust.tradePosition eq 'BUYER' }">
+           <c:set var="custBuyer" value="${spvCust }" />
+           <c:set var="custBuyerIndex" value="${status.index }" />
+     </c:if>
+     <c:if test="${spvCust.tradePosition eq 'SELLER' }">
+           <c:set var="custSeller" value="${spvCust }" />
+           <c:set var="custSellerIndex" value="${status.index }" />
+     </c:if>
+     <c:if test="${spvCust.tradePosition eq 'SPV' }">
+           <c:set var="custSpv" value="${spvCust }" />
+           <c:set var="custSpvIndex" value="${status.index }" />
+     </c:if>
+     <c:if test="${spvCust.tradePosition eq 'FUND' }">
+           <c:set var="custFund" value="${spvCust }" />
+           <c:set var="custFundIndex" value="${status.index }" />
+     </c:if>
+</c:forEach>
+<%--账户信息列表分离 --%>
+<c:forEach items="${spvBaseInfoVO.toSpvAccountList}" var="toSpvAccount" varStatus="status"> 
+     <c:if test="${toSpvAccount.accountType eq 'BUYER' }">
+           <c:set var="accountBuyer" value="${toSpvAccount }" />
+           <c:set var="accountBuyerIndex" value="${status.index }" />
+     </c:if>
+     <c:if test="${toSpvAccount.accountType eq 'SELLER' }">
+           <c:set var="accountSeller" value="${toSpvAccount }" />
+           <c:set var="accountSellerIndex" value="${status.index }" />
+     </c:if>
+     <c:if test="${toSpvAccount.accountType eq 'SPV' }">
+           <c:set var="accountSpv" value="${toSpvAccount }" />
+           <c:set var="accountSpvIndex" value="${status.index }" />
+     </c:if>
+     <c:if test="${toSpvAccount.accountType eq 'FUND' }">
+           <c:set var="accountFund" value="${toSpvAccount }" />
+           <c:set var="accountFundIndex" value="${status.index }" />
+     </c:if>
+</c:forEach>
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -58,29 +96,27 @@
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 				<!-- <div class="ibox"> -->
-
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline">
 						<div class="title">买方客户信息</div>
-
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">买方姓名</label> <input value="${spvBaseInfoVO.spvCustList[0].name }" type="text"
+								<label for="" class="lable-one">买方姓名</label> <input value="${custBuyer.name }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one">买方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input
-										type="radio" name="spvBaseInfoVO.spvCustList[0].gender" id="sex1" value="1">
+										type="radio" name="spvBaseInfoVO.spvCustList[0].gender" id="sex1" value="1" ${custBuyer.gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input 
-								        type="radio" name="spvBaseInfoVO.spvCustList[0].gender" id="sex2" value="0"> 女
+								        type="radio" name="spvBaseInfoVO.spvCustList[0].gender" id="sex2" value="0" ${custBuyer.gender eq '0'?'checked="checked"':'' }> 女
 								</label>
 								</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">买方手机号码</label> <input
-								    value="${spvBaseInfoVO.spvCustList[0].phone }"
+								    value="${custBuyer.phone }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 						</div>
@@ -93,12 +129,12 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> <input 
-								value="${spvBaseInfoVO.spvCustList[0].idValiDate }"
+								value="<fmt:formatDate value="${custBuyer.idValiDate }" pattern="yyyy-MM"/>"
 								type="text" class="form-control input-one" placeholder="如：2010-08">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input 
-								value="${spvBaseInfoVO.spvCustList[0].idCode }"
+								value="${custBuyer.idCode }"
 								type="text" class="form-control input-two" placeholder="">
 							</div>
 
@@ -106,12 +142,12 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">发证机关</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].idIssueInst }"
+								    value="${custBuyer.idIssueInst }"
 									class="form-control input-four" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">买方家庭地址</label> <input
-								    value="${spvBaseInfoVO.spvCustList[0].homeAddr }"
+								    value="${custBuyer.homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
 							</div>
 						</div>
@@ -119,9 +155,9 @@
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
-									name="spvBaseInfoVO.spvCustList[0].hasDele" id="BuyRadio1" value="1"> 是
+									name="spvBaseInfoVO.spvCustList[0].hasDele" id="BuyRadio1" value="1" ${custBuyer.hasDele eq '1'?'checked="checked"':'' } > 是
 								</label> <label class="radio-inline"> <input type="radio"
-									name="spvBaseInfoVO.spvCustList[0].hasDele" id="BuyRadio2" value="0"> 否
+									name="spvBaseInfoVO.spvCustList[0].hasDele" id="BuyRadio2" value="0" ${custBuyer.hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
 
@@ -130,18 +166,18 @@
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
 								<label for="" class="lable-one">委托人姓名</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].agentName }"
+								    value="${custBuyer.agentName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
 								<label for="" class="lable-one">委托人证件类型</label> <input
-								    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
+								    value="${custBuyer.agentIdType }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one buyinfo">
 								<label for="" class="lable-one">证件编号</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].agentIdCode }"
+								    value="${custBuyer.agentIdCode }"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -152,22 +188,22 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">卖方姓名</label> <input type="text"
-								     value="${spvBaseInfoVO.spvCustList[0].name }"
+								     value="${custSeller.name }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one">卖方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input
-										type="radio" name="spvBaseInfoVO.spvCustList[0].gender" id="sex3" value="1">
+										type="radio" name="spvBaseInfoVO.spvCustList[0].gender" id="sex3" value="1" ${custSeller.gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input type="radio"
-										name="spvBaseInfoVO.spvCustList[0].gender" id="sex4" value="0"> 女
+										name="spvBaseInfoVO.spvCustList[0].gender" id="sex4" value="0" ${custSeller eq '0'?'checked="checked"':'' }> 女
 								</label>
 								</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">卖方手机号码</label> <input
-								    value="${spvBaseInfoVO.spvCustList[0].phone }"
+								    value="${custSeller.phone }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 						</div>
@@ -180,12 +216,12 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].idValiDate }"
+								    value="<fmt:formatDate value="${custSeller.idValiDate }" pattern="yyyy-MM"/>"
 									class="form-control input-one" placeholder="如：2010-08">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].idCode }"
+								    value="${custSeller.idCode }"
 									class="form-control input-two" placeholder="">
 							</div>
 
@@ -194,12 +230,12 @@
 
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">发证机关</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].idIssueInst }"
+								    value="${custSeller.idIssueInst }"
 									class="form-control input-four" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">卖方家庭地址</label> <input
-								    value="${spvBaseInfoVO.spvCustList[0].homeAddr }"
+								    value="${custSeller.homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
 							</div>
 						</div>
@@ -207,9 +243,9 @@
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
-									name="spvBaseInfoVO.spvCustList[0].hasDele" id="SellRadio1" value="1"> 是
+									name="spvBaseInfoVO.spvCustList[0].hasDele" id="SellRadio1" value="1" ${custSeller.hasDele eq '1'?'checked="checked"':'' }> 是
 								</label> <label class="radio-inline"> <input type="radio"
-									name="spvBaseInfoVO.spvCustList[0].hasDele" id="SellRadio2" value="0"> 否
+									name="spvBaseInfoVO.spvCustList[0].hasDele" id="SellRadio2" value="0" ${custSeller.hasDele eq '1'?'checked="checked"':'' }> 否
 								</label>
 							</div>
 						</div>
@@ -217,18 +253,18 @@
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
 								<label for="" class="lable-one">委托人姓名</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].agentName }"
+								    value="${custSeller.agentName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
 								<label for="" class="lable-one">委托人证件类型</label> <input
-								    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
+								    value="${custSeller.agentIdType }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
 								<label for="" class="lable-one">证件编号</label> <input type="text"
-								    value="${spvBaseInfoVO.spvCustList[0].idCode }"
+								    value="${custSeller.idCode }"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -351,62 +387,66 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">卖方收款账号名称</label> <input
-								 value="${spvBaseInfoVO.toSpvAccountList[0].name }"
+								 value="${accountSeller.name }"
 								 type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">电话</label> <input value="${spvBaseInfoVO.toSpvAccountList[0].telephone }" type="text"
+								<label for="" class="lable-one">电话</label> <input value="${accountSeller.telephone }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">开户行</label> <input value="${spvBaseInfoVO.toSpvAccountList[0].bank }" type="text"
+								<label for="" class="lable-one">开户行</label> <input value="${accountSeller.bank }" type="text"
 									class="form-control input-four" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">账号</label> <input value="${spvBaseInfoVO.toSpvAccountList[0].account }"  type="text"
+								<label for="" class="lable-one">账号</label> <input value="${accountSeller.account }"  type="text"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">买方退款账号名称</label> <input
-								    value="${spvBaseInfoVO.toSpvAccountList[1].name }"
+								    value="${accountSeller.name }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">电话</label> <input value="${spvBaseInfoVO.toSpvAccountList[1].telephone }" type="text"
+								<label for="" class="lable-one">电话</label> <input value="${accountBuyer.telephone }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">开户行</label> <input value="${spvBaseInfoVO.toSpvAccountList[1].bank }" type="text"
+								<label for="" class="lable-one">开户行</label> <input value="${accountBuyer.bank }" type="text"
 									class="form-control input-four" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input value="${spvBaseInfoVO.toSpvAccountList[1].account }" type="text"
+								<label for="" class="lable-one">账号</label> <input value="${accountBuyer.account }" type="text"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">托管账户名称</label> <input
+								    value="${accountSpv.name }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text"
+								    value="${accountSpv.account }"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">资金方账户名称</label> <input
+								    value="${accountFund.name }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input type="text"
+								<label for="" class="lable-one">账号</label> <input type="text".
+								    value="${accountFund.account }"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
