@@ -32,11 +32,11 @@ $(document).ready(function(){
 		function getAtr(i) {
 		$str = '';
 		$str += "<tr align='center'>";
-		$str += "<td class='text-left'><select class='table-select'><option value=''>买方贷款审批完成</option></select></td>";
-		$str += "<td class='text-left'><select class='table-select'><option value=''>资金方</option><option value=''>卖方</option></select></td>";
+		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].deCondCode' value=''>买方贷款审批完成</option></select></td>";
+		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value=''>资金方</option><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value=''>卖方</option></select></td>";
 		
-		$str += "<td><input class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
-		$str += "<td class='text-left' ><input class='table-input' type='text' placeholder='' /></td>";
+		$str += "<td><input name='toSpvDeDetailList["+(sum+1)+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
+		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+(sum+1)+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
 		$str += "</tr>";
 		$("#addTr").append($str);
@@ -110,8 +110,12 @@ $(document).ready(function(){
        $("#submitBtn").click(function(){
     	  var totalArr = [];
     	  $("form").each(function(){
-    		  totalArr.push($(this).serializeArray());
-    	  });
+      		 var obj = $(this).serializeArray();
+      		for(var i in obj){
+      			totalArr.push(obj[i]);
+      		}
+      	  });
+    	  
     	  $.ajax({
       		url:ctx+"/spv/submitNewSpv",
       		method:"post",

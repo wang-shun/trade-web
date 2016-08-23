@@ -440,7 +440,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
-		createSpvCode(spvBaseInfoVO.getToSpv());
+		String spvCode = createSpvCode(spvBaseInfoVO.getToSpv());
 		//保存相关信息
 		// come here ...
 		/**1.保存到‘资金监管合约’表*/
@@ -448,6 +448,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			if(spvBaseInfoVO.getToSpv().getPkid() != null){
 				toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
 			}else{
+				spvBaseInfoVO.getToSpv().setSpvCode(spvCode);
 				toSpvMapper.insertSelective(spvBaseInfoVO.getToSpv());
 			}		
 		}
@@ -457,7 +458,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 			for(ToSpvCust toSpvCust:spvCustList){
 				if(toSpvCust.getPkid() != null){
 					toSpvCustMapper.updateByPrimaryKeySelective(toSpvCust);
-				}else{			
+				}else{	
+					toSpvCust.setSpvCode(spvCode);
 					toSpvCustMapper.insertSelective(toSpvCust);
 				}
 			}
@@ -468,6 +470,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			if(toSpvDe.getPkid() != null){
 				toSpvDeMapper.updateByPrimaryKeySelective(toSpvDe);
 			}else{
+				toSpvDe.setSpvCode(spvCode);
 				toSpvDeMapper.insertSelective(toSpvDe);
 			}
 		}
@@ -477,7 +480,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 			for(ToSpvDeDetail toSpvDeDetail:toSpvDeDetailList){
 				if(toSpvDeDetail.getPkid() != null){
 					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-				}else{				
+				}else{			
+					//TODO 获取DE表的id
+					//toSpvDeDetail.setDeId(deId);
 					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
 				}
 			}
@@ -535,8 +540,8 @@ public class ToSpvServiceImpl implements ToSpvService {
     	}
 	}
 	
-	private void createSpvCode(ToSpv toSpv) {
-		toSpv.setSpvCode(uamBasedataService.nextSeqVal("SPV_CODE",new Date()));
+	private String createSpvCode(ToSpv toSpv) {
+		return uamBasedataService.nextSeqVal("SPV_CODE",new Date());
 	}
 	
 	/**
@@ -545,6 +550,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(String caseCode){
 		/**查询拼接spvBaseInfoVO*/
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
+		caseCode = "ZY-AJ-201601-2889";
 		/**1.toSpv*/
 		ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode);
 		String spvCode = toSpv.getSpvCode();
