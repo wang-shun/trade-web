@@ -121,7 +121,7 @@
 							name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc" class="teamcode select_control ">
 							<option value="">请选择</option>
 							<c:forEach items="${FinOrgNameList}"  var="var">									
-								<option value="${var.FinOrgCode}">${var.FinOrgNameYc}</option>							
+								<option value="${var.FinOrgCodeYc}">${var.FinOrgNameYc}</option>							
 							</c:forEach>
 						</select>
 					</div>
