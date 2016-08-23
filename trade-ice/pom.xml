@@ -24,7 +24,7 @@
 		<tomcat-jdbc.version>7.0.42</tomcat-jdbc.version>
 		<jackson.version>2.1.5</jackson.version>
 		<ice.version>3.6.2</ice.version>
-		<aist.version>1.2.8-SNAPSHOT</aist.version>
+		<aist.version>1.3.0-SNAPSHOT</aist.version>
 	</properties>
 
 	<dependencies>
