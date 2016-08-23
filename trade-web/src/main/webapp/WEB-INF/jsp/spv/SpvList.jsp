@@ -102,10 +102,10 @@
 				</div>
 				<div class="form-btn">
 					<div class="btn-left btn-left-space">
-						<button type="submit" id="btn_search" class="btn btn-success">
+						<button type="button" id="btn_search" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="submit" onclick="clearForm()" class="btn btn-success">清空</button>
+						<button type="button" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
 						<button type="submit" class="btn btn-success">
@@ -149,66 +149,20 @@
 	<script id="queryMortgageApproveLost" type="text/html">
          {{each rows as item index}}
 
-                 {{if index%2 == 0}}
- 				      <tr class="tr-1">
-                  {{else}}
-                       <tr class="tr-2">
-                   {{/if}}
-                    <td class="text-center">
-                          <input type="checkbox" name="item" value="{{}}"/>
-                    </td>
-
-
-						{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
-			 	 <td></td>
-			{{else if item.DATELAMP < lamp2}}
-                 <td>
-                         <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                 		 	<div class="sk-double-bounce1 green_light"></div>
-                		 	<div class="sk-double-bounce2 green_light"></div>
-                		 </div>
-						{{if item.RED_LOCK==1}}
-							 <p class="text-center clock clock_red">
-                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                             </p>
-						{{else}}
-                            <p class="text-center clock">
-          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
-      						 </p>
-						{{/if}}
-                 </td>
-			{{else if item.DATELAMP < lamp3}}
-				 <td>  <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                			<div class="sk-double-bounce1 orange_light"></div>
-                    		<div class="sk-double-bounce2 orange_light"></div>
-               		   </div>
-						{{if item.RED_LOCK==1}}
-							 <p class="text-center clock clock_red">
-                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                             </p>
-						{{else}}
-                            <p class="text-center clock">
-          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
-      						 </p>
-						{{/if}}
-				  </td>
-  			{{else}}
-   				 <td>
-                      <div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
-                     		<div class="sk-double-bounce1 red_light"></div>
-                    		<div class="sk-double-bounce1 red_light"></div>
-                 	  </div>
-						{{if item.RED_LOCK==1}}
-							 <p class="text-center clock clock_red">
-                                <i class="icon iconfont clock_icon">&#xe60b;</i>
-                             </p>
-						{{else}}
-                            <p class="text-center clock">
-          						 <i class="icon iconfont clock_icon">&#xe60b;</i>
-      						 </p>
-						{{/if}}
-				 </td>
-			{{/if}}
+                <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td class="center">
+                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
+                                                <div class="sk-double-bounce1 orange_light"></div>
+                                                <div class="sk-double-bounce2 orange_light"></div>
+                                            </div>
+                                            <p class="text-center clock">
+                                                <i class="icon iconfont clock_icon"></i>
+                                            </p>
+                                        </td>
+   		
                                         <td>
                                             <p class="big">
                                                 <a href="${ctx}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
@@ -271,47 +225,28 @@
 						};
 						//查询数据
 						function clearForm(){  
-						 $("#serachForm").find().val("")
+						 $("#serachForm").find("input").val("")
 						}
 					 
 						//清空数据
 						$("#btn_search")
 								.click(
 										function() {
-											/* params.search_status = $("#sel_applyStatus").val() */
-											var sel_time = $("#sel_time").val();
-											if (sel_time == "applyTime") {
-												params.search_applyTimeStart = $(
-														"input[name='dtBegin']")
-														.val();
-												params.search_applyTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-											} else if (sel_time == "releaseTime") {
-												params.search_releaseTimeStart = $(
-														"input[name='dtBegin']")
-														.val();
-												params.search_releaseTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-											} else {
-												params.search_signTimeStart = $(
-														"input[name='dtBegin']")
-														.val("");
-												params.search_signTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-											}
-											var sel_caseInfo = $(
-													"#sel_caseInfo").val();
-											if (sel_caseInfo == "addr") {
-												params.search_propertyAddr = $(
-														"#txt_caseInfo").val();
-											} else if (sel_caseInfo == "custName") {
-												params.search_custName = $(
-														"#txt_caseInfo").val();
-											}
-
+											params.search_caseCode=$(
+											"input[name='caseCode']")
+											.val();
+											params.search_signNo=$(
+											"input[name='signNo']")
+											.val();
+											params.search_startDate=$(
+											"input[name='startDate']")
+											.val();
+											params.search_endDate=$(
+											"input[name='endDate']")
+											.val();
+											params.search_prAddress=$(
+											"input[name='prAddress']")
+											.val();
 											initData();
 										})
 
