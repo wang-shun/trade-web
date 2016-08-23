@@ -408,7 +408,11 @@ text-decoration: underline !important;
 </a></p><p>
 {{/if}}
 {{else}}
+{{ if item.SELLER.length>5}}<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+{{item.SELLER.substring(0,5)}}...</a>
+{{else}}
 {{item.SELLER}}
+{{/if}}
 {{/if}}
 						</p>
                          
@@ -430,8 +434,11 @@ text-decoration: underline !important;
 </a></p><p>
 {{/if}}
 {{else}}
-
+{{ if item.BUYER.length>5}}<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+{{item.BUYER.substring(0,5)}}...</a>
+{{else}}
 {{item.BUYER}}
+{{/if}}
 {{/if}}
                           </p>
                           

@@ -146,7 +146,8 @@ function initpage(totalCount,pageSize,currentPage,records) {
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(page);
+			//reloadGrid(page);
+			searchMethod(page);
 	    }
 	});
 }
