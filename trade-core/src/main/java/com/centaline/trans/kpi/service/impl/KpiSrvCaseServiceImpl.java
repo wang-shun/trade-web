@@ -190,10 +190,19 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		listEntity.add(generateNewEntity(entity, "Guohu", salesCallBack ? vo.getSalesTransferScore() : null,
 				buyerCallBack ? vo.getTransferScore() : null, true,
 				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 过户
-		listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, buyerCallBack ? vo.getComLoanScore() : null,
-				false, StrToBo(entity.getBuyerCallback())));// 下家贷款
-		listEntity.add(generateNewEntity(entity, "PSFSign", null, buyerCallBack ? vo.getAccuFundScore() : null, false,
-				StrToBo(entity.getBuyerCallback())));// 公积金贷款
+		
+		/* 下家贷款为空的话则不插入数据页面不显示   20160823*/
+		if(vo.getComLoanScore()!=null){
+			listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, buyerCallBack ? vo.getComLoanScore() : null,
+					false, StrToBo(entity.getBuyerCallback())));// 下家贷款
+		}
+		
+		/* 下家纯公积金为空的话则不插入数据页面不显示   20160823*/
+		if(vo.getAccuFundScore()!=null){
+			listEntity.add(generateNewEntity(entity, "PSFSign", null, buyerCallBack ? vo.getAccuFundScore() : null, false,
+					StrToBo(entity.getBuyerCallback())));// 公积金贷款
+		}
+		
 
 		return listEntity;
 	}
