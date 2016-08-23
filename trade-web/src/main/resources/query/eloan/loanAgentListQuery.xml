@@ -115,9 +115,9 @@
 						and loanAgent.RELEASE_TIME &lt; #releaseTimeEnd#
 					</ifNotNull>
 				    
-				    <ifNotNull yuCuiOriGrpId>
+					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
-					</ifNotNull>
+					</if>
 					
 					UNION ALL
 SELECT 
@@ -154,16 +154,29 @@ SELECT
 					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
 				    WHERE 
 				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
+				    
+				    <ifNotNull applyTimeStart>
+						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
+					</ifNotNull>
+					<ifNotNull applyTimeEnd>
+						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
+					</ifNotNull>
+					<ifNotNull signTimeStart>
+						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
+					</ifNotNull>
+					<ifNotNull signTimeEnd>
+						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
+					</ifNotNull>
+				    
 				    <ifNotNull releaseTimeStart>
 						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
 					</ifNotNull>
 					<ifNotNull releaseTimeEnd>
 						and rel.RELEASE_TIME &lt; #releaseTimeEnd#
 					</ifNotNull>
-				    <ifNotNull yuCuiOriGrpId>
+					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
-					</ifNotNull>
-					
+					</if>
 				]]>
 			</baseSql>
 			<orderBySql>

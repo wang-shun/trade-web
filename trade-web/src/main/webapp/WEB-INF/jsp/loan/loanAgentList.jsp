@@ -105,7 +105,7 @@ text-decoration: underline !important;
 										   expandNodeId:''})" />
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
 										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${isProduct==true?'ff8080814f459a78014f45a73d820006':serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   startOrgId:'${isProduct==true?'ff8080814f459a78014f45a73d820006':serviceDepId}',expandNodeId:'${isProduct==true?'ff8080814f459a78014f45a73d820006':serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
                                           <input type="hidden" id="yuCuiOriGrpId" value="${serOrgId==null?serviceDepId:serOrgId}">
 									</div>
@@ -300,10 +300,10 @@ text-decoration: underline !important;
 	     var argu_yuCuiOriGrpId = "${orgId}";
 	     // 如果是产品部，查询所有的
 	     var isProduct = "${isProduct}";
-	     if(isProduct==true) {
+	     if(isProduct=="true") {
 	    	 argu_yuCuiOriGrpId = '';
+	    	 $("#yuCuiOriGrpId").val('');
 	     }
-	     
 	 	 var orgName = "${sUserName}";
 	 	 
 	 	 aist.sortWrapper({
