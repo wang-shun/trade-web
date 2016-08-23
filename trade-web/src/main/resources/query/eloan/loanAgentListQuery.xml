@@ -64,7 +64,7 @@
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
 					  loanAgent.EXECUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.executor_team as 'PARENT_ORG_NAME_OLD',
+					  --loanAgent.executor_team as 'PARENT_ORG_NAME_OLD',
 					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
@@ -73,19 +73,18 @@
 					  isnull(Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000),0) as 'LOAN_AMOUNT',
 					  isnull(Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000),0) as 'SIGN_AMOUNT',
 					  isnull(Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000),0) as 'ACTUAL_AMOUNT',
-					  c.ORG_ID,
+					  c.DISTRICT_ID,
+					  caseInfo.GRP_NAME,
+					  caseInfo.QJDS_NAME,
 					  finOrg.FIN_ORG_NAME as 'finOrgName',
-					  loanAgent.cust_name as custName,
-					  orgJob.ORG_id as 'orgId'
+					  loanAgent.cust_name as custName
 					FROM 
 					   sctrans.T_TO_LOAN_AGENT loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE =  loanAgent.CASE_CODE
-					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
-					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.SYS_USER us ON   loanAgent.EXECUTOR_ID = us.id and us.is_deleted='0' 
+					LEFT JOIN  sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
-					LEFT JOIN sctrans.V_USER_ORG_JOB orgJob ON orgJob.user_id = caseInfo.AGENT_CODE and orgJob.ismain='1'
 				    <ifNotNull isJygw>
 						and loanAgent.EXECUTOR_ID = #userId#
 					</ifNotNull>
@@ -127,7 +126,7 @@ SELECT
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
 					  loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
+					  --loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
 					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
@@ -136,20 +135,19 @@ SELECT
         			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
         			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
 					ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT',
-					c.ORG_ID,
+					c.DISTRICT_ID,
+					caseInfo.GRP_NAME,
+					caseInfo.QJDS_NAME,
 					finOrg.FIN_ORG_NAME as 'finOrgName',
-					loanAgent.cust_name as custName,
-					orgJob.ORG_id as 'orgId'
+					loanAgent.cust_name as custName
 					FROM 
 					   sctrans.T_TO_ELOAN_CASE loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE = loanAgent.CASE_CODE
 					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
 					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE
-					INNER JOIN (SELECT * FROM sctrans.T_TO_PROPERTY_INFO ) INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN  SCTRANS.SYS_USER us ON loanAgent.EXCUTOR_ID = us.id and us.is_deleted='0' 
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE 
-					LEFT JOIN sctrans.V_USER_ORG_JOB orgJob ON orgJob.user_id = caseInfo.AGENT_CODE and orgJob.ismain='1'
 					<ifNotNull isJygw>
 						and loanAgent.EXCUTOR_ID = #userId#
 					</ifNotNull>
@@ -183,8 +181,10 @@ SELECT
 				<column type="virtual" name="LOAN_SRV_CODE" customDict="qqcdDictServCode" referencecol="LOAN_SRV_CODE_OLD"  display="产品名称" title="产品名称"/>
 				<column type="both" name="EXECUTOR_ID_OLD" index="" checkbox="" display="执行人" title="执行人" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="EXECUTOR_ID" customDict="getUserNameByUserId" referencecol="EXECUTOR_ID_OLD"  display="执行人" title="执行人"/>
+				<!-- 
 				<column type="both" name="PARENT_ORG_NAME_OLD" index="" checkbox="" display="所属服务部" title="所属服务部" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="PARENT_ORG_NAME" customDict="getParentOrgNameByOrgId" referencecol="PARENT_ORG_NAME_OLD"  display="所属服务部" title="所属服务部"/>
+				 -->
 				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价(万元)" title="合同价(万元)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="APPLY_TIME" index="" checkbox="" display="申请时间" title="申请时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_TIME" index="" checkbox="" display="面签时间" title="面签时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="" align="" halign="" order="" resizable="" />
@@ -195,10 +195,14 @@ SELECT
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费(元),评估确认时间" title="评估费(元),评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" title="创建时间" customDict="" sysDict="" format="" beanFormatter="datetimeFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" order="" resizable="" />
 				
-				<column type="virtual" name="GRP_NAME" customDict="getOrgNameByOrgId" referencecol="ORG_ID"  display="所属组别" title="所属组别"/>
+				
+				<column type="both" name="DISTRICT_ID" display="贵宾服务部ID" title="贵宾服务部ID"/>
+				<column type="virtual" name="DISTRICT_NAME" customDict="getOrgNameByOrgId" referencecol="DISTRICT_ID"  display="贵宾服务部" title="贵宾服务部"/>
+				
+				<column type="both" name="GRP_NAME" display="所属组别" title="所属组别"/>
+				<column type="both" name="QJDS_NAME" display="区董" title="区董"/>
 				<column type="both" name="finOrgName" index="" checkbox="" title="合作机构" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="custName" index="" checkbox="" title="客户姓名" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="virtual" name="jqydsName"  title="所属区董" 	customDict="qqcdJqydsName" referencecol="orgId" />	
 			</table-row>
 		</grid>
 	</query>
