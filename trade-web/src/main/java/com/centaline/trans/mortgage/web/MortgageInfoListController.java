@@ -1,7 +1,9 @@
 package com.centaline.trans.mortgage.web;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +74,7 @@ public class MortgageInfoListController {
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		
 		
+		//银行信息
 		List<TsFinOrg> tsFinOrgList= tsFinOrgService.findAllFinOrg();
 		List<Map<String, String>> FinOrgNameList=new ArrayList<Map<String,String>>();
 
@@ -88,6 +91,23 @@ public class MortgageInfoListController {
 			}
 		}
 		request.setAttribute("FinOrgNameList", FinOrgNameList);
+		
+		
+		//默认显示上周一至周日的时间
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();	
+		/*获取当前月份的上月第一天和最后一天
+		c1.add(Calendar.MONTH, -1);
+		c1.set(Calendar.DAY_OF_MONTH,1);
+		c2.set(Calendar.DAY_OF_MONTH,0);*/
+		/*获取当前月份的第一天和最后一天*/
+		c1.add(Calendar.MONTH, 0);
+		c1.set(Calendar.DAY_OF_MONTH,1);//
+		c2.set(Calendar.DAY_OF_MONTH, c2.getActualMaximum(Calendar.DAY_OF_MONTH));  
+		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
+		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+		request.setAttribute("startTime", start);
+		request.setAttribute("endTime", end);
 		
 		return "mortgage/mortgageInfoList2";		
 	}

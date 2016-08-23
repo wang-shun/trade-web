@@ -106,9 +106,9 @@
 						<div class="input-group sign-right dataleft input-daterange"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
 							<input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text"
-								value="" placeholder="起始时间"> <span
+								value="${startTime}" placeholder="起始时间"> <span
 								class="input-group-addon">到</span> <input id="dtEnd_0" name="dtEnd"
-								class="form-control data_style" type="text" value=""
+								class="form-control data_style" type="text" value="${endTime}"
 								placeholder="结束日期">
 						</div>
 					</div>

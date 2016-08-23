@@ -116,7 +116,9 @@
 					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 
 					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
                 where 
-					m.is_active = '1'					
+					m.is_active = '1'	
+					<ifNotNull idflag> AND 		sp.PROCESSOR_ID = #userId# 	</ifNotNull>
+					<ifNotNull queryorgs> AND sp.ORG_ID in (#queryorgs#)     </ifNotNull>			
 				)T    
 				where 1=1
 				
