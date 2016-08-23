@@ -375,7 +375,7 @@
 	    </script> <script>
 						var ctx = "${ctx}";
 						var serviceDepId = "${serviceDepId}";
-
+						
 						jQuery(document).ready(function() {
 							//情况查询条件
 							cleanSearchForm();
@@ -394,7 +394,7 @@
 
 							/* 加载排序查询组件 */
 							aist.sortWrapper({
-								reloadGrid : searchMethod
+								reloadGrid : loanLostApproveSearchMethod
 							});
 
 							reloadGrid(data);
@@ -408,7 +408,7 @@
 
 						// 查询
 						$('#searchButton').click(function() {
-							searchMethod();
+							loanLostApproveSearchMethod();
 						});
 
 						//组织图标选择
@@ -431,7 +431,7 @@
 						});
 
 						// 查询
-						function searchMethod(page) {
+						function loanLostApproveSearchMethod(page) {
 							if (!page) {
 								page = 1;
 							}
@@ -541,7 +541,7 @@
 								last : '<i class="fa fa-step-forward"></i>',
 								showGoto : true,
 								onPageClick : function(event, page) {
-									searchMethod(page);
+									loanLostApproveSearchMethod(page);
 								}
 							});
 						}
@@ -557,7 +557,7 @@
 							//todo  查询条件需要补充完善
 							data.startDate = startDate;
 							data.endDate = endDate;
-							data.caseCode = $("#caseCode").val();							
+							data.caseCode = $("#caseCode").val().trim();;							
 							data.propertyAddr = $("#propertyAddr").val();
 							data.caseoperator = $("#caseoperator").val();
 							// 获取组织或者人员

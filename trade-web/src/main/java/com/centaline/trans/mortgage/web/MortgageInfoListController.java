@@ -1,12 +1,10 @@
 package com.centaline.trans.mortgage.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.List;
 
 import javax.servlet.ServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,30 +59,9 @@ public class MortgageInfoListController {
 		request.setAttribute("queryOrgs", reBuffer.toString());
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);	
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		
-		//默认显示上月数据
-		Calendar c1 = Calendar.getInstance();
-		Calendar c2 = Calendar.getInstance();
 		
-		c1.set(Calendar.DAY_OF_MONTH, 1); 
-		c1.add(Calendar.MONTH,-1);
-		
-		c2.set(Calendar.DAY_OF_MONTH, 0); 
-
-		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Month start
-		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Month end
-		
-		String signTimeStart = request.getParameter("signTimeStart");
-		String signTimeEnd = request.getParameter("signTimeEnd");
-
-		if(StringUtils.isEmpty(signTimeStart) && StringUtils.isEmpty(signTimeEnd)){
-			signTimeStart = start;
-			signTimeEnd = end;
-		}
-
-		request.setAttribute("signTimeStart", signTimeStart);
-		request.setAttribute("signTimeEnd", signTimeEnd);
-		
-		return "mortgage/mortgageInfoList";		
+		return "mortgage/mortgageInfoList2";		
 	}
 }

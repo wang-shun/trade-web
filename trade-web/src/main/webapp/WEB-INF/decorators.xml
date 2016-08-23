@@ -34,6 +34,8 @@
 		<pattern>/eloan/getEloanCaseDetails</pattern>
 		<pattern>/eloan/task/eloanApply/process</pattern>
 		<pattern>/mortgage/mortgageApproveLost</pattern>
+		<pattern>/mortgageInfo/list</pattern>
+		
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->
