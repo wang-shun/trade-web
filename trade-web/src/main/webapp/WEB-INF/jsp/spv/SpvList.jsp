@@ -31,7 +31,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="../static/iconfont/iconfont.css"">
 <!-- 分页控件 -->
 <link href="${ctx}/static/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
@@ -68,9 +67,9 @@
 					</div>
 					<div class="form-group form-margin form-space-one">
 						<label for="" class="lable-one">协议起草</label> <select
-							class="form-control select-one" name="qicao">
-							<option>最新协议</option>
-							<option>最新协议</option>
+							class="form-control select-one" name="qicao"  id="qicao">
+							<option value="">请选择</option>
+							<option>起草</option>
 							<option>最新协议</option>
 							<option>最新协议</option>
 							<option>最新协议</option>
@@ -78,10 +77,13 @@
 					</div>
 					<div class="form-group form-margin">
 						<label for="" class="lable-one">交易状态</label> <select
-							class="form-control select-one" name="status">
-							<option>已完成</option>
-							<option>已完成</option>
-							<option>已完成</option>
+							class="form-control select-one" id="status" name="status">
+							<option value="">请选择</option>
+							<option>起草</option>
+							<option>申请</option>
+							<option>入账</option>
+							<option>放款</option>
+							<option>完成</option>
 						</select>
 					</div>
 				</div>
@@ -151,7 +153,7 @@
 
                 <tr>
                                         <td class="text-center">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" name="item" />
                                         </td>
                                         <td class="center">
                                             <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
@@ -184,13 +186,13 @@
                                         </td>
                                         <td class="center">
                                             <p class="managerstyle">
-                                                监管金额<span>{{item.AMOUNT}}万</span>
+                                                监管金额<span>{{item.AMOUNT>0?item.AMOUNT:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>{{item.ru}}万</span>
+                                                入账金额<span>{{item.ru>0?item.ru:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>{{item.chu}}万</span>
+                                                出账金额<span>{{item.chu>0?item.chu:0}}万</span>
                                             </p>
                                         </td>
                                         <td>
@@ -207,8 +209,8 @@
                                                 <a href="#"><em>经办人：</em>{{item.CREATE_BY}}</a>
                                             </span>
                                         </td>
-                                        <td class="text-center">
-                                           <button class="btn btn-success">查看</button>
+                                        <td class="text-center"><a class="btn btn-success"
+                                           href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">查看</a>
                                         </td>
                                     </tr>
 			{{/each}}          
@@ -226,6 +228,16 @@
 						//查询数据
 						function clearForm(){  
 						 $("#serachForm").find("input").val("")
+						 $("#status option:first").prop("selected", 'selected');
+						 $("#qicao option:first").prop("selected", 'selected');
+						}
+						//选中全部
+						function changeAll(){
+							var falg=$("#all").prop("checked")
+							  var checkboxs = document.getElementsByName("item");  
+							  for ( var i = 0; i < checkboxs.length; i+=1) {  
+							    checkboxs[i].checked = falg;  
+							  }  
 						}
 					 
 						//清空数据
@@ -274,7 +286,7 @@
 												data : params,
 												columns : [
 														{
-															colName : "<input type='checkbox' name='spv'  id='all'/>	"
+															colName : "<input type='checkbox' name='spv' onChange='changeAll()' id='all'/>	"
 														},
 														{
 															colName : ""
