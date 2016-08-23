@@ -446,7 +446,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			if(!isManagerApprove){
 //				mortageDb.setRecLetterNo("");
 //				mortageDb.setTmpBankUpdateBy("");
-				mortageDb.setIsTmpBank("0");
+//				mortageDb.setIsTmpBank("0");
 //				mortageDb.setLastLoanBank("");
 //				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
@@ -487,7 +487,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			if(!isSeniorManagerApprove ){
 //				mortageDb.setRecLetterNo("");
 //				mortageDb.setTmpBankUpdateBy("");
-				mortageDb.setIsTmpBank("0");
+//				mortageDb.setIsTmpBank("0");
 //				mortageDb.setLastLoanBank("");
 //				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
@@ -521,7 +521,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			if("false".equals(tmpBankCheck)){
 //				mortageDb.setRecLetterNo("");
 //				mortageDb.setTmpBankUpdateBy("");
-				mortageDb.setIsTmpBank("0");
+//				mortageDb.setIsTmpBank("0");
 //				mortageDb.setLastLoanBank("");
 //				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
