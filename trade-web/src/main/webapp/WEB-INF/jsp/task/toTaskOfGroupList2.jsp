@@ -81,7 +81,7 @@
 			<div class="form_content space">
 				<div class="add_btn">
 					<button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
-					<button onclick="showOptUsers();" type="button" class="btn btn_blue" >批量分配</button>
+					<button onclick="showOptUsers();" type="button" class="btn btn_blue" disabled="true" id="caseDistributeButton">批量分配</button>
 				</div>
 			</div>
 		</form>

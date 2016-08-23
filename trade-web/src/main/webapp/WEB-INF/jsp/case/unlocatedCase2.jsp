@@ -87,7 +87,7 @@
 					 	<div class="add_btn">		
 					        <button type="button" class="btn btn-success" onclick="javascript:loadGrid(1)"> <i class="icon iconfont"></i>查询 </button>	
 					        <button type="button" class="btn btn-success" onclick="javascript:clean()"> 清空 </button>	
-					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton"> 案件分配 </button>	
+					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>	
 					     </div>
 					 </div>
 			    </div>
@@ -192,7 +192,7 @@
             	<tr class="tr-2">
             {{/if}}
 				<td class="center">
-					<input type="checkbox" name="ckb_task" onclick="ckbChange();" style="margin-top: 9px;float: left;"  /> 
+					<input type="checkbox" name="ckb_task" onclick="ckbChange();" value="{{item.CASE_CODE}}" style="margin-top: 9px;float: left;"  /> 
 							<input type='hidden'  disabled>
 							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
 				</td>
@@ -310,13 +310,14 @@
 			url = ctx + url;
 			
 			var caseInfoList = new Array();
+			var sendData = $("input[name='ckb_task']:checked").serializeArray();
 			
-			var sendData=$('#form1').serializeArray();
+			//var sendData=$('#form1').serializeArray();
 			
 			for(var index in sendData){
 			     var obj = sendData[index];
 			     //alert(JSON.stringify(obj));
-			     if(obj.name=='caseCodes'){
+			     if(obj.name=='ckb_task'){
 				     var toCaseInfo = {
 					   caseCode	: obj.value,
 					   grpCode :  ''
@@ -325,7 +326,7 @@
 				     caseInfoList.push(toCaseInfo);
 			     }
 			 }
-			//return;
+			
 			var teamTransferVO = {
 			   caseInfoList	: caseInfoList,
 			   orgId : orgId
@@ -362,6 +363,7 @@
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
+						loadGrid(1);
 					}else{
 						alert(data.message);
 					}
