@@ -197,4 +197,6 @@ public interface ToSpvService {
 	List<ToSpvDeDetail> findDeDetailByDeId(String deId);
 	
 
+	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
+
 }

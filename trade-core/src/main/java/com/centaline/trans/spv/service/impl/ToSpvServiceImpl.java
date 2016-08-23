@@ -2,6 +2,7 @@ package com.centaline.trans.spv.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -501,12 +502,21 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvPropertyMapper.insertSelective(toSpvProperty);
 			}
 		}
+
+	}
+	
+	@Override
+	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
 		
-		// 查询风控总监
+		saveNewSpv(spvBaseInfoVO,user);
+
+		ToCase te=toCaseService.findToCaseByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		String orgId = te.getOrgId();
+		// 查询风控专员和总监
 	  	//User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "");
     	Map<String, Object> vars = new HashMap<String,Object>();
-    	vars.put("RiskControlOfficer", user.getUsername());
-    	vars.put("RiskControlDirector", user.getUsername());
+    	vars.put("RiskControlOfficer", uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "JYFKZY"));
+    	vars.put("RiskControlDirector", uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "JYFKZJ"));
     	
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getSpvProcessDfKey(),spvBaseInfoVO.getToSpv().getSpvCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
@@ -542,16 +552,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 		String spvCode = toSpv.getSpvCode();
 		/**2.spvCustList*/
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
+		List<ToSpvCust> spvNewCustList = Arrays.asList(null,null,null,null);
 		//排序：买方->卖方->监管账户->资金方
 		for(ToSpvCust toSpvCust:spvCustList){
 			if("BUYER".equals(toSpvCust.getTradePosition())){
-				spvCustList.set(0, toSpvCust);
+				spvNewCustList.set(0, toSpvCust);
 			}else if("SELLER".equals(toSpvCust.getTradePosition())){
-				spvCustList.set(1, toSpvCust);
+				spvNewCustList.set(1, toSpvCust);
 			}else if("SPV".equals(toSpvCust.getTradePosition())){
-				spvCustList.set(2, toSpvCust);
+				spvNewCustList.set(2, toSpvCust);
 			}else if("FUND".equals(toSpvCust.getTradePosition())){
-				spvCustList.set(3, toSpvCust);
+				spvNewCustList.set(3, toSpvCust);
 			}
 		}
 		/**3.toSpvDe*/
@@ -560,16 +571,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(String.valueOf(toSpvDe.getPkid()));
 		/**5.toSpvAccountList*/
 		List<ToSpvAccount> toSpvAccountList = toSpvAccountMapper.selectBySpvCode(spvCode);
+		List<ToSpvAccount> toSpvNewAccountList = Arrays.asList(null,null,null,null);
 		//排序：买方->卖方->监管账户->资金方
 		for(ToSpvAccount toSpvAccount:toSpvAccountList){
 			if("BUYER".equals(toSpvAccount.getAccountType())){
-				toSpvAccountList.set(0, toSpvAccount);
+				toSpvNewAccountList.set(0, toSpvAccount);
 			}else if("SELLER".equals(toSpvAccount.getAccountType())){
-				toSpvAccountList.set(1, toSpvAccount);
+				toSpvNewAccountList.set(1, toSpvAccount);
 			}else if("SPV".equals(toSpvAccount.getAccountType())){
-				toSpvAccountList.set(2, toSpvAccount);
+				toSpvNewAccountList.set(2, toSpvAccount);
 			}else if("FUND".equals(toSpvAccount.getAccountType())){
-				toSpvAccountList.set(3, toSpvAccount);
+				toSpvNewAccountList.set(3, toSpvAccount);
 			}
 		}
 		/**6.toSpvProperty*/
@@ -577,10 +589,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		/**装载属性*/
 		spvBaseInfoVO.setToSpv(toSpv);
-		spvBaseInfoVO.setSpvCustList(spvCustList);
+		spvBaseInfoVO.setSpvCustList(spvNewCustList);
 		spvBaseInfoVO.setToSpvDe(toSpvDe);
 		spvBaseInfoVO.setToSpvDeDetailList(toSpvDeDetailList);
-		spvBaseInfoVO.setToSpvAccountList(toSpvAccountList);
+		spvBaseInfoVO.setToSpvAccountList(toSpvNewAccountList);
 		spvBaseInfoVO.setToSpvProperty(toSpvProperty);
 		
 		return spvBaseInfoVO;	
