@@ -16,6 +16,11 @@ label {
   border-radius: 2px;
 }
 
+.btn-grey {
+  background: #eee;
+  color: #1c84c6;
+}
+
 .chosen-container-single .chosen-single {
   background: #fff;
   box-shadow: none;

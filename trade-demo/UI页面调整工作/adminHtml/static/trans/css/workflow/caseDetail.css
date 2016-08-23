@@ -6,27 +6,50 @@
   color: #fff;
   text-align: center;
   font-family: "Microsoft Yahei";
-  font-size: 15px;
+  font-size: 14px;
 }
 #basicInfo .sign-red {
-  background: url(../../img/nidaye.png) no-repeat;
+  background: url(../../img/qizi-01.png) no-repeat;
   top: 0px;
   left: 130px;
-  width: 42px;
-  height: 40px;
+  width: 36px;
+  height: 35px;
 }
 #basicInfo .sign-blue {
-  background: url(../../img/nidayehh.png) no-repeat;
+  background: url(../../img/qizi-02.png) no-repeat;
   top: 0px;
   left: 190px;
-  width: 55px;
-  height: 40px;
+  width: 52px;
+  height: 35px;
 }
 
 .title {
   float: left;
   font-size: 14px;
   font-weight: 700;
+  font-family: "Microsoft Yahei";
+  margin-top: 5px;
+}
+
+.title_sign_left {
+  margin-left: 30px;
+}
+
+.title_sign {
+  margin-right: 10px;
+  padding: 2px 7px;
+  font-size: 14px;
+  font-style: normal;
+  color: #fff;
+  border-radius: 2px;
+}
+
+.title_sign_red {
+  background-color: #ed5565;
+}
+
+.title_sign_blue {
+  background-color: #52cdec;
 }
 
 .checkbox.checkbox-inline > div {

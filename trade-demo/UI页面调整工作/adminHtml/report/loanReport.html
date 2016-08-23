@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>
-            流失案件
+            贷款信息报表
         </title>
         <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
@@ -79,7 +79,7 @@
                             <iframe id="tmp_downloadhelper_iframe" style="display: none;">
                             </iframe>
                         </li>
-                        <li class="active">
+                        <li class="">
                             <a href="#">
                                 <i class="fa fa-th-large">
                                 </i>
@@ -95,6 +95,13 @@
                                         <i class="fa ">
                                         </i>
                                         案件总览
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="myCaseList.html">
+                                        <i class="fa ">
+                                        </i>
+                                        贷款信息列表
                                     </a>
                                 </li>
                                 <li class="">
@@ -132,7 +139,7 @@
                                         案件追踪
                                     </a>
                                 </li>
-                                <li class="active">
+                                <li>
                                     <a href="mortgageApproveLost.html">
                                         <i class="fa ">
                                         </i>
@@ -144,6 +151,68 @@
                                         <i class="fa ">
                                         </i>
                                         本组待办列表
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a href="#">
+                                <i class="fa fa-th-large">
+                                </i>
+                                <span class="nav-label">
+                                    报表
+                                </span>
+                                <span class="fa arrow">
+                                </span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li class="">
+                                    <a href="district.html">
+                                        <i class="fa ">
+                                        </i>
+                                        区域报表
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="../workflow/caseDistribute.html">
+                                        <i class="fa ">
+                                        </i>
+                                        金融产品报表
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="../workflow/myTaskList.html">
+                                        <i class="fa ">
+                                        </i>
+                                        评估费报表
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../workflow/unlocatedTasks.html">
+                                        <i class="fa ">
+                                        </i>
+                                        贷款流失报表
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="unlocatedCase.html">
+                                        <i class="fa ">
+                                        </i>
+                                        贷款信息报表
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="unlocatedCase.html">
+                                        <i class="fa ">
+                                        </i>
+                                        临时银行案件列表
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="tracking.html">
+                                        <i class="fa ">
+                                        </i>
+                                        案件工作量详情
                                     </a>
                                 </li>
                             </ul>
@@ -443,7 +512,7 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">
-                            贷款流失筛选
+                            贷款信息报表
                         </h2>
                         <form method="get" class="form_list">
                             <div class="line">
@@ -451,33 +520,67 @@
                                     <label class="control-label sign_left_small">
                                         案件编号
                                     </label>
-                                    <input class="teamcode input_type" placeholder="请输入" value="" />
+                                    <input class="teamcode input_type" placeholder="" value="" />
                                 </div>
+
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         产证地址
                                     </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="" />
+                                    <input class="teamcode input_type" style="width:435px;" placeholder="" value="" />
                                 </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        贷款专员
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="" />
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        组织
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="" />
 
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        主贷人
+                                    </label>
+                                    <input class="input_type" placeholder="" value="" style="width:74px;" />
+                                </div>
 
                             </div>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        主办
+                                        贷款银行
                                     </label>
-                                    <input class="teamcode input_type" placeholder="请输入" value="" />
-                                    <div class="input-group float_icon organize_icon">
-                                        <i class="icon iconfont">&#xe627;</i>
-                                    </div>
+                                    <select name="" id="" class="teamcode select_control ">
+                                        <option value="">请选择</option>
+                                    </select>
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        审批日期
-                                    </label>
+                                <div class="form_content" style="margin-left: 126px;">
+                                    <select class="form-control mend_select sign_left_small" style="width:105px;">
+                                        <option value="">
+                                            签约时间
+                                        </option>
+                                        <option value="">
+                                            放款时间
+                                        </option>
+                                        <option value="">
+                                            批款时间
+                                        </option>
+                                    </select>
                                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
                                         <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
                                     </div>
                                 </div>
@@ -487,46 +590,83 @@
 
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        案件组织
+                                        贷款支行
                                     </label>
-                                    <input class="teamcode input_type" placeholder="请输入" value="" />
-                                    <div class="input-group float_icon organize_icon">
-                                        <i class="icon iconfont">&#xe61b;</i>
+                                     <select name="" id="" class="teamcode select_control ">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        是否临时银行
+                                    </label>
+                                    <div class="controls">
+                                        <label class="radio inline">
+                                          <input type="radio" value="1" checked="checked" name="group">
+                                          全部
+                                        </label>
+                                        <label class="radio inline">
+                                          <input type="radio" value="1" name="group">
+                                          是
+                                        </label>
+                                        <label class="radio inline">
+                                          <input type="radio" value="2" name="group">
+                                          否
+                                        </label>
                                     </div>
                                 </div>
-
                                 <div class="form_content">
-                                    <div class="goods_type themelist">
-                                        <label class="control-label sign_left_small">
-                                            贷款类型
+                                    <label class="control-label sign_left_small">
+                                        是否流失
+                                    </label>
+                                    <div class="controls">
+                                        <label class="radio inline">
+                                          <input type="radio" value="1" checked="checked" name="lose">
+                                          全部
                                         </label>
-                                        <span id="srvCode_0_0" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            未选择
-                                        </span>
-                                        <span id="srvCode_0_1" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            纯商贷
-                                        </span>
-                                        <span id="srvCode_0_3" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            组合贷
-                                        </span>
+                                        <label class="radio inline">
+                                          <input type="radio" value="1" name="lose">
+                                          是
+                                        </label>
+                                        <label class="radio inline">
+                                          <input type="radio" value="2" name="lose">
+                                          否
+                                        </label>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="form_content space">
-                                    <div class="add_btn" style="margin-left:122px;">
-                                        <button type="button" class="btn btn-success">
-                                            <i class="icon iconfont">&#xe635;</i>
-                                            查询
-                                        </button>
-                                        <button type="button" class="btn btn-success">
-                                            导出列表
-                                        </button>
-                                        <button type="button" class="btn btn-grey">
-                                            清空
-                                        </button>
+                            <div class="line">
+                                <div class="form_content">
+                                    <select class="form-control mend_select sign_left_small" style="width:105px;">
+                                        <option value="">
+                                            商贷
+                                        </option>
+                                        <option value="">
+                                            总额
+                                        </option>
+                                        <option value="">
+                                            公积金
+                                        </option>
+                                    </select>
+                                    <div class="input-group sign-right dataleft " data-date-format="yyyy-mm-dd">
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="万元" > <span class="input-group-addon" >到</span>
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="万元" >
                                     </div>
                                 </div>
+                                <div class="add_btn" style="margin-left:488px;">
+                                    <button type="button" class="btn btn-success">
+                                        <i class="icon iconfont">&#xe635;</i>
+                                        查询
+                                    </button>
+                                    <button type="button" class="btn btn-success">
+                                        导出列表
+                                    </button>
+                                    <button type="button" class="btn btn-grey">
+                                        清空
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="row">
@@ -539,238 +679,77 @@
                                                 <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
                                             </th>
                                             <th>
-                                                产权地址
+                                                案件地址
                                             </th>
                                             <th>
-                                                审批时间
+                                                时间
                                             </th>
                                             <th>
-                                                经办人
+                                                主贷人
                                             </th>
                                             <th>
-                                                贷款类型<a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                                贷款金额
+                                            </th>
+                                            <th>
+                                                案件类型
+                                            </th>
+                                             <th>
+                                                归属组
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
+                                                <p class="big">
+                                                    <a href="javascript:;">
+                                                        ZY-AJ-201605-0952
+                                                    </a>
+                                                </p>
+                                            </td>
                                             <td>
                                                 <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                    上海杨浦区平路街道（内环）鞍山八村29号
                                                 </p>
                                                 <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
                                                     <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                        中国建设银行股份有限公司上海分行
                                                     </a>
                                                 </p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">贷</i>
+                                                    2016-05-30
                                                 </p>
-
-
-                                            </td>
-                                            <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
-                                            </td>
-                                            <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                            <td>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                                </p>
-                                                <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">审</i>
+                                                    2016-05-30
                                                 </p>
-
-
-                                            </td>
-                                            <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
-                                            </td>
-                                            <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                            <td>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                                </p>
-                                                <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">放</i>
+                                                    2016-05-30
                                                 </p>
-
-
                                             </td>
                                             <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                                娇娇
                                             </td>
                                             <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                            <td>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                                </p>
-                                                <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
-                                                </p>
-
-
-                                            </td>
-                                            <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                                <span class="manager">总额：1120万</span>
+                                                <span class="manager">商贷：620万</span>
+                                                <span class="manager">公积金：620万</span>
                                             </td>
                                             <td class="center">
                                                 <p>
                                                     <i class="sign_blue">
-                                                        纯商贷
+                                                        临时银行
                                                     </i>
                                                 </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                            <td>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                                </p>
-                                                <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
-                                                </p>
-
-
+                                                <p>流失</p>
                                             </td>
                                             <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
-                                            </td>
-                                            <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
+                                                杨浦区贵宾服务A组
+                                                <span class="manager">贷款专员：<a href="#">小小</a></span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -780,39 +759,44 @@
                                                         ZY-AJ-201605-0952
                                                     </a>
                                                 </p>
-                                                <p>
-                                                    <i class="tag_sign">c</i>
-                                                    BKS-2-451341-2154
-                                                </p>
                                             </td>
                                             <td>
                                                 <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                    上海杨浦区平路街道（内环）鞍山八村29号
                                                 </p>
                                                 <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
                                                     <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                        中国建设银行股份有限公司上海分行
                                                     </a>
                                                 </p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">贷</i>
+                                                    2016-05-30
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">审</i>
+                                                    2016-05-30
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">放</i>
+                                                    2016-05-30
                                                 </p>
                                             </td>
                                             <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                               娇娇
                                             </td>
                                             <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
+                                                <span class="manager">总额：1120万</span>
+                                                <span class="manager">商贷：620万</span>
+                                                <span class="manager">公积金：620万</span>
+                                            </td>
+                                            <td class="center">
+                                                <p>流失</p>
+                                            </td>
+                                            <td class="center">
+                                                杨浦区贵宾服务A组
                                             </td>
                                         </tr>
                                         <tr>
@@ -822,39 +806,48 @@
                                                         ZY-AJ-201605-0952
                                                     </a>
                                                 </p>
-                                                <p>
-                                                    <i class="tag_sign">c</i>
-                                                    BKS-2-451341-2154
-                                                </p>
                                             </td>
                                             <td>
                                                 <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                    上海杨浦区平路街道（内环）鞍山八村29号
                                                 </p>
                                                 <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
                                                     <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                        中国建设银行股份有限公司上海分行
                                                     </a>
                                                 </p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">贷</i>
+                                                    2016-05-30
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">审</i>
+                                                    2016-05-30
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">放</i>
+                                                    2016-05-30
                                                 </p>
                                             </td>
                                             <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                               娇娇
+                                            </td>
+                                            <td class="center">
+                                                <span class="manager">总额：1120万</span>
+                                                <span class="manager">商贷：620万</span>
+                                                <span class="manager">公积金：620万</span>
                                             </td>
                                             <td class="center">
                                                 <p>
                                                     <i class="sign_blue">
-                                                        纯商贷
+                                                        临时银行
                                                     </i>
                                                 </p>
+                                            </td>
+                                            <td class="center">
+                                                杨浦区贵宾服务A组
                                             </td>
                                         </tr>
                                         <tr>
@@ -864,83 +857,48 @@
                                                         ZY-AJ-201605-0952
                                                     </a>
                                                 </p>
-                                                <p>
-                                                    <i class="tag_sign">c</i>
-                                                    BKS-2-451341-2154
-                                                </p>
                                             </td>
                                             <td>
                                                 <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                                    上海杨浦区平路街道（内环）鞍山八村29号
                                                 </p>
                                                 <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
                                                     <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                                        中国建设银行股份有限公司上海分行
                                                     </a>
                                                 </p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">贷</i>
+                                                    2016-05-30
                                                 </p>
-                                            </td>
-                                            <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
-                                            </td>
-                                            <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    <a href="javascript:;">
-                                                        ZY-AJ-201605-0952
-                                                    </a>
-                                                </p>
-                                                <p>
-                                                    <i class="tag_sign">c</i>
-                                                    BKS-2-451341-2154
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                                </p>
-                                                <p>
-                                                    <i class="salesman-icon">
-                                                    </i>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">创</i>
-                                                    2016-05-30 9:20
+                                                    <i class="sign_normal">审</i>
+                                                    2016-05-30
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">放</i>
+                                                    2016-05-30
                                                 </p>
                                             </td>
                                             <td class="center">
-                                                <span class="manager"><a href="#"><em>主办人：</em>金娇娇</a></span>
-                                                <span class="manager"><a href="#"><em>审批人：</em>许庆祺</a></span>
+                                               娇娇
                                             </td>
                                             <td class="center">
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        纯商贷
-                                                    </i>
-                                                </p>
+                                                <span class="manager">总额：1120万</span>
+                                                <span class="manager">商贷：620万</span>
+                                                <span class="manager">公积金：620万</span>
+                                            </td>
+                                            <td class="center">
+                                            </td>
+                                            <td class="center">
+                                                杨浦区贵宾服务A组
                                             </td>
                                         </tr>
+
+
+
                                     </tbody>
                                 </table>
                                 <div class="text-center page_box">
@@ -1060,6 +1018,7 @@
                     autoclose: true
                 });
             });
+
         </script>
 
     </body>
