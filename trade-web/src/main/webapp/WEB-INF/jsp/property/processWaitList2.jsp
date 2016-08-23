@@ -87,10 +87,13 @@
     	{{each rows as item index}}
  			<tr>
 				<td>
-					<p class="big deep_grey">{{item.DIST_CODE}}</p>
+					
 					<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
 				</td>
-				<td><p class="big tint_grey">{{item.PROPERTY_ADDR}}</p></td>
+				<td>
+					<p class="big deep_grey">{{item.DIST_CODE}}</p>
+					<p class="big tint_grey">{{item.PROPERTY_ADDR}}</p>
+				</td>
 				<td><p class="smll_sign"><i class="sign_normal">申</i>{{item.PR_APPLY_TIME}}</p></td>
                 <td>
                 	<span class="manager">

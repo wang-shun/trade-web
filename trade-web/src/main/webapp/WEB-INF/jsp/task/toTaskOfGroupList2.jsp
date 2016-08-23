@@ -81,7 +81,7 @@
 			<div class="form_content space">
 				<div class="add_btn">
 					<button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
-					<button onclick="showOptUsers();" type="button" class="btn btn_blue" >批量分配</button>
+					<button onclick="showOptUsers();" type="button" class="btn btn_blue" disabled="true" id="caseDistributeButton">批量分配</button>
 				</div>
 			</div>
 		</form>
@@ -104,7 +104,7 @@
 					<th >流程环节</th>
 					<th >案件地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
-					<th >经办人</th>
+					<th >执行人</th>
 					<th >操作</th>
 				</tr>
 			</thead>
@@ -213,19 +213,28 @@
 					</td>
 					<td >
 						
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+</p><p>
 {{item.PROPERTY_ADDR}}
 {{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
-								 <a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息: {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}" >
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+								
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11}}	
+ <a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息: {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}" >	
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}					
+{{else}}
+</a>
+ <a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}  " >
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}
 {{/if}}	
 								 </a>
@@ -235,12 +244,12 @@
  						
 						{{if item.CREATE_TIME!=null}}
 						   <p>  
-                              <i class="sign_normal">申</i>
+                              <i class="sign_normal">创</i>
                                  {{item.CREATE_TIME}}          
                           </p>
 						{{else}}
                             <p>  
-                              <i class="sign_grey">申</i>
+                              <i class="sign_grey">创</i>
                                  {{item.CREATE_TIME}}          
                            </p>
 						{{/if}}
@@ -258,7 +267,7 @@
 
 					</td>
 					<td class="center">
- 						 <span class="manager">执行人：<a href="#">金娇娇</a></span>
+ 						 <p>执行人：{{item.assignee}}</p>
 					</td>
 					<td class="text-center">
  						 <i class="iconfont icon_revise" onclick="showOptUsers('{{item.ID}}','{{item.CASE_CODE}}')" target="_blank">&#xe603;

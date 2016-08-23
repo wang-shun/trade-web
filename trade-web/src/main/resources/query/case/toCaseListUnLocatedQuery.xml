@@ -48,7 +48,7 @@
 						TCI.IMPORT_TIME,
 						TCI.GRP_NAME as ORG_NAME,
 						TCI.GRP_CODE as AGENT_ORG_CODE,
-						PI.PROPERTY_ADDR,TCI.AGENT_PHONE,
+						PI.PROPERTY_ADDR,TCI.AGENT_PHONE,TCI.QYZJ_NAME as qyzjNAME,
 						iif(TCI.QYJL_NAME is null or TCI.QYJL_NAME = '',TCI.QYZJ_NAME,TCI.QYJL_NAME ) LEADER						
 					FROM
 						sctrans.T_TO_CASE_INFO AS TCI
@@ -73,6 +73,7 @@
 				<column type="both" name="IMPORT_TIME"  display="导入时间"  beanFormatter="dateFormatter1"   />			
 				<column type="both" name="LEADER"  	title="区经/区总" />	
 				<column type="both" name="AGENT_PHONE"  	title="电话" />	
+				<column type="both" name="qyzjNAME"  	title="区董" />	
 			</table-row>
 		</grid>
 	</query>

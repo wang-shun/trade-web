@@ -250,9 +250,7 @@ width: 80px;
 				</td>
 				<td >
 						<p class="big">
-							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">
                           		{{item.CASE_CODE}}
-							</a>
                          </p>
                         <p>
                           <i class="tag_sign">c</i>
@@ -261,10 +259,12 @@ width: 80px;
 				</td>
 				<td >
 
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+</p><p>
 {{item.PROPERTY_ADDR}}
 {{/if}}					 
 						</p>
@@ -297,8 +297,8 @@ width: 80px;
 
 				</td>
 				<td class="center">
-                        <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
-                        <span class="manager"><a href="#"><em>区总：</em>{{item.qyzjNAME}}</a></span>
+                        <p >区经：{{item.LEADER}}</p>
+                        <p >区董：{{item.qyzjNAME}}</p>
                  </td>
 				<td class="center">
                          

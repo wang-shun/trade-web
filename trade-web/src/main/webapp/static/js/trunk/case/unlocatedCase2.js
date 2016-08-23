@@ -1,6 +1,4 @@
-/**
- * 佣金管理 wanggh
- */
+
 
 $(document).ready(function() {
 	loadGrid(1);
@@ -50,7 +48,7 @@ $('#datepicker').datepicker({
 
 /*获取未分配案件列表*/
 function loadGrid(page) {
-
+	$("#caseChangeTeamButton").attr("disabled", true);
 	var data = getQueryParams(page);
 	var ctx = $("#ctx").val();
 	
@@ -286,3 +284,40 @@ function radioOrgSelectCallBack(array){
 	}
 }
 
+/*全选框绑定全选/全不选属性*/
+$('#checkAllNot').click(function(){
+	var my_checkboxes = $('input[name="ckb_task"]');
+	//var parE=$(event.target).closest('td');
+	if($(this).prop('checked')){
+		for(var i=0; i<my_checkboxes.length; i++){
+			$('input[name="ckb_task"]:eq('+i+')').prop('checked',true);
+			//parE.find("input[name='taskIds']").attr("disabled",true);
+			//parE.find("input[name='caseCodes']").attr("disabled",true);
+			$("#caseChangeTeamButton").attr("disabled", false);
+		}
+	}else{
+		for(var i=0; i<my_checkboxes.length; i++){
+			$('input[name="ckb_task"]:eq('+i+')').prop('checked',false);
+			//parE.find("input[name='taskIds']").removeAttr("disabled");
+			//parE.find("input[name='caseCodes']").removeAttr("disabled");
+			$("#caseChangeTeamButton").attr("disabled", true);
+		}
+	}
+});
+
+
+
+
+function ckbChange(){
+	
+	$("#caseChangeTeamButton").attr("disabled", false);
+	var parE=$(event.target).closest('td');
+	if($(event.target).attr('checked')){
+		parE.find("input[name='taskIds']").attr("disabled",true);
+		parE.find("input[name='caseCodes']").attr("disabled",true);
+	}else{
+		parE.find("input[name='taskIds']").removeAttr("disabled");
+		parE.find("input[name='caseCodes']").removeAttr("disabled");	
+	}
+	
+}

@@ -17,6 +17,8 @@ $('#searchButton').click(function(){
 });
 //search
 function searchMethod(page){
+	$("#caseDistributeButton").attr("disabled", true);
+	$("#caseChangeTeamButton").attr("disabled", true);
 	var data = getQueryParams(page);
     aist.wrap(data);
 	reloadGrid(data);
@@ -144,7 +146,8 @@ function initpage(totalCount,pageSize,currentPage,records) {
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(page);
+			//reloadGrid(page);
+			searchMethod(page);
 	    }
 	});
 }
@@ -394,7 +397,9 @@ function distributeCase(index){
 									alert("分配成功");
 									$('#modal-form').modal("hide");
 									//jqGrid reload
-									reloadGrid(1);
+									/*
+									reloadGrid(1);*/
+									searchMethod(1);
 								}else{
 									alert(data.message);
 								}
@@ -485,7 +490,9 @@ function changeCaseTeam(){
 					alert("分配成功");
 					$('#team-modal-form').modal("hide");
 					//jqGrid reload
-					reloadGrid(1);
+					/*
+					reloadGrid(1);*/
+					searchMethod(1);
 				}else{
 					alert(data.message);
 				}

@@ -87,7 +87,7 @@
 					 	<div class="add_btn">		
 					        <button type="button" class="btn btn-success" onclick="javascript:loadGrid(1)"> <i class="icon iconfont"></i>查询 </button>	
 					        <button type="button" class="btn btn-success" onclick="javascript:clean()"> 清空 </button>	
-					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton"> 案件分配 </button>	
+					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>	
 					     </div>
 					 </div>
 			    </div>
@@ -96,11 +96,11 @@
 		
 		<div class="row">
 				 <div class="col-md-12">
-					<div class="table_content">
-						<table class="table table_blue table-striped table-bordered table-hover " id="table_list_1" >
+					<div class="table_content"> <form id="form1"> <input type="hidden" id="h_userId" >
+						<table class="table table_blue table-striped table-bordered table-hover " id="table_list_1" name="table_list_1" >
 						<thead>
 						<tr>
-							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
+							<th ><input type="checkbox" id="checkAllNot" class="i-checks"  /></th>
 							<th >案件编号</th>
 							<th >产证地址</th>
 							<th >导入时间</th>
@@ -110,7 +110,7 @@
 						<tbody id="myCaseList">
 				
 						</tbody>							
-						</table>
+						</table></form>
 								
 						<div class="text-center page_box" id="pager_list_1">
 							<span id="currentTotalPage"><strong class="bold"></strong></span>
@@ -192,8 +192,9 @@
             	<tr class="tr-2">
             {{/if}}
 				<td class="center">
-					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" /> 
-					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
+					<input type="checkbox" name="ckb_task" onclick="ckbChange();" value="{{item.CASE_CODE}}" style="margin-top: 9px;float: left;"  /> 
+							<input type='hidden'  disabled>
+							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
 				</td>
 				<td >
 						<p class="big">
@@ -208,19 +209,25 @@
 				</td>
 				<td >
 
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-{{else}}
+{{else}}</p><p>
 {{item.PROPERTY_ADDR}}
 {{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
-								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >
-{{if item.ORG_NAME !="" && item.ORG_NAME !=null && item.ORG_NAME.length>8}}							
+								 
+{{if item.ORG_NAME !="" && item.ORG_NAME !=null && item.ORG_NAME.length>11}}		
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}	
+<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >		
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,11)}}...
+{{/if}}					
+{{else}}</a><a>
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
 {{/if}}	
 								 </a>
@@ -244,8 +251,8 @@
 
 				</td>
 				<td class="center">
-                        <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
-                         <span class="manager"><a href="#"><em>区总：</em></a></span>
+                        <p>区经：{{item.LEADER}}</p>
+                        <p>区董：{{item.qyzjNAME}}</p>
                  </td>
 				</tr>
        {{/each}}
@@ -294,31 +301,36 @@
 	function changeCaseTeam(){
 		//var orgName =$('input[name="teamRadio"]:checked').parent().text();
 		var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
-		alert(orgName+"==orgName");
 		if(confirm("您是否确认分配给"+orgName+"?")){
 
 	    	//var orgId =$('input[name="teamRadio"]:checked').val();
 			var orgId =$('select[name="yuTeamCode"]').val();
-			alert(orgId+"==orgId");
 			var url = "/case/bindCaseTeam";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-
+			
 			var caseInfoList = new Array();
-			var ids = $("#table_list_1").jqGrid('getGridParam',"selarrrow");
-			//var ids = jQuery("#table_list_1").jqGrid('getDataIDs');
-			for (var i = 0; i < ids.length; i++) {
-			   var row = $("#table_list_1").getRowData(ids[i]);
-			   var toCaseInfo = {
-				   caseCode	: row.CASE_CODE  ,
-				   grpCode :  ''
-			   }
-			   caseInfoList.push(toCaseInfo);
-			}
+			var sendData = $("input[name='ckb_task']:checked").serializeArray();
+			
+			//var sendData=$('#form1').serializeArray();
+			
+			for(var index in sendData){
+			     var obj = sendData[index];
+			     //alert(JSON.stringify(obj));
+			     if(obj.name=='ckb_task'){
+				     var toCaseInfo = {
+					   caseCode	: obj.value,
+					   grpCode :  ''
+				    }
+				     
+				     caseInfoList.push(toCaseInfo);
+			     }
+			 }
+			
 			var teamTransferVO = {
 			   caseInfoList	: caseInfoList,
 			   orgId : orgId
-			}
+			} 
 			teamTransferVO = $.toJSON(teamTransferVO);
 			$.ajax({
 				cache : false,
@@ -351,6 +363,7 @@
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
+						loadGrid(1);
 					}else{
 						alert(data.message);
 					}
