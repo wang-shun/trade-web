@@ -536,10 +536,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/**查询拼接spvBaseInfoVO*/
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
 		//TEST
-		caseCode = "ZY-AJ-201601-2889";
+	/*	caseCode = "ZY-AJ-201601-2889";*/
 		/**1.toSpv*/
 		ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode);
-		String spvCode = " "+toSpv.getSpvCode();
+		String spvCode = toSpv.getSpvCode();
 		/**2.spvCustList*/
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
 		//排序：买方->卖方->监管账户->资金方
@@ -599,6 +599,21 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public ToSpvProperty findPropertyBySpvCode(String spvCode) {
 		return toSpvPropertyMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public List<ToSpvAccount> findAccountBySpvCode(String spvCode) {
+		return toSpvAccountMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public ToSpvDe findSpvDeBySpvCode(String spvcode) {
+		return toSpvDeMapper.selectBySpvCode(spvcode);
+	}
+
+	@Override
+	public List<ToSpvDeDetail> findDeDetailByDeId(String deId) {
+		return toSpvDeDetailMapper.selectByDeId(deId);
 	}
 
 }

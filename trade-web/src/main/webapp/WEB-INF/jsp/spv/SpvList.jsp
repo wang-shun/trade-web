@@ -54,7 +54,7 @@
 
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content border-bottom clearfix space_box">
-			<h2 class="title">贷款申请任务</h2>
+			<h2 class="title">监管合约列表</h2>
 			<form class="form-inline" id="serachForm">
 				<div class="form-row form-rowbot">
 					<div class="form-group form-margin form-space-one">
@@ -66,26 +66,25 @@
 							class="form-control input-one" placeholder="请输入网签编号" name="signNo">
 					</div>
 					<div class="form-group form-margin form-space-one">
-						<label for="" class="lable-one">协议起草</label> <select
-							class="form-control select-one" name="qicao"  id="qicao">
+						<label for="" class="lable-one">协议状态</label> <select
+							class="form-control select-one" name="status"  id="status">
 							<option value="">请选择</option>
-							<option>起草</option>
-							<option>最新协议</option>
-							<option>最新协议</option>
-							<option>最新协议</option>
+							<option value="0">起草</option>
+							<option value="1">申请</option>
+							<option value="2">签约</option>
+							<option value="3d">完成</option>
 						</select>
 					</div>
-					<div class="form-group form-margin">
+				<!-- 	<div class="form-group form-margin">
 						<label for="" class="lable-one">交易状态</label> <select
 							class="form-control select-one" id="status" name="status">
 							<option value="">请选择</option>
-							<option>起草</option>
-							<option>申请</option>
-							<option>入账</option>
-							<option>放款</option>
-							<option>完成</option>
+							<option value="0">起草</option>
+							<option value="1">申请</option>
+							<option value="2">签约</option>
+							<option value="3d">完成</option>
 						</select>
-					</div>
+					</div> -->
 				</div>
 				<div class="form-row">
 					<div class="form-group form-margin toright">
@@ -155,16 +154,7 @@
                                         <td class="text-center">
                                             <input type="checkbox" name="item" />
                                         </td>
-                                        <td class="center">
-                                            <div class="sk-spinner sk-spinner-double-bounce sk-spinner-light mt3">
-                                                <div class="sk-double-bounce1 orange_light"></div>
-                                                <div class="sk-double-bounce2 orange_light"></div>
-                                            </div>
-                                            <p class="text-center clock">
-                                                <i class="icon iconfont clock_icon"></i>
-                                            </p>
-                                        </td>
-   		
+                                       
                                         <td>
                                             <p class="big">
                                                 <a href="${ctx}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
@@ -210,7 +200,7 @@
                                             </span>
                                         </td>
                                         <td class="text-center"><a class="btn btn-success"
-                                           href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">查看</a>
+                                           href="${ctx}/spv/spvDetail?pkid={{item.PKID}}&CaseCode={{item.CASE_CODE}}">查看</a>
                                         </td>
                                     </tr>
 			{{/each}}          
@@ -229,7 +219,7 @@
 						function clearForm(){  
 						 $("#serachForm").find("input").val("")
 						 $("#status option:first").prop("selected", 'selected');
-						 $("#qicao option:first").prop("selected", 'selected');
+						/*  $("#qicao option:first").prop("selected", 'selected'); */
 						}
 						//选中全部
 						function changeAll(){
@@ -258,6 +248,9 @@
 											.val();
 											params.search_prAddress=$(
 											"input[name='prAddress']")
+											.val();
+											params.search_status=$(
+											"select[name='status']")
 											.val();
 											initData();
 										})
@@ -288,9 +281,9 @@
 														{
 															colName : "<input type='checkbox' name='spv' onChange='changeAll()' id='all'/>	"
 														},
-														{
+										/* 				{
 															colName : ""
-														},
+														}, */
 														{
 															colName : "<span>案件编码</span><a href='#'><i class='fa fa-sort-desc fa_down'></i></a>"
 														}, {
