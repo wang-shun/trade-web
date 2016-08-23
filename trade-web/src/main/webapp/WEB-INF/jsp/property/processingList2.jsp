@@ -312,7 +312,7 @@
 				{{if item.IS_SUCCESS == '是'}}
                 	<p class="smll_sign"><i class="sign_sharp52bdbd">有效</i></p>
 				{{else if item.IS_SUCCESS == '否'}}
-                	<p class="smll_sign"><i class="sign_grey">无效</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
+                	<p class="smll_sign"><i class="sign_grey">无效</i><em style="word-break:break-all;font-size: 14px;font-style: normal;color: #808080;">{{item.UNSUCCESS_REASON}}</em></p>
 				{{else}}
 				{{/if}}
             </td>

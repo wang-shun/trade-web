@@ -29,7 +29,7 @@ $(document).ready(function() {
     	          },{
 	    	           colName :"是否有效"
     	          },{
-		    	       colName :"产调申请"
+		    	       colName :"负责人"
 	    	      },{
 	    	           colName :"操作"
 	    	      }]

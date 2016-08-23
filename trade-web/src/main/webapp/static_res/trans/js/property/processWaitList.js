@@ -28,7 +28,7 @@ $(document).ready(function() {
 	    	      },{
 	    	           colName :"产调申请时间"
     	          },{
-		    	       colName :"产调申请"
+		    	       colName :"负责人"
 	    	      },{
 	    	           colName :"操作"
 	    	      }]
