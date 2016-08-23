@@ -40,6 +40,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
 <link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
+<link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 </head>
@@ -61,11 +62,11 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<script>
-				<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
-				<%} else {%>
-					alert("<%=request.getAttribute("msg")%>");
-				<%}%>
-			</script>
+		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
+		<%} else {%>
+			alert("<%=request.getAttribute("msg")%>");
+		<%}%>
+	</script>
 
 	<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 	<!-- 主要内容页面 -->
@@ -85,6 +86,84 @@
 		<div class="row animated fadeInDown">
 			<div class="scroll_box fadeInDown animated">
 				<div class="top12 panel" id="basicInfo">
+                 	<c:if test="${toCase.caseProperty=='30003001'}">
+                   		<div class="sign sign-red">无效</div>
+                  	</c:if>
+                   	<c:if test="${toCase.caseProperty=='30003002'}">
+                   			<div class="sign sign-red">结案</div>
+                    </c:if>
+                 	<c:if test="${toCase.caseProperty=='30003005'}">
+                  		<div class="sign sign-red">爆单</div>
+                  	</c:if>                    
+                   	<c:if test="${toCase.caseProperty=='30003003'}">
+                   		<div class="sign sign-red">在途</div>
+	                   <div class="sign sign-blue">
+	                   	<c:if test="${toCase.status=='30001001'}">
+	                   		未分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001002'}">
+	                   		已分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001003'}">
+	                   		已签约
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001004'}">
+	                   		已过户
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001005'}">
+	                   		已领证
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001006'}">
+	                   		未指定
+	                   	</c:if>
+	                   </div>                    		
+                    </c:if>
+                   	<c:if test="${toCase.caseProperty=='30003004'}">
+                   		<div class="sign sign-red">挂起</div>
+	                   <div class="sign sign-blue">
+	                   	<c:if test="${toCase.status=='30001001'}">
+	                   		未分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001002'}">
+	                   		已分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001003'}">
+	                   		已签约
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001004'}">
+	                   		已过户
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001005'}">
+	                   		已领证
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001006'}">
+	                   		未指定
+	                   	</c:if>
+	                   </div>                    		
+                    </c:if>
+                  	<c:if test="${toCase.caseProperty=='30003006'}">
+                  		<div class="sign sign-red">全部</div>
+	                   <div class="sign sign-blue">
+	                   	<c:if test="${toCase.status=='30001001'}">
+	                   		未分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001002'}">
+	                   		已分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001003'}">
+	                   		已签约
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001004'}">
+	                   		已过户
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001005'}">
+	                   		已领证
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001006'}">
+	                   		未指定
+	                   	</c:if>
+	                   </div>                   		
+                   	</c:if>
 					<div class="panel-body">
 						<div class="ibox-content-head">
 							<h5>案件基本信息</h5>

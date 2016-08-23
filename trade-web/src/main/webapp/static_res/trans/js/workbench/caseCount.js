@@ -74,7 +74,7 @@ function queryConutCaseByDate(){
 					$('#sp_loanAmount_bar')[0].style.width = '0%';
 					$('#sp_signAmount_bar')[0].style.width = '0%';
 					$('#sp_actualAmount_bar')[0].style.width = '0%';
-					$('#sp_evalFee_bar')[0].style.width = '0%';
+					//$('#sp_evalFee_bar')[0].style.width = '0%';
 				}
 				
 				if(parseFloat(data.convRate)>100){
