@@ -29,7 +29,7 @@
            
         <!--RestTemplate-->  
         <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">  
-            <constructor-arg ref="httpClientFactory"/>  
+            <!-- <constructor-arg ref="httpClientFactory"/>   -->
         </bean>
     
 </beans>

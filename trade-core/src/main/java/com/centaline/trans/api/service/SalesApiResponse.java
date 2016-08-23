@@ -2,6 +2,7 @@ package com.centaline.trans.api.service;
 
 public class SalesApiResponse {
 	
+	
 	private boolean success;
 	private String code;
 	private String message;
@@ -22,5 +23,9 @@ public class SalesApiResponse {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	@Override
+	public String toString() {
+		return "SalesApiResponse [success=" + success + ", code=" + code + ", message=" + message + "]";
 	}
 }
