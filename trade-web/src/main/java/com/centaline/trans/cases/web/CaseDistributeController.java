@@ -396,9 +396,11 @@ public class CaseDistributeController {
     			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
     				continue;
     			}
-    			
     			toCase.setLeadingProcessId(managerUser.getId());
+    			//填写誉翠组
         		toCase.setOrgId(teamTransferVO.getOrgId());
+        		//填写贵宾服务部
+        		toCase.setDistrictId(org==null?null:org.getParentId());
         		int reToCase = toCaseService.updateByPrimaryKey(toCase);
         		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
     		}

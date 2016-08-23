@@ -508,27 +508,40 @@
                     <form method="get" class="form_list">
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left">
+                                    <label class="control-label sign_left_small">
                                         案件编号
                                     </label>
                                     <input type="text" class="select_control sign_right_one" />
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        过户时间
+                                    <label class="control-label sign_left_small" >
+                                        环节
                                     </label>
-                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                    <select name="" id="" class="select_control" style="width: 135px;">
+                                        <option value="">请选择</option>
+                                        <option value="">纯公积金贷款</option>
+                                        <option value="">已完成</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left">
+                                        贵宾服务部
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="">
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left">
-                                        产证地址
+                                    <label class="control-label sign_left_small">
+                                        所在组别
                                     </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
+                                    <input class="teamcode input_type" placeholder="" value="">
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
                                 </div>
                                 <div class="form_content space">
                                     <div class="add_btn">
@@ -536,41 +549,46 @@
                                             <i class="icon iconfont"></i>
                                             查询
                                         </button>
+                                        <button type="button" class="btn btn-success">
+                                            个人案件KPI导入
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-
                         </form>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="notes">
-                            <p class="pull-left">我的基金案件奖金</p>
-                            <p class="pull-right">
-                                交易单数：9，环节总数：31.00，交易单加权：9.00
-                            </p>
+                            <p class="pull-left">个人案件KPI明细</p>
                         </div>
                         <div class="table_content">
                             <table class="table table_blue table-hover table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>
-                                            <span>案件编码</span>
+                                            案件编码
                                         </th>
                                         <th>
-                                            产证地址
+                                            环节
                                         </th>
                                         <th>
-                                            过户时间
+                                            所在组别
                                         </th>
                                         <th>
-                                            生产时间
+                                            所属贵宾服务部
                                         </th>
                                         <th>
-                                            基础奖金
+                                            类型
                                         </th>
                                         <th>
-                                            操作
+                                            满意度
+                                        </th>
+                                        <th>
+                                            占比
+                                        </th>
+                                        <th>
+                                            是否接通
                                         </th>
                                     </tr>
                                 </thead>
@@ -584,59 +602,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            生成
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">收起</a>
+                                        <td>
                                         </td>
-                                    </tr>
-                                    <tr class="spread_line">
-                                        <td colspan="7" class="spread_td">
-                                            <table class="table spread_tab table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>服务</th>
-                                                        <th>基础奖金</th>
-                                                        <th>环节占比</th>
-                                                        <th>满意度</th>
-                                                        <th>满意度占比</th>
-                                                        <th>金融单数</th>
-                                                        <th>贷款流失率</th>
-                                                        <th>绩效系统数</th>
-                                                        <th>最终奖金</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>总监</td>
-                                                        <td>40</td>
-                                                        <td>3/3</td>
-                                                        <td>22</td>
-                                                        <td>26/100</td>
-                                                        <td>22</td>
-                                                        <td>22.5%</td>
-                                                        <td>22</td>
-                                                        <td>22000</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -648,27 +629,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            导出
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>
+                                        </td>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -680,27 +656,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            生成
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>
+                                        </td>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -712,27 +683,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            导出
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>
+                                        </td>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -744,27 +710,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            生成
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>
+                                        </td>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -776,27 +737,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            生成
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>
+                                        </td>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -808,27 +764,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
+                                            生成
                                         </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>
+                                        </td>
+                                        <td>1
+                                        </td>
+                                        <td>不通
                                         </td>
                                     </tr>
                                     <tr>
@@ -840,91 +791,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
+                                            纯公积金贷款
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                            浦东贵宾服务部E组
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                           浦东贵宾服务部
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
+                                            导出
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
                                         </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
+                                        <td>1
                                         </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
-                                                </a>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                2016-05-30
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                40
-                                            </p>
-                                        </td>
-                                        <td class="center">
-                                            <a href="" class="spread">展开</a>
+                                        <td>不通
                                         </td>
                                     </tr>
                                 </tbody>

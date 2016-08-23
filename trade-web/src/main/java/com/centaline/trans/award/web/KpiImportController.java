@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,8 @@ public class KpiImportController {
 	@Autowired
 	private TsAwardKpiPayService tsAwardKpiPayService;
 	
+	private String months[] = {"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"}; 
+	
 	@RequestMapping(value = "/personBonus")
 	public String personBonus(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
@@ -69,6 +72,8 @@ public class KpiImportController {
 	public String kpiImport(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
 		return "award/kpiImport";
 	}
 	
@@ -109,6 +114,8 @@ public class KpiImportController {
 		} else {
 			request.setAttribute("fList", fList);
 		}
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
 		return "award/kpiImport";
 	}
 

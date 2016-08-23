@@ -20,6 +20,8 @@ public class ToCase {
     private String time;
     
     private String orgId;
+    //贵宾服务部ID
+    private String districtId;
     
     private String loanReq;
     
@@ -118,7 +120,13 @@ public class ToCase {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-
+	public String getDistrictId() {
+		return districtId;
+	}
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
+	}
+	
 	public Date getCloseTime() {
 		return closeTime;
 	}
