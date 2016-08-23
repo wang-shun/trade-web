@@ -611,4 +611,19 @@ public class ToSpvServiceImpl implements ToSpvService {
 		return toSpvPropertyMapper.selectBySpvCode(spvCode);
 	}
 
+	@Override
+	public List<ToSpvAccount> findAccountBySpvCode(String spvCode) {
+		return toSpvAccountMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public ToSpvDe findSpvDeBySpvCode(String spvcode) {
+		return toSpvDeMapper.selectBySpvCode(spvcode);
+	}
+
+	@Override
+	public List<ToSpvDeDetail> findDeDetailByDeId(String deId) {
+		return toSpvDeDetailMapper.selectByDeId(deId);
+	}
+
 }

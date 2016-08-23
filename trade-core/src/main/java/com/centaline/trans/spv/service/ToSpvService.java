@@ -9,8 +9,11 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvCust;
+import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
+import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -182,6 +185,16 @@ public interface ToSpvService {
 	 * @return
 	 */
 	ToSpvProperty findPropertyBySpvCode(String spvCode);
+	/**
+	 * 查询账户信息
+	 * @param spvCode
+	 * @return
+	 */
+	List<ToSpvAccount> findAccountBySpvCode(String spvCode);
+	
+	ToSpvDe findSpvDeBySpvCode(String spvcode);
+	
+	List<ToSpvDeDetail> findDeDetailByDeId(String deId);
 	
 
 	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);

@@ -32,6 +32,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
@@ -83,10 +84,10 @@ public class SpvController {
 	 * @return
 	 */
 	@RequestMapping("spvDetail")
-	public String SpvDetail(long pkid,Model model){
-		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
+	public String SpvDetail(long pkid,String CaseCode ,ServletRequest request){
+/*		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
 		//合约基本信息
-		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
+
 		baseInfoVO.setToSpv(spv);
 		//买卖双方信息
 		List<ToSpvCust> custs=toSpvService.findCustBySpvCode(spv.getSpvCode());
@@ -94,7 +95,18 @@ public class SpvController {
 		//房屋信息
 		ToSpvProperty spvProperty=toSpvService.findPropertyBySpvCode(spv.getSpvCode());
 		baseInfoVO.setToSpvProperty(spvProperty);
-		
+		//资金账户
+		List<ToSpvAccount> accounts=toSpvService.findAccountBySpvCode(spv.getSpvCode());
+		baseInfoVO.setToSpvAccountList(accounts);
+		*/
+		/*ToSpv spv= toSpvService.selectByPrimaryKey(pkid);*/
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(CaseCode);
+		SessionUser user=uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getCreateBy());
+		String name=user.getRealName();
+		String phone=user.getMobile();
+		spvBaseInfoVO.getToSpv().setCreateBy(name);
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		request.setAttribute("createPhone", phone);
 		return "spv/SpvDetail";
 	}
 	
