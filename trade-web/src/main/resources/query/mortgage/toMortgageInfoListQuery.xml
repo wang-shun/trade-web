@@ -36,8 +36,13 @@
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[
-                select 
+				<![CDATA[   
+				
+				<ifNotNull isLose>
+				     select * from (
+				</ifNotNull>
+				              
+                 select 
 					m.pkid,
 					p.property_addr,
 					m.case_code,
@@ -73,7 +78,8 @@
 								and org1.ID=sp.ORG_ID) ORG_ORG_NAME,
 					
 						
-					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
+					m.IS_TMP_BANK,
+					--(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
 						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '1' 
 						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '0' 
@@ -85,6 +91,7 @@
 					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
                 where 
 					m.is_active = '1'    
+				
 				
 				<ifNotNull signTimeStart>
 				     and m.SIGN_DATE >= #signTimeStart#
@@ -126,6 +133,14 @@
 				</ifNotNull>				
 				<ifNotNull prfAmountEnd>
 				     and m.PRF_AMOUNT &lt;= #prfAmountEnd#
+				</ifNotNull>
+				
+				<ifNotNull isTempBank>
+				     and m.IS_TMP_BANK = #isTempBank#
+				</ifNotNull>
+				
+				<ifNotNull isLose>
+					) m  where m.SDSTATUS = #isLose#
 				</ifNotNull>
 				]]>
 			</baseSql>

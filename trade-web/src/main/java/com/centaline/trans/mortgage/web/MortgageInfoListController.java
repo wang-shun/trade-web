@@ -25,10 +25,12 @@ public class MortgageInfoListController {
 	ToMortgageService toMortgageService;
 	
 	@Autowired(required = true)
-	UamSessionService uamSessionService;
+	UamSessionService uamSessionService;	
 	
 	@Autowired(required = true)
 	UamUserOrgService uamUserOrgService;
+
+	
 	
 	@RequestMapping(value = "/list")
 	public String list(ServletRequest request) {
