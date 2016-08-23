@@ -1,7 +1,10 @@
 package com.centaline.trans.mortgage.web;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
@@ -15,6 +18,8 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 
 @Controller
@@ -29,6 +34,9 @@ public class MortgageInfoListController {
 	
 	@Autowired(required = true)
 	UamUserOrgService uamUserOrgService;
+	
+	@Autowired(required = true)
+	TsFinOrgService tsFinOrgService;
 
 	
 	
@@ -63,6 +71,23 @@ public class MortgageInfoListController {
 		request.setAttribute("isAdminFlag", isAdminFlag);	
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		
+		
+		List<TsFinOrg> tsFinOrgList= tsFinOrgService.findAllFinOrg();
+		List<Map<String, String>> FinOrgNameList=new ArrayList<Map<String,String>>();
+
+		if(tsFinOrgList.size()>0){
+			for(int i=0;i<tsFinOrgList.size();i++){
+				Map<String,String> FinOrgNameMap=new HashMap<String,String>();
+				if(null !=tsFinOrgList.get(i).getFinOrgName() && !"".equals(tsFinOrgList.get(i).getFinOrgName())){
+					FinOrgNameMap.put("FinOrgName", tsFinOrgList.get(i).getFinOrgName());					
+					FinOrgNameMap.put("FinOrgCode", tsFinOrgList.get(i).getFinOrgCode());
+					FinOrgNameMap.put("FinOrgNameYc", tsFinOrgList.get(i).getFinOrgNameYc());
+					FinOrgNameMap.put("FinOrgCodeYc", tsFinOrgList.get(i).getFaFinOrgCode());
+				}
+				FinOrgNameList.add(FinOrgNameMap);
+			}
+		}
+		request.setAttribute("FinOrgNameList", FinOrgNameList);
 		
 		return "mortgage/mortgageInfoList2";		
 	}

@@ -47,7 +47,10 @@
 					p.property_addr,
 					m.case_code,
 					m.mort_type as MORT_TYPE_OLD,
-					m.fin_org_code as FIN_ORG_CODE_OLD,
+					(Select FO.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG FO  where FO.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME,
+					(Select FOYC.FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG FOYC  where FOYC.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME_YC,
+					(Select FOCODE.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=m.fin_org_code)FA_FIN_ORG_CODE,
+					m.FIN_ORG_CODE,					
 					m.cust_name,
 					ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
 					ISNULL(m.COM_AMOUNT,0)/10000 COM_AMOUNT,
@@ -78,11 +81,11 @@
 								and org1.ID=sp.ORG_ID) ORG_ORG_NAME,
 					
 						
-					m.IS_TMP_BANK,
-					--(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
+					--m.IS_TMP_BANK,
+					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
-						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '1' 
-						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '0' 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是' 
 					end   SDSTATUS
                 from 
 					sctrans.T_TO_MORTGAGE m 
@@ -139,6 +142,14 @@
 				     and m.IS_TMP_BANK = #isTempBank#
 				</ifNotNull>
 				
+				<ifNotNull loanLostFinOrgNameCode>
+				     and m.FIN_ORG_CODE = #loanLostFinOrgNameCode#
+				</ifNotNull>
+				
+				<ifNotNull loanLostFinOrgNameYcCode>
+				     and m.FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+				</ifNotNull> 
+				
 				<ifNotNull isLose>
 					) m  where m.SDSTATUS = #isLose#
 				</ifNotNull>
@@ -158,12 +169,17 @@
 				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
 				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="FIN_ORG_CODE_OLD" index="" checkbox=""   customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="FIN_ORG_CODE" title="贷款机构" referencecol="FIN_ORG_CODE_OLD" customDict="qqcdFinOrgNameDict" isSort="true" order="desc"/>
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox=""   title="贷款银行代码" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="true" title="贷款银行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME_YC" index="" checkbox="true" title="贷款银行分行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="true" title="贷款银行分行代码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+										
+				
 				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
                 <column type="both" name="PRF_AMOUNT" title="公积金金额(万元)" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
 				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="APPR_DATE" index="" checkbox="" title="货代审批时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="IS_TMP_BANK" index="" checkbox="" title="临时银行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
