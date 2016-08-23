@@ -165,4 +165,6 @@ public interface ToSpvService {
 	
 	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(String caseCode);
 
+	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
+
 }

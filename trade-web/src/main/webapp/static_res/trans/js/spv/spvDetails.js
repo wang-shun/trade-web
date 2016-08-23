@@ -81,6 +81,54 @@ $(document).ready(function(){
             toastr.info('Are you the 6 fingered man?');
 
        });
+       
+       $("#saveBtn").click(function(){	   
+          debugger;
+     	  var totalArr = [];
+     	  $("form").each(function(){
+     		 var obj = $(this).serializeArray();
+     		totalArr.push(obj);
+     	  });
+     	  var newtotalArr = [];
+     	  for(var i in totalArr){
+     		for(var j in totalArr[i]){
+     			newtotalArr.push(totalArr[i][j]);
+     		}
+     	  }
+     	 console.info(JSON.stringify(newtotalArr));
+     	  $.ajax({
+       		url:ctx+"/spv/saveNewSpv",
+       		method:"post",
+       		dataType:"json",
+       		data:newtotalArr,	        				        		    
+       		success:function(data){
+       			alert(data.message);
+       			if(data.content != null && data.content != ""){
+       				 window.location.href="${ctx}/spv/spvList";
+       			}
+       		}
+     	 
+        });
+     });
+       
+       $("#submitBtn").click(function(){
+    	  var totalArr = [];
+    	  $("form").each(function(){
+    		  totalArr.push($(this).serializeArray());
+    	  });
+    	  $.ajax({
+      		url:ctx+"/spv/submitNewSpv",
+      		method:"post",
+      		dataType:"json",
+      		data:totalArr,   		        				        		    
+      		success:function(data){
+      			alert(data.message);
+      			if(data.content != null && data.content != ""){
+      				 window.location.href="${ctx}/spv/spvList";
+      			}
+      		}  	 
+       });
+     });
 
        $('#chat-discussion').hide();
 
