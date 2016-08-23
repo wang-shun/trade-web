@@ -234,8 +234,8 @@
 			var belongM = "${belongM}";
 			var belongLastM = "${belongLastM}";
 			sw = $("#moSwitch").bootstrapSwitch({
-				'onText' : "上月",
-				'offText' : '当月',
+				'onText' : "${belongLastMon}",
+				'offText' : "${belongMon}",
 				state : true
 			}).on('switchChange.bootstrapSwitch', function(event, state) {
 			});
@@ -251,7 +251,7 @@
 						shrinkToFit : true,
 						rowNum : 13,
 						/*   rowList: [10, 20, 30], */
-						colNames : [ '主键', '案件编码', '环节', '所在组别', '所属贵宾服务部',
+						colNames : [ '主键', '案件编号', '环节', '所在组别', '所属贵宾服务部',
 								'类型', '满意度','占比', '是否接通' ],
 						colModel : [
 								{
