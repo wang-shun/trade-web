@@ -539,15 +539,39 @@ public class ToSpvServiceImpl implements ToSpvService {
 		caseCode = "ZY-AJ-201601-2889";
 		/**1.toSpv*/
 		ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode);
-		String spvCode = " " + toSpv.getSpvCode();
+		String spvCode = " "+toSpv.getSpvCode();
 		/**2.spvCustList*/
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
+		//排序：买方->卖方->监管账户->资金方
+		for(ToSpvCust toSpvCust:spvCustList){
+			if("BUYER".equals(toSpvCust.getTradePosition())){
+				spvCustList.set(0, toSpvCust);
+			}else if("SELLER".equals(toSpvCust.getTradePosition())){
+				spvCustList.set(1, toSpvCust);
+			}else if("SPV".equals(toSpvCust.getTradePosition())){
+				spvCustList.set(2, toSpvCust);
+			}else if("FUND".equals(toSpvCust.getTradePosition())){
+				spvCustList.set(3, toSpvCust);
+			}
+		}
 		/**3.toSpvDe*/
 		ToSpvDe toSpvDe = toSpvDeMapper.selectBySpvCode(spvCode);
 		/**4.toSpvDeDetailList*/
 		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(String.valueOf(toSpvDe.getPkid()));
 		/**5.toSpvAccountList*/
 		List<ToSpvAccount> toSpvAccountList = toSpvAccountMapper.selectBySpvCode(spvCode);
+		//排序：买方->卖方->监管账户->资金方
+		for(ToSpvAccount toSpvAccount:toSpvAccountList){
+			if("BUYER".equals(toSpvAccount.getAccountType())){
+				toSpvAccountList.set(0, toSpvAccount);
+			}else if("SELLER".equals(toSpvAccount.getAccountType())){
+				toSpvAccountList.set(1, toSpvAccount);
+			}else if("SPV".equals(toSpvAccount.getAccountType())){
+				toSpvAccountList.set(2, toSpvAccount);
+			}else if("FUND".equals(toSpvAccount.getAccountType())){
+				toSpvAccountList.set(3, toSpvAccount);
+			}
+		}
 		/**6.toSpvProperty*/
 		ToSpvProperty toSpvProperty = toSpvPropertyMapper.selectBySpvCode(spvCode);
 		
