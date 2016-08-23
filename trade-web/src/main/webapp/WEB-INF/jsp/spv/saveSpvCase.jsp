@@ -93,9 +93,10 @@
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">证件有效期</label> <input name="spvCustList[0].idValiDate"
-								value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>"
-								type="text" class="form-control input-one" placeholder="如：2010-08">
+								<label for="" class="lable-one">证件有效期</label> 
+								<input type="hidden" name="spvCustList[0].idValiDate" value="${spvBaseInfoVO.spvCustList[0].idValiDate }" >
+								<input value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>"
+								type="text" class="form-control input-one" placeholder="如：2010-08" >
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input name="spvCustList[0].idCode"
@@ -182,8 +183,9 @@
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">证件有效期</label> <input type="text" name="spvCustList[1].idValiDate"
-								    value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>"
+								<label for="" class="lable-one">证件有效期</label> 
+								<input type="hidden" name="spvCustList[1].idValiDate" value="${spvBaseInfoVO.spvCustList[0].idValiDate }" >
+								<input type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>"
 									class="form-control input-one" placeholder="如：2010-08">
 							</div>
 							<div class="form-group form-margin form-space-one">

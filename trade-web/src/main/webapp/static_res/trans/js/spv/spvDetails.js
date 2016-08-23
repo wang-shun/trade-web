@@ -83,24 +83,20 @@ $(document).ready(function(){
        });
        
        $("#saveBtn").click(function(){	   
-          debugger;
      	  var totalArr = [];
      	  $("form").each(function(){
      		 var obj = $(this).serializeArray();
-     		totalArr.push(obj);
-     	  });
-     	  var newtotalArr = [];
-     	  for(var i in totalArr){
-     		for(var j in totalArr[i]){
-     			newtotalArr.push(totalArr[i][j]);
+     		for(var i in obj){
+     			totalArr.push(obj[i]);
      		}
-     	  }
-     	 console.info(JSON.stringify(newtotalArr));
+     	  });
+     	  
+     	 console.info(JSON.stringify(totalArr));
      	  $.ajax({
        		url:ctx+"/spv/saveNewSpv",
        		method:"post",
        		dataType:"json",
-       		data:newtotalArr,	        				        		    
+       		data:totalArr,	        				        		    
        		success:function(data){
        			alert(data.message);
        			if(data.content != null && data.content != ""){

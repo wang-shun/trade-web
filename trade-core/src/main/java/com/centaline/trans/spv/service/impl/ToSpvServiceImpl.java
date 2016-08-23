@@ -545,8 +545,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(String caseCode){
 		/**查询拼接spvBaseInfoVO*/
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
-		//TEST
-		caseCode = "ZY-AJ-201601-2889";
 		/**1.toSpv*/
 		ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode);
 		String spvCode = toSpv.getSpvCode();
