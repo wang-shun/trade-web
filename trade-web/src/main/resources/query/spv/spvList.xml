@@ -62,12 +62,12 @@
                     SELECT SUM(sde.DE_AMOUNT) FROM sctrans.T_TO_SPV_DE_DETAIL sde
                      left join sctrans.T_TO_SPV_ACCOUNT sa on sa.PKID=sde.PAYEE_ACCOUNT_ID
                      left JOIN sctrans.T_TO_SPV sp on  sp.SPV_CODE=sa.SPV_CODE
-                     where sa.ACCOUNT_TYPE='ZHONGYUAN') as ru,
+                     where sa.ACCOUNT_TYPE='SPV') as ru,
                      (
                     SELECT SUM(sde.DE_AMOUNT) FROM sctrans.T_TO_SPV_DE_DETAIL sde
                      left join sctrans.T_TO_SPV_ACCOUNT sa on sa.PKID=sde.PAYEE_ACCOUNT_ID
                      left JOIN sctrans.T_TO_SPV sp on  sp.SPV_CODE=sa.SPV_CODE
-                     where sa.ACCOUNT_TYPE !='ZHONGYUAN' ) as chu
+                     where sa.ACCOUNT_TYPE !='SPV' ) as chu
 							FROM sctrans.T_TO_SPV spv
 					LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp on spv.SPV_CODE=sp.SPV_CODE
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON spv.CASE_CODE=a.CASE_CODE
@@ -82,9 +82,6 @@
 			        and c.LEADING_PROCESS_ID = #sessionUserId#
 			        </if>
 			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
-			        and c.org_id =#serviceDepId#
-			        </if>
-			        <if test="serviceDepHierarchy == 'BUSIGRP'">
 			        and c.org_id =#serviceDepId#
 			        </if>
 			        <if test="serviceDepHierarchy == 'yucui_district'">

@@ -9,8 +9,10 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
@@ -164,5 +166,22 @@ public interface ToSpvService {
 			String endDate);
 	
 	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(String caseCode);
+	/**
+	 * 查询spv 通过Pkid
+	 */
+	ToSpv  selectByPrimaryKey(long pkid);
+	/**
+	 * 查询买卖双方的信息
+	 * @param spvCode
+	 * @return
+	 */
+	List<ToSpvCust> findCustBySpvCode(String spvCode);
+	/**
+	 * 查询房屋信息
+	 * @param spvCode
+	 * @return
+	 */
+	ToSpvProperty findPropertyBySpvCode(String spvCode);
+	
 
 }

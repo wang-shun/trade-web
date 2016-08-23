@@ -586,4 +586,19 @@ public class ToSpvServiceImpl implements ToSpvService {
 		return spvBaseInfoVO;	
 	}
 
+	@Override
+	public ToSpv selectByPrimaryKey(long pkid) {
+		return toSpvMapper.selectByPrimaryKey(pkid);
+	}
+
+	@Override
+	public List<ToSpvCust> findCustBySpvCode(String spvCode) {
+		return toSpvCustMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public ToSpvProperty findPropertyBySpvCode(String spvCode) {
+		return toSpvPropertyMapper.selectBySpvCode(spvCode);
+	}
+
 }

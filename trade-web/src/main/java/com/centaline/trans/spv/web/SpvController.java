@@ -32,8 +32,10 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
@@ -56,7 +58,6 @@ public class SpvController {
 	 
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
-	
 	@Autowired
 	private WorkFlowManager workFlowManager;
 	
@@ -75,6 +76,28 @@ public class SpvController {
 
 		return "spv/saveSpvCase";
 	}
+	/**
+	 * 详情
+	 * @param pkid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("spvDetail")
+	public String SpvDetail(long pkid,Model model){
+		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
+		//合约基本信息
+		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
+		baseInfoVO.setToSpv(spv);
+		//买卖双方信息
+		List<ToSpvCust> custs=toSpvService.findCustBySpvCode(spv.getSpvCode());
+		baseInfoVO.setSpvCustList(custs);
+		//房屋信息
+		ToSpvProperty spvProperty=toSpvService.findPropertyBySpvCode(spv.getSpvCode());
+		baseInfoVO.setToSpvProperty(spvProperty);
+		
+		return "spv/SpvDetail";
+	}
+	
 	@RequestMapping("spvOutApply/process")
 	public String toSpvOutApplyProcess(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
