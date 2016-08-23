@@ -42,7 +42,6 @@
 						<ifNotNull belongMonth>
 			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
 			 			</ifNotNull>
-			 			ORDER BY CASE_CODE,PKID DESC
 				]]>
 			</baseSql>
 			<groupSql>

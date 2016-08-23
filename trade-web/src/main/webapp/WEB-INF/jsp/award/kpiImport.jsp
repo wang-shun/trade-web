@@ -337,8 +337,8 @@
 								} ],
 						multiselect : true,
 						pager : "#pager_list_1",
-						/* sortname : 'CASE_CODE',
-						sortorder : 'desc', */
+						 sortname : 'CASE_CODE',
+						sortorder : 'desc', 
 						viewrecords : true,
 						pagebuttions : true,
 						multiselect : false,
