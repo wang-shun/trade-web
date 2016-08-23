@@ -321,5 +321,25 @@
     on t.case_code=a.case_code
     where a.case_code is null;
   </select>
+  
+   <select id="getCaseCodeByCaseCodefromTToCase" resultType="java.lang.String" parameterType="java.util.List" >
+    select 
+    case_code
+    from sctrans.T_TO_CASE
+    where case_code in 
+    (<foreach collection="list" item="item" index="index" separator=","> 
+    #{item.caseCode,jdbcType=VARCHAR}
+    </foreach>)
+  </select>
+  
+  <select id="getCaseCodeByCaseCodefromTToAwardBase" resultType="java.lang.String" parameterType="java.util.List" >
+    select 
+    distinct case_code
+    from sctrans.T_TS_AWARD_BASE
+    where case_code in 
+    (<foreach collection="list" item="item" index="index" separator=","> 
+    #{item.caseCode,jdbcType=VARCHAR}
+    </foreach>)
+  </select>
    
 </mapper>
