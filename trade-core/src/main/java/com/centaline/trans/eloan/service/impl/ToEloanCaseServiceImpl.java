@@ -239,6 +239,9 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 	@Override
 	public void deleteById(Long pkid) {
+		ToEloanCase eloanCase=getToEloanCaseByPkId(pkid);
+		ToEloanCase newObj=new ToEloanCase();
+		unbindServItem(newObj, eloanCase);
 		toEloanCaseMapper.deleteByPrimaryKey(pkid);
 	}
 
