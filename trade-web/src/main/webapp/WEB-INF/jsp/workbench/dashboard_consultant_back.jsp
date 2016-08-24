@@ -58,7 +58,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 
 
 <!-- main Start -->
-<div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
+<div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar" style="z-index:1 !important;">
 	<ul class="nav navbar-nav">
     	<li class="menuItem active"><a href="#base_info">基本信息</a></li>
         <li class="menuItem"><a href="#zj_info">资金流水</a></li>
