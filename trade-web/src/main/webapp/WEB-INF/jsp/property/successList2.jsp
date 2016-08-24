@@ -373,7 +373,7 @@
                 <td>
                 	<p class="smll_sign"><i class="sign_normal">申</i>{{item.PR_APPLY_TIME}}</p>
                 	<p class="smll_sign"><i class="sign_normal">受</i>{{item.PR_ACCPET_TIME}}</p>
-                	<p class="smll_sign"><i class="sign_grey">完</i>{{item.PR_COMPLETE_TIME}}</p>
+                	<p class="smll_sign"><i class="sign_normal">完</i>{{item.PR_COMPLETE_TIME}}</p>
             	</td>
                 <td>
                 	<p class="smll_sign">

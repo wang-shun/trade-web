@@ -81,9 +81,9 @@ public class CaseListController {
 		request.setAttribute("isAdminFlag", isAdminFlag);
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());
-		return "case/mycase_list";
+		return "case/mycase_list2";
 	}
-	@RequestMapping(value="myCaseList2")
+	/*@RequestMapping(value="myCaseList2")
 	public String myCaseList2(Model model, ServletRequest request){
 		//TODO
 		SessionUser user = uamSessionService.getSessionUser();
@@ -120,6 +120,6 @@ public class CaseListController {
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());
 		return "case/mycase_list2";
-	}
+	}*/
 	
 }
