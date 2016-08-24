@@ -110,7 +110,7 @@ public class TaskController {
 			String[] formKeys = formKey.split(":");
 			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();		
 			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
-		} else {			
+		} else {	
 			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
 		}
 
