@@ -77,6 +77,15 @@ public class KpiImportController {
 		return "award/kpiImport";
 	}
 	
+	@RequestMapping(value = "/import2")
+	public String kpiImport2(HttpServletRequest request) {
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
+		return "award/kpiImport2";
+	}	
+	
 	@RequestMapping(value = "/bonus")
 	public String bonus(HttpServletRequest request) {
 		return "award/bonus";
