@@ -27,13 +27,13 @@ $(document).ready(function(){
 	$("#Pledge2").on("click", function() {
 		$(".pledgeinfo").hide();
 	});
-	
-	var sum = 1; //定义sum为全局变量
+
+	var sum = parseInt($("#toSpvDeDetailListSize").val()); //定义sum为全局变量
 		function getAtr(i) {
 		$str = '';
 		$str += "<tr align='center'>";
 		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].deCondCode' value=''>买方贷款审批完成</option></select></td>";
-		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value=''>资金方</option><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value=''>卖方</option></select></td>";
+		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value='1'>资金方</option><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value='2'>卖方</option></select></td>";
 		
 		$str += "<td><input name='toSpvDeDetailList["+(sum+1)+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+(sum+1)+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
@@ -89,9 +89,8 @@ $(document).ready(function(){
      		for(var i in obj){
      			totalArr.push(obj[i]);
      		}
-     	  });
-     	  
-     	 console.info(JSON.stringify(totalArr));
+     	  }); 
+     	 
      	  $.ajax({
        		url:ctx+"/spv/saveNewSpv",
        		method:"post",

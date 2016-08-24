@@ -71,7 +71,7 @@ public class SpvController {
 	//新增页面
 	@RequestMapping("saveHTML")
 	public String savaHTML(String caseCode,ServletRequest request){
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(caseCode);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 
@@ -100,7 +100,7 @@ public class SpvController {
 		baseInfoVO.setToSpvAccountList(accounts);
 		*/
 		/*ToSpv spv= toSpvService.selectByPrimaryKey(pkid);*/
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(CaseCode);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,CaseCode);
 		SessionUser user=uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getCreateBy());
 		String name=user.getRealName();
 		String phone=user.getMobile();
