@@ -127,7 +127,14 @@ function loanLostApproveSearchMethod(page) {
 	params.queryId = "findToMortgageIsActive";
 	reloadGrid(params);
 };
-
+function initradio(rName,rValue){
+    var rObj = document.getElementsByName(rName);
+    for(var i = 0;i < rObj.length;i++){
+        if(rObj[i].value == rValue){
+            rObj[i].checked =  'checked';
+        }
+    }
+}
 // 清空
 $('#mortgageInfoCleanButton').click(function() {
 	$("input[name='caseCode']").val('');
@@ -138,7 +145,7 @@ $('#mortgageInfoCleanButton').click(function() {
 	$("input[name='orgName']").val('');
 	$("input[name='custName']").val('');
 	// select清除
-	$("select").val("");
+	//$("select").val("");
 	$("input[name='amountBegin_0']").val('');
 	$("input[name='amountEnd_0']").val('');
 	//清空单选按钮
@@ -147,7 +154,12 @@ $('#mortgageInfoCleanButton').click(function() {
 	$('input[name="isTempBank"]:checked').val('');
 	$('input[name="isTempBank"]:checked').attr("checked",false);
 	
+	initradio('isLose',$("#isLoseAll").val());
+	initradio('isTempBank',$("#isTempBankAll").val());
+	
 	$("#yuCuiOriGrpId").val("");
+	$("#loanLostFinOrgNameYc").val("");
+	$("#loanLostFinOrgName").val("");
 
 });
 

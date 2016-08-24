@@ -129,7 +129,7 @@
 						<label class="control-label sign_left_small"> 是否临时银行 </label>
 						<div class="controls">
 							<label class="radio inline"> <input type="radio"
-								value="2" checked="checked" name="isTempBank"> 全部
+								value="2" checked="checked" name="isTempBank"  id="isTempBankAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
 								value="1" name="isTempBank"> 是
 							</label> <label class="radio inline"> <input type="radio"
@@ -141,7 +141,7 @@
 						<label class="control-label sign_left_small"> 是否流失 </label>
 						<div class="controls">
 							<label class="radio inline"> <input type="radio"
-								value="2" checked="checked" name="isLose"> 全部
+								value="2" checked="checked" name="isLose" id="isLoseAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
 								value="否" name="isLose"> 是
 							</label> <label class="radio inline"> <input type="radio"

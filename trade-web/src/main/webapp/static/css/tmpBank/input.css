@@ -16,27 +16,22 @@
   top: 4px;
   right: 6px;
 }
+
 .btn-grey {
-  background:#eee;
-  color:#1c84c6;
+  background: #eee;
+  color: #1c84c6;
 }
+
 .loan_type {
-    display: inline-block;
-    margin-top: 4px;
+  display: inline-block;
+  margin-top: 4px;
 }
+
 .organize_icon {
   font-size: 18px;
   color: #52cdec;
 }
-.form-control, .single-line {
-    border-radius: 2px;
-}
-.pt10 {
-  padding-top: 10px;
-}
-.pt20 {
-  padding-top: 20px;
-}
+
 .form_list label {
   font-family: "Microsoft Yahei";
   font-size: 14px;
@@ -105,9 +100,11 @@
 .form_list .space {
   margin-left: 5px;
 }
+
 .form_list .space_two {
   margin-left: 176px;
 }
+
 .form_list .label-info:hover {
   color: #f8f8f8;
 }
@@ -123,13 +120,7 @@ input {
 .teamcode {
   width: 230px;
 }
-.form_content .controls {
-  display: inline-block;
-  margin-left: 20px;
-  .radio {
-    margin-right: 30px;
-  }
-}
+
 .sign_right_speciale {
   display: inline;
   margin-left: 5px;
@@ -244,62 +235,63 @@ input {
 /* input-one: 150px; input-two: 190px; input-three: 230px; */
 .form-row {
   font-family: "Microsoft Yahei";
-  .form-space-one {
-  margin-right: 20px;
-  }
 }
+.form-row .form-space-one {
+  margin-right: 20px;
+}
+
 .form-rowbot {
   margin-bottom: 15px;
 }
 
-.form-margin {
-  label {
-    margin-right: 20px;
-    text-align: right;
-    font-size: 14px;
-    font-weight: normal;
-    color: #333;
-  }
-  .lable-one {
-    width: 70px;
-  }
-  .input-one {
-    width: 150px;
-  }
-  .input-widest {
-    width: 447px;
-  }
-  .select-one {
-    width: 105px;
-  }
+.form-margin label {
+  margin-right: 20px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
 }
+.form-margin .lable-one {
+  width: 70px;
+}
+.form-margin .input-one {
+  width: 150px;
+}
+.form-margin .input-widest {
+  width: 447px;
+}
+.form-margin .select-one {
+  width: 105px;
+}
+
 .toright {
   margin-right: 36px;
 }
+
 .form-btn {
-    margin-top: 30px;
-    margin-bottom: 10px;
-    overflow: hidden;
-  .btn-left-space {
-    margin-left: 94px;
-  }
+  margin-top: 30px;
+  margin-bottom: 10px;
+  overflow: hidden;
 }
+.form-btn .btn-left-space {
+  margin-left: 94px;
+}
+
 .form-inline .input-group .date-width {
   width: 130px;
 }
-.form-inline {
-  .btn-left {
+
+.form-inline .btn-left {
   float: left;
-  }
-  .btn-right {
-    float: right;
-  }
-  .btn-right a {
-    color: #fff;
-  }
-  .btn-default {
-    color:#428fcc;
-    background-color:#e4e4e4;
-        border-color: #e4e4e4;
 }
+.form-inline .btn-right {
+  float: right;
+}
+.form-inline .btn-right a {
+  color: #fff;
+}
+.form-inline .btn-default {
+  color: #428fcc;
+  background-color: #e4e4e4;
+  border-color: #e4e4e4;
 }
