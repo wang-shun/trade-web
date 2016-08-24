@@ -321,5 +321,11 @@
     <!-- 获取商贷预警状态 -->
     <bean name="getShowStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetShowStatusServiceImpl"></bean>
     
+    <!-- 获取临时银行案件报表当前流程 -->
+    <bean name="getCurrentProcess" class="com.centaline.trans.common.service.impl.QuickQueryGetCurrentProcessServiceImpl"></bean>
+    
+    <!-- 获取临时银行案件报表状态 -->
+    <bean name="getTmpBankCaseStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetTmpBankCaseStatusServiceImpl"></bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
