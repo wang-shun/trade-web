@@ -9,6 +9,20 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
 public interface ToMortgageService {
+	
+	/**
+	 * 更新临时案件状态
+	 * @param caseCode 案件编号
+	 * @return 如果返回1,说明更新成功;如果返回0,说明更新失败。
+	 */
+	public int updateTmpBankStatus(String caseCode);
+	
+	/**
+	 * 根据案件编号查询贷款信息
+	 * @param caseCode 案件编号
+	 * @return 返回贷款信息
+	 */
+	ToMortgage getMortgageByCaseCode(String caseCode);
 
 	/**
 	 * 保存按揭贷款信息

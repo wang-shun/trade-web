@@ -296,6 +296,10 @@
       </if>
     </trim>
   </insert>
+  <update id="updateTmpBankStatus" parameterType="java.lang.String" >
+  		 update sctrans.T_TO_MORTGAGE set is_Tmp_Bank = '0' where case_code=#{caseCode,jdbcType=VARCHAR};
+  </update>
+  
   <update id="update" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
     update sctrans.T_TO_MORTGAGE
     <set >
@@ -425,6 +429,10 @@
  
  <select id="findToMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and last_loan_bank is not null and IS_ACTIVE='1'
+ </select>
+ 
+ <select id="getMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_TMP_BANK = '1'
  </select>
  
  <select id="findToMortgageByCaseCodeNoBlank" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >

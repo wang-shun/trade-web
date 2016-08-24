@@ -575,6 +575,17 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		
 		return AjaxResponse.success();
 	}
+
+	
+	@Override
+	public ToMortgage getMortgageByCaseCode(String caseCode) {
+		return toMortgageMapper.getMortgageByCaseCode(caseCode);
+	}
+
+	@Override
+	public int updateTmpBankStatus(String caseCode) {
+		return toMortgageMapper.updateTmpBankStatus(caseCode);
+	}
 	
 	
 
