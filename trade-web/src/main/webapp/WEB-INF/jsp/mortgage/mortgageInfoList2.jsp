@@ -283,8 +283,16 @@
                        </td>
 
 						<td class="center">
-                      	 <p> <i class="sign_blue">{{item.IS_TMP_BANK== '是'?"临时银行":null}}</i></p>
-                         <p>{{item.SDSTATUS=='否' ? "流失":""}}</p>
+
+						{{if  item.IS_TMP_BANK == '是'}}
+                      	 <p> <i class="sign_blue">临时银行</i></p>
+						{{/if}}
+
+						{{if  item.SDSTATUS=='否'}}
+                      	 <p>流失</p>
+						{{/if}}
+                        
+						
                        	</td>
                         <td class="center">
                                     {{item.ORG_NAME}}
