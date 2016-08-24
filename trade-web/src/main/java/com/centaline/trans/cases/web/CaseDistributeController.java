@@ -117,9 +117,9 @@ public class CaseDistributeController {
 		}
 		request.setAttribute("queryUserId", queryUserId);
 		request.setAttribute("queryOrgId", queryOrgId);
-		return "case/caseDistribute";
+		return "case/caseDistribute2";
 	}
-	@RequestMapping(value="caseDistribute2")
+	/*@RequestMapping(value="caseDistribute2")
 	public String caseDistribute2(Model model, ServletRequest request){
 		//TODO
 		SessionUser user = uamSessionService.getSessionUser();
@@ -135,7 +135,7 @@ public class CaseDistributeController {
 		request.setAttribute("queryUserId", queryUserId);
 		request.setAttribute("queryOrgId", queryOrgId);
 		return "case/caseDistribute2";
-	}
+	}*/
 
 	/**
 	 * 页面初始化
@@ -146,14 +146,14 @@ public class CaseDistributeController {
 	public String unlocatedCase(Model model, ServletRequest request){
 		Org o= uamUserOrgService.getOrgByCode("033F275");
 		model.addAttribute("nonBusinessOrg", o);
-		return "case/unlocatedCase";
+		return "case/unlocatedCase2";
 	}
-	@RequestMapping(value="unlocatedCase2")
+	/*@RequestMapping(value="unlocatedCase2")
 	public String unlocatedCase2(Model model, ServletRequest request){
 		Org o= uamUserOrgService.getOrgByCode("033F275");
 		model.addAttribute("nonBusinessOrg", o);
 		return "case/unlocatedCase2";
-	}
+	}*/
 
 	/**
 	 * 用户机构交易顾问查询
