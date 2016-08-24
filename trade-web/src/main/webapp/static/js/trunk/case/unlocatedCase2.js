@@ -1,15 +1,8 @@
 
 
 $(document).ready(function() {
+	
 	loadGrid(1);
-	/*$(window).bind('resize', function() {
-		var width = $('.jqGrid_wrapper').width();
-		$('#table_list_1').setGridWidth(width);
-
-	});
-	 $('.contact-box').each(function() {
-         animationHover(this, 'pulse');
-     });*/
 					
 });
 
