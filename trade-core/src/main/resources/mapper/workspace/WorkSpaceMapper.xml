@@ -562,15 +562,15 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 		CAST(( COUNT(tf.CASE_CODE) )/( CASE WHEN COUNT(tm.CASE_CODE) = 0 THEN 0.001 ELSE COUNT(tm.CASE_CODE) END ) * 100 AS DECIMAL(10, 2)) AS efCount
 	FROM    sctrans.T_TG_SERV_ITEM_AND_PROCESSOR AS tsi
         INNER JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD AS tf ON tsi.CASE_CODE = tf.CASE_CODE
+                 <if test="mo != null">
+					and DATEDIFF(YYYY, tf.RECORD_TIME, GETDATE())=0 and DatePart(m, tf.RECORD_TIME)=#{mo,jdbcType=VARCHAR}
+				</if>
         LEFT JOIN sctrans.T_TO_MORTGAGE tm ON tm.CASE_CODE = tsi.CASE_CODE
                                               AND tm.APPR_DATE IS NOT NULL
                                               AND tm.IS_ACTIVE = '1'
                 <if test="mo != null">
 					and DATEDIFF(YYYY, tm.APPR_DATE, GETDATE())=0 and DatePart(m, tm.APPR_DATE)=#{mo,jdbcType=VARCHAR}
-				</if>
-		LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD AS tf ON tm.CASE_CODE = tf.CASE_CODE
-                 <if test="mo != null">
-					and DATEDIFF(YYYY, tf.RECORD_TIME, GETDATE())=0 and DatePart(m, tf.RECORD_TIME)=#{mo,jdbcType=VARCHAR}
 				</if>
 	WHERE
 		tsi.SRV_CODE='3000400101'
