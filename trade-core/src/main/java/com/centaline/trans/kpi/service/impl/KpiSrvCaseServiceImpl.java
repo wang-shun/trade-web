@@ -63,8 +63,6 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	@Transactional(readOnly = false)
 	@Override
 	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
-		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
-		removeBlankCaseCode(listVOs);
 		List<KpiSrvCaseVo> errList = null; //checkVo(listVOs);
 		if (errList != null) {
 			return errList;
@@ -91,6 +89,9 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		if (errList != null) {
 			return errList;
 		}
+		
+		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
+		removeBlankCaseCode(listVOs);
 		
 		List<TsKpiSrvCase> vos = new ArrayList<>();
 		if (listVOs != null && !listVOs.isEmpty()) {
@@ -328,18 +329,29 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	}
 	
 	private List<KpiSrvCaseVo> filterNoGuoHuCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs,Collection<String> colls,String msg){
-		if (colls == null || colls.isEmpty() || listVOs == null || listVOs.isEmpty()) {
+		
+		if(listVOs!=null){
+			if (colls == null || colls.isEmpty()){
+				List<KpiSrvCaseVo> t = new ArrayList<>();
+				listVOs.forEach(x -> {
+						x.setMsg(msg);
+						t.add(x);
+				});
+				if (!t.isEmpty())
+					return t;
+			}else{
+				List<KpiSrvCaseVo> t = new ArrayList<>();
+				listVOs.forEach(x -> {
+					if (!colls.contains(x.getCaseCode())) {
+						x.setMsg(msg);
+						t.add(x);
+					}
+				});
+				if (!t.isEmpty())
+					return t;
+			}
+		}else{
 			return null;
-		} else {
-			List<KpiSrvCaseVo> t = new ArrayList<>();
-			listVOs.forEach(x -> {
-				if (!colls.contains(x.getCaseCode())) {
-					x.setMsg(msg);
-					t.add(x);
-				}
-			});
-			if (!t.isEmpty())
-				return t;
 		}
 		
 		return null;

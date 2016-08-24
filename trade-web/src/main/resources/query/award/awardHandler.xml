@@ -271,7 +271,18 @@ FROM    sctrans.t_ts_award_base A
         ci.AR_NAME AR_NAME ,
         wf.INST_CODE AS INST_CODE ,
         wf.STATUS AS WF_STATUS ,
-        CAST(hvi.CREATE_TIME_ AS DATETIME) AS GUOHU_APPROVE_TIME
+        ( SELECT    t.end_time_
+          FROM      sctrans.act_hi_varinst v
+                    INNER JOIN ( SELECT t.proc_inst_id_ ,
+                                        MAX(end_time_) end_time_
+                                 FROM   sctrans.act_hi_taskinst t
+                                 WHERE  t.task_def_key_ = 'GuohuApprove'
+                                 GROUP BY t.proc_inst_id_
+                               ) t ON t.proc_inst_id_ = v.PROC_INST_ID_
+                                      AND v.name_ = 'GuohuApprove'
+                                      AND v.long_ = 1
+          WHERE     v.PROC_INST_ID_ = wf.inst_code
+        ) AS GUOHU_APPROVE_TIME
 FROM    SCTRANS.T_TO_CASE C
         INNER JOIN SCTRANS.T_TO_PROPERTY_INFO PI ON C.CASE_CODE = PI.CASE_CODE
         INNER JOIN SCTRANS.SYS_USER U ON C.LEADING_PROCESS_ID = U.ID
