@@ -25,8 +25,6 @@ $(document).ready(function() {
 	    	      },{
 	    	           colName :"产调申请时间"
     	          },{
-	    	           colName :"是否有效"
-    	          },{
 		    	       colName :"负责人"
 	    	      },{
 	    	           colName :"操作"
@@ -58,9 +56,57 @@ function reloadGrid(){
 	    templeteId : 'template_resultGetList',
 	    data : data
     });
+	
+	setStyle();
 }
 
 // 查看结果
 function resultGet(prcode){
 	location.href = ctx + '/mobile/property/box/show?prCode=' + prcode;
+}
+
+function setStyle(){
+	//left
+	$('.demo-left').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'left',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
+
+	//right
+	$('.demo-right').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
+
+	//top
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
+
+	//bottom
+	$('.demo-bottom').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'bottom',
+		offsetX: 8,
+		offsetY: 5,
+	});	
 }

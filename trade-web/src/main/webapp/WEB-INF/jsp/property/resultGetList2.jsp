@@ -17,6 +17,8 @@
     <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <!-- 分页控件 -->
     <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />    
     <!-- owner -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
 </head>
@@ -62,7 +64,10 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>    
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-    <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+   <%--  <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script> --%>
+    <script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
+	<!-- 必须JS -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>      
     <!-- owner -->
     <script src="${ctx}/static/trans/js/property/resultGetList.js"></script>
     <script id="template_resultGetList" type= "text/html">
@@ -70,6 +75,12 @@
 			<tr>
             	<td>
                 	<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
+					{{if item.IS_SUCCESS == '是'}}
+						<span class="yes_color">有效</span>
+					{{else if item.IS_SUCCESS == '否'}}
+						<span class="no_color">无效</span><a class="demo-top" title="{{item.UNSUCCESS_REASON}}"><i class="icon iconfont" style="font-size: 20px;color:#808080">&#xe609;</i></a>
+					{{else}}
+					{{/if}}
                 </td>
                 <td>
 					<p class="big deep_grey">{{item.DIST_CODE}}</p>
@@ -100,16 +111,6 @@
 						{{/if}}
 					</p>
                 </td>
-                <td>
-                	<p class="smll_sign">
-						{{if item.IS_SUCCESS == '是'}}
-							<i class="sign_sharp52bdbd">有效</i>
-						{{else if item.IS_SUCCESS == '否'}}
-							<i class="sign_grey">无效</i><em style="word-break:break-all;font-size: 14px;font-style: normal;color: #808080;">{{item.UNSUCCESS_REASON}}</em>
-						{{else}}
-                 		{{/if}}
-					</p>
-                </td>
                 <td class="center">
                     <span class="manager"><a href="#"><em>申请人：</em>{{item.PR_APPLIANT}}</a></span>
                     <span class="manager"><a href="#"><em>执行人：</em>{{item.PR_EXECUTOR}}</a></span>
@@ -124,6 +125,11 @@
 			</tr>
 		{{/each}}	
 	</script>
+    <script type="text/javascript">
+$(function(){
+	setStyle();
+});
+</script>	
 </content>    
 </body>
 </html>

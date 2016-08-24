@@ -449,7 +449,7 @@
     <script type="text/javascript">
 $(function(){
 	setStyle();
-	});
+});
 </script>
 </content>    
 </body>
