@@ -301,7 +301,7 @@ $('#checkAllNot').click(function(){
 
 
 
-function ckbChange(){
+/*function ckbChange(){
 	
 	$("#caseChangeTeamButton").attr("disabled", false);
 	var parE=$(event.target).closest('td');
@@ -313,4 +313,32 @@ function ckbChange(){
 		parE.find("input[name='caseCodes']").removeAttr("disabled");	
 	}
 	
+}*/
+
+
+/*单选框*/
+function ckbChange(){
+	var my_checkboxes = $('input[name="ckb_task"]');
+	var flag =false;
+	var count=0;
+	$.each(my_checkboxes, function(j, item){
+		if($('input[name="ckb_task"]:eq('+j+')').prop('checked')){
+			flag=true;
+			++count;
+		}
+	});
+	if(flag){
+		$("#caseChangeTeamButton").attr("disabled", false);
+		if(count==my_checkboxes.length){
+			$('#checkAllNot').prop('checked', true);
+		}else if(count<my_checkboxes.length){
+			$('#checkAllNot').prop('checked', false);
+		}
+	}else{
+		$("#caseChangeTeamButton").attr("disabled", true);
+		$('#checkAllNot').prop('checked', false);
+	}
 }
+
+
+
