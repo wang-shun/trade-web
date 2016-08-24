@@ -33,8 +33,8 @@
 	
 	<query id="queryMortgageApproveLost">
 		<searchCondition>
-		   <condition field="taskInst.END_TIME_"    name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="taskInst.END_TIME_"    name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+		   <condition field="WK.END_TIME_"    name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="WK.END_TIME_"    name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
            <condition field="base.CASE_CODE"   		name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="U.REAL_NAME"   		name="caseoperator"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -42,7 +42,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT
+				SELECT
 					  base.PKID,
 					  base.CASE_CODE,
 					  base.CTM_CODE,
@@ -54,28 +54,40 @@
 					  base.ORG_ID AS ORG_ID_OLD,					
 					  mortgage.MORT_TYPE AS MORT_TYPE_OLD,
 					  mortgage.SIGN_DATE,
-					  guser.real_name,
-					  taskInst.END_TIME_,
-					  taskInst.START_TIME_,
+					  WK.TASK_DEF_KEY_,
+					  WK.END_TIME_,
+					  WK.START_TIME_,
 					  U.REAL_NAME CASEOPERATOR,
-					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID
+					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID					
+
 					FROM 
-					
 					(SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND  (MORT_TYPE IN ('30016001','30016002','') OR MORT_TYPE IS NULL)) mortgage
 					INNER JOIN sctrans.V_CASE_LIST_BASE base	ON  mortgage.CASE_CODE = base.CASE_CODE
-					INNER JOIN sctrans.SYS_USER u 				ON u.ID = base.LEADING_PROCESS_ID
-					INNER JOIN sctrans.T_HI_WORKFLOW w 			ON base.CASE_CODE = w.CASE_CODE
-					AND w.BUSINESS_KEY = 'operation_process'
-					AND w.STATUS IN ('0', '4')
-					AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
-					INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
-					AND taskInst.task_def_key_ in ('MortgageSelect','LoanlostApproveManager','LoanlostApproveDirector') 
-					AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_
-					AND task_def_key_ in ('MortgageSelect','LoanlostApproveManager','LoanlostApproveDirector'))
-					INNER JOIN sctrans.sys_user guser 
-					ON guser.username = taskInst.ASSIGNEE_ 
-					AND guser.available = '1'
-					AND guser.is_deleted = '0'
+					INNER JOIN sctrans.SYS_USER U 				ON u.ID = base.LEADING_PROCESS_ID
+					LEFT JOIN (
+						SELECT 		
+						W.CASE_CODE, 
+						taskInst.TASK_DEF_KEY_,
+						taskInst.END_TIME_,
+						taskInst.START_TIME_
+					  
+						FROM sctrans.T_HI_WORKFLOW w 
+						INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
+						AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') 
+						AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_
+						AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))
+					
+						INNER JOIN sctrans.sys_user guser 
+						ON guser.username = taskInst.ASSIGNEE_ 
+						AND guser.available = '1'
+						AND guser.is_deleted = '0'
+						AND w.BUSINESS_KEY = 'operation_process'
+						AND w.STATUS IN ('0', '4')
+						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+
+					) AS WK ON WK.CASE_CODE = base.CASE_CODE
+					
+					
 					where
 						(  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C 
 								    INNER JOIN   sctrans.v_yucui_org_hierarchy orgHierarchy
