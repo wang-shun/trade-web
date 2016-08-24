@@ -83,9 +83,9 @@
 						ON guser.username = taskInst.ASSIGNEE_ 
 						AND guser.available = '1'
 						AND guser.is_deleted = '0'
-						AND w.BUSINESS_KEY in ( 'LoanLost_Process','operation_process')
+						--AND w.BUSINESS_KEY in ( 'LoanLost_Process','operation_process')
 						AND w.STATUS IN ('0', '4')
-						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY in ( 'LoanLost_Process','operation_process') AND STATUS IN ('0', '4'))
+						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE  AND STATUS IN ('0', '4'))
 
 					) AS WK ON WK.CASE_CODE = base.CASE_CODE
 					
