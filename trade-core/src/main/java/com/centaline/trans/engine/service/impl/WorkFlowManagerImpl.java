@@ -579,7 +579,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		restVariable.setName(variableName);
 		return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class, restVariable, vars);
 	}
-
+	
 	private boolean isClaimByActivit(String processInstanceId) {
 		StartProcessInstanceVo process = getHistoryInstances(processInstanceId);
 		String dfId = process.getProcessDefinitionId();
@@ -593,8 +593,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 			return true;
 		}
 		if (versionFlag.compareTo(dfId) >= 0) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 }
