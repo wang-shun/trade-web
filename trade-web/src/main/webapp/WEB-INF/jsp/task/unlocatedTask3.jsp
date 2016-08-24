@@ -402,7 +402,7 @@ function fetchData(p){
  	          dataType: "json",
  	          data: p,
  	          success: function(data){
- 	        	  console.log("数据"+JSON.stringify(data));
+ 	        	  //console.log("数据"+JSON.stringify(data));
  	        	  data.ctx = ctx;
  	        	  var tsAwardBaseList= template('template_unlocatedTask' , data);
                   $("#tab_unlocatedTask").empty();
