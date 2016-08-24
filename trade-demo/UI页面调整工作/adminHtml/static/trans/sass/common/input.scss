@@ -28,7 +28,15 @@
   font-size: 18px;
   color: #52cdec;
 }
-
+.form-control, .single-line {
+    border-radius: 2px;
+}
+.pt10 {
+  padding-top: 10px;
+}
+.pt20 {
+  padding-top: 20px;
+}
 .form_list label {
   font-family: "Microsoft Yahei";
   font-size: 14px;
