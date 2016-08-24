@@ -363,6 +363,7 @@
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
+						$("#checkAllNot").attr('checked',false);
 						loadGrid(1);
 					}else{
 						alert(data.message);

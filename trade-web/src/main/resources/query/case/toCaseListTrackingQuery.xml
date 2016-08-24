@@ -53,7 +53,7 @@
                         A.AGENT_NAME,
                         A.AGENT_CODE,
                         A.TARGET_CODE,
-                        B.ORG_NAME as AGENT_ORG_NAME,a.AGENT_PHONE
+                        a.GRP_NAME as AGENT_ORG_NAME,a.AGENT_PHONE
 					FROM SCTRANS.T_TO_CASE_INFO A 
 					LEFT JOIN SCTRANS.T_TO_PROPERTY_INFO tp ON tp.CASE_CODE=A.CASE_CODE 
 					LEFT JOIN SCTRANS.V_USER_ORG_JOB B ON A.AGENT_CODE=B.USER_ID
