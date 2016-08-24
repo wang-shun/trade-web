@@ -309,7 +309,7 @@
 					{{if item.IS_SUCCESS == '是'}}
 						<span class="yes_color">有效</span>
 					{{else if item.IS_SUCCESS == '否'}}
-						<span class="no_color">无效</span><a class="demo-top" title="{{item.UNSUCCESS_REASON}}"><i class="icon iconfont" style="font-size: 20px;color:#808080">&#xe609;</i></a>
+						<span class="no_color">无效</span><a class="demo-right" title="{{item.UNSUCCESS_REASON}}"><i class="icon iconfont" style="font-size: 20px;color:#808080">&#xe609;</i></a>
 					{{else}}
 					{{/if}}
 			</td>
