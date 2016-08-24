@@ -459,14 +459,14 @@
 									<th>操作</th>
 								</thead>					
 								<tbody id="addTr">
-								  <c:foreach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
+								  <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
 									<tr align="center">
 										<td class="text-left"><select name="toSpvDeDetailList[${status.index }].deCondCode" class="table-select">
 												<option value="">${toSpvDeDetail.deCondCode }</option>
 										</select></td>
 										<td class="text-left"><select class="table-select">
-												<option name="toSpvDeDetailList[${status.index }].payeeAccountId" value="1" ${toSpvDeDetail.payeeAccountId eq '1':'checked="checked"':'' } >资金方</option>
-												<option name="toSpvDeDetailList[${status.index }].payeeAccountId" value="2" ${toSpvDeDetail.payeeAccountId eq '2':'checked="checked"':''} >卖方</option>
+												<option name="toSpvDeDetailList[${status.index }].payeeAccountId" value="1" ${toSpvDeDetail.payeeAccountId eq 1?'checked="checked"':''} >资金方</option>
+												<option name="toSpvDeDetailList[${status.index }].payeeAccountId" value="2" ${toSpvDeDetail.payeeAccountId eq 2?'checked="checked"':''} >卖方</option>
 										</select></td>
 										<td><input name="toSpvDeDetailList[${status.index }].deAmount" value="${toSpvDeDetail.deAmount }" class="table-input-one" type="text"
 											placeholder="请输入金额" />元</td>
@@ -475,7 +475,7 @@
 										<td align="center"><a href="javascript:void(0)"
 											onClick="getAtr(this)">添加</span></a>
 									</tr>
-								   </c:foreach>
+								   </c:forEach>
 								</tbody>					
 							</table>
 							<div class="form-btn">
