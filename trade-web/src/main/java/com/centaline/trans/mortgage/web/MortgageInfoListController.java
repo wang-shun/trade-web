@@ -50,6 +50,7 @@ public class MortgageInfoListController {
 		boolean isAdminFlag = false;
 
         StringBuffer reBuffer = new StringBuffer();
+        //如果不是交易顾问
 		if(!userJob.equals(TransJobs.TJYGW.getCode())){
 			queryOrgFlag=true;
 			String depString = user.getServiceDepHierarchy();

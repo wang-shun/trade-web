@@ -90,10 +90,10 @@
 						<label class="control-label sign_left_small"> 贷款银行 </label>
 
 							 <select	name="loanLostFinOrgName" id="loanLostFinOrgName" class="teamcode select_control ">
-							  <option value="" selected="selected">请选择</option> 
+<%-- 							  <option value="" selected="selected">请选择</option> 
 								<c:forEach items="${FinOrgNameList}"  var="var">									
 									<option value="${var.FinOrgCode}">${var.FinOrgName}</option>							
-								</c:forEach>
+								</c:forEach> --%>
 						</select>
 					</div>
 					<div class="form_content" style="margin-left: 126px;">
@@ -119,10 +119,10 @@
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 贷款支行 </label> <select
 							name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc" class="teamcode select_control ">
-							<option value="">请选择</option>
+<%-- 							<option value="">请选择</option>
 							<c:forEach items="${FinOrgNameList}"  var="var">									
 								<option value="${var.FinOrgCodeYc}">${var.FinOrgNameYc}</option>							
-							</c:forEach>
+							</c:forEach> --%>
 						</select>
 					</div>
 					<div class="form_content">
@@ -254,7 +254,7 @@
                         	</p>
                              <p>
                                 <a class="salesman-info" href="#" >
-                                    {{item.FIN_ORG_NAME}}                                               
+                                    {{item.FENGHANG}}———{{item.FIN_ORG_NAME_YC}}                                               
                                 </a>
                             </p>
                         </td>
@@ -283,7 +283,7 @@
                        </td>
 
 						<td class="center">
-                      	 <p> <i class="sign_blue">{{item.IS_TMP_BANK== '是'?"临时银行":""}}</i></p>
+                      	 <p> <i class="sign_blue">{{item.IS_TMP_BANK== '是'?"临时银行":null}}</i></p>
                          <p>{{item.SDSTATUS=='否' ? "流失":""}}</p>
                        	</td>
                         <td class="center">
