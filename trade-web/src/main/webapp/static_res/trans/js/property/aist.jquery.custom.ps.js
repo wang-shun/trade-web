@@ -199,9 +199,9 @@ function($, window) {
 					showGoto:true,
 					onPageClick: function (event, page) {
 						 //console.log(page);
-						//setStyle();
 						options.page = page;
 	      				_self.reloadGrid(options);
+	      				setStyle();
 				    }
 				});
 			}
