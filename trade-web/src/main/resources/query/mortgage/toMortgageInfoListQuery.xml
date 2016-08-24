@@ -36,10 +36,8 @@
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[   
-
-				
-				                SELECT
+				<![CDATA[  				
+			SELECT
 					T.PKID,
 					T.CASE_CODE,
 					T.PROPERTY_ADDR,
@@ -69,10 +67,8 @@
 					p.property_addr,
 					m.case_code,
 					m.mort_type as MORT_TYPE_OLD,
-					(Select FO.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG FO  where FO.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME,
-					
-					(Select FOYC.FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG FOYC  where FOYC.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME_YC,
-					
+					(Select FO.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG FO  where FO.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME,					
+					(Select FOYC.FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG FOYC  where FOYC.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME_YC,					
 					(Select FOCODE.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=m.fin_org_code)FA_FIN_ORG_CODE,					
 					(select TOP 1 FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in (	select distinct FA_FIN_ORG_CODE  from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in(select FIN_ORG_CODE 	from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=m.FIN_ORG_CODE)))  FENHANG,
 					m.FIN_ORG_CODE,					
@@ -173,11 +169,11 @@
 				</ifNotNull>
 				
 				<ifNotNull loanLostFinOrgNameCode>
-				     and T.FIN_ORG_CODE = #loanLostFinOrgNameCode#
+				     and T.FA_FIN_ORG_CODE = #loanLostFinOrgNameCode#
 				</ifNotNull>
 				
 				<ifNotNull loanLostFinOrgNameYcCode>
-				     and T.FA_FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+				     and T.FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
 				</ifNotNull> 
 				
 				<ifNotNull isLose>
@@ -210,6 +206,8 @@
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="true" title="贷款银行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FIN_ORG_NAME_YC" index="" checkbox="true" title="贷款银行分行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="true" title="贷款银行分行代码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FENHANG" index="" checkbox="true" title="贷款银行分行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
 				<column type="both" name="PROCESSOR_ID" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORG_ID" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>						
 								

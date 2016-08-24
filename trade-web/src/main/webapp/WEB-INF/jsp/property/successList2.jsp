@@ -33,6 +33,9 @@
 	<!-- owner -->
 	<link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
 	
+	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	
 	<script type="text/javascript">
 		var optTransferRole=false;
 		<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
@@ -330,7 +333,8 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>    
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-    <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+   <%--  <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script> --%>
+    <script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
     
 	<!-- 上传附件相关 -->
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
@@ -357,6 +361,9 @@
 	
 	<!-- datapicker -->
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    
+	<!-- 必须JS -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>    
     <!-- owner -->
     <script src="${ctx}/static/trans/js/property/successList.js"></script>
 
@@ -365,6 +372,12 @@
 			<tr>
 				<td>
 					<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
+					{{if item.IS_SUCCESS == '是'}}
+						<span class="yes_color">有效</span>
+					{{else if item.IS_SUCCESS == '否'}}
+						<span class="no_color">无效</span><a class="demo-top" title="{{item.UNSUCCESS_REASON}}"><i class="icon iconfont" style="font-size: 20px;color:#808080">&#xe609;</i></a>
+					{{else}}
+					{{/if}}
 				</td>
                 <td>
 					<p class="big deep_grey">{{item.DIST_CODE}}</p>
@@ -375,17 +388,6 @@
                 	<p class="smll_sign"><i class="sign_normal">受</i>{{item.PR_ACCPET_TIME}}</p>
                 	<p class="smll_sign"><i class="sign_normal">完</i>{{item.PR_COMPLETE_TIME}}</p>
             	</td>
-                <td>
-                	<p class="smll_sign">
-                        {{if item.IS_SUCCESS == '是'}}
-							<i class="sign_sharp52bdbd">有效</i>
-						{{else if item.IS_SUCCESS == '否'}}
-                        	<i class="sign_grey">无效</i>
-							<em style="word-break:break-all;font-size: 14px;font-style: normal;color: #808080;">{{item.UNSUCCESS_REASON}}</em>
-						{{else}}
-						{{/if}}
-                    </p>
-                </td>
                 <td>
                 	<span class="manager" style="margin:0px !important;">
 						<a href="#"><em>申请人：</em>{{item.PR_APPLIANT}}</a>
@@ -444,6 +446,11 @@
             });
         });
     </script>
+    <script type="text/javascript">
+$(function(){
+	setStyle();
+});
+</script>
 </content>    
 </body>
 </html>

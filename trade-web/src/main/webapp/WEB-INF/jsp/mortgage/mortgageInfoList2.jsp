@@ -254,7 +254,7 @@
                         	</p>
                              <p>
                                 <a class="salesman-info" href="#" >
-                                    {{item.FENGHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
+                                    {{item.FENHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
                                 </a>
                             </p>
                         </td>
