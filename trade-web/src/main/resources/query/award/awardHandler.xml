@@ -306,7 +306,7 @@ FROM    SCTRANS.T_TO_CASE C
 WHERE   C.CASE_CODE IN ( SELECT DISTINCT
                                 AB.CASE_CODE
                          FROM   SCTRANS.T_TS_AWARD_BASE AB
-                         WHERE  AB.PAID_TIME IS NULL )
+                         WHERE  AB.PAID = 0 OR AB.PAID IS NULL )
         AND c.STATUS NOT IN ( '30001002', '30001003' )
         <ifNotNull caseCode>
 				AND C.CASE_CODE = #caseCode# 

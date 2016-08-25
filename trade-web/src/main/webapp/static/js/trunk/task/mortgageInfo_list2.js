@@ -127,11 +127,21 @@ function loanLostApproveSearchMethod(page) {
 	params.queryId = "findToMortgageIsActive";
 	reloadGrid(params);
 };
-function initradio(rName,rValue){
+function isTempBankRadio(rName,rValue){
     var rObj = document.getElementsByName(rName);
     for(var i = 0;i < rObj.length;i++){
         if(rObj[i].value == rValue){
             rObj[i].checked =  'checked';
+            $("#isTempBankAll").val(2);
+        }
+    }
+}
+function isLoseRadio(rName,rValue){
+    var rObj = document.getElementsByName(rName);
+    for(var i = 0;i < rObj.length;i++){
+        if(rObj[i].value == rValue){
+            rObj[i].checked =  'checked';           
+        	$("#isLoseAll").val(2);  
         }
     }
 }
@@ -149,13 +159,13 @@ $('#mortgageInfoCleanButton').click(function() {
 	$("input[name='amountBegin_0']").val('');
 	$("input[name='amountEnd_0']").val('');
 	//清空单选按钮
-	$('input[name="isLose"]:checked').val('');
-	$('input[name="isLose"]:checked').attr("checked",false);
+	$('input[name="isLoseLoan"]:checked').val('');
+	$('input[name="isLoseLoan"]:checked').attr("checked",false);
 	$('input[name="isTempBank"]:checked').val('');
 	$('input[name="isTempBank"]:checked').attr("checked",false);
 	
-	initradio('isLose',$("#isLoseAll").val());
-	initradio('isTempBank',$("#isTempBankAll").val());
+	isTempBankRadio('isTempBank',$("#isTempBankAll").val());
+	isLoseRadio('isLoseLoan',$("#isLoseAll").val());
 	
 	$("#yuCuiOriGrpId").val("");
 	$("#loanLostFinOrgNameYc").val("");
@@ -371,16 +381,25 @@ function getParamsValue() {
 	// 产品类型
 	// var finCode = getCheckBoxValues("finCode");
 	var isTempBank = $("input[name='isTempBank']:checked").val();	
-	var isLose = $("input[name='isLose']:checked").val();
-	
+	//alert("isTempBank==="+isTempBank);
 	if(isTempBank == 2){
 		isTempBank=null;//为2 设置为null则不添加该查询条件
-	}else if (isTempBank == 1){
+	}else if (isTempBank == 1){		
 		isTempBank='是';
 	}else if(isTempBank == 0){
 		isTempBank='否';
 	}
-	if(isLose == 2)		isLose=null;
+	var isLose = $("input[name='isLoseLoan']:checked").val();
+	//alert("isLose==="+isLose);
+	var a = isLose;
+	if(isLose == 2){
+		isLose=null;//为2 设置为null则不添加该查询条件
+	}else if (isLose == 1){
+		isLose='是';
+	}else if(isLose == 0){
+		isLose='否';
+	}
+	
 	params.isTempBank = isTempBank;
 	params.isLose = isLose;	
 	params.caseCode = caseCode;

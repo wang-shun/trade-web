@@ -140,12 +140,14 @@
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 是否流失 </label>
 						<div class="controls">
-							<label class="radio inline"> <input type="radio"
-								value="2" checked="checked" name="isLose" id="isLoseAll"> 全部
-							</label> <label class="radio inline"> <input type="radio"
-								value="否" name="isLose"> 是
-							</label> <label class="radio inline"> <input type="radio"
-								value="是" name="isLose"> 否
+							<label class="radio inline"> 
+									<input type="radio" value="2" checked="checked" name="isLoseLoan" id="isLoseAll"> 全部
+							</label> 
+							<label class="radio inline"> 
+									<input type="radio" value="1" name="isLoseLoan"> 是
+							</label> 
+							<label class="radio inline"> 
+									<input type="radio" value="0" name="isLoseLoan"> 否
 							</label>
 						</div>
 					</div>
@@ -234,7 +236,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js?version=1.1.1"></script>
+	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 排序插件 -->
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script> <!-- 分页控件  -->
@@ -288,7 +290,7 @@
                       	 <p> <i class="sign_blue">临时银行</i></p>
 						{{/if}}
 
-						{{if  item.SDSTATUS=='否'}}
+						{{if  item.SDSTATUS=='是'}}
                       	 <p>流失</p>
 						{{/if}}
                         
