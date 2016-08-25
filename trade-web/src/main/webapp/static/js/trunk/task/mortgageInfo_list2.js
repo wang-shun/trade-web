@@ -132,6 +132,7 @@ function isTempBankRadio(rName,rValue){
     for(var i = 0;i < rObj.length;i++){
         if(rObj[i].value == rValue){
             rObj[i].checked =  'checked';
+            $("#isTempBankAll").val(2);
         }
     }
 }
@@ -139,7 +140,8 @@ function isLoseRadio(rName,rValue){
     var rObj = document.getElementsByName(rName);
     for(var i = 0;i < rObj.length;i++){
         if(rObj[i].value == rValue){
-            rObj[i].checked =  'checked';
+            rObj[i].checked =  'checked';           
+        	$("#isLoseAll").val(2);  
         }
     }
 }
@@ -379,7 +381,7 @@ function getParamsValue() {
 	// 产品类型
 	// var finCode = getCheckBoxValues("finCode");
 	var isTempBank = $("input[name='isTempBank']:checked").val();	
-	
+	//alert("isTempBank==="+isTempBank);
 	if(isTempBank == 2){
 		isTempBank=null;//为2 设置为null则不添加该查询条件
 	}else if (isTempBank == 1){		
@@ -388,12 +390,14 @@ function getParamsValue() {
 		isTempBank='否';
 	}
 	var isLose = $("input[name='isLoseLoan']:checked").val();
+	//alert("isLose==="+isLose);
+	var a = isLose;
 	if(isLose == 2){
 		isLose=null;//为2 设置为null则不添加该查询条件
 	}else if (isLose == 1){
-		isLose='否';
-	}else if(isLose == 0){
 		isLose='是';
+	}else if(isLose == 0){
+		isLose='否';
 	}
 	
 	params.isTempBank = isTempBank;
