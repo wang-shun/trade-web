@@ -86,11 +86,11 @@
 						FROM sctrans.T_HI_WORKFLOW w 
 						INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
 						AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') 
-						AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_
+						AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_  and DELETE_REASON_='completed'
 						AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))
 					
 						INNER JOIN sctrans.sys_user guser 
-						ON guser.username = taskInst.ASSIGNEE_  and taskInst.DELETE_REASON_='completed'
+						ON guser.username = taskInst.ASSIGNEE_ 
 						AND guser.available = '1'
 						AND guser.is_deleted = '0'
 						--AND w.BUSINESS_KEY in ( 'LoanLost_Process','operation_process')
