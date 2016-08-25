@@ -23,7 +23,6 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
@@ -53,38 +52,6 @@
     <link rel="stylesheet" href="${ctx}/css/trans/css/award/baseAward.css" ">
  	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 	<link href="${ctx}/css/transcss/case/case_filter.css" rel="stylesheet">	
-	
-<style type="text/css">
-.radio.radio-inline>label {
-	margin-left: 10px;
-}
-
-.radio.radio-inline>input {
-	margin-left: 10px;
-}
-
-.checkbox.checkbox-inline>div {
-	margin-left: 25px;
-}
-
-.checkbox.checkbox-inline>input {
-	margin-left: 20px;
-}
-
-.ui-state-hover {
-	cursor: pointer;
-}
-
-.btn-xm {
-	margin-left: 10px;
-	margin-top: 10px;
-	width: 160px;
-}
-
-.fixWidth {
-	width: 200px !important;
-}
-</style>
 </head>
 
 <body>
@@ -150,7 +117,7 @@
                                     </div>
                                 </div>
                                 <div class="form_content space">
-                                    <div class="add_btn">
+                                    <div class="add_btn" style="margin-left: 0px;">
                                         <button type="button" class="btn btn-success" id="searchButton">
                                             <i class="icon iconfont"></i>
                                             	查询
@@ -311,7 +278,13 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-					<td>{{item.CASE_CODE}}</td>
+					<td>
+						<p class="big">
+                                                <a href="{{ctx}}/case/caseDetail?caseId={{item.pkid}}" target="_blank">
+                                                    {{item.CASE_CODE}}
+                                                </a>
+                        </p>
+					</td>
 					<td>{{item.SRV_CODE}}</td>
 					<td>{{item.tName}}</td>
 					<td>{{item.dName}}</td>
@@ -351,6 +324,19 @@
 	     }
 	     
 		$(function(){
+			
+			// 是否显示错误信息
+			<c:if test="${not empty fList}">
+			var hasError = true;
+			</c:if>
+			<c:if test="${empty fList}">
+			var hasError = false;
+			</c:if>
+			// 是否显示错误信息
+			if (!!hasError) {
+				$('#error-modal-form').modal("show");
+			}
+			
 		     var monthSel = new DateSelect($('.bonus-m'), {
 					max : new Date(),
 					moveDone : reloadGrid1

@@ -35,9 +35,10 @@
 		<searchSql>
 			<baseSql>
                   <![CDATA[
-					select a.pkid,a.CASE_CODE,a.SRV_CODE AS SRV_CODE_OLD,ot.org_name as tName,od.org_name as dName,a.type,a.SATISFACTION,a.SRV_PART,a.CAN_CALLBACK from sctrans.t_ts_kpi_srv_case as a
+					select tc.pkid,a.CASE_CODE,a.SRV_CODE AS SRV_CODE_OLD,ot.org_name as tName,od.org_name as dName,a.type,a.SATISFACTION,a.SRV_PART,a.CAN_CALLBACK from sctrans.t_ts_kpi_srv_case as a
 						left join sctrans.SYS_ORG as ot on ot.id =a.team_id
 						left join sctrans.sys_org as od on od.id=a.DISTRICT_ID
+						inner join sctrans.T_TO_CASE tc ON tc.case_code = a.case_code
 						where 1=1
 						<ifNotNull belongMonth>
 			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
