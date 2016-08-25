@@ -278,7 +278,13 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-					<td>{{item.CASE_CODE}}</td>
+					<td>
+						<p class="big">
+                                                <a href="{{ctx}}/case/caseDetail?caseId={{item.pkid}}" target="_blank">
+                                                    {{item.CASE_CODE}}
+                                                </a>
+                        </p>
+					</td>
 					<td>{{item.SRV_CODE}}</td>
 					<td>{{item.tName}}</td>
 					<td>{{item.dName}}</td>

@@ -315,3 +315,9 @@ input {
   background-color: #e4e4e4;
   border-color: #e4e4e4;
 }
+
+.date_icon {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+}
