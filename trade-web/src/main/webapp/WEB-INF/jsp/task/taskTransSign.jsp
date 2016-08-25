@@ -690,6 +690,22 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script>
+			//判断是否有重复字符
+			function isUniqueChar(value){
+				if(!value){
+					return false;
+				}
+				var uniqueMap   = {};
+				for(i=0;i<value.length;i++){
+					var val = value.charAt(i);
+					uniqueMap[val]=val;
+				}
+				var result = ""
+				for(var key in uniqueMap){
+					result +=key;
+				}
+				return (result.length==1);
+			}
 			//验证手机和电话号码
 			function checkContactNumber(ContactNumber) {
 				
@@ -700,53 +716,27 @@
 				//var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;
 				
 				var number=/^[0-9]*$/;	//数字			
-				var repeat8=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{8}$/;	  //8位相同数字		
-				var repeat11=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{11}$/; //8位相同数字					
-				var repeat13=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{13}$/; //8位相同数字						
+				//var repeat8=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{8}$/;	  //8位相同数字		
+				//var repeat11=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{11}$/; //8位相同数字					
+				//var repeat13=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{13}$/; //8位相同数字						
 				var isValid = true;
 				
 				if(!number.exec(mobile)){					
-					alert("亲，您输入的电话号码只能由数字组成！");
+					alert("电话号码只能由数字组成！");
 					isValid = false;
 					return isValid;
 				}
-				if(mobile.length !=8 && mobile.length !=11 && mobile.length !=13){				
-					alert("亲，电话号码只能由是8位、11位或者13位的数字组成！");
-					isValid = false;
-					return isValid;
-				}
-				
-				if(!repeat8.exec(mobile)  &&  !repeat11.exec(mobile)  && !repeat13.exec(mobile)){				
-					alert("亲，您输入的电话号码不能全部都是相同的数字！");
+				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
+					alert("电话号码只能由是8位、11位或者13位的数字组成！");
 					isValid = false;
 					return isValid;
 				}
 				
-/* 				//如果为1开头则验证手机号码  
-				if (mobile.substring(0, 1) == 1) {						
-					if (!phone.exec(mobile) || mobile.length < 11) {						
-						isValid = false;
-						return isValid;
-					}
-				}
-				//如果为0开头则验证固定电话号码  
-				else if (mobile.substring(0, 1) == 0) {					
-					if(mobile.length <= 11){						
-						if (!telephone.test(mobile)) {						
-							isValid = false;
-							return isValid;
-						}
-					}else{							
-						if (!phone.exec(mobile)) {								
-							isValid = false;
-							return isValid;
-						}
-					}
-
-				} else {				
+				if(isUniqueChar(mobile)){
+					alert("电话号码不能为全部相同的数字！");
 					isValid = false;
 					return isValid;
-				} */
+				}
 				return isValid;
 			}
 
@@ -1155,7 +1145,7 @@
 							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
 								if (itemPhoneDown.value != '') {
 									if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
-												alert("亲，上、下家电话不能填写一样!");
+												alert("上下家电话不能填写一样!");
 												checkGuestPhone=false;
 												return checkGuestPhone;
 									}
