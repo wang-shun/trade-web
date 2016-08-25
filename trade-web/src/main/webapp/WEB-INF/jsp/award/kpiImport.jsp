@@ -351,6 +351,19 @@
 	     }
 	     
 		$(function(){
+			
+			// 是否显示错误信息
+			<c:if test="${not empty fList}">
+			var hasError = true;
+			</c:if>
+			<c:if test="${empty fList}">
+			var hasError = false;
+			</c:if>
+			// 是否显示错误信息
+			if (!!hasError) {
+				$('#error-modal-form').modal("show");
+			}
+			
 		     var monthSel = new DateSelect($('.bonus-m'), {
 					max : new Date(),
 					moveDone : reloadGrid1
