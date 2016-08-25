@@ -96,15 +96,17 @@
 								    INNER JOIN   sctrans.v_yucui_org_hierarchy orgHierarchy
 							        ON  orgHierarchy.ORG_ID = C.ORG_ID
 								  	WHERE C.CASE_CODE = base.CASE_CODE 
-
+									<ifNotNull idflag> 
+					  	    				AND C.LEADING_PROCESS_ID = #userId# 	
+									</ifNotNull> 
 					  	    		<ifNotNull queryorgs> 
 					  	    	 			AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
 					  	   			 </ifNotNull>
 					  	   			 )
 					)
-					<ifNotNull idflag> 
+<!-- 					<ifNotNull idflag> 
 					  	    	AND mortgage.LOAN_AGNET = #userId# 	
-					</ifNotNull>
+					</ifNotNull> -->
 					  <if test="srvCode!=null">
 						AND (
 						   1=2

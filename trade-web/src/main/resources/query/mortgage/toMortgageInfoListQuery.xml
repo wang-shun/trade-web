@@ -113,8 +113,7 @@
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
 					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 					
                 where 
-					m.is_active = '1'	
-					and exists(select 1 from sctrans.T_HI_WORKFLOW w where w.CASE_CODE = m.CASE_CODE and w.BUSINESS_KEY = 'LoanLost_Process')
+					m.is_active = '1'						
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>			
 				)T    
