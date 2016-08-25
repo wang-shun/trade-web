@@ -28,6 +28,9 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">    
     
+    	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+    
 	<!-- owner -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
     <link href="${ctx}/static/trans/css/property/popmac.css" rel="stylesheet" />
@@ -267,7 +270,8 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>    
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-    <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+   <%--  <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script> --%>
+    <script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
     
 	<!-- 上传附件相关 -->
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
@@ -291,7 +295,10 @@
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
 	<script src="${ctx}/js/trunk/task/attachment.js"></script>    
-    
+
+	<!-- 必须JS -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+   
     <!-- owner -->
     <script src="${ctx}/static/trans/js/property/processingList.js"></script>
     <script id="template_processingList" type="text/html">
@@ -299,6 +306,12 @@
 		<tr>
 			<td>
 				<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
+					{{if item.IS_SUCCESS == '是'}}
+						<span class="yes_color">有效</span>
+					{{else if item.IS_SUCCESS == '否'}}
+						<span class="no_color">无效</span><a class="demo-right" title="{{item.UNSUCCESS_REASON}}"><i class="icon iconfont" style="font-size: 20px;color:#808080">&#xe609;</i></a>
+					{{else}}
+					{{/if}}
 			</td>
             <td>
 				<p class="big deep_grey">{{item.DIST_CODE}}</p>
@@ -307,14 +320,6 @@
             <td>
                 <p class="smll_sign"><i class="sign_normal">申</i>{{item.PR_APPLY_TIME}}</p>
                 <p class="smll_sign"><i class="sign_normal">受</i>{{item.PR_ACCPET_TIME}}</p>
-            </td>
-            <td>
-				{{if item.IS_SUCCESS == '是'}}
-                	<p class="smll_sign"><i class="sign_sharp52bdbd">有效</i></p>
-				{{else if item.IS_SUCCESS == '否'}}
-                	<p class="smll_sign"><i class="sign_grey">无效</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
-				{{else}}
-				{{/if}}
             </td>
             <td>
             	<span class="manager" style="margin:0px !important;">
@@ -343,6 +348,11 @@
 		  template.helper("rep", function(a){  
 	          return a.replace(/[\r\n]/g,"");  
 	      });
-	</script>    
+	</script>
+    <script type="text/javascript">
+$(function(){
+	setStyle();
+});
+</script>	    
 </content>
 </html>

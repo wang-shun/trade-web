@@ -5,6 +5,13 @@ import java.util.List;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 
 public interface TsFinOrgService {
+	
+	/**
+	 * 临时银行报表--获取贷款银行列表
+	 * @return
+	 */
+	public List<TsFinOrg> getMainBankListInTempBankReport();
+	
 	/**
 	 * 根据finOrgname模糊查询
 	 * 

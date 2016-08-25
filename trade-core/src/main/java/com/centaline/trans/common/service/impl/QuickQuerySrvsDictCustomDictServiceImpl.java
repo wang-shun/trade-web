@@ -53,8 +53,9 @@ public class QuickQuerySrvsDictCustomDictServiceImpl implements CustomDictServic
 				
 			} catch (Exception e) {
 			} 
-			if(val==null || val.equals("null")){
-				val = "";
+			//对应的贷款类型为空或者null的情况  设置为"未选择"
+			if(val==null || val.equals("null") || "".equals(val)){
+				val = "未选择";
 			}
 			keyer.put("val", val);
 		}

@@ -30,24 +30,48 @@
 	
 	<query id="findToMortgageIsActive">
 	    <searchCondition>
-		   <condition field="m.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="p.property_addr" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="m.cust_name"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[   
-				
-				<ifNotNull isLose>
-				     select * from (
-				</ifNotNull>
-				              
-                 select 
+				<![CDATA[  				
+			SELECT
+					T.PKID,
+					T.CASE_CODE,
+					T.PROPERTY_ADDR,
+					T.MORT_TYPE_OLD,
+					T.FIN_ORG_NAME,
+					T.FIN_ORG_NAME_YC,--支行名称
+					T.FA_FIN_ORG_CODE,--分行code
+					T.FIN_ORG_CODE,--支行code
+					T.FENHANG,--分行名称
+					T.CUST_NAME,
+					T.MORT_TOTAL_AMOUNT,
+					T.COM_AMOUNT,
+					T.PRF_AMOUNT,
+					T.SIGN_DATE,
+					T.LEND_DATE,
+					T.APPR_DATE,
+					T.REAL_NAME,
+					T.ORG_NAME,
+					T.ORG_ORG_NAME,
+					T.IS_TMP_BANK,
+					T.SDSTATUS,
+					T.PROCESSOR_ID,
+					T.ORG_ID
+				FROM				
+				(select 
 					m.pkid,
 					p.property_addr,
 					m.case_code,
 					m.mort_type as MORT_TYPE_OLD,
-					m.fin_org_code as FIN_ORG_CODE_OLD,
+					(Select FO.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG FO  where FO.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME,					
+					(Select FOYC.FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG FOYC  where FOYC.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME_YC,					
+					(Select FOCODE.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=m.fin_org_code)FA_FIN_ORG_CODE,					
+					(select TOP 1 FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in (	select distinct FA_FIN_ORG_CODE  from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in(select FIN_ORG_CODE 	from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=m.FIN_ORG_CODE)))  FENHANG,
+					m.FIN_ORG_CODE,					
 					m.cust_name,
 					ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
 					ISNULL(m.COM_AMOUNT,0)/10000 COM_AMOUNT,
@@ -56,6 +80,8 @@
 					m.SIGN_DATE,
 					m.LEND_DATE,
 					m.APPR_DATE,--批贷时间	
+					sp.PROCESSOR_ID,
+					sp.ORG_ID,
 					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=sp.PROCESSOR_ID)	REAL_NAME,
 					(SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=sp.ORG_ID)	ORG_NAME,
 					(select top 1 org2.ORG_NAME orgName1	
@@ -78,11 +104,11 @@
 								and org1.ID=sp.ORG_ID) ORG_ORG_NAME,
 					
 						
-					m.IS_TMP_BANK,
-					--(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
+					--m.IS_TMP_BANK,
+					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
-						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '1' 
-						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '0' 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是' 
 					end   SDSTATUS
                 from 
 					sctrans.T_TO_MORTGAGE m 
@@ -90,64 +116,82 @@
 					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 
 					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
                 where 
-					m.is_active = '1'    
-				
+					m.is_active = '1'	
+					<ifNotNull idflag> AND 		sp.PROCESSOR_ID = #userId# 	</ifNotNull>
+					<ifNotNull queryorgs> AND sp.ORG_ID in (#queryorgs#)     </ifNotNull>			
+				)T    
+				where 1=1
 				
 				<ifNotNull signTimeStart>
-				     and m.SIGN_DATE >= #signTimeStart#
+				     and T.SIGN_DATE >= #signTimeStart#
 				</ifNotNull>				
 				<ifNotNull signTimeEnd>
-				     and m.SIGN_DATE &lt;= #signTimeEnd#
+				     and T.SIGN_DATE &lt;= #signTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull lendTimeStart>
-				     and m.LEND_DATE >= #lendTimeStart#
+				     and T.LEND_DATE >= #lendTimeStart#
 				</ifNotNull>				
 				<ifNotNull lendTimeEnd>
-				     and m.LEND_DATE &lt;= #lendTimeEnd#
+				     and T.LEND_DATE &lt;= #lendTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull apprTimeStart>
-				     and m.APPR_DATE >= #apprTimeStart#
+				     and T.APPR_DATE >= #apprTimeStart#
 				</ifNotNull>				
 				<ifNotNull apprTimeEnd>
-				     and m.APPR_DATE &lt;= #apprTimeEnd#
+				     and T.APPR_DATE &lt;= #apprTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull comAmountStart>
-				     and m.COM_AMOUNT >= #comAmountStart#
+				     and T.COM_AMOUNT >= #comAmountStart#
 				</ifNotNull>				
 				<ifNotNull comAmountEnd>
-				     and m.COM_AMOUNT &lt;= #comAmountEnd#
+				     and T.COM_AMOUNT &lt;= #comAmountEnd#
 				</ifNotNull>
 				
 				<ifNotNull mortTotalAmountStart>
-				     and m.MORT_TOTAL_AMOUNT >= #mortTotalAmountStart#
+				     and T.MORT_TOTAL_AMOUNT >= #mortTotalAmountStart#
 				</ifNotNull>				
 				<ifNotNull mortTotalAmountEnd>
-				     and m.MORT_TOTAL_AMOUNT &lt;= #mortTotalAmountEnd#
+				     and T.MORT_TOTAL_AMOUNT &lt;= #mortTotalAmountEnd#
 				</ifNotNull>
 				
 				<ifNotNull prfAmountStart>
-				     and m.PRF_AMOUNT >= #prfAmountStart#
+				     and T.PRF_AMOUNT >= #prfAmountStart#
 				</ifNotNull>				
 				<ifNotNull prfAmountEnd>
-				     and m.PRF_AMOUNT &lt;= #prfAmountEnd#
+				     and T.PRF_AMOUNT &lt;= #prfAmountEnd#
 				</ifNotNull>
 				
 				<ifNotNull isTempBank>
-				     and m.IS_TMP_BANK = #isTempBank#
+				     and T.IS_TMP_BANK = #isTempBank#
 				</ifNotNull>
 				
-				<ifNotNull isLose>
-					) m  where m.SDSTATUS = #isLose#
+				<ifNotNull loanLostFinOrgNameCode>
+				     and T.FA_FIN_ORG_CODE = #loanLostFinOrgNameCode#
 				</ifNotNull>
+				
+				<ifNotNull loanLostFinOrgNameYcCode>
+				     and T.FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+				</ifNotNull> 
+				
+				<ifNotNull isLose>
+					and T.SDSTATUS = #isLose#
+				</ifNotNull>
+				<ifNotNull processorOrgId>
+					and T.REAL_NAME = #processorOrgId#
+				</ifNotNull>	
+				<ifNotNull organizeOrgId>
+					and T.ORG_ID = #organizeOrgId#
+				</ifNotNull>			
+
 				]]>
 			</baseSql>
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY m.SIGN_DATE DESC
+			  ORDER BY T.SIGN_DATE DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -158,12 +202,21 @@
 				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
 				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="FIN_ORG_CODE_OLD" index="" checkbox=""   customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="FIN_ORG_CODE" title="贷款机构" referencecol="FIN_ORG_CODE_OLD" customDict="qqcdFinOrgNameDict" isSort="true" order="desc"/>
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox=""   title="贷款银行代码" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="true" title="贷款银行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME_YC" index="" checkbox="true" title="贷款银行分行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="true" title="贷款银行分行代码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FENHANG" index="" checkbox="true" title="贷款银行分行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				<column type="both" name="PROCESSOR_ID" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>						
+								
+					
 				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
                 <column type="both" name="PRF_AMOUNT" title="公积金金额(万元)" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
 				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="APPR_DATE" index="" checkbox="" title="货代审批时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="IS_TMP_BANK" index="" checkbox="" title="临时银行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

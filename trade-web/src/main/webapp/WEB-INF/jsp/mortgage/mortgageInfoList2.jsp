@@ -87,9 +87,13 @@
 
 				<div class="line">
 					<div class="form_content">
-						<label class="control-label sign_left_small"> 贷款银行 </label> <select
-							name="" id="" class="teamcode select_control ">
-							<option value="">请选择</option>
+						<label class="control-label sign_left_small"> 贷款银行 </label>
+
+							 <select	name="loanLostFinOrgName" id="loanLostFinOrgName" class="teamcode select_control ">
+<%-- 							  <option value="" selected="selected">请选择</option> 
+								<c:forEach items="${FinOrgNameList}"  var="var">									
+									<option value="${var.FinOrgCode}">${var.FinOrgName}</option>							
+								</c:forEach> --%>
 						</select>
 					</div>
 					<div class="form_content" style="margin-left: 126px;">
@@ -102,9 +106,9 @@
 						<div class="input-group sign-right dataleft input-daterange"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
 							<input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text"
-								value="" placeholder="起始时间"> <span
+								value="${startTime}" placeholder="起始时间"> <span
 								class="input-group-addon">到</span> <input id="dtEnd_0" name="dtEnd"
-								class="form-control data_style" type="text" value=""
+								class="form-control data_style" type="text" value="${endTime}"
 								placeholder="结束日期">
 						</div>
 					</div>
@@ -114,15 +118,18 @@
 
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 贷款支行 </label> <select
-							name="" id="" class="teamcode select_control ">
-							<option value="">请选择</option>
+							name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc" class="teamcode select_control ">
+<%-- 							<option value="">请选择</option>
+							<c:forEach items="${FinOrgNameList}"  var="var">									
+								<option value="${var.FinOrgCodeYc}">${var.FinOrgNameYc}</option>							
+							</c:forEach> --%>
 						</select>
 					</div>
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 是否临时银行 </label>
 						<div class="controls">
 							<label class="radio inline"> <input type="radio"
-								value="2" checked="checked" name="isTempBank"> 全部
+								value="2" checked="checked" name="isTempBank"  id="isTempBankAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
 								value="1" name="isTempBank"> 是
 							</label> <label class="radio inline"> <input type="radio"
@@ -134,11 +141,11 @@
 						<label class="control-label sign_left_small"> 是否流失 </label>
 						<div class="controls">
 							<label class="radio inline"> <input type="radio"
-								value="2" checked="checked" name="isLose"> 全部
+								value="2" checked="checked" name="isLose" id="isLoseAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
-								value="0" name="isLose"> 是
+								value="否" name="isLose"> 是
 							</label> <label class="radio inline"> <input type="radio"
-								value="1" name="isLose"> 否
+								value="是" name="isLose"> 否
 							</label>
 						</div>
 					</div>
@@ -167,7 +174,8 @@
 							id="mortgageInfoSearchButton">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="button" class="btn btn-success">导出列表</button>
+						<button type="button" id="mortgageInfoToExcel" class="btn btn-success"
+						onclick="javascript:mortgageInfoToExcel()">导出列表</button>
 						<button type="button" class="btn btn-grey"
 							id="mortgageInfoCleanButton">清空</button>
 					</div>
@@ -206,174 +214,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-	<%-- 	<div class="row">
-		<div class="wrapper wrapper-content  animated fadeInRight">
-			<div class="col-md-12">
-				<div class="ibox float-e-margins">
-					<div class="ibox-title">
-						<h5>贷款信息列表</h5>
-					</div>
-					<div class="ibox-content">
-						<form method="get" class="form-horizontal">
-							<div class="row">
-								<div class="col-md-12 col-sm-12">
-									<div class="form-group ">
-										<label class="col-md-1 control-label m-l">案件编号</label>
-										<div class="col-md-10 dizhi">
-											<input type="text" class="form-control" id="caseCode"
-												name="caseCode" value="" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row product-type">
-								<div class="col-md-12">
-									<div class="form-group ">
-										<label class="col-md-1 control-label m-l">贷款类型</label>
-										<div class="col-md-10">
-											<aist:dict id="finCode" name="finCode" clazz="btn btn-white"
-												display="checkboxcustom" dictType="30016" level='2'
-												onclick="" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row product-type">
-								<div class="col-md-12">
-									<div class="form-group ">
-										<label class="col-md-1 control-label m-l">客户姓名</label>
-										<div class="col-md-10 dizhi">
-											<input type="text" class="form-control" id="custName"
-												name="custName" value="" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group ">
-										<label class="col-md-1 control-label m-l">产证地址</label>
-										<div class="col-md-8 dizhi">
-											<input type="text" class="form-control" id="propertyAddr"
-												name="propertyAddr" value="" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row date-info">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label class="col-md-1 control-label m-l">签约时间</label>
-										<div id="dateDiv_0">
-											<div id="datepicker_0"
-												class="input-group input-medium date-picker input-daterange pull-left"
-												data-date-format="yyyy-mm-dd">
-												<input id="dtBegin" name="dtBegin" class="form-control"
-													style="font-size: 13px;" type="text"
-													value="${signTimeStart}" placeholder="起始日期"> <span
-													class="input-group-addon">到</span> <input id="dtEnd"
-													name="dtEnd" class="form-control" style="font-size: 13px;"
-													type="text" value="${signTimeEnd}" placeholder="结束日期" />
-											</div>
-											<div id="addLine" class="pull-left m-l"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<br>
-							<div class="row date-info">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label class="col-md-1 control-label m-l">放款时间</label>
-										<div id="dateDiv_2">
-											<div id="datepicker_2"
-												class="input-group input-medium date-picker input-daterange pull-left"
-												data-date-format="yyyy-mm-dd">
-												<input id="dtBegin2" name="dtBegin2" class="form-control"
-													style="font-size: 13px;" type="text"
-													value="${lendTimeStart}" placeholder="起始日期"> <span
-													class="input-group-addon">到</span> <input id="dtEnd2"
-													name="dtEnd2" class="form-control" style="font-size: 13px;"
-													type="text" value="${lendTimeEnd}" placeholder="结束日期" />
-											</div>
-											<div id="addLine" class="pull-left m-l"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row m-t-sm">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-md-2 control-label m-l-lg"></label>
-										<div>
-											<button id="searchButton" type="button"
-												class="btn btn-warning">查询</button>
-											<button id="cleanButton" type="button"
-												class="btn btn-primary">清空</button>
-										</div>
-									</div>
-								</div>
-
-							</div>
-
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<div class="data-wrap">
-				<div class="data-wrap-in">
-					<table border="0" cellpadding="0" cellspacing="0">
-						<thead>
-							<tr>
-								<th class="t-left pd-l"><span class='sort'
-									sortColumn='m.CASE_CODE' sord='desc'>案件编号</span></th>
-								<th class="t-left pd-l"><span>案件地址</span></th>
-								<th class="t-left pd-l"><span>贷款类型</span></th>
-								<th class="t-left pd-l"><span>贷款总额(万元)</span></th>
-								<th class="t-left pd-l"><span>贷款机构</span></th>
-								<th class="t-left pd-l"><span>客户姓名</span></th>
-								<th class="t-left pd-l"><span>商贷金额(万元)</span></th>
-								<th class="t-left pd-l"><span>公积金金额(万元)</span></th>
-								<th class="t-left pd-l"><span class='sort'
-									sortColumn='m.SIGN_DATE' sord='desc'>签约时间</span></th>
-								<th class="t-left pd-l"><span class='sort'
-									sortColumn='m.LEND_DATE' sord='desc'>放款时间</span></th>
-								<th class="t-left pd-l"><span>临时银行</span></th>
-							</tr>
-						</thead>
-						<tbody id="mortgageInfoList">
-
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<div class="text-center">
-				<span id="currentTotalPage"><strong class="bold"></strong></span> <span
-					class="ml15">共<strong class="bold" id="totalP"></strong>条
-				</span>&nbsp;
-				<div id="pageBar" class="pagination my-pagination text-center m0"></div>
-			</div>
-		</div>
-	</div> --%>
 
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
@@ -414,7 +254,7 @@
                         	</p>
                              <p>
                                 <a class="salesman-info" href="#" >
-                                    {{item.FIN_ORG_CODE}}                                               
+                                    {{item.FENHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
                                 </a>
                             </p>
                         </td>
@@ -443,8 +283,16 @@
                        </td>
 
 						<td class="center">
-                      	 <p> <i class="sign_blue">{{item.IS_TMP_BANK== 1?"临时银行":""}}</i></p>
-                         <p>{{item.SDSTATUS==0 ? "流失":""}}</p>
+
+						{{if  item.IS_TMP_BANK == '是'}}
+                      	 <p> <i class="sign_blue">临时银行</i></p>
+						{{/if}}
+
+						{{if  item.SDSTATUS=='否'}}
+                      	 <p>流失</p>
+						{{/if}}
+                        
+						
                        	</td>
                         <td class="center">
                                     {{item.ORG_NAME}}
@@ -455,15 +303,9 @@
      </script> <script></script> </content>
 
 
-	<!-- Custom and plugin javascript -->
-	<script src="../static/js/inspinia.js">
-		
-	</script>
-	<script src="../static/js/plugins/pace/pace.min.js">
-		
-	</script>
 
+	<script type="text/javascript">
 
-	<script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	</script>
 </body>
 </html>

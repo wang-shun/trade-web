@@ -63,8 +63,6 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	@Transactional(readOnly = false)
 	@Override
 	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
-		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
-		removeBlankCaseCode(listVOs);
 		List<KpiSrvCaseVo> errList = null; //checkVo(listVOs);
 		if (errList != null) {
 			return errList;
@@ -74,6 +72,27 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		if (errList != null) {
 			return errList;
 		}
+		/*该案件数据不存在  */
+		caseCodes = kpiSrvCaseMapper.getCaseCodeByCaseCodefromTToCase(listVOs);
+		errList = filterNoCaseCodeSetMsg(listVOs,caseCodes,"该案件数据不存在");
+		if (errList != null) {
+			return errList;
+		}
+		/* 只有过户审批通过的案件才能导入   */
+		caseCodes = kpiSrvCaseMapper.getCaseCodeByCaseCodefromTToAwardBase(listVOs);
+		errList = filterNoGuoHuCaseCodeSetMsg(listVOs,caseCodes,"该案件数据还未过户");
+		if (errList != null) {
+			return errList;
+		}
+		/* 满意度0-10的整数  上下家电话只能是通过、不通过两种*/
+		errList = filterNoInteger(listVOs);
+		if (errList != null) {
+			return errList;
+		}
+		
+		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
+		removeBlankCaseCode(listVOs);
+		
 		List<TsKpiSrvCase> vos = new ArrayList<>();
 		if (listVOs != null && !listVOs.isEmpty()) {
 			int i = 0;// 每条数据插入有19个参数 每导入一条数据会被拆分成五条 每导入一条数据大概100个参数
@@ -148,6 +167,193 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 				return t;
 		}
 
+		return null;
+	}
+	
+	private List<KpiSrvCaseVo> filterNoCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs,Collection<String> colls,String msg){
+		if(listVOs!=null){
+			if (colls == null || colls.isEmpty()){
+				List<KpiSrvCaseVo> t = new ArrayList<>();
+				listVOs.forEach(x -> {
+						x.setMsg(msg);
+						t.add(x);
+				});
+				if (!t.isEmpty())
+					return t;
+			}else{
+				List<KpiSrvCaseVo> t = new ArrayList<>();
+				listVOs.forEach(x -> {
+					if (!colls.contains(x.getCaseCode())) {
+						x.setMsg(msg);
+						t.add(x);
+					}
+				});
+				if (!t.isEmpty())
+					return t;
+			}
+		}else{
+			return null;
+		}
+		
+		return null;
+	}
+	
+	private List<KpiSrvCaseVo> filterNoInteger(List<KpiSrvCaseVo> listVOs){
+		
+			List<KpiSrvCaseVo> t = new ArrayList<>();
+			
+			for(KpiSrvCaseVo x:listVOs){
+				if(x.getSalesSignScore()!=null){//上家签约
+					if(x.getSalesSignScore()%1!=0){
+						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getSalesSignScore()<0 || x.getSalesSignScore()>10){
+							x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				if(x.getAccompanyRepayLoanScore()!=null){//上家陪同还贷
+					if(x.getAccompanyRepayLoanScore()%1!=0){
+						x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getAccompanyRepayLoanScore()<0 || x.getAccompanyRepayLoanScore()>10){
+							x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				if(x.getSalesTransferScore()!=null){//上家过户
+					if(x.getSalesTransferScore()%1!=0){
+						x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getSalesTransferScore()<0 || x.getSalesTransferScore()>10){
+							x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				if(x.getSignScore()!=null){//下家签约
+					if(x.getSignScore()%1!=0){
+						x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getSignScore()<0 || x.getSignScore()>10){
+							x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				if(x.getComLoanScore()!=null){//下家贷款
+					if(x.getComLoanScore()%1!=0){
+						x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getComLoanScore()<0 || x.getComLoanScore()>10){
+							x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				if(x.getAccuFundScore()!=null){//下家纯公积金
+					if(x.getAccuFundScore()%1!=0){
+						x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getAccuFundScore()<0 || x.getAccuFundScore()>10){
+							x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				if(x.getTransferScore()!=null){//下家过户
+					if(x.getTransferScore()%1!=0){
+						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
+					}else{
+						if(x.getTransferScore()<0 || x.getTransferScore()>10){
+							x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+							t.add(x);
+							continue;
+						}
+					}
+				}
+				
+				if(x.getSalesCallBack()!=null){//上家电话接通
+					if(x.getSalesCallBack().equals("通") || x.getSalesCallBack().equals("不通")){
+					}else{
+						x.setMsg("该案件数据上家电话接通须填写通或不通");
+						t.add(x);
+						continue;
+					}
+				}else{
+					x.setMsg("该案件数据上家电话接通未填写");
+					t.add(x);
+					continue;
+				}
+				if(x.getCallBack()!=null){//下家电话接通
+					if(x.getCallBack().equals("通") || x.getCallBack().equals("不通")){
+					}else{
+						x.setMsg("该案件数据下家电话接通须填写通或不通");
+						t.add(x);
+						continue;
+					}
+				}else{
+					x.setMsg("该案件数据下家电话接通未填写");
+					t.add(x);
+					continue;
+				}
+				
+			}
+			
+			if (!t.isEmpty())
+				return t;
+		
+		return null;
+	}
+	
+	private List<KpiSrvCaseVo> filterNoGuoHuCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs,Collection<String> colls,String msg){
+		
+		if(listVOs!=null){
+			if (colls == null || colls.isEmpty()){
+				List<KpiSrvCaseVo> t = new ArrayList<>();
+				listVOs.forEach(x -> {
+						x.setMsg(msg);
+						t.add(x);
+				});
+				if (!t.isEmpty())
+					return t;
+			}else{
+				List<KpiSrvCaseVo> t = new ArrayList<>();
+				listVOs.forEach(x -> {
+					if (!colls.contains(x.getCaseCode())) {
+						x.setMsg(msg);
+						t.add(x);
+					}
+				});
+				if (!t.isEmpty())
+					return t;
+			}
+		}else{
+			return null;
+		}
+		
 		return null;
 	}
 

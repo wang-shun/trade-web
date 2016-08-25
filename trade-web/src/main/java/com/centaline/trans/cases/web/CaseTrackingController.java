@@ -12,10 +12,10 @@ public class CaseTrackingController {
 	 */
 	@RequestMapping("tracking")
 	public String tracking() {
-		return "/case/taskTracking";
-	}
-	@RequestMapping("tracking2")
-	public String tracking2() {
 		return "/case/taskTracking2";
 	}
+	/*@RequestMapping("tracking2")
+	public String tracking2() {
+		return "/case/taskTracking2";
+	}*/
 }

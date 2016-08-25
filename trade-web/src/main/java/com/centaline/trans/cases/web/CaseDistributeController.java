@@ -117,9 +117,9 @@ public class CaseDistributeController {
 		}
 		request.setAttribute("queryUserId", queryUserId);
 		request.setAttribute("queryOrgId", queryOrgId);
-		return "case/caseDistribute";
+		return "case/caseDistribute2";
 	}
-	@RequestMapping(value="caseDistribute2")
+	/*@RequestMapping(value="caseDistribute2")
 	public String caseDistribute2(Model model, ServletRequest request){
 		//TODO
 		SessionUser user = uamSessionService.getSessionUser();
@@ -135,7 +135,7 @@ public class CaseDistributeController {
 		request.setAttribute("queryUserId", queryUserId);
 		request.setAttribute("queryOrgId", queryOrgId);
 		return "case/caseDistribute2";
-	}
+	}*/
 
 	/**
 	 * 页面初始化
@@ -146,14 +146,14 @@ public class CaseDistributeController {
 	public String unlocatedCase(Model model, ServletRequest request){
 		Org o= uamUserOrgService.getOrgByCode("033F275");
 		model.addAttribute("nonBusinessOrg", o);
-		return "case/unlocatedCase";
+		return "case/unlocatedCase2";
 	}
-	@RequestMapping(value="unlocatedCase2")
+	/*@RequestMapping(value="unlocatedCase2")
 	public String unlocatedCase2(Model model, ServletRequest request){
 		Org o= uamUserOrgService.getOrgByCode("033F275");
 		model.addAttribute("nonBusinessOrg", o);
 		return "case/unlocatedCase2";
-	}
+	}*/
 
 	/**
 	 * 用户机构交易顾问查询
@@ -396,9 +396,11 @@ public class CaseDistributeController {
     			if(CollectionUtils.isEmpty(tsTeamScopeTargetList)) {
     				continue;
     			}
-    			
     			toCase.setLeadingProcessId(managerUser.getId());
+    			//填写誉翠组
         		toCase.setOrgId(teamTransferVO.getOrgId());
+        		//填写贵宾服务部
+        		toCase.setDistrictId(org==null?null:org.getParentId());
         		int reToCase = toCaseService.updateByPrimaryKey(toCase);
         		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
     		}

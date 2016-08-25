@@ -90,7 +90,7 @@
                                 </span>
                             </a>
                             <ul class="nav nav-second-level collapse">
-                                <li class="active">
+                                <li class="">
                                     <a href="myCaseList.html">
                                         <i class="fa ">
                                         </i>
@@ -132,7 +132,7 @@
                                         案件追踪
                                     </a>
                                 </li>
-                                <li>
+                                <li class="active">
                                     <a href="mortgageApproveLost.html">
                                         <i class="fa ">
                                         </i>
@@ -451,25 +451,8 @@
                                     <label class="control-label sign_left_small">
                                         案件编号
                                     </label>
-                                    <input class="teamcode input_type" style="width:152px;" placeholder="请输入" value="" />
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        主办
-                                    </label>
-                                    <input class="teamcode input_type" style="width:152px;" placeholder="请输入" value="" />
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        案件组织
-                                    </label>
                                     <input class="teamcode input_type" placeholder="请输入" value="" />
-                                    <div class="input-group float_icon organize_icon">
-                                        <i class="icon iconfont">&#xe61b;</i>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         产证地址
@@ -477,8 +460,18 @@
                                     <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="" />
                                 </div>
 
+
                             </div>
                             <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        主办
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="请输入" value="" />
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe627;</i>
+                                    </div>
+                                </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small select_style mend_select">
                                         审批日期
@@ -488,8 +481,40 @@
                                         <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
                                     </div>
                                 </div>
-                                <div class="form_content space">
-                                    <div class="add_btn">
+
+                            </div>
+                            <div class="line">
+
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        案件组织
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="请输入" value="" />
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe61b;</i>
+                                    </div>
+                                </div>
+
+                                <div class="form_content">
+                                    <div class="goods_type themelist">
+                                        <label class="control-label sign_left_small">
+                                            贷款类型
+                                        </label>
+                                        <span id="srvCode_0_0" name="srvCode" class="btn btn-white" onclick="" value="">
+                                            未选择
+                                        </span>
+                                        <span id="srvCode_0_1" name="srvCode" class="btn btn-white" onclick="" value="">
+                                            纯商贷
+                                        </span>
+                                        <span id="srvCode_0_3" name="srvCode" class="btn btn-white" onclick="" value="">
+                                            组合贷
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form_content space">
+                                    <div class="add_btn" style="margin-left:122px;">
                                         <button type="button" class="btn btn-success">
                                             <i class="icon iconfont">&#xe635;</i>
                                             查询
@@ -497,9 +522,11 @@
                                         <button type="button" class="btn btn-success">
                                             导出列表
                                         </button>
+                                        <button type="button" class="btn btn-grey">
+                                            清空
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
                     <div class="row">
@@ -1002,7 +1029,11 @@
                 <!--*********************** HTML_main*********************** -->
             </div>
         </div>
-
+<style>
+    .add {
+        border: 1px solid red;
+    }
+</style>
         <!-- Mainly scripts -->
         <script src="../static/js/jquery-2.1.1.js">
         </script>
@@ -1028,9 +1059,8 @@
                     forceParse: false,
                     autoclose: true
                 });
-
-
             });
         </script>
+
     </body>
 </html>

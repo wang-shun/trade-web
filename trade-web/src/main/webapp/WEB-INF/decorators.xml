@@ -40,14 +40,23 @@
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->
 		
-		<pattern>/case/myCaseList2</pattern>
+		<!-- <pattern>/case/myCaseList2</pattern>
 		<pattern>/case/caseDistribute2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> 
 		<pattern>/task/toTaskOfGroupList2</pattern>
 		<pattern>/case/taskTracking2</pattern> 
 		<pattern>/case/tracking2</pattern> 
 		<pattern>/unlocatedTasks</pattern> 
+		<pattern>/unlocatedTasks/a</pattern>  -->
 		
+	    <pattern>/case/myCaseList</pattern>
+		<pattern>/case/caseDistribute</pattern>
+		<pattern>/case/unlocatedCase</pattern> 
+		<pattern>/task/toTaskOfGroupList</pattern>
+		<pattern>/case/taskTracking</pattern> 
+		<pattern>/case/tracking</pattern> 
+		<pattern>/unlocatedTasks</pattern> 
+		<pattern>/award/import</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

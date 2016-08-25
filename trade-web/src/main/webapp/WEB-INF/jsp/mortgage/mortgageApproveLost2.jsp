@@ -276,9 +276,9 @@
 						<button id="searchButton" type="button" class="btn btn-success">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="button" id="exportExcelButton"
+						<button type="button" id="loanLostExportExcelButton"
 							class="btn btn-success"
-							onclick="javascript:loanLostCaseExportToExcel()">导出列表</button>
+							onclick="javascript:loanLostCaseExportToExcel()" >导出列表</button>
 						<button type="button" id="loanLostCleanButton"
 							class="btn btn-grey">清&nbsp;&nbsp;空</button>
 					</div>
@@ -622,18 +622,19 @@
 						});
 
 						//案件excel导出
-						function loanLostCaseExportToExcel() {
+ 						function loanLostCaseExportToExcel() {
 							var data = getParams();
 							aist.exportExcel({
 								ctx : "${ctx}",
 								queryId : 'queryMortgageApproveLost',
 								colomns : [ 'CASE_CODE', 'PROPERTY_ADDR',
-										'LEADING_PROCESS_ID', 'ORG_ID',
+										'LEADING_PROCESS_ID', 'AGENT_ORG_NAME',
 										'AGENT_NAME', 'MORT_TYPE', 'real_name',
 										'END_TIME_' ],
 								data : data
 							})
-						}
+						} 
+						
 						//选取人员的回调函数
 						function loanLostCaseSelectUserBack(array) {
 							if (array && array.length > 0) {

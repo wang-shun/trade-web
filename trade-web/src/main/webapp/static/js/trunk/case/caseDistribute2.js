@@ -399,6 +399,7 @@ function distributeCase(index){
 									//jqGrid reload
 									/*
 									reloadGrid(1);*/
+									$("#checkAllNot").attr('checked',false);
 									searchMethod(1);
 								}else{
 									alert(data.message);
@@ -492,6 +493,7 @@ function changeCaseTeam(){
 					//jqGrid reload
 					/*
 					reloadGrid(1);*/
+					$("#checkAllNot").attr('checked',false);
 					searchMethod(1);
 				}else{
 					alert(data.message);
