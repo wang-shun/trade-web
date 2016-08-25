@@ -172,10 +172,6 @@ public class ToMortgageController {
 			}
 			
 			toMortgage.setToSupDocu(toSupDocu);
-			
-			SessionUser user = uamSessionService.getSessionUser();
-			toMortgage.setLoanAgent(user.getId());
-			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			
 		}catch(BusinessException e){
@@ -302,6 +298,12 @@ public class ToMortgageController {
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
 			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 					toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+			
+			//提交流程之后需要更新贷款专员
+			SessionUser user = uamSessionService.getSessionUser();
+			toMortgage.setLoanAgentTeam(user.getId());
+			toMortgage.setLoanAgentTeam(user.getServiceDepId());
+			toMortgageService.updateToMortgage(toMortgage);
 			
 			// 发送消息
 			ToWorkFlow wf=new ToWorkFlow();

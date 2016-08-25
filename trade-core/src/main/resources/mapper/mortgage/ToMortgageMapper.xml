@@ -431,6 +431,12 @@
       <if test="loanLostConfirmCode !=null">
       	LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR}      	
       </if>
+      <if test="loanAgent != null">
+      	LOAN_AGENT = #{loanAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgentTeam != null">
+      	LOAN_AGENT_TEAM = #{loanAgentTeam,jdbcType=VARCHAR},
+      </if>
     </set>
     ,IS_ACTIVE='1'
     ,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
