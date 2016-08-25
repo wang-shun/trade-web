@@ -635,59 +635,6 @@
 							})
 						} 
 						
-					/* 	$('#loanLostExportExcelButton').click(function() {								
-							var url = "/quickGrid/findPage?xlsx&";
-							// excel导出列
-							var displayColomn = new Array;
-							displayColomn.push('CASE_CODE');
-							displayColomn.push('PROPERTY_ADDR');	
-							displayColomn.push('LEADING_PROCESS_ID');
-							displayColomn.push('AGENT_NAME');
-							displayColomn.push('ORG_ID');								
-							displayColomn.push('MORT_TYPE');
-							displayColomn.push('real_name');
-							displayColomn.push('END_TIME_');								
-							
-
-						var queryOrgFlag = $("#queryOrgFlag").val();
-							var isAdminFlag = $("#isAdminFlag").val();
-							var queryOrgs = $("#queryOrgs").val();
-							var arguUserId = null;
-							if (queryOrgFlag == 'true') {
-								arguUserId = null;
-								if (isAdminFlag == 'true') {
-									queryOrgs = null;
-								}
-							} else {
-								queryOrgs = null;
-								arguUserId = "yes";
-							}
-
-							var orgArray = queryOrgs == null ? '' : queryOrgs.split(",");
-
-							var argu_idflag = '&argu_idflag=' + arguUserId;
-
-							if (arguUserId == null)
-								argu_idflag = '&argu_idflag=';
-							var argu_queryorgs = "&" + jQuery.param({
-								argu_queryorgs : orgArray
-							});
-							if (argu_queryorgs == null)
-								argu_queryorgs = '&argu_queryorgs='; 
-							var params = getParams();	
-							var queryId = '&queryId=queryMortgageApproveLost';
-							var colomns = '&colomns=' + displayColomn;
-
-							url = ctx + url + jQuery.param(params) + queryId + argu_idflag
-									+ argu_queryorgs + colomns;
-							
-							alert(1111);
-							$('#excelForm').attr('action', url);
-
-							$('#excelForm').method = "post";
-							$('#excelForm').submit();
-						}) */
-						
 						//选取人员的回调函数
 						function loanLostCaseSelectUserBack(array) {
 							if (array && array.length > 0) {

@@ -52,6 +52,7 @@
 					  base.GRP_NAME,
 					  base.LEADING_PROCESS_ID AS LEADING_PROCESS_ID_OLD,
 					  base.ORG_ID AS ORG_ID_OLD, --交易顾问id					
+					  
 					  mortgage.MORT_TYPE AS MORT_TYPE_OLD,
 					  mortgage.SIGN_DATE,
 					  WK.TASK_DEF_KEY_,
