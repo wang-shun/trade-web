@@ -137,6 +137,10 @@ public class MortgageController {
 		toTransPlanService.updateTransPlan(toTransPlan);
 		toMortgage.setIsMainLoanBank("1");
 		
+		if(taskitem.equals("PSFApply")) {
+			toMortgage.setIsDelegateYucui("1");
+		}
+		
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
