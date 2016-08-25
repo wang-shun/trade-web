@@ -72,7 +72,7 @@
                                     <label class="control-label sign_left select_style mend_select">
                                        	 过户时间
                                     </label>
-                                    <div id="datepicker_1" class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" value="${guohuStart}">
+                                    <div id="datepicker_1" class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
                                         <input id="guohuStart" name="guohuStart"  class="form-control data_style" type="text" value="${guohuStart}"  placeholder="起始日期"> <span class="input-group-addon">到</span>
                                         <input id="guohuEnd" name="guohuEnd" class="form-control data_style" type="text" value="${guohuEnd}" placeholder="结束日期">
                                     </div>

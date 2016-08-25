@@ -26,7 +26,7 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryTmpBankCastListItemList" cacheCount="true">
+	<query id="queryTmpBankCastListItemListByTeam" cacheCount="true">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -35,7 +35,7 @@
 					M.TMP_BANK_REJECT_REASON AS rejectReason,M.approver,M.auditDateTime,M.APPR_DATE AS isSubmit,M.CREATE_TIME AS applyDateTime,M.currentProcess,M.mainBankName,M.branchBankName
 					FROM
 					(
-					SELECT t.PKID,t.CASE_CODE,t.PROPERTY_ADDR,t.IS_TMP_BANK,u.REAL_NAME,u.ID as applicantId,o.ORG_NAME,o.ID AS currentOrgId,
+					SELECT t.PKID,t.CASE_CODE,t.PROPERTY_ADDR,t.IS_TMP_BANK,u.USERNAME,u.REAL_NAME,u.ID as applicantId,o.ORG_NAME,o.ID AS currentOrgId,
 					(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG WHERE ID = c.ORG_ID)) AS parentOrgName,
 					m.FIN_ORG_CODE,m.TMP_BANK_STATUS,m.TMP_BANK_REJECT_REASON,
 					(
@@ -102,19 +102,20 @@
 					select FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = m.FIN_ORG_CODE
 					) AS branchBankName
 					FROM 
-					(SELECT B.PKID,B.CASE_CODE,B.PROPERTY_ADDR,m.IS_TMP_BANK
-										FROM sctrans.V_CASE_LIST_BASE B
-										INNER JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = b.CASE_CODE 
-										LEFT JOIN sctrans.MORT_STEP ms ON ms.CASE_CODE = b.CASE_CODE
-					WHERE m.IS_TMP_BANK = '1' AND ms.STEP >= 5) t
+					(select B.PKID,B.CASE_CODE,B.PROPERTY_ADDR,m.IS_TMP_BANK
+          		    from sctrans.T_TO_MORTGAGE m 
+					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
+					left join sctrans.V_CASE_LIST_BASE B on m.case_code = B.case_code 
+					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
+					LEFT JOIN sctrans.MORT_STEP ms ON ms.CASE_CODE = m.CASE_CODE
+          			where m.is_active = '1'	and m.IS_TMP_BANK = '1' AND ms.STEP >= 5 AND sp.ORG_ID in (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+					WHERE (orgHierarchy.TEAM_ID = #currentOrgId# or orgHierarchy.DISTRICT_ID = #currentOrgId# or orgHierarchy.hq_id = #currentOrgId#))) t
 					LEFT JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = t.CASE_CODE
 					LEFT JOIN sctrans.SYS_USER u ON u.ID = c.LEADING_PROCESS_ID
 					LEFT JOIN sctrans.SYS_ORG o ON c.ORG_ID = o.ID
 					LEFT JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = t.CASE_CODE AND m.IS_ACTIVE='1'
 					LEFT JOIN sctrans.T_TO_WORKFLOW w ON w.CASE_CODE = t.CASE_CODE AND w.BUSINESS_KEY = 'TempBankAudit_Process' and w.status=0
-					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = c.ORG_ID
-					WHERE (orgHierarchy.TEAM_ID = #currentOrgId# or orgHierarchy.DISTRICT_ID = #currentOrgId# or orgHierarchy.hq_id = #currentOrgId#)
-					) M where 1=1
+					) M where M.USERNAME = #username#
 					<ifNotNull caseCode>	
    						and M.CASE_CODE=#caseCode# 
 				    </ifNotNull>

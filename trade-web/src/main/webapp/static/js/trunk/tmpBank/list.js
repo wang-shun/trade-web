@@ -1,5 +1,5 @@
 function init(){
-
+	
 	//日期控件
 	$('#datepicker_1').datepicker({
 		format : 'yyyy-mm-dd',
@@ -25,12 +25,20 @@ function init(){
 }
 
 function reloadGrid(){
-		
+	var depHierarchy = $("#depHierarchy").val();
 	var data = getParams();
+	
+	var queryId = "";
+	if(depHierarchy == "yucui_team"){
+		queryId = "queryTmpBankCastListItemListByTeam";
+	}
+	else {
+		queryId = "queryTmpBankCastListItemListByDistinct";
+	}
 	
 	$("#tmpBankCastList").reloadGrid({
     	ctx : ctx,
-		queryId : 'queryTmpBankCastListItemList',
+		queryId : queryId,
 	    templeteId : 'template_tmpBankCaseList',
 	    data : data,
 	    wrapperData : data
@@ -49,6 +57,7 @@ function selectUserBack(array){
 }
 
 function getParams() {
+	var userLoginName = $.trim($("#userLoginName").val());
 	var currentOrgId = $.trim($("#currentOrgId").val());
 	var caseCode = $.trim($("#caseCode").val());
 	var propertyAddress = $.trim($("#propertyAddress").val());
@@ -63,6 +72,7 @@ function getParams() {
 	var applicantId = $("#realName").attr("hval");
 	
 	var data = {};
+	data.username = userLoginName;
 	data.applicantId = applicantId;
 	data.currentOrgId = currentOrgId;
 	data.caseCode = caseCode;
@@ -139,16 +149,5 @@ $(document).ready(function() {
 		$("#teamCode").val('');
 		$("#realName").val('');
 	});
-	
-	$('.demo-top').poshytip({
-		className: 'tip-twitter',
-		showTimeout: 1,
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 8,
-		offsetY: 5,
-	});
-
 	
 });

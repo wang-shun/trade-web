@@ -8,11 +8,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -56,7 +53,9 @@
                             临时银行案件列表
                         </h2>
                         <form method="get" class="form_list">
-                        	<input type="hidden" id="currentOrgId" value="${currentOrgId }"/>
+                        	<input type="hidden" id="depHierarchy" value="${org.depHierarchy }"/>
+                        	<input type="hidden" id="currentOrgId" value="${currentUser.adminOrg }"/>
+                        	<input type="hidden" id="userLoginName" value="${currentUser.username }"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -77,15 +76,18 @@
                                     <label class="control-label sign_left_small">
                                         申请人
                                     </label>
-                                    <%-- <input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${serUserId }" value="${userInfo }"
-													 readonly="readonly"
-													onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
-													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" /> --%>
-                                    
-                                    <input class="teamcode input_type" placeholder="" hVal="${serUserId }" value="${userInfo }" id="realName"
-                                    readonly="readonly"
-									onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
-									nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})"/>
+                                    <c:choose>
+                                    	<c:when test="${org.depHierarchy == 'yucui_team' }">
+                                    		<input class="teamcode input_type" placeholder="" hVal="${currentUser.id }" value="${currentUser.realName }" id="realName"
+		                                    readonly="readonly"/>
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    		<input class="teamcode input_type" placeholder="" hVal="${serUserId }" value="${userInfo }" id="realName"
+			                                    readonly="readonly"
+												onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})"/>
+                                    	</c:otherwise>
+                                    </c:choose>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -94,13 +96,21 @@
                                     <label class="control-label sign_left_small">
                                         申请人所在组
                                     </label>
-                                   <input class="teamcode input_type" placeholder="" value="" id="teamCode" name="teamCode" readonly="readonly"
-                                   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+                                    
+                                    <c:choose>
+                                    	<c:when test="${org.depHierarchy == 'yucui_team' }">
+                                    		<input class="teamcode input_type" placeholder="" id="teamCode" name="teamCode" readonly="readonly" value="${org.orgName}"/>
+										   <input class="m-wrap" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org.id }">
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    		<input class="teamcode input_type" placeholder="" value="" id="teamCode" name="teamCode" readonly="readonly"
+                                   			onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
 										   value="${serviceDepName}"/>
 										   
-									<input class="m-wrap" type="hidden" id="yuCuiOriGrpId"
-											name="yuCuiOriGrpId">
+										   <input class="m-wrap" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
+                                    	</c:otherwise>
+                                    </c:choose>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -184,7 +194,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color:#52cdec;">
-                                                <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                                <span>案件编码</span><a href="#"></a>
                                             </th>
                                             <th style="background-color:#52cdec;">
                                                 当前环节
@@ -221,6 +231,7 @@
             </div>
         </div>
         <content tag="local_script"> 
+        
 			<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 			<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 			<script src="${ctx}/js/jquery.blockui.min.js"></script> 
@@ -231,20 +242,15 @@
 			<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 			<script src="${ctx}/js/trunk/tmpBank/list.js?v=1.1"></script> 
 			
-			<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-			
 			<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 			
 			<!-- 分页控件  -->
 			<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 			<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 			<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-			<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-			<script src="${ctx}/js/workflow/myCaseList.js"></script>
 			
 			<!-- 必须JS -->
 			<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-			
 
 <script id="template_tmpBankCaseList" type="text/html">
 
@@ -269,14 +275,16 @@
 								{{/if}}
                             </p>
                             <p>
-                                {{item.tmpBankStatus1}}   {{if item.tmpBankStatus == '0'}}<a href="#" class="ml5 demo-top" title="驳回原因:{{item.rejectReason}}">驳回原因</a>{{/if}}
+                                {{item.tmpBankStatus1}}   {{if item.tmpBankStatus == '0'}}<a class="demo-top" title="{{item.rejectReason}}">驳回原因</a>{{/if}}
                             </p>
                         </td>
 
 						 <td>
-                             <p class="big">
-                                 {{item.propertyAddress}}
-                             </p>
+							{{if item.propertyAddress != null && item.propertyAddress!="" && item.propertyAddress.length>24}}
+								<p class="big" title="{{item.propertyAddress}}">{{item.propertyAddress.substring(item.propertyAddress.length-24,item.propertyAddress.length)}}</p>
+							{{else}}
+								<p class="big">{{item.propertyAddress}}</p>
+							{{/if}}
                              <p>
                                 <a class="salesman-info" href="javascript:;" >
                                   {{item.mainBankName}}/{{item.branchBankName}}
@@ -294,11 +302,10 @@
 									{{/if}}
                              </p>
                              <p class="smll_sign">
-                                   <i class="sign_normal">审</i>
 									{{if item.auditDateTime}} 
-										{{item.auditDateTime}}
+										<i class="sign_normal">审</i>{{item.auditDateTime}}
 								    {{else}}
-										暂无
+										<i class="sign_grey">审</i>
 									{{/if}}
                              </p>
                         </td>
@@ -308,8 +315,6 @@
                              <p class="manager">审批人：<a href="#">
 								{{if item.approver}} 
 										{{item.approver}}
-								{{else}}
-										暂无
 							    {{/if}}</a></p>
                         </td>
 
@@ -319,6 +324,19 @@
 				  </tr>
        {{/each}}
 </script> 
+<script type="text/javascript">
+$(function(){
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
+</script>
 </content>
 </body>
 </html>

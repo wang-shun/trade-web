@@ -545,7 +545,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
     				if(data.content && data.content.isTmpBank=='1'){
     					//临时银行
     					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
-    					alert(f.find("select[name='bank_type']"));
+    					//alert(f.find("select[name='bank_type']"));
     				}else{
     					//非临时银行
     					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
