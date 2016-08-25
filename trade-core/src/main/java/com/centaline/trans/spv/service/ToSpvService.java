@@ -168,7 +168,12 @@ public interface ToSpvService {
 	int countToSignByIdList(List<String> idList, String startDate,
 			String endDate);
 	
-	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(String caseCode);
+	/**
+	 * 查询spvBaseInfoVO
+	 * @param caseCode
+	 * @return
+	 * */
+	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(ServletRequest request,String caseCode);
 	/**
 	 * 查询spv 通过Pkid
 	 */

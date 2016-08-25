@@ -98,9 +98,6 @@ $(document).ready(function(){
        		data:totalArr,	        				        		    
        		success:function(data){
        			alert(data.message);
-       			if(data.content != null && data.content != ""){
-       				 window.location.href="${ctx}/spv/spvList";
-       			}
        		}
      	 
         });

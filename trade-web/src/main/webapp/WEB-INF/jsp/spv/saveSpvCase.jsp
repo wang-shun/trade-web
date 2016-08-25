@@ -395,14 +395,19 @@
 				<div class="ibox-content" id="spvtwo_info">
 					<form class="form-inline">
 					    <input type="hidden" name="toSpv.pkid" value="${spvBaseInfoVO.toSpv.pkid }"/>
-					    <input type="hidden" name="toSpv.caseCode" value="${spvBaseInfoVO.toSpv.caseCode }"/>
+					    <input type="hidden" name="toSpv.caseCode" value="${caseCode }"/>
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管总金额</label> <input name="toSpv.amount"
+								<label for="" class="lable-one"><i class="red">* </i>监管总金额</label> <input name="toSpv.amount"
 								value="${spvBaseInfoVO.toSpv.amount }" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">元</span>
+							</div>
+							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i class="red">* </i>监管机构</label> <input name="toSpv.spvInsti"
+								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
+									class="form-control input-one" placeholder="">
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>

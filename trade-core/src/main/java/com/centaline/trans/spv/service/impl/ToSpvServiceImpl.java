@@ -453,17 +453,23 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
-		String spvCode = createSpvCode(spvBaseInfoVO.getToSpv());
+		//生成spvCode
+		String spvCode = createSpvCode();
 
 		//保存相关信息
 		// come here ...
 		/**1.保存到‘资金监管合约’表*/
-		if(spvBaseInfoVO.getToSpv() != null){
-			if(spvBaseInfoVO.getToSpv().getPkid() != null){
-				toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		if(toSpv != null){
+			if(toSpv.getPkid() != null){
+				toSpv.setUpdateBy(user.getId());
+				toSpv.setUpdateTime(new Date());
+				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 			}else{
-				spvBaseInfoVO.getToSpv().setSpvCode(spvCode);
-				toSpvMapper.insertSelective(spvBaseInfoVO.getToSpv());
+				toSpv.setCreateBy(user.getId());
+				toSpv.setCreateTime(new Date());
+				toSpv.setSpvCode(spvCode);
+				toSpvMapper.insertSelective(toSpv);
 			}		
 		}
 		/**2.保存到‘客户信息’表*/
@@ -471,48 +477,61 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(spvCustList != null && !spvCustList.isEmpty()){
 			for(ToSpvCust toSpvCust:spvCustList){
 				if(toSpvCust.getPkid() != null){
+					toSpvCust.setUpdateBy(user.getId());
+					toSpvCust.setUpdateTime(new Date());
 					toSpvCustMapper.updateByPrimaryKeySelective(toSpvCust);
 				}else{	
+					toSpvCust.setCreateBy(user.getId());
+					toSpvCust.setCreateTime(new Date());
 					toSpvCust.setSpvCode(spvCode);
 					toSpvCustMapper.insertSelective(toSpvCust);
 				}
 			}
 		}
 		/**3.保存到‘资金监管出款方案’表*/
-//		ToSpvDe toSpvDe = spvBaseInfoVO.getToSpvDe();
-//		if(toSpvDe != null){
-//			if(toSpvDe.getPkid() != null){
-//				toSpvDeMapper.updateByPrimaryKeySelective(toSpvDe);
-//			}else{
-//				toSpvDe.setSpvCode(spvCode);
-//				toSpvDeMapper.insertSelective(toSpvDe);		
-//			}
-//		}
+		ToSpvDe toSpvDe = spvBaseInfoVO.getToSpvDe();
+		long toSpvId = 0l;
+		if(toSpvDe != null){
+			if(toSpvDe.getPkid() != null){
+				toSpvDe.setUpdateBy(user.getId());
+				toSpvDe.setUpdateTime(new Date());
+				toSpvDeMapper.updateByPrimaryKeySelective(toSpvDe);
+			}else{
+				toSpvDe.setCreateBy(user.getId());
+				toSpvDe.setCreateTime(new Date());
+				toSpvDe.setSpvCode(spvCode);
+				toSpvDeMapper.insertSelective(toSpvDe);	
+				toSpvId = toSpvDe.getPkid();
+			}
+		}
 		/**4.保存到‘监管资金出入账约定’表*/
-		//?事务未提交
-//		ToSpvDe toNewSpvDe = toSpvDeMapper.selectBySpvCode(spvCode);
-//		List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
-//		if(toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()){
-//			for(ToSpvDeDetail toSpvDeDetail:toSpvDeDetailList){
-//				if(toSpvDeDetail.getPkid() != null){
-//					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-//				}else{			
-//					if(toNewSpvDe != null && toNewSpvDe.getPkid() != null){
-//						toSpvDeDetail.setDeId(toNewSpvDe.getPkid());
-//					}else{
-//						toSpvDeDetail.setDeId(toSpvDe.getPkid());
-//					}
-//					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
-//				}
-//			}
-//		}	
+		List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
+		if(toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()){
+			for(ToSpvDeDetail toSpvDeDetail:toSpvDeDetailList){
+				if(toSpvDeDetail.getPkid() != null){
+					toSpvDeDetail.setUpdateBy(user.getId());
+					toSpvDeDetail.setUpdateTime(new Date());
+					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+				}else{			
+					toSpvDeDetail.setCreateBy(user.getId());
+					toSpvDeDetail.setCreateTime(new Date());
+					toSpvDeDetail.setDeId(toSpvId);
+					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+				}
+			}
+		}	
 		/**5.保存到‘资金监管账户信息’表*/
 		List<ToSpvAccount> toSpvAccountList = spvBaseInfoVO.getToSpvAccountList();
 		if(toSpvAccountList != null && !toSpvAccountList.isEmpty()){
 			for(ToSpvAccount toSpvAccount:toSpvAccountList){
 				if(toSpvAccount.getPkid() != null){
+					toSpvAccount.setUpdateBy(user.getId());
+					toSpvAccount.setUpdateTime(new Date());
 					toSpvAccountMapper.updateByPrimaryKeySelective(toSpvAccount);
 				}else{
+					toSpvAccount.setCreateBy(user.getId());
+					toSpvAccount.setCreateTime(new Date());
+					toSpvAccount.setSpvCode(spvCode);
 					toSpvAccountMapper.insertSelective(toSpvAccount);
 				}
 			}
@@ -521,8 +540,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 		ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		if(toSpvProperty != null){
 			if(toSpvProperty.getPkid() != null){
+				toSpvProperty.setUpdateBy(user.getId());
+				toSpvProperty.setUpdateTime(new Date());
 				toSpvPropertyMapper.updateByPrimaryKeySelective(toSpvProperty);
 			}else{
+				toSpvProperty.setCreateBy(user.getId());
+				toSpvProperty.setCreateTime(new Date());
+				toSpvProperty.setSpvCode(spvCode);
 				toSpvPropertyMapper.insertSelective(toSpvProperty);
 			}
 		}
@@ -559,8 +583,8 @@ public class ToSpvServiceImpl implements ToSpvService {
     	}
 	}
 	
-	private String createSpvCode(ToSpv toSpv) {
-		return uamBasedataService.nextSeqVal("SPV_CODE",new Date());
+	private String createSpvCode() {
+		return uamBasedataService.nextSeqVal("SPV_CODE");
 	}
 	
 	/**
