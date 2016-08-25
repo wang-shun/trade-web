@@ -444,7 +444,7 @@
     
   </update>
   <update id="inActiveMortageByCaseCode" parameterType="java.lang.String" >
-    update sctrans.T_TO_MORTGAGE set IS_ACTIVE='0',LAST_LOAN_BANK=NULL,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},TMP_BANK_UPDATE_BY=null,TMP_BANK_STATUS=null,TMP_BANK_REASON=null,TMP_BANK_REJECT_REASON=null,TMP_BANK_UPDATE_TIME=null where case_code =#{0}
+    update sctrans.T_TO_MORTGAGE set IS_ACTIVE='0',LAST_LOAN_BANK=NULL,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},TMP_BANK_UPDATE_BY=null,TMP_BANK_STATUS=null,TMP_BANK_REASON=null,TMP_BANK_REJECT_REASON=null,TMP_BANK_UPDATE_TIME=null,LOAN_AGENT=null,LOAN_AGENT_TEAM=null where case_code =#{0}
     </update>
  
  <select id="findToMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
