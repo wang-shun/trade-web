@@ -147,27 +147,6 @@ text-decoration: underline !important;
 				</div>
 			</div>
 			
-		  <!-- <div  class="modal inmodal" tabindex="-1" role="dialog"  aria-hidden="true">
-				<div class="modal-dialog" style="width: 1070px;">
-					<div class="modal-content animated fadeIn apply_box">
-					 <form class="form_list clearfix" style="margin-bottom: 20px;">
-						  <div class="form_tan">
-							<label class="control-label">员工姓名:</label>
-							<input type="text" id="txt_username" class="input_type input_extent" placeholder="请输入">&nbsp;&nbsp;
-						  </div>
-						  <div class="form_tan tan_space">
-							<button onclick="loadUser();" class="btn btn-success" ><i class="icon iconfont">&#xe635;</i>&nbsp;查询 </button>
-							</div>
-					 </form>
-					 <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong"> &#xe60a;</i></button>
-			         <div class="apply_table"> 
-						<table id="table_list_3" class="table table_blue table-striped table-bordered table-hover "></table>
-						<div id="pager_list_3"></div>
-					</div>
-				</div>
-			</div>
-			</div>   -->
-			
 			<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
                                 <div class="modal-dialog" style="width: 1070px;">
                                     <div class="modal-content animated fadeIn apply_box">
@@ -210,26 +189,6 @@ text-decoration: underline !important;
 					</div>
 			
 </div>
-<!-- 
-<div id="modal-form" class="modal fade" aria-hidden="true">
-	<div class="modal-dialog" style="width: 900px">
-		<div class="modal-content">
-		 	<div class="modal-header">
-		        <button type="button" class="close close_blue" data-dismiss="modal" > <i class="iconfont icon_rong"> &#xe60a;</i> </button> 
-		    </div>
-			<div class="modal-body">
-				<div style="padding-bottom: 3px;">
-				<label>员工姓名:</label><input type="text" id="txt_username">&nbsp;&nbsp;<button onclick="loadUser();" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>&nbsp;搜索  </button>
-				</div>
-				<div class="jqGrid_wrapper" >
-					<table id="table_list_3"></table>
-					<div id="pager_list_3"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<a title="关闭" class="fancybox-item fancybox-close" href="javascript:;"></a>
-</div> -->
 
 
 <content tag="local_script"> 
@@ -361,6 +320,14 @@ function loadUser(){
        			postData: userQuery
        		}).trigger('reloadGrid');
 }
+$(document).ready(function() {
+	 /*加载排序查询组件*/
+	aist.sortWrapper({
+		reloadGrid : reloadGrid
+	});
+	reloadGrid();
+	changeTaskAssignee(1);
+});
 
 function reloadGrid(page) {
 	var data1=packgeData(page);

@@ -35,10 +35,7 @@ function changeTaskAssignee(page,username){
 		});
 	}
 
-$(document).ready(function() {
-	reloadGrid();
-	changeTaskAssignee(1);
-});
+
 
 
 // 查询
