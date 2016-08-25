@@ -30,4 +30,6 @@ public interface MessageService {
 	 */
 	void sendMessage(ActRuEventSubScr event,ExecuteAction action);
 
+	void sendSpvFinishMsgByIntermi(String instanceId);
+
 }

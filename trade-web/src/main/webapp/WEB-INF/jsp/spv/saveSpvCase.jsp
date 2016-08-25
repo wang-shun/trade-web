@@ -45,6 +45,11 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div id="wrapper">
+	    <!-- 流程相关 -->
+		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
+		<input type="hidden" id="source" name="source" value="${source}">
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -64,7 +69,9 @@
 			                    <!-- <div class="ibox"> -->
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
+                            <c:if test="${role == null }">
                             <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
+                            </c:if>
                             <c:if test="${caseCode == null}">
 								<div class="case_content" style="display:none;">
 							</c:if>
@@ -130,8 +137,9 @@
 					<form class="form-inline">
 						<div class="title">买方客户信息</div>
 						<div class="form-row form-rowbot">
-							<div class="form-group form-margin form-space-one left-extent">
-							    <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
+							<div class="form-group form-margin form-space-one left-extent">							
+   						        <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
+							    <input type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
 								<label for="" class="lable-one">买方姓名</label> <input name="spvCustList[0].name" 
 								value="${spvBaseInfoVO.spvCustList[0].name }" type="text"
 									class="form-control input-one" placeholder="">
@@ -162,8 +170,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
-								<input type="hidden" name="spvCustList[0].idValiDate" value="${spvBaseInfoVO.spvCustList[0].idValiDate }" >
-								<input value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>"
+								<input name="spvCustList[0].idValiDate" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>"
 								type="text" class="form-control input-one" placeholder="如：2010-08" >
 							</div>
 							<div class="form-group form-margin form-space-one">
@@ -222,6 +229,7 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="spvCustList[1].pkid" value="${spvBaseInfoVO.spvCustList[1].pkid }" />
+							    <input type="hidden" name="spvCustList[1].tradePosition" value="SELLER" />
 								<label for="" class="lable-one">卖方姓名</label> <input type="text" name="spvCustList[1].name"
 								     value="${spvBaseInfoVO.spvCustList[1].name }"
 									class="form-control input-one" placeholder="">
@@ -252,8 +260,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
-								<input type="hidden" name="spvCustList[1].idValiDate" value="${spvBaseInfoVO.spvCustList[0].idValiDate }" >
-								<input type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>"
+								<input type="text" name="spvCustList[1].idValiDate" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>"
 									class="form-control input-one" placeholder="如：2010-08">
 							</div>
 							<div class="form-group form-margin form-space-one">
@@ -300,8 +307,8 @@
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
-								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[1].idCode"
-								    value="${spvBaseInfoVO.spvCustList[1].idCode }"
+								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[1].agentIdCode"
+								    value="${spvBaseInfoVO.spvCustList[1].agentIdCode }"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -321,8 +328,8 @@
 									class="form-control input-one" placeholder="" value="${spvBaseInfoVO.toSpvProperty.prOwnerName }">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">委托人姓名</label> <input name="toSpvProperty.mortgageeName" type="text"
-									class="form-control input-one" placeholder="" value="${spvBaseInfoVO.toSpvProperty.mortgageeName }">
+								<label for="" class="lable-one">委托人姓名</label> <input  type="text"
+									class="form-control input-one" placeholder="" value="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -374,7 +381,7 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签合同号</label> <input name="toSpvProperty.signNo"
-								value=""${spvBaseInfoVO.toSpvProperty.signNo } type="text"
+								value="${spvBaseInfoVO.toSpvProperty.signNo }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
@@ -399,13 +406,13 @@
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i class="red">* </i>监管总金额</label> <input name="toSpv.amount"
+								<label for="" class="lable-one"><i class="red">* </i>监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
 								value="${spvBaseInfoVO.toSpv.amount }" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i class="red">* </i>监管机构</label> <input name="toSpv.spvInsti"
+								<label for="" class="lable-one"><i class="red">* </i>监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
 								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
@@ -441,6 +448,7 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[1].pkid" value="${spvBaseInfoVO.toSpvAccountList[1].pkid }"/>
+							    <input type="hidden" name="toSpvAccountList[1].accountType" value="SELLER" />
 								<label for="" class="lable-one">卖方收款账号名称</label> <input name="toSpvAccountList[1].name"
 								 value="${spvBaseInfoVO.toSpvAccountList[1].name }"
 								 type="text" class="form-control input-one" placeholder="">
@@ -466,6 +474,7 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[0].pkid" value="${spvBaseInfoVO.toSpvAccountList[0].pkid }"/>
+								<input type="hidden" name="toSpvAccountList[0].accountType" value="BUYER" />
 								<label for="" class="lable-one">买方退款账号名称</label> <input name="toSpvAccountList[0].name"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].name }"
 									type="text" class="form-control input-one" placeholder="">
@@ -490,6 +499,8 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
+							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
+							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
 								<label for="" class="lable-one">托管账户名称</label> <input name="toSpvAccountList[2].name"
 								    value="${spvBaseInfoVO.toSpvAccountList[2].name }"
 									type="text" class="form-control input-one" placeholder="">
@@ -504,6 +515,7 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[3].pkid" value="${spvBaseInfoVO.toSpvAccountList[3].pkid }"/>
+								<input type="hidden" name="toSpvAccountList[3].accountType" value="FUND" />
 								<label for="" class="lable-one">资金方账户名称</label> <input name="toSpvAccountList[3].name"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].name }"
 									type="text" class="form-control input-one" placeholder="">
@@ -555,10 +567,32 @@
 								</tbody>					
 							</table>
 							<div class="form-btn">
-								<div>
-									<button id="submitBtn" type="submit" class="btn btn-success">提交申请</button>
-									<button id="resetBtn"  type="submit" class="btn btn-default">取消</button>
+							<c:if test="${role eq 'RiskDirector' }">
+							    <div>
+									<button id="riskDirectorApproveY" type="submit" class="btn btn-success">通过</button>
+									<button id="riskDirectorApproveN"  type="submit" class="btn btn-success">驳回</button>
 								</div>
+							</c:if>
+							
+							<c:if test="${role eq 'RiskOfficer' }">
+							    <div>
+									<button id="riskOfficerApply" type="submit" class="btn btn-success">提交申请</button>
+									<button type="submit" class="btn btn-default">取消</button>
+								</div>
+							</c:if>
+													
+							<c:if test="${role eq 'RiskOfficer2' }">
+							    <div>
+									<button id="RiskOfficer2Sign" type="submit" class="btn btn-success">签约</button>
+								</div>
+							</c:if>
+							
+							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' and role ne 'RiskOfficer2' }">
+							    <div>
+									<button id="submitBtn" type="submit" class="btn btn-success">提交申请</button>
+									<button type="submit" class="btn btn-default">取消</button>
+								</div>
+							</c:if>		
 							</div>
 						</div>
 					</form>
@@ -568,6 +602,8 @@
 		<!-- main End -->
 
 	</div>
+
+    
 
 	<!-- Mainly scripts -->
 	<content tag="local_script"> <!-- Custom and plugin javascript -->
@@ -583,6 +619,7 @@
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
 		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+
 		<script id="queryCastListItemList" type= "text/html">
         {{each rows as item index}}
     	<tr>
@@ -637,55 +674,6 @@
 		</script>
 		<script>
 		$(document).ready(function(){
-			
-/* 			$('.submit_btn').click(function(){
-				//关联案件必须填写
-				if(!checkForm()){
-					return;
-				}
-				if(!$.isBlank($("#excutorName").attr('hVal'))) {
-					$("#excutorId").val($("#excutorName").attr('hVal'));
-				}
-				if($.isBlank($("#caseCode").val())) {
-					alert('请选择关联案件');
-					return false;
-				}
-				if(validateEloanApply()) {
-					saveEloanApply();
-				} else {
-					alert('该案件的产品已经存在，不允许重复添加');
-					return false;
-				}
-			}) */
-			//必填项
-			/* function checkForm(){
-				var ds = $('.case_content').css('display');
-				if(ds=='none'){
-					alert("请选择关联案件");
-					return false;	
-				}
-				 var loanSrvCode=$("#loanSrvCode").val();			
-				 if(loanSrvCode==null||loanSrvCode==''){
-						alert("请选择产品类型");
-						return false;	
-					}
-				 var applyAmount=$("#applyAmount").val();
-				 if(applyAmount==null||applyAmount==''){
-						alert("请填写申请金额");
-						return false;	
-					}
-				 var date=$("#applyTime").val();
-				 if(date==null||date==''){
-						alert("请选择申请时间");
-						return false;	
-					}
-				 var month=$('#month').val();
-				 if(month==null||month==''){
-					 alert("请填写申请期数");
-					 return false;	
-				 }
-				 return true;
-			} */
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
@@ -724,16 +712,7 @@
    	 			var index = $(this).attr("id");
    	 		    //刷新回到原页面
    	 			window.location.href = "${ctx}/spv/saveHTML?&caseCode="+$("#modal_caseCode"+index).html();
-   	 			
-/*    	 			$("#content_caseCode").html($("#modal_caseCode"+index).html());
-   	 		    $("#caseCode").val($("#modal_caseCode"+index).html());
-   	 		    $("#content_propertyAddr").html($("#modal_propertyAddr"+index).html());
-   	 	        $("#content_processorId").html($("#modal_processorId"+index).html());
-   	            $("#content_buyer").html($("#modal_buyer"+index).html());
-             	$("#content_agentName").html($("#modal_agentName"+index).html());
-   	            $("#content_seller").html($("#modal_seller"+index).html());
- 				$('.case_content').show();
- 				$('#myModal').modal('hide'); */
+   	 		
  			});
  			
         });

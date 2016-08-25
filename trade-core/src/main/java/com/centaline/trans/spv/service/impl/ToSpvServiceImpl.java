@@ -490,7 +490,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 		/**3.保存到‘资金监管出款方案’表*/
 		ToSpvDe toSpvDe = spvBaseInfoVO.getToSpvDe();
-		long toSpvId = 0l;
 		if(toSpvDe != null){
 			if(toSpvDe.getPkid() != null){
 				toSpvDe.setUpdateBy(user.getId());
@@ -501,7 +500,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvDe.setCreateTime(new Date());
 				toSpvDe.setSpvCode(spvCode);
 				toSpvDeMapper.insertSelective(toSpvDe);	
-				toSpvId = toSpvDe.getPkid();
 			}
 		}
 		/**4.保存到‘监管资金出入账约定’表*/
@@ -515,7 +513,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				}else{			
 					toSpvDeDetail.setCreateBy(user.getId());
 					toSpvDeDetail.setCreateTime(new Date());
-					toSpvDeDetail.setDeId(toSpvId);
+					toSpvDeDetail.setDeId(toSpvDe.getPkid());
 					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
 				}
 			}

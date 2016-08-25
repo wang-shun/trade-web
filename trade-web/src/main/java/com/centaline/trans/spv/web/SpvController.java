@@ -26,17 +26,15 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvAccount;
-import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
-import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
@@ -61,6 +59,8 @@ public class SpvController {
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired
+	MessageService messageService;
 	
 	//列表页面
 	@RequestMapping("spvList")
@@ -70,13 +70,14 @@ public class SpvController {
 	
 	//新增页面
 	@RequestMapping("saveHTML")
-	public String savaHTML(String caseCode,ServletRequest request){
+	public String saveHTML(String caseCode,ServletRequest request){
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 
 		return "spv/saveSpvCase";
 	}
+
 	/**
 	 * 详情
 	 * @param pkid
@@ -390,20 +391,20 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-    @RequestMapping("spvApply/process")
+    @RequestMapping("task/spvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
-
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+    	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+ 
+    	request.setAttribute("taskId", taskId);
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		request.setAttribute("caseBaseVO", caseBaseVO);
-		
-		toAccesoryListService.getAccesoryList(request, taskitem);
-    	ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
-		request.setAttribute("toSpv", toSpv);
-		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
-		request.setAttribute("spvDeRecVo", spvDeRecVo);
-		return "task/taskSpvApply";
+		request.setAttribute("role", "RiskOfficer");
+        
+		return "spv/saveSpvCase";
 	}
     
     /**
@@ -417,14 +418,12 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvApply/deal")
-	public String spvApply(HttpServletRequest request,Boolean SpvApplyApprove,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	public AjaxResponse<?> spvApply(HttpServletRequest request,HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
-		return "task/taskSpvApply";
+		return AjaxResponse.success();
 	}
     
     /**
@@ -437,23 +436,15 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("spvApprove/process")
+	@RequestMapping("task/spvApprove/process")
 	public String toSpvApproveProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskitem){
-		SessionUser user= uamSessionService.getSessionUser();
+			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+		request.setAttribute("taskId", taskId);
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		request.setAttribute("caseBaseVO", caseBaseVO);
-		
-		toAccesoryListService.getAccesoryList(request, taskitem);
-		
-		request.setAttribute("approveType", "6");
-		request.setAttribute("operator", user != null ? user.getId():"");
-		
-		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
-		
-		request.setAttribute("spvDeRecVo", spvDeRecVo);
-		return "task/taskSpvApprove";
+		request.setAttribute("role", "RiskDirector");
+		return "task/spv/saveSpvCase";
 	}
 
 	/**
@@ -467,13 +458,55 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public String spvApprove(HttpServletRequest request,Boolean SpvApplyApprove,
+	public AjaxResponse<?> spvApprove(HttpServletRequest request,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+
+		return AjaxResponse.success();
+	}
+	
+    /**
+     * 资金监管签约页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("task/spvSign/process")
+	public String toSpvSignProcess(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+		request.setAttribute("taskId", taskId);
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("role", "RiskOfficer2");
+		return "task/spv/saveSpvCase";
+	}
+	
+	/**
+     * 资金监管签约操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("spvSign/deal")
+	public AjaxResponse<?> spvSign(HttpServletRequest request,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		// (签约)发送消息
+		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
-		return "task/taskSpvApprove";
+		return AjaxResponse.success();
 	}
 
 }
