@@ -114,7 +114,7 @@
 					  	   			 )
 					)
 					<ifNotNull idflag> 								
-					  	    	AND (mortgage.LOAN_AGNET = #userId#  or  mortgage.CREATE_BY = #userId# )					  	    	
+					  	    	AND (mortgage.LOAN_AGENT = #userId#  or  mortgage.CREATE_BY = #userId# )					  	    	
 					</ifNotNull> 
 					  <if test="srvCode!=null">
 						AND (
