@@ -95,7 +95,10 @@
 											   chkStyle:'radio', callBack:radioYuCuiOrgDeptSelectCallBack,
 											   expandNodeId:'',chkLast:'true'})" />
 											 <input class="m-wrap " type="hidden" id="yuCuiOriGrpDeptId" name="yuCuiOriGrpDeptId">
-                                   <div class="input-group float_icon organize_icon">
+                                   <div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+											   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+											   chkStyle:'radio', callBack:radioYuCuiOrgDeptSelectCallBack,
+											   expandNodeId:'',chkLast:'true'})">
                                         <i class="icon iconfont"></i>
                                     </div>
                                 </div>
@@ -112,7 +115,9 @@
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})"
 												value=''> 
 												<input type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="">
-                                    <div class="input-group float_icon organize_icon">
+                                    <div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})">
                                         <i class="icon iconfont"></i>
                                     </div>
                                 </div>
