@@ -8,11 +8,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -234,6 +231,7 @@
             </div>
         </div>
         <content tag="local_script"> 
+        
 			<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 			<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 			<script src="${ctx}/js/jquery.blockui.min.js"></script> 
@@ -244,20 +242,15 @@
 			<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 			<script src="${ctx}/js/trunk/tmpBank/list.js?v=1.1"></script> 
 			
-			<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-			
 			<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 			
 			<!-- 分页控件  -->
 			<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 			<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 			<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-			<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-			<script src="${ctx}/js/workflow/myCaseList.js"></script>
 			
 			<!-- 必须JS -->
 			<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-			
 
 <script id="template_tmpBankCaseList" type="text/html">
 
@@ -282,7 +275,7 @@
 								{{/if}}
                             </p>
                             <p>
-                                {{item.tmpBankStatus1}}   {{if item.tmpBankStatus == '0'}}<a href="#" class="ml5 demo-top" title="驳回原因:{{item.rejectReason}}">驳回原因</a>{{/if}}
+                                {{item.tmpBankStatus1}}   {{if item.tmpBankStatus == '0'}}<a class="demo-top" title="{{item.rejectReason}}">驳回原因</a>{{/if}}
                             </p>
                         </td>
 
@@ -331,6 +324,19 @@
 				  </tr>
        {{/each}}
 </script> 
+<script type="text/javascript">
+$(function(){
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
+</script>
 </content>
 </body>
 </html>

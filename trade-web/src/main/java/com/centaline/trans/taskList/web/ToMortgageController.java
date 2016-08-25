@@ -173,6 +173,9 @@ public class ToMortgageController {
 			
 			toMortgage.setToSupDocu(toSupDocu);
 			
+			SessionUser user = uamSessionService.getSessionUser();
+			toMortgage.setLoanAgent(user.getId());
+			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			
 		}catch(BusinessException e){
