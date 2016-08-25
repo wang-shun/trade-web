@@ -204,95 +204,144 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			
 			for(KpiSrvCaseVo x:listVOs){
 				if(x.getSalesSignScore()!=null){//上家签约
-					if(x.getSalesSignScore()%1!=0){
+					try{
+					if(Double.valueOf(x.getSalesSignScore())%1!=0){
 						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
 					}else{
-						if(x.getSalesSignScore()<0 || x.getSalesSignScore()>10){
+						if(Double.valueOf(x.getSalesSignScore())<0 || Double.valueOf(x.getSalesSignScore())>10){
 							x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
 						}
 					}
-				}
-				if(x.getAccompanyRepayLoanScore()!=null){//上家陪同还贷
-					if(x.getAccompanyRepayLoanScore()%1!=0){
-						x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
+					}catch(Exception e){
+						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
-					}else{
-						if(x.getAccompanyRepayLoanScore()<0 || x.getAccompanyRepayLoanScore()>10){
+					}
+					
+				}
+				if(x.getAccompanyRepayLoanScore()!=null){//上家陪同还贷
+					try{
+						if(Double.valueOf(x.getAccompanyRepayLoanScore())%1!=0){
 							x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
+						}else{
+							if(Double.valueOf(x.getAccompanyRepayLoanScore())<0 || Double.valueOf(x.getAccompanyRepayLoanScore())>10){
+								x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
+								t.add(x);
+								continue;
+							}
 						}
-					}
-				}
-				if(x.getSalesTransferScore()!=null){//上家过户
-					if(x.getSalesTransferScore()%1!=0){
-						x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
+					}catch(Exception e){
+						x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
-					}else{
-						if(x.getSalesTransferScore()<0 || x.getSalesTransferScore()>10){
+					}
+					
+				}
+				if(x.getSalesTransferScore()!=null){//上家过户
+					try{
+						if(Double.valueOf(x.getSalesTransferScore())%1!=0){
 							x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
+						}else{
+							if(Double.valueOf(x.getSalesTransferScore())<0 || Double.valueOf(x.getSalesTransferScore())>10){
+								x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
+								t.add(x);
+								continue;
+							}
 						}
-					}
-				}
-				if(x.getSignScore()!=null){//下家签约
-					if(x.getSignScore()%1!=0){
-						x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
+					}catch(Exception e){
+						x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
-					}else{
-						if(x.getSignScore()<0 || x.getSignScore()>10){
+					}
+					
+				}
+				if(x.getSignScore()!=null){//下家签约
+					try{
+						if(Double.valueOf(x.getSignScore())%1!=0){
 							x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
+						}else{
+							if(Double.valueOf(x.getSignScore())<0 || Double.valueOf(x.getSignScore())>10){
+								x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
+								t.add(x);
+								continue;
+							}
 						}
-					}
-				}
-				if(x.getComLoanScore()!=null){//下家贷款
-					if(x.getComLoanScore()%1!=0){
-						x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
+					}catch(Exception e){
+						x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
-					}else{
-						if(x.getComLoanScore()<0 || x.getComLoanScore()>10){
+					}
+					
+				}
+				if(x.getComLoanScore()!=null){//下家贷款
+					try{
+						if(Double.valueOf(x.getComLoanScore())%1!=0){
 							x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
+						}else{
+							if(Double.valueOf(x.getComLoanScore())<0 || Double.valueOf(x.getComLoanScore())>10){
+								x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
+								t.add(x);
+								continue;
+							}
 						}
-					}
-				}
-				if(x.getAccuFundScore()!=null){//下家纯公积金
-					if(x.getAccuFundScore()%1!=0){
-						x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
+					}catch(Exception e){
+						x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
-					}else{
-						if(x.getAccuFundScore()<0 || x.getAccuFundScore()>10){
+					}
+					
+				}
+				if(x.getAccuFundScore()!=null){//下家纯公积金
+					try{
+						if(Double.valueOf(x.getAccuFundScore())%1!=0){
 							x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
+						}else{
+							if(Double.valueOf(x.getAccuFundScore())<0 || Double.valueOf(x.getAccuFundScore())>10){
+								x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
+								t.add(x);
+								continue;
+							}
 						}
-					}
-				}
-				if(x.getTransferScore()!=null){//下家过户
-					if(x.getTransferScore()%1!=0){
-						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+					}catch(Exception e){
+						x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
 						t.add(x);
 						continue;
-					}else{
-						if(x.getTransferScore()<0 || x.getTransferScore()>10){
+					}
+					
+				}
+				if(x.getTransferScore()!=null){//下家过户
+					try{
+						if(Double.valueOf(x.getTransferScore())%1!=0){
 							x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
 							t.add(x);
 							continue;
+						}else{
+							if(Double.valueOf(x.getTransferScore())<0 || Double.valueOf(x.getTransferScore())>10){
+								x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+								t.add(x);
+								continue;
+							}
 						}
+					}catch(Exception e){
+						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
+						t.add(x);
+						continue;
 					}
+					
 				}
 				
 				if(x.getSalesCallBack()!=null){//上家电话接通
@@ -386,26 +435,26 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		entity.setType(KPI_SRV_CASE_TYPE_IMP);
 		entity.setCreateTime(new Date());
 
-		listEntity.add(generateNewEntity(entity, "TransSign", salesCallBack ? vo.getSalesSignScore() : null,
-				buyerCallBack ? vo.getSignScore() : null, true,
+		listEntity.add(generateNewEntity(entity, "TransSign", salesCallBack ? Double.valueOf(vo.getSalesSignScore()) : null,
+				buyerCallBack ? Double.valueOf(vo.getSignScore()) : null, true,
 				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 签约
 
-		listEntity.add(generateNewEntity(entity, "LoanClose", salesCallBack ? vo.getAccompanyRepayLoanScore() : null,
+		listEntity.add(generateNewEntity(entity, "LoanClose", salesCallBack ? Double.valueOf(vo.getAccompanyRepayLoanScore()) : null,
 				null, false, StrToBo(entity.getSalerCallback())));// 上家贷款结清
 
-		listEntity.add(generateNewEntity(entity, "Guohu", salesCallBack ? vo.getSalesTransferScore() : null,
-				buyerCallBack ? vo.getTransferScore() : null, true,
+		listEntity.add(generateNewEntity(entity, "Guohu", salesCallBack ? Double.valueOf(vo.getSalesTransferScore()) : null,
+				buyerCallBack ? Double.valueOf(vo.getTransferScore()) : null, true,
 				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 过户
 		
 		/* 下家贷款为空的话则不插入数据页面不显示   20160823*/
 		if(vo.getComLoanScore()!=null){
-			listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, buyerCallBack ? vo.getComLoanScore() : null,
+			listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, buyerCallBack ? Double.valueOf(vo.getComLoanScore()) : null,
 					false, StrToBo(entity.getBuyerCallback())));// 下家贷款
 		}
 		
 		/* 下家纯公积金为空的话则不插入数据页面不显示   20160823*/
 		if(vo.getAccuFundScore()!=null){
-			listEntity.add(generateNewEntity(entity, "PSFSign", null, buyerCallBack ? vo.getAccuFundScore() : null, false,
+			listEntity.add(generateNewEntity(entity, "PSFSign", null, buyerCallBack ? Double.valueOf(vo.getAccuFundScore()) : null, false,
 					StrToBo(entity.getBuyerCallback())));// 公积金贷款
 		}
 		
