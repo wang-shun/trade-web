@@ -131,9 +131,9 @@
 							<label class="radio inline"> <input type="radio"
 								value="2" checked="checked" name="isTempBank"  id="isTempBankAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
-								value="是" name="isTempBank"> 是
+								value="1" name="isTempBank"> 是
 							</label> <label class="radio inline"> <input type="radio"
-								value="否" name="isTempBank"> 否
+								value="0" name="isTempBank"> 否
 							</label>
 						</div>
 					</div>
