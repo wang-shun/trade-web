@@ -380,7 +380,14 @@ function getParamsValue() {
 	}else if(isTempBank == 0){
 		isTempBank='否';
 	}
-	if(isLose == 2)		isLose=null;
+	if(isLose == 2){
+		isLose=null;//为2 设置为null则不添加该查询条件
+	}else if (isLose == 1){
+		isLose='否';
+	}else if(isLose == 0){
+		isLose='是';
+	}
+	
 	params.isTempBank = isTempBank;
 	params.isLose = isLose;	
 	params.caseCode = caseCode;

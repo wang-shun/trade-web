@@ -143,9 +143,9 @@
 							<label class="radio inline"> <input type="radio"
 								value="2" checked="checked" name="isLose" id="isLoseAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
-								value="否" name="isLose"> 是
+								value="1" name="isLose"> 是
 							</label> <label class="radio inline"> <input type="radio"
-								value="是" name="isLose"> 否
+								value="0" name="isLose"> 否
 							</label>
 						</div>
 					</div>
