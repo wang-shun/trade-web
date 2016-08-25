@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
@@ -66,6 +68,8 @@ public class MortgageController {
 	MessageService messageService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private UamSessionService uamSessionService;
 	
 	@RequestMapping(value = "test")
 	public String test(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
@@ -132,6 +136,10 @@ public class MortgageController {
 		toTransPlan.setEstPartTime(estPartTime);
 		toTransPlanService.updateTransPlan(toTransPlan);
 		toMortgage.setIsMainLoanBank("1");
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		toMortgage.setLoanAgent(user.getId());
+		toMortgage.setLoanAgentTeam(user.getServiceDepId());
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -158,6 +166,10 @@ public class MortgageController {
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}
 		toMortgage.setIsMainLoanBank("1");
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		toMortgage.setLoanAgent(user.getId());
+		toMortgage.setLoanAgentTeam(user.getServiceDepId());
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -178,6 +190,10 @@ public class MortgageController {
 		toTransPlanService.updateTransPlan(toTransPlan);
 		toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()!=null?toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
 		toMortgage.setIsMainLoanBank("1");
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		toMortgage.setLoanAgent(user.getId());
+		toMortgage.setLoanAgentTeam(user.getServiceDepId());
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/
@@ -280,6 +296,10 @@ public class MortgageController {
 			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
 		}
 		toMortgage.setIsMainLoanBank("1");
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		toMortgage.setLoanAgent(user.getId());
+		toMortgage.setLoanAgentTeam(user.getServiceDepId());
 		toMortgageService.saveToMortgage(toMortgage);
 		
 		/*流程引擎相关*/

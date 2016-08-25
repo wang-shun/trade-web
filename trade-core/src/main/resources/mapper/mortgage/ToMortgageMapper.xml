@@ -40,6 +40,8 @@
 	<result column="TMP_BANK_REJECT_REASON" property="tmpBankRejectReason" jdbcType="VARCHAR"/>
 	<result column="LOANLOST_APPLY_REASON" property="loanLostApplyReason" jdbcType="VARCHAR"/>
 	<result column="LOANLOST_CONFIRM_CODE" property="loanLostConfirmCode" jdbcType="VARCHAR"/>
+	<result column="LOAN_AGENT" property="loanAgent" jdbcType="VARCHAR"/>
+	<result column="LOAN_AGENT_TEAM" property="loanAgentTeam" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
     <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
@@ -183,6 +185,12 @@
       <if test="loanLostConfirmCode !=null">
       	LOANLOST_CONFIRM_CODE,
       </if>
+      <if test="loanAgent !=null">
+      	LOAN_AGENT,
+      </if>
+      <if test="loanAgentTeam !=null">
+      	LOAN_AGENT_TEAM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
@@ -293,6 +301,12 @@
       </if>
       <if test="loanLostConfirmCode != null">
       	#{loanLostConfirmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgent != null">
+      	#{loanAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgentTeam != null">
+      	#{loanAgentTeam,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
