@@ -85,7 +85,7 @@
 										dictType="KPI_SRV_CODE" ligerui='none'></aist:dict>
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left">
+                                    <label class="control-label sign_left_small">
                                         	贵宾服务部
                                     </label>
                                     
