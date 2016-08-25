@@ -301,7 +301,7 @@ public class ToMortgageController {
 			
 			//提交流程之后需要更新贷款专员
 			SessionUser user = uamSessionService.getSessionUser();
-			toMortgage.setLoanAgentTeam(user.getId());
+			toMortgage.setLoanAgent(user.getId());
 			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 			toMortgageService.updateToMortgage(toMortgage);
 			
