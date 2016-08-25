@@ -59,10 +59,8 @@
 					T.ORG_ORG_NAME,
 					T.IS_TMP_BANK,
 					T.SDSTATUS,
-					T.LOAN_AGNET,
+					T.LOAN_AGENT,
 					T.LOAN_AGENT_TEAM
-					--T.PROCESSOR_ID,
-					--T.ORG_ID
 				FROM				
 				(select 
 					c.pkid,
@@ -82,11 +80,9 @@
 					m.SIGN_DATE,
 					m.LEND_DATE,
 					m.APPR_DATE,--批贷时间	
-					m.LOAN_AGNET,--贷款专员id
-					m.LOAN_AGENT_TEAM,----贷款专员组织id
-					--sp.PROCESSOR_ID,
-					--sp.ORG_ID,
-					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=M.LOAN_AGNET)	REAL_NAME,
+					m.LOAN_AGENT,--贷款专员id
+					m.LOAN_AGENT_TEAM,----贷款专员组织id			
+					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=M.LOAN_AGENT)	REAL_NAME,
 					(SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=M.LOAN_AGENT_TEAM)	ORG_NAME,
 					(select top 1 org2.ORG_NAME orgName1	
 								from sctrans.sys_org org1
@@ -106,9 +102,7 @@
 										'6114AB949B4445828D4383977C4FAC71',
 										'6a84979158b942b78a8a5921cc30b8c3')
 								and org1.ID=M.LOAN_AGENT_TEAM) ORG_ORG_NAME,
-					
-						
-					--m.IS_TMP_BANK,
+										
 					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
 						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
@@ -117,12 +111,12 @@
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
-					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 
-					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
+					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 					
                 where 
 					m.is_active = '1'	
-					<ifNotNull idflag> AND 		M.LOAN_AGNET = #userId# 	</ifNotNull>
-					<ifNotNull queryorgs> AND sp.ORG_ID in (#queryorgs#)     </ifNotNull>			
+					and exists(select 1 from sctrans.T_HI_WORKFLOW w where w.CASE_CODE = m.CASE_CODE and w.BUSINESS_KEY = 'LoanLost_Process')
+					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
+					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>			
 				)T    
 				where 1=1
 				
@@ -213,7 +207,9 @@
 				<column type="both" name="FENHANG" index="" checkbox="true" title="贷款银行分行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				
 				<column type="both" name="PROCESSOR_ID" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>						
+				<column type="both" name="ORG_ID" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="LOAN_AGENT" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>										
 								
 					
 				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
