@@ -288,7 +288,7 @@
                       	 <p> <i class="sign_blue">临时银行</i></p>
 						{{/if}}
 
-						{{if  item.SDSTATUS=='否'}}
+						{{if  item.SDSTATUS=='是'}}
                       	 <p>流失</p>
 						{{/if}}
                         
