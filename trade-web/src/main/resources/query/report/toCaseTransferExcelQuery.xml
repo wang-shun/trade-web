@@ -86,6 +86,8 @@
 									
 									CTM_CODE,
 									(select TOP 1 M.CUST_NAME  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) CUST_NAME,
+									STUFF((SELECT ','+d.name FROM sctrans.T_TO_MORTGAGE m LEFT JOIN sctrans.SYS_DICT d ON d.code = m.MORT_TYPE AND d.type ='30016' WHERE T.case_code=m.CASE_CODE AND m.IS_ACTIVE = 1 for xml path('')),1,1,'') AS MORT_TYPE_NAME,--贷款类型
+									(SELECT SUM(G.EVAL_FEE) FROM sctrans.T_TO_EVA_FEE_RECORD G where G.CASE_CODE=t.CASE_CODE) EVAL_FEE,
 									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, /*主贷人电话*/
 									PROPERTY_ADDR ,
 									 ROUND(CONVERT(float,S.CON_PRICE)/10000,2) AS CON_PRICE, 									
@@ -284,6 +286,10 @@
 					customDict="" hidden="false" />
 				<column type="both" name="AR_NAME" title="片区"
 					customDict="" hidden="false" />
+					
+				<column type="both" name="EVAL_FEE" title="评估费金额"/>
+				<column type="both" name="MORT_TYPE_NAME" title="贷款类型"/>
+					
 <!-- 				<column type="both" name="VORG_NAME" title="区域" customDict=""
 					hidden="false" /> -->
 			</table-row>

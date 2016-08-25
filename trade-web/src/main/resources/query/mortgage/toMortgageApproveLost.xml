@@ -5,16 +5,18 @@
 		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
-		<customDict id="qqManagerInfo" beanName="qqManagerInfo"></customDict>	
+		<customDict id="qqManagerInfo" beanName="qqManagerInfo"></customDict>
 	</dicts>
-	
-  	<formatters>
-		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
-		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
 				<property name="maximumFractionDigits">3</property>
@@ -23,22 +25,29 @@
 				<property name="minimumIntegerDigits">1</property>
 			</properties>
 		</formatter>
-		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="maximumFractionDigits">0</property>
 			</properties>
 		</formatter>
-		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
-	
+
 	<query id="queryMortgageApproveLost">
 		<searchCondition>
-		   <condition field="WK.END_TIME_"    name="startDate" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="WK.END_TIME_"    name="endDate" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="base.CASE_CODE"   		name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="base.PROPERTY_ADDR"   name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="U.REAL_NAME"   		name="caseoperator"  label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-        </searchCondition>
+			<condition field="WK.END_TIME_" name="startDate" label=""
+				searchType="GTE" showType="" showCallback="" defaultValue="" />
+			<condition field="WK.END_TIME_" name="endDate" label=""
+				searchType="LTE" showType="" showCallback="" defaultValue="" />
+			<condition field="base.CASE_CODE" name="caseCode" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="base.PROPERTY_ADDR" name="propertyAddr"
+				label="" searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="U.REAL_NAME" name="caseoperator" label=""
+				searchType="LIKE" showType="" showCallback="" defaultValue="" />
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -96,17 +105,17 @@
 								    INNER JOIN   sctrans.v_yucui_org_hierarchy orgHierarchy
 							        ON  orgHierarchy.ORG_ID = C.ORG_ID
 								  	WHERE C.CASE_CODE = base.CASE_CODE 
-									<ifNotNull idflag> 
+<!-- 									<ifNotNull idflag> 
 					  	    				AND C.LEADING_PROCESS_ID = #userId# 	
-									</ifNotNull> 
+									</ifNotNull>  -->
 					  	    		<ifNotNull queryorgs> 
 					  	    	 			AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
 					  	   			 </ifNotNull>
 					  	   			 )
 					)
-<!-- 					<ifNotNull idflag> 
-					  	    	AND mortgage.LOAN_AGNET = #userId# 	
-					</ifNotNull> -->
+					<ifNotNull idflag> 								
+					  	    	AND (mortgage.LOAN_AGENT = #userId#  or  mortgage.CREATE_BY = #userId# )					  	    	
+					</ifNotNull> 
 					  <if test="srvCode!=null">
 						AND (
 						   1=2
@@ -123,7 +132,7 @@
 					 </if>
 					
 				]]>
-			
+
 			</baseSql>
 			<groupSql>
 			</groupSql>
@@ -132,27 +141,75 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="PKID" index="" checkbox="true" title="案件ID" display="案件ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CTM_CODE" index="" checkbox="true" title="CTM编号" display="CTM编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="LEADING_PROCESS_ID_OLD" index="" checkbox="" title="主办" display="主办" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="LEADING_PROCESS_ID" title="主办" display="主办" referencecol="LEADING_PROCESS_ID_OLD"  customDict="qqcdUserIdName" isSort="true" order="desc"/>
-				
-				
-				<column type="both" name="ORG_ID_OLD" index="" checkbox="" title="交易顾问组织id" display="主办组" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="" title="经纪人组织id" display="经纪人组织id" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="AGENT_ORG_NAME" title="经济人组织" display="主办组" referencecol="ORG_ID"  customDict="qqcdOrgIdName" isSort="true" order="desc"/> 
-				<column type="both" name="AGENT_NAME" index="" checkbox="" title="经纪人姓名" display="经纪人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="AGENT_PHONE" index="" checkbox="" title="经纪人电话" display="经纪人电话" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="GRP_NAME" index="" checkbox="" title="经纪人组别" display="经纪人组别" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="" title="贷款类型" display="贷款类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="MORT_TYPE"  title="贷款类型" display="贷款类型" referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName" isSort="true" order="desc"/>
-				<column type="both" name="real_name" index="" checkbox="" title="审批人" display="审批人" customDict="" sysDict="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="END_TIME_" index="" checkbox="" title="审批时间"  display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date"   format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="START_TIME_" index="" checkbox="" title="创建时间"  display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date"   format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CASEOPERATOR" index="" checkbox="" title="主办人" display="主办人" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PKID" index="" checkbox="true"
+					title="案件ID" display="案件ID" customDict="" sysDict="" format=""
+					width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
+				<column type="both" name="CASE_CODE" index="" checkbox="true"
+					title="案件编号" display="案件编号" customDict="" sysDict="" format=""
+					width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
+				<column type="both" name="CTM_CODE" index="" checkbox="true"
+					title="CTM编号" display="CTM编号" customDict="" sysDict="" format=""
+					width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox=""
+					title="产证地址" display="产证地址" customDict="" sysDict="" format=""
+					width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="both" name="LEADING_PROCESS_ID_OLD" index=""
+					checkbox="" title="主办" display="主办" customDict="" sysDict=""
+					format="" width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="virtual" name="LEADING_PROCESS_ID" title="主办"
+					display="主办" referencecol="LEADING_PROCESS_ID_OLD" customDict="qqcdUserIdName"
+					isSort="true" order="desc" />
+
+
+				<column type="both" name="ORG_ID_OLD" index="" checkbox=""
+					title="交易顾问组织id" display="主办组" customDict="" sysDict="" format=""
+					width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="both" name="ORG_ID" index="" checkbox="" title="经纪人组织id"
+					display="经纪人组织id" customDict="" sysDict="" format="" width=""
+					isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="AGENT_ORG_NAME" title="经济人组织"
+					display="主办组" referencecol="ORG_ID" customDict="qqcdOrgIdName"
+					isSort="true" order="desc" />
+				<column type="both" name="AGENT_NAME" index="" checkbox=""
+					title="经纪人姓名" display="经纪人" customDict="" sysDict="" format=""
+					width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="both" name="AGENT_PHONE" index="" checkbox=""
+					title="经纪人电话" display="经纪人电话" customDict="" sysDict="" format=""
+					width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="both" name="GRP_NAME" index="" checkbox=""
+					title="经纪人组别" display="经纪人组别" customDict="" sysDict="" format=""
+					width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="both" name="MORT_TYPE_OLD" index="" checkbox=""
+					title="贷款类型" display="贷款类型" customDict="" sysDict="" format=""
+					width="150" isSort="true" align="" halign="" order="desc"
+					resizable="" />
+				<column type="virtual" name="MORT_TYPE" title="贷款类型" display="贷款类型"
+					referencecol="MORT_TYPE_OLD" customDict="qqcdMortName" isSort="true"
+					order="desc" />
+				<column type="both" name="real_name" index="" checkbox=""
+					title="审批人" display="审批人" customDict="" sysDict="" width="150"
+					isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="END_TIME_" index="" checkbox=""
+					title="审批时间" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter"
+					expType="date" format="" width="150" isSort="true" align="" halign=""
+					order="" resizable="" />
+				<column type="both" name="START_TIME_" index="" checkbox=""
+					title="创建时间" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter"
+					expType="date" format="" width="150" isSort="true" align="" halign=""
+					order="" resizable="" />
+				<column type="both" name="CASEOPERATOR" index="" checkbox=""
+					title="主办人" display="主办人" customDict="" sysDict="" format="" width="150"
+					isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID"
+					index="" checkbox="" display="" customDict="qqManagerInfo" sysDict=""
+					format="" width="" isSort="true" align="" halign="" order=""
+					resizable="" />
 			</table-row>
 		</grid>
 	</query>
