@@ -75,36 +75,7 @@ public class KpiImportController {
 	public String kpiImport(HttpServletRequest request) {
 		
 		SessionUser user = uamSessionService.getSessionUser();
-		String userJob=user.getServiceJobCode();
-		boolean queryOrgFlag = false;
-		boolean isAdminFlag = false;
-
-        StringBuffer reBuffer = new StringBuffer();
-        //如果登录用户不是交易顾问
-		if(!userJob.equals(TransJobs.TJYGW.getCode())){
-			queryOrgFlag=true;
-			String depString = user.getServiceDepHierarchy();
-			String userOrgIdString = user.getServiceDepId();
-			//组别
-			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
-				reBuffer.append(userOrgIdString);
-			//区域
-			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
-				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
-				for(Org org:orgList){
-					reBuffer.append(org.getId());
-					reBuffer.append(",");
-				}
-				reBuffer.deleteCharAt(reBuffer.length()-1);
-				
-			}else{
-				isAdminFlag=true;
-			}
-		}
-		request.setAttribute("queryOrgs", reBuffer.toString());
-
-		request.setAttribute("queryOrgFlag", queryOrgFlag);
-		request.setAttribute("isAdminFlag", isAdminFlag);
+		
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());
 		
