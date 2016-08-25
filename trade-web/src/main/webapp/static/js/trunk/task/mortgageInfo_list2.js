@@ -157,13 +157,13 @@ $('#mortgageInfoCleanButton').click(function() {
 	$("input[name='amountBegin_0']").val('');
 	$("input[name='amountEnd_0']").val('');
 	//清空单选按钮
-	$('input[name="isLose"]:checked').val('');
-	$('input[name="isLose"]:checked').attr("checked",false);
+	$('input[name="isLoseLoan"]:checked').val('');
+	$('input[name="isLoseLoan"]:checked').attr("checked",false);
 	$('input[name="isTempBank"]:checked').val('');
 	$('input[name="isTempBank"]:checked').attr("checked",false);
 	
 	isTempBankRadio('isTempBank',$("#isTempBankAll").val());
-	isLoseRadio('isLose',$("#isLoseAll").val());
+	isLoseRadio('isLoseLoan',$("#isLoseAll").val());
 	
 	$("#yuCuiOriGrpId").val("");
 	$("#loanLostFinOrgNameYc").val("");
