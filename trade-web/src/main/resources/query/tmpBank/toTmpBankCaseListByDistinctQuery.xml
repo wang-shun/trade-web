@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getCurrentProcess" beanName="getCurrentProcess"></customDict>
+		<customDict id="getTmpBankCaseStatus" beanName="getTmpBankCaseStatus"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryTmpBankCastListItemListByDistinct" cacheCount="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT M.PKID,M.CASE_CODE AS caseCode,M.PROPERTY_ADDR AS propertyAddress,M.IS_TMP_BANK AS isTmpBank,M.REAL_NAME AS realName,M.ORG_NAME AS orgName,M.currentOrgId,
+					M.parentOrgName,M.TMP_BANK_STATUS AS tmpBankStatus,M.FIN_ORG_CODE,
+					M.TMP_BANK_REJECT_REASON AS rejectReason,M.approver,M.auditDateTime,M.APPR_DATE AS isSubmit,M.CREATE_TIME AS applyDateTime,M.currentProcess,M.mainBankName,M.branchBankName
+					FROM
+					(
+					SELECT t.PKID,t.CASE_CODE,t.PROPERTY_ADDR,t.IS_TMP_BANK,u.USERNAME,u.REAL_NAME,u.ID as applicantId,o.ORG_NAME,o.ID AS currentOrgId,
+					(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG WHERE ID = c.ORG_ID)) AS parentOrgName,
+					m.FIN_ORG_CODE,m.TMP_BANK_STATUS,m.TMP_BANK_REJECT_REASON,
+					(
+					SELECT u.REAL_NAME
+					FROM
+					(
+					SELECT  A.CASE_CODE,A.NAME,A.PART_CODE,A.ASSIGNEE AS ASSIGNEE_OLD,A.END_TIME,A.status AS status_OLD
+										   FROM ((SELECT TW.CASE_CODE,ART.NAME_ AS NAME,ART.TASK_DEF_KEY_ AS PART_CODE,ART.ASSIGNEE_ AS ASSIGNEE,NULL AS END_TIME,'RUN' as status
+												FROM
+												  sctrans.T_HI_WORKFLOW TW
+													INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
+													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
+												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
+												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE
+												)UNION(
+												SELECT TW.CASE_CODE,AHT.NAME_ AS NAME,AHT.TASK_DEF_KEY_ AS PART_CODE,AHT.ASSIGNEE_ AS ASSIGNEE,AHT.END_TIME_ AS END_TIME,AHT.DELETE_REASON_ as status
+												FROM
+												 	sctrans.T_HI_WORKFLOW TW
+													INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED' or AHT.DELETE_REASON_='deleted')
+													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
+												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
+												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE)) A 
+					WHERE (A.PART_CODE = 'ManagerAduit' OR A.PART_CODE = 'DirectorAudit' OR A.PART_CODE = 'SuperManagerAudit') AND END_TIME IS NOT NULL AND A.status != 'deleted'
+					ORDER BY END_TIME DESC
+					OFFSET 0 ROWS FETCH  next 1 ROWS ONLY
+					) t2
+					LEFT JOIN sctrans.SYS_USER u ON u.USERNAME = t2.ASSIGNEE_OLD
+					) AS approver,
+					(
+					SELECT t2.END_TIME
+					FROM
+					(
+					SELECT  A.CASE_CODE,A.NAME,A.PART_CODE,A.ASSIGNEE AS ASSIGNEE_OLD,A.END_TIME,A.status AS status_OLD
+										   FROM ((SELECT TW.CASE_CODE,ART.NAME_ AS NAME,ART.TASK_DEF_KEY_ AS PART_CODE,ART.ASSIGNEE_ AS ASSIGNEE,NULL AS END_TIME,'RUN' as status
+												FROM
+												    sctrans.T_HI_WORKFLOW TW
+													INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
+													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
+												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
+												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE
+												)UNION(
+												SELECT TW.CASE_CODE,AHT.NAME_ AS NAME,AHT.TASK_DEF_KEY_ AS PART_CODE,AHT.ASSIGNEE_ AS ASSIGNEE,AHT.END_TIME_ AS END_TIME,AHT.DELETE_REASON_ as status
+												FROM
+												 	sctrans.T_HI_WORKFLOW TW
+													INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED' or AHT.DELETE_REASON_='deleted')
+													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
+												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
+												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE)) A 
+					WHERE (A.PART_CODE = 'ManagerAduit' OR A.PART_CODE = 'DirectorAudit' OR A.PART_CODE = 'SuperManagerAudit') AND END_TIME IS NOT NULL AND A.status != 'deleted'
+					ORDER BY END_TIME DESC
+					OFFSET 0 ROWS FETCH  next 1 ROWS ONLY
+					) t2
+					LEFT JOIN sctrans.SYS_USER u ON u.USERNAME = t2.ASSIGNEE_OLD
+					) AS auditDateTime,
+					m.APPR_DATE,m.CREATE_TIME,
+					(
+					SELECT TASK_DEF_KEY_ FROM sctrans.ACT_HI_TASKINST 
+					WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = t.CASE_CODE AND BUSINESS_KEY = 'TempBankAudit_Process') and END_TIME_ IS NULL) AS currentProcess,
+					(
+					SELECT FIN_ORG_NAME_YC FROM sctrans.T_TS_FIN_ORG
+					WHERE FIN_ORG_CODE = (select FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = m.FIN_ORG_CODE) 
+					) as mainBankName,
+					(
+					select FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = m.FIN_ORG_CODE
+					) AS branchBankName
+					FROM 
+					(select B.PKID,B.CASE_CODE,B.PROPERTY_ADDR,m.IS_TMP_BANK
+          		    from sctrans.T_TO_MORTGAGE m 
+					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
+					left join sctrans.V_CASE_LIST_BASE B on m.case_code = B.case_code 
+					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
+					LEFT JOIN sctrans.MORT_STEP ms ON ms.CASE_CODE = m.CASE_CODE
+          			where m.is_active = '1'	and m.IS_TMP_BANK = '1' AND ms.STEP >= 5 AND sp.ORG_ID in (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+					WHERE (orgHierarchy.TEAM_ID = #currentOrgId# or orgHierarchy.DISTRICT_ID = #currentOrgId# or orgHierarchy.hq_id = #currentOrgId#))) t
+					LEFT JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = t.CASE_CODE
+					LEFT JOIN sctrans.SYS_USER u ON u.ID = c.LEADING_PROCESS_ID
+					LEFT JOIN sctrans.SYS_ORG o ON c.ORG_ID = o.ID
+					LEFT JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = t.CASE_CODE AND m.IS_ACTIVE='1'
+					LEFT JOIN sctrans.T_TO_WORKFLOW w ON w.CASE_CODE = t.CASE_CODE AND w.BUSINESS_KEY = 'TempBankAudit_Process' and w.status=0
+					) M where 1=1
+					<ifNotNull caseCode>	
+   						and M.CASE_CODE=#caseCode# 
+				    </ifNotNull>
+				    
+				    <ifNotNull applicantId>	
+   						and M.applicantId=#applicantId# 
+				    </ifNotNull>
+				    
+				    <ifNotNull currentTeamId>	
+   						and M.currentOrgId=#currentTeamId# 
+				    </ifNotNull>
+				    
+				     <ifNotNull propertyAddress>
+						AND M.PROPERTY_ADDR like '%' + #propertyAddress# + '%' 
+				  	 </ifNotNull>
+				  	 
+				  	 <when test	="status=='auditing'">
+				  	 	AND ((M.TMP_BANK_STATUS != '0' and M.TMP_BANK_STATUS != '1') or M.TMP_BANK_STATUS is null)
+				  	 </when>
+					 
+					 <when test	="status=='success'">
+					 	AND M.TMP_BANK_STATUS = '1'
+					 </when>
+					 
+					 <when test	="status=='reject'">
+					 	AND M.TMP_BANK_STATUS = '0'
+					 </when>
+					 
+					 <ifNotNull mainBank>	
+   						and M.mainBankName=#mainBank# 
+				     </ifNotNull>
+				     
+				     <ifNotNull branchBank>	
+   						and M.branchBankName=#branchBank# 
+				     </ifNotNull>
+					 
+					 <ifNotNull beginApplyDatetime>
+						AND M.CREATE_TIME >= #beginApplyDatetime#
+				     </ifNotNull>
+				  
+				     <ifNotNull endApplyDatetime>
+						AND M.CREATE_TIME &lt;= #endApplyDatetime#
+				      </ifNotNull>
+				      
+				      <ifNotNull beginAuditDatetime>
+						AND M.auditDateTime >= #beginAuditDatetime#
+				     </ifNotNull>
+				  
+				     <ifNotNull endAuditDateime>
+						AND M.auditDateTime &lt;= #endAuditDateime#
+				      </ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			 ORDER BY M.CREATE_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="caseCode" index="" checkbox="" display="案件编号" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="propertyAddress" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="isTmpBank" index="" checkbox="" display="是否为临时银行" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="realName" index="" checkbox="" display="申请人姓名" title="申请人姓名" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="orgName" index="" checkbox="" display="申请人所在组" title="申请人所在组" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="parentOrgName"  index="" checkbox="" display="申请人所在服务部" title="申请人所在服务部" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="mainBankName"  index="" checkbox="" display="贷款银行" title="贷款银行" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="branchBankName" index="" checkbox="" display="贷款支行" title="贷款支行" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="tmpBankStatus" index="" checkbox="" display="状态" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="rejectReason"  index="" checkbox="" display="驳回原因" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="approver"  index="" checkbox="" display="审批人" title="审批人" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="auditDateTime"  index="" checkbox="" display="审批时间" title="审批时间" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="applyDateTime"  index="" checkbox="" display="申请时间" title="申请时间" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="currentProcess"  index="" checkbox="" display="当前流程" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="isSubmit"  index="" checkbox="" display="是否提交" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="currentProcess1" title="当前流程" referencecol="currentProcess,isSubmit" customDict="getCurrentProcess" />
+				<column type="virtual" name="tmpBankStatus1" title="状态" referencecol="tmpBankStatus" customDict="getTmpBankCaseStatus" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

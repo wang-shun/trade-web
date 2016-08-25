@@ -25,12 +25,20 @@ function init(){
 }
 
 function reloadGrid(){
-		
+	var depHierarchy = $("#depHierarchy").val();
 	var data = getParams();
+	
+	var queryId = "";
+	if(depHierarchy == "yucui_team"){
+		queryId = "queryTmpBankCastListItemListByTeam";
+	}
+	else {
+		queryId = "queryTmpBankCastListItemListByDistinct";
+	}
 	
 	$("#tmpBankCastList").reloadGrid({
     	ctx : ctx,
-		queryId : 'queryTmpBankCastListItemList',
+		queryId : queryId,
 	    templeteId : 'template_tmpBankCaseList',
 	    data : data,
 	    wrapperData : data
@@ -49,6 +57,7 @@ function selectUserBack(array){
 }
 
 function getParams() {
+	var userLoginName = $.trim($("#userLoginName").val());
 	var currentOrgId = $.trim($("#currentOrgId").val());
 	var caseCode = $.trim($("#caseCode").val());
 	var propertyAddress = $.trim($("#propertyAddress").val());
@@ -63,6 +72,7 @@ function getParams() {
 	var applicantId = $("#realName").attr("hval");
 	
 	var data = {};
+	data.username = userLoginName;
 	data.applicantId = applicantId;
 	data.currentOrgId = currentOrgId;
 	data.caseCode = caseCode;

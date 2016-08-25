@@ -290,24 +290,17 @@ FROM    SCTRANS.T_TO_CASE C
         INNER JOIN SCTRANS.T_TO_CASE_INFO CI ON C.CASE_CODE = CI.CASE_CODE
         INNER JOIN sctrans.sys_dict d ON d.code = c.status
         INNER JOIN [sctrans].[T_TO_HOUSE_TRANSFER] hf ON c.case_code = hf.case_code
-        INNER JOIN [sctrans].[T_TO_WORKFLOW] wf ON c.case_code = wf.case_code
+        INNER JOIN 
+		[sctrans].[T_TO_WORKFLOW] wf ON c.case_code = wf.case_code
                                                    AND wf.business_key = 'operation_process'
-                                                   AND wf.status IN ( 0, 4 )
-                                                   AND wf.pkid != 3432
         INNER JOIN [sctrans].[ACT_HI_VARINST] hvi ON hvi.NAME_ = 'GuohuApprove'  --历史变量表
                                                      AND hvi.LONG_ = 1
                                                      AND wf.inst_code = hvi.proc_inst_id_
-                                                     <ifNotNull guohuApproveStart>
-															 AND hvi.CREATE_TIME_ &gt;= CAST(#guohuApproveStart# AS DATETIME)
-													</ifNotNull>
-                                                     <ifNotNull guohuApproveEnd>
-															 AND hvi.CREATE_TIME_ &lt; CAST(#guohuApproveEnd#+' 23:59:59' AS DATETIME)
-													</ifNotNull>
-WHERE   C.CASE_CODE IN ( SELECT DISTINCT
+                                                     
+WHERE   C.CASE_CODE NOT IN ( SELECT DISTINCT
                                 AB.CASE_CODE
                          FROM   SCTRANS.T_TS_AWARD_BASE AB
-                         WHERE  AB.PAID_TIME IS NULL )
-        AND c.STATUS NOT IN ( '30001002', '30001003' )
+                         WHERE  AB.PAID = 1  ) AND c.CASE_PROPERTY NOT IN ('30003001','30003005')
         <ifNotNull caseCode>
 				AND C.CASE_CODE = #caseCode# 
 		</ifNotNull>

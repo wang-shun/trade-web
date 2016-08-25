@@ -72,7 +72,7 @@ public class AwardHandlerController {
 		c2.add(Calendar.DATE, -1);
 		request.setAttribute("guohuEnd", sdf.format(c2.getTime()));//上个月最后 一天 
 
-		return "award/kjjianCase";
+		return "award/kjjianCase2";
 	}
 	@RequestMapping(value = "kjjianCase2")
 	public String kjjianCase2(HttpServletRequest request) {
