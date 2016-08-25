@@ -56,7 +56,9 @@
                             临时银行案件列表
                         </h2>
                         <form method="get" class="form_list">
-                        	<input type="hidden" id="currentOrgId" value="${currentOrgId }"/>
+                        	<input type="hidden" id="depHierarchy" value="${org.depHierarchy }"/>
+                        	<input type="hidden" id="currentOrgId" value="${currentUser.adminOrg }"/>
+                        	<input type="hidden" id="userLoginName" value="${currentUser.username }"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -77,15 +79,18 @@
                                     <label class="control-label sign_left_small">
                                         申请人
                                     </label>
-                                    <%-- <input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" hVal="${serUserId }" value="${userInfo }"
-													 readonly="readonly"
-													onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
-													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" /> --%>
-                                    
-                                    <input class="teamcode input_type" placeholder="" hVal="${serUserId }" value="${userInfo }" id="realName"
-                                    readonly="readonly"
-									onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
-									nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})"/>
+                                    <c:choose>
+                                    	<c:when test="${org.depHierarchy == 'yucui_team' }">
+                                    		<input class="teamcode input_type" placeholder="" hVal="${currentUser.id }" value="${currentUser.realName }" id="realName"
+		                                    readonly="readonly"/>
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    		<input class="teamcode input_type" placeholder="" hVal="${serUserId }" value="${userInfo }" id="realName"
+			                                    readonly="readonly"
+												onclick="userSelect({startOrgId:'${serviceDepId}',expandNodeId:'${serviceDepId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})"/>
+                                    	</c:otherwise>
+                                    </c:choose>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -94,13 +99,21 @@
                                     <label class="control-label sign_left_small">
                                         申请人所在组
                                     </label>
-                                   <input class="teamcode input_type" placeholder="" value="" id="teamCode" name="teamCode" readonly="readonly"
-                                   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+                                    
+                                    <c:choose>
+                                    	<c:when test="${org.depHierarchy == 'yucui_team' }">
+                                    		<input class="teamcode input_type" placeholder="" id="teamCode" name="teamCode" readonly="readonly" value="${org.orgName}"/>
+										   <input class="m-wrap" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId" value="${org.id }">
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    		<input class="teamcode input_type" placeholder="" value="" id="teamCode" name="teamCode" readonly="readonly"
+                                   			onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
 										   value="${serviceDepName}"/>
 										   
-									<input class="m-wrap" type="hidden" id="yuCuiOriGrpId"
-											name="yuCuiOriGrpId">
+										   <input class="m-wrap" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
+                                    	</c:otherwise>
+                                    </c:choose>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -184,7 +197,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color:#52cdec;">
-                                                <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                                <span>案件编码</span><a href="#"></a>
                                             </th>
                                             <th style="background-color:#52cdec;">
                                                 当前环节
@@ -274,9 +287,11 @@
                         </td>
 
 						 <td>
-                             <p class="big">
-                                 {{item.propertyAddress}}
-                             </p>
+							{{if item.propertyAddress != null && item.propertyAddress!="" && item.propertyAddress.length>24}}
+								<p class="big" title="{{item.propertyAddress}}">{{item.propertyAddress.substring(item.propertyAddress.length-24,item.propertyAddress.length)}}</p>
+							{{else}}
+								<p class="big">{{item.propertyAddress}}</p>
+							{{/if}}
                              <p>
                                 <a class="salesman-info" href="javascript:;" >
                                   {{item.mainBankName}}/{{item.branchBankName}}
@@ -294,11 +309,10 @@
 									{{/if}}
                              </p>
                              <p class="smll_sign">
-                                   <i class="sign_normal">审</i>
 									{{if item.auditDateTime}} 
-										{{item.auditDateTime}}
+										<i class="sign_normal">审</i>{{item.auditDateTime}}
 								    {{else}}
-										暂无
+										<i class="sign_grey">审</i>
 									{{/if}}
                              </p>
                         </td>
@@ -308,8 +322,6 @@
                              <p class="manager">审批人：<a href="#">
 								{{if item.approver}} 
 										{{item.approver}}
-								{{else}}
-										暂无
 							    {{/if}}</a></p>
                         </td>
 
