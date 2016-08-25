@@ -56,7 +56,7 @@
 		<pattern>/case/taskTracking</pattern> 
 		<pattern>/case/tracking</pattern> 
 		<pattern>/unlocatedTasks</pattern> 
-		
+		<pattern>/award/import</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

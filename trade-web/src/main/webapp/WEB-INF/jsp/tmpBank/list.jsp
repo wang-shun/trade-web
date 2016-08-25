@@ -269,7 +269,7 @@
 								{{/if}}
                             </p>
                             <p>
-                                {{item.tmpBankStatus1}}   {{if item.tmpBankStatus == '0'}}<a href="#" class="ml5 demo-top" title="驳回原因：{{item.rejectReason}}">驳回原因</a>{{/if}}
+                                {{item.tmpBankStatus1}}   {{if item.tmpBankStatus == '0'}}<a href="#" class="ml5 demo-top" title="驳回原因:{{item.rejectReason}}">驳回原因</a>{{/if}}
                             </p>
                         </td>
 

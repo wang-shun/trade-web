@@ -42,8 +42,18 @@
 						<ifNotNull belongMonth>
 			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
 			 			</ifNotNull>
+			 			<ifNotNull yuCuiOriGrpDeptId>
+			        		AND od.id = #yuCuiOriGrpDeptId#
+			 			</ifNotNull>
+			 			<ifNotNull yuCuiOriGrpId>
+			        		AND ot.id = #yuCuiOriGrpId#
+			 			</ifNotNull>
+			 			
 				]]>
 			</baseSql>
+			<orderBySql>
+			  		ORDER BY CASE_CODE  DESC
+			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
