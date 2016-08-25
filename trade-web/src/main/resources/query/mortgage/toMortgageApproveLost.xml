@@ -51,8 +51,7 @@
 					  base.AGENT_PHONE,
 					  base.GRP_NAME,
 					  base.LEADING_PROCESS_ID AS LEADING_PROCESS_ID_OLD,
-					  base.ORG_ID AS ORG_ID_OLD, --交易顾问id					
-					  
+					  base.ORG_ID AS ORG_ID_OLD, --交易顾问id	
 					  mortgage.MORT_TYPE AS MORT_TYPE_OLD,
 					  mortgage.SIGN_DATE,
 					  WK.TASK_DEF_KEY_,
@@ -71,7 +70,8 @@
 						SELECT 		
 						W.CASE_CODE, 
 						taskInst.TASK_DEF_KEY_,
-						taskInst.END_TIME_,
+						(SELECT TOP 1 aht.END_TIME_ FROM sctrans.ACT_HI_TASKINST aht WHERE  aht.task_def_key_='LoanlostApproveDirector' AND  aht.PROC_INST_ID_=taskInst.PROC_INST_ID_ ORDER BY aht.id_ desc) END_TIME_,
+						--taskInst.END_TIME_,
 						taskInst.START_TIME_,
 					  	guser.real_name
 						FROM sctrans.T_HI_WORKFLOW w 

@@ -88,7 +88,12 @@ public class EvalListController {
 	 */
 	@RequestMapping("/saveEvalItem")
 	public String saveEvalItem(ToEvaFeeRecord toEvaFeeRecord, HttpServletRequest request) {
-		toEvaFeeRecord.setRecordTime(new Date());
+		
+		/* 删除评估费清空评估费金额及最后收取时间 */
+		if(toEvaFeeRecord.getEvalFee()!=null){
+			toEvaFeeRecord.setRecordTime(new Date());
+		}
+		
 		if (toEvaFeeRecord.getPkid() == null) {
 
 			ToEvaFeeRecord oldItem = toEvaFeeRecordService.findToEvaFeeRecordByCaseCode(toEvaFeeRecord.getCaseCode());

@@ -180,12 +180,14 @@
 					    放款
                       {{/if}}
 				     {{if item.releaseTime!=undefined}}
+                 
 					    放款
                       {{/if}}
+
 				</td>
 				<td class="center">       
                              {{item.Applymoney}}万
-				      
+				         <input name="{{item.pkId}}" type="hidden" value="{{item.releaseTime}}">
 				</td>
 				<td class="text-center">
 					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
@@ -220,10 +222,14 @@
 						//删除
 						function deleteItem(pkid){
 							/* if(serviceJobCode != 'consultant') */
-							
+					      var release=$("input[name="+pkid+"]").val();
 							var confim= confirm("确定要删除这条数据吗？")
 							if(!confim){
 							return
+							}
+							if(release!=undefined&&release!=""){
+								alert("案件放款中，不能删除");
+								return;
 							}
 							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 							$.ajax({
