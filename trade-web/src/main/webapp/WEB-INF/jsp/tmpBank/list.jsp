@@ -231,7 +231,6 @@
             </div>
         </div>
         <content tag="local_script"> 
-        
 			<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 			<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 			<script src="${ctx}/js/jquery.blockui.min.js"></script> 
@@ -249,8 +248,13 @@
 			<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 			<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 			
+			<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+			
 			<!-- 必须JS -->
 			<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+			<script src="${ctx}/js/workflow/myCaseList.js"></script>
+			
+			
 
 <script id="template_tmpBankCaseList" type="text/html">
 
@@ -326,6 +330,7 @@
 </script> 
 <script type="text/javascript">
 $(function(){
+		
 		$('.demo-top').poshytip({
 			className: 'tip-twitter',
 			showTimeout: 1,
