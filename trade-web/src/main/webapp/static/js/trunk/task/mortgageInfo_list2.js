@@ -373,7 +373,13 @@ function getParamsValue() {
 	var isTempBank = $("input[name='isTempBank']:checked").val();	
 	var isLose = $("input[name='isLose']:checked").val();
 	
-	if(isTempBank == 2)		isTempBank=null;//为2 设置为null则不添加该查询条件
+	if(isTempBank == 2){
+		isTempBank=null;//为2 设置为null则不添加该查询条件
+	}else if (isTempBank == 1){
+		isTempBank='是';
+	}else if(isTempBank == 0){
+		isTempBank='否';
+	}
 	if(isLose == 2)		isLose=null;
 	params.isTempBank = isTempBank;
 	params.isLose = isLose;	
