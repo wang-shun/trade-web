@@ -1,5 +1,5 @@
 function init(){
-
+	
 	//日期控件
 	$('#datepicker_1').datepicker({
 		format : 'yyyy-mm-dd',
@@ -149,16 +149,5 @@ $(document).ready(function() {
 		$("#teamCode").val('');
 		$("#realName").val('');
 	});
-	
-	$('.demo-top').poshytip({
-		className: 'tip-twitter',
-		showTimeout: 1,
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 8,
-		offsetY: 5,
-	});
-
 	
 });
