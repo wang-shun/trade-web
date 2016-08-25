@@ -137,9 +137,6 @@ public class MortgageController {
 		toTransPlanService.updateTransPlan(toTransPlan);
 		toMortgage.setIsMainLoanBank("1");
 		
-		SessionUser user = uamSessionService.getSessionUser();
-		toMortgage.setLoanAgent(user.getId());
-		toMortgage.setLoanAgentTeam(user.getServiceDepId());
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
@@ -167,9 +164,6 @@ public class MortgageController {
 		}
 		toMortgage.setIsMainLoanBank("1");
 		
-		SessionUser user = uamSessionService.getSessionUser();
-		toMortgage.setLoanAgent(user.getId());
-		toMortgage.setLoanAgentTeam(user.getServiceDepId());
 		ToMortgage mortgage = toMortgageService.saveToMortgage(toMortgage);
 		response.setContent(String.valueOf(mortgage.getPkid()));
 		return response;
