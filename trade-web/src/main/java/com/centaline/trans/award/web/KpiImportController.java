@@ -27,8 +27,11 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.kpi.entity.TsAwardKpiPay;
 import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
@@ -70,6 +73,13 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
+		
+		
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);

@@ -81,7 +81,7 @@
 						AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))
 					
 						INNER JOIN sctrans.sys_user guser 
-						ON guser.username = taskInst.ASSIGNEE_ 
+						ON guser.username = taskInst.ASSIGNEE_  and taskInst.DELETE_REASON_='completed'
 						AND guser.available = '1'
 						AND guser.is_deleted = '0'
 						--AND w.BUSINESS_KEY in ( 'LoanLost_Process','operation_process')
@@ -95,15 +95,16 @@
 						(  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C 
 								    INNER JOIN   sctrans.v_yucui_org_hierarchy orgHierarchy
 							        ON  orgHierarchy.ORG_ID = C.ORG_ID
-								  	WHERE C.CASE_CODE = base.CASE_CODE  
-					  	    		<ifNotNull idflag> 
-					  	    				AND C.LEADING_PROCESS_ID = #userId# 	
-					  	    		</ifNotNull>
+								  	WHERE C.CASE_CODE = base.CASE_CODE 
+
 					  	    		<ifNotNull queryorgs> 
 					  	    	 			AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
 					  	   			 </ifNotNull>
 					  	   			 )
 					)
+					<ifNotNull idflag> 
+					  	    	AND mortgage.LOAN_AGNET = #userId# 	
+					</ifNotNull>
 					  <if test="srvCode!=null">
 						AND (
 						   1=2

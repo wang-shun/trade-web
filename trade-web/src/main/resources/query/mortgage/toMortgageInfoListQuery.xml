@@ -59,11 +59,13 @@
 					T.ORG_ORG_NAME,
 					T.IS_TMP_BANK,
 					T.SDSTATUS,
-					T.PROCESSOR_ID,
-					T.ORG_ID
+					T.LOAN_AGNET,
+					T.LOAN_AGENT_TEAM
+					--T.PROCESSOR_ID,
+					--T.ORG_ID
 				FROM				
 				(select 
-					m.pkid,
+					c.pkid,
 					p.property_addr,
 					m.case_code,
 					m.mort_type as MORT_TYPE_OLD,
@@ -80,10 +82,12 @@
 					m.SIGN_DATE,
 					m.LEND_DATE,
 					m.APPR_DATE,--批贷时间	
-					sp.PROCESSOR_ID,
-					sp.ORG_ID,
-					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=sp.PROCESSOR_ID)	REAL_NAME,
-					(SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=sp.ORG_ID)	ORG_NAME,
+					m.LOAN_AGNET,--贷款专员id
+					m.LOAN_AGENT_TEAM,----贷款专员组织id
+					--sp.PROCESSOR_ID,
+					--sp.ORG_ID,
+					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=M.LOAN_AGNET)	REAL_NAME,
+					(SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=M.LOAN_AGENT_TEAM)	ORG_NAME,
 					(select top 1 org2.ORG_NAME orgName1	
 								from sctrans.sys_org org1
 								left join sctrans.V_USER_ORG_JOB uoj
@@ -101,7 +105,7 @@
 										'960089538bc54a9a9139ef52ceb45b33',
 										'6114AB949B4445828D4383977C4FAC71',
 										'6a84979158b942b78a8a5921cc30b8c3')
-								and org1.ID=sp.ORG_ID) ORG_ORG_NAME,
+								and org1.ID=M.LOAN_AGENT_TEAM) ORG_ORG_NAME,
 					
 						
 					--m.IS_TMP_BANK,
@@ -117,7 +121,7 @@
 					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
                 where 
 					m.is_active = '1'	
-					<ifNotNull idflag> AND 		sp.PROCESSOR_ID = #userId# 	</ifNotNull>
+					<ifNotNull idflag> AND 		M.LOAN_AGNET = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs> AND sp.ORG_ID in (#queryorgs#)     </ifNotNull>			
 				)T    
 				where 1=1
@@ -183,8 +187,8 @@
 					and T.REAL_NAME = #processorOrgId#
 				</ifNotNull>	
 				<ifNotNull organizeOrgId>
-					and T.ORG_ID = #organizeOrgId#
-				</ifNotNull>			
+					and T.LOAN_AGENT_TEAM = #organizeOrgId#
+				</ifNotNull>		
 
 				]]>
 			</baseSql>
