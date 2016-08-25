@@ -141,11 +141,11 @@
 						<label class="control-label sign_left_small"> 是否流失 </label>
 						<div class="controls">
 							<label class="radio inline"> <input type="radio"
-								value="2" checked="checked" name="isLose" id="isLoseAll"> 全部
+								value="2" checked="checked" name="isLoseLoan" id="isLoseAll"> 全部
 							</label> <label class="radio inline"> <input type="radio"
-								value="1" name="isLose"> 是
+								value="1" name="isLoseLoan"> 是
 							</label> <label class="radio inline"> <input type="radio"
-								value="0" name="isLose"> 否
+								value="0" name="isLoseLoan"> 否
 							</label>
 						</div>
 					</div>
