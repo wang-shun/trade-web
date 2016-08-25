@@ -429,7 +429,7 @@
       	LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR},      	
       </if>
       <if test="loanLostConfirmCode !=null">
-      	LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR}      	
+      	LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR},
       </if>
       <if test="loanAgent != null">
       	LOAN_AGENT = #{loanAgent,jdbcType=VARCHAR},
