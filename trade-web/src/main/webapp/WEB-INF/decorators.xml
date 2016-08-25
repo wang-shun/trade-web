@@ -57,6 +57,8 @@
 		<pattern>/case/tracking</pattern> 
 		<pattern>/unlocatedTasks</pattern> 
 		<pattern>/award/import</pattern>
+		<pattern>/unlocatedTasks/a</pattern>
+		<pattern>/awards/kjjianCase2</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
