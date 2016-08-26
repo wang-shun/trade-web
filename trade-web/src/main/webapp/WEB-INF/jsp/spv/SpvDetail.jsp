@@ -68,9 +68,9 @@
 									<dt>监管金额</dt>
 									<dd>${spvBaseInfoVO.toSpv.amount}元</dd>
 									<dt>已转入金额</dt>
-									<dd>200万元</dd>
+									<dd>200元</dd>
 									<dt>已转出金额</dt>
-									<dd>200万元</dd>
+									<dd>200元</dd>
 								</dl>
 							</div>
 							<div class="col-lg-3">
@@ -78,7 +78,7 @@
 									<dt>申请人</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：137 9541 0234">王明</a>
+											data-placement="right" data-content="手机：137 9541 0234">--</a>
 									</dd>
 									<dt>风控专员</dt>
 									<dd>
@@ -88,7 +88,7 @@
 									<dt>风控总监</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：137 9541 0234">王嘉明</a>
+											data-placement="right" data-content="手机：137 9541 0234">--</a>
 									</dd>
 								</dl>
 							</div>
@@ -180,8 +180,7 @@
 								</div>
 								<div class="media-body">
 									<strong><a>${spvBaseInfoVO.toSpv.caseCode}</a></strong><br />经办人
-									<strong>胡俊楠</strong>. <br /> <small class="text-muted">2016-06-14
-										15:30 网签</small>
+									<strong>${spvBaseInfoVO.toSpv.createBy}</strong> <br /> 
 								</div>
 							</div>
 						</div>

@@ -196,7 +196,7 @@
                                                 <a href="#"><em>申请人：</em>{{item.CREATE_BY}}</a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人：</em>{{item.CREATE_BY}}</a>
+                                                <a href="#"><em>经办人：</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"><a class="btn btn-success"
@@ -245,7 +245,7 @@
 											.val();
 											params.search_endDate=$(
 											"input[name='endDate']")
-											.val();
+											.val()+" 23:59:59";
 											params.search_prAddress=$(
 											"input[name='prAddress']")
 											.val();
