@@ -76,7 +76,7 @@
 					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
 					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=spv.case_code
                    where 1=1
-                      <if test="serviceJobCode == 'consultant' ">
+                      <if test="serviceJobCode == 'JYFKZY' ">
 			           and spv.CREATE_BY = #sessionUserId#
 			        </if>
 				]]>
