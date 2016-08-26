@@ -99,9 +99,9 @@
 					<div class="form_content" style="margin-left: 126px;">
 						<select class="form-control mend_select sign_left_small"  id="loanLostCaseListTimeSelect"
 							style="width: 105px;">
-							<option value="SIGN_DATE" selected="selected">签约时间</option>
+							<option value="SIGN_DATE" selected="selected">签约时间</option>							
+							<option value="APPR_DATE">审批时间</option>
 							<option value="LEND_DATE">放款时间</option>
-							<option value="APPR_DATE">批款时间</option>
 						</select>
 						<div class="input-group sign-right dataleft input-daterange"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
@@ -262,18 +262,40 @@
                         </td>
 
 					    <td>
-                            <p class="smll_sign">
-                                 <i class="sign_normal">签</i>
-                                      {{item.SIGN_DATE}}
+						{{if item.SIGN_DATE!=null}}
+						   <p>  
+                              <i class="sign_normal">签</i>
+                                 {{item.SIGN_DATE}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">签</i>
+                                 {{item.SIGN_DATE}}          
                            </p>
-                           <p class="smll_sign">
-                                  <i class="sign_normal">审</i>
-                                 {{item.APPR_DATE}}
-                            </p>
-                           <p class="smll_sign">
-                                  <i class="sign_normal">放</i>
-                                   {{item.LEND_DATE}}
+						{{/if}}
+
+						{{if item.APPR_DATE!=null}}
+						   <p>  
+                              <i class="sign_normal">审</i>
+                                 {{item.APPR_DATE}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">审</i>
+                                 {{item.APPR_DATE}}          
                            </p>
+						{{/if}}
+						{{if item.LEND_DATE!=null}}
+						   <p>  
+                              <i class="sign_normal">放</i>
+                                 {{item.LEND_DATE}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">放</i>
+                                 {{item.LEND_DATE}}          
+                           </p>
+						{{/if}}	
                          </td>
 						<td class="center">   
                                     {{item.CUST_NAME}}
