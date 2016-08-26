@@ -204,7 +204,7 @@
                          </p>
                         <p>
                           <i class="tag_sign">c</i>
-                                {{item.CASE_CODE}}                
+                                {{item.CTM_CODE}}                
                        </p>
 				</td>
 				<td >
