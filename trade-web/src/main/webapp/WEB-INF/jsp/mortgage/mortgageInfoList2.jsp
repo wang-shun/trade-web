@@ -264,12 +264,12 @@
 					    <td>
 						{{if item.SIGN_DATE!=null}}
 						   <p>  
-                              <i class="sign_normal">创</i>
+                              <i class="sign_normal">签</i>
                                  {{item.SIGN_DATE}}          
                           </p>
 						{{else}}
                             <p>  
-                              <i class="sign_grey">创</i>
+                              <i class="sign_grey">签</i>
                                  {{item.SIGN_DATE}}          
                            </p>
 						{{/if}}
