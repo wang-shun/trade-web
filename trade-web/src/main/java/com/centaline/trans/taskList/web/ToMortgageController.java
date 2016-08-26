@@ -23,8 +23,6 @@ import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -32,19 +30,15 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
@@ -52,10 +46,8 @@ import com.centaline.trans.mortgage.entity.MortStep;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.TsMsgSendHistory;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
-import com.centaline.trans.utils.NumberUtil;
+
 
 @Controller
 @RequestMapping(value="/task")
@@ -118,23 +110,19 @@ public class ToMortgageController {
 					mortgage.setTmpBankUpdateByStr(u.getRealName());
 				}
 			}
+			
+			mortgage.setComAmount(mortgage.getComAmount() != null ? mortgage.getComAmount()
+					.divide(new BigDecimal(10000)) : null);
+			mortgage.setMortTotalAmount(mortgage.getMortTotalAmount() != null ?mortgage.getMortTotalAmount().divide(
+					new BigDecimal(10000)):null);
+			mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount()
+					.divide(new BigDecimal(10000)) : null);
+
+			
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("查询出错！"+e.getMessage());
-		}
-		
-		//临时银行开启时不允许反选
-		ToWorkFlow twf = new ToWorkFlow();
-		twf.setBusinessKey("TempBankAudit_Process");
-		twf.setCaseCode(toMortgage.getCaseCode());
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-		if(record != null){
-			//流程已开启
-			response.setCode("1");
-		}else{
-			//流程未开启
-			response.setCode("0");
 		}
 		
         return response;
@@ -196,24 +184,12 @@ public class ToMortgageController {
 	@ResponseBody
     public AjaxResponse<String> completeMortgage(ToMortgage toMortgage,HttpServletRequest request,String check) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		
-		//如果没有选中但已经开启临时银行流程则更新工作流表状态为‘2’：非正常结束
-		if("false".equals(check)){
-			ToWorkFlow twf = new ToWorkFlow();
-			twf.setBusinessKey("TempBankAudit_Process");
-			twf.setCaseCode(toMortgage.getCaseCode());
-			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-			if(record != null){
-				record.setStatus(WorkFlowStatus.TERMINATE.getCode());
-				toWorkFlowService.updateByPrimaryKeySelective(record);
-			}
-		}
 
 		try{
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
-			/*entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
-			entity.setMortTotalAmount(NumberUtil.multiply(toMortgage.getMortTotalAmount(), new BigDecimal(10000)));
-			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));*/
+//			entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
+//			entity.setMortTotalAmount(NumberUtil.multiply(toMortgage.getMortTotalAmount(), new BigDecimal(10000)));
+//			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));
 			entity.setApprDate(toMortgage.getApprDate());
 			entity.setFormCommLoan("1");
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());
