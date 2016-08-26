@@ -263,7 +263,7 @@
 
 					    <td>
                             <p class="smll_sign">
-                                 <i class="sign_normal">贷</i>
+                                 <i class="sign_normal">签</i>
                                       {{item.SIGN_DATE}}
                            </p>
                            <p class="smll_sign">
