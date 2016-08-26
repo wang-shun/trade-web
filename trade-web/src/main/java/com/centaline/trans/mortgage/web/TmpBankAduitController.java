@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -20,7 +21,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.TmpBankStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -52,19 +53,20 @@ public class TmpBankAduitController {
 	
 	@RequestMapping("start")
 	@ResponseBody
-	public StartProcessInstanceVo startWorkFlow(String caseCode) {	
+	public AjaxResponse<String> startWorkFlow(String caseCode) {	
+		
 	ToWorkFlow twf = new ToWorkFlow();
-	twf.setBusinessKey("TempBankAudit_Process");
+	twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
 	twf.setCaseCode(caseCode);
 
 	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-	twf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+	
 	//更新贷款表临时银行状态为默认：‘’
 	ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 	String status = mortage.getTmpBankStatus();
 	
 	if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
-		return null;
+		throw new BusinessException("启动失败：流程正在运行或已经结束！");
 	}
 
 	return toMortgageService.startTmpBankWorkFlow(caseCode);

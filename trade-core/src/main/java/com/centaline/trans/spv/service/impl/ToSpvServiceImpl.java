@@ -1,6 +1,7 @@
 package com.centaline.trans.spv.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -555,7 +557,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
 		
 		//先查询流程是否已经开启，若开启则提示用户不能再次开启
+		ToWorkFlow twf = new ToWorkFlow();
+		twf.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+
+		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 		
+		if(record != null){
+			throw new BusinessException("启动失败：流程已经存在！");
+		}
 		
 		saveNewSpv(spvBaseInfoVO,user);
 
@@ -568,7 +578,7 @@ public class ToSpvServiceImpl implements ToSpvService {
     	vars.put("RiskControlDirector", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZJ").get(0).getUsername());
     	
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getSpvProcessDfKey(),spvBaseInfoVO.getToSpv().getSpvCode(),vars);
-		System.out.println(processInstance);
+
     	ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		workFlow.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
@@ -586,7 +596,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 	
 	private String createSpvCode() {
-		return uamBasedataService.nextSeqVal("SPV_CODE");
+		return uamBasedataService.nextSeqVal("SPV_CODE",new SimpleDateFormat("yyyyMM").format(new Date()));
 	}
 	
 	/**

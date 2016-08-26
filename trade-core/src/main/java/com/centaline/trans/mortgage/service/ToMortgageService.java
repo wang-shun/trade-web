@@ -93,7 +93,7 @@ public interface ToMortgageService {
 	 * @param caseCode
 	 * @return
 	 */
-	StartProcessInstanceVo startTmpBankWorkFlow(String caseCode);
+	AjaxResponse<String> startTmpBankWorkFlow(String caseCode);
 	
     /**
      * 临时银行三级审批
