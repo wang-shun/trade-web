@@ -2,10 +2,16 @@ package com.centaline.trans.spv.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,18 +19,29 @@ import org.springframework.stereotype.Service;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -32,16 +49,27 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
+import com.centaline.trans.spv.entity.ToSpvCust;
+import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
+import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.enums.CashDirectionEnum;
 import com.centaline.trans.spv.enums.SpvExceptionEnum;
 import com.centaline.trans.spv.enums.SpvTypeEnum;
 import com.centaline.trans.spv.repository.ToCashFlowMapper;
+import com.centaline.trans.spv.repository.ToSpvAccountMapper;
+import com.centaline.trans.spv.repository.ToSpvCustMapper;
 import com.centaline.trans.spv.repository.ToSpvDeCondMapper;
+import com.centaline.trans.spv.repository.ToSpvDeDetailMapper;
+import com.centaline.trans.spv.repository.ToSpvDeMapper;
 import com.centaline.trans.spv.repository.ToSpvDeRecMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
+import com.centaline.trans.spv.repository.ToSpvPropertyMapper;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -62,8 +90,8 @@ public class ToSpvServiceImpl implements ToSpvService {
     @Autowired
     private ToSpvDeRecMapper toSpvDeRecMapper;
     
-    @Autowired
-    private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private PropertyUtilsServiceImpl propertyUtilsService;
     
     @Autowired
     private ToCaseService toCaseService;
@@ -82,6 +110,30 @@ public class ToSpvServiceImpl implements ToSpvService {
 	
 	@Autowired
 	private ToApproveRecordService toApproveRecordService;
+	
+	@Autowired
+	private ProcessInstanceService processInstanceService; 
+	@Autowired
+	private TaskService taskService; 
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
+	@Autowired(required = true)
+	ToCaseInfoService toCaseInfoService;
+	@Autowired(required = true)
+	TgGuestInfoService tgGuestInfoService;
+
+	@Autowired
+	private ToSpvCustMapper toSpvCustMapper;
+	@Autowired
+	private ToSpvAccountMapper toSpvAccountMapper;
+	@Autowired
+	private ToSpvDeMapper toSpvDeMapper;
+	@Autowired
+	private ToSpvDeDetailMapper toSpvDeDetailMapper;
+	@Autowired
+	private ToSpvPropertyMapper toSpvPropertyMapper;
 	
     /**
      * 房款监管签约记录
@@ -397,6 +449,295 @@ public class ToSpvServiceImpl implements ToSpvService {
 			String endDate) {
 	
 		return toSpvMapper.countToSignByIdList(idList,startDate,endDate);
+	}
+
+	@Override
+	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
+		//生成spvCode
+		String spvCode = createSpvCode();
+
+		//保存相关信息
+		// come here ...
+		/**1.保存到‘资金监管合约’表*/
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		if(toSpv != null){
+			if(toSpv.getPkid() != null){
+				toSpv.setUpdateBy(user.getId());
+				toSpv.setUpdateTime(new Date());
+				toSpvMapper.updateByPrimaryKeySelective(toSpv);
+			}else{
+				toSpv.setCreateBy(user.getId());
+				toSpv.setCreateTime(new Date());
+				toSpv.setSpvCode(spvCode);
+				toSpvMapper.insertSelective(toSpv);
+			}		
+		}
+		/**2.保存到‘客户信息’表*/
+		List<ToSpvCust> spvCustList = spvBaseInfoVO.getSpvCustList();
+		if(spvCustList != null && !spvCustList.isEmpty()){
+			for(ToSpvCust toSpvCust:spvCustList){
+				if(toSpvCust.getPkid() != null){
+					toSpvCust.setUpdateBy(user.getId());
+					toSpvCust.setUpdateTime(new Date());
+					toSpvCustMapper.updateByPrimaryKeySelective(toSpvCust);
+				}else{	
+					toSpvCust.setCreateBy(user.getId());
+					toSpvCust.setCreateTime(new Date());
+					toSpvCust.setSpvCode(spvCode);
+					toSpvCustMapper.insertSelective(toSpvCust);
+				}
+			}
+		}
+		/**3.保存到‘资金监管出款方案’表*/
+		ToSpvDe toSpvDe = spvBaseInfoVO.getToSpvDe();
+		if(toSpvDe != null){
+			if(toSpvDe.getPkid() != null){
+				toSpvDe.setUpdateBy(user.getId());
+				toSpvDe.setUpdateTime(new Date());
+				toSpvDeMapper.updateByPrimaryKeySelective(toSpvDe);
+			}else{
+				toSpvDe.setCreateBy(user.getId());
+				toSpvDe.setCreateTime(new Date());
+				toSpvDe.setSpvCode(spvCode);
+				toSpvDeMapper.insertSelective(toSpvDe);	
+			}
+		}
+		/**4.保存到‘监管资金出入账约定’表*/
+		List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
+		if(toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()){
+			for(ToSpvDeDetail toSpvDeDetail:toSpvDeDetailList){
+				if(toSpvDeDetail.getPkid() != null){
+					toSpvDeDetail.setUpdateBy(user.getId());
+					toSpvDeDetail.setUpdateTime(new Date());
+					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+				}else{			
+					toSpvDeDetail.setCreateBy(user.getId());
+					toSpvDeDetail.setCreateTime(new Date());
+					toSpvDeDetail.setDeId(toSpvDe.getPkid());
+					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+				}
+			}
+		}	
+		/**5.保存到‘资金监管账户信息’表*/
+		List<ToSpvAccount> toSpvAccountList = spvBaseInfoVO.getToSpvAccountList();
+		if(toSpvAccountList != null && !toSpvAccountList.isEmpty()){
+			for(ToSpvAccount toSpvAccount:toSpvAccountList){
+				if(toSpvAccount.getPkid() != null){
+					toSpvAccount.setUpdateBy(user.getId());
+					toSpvAccount.setUpdateTime(new Date());
+					toSpvAccountMapper.updateByPrimaryKeySelective(toSpvAccount);
+				}else{
+					toSpvAccount.setCreateBy(user.getId());
+					toSpvAccount.setCreateTime(new Date());
+					toSpvAccount.setSpvCode(spvCode);
+					toSpvAccountMapper.insertSelective(toSpvAccount);
+				}
+			}
+		}	
+		/**6.保存到‘资金监管房屋信息’表*/
+		ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
+		if(toSpvProperty != null){
+			if(toSpvProperty.getPkid() != null){
+				toSpvProperty.setUpdateBy(user.getId());
+				toSpvProperty.setUpdateTime(new Date());
+				toSpvPropertyMapper.updateByPrimaryKeySelective(toSpvProperty);
+			}else{
+				toSpvProperty.setCreateBy(user.getId());
+				toSpvProperty.setCreateTime(new Date());
+				toSpvProperty.setSpvCode(spvCode);
+				toSpvPropertyMapper.insertSelective(toSpvProperty);
+			}
+		}
+
+	}
+	
+	@Override
+	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
+		
+		//先查询流程是否已经开启，若开启则提示用户不能再次开启
+		
+		
+		saveNewSpv(spvBaseInfoVO,user);
+
+//		ToCase te=toCaseService.findToCaseByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+//		String orgId = te.getOrgId();
+		// 查询风控专员和总监
+    	Map<String, Object> vars = new HashMap<String,Object>();
+    	String orgId = "81E586DCB7354D438A4C38C7EAFBF53E";
+    	vars.put("RiskControlOfficer", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZY").get(0).getUsername());
+    	vars.put("RiskControlDirector", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZJ").get(0).getUsername());
+    	
+    	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getSpvProcessDfKey(),spvBaseInfoVO.getToSpv().getSpvCode(),vars);
+		System.out.println(processInstance);
+    	ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		workFlow.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		workFlow.setInstCode(processInstance.getId());
+		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+		workFlow.setProcessOwner(user.getId());
+		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+		toWorkFlowService.insertSelective(workFlow);
+    	
+//    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
+//    	List<TaskVo> taskList = pageableVo.getData();
+//    	for(TaskVo task : taskList) {
+//    		taskService.complete(task.getId()+"");
+//    	}
+	}
+	
+	private String createSpvCode() {
+		return uamBasedataService.nextSeqVal("SPV_CODE");
+	}
+	
+	/**
+	 * 
+	 */
+	public SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(ServletRequest request,String caseCode){
+		/**查询拼接spvBaseInfoVO*/
+		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
+		if(StringUtils.isBlank(caseCode)){
+			return spvBaseInfoVO;
+		}
+		
+		/**查询案件相关信息*/
+		setAttribute(request,caseCode);
+		
+		/**1.toSpv*/
+		ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode);
+		if(toSpv == null || toSpv.getSpvCode() == null){
+			return spvBaseInfoVO;
+		}
+		String spvCode = toSpv.getSpvCode();
+		/**2.spvCustList*/
+		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
+		List<ToSpvCust> spvNewCustList = Arrays.asList(null,null,null,null);
+		//排序：买方->卖方->监管账户->资金方
+		for(ToSpvCust toSpvCust:spvCustList){
+			if("BUYER".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(0, toSpvCust);
+			}else if("SELLER".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(1, toSpvCust);
+			}else if("SPV".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(2, toSpvCust);
+			}else if("FUND".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(3, toSpvCust);
+			}
+		}
+		/**3.toSpvDe*/
+		ToSpvDe toSpvDe = toSpvDeMapper.selectBySpvCode(spvCode);
+		/**4.toSpvDeDetailList*/
+		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(String.valueOf(toSpvDe.getPkid()));
+		/**5.toSpvAccountList*/
+		List<ToSpvAccount> toSpvAccountList = toSpvAccountMapper.selectBySpvCode(spvCode);
+		List<ToSpvAccount> toSpvNewAccountList = Arrays.asList(null,null,null,null);
+		//排序：买方->卖方->监管账户->资金方
+		for(ToSpvAccount toSpvAccount:toSpvAccountList){
+			if("BUYER".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(0, toSpvAccount);
+			}else if("SELLER".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(1, toSpvAccount);
+			}else if("SPV".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(2, toSpvAccount);
+			}else if("FUND".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(3, toSpvAccount);
+			}
+		}
+		/**6.toSpvProperty*/
+		ToSpvProperty toSpvProperty = toSpvPropertyMapper.selectBySpvCode(spvCode);
+		
+		/**装载属性*/
+		spvBaseInfoVO.setToSpv(toSpv);
+		spvBaseInfoVO.setSpvCustList(spvNewCustList);
+		spvBaseInfoVO.setToSpvDe(toSpvDe);
+		spvBaseInfoVO.setToSpvDeDetailList(toSpvDeDetailList);
+		spvBaseInfoVO.setToSpvAccountList(toSpvNewAccountList);
+		spvBaseInfoVO.setToSpvProperty(toSpvProperty);
+		
+		return spvBaseInfoVO;	
+	}
+	
+	private void setAttribute(ServletRequest request,String caseCode) {
+		
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		// 物业信息
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		User agentUser = null;
+		// 经纪人
+		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		// 交易顾问
+		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		// 上下家
+		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+		StringBuffer seller = new StringBuffer();
+		StringBuffer sellerMobil = new StringBuffer();
+		StringBuffer buyer = new StringBuffer();
+		StringBuffer buyerMobil = new StringBuffer();
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				seller.append(guest.getGuestName());
+				sellerMobil.append(guest.getGuestPhone());
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				buyer.append(guest.getGuestName());
+				buyerMobil.append(guest.getGuestPhone());
+				buyer.append("/");
+				buyerMobil.append("/");
+			}
+		}
+
+		if (guestList.size() > 0) {
+			if (seller.length() > 1) {
+				seller.deleteCharAt(seller.length() - 1);
+				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+			}
+
+			if (buyer.length() > 1) {
+				buyer.deleteCharAt(buyer.length() - 1);
+				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+			}
+		}
+		request.setAttribute("caseCode", toCase.getCaseCode());
+		request.setAttribute("propertyAddr", toPropertyInfo.getPropertyAddr());
+		request.setAttribute("processorName", consultUser==null?"":consultUser.getRealName());
+		request.setAttribute("agentName", agentUser==null?"":agentUser.getRealName());
+		request.setAttribute("sellerName", seller.toString());
+		request.setAttribute("buyerName", buyer.toString());
+	}
+
+	
+	
+	@Override
+	public ToSpv selectByPrimaryKey(long pkid) {
+		return toSpvMapper.selectByPrimaryKey(pkid);
+	}
+
+	@Override
+	public List<ToSpvCust> findCustBySpvCode(String spvCode) {
+		return toSpvCustMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public ToSpvProperty findPropertyBySpvCode(String spvCode) {
+		return toSpvPropertyMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public List<ToSpvAccount> findAccountBySpvCode(String spvCode) {
+		return toSpvAccountMapper.selectBySpvCode(spvCode);
+	}
+
+	@Override
+	public ToSpvDe findSpvDeBySpvCode(String spvcode) {
+		return toSpvDeMapper.selectBySpvCode(spvcode);
+	}
+
+	@Override
+	public List<ToSpvDeDetail> findDeDetailByDeId(String deId) {
+		return toSpvDeDetailMapper.selectByDeId(deId);
 	}
 
 }

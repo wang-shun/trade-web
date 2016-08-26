@@ -35,7 +35,9 @@
 		<pattern>/eloan/task/eloanApply/process</pattern>
 		<pattern>/mortgage/mortgageApproveLost</pattern>
 		<pattern>/mortgageInfo/list</pattern>
-		
+		<pattern>/spv/spvList</pattern>
+		<pattern>/spv/saveHTML</pattern>
+		<pattern>/spv/spvDetail</pattern>
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->

@@ -5,27 +5,33 @@
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="SPV_CON_CODE" property="spvConCode" jdbcType="VARCHAR" />
+    <result column="SPV_INSTI" property="spvInsti" jdbcType="VARCHAR" />
+    <result column="SPV_ACCOUNT" property="spvAccount" jdbcType="VARCHAR" />
+    <result column="PRD_CODE" property="prdCode" jdbcType="VARCHAR" />
     <result column="SPV_TYPE" property="spvType" jdbcType="NVARCHAR" />
     <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
-    <result column="SPV_INSTI" property="spvInsti" jdbcType="VARCHAR" />
+    <result column="AMOUNT_OWN" property="amountOwn" jdbcType="DECIMAL" />
+    <result column="AMOUNT_MORT" property="amountMort" jdbcType="DECIMAL" />
+    <result column="AMOUNT_MORT_COM" property="amountMortCom" jdbcType="DECIMAL" />
+    <result column="AMOUNT_MORT_PSF" property="amountMortPsf" jdbcType="DECIMAL" />
     <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="NVARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.spv.entity.ToSpv" extends="BaseResultMap" >
-    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-  </resultMap>
-  
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, SPV_CODE, SPV_TYPE, AMOUNT, SPV_INSTI, SIGN_TIME
+    PKID, CASE_CODE, SPV_CODE, SPV_CON_CODE, SPV_INSTI, SPV_ACCOUNT, PRD_CODE, SPV_TYPE, 
+    AMOUNT, AMOUNT_OWN, AMOUNT_MORT, AMOUNT_MORT_COM, AMOUNT_MORT_PSF, SIGN_TIME, STATUS, 
+    REMARK, IS_DELETED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
-  <sql id="Blob_Column_List" >
-    REMARK
-  </sql>
-  
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from sctrans.T_TO_SPV
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
@@ -35,12 +41,20 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpv" >
     insert into sctrans.T_TO_SPV (PKID, CASE_CODE, SPV_CODE, 
-      SPV_TYPE, AMOUNT, SPV_INSTI, 
-      SIGN_TIME, REMARK
+      SPV_CON_CODE, SPV_INSTI, SPV_ACCOUNT, 
+      PRD_CODE, SPV_TYPE, AMOUNT, 
+      AMOUNT_OWN, AMOUNT_MORT, AMOUNT_MORT_COM, 
+      AMOUNT_MORT_PSF, SIGN_TIME, STATUS, 
+      REMARK, IS_DELETED, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{spvCode,jdbcType=VARCHAR}, 
-      #{spvType,jdbcType=NVARCHAR}, #{amount,jdbcType=DECIMAL}, #{spvInsti,jdbcType=VARCHAR}, 
-      #{signTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=LONGVARCHAR}
+      #{spvConCode,jdbcType=VARCHAR}, #{spvInsti,jdbcType=VARCHAR}, #{spvAccount,jdbcType=VARCHAR}, 
+      #{prdCode,jdbcType=VARCHAR}, #{spvType,jdbcType=NVARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{amountOwn,jdbcType=DECIMAL}, #{amountMort,jdbcType=DECIMAL}, #{amountMortCom,jdbcType=DECIMAL}, 
+      #{amountMortPsf,jdbcType=DECIMAL}, #{signTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpv" >
@@ -55,20 +69,59 @@
       <if test="spvCode != null" >
         SPV_CODE,
       </if>
+      <if test="spvConCode != null" >
+        SPV_CON_CODE,
+      </if>
+      <if test="spvInsti != null" >
+        SPV_INSTI,
+      </if>
+      <if test="spvAccount != null" >
+        SPV_ACCOUNT,
+      </if>
+      <if test="prdCode != null" >
+        PRD_CODE,
+      </if>
       <if test="spvType != null" >
         SPV_TYPE,
       </if>
       <if test="amount != null" >
         AMOUNT,
       </if>
-      <if test="spvInsti != null" >
-        SPV_INSTI,
+      <if test="amountOwn != null" >
+        AMOUNT_OWN,
+      </if>
+      <if test="amountMort != null" >
+        AMOUNT_MORT,
+      </if>
+      <if test="amountMortCom != null" >
+        AMOUNT_MORT_COM,
+      </if>
+      <if test="amountMortPsf != null" >
+        AMOUNT_MORT_PSF,
       </if>
       <if test="signTime != null" >
         SIGN_TIME,
       </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
       <if test="remark != null" >
         REMARK,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -81,20 +134,59 @@
       <if test="spvCode != null" >
         #{spvCode,jdbcType=VARCHAR},
       </if>
+      <if test="spvConCode != null" >
+        #{spvConCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvInsti != null" >
+        #{spvInsti,jdbcType=VARCHAR},
+      </if>
+      <if test="spvAccount != null" >
+        #{spvAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="prdCode != null" >
+        #{prdCode,jdbcType=VARCHAR},
+      </if>
       <if test="spvType != null" >
         #{spvType,jdbcType=NVARCHAR},
       </if>
       <if test="amount != null" >
         #{amount,jdbcType=DECIMAL},
       </if>
-      <if test="spvInsti != null" >
-        #{spvInsti,jdbcType=VARCHAR},
+      <if test="amountOwn != null" >
+        #{amountOwn,jdbcType=DECIMAL},
+      </if>
+      <if test="amountMort != null" >
+        #{amountMort,jdbcType=DECIMAL},
+      </if>
+      <if test="amountMortCom != null" >
+        #{amountMortCom,jdbcType=DECIMAL},
+      </if>
+      <if test="amountMortPsf != null" >
+        #{amountMortPsf,jdbcType=DECIMAL},
       </if>
       <if test="signTime != null" >
         #{signTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
-        #{remark,jdbcType=LONGVARCHAR},
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -107,22 +199,85 @@
       <if test="spvCode != null" >
         SPV_CODE = #{spvCode,jdbcType=VARCHAR},
       </if>
+      <if test="spvConCode != null" >
+        SPV_CON_CODE = #{spvConCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvInsti != null" >
+        SPV_INSTI = #{spvInsti,jdbcType=VARCHAR},
+      </if>
+      <if test="spvAccount != null" >
+        SPV_ACCOUNT = #{spvAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="prdCode != null" >
+        PRD_CODE = #{prdCode,jdbcType=VARCHAR},
+      </if>
       <if test="spvType != null" >
         SPV_TYPE = #{spvType,jdbcType=NVARCHAR},
       </if>
       <if test="amount != null" >
         AMOUNT = #{amount,jdbcType=DECIMAL},
       </if>
-      <if test="spvInsti != null" >
-        SPV_INSTI = #{spvInsti,jdbcType=VARCHAR},
+      <if test="amountOwn != null" >
+        AMOUNT_OWN = #{amountOwn,jdbcType=DECIMAL},
+      </if>
+      <if test="amountMort != null" >
+        AMOUNT_MORT = #{amountMort,jdbcType=DECIMAL},
+      </if>
+      <if test="amountMortCom != null" >
+        AMOUNT_MORT_COM = #{amountMortCom,jdbcType=DECIMAL},
+      </if>
+      <if test="amountMortPsf != null" >
+        AMOUNT_MORT_PSF = #{amountMortPsf,jdbcType=DECIMAL},
       </if>
       <if test="signTime != null" >
         SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
-        REMARK = #{remark,jdbcType=LONGVARCHAR},
+        REMARK = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       </if>
     </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpv" >
+    update sctrans.T_TO_SPV
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      SPV_CON_CODE = #{spvConCode,jdbcType=VARCHAR},
+      SPV_INSTI = #{spvInsti,jdbcType=VARCHAR},
+      SPV_ACCOUNT = #{spvAccount,jdbcType=VARCHAR},
+      PRD_CODE = #{prdCode,jdbcType=VARCHAR},
+      SPV_TYPE = #{spvType,jdbcType=NVARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      AMOUNT_OWN = #{amountOwn,jdbcType=DECIMAL},
+      AMOUNT_MORT = #{amountMort,jdbcType=DECIMAL},
+      AMOUNT_MORT_COM = #{amountMortCom,jdbcType=DECIMAL},
+      AMOUNT_MORT_PSF = #{amountMortPsf,jdbcType=DECIMAL},
+      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=NVARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.spv.entity.ToSpv" >
@@ -136,31 +291,21 @@
       REMARK = #{remark,jdbcType=LONGVARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpv" >
-    update sctrans.T_TO_SPV
-    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      SPV_CODE = #{spvCode,jdbcType=VARCHAR},
-      SPV_TYPE = #{spvType,jdbcType=NVARCHAR},
-      AMOUNT = #{amount,jdbcType=DECIMAL},
-      SPV_INSTI = #{spvInsti,jdbcType=VARCHAR},
-      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
   
-  <select id="queryToSpvByCaseCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="queryToSpvByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    
+   <!-- , <include refid="Blob_Column_List" /> -->
     from sctrans.T_TO_SPV
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   
-  <select id="findToSpvBySpvCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="findToSpvBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    
+    <!-- ,<include refid="Blob_Column_List" /> -->
     from sctrans.T_TO_SPV
     where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
   </select>
@@ -418,5 +563,4 @@
 	</if>
 
   </select>
-  
 </mapper>
