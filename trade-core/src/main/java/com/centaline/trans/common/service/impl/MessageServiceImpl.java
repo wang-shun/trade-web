@@ -37,6 +37,22 @@ public class MessageServiceImpl implements MessageService {
 
 		sendMessage(event,action);
 	}
+	
+	@Override
+	public void sendSpvFinishMsgByIntermi(String instanceId) {
+		// 发送消息
+		ActRuEventSubScr event = new ActRuEventSubScr();
+		event.setEventType(MessageEnum.SPV_FINISH_MSG.getEventType());
+		event.setEventName(MessageEnum.SPV_FINISH_MSG.getName());
+		event.setProcInstId(instanceId);
+		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+		
+		ExecuteAction action = new ExecuteAction();
+		action.setAction(EventTypeEnum.INTERMEDIATECATCHEVENT.getEventType());
+		action.setMessageName(MessageEnum.SPV_FINISH_MSG.getName());
+
+		sendMessage(event,action);
+	}
 
 	@Override
 	public void sendMortgageSelectMsgByBoudary(String instanceId) {

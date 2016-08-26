@@ -3,7 +3,8 @@ package com.centaline.trans.common.enums;
 public enum MessageEnum {
 	
 	START_MORTGAGE_SELECT_MSG("message","StartMortgageSelectMsg","StartMortgageSelectMsg "), 
-	MORTGAGE_FINISH_MSG("message","MortgageFinishMsg", "MortgageFinishMsg");
+	MORTGAGE_FINISH_MSG("message","MortgageFinishMsg", "MortgageFinishMsg"),
+	SPV_FINISH_MSG("message","SpvFinishMsg", "SpvFinishMsg");
 
 	private String eventType;
 

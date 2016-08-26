@@ -52,7 +52,13 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	
 	@Value("${process.df.key.Eloan_Process}")
 	private String processEloanDfKey;
-
+	
+	@Value("${process.df.key.Spv_Process}")
+	private String spvProcessDfKey;
+	
+	public String getSpvProcessDfKey() {
+		return spvProcessDfKey;
+	}
 	public String getProcessTmpBankAuditDfKey() {
 		return processTmpBankAuditDfKey;
 	}

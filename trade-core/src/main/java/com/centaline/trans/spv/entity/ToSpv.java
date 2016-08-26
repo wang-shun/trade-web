@@ -10,15 +10,41 @@ public class ToSpv {
 
     private String spvCode;
 
+    private String spvConCode;
+
+    private String spvInsti;
+
+    private String spvAccount;
+
+    private String prdCode;
+
     private String spvType;
 
     private BigDecimal amount;
 
-    private String spvInsti;
+    private BigDecimal amountOwn;
+
+    private BigDecimal amountMort;
+
+    private BigDecimal amountMortCom;
+
+    private BigDecimal amountMortPsf;
 
     private Date signTime;
 
+    private String status;
+
     private String remark;
+
+    private String isDeleted;
+
+    private Date createTime;
+
+    private String createBy;
+
+    private Date updateTime;
+
+    private String updateBy;
 
     public Long getPkid() {
         return pkid;
@@ -44,6 +70,38 @@ public class ToSpv {
         this.spvCode = spvCode == null ? null : spvCode.trim();
     }
 
+    public String getSpvConCode() {
+        return spvConCode;
+    }
+
+    public void setSpvConCode(String spvConCode) {
+        this.spvConCode = spvConCode == null ? null : spvConCode.trim();
+    }
+
+    public String getSpvInsti() {
+        return spvInsti;
+    }
+
+    public void setSpvInsti(String spvInsti) {
+        this.spvInsti = spvInsti == null ? null : spvInsti.trim();
+    }
+
+    public String getSpvAccount() {
+        return spvAccount;
+    }
+
+    public void setSpvAccount(String spvAccount) {
+        this.spvAccount = spvAccount == null ? null : spvAccount.trim();
+    }
+
+    public String getPrdCode() {
+        return prdCode;
+    }
+
+    public void setPrdCode(String prdCode) {
+        this.prdCode = prdCode == null ? null : prdCode.trim();
+    }
+
     public String getSpvType() {
         return spvType;
     }
@@ -60,12 +118,36 @@ public class ToSpv {
         this.amount = amount;
     }
 
-    public String getSpvInsti() {
-        return spvInsti;
+    public BigDecimal getAmountOwn() {
+        return amountOwn;
     }
 
-    public void setSpvInsti(String spvInsti) {
-        this.spvInsti = spvInsti == null ? null : spvInsti.trim();
+    public void setAmountOwn(BigDecimal amountOwn) {
+        this.amountOwn = amountOwn;
+    }
+
+    public BigDecimal getAmountMort() {
+        return amountMort;
+    }
+
+    public void setAmountMort(BigDecimal amountMort) {
+        this.amountMort = amountMort;
+    }
+
+    public BigDecimal getAmountMortCom() {
+        return amountMortCom;
+    }
+
+    public void setAmountMortCom(BigDecimal amountMortCom) {
+        this.amountMortCom = amountMortCom;
+    }
+
+    public BigDecimal getAmountMortPsf() {
+        return amountMortPsf;
+    }
+
+    public void setAmountMortPsf(BigDecimal amountMortPsf) {
+        this.amountMortPsf = amountMortPsf;
     }
 
     public Date getSignTime() {
@@ -76,11 +158,59 @@ public class ToSpv {
         this.signTime = signTime;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted == null ? null : isDeleted.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy == null ? null : updateBy.trim();
     }
 }
