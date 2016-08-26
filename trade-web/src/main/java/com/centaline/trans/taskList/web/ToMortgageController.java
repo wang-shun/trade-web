@@ -125,8 +125,20 @@ public class ToMortgageController {
 					new BigDecimal(10000)):null);
 			mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount()
 					.divide(new BigDecimal(10000)) : null);
-
 			
+			//临时银行开启时不允许反选
+			ToWorkFlow twf = new ToWorkFlow();
+			twf.setBusinessKey("TempBankAudit_Process");
+			twf.setCaseCode(toMortgage.getCaseCode());
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			if(record != null){
+				//流程已开启
+				response.setCode("1");
+			}else{
+				//流程未开启
+				response.setCode("0");
+			}
+	
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
