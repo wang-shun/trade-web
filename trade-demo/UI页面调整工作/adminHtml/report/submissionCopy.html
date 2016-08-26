@@ -23,6 +23,11 @@
     <link rel="stylesheet" href="../static/trans/css/common/table.css">
     <link rel="stylesheet" href="../static/trans/css/report/report.css">
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+
+
+
+
+
 </head>
 
 <body>
@@ -504,14 +509,15 @@
             <!-- main Start -->
             <div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
                 <ul class="nav navbar-nav">
-                    <li class="menuItem active"><a href="#reportOne">关联交易单</a></li>
-                    <li class="menuItem"><a href="#reportTwo">贷款申请信息</a></li>
-                    <li class="menuItem"><a href="#reportThree">借款人信息填写</a></li>
+                    <li class="menuItem active"><a href="#reportOne">贷款申请信息</a></li>
+                    <li class="menuItem"><a href="#reportTwo">借款人信息填写</a></li>
+                    <li class="menuItem"><a href="#reportThree">卖方接受/房款卡信息</a></li>
                     <li class="menuItem"><a href="#reportFour">担保人信息</a></li>
-                    <li class="menuItem"><a href="#reportFive">申请材料</a></li>
+                    <li class="menuItem"><a href="#reportFive">买房个人信息</a></li>
+                    <li class="menuItem"><a href="#reportSix">打款信息</a></li>
                 </ul>
                 <div class="menu_btn" style="margin-left: 850px;margin-top: 7px;">
-                    <button class="btn btn-save">保存</button>
+                    <button class="btn btn-success">保存</button>
                 </div>
             </div>
             <div class="row">
@@ -589,8 +595,6 @@
                                 </table>
                             </div>
                         </form>
-                    </div>
-                    <div class="ibox-content" id="reportTwo">
                         <form method="get" class="form_list">
                             <div class="title">
                                 申请表单填写
@@ -645,6 +649,15 @@
                                     </span>
                                 </div>
                                 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        占总房价比例
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" value="" readonly />
+                                    <span class="date_icon">
+                                       %
+                                    </span>
+                                </div>
+                                <div class="form_content">
                                     <label class="control-label sign_left_small" >
                                         借款期限
                                     </label>
@@ -657,148 +670,21 @@
                                     </select>
                                 </div>
                             </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                出售房屋信息
-                            </div>
-
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        房屋实际价格
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        出售房屋合同价
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        出售房屋地址
-                                    </label>
-                                    <input type="text" class="select_control" style="width: 255px;" value=""  />
-                                </div>
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        出售房屋产权人
-                                    </label>
-                                    <input type="text" class="select_control sign_right_one" />
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        已收首付款总额
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        买方姓名
-                                    </label>
-                                    <input type="text" class="select_control sign_right_one" />
-                                </div>
-
-                            </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                出售房屋贷款结清
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label" style="margin-right:10px;">
-                                        按揭贷款待还金额
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label" style="margin-right:10px;">
-                                        自筹赎楼款总额
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                出售房屋按揭贷款
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label" style="margin-right:10px;">
-                                        应收按揭贷款总额
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                购买房屋信息
-                            </div>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small" >
-                                        购买房屋合同价
+                                        借款用途
                                     </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small" >
-                                        房屋实际成交价
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small" >
-                                        购买首付款总额
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        购买房屋地址
-                                    </label>
-                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                    <select name="" id="" class="select_control sign_right_one">
+                                        <option value="">请选择</option>
+                                        <option value="">结婚</option>
+                                        <option value="">税费</option>
+                                        <option value="">购车</option>
+                                        <option value="">学习进修</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="ibox-content" id="reportThree">
                         <form method="get" class="form_list">
                             <div class="title">
                                 借款人个人信息
@@ -817,55 +703,16 @@
                                     <input type="text" class="select_control sign_right_one" value="" readonly />
                                 </div>
                                 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        年龄
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 135px;" />
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
                                     <label class="control-label sign_left_small" >
-                                        婚姻状况
-                                    </label>
-                                    <select name="" id="" class="select_control sign_right_one">
-                                        <option value="">已婚</option>
-                                        <option value="">未婚</option>
-                                        <option value="">离异</option>
-                                        <option value="">丧偶</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        公积金账号
-                                    </label>
-                                    <input type="text" class="select_control sign_right_one" />
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        个人月收入
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        工作单位名称
-                                    </label>
-                                    <input type="text" class="select_control" value="" style="width: 255px;" />
-                                </div>
-                            </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                借款人配偶信息
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        姓名
-                                    </label>
-                                    <input type="text" class="select_control sign_right_one" />
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        手机号码
+                                        身份证
                                     </label>
                                     <input type="text" class="select_control sign_right_one" value="" readonly />
                                 </div>
@@ -880,6 +727,15 @@
                                         <option value="">丧偶</option>
                                     </select>
                                 </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        性别
+                                    </label>
+                                    <select name="" id="" class="select_control" style="width: 135px;">
+                                        <option value="">男</option>
+                                        <option value="">女</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="line">
                                 <div class="form_content">
@@ -890,16 +746,13 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        个人月收入
+                                        邮政编码
                                     </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
+                                    <input type="text" class="select_control sign_right_one" value="" readonly />
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        工作单位名称
+                                        现居住地址
                                     </label>
                                     <input type="text" class="select_control" value="" style="width: 255px;" />
                                 </div>
@@ -907,12 +760,26 @@
                         </form>
                         <form method="get" class="form_list">
                             <div class="title">
-                                联系人信息
+                                借款人联系人信息
                             </div>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        联系人姓名
+                                        直系亲属姓名
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" />
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        手机号码
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" />
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        其他联系人姓名
                                     </label>
                                     <input type="text" class="select_control sign_right_one" />
                                 </div>
@@ -927,6 +794,145 @@
                                         手机号码
                                     </label>
                                     <input type="text" class="select_control sign_right_one" />
+                                </div>
+                            </div>
+                        </form>
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                借款人配偶信息
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        姓名
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        性别
+                                    </label>
+                                    <select name="" id="" class="select_control sign_right_one" >
+                                        <option value="">男</option>
+                                        <option value="">女</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        年龄
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 135px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        婚姻状况
+                                    </label>
+                                    <select name="" id="" class="select_control sign_right_one">
+                                        <option value="">已婚</option>
+                                        <option value="">未婚</option>
+                                        <option value="">离异</option>
+                                        <option value="">丧偶</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        手机号码
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" value="" >
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        户籍所在地
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        学历
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        身份证号码
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        居住地址
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        公积金账号
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        单位电话
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        单位地址
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                            </div>
+                        </form>
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                借款人职业信息（选填）
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        工作单位名称
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        单位座机
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        个人月收入
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
+                                    <span class="date_icon">
+                                       元
+                                    </span>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        其他收入
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
+                                    <span class="date_icon">
+                                       元
+                                    </span>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        其他收入来源
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
                                 </div>
                             </div>
                         </form>
@@ -979,11 +985,194 @@
                                 <a href="javascript:void(0)" style="margin-left:126px;" class="btn btn-success" onclick="getAtr(this)">添加</a>
                             </div>
                         </form>
+
+                    </div>
+                    <div class="ibox-content" id="reportTwo">
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                出售房屋信息（赎楼、全款、换房、委托）
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        房屋产权人
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" />
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        房屋地址
+                                    </label>
+                                    <input type="text" class="select_control" style="width: 255px;" value=""  />
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        房屋实际价格
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        房屋合同价格
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        已收首付款总额
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                出售房屋按揭贷款
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label" style="margin-right:10px;">
+                                        应收按揭贷款总额
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                出售房屋贷款结清情况（赎楼）
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label" style="margin-right:10px;">
+                                        按揭贷款待还金额
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                购买房屋信息（首付、换房、委托）
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        购房状态
+                                    </label>
+                                    <select name="" id="" class="select_control sign_right_one">
+                                        <option value="">已婚</option>
+                                        <option value="">未婚</option>
+                                        <option value="">离异</option>
+                                        <option value="">丧偶</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        购买房屋面积
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       平方米
+                                    </span>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        现居住地址
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        购买房屋总价
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        实际成交价
+                                    </label>
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
+                                    <span class="date_icon">
+                                       万
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ibox-content" id="reportThree">
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                卖方接受/还贷卡信息
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        按揭账户姓名
+                                    </label>
+                                    <input type="text" placeholder="选填" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        按揭银行卡号
+                                    </label>
+                                    <input type="text" placeholder="选填" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        按揭所在银行
+                                    </label>
+                                    <input type="text" placeholder="选填" style="width: 255px;" class="select_control sign_right_one">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label" style="margin-right:10px;">
+                                        接受贷款账户姓名
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label" style="margin-right:10px;">
+                                        接受贷款银行卡号
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label" style="margin-right:10px;">
+                                         接受贷款所在银行
+                                    </label>
+                                    <input type="text" style="width: 255px;" class="select_control sign_right_one">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="ibox-content" id="reportFour">
                         <form method="get" class="form_list">
                             <div class="title">
-                                担保人
+                                担保人信息
                             </div>
                             <div class="line">
                                 <div class="form_content">
@@ -994,13 +1183,93 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        手机号码
+                                        性别
                                     </label>
-                                    <input type="text" class="select_control sign_right_one" value="" readonly="">
+                                    <select name="" id="" class="select_control sign_right_one">
+                                        <option value="">男</option>
+                                        <option value="">女</option>
+                                    </select>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        公积金账号
+                                        年龄
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 135px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        婚姻状况
+                                    </label>
+                                    <select name="" id="" class="select_control sign_right_one">
+                                        <option value="">已婚</option>
+                                        <option value="">未婚</option>
+                                        <option value="">离异</option>
+                                        <option value="">丧偶</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        手机号码
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        户籍所在地
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" style="width: 255px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        学历
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        身份证号码
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        居住地址
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" style="width: 255px;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ibox-content" id="reportFive">
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                买方个人信息
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        买方姓名
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        婚姻状况
+                                    </label>
+                                    <select name="" id="" class="select_control sign_right_one">
+                                        <option value="">已婚</option>
+                                        <option value="">未婚</option>
+                                        <option value="">离异</option>
+                                        <option value="">丧偶</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        手机号码
                                     </label>
                                     <input type="text" class="select_control sign_right_one">
                                 </div>
@@ -1008,23 +1277,38 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        个人月收入
+                                        身份证
                                     </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one">
-                                    <span class="date_icon">
-                                       万
-                                    </span>
+                                    <input type="text" class="select_control sign_right_one">
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="ibox-content" id="reportFive">
-
-
+                    <div class="ibox-content" id="reportSix">
+                        <form method="get" class="form_list">
+                            <div class="title">
+                                打款信息
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        还款人
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        打款对象
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one">
+                                </div>
+                            </div>
+                        </form>
                         <div class="title">
                             申请材料
                         </div>
-                        <form class="form_list table-capital">
+                        <form method="get" class="form_list table-capital">
+                            <form class="form-inline table-capital">
                             <div class="table-box">
                                 <table class="table table-bordered customerinfo">
                                     <thead>
@@ -1062,12 +1346,11 @@
                                 </table>
                             </div>
                         </form>
+                        </form>
                         <div class="form-btn">
                             <button type="submit" class="btn btn-success">提交申请</button>
                             <button type="btn" class="btn btn-grey" data-toggle="modal" data-target="#myModal">取消</button>
                         </div>
-                    </div>
-                    <div class="ibox-content" style="height:250px;background:#f3f3f4;border-top:none;">
                     </div>
                 </div>
             </div>
@@ -1080,7 +1363,7 @@
                             <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="btn btn-save">确认保存</button>
+                            <button type="button" class="btn btn-primary">确认保存</button>
                             <button type="button" class="btn btn-success">我要删除</button>
                             <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
                         </div>

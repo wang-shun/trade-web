@@ -39,6 +39,22 @@
 .btn-left {
     margin-left: 8px;
 }
+.btn-default {
+    color: #428fcc;
+    background-color: #e4e4e4;
+    border-color: #e4e4e4;
+}
+.btn-save {
+    background:#f784a5;
+    color:#fff;
+}
+.btn-save:hover {
+    background:#f784a5;
+    color:#f3f3f3;
+}
+.text_white,.text_white:focus, .text_white:hover {
+  color:#fff;
+}
 .table thead tr th {
     background-color: #4bccec;
     font-size: 14px;
