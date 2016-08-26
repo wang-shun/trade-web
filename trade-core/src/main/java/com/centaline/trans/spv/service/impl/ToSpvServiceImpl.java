@@ -554,18 +554,22 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
 		
+		//先查询流程是否已经开启，若开启则提示用户不能再次开启
+		
+		
 		saveNewSpv(spvBaseInfoVO,user);
 
-		ToCase te=toCaseService.findToCaseByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-		String orgId = te.getOrgId();
+//		ToCase te=toCaseService.findToCaseByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+//		String orgId = te.getOrgId();
 		// 查询风控专员和总监
-	  	//User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "");
     	Map<String, Object> vars = new HashMap<String,Object>();
-    	vars.put("RiskControlOfficer", uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "JYFKZY"));
-    	vars.put("RiskControlDirector", uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "JYFKZJ"));
+    	String orgId = "81E586DCB7354D438A4C38C7EAFBF53E";
+    	vars.put("RiskControlOfficer", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZY").get(0).getUsername());
+    	vars.put("RiskControlDirector", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZJ").get(0).getUsername());
     	
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getSpvProcessDfKey(),spvBaseInfoVO.getToSpv().getSpvCode(),vars);
-		ToWorkFlow workFlow = new ToWorkFlow();
+		System.out.println(processInstance);
+    	ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		workFlow.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
@@ -574,11 +578,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
     	
-    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
-    	List<TaskVo> taskList = pageableVo.getData();
-    	for(TaskVo task : taskList) {
-    		taskService.complete(task.getId()+"");
-    	}
+//    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
+//    	List<TaskVo> taskList = pageableVo.getData();
+//    	for(TaskVo task : taskList) {
+//    		taskService.complete(task.getId()+"");
+//    	}
 	}
 	
 	private String createSpvCode() {
@@ -704,6 +708,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		request.setAttribute("buyerName", buyer.toString());
 	}
 
+	
+	
 	@Override
 	public ToSpv selectByPrimaryKey(long pkid) {
 		return toSpvMapper.selectByPrimaryKey(pkid);

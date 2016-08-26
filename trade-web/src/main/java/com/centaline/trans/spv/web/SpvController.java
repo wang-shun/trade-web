@@ -206,10 +206,6 @@ public class SpvController {
     
     /**
      * 保存资金监管签约
-     * @param toSpv
-     * @param toSpvDeCondList
-     * @param delIds
-     * @return
      */
     @RequestMapping(value="saveNewSpv")
     @ResponseBody
@@ -230,10 +226,6 @@ public class SpvController {
     
     /**
      * 保存资金监管签约
-     * @param toSpv
-     * @param toSpvDeCondList
-     * @param delIds
-     * @return
      */
     @RequestMapping(value="submitNewSpv")
     @ResponseBody

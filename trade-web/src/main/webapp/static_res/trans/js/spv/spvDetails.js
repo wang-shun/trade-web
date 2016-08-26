@@ -36,11 +36,11 @@ $(document).ready(function(){
 		function getAtr(i) {
 		$str = '';
 		$str += "<tr align='center'>";
-		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].deCondCode' value=''>买方贷款审批完成</option></select></td>";
-		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value='1'>资金方</option><option name='toSpvDeDetailList["+(sum+1)+"].payeeAccountId' value='2'>卖方</option></select></td>";
+		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+sum+"].deCondCode' value=''>买方贷款审批完成</option></select></td>";
+		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+sum+"].payeeAccountId' value='1'>资金方</option><option name='toSpvDeDetailList["+sum+"].payeeAccountId' value='2'>卖方</option></select></td>";
 		
-		$str += "<td><input name='toSpvDeDetailList["+(sum+1)+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
-		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+(sum+1)+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
+		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
+		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
 		$str += "</tr>";
 		$("#addTr").append($str);
@@ -50,6 +50,9 @@ $(document).ready(function(){
 		function getDel(k) {
 		$(k).parents('tr').remove();
 		sum--;
+		if(sum == 0){
+			$('#example').show();
+		}
 		$("#sum").html(sum);
 	}
 
@@ -104,7 +107,6 @@ $(document).ready(function(){
       			}
      		}
      	  }); 
-     	 console.log(JSON.stringify(totalArr));
 
      	  $.ajax({
        		url:ctx+"/spv/saveNewSpv",
@@ -113,23 +115,30 @@ $(document).ready(function(){
        		data:totalArr,	        				        		    
        		success:function(data){
        			alert(data.message);
-       		}
+       		},  	 
+    	    error : function(errors) {
+				alert("数据保存出错:"+JSON.stringify(errors));
+			}
      	 
         });
      });
        
        $("#submitBtn").click(function(){
-    	  var totalArr = [];
-    	  $("form").each(function(){
+    	 //保存时必须选择关联案件，监管总金额，监管机构
+     	  if(!checkFormSave()){
+     		  return;
+     	  }
+      	  var totalArr = [];
+      	  $("form").each(function(){
       		 var obj = $(this).serializeArray();
       		for(var i in obj){
       			if(obj[i].name.indexOf('idValiDate') != '-1'){
-      				//匹配yyyy-MM-DD格式
+       				//匹配yyyy-MM-DD格式
       				obj[i].value += '-01';
-      				totalArr.push(obj[i]);
-      			}else{
-          			totalArr.push(obj[i]);
-      			}
+       				totalArr.push(obj[i]);
+       			}else{
+           			totalArr.push(obj[i]);
+       			}
       		}
       	  });
     	  
@@ -140,9 +149,13 @@ $(document).ready(function(){
       		data:totalArr,   		        				        		    
       		success:function(data){
       			alert(data.message);
-      			if(data.content != null && data.content != ""){
-      				 window.location.href="${ctx}/spv/spvList";
-      			}
+				 if(window.opener)
+			     {
+					 window.close();
+					 window.opener.callback();
+			     } else {
+			    	 window.location.href = "spvList";
+			     }	 
       		}  	 
        });
      });

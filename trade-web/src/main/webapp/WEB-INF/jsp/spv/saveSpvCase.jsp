@@ -45,7 +45,7 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div id="wrapper">
-	    <!-- 流程相关 -->
+	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
@@ -110,7 +110,7 @@
                                         <form action="" class="form_list clearfix">
                                             <div class="form_tan">
                                                 <label class="control-label sign_left">
-                                                    产证地址
+                                                                                                                                         产证地址
                                                 </label>
                                                 <input class="sign_right input_type" placeholder="请输入" value="" id="propertyAddr" name="propertyAddr">
                                             </div>
@@ -546,6 +546,15 @@
 								<tbody id="addTr">
 								  <input type="hidden" id="toSpvDeDetailListSize" value="${fn:length(spvBaseInfoVO.toSpvDeDetailList)}" />
 								  <input type="hidden" name="ToSpvDe.pkid" value="${spvBaseInfoVO.toSpvDe.pkid}" />
+								  <%-- 默认显示一行，方便用户添加 --%>
+								  <tr id="example" align="center">
+										<td class="text-left"></td>
+										<td class="text-left"></td>
+										<td></td>
+										<td class="text-left"></td>
+										<td align="center"><a href="javascript:void(0)" class="btn btn-warning"
+											onClick="javascript:getAtr(this);$('#example').hide();">添加约定</span></a>
+									</tr>
 								  <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
 									<tr align="center">
 									    <input type="hidden" name="toSpvDeDetailList[${status.index }].pkid" value="${toSpvDeDetail.pkid }" />
@@ -569,28 +578,28 @@
 							<div class="form-btn">
 							<c:if test="${role eq 'RiskDirector' }">
 							    <div>
-									<button id="riskDirectorApproveY" type="submit" class="btn btn-success">通过</button>
-									<button id="riskDirectorApproveN"  type="submit" class="btn btn-success">驳回</button>
+									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
+									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
 								</div>
 							</c:if>
 							
 							<c:if test="${role eq 'RiskOfficer' }">
 							    <div>
-									<button id="riskOfficerApply" type="submit" class="btn btn-success">提交申请</button>
-									<button type="submit" class="btn btn-default">取消</button>
+									<a id="riskOfficerApply"class="btn btn-success">提交申请</a>
+									<a type="submit" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
 							<c:if test="${role eq 'RiskOfficer2' }">
 							    <div>
-									<button id="RiskOfficer2Sign" type="submit" class="btn btn-success">签约</button>
+									<a id="RiskOfficer2Sign" class="btn btn-success">签约</a>
 								</div>
 							</c:if>
 							
 							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' and role ne 'RiskOfficer2' }">
 							    <div>
-									<button id="submitBtn" type="submit" class="btn btn-success">提交申请</button>
-									<button type="submit" class="btn btn-default">取消</button>
+									<a id="submitBtn" class="btn btn-success">提交申请</a>
+									<a type="submit" class="btn btn-default">取消</a>
 								</div>
 							</c:if>		
 							</div>
