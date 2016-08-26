@@ -17,6 +17,16 @@
   right: 6px;
 }
 
+.btn-save {
+  background: #f784a5;
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: #f784a5;
+  color: #f3f3f3;
+}
+
 .btn-grey {
   background: #eee;
   color: #1c84c6;
