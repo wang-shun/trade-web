@@ -529,7 +529,7 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 
 	 select 
 	 	sum(tf.EVAL_FEE) as evalFee,
-	 	(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 else sum(ts.REAL_PRICE/1000) end) *100)as efConvRate 
+	 	(sum(tf.EVAL_FEE)/ (case when sum(ts.CON_PRICE/1000)=0 then 0.001 else sum(ts.CON_PRICE/1000) end) *100)as efConvRate 
 	 from 
 	 	sctrans.T_TO_EVA_FEE_RECORD as tf 
 	 left join 
