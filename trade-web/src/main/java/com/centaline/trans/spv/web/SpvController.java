@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -51,7 +53,8 @@ public class SpvController {
 	
 	@Autowired
 	private UamSessionService uamSessionService;
-	
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToCaseService toCaseService;
 	 
@@ -85,7 +88,7 @@ public class SpvController {
 	 * @return
 	 */
 	@RequestMapping("spvDetail")
-	public String SpvDetail(long pkid,String CaseCode ,ServletRequest request){
+	public String SpvDetail(long pkid ,ServletRequest request){
 /*		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
 		//合约基本信息
 
@@ -100,14 +103,19 @@ public class SpvController {
 		List<ToSpvAccount> accounts=toSpvService.findAccountBySpvCode(spv.getSpvCode());
 		baseInfoVO.setToSpvAccountList(accounts);
 		*/
-		/*ToSpv spv= toSpvService.selectByPrimaryKey(pkid);*/
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,CaseCode);
-		SessionUser user=uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getCreateBy());
+		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,spv.getCaseCode());
+		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
 		String name=user.getRealName();
 		String phone=user.getMobile();
 		spvBaseInfoVO.getToSpv().setCreateBy(name);
+		//经办人
+		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
+		//人物信息
+		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
+		request.setAttribute("jingban", jingban.getRealName());
 		return "spv/SpvDetail";
 	}
 	

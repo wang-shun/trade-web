@@ -180,7 +180,7 @@
 								</div>
 								<div class="media-body">
 									<strong><a>${spvBaseInfoVO.toSpv.caseCode}</a></strong><br />经办人
-									<strong>${spvBaseInfoVO.toSpv.createBy}</strong> <br /> 
+									<strong>${jingban}</strong> <br /> 
 								</div>
 							</div>
 						</div>

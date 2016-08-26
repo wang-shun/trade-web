@@ -193,14 +193,14 @@
                                         </td>
                                         <td class="center">
                                             <span class="manager">
-                                                <a href="#"><em>申请人：</em>{{item.CREATE_BY}}</a>
+                                                <a href="#"><em>申请人：--</em></a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人：</em></a>
+                                                <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"><a class="btn btn-success"
-                                           href="${ctx}/spv/spvDetail?pkid={{item.PKID}}&CaseCode={{item.CASE_CODE}}">查看</a>
+                                           href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">查看</a>
                                         </td>
                                     </tr>
 			{{/each}}          
