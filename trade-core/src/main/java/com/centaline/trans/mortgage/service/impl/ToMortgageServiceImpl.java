@@ -236,12 +236,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					}
 				}
 			}
-			mort.setComAmount(mort.getComAmount() != null ? mort.getComAmount()
+/*			mort.setComAmount(mort.getComAmount() != null ? mort.getComAmount()
 					.divide(new BigDecimal(10000)) : null);
 			mort.setMortTotalAmount(mort.getMortTotalAmount() != null ?mort.getMortTotalAmount().divide(
 					new BigDecimal(10000)):null);
 			mort.setPrfAmount(mort.getPrfAmount() != null ? mort.getPrfAmount()
 					.divide(new BigDecimal(10000)) : null);
+					*/
 			mort.setToSupDocu(toSupDocu);
 
 			return mort;
