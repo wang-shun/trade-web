@@ -1279,7 +1279,7 @@ public class CaseDetailController {
 		if(toWorkFlow != null){
 			TaskHistoricQuery query =new TaskHistoricQuery();
 			query.setFinished(true);
-			query.setTaskDefinitionKey("MortgageSelect");
+			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
 			query.setProcessInstanceId(toWorkFlow.getInstCode());
 			PageableVo pageableVo=workFlowManager.listHistTasks(query);
 			

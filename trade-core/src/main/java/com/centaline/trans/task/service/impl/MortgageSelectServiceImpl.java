@@ -21,6 +21,7 @@ import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.EventTypeEnum;
 import com.centaline.trans.common.enums.MessageEnum;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
@@ -252,7 +253,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		} else {
 			TaskHistoricQuery query =new TaskHistoricQuery();
 			query.setFinished(true);
-			query.setTaskDefinitionKey("MortgageSelect");
+			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
 			query.setProcessInstanceId(vo.getProcessInstanceId());
 			PageableVo pageableVo=workFlowManager.listHistTasks(query);
 			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){

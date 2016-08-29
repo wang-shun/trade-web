@@ -15,6 +15,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -63,7 +64,7 @@ public class MortgageSelectController {
 		if(vo!=null &&"operation_process:49:695144".compareTo(vo.getProcessInstanceId())<=0){
 			TaskHistoricQuery query =new TaskHistoricQuery();
 			query.setFinished(true);
-			query.setTaskDefinitionKey("MortgageSelect");
+			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
 			query.setProcessInstanceId(vo.getProcessInstanceId());
 			PageableVo pageableVo=workFlowManager.listHistTasks(query);
 			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
