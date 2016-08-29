@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>\
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
 <head>
@@ -34,8 +34,8 @@
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
+<link rel="stylesheet" href="${ctx}/css/tmpBank/input.css" />
+<link rel="stylesheet" href="${ctx}/css/tmpBank/iconfont/iconfont.css">
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
@@ -116,7 +116,26 @@ text-decoration: underline !important;
                                     <input type="text" class="form-control pull-left" id="propertyAddr">
                                 </div>
                             </div>
-                           <button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>
+                        </div>
+                        <div class="row clearfix">
+                        	 <div class="form_content">
+                                <label class="sign_left control-label">
+                                    	贵宾服务中心
+                                </label>
+                                <div class="sign_right teamcode">
+                                    <input type="text" class="teamcode form-control" id="guestServiceCenter"
+                                    onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"/>
+                                    <input type="hidden" id="groupParentID" />
+                                    <input type="hidden" value="${serviceDepId}"/>
+                                    
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        	<button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>
                         </div>
 					</form>
 				</div>
@@ -303,7 +322,7 @@ text-decoration: underline !important;
 					</tr>
 		{{/each}}
 </script> 
-
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
 <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
@@ -320,6 +339,7 @@ function loadUser(){
        			postData: userQuery
        		}).trigger('reloadGrid');
 }
+
 $(document).ready(function() {
 	 /*加载排序查询组件*/
 	aist.sortWrapper({
@@ -347,18 +367,23 @@ function packgeData(page){
      		var propertyAddr = $.trim($('#propertyAddr').val());
      		var caseCode = $.trim($('#caseCode').val());
      		var ctmCODE = $.trim($('#ctmCODE').val());
+     		var groupParentID = $("#groupParentID").val();
+     		
      	    data1.rows = 5;
      	     if(!page) {
      	    	 data1.page = 1;
      	    } else {
      	    	data1.page = page;
-     	    }       
+     	    }   
+     	     
      	    data1.argu_candidateId = "${candidateId}";
      	    data1.argu_mOrgId="${orgId}";
      	    data1.argu_managerFlag="${managerFlag}";
      	    data1.argu_caseCode=caseCode;
      	    data1.argu_propertyAddr=propertyAddr;
      	    data1.argu_ctmCODE=ctmCODE;
+     	    data1.groupParentID = groupParentID;
+     	    
      	    return data1;
 }
 function fetchData(p){

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.extint.web.vo.ResponseVo;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -21,12 +23,26 @@ public class UnlocatedTaskContorller {
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private UamSessionService uamSesstionService;
+	
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	@RequestMapping()
 	public String unlocatedTask(HttpServletRequest request) {
 		SessionUser user = uamSesstionService.getSessionUser();
 		String jobCode = user.getServiceJobCode();
 		request.setAttribute("candidateId", user.getUsername());
+		
+		if ("yucui_team".equals(user.getServiceDepHierarchy())) {
+			Org currentOrg = uamUserOrgService.getOrgById(user.getServiceCompanyId());
+			Org parentOrg = uamUserOrgService.getOrgById(currentOrg.getParentId());
+			
+			request.setAttribute("serviceDepId", parentOrg.getId());
+		}
+		else {
+			request.setAttribute("serviceDepId",user.getServiceCompanyId());
+		}
+		
 		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
 			request.setAttribute("managerFlag", "1");
 		} else {
