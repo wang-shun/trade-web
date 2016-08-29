@@ -19,5 +19,7 @@ public interface ToSpvDeDetailMapper {
 
     int updateByPrimaryKey(ToSpvDeDetail record);
     
-    List<ToSpvDeDetail> selectByDeId(String deId);
+    List<ToSpvDeDetail> selectByDeId(Long deId);
+
+	int deleteAll();
 }

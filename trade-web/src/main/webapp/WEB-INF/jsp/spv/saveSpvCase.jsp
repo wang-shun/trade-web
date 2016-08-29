@@ -546,33 +546,36 @@
 								<tbody id="addTr">
 								  <input type="hidden" id="toSpvDeDetailListSize" value="${fn:length(spvBaseInfoVO.toSpvDeDetailList)}" />
 								  <input type="hidden" name="ToSpvDe.pkid" value="${spvBaseInfoVO.toSpvDe.pkid}" />
-								  <%-- 默认显示一行，方便用户添加 --%>
-								  <tr id="example" align="center">
-										<td class="text-left"></td>
-										<td class="text-left"></td>
-										<td></td>
-										<td class="text-left"></td>
-										<td align="center"><a href="javascript:void(0)" class="btn btn-warning"
-											onClick="javascript:getAtr(this);$('#example').hide();">添加约定</span></a>
-									</tr>
 								  <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
 									<tr align="center">
-									    <input type="hidden" name="toSpvDeDetailList[${status.index }].pkid" value="${toSpvDeDetail.pkid }" />
 										<td class="text-left"><select name="toSpvDeDetailList[${status.index }].deCondCode" class="table-select">
-												<option value="">${toSpvDeDetail.deCondCode }</option>
+												<option value="1" ${toSpvDeDetail.deCondCode eq '1'?'selected="selected"':''}>买方贷款审批完成</option>
 										</select></td>
-										<td class="text-left"><select class="table-select">
-												<option name="toSpvDeDetailList[${status.index }].payeeAccountId" value="1" ${toSpvDeDetail.payeeAccountId eq 1?'selected="selected"':''} >资金方</option>
-												<option name="toSpvDeDetailList[${status.index }].payeeAccountId" value="2" ${toSpvDeDetail.payeeAccountId eq 2?'selected="selected"':''} >卖方</option>
+										<td class="text-left"><select name="toSpvDeDetailList[${status.index }].payeeAccountId" class="table-select">
+												<option value="1" ${toSpvDeDetail.payeeAccountId == 1?'selected="selected"':''} >资金方</option>
+												<option value="2" ${toSpvDeDetail.payeeAccountId == 2?'selected="selected"':''} >卖方</option>
 										</select></td>
 										<td><input name="toSpvDeDetailList[${status.index }].deAmount" value="${toSpvDeDetail.deAmount }" class="table-input-one" type="text"
 											placeholder="请输入金额" />元</td>
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
-										<td align="center"><a href="javascript:void(0)"
-											onClick="getAtr(this)">添加</span></a>
+										<td align="center">
+										<a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 									</tr>
 								   </c:forEach>
+								  <%-- 默认显示一行，方便用户添加 --%>
+								  <c:if test="${empty spvBaseInfoVO.toSpvDeDetailList }" >
+								  <tr id="example" align="center">
+										<td class="text-left"></td>
+										<td class="text-left"></td>
+										<td></td>
+										<td class="text-left"></td>
+										<td align="center">
+										    <a href="javascript:void(0)" onClick="javascript:getAtr(this);">添加</a>
+										</td>	
+								  </tr>
+								  </c:if>
 								</tbody>					
 							</table>
 							<div class="form-btn">
@@ -586,7 +589,7 @@
 							<c:if test="${role eq 'RiskOfficer' }">
 							    <div>
 									<a id="riskOfficerApply"class="btn btn-success">提交申请</a>
-									<a type="submit" class="btn btn-default">取消</a>
+									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
@@ -599,7 +602,7 @@
 							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' and role ne 'RiskOfficer2' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a type="submit" class="btn btn-default">取消</a>
+									<a onclick="javascript:window.location.href='spvList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>		
 							</div>

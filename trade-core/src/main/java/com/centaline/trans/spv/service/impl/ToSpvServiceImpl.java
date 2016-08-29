@@ -471,6 +471,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpv.setCreateBy(user.getId());
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
+				toSpv.setIsDeleted("0");
 				toSpvMapper.insertSelective(toSpv);
 			}		
 		}
@@ -486,6 +487,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					toSpvCust.setCreateBy(user.getId());
 					toSpvCust.setCreateTime(new Date());
 					toSpvCust.setSpvCode(spvCode);
+					toSpvCust.setIsDeleted("0");
 					toSpvCustMapper.insertSelective(toSpvCust);
 				}
 			}
@@ -501,25 +503,26 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvDe.setCreateBy(user.getId());
 				toSpvDe.setCreateTime(new Date());
 				toSpvDe.setSpvCode(spvCode);
+				toSpvDe.setIsDeleted("0");
 				toSpvDeMapper.insertSelective(toSpvDe);	
 			}
 		}
 		/**4.保存到‘监管资金出入账约定’表*/
 		List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
+		
+		/**清空所有记录*/
+		toSpvDeDetailMapper.deleteAll();
+		
 		if(toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()){
-			for(ToSpvDeDetail toSpvDeDetail:toSpvDeDetailList){
-				if(toSpvDeDetail.getPkid() != null){
-					toSpvDeDetail.setUpdateBy(user.getId());
-					toSpvDeDetail.setUpdateTime(new Date());
-					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-				}else{			
+			for(ToSpvDeDetail toSpvDeDetail:toSpvDeDetailList){	
 					toSpvDeDetail.setCreateBy(user.getId());
 					toSpvDeDetail.setCreateTime(new Date());
 					toSpvDeDetail.setDeId(toSpvDe.getPkid());
+					toSpvDeDetail.setIsDeleted("0");
 					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
-				}
 			}
 		}	
+		
 		/**5.保存到‘资金监管账户信息’表*/
 		List<ToSpvAccount> toSpvAccountList = spvBaseInfoVO.getToSpvAccountList();
 		if(toSpvAccountList != null && !toSpvAccountList.isEmpty()){
@@ -532,6 +535,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					toSpvAccount.setCreateBy(user.getId());
 					toSpvAccount.setCreateTime(new Date());
 					toSpvAccount.setSpvCode(spvCode);
+					toSpvAccount.setIsDeleted("0");
 					toSpvAccountMapper.insertSelective(toSpvAccount);
 				}
 			}
@@ -547,6 +551,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvProperty.setCreateBy(user.getId());
 				toSpvProperty.setCreateTime(new Date());
 				toSpvProperty.setSpvCode(spvCode);
+				toSpvProperty.setIsDeleted("0");
 				toSpvPropertyMapper.insertSelective(toSpvProperty);
 			}
 		}
@@ -636,7 +641,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/**3.toSpvDe*/
 		ToSpvDe toSpvDe = toSpvDeMapper.selectBySpvCode(spvCode);
 		/**4.toSpvDeDetailList*/
-		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(String.valueOf(toSpvDe.getPkid()));
+		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
 		/**5.toSpvAccountList*/
 		List<ToSpvAccount> toSpvAccountList = toSpvAccountMapper.selectBySpvCode(spvCode);
 		List<ToSpvAccount> toSpvNewAccountList = Arrays.asList(null,null,null,null);
@@ -746,7 +751,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public List<ToSpvDeDetail> findDeDetailByDeId(String deId) {
+	public List<ToSpvDeDetail> findDeDetailByDeId(Long deId) {
 		return toSpvDeDetailMapper.selectByDeId(deId);
 	}
 

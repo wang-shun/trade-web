@@ -403,7 +403,7 @@ public class SpvController {
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskOfficer");
-        
+		
 		return "spv/saveSpvCase";
 	}
     
@@ -421,7 +421,9 @@ public class SpvController {
 	public AjaxResponse<?> spvApply(HttpServletRequest request,HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
+		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		return AjaxResponse.success();
 	}

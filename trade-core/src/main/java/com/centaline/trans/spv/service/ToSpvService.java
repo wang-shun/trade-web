@@ -199,7 +199,7 @@ public interface ToSpvService {
 	
 	ToSpvDe findSpvDeBySpvCode(String spvcode);
 	
-	List<ToSpvDeDetail> findDeDetailByDeId(String deId);
+	List<ToSpvDeDetail> findDeDetailByDeId(Long deId);
 	
 
 	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);

@@ -45,6 +45,9 @@ $(document).ready(function(){
 		$str += "</tr>";
 		$("#addTr").append($str);
 		sum++;
+		if(sum > 0){
+			$('#example').hide();
+		}
 		$("#sum").html(sum);
 		}
 		function getDel(k) {
