@@ -98,7 +98,7 @@
 					</div>
 					<div class="form_content" style="margin-left: 126px;">
 						<select class="form-control mend_select sign_left_small"  id="loanLostCaseListTimeSelect"
-							style="width: 105px;">
+							style="width: 120px;">
 							<option value="SIGN_DATE" selected="selected">签约时间</option>							
 							<option value="APPR_DATE">审批时间</option>
 							<option value="LEND_DATE">放款时间</option>
@@ -113,9 +113,8 @@
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="line">
-
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 贷款支行 </label> <select
 							name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc" class="teamcode select_control ">
@@ -123,6 +122,35 @@
 							<c:forEach items="${FinOrgNameList}"  var="var">									
 								<option value="${var.FinOrgCodeYc}">${var.FinOrgNameYc}</option>							
 							</c:forEach> --%>
+						</select>
+					</div>
+					<div class="form_content" style="margin-left: 126px;">
+						<select class="form-control mend_select sign_left_small"  id="loanLostCaseListAmountSelect"
+							style="width: 120px;">
+							<option value="COM_AMOUNT" selected="selected">商贷</option>
+							<option value="MORT_TOTAL_AMOUNT">总额</option>
+							<option value="PRF_AMOUNT">公积金</option>
+						</select>
+						<div class="input-group sign-right dataleft "
+							data-date-format="yyyy-mm-dd">
+							<input  id="amountBegin_0" name="amountBegin_0" class="form-control data_style" type="text"
+								value="" placeholder="万元"> <span
+								class="input-group-addon">到</span> <input id="amountEnd_0"  name="amountEnd_0"
+								class="form-control data_style" type="text" value=""
+								placeholder="万元">
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 贷款需求选择 </label> <select
+							name="loanType" id="loanType" class="teamcode select_control ">
+							<option value="" selected="selected">请选择</option>
+							<option value="1">商业贷款委托中原办理</option>
+							<option value="2">公积金贷款委托中原办理</option>
+							<option value="3">自办贷款</option>
 						</select>
 					</div>
 					<div class="form_content">
@@ -151,27 +179,10 @@
 							</label>
 						</div>
 					</div>
-
 				</div>
 
 				<div class="line">
-					<div class="form_content">
-						<select class="form-control mend_select sign_left_small"  id="loanLostCaseListAmountSelect"
-							style="width: 105px;">
-							<option value="COM_AMOUNT" selected="selected">商贷</option>
-							<option value="MORT_TOTAL_AMOUNT">总额</option>
-							<option value="PRF_AMOUNT">公积金</option>
-						</select>
-						<div class="input-group sign-right dataleft "
-							data-date-format="yyyy-mm-dd">
-							<input  id="amountBegin_0" name="amountBegin_0" class="form-control data_style" type="text"
-								value="" placeholder="万元"> <span
-								class="input-group-addon">到</span> <input id="amountEnd_0"  name="amountEnd_0"
-								class="form-control data_style" type="text" value=""
-								placeholder="万元">
-						</div>
-					</div>
-					<div class="add_btn" style="margin-left: 488px;">
+					<div class="add_btn" style="margin-left: 128px;">
 						<button type="button" class="btn btn-success"
 							id="mortgageInfoSearchButton">
 							<i class="icon iconfont">&#xe635;</i> 查询
@@ -315,7 +326,16 @@
 						{{if  item.SDSTATUS=='是'}}
                       	 <p>流失</p>
 						{{/if}}
-                        
+						
+						{{if  item.LOANTYPE=='1'}}
+                      	 <p>商业贷款委托中原办理</p>
+						{{/if}}
+                        {{if  item.LOANTYPE=='2'}}
+                      	 <p>公积金贷款委托中原办理</p>
+						{{/if}}
+						{{if  item.LOANTYPE=='3'}}
+                      	 <p>自办贷款</p>
+						{{/if}}
 						
                        	</td>
                         <td class="center">

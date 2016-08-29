@@ -60,7 +60,9 @@
 					T.IS_TMP_BANK,
 					T.SDSTATUS,
 					T.LOAN_AGENT,
-					T.LOAN_AGENT_TEAM
+					T.LOAN_AGENT_TEAM,
+					T.IS_DELEGATE_YUCUI,
+					T.LOANTYPE
 				FROM				
 				(select 
 					c.pkid,
@@ -76,7 +78,7 @@
 					ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
 					ISNULL(m.COM_AMOUNT,0)/10000 COM_AMOUNT,
 					ISNULL(m.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
-					
+					m.IS_DELEGATE_YUCUI,
 					m.SIGN_DATE,
 					m.LEND_DATE,
 					m.APPR_DATE,--批贷时间	
@@ -106,8 +108,15 @@
 					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
 						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
-						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是' 
-					end   SDSTATUS
+						when c.LOAN_REQ=1 and ((select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') or (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) is NULL) and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是' 
+					end   SDSTATUS,
+					case 
+						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then  '1'
+						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016003') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   		   then  '2'
+						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then  '3'						
+					end   LOANTYPE
+					
+					
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
@@ -181,7 +190,25 @@
 				</ifNotNull>	
 				<ifNotNull organizeOrgId>
 					and T.LOAN_AGENT_TEAM = #organizeOrgId#
-				</ifNotNull>		
+				</ifNotNull>
+				<ifNotNull loanType>
+					and T.LOANTYPE = #loanType#
+				</ifNotNull>
+				
+<!-- 			贷款类型
+				<if test="loanType!=null">						
+							<if test="loanType==1"> 
+							 and	T.MORT_TYPE_OLD IN ('30016001','30016002')  AND T.IS_DELEGATE_YUCUI = 1	
+							</if>
+							<if test="loanType==2"> 
+							and  T.MORT_TYPE_OLD IN ('30016003')  AND T.IS_DELEGATE_YUCUI = 1				
+							</if>
+							<if test="loanType==3"> 
+							 and	T.MORT_TYPE_OLD IN ('30016001','30016002')  AND T.IS_DELEGATE_YUCUI = 0				
+							</if>
+					 	)
+				</if>	 -->
+	
 
 				]]>
 			</baseSql>
@@ -208,7 +235,9 @@
 				<column type="both" name="PROCESSOR_ID" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORG_ID" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
 				<column type="both" name="LOAN_AGENT" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>										
+				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
+				<column type="both" name="IS_DELEGATE_YUCUI" index="" checkbox="true" title="是否中原办理"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
+				<column type="both" name="LOANTYPE" index="" checkbox="true" title="贷款类型"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>																	
 								
 					
 				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>

@@ -168,8 +168,10 @@ $('#mortgageInfoCleanButton').click(function() {
 	isLoseRadio('isLoseLoan',$("#isLoseAll").val());
 	
 	$("#yuCuiOriGrpId").val("");
+	//select框情况设置
 	$("#loanLostFinOrgNameYc").val("");
 	$("#loanLostFinOrgName").val("");
+	$("#loanType").val("");
 
 });
 
@@ -399,7 +401,10 @@ function getParamsValue() {
 	}else if(isLose == 0){
 		isLose='否';
 	}
-	
+		
+	// 贷款类型选择
+	var loanType = $("#loanType option:selected").val();
+	params.loanType=loanType;
 	params.isTempBank = isTempBank;
 	params.isLose = isLose;	
 	params.caseCode = caseCode;
