@@ -596,6 +596,7 @@
 							<c:if test="${role eq 'RiskOfficer2' }">
 							    <div>
 									<a id="RiskOfficer2Sign" class="btn btn-success">签约</a>
+									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							

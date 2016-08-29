@@ -392,8 +392,7 @@ public class SpvController {
      * @return
      */
     @RequestMapping("task/spvApply/process")
-	public String toSpvApplyProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	public String toSpvApplyProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
     	
         SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);	
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
@@ -418,7 +417,7 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvApply/deal")
-	public AjaxResponse<?> spvApply(HttpServletRequest request,HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	public AjaxResponse<?> spvApply(String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
@@ -439,8 +438,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("task/spvApprove/process")
-	public String toSpvApproveProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	public String toSpvApproveProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
@@ -460,7 +458,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(HttpServletRequest request,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
@@ -480,8 +478,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("task/spvSign/process")
-	public String toSpvSignProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
@@ -501,7 +498,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(HttpServletRequest request,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
