@@ -1,8 +1,9 @@
 package com.centaline.trans.workspace.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class WorkSpace {
+public class WorkSpace implements Serializable{
 	private String userId;
 	private List<String> orgs;
 	private String orgId;
