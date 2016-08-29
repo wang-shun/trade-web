@@ -583,6 +583,7 @@
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
+									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
