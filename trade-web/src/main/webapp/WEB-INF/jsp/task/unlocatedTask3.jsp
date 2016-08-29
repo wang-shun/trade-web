@@ -122,12 +122,11 @@ text-decoration: underline !important;
                                 <label class="sign_left control-label">
                                     	贵宾服务中心
                                 </label>
-                                <div class="sign_right teamcode">
+                                <div class="sign_right teamcode" style="position: relative;">
                                     <input type="text" class="teamcode form-control" id="guestServiceCenter"
                                     onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"/>
                                     <input type="hidden" id="groupParentID" />
-                                    <input type="hidden" value="${serviceDepId}"/>
                                     
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
