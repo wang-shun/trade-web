@@ -109,7 +109,7 @@
 						<button type="button" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
-						<button type="submit" class="btn btn-success">
+						<button type="button" class="btn btn-success">
 							<a href="${ctx}/spv/saveHTML">新建</a>
 						</button>
 						<button type="btn" class="btn btn-success">删除</button>
@@ -245,7 +245,10 @@
 											.val();
 											params.search_endDate=$(
 											"input[name='endDate']")
-											.val()+" 23:59:59";
+											.val();
+											if(params.search_endDate!=null && params.search_endDate!=""){
+												params.search_endDate+=" 23:59:59";
+											}
 											params.search_prAddress=$(
 											"input[name='prAddress']")
 											.val();
