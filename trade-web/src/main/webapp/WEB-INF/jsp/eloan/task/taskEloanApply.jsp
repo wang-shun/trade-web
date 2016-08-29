@@ -86,13 +86,16 @@
                            </div>
                        </div>
 
-                            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                            <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
                                 <div class="modal-dialog" style="width: 1070px;">
-                                    <div class="modal-content animated fadeIn apply_box">
+                                    <div class="modal-content animated fadeIn apply_box info_box">
                                         <form action="" class="form_list clearfix">
+                                         <div class="modal_title">
+                                                E+贷款关联案件
+                                            </div>
                                             <div class="form_tan">
-                                                <label class="control-label sign_left">
-                                                    产证地址
+                                                <label class="control-label" style="width:60px;">
+                                                    	产证地址
                                                 </label>
                                                 <input class="sign_right input_type" placeholder="请输入" value="" id="propertyAddr" name="propertyAddr">
                                             </div>
@@ -516,11 +519,11 @@
     			queryId : 'queryCastListItemList',
     		    templeteId : 'queryCastListItemList',
     		    rows : '6',
-    		    gridClass : 'table table_blue table-striped table-bordered table-hover',
+    		    gridClass : 'table table_blue mt20 table-striped table-bordered table-hover customerinfo',
     		    data : '',
     		    wrapperData :{ctx: ctx},
     		    columns : [{
-    		    	           colName :"案件编号",
+    		    	           colName :"<span class='sort'  onclick='caseCodeSort();'' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
     		    	           sortColumn : "CASE_CODE",
     		    	           sord: "desc",
     		    	           sortActive : true
@@ -734,6 +737,15 @@
 			}else{
 				$("#executorName").val("");
 				$("#executorName").attr('hVal',"");
+			}
+		}
+		function caseCodeSort(){
+			if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+				$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
+			}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+				$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
+			}else{
+				$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 			}
 		}
     </script>
