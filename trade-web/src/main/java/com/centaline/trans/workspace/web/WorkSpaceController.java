@@ -997,11 +997,11 @@ public class WorkSpaceController {
 			m.put("efConvRate", formatter2.format(m.get("efConvRate")) + "%");
 		}
 		
-		m.put("receiveCount", workSpaceService.staReceiveCount(work));
-		m.put("signCount", workSpaceService.staSignCount(work));
+		//  m.put("receiveCount", workSpaceService.staReceiveCount(work));
+		//  m.put("signCount", workSpaceService.staSignCount(work));
 		//m.put("transferCount", workSpaceService.staTransferCount(work));
-		m.put("loanApplyCount", workSpaceService.staLoanApplyCount(work));
-		m.put("closeCount", workSpaceService.staCloseCount(work));
+		//  m.put("loanApplyCount", workSpaceService.staLoanApplyCount(work));
+		//  m.put("closeCount", workSpaceService.staCloseCount(work));
 
 		m.put("staLoanApply",
 				JSONArray.toJSON(workSpaceService.staLoanApply(work)));

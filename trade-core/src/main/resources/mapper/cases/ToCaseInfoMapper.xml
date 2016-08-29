@@ -205,9 +205,7 @@
        COUNT(CASE_CODE) 
     from sctrans.T_TO_CASE
     where LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
-	AND STATUS &lt; '30001004'
-	AND STATUS &gt; '30001001'
-    GROUP BY LEADING_PROCESS_ID
+	AND STATUS in('30001004','30001003','30001002','30001001')
   </select>
   
 <select id="countToCaseInfoById" parameterType="java.lang.String" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">

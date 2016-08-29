@@ -203,7 +203,7 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
   <select id="staLoanAgentSignAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   		SELECT  SUM(SIGN_AMOUNT) as  signAmount
 FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT
-          FROM      sctrans.T_TO_LOAN_AGENT la
+          FROM      sctrans.T_TO_LOAN_AGENT la  with(nolock) 
           WHERE  la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null    
           <if test="userId != null">
 	 			and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -309,9 +309,9 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   	SELECT 
    		COUNT(a.CASE_CODE) AS countQYS
    	FROM 
-   		sctrans.V_RPT_CASE_PROCESS_STATIS a
+   		sctrans.V_RPT_CASE_PROCESS_STATIS a  with(nolock) 
    	INNER JOIN 
-   		sctrans.V_CASE_LIST_BASE b 
+   		sctrans.V_CASE_LIST_BASE b  with(nolock) 
    	ON 
    		a.CASE_CODE=b.CASE_CODE	
 	WHERE
@@ -393,7 +393,7 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 	SELECT 
 		COUNT(distinct a.CASE_CODE) 
 	FROM 
-		sctrans.V_RPT_CASE_PROCESS_STATIS a
+		sctrans.V_RPT_CASE_PROCESS_STATIS a  with(nolock) 
 	WHERE 
 		a.HOUSE_TRANFER_TIME is not null
 	 <if test="userId != null">
