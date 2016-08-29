@@ -202,7 +202,7 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
   <select id="staLoanAgentSignAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   		SELECT  SUM(SIGN_AMOUNT) as  signAmount
 FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT 
-          FROM      sctrans.T_TO_LOAN_AGENT la  with(nolock) with(nolock)
+          FROM      sctrans.T_TO_LOAN_AGENT la  with(nolock)
           WHERE  la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null    
           <if test="userId != null">
 	 			and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
