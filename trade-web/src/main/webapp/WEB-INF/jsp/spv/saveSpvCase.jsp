@@ -560,8 +560,10 @@
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
+										<c:if test="${empty role }">
 										<a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
+										</c:if>
 									</tr>
 								   </c:forEach>
 								  <%-- 默认显示一行，方便用户添加 --%>
@@ -572,13 +574,16 @@
 										<td></td>
 										<td class="text-left"></td>
 										<td align="center">
+										<c:if test="${empty role }">
 										    <a href="javascript:void(0)" onClick="javascript:getAtr(this);">添加</a>
+										</c:if>    
 										</td>	
 								  </tr>
 								  </c:if>
 								</tbody>					
 							</table>
 							<div class="form-btn">
+							<input type="hidden" id="role" value="${role }">
 							<c:if test="${role eq 'RiskDirector' }">
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>

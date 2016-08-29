@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 		//流程开启后只读表单
-		if("${role}" == ''){
+		if($("#role").val() != ''){
 		    readOnlyRiskForm();
 		}
 
@@ -233,6 +233,17 @@ $(document).ready(function(){
         	alert("请填写监管机构");
         	return false;
         }
+        var idValiDate_0 = $("input[name='spvCustList[0].idValiDate']").val();
+        var idValiDate_1 = $("input[name='spvCustList[1].idValiDate']").val();
+        if(!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_0)){
+        	alert("买方证件有效期：需输入正确的‘yyyy-MM’格式！");
+        	return false;
+        }
+        if(!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_1)){
+        	alert("卖方证件有效期：需输入正确的‘yyyy-MM’格式！");
+        	return false;
+        }
+        
 		 return true;
 	}
 	
