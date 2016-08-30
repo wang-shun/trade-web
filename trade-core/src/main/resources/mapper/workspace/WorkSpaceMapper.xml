@@ -850,4 +850,34 @@ on org.id=la.EXECUTOR_TEAM
  where datediff(MI,la.create_time,getdate())&lt;  =1 and la.create_time is not null and org.PARENT_ID=#{orgId,jdbcType=VARCHAR}
 </select>
 
+<select id="getUnlocatedCaseCount"  resultType="java.lang.Integer">
+	   SELECT  COUNT(DISTINCT TCI.CASE_CODE)
+FROM    sctrans.T_TO_CASE_INFO AS TCI
+        LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS PI ON TCI.CASE_CODE = PI.CASE_CODE
+WHERE   NOT EXISTS ( SELECT 1
+                     FROM   sctrans.T_TS_TEAM_SCOPE_TARGET TST
+                     WHERE  TCI.TARGET_CODE = TST.GRP_CODE )
+        AND ( TCI.is_responsed = 0
+              OR TCI.is_responsed IS NULL
+            )
+ </select> 
+ 
+<select id="getUnlocatedTaskCount"  resultType="java.lang.Integer" parameterType="java.util.HashMap">
+	   SELECT COUNT(1)
+					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
+						on ut.case_code =tca.case_code
+						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ut.INST_CODE  = tw.INST_CODE
+						left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
+						left join sctrans.v_case_list_base b on b.case_code = ut.case_code
+						left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
+						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
+					 where ut.IS_DELETE='0'
+					 <if test="orgId != null">
+						and (ut.candidate_Id=#{candidateId} or (ut.candidate_Id is null and tca.org_id=#{orgId}))
+			 		</if>
+			 		<if test="managerFlag != null">
+			 			and ut.candidate_Id=#{candidateId}
+			 		</if>
+</select>
+
 </mapper>

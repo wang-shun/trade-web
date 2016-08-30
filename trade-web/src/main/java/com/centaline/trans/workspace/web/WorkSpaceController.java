@@ -282,6 +282,21 @@ public class WorkSpaceController {
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
 		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
+		
+		/* 统计无主案件和无主任务预警数 */
+		String jobCode = currentUser.getServiceJobCode();
+		Map map = new HashMap();
+		map.put("candidateId", currentUser.getUsername());
+		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
+			map.put("managerFlag", "1");
+		} else {
+			map.put("orgId", currentUser.getServiceDepId());
+		}
+		int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
+		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
+		
+		/* end */
+		
 		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
 		model.addAttribute("yeLight", yeLight);
@@ -298,7 +313,6 @@ public class WorkSpaceController {
 		
 		List<User> uList = new ArrayList<User>();
 		String userId = user.getId();
-		String jobCode = user.getServiceJobCode();
 		String userOrgId = user.getServiceDepId();
 		Date now = new Date();
 		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
