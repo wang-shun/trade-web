@@ -552,7 +552,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="ibox-content" id="spvthree_info" style="height: 450px;">
+				<div class="ibox-content" id="spvthree_info" >
 					<div class="agree-tile">资金出款约定</div>
 					<form class="form-inline table-capital">
 						<p>
