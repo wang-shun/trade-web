@@ -71,6 +71,27 @@ public class ToEloanCase {
 	private String taskId;
 
 	private String processInstanceId;
+	
+	private BigDecimal chargeAmount;   //手续费
+	
+	private String remark;   // 情况说明
+	
+	
+	public BigDecimal getChargeAmount() {
+		return chargeAmount;
+	}
+
+	public void setChargeAmount(BigDecimal chargeAmount) {
+		this.chargeAmount = chargeAmount;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+	
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public Long getPkid() {
 		return pkid;

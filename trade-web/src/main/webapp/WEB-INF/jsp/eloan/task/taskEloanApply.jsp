@@ -292,6 +292,23 @@
                                     </div>
                                 </div>
                             </li>
+                            
+                            <li id="liChargeAndRemark" style="display:none;">
+                                <div class="form_content" id="divCharge">
+                                    <label class="control-label sign_left_two">
+                                        	<i class="red">* </i>手续费
+                                    </label>
+                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="charge">
+                                </div>
+                                <div class="form_content" id="divRemark">
+                                    <label class="control-label sign_left_two">
+                                        	<i class="red">* </i>情况说明
+                                    </label>
+                                    <input class="input_type sign_right_two" value="" name="remark" id="remark" style="width:465px;">
+                                </div>
+                            </li>
+                            
+                            
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -449,6 +466,81 @@
 	</script>
     <script>
         $(document).ready(function () {
+        	$("#month").blur(function(){
+        		var finOrgCode = $("#finOrgCode option:selected").val();
+        		var month = this.value;
+        		
+        		if(finOrgCode == "W0003" && month != "" && month <= 12){
+        			$("#liChargeAndRemark").show();
+        			$("#divCharge").show();
+        			$("#divRemark").hide();
+        		}
+        		else{
+        			$("#liChargeAndRemark").hide();
+        			$("#divCharge").hide();
+        		}
+        	});
+        	
+        	$("#finOrgCode").change(function(){
+        		var value = this.value;
+        		var month = $("#month").val();
+        		
+        		if(value == "W0003" && month != "" && month <= 12){
+        			$("#liChargeAndRemark").show();
+        			$("#divCharge").show();
+        			$("#divRemark").hide();
+        		}else{
+        			$("#liChargeAndRemark").hide();
+        			$("#divCharge").hide();
+        		}
+        	});
+        	
+        	$("#charge").blur(function(){
+        		var value = $.trim(this.value);
+        		var applyAmount = $.trim($("#applyAmount").val());
+        		
+        		var reg = new RegExp("^[0-9]+(.[0-9]{2})?$", "g");
+                if (value != "" && !reg.test(value)) {
+                    alert("请输入一个数字，最多只能有两位小数！");
+                    $(this).focus().select();
+                }
+                else if(value != "" && applyAmount != ""){
+                	value = Number(value);
+                	applyAmount = Number(applyAmount) * 10000;
+                	
+					var num = value / applyAmount;
+					
+        			if(num > 0.02){
+        				$("#divRemark").show();
+        			}
+        			else {
+        				$("#divRemark").hide();
+        			}
+                }
+                else {
+                	$("#divRemark").hide();
+                }
+        		
+        	});
+        	
+        	$("#applyAmount").blur(function(){
+        		var value = $.trim(this.value);
+        		var chargeAmount = $.trim($("#charge").val());
+        		
+        		if(value != "" && applyAmount != ""){
+        			value = Number(value) * 10000;
+        			chargeAmount = Number(chargeAmount);
+        			var num = chargeAmount / value;
+        			
+        			if(num > 0.02){
+        				$("#divRemark").show();
+        			}
+        			else {
+        				$("#divRemark").hide();
+        			}
+        		}
+        	});
+        	
         	$('#custName').editableSelect({
         		effects: 'slide',
         		filter: false
@@ -511,6 +603,31 @@
 					 alert("请填写申请期数");
 					 return false;	
 				 }
+				 
+				 var finOrgCode = $("#finOrgCode option:selected").val();
+				 
+				 if(finOrgCode == "W0003" && month <= 12){
+					 var charge = $("#charge").val();
+					 
+					 if(charge == ""){
+						 alert("请填写手续费！");
+						 return false;
+					 }
+					 
+					 charge = Number(charge);
+					 applyAmount = Number(applyAmount);
+					 var num = charge / applyAmount;
+					 
+					 if(num > 0.02){
+						 var remark = $("#remark").val();
+						 
+						 if(remark == ""){
+							 alert("请填写情况说明！");
+							 return false;
+						 }
+					 }
+				 }
+				 
 				 return true;
 			}
 
