@@ -457,11 +457,26 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
 		//生成spvCode
 		String spvCode = createSpvCode();
-
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
+		ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		//保存相关信息
+		/**乘万处理*/
+		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().multiply(new BigDecimal(10000)) : null);
+		
+		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().multiply(new BigDecimal(10000)) : null);
+		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().multiply(new BigDecimal(10000)) : null);
+		
+		for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().multiply(new BigDecimal(10000)) : null);
+		}
 		// come here ...
 		/**1.保存到‘资金监管合约’表*/
-		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		//ToSpv toSpv = spvBaseInfoVO.getToSpv();
 		if(toSpv != null){
 			if(toSpv.getPkid() != null){
 				toSpv.setUpdateBy(user.getId());
@@ -508,7 +523,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}
 		/**4.保存到‘监管资金出入账约定’表*/
-		List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
+		//List<ToSpvDeDetail> toSpvDeDetailList = spvBaseInfoVO.getToSpvDeDetailList();
 		
 		/**清空所有记录*/
 		toSpvDeDetailMapper.deleteAll();
@@ -541,7 +556,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}	
 		/**6.保存到‘资金监管房屋信息’表*/
-		ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
+		//ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		if(toSpvProperty != null){
 			if(toSpvProperty.getPkid() != null){
 				toSpvProperty.setUpdateBy(user.getId());
@@ -660,6 +675,19 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/**6.toSpvProperty*/
 		ToSpvProperty toSpvProperty = toSpvPropertyMapper.selectBySpvCode(spvCode);
 		
+		/**除万处理*/
+		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().divide(new BigDecimal(10000)) : null);
+		
+		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().divide(new BigDecimal(10000)) : null);
+		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().divide(new BigDecimal(10000)) : null);
+		
+		for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().divide(new BigDecimal(10000)) : null);
+		}
 		/**装载属性*/
 		spvBaseInfoVO.setToSpv(toSpv);
 		spvBaseInfoVO.setSpvCustList(spvNewCustList);
