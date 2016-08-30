@@ -605,10 +605,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 	
 	/**
-	 * 
+	 * 	查询拼接spvBaseInfoVO
 	 */
 	public SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(ServletRequest request,String caseCode){
-		/**查询拼接spvBaseInfoVO*/
+
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
 		if(StringUtils.isBlank(caseCode)){
 			return spvBaseInfoVO;
@@ -717,10 +717,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 		request.setAttribute("caseCode", toCase.getCaseCode());
 		request.setAttribute("propertyAddr", toPropertyInfo.getPropertyAddr());
+		request.setAttribute("propertySquare", toPropertyInfo.getSquare());
 		request.setAttribute("processorName", consultUser==null?"":consultUser.getRealName());
 		request.setAttribute("agentName", agentUser==null?"":agentUser.getRealName());
 		request.setAttribute("sellerName", seller.toString());
+		request.setAttribute("sellerMobil", sellerMobil.toString());
 		request.setAttribute("buyerName", buyer.toString());
+		request.setAttribute("buyerMobil", buyerMobil.toString());
 	}
 
 	
