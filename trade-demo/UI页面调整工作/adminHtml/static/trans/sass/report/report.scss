@@ -117,17 +117,17 @@
     margin-right: 20px;
   }
   .no_links,.links_info {
+    position: relative;
     float: left;
     width: 430px;
-    height: 269px;
+    height: 270px;
     border: 1px solid #f3f3f3;
     margin: 0px 20px 10px 0px;
     color: #ccc;
 
   }
   .links_info {
-    position: relative;
-    padding: 30px 20px;
+    padding: 10px 20px;
     border-top: 5px solid #4acaeb;
   }
   .no_links {
@@ -138,8 +138,13 @@
     color: #1c84c6;
   }
   .click_link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 180px;
-    margin: 120px auto;
+    height: 26px;
+    margin-left:-90px;
+    margin-top: -13px;
     text-align: center;
     font-size: 18px;
   }
@@ -163,8 +168,33 @@
   }
   .links_cancel {
     position: absolute;
-    top: 20px;
+    top: 25px;
     right: 20px;
+  }
+
+}
+.icon_house {
+    margin-right: 10px;
+    font-size: 30px!important;
+    font-weight: bold;
+}
+.icon_house_blue {
+    color: #4acaeb;
+}
+.icon_house_red {
+    color: #f54876;
+}
+.toggle_icon {
+  margin: 10px 0 0 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+.links_info {
+  .title {
+    font-size: 16px;
+    color:#333;
+    margin-bottom: 20px;
   }
 
 }

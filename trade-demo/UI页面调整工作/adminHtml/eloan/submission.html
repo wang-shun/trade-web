@@ -526,9 +526,10 @@
                                     <label class="control-label sign_left_small" >
                                         产品选择
                                     </label>
-                                    <select name="" id="" class="select_control sign_right_one">
-                                        <option value="">请选择</option>
-                                        <option value="">赎楼贷</option>
+                                    <select name="" id="goodsType" name="queryType" class="select_control sign_right_one">
+                                        <option value="" selected="selected">请选择</option>
+                                        <option value="">类型1</option>
+                                        <option value="">类型2</option>
                                     </select>
                                 </div>
                                 <div class="form_content">
@@ -560,20 +561,53 @@
                             关联交易单
                         </div>
                         <div class="links_box clearfix">
-
+                            <div class="links_content">
+                                <div class="no_links" id="" data-toggle="modal" data-target="#myModalone">
+                                    <p class="toggle_icon goods_one">
+                                        <i class="icon iconfont icon_house icon_house_blue">&#xe62e;</i><span class="type_text">出售</span>
+                                    </p>
+                                    <p class="toggle_icon goods_two">
+                                        <i class="icon iconfont icon_house icon_house_red">&#xe62e;</i><span class="type_text">购房</span>
+                                    </p>
+                                    <p class="click_link">点击添加关联案件</p>
+                                </div>
+                                <div class="no_links" id="" data-toggle="modal" data-target="#myModalone">
+                                    <p class="toggle_icon goods_one">
+                                        <i class="icon iconfont icon_house icon_house_blue">&#xe62e;</i><span class="tyep_text">出售</span>
+                                    </p>
+                                    <p class="toggle_icon goods_two">
+                                        <i class="icon iconfont icon_house icon_house_red">&#xe62e;</i><span class="type_text">购房</span>
+                                    </p>
+                                    <p class="click_link">点击添加关联案件</p>
+                                </div>
+                            </div>
                             <div class="links_content">
                                 <div class="links_info" id="" style="display:block;">
+                                    <div class="title">
+                                        <i class="icon iconfont icon_house icon_house_red">&#xe62e;</i>购房
+                                    </div>
                                     <p class="info"><span>案件编号</span>ZY-AJ-201605-0958</p>
                                     <p class="info"><span>物业地址</span><em>上海杨浦区平路街道（内环）鞍山八村29号0608室
                                     </em></p>
                                     <p class="info"><span>经办人</span>ZY-AJ-201605-0958</p>
-                                    <p class="info"><span>交易关系</span>购房</p>
                                     <p class="info"><span>上家姓名</span>宋宋</p>
                                     <p class="info"><span>下家姓名</span>李设计</p>
                                     <button type="button" class="btn btn-grey links_cancel
                                     ">取消关联</button>
                                 </div>
-                                <div class="no_links" id="" data-toggle="modal" data-target="#myModalone"><p class="click_link">点击添加关联案件</p></div>
+                                <div class="links_info" id="" style="display:block;">
+                                    <div class="title">
+                                        <i class="icon iconfont icon_house icon_house_red">&#xe62e;</i>购房
+                                    </div>
+                                    <p class="info"><span>案件编号</span>ZY-AJ-201605-0958</p>
+                                    <p class="info"><span>物业地址</span><em>上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                    </em></p>
+                                    <p class="info"><span>经办人</span>ZY-AJ-201605-0958</p>
+                                    <p class="info"><span>上家姓名</span>宋宋</p>
+                                    <p class="info"><span>下家姓名</span>李设计</p>
+                                    <button type="button" class="btn btn-grey links_cancel
+                                    ">取消关联</button>
+                                </div>
                             </div>
                         </div>
 
@@ -1508,8 +1542,7 @@
     <!-- stickup plugin -->
     <script src="../static/js/plugins/stickup/stickUp.js"></script>
     <script src="../static/trans/js/report/report.js"></script>
-
-
+    <script src="../static/trans/js/eloan/submission.js"></script>
 
 </body>
 

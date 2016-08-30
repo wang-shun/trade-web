@@ -124,6 +124,21 @@ public class WarnListController {
     	return "eloan/task/taskEloanApply";
 	}
 	
+	@RequestMapping(value="/task/newEloanApply/process")
+	public String newEloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
+			String taskitem, String processInstanceId){
+		SessionUser user = uamSessionService.getSessionUser();
+		Org parentOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		request.setAttribute("orgId", parentOrg.getId());
+		request.setAttribute("excutorId", user.getId());
+		request.setAttribute("excutorName", user.getRealName());
+		
+		if(StringUtils.isNotBlank(processInstanceId)) {
+			setAttribute(request,response,businessKey,taskitem,processInstanceId);
+		}
+    	return "eloan/task/taskNewEloanApply";
+	}
+	
 	@RequestMapping("getEloanCaseDetails")
 	public String getEloanDetail(Long pkid, Model model) {
 		if (pkid != null) {

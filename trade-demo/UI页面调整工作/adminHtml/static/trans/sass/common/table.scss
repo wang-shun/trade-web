@@ -368,7 +368,7 @@ table thead tr th {
     font-size: 21px;
     font-weight: normal;
     line-height: 1;
-    padding-bottom: 4px !important;
+    padding-bottom: 6px !important;
     padding-left: 2px !important;
     text-shadow: 0 1px 0 #fff;
     filter: alpha(opacity=100);
@@ -377,8 +377,18 @@ table thead tr th {
 
 .yes_color {
   margin-left: 5px;
+  margin-right:5px;
   padding: 0px 5px;
   background:#f8ac59;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 2px;
+}
+.waiting_color {
+  margin-left: 5px;
+  margin-right:5px;
+  padding: 0px 5px;
+  background:#52cdec;
   font-size: 14px;
   color: #fff;
   border-radius: 2px;
@@ -395,4 +405,9 @@ table thead tr th {
 .manager em {
   font-style: normal;
   margin-right: 5px;
+}
+.icon_day {
+  margin-right: 7px;
+  font-size: 16px;
+  color: #52cdec;
 }
