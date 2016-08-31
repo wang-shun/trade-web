@@ -1047,7 +1047,7 @@ text-decoration: underline !important;
 
 	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
-        <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
+    <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
     <script src="${ctx}/js/aist-modal.js"  type="text/javascript"></script>
 	<script src="${ctx}/js/bootstrap-modal.js" type="text/javascript"></script>
 	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript"></script>
