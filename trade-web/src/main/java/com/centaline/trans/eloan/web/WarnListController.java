@@ -311,6 +311,8 @@ public class WarnListController {
 		}
 		// 交易顾问
 		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		//归属人
+		User excutor = uamUserOrgService.getUserById(eloanCaseList.get(0).getExcutorId());
 		// 上下家
 		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
 		StringBuffer seller = new StringBuffer();
@@ -348,6 +350,7 @@ public class WarnListController {
 		request.setAttribute("agentName", agentUser==null?"":agentUser.getRealName());
 		request.setAttribute("sellerName", seller.toString());
 		request.setAttribute("buyerName", buyer.toString());
+		request.setAttribute("excutorName", excutor.getRealName());
 		request.setAttribute("eloanCase", (CollectionUtils.isEmpty(eloanCaseList)==true)?null:eloanCaseList.get(0));
 	}
 	
