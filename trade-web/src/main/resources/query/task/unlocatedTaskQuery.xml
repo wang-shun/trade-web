@@ -93,7 +93,7 @@ SELECT t.groupName,t.groupParentID,t.groupParentName,t.name,t.pkid,
 			 		<ifNotNull managerFlag>
 			 			and t.candidateId=#candidateId#
 			 		</ifNotNull>
-				) as tt
+				) as tt where 1=1 
 				]]>
 			</baseSql>
 			<groupSql>
