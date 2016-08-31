@@ -5,8 +5,9 @@
         <customDict id="getParentOrgNameByOrgId" beanName="qqcdYuCuiOrgName"></customDict>
         <customDict id="qqcdDictServCode" beanName="qqcdDictServCode"></customDict> 
         <customDict id="qqcdDictApplyStatus" beanName="qqcdDictApplyStatus"></customDict>
-        <customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode"></customDict>
         <customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+        <!-- 根据机构ID查询机构名称 -->
+        <customDict id="getOrgNameByOrgId" beanName="qqcdOrgIdName"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -114,15 +115,13 @@
 				<column  type="virtual" name="EXCUTORNAME" title="案件归属人" referencecol="EXCUTOR_ID" customDict="getUserNameByUserId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> 
 				
 				<column  type="both" name="EXCUTOR_TEAM" title="执行人组织Id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column  type="virtual" name="EXCUTOR_TEAM_NAME" title="执行人组织" referencecol="EXCUTOR_TEAM" customDict="qqcdOrgNameByCode"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> 
+				<column  type="virtual" name="EXCUTOR_TEAM_NAME" title="执行人组织" referencecol="EXCUTOR_TEAM" customDict="getOrgNameByOrgId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> 
 				
 				<column  type="both" name="EXCUTOR_DISTRICT" title="执行人区域Id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column  type="virtual" name="EXCUTOR_DISTRICT_NAME" title="执行人区域" referencecol="EXCUTOR_DISTRICT" customDict="qqcdOrgNameByCode"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  type="virtual" name="EXCUTOR_DISTRICT_NAME" title="执行人区域" referencecol="EXCUTOR_DISTRICT" customDict="getOrgNameByOrgId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				
-				<column  type="both" name="FIN_ORG_CODE" title="执行人区域Id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column  type="virtual" name="FIN_ORG_NAME" title="执行人区域" referencecol="FIN_ORG_CODE" customDict="qqcdFinOrgNameDict"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				
-				
+				<column  type="both" name="FIN_ORG_CODE" title="分行机构代码"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  type="virtual" name="FIN_ORG_NAME" title="分行机构名称" referencecol="FIN_ORG_CODE" customDict="qqcdFinOrgNameDict"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				
 				<column  name="MOBILE" title="申请金额"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="CUST_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
