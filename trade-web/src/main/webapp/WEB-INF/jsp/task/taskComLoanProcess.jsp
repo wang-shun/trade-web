@@ -1810,9 +1810,7 @@ function checkInt(obj){
 	    	dataType:"json",
 	    	data:{caseCode:$("#caseCode").val()},
 	    	success:function(data){
-	    		if(data != null)
-	    		  alert("已成功开启临时银行审批流程！");
-	    		//console.log(JSON.stringify(data));
+	    		alert(data.message);
 	    	}
 	 	});
 

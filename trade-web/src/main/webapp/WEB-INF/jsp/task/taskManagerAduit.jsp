@@ -214,9 +214,6 @@
 	    		                } 
 	    		            } ,   
 				success : function(data) {   
-						/*if(data.message){
-							alert(data.message);
-						}*/
 						 if(window.opener)
 					     {
 							 window.close();
@@ -232,46 +229,7 @@
 						alert("数据保存出错:"+JSON.stringify(errors));
 					}
 			});
-			
-			/*$.ajax({
-				cache : true,
-				async : false,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : jsonData,
-	   		    beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-                complete: function() {  
-   
-                     if(status=='timeout'){//超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  });
-    		  		 $(".btn-primary").one("click",function(){
-    		  				parent.$.fancybox.close();
-    		  			});	 
-    		                } 
-    		            } , 
-				success : function(data) {
-					if(data.message){
-						alert(data.message);
-					}
-					 if(window.opener)
-				     {
-						 window.close();
-						 window.opener.callback();
-				     } else {
-				    	 window.location.href = "${ctx }/task/myTaskList";
-				     }
-				},
-				error : function(errors) {
-					alert("数据保存出错");
-				}
-			});*/
+
 		}
 
 		function getParentBank(selector,selectorBranch,finOrgCode){

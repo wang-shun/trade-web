@@ -86,13 +86,16 @@
                            </div>
                        </div>
 
-                            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                            <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
                                 <div class="modal-dialog" style="width: 1070px;">
-                                    <div class="modal-content animated fadeIn apply_box">
+                                    <div class="modal-content animated fadeIn apply_box info_box">
                                         <form action="" class="form_list clearfix">
+                                         <div class="modal_title">
+                                                E+贷款关联案件
+                                            </div>
                                             <div class="form_tan">
-                                                <label class="control-label sign_left">
-                                                    产证地址
+                                                <label class="control-label" style="width:60px;">
+                                                    	产证地址
                                                 </label>
                                                 <input class="sign_right input_type" placeholder="请输入" value="" id="propertyAddr" name="propertyAddr">
                                             </div>
@@ -289,6 +292,23 @@
                                     </div>
                                 </div>
                             </li>
+                            
+                            <li id="liChargeAndRemark" style="display:none;">
+                                <div class="form_content" id="divCharge">
+                                    <label class="control-label sign_left_two">
+                                        	<i class="red">* </i>手续费
+                                    </label>
+                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="charge">
+                                </div>
+                                <div class="form_content" id="divRemark">
+                                    <label class="control-label sign_left_two">
+                                        	<i class="red">* </i>情况说明
+                                    </label>
+                                    <input class="input_type sign_right_two" value="" name="remark" id="remark" style="width:465px;">
+                                </div>
+                            </li>
+                            
+                            
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -420,7 +440,7 @@
     </td>
     <td>
         <p class="name">
-            <span>交易顾问：</span><a href="#" class="a_blue" id="modal_processorId{{index}}">{{item.PROCESSOR_ID}}</a>
+            <span>交易顾问：</span><a href="#" class="a_blue" id="modal_processorId{{index}}">{{item.FONT_NAME}}</a>
         </p>
         <p class="name">
             <span>经纪人：</span><a href="#" class="a_blue" id="modal_agentName{{index}}">{{item.AGENT_NAME}}</a>
@@ -446,6 +466,81 @@
 	</script>
     <script>
         $(document).ready(function () {
+        	$("#month").blur(function(){
+        		var finOrgCode = $("#finOrgCode option:selected").val();
+        		var month = this.value;
+        		
+        		if(finOrgCode == "W0003" && month != "" && month <= 12){
+        			$("#liChargeAndRemark").show();
+        			$("#divCharge").show();
+        			$("#divRemark").hide();
+        		}
+        		else{
+        			$("#liChargeAndRemark").hide();
+        			$("#divCharge").hide();
+        		}
+        	});
+        	
+        	$("#finOrgCode").change(function(){
+        		var value = this.value;
+        		var month = $("#month").val();
+        		
+        		if(value == "W0003" && month != "" && month <= 12){
+        			$("#liChargeAndRemark").show();
+        			$("#divCharge").show();
+        			$("#divRemark").hide();
+        		}else{
+        			$("#liChargeAndRemark").hide();
+        			$("#divCharge").hide();
+        		}
+        	});
+        	
+        	$("#charge").blur(function(){
+        		var value = $.trim(this.value);
+        		var applyAmount = $.trim($("#applyAmount").val());
+        		
+        		var reg = new RegExp("^[0-9]+(.[0-9]{2})?$", "g");
+                if (value != "" && !reg.test(value)) {
+                    alert("请输入一个数字，最多只能有两位小数！");
+                    $(this).focus().select();
+                }
+                else if(value != "" && applyAmount != ""){
+                	value = Number(value);
+                	applyAmount = Number(applyAmount) * 10000;
+                	
+					var num = value / applyAmount;
+					
+        			if(num > 0.02){
+        				$("#divRemark").show();
+        			}
+        			else {
+        				$("#divRemark").hide();
+        			}
+                }
+                else {
+                	$("#divRemark").hide();
+                }
+        		
+        	});
+        	
+        	$("#applyAmount").blur(function(){
+        		var value = $.trim(this.value);
+        		var chargeAmount = $.trim($("#charge").val());
+        		
+        		if(value != "" && applyAmount != ""){
+        			value = Number(value) * 10000;
+        			chargeAmount = Number(chargeAmount);
+        			var num = chargeAmount / value;
+        			
+        			if(num > 0.02){
+        				$("#divRemark").show();
+        			}
+        			else {
+        				$("#divRemark").hide();
+        			}
+        		}
+        	});
+        	
         	$('#custName').editableSelect({
         		effects: 'slide',
         		filter: false
@@ -508,6 +603,31 @@
 					 alert("请填写申请期数");
 					 return false;	
 				 }
+				 
+				 var finOrgCode = $("#finOrgCode option:selected").val();
+				 
+				 if(finOrgCode == "W0003" && month <= 12){
+					 var charge = $("#charge").val();
+					 
+					 if(charge == ""){
+						 alert("请填写手续费！");
+						 return false;
+					 }
+					 
+					 charge = Number(charge);
+					 applyAmount = Number(applyAmount);
+					 var num = charge / applyAmount;
+					 
+					 if(num > 0.02){
+						 var remark = $("#remark").val();
+						 
+						 if(remark == ""){
+							 alert("请填写情况说明！");
+							 return false;
+						 }
+					 }
+				 }
+				 
 				 return true;
 			}
 
@@ -516,11 +636,11 @@
     			queryId : 'queryCastListItemList',
     		    templeteId : 'queryCastListItemList',
     		    rows : '6',
-    		    gridClass : 'table table_blue table-striped table-bordered table-hover',
+    		    gridClass : 'table table_blue mt20 table-striped table-bordered table-hover customerinfo',
     		    data : '',
     		    wrapperData :{ctx: ctx},
     		    columns : [{
-    		    	           colName :"案件编号",
+    		    	           colName :"<span class='sort'  onclick='caseCodeSort();'' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
     		    	           sortColumn : "CASE_CODE",
     		    	           sord: "desc",
     		    	           sortActive : true
@@ -734,6 +854,15 @@
 			}else{
 				$("#executorName").val("");
 				$("#executorName").attr('hVal',"");
+			}
+		}
+		function caseCodeSort(){
+			if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+				$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
+			}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+				$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
+			}else{
+				$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 			}
 		}
     </script>

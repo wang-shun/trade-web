@@ -45,8 +45,7 @@ input, .form-control {
 }
 
 .left-extent {
-  width: 430px;
-  margin-right: 40px;
+  margin-right: 0px;
 }
 
 .span-tag {
@@ -72,19 +71,25 @@ input, .form-control {
   color: #333;
 }
 .form-margin .lable-one {
-  width: 142px;
+  width: 120px;
 }
 .form-margin .lable-two {
   width: 194px;
 }
 .form-margin .input-one {
-  width: 168px;
+  width: 120px;
 }
 .form-margin .input-two {
-  width: 260px;
+  width: 220px;
 }
 .form-margin .input-three {
   width: 320px;
+}
+.form-margin .input-four {
+  width: 235px;
+}
+.form-margin .input-five {
+  width: 371px;
 }
 .form-margin .input-widest {
   width: 447px;
@@ -92,11 +97,25 @@ input, .form-control {
 .form-margin .select-one {
   width: 100px;
 }
+.form-margin .sex-char {
+  display: inline-block;
+  width: 120px;
+}
+.form-margin .sex-char label {
+  margin-right: 10px;
+}
+
+.form-group .rate {
+  margin-left: 15px;
+  margin-right: 10px;
+  font-size: 12px;
+  color: #808080;
+}
 
 .date_icon {
   position: absolute;
   top: 7px;
-  right: 105px;
+  right: 7px;
   font-size: 14px;
 }
 
@@ -120,4 +139,14 @@ input, .form-control {
 
 .form-inline .input-group .date-width {
   width: 130px;
+}
+
+.btn-save {
+  background: #f784a5;
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: #f784a5;
+  color: #f3f3f3;
 }

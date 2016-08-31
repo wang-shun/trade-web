@@ -17,7 +17,7 @@
 			<baseSql>
 				<![CDATA[
 					select 
-						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						ca.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                <ifNotNull userId>
@@ -36,6 +36,7 @@
 			                ) tab
 			        on sab.case_code = tab.case_code
 			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        inner join sctrans.T_TO_CASE ca on ca.case_code = tab.case_code
 			        where 1 = 1
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and sab.case_code = #caseCode#
@@ -76,7 +77,8 @@
         A.BASE_AMOUNT ,              
         A.SRV_PART_IN ,              
         A.SRV_PART_TOTAL ,           
-        B.SATISFACTION ,             
+        B.SATISFACTION , 
+        B.SRV_PART,            
         C.AWARD_KPI_MONEY ,          
         D.FIN_ORDER ,
         D.FIN_ORDER_ROLL,
@@ -106,6 +108,7 @@ FROM    sctrans.t_ts_award_base A
 				<column name="SRV_PART_TOTAL" />
 
 				<column name="SATISFACTION" />
+				<column name="SRV_PART" />
 				<column name="AWARD_KPI_MONEY" />
 				<column name="FIN_ORDER" />
 				<column name="FIN_ORDER_ROLL" />
@@ -119,7 +122,7 @@ FROM    sctrans.t_ts_award_base A
 			<baseSql>
 				<![CDATA[
 					select 
-						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+						ca.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
 			        from 
 			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
 			                group by case_code) sab
@@ -132,6 +135,7 @@ FROM    sctrans.t_ts_award_base A
 			                ) tab
 			        on sab.case_code = tab.case_code
 			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        inner join sctrans.T_TO_CASE ca on ca.case_code = tab.case_code
 			        where 1 = 1
 			        <if test="caseCode != null and caseCode != '' ">
 			        	and sab.case_code = #caseCode#
@@ -173,7 +177,8 @@ FROM    sctrans.t_ts_award_base A
         A.BASE_AMOUNT ,              
         A.SRV_PART_IN ,              
         A.SRV_PART_TOTAL ,           
-        B.SATISFACTION ,             
+        B.SATISFACTION ,  
+        B.SRV_PART,           
         C.AWARD_KPI_MONEY ,          
         D.FIN_ORDER ,
         D.FIN_ORDER_ROLL,
@@ -202,6 +207,7 @@ FROM    sctrans.t_ts_award_base A
 				<column name="SRV_PART_TOTAL" />
 
 				<column name="SATISFACTION" />
+				<column name="SRV_PART" />
 				<column name="AWARD_KPI_MONEY" />
 				<column name="FIN_ORDER" />
 				<column name="FIN_ORDER_ROLL" />
@@ -265,7 +271,18 @@ FROM    sctrans.t_ts_award_base A
         ci.AR_NAME AR_NAME ,
         wf.INST_CODE AS INST_CODE ,
         wf.STATUS AS WF_STATUS ,
-        CAST(hvi.CREATE_TIME_ AS DATETIME) AS GUOHU_APPROVE_TIME
+        ( SELECT    t.end_time_
+          FROM      sctrans.act_hi_varinst v
+                    INNER JOIN ( SELECT t.proc_inst_id_ ,
+                                        MAX(end_time_) end_time_
+                                 FROM   sctrans.act_hi_taskinst t
+                                 WHERE  t.task_def_key_ = 'GuohuApprove'
+                                 GROUP BY t.proc_inst_id_
+                               ) t ON t.proc_inst_id_ = v.PROC_INST_ID_
+                                      AND v.name_ = 'GuohuApprove'
+                                      AND v.long_ = 1
+          WHERE     v.PROC_INST_ID_ = wf.inst_code
+        ) AS GUOHU_APPROVE_TIME
 FROM    SCTRANS.T_TO_CASE C
         INNER JOIN SCTRANS.T_TO_PROPERTY_INFO PI ON C.CASE_CODE = PI.CASE_CODE
         INNER JOIN SCTRANS.SYS_USER U ON C.LEADING_PROCESS_ID = U.ID
@@ -273,24 +290,17 @@ FROM    SCTRANS.T_TO_CASE C
         INNER JOIN SCTRANS.T_TO_CASE_INFO CI ON C.CASE_CODE = CI.CASE_CODE
         INNER JOIN sctrans.sys_dict d ON d.code = c.status
         INNER JOIN [sctrans].[T_TO_HOUSE_TRANSFER] hf ON c.case_code = hf.case_code
-        INNER JOIN [sctrans].[T_TO_WORKFLOW] wf ON c.case_code = wf.case_code
+        INNER JOIN 
+		[sctrans].[T_TO_WORKFLOW] wf ON c.case_code = wf.case_code
                                                    AND wf.business_key = 'operation_process'
-                                                   AND wf.status IN ( 0, 4 )
-                                                   AND wf.pkid != 3432
         INNER JOIN [sctrans].[ACT_HI_VARINST] hvi ON hvi.NAME_ = 'GuohuApprove'  --历史变量表
                                                      AND hvi.LONG_ = 1
                                                      AND wf.inst_code = hvi.proc_inst_id_
-                                                     <ifNotNull guohuApproveStart>
-															 AND hvi.CREATE_TIME_ &gt;= CAST(#guohuApproveStart# AS DATETIME)
-													</ifNotNull>
-                                                     <ifNotNull guohuApproveEnd>
-															 AND hvi.CREATE_TIME_ &lt; CAST(#guohuApproveEnd#+' 23:59:59' AS DATETIME)
-													</ifNotNull>
-WHERE   C.CASE_CODE IN ( SELECT DISTINCT
+                                                     
+WHERE   C.CASE_CODE NOT IN ( SELECT DISTINCT
                                 AB.CASE_CODE
                          FROM   SCTRANS.T_TS_AWARD_BASE AB
-                         WHERE  AB.PAID_TIME IS NULL )
-        AND c.STATUS NOT IN ( '30001002', '30001003' )
+                         WHERE  AB.PAID = 1  ) AND c.CASE_PROPERTY NOT IN ('30003001','30003005')
         <ifNotNull caseCode>
 				AND C.CASE_CODE = #caseCode# 
 		</ifNotNull>

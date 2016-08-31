@@ -28,6 +28,7 @@ public enum ToAttachmentEnum {
 	PSFSIGN("PSFSign", "纯公积金贷款签约"),
 	PSFAPPLY("PSFApply", "纯公积金贷款申请"),
 	
+	MORTGAGESELECT("MortgageSelect","贷款需求选择"),
 	COMLOANPROCESS("ComLoanProcess", "商业贷款办理"),
 	LOANCLOSE("LoanClose", "贷款结清"),
 	TAXREVIEW("TaxReview", "审税"),

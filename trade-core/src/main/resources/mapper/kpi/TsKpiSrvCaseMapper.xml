@@ -321,5 +321,44 @@
     on t.case_code=a.case_code
     where a.case_code is null;
   </select>
+  
+   <select id="getCaseCodeByCaseCodefromTToCase" resultType="java.lang.String" parameterType="java.util.List" >
+    select 
+    case_code
+    from sctrans.T_TO_CASE
+    where case_code in 
+    (<foreach collection="list" item="item" index="index" separator=","> 
+    #{item.caseCode,jdbcType=VARCHAR}
+    </foreach>)
+  </select>
+  
+  <select id="getCaseCodeByCaseCodefromTToAwardBase" resultType="java.lang.String" parameterType="java.util.List" >
+    SELECT  
+				
+		c.CASE_CODE
+        
+FROM    SCTRANS.T_TO_CASE C
+        INNER JOIN SCTRANS.T_TO_PROPERTY_INFO PI ON C.CASE_CODE = PI.CASE_CODE
+        INNER JOIN SCTRANS.SYS_USER U ON C.LEADING_PROCESS_ID = U.ID
+        INNER JOIN SCTRANS.SYS_ORG O ON C.ORG_ID = O.ID
+        INNER JOIN SCTRANS.T_TO_CASE_INFO CI ON C.CASE_CODE = CI.CASE_CODE
+        INNER JOIN sctrans.sys_dict d ON d.code = c.status
+        INNER JOIN [sctrans].[T_TO_HOUSE_TRANSFER] hf ON c.case_code = hf.case_code
+        INNER JOIN 
+		[sctrans].[T_TO_WORKFLOW] wf ON c.case_code = wf.case_code
+                                                   AND wf.business_key = 'operation_process'
+        INNER JOIN [sctrans].[ACT_HI_VARINST] hvi ON hvi.NAME_ = 'GuohuApprove'  --历史变量表
+                                                     AND hvi.LONG_ = 1
+                                                     AND wf.inst_code = hvi.proc_inst_id_
+                                                     
+WHERE   C.CASE_CODE NOT IN ( SELECT DISTINCT
+                                AB.CASE_CODE
+                         FROM   SCTRANS.T_TS_AWARD_BASE AB
+                         WHERE  AB.PAID = 1  ) AND c.CASE_PROPERTY NOT IN ('30003001','30003005')
+    AND C.CASE_CODE in 
+    (<foreach collection="list" item="item" index="index" separator=","> 
+    #{item.caseCode,jdbcType=VARCHAR}
+    </foreach>)
+  </select>
    
 </mapper>

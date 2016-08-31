@@ -35,6 +35,7 @@ import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
@@ -74,7 +75,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
 
 		ToWorkFlow twf=new ToWorkFlow();
-		twf.setBusinessKey("TempBankAudit_Process");
+		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
@@ -104,10 +105,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		
 		/*删除临时银行流程相关*/
 		ToWorkFlow twf=new ToWorkFlow();
-		twf.setBusinessKey("TempBankAudit_Process");
+		
+		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
+		
 		
 		ToWorkFlow wf=new ToWorkFlow();
 	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
@@ -191,6 +194,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		//如果流程重启申请审批通过的话，就删除对应的预警信息
 		if(vo.getIsApproved()){
 			bizWarnInfoMapper.deleteByCaseCode(vo.getCaseCode());
+		}
+		
+		//流程重启更改掉案件临时银行的状态
+		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
+		if(toMortgage != null){
+			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
 		}
 		
 		return true;

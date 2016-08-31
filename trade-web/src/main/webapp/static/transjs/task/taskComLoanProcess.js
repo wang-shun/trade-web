@@ -387,7 +387,9 @@ function completeMortgage(form){
 		}
 	});
 }
-//查询分行信息
+
+
+//查询分行信息1111
 function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
 	var bankHtml = "<option value=''>请选择</option>";
 	var param = {nowCode:finOrgCode};
@@ -475,7 +477,7 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 	return true;
 }
 
-//给贷款银行赋值
+//给贷款银行赋值222
 function getParentBankInfo(finOrgCode,formId){
 	 $.ajax({
 	    url:ctx+"/manage/queryParentBankInfo",
@@ -541,8 +543,11 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
     				getGuestInfo(fStr);
 
     				if(data.content && data.content.isTmpBank=='1'){
+    					//临时银行
     					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
+    					//alert(f.find("select[name='bank_type']"));
     				}else{
+    					//非临时银行
     					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
     				}
 	  				

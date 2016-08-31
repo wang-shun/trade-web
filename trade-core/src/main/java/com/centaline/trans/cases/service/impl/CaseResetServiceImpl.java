@@ -20,6 +20,8 @@ import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 @Service
@@ -41,6 +43,9 @@ public class CaseResetServiceImpl implements CaseResetService {
 	
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
+	
+	@Autowired
+	private ToMortgageService toMortgageService;
 	
 	@Override
 	public void reset(CaseResetVo vo) {
@@ -86,5 +91,12 @@ public class CaseResetServiceImpl implements CaseResetService {
 		}
 		
 		bizWarnInfoService.deleteByCaseCode(vo.getCaseCode());   //删除商贷流失预警信息
+		
+		//流程重启更改掉案件临时银行的状态
+		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
+		if(toMortgage != null){
+			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
+		}
+		
 	}
 }

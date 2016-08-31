@@ -7,13 +7,19 @@ label {
 }
 
 .add_group {
-  margin-left: 172px;
-  margin-bottom: 7px;
+   margin-left: 0px;
+  margin-bottom: 12px;
 }
+
 
 .chosen_space {
   margin-right: 15px;
   border-radius: 2px;
+}
+
+.btn-grey {
+  background: #eee;
+  color: #1c84c6;
 }
 
 .chosen-container-single .chosen-single {
@@ -134,16 +140,17 @@ label {
 
 .btn_more, .btn_more:visited, .btn_more:active, .btn_more:focus {
   background-color: #fff;
-  border: 1px solid #1a7bb9;
+  border: 1px solid #1a7bb9!important;
   font-size: 14px;
   color: #333;
+  outline: none;
 }
 
 .btn_more:hover {
-  background-color: #1a7bb9;
-  border: 1px solid #1a7bb9;
-  font-size: 14px;
-  color: #fff;
+  background-color: #1a7bb9!important;
+  border: 1px solid #1a7bb9!important;
+  font-size: 14px!important;
+  color: #fff!important;
 }
 
 .goods_type .btn {

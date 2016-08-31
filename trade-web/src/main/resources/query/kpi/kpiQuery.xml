@@ -35,15 +35,26 @@
 		<searchSql>
 			<baseSql>
                   <![CDATA[
-					select a.pkid,a.CASE_CODE,a.SRV_CODE AS SRV_CODE_OLD,ot.org_name as tName,od.org_name as dName,a.type,a.SATISFACTION,a.CAN_CALLBACK from sctrans.t_ts_kpi_srv_case as a
+					select tc.pkid,a.CASE_CODE,a.SRV_CODE AS SRV_CODE_OLD,ot.org_name as tName,od.org_name as dName,a.type,a.SATISFACTION,a.SRV_PART,a.CAN_CALLBACK from sctrans.t_ts_kpi_srv_case as a
 						left join sctrans.SYS_ORG as ot on ot.id =a.team_id
 						left join sctrans.sys_org as od on od.id=a.DISTRICT_ID
+						inner join sctrans.T_TO_CASE tc ON tc.case_code = a.case_code
 						where 1=1
 						<ifNotNull belongMonth>
 			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
 			 			</ifNotNull>
+			 			<ifNotNull yuCuiOriGrpDeptId>
+			        		AND od.id = #yuCuiOriGrpDeptId#
+			 			</ifNotNull>
+			 			<ifNotNull yuCuiOriGrpId>
+			        		AND ot.id = #yuCuiOriGrpId#
+			 			</ifNotNull>
+			 			
 				]]>
 			</baseSql>
+			<orderBySql>
+			  		ORDER BY CASE_CODE  DESC
+			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
@@ -57,6 +68,7 @@
 				<column type="both" name="dName" index="" checkbox="" title="所属贵宾服务部" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="type" index="" checkbox="" title="类型" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="SATISFACTION" index="" checkbox="" title="满意度" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="SRV_PART" index="" checkbox="" title="占比" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="CAN_CALLBACK" index="" checkbox="" title="是否接通" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 			</table-row>
 		</grid>

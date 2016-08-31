@@ -27,4 +27,8 @@ public interface ToMortgageMapper {
     int inActiveMortageByCaseCode(String caseCode);
     /**重新设定最终贷款银行（商贷）**/
     int restSetLastLoanBank(ToMortgage toMortgage); 
+    
+    public ToMortgage getMortgageByCaseCode(String caseCode);
+    
+    public int updateTmpBankStatus(String caseCode);
 }

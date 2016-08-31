@@ -1,16 +1,32 @@
 /*加载待分配案件*/
 $(document).ready(function(){
-	reloadGrid(1);
+	/*加载排序查询组件*/
+	aist.sortWrapper({
+		reloadGrid : searchMethod
+	});
+	
+	var data = getQueryParams(1);
+    aist.wrap(data);
+	//添加排序------------
+	reloadGrid(data);
 });
 
 /*条件查询*/
 $('#searchButton').click(function(){
-	reloadGrid(1);
+    searchMethod(1)
 });
+//search
+function searchMethod(page){
+	$("#caseDistributeButton").attr("disabled", true);
+	$("#caseChangeTeamButton").attr("disabled", true);
+	var data = getQueryParams(page);
+    aist.wrap(data);
+	reloadGrid(data);
+}
 
 /*获取查询参数*/
 function getQueryParams(page){
-	
+	  
 	if(!page){
 		page=1;
 	}
@@ -37,19 +53,25 @@ function getQueryParams(page){
 		search_caseNo : caseNo,
 		search_caseAddr : caseAddr,
 		queryId : 'queryCastListItemListUnDistribute',
-		rows : 12,
+		rows : 10,
 	    page : page
 	};
-	
 	return params;	
 }
 
 /*获取未分配案件列表*/
-function reloadGrid(page) {
+function reloadGrid(data) {
 
-	var data = getQueryParams(page);
+	//var data = getQueryParams(page);
 	var ctx = $("#ctx").val();
+	//添加排序-----
+   // aist.wrap(data);
 	
+	var sortcolumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	data.sidx=sortcolumn;
+	data.sord=sortgz;
+	//添加排序----------
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -66,8 +88,29 @@ function reloadGrid(page) {
         	var myCaseList = template('template_myCaseList' , data);
         	$("#myCaseList").empty();
         	$("#myCaseList").html(myCaseList);
+        	
 			// 显示分页 
             initpage(data.total,data.pagesize,data.page, data.records);
+            $('.demo-left').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'left',
+    			alignY: 'center',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
+
+    		//top
+    		$('.demo-top').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'center',
+    			alignY: 'top',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -103,7 +146,8 @@ function initpage(totalCount,pageSize,currentPage,records) {
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(page);
+			//reloadGrid(page);
+			searchMethod(page);
 	    }
 	});
 }
@@ -353,7 +397,10 @@ function distributeCase(index){
 									alert("分配成功");
 									$('#modal-form').modal("hide");
 									//jqGrid reload
-									reloadGrid(1);
+									/*
+									reloadGrid(1);*/
+									$("#checkAllNot").attr('checked',false);
+									searchMethod(1);
 								}else{
 									alert(data.message);
 								}
@@ -444,7 +491,10 @@ function changeCaseTeam(){
 					alert("分配成功");
 					$('#team-modal-form').modal("hide");
 					//jqGrid reload
-					reloadGrid(1);
+					/*
+					reloadGrid(1);*/
+					$("#checkAllNot").attr('checked',false);
+					searchMethod(1);
 				}else{
 					alert(data.message);
 				}
@@ -455,3 +505,61 @@ function changeCaseTeam(){
 		}); 
 	}
 }
+
+
+
+function caseCodeSort(){
+	if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
+	}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
+
+function createTimeSort(){
+	if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#createTimeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
+
+/***
+ *  回调刷新的方法
+ */
+function callback() {
+	setTimeout('searchMethod()',1000); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

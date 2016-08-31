@@ -8,6 +8,14 @@
 .main_titile h5 {
   font-weight: bold;
 }
+.info_box {
+    padding: 10px 30px 30px 30px;
+}
+.modal_title {
+    margin: 0px 0px 25px 0px;
+    font-family: "Microsoft Yahei";
+    font-weight: 700;
+}
 
 .close {
   float: right;
@@ -134,14 +142,26 @@
   color: #fff;
 }
 
-.apply_table {
-  height: 420px;
-  overflow-x: hidden;
-  overflow-y: auto;
+.mt20 {
+  margin-top: 20px;
 }
-
 .form_tan {
   float: left;
+}
+.customerinfo {
+  border: none !important;
+}
+
+.customerinfo tr th, .customerinfo tr td {
+  border: 1px solid #f9f9f9 !important;
+}
+
+.customerinfo tr th:first-child, .customerinfo tr td:first-child {
+  border-left: none !important;
+}
+
+.customerinfo tr th:last-child, .customerinfo tr td:last-child {
+  border-right: none !important;
 }
 
 .tan_space {

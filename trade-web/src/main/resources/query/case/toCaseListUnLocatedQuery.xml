@@ -40,23 +40,23 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						tci.PKID,
-						tci.CASE_CODE,
-						tci.CTM_CODE,
-						tci.AGENT_CODE,
-						tci.AGENT_NAME,
-						tci.IMPORT_TIME,
-						tci.GRP_NAME as ORG_NAME,
-						tci.grp_code as AGENT_ORG_CODE,
-						pi.PROPERTY_ADDR
-						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
+						TCI.PKID,
+						TCI.CASE_CODE,
+						TCI.CTM_CODE,
+						TCI.AGENT_CODE,
+						TCI.AGENT_NAME,
+						TCI.IMPORT_TIME,
+						TCI.GRP_NAME as ORG_NAME,
+						TCI.GRP_CODE as AGENT_ORG_CODE,
+						PI.PROPERTY_ADDR,TCI.AGENT_PHONE,TCI.QYZJ_NAME as qyzjNAME,
+						iif(TCI.QYJL_NAME is null or TCI.QYJL_NAME = '',TCI.QYZJ_NAME,TCI.QYJL_NAME ) LEADER						
 					FROM
-						sctrans.T_TO_CASE_INFO AS tci
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS pi ON tci.CASE_CODE = pi.CASE_CODE
-					where not exists (
-						select 1 from sctrans.T_TS_TEAM_SCOPE_TARGET tst where tci.TARGET_CODE = tst.GRP_CODE
+						sctrans.T_TO_CASE_INFO AS TCI
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS PI ON TCI.CASE_CODE = PI.CASE_CODE
+						WHERE not exists (
+							SELECT 1 FROM sctrans.T_TS_TEAM_SCOPE_TARGET TST where TCI.TARGET_CODE = TST.GRP_CODE
 						)
-						and (tci.is_responsed = 0 or tci.is_responsed is null)
+						AND (TCI.is_responsed = 0 or TCI.is_responsed is null)
  				]]>
 			</baseSql>
 			<orderBySql>
@@ -72,6 +72,8 @@
 				<column type="both" name="ORG_NAME" display="组别"  />
 				<column type="both" name="IMPORT_TIME"  display="导入时间"  beanFormatter="dateFormatter1"   />			
 				<column type="both" name="LEADER"  	title="区经/区总" />	
+				<column type="both" name="AGENT_PHONE"  	title="电话" />	
+				<column type="both" name="qyzjNAME"  	title="区董" />	
 			</table-row>
 		</grid>
 	</query>

@@ -22,6 +22,12 @@ public interface TsFinOrgMapper {
     TsFinOrg findByPkid(Long pkid);
 
     TsFinOrg findTsFinOrgByFinOrgCode(@Param("finOrgCode")String finOrgCode,@Param("pkid")Long pkid);
+    
+    /**
+     * 临时银行报表--获取贷款银行列表
+     * @return
+     */
+    public List<TsFinOrg> queryMainBankListInTempBankReport();
 
     /**
      * 查询egu分行列表

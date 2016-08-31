@@ -30,5 +30,8 @@ public interface TsKpiSrvCaseMapper {
 
 	Set<String> getCaseCodeByCaseCode(List<KpiSrvCaseVo> list);
 	Set<String> getNoneAwardCase(List<KpiSrvCaseVo> list);
-	
+	/* 从t_to_case表里面获取导入案件的所有案件编号 */
+	Set<String> getCaseCodeByCaseCodefromTToCase(List<KpiSrvCaseVo> list);
+	/* 计算过户案件的案件编号  */
+	Set<String> getCaseCodeByCaseCodefromTToAwardBase(List<KpiSrvCaseVo> list);
 }

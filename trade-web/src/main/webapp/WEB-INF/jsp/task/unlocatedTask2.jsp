@@ -36,6 +36,8 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 
 <style type="text/css">
@@ -73,100 +75,6 @@ text-decoration: underline !important;
 .table-fenpei th{text-align:center;}
 .data-wrap-in .fenpei{padding:0 8px;display:inline-block;height: 30px;line-height: 30px;background-color:#ddd;border-radius: 3px;}
 
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
 
 </style>	
 
@@ -217,12 +125,12 @@ text-decoration: underline !important;
 							<table class="table table_blue table-striped table-bordered table-hover ">
 								<thead>
 									<tr>
-										<th>案件编号</th>
+										<th ><span class="sort" sortColumn="b.case_Code" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 										<th>流程环节</th>	
 										<th>产证地址</th>
 										<th>贵宾服务中心</th>
-										<th>开始时间</th>	
-										<th><span class="sort" sortColumn="CREATE_TIME" sord="asc">操作</span></th>
+										<th ><span class="sort" sortColumn="createTime" sord="asc" onclick="createTimeSort();" >开始时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
+										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody id="tab_unlocatedTask">
@@ -288,11 +196,13 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-<script src="${ctx}/js/trunk/case/unlocatedTask.js?v=1.1"></script><%-- 
+<script src="${ctx}/js/trunk/case/unlocatedTask2.js?v=1.1"></script><%-- 
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> --%>
 
 <!-- 分页控件  -->
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script id="template_unlocatedTask" type="text/html">
          {{each rows as item index}}
@@ -319,16 +229,30 @@ text-decoration: underline !important;
                                </p>
                         </td>
 						<td>
-                                <p class="big">
-                                	{{item.propertyAddr}}  
-                                </a>
-                                </p>
-                                <span class="tooltip-demo">
-                               		<i class="salesman-icon"></i>   
-									<a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} " data-toggle="tooltip" data-placement="top" >
-                                    	 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} 
-									</a>	            
-                               </span>
+
+
+{{if item.propertyAddr != null && item.propertyAddr!="" && item.propertyAddr.length>24}}
+<p class="demo-top" title="{{item.propertyAddr}}">
+{{item.propertyAddr.substring(item.propertyAddr.length-24,item.propertyAddr.length)}}
+{{else}}</p><p>
+{{item.propertyAddr}}
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}" >
+{{if item.GRP_NAME !="" && item.GRP_NAME !=null && item.GRP_NAME.length>11}}		
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,11)}}...
+{{/if}}					
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}
+{{/if}}	
+								 </a>
+							</p>
+
                         </td>
 						<td>
                                 <p class="big">
@@ -340,7 +264,7 @@ text-decoration: underline !important;
                         </td>
 						<td>
                                <p class="smll_sign">
-                                       	<i class="sign_normal">申</i>
+                                       	<i class="sign_normal">创</i>
                                      		{{item.createTime}}    
 										</i>      
                                 </p>
@@ -375,6 +299,8 @@ function loadUser(){
 }
 
 $(document).ready(
+		
+		
 				function() {
 				userGrid=$("#table_list_3").jqGrid(
 			{
@@ -430,14 +356,25 @@ $(document).ready(
 				pgtext : " {0} 共 {1} 页",
 
 			});
+				/*加载排序查询组件*/
+				aist.sortWrapper({
+					reloadGrid : reloadGrid
+				});
+				//添加排序------------	
 			reloadGrid();
 	});
 
 function reloadGrid(page) {
 	var data1=packgeData(page);
 	data1.queryId = "queryUnlocatedTask";
-	//aist.wrap(data1);
-     	    fetchData(data1);
+	aist.wrap(data1);
+	
+	var sortcolumn=$('span.active').attr("sortColumn");
+	var sortgz=$('span.active').attr("sord");
+	data1.sidx=sortcolumn;
+	data1.sord=sortgz;
+	
+    fetchData(data1);
   	}
 function packgeData(page){
      		var data1 = {};
@@ -473,6 +410,26 @@ function fetchData(p){
                   $("#tab_unlocatedTask").html(tsAwardBaseList);
                   
                  initpage(data.total,data.pagesize,data.page, data.records);
+                 $('.demo-left').poshytip({
+         			className: 'tip-twitter',
+         			showTimeout: 1,
+         			alignTo: 'target',
+         			alignX: 'left',
+         			alignY: 'center',
+         			offsetX: 8,
+         			offsetY: 5,
+         		});
+
+         		//top
+         		$('.demo-top').poshytip({
+         			className: 'tip-twitter',
+         			showTimeout: 1,
+         			alignTo: 'target',
+         			alignX: 'center',
+         			alignY: 'top',
+         			offsetX: 8,
+         			offsetY: 5,
+         		});
  	          }
  	     });
 } 
@@ -546,6 +503,25 @@ function doLocateTask(candidateId) {
 	});
 }
 
+function caseCodeSort(){
+	if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
+	}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
+
+function createTimeSort(){
+	if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else if($("#createTimeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
+		$("#createTimeSorti").attr("class",'fa fa-sort-asc fa_up');
+	}else{
+		$("#createTimeSorti").attr("class",'fa fa-sort-desc fa_down');
+	}
+}
 </script> 
 </content>				
 </body>

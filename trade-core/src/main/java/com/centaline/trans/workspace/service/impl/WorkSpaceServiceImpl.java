@@ -166,4 +166,20 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 	@Override
 	public Double staLoanAgentTransferRate(WorkSpace work) {
 		return mapper.staLoanAgentTransferRate(work);
-	}}
+	}
+
+	@Override
+	public Double staEvaFeeCount(WorkSpace work) {
+		return mapper.staEvaFeeCount(work);
+	}
+
+	@Override
+	public Integer getUnlocatedCaseCount() {
+		return mapper.getUnlocatedCaseCount();
+	}
+
+	@Override
+	public Integer getUnlocatedTaskCount(Map map) {
+		return mapper.getUnlocatedTaskCount(map);
+	}
+}

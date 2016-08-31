@@ -1,136 +1,18 @@
-$(document).ready(function() {
-	
-					// Examle data for jqGrid
-					// Configuration for jqGrid Example 1
-					// /$("#case_date").addClass('btn btn-white chosen-select');
-					cleanForm();
+
+$(document).ready(function() {					
 					//基本信息等高
 					var cpDivWidth = $("#case_date_0").next().width();
-					$('#inTextType').next().css("width", cpDivWidth);
-					var url = "/quickGrid/findPage";
-					var ctx = $("#ctx").val();
-					url = ctx + url;
-					var queryOrgFlag = $("#queryOrgFlag").val();
-					var isAdminFlag = $("#isAdminFlag").val();
-					var queryOrgs = $("#queryOrgs").val();
-					var arguUserId=null;
-					if(queryOrgFlag == 'true'){
-						arguUserId=null;
-						if(isAdminFlag == 'true'){
-							queryOrgs=null;
-						}
-					}else{
-						queryOrgs= null;
-						arguUserId="yes";
-					}
+					$('#inTextType').next().css("width", cpDivWidth);			
 
-					var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-					//queryOrgs = "'ff8080814f459a78014f45a8104c0008','ff8080814f459a78014f45a8e2ef0009'";
-					// jqGrid 初始化
-					/*$("#table_list_1").jqGrid(
-					{
-						url : url,
-						mtype : 'POST',
-						datatype : "json",
-						height : 550,
-						autowidth : true,
-						shrinkToFit : true,
-						forceFit : true,
-						rowNum : 20,
-						 rowList: [10, 20, 30], 
-						colNames : [ 'id', '案件编号','CTM编号', '产证地址',
-								'经纪人','所属分行', '上家', '下家', '经办人', '案件状态','红灯数' ],
-						colModel : [ {
-							name : 'PKID',
-							index : 'PKID',
-							align : "center",
-							width : 0,
-							key : true,
-							resizable : false,
-							hidden : true
-						}, {
-							name : 'CASE_CODE',
-							index : 'CASE_CODE',
-							width : 80,
-							formatter : function(cellvalue, options, rawObject){
-								var a=("<a class='aline' href='"+ctx+"/case/caseDetail?caseId="+rawObject.PKID+"' target='_blank'>"+cellvalue+"</a>");
-								return a;
-							}
-						},{
-							name:"ctmCode",
-							index:"ctmCode",
-							align:"center",
-								width:80
-						} ,
-						{
-							name : 'PROPERTY_ADDR',
-							index : 'PROPERTY_ADDR',
-							width : 160
-						}, {
-							name : 'AGENT_NAME',
-							index : 'AGENT_NAME',
-							width : 40
-						}, {
-							name : 'AGENT_ORG_NAME',
-							index : 'AGENT_ORG_NAME',
-							width : 70
-						}, {	
-							name : 'SELLER',
-							index : 'SELLER',
-							width : 40
-						}, {
-							name : 'BUYER',
-							index : 'BUYER',
-							width : 40
-						}, {
-							name : 'PROCESSOR_ID',
-							index : 'PROCESSOR_ID',
-							width : 90
-						}, {
-							name : 'STATUS',
-							index : 'STATUS',
-							width : 35
-						}, {
-							name : 'RED_COUNT',
-							index : 'RED_COUNT',
-							width : 30
-						},
-
-						],
-						pager : "#pager_list_1",
-						viewrecords : true,
-						pagebuttions : true,
-						hidegrid : false,
-						recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-						pgtext : " {0} 共 {1} 页",
-
-						onSelectRow : function(rowid, status) {
-							
-						},
-						postData : {
-							queryId : "queryCastListItemList",
-							argu_idflag: arguUserId,
-							argu_queryorgs:orgArray
-						}
-
-					});*/
-
-					/*// Add responsive to jqGrid
-					$(window).bind('resize', function() {
-						var width = $('.jqGrid_wrapper').width();
-						$('#table_list_1').setGridWidth(width);
-						
-						$("#table_list_1").setGridHeight($(window).height()*0.68);
-
-					});*/
 					// 初始化列表
 					var data = {};
 		    	    data.queryId = "queryCastListItemList";
 		    	    data.rows = 12;
 		    	    data.page = 1;
-		    	    data.argu_isNotResearchCloseCase = "true";
+		    	    data.argu_isNotResearchCloseCase = "true";	
+					
 		    		reloadGrid(data);
-
+		    		
 					//$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
 					$("span[name='srvCode']").click(function(){
 						var id = $(this).attr("id");
@@ -274,6 +156,7 @@ function reloadGrid(data) {
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
+	var serviceDepId = $("#serviceDepId").val();
 	var arguUserId=null;
 	if(queryOrgFlag == 'true'){
 		arguUserId=null;
@@ -286,8 +169,9 @@ function reloadGrid(data) {
 	}
 
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
+	data.argu_idflag = arguUserId;	
+	//data.argu_queryorgs = orgArray == null?serviceDepId:orgArray;
 	
 	$.ajax({
 		async: true,
@@ -302,6 +186,8 @@ function reloadGrid(data) {
         success: function(data){
           $.unblockUI();   	 
       	  data.ctx = ctx;
+      	console.log("数据"+JSON.stringify(data));
+
       	  var myCaseList = template('template_myCaseList' , data);
 			  $("#myCaseList").empty();
 			  $("#myCaseList").html(myCaseList);
@@ -692,6 +578,12 @@ function exportToExcel() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);
 		});
+		/*新增确认函编号*/
+		displayColomn.push('REC_LETTER_NO');
+		displayColomn.push('LOANLOST_CONFIRM_CODE');		
+		displayColomn.push('SELF_DEL_REASON');
+		displayColomn.push('loanlost_apply_reason');
+		
 		$("input[name='trade_info_item']:checked").each(function() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);
@@ -770,7 +662,7 @@ function initAutocomplete(url){
 		}
     }).AutoComplete('show');
 }
-//选业务组织的回调函数
+/*//选业务组织的回调函数
 function radioYuCuiOrgSelectCallBack(array){
     if(array && array.length >0){
         $("#teamCode").val(array[0].name);
@@ -782,6 +674,17 @@ function radioYuCuiOrgSelectCallBack(array){
 		$("#teamCode").val("");
 		$("#yuCuiOriGrpId").val("");
 	}
+}*/
+
+//选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array) {
+		if (array && array.length > 0) {
+				$("#teamCode").val(array[0].name);
+				$("#yuCuiOriGrpId").val(array[0].id);
+		} else {
+				$("#teamCode").val("");
+				$("#yuCuiOriGrpId").val("");
+		}
 }
 //清空
 $('#cleanButton').click(function() {

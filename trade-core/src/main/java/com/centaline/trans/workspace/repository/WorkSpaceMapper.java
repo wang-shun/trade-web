@@ -27,7 +27,7 @@ public interface WorkSpaceMapper {
 	public Double staLoanAgentTransferRate(WorkSpace work);
 
 	public Map staEvaFee(WorkSpace work);
-	public Map staEvaFeeCount(WorkSpace work);
+	public Double staEvaFeeCount(WorkSpace work);
 	
 
 	/*接单数*/
@@ -62,4 +62,6 @@ public interface WorkSpaceMapper {
 	public List<Rank> staCpfLoanRank(String orgId);
 	public List<Rank> staBusinessOrComLoanRank(String orgId);
 	public List<SimpleLoanAgent>listNewLoanAgent(String orgId);
+	public Integer getUnlocatedCaseCount();
+	public Integer getUnlocatedTaskCount(Map map);
 }

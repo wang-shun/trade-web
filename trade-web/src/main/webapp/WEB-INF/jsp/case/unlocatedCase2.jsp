@@ -43,102 +43,11 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 <style type="text/css">
 
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
 </style>
 </head>
 <body>
@@ -178,7 +87,7 @@
 					 	<div class="add_btn">		
 					        <button type="button" class="btn btn-success" onclick="javascript:loadGrid(1)"> <i class="icon iconfont"></i>查询 </button>	
 					        <button type="button" class="btn btn-success" onclick="javascript:clean()"> 清空 </button>	
-					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton"> 案件分配 </button>	
+					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>	
 					     </div>
 					 </div>
 			    </div>
@@ -187,11 +96,11 @@
 		
 		<div class="row">
 				 <div class="col-md-12">
-					<div class="table_content">
-						<table class="table table_blue table-striped table-bordered table-hover " >
+					<div class="table_content"> <form id="form1"> <input type="hidden" id="h_userId" >
+						<table class="table table_blue table-striped table-bordered table-hover " id="table_list_1" name="table_list_1" >
 						<thead>
 						<tr>
-							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
+							<th ><input type="checkbox" id="checkAllNot" class="i-checks"  /></th>
 							<th >案件编号</th>
 							<th >产证地址</th>
 							<th >导入时间</th>
@@ -201,9 +110,9 @@
 						<tbody id="myCaseList">
 				
 						</tbody>							
-						</table>
+						</table></form>
 								
-						<div class="text-center page_box">
+						<div class="text-center page_box" id="pager_list_1">
 							<span id="currentTotalPage"><strong class="bold"></strong></span>
 							<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
 							<div id="pageBar" class="pagination text-center"></div>  
@@ -261,6 +170,8 @@
 <script src="${ctx}/js/trunk/case/unlocatedCase2.js"></script>
 <script src="${ctx}/js/template.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <!-- 分页控件  -->
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -281,11 +192,9 @@
             	<tr class="tr-2">
             {{/if}}
 				<td class="center">
-					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" /> 
-					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
-					<input type="hidden" name="yu_team_code" value="{{item.YU_TEAM_CODE}}"/>
-					<input type="hidden" name="leading_process_id" value="{{item.LEADING_PROCESS_ID}}"/>
-
+					<input type="checkbox" name="ckb_task" onclick="ckbChange();" value="{{item.CASE_CODE}}" style="margin-top: 9px;float: left;"  /> 
+							<input type='hidden'  disabled>
+							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
 				</td>
 				<td >
 						<p class="big">
@@ -299,16 +208,32 @@
                        </p>
 				</td>
 				<td >
- 					<p class="big">
-						{{item.PROPERTY_ADDR}}
-    				 </p>
-					
- 					<span >
-						<i class="salesman-icon"> </i>
-                        <a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >
-                           {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
-                        </a>
-    				 </span>
+
+
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+{{else}}</p><p>
+{{item.PROPERTY_ADDR}}
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								 
+{{if item.ORG_NAME !="" && item.ORG_NAME !=null && item.ORG_NAME.length>11}}		
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}	
+<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >		
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,11)}}...
+{{/if}}					
+{{else}}</a><a>
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
+{{/if}}	
+								 </a>
+							</p>
+
+
 				</td>
 				<td >
 						{{if item.IMPORT_TIME!=null}}
@@ -326,8 +251,8 @@
 
 				</td>
 				<td class="center">
-                        <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
-                         <span class="manager"><a href="#"><em>区总：</em></a></span>
+                        <p>区经：{{item.LEADER}}</p>
+                        <p>区董：{{item.qyzjNAME}}</p>
                  </td>
 				</tr>
        {{/each}}
@@ -383,22 +308,29 @@
 			var url = "/case/bindCaseTeam";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-
+			
 			var caseInfoList = new Array();
-			var ids = $("#table_list_1").jqGrid('getGridParam',"selarrrow");
-			//var ids = jQuery("#table_list_1").jqGrid('getDataIDs');
-			for (var i = 0; i < ids.length; i++) {
-			   var row = $("#table_list_1").getRowData(ids[i]);
-			   var toCaseInfo = {
-				   caseCode	: row.CASE_CODE  ,
-				   grpCode :  ''
-			   }
-			   caseInfoList.push(toCaseInfo);
-			}
+			var sendData = $("input[name='ckb_task']:checked").serializeArray();
+			
+			//var sendData=$('#form1').serializeArray();
+			
+			for(var index in sendData){
+			     var obj = sendData[index];
+			     //alert(JSON.stringify(obj));
+			     if(obj.name=='ckb_task'){
+				     var toCaseInfo = {
+					   caseCode	: obj.value,
+					   grpCode :  ''
+				    }
+				     
+				     caseInfoList.push(toCaseInfo);
+			     }
+			 }
+			
 			var teamTransferVO = {
 			   caseInfoList	: caseInfoList,
 			   orgId : orgId
-			}
+			} 
 			teamTransferVO = $.toJSON(teamTransferVO);
 			$.ajax({
 				cache : false,
@@ -431,6 +363,8 @@
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
+						$("#checkAllNot").attr('checked',false);
+						loadGrid(1);
 					}else{
 						alert(data.message);
 					}

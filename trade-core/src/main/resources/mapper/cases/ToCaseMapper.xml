@@ -61,6 +61,9 @@
       <if test="orgId != null">
         ORG_ID,
       </if>
+      <if test="districtId != null">
+        DISTRICT_ID,
+      </if>
       <if test="closeTime != null">
         CLOSE_TIME,
       </if>
@@ -90,6 +93,9 @@
       </if>
       <if test="orgId != null">
         #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null">
+       #{districtId,jdbcType=VARCHAR},
       </if>
       <if test="closeTime != null">
         #{closeTime,jdbcType=TIMESTAMP},
@@ -121,6 +127,9 @@
       <if test="orgId != null">
         ORG_ID = #{orgId,jdbcType=VARCHAR},
       </if>
+      <if test="districtId != null">
+        DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      </if>
       <if test="closeTime != null">
         CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       </if>
@@ -141,6 +150,9 @@
       CASE_PROPERTY = #{caseProperty,jdbcType=NVARCHAR},
       LEADING_PROCESS_ID = #{leadingProcessId,jdbcType=VARCHAR},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
+      <if test="districtId != null">
+        DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      </if>
       CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = GETDATE(),
       UPDATE_BY = @{SESSION_USER_ID}

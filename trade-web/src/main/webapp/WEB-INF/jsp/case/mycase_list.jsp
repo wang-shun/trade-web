@@ -139,10 +139,11 @@ text-decoration: underline !important;
 									<div class="sign_right teamcode">
 										<input type="text" class="teamcode tbsporg org-label-control"
 											id="teamCode" name="teamCode" readonly="readonly"
-											onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,
-										   expandNodeId:''})" />
+																			   
+										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
+										   value="${serviceDepName}"
+										   />
 										<input class="m-wrap" type="hidden" id="yuCuiOriGrpId"
 											name="yuCuiOriGrpId">
 									</div>
@@ -334,6 +335,7 @@ text-decoration: underline !important;
 	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
@@ -375,7 +377,7 @@ text-decoration: underline !important;
                    {{/if}}
 						<td class="t-left pd-l"><span class="ctm-tag">C</span><span class="case-ctm">{{item.ctmCode}}</span></td>
 						<td colspan="2" class="t-left pd-l"><i class="salesman-icon"></i><span class="salesman-info">{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</span></td>
-						<td colspan="2" class="t-left pd-l"><span class="jbr">经办人：{{item.PROCESSOR_ID}}</span></td>
+						<td colspan="2" class="t-left pd-l"><span class="jbr">经办人：{{item.FONT_NAME}}/{{item.PROCESSOR_ID}}</span></td>
 						<td></td>
 					</tr>
        {{/each}}

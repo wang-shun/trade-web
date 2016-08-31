@@ -22,40 +22,40 @@ public class KpiSrvCaseVo {
 	 * 上家签约
 	 */
 	@ExcelField(title = "上家签约")
-	private Double salesSignScore;
+	private String salesSignScore;
 	/**
 	 * 上家陪同还贷
 	 */
 	@ExcelField(title = "上家陪同还贷")
-	private Double accompanyRepayLoanScore;
+	private String accompanyRepayLoanScore;
 	/**
 	 * 上家过户
 	 */
 	@ExcelField(title = "上家过户")
-	private Double salesTransferScore;
+	private String salesTransferScore;
 
 	/**
 	 * 下家签约
 	 */
 	@ExcelField(title = "下家签约")
-	private Double signScore;
+	private String signScore;
 	/**
 	 * 下家贷款
 	 */
 	@ExcelField(title = "下家贷款")
-	private Double comLoanScore;
+	private String comLoanScore;
 	/**
 	 * 下家纯公积金
 	 */
 	@ExcelField(title = "下家纯公积金")
-	private Double accuFundScore;
+	private String accuFundScore;
 
 
 	/**
 	 * 下家过户
 	 */
 	@ExcelField(title = "下家过户")
-	private Double transferScore;
+	private String transferScore;
 	/**
 	 * 上家电话接通
 	 */
@@ -81,60 +81,62 @@ public class KpiSrvCaseVo {
 		this.caseCode = caseCode;
 	}
 
-	public Double getSignScore() {
-		return signScore;
-	}
+	
 
-	public void setSignScore(Double signScore) {
-		this.signScore = signScore;
-	}
-
-	public Double getSalesSignScore() {
+	public String getSalesSignScore() {
 		return salesSignScore;
 	}
 
-	public void setSalesSignScore(Double salesSignScore) {
+	public void setSalesSignScore(String salesSignScore) {
 		this.salesSignScore = salesSignScore;
 	}
 
-	public Double getTransferScore() {
-		return transferScore;
-	}
-
-	public void setTransferScore(Double transferScore) {
-		this.transferScore = transferScore;
-	}
-
-	public Double getSalesTransferScore() {
-		return salesTransferScore;
-	}
-
-	public void setSalesTransferScore(Double salesTransferScore) {
-		this.salesTransferScore = salesTransferScore;
-	}
-
-	public Double getComLoanScore() {
-		return comLoanScore;
-	}
-
-	public void setComLoanScore(Double comLoanScore) {
-		this.comLoanScore = comLoanScore;
-	}
-
-	public Double getAccuFundScore() {
-		return accuFundScore;
-	}
-
-	public void setAccuFundScore(Double accuFundScore) {
-		this.accuFundScore = accuFundScore;
-	}
-
-	public Double getAccompanyRepayLoanScore() {
+	public String getAccompanyRepayLoanScore() {
 		return accompanyRepayLoanScore;
 	}
 
-	public void setAccompanyRepayLoanScore(Double accompanyRepayLoanScore) {
+	public void setAccompanyRepayLoanScore(String accompanyRepayLoanScore) {
 		this.accompanyRepayLoanScore = accompanyRepayLoanScore;
+	}
+
+	public String getSalesTransferScore() {
+		return salesTransferScore;
+	}
+
+	public void setSalesTransferScore(String salesTransferScore) {
+		this.salesTransferScore = salesTransferScore;
+	}
+
+	public String getSignScore() {
+		return signScore;
+	}
+
+	public void setSignScore(String signScore) {
+		this.signScore = signScore;
+	}
+
+	public String getComLoanScore() {
+		return comLoanScore;
+	}
+
+	public void setComLoanScore(String comLoanScore) {
+		this.comLoanScore = comLoanScore;
+	}
+
+	public String getAccuFundScore() {
+		return accuFundScore;
+	}
+
+	public void setAccuFundScore(String accuFundScore) {
+		this.accuFundScore = accuFundScore;
+	}
+
+	public String getTransferScore() {
+		return transferScore;
+	}
+
+	public void setTransferScore(String transferScore) {
+		this.transferScore = transferScore;
 	}
 
 	public String getSalesCallBack() {

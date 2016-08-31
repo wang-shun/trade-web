@@ -17,9 +17,41 @@
   right: 6px;
 }
 
+.btn-save {
+  background: #f784a5;
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: #f784a5;
+  color: #f3f3f3;
+}
+
+.btn-grey {
+  background: #eee;
+  color: #1c84c6;
+}
+
+.loan_type {
+  display: inline-block;
+  margin-top: 4px;
+}
+
 .organize_icon {
   font-size: 18px;
   color: #52cdec;
+}
+
+.form-control, .single-line {
+  border-radius: 2px;
+}
+
+.pt10 {
+  padding-top: 10px;
+}
+
+.pt20 {
+  padding-top: 20px;
 }
 
 .form_list label {
@@ -109,6 +141,14 @@ input {
 
 .teamcode {
   width: 230px;
+}
+
+.form_content .controls {
+  display: inline-block;
+  margin-left: 20px;
+}
+.form_content .controls .radio {
+  margin-right: 30px;
 }
 
 .sign_right_speciale {
@@ -283,4 +323,11 @@ input {
 .form-inline .btn-default {
   color: #428fcc;
   background-color: #e4e4e4;
+  border-color: #e4e4e4;
+}
+
+.date_icon {
+  position: absolute;
+  top: 7px;
+  right: 10px;
 }

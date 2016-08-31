@@ -70,12 +70,12 @@
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       </if>
-      <if test="recordTime != null" >
+      <!-- <if test="recordTime != null" > -->
         RECORD_TIME = #{recordTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="evalFee != null" >
+     <!--  </if> -->
+      <!-- <if test="evalFee != null" > -->
         EVAL_FEE = #{evalFee,jdbcType=DECIMAL},
-      </if>
+      <!-- </if> -->
       <if test="isEvalFeeGet != null" >
         IS_EVAL_FEE_GET = #{isEvalFeeGet,jdbcType=CHAR},
       </if>

@@ -105,8 +105,6 @@ text-decoration: underline !important;
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 					
-					<div class="row ${isConsultant ? 'hideDiv' : ''}">
-					
 					            <div class="row">
 									<div class="col-md-12">
 										<div class="form-group ">
@@ -130,8 +128,6 @@ text-decoration: underline !important;
 										</div>
 									</div>
 								</div>
-
-							</div>
 
 							<div class="row">
 								<div class="col-md-7">

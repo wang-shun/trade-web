@@ -38,6 +38,9 @@
 <link rel="stylesheet" href="../static/trans/css/common/table.css" />
 <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 	
 <style type="text/css">
    .ibox-button {
@@ -57,101 +60,6 @@ width: 80px;
 .bianhao{width:221px;padding-left:0;}
 .dizhi{width:542px}
 
-
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-	width:280px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
 
 </style>
    
@@ -203,10 +111,10 @@ width: 80px;
 							 	<i class="icon iconfont">&#xe635;</i>
 							  	查询
 							</button>
-							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;">
+							<button type="button" onclick="caseDistribute();" id="caseDistributeButton" class="btn btn-success" style="margin-left: 10px;" disabled="true">
                                                                                案件分配                                               
                             </button>
-                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;">
+                            <button type="button" onclick="caseChangeTeam();" id="caseChangeTeamButton" class="btn btn-success" style="margin-left: 10px;" disabled="true">
                                                                                案件转组
                             </button>
 						</div>
@@ -219,9 +127,9 @@ width: 80px;
 						<thead>
 						<tr>
 							<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
-							<th >案件编号</th>
+							<th ><span class="sort" sortColumn="ctd.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 							<th >产证地址</th>
-							<th >派单时间</th>
+							<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >派单时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 							<th >负责人</th>
 							<th >案件状态</th>
 						</tr>
@@ -315,6 +223,9 @@ width: 80px;
 <script src="${ctx}/js/trunk/case/caseDistribute2.js"></script>
 <script src="${ctx}/js/template.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+
 <script id="yuCuiFontTeamList" type="text/html">
 		 <select class="form-control" name="yuTeamCode">
                 {{each data as item}}
@@ -339,9 +250,7 @@ width: 80px;
 				</td>
 				<td >
 						<p class="big">
-							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">
                           		{{item.CASE_CODE}}
-							</a>
                          </p>
                         <p>
                           <i class="tag_sign">c</i>
@@ -349,14 +258,27 @@ width: 80px;
                        </p>
 				</td>
 				<td >
- 					<p class="big">
-						{{item.PROPERTY_ADDR}}
-    				 </p>
-					
- 					<span >
-						 <a class="hint  hint-top2" data-hint="{{item.AGENT_NAME}}/{{item.ORG_NAME}}" ><i class="salesman-icon"> </i>
-						 {{item.AGENT_NAME}}<span class="slash">/</span>{{item.ORG_NAME}}
-    				 </span>
+
+
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+{{else}}
+</p><p>
+{{item.PROPERTY_ADDR}}
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}" >
+{{if item.ORG_NAME !="" && item.ORG_NAME !=null && item.ORG_NAME.length>8}}							
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.ORG_NAME}}
+{{/if}}	
+								 </a>
+							</p>
+
 				</td>
 				<td >
 						{{if item.CREATE_TIME!=null}}
@@ -375,8 +297,8 @@ width: 80px;
 
 				</td>
 				<td class="center">
-                        <span class="manager"><a href="#"><em>区经：</em>{{item.LEADER}}</a></span>
-                        <span class="manager"><a href="#"><em>区总：</em></a></span>
+                        <p >区经：{{item.LEADER}}</p>
+                        <p >区董：{{item.qyzjNAME}}</p>
                  </td>
 				<td class="center">
                          

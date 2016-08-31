@@ -476,8 +476,10 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService {
 			toMortgage.setPkid(editCaseDetailVO.getMpkid());
 			toMortgageMapper.update(toMortgage);
 		} else {
-			toMortgage.setCaseCode(editCaseDetailVO.getCaseCode());
-			toMortgageMapper.insertSelective(toMortgage);
+			/*结案不应该对这个表作插入操作 
+			 * 
+			 * toMortgage.setCaseCode(editCaseDetailVO.getCaseCode());
+			toMortgageMapper.insertSelective(toMortgage);*/
 		}
 		
 	}

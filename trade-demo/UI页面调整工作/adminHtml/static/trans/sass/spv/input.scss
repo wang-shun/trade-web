@@ -41,8 +41,7 @@ input,.form-control {
   margin-bottom: 20px;
 }
 .left-extent {
-  width: 430px;
-  margin-right: 40px;
+  margin-right: 0px;
 }
 .span-tag {
     position: relative;
@@ -54,6 +53,7 @@ input,.form-control {
 .single {
   margin-left:-370px;
 }
+
 .form-margin {
   position: relative;
   label {
@@ -64,19 +64,25 @@ input,.form-control {
     color: #333;
   }
   .lable-one {
-    width: 142px;
+    width: 120px;
   }
   .lable-two {
     width: 194px;
   }
   .input-one {
-    width: 168px;
+    width: 120px;
   }
   .input-two {
-    width: 260px;
+    width: 220px;
   }
   .input-three {
     width: 320px;
+  }
+  .input-four {
+    width:235px;
+  }
+  .input-five {
+    width:371px;
   }
   .input-widest {
     width: 447px;
@@ -84,12 +90,25 @@ input,.form-control {
   .select-one {
     width: 100px;
   }
+  .sex-char {
+    display: inline-block;
+    width: 120px;
+  }
+  .sex-char label {
+    margin-right: 10px;
+  }
+}
+.form-group .rate {
+  margin-left: 15px;
+  margin-right: 10px;
+  font-size: 12px;
+  color: #808080;
 }
 
 .date_icon {
   position: absolute;
   top:7px;
-  right:105px;
+  right:7px;
   font-size: 14px;
 }
 .form-line {
@@ -110,4 +129,12 @@ input,.form-control {
 }
 .form-inline .input-group .date-width {
   width: 130px;
+}
+.btn-save {
+    background:#f784a5;
+    color:#fff;
+}
+.btn-save:hover {
+    background:#f784a5;
+    color:#f3f3f3;
 }
