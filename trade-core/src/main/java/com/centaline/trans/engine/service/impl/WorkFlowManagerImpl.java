@@ -73,7 +73,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		claimByActivitMap.put("PSFLoan_Process", "PSFLoan_Process:3:712530");
 		claimByActivitMap.put("offline_eva", "offline_eva:3:712527");
 		claimByActivitMap.put("service_change", "service_change:6:712533");
-		claimByActivitMap.put("serviceRestart", "serviceRestart:8:712539");
+		claimByActivitMap.put("serviceRestart", "serviceRestart:9:805003");
 		claimByActivitMap.put("operation_process", "operation_process:57:712545");
 		
 	}
