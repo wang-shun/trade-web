@@ -173,12 +173,8 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
-								<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange"
-								data-date-format="yyyy-mm-dd">
-								<input name="spvCustList[0].idValiDate" class="form-control" 
+								<input name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>" placeholder="如：2010-08">
-								</div>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input name="spvCustList[0].idCode"
@@ -274,12 +270,9 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
-								<div id="datepicker_1"
-								class="input-group input-medium date-picker input-daterange"
-								data-date-format="yyyy-mm-dd">
-								<input name="spvCustList[1].idValiDate" class="form-control" 
+
+								<input name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>" placeholder="如：2010-08">
-								</div>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[1].idCode"
@@ -448,7 +441,9 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one">
+						</div>
+						<div class="form-row form-rowbot">
+						<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">贷款资金</label> <input name="toSpv.amountMort"
 								    value="${spvBaseInfoVO.toSpv.amountMort }" type="text"
 									class="form-control input-one" placeholder="">
@@ -770,20 +765,20 @@
     	}
         
         // 日期控件
-        $('#datepicker_0').datepicker({
+        $('.date-picker').datepicker({
         	format : 'yyyy-mm',
         	weekStart : 1,
         	autoclose : true,
         	todayBtn : 'linked',
         	language : 'zh-CN'
         });
-        $('#datepicker_1').datepicker({
+        /* $('#datepicker_1').datepicker({
         	format : 'yyyy-mm',
         	weekStart : 1,
         	autoclose : true,
         	todayBtn : 'linked',
         	language : 'zh-CN'
-        });
+        }); */
 		
 		</script> 
 		</content>
