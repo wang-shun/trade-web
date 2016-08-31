@@ -141,12 +141,12 @@
 							<div class="form-group form-margin form-space-one left-extent">							
    						        <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
 							    <input type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
-								<label for="" class="lable-one">买方姓名</label> <input name="spvCustList[0].name" 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 买方姓名</label> <input name="spvCustList[0].name" 
 								value="${not empty spvBaseInfoVO.spvCustList[0].name?spvBaseInfoVO.spvCustList[0].name:buyerName }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
-								<label for="" class="lable-one">买方性别</label> <span
+								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input
 										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
 										男
@@ -156,7 +156,7 @@
 								</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">买方手机号码</label> <input name="spvCustList[0].phone"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 买方手机号码</label> <input name="spvCustList[0].phone"
 								    value="${not empty spvBaseInfoVO.spvCustList[0].phone?spvBaseInfoVO.spvCustList[0].phone:buyerMobil }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
@@ -167,14 +167,14 @@
 								    value="${spvBaseInfoVO.spvCustList[0].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'checked="checked"':''}>身份证</option>
-									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'checked="checked"':''}>护照</option> --%>
+									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'selected="selected"':''}>身份证</option>
+									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>护照</option> --%>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
 								<input name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
-								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>" placeholder="如：2010-08">
+								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/>" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input name="spvCustList[0].idCode"
@@ -220,8 +220,8 @@
 									    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'checked="checked"':''}>身份证</option>
-										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'checked="checked"':''}>护照</option> --%>
+										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
+										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
 									</select>
 							</div>
 							<div class="form-group form-margin form-space-one buyinfo">
@@ -238,12 +238,12 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="spvCustList[1].pkid" value="${spvBaseInfoVO.spvCustList[1].pkid }" />
 							    <input type="hidden" name="spvCustList[1].tradePosition" value="SELLER" />
-								<label for="" class="lable-one">卖方姓名</label> <input type="text" name="spvCustList[1].name"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方姓名</label> <input type="text" name="spvCustList[1].name"
 								     value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:sellerName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
-								<label for="" class="lable-one">卖方性别</label> <span
+								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input
 										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
 										男
@@ -253,7 +253,7 @@
 								</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">卖方手机号码</label> <input name="spvCustList[1].phone"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方手机号码</label> <input name="spvCustList[1].phone"
 								    value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:sellerMobil }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
@@ -264,15 +264,15 @@
 								    value="${spvBaseInfoVO.spvCustList[1].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'checked="checked"':''}>身份证</option>
-									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'checked="checked"':''}>护照</option> --%>
+									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'selected="selected"':''}>身份证</option>
+									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>护照</option> --%>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
 
 								<input name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
-								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>" placeholder="如：2010-08">
+								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/>" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[1].idCode"
@@ -318,8 +318,8 @@
 									    value="${spvBaseInfoVO.spvCustList[1].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'checked="checked"':''}>身份证</option>
-										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'checked="checked"':''}>护照</option> --%>
+										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
+										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
 									</select>
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
@@ -390,6 +390,19 @@
 									class="form-control input-one" placeholder=""><span
 									class="date_icon">万元</span>
 							</div>
+                     <!-- 	<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
+									class="form-control input-one" placeholder="">
+							</div>	 -->	
+                            <div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one">下家付款方式</label> <select
+									class="form-control input-one">
+									<option value="">全数</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-row form-rowbot">
+
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签合同号</label> <input name="toSpvProperty.signNo"
 								value="${spvBaseInfoVO.toSpvProperty.signNo }" type="text"
@@ -402,16 +415,14 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">下家付款方式</label> <select
-									class="form-control input-one">
-									<option value="">全数</option>
-								</select>
-							</div>
-							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签金额</label> <input name="toSpvProperty.signAmount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpvProperty.signAmount }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
+							</div>
+<!-- 							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
+									class="form-control input-three" placeholder=""> -->
 							</div>
 						</div>
 					</form>
@@ -423,13 +434,13 @@
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
 								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
 									class="form-control input-five" placeholder="">
 							</div>
@@ -711,6 +722,12 @@
 		</script>
 		<script>
 		$(document).ready(function(){
+			if('${spvBaseInfoVO.toSpvProperty.signAmount}' != ''){				
+			   $("#signAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.signAmount*10000}'));
+			    }
+			if('${spvBaseInfoVO.toSpvProperty.leftAmount}' != ''){				
+				   $("#leftAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.leftAmount*10000}'));
+				}
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
@@ -773,6 +790,20 @@
         	todayBtn : 'linked',
         	language : 'zh-CN'
         });
+        
+        //转大写
+        var DX = function (num) {  
+		  var strOutput = "";  
+		  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
+		  num += "00";  
+		  var intPos = num.indexOf('.');  
+		  if (intPos >= 0)  
+		    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
+		  strUnit = strUnit.substr(strUnit.length - num.length);  
+		  for (var i=0; i < num.length; i++)  
+		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
+		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
+		};  
 		
 		</script> 
 		</content>
