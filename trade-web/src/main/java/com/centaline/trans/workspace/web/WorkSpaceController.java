@@ -271,7 +271,7 @@ public class WorkSpaceController {
 			return mainPage(model, request);
 		}
 		
-		//本月目标达成报表，数据查询开始时间
+		//本月目标达成报表，数据查询开始时间     当前月的基础上推前5个月开始查询
 		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
 		model.addAttribute("startDate",startDate);
 		
