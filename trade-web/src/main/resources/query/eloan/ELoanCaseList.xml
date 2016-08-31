@@ -95,7 +95,7 @@
 				<column  name="loanSrvCode"  customDict="qqcdDictServCode" title="产品类型"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="applyTime" title="创建时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="propertyAddress" title="产权地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column  name="excutorName" title="案件归属人" customDict="getUserNameByUserId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="excutorName" title="案件归属人" referencecol="CASE_CODE" customDict="getUserNameByUserId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="phone" title="申请金额"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="custName" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="signTime" title="面签时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />

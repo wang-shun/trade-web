@@ -2,9 +2,9 @@ package com.centaline.trans.eloan.web;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +36,10 @@ import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.TgServItemAndProcessor;
-import com.centaline.trans.common.entity.ToOutTimeTask;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.OrgService;
@@ -52,14 +51,8 @@ import com.centaline.trans.eloan.entity.ToEloanRel;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.eloan.vo.ToEloanRelListVO;
-import com.centaline.trans.eloan.vo.ToEloanRelVO;
-import com.centaline.trans.engine.annotation.TaskOperate;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.loan.entity.LoanAgent;
-import com.centaline.trans.loan.enums.LoanCompany;
-import com.centaline.trans.loan.enums.LoanType;
 import com.centaline.trans.loan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
@@ -542,6 +535,64 @@ public class WarnListController {
 			result.setMessage("删除失败!");
 		}
 		return result;
+	}
+	
+	
+	//E+列表
+	@RequestMapping("eloanContractList")
+	public String eloanContractList(HttpServletRequest request) {
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		String userJob=user.getServiceJobCode();
+		boolean queryOrgFlag = false;
+		boolean isAdminFlag = false;
+
+        StringBuffer reBuffer = new StringBuffer();
+        //判断是否是交易顾问
+		if(!userJob.equals(TransJobs.TJYGW.getCode())){
+			queryOrgFlag=true;//非交易顾问说明有组织
+			String depString = user.getServiceDepHierarchy();
+			String userOrgIdString = user.getServiceDepId();
+			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
+				//组别只有对应的组织id
+				reBuffer.append(userOrgIdString);
+			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
+				//区域下面对应的多个组织id遍历
+				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+				for(Org org:orgList){
+					reBuffer.append(org.getId());
+					reBuffer.append(",");
+				}
+				reBuffer.deleteCharAt(reBuffer.length()-1);
+				
+			}else{
+				isAdminFlag=true;
+			}
+		}
+		request.setAttribute("queryOrgs", reBuffer.toString());//org_id至jsp、js分割-->数组
+		request.setAttribute("queryOrgFlag", queryOrgFlag);//判断是否是交易顾问 即判断是否有上下级组织
+		request.setAttribute("isAdminFlag", isAdminFlag);		
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
+		
+		//默认显示上周一至周日的时间
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();	
+		/*获取当前月份的上月第一天和最后一天
+		c1.add(Calendar.MONTH, -1);
+		c1.set(Calendar.DAY_OF_MONTH,1);
+		c2.set(Calendar.DAY_OF_MONTH,0);*/
+		/*获取当前月份的第一天和最后一天*/
+		c1.add(Calendar.MONTH, 0);
+		c1.set(Calendar.DAY_OF_MONTH,1);//
+		c2.set(Calendar.DAY_OF_MONTH, c2.getActualMaximum(Calendar.DAY_OF_MONTH));  
+		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
+		String end 	 = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+		request.setAttribute("startTime", start);
+		request.setAttribute("endTime", end);
+		
+		
+		return "/eloan/task/taskEloanContract";
 	}
 	
 }
