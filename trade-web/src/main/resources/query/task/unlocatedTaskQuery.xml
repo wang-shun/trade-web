@@ -39,7 +39,7 @@
 			<baseSql>
 				<![CDATA[
 	select * from (
-	SELECT org.org_name groupName,
+	SELECT org.org_name groupName,org.parent_id as groupParentID,
 	(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, 
 	task.NAME_ as name
 	,null as pkid,pro.BUSINESS_KEY_ as caseCode, 
@@ -65,6 +65,10 @@ where task.ASSIGNEE_ is null and ilink.TYPE_='participant'
 			 		<ifNotNull managerFlag>
 			 			and ilink.user_id_=#candidateId#
 			 		</ifNotNull>
+			 		 <ifNotNull groupParentID>
+					 	and org.parent_id=#groupParentID#
+					 </ifNotNull>
+			 		
 union 
 SELECT t.groupName,t.groupParentID,t.groupParentName,t.name,t.pkid,
 					t.caseCode,t.instCode,t.createTime,t.candidateId,t.taskId,
