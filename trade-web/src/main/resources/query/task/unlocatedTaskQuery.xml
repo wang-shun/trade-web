@@ -38,7 +38,10 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-	select * from (
+	select tt.groupName,tt.groupParentID,tt.groupParentName,tt.name,tt.pkid,
+					tt.caseCode,tt.instCode,tt.createTime,tt.candidateId,tt.taskId,
+					tt.taskDfKey_OLD,tt.caseId,tt.propertyAddr,tt.CTM_CODE,tt.WFE_NAME,tt.AGENT_NAME,tt.AGENT_PHONE,tt.GRP_NAME
+					 from (
 	SELECT org.org_name groupName,org.parent_id as groupParentID,
 	(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, 
 	task.NAME_ as name
