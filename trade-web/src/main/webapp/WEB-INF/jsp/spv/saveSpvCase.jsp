@@ -167,8 +167,8 @@
 								    value="${spvBaseInfoVO.spvCustList[0].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'checked="checked"':''}>身份证</option>
-									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'checked="checked"':''}>护照</option> --%>
+									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'selected="selected"':''}>身份证</option>
+									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>护照</option> --%>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
@@ -220,8 +220,8 @@
 									    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'checked="checked"':''}>身份证</option>
-										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'checked="checked"':''}>护照</option> --%>
+										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
+										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
 									</select>
 							</div>
 							<div class="form-group form-margin form-space-one buyinfo">
@@ -264,8 +264,8 @@
 								    value="${spvBaseInfoVO.spvCustList[1].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'checked="checked"':''}>身份证</option>
-									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'checked="checked"':''}>护照</option> --%>
+									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'selected="selected"':''}>身份证</option>
+									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>护照</option> --%>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
@@ -318,8 +318,8 @@
 									    value="${spvBaseInfoVO.spvCustList[1].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'checked="checked"':''}>身份证</option>
-										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'checked="checked"':''}>护照</option> --%>
+										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
+										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
 									</select>
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
@@ -390,28 +390,32 @@
 									class="form-control input-one" placeholder=""><span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">网签合同号</label> <input name="toSpvProperty.signNo"
-								value="${spvBaseInfoVO.toSpvProperty.signNo }" type="text"
+<!-- 							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
 									class="form-control input-one" placeholder="">
-							</div>
-							<!-- <div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text"
-									class="form-control input-one" placeholder="">
-							</div> -->
-						</div>
-						<div class="form-row form-rowbot">
-							<div class="form-group form-margin form-space-one left-extent">
+							</div>	 -->	
+                            <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">下家付款方式</label> <select
 									class="form-control input-one">
 									<option value="">全数</option>
 								</select>
+							</div>
+						</div>
+						<div class="form-row form-rowbot">
+							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one">网签合同号</label> <input name="toSpvProperty.signNo"
+								value="${spvBaseInfoVO.toSpvProperty.signNo }" type="text"
+									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签金额</label> <input name="toSpvProperty.signAmount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpvProperty.signAmount }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
+							</div>
+<!-- 							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
+									class="form-control input-three" placeholder=""> -->
 							</div>
 						</div>
 					</form>
@@ -711,6 +715,12 @@
 		</script>
 		<script>
 		$(document).ready(function(){
+			if('${spvBaseInfoVO.toSpvProperty.signAmount}' != ''){				
+			   $("#signAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.signAmount*10000}'));
+			    }
+			if('${spvBaseInfoVO.toSpvProperty.leftAmount}' != ''){				
+				   $("#leftAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.leftAmount*10000}'));
+				}
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
@@ -773,6 +783,20 @@
         	todayBtn : 'linked',
         	language : 'zh-CN'
         });
+        
+        //转大写
+        var DX = function (num) {  
+		  var strOutput = "";  
+		  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
+		  num += "00";  
+		  var intPos = num.indexOf('.');  
+		  if (intPos >= 0)  
+		    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
+		  strUnit = strUnit.substr(strUnit.length - num.length);  
+		  for (var i=0; i < num.length; i++)  
+		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
+		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
+		};  
 		
 		</script> 
 		</content>
