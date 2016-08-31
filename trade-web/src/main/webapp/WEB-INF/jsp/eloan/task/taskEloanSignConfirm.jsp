@@ -92,6 +92,11 @@
                                    </div>
                                 </div>
                                 <div class="case_row">
+                                <div class="case_lump">
+									<p>
+										<em>归属人</em><span class="span_one">${excutorName}</span>
+									</p>
+								</div>
                                    <div class="case_lump">
                                        <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>

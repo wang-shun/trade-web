@@ -167,8 +167,13 @@
 								    value="${spvBaseInfoVO.spvCustList[0].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
+<<<<<<< HEAD
 									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'selected="selected"':''}>身份证</option>
 									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>护照</option> --%>
+=======
+									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'checked="checked"':''}>身份证</option>
+									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'checked="checked"':''}>护照</option> --%>
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
@@ -220,8 +225,13 @@
 									    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
+<<<<<<< HEAD
 										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
 										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
+=======
+										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'checked="checked"':''}>身份证</option>
+										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'checked="checked"':''}>护照</option> --%>
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 									</select>
 							</div>
 							<div class="form-group form-margin form-space-one buyinfo">
@@ -264,8 +274,13 @@
 								    value="${spvBaseInfoVO.spvCustList[1].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
+<<<<<<< HEAD
 									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'selected="selected"':''}>身份证</option>
 									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>护照</option> --%>
+=======
+									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'checked="checked"':''}>身份证</option>
+									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'checked="checked"':''}>护照</option> --%>
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
@@ -318,8 +333,13 @@
 									    value="${spvBaseInfoVO.spvCustList[1].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
+<<<<<<< HEAD
 										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
 										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
+=======
+										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'checked="checked"':''}>身份证</option>
+										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'checked="checked"':''}>护照</option> --%>
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 									</select>
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
@@ -390,6 +410,7 @@
 									class="form-control input-one" placeholder=""><span
 									class="date_icon">万元</span>
 							</div>
+<<<<<<< HEAD
 <!-- 							<div class="form-group form-margin form-space-one pledgeinfo">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
 									class="form-control input-one" placeholder="">
@@ -402,11 +423,19 @@
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
+=======
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签合同号</label> <input name="toSpvProperty.signNo"
 								value="${spvBaseInfoVO.toSpvProperty.signNo }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
+							<!-- <div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text"
+									class="form-control input-one" placeholder="">
+							</div> -->
+						</div>
+						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签金额</label> <input name="toSpvProperty.signAmount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpvProperty.signAmount }" pattern="0.00" maxFractionDigits="2"/>" type="text"
@@ -783,6 +812,7 @@
         	todayBtn : 'linked',
         	language : 'zh-CN'
         });
+<<<<<<< HEAD
         
         //转大写
         var DX = function (num) {  
@@ -797,6 +827,8 @@
 		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
 		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
 		};  
+=======
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 		
 		</script> 
 		</content>
