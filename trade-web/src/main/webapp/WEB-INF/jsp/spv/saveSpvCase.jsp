@@ -141,12 +141,12 @@
 							<div class="form-group form-margin form-space-one left-extent">							
    						        <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
 							    <input type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
-								<label for="" class="lable-one">买方姓名</label> <input name="spvCustList[0].name" 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 买方姓名</label> <input name="spvCustList[0].name" 
 								value="${not empty spvBaseInfoVO.spvCustList[0].name?spvBaseInfoVO.spvCustList[0].name:buyerName }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
-								<label for="" class="lable-one">买方性别</label> <span
+								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input
 										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
 										男
@@ -156,7 +156,7 @@
 								</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">买方手机号码</label> <input name="spvCustList[0].phone"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 买方手机号码</label> <input name="spvCustList[0].phone"
 								    value="${not empty spvBaseInfoVO.spvCustList[0].phone?spvBaseInfoVO.spvCustList[0].phone:buyerMobil }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
@@ -238,12 +238,12 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="spvCustList[1].pkid" value="${spvBaseInfoVO.spvCustList[1].pkid }" />
 							    <input type="hidden" name="spvCustList[1].tradePosition" value="SELLER" />
-								<label for="" class="lable-one">卖方姓名</label> <input type="text" name="spvCustList[1].name"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方姓名</label> <input type="text" name="spvCustList[1].name"
 								     value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:sellerName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
-								<label for="" class="lable-one">卖方性别</label> <span
+								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input
 										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
 										男
@@ -253,7 +253,7 @@
 								</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">卖方手机号码</label> <input name="spvCustList[1].phone"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方手机号码</label> <input name="spvCustList[1].phone"
 								    value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:sellerMobil }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
@@ -434,13 +434,13 @@
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
 								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
 									class="form-control input-five" placeholder="">
 							</div>

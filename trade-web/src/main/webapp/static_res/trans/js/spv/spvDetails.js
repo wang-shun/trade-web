@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 		//流程开启后只读表单
-		if($("#role").val() != ''){
+		if($("#role").val() != null && $("#role").val() != ''){
 		    readOnlyRiskForm();
 		}
 
@@ -242,8 +242,8 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var buyerGender = $("input[name='spvCustList[0].gender']").val();
-		var sellerGender = $("input[name='spvCustList[1].gender']").val();
+		var buyerGender = $("input[name='spvCustList[0].gender']:checked").val();
+		var sellerGender = $("input[name='spvCustList[1].gender']:checked").val();
 		if((buyerGender == null || buyerGender == '')||(sellerGender == null || sellerGender == '')){
 			alert("请勾选买/卖方性别！");
 			return false;
