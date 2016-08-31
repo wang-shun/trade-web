@@ -81,6 +81,7 @@
                             <h5>E+产品</h5>
                             <div class="case_content">
                                 <div class="case_row">
+                                    <div class="case_row">
                                    <div class="case_lump">
                                        <p><em>产品类型</em><span class="span_one">
                                        <aist:dict id="loanSrvCode" name="loanSrvCode" clazz="select_control sign_right_two"
@@ -92,6 +93,9 @@
                                    </div>
                                 </div>
                                 <div class="case_row">
+                                <div class="case_lump">
+                                       <p><em>归属人</em><span class="span_one">${excutorName}</span></p>
+                                   </div>
                                    <div class="case_lump">
                                        <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>

@@ -390,7 +390,7 @@
 									class="form-control input-one" placeholder=""><span
 									class="date_icon">万元</span>
 							</div>
-<!-- 							<div class="form-group form-margin form-space-one pledgeinfo">
+                     <!-- 	<div class="form-group form-margin form-space-one pledgeinfo">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
 									class="form-control input-one" placeholder="">
 							</div>	 -->	
@@ -402,11 +402,18 @@
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
+
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签合同号</label> <input name="toSpvProperty.signNo"
 								value="${spvBaseInfoVO.toSpvProperty.signNo }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
+							<!-- <div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text"
+									class="form-control input-one" placeholder="">
+							</div> -->
+						</div>
+						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签金额</label> <input name="toSpvProperty.signAmount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpvProperty.signAmount }" pattern="0.00" maxFractionDigits="2"/>" type="text"
