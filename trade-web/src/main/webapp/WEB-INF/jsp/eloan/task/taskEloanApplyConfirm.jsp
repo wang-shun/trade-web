@@ -122,6 +122,13 @@
                                     </label>
                                     <input class="input_type sign_right_two" name="custPhone" id="custPhone" value="${eloanCase.custPhone}">
                                 </div>
+                                 <div class="form_content">
+								     <label class="control-label sign_left_two">
+                                          案件归属
+                                    </label>
+									<input type="text" id="excutorName" name="excutorName" class="input_type sign_right_two"
+									    style="width:170px;display: inline-block;" value="${excutorName}" />
+								 </div>
                             </li>
                             <li>
                                 <div class="form_content">
