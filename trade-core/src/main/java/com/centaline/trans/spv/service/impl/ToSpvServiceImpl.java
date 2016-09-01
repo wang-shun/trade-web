@@ -487,6 +487,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
 				toSpv.setIsDeleted("0");
+				toSpv.setStatus("0");
 				toSpvMapper.insertSelective(toSpv);
 			}		
 		}
