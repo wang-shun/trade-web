@@ -721,9 +721,10 @@
 				//加载echarts
 				reloadStatus();
 
-				reloadMonth();
-
-				queryConutCaseByDate()
+				reloadMonth();				
+				
+				queryConutCaseByDate();
+				//queryConutCaseByDate()
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
 		</script> </content>

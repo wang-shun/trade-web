@@ -84,7 +84,7 @@
 	
   <select id="countLight" resultType="java.lang.Integer" parameterType="com.centaline.trans.workspace.entity.WorkSpace">
   select count(*)
-from (
+				from (
 					  SELECT min(l.color) as color
 							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
 							 left join sctrans.T_TO_PROPERTY_INFO as tp

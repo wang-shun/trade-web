@@ -20,7 +20,8 @@ function queryConutCaseByDate(){
 	var createTimeEnd = year+"-"+month+"-"+d2;
 	
 	 $.ajax({
-			url  : ctx+'/workspace/workSpaceSta',
+			//url  : ctx+'/workspace/workSpaceSta',
+		 	url  : ctx+'/workspaceTransform/newWorkSpaceSta',
 		    data : [{
 				name : 'mo',
 				value : month
@@ -32,6 +33,7 @@ function queryConutCaseByDate(){
 			dataType: "json",
 			async : false,
 			success: function(data) {
+				console.log("===Result==="+JSON.stringify(data));
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
