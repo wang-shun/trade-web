@@ -212,7 +212,7 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>20041127.091804</version>
-		</dependency>-->
+		</dependency> -->
 		
 		<!-- gson-2.2.4.jar -->
 		<dependency>

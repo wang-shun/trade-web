@@ -122,7 +122,6 @@ text-decoration: underline !important;
 						<th>案件编号</th>
 						<th>产证地址</th>
 						<th><span class="sort" >服务名称</span></th>
-						<th>处理角色</th>
 						<th>贵宾服务中心</th>
 						<th>组别名称</th>
 						<th>开始时间</th>						
@@ -179,15 +178,14 @@ text-decoration: underline !important;
 						<td><a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank"><span class="sort active">{{item.caseCode}}</span></td>
 						<td><span class="salesman-info">{{item.propertyAddr}}</span></td>
 						<td><span class="case-addr">{{item.taskDfKey}}</span></td>
-						<td><span class="salesman-info">{{item.taskJobCode}}</span></td>
 						<td><span class="salesman-info">{{item.groupParentName}}</span></td>
 						<td><span class="salesman-info">{{item.groupName}}</span></td>
 						<td><span class="salesman-info">{{item.createTime}}</span></td>						
 						<td>
 						 {{if item.candidateId&&item.candidateId!=''}}
-						 <button type="button" class="btn fenpei" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
+						 <button type="button" class="btn fenpei" onclick="doGroupClaim({{item.taskId}},'{{item.caseCode}}')">分配给自己</button>
 						 {{else}}
-						 <button type="button" class="btn fenpei" onclick="showLocate({{item.taskId}})">分配任务</button>
+						 <button type="button" class="btn fenpei" onclick="showLocate({{item.taskId}},'{{item.caseCode}}')">分配任务</button>
 						 {{/if}}
 						</td>
 				</tr>
@@ -351,9 +349,9 @@ text-decoration: underline !important;
 				    }
 				});
 			}
-			function doGroupClaim(taskId){
+			function doGroupClaim(taskId,caseCode){
 				$.ajax({
-					url : ctx + "/unlocatedTasks/doGroupClaim/"+taskId,
+					url : ctx + "/unlocatedTasks/doGroupClaim/"+taskId+"?caseCode="+caseCode,
 					method : "post",
 					dataType : "json",
 					success : function(data) {
@@ -371,10 +369,10 @@ text-decoration: underline !important;
 				$("#taskId").val(taskId);
 				$('#modal-form').modal("show");
 			}
-			function doLocateTask(candidateId) {
+			function doLocateTask(candidateId,caseCode) {
 				var taskId=$("#taskId").val();
 				$.ajax({
-					url : ctx + "/unlocatedTasks/doLocateTask/"+taskId+"/"+candidateId,
+					url : ctx + "/unlocatedTasks/doLocateTask/"+taskId+"/"+candidateId+'?caseCode='+caseCode,
 					method : "post",
 					dataType : "json",
 					success : function(data) {

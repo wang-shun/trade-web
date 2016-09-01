@@ -1,8 +1,3 @@
-/**
- * 产调处理结果
- * liaohail
- * 
- */
 var ctx = $("#ctx").val();
 
 function relieve(caseCode,status){
@@ -39,7 +34,7 @@ function reloadGrid(){
 	
 	$("#bizwarnList").reloadGrid({
     	ctx : ctx,
-		queryId : 'querybizwarnList',
+		queryId : data.queryId,
 	    templeteId : 'template_bizwarnList',
 	    data : data,
 	    wrapperData : data
@@ -47,7 +42,8 @@ function reloadGrid(){
 }
 
 function getParams() {
-	
+	var currentOrgId = $("#currentOrgId").val();
+	var currentDepHierarchy = $("#currentDepHierarchy").val();
 	var warnType = $("#warnType option:selected").val();
 	var status = $("#status option:selected").val();
 	var caseCode = $.trim($("#caseCode").val());
@@ -56,6 +52,7 @@ function getParams() {
 	var warnTimeEnd = $("#warnTimeEnd").val();
 	
 	var data = {};
+	data.currentOrgId = currentOrgId;
 	data.warnType = warnType;
 	data.status = status;
 	data.caseCode = caseCode;
@@ -63,16 +60,25 @@ function getParams() {
 	data.warnTimeStart = warnTimeStart;
 	data.warnTimeEnd = warnTimeEnd?(warnTimeEnd+' 23:59:59'):warnTimeEnd;
 	
+	var queryId = "";
+	if(currentDepHierarchy == "yucui_team"){
+		queryId = "bizwarnListQueryByTeam";
+	}
+	else {
+		queryId = "bizwarnListQueryByDistinct";
+	}
+	
+	data.queryId = queryId;
+	
 	return data;
 }
 
-$(document).ready(function() {
+function init(){
+	var data = getParams();
 	
-	var data = {};
-
     $("#bizwarnList").aistGrid({
 		ctx : ctx,
-		queryId : 'querybizwarnList',
+		queryId : data.queryId,
 	    templeteId : 'template_bizwarnList',
 	    data : data,
 	    wrapperData : data,
@@ -93,10 +99,13 @@ $(document).ready(function() {
 	    	      }]
 	
 	});
+    
+    $('#bizwarnList table').addClass("apply-table");
+}
+
+$(document).ready(function() {
 	
-	$('#bizwarnList table').addClass("apply-table");
-	
-	reloadGrid();
+	init();
 	
 	$('#addrSearchButton').click(function(){
 		reloadGrid();
@@ -111,14 +120,12 @@ $(document).ready(function() {
 		$("#warnTimeEnd").val("");
 	});
 	
-	jQuery(document).ready(function() {
-		$('.date-picker-input').datepicker({
-			format : 'yyyy-mm-dd',
-			weekStart : 1,
-			autoclose : true,
-			todayBtn : 'linked',
-			language : 'zh-CN'
-		});
+	$('.date-picker-input').datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked',
+		language : 'zh-CN'
 	});
 	
 });

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.engine.bean.TaskOperate;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.entity.ToUnlocatedTask;
@@ -26,6 +27,8 @@ public class UnlocatedTaskServiceImpl implements UnlocatedTaskService {
 	private ToUnlocatedTaskMapper toUnlocatedTaskMapper;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired
+	private TaskService taskService;
 
 	/*
 	 * (non-Javadoc)
@@ -87,23 +90,28 @@ public class UnlocatedTaskServiceImpl implements UnlocatedTaskService {
 	}
 
 	@Override
-	public int doLocateTask(String candidateId, String taskId) {
-		return doLocate(candidateId, taskId);
+	public int doLocateTask(String candidateId, String taskId,String bizCode) {
+		return doLocate(candidateId, taskId,bizCode);
 	}
 
-	private int doLocate(String candidateId, String taskId ) {
+	private int doLocate(String candidateId, String taskId,String bizCode ) {
 		TaskOperate to = new TaskOperate(taskId, "claim");
 		to.setAssignee(candidateId);
 		ToUnlocatedTask ut=toUnlocatedTaskMapper.findByTaskId(taskId);
-		toUnlocatedTaskMapper.deleteByTaskId(taskId);
+		if(ut!=null){
+			toUnlocatedTaskMapper.deleteByTaskId(taskId);
+			workFlowManager.doOptTaskPlan(ut.getTaskDfKey(),ut.getCaseCode());
+		}else{
+			TaskVo task=taskService.getTask(taskId);
+			workFlowManager.doOptTaskPlan(task.getTaskDefinitionKey(),bizCode);
+		}
 		TaskVo reVo= workFlowManager.operaterTask(to);
-		workFlowManager.doOptTaskPlan(ut.getTaskDfKey(),ut.getCaseCode());
 		return 1;
 	}
 
 	@Override
-	public int doGroupClaim(String candidateId, String taskId) {
-		return doLocate(candidateId, taskId);
+	public int doGroupClaim(String candidateId, String taskId,String bizCode) {
+		return doLocate(candidateId, taskId,bizCode);
 	}
 
 	@Override

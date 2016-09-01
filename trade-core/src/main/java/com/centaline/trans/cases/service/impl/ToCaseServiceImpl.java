@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
@@ -57,9 +54,8 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.engine.bean.ProcessInstance;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskOperate;
-import com.centaline.trans.engine.exception.WorkFlowException;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -69,7 +65,6 @@ import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToTransPlanService;
-import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
 @Transactional
@@ -80,9 +75,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Autowired
 	private ToSpvService toSpvService;
-	@Autowired
-	
-	private UnlocatedTaskService unlocatedTaskService;
+
 	@Autowired
 	private ToCaseInfoService toCaseInfoService;
 
@@ -94,10 +87,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToCloseService toCloseService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-	@Autowired
-	private ToWorkFlowService workflowService;
-	@Autowired
-	private TgServItemAndProcessorService serItemAndProcessorServce;
 	@Autowired(required = true)
 	ToPropertyService toPropertyService;
 	@Autowired(required = true)
@@ -110,8 +99,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToTransPlanService toTransPlanService;
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
-	@Autowired(required = true)
-	private WorkFlowManager workFlowManager;
 	@Autowired(required=true)
 	private UamTemplateService uamTemplateService;
 	@Autowired(required=true)
@@ -121,6 +108,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TlTaskReassigntLogService taskReassingtLogService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	@Autowired
 	private TgServItemAndProcessorMapper tgServItemAndProcessorMapper;
 	@Autowired
@@ -413,19 +402,9 @@ public class ToCaseServiceImpl implements ToCaseService {
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
     	//流程引擎相关
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-	    Iterator it = defValsMap.keySet().iterator();  
-	    while (it.hasNext()) {  
-            String key = it.next().toString();  
-    		RestVariable restVariable = new RestVariable();
-    		restVariable.setName(key); 
-    		restVariable.setValue(defValsMap.get(key));
-    		variables.add(restVariable);
-	    }
-    	process.setVariables(variables);
     	User user = uamUserOrgService.getUserById(userId);
-
-        StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
+    	defValsMap.put("caseOwner", user.getUsername());
+        StartProcessInstanceVo pIVo = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), caseCode, defValsMap);
 
     	toWorkFlow.setInstCode(pIVo.getId());
     	toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
@@ -480,8 +459,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Override
 	public void changeTaskAssignee(String caseCode, String taskId, String userId) {
-		
-		TaskVo task= workFlowManager.getTask(taskId);
+		TaskVo task= workflowManager.getTask(taskId);
 		/* 浦东合作顾问选中台纯公积金贷款流程除第一个环节外其他环节不需要重新派单 */
 		SessionUser user = uamSessionService.getSessionUser();
 		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取执行任务变更的人所在的贵宾服务部
@@ -518,10 +496,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		String username=uamUserOrgService.getUserById(userId).getUsername();
 		if(StringUtils.isBlank(task.getAssignee())){
-			workFlowManager.doOptTaskPlan(task.getTaskDefinitionKey(), caseCode);
+			workflowManager.doOptTaskPlan(task.getTaskDefinitionKey(), caseCode);
 			TaskOperate opt=new TaskOperate(taskId, "claim"); 
 			opt.setAssignee(username);
-			workFlowManager.operaterTask(opt);
+			workflowManager.operaterTask(opt);
 		}else{
 			taskReassingtLogService.record(task, username, caseCode);
 			task.setAssignee(username);

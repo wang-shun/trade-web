@@ -231,7 +231,7 @@ public class FirstFollowController {
 								continue;
 							}
 						}
-						if (myService.contains(d.getCode())) {
+						if(myService.contains(d.getCode())){
 							continue;
 						}
 						List<String> tList = serviceOrgMap.get(d.getCode());
@@ -284,7 +284,7 @@ public class FirstFollowController {
 					it.remove();
 				}
 			}
-			if (myService.contains(d.getCode())) {
+			if(myService.contains(d.getCode())){
 				it.remove();
 			}
 		}
@@ -398,7 +398,6 @@ public class FirstFollowController {
 
 		return result;
 	}
-
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 
@@ -522,10 +521,12 @@ public class FirstFollowController {
 			variables.add(restVariable3);
 			variables.add(restVariable4);
 
-			// variables = editRestVariables(variables,
-			// firstFollowVO.getMortageService());
+//			variables = editRestVariables(variables, firstFollowVO.getMortageService());
 		}
-
+		RestVariable signAssignee	 = new RestVariable();
+		signAssignee.setName("signAssignee");
+		signAssignee.setValue(user.getUsername());
+		variables.add(signAssignee);
 		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO.getCaseCode());
 		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(), firstFollowVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());

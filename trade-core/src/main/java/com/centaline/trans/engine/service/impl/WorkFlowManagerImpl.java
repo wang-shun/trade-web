@@ -32,6 +32,7 @@ import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.FindUserLogic;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.utils.WorkFlowUtils;
 import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -63,7 +64,19 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Autowired
 	private TaskPlanSetService taskPlanSetService;
 	@Autowired
-	private UamSessionService uamSesstionService; 
+	private UamSessionService uamSesstionService;
+	static Map<String, String> claimByActivitMap;
+	static {
+		claimByActivitMap = new HashMap<>();
+		claimByActivitMap.put("ComLoan_Process", "ComLoan_Process:6:712521");
+		claimByActivitMap.put("LoanLost_Process", "LoanLost_Process:3:712524");
+		claimByActivitMap.put("PSFLoan_Process", "PSFLoan_Process:3:712530");
+		claimByActivitMap.put("offline_eva", "offline_eva:3:712527");
+		claimByActivitMap.put("service_change", "service_change:6:712533");
+		claimByActivitMap.put("serviceRestart", "serviceRestart:9:805003");
+		claimByActivitMap.put("operation_process", "operation_process:57:712545");
+		
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -168,8 +181,11 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@SuppressWarnings("unchecked")
 	@Override
 	public StartProcessInstanceVo startCaseWorkFlow(ProcessInstance process, String userName, String caseCode) {
-		// TODO Auto-generated method stub
+
 		StartProcessInstanceVo sPVo = this.startWorkFlow(process);
+		if (isClaimByActivitVersion(process.getProcessDefinitionId())) {
+			return sPVo;
+		}
 		TaskQuery tq = new TaskQuery(sPVo.getId(), true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
@@ -192,6 +208,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		try {
 			engine.setAuthUserName(authUserName);
 			sPVo = this.startWorkFlow(process);
+			if (isClaimByActivitVersion(process.getProcessDefinitionId())) {
+				return sPVo;
+			}
 			TaskQuery tq = new TaskQuery(sPVo.getId(), true);
 			PageableVo pageableVo = this.listTasks(tq);
 			List<T> taskList = pageableVo.getData();
@@ -212,6 +231,10 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Override
 	public StartProcessInstanceVo startCaseWorkFlow1(ProcessInstance process, String caseCode, String caseOwner) {
 		StartProcessInstanceVo sPVo = this.startWorkFlow(process);
+		if (isClaimByActivitVersion(process.getProcessDefinitionId())) {
+			return sPVo;
+		}
+
 		TaskQuery tq = new TaskQuery(sPVo.getId(), true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
@@ -223,7 +246,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 					tgServItemAndProcessorService.findServiceMap(caseCode), vo.getTaskDefinitionKey(), sPVo.getId());
 			if (StringUtils.isBlank(owner) || owner.contains("-")) {
 				handleUnAlocation(owner, caseCode, sPVo.getId(), vo.getGroup(), vo.getId() + "",
-						vo.getTaskDefinitionKey(),vo.getName());
+						vo.getTaskDefinitionKey(), vo.getName());
 				continue;
 			}
 			// do claim
@@ -232,10 +255,15 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 			doOptTaskPlan(vo.getTaskDefinitionKey(), caseCode);
 
 		}
+
 		return sPVo;
 	}
+
 	@Override
-	public void claimByInstCode(String instCode,String caseCode,String caseowner){
+	public void claimByInstCode(String instCode, String caseCode, String caseowner) {
+		if (isClaimByActivit(instCode)) {
+			return;
+		}
 		TaskQuery tq = new TaskQuery(instCode, true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
@@ -250,7 +278,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 						instCode);
 				if (StringUtils.isBlank(owner) || owner.contains("-")) {
 					handleUnAlocation(owner, caseCode, instCode, vo.getGroup(), vo.getId() + "",
-							vo.getTaskDefinitionKey(),vo.getName());
+							vo.getTaskDefinitionKey(), vo.getName());
 					continue;
 				}
 				// do claim
@@ -286,11 +314,11 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	public Boolean submitTask(List<RestVariable> variables, String taskId, String processInstanceId, String caseowner,
 			String caseCode) {
 		TaskVo task = getTask(taskId);
-		String loginUser=uamSesstionService.getSessionUser().getUsername();
-		if(!loginUser.equals(task.getAssignee())){
+		String loginUser = uamSesstionService.getSessionUser().getUsername();
+		if (!loginUser.equals(task.getAssignee())) {
 			throw new WorkFlowException("您不是当前任务的经办人，不能提交该任务！");
 		}
-		
+
 		TaskOperate taskOperate;
 		if (WorkFlowEnum.WSPENDING.getCode().equals(task.getDelegationState())) {
 			taskOperate = new TaskOperate(taskId, WorkFlowEnum.WRESOLVE.getCode());
@@ -299,7 +327,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		taskOperate = new TaskOperate(taskId, "complete");
 		taskOperate.setVariables(variables);
 		this.operaterTask(taskOperate);
-
+		if (isClaimByActivit(processInstanceId)) {
+			return true;
+		}
 		TaskQuery tq = new TaskQuery(task.getProcessInstanceId(), true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
@@ -314,7 +344,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 						processInstanceId);
 				if (StringUtils.isBlank(owner) || owner.contains("-")) {
 					handleUnAlocation(owner, caseCode, processInstanceId, vo.getGroup(), vo.getId() + "",
-							vo.getTaskDefinitionKey(),vo.getName());
+							vo.getTaskDefinitionKey(), vo.getName());
 					continue;
 				}
 				// do claim
@@ -330,6 +360,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -357,7 +388,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 						processInstanceId);
 				if (StringUtils.isBlank(owner) || owner.contains("-")) {
 					handleUnAlocation(owner, caseCode, processInstanceId, vo.getGroup(), vo.getId() + "",
-							vo.getTaskDefinitionKey(),vo.getName());
+							vo.getTaskDefinitionKey(), vo.getName());
 					continue;
 				}
 				// do claim
@@ -369,7 +400,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	}
 
 	private void handleUnAlocation(String owner, String caseCode, String instCode, String taskJobCode, String taskId,
-			String taskDfKey,String taskName) {
+			String taskDfKey, String taskName) {
 		String candidateIds[];
 		if (StringUtils.isBlank(owner)) {
 			candidateIds = new String[] { null };
@@ -433,12 +464,14 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		vars.put("taskId", taskId);
 		return (TaskVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_ATASK_KEY, TaskVo.class, vars, null);
 	}
+
 	@Override
 	public StartProcessInstanceVo getHistoryInstances(String processInstanceId) {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("processInstanceId", processInstanceId);
 		return (StartProcessInstanceVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HIS_INSTANCES_KEY, StartProcessInstanceVo.class, vars, null);
 	}
+
 	@Override
 	public TaskVo getHistoryTask(String taskId) {
 		Map<String, String> vars = new HashMap<>();
@@ -480,8 +513,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 
 	@Override
 	public ExecutionVo executeAction(ExecuteAction action) {
-		return (ExecutionVo)engine.RESTfulWorkFlow(WorkFlowConstant.PUT_EXECUTE_KEY, ExecutionVo.class, action);
+		return (ExecutionVo) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_EXECUTE_KEY, ExecutionVo.class, action);
 	}
+
 	@Override
 	public PageableVo<?> getExecute(ExecuteGet executeGet) {
 		Map<String, String> map = null;
@@ -498,6 +532,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 
 	@Override
 	public void setAssginee(String processInstanceId, String caseowner, String caseCode) {
+		if (isClaimByActivit(processInstanceId)) {
+			return;
+		}
 		TaskQuery tq = new TaskQuery(processInstanceId, true);
 		PageableVo pageableVo = this.listTasks(tq);
 		List<T> taskList = pageableVo.getData();
@@ -512,7 +549,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 						processInstanceId);
 				if (StringUtils.isBlank(owner) || owner.contains("-")) {
 					handleUnAlocation(owner, caseCode, processInstanceId, vo.getGroup(), vo.getId() + "",
-							vo.getTaskDefinitionKey(),vo.getName());
+							vo.getTaskDefinitionKey(), vo.getName());
 					continue;
 				}
 				// do claim
@@ -533,13 +570,31 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Override
 	public RestVariable setVariableByProcessInsId(String processInstanceId, String variableName,
 			RestVariable restVariable) {
-				Map<String, String> vars = new HashMap<>();
-			vars.put("variableName", variableName);
-			vars.put("processInstanceId", processInstanceId);
-			//vars.put("name", variableName);
-			vars.put("type", restVariable.getType());
-			vars.put("value", restVariable.getValue()==null?"":restVariable.getValue().toString());
-			restVariable.setName(variableName);
-			return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class, restVariable, vars);
+		Map<String, String> vars = new HashMap<>();
+		vars.put("variableName", variableName);
+		vars.put("processInstanceId", processInstanceId);
+		// vars.put("name", variableName);
+		vars.put("type", restVariable.getType());
+		vars.put("value", restVariable.getValue() == null ? "" : restVariable.getValue().toString());
+		restVariable.setName(variableName);
+		return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class, restVariable, vars);
+	}
+	
+	private boolean isClaimByActivit(String processInstanceId) {
+		StartProcessInstanceVo process = getHistoryInstances(processInstanceId);
+		String dfId = process.getProcessDefinitionId();
+		return isClaimByActivitVersion(dfId);
+	}
+
+	private boolean isClaimByActivitVersion(String dfId) {
+		String key = dfId.substring(0, dfId.indexOf(":"));
+		String versionFlag = claimByActivitMap.get(key);
+		if (versionFlag == null) {
+			return true;
+		}
+		if (versionFlag.compareTo(dfId) >= 0) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -250,7 +250,7 @@ public class FindUserLogicImpl implements FindUserLogic {
 				groupId);
 		if (users != null && !users.isEmpty() && users.size() < 2)
 			return users.get(0).getUsername();
-		else if (users.size() > 1) {
+		else if (users != null &&users.size() > 1) {
 			String userNames = "";
 			for (int i = 0; i < users.size(); i++) {
 				User user = users.get(i);

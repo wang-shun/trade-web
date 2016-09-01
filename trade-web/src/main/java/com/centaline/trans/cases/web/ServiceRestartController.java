@@ -38,6 +38,7 @@ public class ServiceRestartController {
 		SessionUser u= uamSessionService.getSessionUser();
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());
+		vo.setOrgId(u.getServiceDepId());
 		// 删除相关
 		StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();

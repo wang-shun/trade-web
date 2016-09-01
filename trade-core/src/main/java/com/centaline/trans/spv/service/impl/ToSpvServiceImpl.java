@@ -487,6 +487,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
 				toSpv.setIsDeleted("0");
+				toSpv.setStatus("0");
 				toSpvMapper.insertSelective(toSpv);
 			}		
 		}
@@ -754,6 +755,87 @@ public class ToSpvServiceImpl implements ToSpvService {
 		request.setAttribute("buyerMobil", buyerMobil.toString());
 	}
 
+	
+	/**
+	 * 	查询拼接spvBaseInfoVO
+	 */
+	public SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(long pkid){
+
+		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
+		
+		if(StringUtils.isBlank(String.valueOf(pkid))){
+			return spvBaseInfoVO;
+		}
+		
+		/**查询案件相关信息*//*
+		setAttribute(request,pkid);*/
+		
+		/**1.toSpv*/
+		ToSpv toSpv = selectByPrimaryKey(pkid);
+		if(toSpv == null || toSpv.getSpvCode() == null){
+			return spvBaseInfoVO;
+		}
+		String spvCode = toSpv.getSpvCode();
+		/**2.spvCustList*/
+		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
+		List<ToSpvCust> spvNewCustList = Arrays.asList(null,null,null,null);
+		//排序：买方->卖方->监管账户->资金方
+		for(ToSpvCust toSpvCust:spvCustList){
+			if("BUYER".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(0, toSpvCust);
+			}else if("SELLER".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(1, toSpvCust);
+			}else if("SPV".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(2, toSpvCust);
+			}else if("FUND".equals(toSpvCust.getTradePosition())){
+				spvNewCustList.set(3, toSpvCust);
+			}
+		}
+		/**3.toSpvDe*/
+		ToSpvDe toSpvDe = toSpvDeMapper.selectBySpvCode(spvCode);
+		/**4.toSpvDeDetailList*/
+		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
+		/**5.toSpvAccountList*/
+		List<ToSpvAccount> toSpvAccountList = toSpvAccountMapper.selectBySpvCode(spvCode);
+		List<ToSpvAccount> toSpvNewAccountList = Arrays.asList(null,null,null,null);
+		//排序：买方->卖方->监管账户->资金方
+		for(ToSpvAccount toSpvAccount:toSpvAccountList){
+			if("BUYER".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(0, toSpvAccount);
+			}else if("SELLER".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(1, toSpvAccount);
+			}else if("SPV".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(2, toSpvAccount);
+			}else if("FUND".equals(toSpvAccount.getAccountType())){
+				toSpvNewAccountList.set(3, toSpvAccount);
+			}
+		}
+		/**6.toSpvProperty*/
+		ToSpvProperty toSpvProperty = toSpvPropertyMapper.selectBySpvCode(spvCode);
+		
+		/**除万处理*/
+		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().divide(new BigDecimal(10000)) : null);
+		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().divide(new BigDecimal(10000)) : null);
+		
+		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().divide(new BigDecimal(10000)) : null);
+		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().divide(new BigDecimal(10000)) : null);
+		
+		for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().divide(new BigDecimal(10000)) : null);
+		}
+		/**装载属性*/
+		spvBaseInfoVO.setToSpv(toSpv);
+		spvBaseInfoVO.setSpvCustList(spvNewCustList);
+		spvBaseInfoVO.setToSpvDe(toSpvDe);
+		spvBaseInfoVO.setToSpvDeDetailList(toSpvDeDetailList);
+		spvBaseInfoVO.setToSpvAccountList(toSpvNewAccountList);
+		spvBaseInfoVO.setToSpvProperty(toSpvProperty);
+		
+		return spvBaseInfoVO;	
+	}
 	
 	
 	@Override

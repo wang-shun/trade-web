@@ -93,7 +93,7 @@
                                          <div class="modal_title">
                                                 E+贷款关联案件
                                             </div>
-                                            <div class="form_tan">
+                                            <!-- <div class="form_tan">
                                                 <label class="control-label" style="width:60px;">
                                                     	产证地址
                                                 </label>
@@ -105,7 +105,39 @@
                                                         <i class="icon iconfont">&#xe635;</i>&nbsp;查询
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            
+                                            <div class="line">
+					                        <div class="form_content">
+					                            <label class="control-label mr10">
+					                                   	 案件编码
+					                            </label>
+					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseCodet" name="caseCodet" >
+					                        </div>
+					                        <div class="form_content">
+					                            <label class="control-label sign_left">
+					                                   	 产证地址
+					                            </label>
+					                            <input class="input_type" value="" placeholder="请输入" style="width:435px;" id="propertyAddr" name="propertyAddr" >
+					                        </div>
+					                    </div>
+				                    	<div class="line">
+					                        <div class="form_content">
+					                            <label class="control-label mr10">
+					                                     	上家姓名
+					                            </label>
+					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseNamet" name="caseNamet" >
+					                        </div>
+					                        <div class="form_content space">
+					                            <div class="add_btn">
+					                                <button type="button" class="btn btn-success" id="searchButton"  >
+					                                <i class="icon iconfont"></i>
+					                                   	 查询
+					                                </button>
+					                            </div>
+					                        </div>
+				                    	</div>
+                                            
                                         </form>
                                         <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong">
                                                 &#xe60a;
@@ -633,7 +665,7 @@
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
-    			queryId : 'queryCastListItemList',
+    			queryId : 'queryCastListItemListdiv',
     		    templeteId : 'queryCastListItemList',
     		    rows : '6',
     		    gridClass : 'table table_blue mt20 table-striped table-bordered table-hover customerinfo',
@@ -683,14 +715,23 @@
         });
         
         function reloadGrid() {
-        	var propertyAddr = $("#propertyAddr").val();
+        	//var propertyAddr = $("#propertyAddr").val();
+        	var data = {};
+        	var propertyAddr = $.trim($("#propertyAddr").val());
+           	var caseCode = $.trim($("#caseCodet").val());
+           	var caseName = $.trim($("#caseNamet").val()); 
+           	
+            data.propertyAddr=propertyAddr;
+            data.caseCode=caseCode;
+           	data.sname=caseName; 
+        	
     	    $(".eloanApply-table").reloadGrid({
     	    	ctx : "${ctx}",
     	    	rows : '6',
-    			queryId : 'queryCastListItemList',
+    			queryId : 'queryCastListItemListdiv',
     		    templeteId : 'queryCastListItemList',
     		    wrapperData :{ctx : ctx},
-    		    data : {propertyAddr:propertyAddr}
+    		    data : data
     	    })
     	}
   
