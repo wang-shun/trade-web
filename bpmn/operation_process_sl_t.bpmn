@@ -24,19 +24,19 @@
     <exclusiveGateway id="sid-D60F280D-052C-40BE-B1DE-AD82A752BD20"></exclusiveGateway>
     <endEvent id="sid-077DB997-A81D-4C18-BF7A-E5848046AE3C"></endEvent>
     <userTask id="Guohu" name="过户" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/ToHouseTransfer/process"></userTask>
-    <userTask id="GuohuApprove" name="过户审批" activiti:assignee="#{commonUserService.getAssignee(execution,'MiddleOffice')}" activiti:formKey="/task/guohuApprove/process">
+    <userTask id="GuohuApprove" name="过户审批" activiti:assignee="#{commonUserService.getAssignee(execution,'MiddleOffice')}" activiti:candidateGroups="MiddleOffice" activiti:formKey="/task/guohuApprove/process">
       <extensionElements>
         <activiti:formProperty id="GuohuApprove" name="可以过户" type="boolean"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="LoanRelease" name="放款" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/loanRelease/process"></userTask>
-    <userTask id="CaseCloseFirstApprove" name="结案审核" activiti:assignee="#{commonUserService.getAssignee(execution,'TeamAssistant')}" activiti:formKey="/task/caselostApprove/first/process">
+    <userTask id="CaseCloseFirstApprove" name="结案审核" activiti:assignee="#{commonUserService.getAssignee(execution,'TeamAssistant')}" activiti:candidateGroups="TeamAssistant" activiti:formKey="/task/caselostApprove/first/process">
       <extensionElements>
         <activiti:formProperty id="CaseCloseFirstCheck" name="结案一级审核" type="boolean"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53"></exclusiveGateway>
-    <userTask id="CaseCloseSecondApprove" name="主管审批" activiti:assignee="#{commonUserService.getAssignee(execution,'Manager')}" activiti:formKey="/task/caselostApprove/second/process">
+    <userTask id="CaseCloseSecondApprove" name="主管审批" activiti:assignee="#{commonUserService.getAssignee(execution,'Manager')}" activiti:candidateGroups="Manager" activiti:formKey="/task/caselostApprove/second/process">
       <extensionElements>
         <activiti:formProperty id="CaseCloseSecondCheck" name="结案二级审核" type="boolean"></activiti:formProperty>
       </extensionElements>
@@ -73,7 +73,7 @@
     <sequenceFlow id="sid-3B7379D8-8318-4B82-BE7B-08386DD45139" sourceRef="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53" targetRef="CaseClose">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseFirstCheck == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow5" sourceRef="inclusivegateway1" targetRef="GuohuInfoModify">
+    <sequenceFlow id="flow5" sourceRef="inclusivegateway1" targetRef="Guohu">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${GuohuApprove== false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="inclusivegateway1" targetRef="EvaReportArise">
@@ -106,7 +106,7 @@
       </sequenceFlow>
       <userTask id="TransPlanFilling" name="填写交易计划" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/transPlan/process">
         <extensionElements>
-          <activiti:taskListener event="create" delegateExpression="${autoPlanEventListener}"></activiti:taskListener>
+          <activiti:taskListener event="create" expression="${autoPlanEventListener}"></activiti:taskListener>
         </extensionElements>
       </userTask>
       <sequenceFlow id="sid-3C19F394-57FE-4EC7-9B47-384695CE9EA7" sourceRef="TransPlanFilling" targetRef="sid-ED3440F4-CFBD-4A43-8538-D457B219ED39"></sequenceFlow>
@@ -137,7 +137,7 @@
     <intermediateCatchEvent id="MortgageFinishMsgEventCatch" name="MortgageFinishMsgEventCatch">
       <messageEventDefinition messageRef="MortgageFinishMsg"></messageEventDefinition>
     </intermediateCatchEvent>
-    <sequenceFlow id="flow42" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="MortgageSelect"></sequenceFlow>
+    <sequenceFlow id="flow42" sourceRef="sid-79756F09-FF56-4641-9144-8A782FF1E98F" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
     <sequenceFlow id="flow43" sourceRef="MortgageFinishMsgEventCatch" targetRef="sid-4410EBCE-BE04-429C-90CA-715CF640402E"></sequenceFlow>
     <sequenceFlow id="flow44" sourceRef="TradeBoundaryMsg" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
@@ -147,14 +147,6 @@
     <sequenceFlow id="sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715" sourceRef="exclusivegateway1" targetRef="CaseClose">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ComLoanNeed == false && PSFLoanNeed == false&&SelfLoanNeed == false}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="GuohuInfoModify" name="过户信息修改" activiti:assignee="${member}" activiti:candidateGroups="consultant" activiti:formKey="/task/guohuApprove/guohuInfoModify">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${members}" activiti:elementVariable="member">
-        <completionCondition>${nrOfCompletedInstances == nrOfInstances}</completionCondition>
-      </multiInstanceLoopCharacteristics>
-    </userTask>
-    <sequenceFlow id="flow45" sourceRef="GuohuInfoModify" targetRef="GuohuApprove"></sequenceFlow>
-    <userTask id="MortgageSelect" name="贷款需求选择" activiti:assignee="${caseOwner}" activiti:formKey="/task/mortgageSelect/process"></userTask>
-    <sequenceFlow id="flow46" sourceRef="MortgageSelect" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_operation_process">
     <bpmndi:BPMNPlane bpmnElement="operation_process" id="BPMNPlane_operation_process">
@@ -260,12 +252,6 @@
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="1250.0" y="376.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="GuohuInfoModify" id="BPMNShape_GuohuInfoModify">
-        <omgdc:Bounds height="55.0" width="105.0" x="933.0" y="220.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="MortgageSelect" id="BPMNShape_MortgageSelect">
-        <omgdc:Bounds height="55.0" width="105.0" x="179.0" y="502.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203" id="BPMNEdge_sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203">
         <omgdi:waypoint x="61.0" y="36.0"></omgdi:waypoint>
         <omgdi:waypoint x="61.0" y="62.0"></omgdi:waypoint>
@@ -331,7 +317,8 @@
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="1077.0" y="376.0"></omgdi:waypoint>
         <omgdi:waypoint x="1076.0" y="330.0"></omgdi:waypoint>
-        <omgdi:waypoint x="985.0" y="275.0"></omgdi:waypoint>
+        <omgdi:waypoint x="863.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="863.0" y="360.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
         <omgdi:waypoint x="1077.0" y="416.0"></omgdi:waypoint>
@@ -429,7 +416,7 @@
       <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
         <omgdi:waypoint x="61.0" y="363.0"></omgdi:waypoint>
         <omgdi:waypoint x="61.0" y="529.0"></omgdi:waypoint>
-        <omgdi:waypoint x="179.0" y="529.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="529.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
         <omgdi:waypoint x="700.0" y="529.0"></omgdi:waypoint>
@@ -447,14 +434,6 @@
       <bpmndi:BPMNEdge bpmnElement="sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715" id="BPMNEdge_sid-DD9EB045-AD57-41EA-8C20-7CF549D9C715">
         <omgdi:waypoint x="1290.0" y="396.0"></omgdi:waypoint>
         <omgdi:waypoint x="1310.0" y="394.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
-        <omgdi:waypoint x="985.0" y="275.0"></omgdi:waypoint>
-        <omgdi:waypoint x="985.0" y="362.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
-        <omgdi:waypoint x="284.0" y="529.0"></omgdi:waypoint>
-        <omgdi:waypoint x="665.0" y="529.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

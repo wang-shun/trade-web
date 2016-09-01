@@ -2,6 +2,7 @@ package com.centaline.trans.cases.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,11 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.exception.WorkFlowException;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -60,10 +64,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ToWorkFlowMapper toWorkFlowMapper;
 	@Autowired
 	private ToMortgageService toMortgageService;
-	
+	@Autowired
+	private ProcessInstanceService processInstanceService;
+	@Autowired
+	private TaskService taskService;
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
-	
 	@Override
 	@Transactional(readOnly=false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
@@ -114,8 +120,17 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		    throw new BusinessException("当前重启流程尚未结束！");
 	    }
 	    deleteMortFlowByCaseCode(vo.getCaseCode());
-	    ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
-	    StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
+	    /*ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
+	    StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());*/
+	    Map<String,Object>vars=new HashMap<>();
+	    User manager=uamUserOrgService.getLeaderUserByOrgIdAndJobCode(vo.getOrgId(), "Manager");
+	    vars.put("consultant", vo.getUserName());
+	    vars.put("Manager", manager.getUsername());
+	    StartProcessInstanceVo spv =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode(), vars);
+	    List<TaskVo>tasks= taskService.listTasks(spv.getId(),false,vo.getUserName()).getData();
+	    if(tasks!=null&&!tasks.isEmpty()){
+	    	spv.setActiveTaskId(tasks.get(0).getId()+"");
+	    }
 	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 	    wf.setCaseCode(vo.getCaseCode());
 	    wf.setProcessOwner(vo.getUserId());
@@ -172,7 +187,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
 		toApproveService.insertToApproveRecord(record);
-		
 		if(vo.getIsApproved()){
 			doApproved(vo);
 		}
@@ -225,12 +239,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
 		
-		ProcessInstance process = new ProcessInstance();
+		/*ProcessInstance process = new ProcessInstance();
     	process.setBusinessKey(vo.getCaseCode());
-    	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+    	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));*/
     	/*流程引擎相关*/
     	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-		List<RestVariable> variables = new ArrayList<RestVariable>();
+/*		List<RestVariable> variables = new ArrayList<RestVariable>();
 	    Iterator it = defValsMap.keySet().iterator();  
 	    while (it.hasNext()) {  
             String key = it.next().toString();  
@@ -241,12 +255,19 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	    }
     	process.setVariables(variables);
     	StartProcessInstanceVo spi=workFlowManager.startCaseWorkFlow(process, u.getUsername(),vo.getCaseCode());
+    	
+    	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
+    	User user = uamUserOrgService.getUserById(userId);*/
+    	defValsMap.put("caseOwner", u.getUsername());
+        StartProcessInstanceVo pIVo = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), vo.getCaseCode(), defValsMap);
+    	
+    	
     	ToWorkFlow wf=new ToWorkFlow();
     	wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		wf.setCaseCode(vo.getCaseCode());
 		wf.setProcessOwner(cas.getLeadingProcessId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-		wf.setInstCode(spi.getId());
+		wf.setInstCode(pIVo.getId());
 		toWorkFlowService.insertSelective(wf);
 	}
 

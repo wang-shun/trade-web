@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <process id="ComLoan_Process" name="ComLoan_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="ComLoanProcess" name="商业贷款办理" activiti:candidateGroups="consultant" activiti:formKey="/task/comLoanProcess/process">
+    <userTask id="ComLoanProcess" name="商业贷款办理" activiti:assignee="${partner}" activiti:formKey="/task/comLoanProcess/process">
       <extensionElements>
         <activiti:formProperty id="EvaReportNeedAtLoanRelease" name="放款前需要报告类评估"></activiti:formProperty>
       </extensionElements>

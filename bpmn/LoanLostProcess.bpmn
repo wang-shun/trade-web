@@ -3,10 +3,10 @@
   <process id="LoanLost_Process" name="LoanLost_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="LoanlostApply" name="贷款流失申请" activiti:candidateGroups="consultant" activiti:formKey="/task/loanlostApply/process"></userTask>
-    <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:candidateGroups="Manager" activiti:formKey="/task/loanlostApproveManager/process"></userTask>
-    <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:candidateGroups="director" activiti:formKey="/task/loanlostApproveDirector/process"></userTask>
-    <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:candidateGroups="consultant" activiti:formKey="/task/selfLoanApprove/process"></userTask>
+    <userTask id="LoanlostApply" name="贷款流失申请" activiti:assignee="${partner}" activiti:formKey="/task/loanlostApply/process"></userTask>
+    <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:assignee="#{commonUserService.getAssignee(execution,'Manager')}" activiti:formKey="/task/loanlostApproveManager/process"></userTask>
+    <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:assignee="#{commonUserService.getAssignee(execution,'director')}" activiti:formKey="/task/loanlostApproveDirector/process"></userTask>
+    <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/selfLoanApprove/process"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="LoanlostApply"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="LoanlostApply" targetRef="LoanlostApproveManager"></sequenceFlow>
     <sequenceFlow id="flow3" sourceRef="LoanlostApproveManager" targetRef="exclusivegateway1"></sequenceFlow>
