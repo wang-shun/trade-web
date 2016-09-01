@@ -50,7 +50,7 @@ $(document).ready(function(){
 		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+sum+"].deCondCode' value=''>买方贷款审批完成</option></select></td>";
 		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+sum+"].payeeAccountId' value='1'>资金方</option><option name='toSpvDeDetailList["+sum+"].payeeAccountId' value='2'>卖方</option></select></td>";
 		
-		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万元</td>";
+		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
 		$str += "</tr>";
@@ -129,6 +129,7 @@ $(document).ready(function(){
        		data:totalArr,	        				        		    
        		success:function(data){
        			alert(data.message);
+       			window.href=ctx+"/spv/spvList";
        		},  	 
     	    error : function(errors) {
 				alert("数据保存出错:"+JSON.stringify(errors));
