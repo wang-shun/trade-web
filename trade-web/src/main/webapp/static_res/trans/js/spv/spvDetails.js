@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 		//流程开启后只读表单
-		if($("#role").val() != ''){
+		if($("#role").val() != null && $("#role").val() != ''){
 		    readOnlyRiskForm();
 		}
 
@@ -13,6 +13,17 @@ $(document).ready(function(){
     });
 
 	$(".buyinfo, .sellinfo, .pledgeinfo").hide();
+	
+	if($("#BuyRadio1").is(":checked")){
+		$(".buyinfo").show();
+	}
+	if($("#SellRadio1").is(":checked")){
+		$(".sellinfo").show();
+	}
+	if($("#Pledge2").is(":checked")){
+		$(".pledgeinfo").show();
+	}
+	
 	$("#BuyRadio1").on("click", function() {
 		$(".buyinfo").show();
 	});
@@ -25,10 +36,10 @@ $(document).ready(function(){
 	$("#SellRadio2").on("click", function() {
 		$(".sellinfo").hide();
 	});
-	$("#Pledge1").on("click", function() {
+	$("#Pledge2").on("click", function() {
 		$(".pledgeinfo").show();
 	});
-	$("#Pledge2").on("click", function() {
+	$("#Pledge1").on("click", function() {
 		$(".pledgeinfo").hide();
 	});
 
@@ -39,7 +50,7 @@ $(document).ready(function(){
 		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+sum+"].deCondCode' value=''>买方贷款审批完成</option></select></td>";
 		$str += "<td class='text-left'><select class='table-select'><option name='toSpvDeDetailList["+sum+"].payeeAccountId' value='1'>资金方</option><option name='toSpvDeDetailList["+sum+"].payeeAccountId' value='2'>卖方</option></select></td>";
 		
-		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
+		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
 		$str += "</tr>";
@@ -118,6 +129,7 @@ $(document).ready(function(){
        		data:totalArr,	        				        		    
        		success:function(data){
        			alert(data.message);
+       			window.href=ctx+"/spv/spvList";
        		},  	 
     	    error : function(errors) {
 				alert("数据保存出错:"+JSON.stringify(errors));
@@ -128,7 +140,7 @@ $(document).ready(function(){
        
        $("#submitBtn").click(function(){
     	 //保存时必须选择关联案件，监管总金额，监管机构
-     	  if(!checkFormSave()){
+     	  if(!checkFormSubmit()){
      		  return;
      	  }
       	  var totalArr = [];
@@ -220,29 +232,75 @@ $(document).ready(function(){
 	function checkFormSubmit(){
 		var ds = $('.case_content').css('display');
 		if(ds=='none'){
-			alert("请选择关联案件");
+			alert("请选择关联案件！");
 			return false;	
 		}
+		
+		var buyerName = $("input[name='spvCustList[0].name']").val();
+		var sellerName = $("input[name='spvCustList[1].name']").val();
+		if((buyerName == null || buyerName == '')||(sellerName == null || sellerName == '')){
+			alert("请填写买/卖方姓名！");
+			return false;
+		}
+		
+		var buyerGender = $("input[name='spvCustList[0].gender']:checked").val();
+		var sellerGender = $("input[name='spvCustList[1].gender']:checked").val();
+		if((buyerGender == null || buyerGender == '')||(sellerGender == null || sellerGender == '')){
+			alert("请勾选买/卖方性别！");
+			return false;
+		}
+		
+		var buyerPhone = $("input[name='spvCustList[0].phone']").val();
+		var sellerPhone = $("input[name='spvCustList[1].phone']").val();
+		if((buyerPhone == null || buyerPhone == '')||(sellerPhone == null || sellerPhone == '')){
+			alert("请填写买/卖方手机号！");
+			return false;
+		}
+		
+		var idValiDate_0 = $("input[name='spvCustList[0].idValiDate']").val();
+        var idValiDate_1 = $("input[name='spvCustList[1].idValiDate']").val();
+    	if((!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_0)&&(idValiDate_0 != null && idValiDate_0 != '')) || 
+        		(!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_1)&&(idValiDate_1 != null && idValiDate_1 != ''))){
+        	alert("证件有效期需输入正确的‘yyyy-MM’格式！");
+        	return false;
+        }  
+        	
+        var amountMort = $("input[name='toSpv.amountMort']").val();
+        var amountMortCom = $("input[name='toSpv.amountMortCom']").val();
+        var amountMortPsf = $("input[name='toSpv.amountMortPsf']").val();
+        if(amountMort != null && amountMort != ''){
+        	amountMort = parseInt(amountMort);
+        }else{
+        	amountMort = 0;
+        }
+        if(amountMortCom != null && amountMortCom != ''){
+        	amountMortCom = parseInt(amountMortCom);
+        }else{
+        	amountMortCom = 0;
+        }
+        if(amountMortPsf != null && amountMortPsf != ''){
+        	amountMortPsf = parseInt(amountMortPsf);
+        }else{
+        	amountMortPsf = 0;
+        }
+        
+        if(amountMort != (amountMortCom+amountMortPsf)){
+        	alert("贷款资金需等于商业贷款与公积金贷款之和！");
+        	return false;
+        }
+        
         var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
-        	alert("请填写监管总金额");
+        	alert("请填写监管总金额！");
         	return false;
         }
+        
         var toSpvSpvInsti = $("#toSpvSpvInsti").val();
         if(toSpvSpvInsti == null || toSpvSpvInsti == ''){
-        	alert("请填写监管机构");
+        	alert("请填写监管机构！");
         	return false;
         }
-        var idValiDate_0 = $("input[name='spvCustList[0].idValiDate']").val();
-        var idValiDate_1 = $("input[name='spvCustList[1].idValiDate']").val();
-        if(!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_0)){
-        	alert("买方证件有效期：需输入正确的‘yyyy-MM’格式！");
-        	return false;
-        }
-        if(!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_1)){
-        	alert("卖方证件有效期：需输入正确的‘yyyy-MM’格式！");
-        	return false;
-        }
+        
         
 		 return true;
 	}

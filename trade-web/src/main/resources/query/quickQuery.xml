@@ -140,9 +140,14 @@
 	<import resource="query/award/awardHandler.xml" />
 
 	
-	<!-- 商贷预警 -->
-	<import resource="query/bizwarn/bizwarnListQuery.xml" />
+	<!-- 本组商贷预警列表信息 -->
+	<import resource="query/bizwarn/bizwarnListQueryByTeam.xml" />
+	
+	<!-- 本区商贷预警列表信息 -->
+	<import resource="query/bizwarn/bizwarnListQueryByDistinct.xml" />
+	
 	<import resource="query/eloan/ELoanCaseList.xml" />
+	<import resource="query/eloan/eloanContractList.xml" />
 	<!-- 商贷信息列表 -->
 	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />	
 	<!-- 本组临时银行案件管理列表 -->

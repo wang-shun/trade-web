@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,7 +100,7 @@ public class WorkSpaceController {
 	private TsTransPlanHistoryService tsTransPlanHistoryService;
 	@Autowired
 	private TsTeamPropertyService teamPropertyService;
-	
+
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
 
@@ -125,33 +124,169 @@ public class WorkSpaceController {
 		return isFromMobile;
 	}
 
-/*	@RequestMapping(value = "dashboard")
-	public String showWorkSpace(Model model, HttpServletRequest request,
+	/*
+	 * @RequestMapping(value = "dashboard") public String showWorkSpace(Model
+	 * model, HttpServletRequest request, HttpServletResponse response) throws
+	 * IOException { //本月目标达成报表，数据查询开始时间 String startDate =
+	 * DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
+	 * model.addAttribute("startDate",startDate);
+	 * 
+	 * boolean isMobile = checkMobile(request); if (isMobile) { return
+	 * mainPage(model, request); } SessionUser user =
+	 * uamSessionService.getSessionUser(); List<User> uList = new ArrayList<>();
+	 * String userId = user.getId(); String orgName = ""; // 判断登录用户 String
+	 * userOrgId = user.getServiceDepId();
+	 * 
+	 * List<User> userList = null; List<User> userList2 = null;
+	 * ToCaseInfoCountVo toCaseInfoCount = null; if
+	 * (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
+	 * List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy( userOrgId,
+	 * DepTypeEnum.TYCQY.getCode());
+	 * 
+	 * if (CollectionUtils.isNotEmpty(orgList)) { // 各个区域 for (Org toOrgVo :
+	 * orgList) { User u = new User(); u.setId(toOrgVo.getId());
+	 * u.setRealName(toOrgVo.getOrgName()); uList.add(u); } }
+	 * //model.addAttribute("isConsult", "GeneralManager"); } else if
+	 * (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监 //
+	 * 各个组 List<Org> orgIdList = uamUserOrgService.getOrgByDepHierarchy(
+	 * userOrgId, DepTypeEnum.TYCTEAM.getCode()); for (Org toOrgVo : orgIdList)
+	 * { User u = new User(); u.setId(toOrgVo.getId());
+	 * u.setRealName(toOrgVo.getOrgName()); uList.add(u); }
+	 * //model.addAttribute("isConsult", "director"); } else if
+	 * (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||
+	 * TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+	 * userList = uamUserOrgService.getUserByOrgIdAndJobCode(
+	 * user.getServiceDepId(), TransJobs.TJYGW.getCode()); for (User users :
+	 * userList) { User u = new User(); u.setId(users.getId());
+	 * u.setRealName(users.getRealName()); uList.add(u); }
+	 * //model.addAttribute("isConsult", "Manager"); } else{
+	 * //model.addAttribute("isConsult", "1"); }
+	 * 
+	 * if (CollectionUtils.isNotEmpty(uList)) { model.addAttribute("uList",
+	 * uList); }
+	 * 
+	 * boolean isJygw = false; if
+	 * (TransJobs.TJYGW.getCode().equals(user.getServiceJobCode())) {
+	 * TransPlanVO transPlanVO = new TransPlanVO();
+	 * transPlanVO.setUserId(user.getId());
+	 * transPlanVO.setUserName(user.getUsername()); List<TransPlanVO>
+	 * transPlanVOList = tsTransPlanHistoryService
+	 * .getTransPlanVOList(transPlanVO); for (TransPlanVO transPlanVOOld :
+	 * transPlanVOList) { if
+	 * (!StringUtils.isBlank(transPlanVOOld.getPartCode())) { String partCodeStr
+	 * = uamBasedataService.getDictValue( "part_code",
+	 * transPlanVOOld.getPartCode());
+	 * transPlanVOOld.setPartCodeStr(partCodeStr); } }
+	 * 
+	 * if (transPlanVOList != null && transPlanVOList.size() > 0 &&
+	 * !isCache(request, response)) { isJygw = true; }
+	 * model.addAttribute("transPlanVOList", transPlanVOList); }
+	 * model.addAttribute("isJygw", isJygw); Date now = new Date(); WorkSpace
+	 * wk= buildWorkSpaceBean(null, null); wk.setColor(0); int redLight =
+	 * workSpaceService.countLight(wk); wk.setColor(1); int yeLight =
+	 * workSpaceService.countLight(wk);
+	 * 
+	 * int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();
+	 * //获取所有的状态为生效的商贷预警数
+	 * 
+	 * model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
+	 * model.addAttribute("redLight", redLight); model.addAttribute("yeLight",
+	 * yeLight); model.addAttribute("userId", user.getId()); TsTeamProperty tp =
+	 * teamPropertyService.findTeamPropertyByTeamCode(user
+	 * .getServiceDepCode()); boolean isBackTeam = false; if (tp != null) {
+	 * isBackTeam = "yu_back".equals(tp.getTeamProperty()); }
+	 * 
+	 * if (SecurityUtils.getSubject().isPermitted(
+	 * "TRADE.WORKSPACE.WORKLOAD.CONSULTANT.FRONT") && !isBackTeam) { Map sta =
+	 * doSta(null, (now.getMonth() + 1) + ""); model.addAttribute("sta", sta); }
+	 * 
+	 * model.addAttribute("isBackTeam", isBackTeam); if
+	 * (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.RANK")) {
+	 * model.addAttribute("rank", doGetRank(user)); }
+	 * 
+	 * WorkSpace work = new WorkSpace(); work.setOrgId(user.getServiceDepId());
+	 * work.setUserId(user.getUsername()); if
+	 * (SecurityUtils.getSubject().isPermitted(
+	 * "TRADE.WORKSPACE.WORKLOAD.MANAGE.END") && isBackTeam) {
+	 * model.addAttribute("managerWorkLoad", workloadManagerBackoffice(work)); }
+	 * if (SecurityUtils.getSubject().isPermitted(
+	 * "TRADE.WORKSPACE.WORKLOAD.CONSULTANT.END") && isBackTeam) {
+	 * model.addAttribute("workLoadConsultant",
+	 * workSpaceService.workloadConsultantBackoffice(work)); } return
+	 * "workspace/dashboard"; }
+	 */
+
+	@RequestMapping(value = "dashboard")
+	public String showWorkSpace2(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		//本月目标达成报表，数据查询开始时间
-		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
-		model.addAttribute("startDate",startDate);
-		
+		SessionUser currentUser = uamSessionService.getSessionUser();
+
+		/* 判断是否为移动端登录 */
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
 			return mainPage(model, request);
 		}
-		SessionUser user = uamSessionService.getSessionUser();
-		List<User> uList = new ArrayList<>();
-		String userId = user.getId();
-		String orgName = "";
-		// 判断登录用户
-		String userOrgId = user.getServiceDepId();
 
-		List<User> userList = null;
-		List<User> userList2 = null;
-		ToCaseInfoCountVo toCaseInfoCount = null;
-		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
+		// 本月目标达成报表，数据查询开始时间 当前月的基础上推前5个月开始查询
+		String startDate = DateUtil.getFormatDate(
+				DateUtil.plusMonth(new Date(), -5), "yyyy-MM-01");
+		model.addAttribute("startDate", startDate);
+
+		// 红 黄 商贷流失预警案件数灯
+		WorkSpace wk = buildWorkSpaceBean(null, null);
+		wk.setColor(0);
+		int redLight = workSpaceService.countLight(wk);
+		wk.setColor(1);
+		int yeLight = workSpaceService.countLight(wk);
+
+		int bizwarnCaseCount = 0;
+		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
+			bizwarnCaseCount = bizWarnInfoService
+					.getAllBizwarnCountByTeam(currentUser.getUsername()); // 获取本组所有的状态为生效的商贷预警数
+		} else {
+			bizwarnCaseCount = bizWarnInfoService
+					.getAllBizwarnCountByDistinct(currentUser
+							.getServiceCompanyId()); // 获取本区所有的状态为生效的商贷预警数
+		}
+
+		/* 统计无主案件和无主任务预警数 */
+		String jobCode = currentUser.getServiceJobCode();
+		Map map = new HashMap();
+		map.put("candidateId", currentUser.getUsername());
+		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
+			map.put("managerFlag", "1");
+		} else {
+			map.put("orgId", currentUser.getServiceDepId());
+		}
+		int unLocatedCase = workSpaceService.getUnlocatedCaseCount();
+		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
+
+		/* end */
+
+		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
+		model.addAttribute("redLight", redLight);
+		model.addAttribute("yeLight", yeLight);
+
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("userId", user.getId());
+
+		// 判断组织是否为后台的
+		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(user
+				.getServiceDepCode());
+		boolean isBackTeam = false;
+		if (tp != null) {
+			isBackTeam = "yu_back".equals(tp.getTeamProperty());
+		}
+
+		List<User> uList = new ArrayList<User>();
+		String userId = user.getId();
+		String userOrgId = user.getServiceDepId();
+		Date now = new Date();
+		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
+			/* 各个贵宾服务部 */
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
 					userOrgId, DepTypeEnum.TYCQY.getCode());
-
 			if (CollectionUtils.isNotEmpty(orgList)) {
-				// 各个区域
 				for (Org toOrgVo : orgList) {
 					User u = new User();
 					u.setId(toOrgVo.getId());
@@ -159,9 +294,22 @@ public class WorkSpaceController {
 					uList.add(u);
 				}
 			}
-			//model.addAttribute("isConsult", "GeneralManager");
-		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
-			// 各个组
+			if (CollectionUtils.isNotEmpty(uList)) {
+				model.addAttribute("uList", uList);
+			}
+
+			/* 交易顾问工作数据显示,贷款详情,E+贷款 */
+			/*
+			 * Map sta = doSta(null, (now.getMonth() + 1) + "");
+			 * model.addAttribute("sta", sta);
+			 */
+
+			/* 龙虎榜 */
+			model.addAttribute("rank", doGetRank(user));
+
+			return "workbench/dashboard_generalManager";
+		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
+			/* 各个组织 */
 			List<Org> orgIdList = uamUserOrgService.getOrgByDepHierarchy(
 					userOrgId, DepTypeEnum.TYCTEAM.getCode());
 			for (Org toOrgVo : orgIdList) {
@@ -170,27 +318,68 @@ public class WorkSpaceController {
 				u.setRealName(toOrgVo.getOrgName());
 				uList.add(u);
 			}
-			//model.addAttribute("isConsult", "director");
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
-			userList = uamUserOrgService.getUserByOrgIdAndJobCode(
-					user.getServiceDepId(), TransJobs.TJYGW.getCode());
-			for (User users : userList) {
-				User u = new User();
-				u.setId(users.getId());
-				u.setRealName(users.getRealName());
-				uList.add(u);
+			if (CollectionUtils.isNotEmpty(uList)) {
+				model.addAttribute("uList", uList);
 			}
-			//model.addAttribute("isConsult", "Manager");
-		} else{
-			//model.addAttribute("isConsult", "1");
-		}
-		
-		if (CollectionUtils.isNotEmpty(uList)) {
-			model.addAttribute("uList", uList);
-		}
 
-		boolean isJygw = false;
-		if (TransJobs.TJYGW.getCode().equals(user.getServiceJobCode())) {
+			/* 交易顾问工作数据显示,贷款详情,E+贷款 */
+			/*
+			 * Map sta = doSta(null, (now.getMonth() + 1) + "");
+			 * model.addAttribute("sta", sta);
+			 */
+
+			/* 龙虎榜 */
+			model.addAttribute("rank", doGetRank(user));
+
+			return "workbench/dashboard_director";
+		} else if (TransJobs.TSJYZG.getCode().equals(jobCode)
+				|| TransJobs.TJYZG.getCode().equals(jobCode)) {// 交易主管
+			/* 龙虎榜 */
+			model.addAttribute("rank", doGetRank(user));
+
+			/* 高级交易主管添加待办事项 */
+			/*
+			 * if
+			 * (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR"
+			 * )) { model.addAttribute("rank", doGetRank(user)); }
+			 */
+
+			if (isBackTeam) { // 后台(高级)交易主管
+				/* 工作数据显示 */
+				WorkSpace work = new WorkSpace();
+				work.setOrgId(user.getServiceDepId());
+				work.setUserId(user.getUsername());
+				model.addAttribute("managerWorkLoad",
+						workloadManagerBackoffice(work));
+
+				return "workbench/dashboard_manager_back";
+			} else { // 前台(高级)交易主管
+				/* 各个交易顾问 */
+				List<User> userList = uamUserOrgService
+						.getUserByOrgIdAndJobCode(userOrgId,
+								TransJobs.TJYGW.getCode());
+				for (User users : userList) {
+					User u = new User();
+					u.setId(users.getId());
+					u.setRealName(users.getRealName());
+					uList.add(u);
+				}
+				if (CollectionUtils.isNotEmpty(uList)) {
+					model.addAttribute("uList", uList);
+				}
+
+				/* 交易顾问工作数据显示,贷款详情,E+贷款 */
+				/*
+				 * Map sta = doSta(null, (now.getMonth() + 1) + "");
+				 * model.addAttribute("sta", sta);
+				 */
+
+				return "workbench/dashboard_manager_fornt";
+			}
+
+		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { // 交易顾问
+			/* 任务小卫士 */
+			boolean isJygw = false;
 			TransPlanVO transPlanVO = new TransPlanVO();
 			transPlanVO.setUserId(user.getId());
 			transPlanVO.setUserName(user.getUsername());
@@ -203,246 +392,43 @@ public class WorkSpaceController {
 					transPlanVOOld.setPartCodeStr(partCodeStr);
 				}
 			}
-
 			if (transPlanVOList != null && transPlanVOList.size() > 0
 					&& !isCache(request, response)) {
 				isJygw = true;
 			}
 			model.addAttribute("transPlanVOList", transPlanVOList);
-		}
-		model.addAttribute("isJygw", isJygw);
-		Date now = new Date();
-		WorkSpace wk= buildWorkSpaceBean(null, null);
-		wk.setColor(0);
-		int redLight = workSpaceService.countLight(wk);
-		wk.setColor(1);
-		int yeLight = workSpaceService.countLight(wk);
-		
-		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
-		
-		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
-		model.addAttribute("redLight", redLight);
-		model.addAttribute("yeLight", yeLight);
-		model.addAttribute("userId", user.getId());
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(user
-				.getServiceDepCode());
-		boolean isBackTeam = false;
-		if (tp != null) {
-			isBackTeam = "yu_back".equals(tp.getTeamProperty());
-		}
-
-		if (SecurityUtils.getSubject().isPermitted(
-				"TRADE.WORKSPACE.WORKLOAD.CONSULTANT.FRONT")
-				&& !isBackTeam) {
-			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);
-		}
-
-		model.addAttribute("isBackTeam", isBackTeam);
-		if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.RANK")) {
-			model.addAttribute("rank", doGetRank(user));
-		}
-
-		WorkSpace work = new WorkSpace();
-		work.setOrgId(user.getServiceDepId());
-		work.setUserId(user.getUsername());
-		if (SecurityUtils.getSubject().isPermitted(
-				"TRADE.WORKSPACE.WORKLOAD.MANAGE.END")
-				&& isBackTeam) {
-			model.addAttribute("managerWorkLoad",
-					workloadManagerBackoffice(work));
-		}
-		if (SecurityUtils.getSubject().isPermitted(
-				"TRADE.WORKSPACE.WORKLOAD.CONSULTANT.END")
-				&& isBackTeam) {
-			model.addAttribute("workLoadConsultant",
-					workSpaceService.workloadConsultantBackoffice(work));
-		}
-		return "workspace/dashboard";
-	}*/
-
-	@RequestMapping(value = "dashboard")
-	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SessionUser currentUser = uamSessionService.getSessionUser();
-		
-		/*判断是否为移动端登录*/
-		boolean isMobile = checkMobile(request);
-		if (isMobile) {
-			return mainPage(model, request);
-		}
-		
-		//本月目标达成报表，数据查询开始时间
-		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
-		model.addAttribute("startDate",startDate);
-		
-		//红 黄 商贷流失预警案件数灯
-		WorkSpace wk= buildWorkSpaceBean(null, null);
-		wk.setColor(0);
-		int redLight = workSpaceService.countLight(wk);
-		wk.setColor(1);
-		int yeLight = workSpaceService.countLight(wk);
-		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
-		
-		/* 统计无主案件和无主任务预警数 */
-		String jobCode = currentUser.getServiceJobCode();
-		Map map = new HashMap();
-		map.put("candidateId", currentUser.getUsername());
-		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
-			map.put("managerFlag", "1");
-		} else {
-			map.put("orgId", currentUser.getServiceDepId());
-		}
-		int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
-		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
-		
-		/* end */
-		
-		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
-		model.addAttribute("redLight", redLight);
-		model.addAttribute("yeLight", yeLight);
-		
-		SessionUser user = uamSessionService.getSessionUser();
-		model.addAttribute("userId", user.getId());
-		
-		//判断组织是否为后台的
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(user.getServiceDepCode());
-		boolean isBackTeam = false;
-		if (tp != null) {
-			isBackTeam = "yu_back".equals(tp.getTeamProperty());
-		}		
-		
-		List<User> uList = new ArrayList<User>();
-		String userId = user.getId();
-		String userOrgId = user.getServiceDepId();
-		Date now = new Date();
-		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
-			/*各个贵宾服务部*/
-			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgId, DepTypeEnum.TYCQY.getCode());
-			if (CollectionUtils.isNotEmpty(orgList)) {
-				for (Org toOrgVo : orgList) {
-					User u = new User();
-					u.setId(toOrgVo.getId());
-					u.setRealName(toOrgVo.getOrgName());
-					uList.add(u);
-				}
-			}
-			if (CollectionUtils.isNotEmpty(uList)) {
-				model.addAttribute("uList", uList);
-			}
-			
-			/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);*/
-			
-			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
-			
-			return "workbench/dashboard_generalManager";
-		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
-			/*各个组织*/
-			List<Org> orgIdList = uamUserOrgService.getOrgByDepHierarchy(userOrgId, DepTypeEnum.TYCTEAM.getCode());
-			for (Org toOrgVo : orgIdList) {
-				User u = new User();
-				u.setId(toOrgVo.getId());
-				u.setRealName(toOrgVo.getOrgName());
-				uList.add(u);
-			}
-			if (CollectionUtils.isNotEmpty(uList)) {
-				model.addAttribute("uList", uList);
-			}
-			
-			/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);*/
-			
-			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
-			
-			return "workbench/dashboard_director";
-		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) {// 交易主管
-			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
-			
-			/*高级交易主管添加待办事项*/
-/*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
-				model.addAttribute("rank", doGetRank(user));
-			}*/
-			
-			if (isBackTeam) { //后台(高级)交易主管
-				/*工作数据显示*/
-				WorkSpace work = new WorkSpace();
-				work.setOrgId(user.getServiceDepId());
-				work.setUserId(user.getUsername());
-				model.addAttribute("managerWorkLoad",workloadManagerBackoffice(work));
-				
-				return "workbench/dashboard_manager_back";
-			} else { //前台(高级)交易主管
-				/*各个交易顾问*/
-				List<User> userList = uamUserOrgService.getUserByOrgIdAndJobCode(userOrgId, TransJobs.TJYGW.getCode());
-				for (User users : userList) {
-					User u = new User();
-					u.setId(users.getId());
-					u.setRealName(users.getRealName());
-					uList.add(u);
-				}
-				if (CollectionUtils.isNotEmpty(uList)) {
-					model.addAttribute("uList", uList);
-				}
-				
-				/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*				Map sta = doSta(null, (now.getMonth() + 1) + "");
-				model.addAttribute("sta", sta);*/
-				
-				return "workbench/dashboard_manager_fornt";
-			}
-
-		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { //交易顾问
-			/*任务小卫士*/
-			boolean isJygw = false;
-			TransPlanVO transPlanVO = new TransPlanVO();
-			transPlanVO.setUserId(user.getId());
-			transPlanVO.setUserName(user.getUsername());
-			List<TransPlanVO> transPlanVOList = tsTransPlanHistoryService.getTransPlanVOList(transPlanVO);
-			for (TransPlanVO transPlanVOOld : transPlanVOList) {
-				if (!StringUtils.isBlank(transPlanVOOld.getPartCode())) {
-					String partCodeStr = uamBasedataService.getDictValue("part_code", transPlanVOOld.getPartCode());
-					transPlanVOOld.setPartCodeStr(partCodeStr);
-				}
-			}
-			if (transPlanVOList != null && transPlanVOList.size() > 0&& !isCache(request, response)) {
-				isJygw = true;
-			}
-			model.addAttribute("transPlanVOList", transPlanVOList);
 			model.addAttribute("isJygw", isJygw);
-			
-			/*龙虎榜*/
+
+			/* 龙虎榜 */
 			model.addAttribute("rank", doGetRank(user));
-			
-			/*待办事项*/
+
+			/* 待办事项 */
 			model.addAttribute("rank", doGetRank(user));
-			
-			if (isBackTeam) { //后台交易顾问
-				/*工作数据显示*/
+
+			if (isBackTeam) { // 后台交易顾问
+				/* 工作数据显示 */
 				WorkSpace work = new WorkSpace();
 				work.setOrgId(user.getServiceDepId());
 				work.setUserId(user.getUsername());
-				model.addAttribute("workLoadConsultant", workSpaceService.workloadConsultantBackoffice(work));
-				
+				model.addAttribute("workLoadConsultant",
+						workSpaceService.workloadConsultantBackoffice(work));
+
 				return "workbench/dashboard_consultant_back";
-			} else { //前台交易顾问
-				/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*				Map sta = doSta(null, (now.getMonth() + 1) + "");
-				model.addAttribute("sta", sta);*/
-				
+			} else { // 前台交易顾问
+				/* 交易顾问工作数据显示,贷款详情,E+贷款 */
+				/*
+				 * Map sta = doSta(null, (now.getMonth() + 1) + "");
+				 * model.addAttribute("sta", sta);
+				 */
+
 				return "workbench/dashboard_consultant_fornt";
 			}
 		} else {
-			
+
 			return "workbench/dashboard_salesman";
 		}
 	}
-	
-	
+
 	public Map workloadManagerBackoffice(WorkSpace work) {
 		List<WorkLoad> list = workSpaceService.workloadManagerBackoffice(work);
 		Map<String, List> result = new HashMap<>();
@@ -629,7 +615,8 @@ public class WorkSpaceController {
 			toCaseInfoCount.setCountGHS(ghs);
 			toCaseInfoCount.setCountJAS(jas);
 
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
 			Org team = this.uamUserOrgService
 					.getOrgById(user.getServiceDepId());
 
@@ -664,18 +651,18 @@ public class WorkSpaceController {
 		model.addAttribute("userId", user.getId());
 		return "mobile/workspace/dashboard";
 	}
-	
+
 	@RequestMapping(value = "mobile/mainPage")
 	public String mainPage(Model model, HttpServletRequest request)
 			throws IOException {
-		WorkSpace wk= buildWorkSpaceBean(null, null);
+		WorkSpace wk = buildWorkSpaceBean(null, null);
 		wk.setColor(Integer.parseInt(LightColorEnum.RED.getCode()));
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(Integer.parseInt(LightColorEnum.YELLOW.getCode()));
 		int yeLight = workSpaceService.countLight(wk);
 		model.addAttribute("redLightCount", redLight);
 		model.addAttribute("yeLightCount", yeLight);
-		
+
 		return "mobile/workspace/mainPage";
 	}
 
@@ -691,10 +678,11 @@ public class WorkSpaceController {
 		work.setUserId(user.getId());
 		String jobCode = user.getServiceJobCode();
 		List<String> args = new ArrayList<String>();
-		if (TransJobs.TZJL.getCode().equals(jobCode)) { //总经理
+		if (TransJobs.TZJL.getCode().equals(jobCode)) { // 总经理
 			work.setRankType(TransJobs.TZJ.getCode());
 			work.setOrgId(null);
-			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+					user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					User u = new User();
@@ -702,38 +690,41 @@ public class WorkSpaceController {
 				}
 			}
 			work.setOrgs(args);
-			
+
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("sign_amount");
 			map.put("signAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
-			
+
 			map.put("loanAmountRank", null);
 			map.put("signAmountRank", null);
 			map.put("actualAmountRank", null);
-			
-		} else if(TransJobs.TZJ.getCode().equals(jobCode)) { //总监
+
+		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
 			work.setRankType(jobCode);
 			work.setOrgId(null);
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
-					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCZB.getCode()).getId(), DepTypeEnum.TYCQY.getCode());
+					uamUserOrgService
+							.getParentOrgByDepHierarchy(user.getServiceDepId(),
+									DepTypeEnum.TYCZB.getCode()).getId(),
+					DepTypeEnum.TYCQY.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
 			}
 			args.add(user.getServiceDepId());
-			work.setOrgs(args);			
-		
+			work.setOrgs(args);
+
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("sign_amount");
 			map.put("signAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
-			
+
 			work.setOrgId(user.getServiceDepId());
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
@@ -741,28 +732,32 @@ public class WorkSpaceController {
 			map.put("signAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRank", workSpaceService.getRank(work));
-			
-		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
+
+		} else if (TransJobs.TSJYZG.getCode().equals(jobCode)
+				|| TransJobs.TJYZG.getCode().equals(jobCode)) { // (高级)交易主管
 			work.setRankType(TransJobs.TJYZG.getCode());
 			work.setOrgId(null);
 			// 主管只看当前组织
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
-					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
+					uamUserOrgService
+							.getParentOrgByDepHierarchy(user.getServiceDepId(),
+									DepTypeEnum.TYCQY.getCode()).getId(),
+					DepTypeEnum.TYCTEAM.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
 				for (Org toOrgVo : orgList) {
 					args.add(toOrgVo.getId());
 				}
 			}
 			args.add(user.getServiceDepId());
-			work.setOrgs(args);			
-		
+			work.setOrgs(args);
+
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("sign_amount");
 			map.put("signAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
-			
+
 			work.setOrgId(user.getServiceDepId());
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
@@ -770,18 +765,18 @@ public class WorkSpaceController {
 			map.put("signAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRank", workSpaceService.getRank(work));
-		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { //交易顾问
+		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { // 交易顾问
 			work.setRankType(jobCode);
 			work.setOrgs(null);
 			work.setOrgId(user.getServiceDepId());
-			
+
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("sign_amount");
 			map.put("signAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
-			
+
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("sign_amount");
@@ -960,42 +955,42 @@ public class WorkSpaceController {
 		Double loanAmount = workSpaceService.staLoanAgentLoanAmount(work);
 		Double signAmount = workSpaceService.staLoanAgentSignAmount(work);
 		Double convRate = workSpaceService.staLoanAgentTransferRate(work);
-		Double efConverRt = workSpaceService.staEvaFeeCount(work);//评估费转化率
-		
+		Double efConverRt = workSpaceService.staEvaFeeCount(work);// 评估费转化率
 
 		NumberFormat formatter = new DecimalFormat("###,##0.00万");
 		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
-		
+
 		if (loanAmount == null) {
 			m.put("loanAmount", "0.00万");
 		} else {
-			m.put("loanAmount", formatter.format(loanAmount/10000));
+			m.put("loanAmount", formatter.format(loanAmount / 10000));
 		}
-		
+
 		if (signAmount == null) {
 			m.put("signAmount", "0.00万");
 		} else {
-			m.put("signAmount", formatter.format(signAmount/10000));
+			m.put("signAmount", formatter.format(signAmount / 10000));
 		}
-		
+
 		if (m.get("actualAmount") == null) {
 			m.put("actualAmount", "0.00万");
 		} else {
-			m.put("actualAmount", formatter.format(((BigDecimal)m.get("actualAmount")).divide(new BigDecimal(10000))));
+			m.put("actualAmount", formatter.format(((BigDecimal) m
+					.get("actualAmount")).divide(new BigDecimal(10000))));
 		}
-		
+
 		if (convRate == null) {
 			m.put("convRate", "0.00%");
 		} else {
-			m.put("convRate", formatter2.format(convRate*100) + "%");
+			m.put("convRate", formatter2.format(convRate * 100) + "%");
 		}
-		
+
 		if (efConverRt == null) {
 			m.put("efConverRt", "0.00%");
 		} else {
 			m.put("efConverRt", formatter2.format(efConverRt) + "%");
 		}
-		
+
 		Map m1 = workSpaceService.staEvaFee(work);
 		if (m1 != null) {
 			m.putAll(m1);
@@ -1010,10 +1005,10 @@ public class WorkSpaceController {
 		} else {
 			m.put("efConvRate", formatter2.format(m.get("efConvRate")) + "%");
 		}
-		
+
 		m.put("receiveCount", workSpaceService.staReceiveCount(work));
 		m.put("signCount", workSpaceService.staSignCount(work));
-		//m.put("transferCount", workSpaceService.staTransferCount(work));
+		// m.put("transferCount", workSpaceService.staTransferCount(work));
 		m.put("loanApplyCount", workSpaceService.staLoanApplyCount(work));
 		m.put("closeCount", workSpaceService.staCloseCount(work));
 
@@ -1048,8 +1043,7 @@ public class WorkSpaceController {
 				List<Org> orgList = uamUserOrgService
 						.getOrgByParentId(serachId);
 				orgs = orgListToListStr(orgList);
-				orgs.add(user
-						.getServiceDepId());
+				orgs.add(user.getServiceDepId());
 			}
 		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
 			if (!StringUtils.isBlank(serachId)) {
@@ -1058,10 +1052,10 @@ public class WorkSpaceController {
 				List<Org> orgList = uamUserOrgService.getOrgByParentId(user
 						.getServiceDepId());
 				orgs = orgListToListStr(orgList);
-				orgs.add(user
-						.getServiceDepId());
+				orgs.add(user.getServiceDepId());
 			}
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
 			if (!StringUtils.isBlank(serachId)) {
 				userId = serachId;
 			} else {
@@ -1086,39 +1080,39 @@ public class WorkSpaceController {
 		}
 		return orgStrs;
 	}
+
 	@RequestMapping(value = "ryLightList")
-	public String RyLightList(Model model,String color) {
+	public String RyLightList(Model model, String color) {
 		SessionUser user = uamSessionService.getSessionUser();
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
-			
-		}else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
-			model.addAttribute("parentOrgId", user
-						.getServiceDepId());
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
-			model.addAttribute("orgId", user
-					.getServiceDepId());
+
+		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
+			model.addAttribute("parentOrgId", user.getServiceDepId());
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+			model.addAttribute("orgId", user.getServiceDepId());
 		} else {
 			model.addAttribute("userId", user.getId());
 		}
-		if(TransJobs.TJYGW.getCode().endsWith(user.getServiceJobCode())){
+		if (TransJobs.TJYGW.getCode().endsWith(user.getServiceJobCode())) {
 			model.addAttribute("isJygw", true);
-		}else{
+		} else {
 			model.addAttribute("isJygw", false);
 		}
 		model.addAttribute("color", color);
 		return "workspace/ryLightList";
 	}
+
 	@RequestMapping(value = "/mobile/ryLightList")
-	public String MobileRyLightList(Model model,String color) {
+	public String MobileRyLightList(Model model, String color) {
 		SessionUser user = uamSessionService.getSessionUser();
 		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
-			
-		}else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
-			model.addAttribute("parentOrgId", user
-						.getServiceDepId());
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
-			model.addAttribute("orgId", user
-					.getServiceDepId());
+
+		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
+			model.addAttribute("parentOrgId", user.getServiceDepId());
+		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())
+				|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
+			model.addAttribute("orgId", user.getServiceDepId());
 		} else {
 			model.addAttribute("userId", user.getId());
 		}
