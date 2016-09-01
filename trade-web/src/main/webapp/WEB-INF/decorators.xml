@@ -38,6 +38,7 @@
 		<pattern>/spv/spvList</pattern>
 		<pattern>/spv/saveHTML</pattern>
 		<pattern>/spv/spvDetail</pattern>
+		<pattern>/eloan/eloanContractList</pattern>
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->
@@ -61,6 +62,7 @@
 		<pattern>/award/import</pattern>
 		<pattern>/unlocatedTasks/a</pattern>
 		<pattern>/awards/kjjianCase</pattern>
+		<pattern>/eloan/task/newEloanApply/process</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
