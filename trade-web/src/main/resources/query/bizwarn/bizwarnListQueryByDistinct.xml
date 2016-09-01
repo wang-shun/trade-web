@@ -27,7 +27,7 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="querybizwarnList">
+	<query id="bizwarnListQueryByDistinct">
 		<!-- <searchCondition>
 		   <condition field="bw.WARN_TYPE" name="warnType" label="预警类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="bw.STATUS" name="status" label="预警状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -40,23 +40,24 @@
 			<baseSql>
 				<![CDATA[
 					SELECT t.CASE_CODE AS caseCode,t.PROPERTY_ADDR AS propertyAddress,t.WARN_TYPE as warnType,t.WARN_TIME as warnDatetime,
-t.STATUS as status,t.RELIEVE_TIME as relieveDatetime,t.pkid as PKID FROM
-(SELECT distinct bw.CASE_CODE 
+					t.STATUS as status,t.RELIEVE_TIME as relieveDatetime,t.pkid as PKID FROM
+					(SELECT distinct bw.CASE_CODE 
 				      ,ttpi.PROPERTY_ADDR 
 				      ,bw.WARN_TYPE
 				      ,bw.WARN_TIME
 				      ,bw.STATUS
 				      ,bw.RELIEVE_TIME 
-				      ,c.pkid
-							,ART.ASSIGNEE_
-              ,ART.SUSPENSION_STATE_
-              ,bw.CREATE_TIME
+				      ,c.pkid,ART.ASSIGNEE_
+		              ,ART.SUSPENSION_STATE_
+		              ,bw.CREATE_TIME
+					  ,c.ORG_ID
 				  FROM sctrans.T_TO_BIZ_WARN bw
 				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
 				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
 				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
 				  LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
-				  where t.ASSIGNEE_ = #userLoginName# AND t.SUSPENSION_STATE_ = '1'
+				  where t.SUSPENSION_STATE_ = '1' AND t.ORG_ID IN (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+				  WHERE (orgHierarchy.TEAM_ID = #currentOrgId# or orgHierarchy.DISTRICT_ID = #currentOrgId# or orgHierarchy.hq_id = #currentOrgId#))
 				  <ifNotNull warnType>	
    						and t.WARN_TYPE=#warnType# 
 				  </ifNotNull>

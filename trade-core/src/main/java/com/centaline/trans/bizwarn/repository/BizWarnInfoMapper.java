@@ -5,21 +5,23 @@ import com.centaline.trans.common.MyBatisRepository;
 
 @MyBatisRepository
 public interface BizWarnInfoMapper {
-	
+
 	int updateStatusInMortgageSelect(BizWarnInfo bizWarnInfo);
-	
-	int getAllBizwarnCount(String userLoginName);
 
-    int insert(BizWarnInfo bizWarnInfo);
+	int getAllBizwarnCountByTeam(String userLoginName);
 
-    int insertSelective(BizWarnInfo record);
-    
-    int updateByCaseCode(BizWarnInfo bizWarnInfo);
-    
-    int deleteByCaseCode(String caseCode);
-    
-    BizWarnInfo selectByCaseCode(String caseCode);
-    
-    int updateStatusByCaseCode(BizWarnInfo bizWarnInfo);
+	int getAllBizwarnCountByDistinct(String currentOrgId);
+
+	int insert(BizWarnInfo bizWarnInfo);
+
+	int insertSelective(BizWarnInfo record);
+
+	int updateByCaseCode(BizWarnInfo bizWarnInfo);
+
+	int deleteByCaseCode(String caseCode);
+
+	BizWarnInfo selectByCaseCode(String caseCode);
+
+	int updateStatusByCaseCode(BizWarnInfo bizWarnInfo);
 
 }
