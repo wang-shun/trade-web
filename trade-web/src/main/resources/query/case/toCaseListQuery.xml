@@ -301,4 +301,78 @@
 			</table-row>
 		</grid>
 	</query>
+	<query id="queryCastListItemListdiv" cacheCount="true">
+		<searchCondition>
+		
+		   <condition field="c.CASE_CODE"  name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="c.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="c.sname"  name="sname" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				
+				select * from (
+					SELECT
+					    B.PKID, 
+					    B.STATUS AS STATUS_OLD,
+					    B.RED_COUNT,
+                        B.PROPERTY_ADDR,
+                        B.CASE_CODE,
+                        B.AGENT_NAME,
+                        B.GRP_NAME AGENT_ORG_NAME,
+                        (						
+select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CASE_CODE=B.CASE_CODE and a.TRANS_POSITION='30006001'
+   for xml path('')),1,1,''))  sname,
+                        B.CTM_CODE as ctmCode,B.AGENT_PHONE, 
+                        (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = B.CASE_CODE)  FONT_NAME
+					FROM sctrans.V_CASE_LIST_BASE B
+					where 
+					  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = B.CASE_CODE  
+					  )
+			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = B.CASE_CODE 
+			    	  )
+			    	  OR EXISTS ( SELECT    1
+                      FROM      SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR A  
+                                INNER JOIN ( SELECT T.*,S.id
+                                             FROM   SCTRANS.T_TL_TASK_REASSIGNT_LOG T
+                                                    LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
+                                           ) L ON L.id = A.PROCESSOR_ID and L.case_code = A.case_code
+                                             <ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
+                      WHERE     B.CASE_CODE = A.CASE_CODE
+                                AND A.SRV_CODE IN ( '3000400201', '3000401002' ) )
+			    	  )	
+			    	  
+			    	) c   where 1=1
+
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY c.STATUS_OLD,c.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				
+				
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdBackProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="RED_COUNT" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
 </querys>

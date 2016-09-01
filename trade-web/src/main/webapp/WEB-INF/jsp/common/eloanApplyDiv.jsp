@@ -27,7 +27,7 @@
 				                    	<div class="line">
 					                        <div class="form_content">
 					                            <label class="control-label mr10">
-					                                     	客户信息
+					                                     	上家姓名
 					                            </label>
 					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseNamet" name="caseNamet" >
 					                        </div>
@@ -45,12 +45,12 @@
                                            &#xe60a;
                                        </i></button>
                                    <div class="apply_table">
-                                   <table class="table table_blue mt20 table-striped table-bordered table-hover customerinfo" id="editable">
+                                   <table class="table table_blue mt20 table-striped table-bordered table-hover customerinfo" id="editable" name="editable">
                                        <thead>
                                            <tr>
 
                                                <th>
-                                                   <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                                   案件编码<!-- <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a> -->
                                                </th>
                                                <th>
                                                   	 产证地址
@@ -127,7 +127,17 @@
         </p>
     </td>
     <td class="text-left">
-        <button type="button" class="btn btn-success linkCase" name="linkCase" onclick="glClick()" id="{{index}}">
+        <button type="button" class="btn btn-success linkCase" name="linkCase" onclick="clickCallback({
+PKID:{{item.PKID}},
+CASE_CODE:'{{item.CASE_CODE}}',
+ctmCode:'{{item.ctmCode}}',
+PROPERTY_ADDR:'{{item.PROPERTY_ADDR}}',
+AGENT_NAME:'{{item.AGENT_NAME}}',
+AGENT_ORG_NAME:'{{item.AGENT_ORG_NAME}}',
+PROCESSOR_ID:'{{item.PROCESSOR_ID}}',
+AGENT_NAME:'{{item.AGENT_NAME}}',
+SELLER:'{{item.SELLER}}',
+BUYER:'{{item.BUYER}}'})" id="{{index}}" rep="{{index}}">
                           关联案件
         </button>
     </td>
@@ -152,8 +162,8 @@ function changeTaskAssignee(page){
    	
     data.propertyAddr=propertyAddr;
     data.caseCode=caseCode;
-   	data.caseName=caseName; 
-   	data.queryId="queryCastListItemList";
+   	data.sname=caseName; 
+   	data.queryId="queryCastListItemListdiv";
    	
 	$.ajax({
 		cache : false,
@@ -219,4 +229,60 @@ function initpagef(totalCount,pageSize,currentPage,records)
 	    }
 	});
 }
+
+function clickCallback(data){
+	var callback = $("#myModalsa").attr("callback");
+	if(callback){
+		var funCallback = eval(callback);
+		if($.isFunction(funCallback)){
+			funCallback(data);
+		}
+	}
+}
+//关联案件响应事件
+function showGlDiv(callback){
+	//查询方法
+	changeTaskAssignee(1);
+	$("#myModalsa").attr("callback",callback);
+	//显示 div
+	$("#myModalsa").modal("show");
+}
+
+//关联案件列表的响应事件
+/* function backCase1(data){	
+
+	alert(data.PKID);
+	//div返回的数据结构
+	/*data.PKID
+	data.CASE_CODE
+	data.ctmCode
+	data.PROPERTY_ADDR
+	data.AGENT_NAME
+	data.AGENT_ORG_NAME
+	data.PROCESSOR_ID
+	data.AGENT_NAME
+	data.SELLER
+	data.BUYER */
+	//隐藏div
+	//$('#myModalsa').modal('hide');
+/*} */
+/* 
+function backCase2(data){	
+	alert(data.PKID);
+	//div返回的数据结构
+	/*data.PKID
+	data.CASE_CODE
+	data.ctmCode
+	data.PROPERTY_ADDR
+	data.AGENT_NAME
+	data.AGENT_ORG_NAME
+	data.PROCESSOR_ID
+	data.AGENT_NAME
+	data.SELLER
+	data.BUYER */
+	//隐藏div
+	//$('#myModalsa').modal('hide');
+	
+/*} */
+
 </script>
