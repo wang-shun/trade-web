@@ -22,6 +22,9 @@
 	<!-- 新模板 -->
 	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
+		<!-- 个人工作台测试 -->
+		<pattern>/workspaceTransform/dashboard</pattern>
+		
 		<pattern>/awards/personalAward</pattern>		
 		<pattern>/awards/allAward</pattern>		
 		<pattern>/award/baseAwardReport</pattern>

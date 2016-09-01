@@ -3,6 +3,7 @@ var events = [];
 if ($('body').css('direction') === 'rtl') {
 	isRTL = true;
 }
+//
 function setStaDetailDef() {
 	$("tr[id^='sta_tr']").find('td:gt(0)').each(function(i) {
 		$(this).html('金额：<span>0.00万</span>单数：<span>0</span>转化率：<span>0.00%</span>');
