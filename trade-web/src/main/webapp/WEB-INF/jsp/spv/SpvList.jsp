@@ -176,13 +176,13 @@
                                         </td>
                                         <td class="center">
                                             <p class="managerstyle">
-                                                监管金额<span>{{item.AMOUNT>0?item.AMOUNT:0}}万</span>
+                                                监管金额<span>{{item.AMOUNT>0?item.AMOUNT/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>{{item.ru>0?item.ru:0}}万</span>
+                                                入账金额<span>{{item.ru>0?item.ru/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>{{item.chu>0?item.chu:0}}万</span>
+                                                出账金额<span>{{item.chu>0?item.chu/10000:0}}万</span>
                                             </p>
                                         </td>
                                         <td>

@@ -104,7 +104,7 @@ public class SpvController {
 		baseInfoVO.setToSpvAccountList(accounts);
 		*/
 		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,spv.getCaseCode());
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(pkid);
 		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
 		String name=user.getRealName();
 		String phone=user.getMobile();

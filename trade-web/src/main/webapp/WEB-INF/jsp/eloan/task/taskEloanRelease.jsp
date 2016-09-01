@@ -91,7 +91,7 @@
                                        <p><em>合作机构</em><span class="span_one" id="finOrgCode" name="finOrgCode" value="${eloanCase.finOrgCode}""></span></p>
                                    </div>
                                 </div>
-                                <div class="case_row">excutorName
+                                <div class="case_row">
                                   <div class="case_lump">
                                        <p><em>归属人</em><span class="span_one">${excutorName}</span></p>
                                    </div>     

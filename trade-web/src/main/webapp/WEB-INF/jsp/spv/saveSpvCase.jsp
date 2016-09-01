@@ -61,7 +61,7 @@
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 			</ul>
 			<div class="menu_btn"
-				style="float: left; margin-left: 600px; margin-top: 6px">
+				style="margin-left: 960px; margin-top: 7px;">
 				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 		</div>
@@ -167,7 +167,15 @@
 								    value="${spvBaseInfoVO.spvCustList[0].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[0].idType eq '1'?'selected="selected"':''}>身份证</option>
+										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>居民身份证</option>
+									<option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>军官证</option>
+									<option value="3" ${spvBaseInfoVO.spvCustList[0].idType eq '3'?'selected="selected"':''}>中国护照</option>
+									<option value="4" ${spvBaseInfoVO.spvCustList[0].idType eq '4'?'selected="selected"':''}>外国护照</option>
+									<option value="5" ${spvBaseInfoVO.spvCustList[0].idType eq '5'?'selected="selected"':''}>香港身份证</option>
+									<option value="6" ${spvBaseInfoVO.spvCustList[0].idType eq '6'?'selected="selected"':''}>台胞证</option>
+									<option value="7" ${spvBaseInfoVO.spvCustList[0].idType eq '7'?'selected="selected"':''}>港澳通行证</option>
+									<option value="8" ${spvBaseInfoVO.spvCustList[0].idType eq '8'?'selected="selected"':''}>其他</option>
+									
 									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>护照</option> --%>
 								</select>
 							</div>
@@ -220,7 +228,15 @@
 									    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
+									<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>居民身份证</option>
+									<option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>军官证</option>
+									<option value="3" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '3'?'selected="selected"':''}>中国护照</option>
+									<option value="4" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '4'?'selected="selected"':''}>外国护照</option>
+									<option value="5" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '5'?'selected="selected"':''}>香港身份证</option>
+									<option value="6" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '6'?'selected="selected"':''}>台胞证</option>
+									<option value="7" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '7'?'selected="selected"':''}>港澳通行证</option>
+									<option value="8" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '8'?'selected="selected"':''}>其他</option>
+									
 										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
 									</select>
 							</div>
@@ -264,7 +280,14 @@
 								    value="${spvBaseInfoVO.spvCustList[1].idType }"
 									id="" class="form-control input-one">
 									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'selected="selected"':''}>身份证</option>
+									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'selected="selected"':''}>居民身份证</option>
+									<option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>军官证</option>
+									<option value="3" ${spvBaseInfoVO.spvCustList[1].idType eq '3'?'selected="selected"':''}>中国护照</option>
+									<option value="4" ${spvBaseInfoVO.spvCustList[1].idType eq '4'?'selected="selected"':''}>外国护照</option>
+									<option value="5" ${spvBaseInfoVO.spvCustList[1].idType eq '5'?'selected="selected"':''}>香港身份证</option>
+									<option value="6" ${spvBaseInfoVO.spvCustList[1].idType eq '6'?'selected="selected"':''}>台胞证</option>
+									<option value="7" ${spvBaseInfoVO.spvCustList[1].idType eq '7'?'selected="selected"':''}>港澳通行证</option>
+									<option value="8" ${spvBaseInfoVO.spvCustList[1].idType eq '8'?'selected="selected"':''}>其他</option>
 									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>护照</option> --%>
 								</select>
 							</div>
@@ -318,7 +341,14 @@
 									    value="${spvBaseInfoVO.spvCustList[1].agentIdType }"
 										id="" class="form-control input-one">
 										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'selected="selected"':''}>身份证</option>
+										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'selected="selected"':''}>居民身份证</option>
+									<option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>军官证</option>
+									<option value="3" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '3'?'selected="selected"':''}>中国护照</option>
+									<option value="4" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '4'?'selected="selected"':''}>外国护照</option>
+									<option value="5" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '5'?'selected="selected"':''}>香港身份证</option>
+									<option value="6" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '6'?'selected="selected"':''}>台胞证</option>
+									<option value="7" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '7'?'selected="selected"':''}>港澳通行证</option>
+									<option value="8" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '8'?'selected="selected"':''}>其他</option>
 										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
 									</select>
 							</div>
@@ -334,25 +364,26 @@
 					<form class="form-inline">
 						<div class="title">房产及交易信息</div>
 						<div class="form-row form-rowbot">
-							<div class="form-group form-margin form-space-one left-extent">
-							    <input type="hidden" name="toSpvProperty.pkid" value="${spvBaseInfoVO.toSpvProperty.pkid }" />
-								<label for="" class="lable-one">房产证号</label> <input name="toSpvProperty.prNo" type="text"
-									class="form-control input-one" placeholder="" value="${spvBaseInfoVO.toSpvProperty.prNo }">
-							</div>
-							<div class="form-group form-margin form-space-one left-extent">
+						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">房产权利人</label> <input name="toSpvProperty.prOwnerName" type="text"
 									class="form-control input-one" placeholder="" value="${spvBaseInfoVO.toSpvProperty.prOwnerName }">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
+							    <input type="hidden" name="toSpvProperty.pkid" value="${spvBaseInfoVO.toSpvProperty.pkid }" />
+								<label for="" class="lable-one">房产证号</label> <input name="toSpvProperty.prNo" type="text"
+									class="form-control input-five" placeholder="" value="${spvBaseInfoVO.toSpvProperty.prNo }">
+							</div>
+							
+							<!-- <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">委托人姓名</label> <input  type="text"
 									class="form-control input-one" placeholder="" value="">
-							</div>
+							</div> -->
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">面积</label> <input name="toSpvProperty.prSize" type="text"
 									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prSize?spvBaseInfoVO.toSpvProperty.prSize:propertySquare }"> <span
-									class="date_icon">平方米</span>
+									class="date_icon">㎡</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">房屋地址</label> <input name="toSpvProperty.prAddr" type="text"
@@ -397,7 +428,10 @@
                             <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">下家付款方式</label> <select
 									class="form-control input-one">
-									<option value="">全数</option>
+									<option value="1">全数</option>
+									<option value="2">纯商业贷款</option>
+									<option value="3">纯公积金贷款</option>
+									<option value="4">组合贷款</option>
 								</select>
 							</div>
 						</div>
@@ -412,18 +446,19 @@
 								<label for="" class="lable-one">金额大写</label> <input type="text"
 									class="form-control input-one" placeholder="">
 							</div> -->
-						</div>
-						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">网签金额</label> <input name="toSpvProperty.signAmount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpvProperty.signAmount }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-<!-- 							<div class="form-group form-margin form-space-one pledgeinfo">
+						</div>
+						<!-- <div class="form-row form-rowbot">
+							
+							<div class="form-group form-margin form-space-one pledgeinfo">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
-									class="form-control input-three" placeholder=""> -->
-							</div>
+									class="form-control input-three" placeholder="">
+							</div> -->
 						</div>
 					</form>
 				</div>
@@ -489,11 +524,7 @@
 								    value="${spvBaseInfoVO.toSpvAccountList[1].account }"  type="text"
 									class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">开户行</label> <input name="toSpvAccountList[1].bank"
-								    value="${spvBaseInfoVO.toSpvAccountList[1].bank }" type="text"
-									class="form-control input-four" placeholder="">
-							</div>
+							
 						</div>
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one">
@@ -501,6 +532,11 @@
 							    value="${spvBaseInfoVO.toSpvAccountList[1].telephone }" type="text"
 								class="form-control input-one" placeholder="">
 						</div>
+						<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one">开户行</label> <input name="toSpvAccountList[1].bank"
+								    value="${spvBaseInfoVO.toSpvAccountList[1].bank }" type="text"
+									class="form-control input-four" placeholder="">
+							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -515,18 +551,19 @@
 								    value="${spvBaseInfoVO.toSpvAccountList[0].account }" type="text"
 									class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">开户行</label> <input name="toSpvAccountList[0].bank"
-								    value="${spvBaseInfoVO.toSpvAccountList[0].bank }" type="text"
-									class="form-control input-four" placeholder="">
-							</div>
+							
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">电话</label> <input name="toSpvAccountList[0].telephone"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].telephone }" type="text"
 									class="form-control input-one" placeholder="">
-							</div>		
+							</div>	
+							<div class="form-group form-margin form-space-one">
+								<label for="" class="lable-one">开户行</label> <input name="toSpvAccountList[0].bank"
+								    value="${spvBaseInfoVO.toSpvAccountList[0].bank }" type="text"
+									class="form-control input-four" placeholder="">
+							</div>	
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">

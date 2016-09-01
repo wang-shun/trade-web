@@ -174,6 +174,14 @@ public interface ToSpvService {
 	 * @return
 	 * */
 	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(ServletRequest request,String caseCode);
+	
+	/**
+	 * 查询spvBaseInfoVO
+	 * @param caseCode
+	 * @return
+	 * */
+	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(long pkid);
+	
 	/**
 	 * 查询spv 通过Pkid
 	 */
