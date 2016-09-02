@@ -163,21 +163,11 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">买方证件类型</label> <select name="spvCustList[0].idType"
-								    value="${spvBaseInfoVO.spvCustList[0].idType }"
-									id="" class="form-control input-one">
-									<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>居民身份证</option>
-									<option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>军官证</option>
-									<option value="3" ${spvBaseInfoVO.spvCustList[0].idType eq '3'?'selected="selected"':''}>中国护照</option>
-									<option value="4" ${spvBaseInfoVO.spvCustList[0].idType eq '4'?'selected="selected"':''}>外国护照</option>
-									<option value="5" ${spvBaseInfoVO.spvCustList[0].idType eq '5'?'selected="selected"':''}>香港身份证</option>
-									<option value="6" ${spvBaseInfoVO.spvCustList[0].idType eq '6'?'selected="selected"':''}>台胞证</option>
-									<option value="7" ${spvBaseInfoVO.spvCustList[0].idType eq '7'?'selected="selected"':''}>港澳通行证</option>
-									<option value="8" ${spvBaseInfoVO.spvCustList[0].idType eq '8'?'selected="selected"':''}>其他</option>
-									
-									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].idType eq '2'?'selected="selected"':''}>护照</option> --%>
-								</select>
+								<label for="" class="lable-one">买方证件类型</label> 
+									<aist:dict id="spvCustList[0].idType" name="spvCustList[0].idType" clazz="form-control input-one"
+									display="select"  dictType="CERT_TYPE"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[0].idType }"></aist:dict>
+								
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
@@ -224,21 +214,10 @@
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
 								<label for="" class="lable-one">委托人证件类型</label> 
-									<select name="spvCustList[0].agentIdType"
-									    value="${spvBaseInfoVO.spvCustList[0].agentIdType }"
-										id="" class="form-control input-one">
-										<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '1'?'selected="selected"':''}>居民身份证</option>
-									<option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>军官证</option>
-									<option value="3" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '3'?'selected="selected"':''}>中国护照</option>
-									<option value="4" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '4'?'selected="selected"':''}>外国护照</option>
-									<option value="5" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '5'?'selected="selected"':''}>香港身份证</option>
-									<option value="6" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '6'?'selected="selected"':''}>台胞证</option>
-									<option value="7" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '7'?'selected="selected"':''}>港澳通行证</option>
-									<option value="8" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '8'?'selected="selected"':''}>其他</option>
-									
-										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[0].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
-									</select>
+									<aist:dict  id="spvCustList[0].agentIdType" name="spvCustList[0].agentIdType" clazz="form-control input-one"
+									display="select"  dictType="CERT_TYPE"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[0].agentIdType }"></aist:dict>
+								
 							</div>
 							<div class="form-group form-margin form-space-one buyinfo">
 								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[0].agentIdCode"
@@ -276,20 +255,11 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">卖方证件类型</label> <select name="spvCustList[1].idType"
-								    value="${spvBaseInfoVO.spvCustList[1].idType }"
-									id="" class="form-control input-one">
-									<option value="">证件类型</option>
-									<option value="1" ${spvBaseInfoVO.spvCustList[1].idType eq '1'?'selected="selected"':''}>居民身份证</option>
-									<option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>军官证</option>
-									<option value="3" ${spvBaseInfoVO.spvCustList[1].idType eq '3'?'selected="selected"':''}>中国护照</option>
-									<option value="4" ${spvBaseInfoVO.spvCustList[1].idType eq '4'?'selected="selected"':''}>外国护照</option>
-									<option value="5" ${spvBaseInfoVO.spvCustList[1].idType eq '5'?'selected="selected"':''}>香港身份证</option>
-									<option value="6" ${spvBaseInfoVO.spvCustList[1].idType eq '6'?'selected="selected"':''}>台胞证</option>
-									<option value="7" ${spvBaseInfoVO.spvCustList[1].idType eq '7'?'selected="selected"':''}>港澳通行证</option>
-									<option value="8" ${spvBaseInfoVO.spvCustList[1].idType eq '8'?'selected="selected"':''}>其他</option>
-									<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].idType eq '2'?'selected="selected"':''}>护照</option> --%>
-								</select>
+								<label for="" class="lable-one">卖方证件类型</label> 
+									<aist:dict id="spvCustList[1].idType" name="spvCustList[1].idType" clazz="form-control input-one"
+									display="select"  dictType="CERT_TYPE"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[1].idType }"></aist:dict>
+								
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">证件有效期</label> 
@@ -337,20 +307,9 @@
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
 								<label for="" class="lable-one">委托人证件类型</label> 
-									<select name="spvCustList[1].agentIdType"
-									    value="${spvBaseInfoVO.spvCustList[1].agentIdType }"
-										id="" class="form-control input-one">
-										<option value="">证件类型</option>
-										<option value="1" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '1'?'selected="selected"':''}>居民身份证</option>
-									<option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>军官证</option>
-									<option value="3" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '3'?'selected="selected"':''}>中国护照</option>
-									<option value="4" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '4'?'selected="selected"':''}>外国护照</option>
-									<option value="5" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '5'?'selected="selected"':''}>香港身份证</option>
-									<option value="6" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '6'?'selected="selected"':''}>台胞证</option>
-									<option value="7" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '7'?'selected="selected"':''}>港澳通行证</option>
-									<option value="8" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '8'?'selected="selected"':''}>其他</option>
-										<%-- <option value="2" ${spvBaseInfoVO.spvCustList[1].agentIdType eq '2'?'selected="selected"':''}>护照</option> --%>
-									</select>
+										<aist:dict  id="spvCustList[1].agentIdType" name="spvCustList[1].agentIdType" clazz="form-control input-one"
+									display="select"   dictType="CERT_TYPE"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[1].agentIdType }"></aist:dict>
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
 								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[1].agentIdCode"
@@ -426,13 +385,10 @@
 									class="form-control input-one" placeholder="">
 							</div>	 -->	
                             <div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">下家付款方式</label> <select
-									class="form-control input-one">
-									<option value="1">全数</option>
-									<option value="2">纯商业贷款</option>
-									<option value="3">纯公积金贷款</option>
-									<option value="4">组合贷款</option>
-								</select>
+								<label for="" class="lable-one">下家付款方式</label>
+								<aist:dict id="" name="" clazz="form-control input-one"
+									display="select"  dictType="SPV_BUYER_PAYMENT"  
+									ligerui='none' defaultvalue=""></aist:dict>
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -475,9 +431,14 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> <input id="toSpvSpvInsti1" name="toSpv.spvInsti1"
+								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
+									class="form-control input-one" placeholder="">
+							</div>
+							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
 								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
-									class="form-control input-five" placeholder="">
+									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>
