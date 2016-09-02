@@ -147,7 +147,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
-									class="sex-char"> <label class="radio-inline"> <input checked="checked"
+									class="sex-char"> <label class="radio-inline"> <input 
 										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input 
@@ -239,7 +239,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
-									class="sex-char"> <label class="radio-inline"> <input checked="checked"
+									class="sex-char"> <label class="radio-inline"> <input 
 										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input type="radio"
