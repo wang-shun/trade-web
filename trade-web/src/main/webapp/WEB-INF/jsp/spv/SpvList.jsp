@@ -109,9 +109,8 @@
 						<button type="button" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
-						<button type="button" class="btn btn-success">
-							<a href="${ctx}/spv/saveHTML">新建</a>
-						</button>
+						
+						<a class="btn btn-success" href="${ctx}/spv/saveHTML">新建</a>
 						<button type="btn" class="btn btn-success">删除</button>
 						<button type="btn" class="btn btn-success">入账</button>
 						<button type="btn" class="btn btn-success">出账</button>
