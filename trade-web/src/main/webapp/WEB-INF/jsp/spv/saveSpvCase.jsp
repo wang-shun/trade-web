@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta name="viewpoart" content="width=device-width, initial-scale=1.0">
 
-<title>E+贷款</title>
+<title>监管合约</title>
 
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css"
@@ -147,7 +147,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
-									class="sex-char"> <label class="radio-inline"> <input
+									class="sex-char"> <label class="radio-inline"> <input checked="checked"
 										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input 
@@ -198,7 +198,7 @@
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[0].hasDele" id="BuyRadio1" value="1" ${spvBaseInfoVO.spvCustList[0].hasDele eq '1'?'checked="checked"':'' } > 是
-								</label> <label class="radio-inline"> <input type="radio"
+								</label> <label class="radio-inline"> <input type="radio" checked="checked"
 									name="spvCustList[0].hasDele" id="BuyRadio2" value="0" ${spvBaseInfoVO.spvCustList[0].hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
@@ -239,7 +239,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
-									class="sex-char"> <label class="radio-inline"> <input
+									class="sex-char"> <label class="radio-inline"> <input checked="checked"
 										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input type="radio"
@@ -291,7 +291,7 @@
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[1].hasDele" id="SellRadio1" value="1" ${spvBaseInfoVO.spvCustList[1].hasDele eq '1'?'checked="checked"':'' }> 是
-								</label> <label class="radio-inline"> <input type="radio"
+								</label> <label class="radio-inline"> <input type="radio" checked="checked"
 									name="spvCustList[1].hasDele" id="SellRadio2" value="0" ${spvBaseInfoVO.spvCustList[1].hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
@@ -352,9 +352,9 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-two">是否偿清</label> <label
-									class="radio-inline"> <input type="radio"
+									class="radio-inline"> <input type="radio" checked="checked"
 									name="toSpvProperty.isMortClear" id="Pledge1" value="1" ${spvBaseInfoVO.toSpvProperty.isMortClear eq '1'?'checked="checked"':'' }> 是
-								</label> <label class="radio-inline"> <input type="radio"
+								</label> <label class="radio-inline"> <input type="radio" 
 									name="toSpvProperty.isMortClear" id="Pledge2" value="0" ${spvBaseInfoVO.toSpvProperty.isMortClear eq '0'?'checked="checked"':'' }> 否
 								</label> <span class="span-tag pledgeinfo">交易房屋抵押贷信息</span>
 							</div>
