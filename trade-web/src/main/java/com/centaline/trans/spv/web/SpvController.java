@@ -74,9 +74,7 @@ public class SpvController {
 	//新增页面
 	@RequestMapping("saveHTML")
 	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
-		if(pkid!=null){
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
-		}
 		return "spv/saveSpvCase";
 	}
 

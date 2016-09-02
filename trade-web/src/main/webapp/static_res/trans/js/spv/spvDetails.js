@@ -258,6 +258,13 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		var buyerIdValiDate = $("input[name='spvCustList[0].idValiDate']").val();
+		var sellerIdValiDate = $("input[name='spvCustList[0].idValiDate']").val();
+		if((buyerIdValiDate == null || buyerIdValiDate == '')||(sellerIdValiDate == null || sellerIdValiDate == '')){
+			alert("请选择买/卖方证件有效期！");
+			return false;
+		}
+		
 		var buyerIdCode = $("input[name='spvCustList[0].idCode']").val();
 		var sellerIdCode = $("input[name='spvCustList[1].idCode']").val();
 		if((buyerIdCode == null || buyerIdCode == '')||(sellerIdCode == null || sellerIdCode == '')){

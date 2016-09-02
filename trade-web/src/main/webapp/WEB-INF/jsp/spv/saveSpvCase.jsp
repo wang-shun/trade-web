@@ -170,7 +170,7 @@
 								
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">证件有效期</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
 								<input name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
@@ -262,7 +262,7 @@
 								
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">证件有效期</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
 								<input name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>

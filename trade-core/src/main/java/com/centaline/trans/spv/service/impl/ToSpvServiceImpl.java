@@ -587,7 +587,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 		
 		if(record != null){
-			throw new BusinessException("启动失败：流程已经存在！");
+			throw new BusinessException("启动失败：该案件的流程已经启动！");
 		}
 		
 		saveNewSpv(spvBaseInfoVO,user);
@@ -691,8 +691,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode){
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request,pkid);
 		/**查询案件相关信息*/
-		if(StringUtils.isEmpty(caseCode)) caseCode = spvBaseInfoVO.getToSpv().getCaseCode();
-		setAttribute(request,caseCode);
+		if(!StringUtils.isEmpty(caseCode)){
+			setAttribute(request,caseCode);
+		}else{
+			if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null){
+				setAttribute(request,spvBaseInfoVO.getToSpv().getCaseCode());
+			}
+		}
+
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 	}
 
