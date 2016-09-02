@@ -431,14 +431,9 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> <input id="toSpvSpvInsti1" name="toSpv.spvInsti1"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
 								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
 									class="form-control input-one" placeholder="">
-							</div>
-							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管机构</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
-								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
-									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>

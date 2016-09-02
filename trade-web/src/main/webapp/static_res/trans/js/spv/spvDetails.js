@@ -187,7 +187,7 @@ $(document).ready(function(){
        });
        
        //风控总监审批驳回
-       $("#riskDirectorApproveY").click(function(){
+       $("#riskDirectorApproveN").click(function(){
     	   riskAjaxRequest(false,'${ctx}/spv/spvApprove/deal');
        });
 
@@ -215,16 +215,16 @@ $(document).ready(function(){
 			alert("请选择关联案件");
 			return false;	
 		}
-        var toSpvAmount = $("#toSpvAmount").val();
+/*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
         	alert("请填写监管总金额");
         	return false;
         }
         var toSpvSpvInsti = $("#toSpvSpvInsti").val();
         if(toSpvSpvInsti == null || toSpvSpvInsti == ''){
-        	alert("请填写监管机构");
+        	alert("请填写监管产品");
         	return false;
-        }
+        }*/
 		 return true;
 	}
 	
@@ -256,6 +256,91 @@ $(document).ready(function(){
 			alert("请填写买/卖方手机号！");
 			return false;
 		}
+		
+		var buyerIdType = $("input[name='spvCustList[0].idType']").val();
+		var sellerIdType = $("input[name='spvCustList[1].idType']").val();
+		if((buyerIdType == null || buyerIdType == '')||(sellerIdType == null || sellerIdType == '')){
+			alert("请填写买/卖方证件类型！");
+			return false;
+		}
+		
+		var buyerIdCode = $("input[name='spvCustList[0].idCode']").val();
+		var sellerIdCode = $("input[name='spvCustList[1].idCode']").val();
+		if((buyerIdCode == null || buyerIdCode == '')||(sellerIdCode == null || sellerIdCode == '')){
+			alert("请填写买/卖方证件编号！");
+			return false;
+		}
+		
+		var buyerHomeAddr = $("input[name='spvCustList[0].homeAddr']").val();
+		var sellerHomeAddr = $("input[name='spvCustList[1].homeAddr']").val();
+		if((buyerHomeAddr == null || buyerHomeAddr == '')||(sellerHomeAddr == null || sellerHomeAddr == '')){
+			alert("请填写买/卖方家庭住址！");
+			return false;
+		}
+		
+		var prOwnerName = $("input[name='toSpvProperty.prOwnerName']").val();
+		if(prOwnerName == null || prOwnerName == ''){
+			alert("请填写房产权利人！");
+			return false;
+		}
+		
+		var prSize = $("input[name='toSpvProperty.prSize']").val();
+		if(prSize == null || prSize == ''){
+			alert("请填写房屋面积！");
+			return false;
+		}
+		
+		var prAddr = $("input[name='toSpvProperty.prAddr']").val();
+		if(prAddr == null || prAddr == ''){
+			alert("请填写房屋地址！");
+			return false;
+		}
+		
+		var mortgageeName = $("input[name='toSpvProperty.mortgageeName']").val();
+		if(mortgageeName == null || mortgageeName == ''){
+			alert("请填写抵押方！");
+			return false;
+		}
+		
+		var mortgageeBank = $("input[name='toSpvProperty.mortgageeBank']").val();
+		if(mortgageeBank == null || mortgageeBank == ''){
+			alert("请填写开户行！");
+			return false;
+		}
+		
+		var signNo = $("input[name='toSpvProperty.signNo']").val();
+		if(signNo == null || signNo == ''){
+			alert("请填写网签合同号！");
+			return false;
+		}
+		
+		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
+		if(signAmount == null || signAmount == ''){
+			alert("请填写网签金额！");
+			return false;
+		}
+		
+		var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
+		var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
+		if((buyerAccountName == null || buyerAccountName == '') || (sellerAccountName == null || sellerAccountName == '')){
+			alert("请填写买/卖方账户名称！");
+			return false;
+		}
+		
+		var buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
+		var sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
+		if((buyerAccountTelephone == null || buyerAccountTelephone == '') || (sellerAccountTelephone == null || sellerAccountTelephone == '')){
+			alert("请填写买/卖方电话！");
+			return false;
+		}
+		
+/*		var buyerBank = $("input[name='toSpvAccountList[0].bank']:checked").val();
+		if(buyerBank == null || buyerBank == ''){
+			alert("请勾选买方开户行！");
+			return false;
+		}*/
+		
+		
 		
 		var idValiDate_0 = $("input[name='spvCustList[0].idValiDate']").val();
         var idValiDate_1 = $("input[name='spvCustList[1].idValiDate']").val();
@@ -297,7 +382,7 @@ $(document).ready(function(){
         
         var toSpvSpvInsti = $("#toSpvSpvInsti").val();
         if(toSpvSpvInsti == null || toSpvSpvInsti == ''){
-        	alert("请填写监管机构！");
+        	alert("请填写监管产品！");
         	return false;
         }
         

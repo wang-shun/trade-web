@@ -21,5 +21,5 @@ public interface ToSpvDeDetailMapper {
     
     List<ToSpvDeDetail> selectByDeId(Long deId);
 
-	int deleteAll();
+	void deleteByDeId(Long pkid);
 }
