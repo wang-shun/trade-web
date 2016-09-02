@@ -78,6 +78,8 @@ var handleScrollers = function() {
 	});
 };
 handleScrollers();
+
+//待办事项数据
 $(document).ready(function() {
 	new messageGrid().init({
 		e : $("#div_messagelist1"),
@@ -123,13 +125,14 @@ $(document).ready(function() {
 	
 	// 获取待办事项数据
 	$.ajax({
-		url : ctx + '/transplan/getToTransPlan',
+		//url : ctx + '/transplan/getToTransPlan', //mybatis查询
+		url : ctx + '/transplan/qqToGetTransPlan', //快速查询		
 		data : "",
 		type : "post",
 		dataType : "json",
-		async : false,
+		async : true,
 		success : function(data) {
-			// console.info(data);
+			console.log("===Result==="+JSON.stringify(data));
 			if (data.toTransPlanOrToPropertyInfoList == null)
 				return;
 			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;

@@ -101,8 +101,8 @@
 				 <if test="user_Id != null">
 				 	AND A.RECEIVED_USER = #user_Id#
 				 </if>		
-				 <if test="orgId != null">
-				 	AND A.TEAM_ID = #orgId#
+				 <if test="org_Id != null">
+				 	AND A.TEAM_ID = #org_Id#
 				 </if>
 				 <if test="orgs != null">
 				 	AND A.TEAM_ID IN  (#orgs#)			 
@@ -154,8 +154,8 @@
 					<if test="user_Id != null">
 						AND historyTask.consultant = #user_Id#
 					</if>
-					<if test="orgId != null">
-						AND historyTask.ORG = #orgId#
+					<if test="org_Id != null">
+						AND historyTask.ORG = #org_Id#
 					</if>
 					<if test="orgs != null">
 						AND historyTask.ORG IN	(#orgs#)
@@ -208,8 +208,8 @@
   						<if test="user_Id != null">
 						AND historyTask.consultant = #user_Id#
 					</if>
-					<if test="orgId != null">
-						AND historyTask.ORG = #orgId#
+					<if test="org_Id != null">
+						AND historyTask.ORG = #org_Id#
 					</if>
 					<if test="orgs != null">
 						AND historyTask.ORG IN	(#orgs#)
@@ -263,8 +263,8 @@
   					<if test="user_Id != null">
 						AND historyTask.consultant = #user_Id#
 					</if>
-					<if test="orgId != null">
-						AND historyTask.ORG = #orgId#
+					<if test="org_Id != null">
+						AND historyTask.ORG = #org_Id#
 					</if>
 					<if test="orgs != null">
 						AND historyTask.ORG IN	(#orgs#)
@@ -302,11 +302,11 @@
 						<if test="user_Id != null">
 							AND la.EXECUTOR_ID = #user_Id#
 						</if>
-						<if test="orgId != null">
-							AND la.executor_team = #orgId#
+						<if test="org_Id != null">
+							AND la.executor_team = #org_Id#
 						</if>
 						<if test="orgs != null">
-							ANDla.executor_team IN	(#orgs#)
+							AND la.executor_team IN	(#orgs#)
 						 </if>
 						<if test="mo != null">
 							AND DATEDIFF(YYYY, la.RELEASE_TIME, GETDATE())=0 AND DATEPART(m,la.RELEASE_TIME) = #mo#
@@ -321,8 +321,8 @@
 						 <if test="user_Id != null">
 						 	and ttc.EXCUTOR_ID = #user_Id#
 						 </if>
-						 <if test="orgId != null">
-						 	and ttc.excutor_team = #orgId#
+						 <if test="org_Id != null">
+						 	and ttc.excutor_team = #org_Id#
 						 </if>
 						 <if test="orgs != null">
 						 	and ttc.excutor_team in (#orgs#)							 	
@@ -340,8 +340,8 @@
 						<if test="user_Id != null">
 						 	and ttc.EXCUTOR_ID = #user_Id#
 						 </if>
-						 <if test="orgId != null">
-						 	and ttc.excutor_team = #orgId#
+						 <if test="org_Id != null">
+						 	and ttc.excutor_team = #org_Id#
 						 </if>
 						 <if test="orgs != null">
 						 	and ttc.excutor_team in (#orgs#)
@@ -376,8 +376,8 @@
 					          <if test="user_Id != null">
 						 	    and la.EXECUTOR_ID = #user_Id#
 						     </if>
-						     <if test="orgId != null">
-						 	    and la.executor_team = #orgId#
+						     <if test="org_Id != null">
+						 	    and la.executor_team = #org_Id#
 						     </if>
 						     <if test="orgs != null">
 						 	    and la.executor_team in (#orgs#)						 	   
@@ -392,8 +392,8 @@
 					          <if test="user_Id != null">
 						 	    and tec.EXCUTOR_ID = #user_Id#
 						     </if>
-						     <if test="orgId != null">
-						 	    and tec.EXCUTOR_TEAM = #orgId#
+						     <if test="org_Id != null">
+						 	    and tec.EXCUTOR_TEAM = #org_Id#
 						     </if>
 						     <if test="orgs != null">
 						 	    and tec.excutor_team in (#orgs#)				
@@ -427,8 +427,8 @@
 						          <if test="user_Id != null">
 							 			and la.EXECUTOR_ID = #user_Id#
 							 		</if>
-							 		<if test="orgId != null">
-							 			and la.executor_team = #orgId#
+							 		<if test="org_Id != null">
+							 			and la.executor_team = #org_Id#
 									 </if>
 									 <if test="orgs != null">
 							 			and la.executor_team in (#orgs#)							 		
@@ -443,8 +443,8 @@
 						          <if test="user_Id != null">
 							 			and tec.EXCUTOR_ID = #user_Id#
 							 		</if>
-							 		<if test="orgId != null">
-							 			and tec.excutor_team = #orgId#
+							 		<if test="org_Id != null">
+							 			and tec.excutor_team = #org_Id#
 									 </if>
 									 <if test="orgs != null">
 							 			and tec.excutor_team in (#orgs#)	
@@ -481,8 +481,8 @@
 					          	<if test="user_Id != null">
 						 		  	and la.EXECUTOR_ID = #user_Id#
 							    </if>
-							   <if test="orgId != null">
-							 	 	and la.executor_team = #orgId#
+							   <if test="org_Id != null">
+							 	 	and la.executor_team = #org_Id#
 							    </if>
 							 	<if test="orgs != null">
 							 		and la.executor_team in (#orgs#)
@@ -501,8 +501,8 @@
 						          <if test="user_Id != null">
 								 	and tec.EXCUTOR_ID = #user_Id#
 								 </if>
-								 <if test="orgId != null">
-								 	and tec.excutor_team = #orgId#
+								 <if test="org_Id != null">
+								 	and tec.excutor_team = #org_Id#
 								 </if>
 								 <if test="orgs != null">
 								 	and tec.excutor_team in (#orgs#)								 	
@@ -544,8 +544,8 @@
 					 <if test="user_Id != null">
 					 	and tsi.PROCESSOR_ID = #user_Id#
 					 </if>
-					 <if test="orgId != null">
-					 	and tsi.ORG_ID = #orgId#
+					 <if test="org_Id != null">
+					 	and tsi.ORG_ID = #org_Id#
 					 </if>
 					 <if test="orgs != null">
 					 	and tsi.org_id in (#orgs#)					 	
@@ -575,8 +575,8 @@
 				 <if test="user_Id != null">
 				 	and tsi.PROCESSOR_ID = #user_Id#
 				 </if>
-				 <if test="orgId != null">
-				 	and tsi.ORG_ID = #orgId#
+				 <if test="org_Id != null">
+				 	and tsi.ORG_ID = #org_Id#
 				 </if>
 				 <if test="orgs != null">
 				 	and tsi.org_id in (#orgs#)				 
@@ -618,8 +618,8 @@
 				 <if test="user_Id != null">
 				 	and la.EXECUTOR_ID = #user_Id#
 				 </if>
-				 <if test="orgId != null">
-				 	and la.executor_team = #orgId#
+				 <if test="org_Id != null">
+				 	and la.executor_team = #org_Id#
 				 </if>
 				 <if test="orgs != null">
 				 	and la.executor_team in  (#orgs#)			
@@ -650,7 +650,7 @@
 	</query>
 	
 	
-			<query id="personalWorkbenchStaLoanApplyQuery">
+	<query id="personalWorkbenchStaLoanSignQueryQuery">
 		<searchSql>
 			<baseSql>
 				<![CDATA[	
@@ -669,8 +669,8 @@
 					 <if test="user_Id != null">
 					 	and la.EXECUTOR_ID = #user_Id#
 					 </if>
-					 <if test="orgId != null">
-					 	and la.executor_team = #orgId#
+					 <if test="org_Id != null">
+					 	and la.executor_team = #org_Id#
 					 </if>
 					 <if test="orgs != null">
 					 	and la.executor_team in (#orgs#)					 
@@ -718,8 +718,8 @@
 					 <if test="user_Id != null">
 					 	and la.EXECUTOR_ID = #user_Id#
 					 </if>
-					 <if test="orgId != null">
-					 	and la.executor_team = #orgId#
+					 <if test="org_Id != null">
+					 	and la.executor_team = #org_Id#
 					 </if>
 					 <if test="orgs != null">
 					 	and la.executor_team in (#orgs#)						 	
@@ -754,7 +754,7 @@
 			<baseSql>
 				<![CDATA[	
 				  		select count(*) redLight
-								from (
+								from ( 
 									  SELECT min(l.color) as color
 									  FROM [sctrans].[T_TO_TRANS_PLAN] as t 
 										   left join sctrans.T_TO_PROPERTY_INFO as tp	 on t.case_code=tp.case_code				
@@ -767,14 +767,14 @@
 								  	 <if test="user_Id != null">
 									 	and u.ID = #user_Id#
 									 </if>
-									 <if test="orgId != null">
-									 	and uoj.ORG_ID = #orgId#
+									 <if test="org_Id != null">
+									 	and uoj.ORG_ID = #org_Id#
 									 </if>
 									 <if test="orgs != null">
 									 	and uoj.ORG_ID in (#orgs#)					 
 									 </if>
 									 group by t.pkid
-					 			) as a where a.color = #color#
+					 			 ) as a where a.color = #color# 
 				]]>
 			</baseSql>
 		</searchSql>
@@ -805,8 +805,8 @@
 								  	 <if test="user_Id != null">
 									 	and u.ID = #user_Id#
 									 </if>
-									 <if test="orgId != null">
-									 	and uoj.ORG_ID = #orgId#
+									 <if test="org_Id != null">
+									 	and uoj.ORG_ID = #org_Id#
 									 </if>
 									 <if test="orgs != null">
 									 	and uoj.ORG_ID in (#orgs#)					 
@@ -858,8 +858,8 @@
 				 		where 
 				 			t.SUSPENSION_STATE_ = '1' 
 				 			AND t.STATUS = '0' 
-				 			<if test="userLoginName != null">
-							 AND t.ASSIGNEE_ = #userLoginName#
+				 			<if test="user_LoginName != null">
+							 AND t.ASSIGNEE_ = #user_LoginName#
 					 		</if>
 				 			 
 			    ) t
@@ -931,5 +931,36 @@
 		</grid>
 	</query>
 	
-
+	<query id="qqToGetTransPlanListQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				  
+			    SELECT 
+					p.PART_CODE as partCode,
+					p.CASE_CODE as caseCode,
+					p.EST_PART_TIME as estParTtime,
+					prop.PROPERTY_ADDR as  propertyAddr
+				FROM sctrans.T_TO_TRANS_PLAN p with(nolock)
+					 INNER JOIN sctrans.T_TO_CASE c with(nolock)					ON c.CASE_CODE=p.CASE_CODE
+				INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s with(nolock)		ON s.CASE_CODE=p.CASE_CODE
+				INNER JOIN sctrans.SYS_DICT d with(nolock)							ON d.Type=s.srv_code
+				INNER JOIN sctrans.T_TO_PROPERTY_INFO prop with(nolock)				ON prop.CASE_CODE=p.CASE_CODE
+				WHERE
+					c.CASE_PROPERTY='30003003' 
+					AND p.PART_CODE=d.CODE			
+					<ifNotNull leadingProcessId> 
+					AND s.PROCESSOR_ID = #leadingProcessId#
+					</ifNotNull>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="partCode" title="partCode" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="caseCode" title="caseCode" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="estParTtime" title="estParTtime" index="" default=""	checkbox="" customDict="" sysDict="" format="dateFormatter" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="propertyAddr" title="propertyAddr" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
 </querys>

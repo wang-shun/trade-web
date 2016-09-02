@@ -2,13 +2,13 @@
 function queryBizwarnCaseCount(){
 	 $.ajax({
 			//url  : ctx+'/workspace/workSpaceSta',
-		 	url  : ctx+'/workspaceTransform/trafficLightTips',
+		 	url  : ctx+'/workspace/trafficLightTips',
 		    data : "",
 			type: "post",
 			dataType: "json",
 			async : false,
 			success: function(data) {
-				console.log("===Result==="+JSON.stringify(data));
+				console.log("=== queryBizwarnCaseCount Result==="+JSON.stringify(data));
 				$("#redLightCount").text(data.redLight);
 				$("#yeLightCount").text(data.yeLight);
 				$("#bizwarnCaseCount").text(data.bizwarnCaseCount);
@@ -42,7 +42,7 @@ function queryConutCaseByDate(){
 	
 	 $.ajax({
 			//url  : ctx+'/workspace/workSpaceSta',
-		 	url  : ctx+'/workspaceTransform/newWorkSpaceSta',
+		 	url  : ctx+'/workspace/newWorkSpaceSta',
 		    data : [{
 				name : 'mo',
 				value : month
@@ -53,8 +53,7 @@ function queryConutCaseByDate(){
 			type: "post",
 			dataType: "json",
 			async : false,
-			success: function(data) {
-				console.log("===Result==="+JSON.stringify(data));
+			success: function(data) {				
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
