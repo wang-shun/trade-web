@@ -17,8 +17,6 @@ function queryBizwarnCaseCount(){
 	 });
 }
 
-
-
 /*根据日期查询统计 */
 function queryConutCaseByDate(){
 	var sUserId = $("#sUserId").val();

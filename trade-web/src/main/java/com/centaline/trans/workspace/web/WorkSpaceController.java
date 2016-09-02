@@ -161,21 +161,7 @@ public class WorkSpaceController {
 		}
 		//int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
 		
-		/* 统计无主案件和无主任务预警数 */
 		String jobCode = currentUser.getServiceJobCode();
-		Map map = new HashMap();
-		//设置当前系统用户的登录名
-		map.put("candidateId", currentUser.getUsername());
-		//非交易主管
-		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
-			map.put("managerFlag", "1");
-		} else {
-			map.put("orgId", currentUser.getServiceDepId());
-		}
-		int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
-		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
-		
-		/* end */
 		
 		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
@@ -836,6 +822,13 @@ public class WorkSpaceController {
 		WorkSpace wk= buildWorkSpaceBean(null, null);
 		int redLight = redLightCountQuery(wk);
 		int yeLight = yeLightCountQuery(wk);
+		//无主案件预警数
+		Long unLocatedCase =  getUnlocatedCaseCount();
+		//无主任务预警数
+		Long unLocatedTask = getUnlocatedTaskCount(currentUser);
+		//待分配任务预警数
+		Long caseDistributeCount =  getCaseDistributeCount();
+		
 		int bizwarnCaseCount = 0;
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
 			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername());
@@ -848,12 +841,61 @@ public class WorkSpaceController {
 		map.put("redLight", redLight);
 		map.put("yeLight", yeLight);
 		
+		map.put("unLocatedCase", unLocatedCase);
+		map.put("unLocatedTask", unLocatedTask);
+		map.put("caseDistributeCount", caseDistributeCount);
+		
 		return map;
+	}
+	
+	/**
+	 * 待分配任务预警数
+	 */
+	public Long getCaseDistributeCount(){
+		JQGridParam gp = new JQGridParam();
+		gp.setCountOnly(true);
+		gp.setQueryId("queryCastListItemListUnDistribute");
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		return pages.getTotalElements();
+	}
+	
+	/**
+	 * 无主任务预警数
+	 * @return
+	 */
+	public Long getUnlocatedTaskCount(SessionUser currentUser){
+		JQGridParam gp = new JQGridParam();
+		String jobCode = currentUser.getServiceJobCode();
+		//设置当前系统用户的登录名
+		gp.put("candidateId", currentUser.getUsername());
+		//非交易主管
+		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
+			gp.put("managerFlag", "1");
+		} else {
+			gp.put("mOrgId", currentUser.getServiceDepId());
+		}
+		gp.setCountOnly(true);
+		gp.setQueryId("queryUnlocatedTask");
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		return pages.getTotalElements();
+	}
+	
+	/**
+	 * 无主案件预警数
+	 * @return
+	 */
+	public Long getUnlocatedCaseCount(){
+		JQGridParam gp = new JQGridParam();
+		gp.setCountOnly(true);
+		gp.setQueryId("queryUnlocatedCase");
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		return pages.getTotalElements();
 	}
 	
 	//查找红灯预警数量
 	private int redLightCountQuery(WorkSpace wk) {		
 		JQGridParam gp = new JQGridParam();
+		
 		gp.setPagination(false);		
 		if(wk!=null){
 			gp.put("user_Id", wk.getUserId());
