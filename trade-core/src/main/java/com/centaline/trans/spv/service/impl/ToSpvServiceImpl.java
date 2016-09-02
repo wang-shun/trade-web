@@ -462,17 +462,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 		ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		//保存相关信息
 		/**乘万处理*/
-		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().multiply(new BigDecimal(10000)) : new BigDecimal(0));
+		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().multiply(new BigDecimal(10000)) : null);
 		
-		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
+		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().multiply(new BigDecimal(10000)) : null);
+		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().multiply(new BigDecimal(10000)) : null);
 		
 		for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
-			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
+			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().multiply(new BigDecimal(10000)) : null);
 		}
 
 		/**1.保存到‘资金监管合约’表*/
@@ -623,8 +623,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		return uamBasedataService.nextSeqVal("SPV_CODE",new SimpleDateFormat("yyyyMM").format(new Date()));
 	}
 	
-	private void setAttribute(ServletRequest request,String caseCode) {
-		
+	@Override
+	public void setAttribute(ServletRequest request,String caseCode) {
+
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		// 物业信息
@@ -685,7 +686,16 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Long pkid = (Long)workFlowManager.getVar(instCode, "spvPkid").getValue();
 		return findSpvBaseInfoVOByPkid(request,pkid);
 	}
-	
+
+	@Override
+	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode){
+		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request,pkid);
+		/**查询案件相关信息*/
+		if(StringUtils.isEmpty(caseCode)) caseCode = spvBaseInfoVO.getToSpv().getCaseCode();
+		setAttribute(request,caseCode);
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+	}
+
 	/**
 	 * 	查询拼接spvBaseInfoVO
 	 */
@@ -702,9 +712,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(toSpv == null || toSpv.getSpvCode() == null){
 			return spvBaseInfoVO;
 		}
-		/**查询案件相关信息*/
-		setAttribute(request,toSpv.getCaseCode());
-		
+
 		String spvCode = toSpv.getSpvCode();
 		/**2.spvCustList*/
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);

@@ -8,12 +8,12 @@
 		<customDict id="qqcdFin" beanName="qqcdFin"></customDict>
 	</dicts>
 	<formatters>
-			<formatter id="dateFormatter" ref=""
-				class="com.aist.common.quickQuery.formatter.DateFormatter">
-				<properties>
-					<property name="pattern">yyyy-MM-dd</property>
-				</properties>
-			</formatter>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
 	</formatters>
 	<query id="getStatus">
 		<searchSql>
@@ -73,16 +73,893 @@
 			) d	order by d.years,d.mm
 				]]>
 			</baseSql>
-			
+
 		</searchSql>
 		<grid>
 			<table-row>
-				<column name="jiedan"   />
-				<column name="qianyue"   />
-				<column name="guohu"   />
-				<column name="jiean"   />
-				<column name="mm"   />
-				<column name="years"   />
+				<column name="jiedan" />
+				<column name="qianyue" />
+				<column name="guohu" />
+				<column name="jiean" />
+				<column name="mm" />
+				<column name="years" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="personalWorkbenchReceiveOrderQuery">
+		<searchSql>
+			<baseSql>
+			<![CDATA[
+			  	SELECT 
+			   		COUNT(A.CASE_CODE) AS receiveCount
+			   	FROM 
+			   		sctrans.V_RPT_CASE_PROCESS_STATIS A
+			   		INNER JOIN  sctrans.V_CASE_LIST_BASE B 	ON  A.CASE_CODE=B.CASE_CODE	
+				WHERE
+					A.RECEIVED_TIME IS NOT NULL
+					
+				 <if test="user_Id != null">
+				 	AND A.RECEIVED_USER = #user_Id#
+				 </if>		
+				 <if test="org_Id != null">
+				 	AND A.TEAM_ID = #org_Id#
+				 </if>
+				 <if test="orgs != null">
+				 	AND A.TEAM_ID IN  (#orgs#)			 
+				 </if>
+				 <if test="mo != null">
+				  	AND DatePart(m, A.RECEIVED_TIME) = #mo#
+				 </if>
+			]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="receiveCount" title="接单数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="personalWorkbenchSignCountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				  	SELECT 
+						COUNT(wf.CASE_CODE)  as signCount
+					FROM(
+						SELECT
+							TASK_DEF_KEY_ AS TASK_DEF_KEY,
+							PROC_INST_ID_ AS PROC_INST_ID,
+							NAME_ AS NAME,
+							ASSIGNEE_ AS ASSIGNEE,
+							START_TIME_ AS START_TIME,
+							END_TIME_ AS END_TIME,
+							DELETE_REASON_ AS DELETE_REASON,
+							(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
+							(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+						FROM 
+							sctrans.ACT_HI_TASKINST
+						)historyTask
+					INNER JOIN	sctrans.T_TO_workflow wf	ON 		historyTask.PROC_INST_ID=wf.INST_CODE
+					INNER JOIN 	sctrans.T_TO_CASE_INFO ci	ON 		wf.CASE_CODE=ci.CASE_CODE
+					LEFT JOIN 	sctrans.T_TO_CASE as tc 	ON 		tc.case_code=ci.case_code
+					INNER JOIN 	sctrans.T_TO_PROPERTY_INFO AS property 	ON 	ci.CASE_CODE = property.CASE_CODE
+					LEFT JOIN 	SCTRANS.SYS_USER SYSUSER 	ON 		SYSUSER.ID = ci.AGENT_CODE	
+					WHERE
+						historyTask.END_TIME IS NOT NULL
+						AND historytask.DELETE_REASON = 'completed'	
+						AND historyTask.TASK_DEF_KEY='TransSign'
+					<if test="user_Id != null">
+						AND historyTask.consultant = #user_Id#
+					</if>
+					<if test="org_Id != null">
+						AND historyTask.ORG = #org_Id#
+					</if>
+					<if test="orgs != null">
+						AND historyTask.ORG IN	(#orgs#)
+					 </if>
+					<if test="mo != null">
+						AND DATEPART(m,historyTask.END_TIME)=#mo#
+				  	</if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="signCount" title="签约数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="personalWorkbenchLoanApplyCountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+					SELECT
+						COUNT(wf.CASE_CODE) loanApplyCount
+					FROM(
+						SELECT
+							TASK_DEF_KEY_ AS TASK_DEF_KEY,
+							PROC_INST_ID_ AS PROC_INST_ID,
+							NAME_ AS NAME,
+							ASSIGNEE_ AS ASSIGNEE,
+							START_TIME_ AS START_TIME,
+							END_TIME_ AS END_TIME,
+							DELETE_REASON_ AS DELETE_REASON,
+							(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
+							(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+						FROM 
+							sctrans.ACT_HI_TASKINST
+						)historyTask
+					INNER JOIN	sctrans.T_TO_workflow wf	ON 	historyTask.PROC_INST_ID=wf.INST_CODE
+					INNER JOIN 	sctrans.T_TO_CASE_INFO ci	ON 	wf.CASE_CODE=ci.CASE_CODE
+					LEFT JOIN 	sctrans.T_TO_CASE as tc 	ON 	tc.case_code=ci.case_code
+					INNER JOIN 	sctrans.T_TO_PROPERTY_INFO AS property 	ON 	ci.CASE_CODE = property.CASE_CODE
+					LEFT JOIN 	SCTRANS.SYS_USER SYSUSER 	ON 	SYSUSER.ID = ci.AGENT_CODE			
+					WHERE
+						historyTask.END_TIME IS NOT NULL
+						AND historytask.DELETE_REASON = 'completed'
+						AND historyTask.TASK_DEF_KEY='ComLoanProcess'
+
+  						<if test="user_Id != null">
+						AND historyTask.consultant = #user_Id#
+					</if>
+					<if test="org_Id != null">
+						AND historyTask.ORG = #org_Id#
+					</if>
+					<if test="orgs != null">
+						AND historyTask.ORG IN	(#orgs#)
+					 </if>
+					<if test="mo != null">
+						AND DATEPART(m,historyTask.END_TIME) = #mo#
+				  	</if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="loanApplyCount" title="贷款申请数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+
+	<query id="personalWorkbenchCloseCountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+					SELECT
+						COUNT(wf.CASE_CODE) closeCount
+					FROM(
+						SELECT
+							TASK_DEF_KEY_ AS TASK_DEF_KEY,
+							PROC_INST_ID_ AS PROC_INST_ID,
+							NAME_ AS NAME,
+							ASSIGNEE_ AS ASSIGNEE,
+							START_TIME_ AS START_TIME,
+							END_TIME_ AS END_TIME,
+							DELETE_REASON_ AS DELETE_REASON,
+							(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
+							(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
+						FROM 
+							sctrans.ACT_HI_TASKINST
+						)historyTask
+					INNER JOIN	sctrans.T_TO_workflow wf	ON 	historyTask.PROC_INST_ID=wf.INST_CODE
+					INNER JOIN 	sctrans.T_TO_CASE_INFO ci	ON 	wf.CASE_CODE=ci.CASE_CODE
+					LEFT JOIN 	sctrans.T_TO_CASE as tc 	ON 	tc.case_code=ci.case_code
+					INNER JOIN 	sctrans.T_TO_PROPERTY_INFO AS property 	ON 	ci.CASE_CODE = property.CASE_CODE
+					LEFT JOIN 	SCTRANS.SYS_USER SYSUSER 	ON 	SYSUSER.ID = ci.AGENT_CODE			
+					WHERE
+						historyTask.END_TIME IS NOT NULL
+						AND historytask.DELETE_REASON = 'completed'
+						AND historyTask.TASK_DEF_KEY='CaseClose'
+
+  					<if test="user_Id != null">
+						AND historyTask.consultant = #user_Id#
+					</if>
+					<if test="org_Id != null">
+						AND historyTask.ORG = #org_Id#
+					</if>
+					<if test="orgs != null">
+						AND historyTask.ORG IN	(#orgs#)
+					 </if>
+					<if test="mo != null">
+						AND DATEPART(m,historyTask.END_TIME) = #mo#
+				  	</if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="closeCount" title="结案数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="personalWorkbenchActualAmountAndConvRateQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				
+				SELECT 
+					SUM(ACTUAL_AMOUNT) AS actualAmount,
+					(sum(SIGN_AMOUNT)/(case when SUM(REAL_PRICE)=0 THEN  0.001 else SUM(REAL_PRICE)  end)*100) as convRate
+				FROM 
+					(SELECT  SUM(la.ACTUAL_AMOUNT) AS ACTUAL_AMOUNT ,
+					         SUM(la.SIGN_AMOUNT) AS SIGN_AMOUNT ,
+					         SUM(tsi.REAL_PRICE) AS REAL_PRICE
+					FROM    sctrans.T_TO_LOAN_AGENT la
+					        LEFT JOIN sctrans.t_to_sign tsi ON la.CASE_CODE = tsi.CASE_CODE
+					WHERE   la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' 
+						
+						<if test="user_Id != null">
+							AND la.EXECUTOR_ID = #user_Id#
+						</if>
+						<if test="org_Id != null">
+							AND la.executor_team = #org_Id#
+						</if>
+						<if test="orgs != null">
+							AND la.executor_team IN	(#orgs#)
+						 </if>
+						<if test="mo != null">
+							AND DATEDIFF(YYYY, la.RELEASE_TIME, GETDATE())=0 AND DATEPART(m,la.RELEASE_TIME) = #mo#
+					  	</if>		
+						UNION ALL
+						SELECT  NULL AS ACTUAL_AMOUNT ,
+						        SUM(ttc.SIGN_AMOUNT) AS SIGN_AMOUNT ,
+						        SUM(tsi.REAL_PRICE) AS REAL_PRICE
+						FROM    sctrans.T_TO_ELOAN_CASE ttc
+						        LEFT JOIN sctrans.t_to_sign tsi ON ttc.CASE_CODE = tsi.CASE_CODE
+						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
+						 <if test="user_Id != null">
+						 	and ttc.EXCUTOR_ID = #user_Id#
+						 </if>
+						 <if test="org_Id != null">
+						 	and ttc.excutor_team = #org_Id#
+						 </if>
+						 <if test="orgs != null">
+						 	and ttc.excutor_team in (#orgs#)							 	
+						 </if>
+						  <if test="mo != null">
+						  	and DATEDIFF(YYYY, ttc.SIGN_TIME, GETDATE())=0 and DatePart(m, ttc.SIGN_TIME) = #mo#
+						  </if>
+						UNION ALL
+						SELECT  SUM(ttr.RELEASE_AMOUNT * 10000) AS ACTUAL_AMOUNT ,
+						        NULL AS SIGN_AMOUNT ,
+						        NULL AS REAL_PRICE
+						FROM    sctrans.T_TO_ELOAN_REL ttr
+						        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
+						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
+						<if test="user_Id != null">
+						 	and ttc.EXCUTOR_ID = #user_Id#
+						 </if>
+						 <if test="org_Id != null">
+						 	and ttc.excutor_team = #org_Id#
+						 </if>
+						 <if test="orgs != null">
+						 	and ttc.excutor_team in (#orgs#)
+					     </if>
+						  <if test="mo != null">
+						  	and DATEDIFF(YYYY, ttr.RELEASE_TIME, GETDATE())=0 and DatePart(m, ttr.RELEASE_TIME) = #mo#
+						  </if>
+					    ) A	
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="actualAmount" title="E+放款金额" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="convRate" title="E+转化率" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="personalWorkbenchLoanAmountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+					    SELECT  SUM(APPLY_AMOUNT) as loanAmount
+						FROM    
+							( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
+					          FROM      sctrans.T_TO_LOAN_AGENT la
+					          WHERE  la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null    
+					          <if test="user_Id != null">
+						 	    and la.EXECUTOR_ID = #user_Id#
+						     </if>
+						     <if test="org_Id != null">
+						 	    and la.executor_team = #org_Id#
+						     </if>
+						     <if test="orgs != null">
+						 	    and la.executor_team in (#orgs#)						 	   
+						     </if>
+						     <if test="mo != null">
+						  	     and DATEDIFF(YYYY, la.APPLY_TIME, GETDATE())=0 and DatePart(m, la.APPLY_TIME) = #mo#
+						     </if>
+					          UNION ALL
+					          SELECT    SUM(ISNULL(tec.APPLY_AMOUNT, 0) * 10000) AS APPLY_AMOUNT
+					          FROM      sctrans.T_TO_ELOAN_CASE tec
+					          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
+					          <if test="user_Id != null">
+						 	    and tec.EXCUTOR_ID = #user_Id#
+						     </if>
+						     <if test="org_Id != null">
+						 	    and tec.EXCUTOR_TEAM = #org_Id#
+						     </if>
+						     <if test="orgs != null">
+						 	    and tec.excutor_team in (#orgs#)				
+						     </if>
+						     <if test="mo != null">
+						  	     and DATEDIFF(YYYY, tec.APPLY_TIME, GETDATE())=0 and DatePart(m, tec.APPLY_TIME) = #mo#
+						     </if>
+						    ) A	
+					
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="loanAmount" title="E+申请金额" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+
+	<query id="personalWorkbenchSignAmountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				
+				  		SELECT  SUM(SIGN_AMOUNT) as  signAmount
+						FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT
+						          FROM      sctrans.T_TO_LOAN_AGENT la
+						          WHERE  la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null    
+						          <if test="user_Id != null">
+							 			and la.EXECUTOR_ID = #user_Id#
+							 		</if>
+							 		<if test="org_Id != null">
+							 			and la.executor_team = #org_Id#
+									 </if>
+									 <if test="orgs != null">
+							 			and la.executor_team in (#orgs#)							 		
+							 		</if>
+									<if test="mo != null">
+							  			and DATEDIFF(YYYY, la.sign_time, GETDATE())=0 and DatePart(m, la.sign_time) = #mo#
+							        </if>
+						          UNION ALL
+						          SELECT    SUM(ISNULL(tec.SIGN_AMOUNT,0)*10000) AS SIGN_AMOUNT
+						          FROM      sctrans.T_TO_ELOAN_CASE tec
+						          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
+						          <if test="user_Id != null">
+							 			and tec.EXCUTOR_ID = #user_Id#
+							 		</if>
+							 		<if test="org_Id != null">
+							 			and tec.excutor_team = #org_Id#
+									 </if>
+									 <if test="orgs != null">
+							 			and tec.excutor_team in (#orgs#)	
+							 	 	</if>
+							 		 <if test="mo != null">
+							  			and DATEDIFF(YYYY, tec.sign_time, GETDATE())=0 and DatePart(m, tec.sign_time) = #mo#
+							 	 </if>
+        					) A				   
+					
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="signAmount" title="E+签约金额" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+		<query id="personalWorkbenchConvRateQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				
+					  	SELECT  SUM(SIGN_AMOUNT) / SUM(CON_PRICE)  as  convRate
+						FROM    ( 
+							  SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
+					                    SUM(tsi.CON_PRICE) AS CON_PRICE
+					          FROM      sctrans.T_TO_LOAN_AGENT la
+					                    LEFT JOIN sctrans.t_to_sign tsi ON la.CASE_CODE = tsi.CASE_CODE
+					          WHERE
+					             la.CASE_CODE IS NOT NULL
+					             AND la.CASE_CODE &lt;&gt; ''
+					             AND la.APPLY_TIME IS NOT NULL
+					          	<if test="user_Id != null">
+						 		  	and la.EXECUTOR_ID = #user_Id#
+							    </if>
+							   <if test="org_Id != null">
+							 	 	and la.executor_team = #org_Id#
+							    </if>
+							 	<if test="orgs != null">
+							 		and la.executor_team in (#orgs#)
+							  	</if>
+							 	 <if test="mo != null">
+							  		and DATEDIFF(YYYY, la.sign_time, GETDATE())=0 and DatePart(m, la.sign_time) = #mo#
+							  	</if>
+					          UNION ALL
+						          SELECT    SUM(ISNULL(tec.SIGN_AMOUNT, 0) * 10000) AS SIGN_AMOUNT ,
+						                    SUM(tsi.CON_PRICE) AS CON_PRICE
+						          FROM      sctrans.T_TO_ELOAN_CASE tec
+						                    LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE
+						          WHERE     tec.CASE_CODE IS NOT NULL
+						                    AND tec.CASE_CODE &lt;&gt; ''
+						                    AND tec.APPLY_TIME IS NOT NULL
+						          <if test="user_Id != null">
+								 	and tec.EXCUTOR_ID = #user_Id#
+								 </if>
+								 <if test="org_Id != null">
+								 	and tec.excutor_team = #org_Id#
+								 </if>
+								 <if test="orgs != null">
+								 	and tec.excutor_team in (#orgs#)								 	
+								 </if>
+								  <if test="mo != null">
+								  	and DATEDIFF(YYYY, tec.sign_time, GETDATE())=0 and DatePart(m, tec.sign_time) = #mo#
+								  </if>
+					        ) A		   
+					
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="convRate" title="E+转化率" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="personalWorkbenchEfConverRtResultQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				
+				  	SELECT 
+						CAST(( COUNT(tf.CASE_CODE) )/( CASE WHEN COUNT(tm.CASE_CODE) = 0 THEN 0.001 ELSE COUNT(tm.CASE_CODE) END ) * 100 AS DECIMAL(10, 2)) AS efConverRt
+					FROM    sctrans.T_TG_SERV_ITEM_AND_PROCESSOR AS tsi
+				        INNER JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = tsi.CASE_CODE
+				        LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD AS tf ON tsi.CASE_CODE = tf.CASE_CODE
+				             <if test="mo != null">
+								and DATEDIFF(YYYY, tf.RECORD_TIME, GETDATE())=0 and DatePart(m, tf.RECORD_TIME) = #mo#
+							</if>
+				        LEFT JOIN sctrans.T_TO_MORTGAGE tm ON tm.CASE_CODE = tsi.CASE_CODE AND tm.APPR_DATE IS NOT NULL	AND tm.IS_ACTIVE = '1'
+				                <if test="mo != null">
+									and DATEDIFF(YYYY, tm.APPR_DATE, GETDATE())=0 and DatePart(m, tm.APPR_DATE) = #mo#
+								</if>
+					WHERE
+						tsi.SRV_CODE='3000400101'
+					 <if test="user_Id != null">
+					 	and tsi.PROCESSOR_ID = #user_Id#
+					 </if>
+					 <if test="org_Id != null">
+					 	and tsi.ORG_ID = #org_Id#
+					 </if>
+					 <if test="orgs != null">
+					 	and tsi.org_id in (#orgs#)					 	
+					 </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="efConverRt" title="E+转化率" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="personalWorkbenchStaEvaFeeQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				
+				 select 
+				 	sum(tf.EVAL_FEE) as evalFee,
+				 	(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 else sum(ts.REAL_PRICE/1000) end) *100)as efConvRate 
+				 from 
+				 	sctrans.T_TO_EVA_FEE_RECORD as tf 
+				 left join 	sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi	 on tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
+				 left join 	sctrans.t_to_sign  as ts					 on tf.CASE_CODE=ts.CASE_CODE 
+				 where 
+				 	tf.CASE_CODE is not null and tf.RECORD_TIME is not null
+				 <if test="user_Id != null">
+				 	and tsi.PROCESSOR_ID = #user_Id#
+				 </if>
+				 <if test="org_Id != null">
+				 	and tsi.ORG_ID = #org_Id#
+				 </if>
+				 <if test="orgs != null">
+				 	and tsi.org_id in (#orgs#)				 
+				 </if>
+				  <if test="mo != null">
+				  	and DATEDIFF(YYYY, tf.RECORD_TIME, GETDATE())=0 and DatePart(m, tf.RECORD_TIME) = #mo#
+				  </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="evalFee" title="E+放款金额" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="efConvRate" title="E+转化率" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+		<query id="personalWorkbenchStaLoanApplyQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				select 
+					la.LOAN_SRV_CODE staItem,
+					SUM(la.loan_amount) as [amount],
+					count(la.loan_amount) as  [count],
+					CAST((sum(la.loan_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 end)*100) as decimal(38, 2)) as convRate
+				 from sctrans.T_TO_LOAN_AGENT as la 
+				 	left join sctrans.t_to_sign as tsi	 on  la.CASE_CODE=tsi.CASE_CODE
+				 where la.CASE_CODE is not null 
+					   and la.CASE_CODE &lt;&gt; ''
+					   and la.apply_time is not null 
+					   and la.loan_amount is not null
+					  
+				 <if test="user_Id != null">
+				 	and la.EXECUTOR_ID = #user_Id#
+				 </if>
+				 <if test="org_Id != null">
+				 	and la.executor_team = #org_Id#
+				 </if>
+				 <if test="orgs != null">
+				 	and la.executor_team in  (#orgs#)			
+				 </if>
+				  <if test="mo != null">
+				  	and DATEDIFF(YYYY, la.APPLY_TIME, GETDATE())=0 and DatePart(m, la.APPLY_TIME) = #mo#
+				  </if>
+				  group by la.LOAN_SRV_CODE
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="staItem" title="类型" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="amount" title="申请" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="count" title="面签" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="convRate" title="放贷" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<query id="personalWorkbenchStaLoanSignQueryQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+					select 
+						la.LOAN_SRV_CODE as staItem,
+						SUM(la.sign_amount) as [amount],
+						count(la.sign_amount) as  [count],				
+						CAST((sum(la.sign_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
+					 from sctrans.T_TO_LOAN_AGENT as la 
+					 	  left join sctrans.t_to_sign as tsi  on la.CASE_CODE=tsi.CASE_CODE
+					 where la.CASE_CODE is not null 
+						   and la.CASE_CODE &lt;&gt;''
+						   and la.sign_time is not null 
+						   and la.sign_amount is not null
+						   
+					 <if test="user_Id != null">
+					 	and la.EXECUTOR_ID = #user_Id#
+					 </if>
+					 <if test="org_Id != null">
+					 	and la.executor_team = #org_Id#
+					 </if>
+					 <if test="orgs != null">
+					 	and la.executor_team in (#orgs#)					 
+					 </if>
+					  <if test="mo != null">
+					  	and DATEDIFF(YYYY, la.sign_time, GETDATE())=0 and DatePart(m, la.sign_time) = #mo#
+					  </if>
+					  group by la.LOAN_SRV_CODE
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="staItem" title="类型" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="amount" title="申请" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="count" title="面签" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="convRate" title="放贷" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>	
+	<query id="personalWorkbenchStaLoanReleaseQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				  
+				  	select 
+				  		la.LOAN_SRV_CODE as staItem,
+				  		SUM(la.actual_amount) as [amount],
+				  		count(la.actual_amount) as  [count],
+						CAST((sum(la.actual_amount)/(case when SUM(tsi.REAL_PRICE) =0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
+					 from sctrans.T_TO_LOAN_AGENT as la 
+					 	  left join sctrans.t_to_sign as tsi  on la.CASE_CODE=tsi.CASE_CODE
+					 where la.CASE_CODE is not null 
+						   and la.CASE_CODE &lt;&gt;''
+						   and la.release_time is not null 
+						   and la.actual_amount is not null
+						   
+					 <if test="user_Id != null">
+					 	and la.EXECUTOR_ID = #user_Id#
+					 </if>
+					 <if test="org_Id != null">
+					 	and la.executor_team = #org_Id#
+					 </if>
+					 <if test="orgs != null">
+					 	and la.executor_team in (#orgs#)						 	
+					 </if>
+					  <if test="mo != null">
+					  	and DATEDIFF(YYYY, la.release_time, GETDATE())=0 and DatePart(m, la.release_time) = #mo#
+					  </if>
+					  group by la.LOAN_SRV_CODE
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="staItem" title="类型" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="amount" title="申请" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="count" title="面签" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+				<column name="convRate" title="放贷" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+		<query id="personalWorkbenchRedLightCountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				  		select count(*) redLight
+								from ( 
+									  SELECT min(l.color) as color
+									  FROM [sctrans].[T_TO_TRANS_PLAN] as t 
+										   left join sctrans.T_TO_PROPERTY_INFO as tp	 on t.case_code=tp.case_code				
+										   left join sctrans.t_TO_workflow as w			 on w.case_code=t.CASE_CODE 
+										   left join sctrans.act_ru_task ta 			 on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
+										   left join sctrans.LAMP_RULE l				 on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
+										   left join sctrans.SYS_USER as u 				 on ta.ASSIGNEE_=u.USERNAME
+										   left join sctrans.v_user_org_job as uoj   	 on uoj.[USER_ID]=u.ID
+									 where u.id is not null
+								  	 <if test="user_Id != null">
+									 	and u.ID = #user_Id#
+									 </if>
+									 <if test="org_Id != null">
+									 	and uoj.ORG_ID = #org_Id#
+									 </if>
+									 <if test="orgs != null">
+									 	and uoj.ORG_ID in (#orgs#)					 
+									 </if>
+									 group by t.pkid
+					 			 ) as a where a.color = #color# 
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="redLight" title="红灯案件数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="personalWorkbenchYeLightCountQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				  		select count(*) yeLight
+								from (
+									  SELECT min(l.color) as color
+									  FROM [sctrans].[T_TO_TRANS_PLAN] as t 
+										   left join sctrans.T_TO_PROPERTY_INFO as tp	 on t.case_code=tp.case_code				
+										   left join sctrans.t_TO_workflow as w			 on w.case_code=t.CASE_CODE 
+										   left join sctrans.act_ru_task ta 			 on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
+										   left join sctrans.LAMP_RULE l				 on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
+										   left join sctrans.SYS_USER as u 				 on ta.ASSIGNEE_=u.USERNAME
+										   left join sctrans.v_user_org_job as uoj   	 on uoj.[USER_ID]=u.ID
+									 where u.id is not null
+								  	 <if test="user_Id != null">
+									 	and u.ID = #user_Id#
+									 </if>
+									 <if test="org_Id != null">
+									 	and uoj.ORG_ID = #org_Id#
+									 </if>
+									 <if test="orgs != null">
+									 	and uoj.ORG_ID in (#orgs#)					 
+									 </if>
+									 group by t.pkid
+					 			) as a where a.color = #color#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="yeLight" title="黄灯案件数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="personalWorkbenchBizwarnCaseCountQueryByTeam">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				 select 
+				 	count(1)  bizwarnCaseCountByTeam
+				 from(
+				 	SELECT 
+				 	t.CASE_CODE AS caseCode,
+				 	t.PROPERTY_ADDR AS propertyAddress,
+				 	t.WARN_TYPE as warnType,
+				 	t.WARN_TIME as warnDatetime,
+					t.STATUS as status,
+					t.RELIEVE_TIME as relieveDatetime,
+					t.pkid as PKID FROM
+						(SELECT   distinct bw.CASE_CODE 
+							      ,ttpi.PROPERTY_ADDR 
+							      ,bw.WARN_TYPE
+							      ,bw.WARN_TIME
+							      ,bw.STATUS
+							      ,bw.RELIEVE_TIME 
+							      ,c.pkid,ART.ASSIGNEE_
+					              ,ART.SUSPENSION_STATE_
+					              ,bw.CREATE_TIME
+								  ,c.ORG_ID
+					  	FROM sctrans.T_TO_BIZ_WARN bw
+					  	LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
+					 	LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
+					  	LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
+					  	LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
+				 		where 
+				 			t.SUSPENSION_STATE_ = '1' 
+				 			AND t.STATUS = '0' 
+				 			<if test="user_LoginName != null">
+							 AND t.ASSIGNEE_ = #user_LoginName#
+					 		</if>
+				 			 
+			    ) t
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="bizwarnCaseCountByTeam" title="本组流失预警数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+		<query id="personalWorkbenchBizwarnCaseCountQueryByDistinct">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				
+				select 
+					count(1) bizwarnCaseCountByDistinct
+				from(
+					SELECT 
+					t.CASE_CODE AS caseCode,
+					t.PROPERTY_ADDR AS propertyAddress,
+					t.WARN_TYPE as warnType,
+					t.WARN_TIME as warnDatetime,
+					t.STATUS as status,
+					t.RELIEVE_TIME as relieveDatetime,
+					t.pkid as PKID FROM
+					(SELECT    distinct bw.CASE_CODE 
+						      ,ttpi.PROPERTY_ADDR 
+						      ,bw.WARN_TYPE
+						      ,bw.WARN_TIME
+						      ,bw.STATUS
+						      ,bw.RELIEVE_TIME 
+						      ,c.pkid,ART.ASSIGNEE_
+				              ,ART.SUSPENSION_STATE_
+				              ,bw.CREATE_TIME
+							  ,c.ORG_ID
+				     FROM sctrans.T_TO_BIZ_WARN bw
+				  		LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
+				 		LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
+				  		LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
+				  		LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
+				  where 
+				  	t.SUSPENSION_STATE_ = '1' 
+				  	AND t.STATUS = '0' AND t.ORG_ID IN (
+				  		SELECT ORG_ID 
+				  		FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+				  		WHERE  1=1
+				  			<ifNotNull currentOrgId> 
+					  	    	AND (orgHierarchy.TEAM_ID=#currentOrgId# or orgHierarchy.DISTRICT_ID=#currentOrgId# or orgHierarchy.hq_id=#currentOrgId#)
+					  	   	</ifNotNull>
+				  				
+				  				
+				  	)  
+			  ) t
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="bizwarnCaseCountByDistinct" title="本区流失预警数" index="" default=""
+					checkbox="" customDict="" sysDict="" format="" width="0" isSort=""
+					align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="qqToGetTransPlanListQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				  
+			    SELECT 
+					p.PART_CODE as partCode,
+					p.CASE_CODE as caseCode,
+					p.EST_PART_TIME as estParTtime,
+					prop.PROPERTY_ADDR as  propertyAddr
+				FROM sctrans.T_TO_TRANS_PLAN p with(nolock)
+					 INNER JOIN sctrans.T_TO_CASE c with(nolock)					ON c.CASE_CODE=p.CASE_CODE
+				INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s with(nolock)		ON s.CASE_CODE=p.CASE_CODE
+				INNER JOIN sctrans.SYS_DICT d with(nolock)							ON d.Type=s.srv_code
+				INNER JOIN sctrans.T_TO_PROPERTY_INFO prop with(nolock)				ON prop.CASE_CODE=p.CASE_CODE
+				WHERE
+					c.CASE_PROPERTY='30003003' 
+					AND p.PART_CODE=d.CODE			
+					<ifNotNull leadingProcessId> 
+					AND s.PROCESSOR_ID = #leadingProcessId#
+					</ifNotNull>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="partCode" title="partCode" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="caseCode" title="caseCode" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="estParTtime" title="estParTtime" index="" default=""	checkbox="" customDict="" sysDict="" format="dateFormatter" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="propertyAddr" title="propertyAddr" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

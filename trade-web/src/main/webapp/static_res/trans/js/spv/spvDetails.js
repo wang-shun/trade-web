@@ -112,13 +112,7 @@ $(document).ready(function(){
      	  $("form").each(function(){
      		 var obj = $(this).serializeArray();
      		for(var i in obj){
-     			if(obj[i].name.indexOf('idValiDate') != '-1'){
-      				//匹配yyyy-MM-DD格式
-     				obj[i].value += '-01';
-      				totalArr.push(obj[i]);
-      			}else{
-          			totalArr.push(obj[i]);
-      			}
+          		totalArr.push(obj[i]);
      		}
      	  }); 
 
@@ -129,7 +123,13 @@ $(document).ready(function(){
        		data:totalArr,	        				        		    
        		success:function(data){
        			alert(data.message);
-       			window.href=ctx+"/spv/spvList";
+       			if(window.opener)
+			     {
+					 window.close();
+					 window.opener.callback();
+			     } else {
+			    	 window.location.href = "spvList";
+			     }	 
        		},  	 
     	    error : function(errors) {
 				alert("数据保存出错:"+JSON.stringify(errors));
@@ -147,13 +147,7 @@ $(document).ready(function(){
       	  $("form").each(function(){
       		 var obj = $(this).serializeArray();
       		for(var i in obj){
-      			if(obj[i].name.indexOf('idValiDate') != '-1'){
-       				//匹配yyyy-MM-DD格式
-      				obj[i].value += '-01';
-       				totalArr.push(obj[i]);
-       			}else{
-           			totalArr.push(obj[i]);
-       			}
+           		totalArr.push(obj[i]);
       		}
       	  });
     	  
@@ -257,8 +251,8 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var buyerIdType = $("input[name='spvCustList[0].idType']").val();
-		var sellerIdType = $("input[name='spvCustList[1].idType']").val();
+		var buyerIdType = $("select[name='spvCustList[0].idType'] option:selected").val();
+		var sellerIdType = $("select[name='spvCustList[1].idType'] option:selected").val();
 		if((buyerIdType == null || buyerIdType == '')||(sellerIdType == null || sellerIdType == '')){
 			alert("请填写买/卖方证件类型！");
 			return false;
@@ -339,16 +333,6 @@ $(document).ready(function(){
 			alert("请勾选买方开户行！");
 			return false;
 		}*/
-		
-		
-		
-		var idValiDate_0 = $("input[name='spvCustList[0].idValiDate']").val();
-        var idValiDate_1 = $("input[name='spvCustList[1].idValiDate']").val();
-    	if((!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_0)&&(idValiDate_0 != null && idValiDate_0 != '')) || 
-        		(!new RegExp("^[1-2]\\d{3}-(0?[1-9]||1[0-2])$").test(idValiDate_1)&&(idValiDate_1 != null && idValiDate_1 != ''))){
-        	alert("证件有效期需输入正确的‘yyyy-MM’格式！");
-        	return false;
-        }  
         	
         var amountMort = $("input[name='toSpv.amountMort']").val();
         var amountMortCom = $("input[name='toSpv.amountMortCom']").val();
@@ -374,7 +358,7 @@ $(document).ready(function(){
         	return false;
         }
         
-        var toSpvAmount = $("#toSpvAmount").val();
+/*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
         	alert("请填写监管总金额！");
         	return false;
@@ -384,7 +368,7 @@ $(document).ready(function(){
         if(toSpvSpvInsti == null || toSpvSpvInsti == ''){
         	alert("请填写监管产品！");
         	return false;
-        }
+        }*/
         
         
 		 return true;

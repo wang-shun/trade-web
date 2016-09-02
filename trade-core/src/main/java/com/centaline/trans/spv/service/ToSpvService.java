@@ -202,10 +202,13 @@ public interface ToSpvService {
 	ToSpvDe findSpvDeBySpvCode(String spvcode);
 	
 	List<ToSpvDeDetail> findDeDetailByDeId(Long deId);
-	
 
 	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
 
 	SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode);
+	
+	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode);
+
+	void setAttribute(ServletRequest request, String caseCode);
 
 }

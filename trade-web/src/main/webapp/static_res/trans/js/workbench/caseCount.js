@@ -1,3 +1,24 @@
+//预警灯提示
+function queryBizwarnCaseCount(){
+	 $.ajax({
+			//url  : ctx+'/workspace/workSpaceSta',
+		 	url  : ctx+'/workspace/trafficLightTips',
+		    data : "",
+			type: "post",
+			dataType: "json",
+			async : false,
+			success: function(data) {
+				console.log("=== queryBizwarnCaseCount Result==="+JSON.stringify(data));
+				$("#redLightCount").text(data.redLight);
+				$("#yeLightCount").text(data.yeLight);
+				$("#bizwarnCaseCount").text(data.bizwarnCaseCount);
+
+			}
+	 });
+}
+
+
+
 /*根据日期查询统计 */
 function queryConutCaseByDate(){
 	var sUserId = $("#sUserId").val();
@@ -20,7 +41,8 @@ function queryConutCaseByDate(){
 	var createTimeEnd = year+"-"+month+"-"+d2;
 	
 	 $.ajax({
-			url  : ctx+'/workspace/workSpaceSta',
+			//url  : ctx+'/workspace/workSpaceSta',
+		 	url  : ctx+'/workspace/newWorkSpaceSta',
 		    data : [{
 				name : 'mo',
 				value : month
@@ -31,7 +53,7 @@ function queryConutCaseByDate(){
 			type: "post",
 			dataType: "json",
 			async : false,
-			success: function(data) {
+			success: function(data) {				
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);

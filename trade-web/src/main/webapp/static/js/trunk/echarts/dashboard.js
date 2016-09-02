@@ -21,13 +21,13 @@ function reloadStatus() {
 	 data.serviceDepHierarchy = $("#serviceDepHierarchy").val();
 	 var startMonth=new Date($("#startDate").val()).getMonth()+1;
 	$.ajax({
-			  async: false,
+			  async: true,//异步请求
    	          url:ctx+ "/quickGrid/findPage" ,
    	          method: "post",
    	          dataType: "json",
    	          data: data,
         success: function(data){
-        	var all=data.rows;
+          var all=data.rows;
      	  if(all.length<=1){
         		$("#mainwe").addClass("nullData");
         		return;
