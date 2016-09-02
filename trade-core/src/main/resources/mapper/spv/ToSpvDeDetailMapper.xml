@@ -32,8 +32,9 @@
     where DE_ID = #{spvCode,jdbcType=VARCHAR}
   </select>
   
-  <delete id="deleteAll" >
+  <delete id="deleteByDeId" >
     delete from sctrans.T_TO_SPV_DE_DETAIL    
+    where DE_ID = #{deId}
   </delete>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

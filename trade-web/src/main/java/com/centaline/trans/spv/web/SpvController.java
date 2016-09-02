@@ -73,10 +73,8 @@ public class SpvController {
 	
 	//新增页面
 	@RequestMapping("saveHTML")
-	public String saveHTML(String caseCode,ServletRequest request){
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);
-		
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
+		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
 
 		return "spv/saveSpvCase";
 	}
@@ -104,7 +102,7 @@ public class SpvController {
 		baseInfoVO.setToSpvAccountList(accounts);
 		*/
 		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(pkid);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(request,pkid);
 		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
 		String name=user.getRealName();
 		String phone=user.getMobile();
@@ -392,14 +390,14 @@ public class SpvController {
      * @return
      */
     @RequestMapping("task/spvApply/process")
-	public String toSpvApplyProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
+	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	
-        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
  
-    	request.setAttribute("taskId", taskId);
+    	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
-		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskOfficer");
 		
@@ -438,10 +436,13 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("task/spvApprove/process")
-	public String toSpvApproveProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
+	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
+		
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
-		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskDirector");
 		return "task/spv/saveSpvCase";
@@ -479,6 +480,10 @@ public class SpvController {
      */
 	@RequestMapping("task/spvSign/process")
 	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
+		
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
