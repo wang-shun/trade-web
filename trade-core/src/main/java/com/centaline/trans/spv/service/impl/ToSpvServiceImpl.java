@@ -625,7 +625,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	
 	@Override
 	public void setAttribute(ServletRequest request,String caseCode) {
-		
+
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		// 物业信息
@@ -686,7 +686,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Long pkid = (Long)workFlowManager.getVar(instCode, "spvPkid").getValue();
 		return findSpvBaseInfoVOByPkid(request,pkid);
 	}
-	
+
 	@Override
 	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode){
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request,pkid);
@@ -695,7 +695,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		setAttribute(request,caseCode);
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 	}
-	
+
 	/**
 	 * 	查询拼接spvBaseInfoVO
 	 */
@@ -712,7 +712,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(toSpv == null || toSpv.getSpvCode() == null){
 			return spvBaseInfoVO;
 		}
-		
+
 		String spvCode = toSpv.getSpvCode();
 		/**2.spvCustList*/
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
