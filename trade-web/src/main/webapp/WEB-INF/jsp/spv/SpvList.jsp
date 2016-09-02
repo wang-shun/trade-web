@@ -201,12 +201,12 @@
                                         </td>
                                         <td class="text-center"><a class="btn btn-success"
                                            href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">查看</a>
-                                        </td>
-                                           {{if item.STATUS==0}}
-                                         <td class="text-center"><a class="btn btn-success"
+										  {{if item.STATUS==0}}
+                                        <a class="btn btn-success"
                                            href="${ctx}/spv/saveHTML?pkid={{item.PKID}}">修改</a>
-                                        </td>
                                             {{/if}}
+                                        </td>
+                                         
                                     </tr>
 			{{/each}}          
 	    </script> <script>

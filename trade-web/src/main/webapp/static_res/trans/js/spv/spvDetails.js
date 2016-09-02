@@ -333,7 +333,7 @@ $(document).ready(function(){
 			alert("请勾选买方开户行！");
 			return false;
 		}*/
-  	
+        	
         var amountMort = $("input[name='toSpv.amountMort']").val();
         var amountMortCom = $("input[name='toSpv.amountMortCom']").val();
         var amountMortPsf = $("input[name='toSpv.amountMortPsf']").val();
