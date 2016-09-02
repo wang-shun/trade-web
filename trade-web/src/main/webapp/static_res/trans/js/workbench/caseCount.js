@@ -1,3 +1,24 @@
+//预警灯提示
+function queryBizwarnCaseCount(){
+	 $.ajax({
+			//url  : ctx+'/workspace/workSpaceSta',
+		 	url  : ctx+'/workspaceTransform/trafficLightTips',
+		    data : "",
+			type: "post",
+			dataType: "json",
+			async : false,
+			success: function(data) {
+				console.log("===Result==="+JSON.stringify(data));
+				$("#redLightCount").text(data.redLight);
+				$("#yeLightCount").text(data.yeLight);
+				$("#bizwarnCaseCount").text(data.bizwarnCaseCount);
+
+			}
+	 });
+}
+
+
+
 /*根据日期查询统计 */
 function queryConutCaseByDate(){
 	var sUserId = $("#sUserId").val();

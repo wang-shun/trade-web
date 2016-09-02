@@ -106,16 +106,16 @@
 					<div class="col-md-3">
 						<div class="task_light">
 							<p class="fa_red">
-								<i class="fa fa-bell "></i> 红灯任务 <small><a
+								<i class="fa fa-bell "></i> 红灯任务 <small><a id="redLightCount"
 									href="${ctx }/workspace/ryLightList?color=0" target="_blank">
 										${redLight }</a></small>
 							</p>
 							<p class="fa_orange">
-								<i class="fa fa-bell "></i> 黄灯任务 <small><a
+								<i class="fa fa-bell "></i> 黄灯任务 <small><a id="yeLightCount"
 									href="${ctx }/workspace/ryLightList?color=1" target="_blank">${yeLight }</a></small>
 							</p>
 							<p class="fa_orange">
-								<i class="fa fa-bell "></i> 流失预警 <small><a
+								<i class="fa fa-bell "></i> 流失预警 <small><a id="bizwarnCaseCount"
 									href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
 							</p>
 						</div>
@@ -724,7 +724,8 @@
 				reloadMonth();				
 				
 				queryConutCaseByDate();
-				//queryConutCaseByDate()
+				//查询警示案件数
+				queryBizwarnCaseCount();
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
 		</script> </content>
