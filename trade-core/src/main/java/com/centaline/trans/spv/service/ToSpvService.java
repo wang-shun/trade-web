@@ -3,6 +3,7 @@ package com.centaline.trans.spv.service;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
@@ -170,17 +171,10 @@ public interface ToSpvService {
 	
 	/**
 	 * 查询spvBaseInfoVO
-	 * @param caseCode
+	 * @param pkid
 	 * @return
 	 * */
-	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(ServletRequest request,String caseCode);
-	
-	/**
-	 * 查询spvBaseInfoVO
-	 * @param caseCode
-	 * @return
-	 * */
-	SpvBaseInfoVO findSpvBaseInfoVOByCaseCode(long pkid);
+	SpvBaseInfoVO findSpvBaseInfoVOByPkid(ServletRequest request,Long pkid);
 	
 	/**
 	 * 查询spv 通过Pkid
@@ -208,8 +202,13 @@ public interface ToSpvService {
 	ToSpvDe findSpvDeBySpvCode(String spvcode);
 	
 	List<ToSpvDeDetail> findDeDetailByDeId(Long deId);
-	
 
 	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
+
+	SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode);
+	
+	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode);
+
+	void setAttribute(ServletRequest request, String caseCode);
 
 }
