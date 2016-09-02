@@ -37,19 +37,18 @@
 	<select id="getLightListGroupByOrg" resultMap="orgCount" parameterType="java.lang.String">
 		select top 6 * from (
 					  SELECT count(t.PKID) as count,o.ID,o.ORG_NAME as orgName
-							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
-
-							  left join sctrans.t_TO_workflow as w
+							 FROM [sctrans].[T_TO_TRANS_PLAN] as t with(nolock)
+							  left join sctrans.t_TO_workflow as w with(nolock)
 							  on w.case_code=t.CASE_CODE 
-							   left join sctrans.act_ru_task ta
+							   left join sctrans.act_ru_task ta with(nolock)
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
-							  left join sctrans.LAMP_RULE l
+							  left join sctrans.LAMP_RULE l with(nolock)
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
-							  left join sctrans.SYS_USER as u 
+							  left join sctrans.SYS_USER as u  with(nolock)
 							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.v_user_org_job as uoj
+							  left join sctrans.v_user_org_job as uoj with(nolock)
 							  on uoj.[USER_ID]=u.ID
-							  left join sctrans.SYS_ORG o
+							  left join sctrans.SYS_ORG o with(nolock)
 							  on uoj.ORG_ID=o.ID
 							  where u.id is not null
 							  and o.PARENT_ID=#{orgId,jdbcType=DECIMAL}
@@ -61,19 +60,19 @@
 	<select id="rLightList" resultMap="userLightCount" parameterType="java.lang.String">
 		select top 6 * from (
 					  SELECT count(t.PKID) as count,u.EMPLOYEE_CODE as eCode,u.REAL_NAME as realName
-							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
+							 FROM [sctrans].[T_TO_TRANS_PLAN] as t with(nolock)
 
-							  left join sctrans.t_TO_workflow as w
+							  left join sctrans.t_TO_workflow as w with(nolock)
 							  on w.case_code=t.CASE_CODE 
-							   left join sctrans.act_ru_task ta
+							   left join sctrans.act_ru_task ta with(nolock)
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
-							  left join sctrans.LAMP_RULE l
+							  left join sctrans.LAMP_RULE l with(nolock)
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
-							  left join sctrans.SYS_USER as u 
+							  left join sctrans.SYS_USER as u with(nolock)
 							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.v_user_org_job as uoj
+							  left join sctrans.v_user_org_job as uoj with(nolock)
 							  on uoj.[USER_ID]=u.ID
-							  left join sctrans.SYS_ORG o
+							  left join sctrans.SYS_ORG o with(nolock)
 							  on uoj.ORG_ID=o.ID
 							  where u.id is not null
 							  and o.PARENT_ID=#{orgId,jdbcType=DECIMAL}
@@ -86,19 +85,19 @@
   select count(*)
 				from (
 					  SELECT min(l.color) as color
-							 FROM [sctrans].[T_TO_TRANS_PLAN] as t 
-							 left join sctrans.T_TO_PROPERTY_INFO as tp
+							 FROM [sctrans].[T_TO_TRANS_PLAN] as t with(nolock) 
+							 left join sctrans.T_TO_PROPERTY_INFO as tp with(nolock)
 							 on t.case_code=tp.case_code
 
-							  left join sctrans.t_TO_workflow as w
+							  left join sctrans.t_TO_workflow as w with(nolock)
 							  on w.case_code=t.CASE_CODE 
-							   left join sctrans.act_ru_task ta
+							   left join sctrans.act_ru_task ta with(nolock)
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
-							  left join sctrans.LAMP_RULE l
+							  left join sctrans.LAMP_RULE l with(nolock)
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
-							  left join sctrans.SYS_USER as u 
+							  left join sctrans.SYS_USER as u  with(nolock)
 							  on ta.ASSIGNEE_=u.USERNAME
-							  left join sctrans.v_user_org_job as uoj
+							  left join sctrans.v_user_org_job as uoj with(nolock)
 							  on uoj.[USER_ID]=u.ID
 							  where u.id is not null
   	 <if test="userId != null">
@@ -118,7 +117,7 @@
   <select id="staLoanAgentLoanAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   SELECT  SUM(APPLY_AMOUNT) as loanAmount
 FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
-          FROM      sctrans.T_TO_LOAN_AGENT la
+          FROM      sctrans.T_TO_LOAN_AGENT la with(nolock)
           WHERE  la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null    
           <if test="userId != null">
 	 	    and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -135,7 +134,7 @@ FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
 	     </if>
           UNION ALL
           SELECT    SUM(ISNULL(tec.APPLY_AMOUNT, 0) * 10000) AS APPLY_AMOUNT
-          FROM      sctrans.T_TO_ELOAN_CASE tec
+          FROM      sctrans.T_TO_ELOAN_CASE tec with(nolock)
           WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
           <if test="userId != null">
 	 	    and tec.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -158,8 +157,8 @@ FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
   	SELECT  SUM(SIGN_AMOUNT) / SUM(CON_PRICE) as  tansferRate
 FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
                     SUM(tsi.CON_PRICE) AS CON_PRICE
-          FROM      sctrans.T_TO_LOAN_AGENT la
-                    LEFT JOIN sctrans.t_to_sign tsi ON la.CASE_CODE = tsi.CASE_CODE
+          FROM      sctrans.T_TO_LOAN_AGENT la with(nolock)
+                    LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON la.CASE_CODE = tsi.CASE_CODE
           WHERE
              la.CASE_CODE IS NOT NULL
              AND la.CASE_CODE &lt;&gt; ''
@@ -180,8 +179,8 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
           UNION ALL
           SELECT    SUM(ISNULL(tec.SIGN_AMOUNT, 0) * 10000) AS SIGN_AMOUNT ,
                     SUM(tsi.CON_PRICE) AS CON_PRICE
-          FROM      sctrans.T_TO_ELOAN_CASE tec
-                    LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE
+          FROM      sctrans.T_TO_ELOAN_CASE tec with(nolock)
+                    LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON tec.CASE_CODE = tsi.CASE_CODE
           WHERE     tec.CASE_CODE IS NOT NULL
                     AND tec.CASE_CODE &lt;&gt; ''
                     AND tec.APPLY_TIME IS NOT NULL
@@ -202,8 +201,8 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
   </select>
   <select id="staLoanAgentSignAmount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   		SELECT  SUM(SIGN_AMOUNT) as  signAmount
-FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT
-          FROM      sctrans.T_TO_LOAN_AGENT la
+FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT 
+          FROM      sctrans.T_TO_LOAN_AGENT la  with(nolock)
           WHERE  la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' and la.APPLY_TIME is not null    
           <if test="userId != null">
 	 			and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -220,7 +219,7 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT
 	  </if>
           UNION ALL
           SELECT    SUM(ISNULL(tec.SIGN_AMOUNT,0)*10000) AS SIGN_AMOUNT
-          FROM      sctrans.T_TO_ELOAN_CASE tec
+          FROM      sctrans.T_TO_ELOAN_CASE tec with(nolock)
           WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
           <if test="userId != null">
 	 			and tec.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -245,8 +244,8 @@ FROM
 (SELECT  SUM(la.ACTUAL_AMOUNT) AS ACTUAL_AMOUNT ,
         SUM(la.SIGN_AMOUNT) AS SIGN_AMOUNT ,
         SUM(tsi.REAL_PRICE) AS REAL_PRICE
-FROM    sctrans.T_TO_LOAN_AGENT la
-        LEFT JOIN sctrans.t_to_sign tsi ON la.CASE_CODE = tsi.CASE_CODE
+FROM    sctrans.T_TO_LOAN_AGENT la with(nolock)
+        LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON la.CASE_CODE = tsi.CASE_CODE
 WHERE   la.CASE_CODE is not null and la.CASE_CODE &lt;&gt;'' 
 		<if test="userId != null">
 	 	and la.EXECUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -265,8 +264,8 @@ UNION ALL
 SELECT  NULL AS ACTUAL_AMOUNT ,
         SUM(ttc.SIGN_AMOUNT) AS SIGN_AMOUNT ,
         SUM(tsi.REAL_PRICE) AS REAL_PRICE
-FROM    sctrans.T_TO_ELOAN_CASE ttc
-        LEFT JOIN sctrans.t_to_sign tsi ON ttc.CASE_CODE = tsi.CASE_CODE
+FROM    sctrans.T_TO_ELOAN_CASE ttc with(nolock)
+        LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON ttc.CASE_CODE = tsi.CASE_CODE
 WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
 		<if test="userId != null">
 	 	and ttc.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -285,8 +284,8 @@ UNION ALL
 SELECT  SUM(ttr.RELEASE_AMOUNT * 10000) AS ACTUAL_AMOUNT ,
         NULL AS SIGN_AMOUNT ,
         NULL AS REAL_PRICE
-FROM    sctrans.T_TO_ELOAN_REL ttr
-        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
+FROM    sctrans.T_TO_ELOAN_REL ttr with(nolock)
+        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc with(nolock) ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
 WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
 		<if test="userId != null">
 	 	and ttc.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -309,9 +308,9 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   	SELECT 
    		COUNT(a.CASE_CODE) AS countQYS
    	FROM 
-   		sctrans.V_RPT_CASE_PROCESS_STATIS a
+   		sctrans.V_RPT_CASE_PROCESS_STATIS a  with(nolock) 
    	INNER JOIN 
-   		sctrans.V_CASE_LIST_BASE b 
+   		sctrans.V_CASE_LIST_BASE b  with(nolock) 
    	ON 
    		a.CASE_CODE=b.CASE_CODE	
 	WHERE
@@ -347,26 +346,26 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
-			sctrans.ACT_HI_TASKINST
+			sctrans.ACT_HI_TASKINST with(nolock)
 		)historyTask
 	INNER JOIN
-		sctrans.T_TO_workflow wf
+		sctrans.T_TO_workflow wf with(nolock)
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
-		sctrans.T_TO_CASE_INFO ci
+		sctrans.T_TO_CASE_INFO ci with(nolock)
 	ON 
 		wf.CASE_CODE=ci.CASE_CODE
 	LEFT JOIN 
-		sctrans.T_TO_CASE as tc 
+		sctrans.T_TO_CASE as tc with(nolock)
 	ON 
 		tc.case_code=ci.case_code
 	INNER JOIN 
-		sctrans.T_TO_PROPERTY_INFO AS property 
+		sctrans.T_TO_PROPERTY_INFO AS property with(nolock) 
 	ON 
 		ci.CASE_CODE = property.CASE_CODE
 	LEFT JOIN 
-		SCTRANS.SYS_USER SYSUSER 
+		SCTRANS.SYS_USER SYSUSER with(nolock)
 	ON 
 		SYSUSER.ID = ci.AGENT_CODE	
 	WHERE
@@ -393,7 +392,7 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 	SELECT 
 		COUNT(distinct a.CASE_CODE) 
 	FROM 
-		sctrans.V_RPT_CASE_PROCESS_STATIS a
+		sctrans.V_RPT_CASE_PROCESS_STATIS a  with(nolock) 
 	WHERE 
 		a.HOUSE_TRANFER_TIME is not null
 	 <if test="userId != null">
@@ -427,26 +426,26 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
-			sctrans.ACT_HI_TASKINST
+			sctrans.ACT_HI_TASKINST with(nolock)
 		)historyTask
 	INNER JOIN
-		sctrans.T_TO_workflow wf
+		sctrans.T_TO_workflow wf with(nolock)
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
-		sctrans.T_TO_CASE_INFO ci
+		sctrans.T_TO_CASE_INFO ci with(nolock)
 	ON 
 		wf.CASE_CODE=ci.CASE_CODE
 	LEFT JOIN 
-		sctrans.T_TO_CASE as tc 
+		sctrans.T_TO_CASE as tc  with(nolock)
 	ON 
 		tc.case_code=ci.case_code
 	INNER JOIN 
-		sctrans.T_TO_PROPERTY_INFO AS property 
+		sctrans.T_TO_PROPERTY_INFO AS property with(nolock) 
 	ON 
 		ci.CASE_CODE = property.CASE_CODE
 	LEFT JOIN 
-		SCTRANS.SYS_USER SYSUSER 
+		SCTRANS.SYS_USER SYSUSER with(nolock)
 	ON 
 		SYSUSER.ID = ci.AGENT_CODE			
 	WHERE
@@ -484,26 +483,26 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 			(SELECT TOP 1 USER_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND (JOB_CODE ='consultant' OR JOB_CODE = 'Manager' OR JOB_CODE='director' OR JOB_CODE = 'GeneralManager')) AS consultant,
 			(SELECT TOP 1 ORG_ID FROM sctrans.V_USER_ORG_JOB WHERE USERNAME=assignee_ AND JOB_CODE='consultant') AS ORG
 		FROM 
-			sctrans.ACT_HI_TASKINST
+			sctrans.ACT_HI_TASKINST with(nolock)
 		)historyTask
 	INNER JOIN
 		sctrans.T_TO_workflow wf
 	ON 
 		historyTask.PROC_INST_ID=wf.INST_CODE
 	INNER JOIN 
-		sctrans.T_TO_CASE_INFO ci
+		sctrans.T_TO_CASE_INFO ci with(nolock)
 	ON 
 		wf.CASE_CODE=ci.CASE_CODE
 	LEFT JOIN 
-		sctrans.T_TO_CASE as tc 
+		sctrans.T_TO_CASE as tc with(nolock)
 	ON 
 		tc.case_code=ci.case_code
 	INNER JOIN 
-		sctrans.T_TO_PROPERTY_INFO AS property 
+		sctrans.T_TO_PROPERTY_INFO AS property with(nolock) 
 	ON 
 		ci.CASE_CODE = property.CASE_CODE
 	LEFT JOIN 
-		SCTRANS.SYS_USER SYSUSER 
+		SCTRANS.SYS_USER SYSUSER  with(nolock)
 	ON 
 		SYSUSER.ID = ci.AGENT_CODE			
 	WHERE
@@ -529,15 +528,15 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 
 	 select 
 	 	sum(tf.EVAL_FEE) as evalFee,
-	 	(sum(tf.EVAL_FEE)/ (case when sum(ts.REAL_PRICE/1000)=0 then 0.001 else sum(ts.REAL_PRICE/1000) end) *100)as efConvRate 
+	 	(sum(tf.EVAL_FEE)/ (case when sum(ts.CON_PRICE/1000)=0 then 0.001 else sum(ts.CON_PRICE/1000) end) *100)as efConvRate 
 	 from 
-	 	sctrans.T_TO_EVA_FEE_RECORD as tf 
+	 	sctrans.T_TO_EVA_FEE_RECORD as tf with(nolock)
 	 left join 
-	 	sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi
+	 	sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tsi with(nolock)
 	 on 
 	 	tf.CASE_CODE=tsi.CASE_CODE  and tsi.SRV_CODE='3000400101'
 	 left join 
-	 	sctrans.t_to_sign  as ts
+	 	sctrans.t_to_sign  as ts with(nolock)
 	 on 
 	 	tf.CASE_CODE=ts.CASE_CODE 
 	 where 
@@ -560,13 +559,13 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   <select id="staEvaFeeCount" parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultType="java.lang.Double">
   	SELECT 
 		CAST(( COUNT(tf.CASE_CODE) )/( CASE WHEN COUNT(tm.CASE_CODE) = 0 THEN 0.001 ELSE COUNT(tm.CASE_CODE) END ) * 100 AS DECIMAL(10, 2)) AS efCount
-	FROM    sctrans.T_TG_SERV_ITEM_AND_PROCESSOR AS tsi
-        INNER JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = tsi.CASE_CODE
-        LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD AS tf ON tsi.CASE_CODE = tf.CASE_CODE
+	FROM    sctrans.T_TG_SERV_ITEM_AND_PROCESSOR AS tsi with(nolock)
+        INNER JOIN sctrans.T_TO_CASE tc with(nolock) ON tc.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_EVA_FEE_RECORD AS tf with(nolock) ON tsi.CASE_CODE = tf.CASE_CODE
                  <if test="mo != null">
 					and DATEDIFF(YYYY, tf.RECORD_TIME, GETDATE())=0 and DatePart(m, tf.RECORD_TIME)=#{mo,jdbcType=VARCHAR}
 				</if>
-        LEFT JOIN sctrans.T_TO_MORTGAGE tm ON tm.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.T_TO_MORTGAGE tm with(nolock) ON tm.CASE_CODE = tsi.CASE_CODE
                                               AND tm.APPR_DATE IS NOT NULL
                                               AND tm.IS_ACTIVE = '1'
                 <if test="mo != null">
@@ -590,7 +589,7 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   	select 
   		rank_no 
   	from 
-  		sctrans.T_TS_DAYLY_RANK 
+  		sctrans.T_TS_DAYLY_RANK with(nolock)
   	where 
   		RANK_CAT=#{rankCat,jdbcType=VARCHAR} 
   	and 
@@ -614,7 +613,7 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
   	select 
   		top 5 * 
   	from 
-  		sctrans.T_TS_DAYLY_RANK 
+  		sctrans.T_TS_DAYLY_RANK with(nolock)
   	where 
   		RANK_CAT=#{rankCat,jdbcType=VARCHAR} 
   	and 
@@ -643,13 +642,13 @@ WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;''
 	,(case when a.estDay=-1 then a.taskCount else 0 end) as yCount
 	 from (select u.id as userId, u.REAL_NAME as userName,DATEDIFF(day, ttp.EST_PART_TIME, GETDATE()) as estDay,count(*) as taskCount,at.name_ as name 
 
-	  	from sctrans.t_HI_workflow as tf right join sctrans.act_ru_task as at 
+	  	from sctrans.t_HI_workflow as tf with(nolock) right join sctrans.act_ru_task as at with(nolock) 
 		on at.PROC_INST_ID_=tf.INST_CODE and at.suspension_state_='1'
-		left join sctrans.T_TO_TRANS_PLAN as ttp
+		left join sctrans.T_TO_TRANS_PLAN as ttp with(nolock)
 		 on ttp.CASE_CODE =tf.CASE_CODE and ttp.PART_CODE=at.TASK_DEF_KEY_
-		 left join sctrans.sys_user as u 
+		 left join sctrans.sys_user as u with(nolock)
 		 on u.username=at.ASSIGNEE_ 
-		 left join sctrans.v_user_org_job as uoj
+		 left join sctrans.v_user_org_job as uoj with(nolock)
 		 on u.ID = uoj.USER_ID 
 		 where ttp.CASE_CODE is not null
 		   and (DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=0 or DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=-1)
@@ -665,9 +664,9 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
  from (
 	select DATEDIFF(day, ttp.EST_PART_TIME, GETDATE()) estDay,count(*) as taskCount,at.name_ as name
 
-  	from sctrans.t_HI_workflow as tf right join sctrans.act_ru_task as at
+  	from sctrans.t_HI_workflow as tf with(nolock) right join sctrans.act_ru_task as at with(nolock)
 	on at.PROC_INST_ID_=tf.INST_CODE and at.suspension_state_='1'
-	left join sctrans.T_TO_TRANS_PLAN as ttp
+	left join sctrans.T_TO_TRANS_PLAN as ttp with(nolock)
 	 on ttp.CASE_CODE =tf.CASE_CODE and ttp.PART_CODE=at.TASK_DEF_KEY_
 	 where ttp.CASE_CODE is not null
 	   and (DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=0 or DATEDIFF(day, ttp.EST_PART_TIME, GETDATE())=-1)
@@ -677,8 +676,8 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 <select id="staLoanApply"  parameterType="com.centaline.trans.workspace.entity.WorkSpace" resultMap="loanDet">
 	select la.LOAN_SRV_CODE staItem,SUM(la.loan_amount) as [amount],count(la.loan_amount) as  [count],
 	CAST((sum(la.loan_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 end)*100) as decimal(38, 2)) as convRate
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
+	 from sctrans.T_TO_LOAN_AGENT as la  with(nolock)
+	 left join sctrans.t_to_sign as tsi with(nolock)
 	 on la.CASE_CODE=tsi.CASE_CODE
 	 where la.CASE_CODE is not null 
 		   and la.CASE_CODE &lt;&gt; ''
@@ -704,8 +703,8 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	select la.LOAN_SRV_CODE as staItem,SUM(la.sign_amount) as [amount],count(la.sign_amount) as  [count],
 
 	CAST((sum(la.sign_amount)/(case when SUM(tsi.REAL_PRICE)=0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
+	 from sctrans.T_TO_LOAN_AGENT as la with(nolock)
+	 left join sctrans.t_to_sign as tsi with(nolock)
 	 on la.CASE_CODE=tsi.CASE_CODE
 	 where la.CASE_CODE is not null 
 		   and la.CASE_CODE &lt;&gt;''
@@ -731,8 +730,8 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 	select la.LOAN_SRV_CODE as staItem,SUM(la.actual_amount) as [amount],count(la.actual_amount) as  [count],
 
 	CAST((sum(la.actual_amount)/(case when SUM(tsi.REAL_PRICE) =0 then 0.001 else SUM(tsi.REAL_PRICE) end)*100) as decimal(38, 2)) as convRate
-	 from sctrans.T_TO_LOAN_AGENT as la 
-	 left join sctrans.t_to_sign as tsi
+	 from sctrans.T_TO_LOAN_AGENT as la with(nolock)
+	 left join sctrans.t_to_sign as tsi with(nolock)
 	 on la.CASE_CODE=tsi.CASE_CODE
 	 where la.CASE_CODE is not null 
 		   and la.CASE_CODE &lt;&gt;''
@@ -756,14 +755,14 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 </select>
 <select id="staUnallocateRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select count(a.ORG_ID) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode
-	 from sctrans.T_TO_CASE a 
-	right join sctrans.SYS_ORG o
+	 from sctrans.T_TO_CASE a with(nolock)
+	right join sctrans.SYS_ORG o with(nolock)
 	on o.id=a.ORG_ID and a.STATUS = '30001001'
-	left join sctrans.v_user_org_job uoj
+	left join sctrans.v_user_org_job uoj with(nolock)
 	on uoj.org_id=o.id  
-	left join sctrans.sys_job as j
+	left join sctrans.sys_job as j with(nolock)
 	on j.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
 	 and o.PARENT_ID=#{orgId,jdbcType=VARCHAR}
 	group by o.id,o.ORG_NAME,u.employee_code
@@ -771,16 +770,16 @@ select a.name, (case when a.estDay=0 then a.taskCount else 0 end) as tCount
 </select>
 <select id="staSignRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select count(a.pkid) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
-from sctrans.T_TO_CASE a 
-right join sctrans.T_TO_SIGN b 
+from sctrans.T_TO_CASE a with(nolock)
+right join sctrans.T_TO_SIGN b with(nolock)
 on a.CASE_CODE=b.CASE_CODE and DATEDIFF(MM, b.REAL_CON_TIME,GETDATE())=0 and b.REAL_CON_TIME is not null
-right join sctrans.SYS_ORG o
+right join sctrans.SYS_ORG o with(nolock)
 on o.id=a.ORG_ID
-left join sctrans.v_user_org_job uoj
+left join sctrans.v_user_org_job uoj with(nolock)
 on uoj.org_id=o.id  
-left join sctrans.sys_job as j
+left join sctrans.sys_job as j with(nolock)
 on j.id=uoj.job_id
- left join sctrans.sys_user as u on u.id=uoj.user_id
+ left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
  and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
@@ -788,16 +787,16 @@ order by COUNT(a.case_code) desc
 </select>
 <select id="staHouseTranRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select COUNT(a.case_code) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
-	from sctrans.T_TO_CASE as a 
-	right join sctrans.T_TO_HOUSE_TRANSFER as tht
+	from sctrans.T_TO_CASE as a with(nolock)
+	right join sctrans.T_TO_HOUSE_TRANSFER as tht with(nolock)
 	on a.CASE_CODE=tht.CASE_CODE and datediff(MM,tht.REAL_HT_TIME,getdate())=0 and tht.REAL_HT_TIME is not null
-	right join sctrans.SYS_ORG o
+	right join sctrans.SYS_ORG o with(nolock)
 on o.id=a.ORG_ID
-left join sctrans.v_user_org_job uoj
+left join sctrans.v_user_org_job uoj with(nolock)
 on uoj.org_id=o.id  
-left join sctrans.sys_job as j
+left join sctrans.sys_job as j with(nolock)
 on j.id=uoj.job_id
- left join sctrans.sys_user as u on u.id=uoj.user_id
+ left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
  and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
@@ -805,17 +804,17 @@ order by COUNT(a.case_code) desc
 </select>
 <select id="staCpfLoanRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select COUNT(a.case_code) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
-	from sctrans.T_TO_CASE as a 
-	right join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg
+	from sctrans.T_TO_CASE as a  with(nolock)
+	right join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg with(nolock)
 	on tg.CASE_CODE=a.CASE_CODE and tg.SRV_CAT='3000400201'
-	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
-	right join sctrans.SYS_ORG o
+	right join sctrans.T_TO_MORTGAGE as tm with(nolock) on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
+	right join sctrans.SYS_ORG o with(nolock)
 on o.id=a.ORG_ID
-left join sctrans.v_user_org_job uoj
+left join sctrans.v_user_org_job uoj with(nolock)
 on uoj.org_id=o.id  
-left join sctrans.sys_job as j
+left join sctrans.sys_job as j with(nolock)
 on j.id=uoj.job_id
- left join sctrans.sys_user as u on u.id=uoj.user_id
+ left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
 and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
@@ -823,17 +822,17 @@ order by COUNT(a.case_code) desc
 </select>
 <select id="staBusinessOrComLoanRank" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.Rank">
 	select COUNT(a.case_code) as rankValue,o.id as belongOrgId,o.ORG_NAME as belongOrgName ,u.employee_code as empCode 
-	from sctrans.T_TO_CASE as a 
-	right join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg
+	from sctrans.T_TO_CASE as a with(nolock)
+	right join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as tg with(nolock)
 	on tg.CASE_CODE=a.CASE_CODE and tg.SRV_CAT='3000400201'
-	right join sctrans.T_TO_MORTGAGE as tm on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
-	right join sctrans.SYS_ORG o
+	right join sctrans.T_TO_MORTGAGE as tm with(nolock) on  tm.CASE_CODE=a.CASE_CODE and datediff(MM,tm.SIGN_DATE,getdate())=0 and tm.SIGN_DATE is not null
+	right join sctrans.SYS_ORG o with(nolock)
 on o.id=a.ORG_ID
-left join sctrans.v_user_org_job uoj
+left join sctrans.v_user_org_job uoj with(nolock)
 on uoj.org_id=o.id  
-left join sctrans.sys_job as j
+left join sctrans.sys_job as j with(nolock)
 on j.id=uoj.job_id
- left join sctrans.sys_user as u on u.id=uoj.user_id
+ left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 where j.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0  
 and o.PARENT_ID=#{orgId,jdbcType=VARCHAR} 
 group by o.id,o.ORG_NAME,u.employee_code
@@ -842,10 +841,11 @@ order by COUNT(a.case_code) desc
 </select>
 
 <select id="listNewLoanAgent" parameterType="java.lang.String" resultType="com.centaline.trans.workspace.entity.SimpleLoanAgent">
-select u.real_name as realName,org.org_name as orgName,la.LOAN_SRV_CODE as loanSevCode,la.LOAN_AMOUNT as loanAmount from sctrans.T_TO_LOAN_AGENT la
-left join sctrans.sys_user u 
+select u.real_name as realName,org.org_name as orgName,la.LOAN_SRV_CODE as loanSevCode,la.LOAN_AMOUNT as loanAmount 
+from sctrans.T_TO_LOAN_AGENT la with(nolock)
+left join sctrans.sys_user u  with(nolock)
 on u.id=la.EXECUTOR_ID
-left join sctrans.sys_org org
+left join sctrans.sys_org org with(nolock)
 on org.id=la.EXECUTOR_TEAM
  where datediff(MI,la.create_time,getdate())&lt;  =1 and la.create_time is not null and org.PARENT_ID=#{orgId,jdbcType=VARCHAR}
 </select>

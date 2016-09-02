@@ -78,8 +78,7 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		}
 
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
-		String month = dateStr.substring(0, 6);
-		String prCode = uamBasedataService.nextSeqVal("CHANDIAO_CODE", month);
+		String prCode = uamBasedataService.nextSeqVal("CHANDIAO_CODE", dateStr);
 		vo.setPrCode(prCode);
 		ToPropertyResearch tpr = buildPrResearch(vo);
 		return mapper.insertSelective(tpr);

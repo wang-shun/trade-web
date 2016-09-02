@@ -67,6 +67,7 @@
 			<table-row>
 				<column type="both" name="PKID" display="CASEID"  hide="true"/>
 				<column type="both" name="CASE_CODE" display="案件编号" />
+				<column type="both" name="CTM_CODE" display="案件编号" />
 				<column type="both" name="PROPERTY_ADDR" display="产证地址"/>
 				<column type="both" name="AGENT_NAME"  display="经纪人" />
 				<column type="both" name="ORG_NAME" display="组别"  />
