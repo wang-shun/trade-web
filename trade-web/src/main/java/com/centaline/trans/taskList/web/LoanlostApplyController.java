@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -34,6 +36,8 @@ public class LoanlostApplyController {
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private ToCaseService toCaseService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	@RequestMapping(value = "process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
@@ -55,7 +59,10 @@ public class LoanlostApplyController {
 				request.setAttribute("custName", guest.getGuestName());
 			}
 		}
-
+		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");
+		if(dict!=null){			
+			request.setAttribute("loanLostApplyReasons", dict.getChildren());
+		} 
 		ToApproveRecord r = new ToApproveRecord();
 		r.setCaseCode(caseCode);
 		r.setPartCode("LoanlostApply");

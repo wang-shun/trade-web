@@ -61,10 +61,6 @@ public class TaskController {
 	public String process(@PathVariable String taskId, String source, String caseCode, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes attr) {
 		
-		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");
-		if(dict!=null){			
-			request.setAttribute("loanLostApplyReasons", dict.getChildren());
-		}  
 		TaskVo task = workFlowManager.getHistoryTask(taskId);
 		String instCode = task.getProcessInstanceId();
 		String formKey = task.getFormKey();
@@ -74,10 +70,6 @@ public class TaskController {
 			businessKey = processInstance.getBusinessKey();
 		}
 		
-		if("FirstFollow".equals(task.getTaskDefinitionKey())){
-			BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
-			request.setAttribute("bizWarnInfo", bizWarnInfo);
-		}
 		
 		Map<String, String> queryParameters = new HashMap<String, String>();
 
