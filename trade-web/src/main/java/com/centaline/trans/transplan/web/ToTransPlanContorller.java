@@ -1,5 +1,6 @@
 package com.centaline.trans.transplan.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -70,20 +72,31 @@ public class ToTransPlanContorller {
 		//获取到待办事项
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);
-		gp.put("leadingProcessId", user.getId());
+		gp.put("leadingProcessId", user.getId());		
+		gp.setQueryId("qqToGetTransPlanListQuery");	
 		
-		gp.setQueryId("qqToGetTransPlanListQuery");
-		Page<Map<String, Object>> GetTransPlanListResult = quickGridService.findPageForSqlServer(gp);	
-		System.out.println("GetTransPlanListResult.getContent()================"+GetTransPlanListResult.getContent());
+		SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd");		
+		Page<Map<String, Object>> GetTransPlanListResult = quickGridService.findPageForSqlServer(gp);			
 		if(GetTransPlanListResult!=null && GetTransPlanListResult.getContent()!=null && GetTransPlanListResult.getContent().size()>0){	
-			System.out.println("GetTransPlanListResult.getContent()================"+GetTransPlanListResult.getContent());
 			for(int i=0;i<GetTransPlanListResult.getContent().size();i++){
-				toTransPlanList.add((ToTransPlanOrToPropertyInfo) GetTransPlanListResult.getContent());
+				ToTransPlanOrToPropertyInfo ti = new ToTransPlanOrToPropertyInfo();	
+				try {
+					JSONObject jsonArray = new JSONObject(GetTransPlanListResult.getContent().get(i));					
+					for (int k = 0; k < jsonArray.length(); k++) {
+						ti.setCaseCode(jsonArray.getString("caseCode"));
+						ti.setEstPartTime(sim.parse(jsonArray.getString("estParTtime")));						
+						ti.setPartCode(jsonArray.getString("propertyAddr"));
+						ti.setPropertyAddr(jsonArray.getString("partCode"));				
+						toTransPlanList.add(ti);
+					}	
+				} catch (Exception e) {					
+					e.printStackTrace();
+				}
 			}		
 		}
-		for (ToTransPlanOrToPropertyInfo toTransPlan : toTransPlanList) {
+/*		for (ToTransPlanOrToPropertyInfo toTransPlan : toTransPlanList) {
 			toTransPlan.setPartCode(ToAttachmentEnum.getName(toTransPlan.getPartCode()));
-		}
+		}*/
 		return toTransPlanList;
 	}
 

@@ -125,8 +125,8 @@ $(document).ready(function() {
 	
 	// 获取待办事项数据
 	$.ajax({
-		//url : ctx + '/transplan/getToTransPlan', //mybatis查询
-		url : ctx + '/transplan/qqToGetTransPlan', //快速查询		
+		url : ctx + '/transplan/getToTransPlan', //mybatis查询
+		//url : ctx + '/transplan/qqToGetTransPlan', //快速查询		
 		data : "",
 		type : "post",
 		dataType : "json",
@@ -135,8 +135,11 @@ $(document).ready(function() {
 			console.log("===Result==="+JSON.stringify(data));
 			if (data.toTransPlanOrToPropertyInfoList == null)
 				return;
+			
+				
 			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;
 			for (var i = 0; i < toTransPlanOrToPropertyInfoList.length; i++) {
+				
 				var calssstyle = "popy";
 				var partCode = toTransPlanOrToPropertyInfoList[i].partCode;
 				var estPartTimes = toTransPlanOrToPropertyInfoList[i].estPartTime;
@@ -147,6 +150,7 @@ $(document).ready(function() {
 				if(estPartTimes == undefined || estPartTimes=='') {
 					return true;
 				}
+				
 				events.push({
 					title : partCode + "\n 物业地址:" + propertyAddr,
 					start : estPartTimes,

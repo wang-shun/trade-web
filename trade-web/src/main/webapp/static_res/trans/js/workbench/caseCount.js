@@ -7,8 +7,7 @@ function queryBizwarnCaseCount(){
 			type: "post",
 			dataType: "json",
 			async : true,
-			success: function(data) {
-				console.log("=== queryBizwarnCaseCount Result==="+JSON.stringify(data));
+			success: function(data) {				
 				//黄灯任务
 				if(data.yeLight!=undefined && data.yeLight>0){
 					$("#yeLightCount").html(data.yeLight).parent('p').siblings("i").addClass('martop20');
@@ -102,15 +101,14 @@ function queryBizwarnCaseCount(){
 }
 queryBizwarnCaseCount();
 //预警灯提示
-function queryGetRankBank(){	
+function queryGetRankBank(){
 	 $.ajax({		
 		 	url  : ctx+'/workspace/qqGetRank',
 		    data : "",
 			type: "post",
 			dataType: "json",
 			async : true,
-			success: function(data) {				
-				console.log("*** queryGetRankBank Result***"+JSON.stringify(data));
+			success: function(data) {
 				$("#loanAmountRank").text(data.loanAmountRank==null?'':"你的排名："+ data.loanAmountRank); //你的排名：${rank.loanAmountRank} 
 				$("#signAmountRank").text(data.signAmountRank==null?'':"你的排名："+ data.signAmountRank);//你的排名：${rank.signAmountRank} 
 				$("#actualAmountRank").text(data.actualAmountRank==null?'':"你的排名："+ data.actualAmountRank);//你的排名：${rank.actualAmountRank}

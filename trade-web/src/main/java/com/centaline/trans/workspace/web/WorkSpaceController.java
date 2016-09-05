@@ -802,6 +802,14 @@ public class WorkSpaceController {
 			work.setOrgs(null);
 			work.setOrgId(user.getServiceDepId());
 			
+			if(work!=null){
+				gp.put("user_Id", work.getUserId());
+				gp.put("org_Id", work.getOrgId());			
+				gp.put("orgs", work.getOrgs());				
+				gp.put("rankType", work.getRankType());				
+				gp.put("RankDuration", work.getRankDuration());
+				gp.setQueryId("personalWorkGetRankListQuery");
+			}
 			gp.put("rankCat", "loan_amount");	
 			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
@@ -1357,7 +1365,7 @@ public class WorkSpaceController {
 		}
 		
 		String signAmount=signAmountQuery(gp);
-		if (loanAmount == null) {
+		if (signAmount == null) {
 			workSpaceMap.put("signAmount", "0.00万");
 		} else {
 			workSpaceMap.put("signAmount", formatter.format(Double.valueOf(signAmount)/10000));
