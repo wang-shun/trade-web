@@ -296,23 +296,61 @@ input {
   width: 130px;
 }
 .form-inline {
-  .btn-left {
-  float: left;
-  }
-  .btn-right {
+    .btn-left {
+    float: left;
+    }
+    .btn-right {
     float: right;
-  }
-  .btn-right a {
+    }
+    .btn-right a {
     color: #fff;
-  }
-  .btn-default {
+    }
+    .btn-default {
     color:#428fcc;
     background-color:#e4e4e4;
-        border-color: #e4e4e4;
-}
+    border-color: #e4e4e4;
+    }
 }
 .date_icon {
     position: absolute;
     top: 7px;
     right: 10px;
+}
+
+.info_content .line {
+    overflow: hidden;
+    p{
+        float: left;
+        margin: 7px 28px 7px 0px;
+        font-size: 14px;
+    }
+    label {
+        float:left;
+        width: 100px;
+        margin-right: 20px;
+        font-weight: normal;
+        color: #808080;
+        text-align:right;
+    }
+    .info {
+        float:left;
+        display: inline-block;
+        width: 185px;
+        color:#333;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+    .info_one {
+        float:left;
+        display: inline-block;
+        width: 120px;
+        color:#333;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+}
+.btn-space {
+    margin: 0px 10px;
 }

@@ -331,3 +331,42 @@ input {
   top: 7px;
   right: 10px;
 }
+
+.info_content .line {
+  overflow: hidden;
+}
+.info_content .line p {
+  float: left;
+  margin: 7px 28px 7px 0px;
+  font-size: 14px;
+}
+.info_content .line label {
+  float: left;
+  width: 100px;
+  margin-right: 20px;
+  font-weight: normal;
+  color: #808080;
+  text-align: right;
+}
+.info_content .line .info {
+  float: left;
+  display: inline-block;
+  width: 185px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.info_content .line .info_one {
+  float: left;
+  display: inline-block;
+  width: 120px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.btn-space {
+  margin: 0px 10px;
+}

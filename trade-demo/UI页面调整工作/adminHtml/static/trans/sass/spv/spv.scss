@@ -39,3 +39,54 @@
     color: #555;
     cursor: default;
 }
+.title {
+    float: left;
+    em{
+        display: inline-block;
+        margin-left: 20px;
+        font-style: normal;
+        font-weight: normal;
+        color: #f784a5;
+    }
+  }
+.excuse{
+  clear: both;
+  padding: 25px 30px;
+}
+.auditor {
+    float:right;
+}
+.space30 {
+  padding-bottom: 30px!important;
+}
+
+
+.table_input{
+    width: 100%;
+    border: none;
+    padding: 4px 5px;
+    margin-right: 10px;
+}
+.icon_x {
+  margin-left: 5px;
+}
+.btn-x {
+  background: #e5e5e5!important;
+
+}
+.btn_file {
+  position: relative;
+  display: inline-block;
+}
+.btn_file .file {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 52px;
+  height: 34px;
+  cursor: pointer;
+  opacity: 0;
+}
+.space3 {
+  margin-right: 3px;
+}

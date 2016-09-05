@@ -53,44 +53,44 @@ $(function() {
             type : 'value'
         }
     ],
-    color:[ 
+    color:[
         '#f784a5', '#ffad6b', '#52bdbd', '#295aa5',
     ],
     series : [
         {
             name:'接单',
             type:'bar',
-            barWidth: 50,
+            barWidth: 30,
             stack: '7月',
             data:[5, 0, 3, 10, 93]
         },
         {
             name:'签约',
             type:'bar',
-            barWidth: 50,
+            barWidth: 30,
             stack: '7月',
             data:[1, 1, 8, 33, 29]
         },
         {
             name:'过户',
             type:'bar',
-            barWidth: 50,
+            barWidth: 30,
             stack: '7月',
             data:[1, 3, 0, 5, 9]
         },
         {
             name:'结案',
             type:'bar',
-            barWidth: 50,
+            barWidth: 30,
             stack: '7月',
             data:[1, 8, 7, 18, 17]
         },
-        
+
     ]
         };
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 
-	
+
 })
