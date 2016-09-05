@@ -392,3 +392,55 @@ ul.light_info li.active {
 	float: left;
 	font-size: 40px!important;
 }
+.hint {position: relative; display: inline-block;}
+
+.hint:before, .hint:after {
+	position: absolute;
+	opacity: 0;
+	z-index: 1000000;
+	-webkit-transition: 0.3s ease;
+	-moz-transition: 0.3s ease;
+	pointer-events: none;
+}		
+.hint:hover:before, .hint:hover:after {
+	opacity: 1;
+}
+.hint:before {
+	content: '';
+	position: absolute;
+	background: transparent;
+	border: 1px transparent;
+	position: absolute;
+}	
+.hint:after {
+	content: attr(data-hint);
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	padding: 1px 1px;
+	font-size: 12px;
+	white-space: nowrap;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+}
+/* top */
+.hint-top1:before {
+	bottom: 100%;
+	left: 50%;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}		
+.hint-top1:after {
+    bottom: 100%;
+	margin-bottom: 0px;
+	width:220px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
+.hint-top1:hover:before {
+	margin-bottom: -10px;
+}
+.hint-top1:hover:after {
+	margin-bottom: 1px;
+	width:220px!important;
+	white-space: normal!important;
+	word-break:break-all!important;
+}
