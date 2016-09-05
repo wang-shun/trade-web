@@ -124,15 +124,15 @@
                     	<ul class="light_info">
                                         <li >
                                             <i class="icon iconfont icon40 yellow">&#xe632;</i>
-                                            <p class="line">黄灯任务<br/><span id="yeLightCount"></span></p>
+                                            <p>黄灯任务<br/><span id="yeLightCount"></span></p>
                                         </li>
                                         <li >
                                             <i class="icon iconfont icon40 pink">&#xe631;</i>
-                                            <p class="line">红灯任务<br/><span id="redLightCount"></span></p>
+                                            <p>红灯任务<br/><span id="redLightCount"></span></p>
                                         </li>
                                         <li >
                                             <i class="icon iconfont icon40 grey">&#xe630;</i>
-                                            <p class="line">贷款流失<br/><span id="bizwarnCaseCount"></span></p>
+                                            <p>贷款流失<br/><span id="bizwarnCaseCount"></span></p>
                                         </li>
                                         <li>
                                             <i class="icon iconfont icon40 grey">&#xe633;</i>
