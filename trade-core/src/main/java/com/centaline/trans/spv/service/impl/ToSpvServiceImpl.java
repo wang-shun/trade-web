@@ -32,6 +32,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
@@ -580,14 +581,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO,SessionUser user) {
 		
 		//先查询流程是否已经开启，若开启则提示用户不能再次开启
-		ToWorkFlow twf = new ToWorkFlow();
-		twf.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
-		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-		
-		if(record != null){
-			throw new BusinessException("启动失败：该案件的流程已经启动！");
+		if(spvBaseInfoVO.getToSpv() != null){	
+			ToSpv row = toSpvMapper.selectByPrimaryKey(spvBaseInfoVO.getToSpv().getPkid());
+			if(row != null && (SpvStatusEnum.INPROGRESS.getCode().equals(row.getStatus()) || SpvStatusEnum.COMPLETE.getCode().equals(row.getStatus()))){
+				throw new BusinessException("启动失败：流程已经启动或结束！");
+			}	
 		}
 		
 		saveNewSpv(spvBaseInfoVO,user);
@@ -611,6 +609,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
+		
+		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.INPROGRESS.getCode());
+		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
     	
 //    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 //    	List<TaskVo> taskList = pageableVo.getData();
