@@ -555,7 +555,9 @@ public class WorkSpaceController {
 		
 		return "mobile/workspace/mainPage";
 	}
-
+	
+	
+	//龙虎榜快速查询
 	@RequestMapping(value = "qqGetRank")
 	@ResponseBody	
 	public Map doGetRankByQuickQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {	
@@ -563,7 +565,7 @@ public class WorkSpaceController {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);		
 
-		Map map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		WorkSpace work = new WorkSpace();
 		work.setUserId(user.getId());
 		String jobCode = user.getServiceJobCode();
@@ -590,31 +592,34 @@ public class WorkSpaceController {
 			}
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -648,31 +653,34 @@ public class WorkSpaceController {
 		
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -729,31 +737,34 @@ public class WorkSpaceController {
 			}
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -792,31 +803,34 @@ public class WorkSpaceController {
 			work.setOrgId(user.getServiceDepId());
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}

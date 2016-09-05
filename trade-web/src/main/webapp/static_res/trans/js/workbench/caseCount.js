@@ -17,19 +17,122 @@ function queryBizwarnCaseCount(){
 	 });
 }
 //预警灯提示
-function queryGetRankBank(){
+function queryGetRankBank(){	
 	 $.ajax({		
 		 	url  : ctx+'/workspace/qqGetRank',
 		    data : "",
 			type: "post",
 			dataType: "json",
 			async : true,
-			success: function(data) {
+			success: function(data) {				
 				console.log("*** queryGetRankBank Result***"+JSON.stringify(data));
+				$("#loanAmountRank").text(data.loanAmountRank==null?'':"你的排名："+ data.loanAmountRank); //你的排名：${rank.loanAmountRank} 
+				$("#signAmountRank").text(data.signAmountRank==null?'':"你的排名："+ data.signAmountRank);//你的排名：${rank.signAmountRank} 
+				$("#actualAmountRank").text(data.actualAmountRank==null?'':"你的排名："+ data.actualAmountRank);//你的排名：${rank.actualAmountRank}
+				//E+金融申请榜
+				var loanAmountRankList1=data.loanAmountRankList[0];			
+				if(loanAmountRankList1 != null && loanAmountRankList1 != ''){					
+					var  loanAmountRankListHtml='';
+					var  loanAmountRankListHtmlForShow='';	
+					
+					for( var i=0;i<loanAmountRankList1.length;i++){							
+						var  colorClass= loanAmountRankList1[i].RANK_NO==1 ?"badge-danger":loanAmountRankList1[i].RANK_NO==2 ? "badge-orange": loanAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
+						var  picture1='http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg';							
+						loanAmountRankListHtml = 
+							"<div class='feed-element'>"+"" +
+							"<a href='#' class='pull-left'> "+
+							"<span class='shead'>"+
+							"<img class='himg' style='height: 38px; width: 38px;' src="+picture1+"onload='javascript:imgLoad(this);'>"+
+							"</span>"+
+							"<span class='badge  "+colorClass+"'>" 
+							+ loanAmountRankList1[i].RANK_NO+							
+							"</span>"+
+							"</a>"+
+							"<div class='media-body'>"+
+							"<span class='pull-right'>"+
+							"<strong class='fa-2x text-danger'>"+
+							 +(loanAmountRankList1[i].RANK_VALUE/10000).toFixed(2)+"万"+							
+							"</strong>"+
+							"</span> <strong>"+loanAmountRankList1[i].REAL_NAME+
+							"</strong><br>"+
+							"<small	class='ext-muted'>"+ loanAmountRankList1[i].BELONG_ORG_NAME + 
+							"</small>" +
+							"</div>"+
+							"</div>";
+							loanAmountRankListHtmlForShow+=loanAmountRankListHtml;							
+					}
+					$("#loanAmountRankList").html(loanAmountRankListHtmlForShow);
+				}
+					//E+金融签约榜
+					var signAmountRankList1=data.signAmountRankList[0];			
+					if(signAmountRankList1 != null && signAmountRankList1 != ''){					
+						var  signAmountRankListHtml='';
+						var  signAmountRankListHtmlForShow='';							
+						for( var i=0;i<signAmountRankList1.length;i++){							
+							var  colorClass= signAmountRankList1[i].RANK_NO==1 ?"badge-danger":signAmountRankList1[i].RANK_NO==2 ? "badge-orange": signAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
+							var  picture2='http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg';	
+							signAmountRankListHtml = 
+								"<div class='feed-element'>"+"" +
+								"<a href='#' class='pull-left'> "+
+								"<span class='shead img-circle'>"+
+								"<img class='himg' style='height: 38px; width: 38px;' src="+picture2+"onload='javascript:imgLoad(this);'>"+
+								"</span>"+
+								"<span class='badge  "+colorClass+"'>" 
+								+ signAmountRankList1[i].RANK_NO+							
+								"</span>"+
+								"</a>"+
+								"<div class='media-body'>"+
+								"<span class='pull-right'>"+
+								"<strong class='fa-2x text-danger'>"+
+								 +(signAmountRankList1[i].RANK_VALUE/10000).toFixed(2)+"万"+							
+								"</strong>"+
+								"</span> <strong>"+signAmountRankList1[i].REAL_NAME+
+								"</strong><br>"+
+								"<small	class='ext-muted'>"+ signAmountRankList1[i].BELONG_ORG_NAME + 
+								"</small>" +
+								"</div>"+
+								"</div>";
+							signAmountRankListHtmlForShow+=signAmountRankListHtml;							
+						}
+						$("#signAmountRankList").html(signAmountRankListHtmlForShow);
+					}	
+						//E+金融放款榜
+						var actualAmountRankList1=data.actualAmountRankList[0];			
+						if(actualAmountRankList1 != null && actualAmountRankList1 != ''){					
+							var  actualAmountRankListHtml='';
+							var  actualAmountRankListHtmlForShow='';							
+							for( var i=0;i<actualAmountRankList1.length;i++){							
+								var  colorClass= actualAmountRankList1[i].RANK_NO==1 ?"badge-danger":actualAmountRankList1[i].RANK_NO==2 ? "badge-orange": actualAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
+								actualAmountRankListHtml = 
+									"<div class='feed-element'>"+"" +
+									"<a href='#' class='pull-left'> "+
+									"<span class='shead img-circle'>"+
+									"<img class='himg' style='height: 38px; width: 38px;' src='http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/'"+actualAmountRankList1[i].EMP_CODE+".jpg onload='javascript:imgLoad(this);'>"+
+									"</span>"+
+									"<span class='badge  "+colorClass+"'>" 
+									+ actualAmountRankList1[i].RANK_NO+							
+									"</span>"+
+									"</a>"+
+									"<div class='media-body'>"+
+									"<span class='pull-right'>"+
+									"<strong class='fa-2x text-danger'>"+
+									 +(actualAmountRankList1[i].RANK_VALUE/10000).toFixed(2)+"万"+							
+									"</strong>"+
+									"</span> <strong>"+actualAmountRankList1[i].REAL_NAME+
+									"</strong><br>"+
+									"<small	class='ext-muted'>"+ actualAmountRankList1[i].BELONG_ORG_NAME + 
+									"</small>" +
+									"</div>"+
+									"</div>";
+								actualAmountRankListHtmlForShow+=actualAmountRankListHtml;							
+							}
+							$("#actualAmountRankList").html(actualAmountRankListHtmlForShow);				
+
+				}	
 			}
 	 });
-}
 
+}
 
 /*根据日期查询统计 */
 function queryConutCaseByDate(){

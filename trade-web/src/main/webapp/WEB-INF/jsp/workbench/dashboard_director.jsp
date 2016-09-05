@@ -556,19 +556,17 @@
 														E+金融申请榜
 														<c:if test="${not empty rank.loanAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong
-																class="text-danger">
-																	你的排名：${rank.loanAmountRank} </strong>
+																class="text-danger" id="loanAmountRank"></strong>
 															</span>
 														</c:if>
 														
 													</div>
 													<div class="panel-body">
-														<div class="feed-activity-list">
-															<c:forEach items="${rank.loanAmountRankList}" var="item">
+														<div class="feed-activity-list"  id="loanAmountRankList">
+<%-- 															<c:forEach items="${rank.loanAmountRankList}" var="item">
 																<div class="feed-element">
-																	<a href="#" class="pull-left"> <span class="shead">
-																			<img class="himg" style="height: 38px; width: 38px;"
-																			src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
+																	<a href="#" class="pull-left"> 
+																	<span class="shead"><img class="himg" style="height: 38px; width: 38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
 																			onload="javascript:imgLoad(this);">
 																	</span> <span class="badge ${ item.rankNo == 1 ? "
 																		badge-danger" : item.rankNo== 2 ? "badge-orange" :
@@ -584,7 +582,7 @@
 																			class="text-muted">${item.belongOrgName }</small>
 																	</div>
 																</div>
-															</c:forEach>
+															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -595,15 +593,14 @@
 														E+金融签约榜
 														<c:if test="${not empty rank.signAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong
-																class="text-danger">
-																	你的排名：${rank.signAmountRank} </strong>
+																class="text-danger" id="signAmountRank"></strong>
 															</span>
 														</c:if>
 														
 													</div>
 													<div class="panel-body">
-														<div class="feed-activity-list">
-															<c:forEach items="${rank.signAmountRankList}" var="item">
+														<div class="feed-activity-list" id="signAmountRankList">
+															<%-- <c:forEach items="${rank.signAmountRankList}" var="item">
 																<div class="feed-element">
 																	<a class="pull-left"> <span
 																		class="shead img-circle"> <img class="himg"
@@ -624,7 +621,7 @@
 																			class="text-muted">${item.belongOrgName }</small>
 																	</div>
 																</div>
-															</c:forEach>
+															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -637,14 +634,14 @@
 														E+金融放款榜
 														<c:if test="${ not empty rank.actualAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong
-																class="text-danger">你的排名：${rank.actualAmountRank}</strong>
+																class="text-danger" id="actualAmountRank"></strong>
 															</span>
 														</c:if>
 														
 													</div>
 													<div class="panel-body">
-														<div class="feed-activity-list">
-															<c:forEach items="${rank.actualAmountRankList}"
+														<div class="feed-activity-list" id="actualAmountRankList">
+<%-- 															<c:forEach items="${rank.actualAmountRankList}"
 																var="item">
 																<div class="feed-element">
 																	<a href="#" class="pull-left"> <span
@@ -666,7 +663,7 @@
 																			class="text-muted">${item.belongOrgName }</small>
 																	</div>
 																</div>
-															</c:forEach>
+															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -727,7 +724,7 @@
 				//查询警示案件数
 				queryBizwarnCaseCount();
 				//查询警示案件数
-				//queryGetRankBank();
+				queryGetRankBank();
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
 		</script> </content>
