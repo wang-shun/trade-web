@@ -99,11 +99,11 @@
 					<h5 class="main_titile"
 						style="position: absolute; top: 0; left: 25px; font-size: 14px;">案件分布统计</h5>
 						
-					<div class="col-md-9">
+					<div class="col-md-8">
 						<div id="mainwe" style="width: 100%; height: 250px;"></div>
 					</div>
 					
-					<div class="col-md-3">
+					<%-- <div class="col-md-4">
 						<div class="task_light">
 							<p class="fa_red">
 								<i class="fa fa-bell "></i> 红灯任务 <small><a id="redLightCount"
@@ -119,7 +119,48 @@
 									href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
 							</p>
 						</div>
-					</div>
+					</div> --%>
+					<div class="col-md-4">
+                    	<ul class="light_info">
+                                        <li >
+                                            <i class="icon iconfont icon40 yellow">&#xe632;</i>
+                                            <p class="line">黄灯任务<br/><span id="yeLightCount"></span></p>
+                                        </li>
+                                        <li >
+                                            <i class="icon iconfont icon40 pink">&#xe631;</i>
+                                            <p class="line">红灯任务<br/><span id="redLightCount"></span></p>
+                                        </li>
+                                        <li >
+                                            <i class="icon iconfont icon40 grey">&#xe630;</i>
+                                            <p class="line">贷款流失<br/><span id="bizwarnCaseCount"></span></p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont icon40 grey">&#xe633;</i>
+                                            <p>计划变更<br/><span id="planeChange"></span></p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont icon40 grey">&#xe639;</i>
+                                            <p>e+转化<br/><span id="eloanChange"></span></p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont icon40 grey">&#xe634;</i>
+                                            <p>监管渗透<br/><span id="jgCtou"></span></p>
+                                        </li>
+                                         <li>
+                                            <i class="icon iconfont icon40 grey">&#xe636;</i>
+                                            <p>无主案件<br><span id="unLocatedCaseCount"></span></p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont icon40 grey">&#xe637;</i>
+                                            <p>无主任务<br><span id="unLocatedTaskCount"></span></p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont icon40 grey">&#xe638;</i>
+                                            <p>无主资源<br><span id="caseDistributeCount"></span></p>
+                                        </li>
+                                    </ul>
+                    </div>
+					
 				</div>
 				<div class="row space_line">
 					<div class="col-md-8">
@@ -135,7 +176,7 @@
 					</div>
 					<div class="col-md-2" style="padding-left: 0">
 						<button class="btn btn-success" type="button" id="btn_sta"
-							onclick="queryConutCaseByDate()">
+							onclick="queryConutCaseByDate()" style="padding: 4px 12px;">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
 					</div>

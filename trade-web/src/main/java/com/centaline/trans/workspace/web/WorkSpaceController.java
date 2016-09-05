@@ -1152,8 +1152,8 @@ public class WorkSpaceController {
 		map.put("redLight", redLight);
 		map.put("yeLight", yeLight);
 		
-		map.put("unLocatedCase", unLocatedCase);
-		map.put("unLocatedTask", unLocatedTask);
+		map.put("unLocatedCaseCount", unLocatedCase);
+		map.put("unLocatedTaskCount", unLocatedTask);
 		map.put("caseDistributeCount", caseDistributeCount);
 		
 		return map;
