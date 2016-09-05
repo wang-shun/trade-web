@@ -6,7 +6,7 @@ function queryBizwarnCaseCount(){
 		    data : "",
 			type: "post",
 			dataType: "json",
-			async : false,
+			async : true,
 			success: function(data) {
 				console.log("=== queryBizwarnCaseCount Result==="+JSON.stringify(data));
 				$("#redLightCount").text(data.redLight);
@@ -16,6 +16,20 @@ function queryBizwarnCaseCount(){
 			}
 	 });
 }
+//预警灯提示
+function queryGetRankBank(){
+	 $.ajax({		
+		 	url  : ctx+'/workspace/qqGetRank',
+		    data : "",
+			type: "post",
+			dataType: "json",
+			async : true,
+			success: function(data) {
+				console.log("*** queryGetRankBank Result***"+JSON.stringify(data));
+			}
+	 });
+}
+
 
 
 

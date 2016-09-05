@@ -963,4 +963,85 @@
 			</table-row>
 		</grid>
 	</query>
+	
+	
+		<query id="personalWorkGetRankListQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				  
+				  	select 
+				  		top 5 * 
+				  	from 
+				  		sctrans.T_TS_DAYLY_RANK with(nolock)
+				  	where 
+				  		DATEDIFF(day, RANK_DAY, GETDATE()) = 0
+				  		<if test="rankCat != null">
+				  			AND RANK_CAT = #rankCat#  
+				  		</if>
+				  		<if test="rankType != null">
+				  			AND RANK_TYPE = #rankType#  
+				  		</if>
+					  	<if test="org_Id != null">
+					  	AND belong_org_id = #org_Id#
+					  	</if>	
+					   	<if test="orgs!=null">
+					   		AND belong_org_id IN (#orgs#)					 	
+					   	</if>  
+					   	<if test="RankDuration!=null">
+					   		AND belong_org_id = (#RankDuration#)					 	
+					   	</if> 		
+				  		order by RANK_NO asc
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="PKID" title="PKID" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_ID" title="RANK_ID" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="REAL_NAME" title="REAL_NAME" index="" default=""	checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="EMP_CODE" title="EMP_CODE" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="BELONG_ORG_ID" title="BELONG_ORG_ID" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="BELONG_ORG_NAME" title="BELONG_ORG_NAME" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_CAT" title="RANK_CAT" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_TYPE" title="RANK_TYPE" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_DAY" title="RANK_DAY" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_NO" title="RANK_NO" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_VALUE" title="RANK_VALUE" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="RANK_DURATION" title="RANK_DURATION" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="personalWorkGetRankQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[				  
+			  	select 
+			  		rank_no 
+			  	from 
+			  		sctrans.T_TS_DAYLY_RANK with(nolock)
+			  	where 
+			  		DATEDIFF(day, RANK_DAY, GETDATE())=0 
+			  		AND 	RANK_DURATION='MONTH'
+			  		<if test="rankCat != null">
+				  			AND RANK_CAT = #rankCat#  
+				  	</if>
+				  	<if test="rankType != null">
+				  			AND RANK_TYPE = #rankType#  
+				  	</if>
+			  		<if test="user_Id != null">
+				  			AND RANK_ID = #user_Id#  
+				  	</if>			  		
+			  		<if test="org_Id != null">
+			  				AND belong_org_id = #org_Id#   
+			  		</if>				  
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="rank_no" title="rank_no" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
 </querys>

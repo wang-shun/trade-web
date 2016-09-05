@@ -726,6 +726,8 @@
 				queryConutCaseByDate();
 				//查询警示案件数
 				queryBizwarnCaseCount();
+				//查询警示案件数
+				//queryGetRankBank();
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
 		</script> </content>
