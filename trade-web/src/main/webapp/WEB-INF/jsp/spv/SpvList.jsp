@@ -109,9 +109,8 @@
 						<button type="button" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
-						<button type="button" class="btn btn-success">
-							<a href="${ctx}/spv/saveHTML">新建</a>
-						</button>
+						
+						<a class="btn btn-success" href="${ctx}/spv/saveHTML">新建</a>
 						<button type="btn" class="btn btn-success">删除</button>
 						<button type="btn" class="btn btn-success">入账</button>
 						<button type="btn" class="btn btn-success">出账</button>
@@ -201,12 +200,12 @@
                                         </td>
                                         <td class="text-center"><a class="btn btn-success"
                                            href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">查看</a>
-                                        </td>
-                                           {{if item.STATUS==0}}
-                                         <td class="text-center"><a class="btn btn-success"
+										  {{if item.STATUS==0}}
+                                        <a class="btn btn-success"
                                            href="${ctx}/spv/saveHTML?pkid={{item.PKID}}">修改</a>
-                                        </td>
                                             {{/if}}
+                                        </td>
+                                         
                                     </tr>
 			{{/each}}          
 	    </script> <script>

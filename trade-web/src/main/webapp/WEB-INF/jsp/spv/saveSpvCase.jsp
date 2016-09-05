@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta name="viewpoart" content="width=device-width, initial-scale=1.0">
 
-<title>E+贷款</title>
+<title>监管合约</title>
 
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css"
@@ -147,7 +147,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
-									class="sex-char"> <label class="radio-inline"> <input
+									class="sex-char"> <label class="radio-inline"> <input 
 										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input 
@@ -170,9 +170,9 @@
 								
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">证件有效期</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
 								<input name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
-								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-DD"/>" placeholder="">
+								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件编号</label> <input name="spvCustList[0].idCode"
@@ -198,7 +198,7 @@
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[0].hasDele" id="BuyRadio1" value="1" ${spvBaseInfoVO.spvCustList[0].hasDele eq '1'?'checked="checked"':'' } > 是
-								</label> <label class="radio-inline"> <input type="radio"
+								</label> <label class="radio-inline"> <input type="radio" checked="checked"
 									name="spvCustList[0].hasDele" id="BuyRadio2" value="0" ${spvBaseInfoVO.spvCustList[0].hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
@@ -239,7 +239,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
-									class="sex-char"> <label class="radio-inline"> <input
+									class="sex-char"> <label class="radio-inline"> <input 
 										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
 										男
 								</label> <label class="radio-inline"> <input type="radio"
@@ -262,9 +262,9 @@
 								
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">证件有效期</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
 								<input name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
-								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-DD"/>" placeholder="">
+								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件编号</label> <input type="text" name="spvCustList[1].idCode"
@@ -291,7 +291,7 @@
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[1].hasDele" id="SellRadio1" value="1" ${spvBaseInfoVO.spvCustList[1].hasDele eq '1'?'checked="checked"':'' }> 是
-								</label> <label class="radio-inline"> <input type="radio"
+								</label> <label class="radio-inline"> <input type="radio" checked="checked"
 									name="spvCustList[1].hasDele" id="SellRadio2" value="0" ${spvBaseInfoVO.spvCustList[1].hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
@@ -352,9 +352,9 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-two">是否偿清</label> <label
-									class="radio-inline"> <input type="radio"
+									class="radio-inline"> <input type="radio" checked="checked"
 									name="toSpvProperty.isMortClear" id="Pledge1" value="1" ${spvBaseInfoVO.toSpvProperty.isMortClear eq '1'?'checked="checked"':'' }> 是
-								</label> <label class="radio-inline"> <input type="radio"
+								</label> <label class="radio-inline"> <input type="radio" 
 									name="toSpvProperty.isMortClear" id="Pledge2" value="0" ${spvBaseInfoVO.toSpvProperty.isMortClear eq '0'?'checked="checked"':'' }> 否
 								</label> <span class="span-tag pledgeinfo">交易房屋抵押贷信息</span>
 							</div>
@@ -424,13 +424,13 @@
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one">监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
+								<label for="" class="lable-one">监管产品</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
 								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>

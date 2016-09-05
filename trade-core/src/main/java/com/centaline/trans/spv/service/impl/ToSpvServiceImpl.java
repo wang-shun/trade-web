@@ -462,17 +462,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 		ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		//保存相关信息
 		/**乘万处理*/
-		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().multiply(new BigDecimal(10000)) : new BigDecimal(0));
+		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMort(toSpv.getAmountMort() != null ? toSpv.getAmountMort().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortCom(toSpv.getAmountMortCom() != null ? toSpv.getAmountMortCom().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountMortPsf(toSpv.getAmountMortPsf() != null ? toSpv.getAmountMortPsf().multiply(new BigDecimal(10000)) : null);
+		toSpv.setAmountOwn(toSpv.getAmountOwn() != null ? toSpv.getAmountOwn().multiply(new BigDecimal(10000)) : null);
 		
-		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
-		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
+		toSpvProperty.setLeftAmount(toSpvProperty.getLeftAmount() != null ? toSpvProperty.getLeftAmount().multiply(new BigDecimal(10000)) : null);
+		toSpvProperty.setSignAmount(toSpvProperty.getSignAmount() != null ? toSpvProperty.getSignAmount().multiply(new BigDecimal(10000)) : null);
 		
 		for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
-			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().multiply(new BigDecimal(10000)) : new BigDecimal(0));
+			toSpvDeDetail.setDeAmount(toSpvDeDetail.getDeAmount()!= null ? toSpvDeDetail.getDeAmount().multiply(new BigDecimal(10000)) : null);
 		}
 
 		/**1.保存到‘资金监管合约’表*/
@@ -587,7 +587,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 		
 		if(record != null){
-			throw new BusinessException("启动失败：流程已经存在！");
+			throw new BusinessException("启动失败：该案件的流程已经启动！");
 		}
 		
 		saveNewSpv(spvBaseInfoVO,user);
@@ -691,8 +691,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode){
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request,pkid);
 		/**查询案件相关信息*/
-		if(StringUtils.isEmpty(caseCode)) caseCode = spvBaseInfoVO.getToSpv().getCaseCode();
-		setAttribute(request,caseCode);
+		if(!StringUtils.isEmpty(caseCode)){
+			setAttribute(request,caseCode);
+		}else{
+			if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null){
+				setAttribute(request,spvBaseInfoVO.getToSpv().getCaseCode());
+			}
+		}
+
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 	}
 
