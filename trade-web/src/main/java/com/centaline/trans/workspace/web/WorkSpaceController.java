@@ -161,7 +161,7 @@ public class WorkSpaceController {
 							.getServiceCompanyId()); // 获取本区所有的状态为生效的商贷预警数
 		}*/
 		//int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
-		
+		Map map=new HashMap();
 		String jobCode = user.getServiceJobCode();
 		//设置当前系统用户的登录名
 		map.put("candidateId", user.getUsername());
