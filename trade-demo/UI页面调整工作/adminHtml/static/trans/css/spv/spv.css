@@ -80,6 +80,13 @@
   margin-left: 5px;
 }
 
+.icon_x:hover {
+  background: #1c84c6;
+  color: #fff;
+  border-radius: 2px;
+  padding: 0px 0 2px;
+}
+
 .btn-x {
   background: #e5e5e5 !important;
 }
@@ -101,4 +108,8 @@
 
 .space3 {
   margin-right: 3px;
+}
+
+.boderbbt {
+  border-bottom: 1px solid #eeeeee !important;
 }
