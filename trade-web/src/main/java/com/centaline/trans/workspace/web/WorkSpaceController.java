@@ -1343,7 +1343,7 @@ public class WorkSpaceController {
 		}
 		
 		String signAmount=signAmountQuery(gp);
-		if (loanAmount == null) {
+		if (signAmount == null) {
 			workSpaceMap.put("signAmount", "0.00万");
 		} else {
 			workSpaceMap.put("signAmount", formatter.format(Double.valueOf(signAmount)/10000));
