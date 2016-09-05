@@ -1346,7 +1346,12 @@ public class WorkSpaceController {
 		if (loanAmount == null) {
 			workSpaceMap.put("signAmount", "0.00万");
 		} else {
-			workSpaceMap.put("signAmount", formatter.format(Double.valueOf(signAmount)/10000));
+			if(signAmount!=null){
+				workSpaceMap.put("signAmount", formatter.format(Double.valueOf(signAmount)/10000));
+			}else{
+				workSpaceMap.put("signAmount", "0.00万");
+			}
+			
 		}
 		
 		String convRate=convRateQuery(gp);
