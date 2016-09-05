@@ -9,13 +9,98 @@ function queryBizwarnCaseCount(){
 			async : true,
 			success: function(data) {
 				console.log("=== queryBizwarnCaseCount Result==="+JSON.stringify(data));
-				$("#redLightCount").text(data.redLight);
-				$("#yeLightCount").text(data.yeLight);
-				$("#bizwarnCaseCount").text(data.bizwarnCaseCount);
+				//黄灯任务
+				if(data.yeLight!=undefined && data.yeLight>0){
+					$("#yeLightCount").html(data.yeLight).parent('p').siblings("i").addClass('martop20');
+					$("#yeLightCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#yeLightCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/workspace/ryLightList?color=1" target="_blank"></a>';
+					});
+				}
+				//红灯任务
+				if(data.redLight!=undefined && data.redLight>0){
+					$("#redLightCount").html(data.redLight).parent('p').siblings("i").addClass('martop20');
+					$("#redLightCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#redLightCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/workspace/ryLightList?color=0" target="_blank"></a>';
+					});
+				}
+				//贷款流失预警
+				if(data.bizwarnCaseCount!=undefined && data.bizwarnCaseCount>0){
+					$("#bizwarnCaseCount").html(data.bizwarnCaseCount).parent('p').siblings("i").addClass('martop20');
+					$("#bizwarnCaseCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#bizwarnCaseCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/bizwarn/list?status=0" target="_blank"></a>';
+					});
+				}
+				
+				
+				//无主案件
+				if(data.unLocatedCaseCount!=undefined && data.unLocatedCaseCount>0){
+					$("#unLocatedCaseCount").html(data.unLocatedCaseCount).parent('p').siblings("i").addClass('martop20');
+					$("#unLocatedCaseCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#unLocatedCaseCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/case/unlocatedCase" target="_blank"></a>';
+					});
+				}
+				//无主任务
+				if(data.unLocatedTaskCount!=undefined && data.unLocatedTaskCount>0){
+					$("#unLocatedTaskCount").html(data.unLocatedTaskCount).parent('p').siblings("i").addClass('martop20');
+					$("#unLocatedTaskCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#unLocatedTaskCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/unlocatedTasks" target="_blank"></a>';
+					});
+				}
+				//无主资源
+				if(data.caseDistributeCount!=undefined && data.caseDistributeCount>0){
+					$("#caseDistributeCount").html(data.caseDistributeCount).parent('p').siblings("i").addClass('martop20');
+					$("#caseDistributeCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#caseDistributeCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/case/caseDistribute" target="_blank"></a>';
+					});
+				}
+				
 
 			}
 	 });
 }
+queryBizwarnCaseCount();
 //预警灯提示
 function queryGetRankBank(){
 	 $.ajax({		

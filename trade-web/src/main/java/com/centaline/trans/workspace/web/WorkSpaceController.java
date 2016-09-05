@@ -1152,8 +1152,8 @@ public class WorkSpaceController {
 		map.put("redLight", redLight);
 		map.put("yeLight", yeLight);
 		
-		map.put("unLocatedCase", unLocatedCase);
-		map.put("unLocatedTask", unLocatedTask);
+		map.put("unLocatedCaseCount", unLocatedCase);
+		map.put("unLocatedTaskCount", unLocatedTask);
 		map.put("caseDistributeCount", caseDistributeCount);
 		
 		return map;
@@ -1370,12 +1370,12 @@ public class WorkSpaceController {
 		if (map2.get("evalFee") == null) {
 			workSpaceMap.put("evalFee", "0.00");
 		} else {
-			workSpaceMap.put("evalFee", formatter2.format(map2.get("evalFee")));
+			workSpaceMap.put("evalFee", formatter2.format(new BigDecimal(map2.get("evalFee").toString())));
 		}
 		if (map2.get("efConvRate") == null) {
 			workSpaceMap.put("efConvRate", "0.00%");
 		} else {
-			workSpaceMap.put("efConvRate", formatter2.format(map2.get("efConvRate")) + "%");
+			workSpaceMap.put("efConvRate", formatter2.format(new BigDecimal(map2.get("efConvRate").toString())) + "%");
 		}		
 		
 		workSpaceMap.put("staLoanApply", staLoanApplyQuery(gp));
