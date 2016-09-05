@@ -29,6 +29,8 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -82,6 +84,8 @@ public class FirstFollowController {
 	@Autowired
 	private MortgageSelectService mortgageSelectService;
 	private List<String> orgcodes = Arrays.asList("033K716");// 浦东交易1组
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
 
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source) {
@@ -93,6 +97,8 @@ public class FirstFollowController {
 		request.setAttribute("firstFollow", firstFollowService.queryFirstFollow(caseCode));
 		request.setAttribute("approveType", "0");
 		request.setAttribute("operator", user != null ? user.getId() : "");
+		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
+		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		return "task/taskFirstFollow";
 	}
 
