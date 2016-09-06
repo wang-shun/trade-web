@@ -212,7 +212,7 @@ public class WorkSpaceController {
 			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			return "workbench/dashboard_generalManager";
 		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
@@ -233,12 +233,12 @@ public class WorkSpaceController {
 			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			return "workbench/dashboard_director";
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) {// 交易主管
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			/*高级交易主管添加待办事项*/
 /*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
@@ -293,10 +293,10 @@ public class WorkSpaceController {
 			model.addAttribute("isJygw", isJygw);
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			/*待办事项*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			if (isBackTeam) { //后台交易顾问
 				/*工作数据显示*/

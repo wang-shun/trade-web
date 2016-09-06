@@ -130,12 +130,13 @@ function queryGetRankBank(){
 					
 					for( var i=0;i<loanAmountRankList1.length;i++){							
 						var  colorClass= loanAmountRankList1[i].RANK_NO==1 ?"badge-danger":loanAmountRankList1[i].RANK_NO==2 ? "badge-orange": loanAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
-						var  picture1='http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg';							
+						var  picture1="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";							
 						loanAmountRankListHtml = 
 							"<div class='feed-element'>"+"" +
 							"<a href='#' class='pull-left'> "+
 							"<span class='shead'>"+
-							"<img class='himg' style='height: 38px; width: 38px;' src="+picture1+"onload='javascript:imgLoad(this);'>"+
+							"<img class='himg' style='height: 38px; width: 38px;'  src='"+ picture1 + "'"+ 
+							"onload='javascript:imgLoad(this);'>"+
 							"</span>"+
 							"<span class='badge  "+colorClass+"'>" 
 							+ loanAmountRankList1[i].RANK_NO+							
@@ -144,7 +145,7 @@ function queryGetRankBank(){
 							"<div class='media-body'>"+
 							"<span class='pull-right'>"+
 							"<strong class='fa-2x text-danger'>"+
-							 +(loanAmountRankList1[i].RANK_VALUE/10000).toFixed(2)+"万"+							
+							 +toDecimal2((loanAmountRankList1[i].RANK_VALUE/10000))+"万"+							
 							"</strong>"+
 							"</span> <strong>"+loanAmountRankList1[i].REAL_NAME+
 							"</strong><br>"+
@@ -163,12 +164,13 @@ function queryGetRankBank(){
 						var  signAmountRankListHtmlForShow='';							
 						for( var i=0;i<signAmountRankList1.length;i++){							
 							var  colorClass= signAmountRankList1[i].RANK_NO==1 ?"badge-danger":signAmountRankList1[i].RANK_NO==2 ? "badge-orange": signAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
-							var  picture2='http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg';	
+							var  picture2="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";	
 							signAmountRankListHtml = 
 								"<div class='feed-element'>"+"" +
 								"<a href='#' class='pull-left'> "+
 								"<span class='shead img-circle'>"+
-								"<img class='himg' style='height: 38px; width: 38px;' src="+picture2+"onload='javascript:imgLoad(this);'>"+
+								"<img class='himg' style='height: 38px; width: 38px;' src=' "+ picture2 +"'"+
+								"onload='javascript:imgLoad(this);'>"+
 								"</span>"+
 								"<span class='badge  "+colorClass+"'>" 
 								+ signAmountRankList1[i].RANK_NO+							
@@ -177,7 +179,7 @@ function queryGetRankBank(){
 								"<div class='media-body'>"+
 								"<span class='pull-right'>"+
 								"<strong class='fa-2x text-danger'>"+
-								 +(signAmountRankList1[i].RANK_VALUE/10000).toFixed(2)+"万"+							
+								 +toDecimal2((signAmountRankList1[i].RANK_VALUE/10000))+"万"+							
 								"</strong>"+
 								"</span> <strong>"+signAmountRankList1[i].REAL_NAME+
 								"</strong><br>"+
@@ -196,11 +198,13 @@ function queryGetRankBank(){
 							var  actualAmountRankListHtmlForShow='';							
 							for( var i=0;i<actualAmountRankList1.length;i++){							
 								var  colorClass= actualAmountRankList1[i].RANK_NO==1 ?"badge-danger":actualAmountRankList1[i].RANK_NO==2 ? "badge-orange": actualAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
+								var  picture3="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";
 								actualAmountRankListHtml = 
 									"<div class='feed-element'>"+"" +
 									"<a href='#' class='pull-left'> "+
 									"<span class='shead img-circle'>"+
-									"<img class='himg' style='height: 38px; width: 38px;' src='http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/'"+actualAmountRankList1[i].EMP_CODE+".jpg onload='javascript:imgLoad(this);'>"+
+									"<img class='himg' style='height: 38px; width: 38px;' src=' "+ picture3 +"'"+
+									"onload='javascript:imgLoad(this);'>"+
 									"</span>"+
 									"<span class='badge  "+colorClass+"'>" 
 									+ actualAmountRankList1[i].RANK_NO+							
@@ -209,7 +213,7 @@ function queryGetRankBank(){
 									"<div class='media-body'>"+
 									"<span class='pull-right'>"+
 									"<strong class='fa-2x text-danger'>"+
-									 +(actualAmountRankList1[i].RANK_VALUE/10000).toFixed(2)+"万"+							
+									 +toDecimal2((actualAmountRankList1[i].RANK_VALUE/10000))+"万"+			//.toFixed(2)				
 									"</strong>"+
 									"</span> <strong>"+actualAmountRankList1[i].REAL_NAME+
 									"</strong><br>"+
@@ -226,6 +230,28 @@ function queryGetRankBank(){
 	 });
 
 }
+
+
+//金额之后 添加.00
+function toDecimal2(x) {
+	 var f = parseFloat(x);    
+	 if (isNaN(f)) {   
+		 alert(1111);
+	       return false;    
+	  }    
+	   
+	 var f = Math.round(x*100)/100;    
+	 var s = f.toString();    
+     var rs = s.indexOf('.');    
+	 if (rs < 0) {    
+	       rs = s.length;    
+	       s += '.';    
+	 }    
+	 while (s.length <= rs + 2) {    
+	       s += '0';    
+	 }
+	 return s;    
+}  
 
 /*根据日期查询统计 */
 function queryConutCaseByDate(){
