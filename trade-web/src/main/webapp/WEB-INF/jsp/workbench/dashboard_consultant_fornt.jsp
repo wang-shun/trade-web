@@ -819,11 +819,7 @@
 		src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script> <script
 		type="text/javascript">
 			$(document).ready(function() {
-				var isJygw = $
-				{
-					isJygw
-				}
-				;
+				var isJygw = ${isJygw};
 				if (isJygw) {
 					Modal.alert({
 						Title : '任务小卫士',
