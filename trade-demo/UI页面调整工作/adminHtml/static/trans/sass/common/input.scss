@@ -296,23 +296,85 @@ input {
   width: 130px;
 }
 .form-inline {
-  .btn-left {
-  float: left;
-  }
-  .btn-right {
+    .btn-left {
+    float: left;
+    }
+    .btn-right {
     float: right;
-  }
-  .btn-right a {
+    }
+    .btn-right a {
     color: #fff;
-  }
-  .btn-default {
+    }
+    .btn-default {
     color:#428fcc;
     background-color:#e4e4e4;
-        border-color: #e4e4e4;
-}
+    border-color: #e4e4e4;
+    }
 }
 .date_icon {
     position: absolute;
     top: 7px;
     right: 10px;
+}
+
+.info_content .line {
+    overflow: hidden;
+    p{
+        float: left;
+        margin: 7px 28px 7px 0px;
+        font-size: 14px;
+    }
+    label {
+        float:left;
+        width: 100px;
+        margin-right: 20px;
+        font-weight: normal;
+        color: #808080;
+        text-align:right;
+    }
+    .info {
+        float:left;
+        display: inline-block;
+        width: 185px;
+        color:#333;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+    .info_one {
+        float:left;
+        display: inline-block;
+        width: 120px;
+        color:#333;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+}
+.btn-space {
+    margin: 0px 10px;
+}
+.big {
+    font-size: 14px;
+}
+.marspace {
+    margin: 4px 0;
+}
+.btn-pink {
+    background: #f784a5;
+    color: #fff;
+}
+.btn-pink:hover{
+    background: #f47599;
+    color: #fff;
+}
+.add_space {
+    line-height: 34px;
+    margin-left: 20px;
+}
+.mar24 {
+    margin-right: 24px!important;
+}
+.mt15 {
+    margin-top: 15px;
 }

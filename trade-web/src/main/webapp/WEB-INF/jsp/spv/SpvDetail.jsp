@@ -227,7 +227,7 @@
 														<dt>身份证</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].idCode }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/></dd>
+														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
 													</dl>
 												</div>
 											</div>
@@ -244,7 +244,7 @@
 														<dt>身份证</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].idCode }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/></dd>
+														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
 													</dl>
 												</div>
 											</div>
