@@ -83,12 +83,12 @@
 									<dt>风控专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${createPhone }">${spvBaseInfoVO.toSpv.createBy}</a>
+											data-placement="right" data-content="手机：${createPhone}">${spvBaseInfoVO.toSpv.createBy}</a>
 									</dd>
 									<dt>风控总监</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：137 9541 0234">--</a>
+											data-placement="right" data-content="手机：${zj.mobile }">${zj.realName }</a>
 									</dd>
 								</dl>
 							</div>

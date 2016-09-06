@@ -4,7 +4,7 @@
 	pageEncoding="utf-8"%>
 
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 
 <head>
@@ -109,8 +109,9 @@
 						<button type="button" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
-						
-						<a class="btn btn-success" href="${ctx}/spv/saveHTML">新建</a>
+					<c:if test="${sessionUser.serviceJobCode=='JYFKZY'}">
+						<button class="btn btn-success">
+						<a href="${ctx}/spv/saveHTML">新建</a></button></c:if>
 						<button type="btn" class="btn btn-default">删除</button>
 						<button type="btn" class="btn btn-success">入账</button>
 						<button type="btn" class="btn btn-success">出账</button>
