@@ -23,7 +23,7 @@ body {
 }
 
 #base_info {
-  padding-bottom: 30px;
+  padding-bottom: 26px;
 }
 
 .task_light .fa-bell {
@@ -443,4 +443,8 @@ ul.light_info li.active {
 	width:220px!important;
 	white-space: normal!important;
 	word-break:break-all!important;
+}
+.col-dash-8{width:63%;
+float:left;
+margin-left:10px;
 }
