@@ -391,7 +391,7 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-    @RequestMapping("task/spvApply/process")
+    @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	
         SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
@@ -437,7 +437,7 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("task/spvApprove/process")
+	@RequestMapping("task/SpvApprove/process")
 	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
@@ -480,7 +480,7 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("task/spvSign/process")
+	@RequestMapping("task/SpvSign/process")
 	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
