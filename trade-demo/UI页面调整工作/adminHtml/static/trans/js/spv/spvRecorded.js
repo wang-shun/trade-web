@@ -19,3 +19,4 @@ function getDel(k){
     $("#sum").html(sum);
 }
 
+

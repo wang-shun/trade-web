@@ -13,22 +13,24 @@ var states = {
 
   "首次跟进": {
     description: "2016年8月27日，张晓敏首次跟进，已完成" ,
-    style: "fill: #f6eac4"
+    style: "fill: #f6eac4",
+     shape: "circle"
   },
 
   "无效案件审批": {
     description: "2016年8月29日，张晓敏无效案件审批，已完成" ,
-    style: "fill: #f6eac4"
+    style: "fill: #f6eac4",
+    shape: "ellipse"
   },
 
   "签约": {
     description: "2016年8月28日，张晓敏成功签约" ,
-    style: "fill: #f6eac4"
+    style: "fill: #f6eac4",shape: "diamond"
   },
 
   "贷款需求选择": {
     description: "2016年8月30日，张晓敏填写贷款需求选择" ,
-    style: "fill: #c4ecf6"
+    style: "fill: #c4ecf6",
   },
 
   "填写交易计划": {
@@ -135,7 +137,6 @@ g.setEdge("签约", "填写交易计划", { label: "" });
 g.setEdge("填写交易计划", "查限购", { label: "" });
 g.setEdge("填写交易计划", "核价", { label: "" });
 g.setEdge("核价", "审税", { label: "" });
-
 g.setEdge("填写交易计划", "上家贷款结清", { label: "" });
 g.setEdge("查限购", "过户", { label: "" });
 g.setEdge("审税", "过户", { label: "" });
