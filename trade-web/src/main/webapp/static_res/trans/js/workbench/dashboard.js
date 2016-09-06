@@ -1,5 +1,4 @@
 var isRTL = false;
-var events = [];
 if ($('body').css('direction') === 'rtl') {
 	isRTL = true;
 }
@@ -125,8 +124,8 @@ $(document).ready(function() {
 	
 	// 获取待办事项数据
 	$.ajax({
-		url : ctx + '/transplan/getToTransPlan', //mybatis查询
-		//url : ctx + '/transplan/qqToGetTransPlan', //快速查询		
+		//url : ctx + '/transplan/getToTransPlan', //mybatis查询
+		url : ctx + '/transplan/qqToGetTransPlan', //快速查询		
 		data : "",
 		type : "post",
 		dataType : "json",
@@ -134,10 +133,10 @@ $(document).ready(function() {
 		success : function(data) {
 			console.log("===Result==="+JSON.stringify(data));
 			if (data.toTransPlanOrToPropertyInfoList == null)
-				return;
-			
+				return;			
 				
-			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;
+			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;			
+			var events = []
 			for (var i = 0; i < toTransPlanOrToPropertyInfoList.length; i++) {
 				
 				var calssstyle = "popy";
@@ -156,23 +155,24 @@ $(document).ready(function() {
 					start : estPartTimes,
 					backgroundColor : '#f8ac59',
 					borderColor : "#f8ac59"
-				});
+				});		
 			}
+			console.log("calendar.size="+$('#calendar').size())
+			$('#calendar').fullCalendar({
+				header : {
+					left : 'prev,next,month,basicWeek,today',
+					center : 'title',
+					right : ''
+				},
+				editable : false,
+				events : events
 
+			});	
+			
 		}
 	});
 
-	$('#calendar').fullCalendar({
-		header : {
-			left : 'prev,next,month,basicWeek,today',
-			center : 'title',
-			right : ''
-		},
-		editable : false,
-		events : events
 
-	});	
-	
 	$("#ionrange_4").ionRangeSlider({
 		values : [ "一月", "二月", "三月", "四月", "五月", "六月",
 			"七月", "八月", "九月", "十月", "十一月", "十二月" 

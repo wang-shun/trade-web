@@ -1,5 +1,6 @@
 package com.centaline.trans.transplan.web;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,17 +80,14 @@ public class ToTransPlanContorller {
 		Page<Map<String, Object>> GetTransPlanListResult = quickGridService.findPageForSqlServer(gp);			
 		if(GetTransPlanListResult!=null && GetTransPlanListResult.getContent()!=null && GetTransPlanListResult.getContent().size()>0){	
 			for(int i=0;i<GetTransPlanListResult.getContent().size();i++){
-				ToTransPlanOrToPropertyInfo ti = new ToTransPlanOrToPropertyInfo();	
+				ToTransPlanOrToPropertyInfo ti = new ToTransPlanOrToPropertyInfo();			
 				try {
-					JSONObject jsonArray = new JSONObject(GetTransPlanListResult.getContent().get(i));					
-					for (int k = 0; k < jsonArray.length(); k++) {
-						ti.setCaseCode(jsonArray.getString("caseCode"));
-						ti.setEstPartTime(sim.parse(jsonArray.getString("estParTtime")));						
-						ti.setPartCode(jsonArray.getString("propertyAddr"));
-						ti.setPropertyAddr(jsonArray.getString("partCode"));				
-						toTransPlanList.add(ti);
-					}	
-				} catch (Exception e) {					
+					ti.setCaseCode(GetTransPlanListResult.getContent().get(i).get("caseCode").toString());
+					ti.setEstPartTime(sim.parse(GetTransPlanListResult.getContent().get(i).get("estParTtime").toString()));
+					ti.setPartCode(GetTransPlanListResult.getContent().get(i).get("partCode").toString());
+					ti.setPropertyAddr(GetTransPlanListResult.getContent().get(i).get("propertyAddr").toString());
+					toTransPlanList.add(ti);
+				} catch (Exception e) {				
 					e.printStackTrace();
 				}
 			}		
