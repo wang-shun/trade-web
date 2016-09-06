@@ -66,7 +66,7 @@
 							<div class="col-lg-3" id="cluster_info">
 								<dl class="dl-horizontal">
 									<dt>监管金额</dt>
-									<dd>${spvBaseInfoVO.toSpv.amount}万元</dd>
+									<dd>${spvBaseInfoVO.toSpv.amount>0?spvBaseInfoVO.toSpv.amount:0}万元</dd>
 									<dt>已转入金额</dt>
 									<dd>0万元</dd>
 									<dt>已转出金额</dt>
@@ -83,12 +83,12 @@
 									<dt>风控专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${createPhone }">${spvBaseInfoVO.toSpv.createBy}</a>
+											data-placement="right" data-content="手机：${createPhone}">${spvBaseInfoVO.toSpv.createBy}</a>
 									</dd>
 									<dt>风控总监</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：137 9541 0234">${zj }</a>
+											data-placement="right" data-content="手机：${zj.mobile }">${zj.realName }</a>
 									</dd>
 								</dl>
 							</div>
@@ -288,7 +288,7 @@
 											</li>
 											<li>
 												<p>
-													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn}万元</span>
+													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
 												</p>
 											</li>
 										</ul>
@@ -315,12 +315,12 @@
 										<ul class="real-estate">
 											<li>
 												<p>
-													<em>买方自有资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountOwn}万元</span>
+													<em>买方自有资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
 												</p>
 											</li>
 											<li>
 												<p>
-													<em>买方贷款资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountMort}万元</span>
+													<em>买方贷款资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountMort>0?spvBaseInfoVO.toSpv.amountMort:0}万元</span>
 												</p>
 											</li>
 
@@ -330,12 +330,12 @@
 										<ul class="real-estate">
 											<li>
 												<p>
-													<em>商业贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortCom}万元</span>
+													<em>商业贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortCom>0?spvBaseInfoVO.toSpv.amountMortCom:0}万元</span>
 												</p>
 											</li>
 											<li>
 												<p>
-													<em>公积金贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortPsf}万元</span>
+													<em>公积金贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortPsf>0?spvBaseInfoVO.toSpv.amountMortPsf:0}万元</span>
 												</p>
 											</li>
 										</ul>
@@ -430,7 +430,7 @@
 										<tr>
 											<td>${item.deAddition}</td>
 											<td>${item.payeeAccountId}</td>
-											<td>${item.deAmount}万元</td>
+											<td>${item.deAmount>0?item.deAmount:0}万元</td>
 										</tr>
 										</c:forEach>
 										
