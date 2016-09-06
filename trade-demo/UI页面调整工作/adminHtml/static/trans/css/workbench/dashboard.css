@@ -335,3 +335,60 @@ body {
 .pannel_info {
   border-top: 3px solid #92d1e3;
 }
+
+ul.light_info {
+  padding: 0;
+  list-style: none;
+}
+
+ul.light_info li {
+  float: left;
+  width: 100px;
+  height: 62px;
+  margin: 2px;
+  background: #f4f4f4;
+  line-height: 62px;
+}
+ul.light_info li p.line {
+  margin-top: 10px;
+  float: left;
+  line-height: 22px;
+}
+ul.light_info li p.line span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #155e90;
+}
+
+ul.light_info li.light {
+  line-height: 22px;
+}
+
+ul.light_info li.active {
+  background: #edfcfd;
+}
+
+.icon {
+  float: left;
+  font-size: 40px !important;
+}
+
+.yellow {
+  color: #fead6b;
+}
+
+.pink {
+  color: #f784a5;
+}
+
+.grey {
+  color: #ccc;
+}
+
+.martop20 {
+  margin-top: 20px;
+}
+
+.white {
+  color: white !important;
+}

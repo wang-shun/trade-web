@@ -258,6 +258,13 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		var buyerIdValiDate = $("input[name='spvCustList[0].idValiDate']").val();
+		var sellerIdValiDate = $("input[name='spvCustList[0].idValiDate']").val();
+		if((buyerIdValiDate == null || buyerIdValiDate == '')||(sellerIdValiDate == null || sellerIdValiDate == '')){
+			alert("请选择买/卖方证件有效期！");
+			return false;
+		}
+		
 		var buyerIdCode = $("input[name='spvCustList[0].idCode']").val();
 		var sellerIdCode = $("input[name='spvCustList[1].idCode']").val();
 		if((buyerIdCode == null || buyerIdCode == '')||(sellerIdCode == null || sellerIdCode == '')){
@@ -291,25 +298,26 @@ $(document).ready(function(){
 		}
 		
 		var mortgageeName = $("input[name='toSpvProperty.mortgageeName']").val();
-		if(mortgageeName == null || mortgageeName == ''){
+		var isMortClear = $("input[name='toSpvProperty.isMortClear'][value='0']:checked").val();
+		if(isMortClear && (mortgageeName == null || mortgageeName == '')){
 			alert("请填写抵押方！");
 			return false;
 		}
 		
 		var mortgageeBank = $("input[name='toSpvProperty.mortgageeBank']").val();
-		if(mortgageeBank == null || mortgageeBank == ''){
+		if(isMortClear && (mortgageeBank == null || mortgageeBank == '')){
 			alert("请填写开户行！");
 			return false;
 		}
 		
 		var signNo = $("input[name='toSpvProperty.signNo']").val();
-		if(signNo == null || signNo == ''){
+		if(isMortClear && (signNo == null || signNo == '')){
 			alert("请填写网签合同号！");
 			return false;
 		}
 		
 		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
-		if(signAmount == null || signAmount == ''){
+		if(isMortClear && (signAmount == null || signAmount == '')){
 			alert("请填写网签金额！");
 			return false;
 		}
@@ -327,36 +335,6 @@ $(document).ready(function(){
 			alert("请填写买/卖方电话！");
 			return false;
 		}
-		
-/*		var buyerBank = $("input[name='toSpvAccountList[0].bank']:checked").val();
-		if(buyerBank == null || buyerBank == ''){
-			alert("请勾选买方开户行！");
-			return false;
-		}*/
-        	
-        var amountMort = $("input[name='toSpv.amountMort']").val();
-        var amountMortCom = $("input[name='toSpv.amountMortCom']").val();
-        var amountMortPsf = $("input[name='toSpv.amountMortPsf']").val();
-        if(amountMort != null && amountMort != ''){
-        	amountMort = parseInt(amountMort);
-        }else{
-        	amountMort = 0;
-        }
-        if(amountMortCom != null && amountMortCom != ''){
-        	amountMortCom = parseInt(amountMortCom);
-        }else{
-        	amountMortCom = 0;
-        }
-        if(amountMortPsf != null && amountMortPsf != ''){
-        	amountMortPsf = parseInt(amountMortPsf);
-        }else{
-        	amountMortPsf = 0;
-        }
-        
-        if(amountMort != (amountMortCom+amountMortPsf)){
-        	alert("贷款资金需等于商业贷款与公积金贷款之和！");
-        	return false;
-        }
         
 /*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){

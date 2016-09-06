@@ -66,11 +66,11 @@
 							<div class="col-lg-3" id="cluster_info">
 								<dl class="dl-horizontal">
 									<dt>监管金额</dt>
-									<dd>${spvBaseInfoVO.toSpv.amount}元</dd>
+									<dd>${spvBaseInfoVO.toSpv.amount}万元</dd>
 									<dt>已转入金额</dt>
-									<dd>200元</dd>
+									<dd>0万元</dd>
 									<dt>已转出金额</dt>
-									<dd>200元</dd>
+									<dd>0万元</dd>
 								</dl>
 							</div>
 							<div class="col-lg-3">
@@ -88,7 +88,7 @@
 									<dt>风控总监</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：137 9541 0234">--</a>
+											data-placement="right" data-content="手机：137 9541 0234">${zj }</a>
 									</dd>
 								</dl>
 							</div>
@@ -227,7 +227,7 @@
 														<dt>身份证</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].idCode }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM"/></dd>
+														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
 													</dl>
 												</div>
 											</div>
@@ -244,7 +244,7 @@
 														<dt>身份证</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].idCode }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM"/></dd>
+														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
 													</dl>
 												</div>
 											</div>
@@ -288,7 +288,7 @@
 											</li>
 											<li>
 												<p>
-													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn }元</span>
+													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn}万元</span>
 												</p>
 											</li>
 										</ul>
@@ -300,11 +300,11 @@
 													<em>下家付款方式</em> <span>全款</span>
 												</p>
 											</li>
-											<li>
+										<!-- 	<li>
 												<p>
-													<em>金额大写</em> <span title="">伍佰伍拾万元整</span>
+													<em>金额大写</em> <span title="">{}</span>
 												</p>
-											</li>
+											</li> -->
 										</ul>
 									</div>
 								</div>
@@ -315,12 +315,12 @@
 										<ul class="real-estate">
 											<li>
 												<p>
-													<em>买方自有资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountOwn }元</span>
+													<em>买方自有资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountOwn}万元</span>
 												</p>
 											</li>
 											<li>
 												<p>
-													<em>买方贷款资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountMort }元</span>
+													<em>买方贷款资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountMort}万元</span>
 												</p>
 											</li>
 
@@ -330,12 +330,12 @@
 										<ul class="real-estate">
 											<li>
 												<p>
-													<em>商业贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortCom }元</span>
+													<em>商业贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortCom}万元</span>
 												</p>
 											</li>
 											<li>
 												<p>
-													<em>公积金贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortPsf }元</span>
+													<em>公积金贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortPsf}万元</span>
 												</p>
 											</li>
 										</ul>
@@ -430,7 +430,7 @@
 										<tr>
 											<td>${item.deAddition}</td>
 											<td>${item.payeeAccountId}</td>
-											<td>${item.deAmount}元</td>
+											<td>${item.deAmount}万元</td>
 										</tr>
 										</c:forEach>
 										

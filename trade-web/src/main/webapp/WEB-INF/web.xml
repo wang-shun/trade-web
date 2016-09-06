@@ -15,7 +15,7 @@
 		<param-value>
 			classpath:spring/applicationContext.xml,
             classpath*:com/aist/common/**/META-INF/beans.xml,
-            <!-- classpath*:com/aist/uam/**/META-INF/ice-beans.xml, -->
+            classpath*:com/aist/uam/**/META-INF/httpInvoke-beans.xml,
 			classpath*:com/aist/uam/**/META-INF/beans.xml,
             classpath*:com/aist/uam/auth/META-INF/shiro-beans.xml,
             classpath*:com/centaline/trans/**/META-INF/core-beans.xml,

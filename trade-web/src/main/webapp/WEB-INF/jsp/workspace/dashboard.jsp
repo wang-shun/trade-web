@@ -186,7 +186,7 @@ text-decoration: underline !important;
                 </div>
 <div class="wrapper wrapper-content">
 	<div class="row">
-                        <div class="col-md-9 " id="div_target">
+                        <div class="col-dash-8 " id="div_target">
                             <div class="ibox float-e-margins no-records">
                                 <div class="ibox-title">
                                     <h5>案件分布统计</h5>
