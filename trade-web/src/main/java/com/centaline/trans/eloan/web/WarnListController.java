@@ -102,6 +102,28 @@ public class WarnListController {
 	public String submit() {
 		return "/eloan/task/taskEloanList";
 	}
+	
+	//押卡
+	@RequestMapping("guarantycards")
+	public String guarantycards(Long pkid, Model model) {
+		getDetailByPkId(pkid, model);
+		return "/eloan/guarantycards";
+	}
+	
+	//抵押
+	@RequestMapping("guarantymortgage")
+	public String guarantymortgage(Long pkid, Model model) {
+		getDetailByPkId(pkid, model);
+		return "/eloan/guarantymortgage";
+	}
+	
+	//强制公正
+	@RequestMapping("guarantyfair")
+	public String guarantyfair(Long pkid, Model model) {
+		getDetailByPkId(pkid, model);
+		return "/eloan/guarantyfair";
+	}
+	
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
 			String taskitem, String processInstanceId){
@@ -191,6 +213,65 @@ public class WarnListController {
 		}
 
 		return "/eloan/task/taskEloanDetail";
+	}
+	
+	private Model getDetailByPkId(Long pkid, Model model) {
+		if (pkid != null) {
+			ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
+			ToCase toCase= toCaseService.findToCaseByCaseCode(eloanCase.getCaseCode());
+			//人物信息
+			User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+			User excutor =uamUserOrgService.getUserById(eloanCase.getExcutorId());
+			Map<String,Object> object = new HashMap<String,Object>();
+			if(excutor!=null){
+			object.put("excutorName", excutor.getRealName());
+			object.put("excutorPhone", excutor.getMobile());
+			}
+			object.put("jingbanName", jingban.getRealName());
+			object.put("jingbanPhone",jingban.getMobile());
+			// 物业信息
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+			object.put("propertyAddr", toPropertyInfo.getPropertyAddr());
+			//放款信息
+			BigDecimal releaseAmount=new BigDecimal(0);
+			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+			for (ToEloanRel toEloanRel : eloanRels) {
+				if(toEloanRel.getConfirmStatus().equals("1")){
+					releaseAmount=releaseAmount.add(toEloanRel.getReleaseAmount());
+				
+				}
+			}
+			object.put("releaseAmount",releaseAmount);
+			//状态
+			String status="";
+			if(eloanCase.getApplyTime()!=null){
+				status="apply";
+			}
+			if(eloanCase.getApplyConfTime()!=null){
+				status="confirmApply";
+			}
+			if(eloanCase.getSignTime()!=null){
+				status="sign";
+			}
+		    if(eloanCase.getSignConfTime()!=null){
+				status="confirmSign";
+			}
+			if(eloanRels.size()>0){
+				status="release";
+			}
+			object.put("status",status);
+			//申请时间
+			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+			String applyTime=dateFormat.format(eloanCase.getApplyTime());
+			object.put("applyTime",applyTime );
+			//合作机构查询
+			String finOrgName=finorgService.findBankByFinOrg(eloanCase.getFinOrgCode()).getFinOrgName();
+			object.put("finOrgName",finOrgName );
+			model.addAttribute("info", object);
+			model.addAttribute("eloanRelList", eloanRels);
+			model.addAttribute("eloanCase", eloanCase);
+		}
+		return model;
 	}
 	
 	@RequestMapping(value="saveEloanApply")
