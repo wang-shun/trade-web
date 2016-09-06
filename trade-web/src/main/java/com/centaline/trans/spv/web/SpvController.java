@@ -111,11 +111,11 @@ public class SpvController {
 		//人物信息
 		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		//风控总监
-		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
+		/*List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");*/
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
-		request.setAttribute("zj", zj.get(0).getRealName());
+	/*	request.setAttribute("zj", zj.get(0).getRealName());*/
 		return "spv/SpvDetail";
 	}
 	
