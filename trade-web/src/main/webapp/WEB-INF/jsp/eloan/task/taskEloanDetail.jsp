@@ -237,6 +237,49 @@
                         </div>
 
                     </div>
+                    
+                    <div class="ibox-content">
+			<div class="row" style="margin-top:12px">
+					<div class="col-lg-12">
+						<div class="m-b-md">
+							<h4>放款记录</h4>
+						</div>
+
+					</div>
+					<div class="main_titile">
+						<div class="case_content">
+							<c:forEach items="${eloanRelList}" var="item">
+								<div class="case_row">
+									<div class="case_lump">
+										<p>
+											<em>放款金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span>
+										</p>
+									</div>
+									<div class="case_lump">
+										<p>
+											<em>放款时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate
+													value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span>
+										</p>
+									</div>
+									<div class="case_lump">
+										<p>
+											<em>放款状态</em><span class="" id="content_caseCode"> <c:if
+													test="${item.confirmStatus==1}">
+																		审批通过
+																	</c:if> <c:if test="${item.confirmStatus==2}">
+																		审批拒绝
+																	</c:if> <c:if test="${item.confirmStatus==0}">
+																		待确认
+																	</c:if>
+											</span>
+										</p>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
 
                     <div class="ibox-content" id="reportTwo">
 
