@@ -308,9 +308,7 @@
 }
 
 .guaranty_btn {
-  position: absolute;
-  right: 0;
-  top: 0;
+  margin: 5px -10px 20px;
 }
 
 .modal-size {

@@ -988,7 +988,7 @@
 					   		AND belong_org_id IN (#orgs#)					 	
 					   	</if>  
 					   	<if test="RankDuration!=null">
-					   		AND belong_org_id = (#RankDuration#)					 	
+					   		AND RANK_DURATION  in (#RankDuration#)					 	
 					   	</if> 		
 				  		order by RANK_NO asc
 				]]>

@@ -99,7 +99,7 @@
 					<h5 class="main_titile"
 						style="position: absolute; top: 0; left: 25px; font-size: 14px;">案件分布统计</h5>
 						
-					<div class="col-md-8">
+					<div class="col-dash-8">
 						<div id="mainwe" style="width: 100%; height: 250px;"></div>
 					</div>
 					
@@ -120,49 +120,49 @@
 							</p>
 						</div>
 					</div> --%>
-					<div class="col-md-4">
+					<div class="col-md-4 pull-right">
                     	<ul class="light_info">
-                                        <li >
-                                            <i class="icon iconfont icon40 yellow">&#xe632;</i>
-                                            <p>黄灯任务<br/><span id="yeLightCount"></span></p>
-                                        </li>
-                                        <li >
-                                            <i class="icon iconfont icon40 pink">&#xe631;</i>
-                                            <p>红灯任务<br/><span id="redLightCount"></span></p>
-                                        </li>
-                                        <li >
-                                            <i class="icon iconfont icon40 grey">&#xe630;</i>
-                                            <p>贷款流失<br/><span id="bizwarnCaseCount"></span></p>
-                                        </li>
-                                        <li>
-                                            <i class="icon iconfont icon40 grey">&#xe633;</i>
-                                            <p>计划变更<br/><span id="planeChange"></span></p>
-                                        </li>
-                                        <li>
-                                            <i class="icon iconfont icon40 grey">&#xe639;</i>
-                                            <p>e+转化<br/><span id="eloanChange"></span></p>
-                                        </li>
-                                        <li>
-                                            <i class="icon iconfont icon40 grey">&#xe634;</i>
-                                            <p>监管渗透<br/><span id="jgCtou"></span></p>
-                                        </li>
-                                         <li>
-                                            <i class="icon iconfont icon40 grey">&#xe636;</i>
-                                            <p>无主案件<br><span id="unLocatedCaseCount"></span></p>
-                                        </li>
-                                        <li>
-                                            <i class="icon iconfont icon40 grey">&#xe637;</i>
-                                            <p>无主任务<br><span id="unLocatedTaskCount"></span></p>
-                                        </li>
-                                        <li>
-                                            <i class="icon iconfont icon40 grey">&#xe638;</i>
-                                            <p>无主资源<br><span id="caseDistributeCount"></span></p>
-                                        </li>
+                                        <li><i class="icon iconfont icon40 yellow">&#xe632;</i>
+								<p>
+									黄灯任务<br /> <span id="yeLightCount"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe631;</i>
+								<p>
+									红灯任务<br /> <span id="redLightCount"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 green">&#xe630;</i>
+								<p>
+									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 grey">&#xe633;</i>
+								<p>
+									计划变更<br /> <span id="planeChange"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 grey">&#xe639;</i>
+								<p>
+									e+转化<br /> <span id="eloanChange"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 grey">&#xe634;</i>
+								<p>
+									监管渗透<br /> <span id="jgCtou"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe636;</i>
+								<p>
+									无主案件<br> <span id="unLocatedCaseCount"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
+								<p>
+									无主任务<br> <span id="unLocatedTaskCount"></span>
+								</p></li>
+							<li><i class="icon iconfont icon40 green">&#xe638;</i>
+								<p>
+									无主资源<br> <span id="caseDistributeCount"></span>
+								</p></li>
                                     </ul>
                     </div>
 					
 				</div>
-				<div class="row space_line">
+				<div class="row space_line" style="padding-top: 30px">
 					<div class="col-md-8">
 						<div id="ionrange_4" class="ionr"></div>
 					</div>
@@ -597,19 +597,17 @@
 														E+金融申请榜
 														<c:if test="${not empty rank.loanAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong
-																class="text-danger">
-																	你的排名：${rank.loanAmountRank} </strong>
+																class="text-danger" id="loanAmountRank"></strong>
 															</span>
 														</c:if>
 														
 													</div>
 													<div class="panel-body">
-														<div class="feed-activity-list">
-															<c:forEach items="${rank.loanAmountRankList}" var="item">
+														<div class="feed-activity-list"  id="loanAmountRankList">
+<%-- 															<c:forEach items="${rank.loanAmountRankList}" var="item">
 																<div class="feed-element">
-																	<a href="#" class="pull-left"> <span class="shead">
-																			<img class="himg" style="height: 38px; width: 38px;"
-																			src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
+																	<a href="#" class="pull-left"> 
+																	<span class="shead"><img class="himg" style="height: 38px; width: 38px;" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
 																			onload="javascript:imgLoad(this);">
 																	</span> <span class="badge ${ item.rankNo == 1 ? "
 																		badge-danger" : item.rankNo== 2 ? "badge-orange" :
@@ -625,7 +623,7 @@
 																			class="text-muted">${item.belongOrgName }</small>
 																	</div>
 																</div>
-															</c:forEach>
+															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -636,15 +634,14 @@
 														E+金融签约榜
 														<c:if test="${not empty rank.signAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong
-																class="text-danger">
-																	你的排名：${rank.signAmountRank} </strong>
+																class="text-danger" id="signAmountRank"></strong>
 															</span>
 														</c:if>
 														
 													</div>
 													<div class="panel-body">
-														<div class="feed-activity-list">
-															<c:forEach items="${rank.signAmountRankList}" var="item">
+														<div class="feed-activity-list" id="signAmountRankList">
+															<%-- <c:forEach items="${rank.signAmountRankList}" var="item">
 																<div class="feed-element">
 																	<a class="pull-left"> <span
 																		class="shead img-circle"> <img class="himg"
@@ -665,7 +662,7 @@
 																			class="text-muted">${item.belongOrgName }</small>
 																	</div>
 																</div>
-															</c:forEach>
+															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -678,14 +675,14 @@
 														E+金融放款榜
 														<c:if test="${ not empty rank.actualAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong
-																class="text-danger">你的排名：${rank.actualAmountRank}</strong>
+																class="text-danger" id="actualAmountRank"></strong>
 															</span>
 														</c:if>
 														
 													</div>
 													<div class="panel-body">
-														<div class="feed-activity-list">
-															<c:forEach items="${rank.actualAmountRankList}"
+														<div class="feed-activity-list" id="actualAmountRankList">
+<%-- 															<c:forEach items="${rank.actualAmountRankList}"
 																var="item">
 																<div class="feed-element">
 																	<a href="#" class="pull-left"> <span
@@ -707,7 +704,7 @@
 																			class="text-muted">${item.belongOrgName }</small>
 																	</div>
 																</div>
-															</c:forEach>
+															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -768,7 +765,7 @@
 				//查询警示案件数
 				queryBizwarnCaseCount();
 				//查询警示案件数
-				//queryGetRankBank();
+				queryGetRankBank();
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
 		</script> </content>

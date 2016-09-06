@@ -212,7 +212,7 @@ public class WorkSpaceController {
 			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			return "workbench/dashboard_generalManager";
 		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
@@ -233,12 +233,12 @@ public class WorkSpaceController {
 			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			return "workbench/dashboard_director";
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) {// 交易主管
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			/*高级交易主管添加待办事项*/
 /*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
@@ -293,10 +293,10 @@ public class WorkSpaceController {
 			model.addAttribute("isJygw", isJygw);
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			/*待办事项*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			if (isBackTeam) { //后台交易顾问
 				/*工作数据显示*/
@@ -555,7 +555,9 @@ public class WorkSpaceController {
 		
 		return "mobile/workspace/mainPage";
 	}
-
+	
+	
+	//龙虎榜快速查询
 	@RequestMapping(value = "qqGetRank")
 	@ResponseBody	
 	public Map doGetRankByQuickQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {	
@@ -563,7 +565,7 @@ public class WorkSpaceController {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);		
 
-		Map map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		WorkSpace work = new WorkSpace();
 		work.setUserId(user.getId());
 		String jobCode = user.getServiceJobCode();
@@ -590,31 +592,34 @@ public class WorkSpaceController {
 			}
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -648,31 +653,34 @@ public class WorkSpaceController {
 		
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -729,31 +737,34 @@ public class WorkSpaceController {
 			}
 			
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -791,32 +802,43 @@ public class WorkSpaceController {
 			work.setOrgs(null);
 			work.setOrgId(user.getServiceDepId());
 			
+			if(work!=null){
+				gp.put("user_Id", work.getUserId());
+				gp.put("org_Id", work.getOrgId());			
+				gp.put("orgs", work.getOrgs());				
+				gp.put("rankType", work.getRankType());				
+				gp.put("RankDuration", work.getRankDuration());
+				gp.setQueryId("personalWorkGetRankListQuery");
+			}
 			gp.put("rankCat", "loan_amount");	
-			List  loanAmountList=new ArrayList();
+			List  loanAmountList=null;
 			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
 				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
 					loanAmountList.add(loanAmountListResult.getContent());
 				}		
 			}
 			map.put("loanAmountRankList", loanAmountList);
 			
-			List  signAmountList=new ArrayList();
+			List  signAmountList=null;
 			gp.put("rankCat", "sign_amount");	
 			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
 				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
 					signAmountList.add(signAmountListResult.getContent());
 				}		
 			}
 			map.put("signAmountRankList", signAmountList);
 			
 			
-			List  actualAmountList=new ArrayList();
+			List  actualAmountList=null;
 			gp.put("rankCat", "actual_amount");		
 			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
 			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
 				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
 					actualAmountList.add(actualAmountListResult.getContent());
 				}		
 			}
@@ -1310,7 +1332,7 @@ public class WorkSpaceController {
 		}
 		
 		//贷款申请
-		String loanApplyCount=receiveOrder(gp);
+		String loanApplyCount=loanApplyCount(gp);
 		if(!"".equals(loanApplyCount) && loanApplyCount!=null){
 			workSpaceMap.put("loanApplyCount", loanApplyCount);
 		}else{
@@ -1318,9 +1340,9 @@ public class WorkSpaceController {
 		}
 		
 		//结案
-		String closeCount=receiveOrder(gp);
+		String closeCount=closeCount(gp);
 		if(!"".equals(closeCount) && closeCount!=null){
-			workSpaceMap.put("closeCount", signCount);
+			workSpaceMap.put("closeCount", closeCount);
 		}else{
 			workSpaceMap.put("closeCount", "0");
 		}
@@ -1463,8 +1485,7 @@ public class WorkSpaceController {
 	private String closeCount(JQGridParam gp) {
 		String closeCount =null;
 		gp.setQueryId("personalWorkbenchCloseCountQuery");
-		Page<Map<String, Object>> closeCountResult = quickGridService.findPageForSqlServer(gp);
-		System.out.println("closeCountResult==="+closeCountResult.toString());
+		Page<Map<String, Object>> closeCountResult = quickGridService.findPageForSqlServer(gp);		
 		if(closeCountResult!=null && closeCountResult.getContent()!=null && closeCountResult.getContent().size()>0){
 			if(closeCountResult.getContent().get(0).get("closeCount")!=null){
 				closeCount= closeCountResult.getContent().get(0).get("closeCount").toString();

@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="../static/trans/css/spv/see.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
 
+    <link rel="stylesheet" href="../static/trans/js/response/css/jkresponsivegallery.css
+" />
+
 
 </head>
 
@@ -429,16 +432,17 @@
                             <div class="line">
                                 <p>
                                     <label>
-                                        收款人名称
-                                    </label>
-                                    <span class="info_one">中原地产监管账户</span>
-                                </p>
-                                <p>
-                                    <label>
                                        产品类型
                                     </label>
                                     <span class="info_one">光大四方资金监管</span>
                                 </p>
+                                <p>
+                                    <label>
+                                        监管金额
+                                    </label>
+                                    <span class="info_one">300万元人民币</span>
+                                </p>
+
                                 <p>
                                     <label>
                                         物业地址
@@ -450,16 +454,18 @@
                             <div class="line">
                                 <p>
                                     <label>
-                                        收款人账户
+                                        收款人名称
                                     </label>
                                     <span class="info_one">中原地产监管账户</span>
                                 </p>
+
                                 <p>
                                     <label>
-                                        监管金额
+                                        收款人账户
                                     </label>
-                                    <span class="info_one">300万元人民币</span>
+                                    <span class="info_one">62248757878587</span>
                                 </p>
+
                                 <p>
                                     <label>
                                         收款人开户行
@@ -504,8 +510,8 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-x">凭证1<i class="icon iconfont icon_x">&#xe60a;</i></button>
-                                                <button class="btn btn-sm btn-x">凭证2<i class="icon iconfont icon_x">&#xe60a;</i></button>
+                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证1"><button type="button" class="btn btn-sm btn-default" >凭证1<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证2"><button type="button" class="btn btn-sm btn-default" >凭证2<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
                                                 <span class="btn_file">
                                                     <input type="file" class="file" />
                                                     <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
@@ -516,30 +522,30 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input class="table-input-one" type="text" value="请输入姓名" />
+                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" />
                                             </td>
                                             <td>
-                                                <p><input class="table_input" type="text" value="请输入银行卡号" /></p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
                                                 <p>
-                                                <p><input class="table_input" type="text" value="请输入银行名称" /></p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
                                                 <p>
                                             </td>
 
                                             <td class="text-left" >
-                                                <input style="border:none;width: 50px;" type="text" value="金额" />万元
+                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" />万元
                                             </td>
                                             <td>
-                                                <input class="table_input" type="text" value="请输入编号" />
+                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" />
                                             </td>
                                             <td>
-                                                <select name="" class="table-select">
+                                                <select name="" class="table-select boderbbt">
                                                     <option value="">请选择</option>
                                                     <option value="">转账凭证</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-x">凭证1<i class="icon iconfont icon_x">&#xe60a;</i></button>
-                                                <button class="btn btn-sm btn-x">凭证2<i class="icon iconfont icon_x">&#xe60a;</i></button>
+                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
                                                 <span class="btn_file">
                                                     <input type="file" class="file" />
                                                     <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
@@ -584,9 +590,20 @@
     <!-- stickup plugin -->
     <script src="../static/trans/js/spv/spvRecorded.js"></script>
 
+    <script src="../static/trans/js/response/js/jkresponsivegallery.js"></script>
+
+<script>
+
+$(function() {
+    $(".icon_x").click(function() {
+        $(this).parent().parent().remove();
+        return false;
+    });
 
 
-
+});
+$('.response').responsivegallery();
+</script>
 
 </body>
 
