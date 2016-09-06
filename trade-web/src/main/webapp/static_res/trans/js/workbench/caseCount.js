@@ -261,7 +261,8 @@ function queryConutCaseByDate(){
 			type: "post",
 			dataType: "json",
 			async : false,
-			success: function(data) {				
+			success: function(data) {
+				console.log("===Result==="+JSON.stringify(data));
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);

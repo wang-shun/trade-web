@@ -130,8 +130,7 @@ $(document).ready(function() {
 		type : "post",
 		dataType : "json",
 		async : true,
-		success : function(data) {
-			console.log("===Result==="+JSON.stringify(data));
+		success : function(data) {			
 			if (data.toTransPlanOrToPropertyInfoList == null)
 				return;			
 				

@@ -1332,7 +1332,7 @@ public class WorkSpaceController {
 		}
 		
 		//贷款申请
-		String loanApplyCount=receiveOrder(gp);
+		String loanApplyCount=loanApplyCount(gp);
 		if(!"".equals(loanApplyCount) && loanApplyCount!=null){
 			workSpaceMap.put("loanApplyCount", loanApplyCount);
 		}else{
@@ -1340,9 +1340,9 @@ public class WorkSpaceController {
 		}
 		
 		//结案
-		String closeCount=receiveOrder(gp);
+		String closeCount=closeCount(gp);
 		if(!"".equals(closeCount) && closeCount!=null){
-			workSpaceMap.put("closeCount", signCount);
+			workSpaceMap.put("closeCount", closeCount);
 		}else{
 			workSpaceMap.put("closeCount", "0");
 		}
@@ -1485,8 +1485,7 @@ public class WorkSpaceController {
 	private String closeCount(JQGridParam gp) {
 		String closeCount =null;
 		gp.setQueryId("personalWorkbenchCloseCountQuery");
-		Page<Map<String, Object>> closeCountResult = quickGridService.findPageForSqlServer(gp);
-		System.out.println("closeCountResult==="+closeCountResult.toString());
+		Page<Map<String, Object>> closeCountResult = quickGridService.findPageForSqlServer(gp);		
 		if(closeCountResult!=null && closeCountResult.getContent()!=null && closeCountResult.getContent().size()>0){
 			if(closeCountResult.getContent().get(0).get("closeCount")!=null){
 				closeCount= closeCountResult.getContent().get(0).get("closeCount").toString();
