@@ -2,7 +2,7 @@ package com.centaline.trans.eloan.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eloan.entity.ToRcAttachment;
-@MyBatisRepository
+
 public interface ToRcAttachmentMapper {
     int deleteByPrimaryKey(Long pkid);
 

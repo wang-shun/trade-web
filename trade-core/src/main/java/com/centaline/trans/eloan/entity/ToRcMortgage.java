@@ -11,7 +11,13 @@ public class ToRcMortgage {
 
     private Date mortgageTime;
 
-    private String mortgageAttachment;
+    private String mortgagePropertyAddress;
+
+    private String propertyName;
+
+    private String propertyCode;
+
+    private String otherCode;
 
     private String createBy;
 
@@ -53,12 +59,36 @@ public class ToRcMortgage {
         this.mortgageTime = mortgageTime;
     }
 
-    public String getMortgageAttachment() {
-        return mortgageAttachment;
+    public String getMortgagePropertyAddress() {
+        return mortgagePropertyAddress;
     }
 
-    public void setMortgageAttachment(String mortgageAttachment) {
-        this.mortgageAttachment = mortgageAttachment == null ? null : mortgageAttachment.trim();
+    public void setMortgagePropertyAddress(String mortgagePropertyAddress) {
+        this.mortgagePropertyAddress = mortgagePropertyAddress == null ? null : mortgagePropertyAddress.trim();
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName == null ? null : propertyName.trim();
+    }
+
+    public String getPropertyCode() {
+        return propertyCode;
+    }
+
+    public void setPropertyCode(String propertyCode) {
+        this.propertyCode = propertyCode == null ? null : propertyCode.trim();
+    }
+
+    public String getOtherCode() {
+        return otherCode;
+    }
+
+    public void setOtherCode(String otherCode) {
+        this.otherCode = otherCode == null ? null : otherCode.trim();
     }
 
     public String getCreateBy() {

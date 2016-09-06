@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eloan.repository.ToRcMortgageInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="RISK_CONTROL_ID" property="riskControlId" jdbcType="BIGINT" />
+    <result column="MORTGAGE_CATEGORY" property="mortgageCategory" jdbcType="VARCHAR" />
+    <result column="MORTGAGE_CODE" property="mortgageCode" jdbcType="VARCHAR" />
+    <result column="MORTGAGE_NAME" property="mortgageName" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, MORTGAGE_CODE, MORTGAGE_NAME, CREATE_BY, 
+    CREATE_TIME, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_RC_MORTGAGE_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_RC_MORTGAGE_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
+    insert into sctrans.T_TO_RC_MORTGAGE_INFO (PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, 
+      MORTGAGE_CODE, MORTGAGE_NAME, CREATE_BY, 
+      CREATE_TIME, UPDATE_TIME, UPDATE_BY
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{riskControlId,jdbcType=BIGINT}, #{mortgageCategory,jdbcType=VARCHAR}, 
+      #{mortgageCode,jdbcType=VARCHAR}, #{mortgageName,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
+    insert into sctrans.T_TO_RC_MORTGAGE_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="riskControlId != null" >
+        RISK_CONTROL_ID,
+      </if>
+      <if test="mortgageCategory != null" >
+        MORTGAGE_CATEGORY,
+      </if>
+      <if test="mortgageCode != null" >
+        MORTGAGE_CODE,
+      </if>
+      <if test="mortgageName != null" >
+        MORTGAGE_NAME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="riskControlId != null" >
+        #{riskControlId,jdbcType=BIGINT},
+      </if>
+      <if test="mortgageCategory != null" >
+        #{mortgageCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageCode != null" >
+        #{mortgageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageName != null" >
+        #{mortgageName,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
+    update sctrans.T_TO_RC_MORTGAGE_INFO
+    <set >
+      <if test="riskControlId != null" >
+        RISK_CONTROL_ID = #{riskControlId,jdbcType=BIGINT},
+      </if>
+      <if test="mortgageCategory != null" >
+        MORTGAGE_CATEGORY = #{mortgageCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageCode != null" >
+        MORTGAGE_CODE = #{mortgageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageName != null" >
+        MORTGAGE_NAME = #{mortgageName,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
+    update sctrans.T_TO_RC_MORTGAGE_INFO
+    set RISK_CONTROL_ID = #{riskControlId,jdbcType=BIGINT},
+      MORTGAGE_CATEGORY = #{mortgageCategory,jdbcType=VARCHAR},
+      MORTGAGE_CODE = #{mortgageCode,jdbcType=VARCHAR},
+      MORTGAGE_NAME = #{mortgageName,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

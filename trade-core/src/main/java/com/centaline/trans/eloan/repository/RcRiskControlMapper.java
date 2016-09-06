@@ -2,7 +2,7 @@ package com.centaline.trans.eloan.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eloan.entity.RcRiskControl;
-@MyBatisRepository
+
 public interface RcRiskControlMapper {
     int deleteByPrimaryKey(Long pkid);
 

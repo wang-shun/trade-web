@@ -6,15 +6,18 @@
     <result column="RC_ID" property="rcId" jdbcType="BIGINT" />
     <result column="MORTGAGE_CONTRACT_CODE" property="mortgageContractCode" jdbcType="VARCHAR" />
     <result column="MORTGAGE_TIME" property="mortgageTime" jdbcType="TIMESTAMP" />
-    <result column="MORTGAGE_ATTACHMENT" property="mortgageAttachment" jdbcType="VARCHAR" />
+    <result column="MORTGAGE_PROPERTY_ADDRESS" property="mortgagePropertyAddress" jdbcType="VARCHAR" />
+    <result column="PROPERTY_NAME" property="propertyName" jdbcType="NVARCHAR" />
+    <result column="PROPERTY_CODE" property="propertyCode" jdbcType="VARCHAR" />
+    <result column="OTHER_CODE" property="otherCode" jdbcType="VARCHAR" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, RC_ID, MORTGAGE_CONTRACT_CODE, MORTGAGE_TIME, MORTGAGE_ATTACHMENT, CREATE_BY, 
-    CREATE_TIME, UPDATE_TIME, UPDATE_BY
+    PKID, RC_ID, MORTGAGE_CONTRACT_CODE, MORTGAGE_TIME, MORTGAGE_PROPERTY_ADDRESS, PROPERTY_NAME, 
+    PROPERTY_CODE, OTHER_CODE, CREATE_BY, CREATE_TIME, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -28,13 +31,15 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToRcMortgage" >
     insert into sctrans.T_TO_RC_MORTGAGE (PKID, RC_ID, MORTGAGE_CONTRACT_CODE, 
-      MORTGAGE_TIME, MORTGAGE_ATTACHMENT, CREATE_BY, 
-      CREATE_TIME, UPDATE_TIME, UPDATE_BY
-      )
+      MORTGAGE_TIME, MORTGAGE_PROPERTY_ADDRESS, 
+      PROPERTY_NAME, PROPERTY_CODE, OTHER_CODE, 
+      CREATE_BY, CREATE_TIME, UPDATE_TIME, 
+      UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{mortgageContractCode,jdbcType=VARCHAR}, 
-      #{mortgageTime,jdbcType=TIMESTAMP}, #{mortgageAttachment,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
-      )
+      #{mortgageTime,jdbcType=TIMESTAMP}, #{mortgagePropertyAddress,jdbcType=VARCHAR}, 
+      #{propertyName,jdbcType=NVARCHAR}, #{propertyCode,jdbcType=VARCHAR}, #{otherCode,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgage" >
     insert into sctrans.T_TO_RC_MORTGAGE
@@ -51,8 +56,17 @@
       <if test="mortgageTime != null" >
         MORTGAGE_TIME,
       </if>
-      <if test="mortgageAttachment != null" >
-        MORTGAGE_ATTACHMENT,
+      <if test="mortgagePropertyAddress != null" >
+        MORTGAGE_PROPERTY_ADDRESS,
+      </if>
+      <if test="propertyName != null" >
+        PROPERTY_NAME,
+      </if>
+      <if test="propertyCode != null" >
+        PROPERTY_CODE,
+      </if>
+      <if test="otherCode != null" >
+        OTHER_CODE,
       </if>
       <if test="createBy != null" >
         CREATE_BY,
@@ -80,8 +94,17 @@
       <if test="mortgageTime != null" >
         #{mortgageTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="mortgageAttachment != null" >
-        #{mortgageAttachment,jdbcType=VARCHAR},
+      <if test="mortgagePropertyAddress != null" >
+        #{mortgagePropertyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyName != null" >
+        #{propertyName,jdbcType=NVARCHAR},
+      </if>
+      <if test="propertyCode != null" >
+        #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCode != null" >
+        #{otherCode,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=VARCHAR},
@@ -109,8 +132,17 @@
       <if test="mortgageTime != null" >
         MORTGAGE_TIME = #{mortgageTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="mortgageAttachment != null" >
-        MORTGAGE_ATTACHMENT = #{mortgageAttachment,jdbcType=VARCHAR},
+      <if test="mortgagePropertyAddress != null" >
+        MORTGAGE_PROPERTY_ADDRESS = #{mortgagePropertyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyName != null" >
+        PROPERTY_NAME = #{propertyName,jdbcType=NVARCHAR},
+      </if>
+      <if test="propertyCode != null" >
+        PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCode != null" >
+        OTHER_CODE = #{otherCode,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null" >
         CREATE_BY = #{createBy,jdbcType=VARCHAR},
@@ -132,7 +164,10 @@
     set RC_ID = #{rcId,jdbcType=BIGINT},
       MORTGAGE_CONTRACT_CODE = #{mortgageContractCode,jdbcType=VARCHAR},
       MORTGAGE_TIME = #{mortgageTime,jdbcType=TIMESTAMP},
-      MORTGAGE_ATTACHMENT = #{mortgageAttachment,jdbcType=VARCHAR},
+      MORTGAGE_PROPERTY_ADDRESS = #{mortgagePropertyAddress,jdbcType=VARCHAR},
+      PROPERTY_NAME = #{propertyName,jdbcType=NVARCHAR},
+      PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      OTHER_CODE = #{otherCode,jdbcType=VARCHAR},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
