@@ -10,8 +10,263 @@ var g = new dagreD3.graphlib.Graph().setGraph({});
 
 // States and transitions from RFC 793
 var states = {
+  //picture-1
+  "开始": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+     shape: "circle"
+  },
 
-  "首次跟进": {
+  "商业贷款办理": {
+    description: "2016年，张晓辉商业贷款申请中" ,
+    style: "fill: #ffeeee",
+  },
+
+  "结束": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+
+  //picture-2
+  "开始2": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束2": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "E+贷款申请": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "E+申请确认": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #d9f8fd",
+  },
+
+  "X1": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+    shape: "diamond"
+  },
+
+  "X2": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+    shape: "diamond"
+  },
+
+  "X3": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+    shape: "diamond"
+  },
+
+  "E+贷款签约": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "E+签约确认": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+
+  "E+贷款放款": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "E+放款确认": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+
+//picture-3
+  "开始3": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束3": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "贷款流失申请": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "贷款流失审批-主管": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
+  "X4": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+    shape: "diamond"
+  },
+
+  "贷款流失审批-总监": {
+    description: "" ,
+    style: "fill: #ffeeee",
+    shape: "diamond"
+  },
+
+  "X5": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+    shape: "diamond"
+  },
+
+  "自办贷款审批": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+
+  //picture-4
+  "开始4": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束4": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "纯公积金贷款申请": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "纯公积金贷款签约": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
+  "纯公积金贷款审批": {
+    description: "" ,
+    style: "fill: #ffeeee",
+    shape: "diamond"
+  },
+
+  //picture-5
+  "开始5": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束5": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "服务变更申请": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "服务变更审批": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
+  //picture-6
+  "开始6": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束6": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "X6": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "服务重启申请": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "服务重启审批": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
+   //picture-7
+  "开始7": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束7": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "X7": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "X77": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "主管审批1": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "高级主管审批": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+   "总监审批": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
+
+//picture-8
+  "开始8": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束8": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "资金监管申请": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+  "资金监管审批": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+  "X8": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+
+  "资金监管签约": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+   "信封": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
+
+
+
+
+
+
+
+
+
+  /*"首次跟进": {
     description: "2016年8月27日，张晓敏首次跟进，已完成" ,
     style: "fill: #f6eac4",
      shape: "circle"
@@ -25,7 +280,8 @@ var states = {
 
   "签约": {
     description: "2016年8月28日，张晓敏成功签约" ,
-    style: "fill: #f6eac4",shape: "diamond"
+    style: "fill: #f6eac4",
+    shape: "diamond"
   },
 
   "贷款需求选择": {
@@ -46,7 +302,7 @@ var states = {
 
   "核价": {
     description: "2016年9月1日，核价进行中" ,
-    style: "fill: #c4ecf6"
+    style: "fill: #fefbdc"
   },
 
   "上家贷款结清": {
@@ -96,20 +352,13 @@ var states = {
 
   "结案审核": {
     description: "结案审核未完成" ,
-    style: "fill: #ccc"
+    style: "fill: #ffeeee"
   },
 
   "主管审批": {
     description: "主管审批未完成" ,
     style: "fill: #ccc"
-  },
-
-
-
-/*  ESTAB: {
-    description: "我是橡皮 " ,
-    style: "fill: #c4ecf6"
-  }*/
+  },*/
 };
 
 // Add states to the graph, set labels, and style
@@ -128,7 +377,90 @@ g.setEdge("主管审批",     "结案审核",     {
   label: "Arrowhead class",
   lineInterpolate: 'basis',
 });*/
-g.setEdge("首次跟进", "无效案件审批", { label: "" });
+//picture-1
+g.setEdge("开始", "商业贷款办理", { label: "" });
+g.setEdge("商业贷款办理", "结束", { label:""});
+
+//picture-2
+g.setEdge("开始2", "E+贷款申请", { label: "" });
+g.setEdge("E+贷款申请", "E+申请确认", { label:"" });
+g.setEdge("E+申请确认", "X1", { label:""});
+g.setEdge("X1", "E+贷款申请", { label:""});
+g.setEdge("X1", "E+贷款签约", { label:""});
+
+g.setEdge("E+贷款签约", "E+签约确认", { label:""});
+g.setEdge("E+签约确认", "X2", { label:""});
+g.setEdge("X2", "E+贷款放款", { label:""});
+g.setEdge("X2", "E+贷款签约", { label:""});
+
+g.setEdge("E+贷款放款", "E+放款确认", { label:""});
+g.setEdge("E+放款确认", "X3", { label:""});
+g.setEdge("X3", "E+贷款放款", { label:""});
+g.setEdge("X3", "结束2", { label:""});
+
+//picture-3
+g.setEdge("开始3", "贷款流失申请", { label: "" });
+g.setEdge("贷款流失申请", "贷款流失审批-主管", { label:"" });
+g.setEdge("贷款流失审批-主管", "X4", { label:""});
+g.setEdge("X4", "贷款流失申请", { label:""});
+g.setEdge("X4", "贷款流失审批-总监", { label:""});
+
+g.setEdge("贷款流失审批-总监", "X5", { label:""});
+g.setEdge("X5", "贷款流失审批-主管", { label:""});
+g.setEdge("X5", "自办贷款审批", { label:""});
+g.setEdge("自办贷款审批", "结束3", { label:""});
+
+
+//picture-4
+g.setEdge("开始4", "纯公积金贷款申请", { label: "" });
+g.setEdge("纯公积金贷款申请", "纯公积金贷款签约", { label:"" });
+g.setEdge("纯公积金贷款签约", "纯公积金贷款审批", { label:""});
+g.setEdge("纯公积金贷款审批", "结束4", { label:""});
+
+
+//picture-5
+g.setEdge("开始5", "服务变更申请", { label: "" });
+g.setEdge("服务变更申请", "服务变更审批", { label:"" });
+g.setEdge("服务变更审批", "结束5", { label:""});
+
+
+//picture-6
+g.setEdge("开始6", "服务重启申请", { label: "" });
+g.setEdge("服务重启申请", "服务重启审批", { label:"" });
+g.setEdge("服务重启审批", "X6", { label:"" });
+g.setEdge("X6", "服务重启申请", { label:"" });
+g.setEdge("X6", "结束6", { label:""});
+
+
+//picture-7
+g.setEdge("开始7", "主管审批1", { label: "" });
+g.setEdge("主管审批1", "X7", { label:"" });
+g.setEdge("X7", "高级主管审批", { label:"" });
+g.setEdge("高级主管审批", "X77", { label:"" });
+g.setEdge("X7", "总监审批", { label:"" });
+g.setEdge("总监审批", "结束7", { label:""});
+g.setEdge("X7", "结束7", { label:"" });
+g.setEdge("X77", "总监审批", { label:"" });
+g.setEdge("X77", "结束7", { label:"" });
+
+//picture-8
+g.setEdge("开始8", "资金监管申请", { label: "" });
+g.setEdge("资金监管申请", "资金监管审批", { label:"" });
+g.setEdge("资金监管审批", "X8", { label:"" });
+g.setEdge("X8", "资金监管申请", { label:"" });
+g.setEdge("X8", "资金监管签约", { label:"" });
+g.setEdge("资金监管签约", "信封", { label:""});
+g.setEdge("信封", "结束8", { label:"" });
+
+
+
+
+
+
+
+
+//picture-9
+/*g.setEdge("首次跟进", "无效案件审批", { label: "" });
 g.setEdge("首次跟进", "签约", { label: "" });
 g.setEdge("首次跟进", "贷款需求选择", { label: "" });
 
@@ -154,7 +486,7 @@ g.setEdge("领证", "放款", { label: "" });
 g.setEdge("放款", "结案归档", { label: "" });
 g.setEdge("结案归档", "结案审核", { label: "" });
 g.setEdge("结案归档", "主管审批", { label: "" });
-g.setEdge("结案审核", "主管审批", { label: "" });
+g.setEdge("结案审核", "主管审批", { label: "" });*/
 
 
 

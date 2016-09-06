@@ -23,13 +23,13 @@
   line-height: 16px;
 }
 .color-info li p.blue {
-  background: #c4ecf6;
+  background: #d9f8fd;
 }
 .color-info li p.yellow {
-  background: #f6eac4;
+  background: #ffeeee;
 }
 .color-info li p.grey {
-  background: #ccc;
+  background: #f4f4f4;
 }
 
 text {
