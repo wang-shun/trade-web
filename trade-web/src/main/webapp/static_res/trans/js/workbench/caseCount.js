@@ -235,8 +235,7 @@ function queryGetRankBank(){
 //金额之后 添加.00
 function toDecimal2(x) {
 	 var f = parseFloat(x);    
-	 if (isNaN(f)) {   
-		 alert(1111);
+	 if (isNaN(f)) { 
 	       return false;    
 	  }    
 	   
