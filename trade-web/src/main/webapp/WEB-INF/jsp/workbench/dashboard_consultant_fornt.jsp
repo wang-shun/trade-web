@@ -185,7 +185,7 @@
 								<p>
 									红灯任务<br /> <span id="redLightCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe630;</i>
+							<li><i class="icon iconfont icon40 green">&#xe630;</i>
 								<p>
 									贷款流失<br /> <span id="bizwarnCaseCount"></span>
 								</p></li>
@@ -201,15 +201,15 @@
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe636;</i>
+							<li><i class="icon iconfont icon40 pink">&#xe636;</i>
 								<p>
 									无主案件<br> <span id="unLocatedCaseCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe637;</i>
+							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
 								<p>
 									无主任务<br> <span id="unLocatedTaskCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
+							<li><i class="icon iconfont icon40 green">&#xe638;</i>
 								<p>
 									无主资源<br> <span id="caseDistributeCount"></span>
 								</p></li>
