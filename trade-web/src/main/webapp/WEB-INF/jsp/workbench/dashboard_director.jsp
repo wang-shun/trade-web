@@ -122,22 +122,23 @@
 					</div> --%>
 					<div class="col-md-4 pull-right">
                     	<ul class="light_info">
-                                        <li><i class="icon iconfont icon40 yellow">&#xe632;</i>
-								<p>
-									黄灯任务<br /> <span id="yeLightCount"></span>
-								</p></li>
-							<li><i class="icon iconfont icon40 pink">&#xe631;</i>
+                    		<li><i class="icon iconfont icon40 pink">&#xe631;</i>
 								<p>
 									红灯任务<br /> <span id="redLightCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 green">&#xe630;</i>
+							<li><i class="icon iconfont icon40 yellow">&#xe632;</i>
 								<p>
-									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+									黄灯任务<br /> <span id="yeLightCount"></span>
 								</p></li>
 							<li><i class="icon iconfont icon40 grey">&#xe633;</i>
 								<p>
 									计划变更<br /> <span id="planeChange"></span>
 								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe630;</i>
+								<p>
+									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+								</p></li>
+							
 							<li><i class="icon iconfont icon40 grey">&#xe639;</i>
 								<p>
 									e+转化<br /> <span id="eloanChange"></span>
@@ -146,17 +147,21 @@
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 pink">&#xe636;</i>
+							<c:if test="${jobCode!='consultant' && jobCode!='director' }">
+							    <li><i class="icon iconfont icon40 pink">&#xe636;</i>
 								<p>
 									无主案件<br> <span id="unLocatedCaseCount"></span>
 								</p></li>
+							</c:if>
+							<c:if test="${jobCode!='director' }">
 							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
 								<p>
 									无主任务<br> <span id="unLocatedTaskCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 green">&#xe638;</i>
+							</c:if>
+							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
 								<p>
-									无主资源<br> <span id="caseDistributeCount"></span>
+									无主资源<br> <span id="unLocatedResourcesCount"></span>
 								</p></li>
                                     </ul>
                     </div>
