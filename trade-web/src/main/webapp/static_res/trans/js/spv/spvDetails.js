@@ -643,7 +643,7 @@ $(document).ready(function(){
 		
 	 //身份证验证(简单)
 	function isIdCardSimple(cardId){
-		 reg = /^\d{15}$)|(^\d{17}([0-9]|X)$/i;
+		 reg = /^\d{15}$|^\d{17}([0-9]|X)$/i;
 	     if (!reg.test(cardId)) {
 	         return false; 
 	     }
