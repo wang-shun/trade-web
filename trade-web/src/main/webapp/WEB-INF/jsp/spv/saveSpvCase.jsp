@@ -628,7 +628,7 @@
 							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='spvList';" class="btn btn-default">取消</a>
+									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>		
 							</div>
