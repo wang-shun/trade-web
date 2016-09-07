@@ -125,22 +125,23 @@
                     </div> --%>
 					<div class="col-md-4 pull-right">
 						<ul class="light_info">
-							<li><i class="icon iconfont icon40 yellow">&#xe632;</i>
-								<p>
-									黄灯任务<br /> <span id="yeLightCount"></span>
-								</p></li>
 							<li><i class="icon iconfont icon40 pink">&#xe631;</i>
 								<p>
 									红灯任务<br /> <span id="redLightCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 green">&#xe630;</i>
+							<li><i class="icon iconfont icon40 yellow">&#xe632;</i>
 								<p>
-									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+									黄灯任务<br /> <span id="yeLightCount"></span>
 								</p></li>
 							<li><i class="icon iconfont icon40 grey">&#xe633;</i>
 								<p>
 									计划变更<br /> <span id="planeChange"></span>
 								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe630;</i>
+								<p>
+									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+								</p></li>
+							
 							<li><i class="icon iconfont icon40 grey">&#xe639;</i>
 								<p>
 									e+转化<br /> <span id="eloanChange"></span>

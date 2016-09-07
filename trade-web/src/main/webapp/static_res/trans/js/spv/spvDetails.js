@@ -270,13 +270,13 @@ $(document).ready(function(){
 			return false;
 		}
 		if(buyerIdCode != null && buyerIdCode != ''){
-			if(!isIdCard(buyerIdCode) && !new RegExp("/^\d{15}$/").test(buyerIdCode)){
+			if(!isIdCardSimple(buyerIdCode) && !new RegExp("/^\d{15}$/").test(buyerIdCode)){
 				alert("请填写合法的买方证件编号！");
 				return false;
 			}
 		}	
 		if(sellerIdCode != null && sellerIdCode != ''){
-			if(!isIdCard(sellerIdCode)  && !new RegExp("/^\d{15}$/").test(sellerIdCode)){
+			if(!isIdCardSimple(sellerIdCode)  && !new RegExp("/^\d{15}$/").test(sellerIdCode)){
 				alert("请填写合法的卖方证件编号！");
 				return false;
 			}
@@ -332,7 +332,7 @@ $(document).ready(function(){
 			return false;
 		}
 		if(buyerHasDele && buyerAgentIdCode != null && buyerAgentIdCode != ''){
-			if(!isIdCard(buyerAgentIdCode) && !new RegExp("/^\d{15}$/").test(buyerAgentIdCode)){
+			if(!isIdCardSimple(buyerAgentIdCode) && !new RegExp("/^\d{15}$/").test(buyerAgentIdCode)){
 				alert("请填写合法的买方委托人证件编号！");
 				return false;
 			}
@@ -342,7 +342,7 @@ $(document).ready(function(){
 			return false;
 		}
 		if(sellerHasDele && sellerAgentIdCode != null && sellerAgentIdCode != ''){
-			if(!isIdCard(sellerAgentIdCode) && !new RegExp("/^\d{15}$/").test(sellerAgentIdCode)){
+			if(!isIdCardSimple(sellerAgentIdCode) && !new RegExp("/^\d{15}$/").test(sellerAgentIdCode)){
 				alert("请填写合法的卖方委托人证件编号！");
 				return false;
 			}
