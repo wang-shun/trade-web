@@ -577,9 +577,9 @@
 									    
 										</td>
 										<td class="text-left">
-										<aist:dict id="toSpvDeDetailList[${status.index }].payeeAccountId" name="toSpvDeDetailList[${status.index }].payeeAccountId" clazz="form-control input-one"
+										<aist:dict id="toSpvDeDetailList[${status.index }].payeeAccountType" name="toSpvDeDetailList[${status.index }].payeeAccountType" clazz="form-control input-one"
 									    display="select"  dictType="SPV_POSITION" tag="DE" 
-									    ligerui='none' defaultvalue="${toSpvDeDetail.payeeAccountId }"></aist:dict>	
+									    ligerui='none' defaultvalue="${toSpvDeDetail.payeeAccountType }"></aist:dict>	
 										</td>
 										<td><input name="toSpvDeDetailList[${status.index }].deAmount" value="<fmt:formatNumber type="number" value="${toSpvDeDetail.deAmount }" pattern="0.00" maxFractionDigits="2"/>" class="table-input-one" type="text"
 											placeholder="请输入金额" />万元</td>
