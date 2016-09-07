@@ -192,6 +192,8 @@ public class WorkSpaceController {
 		String userId = user.getId();
 		String userOrgId = user.getServiceDepId();
 		Date now = new Date();
+		
+		model.addAttribute("jobCode", jobCode);
 		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
 			/*各个贵宾服务部*/
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgId, DepTypeEnum.TYCQY.getCode());
