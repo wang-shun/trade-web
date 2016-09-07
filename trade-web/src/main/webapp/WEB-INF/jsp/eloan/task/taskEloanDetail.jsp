@@ -305,12 +305,12 @@
                                             <div class="panel-body">
 
                                                 <div class="tab-content">
-                                                    <div class="guaranty_btn">
-                                                        <a href="${ctx}/eloan/guarantycards"><button class="btn btn-success btn-space">押卡</button></a>
-                                                        <a href="${ctx}/eloan/guarantymortgage"><button class="btn btn-success btn-space">抵押</button>
-                                                        </a><a href="${ctx}/eloan/guarantyfair"><button class="btn btn-success">强制公正</button></a>
-                                                    </div>
                                                     <div class="tab-pane active" id="tab-fk">
+                                                       <div class="guaranty_btn">
+                                                        <a href="${ctx}/eloan/guarantycards?pkid=${pkId}"><button class="btn btn-success btn-space">押卡</button></a>
+                                                        <a href="${ctx}/eloan/guarantymortgage?pkid=${pkId}"><button class="btn btn-success btn-space">抵押</button>
+                                                        </a><a href="${ctx}/eloan/guarantyfair?pkid=${pkId}"><button class="btn btn-success">强制公正</button></a>
+                                                        </div>
                                                         <table class="table table-striped">
                                                             <thead>
                                                                 <tr>

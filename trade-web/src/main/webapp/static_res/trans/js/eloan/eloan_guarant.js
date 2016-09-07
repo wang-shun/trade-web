@@ -28,8 +28,8 @@ $(function() {
 
 /*开关按钮*/
   $('[name="status"]').bootstrapSwitch({
-      onText:"已修改",
-      offText:"未修改",
+      onText:"未修改",
+      offText:"已修改",
       onColor:"primary",
       offColor:"default",
       size:"small",

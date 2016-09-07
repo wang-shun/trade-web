@@ -210,6 +210,7 @@ public class WarnListController {
 			model.addAttribute("info", object);
 			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
+			model.addAttribute("pkId", pkid);
 		}
 
 		return "/eloan/task/taskEloanDetail";
