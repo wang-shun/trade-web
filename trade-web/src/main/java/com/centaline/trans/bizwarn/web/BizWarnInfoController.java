@@ -19,6 +19,7 @@ import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.product.repository.ProductMapper;
 import com.centaline.trans.task.vo.BizwarnForm;
 
 /**
@@ -42,6 +43,9 @@ public class BizWarnInfoController {
 
 	@Autowired
 	private ToCaseService toCaseService;
+
+	@Autowired
+	private ProductMapper productMapper;
 
 	/**
 	 * 修改商贷预警信息

@@ -7,6 +7,8 @@ public class Product {
 
 	private String prdcCode;
 
+	private String prodName;
+
 	private String prodCode;
 
 	private String vendor;
@@ -21,9 +23,9 @@ public class Product {
 
 	private String updateBy;
 
-	private String sort; // 排序字段
+	private int sort; // 排序字段
 
-	private String status; // 状态(0:启用,1:禁用,2:删除)
+	private int status; // 状态(0:启用,1:禁用,2:删除)
 
 	public Long getPkid() {
 		return pkid;
@@ -35,6 +37,14 @@ public class Product {
 
 	public String getPrdcCode() {
 		return prdcCode;
+	}
+
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
 	}
 
 	public void setPrdcCode(String prdcCode) {
@@ -97,19 +107,20 @@ public class Product {
 		this.updateBy = updateBy == null ? null : updateBy.trim();
 	}
 
-	public String getSort() {
+	public int getSort() {
 		return sort;
 	}
 
-	public void setSort(String sort) {
-		this.sort = sort == null ? null : sort.trim();
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status == null ? null : status.trim();
+	public void setStatus(int status) {
+		this.status = status;
 	}
+
 }

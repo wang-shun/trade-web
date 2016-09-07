@@ -13,10 +13,12 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
-    <result column="SORT" property="sort" jdbcType="VARCHAR" />
-    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
   </resultMap>
- 
+  <sql id="Base_Column_List">
+    PKID, PRDC_CODE, PRDC_NAME, PRDC_DESC, APPLY_COND, PRDC_ICON, PROP_GROUP,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,SORT,STATUS
+  </sql>
    <select id="getProductCategoryById" resultMap="BaseResultMap" parameterType="java.lang.String">
 	    select 
 		<include refid="Base_Column_List" />
@@ -35,6 +37,6 @@
 	    select 
 		<include refid="Base_Column_List" />
 	    from sctrans.T_TS_PRODUCT_CATEGORY
-	    	where STATUS != '2' 
+	    	where STATUS != 2 order by SORT ASC 
   </select> 
 </mapper>
