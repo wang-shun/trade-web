@@ -35,6 +35,8 @@
 	<import resource="query/property/toSuccessListQuery.xml" />
 	<!-- 我的产调 -->
 	<import resource="query/property/toResultGetListQuery.xml" />
+	<!-- 产调来源清单 -->
+	<import resource="query/property/toSourceListQuery.xml" />
 	
 	<!-- 知识库 -->
 	<import resource="query/knowledge/knowledgeListQuery.xml" />
