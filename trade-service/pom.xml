@@ -4,9 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.centaline</groupId>
 	<artifactId>trade-service</artifactId>
-	<packaging>jar</packaging>
 	<version>1.1.23-SNAPSHOT</version>
-	<name>trade-service</name>
 	<dependencies></dependencies>
 
 	<repositories>

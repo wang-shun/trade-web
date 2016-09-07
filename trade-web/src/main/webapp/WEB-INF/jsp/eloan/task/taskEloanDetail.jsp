@@ -64,7 +64,7 @@
 										<dd>${eloanCase.chargeAmount}</dd>
 									</c:if>
 									
-									<c:if test="${eloanCase.chargeAmount / (eloanCase.applyAmount * 10000) > 0.02 }">
+									<c:if test="${!empty eloanCase.remark}">
 										<dt>情况说明</dt>
 										<dd>${eloanCase.remark}</dd>
 									</c:if>

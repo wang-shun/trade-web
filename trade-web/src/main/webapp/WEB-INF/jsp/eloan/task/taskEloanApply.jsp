@@ -498,11 +498,10 @@
 	</script>
     <script>
         $(document).ready(function () {
-        	$("#month").blur(function(){
-        		var finOrgCode = $("#finOrgCode option:selected").val();
-        		var month = this.value;
+        	function showAndHide(loanSrvCode,finOrgCode,month){
         		
-        		if(finOrgCode == "W0003" && month != "" && month <= 12){
+        		if((loanSrvCode == "30004014" && finOrgCode == "W0003" && month != "" && month <= 12)
+        				|| (finOrgCode == "W0003" && month != "" && month <= 12)){
         			$("#liChargeAndRemark").show();
         			$("#divCharge").show();
         			$("#divRemark").show();
@@ -511,20 +510,31 @@
         			$("#liChargeAndRemark").hide();
         			$("#divCharge").hide();
         		}
+        	}
+        	
+        	$("#loanSrvCode").click(function(){
+        		var value = this.value;
+        		var finOrgCode = $("#finOrgCode option:selected").val();
+        		var month = $("#month").val();
+        		
+        		showAndHide(value,finOrgCode,month);
+        		
+        	});
+        	
+        	$("#month").blur(function(){
+        		var loanSrvCode =  $("#loanSrvCode option:selected").val();
+        		var finOrgCode = $("#finOrgCode option:selected").val();
+        		var month = this.value;
+        		
+        		showAndHide(loanSrvCode,finOrgCode,month);
         	});
         	
         	$("#finOrgCode").change(function(){
+        		var loanSrvCode =  $("#loanSrvCode option:selected").val();
         		var value = this.value;
         		var month = $("#month").val();
         		
-        		if(value == "W0003" && month != "" && month <= 12){
-        			$("#liChargeAndRemark").show();
-        			$("#divCharge").show();
-        			$("#divRemark").show();
-        		}else{
-        			$("#liChargeAndRemark").hide();
-        			$("#divCharge").hide();
-        		}
+        		showAndHide(loanSrvCode,value,month);
         	});
         	
         	$("#charge").blur(function(){
@@ -573,6 +583,42 @@
 					return false;
 				}
 			})
+			
+			function checkChargeAndRemark(flag,applyAmount){
+				var charge = $("#charge").val();
+				 
+				 if(charge == ""){
+					 alert("请填写手续费！");
+					 return false;
+				 }
+				 
+				 charge = Number(charge);
+				 applyAmount = Number(applyAmount);
+				 var num = charge / (applyAmount * 10000);
+				 
+				 if(flag == "30004014"){
+					 if(!(num >= 0.01 && num <= 0.02)){
+						 var remark = $("#remark").val();
+						 
+						 if(remark == ""){
+							 alert("请填写情况说明！");
+							 return false;
+						 }
+					 }
+				 }
+				 else if(flag == "W0003"){
+					 if(num > 0.02){
+						 var remark = $("#remark").val();
+						 
+						 if(remark == ""){
+							 alert("请填写情况说明！");
+							 return false;
+						 }
+					 }
+				 }
+				 
+				return true;
+			}
 			//必填项
 			function checkForm(){
 				var ds = $('.case_content').css('display');
@@ -601,28 +647,19 @@
 					 return false;	
 				 }
 				 
+				 var loanSrvCode = $("#loanSrvCode option:selected").val();
 				 var finOrgCode = $("#finOrgCode option:selected").val();
 				 
-				 if(finOrgCode == "W0003" && month <= 12){
-					 var charge = $("#charge").val();
-					 
-					 if(charge == ""){
-						 alert("请填写手续费！");
-						 return false;
-					 }
-					 
-					 charge = Number(charge);
-					 applyAmount = Number(applyAmount);
-					 var num = charge / (applyAmount * 10000);
-					 
-					 if(num > 0.02){
-						 var remark = $("#remark").val();
-						 
-						 if(remark == ""){
-							 alert("请填写情况说明！");
-							 return false;
-						 }
-					 }
+				 var isVerifySuccess = true;
+				 if(loanSrvCode == "30004014" && finOrgCode == "W0003" && month <= 12){
+					 isVerifySuccess = checkChargeAndRemark("30004014",applyAmount);
+				 }
+				 else if(finOrgCode == "W0003" && month <= 12){
+					 isVerifySuccess = checkChargeAndRemark("W0003",applyAmount);
+				 }
+				 
+				 if(!isVerifySuccess){
+					 return false;
 				 }
 				 
 				 return true;

@@ -319,7 +319,7 @@
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 房产权利人</label> <input name="toSpvProperty.prOwnerName" type="text"
-									class="form-control input-one" placeholder="" value="${spvBaseInfoVO.toSpvProperty.prOwnerName }">
+									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prOwnerName?spvBaseInfoVO.toSpvProperty.prOwnerName:sellerName }">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvProperty.pkid" value="${spvBaseInfoVO.toSpvProperty.pkid }" />
@@ -628,7 +628,7 @@
 							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='spvList';" class="btn btn-default">取消</a>
+									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>		
 							</div>
@@ -808,7 +808,7 @@
 		$str = '';
 		$str += "<tr align='center'>";
 		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].deCondCode' name='toSpvDeDetailList["+sum+"].deCondCode' clazz='form-control input-one' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
-		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountId' name='toSpvDeDetailList["+sum+"].payeeAccountId' tag='DE' clazz='form-control input-one' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountType' name='toSpvDeDetailList["+sum+"].payeeAccountType' tag='DE' clazz='form-control input-one' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
 		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万元</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
