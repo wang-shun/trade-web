@@ -416,16 +416,17 @@
 					<form class="form-inline">
 					    <input type="hidden" name="toSpv.pkid" value="${spvBaseInfoVO.toSpv.pkid }"/>
 					    <input type="hidden" name="toSpv.caseCode" value="${caseCode }"/>
+					    <input type="hidden" name="toSpv.applyTime" value="${spvBaseInfoVO.toSpv.applyTime }" />
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管产品</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> 
 								<%-- <aist:dict id="toSpv.prdCode" name="toSpv.prdCode" clazz="form-control input-one"
 									display="select"  dictType="SPV_PRD"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.toSpv.prdCode }"></aist:dict>	 --%>

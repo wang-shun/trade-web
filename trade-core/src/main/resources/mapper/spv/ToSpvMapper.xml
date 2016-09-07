@@ -19,6 +19,10 @@
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="NVARCHAR" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="BUYER_PAYMENT" property="buyerPayment" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_USER" property="applyUser" jdbcType="VARCHAR" /> 
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
@@ -27,7 +31,7 @@
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, SPV_CODE, SPV_CON_CODE, SPV_INSTI, SPV_ACCOUNT, PRD_CODE, SPV_TYPE, 
     AMOUNT, AMOUNT_OWN, AMOUNT_MORT, AMOUNT_MORT_COM, AMOUNT_MORT_PSF, SIGN_TIME, STATUS, 
-    REMARK, IS_DELETED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    REMARK, IS_DELETED, BUYER_PAYMENT, APPLY_TIME, CLOSE_TIME, APPLY_USER, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -45,7 +49,7 @@
       PRD_CODE, SPV_TYPE, AMOUNT, 
       AMOUNT_OWN, AMOUNT_MORT, AMOUNT_MORT_COM, 
       AMOUNT_MORT_PSF, SIGN_TIME, STATUS, 
-      REMARK, IS_DELETED, CREATE_TIME, 
+      REMARK, IS_DELETED, BUYER_PAYMENT, APPLY_TIME, CLOSE_TIME, APPLY_USER, CREATE_TIME, 
       CREATE_BY, UPDATE_TIME, UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{spvCode,jdbcType=VARCHAR}, 
@@ -53,7 +57,8 @@
       #{prdCode,jdbcType=VARCHAR}, #{spvType,jdbcType=NVARCHAR}, #{amount,jdbcType=DECIMAL}, 
       #{amountOwn,jdbcType=DECIMAL}, #{amountMort,jdbcType=DECIMAL}, #{amountMortCom,jdbcType=DECIMAL}, 
       #{amountMortPsf,jdbcType=DECIMAL}, #{signTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=NVARCHAR}, #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=NVARCHAR}, #{isDeleted,jdbcType=CHAR},#{buyerPayment,jdbcType=VARCHAR},
+      #{applyTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},#{applyUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
       )
   </insert>
@@ -110,7 +115,19 @@
       </if>
       <if test="isDeleted != null" >
         IS_DELETED,
+      </if>    
+      <if test="buyerPayment != null" >
+        BUYER_PAYMENT,
       </if>
+      <if test="applyTime != null" >
+        APPLY_TIME,
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME,
+      </if>
+      <if test="applyUser != null" >
+        APPLY_USER,
+      </if>      
       <if test="createTime != null" >
         CREATE_TIME,
       </if>
@@ -175,7 +192,19 @@
       </if>
       <if test="isDeleted != null" >
         #{isDeleted,jdbcType=CHAR},
-      </if>
+      </if>     
+      <if test="buyerPayment != null" >
+        #{buyerPayment,jdbcType=VARCHAR},
+      </if>      
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>      
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=TIMESTAMP},
+      </if>      
+      <if test="applyUser != null" >
+        #{applyUser,jdbcType=VARCHAR},
+      </if>   
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -241,6 +270,18 @@
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=CHAR},
       </if>
+      <if test="buyerPayment != null" >
+        BUYER_PAYMENT = #{buyerPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyUser != null" >
+        APPLY_USER = #{applyUser,jdbcType=VARCHAR},
+      </if>   
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -273,7 +314,11 @@
       SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=NVARCHAR},
-      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR}, 
+      BUYER_PAYMENT = #{buyerPayment,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      APPLY_USER = #{applyUser,jdbcType=VARCHAR},  
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
