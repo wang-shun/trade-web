@@ -201,17 +201,21 @@
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 pink">&#xe636;</i>
+							<c:if test="${jobCode!='consultant' && jobCode!='director' }">
+							    <li><i class="icon iconfont icon40 pink">&#xe636;</i>
 								<p>
 									无主案件<br> <span id="unLocatedCaseCount"></span>
 								</p></li>
+							</c:if>
+							<c:if test="${jobCode!='director' }">
 							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
 								<p>
 									无主任务<br> <span id="unLocatedTaskCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 green">&#xe638;</i>
+							</c:if>
+							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
 								<p>
-									无主资源<br> <span id="caseDistributeCount"></span>
+									无主资源<br> <span id="unLocatedResourcesCount"></span>
 								</p></li>
 						</ul>
 					</div>

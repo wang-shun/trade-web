@@ -9,7 +9,7 @@ function queryBizwarnCaseCount(){
 			async : true,
 			success: function(data) {				
 				
-				//无主资源
+				//待分配的案件
 				if(data.caseDistributeCount!=undefined && data.caseDistributeCount>=0){
 					$('.light_info').prepend($("#caseDistributeCount").parents("li"));
 					$("#caseDistributeCount").html(data.caseDistributeCount).parent('p').siblings("i").addClass('martop20');
