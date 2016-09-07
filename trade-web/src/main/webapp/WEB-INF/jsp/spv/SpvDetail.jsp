@@ -353,8 +353,8 @@
 													<dl class="dl-horizontal account">
 														<dt>姓名</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].name }</dd>
-														<dt>归属地</dt>
-														<dd>上海市</dd>
+														<%-- <dt>归属地</dt>
+														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
 														<dt>账号</dt>
@@ -368,8 +368,8 @@
 													<dl class="dl-horizontal account">
 														<dt>姓名</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].name }</dd>
-														<dt>归属地</dt>
-														<dd>上海市</dd>
+														<%-- <dt>归属地</dt>
+														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
 														<dt>账号</dt>
@@ -428,8 +428,28 @@
 									<tbody>
 										<c:forEach items="${spvBaseInfoVO.toSpvDeDetailList}" var="item">
 										<tr>
-											<td>${item.deAddition}</td>
-											<td>${item.payeeAccountId}</td>
+											<td>
+												<aist:dict id="${item.deCondCode}" name="deCondCode" clazz="form-control input-one"
+									    display="onlyLabel"  dictType="SPV_DE_COND"  
+									    ligerui='none' dictCode="${item.deCondCode }"></aist:dict>	
+											</td>
+											<td>
+											
+											<c:choose>  
+										    <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[0].pkid}">
+										              买方
+										   </c:when>  
+										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[1].pkid}">
+										              卖方
+										   </c:when> 
+										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[2].pkid}">
+										            监管账户      
+										   </c:when> 
+										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[3].pkid}">
+										           资金方       
+										   </c:when>  
+										</c:choose>	
+											</td>
 											<td>${item.deAmount>0?item.deAmount:0}万元</td>
 										</tr>
 										</c:forEach>
