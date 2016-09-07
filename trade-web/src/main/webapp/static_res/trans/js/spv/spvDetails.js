@@ -102,7 +102,7 @@ $(document).ready(function(){
 					 window.close();
 					 window.opener.callback();
 			     } else {
-			    	 window.location.href = "spvList";
+			    	 window.location.href = ctx+"/spv/spvList";
 			     }	 
        		},  	 
     	    error : function(errors) {
@@ -137,7 +137,7 @@ $(document).ready(function(){
 					 window.close();
 					 window.opener.callback();
 			     } else {
-			    	 window.location.href = "spvList";
+			    	 window.location.href = ctx+"/spv/spvList";
 			     }	 
       		}  	 
        });
@@ -146,17 +146,17 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,'${ctx}/spv/spvApply/deal');	
+    	   riskAjaxRequest(null,ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
-    	   riskAjaxRequest(true,'${ctx}/spv/spvApprove/deal');
+    	   riskAjaxRequest(true,ctx+'/spv/spvApprove/deal');
        });
        
        //风控总监审批驳回
        $("#riskDirectorApproveN").click(function(){
-    	   riskAjaxRequest(false,'${ctx}/spv/spvApprove/deal');
+    	   riskAjaxRequest(false,ctx+'/spv/spvApprove/deal');
        });
 
        $('#chat-discussion').hide();
@@ -508,7 +508,7 @@ $(document).ready(function(){
 							 window.close();
 							 window.opener.callback();
 					     } else {
-					    	 window.location.href = "${ctx }/task/myTaskList";
+					    	 window.location.href = ctx+"/task/myTaskList";
 					     }
 						 $.unblockUI();
 					},
@@ -643,7 +643,7 @@ $(document).ready(function(){
 		
 	 //身份证验证(简单)
 	function isIdCardSimple(cardId){
-		 reg = /^\d{15}$)|(^\d{17}([0-9]|X)$/i;
+		 reg = /^\d{15}$|^\d{17}([0-9]|X)$/i;
 	     if (!reg.test(cardId)) {
 	         return false; 
 	     }
