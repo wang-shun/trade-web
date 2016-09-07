@@ -808,7 +808,7 @@
 		$str = '';
 		$str += "<tr align='center'>";
 		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].deCondCode' name='toSpvDeDetailList["+sum+"].deCondCode' clazz='form-control input-one' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
-		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountId' name='toSpvDeDetailList["+sum+"].payeeAccountId' tag='DE' clazz='form-control input-one' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountType' name='toSpvDeDetailList["+sum+"].payeeAccountType' tag='DE' clazz='form-control input-one' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
 		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万元</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
