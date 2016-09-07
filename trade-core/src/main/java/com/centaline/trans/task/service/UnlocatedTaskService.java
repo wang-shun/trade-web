@@ -18,7 +18,7 @@ public interface UnlocatedTaskService {
 
 	List<ToUnlocatedTask> listUnlocateTaskByManager(ToUnlocatedTaskVo vo);
 
-	int doLocateTask(String candidateId, String taskId);
+	int doLocateTask(String candidateId, String taskId,String bizCode);
 
-	int doGroupClaim(String candidateId, String taskId);
+	int doGroupClaim(String candidateId, String taskId,String bizCode);
 }

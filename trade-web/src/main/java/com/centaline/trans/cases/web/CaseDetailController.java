@@ -81,6 +81,7 @@ import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -191,6 +192,8 @@ public class CaseDetailController {
 
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 
 	// E+金融
 	@Autowired
@@ -206,7 +209,7 @@ public class CaseDetailController {
 	 * @return
 	 */
 	@RequestMapping(value = "caseCodeDetail")
-	public String caseDetail(String caseCode, ServletRequest request) {
+	public String caseDetail(String caseCode , ServletRequest request) {
 		if (caseCode == null)
 			return "case/caseList";
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
@@ -339,16 +342,16 @@ public class CaseDetailController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		// 贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
-		String loanReqType = "FullPay";
+		String loanReqType="FullPay";
 		if (toMortgage != null) {
-			if ("1".equals(toMortgage.getIsDelegateYucui())) {
-				if ("30016003".equals(toMortgage.getMortType())) {
-					loanReqType = "PSFLoan";
-				} else {
-					loanReqType = "ComLoan";
+			if("1".equals(toMortgage.getIsDelegateYucui())){
+				if("30016003".equals(toMortgage.getMortType())){
+					loanReqType="PSFLoan";
+				}else{
+					loanReqType="ComLoan";
 				}
-			} else {
-				loanReqType = "SelfLoan";
+			}else{
+				loanReqType="SelfLoan";
 			}
 			// 贷款类型
 			if (!StringUtils.isEmpty(toMortgage.getMortType())) {
@@ -654,40 +657,40 @@ public class CaseDetailController {
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
-			for (String insCode : insCodeList) {
+			for(String insCode : insCodeList) {
 				TaskHistoricQuery tq = new TaskHistoricQuery();
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-
+				
 				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
 			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
 					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
-			request.setAttribute("myTasks", filterMyTask(myServiceCase, tasks));
+			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
-
+		
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
-		boolean isCaseOwner = false;
-		boolean isNewFlow = false;
-		boolean isCaseManager = false;
-
+		boolean isCaseOwner=false;
+		boolean isNewFlow=false;
+		boolean isCaseManager=false;
+		
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-
-		if (sessionUser.getId().equals(toCase.getLeadingProcessId())) {
-			isCaseOwner = true;
+		
+		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
+			isCaseOwner=true;
 		}
-		if (toWorkFlow != null && "operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId()) <= 0) {
-			isNewFlow = true;
+		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
+			isNewFlow=true;
 		}
-		if (isCaseOwner && TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())) {
-			isCaseManager = true;
+		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
+			isCaseManager=true;
 		}
-
+		
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -696,7 +699,7 @@ public class CaseDetailController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-
+		
 		request.setAttribute("isBackTeam", isBackTeam);
 		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
@@ -712,7 +715,7 @@ public class CaseDetailController {
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
 	}
-
+	
 	/**
 	 * 页面初始化
 	 * 
@@ -763,7 +766,7 @@ public class CaseDetailController {
 
 		// 交易顾问
 		User consultUser = null;
-		if (null != toCase.getLeadingProcessId()) {
+		if(null != toCase.getLeadingProcessId()){
 			consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		}
 		if (consultUser != null) {
@@ -857,16 +860,16 @@ public class CaseDetailController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		// 贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
-		String loanReqType = "FullPay";
+		String loanReqType="FullPay";
 		if (toMortgage != null) {
-			if ("1".equals(toMortgage.getIsDelegateYucui())) {
-				if ("30016003".equals(toMortgage.getMortType())) {
-					loanReqType = "PSFLoan";
-				} else {
-					loanReqType = "ComLoan";
+			if("1".equals(toMortgage.getIsDelegateYucui())){
+				if("30016003".equals(toMortgage.getMortType())){
+					loanReqType="PSFLoan";
+				}else{
+					loanReqType="ComLoan";
 				}
-			} else {
-				loanReqType = "SelfLoan";
+			}else{
+				loanReqType="SelfLoan";
 			}
 			// 贷款类型
 			if (!StringUtils.isEmpty(toMortgage.getMortType())) {
@@ -1242,37 +1245,37 @@ public class CaseDetailController {
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
-			for (String insCode : insCodeList) {
+			for(String insCode : insCodeList) {
 				TaskHistoricQuery tq = new TaskHistoricQuery();
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-
+				
 				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
 			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
 					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
-			request.setAttribute("myTasks", filterMyTask(myServiceCase, tasks));
+			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
-		boolean isCaseOwner = false;
-		boolean isNewFlow = false;
-		boolean isCaseManager = false;
-
+		boolean isCaseOwner=false;
+		boolean isNewFlow=false;
+		boolean isCaseManager=false;
+		
 		if (tp != null) {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}
-
-		if (sessionUser.getId().equals(toCase.getLeadingProcessId())) {
-			isCaseOwner = true;
+		
+		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
+			isCaseOwner=true;
 		}
-		if (toWorkFlow != null && "operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId()) <= 0) {
-			isNewFlow = true;
+		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
+			isNewFlow=true;
 		}
-		if (isCaseOwner && TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())) {
-			isCaseManager = true;
+		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
+			isCaseManager=true;
 		}
 		
 		boolean isMortgageSelect = false;   //是否贷款选择操作已完成，如果为true，说明该操作已完成;返回false,该操作未完成。
@@ -1299,9 +1302,9 @@ public class CaseDetailController {
 		}
 		
 
-		// 商贷预警信息
+		//商贷预警信息
 		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
-
+		
 		request.setAttribute("isMortgageSelect", isMortgageSelect);
 		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("isCaseManager", isCaseManager);
@@ -1312,7 +1315,7 @@ public class CaseDetailController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-
+		
 		request.setAttribute("isBackTeam", isBackTeam);
 		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
@@ -1330,32 +1333,31 @@ public class CaseDetailController {
 		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
 		return "case/caseDetail";
 	}
-
-	private List<TaskVo> filterMyTask(List<TgServItemAndProcessor> mySerivceItems, List<TaskVo> tasks) {
+	
+	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
 		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
 			return tasks;
 		}
-		Set<String> taskDfKeys = new HashSet<>();
-		mySerivceItems.parallelStream().forEach(item -> {
-			Dict d = uamBasedataService.findDictByType(item.getSrvCode());
-			if (d != null && d.getChildren() != null) {
-				d.getChildren().parallelStream().forEach(sc -> {
-					if (!taskDfKeys.contains(sc.getCode())) {
+		Set<String>taskDfKeys=new HashSet<>();
+		mySerivceItems.parallelStream().forEach(item->{
+			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
+			if(d!=null&&d.getChildren()!=null){
+				d.getChildren().parallelStream().forEach(sc->{
+					if(!taskDfKeys.contains(sc.getCode())){
 						taskDfKeys.add(sc.getCode());
 					}
 				});
 			}
 		});
-		Iterator<TaskVo> it = tasks.iterator();
+		Iterator<TaskVo> it=tasks.iterator();
 		while (it.hasNext()) {
-			TaskVo task = it.next();
-			if (!taskDfKeys.contains(task.getTaskDefinitionKey())) {
+			TaskVo task=it.next();
+			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
 				it.remove();
 			}
 		}
 		return tasks;
 	}
-
 	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
 		Map<String, TaskVo> hashMap = new HashMap<>();
 		/*
@@ -1473,7 +1475,7 @@ public class CaseDetailController {
 		return AjaxResponse.success("变更成功！");
 	}
 
-	public void updateWorkflow(String userId, List<TaskVo> tasks, String caseCode) {
+	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (TaskVo taskVo : tasks) {
 				User u = uamUserOrgService.getUserById(userId);
@@ -1509,12 +1511,12 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> startCasePrairses(String caseCode, String[] prItems, HttpServletRequest request) {
 		SessionUser user = uamSessionService.getSessionUser();
-
+	
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 		if (toPropertyInfo == null || toPropertyInfo.getPkid() == null)
 			return AjaxResponse.fail("无法找到物业信息！");
-		ToCaseInfo cInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-		if (cInfo == null) {
+		ToCaseInfo cInfo =toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		if(cInfo==null){
 			return AjaxResponse.fail("无法找到案件信息！");
 		}
 		ToPropertyResearchVo vo = new ToPropertyResearchVo();
@@ -1535,14 +1537,14 @@ public class CaseDetailController {
 			vo.setDistrictId(qyOrg.getId());
 		}
 		vo.setDistrict(toPropertyInfo.getDistCode());
-
+		
 		vo.setAppliant(user.getId());
 		vo.setPrApplyOrgId(user.getServiceDepId());
 		vo.setPrApplyOrgName(user.getServiceDepName());
 		vo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
 		vo.setAgentCode(cInfo.getAgentCode());
-		int reInt = toPropertyResarchService.recordProperty(vo);
-
+		int reInt=toPropertyResarchService.recordProperty(vo);
+		
 		if (reInt == 0)
 			return AjaxResponse.fail("产调表更新失败！");
 
@@ -1610,10 +1612,10 @@ public class CaseDetailController {
 				return AjaxResponse.fail("已发起服务变更申请，无法重复发起！");
 			}
 			// 启动流程引擎
-			ProcessInstance process = new ProcessInstance();
+			/*ProcessInstance process = new ProcessInstance();
 			process.setBusinessKey(caseCode);
 			process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()));
-			/* 流程引擎相关 */
+			 流程引擎相关 
 			Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.SRV_BUSSKEY.getCode());
 			if (defValsMap != null) {
 				List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -1629,7 +1631,13 @@ public class CaseDetailController {
 			}
 			// 更新本地数据
 			StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, sessionUser.getUsername(),
-					caseCode);
+					caseCode);*/
+			
+			Map<String,Object>vars=new HashMap<>();
+		    User manager=uamUserOrgService.getLeaderUserByOrgIdAndJobCode(sessionUser.getServiceDepId(), "Manager");
+		    vars.put("consultant", sessionUser.getUsername());
+		    vars.put("Manager", manager.getUsername());
+		    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()), caseCode, vars);
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
@@ -1977,7 +1985,6 @@ public class CaseDetailController {
 
 		return toCaseInfoCountVo;
 	}
-
 	/**
 	 * 变更交易计划
 	 * 
@@ -1987,12 +1994,12 @@ public class CaseDetailController {
 	@RequestMapping(value = "/changeTaskAssignee")
 	@ResponseBody
 	public AjaxResponse<?> changeTaskAssignee(ChangeTaskAssigneeVO vo) {
-		List<Integer> tasks = vo.getTaskIds();
-		List<String> caseCode = vo.getCaseCodes();
-
+		List<Integer> tasks=vo.getTaskIds();
+		List<String> caseCode=vo.getCaseCodes();
+		
 		for (int i = 0; i < tasks.size(); i++) {
-			toCaseService.changeTaskAssignee(caseCode.get(i), tasks.get(i) + "", vo.getUserId());
-		}
+			toCaseService.changeTaskAssignee(caseCode.get(i), tasks.get(i)+"", vo.getUserId());
+		}	
 		return AjaxResponse.success("变更成功！");
 	}
 }

@@ -21,14 +21,14 @@ function reloadStatus() {
 	 data.serviceDepHierarchy = $("#serviceDepHierarchy").val();
 	 var startMonth=new Date($("#startDate").val()).getMonth()+1;
 	$.ajax({
-			  async: false,
+			  async: true,
    	          url:ctx+ "/quickGrid/findPage" ,
    	          method: "post",
    	          dataType: "json",
    	          data: data,
         success: function(data){
         	var all=data.rows;
-     	  if(all.length<=1){
+        	if(all.length<=1){
         		$("#mainwe").addClass("nullData");
         		return;
         	}
@@ -117,28 +117,28 @@ function StatusEchart(jiedan, qianyue, guohu, jiean,xAxis) {
 		series : [ {
 			name : '接单',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#f784a5'),
 			data : jiedan
 		}, {
 			name : '签约',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#ffad6b'),
 			data : qianyue
 		}, {
 			name : '过户',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#52bdbd'),
 			data : guohu
 		}, {
 			name : '结案',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#295aa5'),
 			data : jiean

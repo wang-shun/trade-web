@@ -25,13 +25,18 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
-  <select id="selectByDeId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByDeId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_DE_DETAIL
     where DE_ID = #{spvCode,jdbcType=VARCHAR}
   </select>
   
+  <delete id="deleteByDeId" >
+    delete from sctrans.T_TO_SPV_DE_DETAIL    
+    where DE_ID = #{deId}
+  </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_SPV_DE_DETAIL
     where PKID = #{pkid,jdbcType=BIGINT}

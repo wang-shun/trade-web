@@ -1,3 +1,14 @@
+function radioYuCuiOrgSelectCallBack(array){
+	if(array && array.length >0){
+		$("#guestServiceCenter").val(array[0].name);
+		$("#groupParentID").val(array[0].id);
+	}
+	else {
+		$("#guestServiceCenter").val("");
+		$("#groupParentID").val("");
+	}
+}
+
 function changeTaskAssignee(page,username){
 		var data = {};
 		 data.rows = 5;

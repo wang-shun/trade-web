@@ -93,7 +93,7 @@
                                          <div class="modal_title">
                                                 E+贷款关联案件
                                             </div>
-                                            <div class="form_tan">
+                                            <!-- <div class="form_tan">
                                                 <label class="control-label" style="width:60px;">
                                                     	产证地址
                                                 </label>
@@ -105,7 +105,39 @@
                                                         <i class="icon iconfont">&#xe635;</i>&nbsp;查询
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            
+                                            <div class="line">
+					                        <div class="form_content">
+					                            <label class="control-label mr10">
+					                                   	 案件编码
+					                            </label>
+					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseCodet" name="caseCodet" >
+					                        </div>
+					                        <div class="form_content">
+					                            <label class="control-label sign_left">
+					                                   	 产证地址
+					                            </label>
+					                            <input class="input_type" value="" placeholder="请输入" style="width:435px;" id="propertyAddr" name="propertyAddr" >
+					                        </div>
+					                    </div>
+				                    	<div class="line">
+					                        <div class="form_content">
+					                            <label class="control-label mr10">
+					                                     	上家姓名
+					                            </label>
+					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseNamet" name="caseNamet" >
+					                        </div>
+					                        <div class="form_content space">
+					                            <div class="add_btn">
+					                                <button type="button" class="btn btn-success" id="searchButton"  >
+					                                <i class="icon iconfont"></i>
+					                                   	 查询
+					                                </button>
+					                            </div>
+					                        </div>
+				                    	</div>
+                                            
                                         </form>
                                         <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong">
                                                 &#xe60a;
@@ -292,6 +324,23 @@
                                     </div>
                                 </div>
                             </li>
+                            
+                            <li id="liChargeAndRemark" style="display:none;">
+                                <div class="form_content" id="divCharge">
+                                    <label class="control-label sign_left_two">
+                                        	<i class="red">* </i>手续费
+                                    </label>
+                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="charge">
+                                </div>
+                                <div class="form_content" id="divRemark">
+                                    <label class="control-label sign_left_two">
+                                        	<i class="red"></i>情况说明
+                                    </label>
+                                    <input class="input_type sign_right_two" value="" name="remark" id="remark" style="width:465px;">
+                                </div>
+                            </li>
+                            
+                            
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -423,7 +472,7 @@
     </td>
     <td>
         <p class="name">
-            <span>交易顾问：</span><a href="#" class="a_blue" id="modal_processorId{{index}}">{{item.PROCESSOR_ID}}</a>
+            <span>交易顾问：</span><a href="#" class="a_blue" id="modal_processorId{{index}}">{{item.FONT_NAME}}</a>
         </p>
         <p class="name">
             <span>经纪人：</span><a href="#" class="a_blue" id="modal_agentName{{index}}">{{item.AGENT_NAME}}</a>
@@ -449,6 +498,56 @@
 	</script>
     <script>
         $(document).ready(function () {
+        	function showAndHide(loanSrvCode,finOrgCode,month){
+        		
+        		if((loanSrvCode == "30004014" && finOrgCode == "W0003" && month != "" && month <= 12)
+        				|| (finOrgCode == "W0003" && month != "" && month <= 12)){
+        			$("#liChargeAndRemark").show();
+        			$("#divCharge").show();
+        			$("#divRemark").show();
+        		}
+        		else{
+        			$("#liChargeAndRemark").hide();
+        			$("#divCharge").hide();
+        		}
+        	}
+        	
+        	$("#loanSrvCode").click(function(){
+        		var value = this.value;
+        		var finOrgCode = $("#finOrgCode option:selected").val();
+        		var month = $("#month").val();
+        		
+        		showAndHide(value,finOrgCode,month);
+        		
+        	});
+        	
+        	$("#month").blur(function(){
+        		var loanSrvCode =  $("#loanSrvCode option:selected").val();
+        		var finOrgCode = $("#finOrgCode option:selected").val();
+        		var month = this.value;
+        		
+        		showAndHide(loanSrvCode,finOrgCode,month);
+        	});
+        	
+        	$("#finOrgCode").change(function(){
+        		var loanSrvCode =  $("#loanSrvCode option:selected").val();
+        		var value = this.value;
+        		var month = $("#month").val();
+        		
+        		showAndHide(loanSrvCode,value,month);
+        	});
+        	
+        	$("#charge").blur(function(){
+        		var value = $.trim(this.value);
+        		var applyAmount = $.trim($("#applyAmount").val());
+        		
+        		var reg = new RegExp("^[0-9]+(.[0-9]{2})?$", "g");
+                if (value != "" && !reg.test(value)) {
+                    alert("请输入一个数字，最多只能有两位小数！");
+                    $(this).focus().select();
+                }
+        	});
+        	
         	$('#custName').editableSelect({
         		effects: 'slide',
         		filter: false
@@ -484,6 +583,42 @@
 					return false;
 				}
 			})
+			
+			function checkChargeAndRemark(flag,applyAmount){
+				var charge = $("#charge").val();
+				 
+				 if(charge == ""){
+					 alert("请填写手续费！");
+					 return false;
+				 }
+				 
+				 charge = Number(charge);
+				 applyAmount = Number(applyAmount);
+				 var num = charge / (applyAmount * 10000);
+				 
+				 if(flag == "30004014"){
+					 if(!(num >= 0.01 && num <= 0.02)){
+						 var remark = $("#remark").val();
+						 
+						 if(remark == ""){
+							 alert("请填写情况说明！");
+							 return false;
+						 }
+					 }
+				 }
+				 else if(flag == "W0003"){
+					 if(num > 0.02){
+						 var remark = $("#remark").val();
+						 
+						 if(remark == ""){
+							 alert("请填写情况说明！");
+							 return false;
+						 }
+					 }
+				 }
+				 
+				return true;
+			}
 			//必填项
 			function checkForm(){
 				var ds = $('.case_content').css('display');
@@ -511,12 +646,28 @@
 					 alert("请填写申请期数");
 					 return false;	
 				 }
+				 
+				 var loanSrvCode = $("#loanSrvCode option:selected").val();
+				 var finOrgCode = $("#finOrgCode option:selected").val();
+				 
+				 var isVerifySuccess = true;
+				 if(loanSrvCode == "30004014" && finOrgCode == "W0003" && month <= 12){
+					 isVerifySuccess = checkChargeAndRemark("30004014",applyAmount);
+				 }
+				 else if(finOrgCode == "W0003" && month <= 12){
+					 isVerifySuccess = checkChargeAndRemark("W0003",applyAmount);
+				 }
+				 
+				 if(!isVerifySuccess){
+					 return false;
+				 }
+				 
 				 return true;
 			}
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
-    			queryId : 'queryCastListItemList',
+    			queryId : 'queryCastListItemListdiv',
     		    templeteId : 'queryCastListItemList',
     		    rows : '6',
     		    gridClass : 'table table_blue mt20 table-striped table-bordered table-hover customerinfo',
@@ -566,14 +717,23 @@
         });
         
         function reloadGrid() {
-        	var propertyAddr = $("#propertyAddr").val();
+        	//var propertyAddr = $("#propertyAddr").val();
+        	var data = {};
+        	var propertyAddr = $.trim($("#propertyAddr").val());
+           	var caseCode = $.trim($("#caseCodet").val());
+           	var caseName = $.trim($("#caseNamet").val()); 
+           	
+            data.propertyAddr=propertyAddr;
+            data.caseCode=caseCode;
+           	data.sname=caseName; 
+        	
     	    $(".eloanApply-table").reloadGrid({
     	    	ctx : "${ctx}",
     	    	rows : '6',
-    			queryId : 'queryCastListItemList',
+    			queryId : 'queryCastListItemListdiv',
     		    templeteId : 'queryCastListItemList',
     		    wrapperData :{ctx : ctx},
-    		    data : {propertyAddr:propertyAddr}
+    		    data : data
     	    })
     	}
   

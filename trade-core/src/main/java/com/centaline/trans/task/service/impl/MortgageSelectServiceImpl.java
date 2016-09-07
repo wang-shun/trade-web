@@ -1,7 +1,9 @@
 package com.centaline.trans.task.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -79,6 +82,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private PropertyUtilsService propertyUtilsService;
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
@@ -182,7 +187,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				throw new BusinessException("请选择相应的贷款需求！");
 			}
 			ToWorkFlow wf=new ToWorkFlow();
-			ProcessInstance processIns = new ProcessInstance();
+			String processDfId=null;
 			wf.setCaseCode(vo.getCaseCode());
 			if(mortType.equals(ConstantsUtil.NO_LOAN)) {
 				// 发送边界消息
@@ -205,16 +210,17 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 设置主流程任务的assignee
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 				workFlowManager.setAssginee(vo.getProcessInstanceId(), toCase.getLeadingProcessId(), toCase.getCaseCode());
+				
 				return;
 			} else if(mortType.equals(ConstantsUtil.COM_LOAN)) {
 				wf.setBusinessKey(WorkFlowEnum.COMLOAN_PROCESS.getName());
-				processIns.setProcessDefinitionId(propertyUtilsService.getProcessDfId("ComLoan_Process"));
+				processDfId=propertyUtilsService.getProcessDfId("ComLoan_Process");
 			} else if(mortType.equals(ConstantsUtil.PSF_LOAN)) {
 				wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
-				processIns.setProcessDefinitionId(propertyUtilsService.getProcessDfId("PSFLoan_Process"));
+				processDfId=propertyUtilsService.getProcessDfId("PSFLoan_Process");
 			} else {
 				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
-				processIns.setProcessDefinitionId(propertyUtilsService.getProcessDfId("LoanLost_Process"));
+				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
 			}
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {
@@ -226,8 +232,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 重新启动一个新的流程
-				processIns.setBusinessKey(vo.getCaseCode());
-				StartProcessInstanceVo p = workFlowManager.startWorkFlow(processIns);
+				User u=uamUserOrgService.getUserById(vo.getPartner());//合作顾问
+				Map<String, Object> vars=new HashMap<>();
+				vars.put("partner", u.getUsername());
+				StartProcessInstanceVo p=processInstanceService.startWorkFlowByDfId(processDfId, vo.getCaseCode(), vars);
 				// 设置当前任务的执行人
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 				workFlowManager.setAssginee(p.getId(), toCase.getLeadingProcessId(), vo.getCaseCode());
@@ -236,7 +244,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				workFlow.setCaseCode(vo.getCaseCode());
 				workFlow.setBusinessKey(wf.getBusinessKey());
 				workFlow.setInstCode(p.getId());
-				workFlow.setProcessDefinitionId(processIns.getProcessDefinitionId());
+				workFlow.setProcessDefinitionId(processDfId);
 				workFlow.setProcessOwner(vo.getPartner());
 				toWorkFlowService.insertSelective(workFlow);
 			} 

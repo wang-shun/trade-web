@@ -19,8 +19,22 @@
     <link rel="stylesheet" href="../static/css/plugins/toastr/toastr.min.css">
     <!-- index_css  -->
 
-    <link rel="stylesheet" href="../static/trans/css/eloan/eloan_detail.css">
+        <!-- stickUp fixed css -->
+    <link rel="stylesheet" href="../static/css/plugins/stickup/stickup.css">
+    <link rel="stylesheet" href="../static/trans/css/common/stickmenu.css">
 
+    <!-- index_css  -->
+    <link rel="stylesheet" href="../static/trans/css/common/input.css">
+    <link rel="stylesheet" href="../static/trans/css/common/table.css">
+    <link rel="stylesheet" href="../static/trans/css/common/uplodydome.css">
+    <link rel="stylesheet" href="../static/trans/css/eloan/eloan_detail.css">
+    <link rel="stylesheet" href="../static/trans/css/eloan/eloan_guaranty.css">
+
+
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="../static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css">
+
+    <link rel="stylesheet" href="../static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
 
 
 <body>
@@ -137,6 +151,40 @@
                                     金融产品信息填写
                                 </a>
                             </li>
+                            <li class="">
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    E+贷款列表
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-cny">
+                            </i>
+                            <span class="nav-label">
+                                资金监管
+                            </span>
+                            <span class="fa arrow">
+                            </span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    资金监管列表
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa ">
+                                    </i>
+                                    贷款申请任务
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="">
@@ -173,6 +221,7 @@
                             </li>
                         </ul>
                     </li>
+
                     <li class="">
                         <a href="#">
                             <i class="fa fa-comment">
@@ -393,17 +442,29 @@
                 </nav>
             </div>
             <!-- main Start -->
+                        <!-- main Start -->
+            <div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
+                <ul class="nav navbar-nav">
+                    <li class="menuItem active"><a href="#reportOne">关联交易单</a></li>
+                    <li class="menuItem"><a href="#reportTwo">贷款申请信息</a></li>
+                    <li class="menuItem"><a href="#reportThree">借款人信息填写</a></li>
+                    <li class="menuItem"><a href="#reportFour">担保人信息</a></li>
+                    <li class="menuItem"><a href="#reportFive">申请材料</a></li>
+                </ul>
+                <div class="menu_btn" style="margin-left: 850px;margin-top: 7px;">
+                    <button class="btn btn-save">保存</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
-                    <div class="ibox-content elan_detail">
-                        <div class="row">
+                    <div class="ibox-content" id="reportOne">
+                         <div class="row">
                             <div class="col-lg-9">
                                 <div class="row" id="">
                                     <div class="col-lg-12">
                                         <div class="m-b-md">
                                             <h4>换房贷</h4>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="row" id="">
@@ -504,9 +565,176 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
+                    <div class="ibox-content" id="reportTwo">
+
+                        <div class="row">
+                                  <div class="fk-block col-lg-12">
+                                        <div class="panel blank-panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-options relative">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active">
+                                                            <a href="#tab-fk" data-toggle="tab">风控准备</a>
+                                                        </li>
+                                                        <li class="">
+                                                            <a href="#tab-hk" data-toggle="tab">回款方案</a>
+                                                        </li>
+                                                        <li class="">
+                                                            <a href="#tab-hz" data-toggle="tab">合作信息</a>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="tab-content">
+                                                    <div class="guaranty_btn">
+                                                        <a href="guarantycards.html"><button class="btn btn-success btn-space">押卡</button></a>
+                                                        <a href="guarantymortgage.html"><button class="btn btn-success btn-space">抵押</button>
+                                                        </a><a href="guarantyfair.html"><button class="btn btn-success">强制公证</button></a>
+                                                    </div>
+                                                    <div class="tab-pane active" id="tab-fk">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>风控项目</th>
+                                                                    <th>执行时间</th>
+                                                                    <th>执行人</th>
+                                                                    <th>备注</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                      <a href="#">押卡</a>
+                                                                    </td>
+                                                                    <td>2016-06-21 15:25</td>
+                                                                    <td>杨忠梁</td>
+                                                                    <td>客户按揭银行不能放到光大</td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td>
+                                                                        <a href="#">抵押</a>
+                                                                    </td>
+                                                                    <td>2016-06-20 13:44</td>
+                                                                    <td>安家贷</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td>
+                                                                        <a href="#">强制公证</a>
+                                                                    </td>
+                                                                    <td>2016-06-20 09:00</td>
+                                                                    <td>安家贷</td>
+                                                                    <td></td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="tab-pane" id="tab-hk">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>版本号</th>
+                                                                    <th>贷款金额</th>
+                                                                    <th>需回款金额</th>
+                                                                    <th>资金方</th>
+                                                                    <th>资方账户</th>
+                                                                    <th>生效时间</th>
+                                                                    <th>提交人</th>
+                                                                    <th>备注</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                       v2
+                                                                    </td>
+                                                                    <td>70万</td>
+                                                                    <td>30万</td>
+                                                                    <td>及时雨</td>
+                                                                    <td>5021 2345 1222 5689 543</td>
+                                                                    <td>2016-06-14 18:44</td>
+                                                                    <td>杨忠梁</td>
+                                                                    <td>提前还款50万元</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                       v1
+                                                                    </td>
+                                                                    <td>70万</td>
+                                                                    <td>70万</td>
+                                                                    <td>及时雨</td>
+                                                                    <td>5021 2345 1222 5689 543</td>
+                                                                    <td>2016-06-14 18:44</td>
+                                                                    <td>杨忠梁</td>
+                                                                    <td></td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="tab-pane" id="tab-hz">
+                                                        <table class="table table-striped">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                       转介人
+                                                                    </td>
+                                                                    <td>夏诚</td>
+                                                                    <td>200元</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                       金融贷款专员
+                                                                    </td>
+                                                                    <td>廖荣</td>
+                                                                    <td>40%</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                       合作人
+                                                                    </td>
+                                                                    <td>马惠财</td>
+                                                                    <td>10%</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                       产品部配合人
+                                                                    </td>
+                                                                    <td>杨忠梁</td>
+                                                                    <td>10%</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+
+                             </div>
+                    </div>
+                    <div class="ibox-content" id="reportThree" style="display:none;">
+                    </div>
+                    <div class="ibox-content" id="reportFour" style="display:none;">
+
+                    </div>
+                    <div class="ibox-content" id="reportFive" style="display:none;">
+
+                    </div>
+
                 </div>
             </div>
+
+
+
             <!-- main End -->
         </div>
     </div>
@@ -520,6 +748,18 @@
     <!-- Custom and plugin javascript -->
     <script src="../static/js/inspinia.js"></script>
     <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript" src="../static/trans/js/plugins/poshytip/jquery.poshytip.js"></script>
+
+    <!-- 开关按钮js -->
+    <script src="../static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
+
+
+    <script src="../static/js/plugins/stickup/stickUp.js"></script>
+    <script src="../static/trans/js/eloan/eloan_detail.js"></script>
+
+
+
+
 
 
 </body>

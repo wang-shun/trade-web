@@ -4,7 +4,7 @@
 	pageEncoding="utf-8"%>
 
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 
 <head>
@@ -109,10 +109,10 @@
 						<button type="button" onclick="clearForm()" class="btn btn-success">清空</button>
 					</div>
 					<div class="btn-right">
-						<button type="submit" class="btn btn-success">
-							<a href="${ctx}/spv/saveHTML">新建</a>
-						</button>
-						<button type="btn" class="btn btn-success">删除</button>
+					<c:if test="${sessionUser.serviceJobCode=='JYFKZY'}">
+						<button class="btn btn-success">
+						<a href="${ctx}/spv/saveHTML">新建</a></button></c:if>
+						<button type="btn" class="btn btn-default">删除</button>
 						<button type="btn" class="btn btn-success">入账</button>
 						<button type="btn" class="btn btn-success">出账</button>
 						<button type="btn" class="btn btn-success">中止／结束</button>
@@ -176,13 +176,13 @@
                                         </td>
                                         <td class="center">
                                             <p class="managerstyle">
-                                                监管金额<span>{{item.AMOUNT>0?item.AMOUNT:0}}万</span>
+                                                监管金额<span>{{item.AMOUNT>0?item.AMOUNT/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>{{item.ru>0?item.ru:0}}万</span>
+                                                入账金额<span>{{item.ru>0?item.ru/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>{{item.chu>0?item.chu:0}}万</span>
+                                                出账金额<span>{{item.chu>0?item.chu/10000:0}}万</span>
                                             </p>
                                         </td>
                                         <td>
@@ -199,9 +199,15 @@
                                                 <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
-                                        <td class="text-center"><a class="btn btn-success"
-                                           href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">查看</a>
+                                        <td class="text-center"><a class="btn btn-success btn-one "
+                                         style="font-size:10px;padding:2px 10px; margin-bottom:3px;"
+ 										href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">  查看</a>
+										  {{if item.STATUS==0}}
+                                        <a class="btn btn-success btn-one"style="font-size:10px; padding:2px 10px;"
+                                           href="${ctx}/spv/saveHTML?pkid={{item.PKID}}">修改</a>
+                                         {{/if}}
                                         </td>
+                                        
                                     </tr>
 			{{/each}}          
 	    </script> <script>
@@ -210,7 +216,7 @@
 							rows : 10,
 							page : 1,
 							sessionUserId : $("#userId").val(),
-							serviceDepId : $("#serviceDepId").val(),
+							servicDepId : $("#serviceDepId").val(),
 							serviceJobCode : $("#serviceJobCode").val(),
 							serviceDepHierarchy : $("#serviceDepHierarchy")
 									.val()
@@ -245,7 +251,10 @@
 											.val();
 											params.search_endDate=$(
 											"input[name='endDate']")
-											.val()+" 23:59:59";
+											.val();
+											if(params.search_endDate!=null && params.search_endDate!=""){
+												params.search_endDate+=" 23:59:59";
+											}
 											params.search_prAddress=$(
 											"input[name='prAddress']")
 											.val();

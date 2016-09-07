@@ -162,14 +162,14 @@
 			p.CASE_CODE as caseCode,
 			p.EST_PART_TIME as estParTtime,
 			prop.PROPERTY_ADDR as  propertyAddr
-		FROM sctrans.T_TO_TRANS_PLAN p
-		INNER JOIN sctrans.T_TO_CASE c
+		FROM sctrans.T_TO_TRANS_PLAN p with(nolock)
+		INNER JOIN sctrans.T_TO_CASE c with(nolock)
 		ON c.CASE_CODE=p.CASE_CODE
-		INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s
+		INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s with(nolock)
 		ON s.CASE_CODE=p.CASE_CODE
-		INNER JOIN sctrans.SYS_DICT d
+		INNER JOIN sctrans.SYS_DICT d with(nolock)
 		ON d.Type=s.srv_code
-		INNER JOIN sctrans.T_TO_PROPERTY_INFO prop
+		INNER JOIN sctrans.T_TO_PROPERTY_INFO prop with(nolock)
 		ON prop.CASE_CODE=p.CASE_CODE
 		WHERE s.PROCESSOR_ID= #{leadingProcessId,jdbcType=VARCHAR}
 			AND c.CASE_PROPERTY='30003003' 

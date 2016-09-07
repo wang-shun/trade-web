@@ -1,7 +1,3 @@
-/**
- * AISThink.com Inc.
- * Copyright (c) 2015-2015 All Rights Reserved.
- */
 package com.centaline.trans.workspace.web;
 
 import java.io.IOException;
@@ -16,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +22,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -49,6 +49,7 @@ import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LightColorEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
 import com.centaline.trans.task.vo.TransPlanVO;
@@ -61,11 +62,10 @@ import com.centaline.trans.workspace.entity.WorkLoad;
 import com.centaline.trans.workspace.entity.WorkSpace;
 import com.centaline.trans.workspace.service.WorkSpaceService;
 
-/**
- * 
- * @author sstonehu
- * @version $Id: WorkSpaceController.java, v 0.1 2015年7月24日 上午9:43:30 sstonehu`
- *          Exp $
+/** 
+ * @author zhuody
+ * @version V1.1  2016-08-31
+ *     
  */
 @Controller
 @SuppressWarnings("all")
@@ -75,6 +75,10 @@ public class WorkSpaceController {
 	private WorkSpaceService workSpaceService;
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
+	
+	//快速查询接口
+	@Resource(name = "quickGridService")
+	private QuickGridService quickGridService;
 
 	@Autowired
 	private UamBasedataService uamBasedataService;
@@ -124,169 +128,57 @@ public class WorkSpaceController {
 
 		return isFromMobile;
 	}
-
-/*	@RequestMapping(value = "dashboard")
-	public String showWorkSpace(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		//本月目标达成报表，数据查询开始时间
-		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
-		model.addAttribute("startDate",startDate);
-		
-		boolean isMobile = checkMobile(request);
-		if (isMobile) {
-			return mainPage(model, request);
-		}
-		SessionUser user = uamSessionService.getSessionUser();
-		List<User> uList = new ArrayList<>();
-		String userId = user.getId();
-		String orgName = "";
-		// 判断登录用户
-		String userOrgId = user.getServiceDepId();
-
-		List<User> userList = null;
-		List<User> userList2 = null;
-		ToCaseInfoCountVo toCaseInfoCount = null;
-		if (TransJobs.TZJL.getCode().equals(user.getServiceJobCode())) {// 如果是总经理
-			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
-					userOrgId, DepTypeEnum.TYCQY.getCode());
-
-			if (CollectionUtils.isNotEmpty(orgList)) {
-				// 各个区域
-				for (Org toOrgVo : orgList) {
-					User u = new User();
-					u.setId(toOrgVo.getId());
-					u.setRealName(toOrgVo.getOrgName());
-					uList.add(u);
-				}
-			}
-			//model.addAttribute("isConsult", "GeneralManager");
-		} else if (TransJobs.TZJ.getCode().equals(user.getServiceJobCode())) { // 如果是总监
-			// 各个组
-			List<Org> orgIdList = uamUserOrgService.getOrgByDepHierarchy(
-					userOrgId, DepTypeEnum.TYCTEAM.getCode());
-			for (Org toOrgVo : orgIdList) {
-				User u = new User();
-				u.setId(toOrgVo.getId());
-				u.setRealName(toOrgVo.getOrgName());
-				uList.add(u);
-			}
-			//model.addAttribute("isConsult", "director");
-		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())|| TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
-			userList = uamUserOrgService.getUserByOrgIdAndJobCode(
-					user.getServiceDepId(), TransJobs.TJYGW.getCode());
-			for (User users : userList) {
-				User u = new User();
-				u.setId(users.getId());
-				u.setRealName(users.getRealName());
-				uList.add(u);
-			}
-			//model.addAttribute("isConsult", "Manager");
-		} else{
-			//model.addAttribute("isConsult", "1");
-		}
-		
-		if (CollectionUtils.isNotEmpty(uList)) {
-			model.addAttribute("uList", uList);
-		}
-
-		boolean isJygw = false;
-		if (TransJobs.TJYGW.getCode().equals(user.getServiceJobCode())) {
-			TransPlanVO transPlanVO = new TransPlanVO();
-			transPlanVO.setUserId(user.getId());
-			transPlanVO.setUserName(user.getUsername());
-			List<TransPlanVO> transPlanVOList = tsTransPlanHistoryService
-					.getTransPlanVOList(transPlanVO);
-			for (TransPlanVO transPlanVOOld : transPlanVOList) {
-				if (!StringUtils.isBlank(transPlanVOOld.getPartCode())) {
-					String partCodeStr = uamBasedataService.getDictValue(
-							"part_code", transPlanVOOld.getPartCode());
-					transPlanVOOld.setPartCodeStr(partCodeStr);
-				}
-			}
-
-			if (transPlanVOList != null && transPlanVOList.size() > 0
-					&& !isCache(request, response)) {
-				isJygw = true;
-			}
-			model.addAttribute("transPlanVOList", transPlanVOList);
-		}
-		model.addAttribute("isJygw", isJygw);
-		Date now = new Date();
-		WorkSpace wk= buildWorkSpaceBean(null, null);
-		wk.setColor(0);
-		int redLight = workSpaceService.countLight(wk);
-		wk.setColor(1);
-		int yeLight = workSpaceService.countLight(wk);
-		
-		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
-		
-		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
-		model.addAttribute("redLight", redLight);
-		model.addAttribute("yeLight", yeLight);
-		model.addAttribute("userId", user.getId());
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(user
-				.getServiceDepCode());
-		boolean isBackTeam = false;
-		if (tp != null) {
-			isBackTeam = "yu_back".equals(tp.getTeamProperty());
-		}
-
-		if (SecurityUtils.getSubject().isPermitted(
-				"TRADE.WORKSPACE.WORKLOAD.CONSULTANT.FRONT")
-				&& !isBackTeam) {
-			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);
-		}
-
-		model.addAttribute("isBackTeam", isBackTeam);
-		if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.RANK")) {
-			model.addAttribute("rank", doGetRank(user));
-		}
-
-		WorkSpace work = new WorkSpace();
-		work.setOrgId(user.getServiceDepId());
-		work.setUserId(user.getUsername());
-		if (SecurityUtils.getSubject().isPermitted(
-				"TRADE.WORKSPACE.WORKLOAD.MANAGE.END")
-				&& isBackTeam) {
-			model.addAttribute("managerWorkLoad",
-					workloadManagerBackoffice(work));
-		}
-		if (SecurityUtils.getSubject().isPermitted(
-				"TRADE.WORKSPACE.WORKLOAD.CONSULTANT.END")
-				&& isBackTeam) {
-			model.addAttribute("workLoadConsultant",
-					workSpaceService.workloadConsultantBackoffice(work));
-		}
-		return "workspace/dashboard";
-	}*/
-
+	
+	
+	
 	@RequestMapping(value = "dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		SessionUser currentUser = uamSessionService.getSessionUser();
-		
+		SessionUser user = uamSessionService.getSessionUser();
+		//SessionUser currentUser = uamSessionService.getSessionUser();		
 		/*判断是否为移动端登录*/
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
 			return mainPage(model, request);
 		}
 		
-		//本月目标达成报表，数据查询开始时间
+		//本月目标达成报表，数据查询开始时间 在当前月份的基础上推前5个月开始查询
 		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
 		model.addAttribute("startDate",startDate);
 		
 		//红 黄 商贷流失预警案件数灯
-		WorkSpace wk= buildWorkSpaceBean(null, null);
+		/*WorkSpace wk= buildWorkSpaceBean(null, null);
 		wk.setColor(0);
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
-		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
-		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
-		model.addAttribute("redLight", redLight);
-		model.addAttribute("yeLight", yeLight);
+		int bizwarnCaseCount = 0;
+		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
+			bizwarnCaseCount = bizWarnInfoService
+					.getAllBizwarnCountByTeam(currentUser.getUsername()); // 获取本组所有的状态为生效的商贷预警数
+		} else {
+			bizwarnCaseCount = bizWarnInfoService
+					.getAllBizwarnCountByDistinct(currentUser
+							.getServiceCompanyId()); // 获取本区所有的状态为生效的商贷预警数
+		}*/
+		//int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
+		Map map=new HashMap();
+		String jobCode = user.getServiceJobCode();
+		//设置当前系统用户的登录名
+		map.put("candidateId", user.getUsername());
+		//非交易主管
+		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
+			map.put("managerFlag", "1");
+		} else {
+			map.put("orgId", user.getServiceDepId());
+		}
+		int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
+		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
 		
-		SessionUser user = uamSessionService.getSessionUser();
+/*		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
+		model.addAttribute("redLight", redLight);
+		model.addAttribute("yeLight", yeLight);*/
+		
+		
 		model.addAttribute("userId", user.getId());
 		
 		//判断组织是否为后台的
@@ -298,9 +190,10 @@ public class WorkSpaceController {
 		
 		List<User> uList = new ArrayList<User>();
 		String userId = user.getId();
-		String jobCode = user.getServiceJobCode();
 		String userOrgId = user.getServiceDepId();
 		Date now = new Date();
+		
+		model.addAttribute("jobCode", jobCode);
 		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
 			/*各个贵宾服务部*/
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgId, DepTypeEnum.TYCQY.getCode());
@@ -321,7 +214,7 @@ public class WorkSpaceController {
 			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			return "workbench/dashboard_generalManager";
 		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
@@ -342,12 +235,12 @@ public class WorkSpaceController {
 			model.addAttribute("sta", sta);*/
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			return "workbench/dashboard_director";
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) {// 交易主管
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			/*高级交易主管添加待办事项*/
 /*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
@@ -402,10 +295,10 @@ public class WorkSpaceController {
 			model.addAttribute("isJygw", isJygw);
 			
 			/*龙虎榜*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			/*待办事项*/
-			model.addAttribute("rank", doGetRank(user));
+			//model.addAttribute("rank", doGetRank(user));
 			
 			if (isBackTeam) { //后台交易顾问
 				/*工作数据显示*/
@@ -664,7 +557,327 @@ public class WorkSpaceController {
 		
 		return "mobile/workspace/mainPage";
 	}
+	
+	
+	//龙虎榜快速查询
+	@RequestMapping(value = "qqGetRank")
+	@ResponseBody	
+	public Map doGetRankByQuickQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {	
+		SessionUser user = uamSessionService.getSessionUser();
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(false);		
 
+		Map<String,Object> map = new HashMap<String,Object>();
+		WorkSpace work = new WorkSpace();
+		work.setUserId(user.getId());
+		String jobCode = user.getServiceJobCode();
+		List<String> args = new ArrayList<String>();
+		if (TransJobs.TZJL.getCode().equals(jobCode)) { //总经理
+			work.setRankType(TransJobs.TZJ.getCode());
+			work.setOrgId(null);
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					User u = new User();
+					args.add(toOrgVo.getId());
+				}
+			}
+			work.setOrgs(args);
+			
+			if(work!=null){
+				gp.put("user_Id", work.getUserId());
+				gp.put("org_Id", work.getOrgId());			
+				gp.put("orgs", work.getOrgs());				
+				gp.put("rankType", work.getRankType());
+				gp.put("RankDuration", work.getRankDuration());
+				gp.setQueryId("personalWorkGetRankListQuery");
+			}
+			
+			gp.put("rankCat", "loan_amount");	
+			List  loanAmountList=null;
+			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
+				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
+					loanAmountList.add(loanAmountListResult.getContent());
+				}		
+			}
+			map.put("loanAmountRankList", loanAmountList);
+			
+			List  signAmountList=null;
+			gp.put("rankCat", "sign_amount");	
+			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
+				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
+					signAmountList.add(signAmountListResult.getContent());
+				}		
+			}
+			map.put("signAmountRankList", signAmountList);
+			
+			
+			List  actualAmountList=null;
+			gp.put("rankCat", "actual_amount");		
+			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
+				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
+					actualAmountList.add(actualAmountListResult.getContent());
+				}		
+			}
+			map.put("actualAmountRankList", actualAmountList);
+			
+			map.put("loanAmountRank", null);
+			map.put("signAmountRank", null);
+			map.put("actualAmountRank", null);
+			
+		} else if(TransJobs.TZJ.getCode().equals(jobCode)) { //总监
+			work.setRankType(jobCode);
+			work.setOrgId(null);
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCZB.getCode()).getId(), DepTypeEnum.TYCQY.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					args.add(toOrgVo.getId());
+				}
+			}
+			args.add(user.getServiceDepId());
+			work.setOrgs(args);	
+			
+			if(work!=null){
+				gp.put("user_Id", work.getUserId());
+				gp.put("org_Id", work.getOrgId());			
+				gp.put("orgs", work.getOrgs());				
+				gp.put("rankType", work.getRankType());				
+				gp.put("RankDuration", work.getRankDuration());
+				gp.setQueryId("personalWorkGetRankListQuery");
+			}
+		
+			
+			gp.put("rankCat", "loan_amount");	
+			List  loanAmountList=null;
+			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
+				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
+					loanAmountList.add(loanAmountListResult.getContent());
+				}		
+			}
+			map.put("loanAmountRankList", loanAmountList);
+			
+			List  signAmountList=null;
+			gp.put("rankCat", "sign_amount");	
+			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
+				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
+					signAmountList.add(signAmountListResult.getContent());
+				}		
+			}
+			map.put("signAmountRankList", signAmountList);
+			
+			
+			List  actualAmountList=null;
+			gp.put("rankCat", "actual_amount");		
+			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
+				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
+					actualAmountList.add(actualAmountListResult.getContent());
+				}		
+			}
+			map.put("actualAmountRankList", actualAmountList);			
+			
+			work.setOrgId(user.getServiceDepId());
+			gp.put("org_Id", work.getOrgId());	
+			gp.setQueryId("personalWorkGetRankQuery");
+			gp.put("rankCat", "loan_amount");
+			int loan_amount=0;
+			Page<Map<String, Object>> loanAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult2!=null && loanAmountListResult2.getContent()!=null && loanAmountListResult2.getContent().size()>0){	
+				loan_amount= (int) loanAmountListResult2.getContent().get(0).get("rank_no");
+			}		
+			map.put("loanAmountRank", loan_amount);
+			
+			
+			gp.put("rankCat", "sign_amount");
+			int sign_amount=0;
+			Page<Map<String, Object>> signAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult2!=null && signAmountListResult2.getContent()!=null && signAmountListResult2.getContent().size()>0){	
+				sign_amount= (int) signAmountListResult2.getContent().get(0).get("rank_no");
+			}
+			map.put("signAmountRank", sign_amount);
+			
+			gp.put("rankCat", "actual_amount");
+			int actual_amount=0;
+			Page<Map<String, Object>> actualAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult2!=null && actualAmountListResult2.getContent()!=null && actualAmountListResult2.getContent().size()>0){	
+				actual_amount= (int) actualAmountListResult2.getContent().get(0).get("rank_no");
+			}
+			map.put("actualAmountRank", actual_amount);
+			
+		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
+			work.setRankType(TransJobs.TJYZG.getCode());
+			work.setOrgId(null);
+			// 主管只看当前组织
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					args.add(toOrgVo.getId());
+				}
+			}
+			args.add(user.getServiceDepId());
+			work.setOrgs(args);			
+			if(work!=null){
+				gp.put("user_Id", work.getUserId());
+				gp.put("org_Id", work.getOrgId());			
+				gp.put("orgs", work.getOrgs());				
+				gp.put("rankType", work.getRankType());				
+				gp.put("RankDuration", work.getRankDuration());
+				gp.setQueryId("personalWorkGetRankListQuery");
+			}
+			
+			gp.put("rankCat", "loan_amount");	
+			List  loanAmountList=null;
+			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
+				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
+					loanAmountList.add(loanAmountListResult.getContent());
+				}		
+			}
+			map.put("loanAmountRankList", loanAmountList);
+			
+			List  signAmountList=null;
+			gp.put("rankCat", "sign_amount");	
+			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
+				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
+					signAmountList.add(signAmountListResult.getContent());
+				}		
+			}
+			map.put("signAmountRankList", signAmountList);
+			
+			
+			List  actualAmountList=null;
+			gp.put("rankCat", "actual_amount");		
+			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
+				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
+					actualAmountList.add(actualAmountListResult.getContent());
+				}		
+			}
+			map.put("actualAmountRankList", actualAmountList);			
+			
+			work.setOrgId(user.getServiceDepId());
+			gp.put("org_Id", work.getOrgId());	
+			gp.setQueryId("personalWorkGetRankQuery");
+			gp.put("rankCat", "loan_amount");
+			int loan_amount=0;
+			Page<Map<String, Object>> loanAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult2!=null && loanAmountListResult2.getContent()!=null && loanAmountListResult2.getContent().size()>0){	
+				loan_amount= (int) loanAmountListResult2.getContent().get(0).get("rank_no");
+			}		
+			map.put("loanAmountRank", loan_amount);
+			
+			
+			gp.put("rankCat", "sign_amount");
+			int sign_amount=0;
+			Page<Map<String, Object>> signAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult2!=null && signAmountListResult2.getContent()!=null && signAmountListResult2.getContent().size()>0){	
+				sign_amount= (int) signAmountListResult2.getContent().get(0).get("rank_no");
+			}
+			map.put("signAmountRank", sign_amount);
+			
+			gp.put("rankCat", "actual_amount");
+			int actual_amount=0;
+			Page<Map<String, Object>> actualAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult2!=null && actualAmountListResult2.getContent()!=null && actualAmountListResult2.getContent().size()>0){	
+				actual_amount= (int) actualAmountListResult2.getContent().get(0).get("rank_no");
+			}
+			map.put("actualAmountRank", actual_amount);
+		} else if (TransJobs.TJYGW.getCode().equals(jobCode)) { //交易顾问
+			work.setRankType(jobCode);
+			work.setOrgs(null);
+			work.setOrgId(user.getServiceDepId());
+			
+			if(work!=null){
+				gp.put("user_Id", work.getUserId());
+				gp.put("org_Id", work.getOrgId());			
+				gp.put("orgs", work.getOrgs());				
+				gp.put("rankType", work.getRankType());				
+				gp.put("RankDuration", work.getRankDuration());
+				gp.setQueryId("personalWorkGetRankListQuery");
+			}
+			gp.put("rankCat", "loan_amount");	
+			List  loanAmountList=null;
+			Page<Map<String, Object>> loanAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult!=null && loanAmountListResult.getContent()!=null && loanAmountListResult.getContent().size()>0){				
+				for(int i=0;i<loanAmountListResult.getContent().size();i++){
+					loanAmountList=new ArrayList();
+					loanAmountList.add(loanAmountListResult.getContent());
+				}		
+			}
+			map.put("loanAmountRankList", loanAmountList);
+			
+			List  signAmountList=null;
+			gp.put("rankCat", "sign_amount");	
+			Page<Map<String, Object>> signAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult!=null && signAmountListResult.getContent()!=null && signAmountListResult.getContent().size()>0){				
+				for(int i=0;i<signAmountListResult.getContent().size();i++){
+					signAmountList=new ArrayList();
+					signAmountList.add(signAmountListResult.getContent());
+				}		
+			}
+			map.put("signAmountRankList", signAmountList);
+			
+			
+			List  actualAmountList=null;
+			gp.put("rankCat", "actual_amount");		
+			Page<Map<String, Object>> actualAmountListResult = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult!=null && actualAmountListResult.getContent()!=null && actualAmountListResult.getContent().size()>0){				
+				for(int i=0;i<actualAmountListResult.getContent().size();i++){
+					actualAmountList=new ArrayList();
+					actualAmountList.add(actualAmountListResult.getContent());
+				}		
+			}
+			map.put("actualAmountRankList", actualAmountList);			
+			
+			work.setOrgId(user.getServiceDepId());
+			gp.put("org_Id", work.getOrgId());	
+			gp.setQueryId("personalWorkGetRankQuery");
+			gp.put("rankCat", "loan_amount");
+			int loan_amount=0;
+			Page<Map<String, Object>> loanAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(loanAmountListResult2!=null && loanAmountListResult2.getContent()!=null && loanAmountListResult2.getContent().size()>0){	
+				loan_amount= (int) loanAmountListResult2.getContent().get(0).get("rank_no");
+			}		
+			map.put("loanAmountRank", loan_amount);
+			
+			
+			gp.put("rankCat", "sign_amount");
+			int sign_amount=0;
+			Page<Map<String, Object>> signAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(signAmountListResult2!=null && signAmountListResult2.getContent()!=null && signAmountListResult2.getContent().size()>0){	
+				sign_amount= (int) signAmountListResult2.getContent().get(0).get("rank_no");
+			}
+			map.put("signAmountRank", sign_amount);
+			
+			gp.put("rankCat", "actual_amount");
+			int actual_amount=0;
+			Page<Map<String, Object>> actualAmountListResult2 = quickGridService.findPageForSqlServer(gp);			
+			if(actualAmountListResult2!=null && actualAmountListResult2.getContent()!=null && actualAmountListResult2.getContent().size()>0){	
+				actual_amount= (int) actualAmountListResult2.getContent().get(0).get("rank_no");
+			}
+			map.put("actualAmountRank", actual_amount);
+		}
+
+		return map;
+	}
+	
 	/**
 	 * 龙虎榜排名统计
 	 * 
@@ -719,6 +932,8 @@ public class WorkSpaceController {
 			map.put("signAmountRankList", workSpaceService.topRankList(work));
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
+			
+			
 			
 			work.setOrgId(user.getServiceDepId());
 			work.setRankCat("loan_amount");
@@ -931,6 +1146,446 @@ public class WorkSpaceController {
 		return toCaseInfoCountVo;
 	}
 
+	
+	
+	@RequestMapping(value = "trafficLightTips")
+	@ResponseBody
+	public Map trafficLightTips(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SessionUser currentUser = uamSessionService.getSessionUser();		
+		Map  map =new HashMap();
+		//红 黄 商贷流失预警案件数灯
+		WorkSpace wk= buildWorkSpaceBean(null, null);
+		int redLight = redLightCountQuery(wk);
+		int yeLight = yeLightCountQuery(wk);
+		//无主案件预警数
+		Long unLocatedCase =  getUnlocatedCaseCount();
+		//无主任务预警数
+		Long unLocatedTask = getUnlocatedTaskCount(currentUser);
+		//待分配任务预警数
+		Long caseDistributeCount =  getCaseDistributeCount();
+		
+		int bizwarnCaseCount = 0;
+		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
+			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername());
+			//bizWarnInfoService.getAllBizwarnCountByTeam(currentUser.getUsername()); // 获取本组所有的状态为生效的商贷预警数
+		} else {
+			bizwarnCaseCount = benchBizwarnCaseCountQueryByDistinct(currentUser.getServiceCompanyId());
+			//bizWarnInfoService.getAllBizwarnCountByDistinct(currentUser.getServiceCompanyId()); // 获取本区所有的状态为生效的商贷预警数
+		}		
+		map.put("bizwarnCaseCount", bizwarnCaseCount);
+		map.put("redLight", redLight);
+		map.put("yeLight", yeLight);
+		
+		map.put("unLocatedCaseCount", unLocatedCase);
+		map.put("unLocatedTaskCount", unLocatedTask);
+		map.put("caseDistributeCount", caseDistributeCount);
+		
+		return map;
+	}
+	
+	/**
+	 * 待分配任务预警数
+	 */
+	public Long getCaseDistributeCount(){
+		JQGridParam gp = new JQGridParam();
+		gp.setCountOnly(true);
+		gp.setQueryId("queryCastListItemListUnDistribute");
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		return pages.getTotalElements();
+	}
+	
+	/**
+	 * 无主任务预警数
+	 * @return
+	 */
+	public Long getUnlocatedTaskCount(SessionUser currentUser){
+		JQGridParam gp = new JQGridParam();
+		String jobCode = currentUser.getServiceJobCode();
+		//设置当前系统用户的登录名
+		gp.put("candidateId", currentUser.getUsername());
+		//非交易主管
+		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
+			gp.put("managerFlag", "1");
+		} else {
+			gp.put("mOrgId", currentUser.getServiceDepId());
+		}
+		gp.setCountOnly(true);
+		gp.setQueryId("queryUnlocatedTask");
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		return pages.getTotalElements();
+	}
+	
+	/**
+	 * 无主案件预警数
+	 * @return
+	 */
+	public Long getUnlocatedCaseCount(){
+		JQGridParam gp = new JQGridParam();
+		gp.setCountOnly(true);
+		gp.setQueryId("queryUnlocatedCase");
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		return pages.getTotalElements();
+	}
+	
+	//查找红灯预警数量
+	private int redLightCountQuery(WorkSpace wk) {		
+		JQGridParam gp = new JQGridParam();
+		
+		gp.setPagination(false);		
+		if(wk!=null){
+			gp.put("user_Id", wk.getUserId());
+			gp.put("org_Id", wk.getOrgId());			
+			gp.put("orgs", wk.getOrgs());
+			gp.put("color", "0");
+		}
+		gp.setQueryId("personalWorkbenchRedLightCountQuery");
+		Page<Map<String, Object>> redLightResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println("redLightResult===="+redLightResult);
+		int redLight = 0;
+		if(redLightResult!=null && redLightResult.getContent()!=null && redLightResult.getContent().size()>0){		
+			redLight= (int) redLightResult.getContent().get(0).get("redLight");	
+		}
+		return redLight;
+	}
+	
+	//查找黄灯预警数量
+	private int yeLightCountQuery(WorkSpace wk) {		
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(false);
+		if(wk!=null){			
+			gp.put("user_Id", wk.getUserId());
+			gp.put("org_Id", wk.getOrgId());			
+			gp.put("orgs", wk.getOrgs());
+			gp.put("color", "1");
+		}
+
+		gp.setQueryId("personalWorkbenchYeLightCountQuery");
+		Page<Map<String, Object>> yeLightResult = quickGridService.findPageForSqlServer(gp);		
+		int yeLight = 0;
+		if(yeLightResult!=null && yeLightResult.getContent()!=null && yeLightResult.getContent().size()>0){		
+			yeLight= (int) yeLightResult.getContent().get(0).get("yeLight");	
+		}
+		
+
+		return yeLight;
+	}
+	
+	//查找本组流失预警数量
+	private int benchBizwarnCaseCountQueryByTeam(String userName) {	
+		
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(false);				
+		gp.put("user_LoginName", userName);
+		
+		gp.setQueryId("personalWorkbenchBizwarnCaseCountQueryByTeam");
+		Page<Map<String, Object>> benchBizwarnCaseResultByTeam = quickGridService.findPageForSqlServer(gp);		
+		int bizwarnCaseCount = 0;
+		if(benchBizwarnCaseResultByTeam!=null && benchBizwarnCaseResultByTeam.getContent()!=null && benchBizwarnCaseResultByTeam.getContent().size()>0){		
+			bizwarnCaseCount= (int) benchBizwarnCaseResultByTeam.getContent().get(0).get("bizwarnCaseCountByTeam");	
+		}
+		return bizwarnCaseCount;
+	}
+	
+	//查找本组流失预警数量
+	private int benchBizwarnCaseCountQueryByDistinct(String ServiceCompanyId) {	
+		
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(false);				
+		gp.put("currentOrgId", ServiceCompanyId);
+		
+		gp.setQueryId("personalWorkbenchBizwarnCaseCountQueryByDistinct");
+		Page<Map<String, Object>> benchBizwarnCaseResultByDistinct = quickGridService.findPageForSqlServer(gp);		
+		int bizwarnCaseCount = 0;
+		if(benchBizwarnCaseResultByDistinct!=null && benchBizwarnCaseResultByDistinct.getContent()!=null && benchBizwarnCaseResultByDistinct.getContent().size()>0){		
+			bizwarnCaseCount= (int) benchBizwarnCaseResultByDistinct.getContent().get(0).get("bizwarnCaseCountByDistinct");	
+		}
+		return bizwarnCaseCount;
+	}
+	
+	
+	//个人工作台 性能优化测试
+	@RequestMapping(value = "newWorkSpaceSta")
+	@ResponseBody
+	public Map newWorkSpaceSta(String serachId, String mo) {
+		WorkSpace work = buildWorkSpaceBean(serachId, mo);		
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(false);
+		if(work!=null){			
+			gp.put("mo", work.getMo());
+			gp.put("org_Id", work.getOrgId());			
+			gp.put("orgs", work.getOrgs());				
+			gp.put("user_Id", work.getUserId());
+		}
+		
+		Map workSpaceMap=new HashMap();
+		//接单
+		String receiveCount=receiveOrder(gp);
+		if(!"".equals(receiveCount) && receiveCount!=null){
+			workSpaceMap.put("receiveCount", receiveCount);
+		}else{
+			workSpaceMap.put("receiveCount", "0");
+		}
+		//签约
+		String signCount=signAmount(gp);
+		if(!"".equals(signCount) && signCount!=null){
+			workSpaceMap.put("signCount", signCount);
+		}else{
+			workSpaceMap.put("signCount", "0");
+		}
+		
+		//贷款申请
+		String loanApplyCount=loanApplyCount(gp);
+		if(!"".equals(loanApplyCount) && loanApplyCount!=null){
+			workSpaceMap.put("loanApplyCount", loanApplyCount);
+		}else{
+			workSpaceMap.put("loanApplyCount", "0");
+		}
+		
+		//结案
+		String closeCount=closeCount(gp);
+		if(!"".equals(closeCount) && closeCount!=null){
+			workSpaceMap.put("closeCount", closeCount);
+		}else{
+			workSpaceMap.put("closeCount", "0");
+		}
+		
+		NumberFormat formatter = new DecimalFormat("###,##0.00万");
+		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
+		
+		Map map1=actualAmountAndConvRate(gp);
+		if (map1.get("actualAmount") == null) {
+			workSpaceMap.put("actualAmount", "0.00万");
+		} else {
+			workSpaceMap.put("actualAmount", formatter.format(( new BigDecimal((String)map1.get("actualAmount")) ).divide(new BigDecimal(10000))));
+		}
+		
+		String loanAmount=loanAmountQuery(gp);
+		if (loanAmount == null) {
+			workSpaceMap.put("loanAmount", "0.00万");
+		} else {
+			workSpaceMap.put("loanAmount", formatter.format(Double.valueOf(loanAmount)/10000));
+		}
+		
+		String signAmount=signAmountQuery(gp);
+		if (signAmount == null) {
+			workSpaceMap.put("signAmount", "0.00万");
+		} else {
+			workSpaceMap.put("signAmount", formatter.format(Double.valueOf(signAmount)/10000));
+		}
+		
+		String convRate=convRateQuery(gp);
+		if (convRate == null) {
+			workSpaceMap.put("convRate", "0.00%");
+		} else {
+			workSpaceMap.put("convRate", formatter2.format(Double.valueOf(convRate)*100) + "%");
+		}
+		String efConverRt=efConverRtQuery(gp);
+		if (efConverRt == null) {
+			workSpaceMap.put("efConverRt", "0.00%");
+		} else {
+			workSpaceMap.put("efConverRt", formatter2.format(Double.valueOf(efConverRt)) + "%");
+		}
+
+
+		Map map2=staEvaFeeQuery(gp);
+		if (map2 != null) {
+			workSpaceMap.putAll(map2);
+		}
+		if (map2.get("evalFee") == null) {
+			workSpaceMap.put("evalFee", "0.00");
+		} else {
+			workSpaceMap.put("evalFee", formatter2.format(new BigDecimal(map2.get("evalFee").toString())));
+		}
+		if (map2.get("efConvRate") == null) {
+			workSpaceMap.put("efConvRate", "0.00%");
+		} else {
+			workSpaceMap.put("efConvRate", formatter2.format(new BigDecimal(map2.get("efConvRate").toString())) + "%");
+		}		
+		
+		workSpaceMap.put("staLoanApply", staLoanApplyQuery(gp));
+		workSpaceMap.put("staLoanSign",  staLoanSignQuery(gp));
+		workSpaceMap.put("staLoanRelease",  staLoanReleaseQuery(gp));
+		
+		return workSpaceMap; 
+	}
+	
+	//查询借贷详情
+	private Object staLoanApplyQuery(JQGridParam gp) {
+		
+		gp.setQueryId("personalWorkbenchStaLoanApplyQuery");
+		Page<Map<String, Object>> staLoanApplyResult = quickGridService.findPageForSqlServer(gp);		
+		Object staLoanApply = null;
+		if(staLoanApplyResult!=null && staLoanApplyResult.getContent()!=null && staLoanApplyResult.getContent().size()>0){
+			staLoanApply = JSONArray.toJSON(staLoanApplyResult.getContent());		
+		}
+		return staLoanApply;
+	}
+	//查询签约详情
+	private Object staLoanSignQuery(JQGridParam gp) {
+		gp.setQueryId("personalWorkbenchStaLoanSignQueryQuery");
+		Page<Map<String, Object>> staLoanSignResult = quickGridService.findPageForSqlServer(gp);		
+		Object staLoanSign =null;		
+		if(staLoanSignResult!=null && staLoanSignResult.getContent()!=null && staLoanSignResult.getContent().size()>0){
+			staLoanSign=JSONArray.toJSON(staLoanSignResult.getContent());		
+		}
+		return staLoanSign;
+	}
+	//查询放贷详情
+	private Object staLoanReleaseQuery(JQGridParam gp) {
+		gp.setQueryId("personalWorkbenchStaLoanReleaseQuery");
+		Page<Map<String, Object>> staLoanReleaseResult = quickGridService.findPageForSqlServer(gp);
+		Object staLoanRelease = null;
+		if(staLoanReleaseResult!=null && staLoanReleaseResult.getContent()!=null && staLoanReleaseResult.getContent().size()>0){
+			staLoanRelease=JSONArray.toJSON(staLoanReleaseResult.getContent());		
+		}
+		return staLoanRelease;
+	}
+	
+	//查询接单数
+	private String receiveOrder(JQGridParam gp) {	
+		gp.setQueryId("personalWorkbenchReceiveOrderQuery");
+		Page<Map<String, Object>> receiveOrderResult = quickGridService.findPageForSqlServer(gp);		
+		String receiveCount = null;		
+		if(receiveOrderResult!=null && receiveOrderResult.getContent()!=null && receiveOrderResult.getContent().size()>0){
+			if(receiveOrderResult.getContent().get(0).get("receiveCount")!=null){
+				receiveCount= receiveOrderResult.getContent().get(0).get("receiveCount").toString();	
+			}			
+		}		
+		return receiveCount;		
+	}
+	
+	//查询签约数
+	private String signAmount(JQGridParam gp) {
+		gp.setQueryId("personalWorkbenchSignCountQuery");
+		Page<Map<String, Object>> signAmountResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println(signAmountResult.toString());
+		String signCount = null;		
+		if(signAmountResult!=null && signAmountResult.getContent()!=null && signAmountResult.getContent().size()>0){
+			if(signAmountResult.getContent().get(0).get("signCount")!=null){
+				signCount= signAmountResult.getContent().get(0).get("signCount").toString();
+			}			
+		}		
+		return signCount;	
+
+	}
+	
+	//查询贷款申请数
+	private String loanApplyCount(JQGridParam gp) {
+		String loanApplyCount=null;
+		gp.setQueryId("personalWorkbenchLoanApplyCountQuery");
+		Page<Map<String, Object>> loanApplyCountResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println("loanApplyCountResult"+loanApplyCountResult.toString());		
+		if(loanApplyCountResult!=null && loanApplyCountResult.getContent()!=null && loanApplyCountResult.getContent().size()>0){
+			if(loanApplyCountResult.getContent().get(0).get("loanApplyCount")!=null){
+				loanApplyCount= loanApplyCountResult.getContent().get(0).get("loanApplyCount").toString();	
+			}			
+		}		
+		return loanApplyCount;	
+	}
+	
+	//查询结案数
+	private String closeCount(JQGridParam gp) {
+		String closeCount =null;
+		gp.setQueryId("personalWorkbenchCloseCountQuery");
+		Page<Map<String, Object>> closeCountResult = quickGridService.findPageForSqlServer(gp);		
+		if(closeCountResult!=null && closeCountResult.getContent()!=null && closeCountResult.getContent().size()>0){
+			if(closeCountResult.getContent().get(0).get("closeCount")!=null){
+				closeCount= closeCountResult.getContent().get(0).get("closeCount").toString();
+			}
+				
+		}		
+		return closeCount;	
+	}
+	//查询放款金额和转化率
+	private Map<String,String> actualAmountAndConvRate(JQGridParam gp) {
+		Map map=new HashMap();
+		gp.setQueryId("personalWorkbenchActualAmountAndConvRateQuery");
+		Page<Map<String, Object>> actualAmountAndConvRateResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println("actualAmountAndConvRateResult==="+actualAmountAndConvRateResult.getContent().get(0).get("actualAmount"));
+		if(actualAmountAndConvRateResult!=null && actualAmountAndConvRateResult.getContent()!=null && actualAmountAndConvRateResult.getContent().size()>0){
+			if(null != actualAmountAndConvRateResult.getContent().get(0).get("actualAmount")){
+				String actualAmount = actualAmountAndConvRateResult.getContent().get(0).get("actualAmount").toString();			
+				map.put("actualAmount", actualAmount);
+			}
+		}
+		return map;
+	}
+	
+	//查询贷款金额
+	private String loanAmountQuery(JQGridParam gp) {
+		gp.setQueryId("personalWorkbenchLoanAmountQuery");
+		String loanAmount=null;
+		Page<Map<String, Object>> loanAmountResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println("loanAmountResult==="+loanAmountResult.getContent().get(0).get("loanAmount"));
+		if(loanAmountResult!=null && loanAmountResult.getContent()!=null && loanAmountResult.getContent().size()>0){
+			if(loanAmountResult.getContent().get(0).get("loanAmount")!=null){
+				loanAmount= loanAmountResult.getContent().get(0).get("loanAmount").toString();	
+			}
+		}		
+		return loanAmount;		
+	}
+	//查询面签金额
+	private String signAmountQuery(JQGridParam gp) {
+		String signAmount=null;
+		gp.setQueryId("personalWorkbenchSignAmountQuery");
+		Page<Map<String, Object>> signAmountResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println("signAmountResult==="+signAmountResult.getContent().get(0).get("signAmount"));
+		if(signAmountResult!=null && signAmountResult.getContent()!=null && signAmountResult.getContent().size()>0){
+			if(signAmountResult.getContent().get(0).get("signAmount")!=null){
+				signAmount= signAmountResult.getContent().get(0).get("signAmount").toString();	
+			}
+		}		
+		return signAmount;		
+	}
+	
+	//查询E+转化率
+	private String convRateQuery(JQGridParam gp) {
+		String convRate=null;
+		gp.setQueryId("personalWorkbenchConvRateQuery");
+		Page<Map<String, Object>> convRateResult = quickGridService.findPageForSqlServer(gp);		
+		if(convRateResult!=null && convRateResult.getContent()!=null && convRateResult.getContent().size()>0){
+			if(convRateResult.getContent().get(0).get("convRate")!=null){
+				convRate= convRateResult.getContent().get(0).get("convRate").toString();	
+			}			
+		}		
+		return convRate;	
+		
+	}
+	//查询E+转化率
+	private String efConverRtQuery(JQGridParam gp) {
+		gp.setQueryId("personalWorkbenchEfConverRtResultQuery");
+		Page<Map<String, Object>> efConverRtResult = quickGridService.findPageForSqlServer(gp);		
+		String efConverRt =null;
+		if(efConverRtResult!=null && efConverRtResult.getContent()!=null && efConverRtResult.getContent().size()>0){
+			if(efConverRtResult.getContent().get(0).get("efConverRt")!=null){
+				efConverRt= efConverRtResult.getContent().get(0).get("efConverRt").toString();
+			}		
+		}
+		return efConverRt;
+	}
+	
+	//查询放款金额和转化率
+	private Map<String,String> staEvaFeeQuery(JQGridParam gp) {		
+		Map map=new HashMap();
+		gp.setQueryId("personalWorkbenchStaEvaFeeQuery");
+		Page<Map<String, Object>> staEvaFeeResult = quickGridService.findPageForSqlServer(gp);
+		System.out.println("staEvaFeeResult====================="+staEvaFeeResult.toString());
+		if(staEvaFeeResult!=null && staEvaFeeResult.getContent()!=null && staEvaFeeResult.getContent().size()>0){				
+			if(null != staEvaFeeResult.getContent().get(0).get("evalFee")){
+				String evalFee = staEvaFeeResult.getContent().get(0).get("evalFee").toString();
+				map.put("evalFee", evalFee);
+			}
+			if(null !=staEvaFeeResult.getContent().get(0).get("efConvRate")){
+				String efConvRate = staEvaFeeResult.getContent().get(0).get("efConvRate").toString();
+				
+				map.put("efConvRate", efConvRate);
+			}
+			
+		}
+		return map;
+	}	
+	
+	
 	@RequestMapping(value = "workSpaceSta")
 	@ResponseBody
 	public Map workSpaceSta(String serachId, String mo) {
@@ -946,42 +1601,42 @@ public class WorkSpaceController {
 		Double loanAmount = workSpaceService.staLoanAgentLoanAmount(work);
 		Double signAmount = workSpaceService.staLoanAgentSignAmount(work);
 		Double convRate = workSpaceService.staLoanAgentTransferRate(work);
-		Double efConverRt = workSpaceService.staEvaFeeCount(work);//评估费转化率
-		
+		Double efConverRt = workSpaceService.staEvaFeeCount(work);// 评估费转化率
 
 		NumberFormat formatter = new DecimalFormat("###,##0.00万");
 		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
-		
+
 		if (loanAmount == null) {
 			m.put("loanAmount", "0.00万");
 		} else {
-			m.put("loanAmount", formatter.format(loanAmount/10000));
+			m.put("loanAmount", formatter.format(loanAmount / 10000));
 		}
-		
+
 		if (signAmount == null) {
 			m.put("signAmount", "0.00万");
 		} else {
-			m.put("signAmount", formatter.format(signAmount/10000));
+			m.put("signAmount", formatter.format(signAmount / 10000));
 		}
-		
+
 		if (m.get("actualAmount") == null) {
 			m.put("actualAmount", "0.00万");
 		} else {
-			m.put("actualAmount", formatter.format(((BigDecimal)m.get("actualAmount")).divide(new BigDecimal(10000))));
+			m.put("actualAmount", formatter.format(((BigDecimal) m
+					.get("actualAmount")).divide(new BigDecimal(10000))));
 		}
-		
+
 		if (convRate == null) {
 			m.put("convRate", "0.00%");
 		} else {
-			m.put("convRate", formatter2.format(convRate*100) + "%");
+			m.put("convRate", formatter2.format(convRate * 100) + "%");
 		}
-		
+
 		if (efConverRt == null) {
 			m.put("efConverRt", "0.00%");
 		} else {
 			m.put("efConverRt", formatter2.format(efConverRt) + "%");
 		}
-		
+
 		Map m1 = workSpaceService.staEvaFee(work);
 		if (m1 != null) {
 			m.putAll(m1);
@@ -996,10 +1651,10 @@ public class WorkSpaceController {
 		} else {
 			m.put("efConvRate", formatter2.format(m.get("efConvRate")) + "%");
 		}
-		
+
 		m.put("receiveCount", workSpaceService.staReceiveCount(work));
 		m.put("signCount", workSpaceService.staSignCount(work));
-		//m.put("transferCount", workSpaceService.staTransferCount(work));
+		// m.put("transferCount", workSpaceService.staTransferCount(work));
 		m.put("loanApplyCount", workSpaceService.staLoanApplyCount(work));
 		m.put("closeCount", workSpaceService.staCloseCount(work));
 
@@ -1011,7 +1666,7 @@ public class WorkSpaceController {
 				JSONArray.toJSON(workSpaceService.staLoanRelease(work)));
 		return m;
 	}
-
+	
 	private List<LoanStaDetails> setStaItemStr(List<LoanStaDetails> list) {
 		if (list != null) {
 			for (LoanStaDetails loanStaDetails : list) {
@@ -1041,11 +1696,9 @@ public class WorkSpaceController {
 			if (!StringUtils.isBlank(serachId)) {
 				org = serachId;
 			} else {
-				List<Org> orgList = uamUserOrgService.getOrgByParentId(user
-						.getServiceDepId());
+				List<Org> orgList = uamUserOrgService.getOrgByParentId(user.getServiceDepId());
 				orgs = orgListToListStr(orgList);
-				orgs.add(user
-						.getServiceDepId());
+				orgs.add(user.getServiceDepId());
 			}
 		} else if (TransJobs.TSJYZG.getCode().equals(user.getServiceJobCode())||TransJobs.TJYZG.getCode().equals(user.getServiceJobCode())) {// 如果是交易主管
 			if (!StringUtils.isBlank(serachId)) {
@@ -1072,6 +1725,7 @@ public class WorkSpaceController {
 		}
 		return orgStrs;
 	}
+	
 	@RequestMapping(value = "ryLightList")
 	public String RyLightList(Model model,String color) {
 		SessionUser user = uamSessionService.getSessionUser();
@@ -1094,6 +1748,7 @@ public class WorkSpaceController {
 		model.addAttribute("color", color);
 		return "workspace/ryLightList";
 	}
+	
 	@RequestMapping(value = "/mobile/ryLightList")
 	public String MobileRyLightList(Model model,String color) {
 		SessionUser user = uamSessionService.getSessionUser();

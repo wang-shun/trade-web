@@ -517,80 +517,6 @@
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <div class="ibox-content" id="reportOne">
-                        <div class="title">
-                            关联交易单<button type="button" id="link_btn" class="btn btn-success btn-left" data-toggle="modal" data-target="#myModalone">关联交易</button>
-                        </div>
-
-                        <form class="form-inline table-capital">
-                            <div class="table-box">
-                                <table class="table table-bordered table-hover customerinfo">
-                                    <thead>
-                                        <tr>
-                                            <th>合约编号</th>
-                                            <th>合约类型</th>
-                                            <th>交易关系</th>
-                                            <th>合约状态</th>
-                                            <th>经办人</th>
-                                            <th>经办人电话</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="addTr">
-                                        <tr>
-                                            <td>
-                                                ZY-AJ-201605-0952
-                                            </td>
-                                            <td >
-                                                交易合约
-                                            </td>
-                                            <td>
-                                                购房
-                                            </td>
-                                            <td>
-                                                在途
-                                            </td>
-                                            <td>
-                                                林森
-                                            </td>
-                                            <td>
-                                                18577766688
-                                            </td>
-                                            <td>
-                                                <a class="mr10" href="">查看详情</a>
-                                                <a href="javascript:void(0)" onclick="getDel(this)" class="grey" >删除</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                ZY-AJ-201605-0952
-                                            </td>
-                                            <td >
-                                                交易合约
-                                            </td>
-                                            <td>
-                                                购房
-                                            </td>
-                                            <td>
-                                                在途
-                                            </td>
-                                            <td>
-                                                林森
-                                            </td>
-                                            <td>
-                                                18577766688
-                                            </td>
-                                            <td>
-                                                <a class="mr10" href="">查看详情</a>
-                                                <a onclick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ibox-content" id="reportTwo">
                         <form method="get" class="form_list">
                             <div class="title">
                                 申请表单填写
@@ -630,6 +556,30 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="title">
+                            关联交易单
+                        </div>
+                        <div class="links_box clearfix">
+
+                            <div class="links_content">
+                                <div class="links_info" id="" style="display:block;">
+                                    <p class="info"><span>案件编号</span>ZY-AJ-201605-0958</p>
+                                    <p class="info"><span>物业地址</span><em>上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                    </em></p>
+                                    <p class="info"><span>经办人</span>ZY-AJ-201605-0958</p>
+                                    <p class="info"><span>交易关系</span>购房</p>
+                                    <p class="info"><span>上家姓名</span>宋宋</p>
+                                    <p class="info"><span>下家姓名</span>李设计</p>
+                                    <button type="button" class="btn btn-grey links_cancel
+                                    ">取消关联</button>
+                                </div>
+                                <div class="no_links" id="" data-toggle="modal" data-target="#myModalone"><p class="click_link">点击添加关联案件</p></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="ibox-content" id="reportTwo">
+
                         <form method="get" class="form_list">
                             <div class="title">
                                 借款信息
@@ -675,7 +625,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        出售房屋合同价
+                                        房屋合同价
                                     </label>
                                     <input type="text" placeholder="人民币" class="select_control sign_right_one" />
                                     <span class="date_icon">
@@ -684,7 +634,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        出售房屋地址
+                                        房屋地址
                                     </label>
                                     <input type="text" class="select_control" style="width: 255px;" value=""  />
                                 </div>
@@ -692,7 +642,7 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        出售房屋产权人
+                                        房屋产权人
                                     </label>
                                     <input type="text" class="select_control sign_right_one" />
                                 </div>
@@ -705,18 +655,17 @@
                                        万
                                     </span>
                                 </div>
+
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        买方姓名
+                                    <label class="control-label" style="margin-right:10px;">
+                                        应收按揭贷款总额
                                     </label>
-                                    <input type="text" class="select_control sign_right_one" />
+                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
+                                    <span class="date_icon">
+                                       万
+                                    </span>
                                 </div>
 
-                            </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                出售房屋贷款结清
                             </div>
                             <div class="line">
                                 <div class="form_content">
@@ -729,7 +678,7 @@
                                     </span>
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label" style="margin-right:10px;">
+                                    <label class="control-label sign_left_small" style="margin-right:20px;">
                                         自筹赎楼款总额
                                     </label>
                                     <input type="text" placeholder="人民币" class="select_control sign_right_one" />
@@ -737,22 +686,15 @@
                                        万
                                     </span>
                                 </div>
-                            </div>
-                        </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                出售房屋按揭贷款
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        买方姓名
+                                    </label>
+                                    <input type="text" class="select_control sign_right_one" />
+                                </div>
                             </div>
                             <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label" style="margin-right:10px;">
-                                        应收按揭贷款总额
-                                    </label>
-                                    <input type="text" placeholder="人民币" class="select_control sign_right_one" />
-                                    <span class="date_icon">
-                                       万
-                                    </span>
-                                </div>
+
                             </div>
                         </form>
                         <form method="get" class="form_list">
@@ -762,7 +704,7 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small" >
-                                        购买房屋合同价
+                                        房屋合同价
                                     </label>
                                     <input type="text" placeholder="人民币" class="select_control sign_right_one">
                                     <span class="date_icon">
@@ -780,7 +722,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small" >
-                                        购买首付款总额
+                                        首付款总额
                                     </label>
                                     <input type="text" placeholder="人民币" class="select_control sign_right_one">
                                     <span class="date_icon">
@@ -791,7 +733,7 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        购买房屋地址
+                                        房屋地址
                                     </label>
                                     <input type="text" class="select_control" value="" style="width: 255px;">
                                 </div>
@@ -814,7 +756,7 @@
                                     <label class="control-label sign_left_small">
                                         手机号码
                                     </label>
-                                    <input type="text" class="select_control sign_right_one" value="" readonly />
+                                    <input type="text" class="select_control sign_right_one" value="" />
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small" >
@@ -854,6 +796,55 @@
                         </form>
                         <form method="get" class="form_list">
                             <div class="title">
+                                借款人已有房产（选填）
+                            </div>
+                            <div class="line">
+                                 <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        共有人
+                                    </label>
+                                    <input type="text" class="select_control" style="width: 105px;">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        邮政编码
+                                    </label>
+                                    <input type="text" class="select_control" style="width: 105px;">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        房产地址
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                            </div>
+                            <div class="line">
+                                 <div class="form_content">
+                                    <label class="control-label sign_left_small" >
+                                        共有人
+                                    </label>
+                                    <input type="text" class="select_control" style="width: 105px;">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        邮政编码
+                                    </label>
+                                    <input type="text" class="select_control" style="width: 105px;">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        房产地址
+                                    </label>
+                                    <input type="text" class="select_control" value="" style="width: 255px;">
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-default" onclick="getDell(this)">删除</a>
+                            </div>
+                            <div class="line" id="addLine">
+                                <a href="javascript:void(0)" style="margin-left:126px;" class="btn btn-success" onclick="getAtr(this)">添加</a>
+                            </div>
+                        </form>
+                        <form method="get" class="form_list">
+                            <div class="title">
                                 借款人配偶信息
                             </div>
                             <div class="line">
@@ -867,7 +858,7 @@
                                     <label class="control-label sign_left_small">
                                         手机号码
                                     </label>
-                                    <input type="text" class="select_control sign_right_one" value="" readonly />
+                                    <input type="text" class="select_control sign_right_one" value="" />
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small" >
@@ -930,55 +921,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form method="get" class="form_list">
-                            <div class="title">
-                                借款人已有房产（选填）
-                            </div>
-                            <div class="line">
-                                 <div class="form_content">
-                                    <label class="control-label sign_left_small" >
-                                        共有人
-                                    </label>
-                                    <input type="text" class="select_control" style="width: 105px;">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        邮政编码
-                                    </label>
-                                    <input type="text" class="select_control" style="width: 105px;">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        房产地址
-                                    </label>
-                                    <input type="text" class="select_control" value="" style="width: 255px;">
-                                </div>
-                            </div>
-                            <div class="line">
-                                 <div class="form_content">
-                                    <label class="control-label sign_left_small" >
-                                        共有人
-                                    </label>
-                                    <input type="text" class="select_control" style="width: 105px;">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        邮政编码
-                                    </label>
-                                    <input type="text" class="select_control" style="width: 105px;">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        房产地址
-                                    </label>
-                                    <input type="text" class="select_control" value="" style="width: 255px;">
-                                </div>
-                                <a href="javascript:void(0)" class="btn btn-default" onclick="getDell(this)">删除</a>
-                            </div>
-                            <div class="line" id="addLine">
-                                <a href="javascript:void(0)" style="margin-left:126px;" class="btn btn-success" onclick="getAtr(this)">添加</a>
-                            </div>
-                        </form>
+
                     </div>
                     <div class="ibox-content" id="reportFour">
                         <form method="get" class="form_list">
@@ -996,7 +939,7 @@
                                     <label class="control-label sign_left_small">
                                         手机号码
                                     </label>
-                                    <input type="text" class="select_control sign_right_one" value="" readonly="">
+                                    <input type="text" class="select_control sign_right_one" value="">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -1131,328 +1074,419 @@
                 <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong">&#xe60a;
                     </i></button>
                     <div class="apply_table table_content">
-                <table class="table table_blue table-striped table-bordered table-hover customerinfo " id="editable">
-                    <thead>
-                        <tr>
-                            <th>
-                                合约编号
-                            </th>
-                            <th>
-                                合约类型
-                            </th>
-                            <th>
-                                物业地址
-                            </th>
-                            <th>
-                                客户信息
-                            </th>
-                            <th>
-                                经办人
-                            </th>
-                            <th>
-                                合约生成时间
-                            </th>
-                            <th>
-                                交易关系
-                            </th>
-                            <th>
-                                操作
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p class="big">
-                                    <a href="javascript:;">
-                                        ZY-AJ-201605-0952
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                <i class="sign_blue">交易合约</i>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                </p>
-                            </td>
-                            <td>
+                        <table class="table table_blue table-striped table-bordered table-hover customerinfo" id="editable">
+                            <thead>
+                                <tr>
 
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    2016-08-20
-                                </p>
-                            </td>
-                            <td>
-                                <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
-                                    <option value="" checked="">出售</option>
-                                    <option value="" checked="">购房</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-success">关联</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="big">
-                                    <a href="javascript:;">
-                                        ZY-AJ-201605-0952
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                <i class="sign_blue">交易合约</i>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                </p>
-                            </td>
-                            <td>
-
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    2016-08-20
-                                </p>
-                            </td>
-                            <td>
-                                <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
-                                    <option value="" checked="">出售</option>
-                                    <option value="" checked="">购房</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-success">关联</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="big">
-                                    <a href="javascript:;">
-                                        ZY-AJ-201605-0952
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                <i class="sign_blue">交易合约</i>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                </p>
-                            </td>
-                            <td>
-
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    2016-08-20
-                                </p>
-                            </td>
-                            <td>
-                                <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
-                                    <option value="" checked="">出售</option>
-                                    <option value="" checked="">购房</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-success">关联</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="big">
-                                    <a href="javascript:;">
-                                        ZY-AJ-201605-0952
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                <i class="sign_blue">交易合约</i>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                </p>
-                            </td>
-                            <td>
-
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    2016-08-20
-                                </p>
-                            </td>
-                            <td>
-                                <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
-                                    <option value="" checked="">出售</option>
-                                    <option value="" checked="">购房</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-success">关联</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="big">
-                                    <a href="javascript:;">
-                                        ZY-AJ-201605-0952
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                <i class="sign_blue">交易合约</i>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                </p>
-                            </td>
-                            <td>
-
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    陈一财
-                                </p>
-                            </td>
-                            <td>
-                                <p class="big">
-                                    2016-08-20
-                                </p>
-                            </td>
-                            <td>
-                                <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
-                                    <option value="" checked="">出售</option>
-                                    <option value="" checked="">购房</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn btn-success">关联</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="text-center page_box">
-                                <span id="currentTotalPage">
-                                    <strong>
-                                        1/8
-                                    </strong>
-                                </span>
-                                <span class="ml15">
-                                    共
-                                    <strong id="totalP">
-                                        144
-                                    </strong>
-                                    条
-                                </span>
-                                &nbsp;
-                                <div id="pageBar" class="pagination text-center">
-                                    <ul class="pagination">
-                                        <li class="first disabled">
-                                            <a href="#"><i class="fa fa-step-backward"></i></a>
-                                        </li>
-                                        <li class="prev disabled">
-                                            <a href="#"><i class="fa fa-chevron-left"></i></a>
-                                        </li>
-                                        <li class="page active">
-                                            <a href="#">
-                                                1
+                                    <th>
+                                        <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                    </th>
+                                    <th>
+                                        合约类型
+                                    </th>
+                                    <th>
+                                        产证地址
+                                    </th>
+                                    <th>
+                                        经办人
+                                    </th>
+                                    <th>
+                                        上家
+                                    </th>
+                                    <th>
+                                        下家
+                                    </th>
+                                    <th>
+                                        交易关系
+                                    </th>
+                                    <th>
+                                        操作
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                2
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>
+                                            BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <i class="sign_blue">交易合约</i>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p class="tooltip-demo">
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                3
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="name">
+                                            龙一思
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            张春伟
+                                        </p>
+                                        <p class="big">
+                                            张伟伟
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
+                                            <option value="" checked="">出售</option>
+                                            <option value="" checked="">购房</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="button" class="btn btn-success">
+                                        关联
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                4
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>
+                                            BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <i class="sign_blue">交易合约</i>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p class="tooltip-demo">
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                5
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="name">
+                                            龙一思
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            张春伟
+                                        </p>
+                                        <p class="big">
+                                            张伟伟
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
+                                            <option value="" checked="">出售</option>
+                                            <option value="" checked="">购房</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="button" class="btn btn-success">
+                                        关联
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                6
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>
+                                            BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <i class="sign_blue">交易合约</i>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p class="tooltip-demo">
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                7
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="name">
+                                            龙一思
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            张春伟
+                                        </p>
+                                        <p class="big">
+                                            张伟伟
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
+                                            <option value="" checked="">出售</option>
+                                            <option value="" checked="">购房</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="button" class="btn btn-success">
+                                        关联
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
                                             </a>
-                                        </li>
-                                        <li class="page">
-                                            <a href="#">
-                                                8
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>
+                                            BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <i class="sign_blue">交易合约</i>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p class="tooltip-demo">
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
                                             </a>
-                                        </li>
-                                        <li class="next">
-                                            <a href="#"><i class="fa fa-chevron-right"></i></a>
-                                        </li>
-                                        <li class="last">
-                                            <a href="#"><i class="fa fa-step-forward"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="pagergoto">
-                                        <span class="go_text">
-                                            跳转至
-                                        </span>
-                                        <span>
-                                        <input type="text" class="go_input" value="">
-                                        <input type="button" class="go_btn" value="GO"></span>
-                                    </div>
-
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="name">
+                                            龙一思
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            张春伟
+                                        </p>
+                                        <p class="big">
+                                            张伟伟
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
+                                            <option value="" checked="">出售</option>
+                                            <option value="" checked="">购房</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="button" class="btn btn-success">
+                                        关联
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="big">
+                                            <a href="javascript:;">
+                                                ZY-AJ-201605-0952
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <i class="tag_sign">c</i>
+                                            BKS-2-451341-2154
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <i class="sign_blue">交易合约</i>
+                                    </td>
+                                    <td>
+                                        <p class="big">
+                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                        </p>
+                                        <p class="tooltip-demo">
+                                            <i class="salesman-icon">
+                                            </i>
+                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
+                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="name">
+                                            龙一思
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            张春伟
+                                        </p>
+                                        <p class="big">
+                                            张伟伟
+                                        </p>
+                                    </td>
+                                    <td class="center">
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                        <p class="big">
+                                            陈一财
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <select name="" id="" class="form-control" style="border: none;background-color: rgba(0, 0, 0, 0);">
+                                            <option value="" checked="">出售</option>
+                                            <option value="" checked="">购房</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="button" class="btn btn-success">
+                                        关联
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center page_box">
+                            <span id="currentTotalPage">
+                                <strong>
+                                    1/8
+                                </strong>
+                            </span>
+                            <span class="ml15">
+                                共
+                                <strong id="totalP">
+                                    144
+                                </strong>
+                                条
+                            </span>
+                            &nbsp;
+                            <div id="pageBar" class="pagination text-center">
+                                <ul class="pagination">
+                                    <li class="first disabled">
+                                        <a href="#"><i class="fa fa-step-backward"></i></a>
+                                    </li>
+                                    <li class="prev disabled">
+                                        <a href="#"><i class="fa fa-chevron-left"></i></a>
+                                    </li>
+                                    <li class="page active">
+                                        <a href="#">
+                                            1
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            2
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            3
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            4
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            5
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            6
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            7
+                                        </a>
+                                    </li>
+                                    <li class="page">
+                                        <a href="#">
+                                            8
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <a href="#"><i class="fa fa-chevron-right"></i></a>
+                                    </li>
+                                    <li class="last">
+                                        <a href="#"><i class="fa fa-step-forward"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="pagergoto">
+                                    <span class="go_text">
+                                        跳转至
+                                    </span>
+                                    <span>
+                                    <input type="text" class="go_input" value="">
+                                    <input type="button" class="go_btn" value="GO"></span>
                                 </div>
+
                             </div>
+                        </div>
             </div>
 
 

@@ -270,7 +270,7 @@ public class PropertyCortroller {
 	}
 	
 	/**
-	 * 产调来源清单
+	 * 产调来源报表
 	 * @param model
 	 * @return
 	 */

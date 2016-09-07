@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.extint.web.vo.ResponseVo;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -21,12 +23,26 @@ public class UnlocatedTaskContorller {
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private UamSessionService uamSesstionService;
+	
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	@RequestMapping()
 	public String unlocatedTask(HttpServletRequest request) {
 		SessionUser user = uamSesstionService.getSessionUser();
 		String jobCode = user.getServiceJobCode();
 		request.setAttribute("candidateId", user.getUsername());
+		
+		if ("yucui_team".equals(user.getServiceDepHierarchy())) {
+			Org currentOrg = uamUserOrgService.getOrgById(user.getServiceCompanyId());
+			Org parentOrg = uamUserOrgService.getOrgById(currentOrg.getParentId());
+			
+			request.setAttribute("serviceDepId", parentOrg.getId());
+		}
+		else {
+			request.setAttribute("serviceDepId",user.getServiceCompanyId());
+		}
+		
 		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
 			request.setAttribute("managerFlag", "1");
 		} else {
@@ -62,11 +78,11 @@ public class UnlocatedTaskContorller {
 	@RequestMapping(value = "doLocateTask/{taskId}/{candidateId}")
 	public ResponseVo doLocateTask(
 			@PathVariable(value = "candidateId") String candidateId,
-			@PathVariable(value = "taskId") String taskId) {
+			@PathVariable(value = "taskId") String taskId,String caseCode) {
 		ResponseVo result = new ResponseVo();
 		result.setSc("0");
 		try {
-			unlocatedTaskService.doLocateTask(candidateId, taskId);
+			unlocatedTaskService.doLocateTask(candidateId, taskId,caseCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setSc("1");
@@ -82,12 +98,12 @@ public class UnlocatedTaskContorller {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "doGroupClaim/{taskId}")
-	public ResponseVo doGroupClaim(@PathVariable(value = "taskId") String taskId) {
+	public ResponseVo doGroupClaim(@PathVariable(value = "taskId") String taskId,String caseCode) {
 		ResponseVo result = new ResponseVo();
 		result.setSc("0");
 		try {
 			SessionUser user = uamSesstionService.getSessionUser();
-			unlocatedTaskService.doGroupClaim(user.getUsername(), taskId);
+			unlocatedTaskService.doGroupClaim(user.getUsername(), taskId,caseCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setSc("1");

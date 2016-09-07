@@ -58,6 +58,16 @@
 									<dd>${info.propertyAddr}</dd>
 									<dt>合作机构</dt>
 									<dd>${info.finOrgName}</dd>
+									
+									<c:if test="${eloanCase.finOrgCode == 'W0003' && eloanCase.month <= 12}">
+										<dt>手续费</dt>
+										<dd>${eloanCase.chargeAmount}</dd>
+									</c:if>
+									
+									<c:if test="${!empty eloanCase.remark}">
+										<dt>情况说明</dt>
+										<dd>${eloanCase.remark}</dd>
+									</c:if>
 								</dl>
 							</div>
 							<div class="col-lg-4" id="cluster_info">

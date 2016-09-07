@@ -11,6 +11,7 @@ public class ServiceRestartVo {
 	
 	private String userName;
 	private String userId;
+	private String orgId;
 	
 	public String getUserName() {
 		return userName;
@@ -59,5 +60,11 @@ public class ServiceRestartVo {
 	}
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
+	}
+	public String getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 }

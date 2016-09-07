@@ -73,6 +73,12 @@ input, .form-control {
 .form-margin .lable-one {
   width: 120px;
 }
+.form-row .form-space-one {
+   margin-right: 0px;
+}
+.form-margin .lable-o {
+  width: 120px;
+}
 .form-margin .lable-two {
   width: 194px;
 }

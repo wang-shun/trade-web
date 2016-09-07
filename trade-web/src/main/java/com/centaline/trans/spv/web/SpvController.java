@@ -35,7 +35,9 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
+import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -73,11 +75,8 @@ public class SpvController {
 	
 	//新增页面
 	@RequestMapping("saveHTML")
-	public String saveHTML(String caseCode,ServletRequest request){
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);
-		
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
-
+	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
+		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
 		return "spv/saveSpvCase";
 	}
 
@@ -104,7 +103,7 @@ public class SpvController {
 		baseInfoVO.setToSpvAccountList(accounts);
 		*/
 		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,spv.getCaseCode());
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(request,pkid);
 		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
 		String name=user.getRealName();
 		String phone=user.getMobile();
@@ -113,9 +112,16 @@ public class SpvController {
 		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
 		//人物信息
 		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		//风控总监
+		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
+		User FKZJ=new User();
+		if(zj.size()>0){
+			FKZJ=zj.get(0);
+		}
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
+	    request.setAttribute("zj",FKZJ);
 		return "spv/SpvDetail";
 	}
 	
@@ -391,19 +397,18 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-    @RequestMapping("task/spvApply/process")
-	public String toSpvApplyProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+    @RequestMapping("task/SpvApply/process")
+	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	
-        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByCaseCode(request,caseCode);	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
  
-    	request.setAttribute("taskId", taskId);
+    	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
-		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskOfficer");
-        
+		
 		return "spv/saveSpvCase";
 	}
     
@@ -418,10 +423,12 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvApply/deal")
-	public AjaxResponse<?> spvApply(HttpServletRequest request,HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	public AjaxResponse<?> spvApply(String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
+		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		return AjaxResponse.success();
 	}
@@ -436,12 +443,14 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("task/spvApprove/process")
-	public String toSpvApproveProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	@RequestMapping("task/SpvApprove/process")
+	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
+		
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
-		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskDirector");
 		return "task/spv/saveSpvCase";
@@ -458,7 +467,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(HttpServletRequest request,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
@@ -477,9 +486,12 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("task/spvSign/process")
-	public String toSpvSignProcess(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String instCode,String taskId){
+	@RequestMapping("task/SpvSign/process")
+	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
+		
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
@@ -499,7 +511,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(HttpServletRequest request,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);

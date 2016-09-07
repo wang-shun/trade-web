@@ -1,7 +1,9 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToWorkFlow;
@@ -17,6 +21,7 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
@@ -54,6 +59,10 @@ public class ToEvaReportServiceImpl implements ToEvaReportService{
 	
 	@Autowired
 	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	
 	@Override
 	public void saveToEvaReport(ToEvaReport toEvaReport) {
@@ -101,12 +110,20 @@ public class ToEvaReportServiceImpl implements ToEvaReportService{
     		throw new BusinessException("该案件的评估费未收齐，不能发起报告申请！");
 		}
 		
-		ProcessInstance processInstance = new ProcessInstance();
+		/*ProcessInstance processInstance = new ProcessInstance();
 		processInstance.setBusinessKey(mortgageAttament.getCaseCode());
-		processInstance.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVA_WBUSSKEY.getCode()));
+		processInstance.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVA_WBUSSKEY.getCode()));*/
     	
-    	ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
-    	StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow1(processInstance, processInstanceVO.getCaseCode(),toCase.getLeadingProcessId());
+    	ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
+    	User leadUser= uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+    	List<User>users=uamUserOrgService.getUserByOrgIdAndJobCode(leadUser.getOrgId(), "TeamAssistant");
+    	Map<String, Object>vars=new HashMap<>();
+    	if(users!=null&&!users.isEmpty()){
+    		vars.put("TeamAssistant", users.get(0).getUsername());
+    	}
+    	StartProcessInstanceVo pIVo=processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVA_WBUSSKEY.getCode()), mortgageAttament.getCaseCode(), vars);
+    	
+    	/*StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow1(processInstance, processInstanceVO.getCaseCode(),toCase.getLeadingProcessId());*/
     	if(pIVo==null||pIVo.getId()==null){
     		throw new BusinessException("流程启动失败！");
     	}

@@ -20,6 +20,8 @@
 
     <link rel="stylesheet" href="../static/css/plugins/aist-steps/steps.css">
     <link rel="stylesheet" href="../static/css/plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+
 
     <!-- index_css  -->
     <link rel="stylesheet" href="../static/trans/css/workbench/dashboard.css">
@@ -412,15 +414,56 @@
                             <div class="row" style="position: relative;">
                                 <h5 class="main_titile" style="position:absolute;top:0;
                                 left:25px;font-size: 14px;">半年案件分布统计</h5>
-                                <div class="col-md-9">
+                                <div class="col-md-8">
 
                                     <div id="main" style="width:100%;height:250px;"></div>
                                 </div>
-                                <div class="col-md-3">
-                                      <div class="task_light text-center">
-                                            <p class="fa_red"><i class="fa fa-bell "></i>红灯任务<small>0</small></p>
-                                            <p class="fa_orange"><i class="fa fa-bell "></i>黄灯任务<small>1</small></p>
-                                        </div>
+                                <div class="col-md-4">
+                                    <ul class="light_info">
+                                        <li class="light active">
+                                            <a href="#">
+                                                <i class="icon iconfont yellow martop20">&#xe632;</i>
+                                                <p class="line">黄灯任务<br/><span>345</span></p>
+                                            </a>
+
+                                        </li>
+                                        <li class="light active">
+                                            <a href="#">
+                                                <i class="icon iconfont pink martop20">&#xe631;</i>
+                                                <p class="line">红灯任务<br/><span>12</span></p>
+                                            </a>
+                                        </li>
+                                        <li class="light active">
+                                            <a href="#">
+                                                <i class="icon iconfont grey martop20">&#xe630;</i>
+                                                <p class="line">贷款流失<br/><span>6</span></p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont grey">&#xe633;</i>
+                                            <p>计划变更</p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont grey">&#xe639;</i>
+                                            <p>e+转化</p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont grey">&#xe634;</i>
+                                            <p>监管渗透</p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont grey">&#xe636;</i>
+                                            <p>无主案件</p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont grey">&#xe637;</i>
+                                            <p>无主任务</p>
+                                        </li>
+                                        <li>
+                                            <i class="icon iconfont grey">&#xe638;</i>
+                                            <p>无主资源</p>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -900,7 +943,16 @@
     <!-- index_js -->
     <script src="../static/trans/js/workbench/morrisDash.js"></script>
 
+    <script>
+    $(".light").hover(function() {
+        $(this).css("background","#52cdec");
+        $(this).find(".icon,.line,span").addClass('white');
+    },function() {
+        $(this).css("background","#edfcfd");
+        $(this).find(".icon,.line,span").removeClass('white');
+    })
 
+    </script>
 </body>
 
 </html>

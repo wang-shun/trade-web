@@ -148,12 +148,49 @@
 	    	where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </select> 
   
-  <select id="getAllBizwarnCount" parameterType="java.lang.String" resultType="java.lang.Integer">
-	    select COUNT(DISTINCT bw.CASE_CODE) 
-	    from sctrans.T_TO_BIZ_WARN bw
-	    LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
-		LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE
-  		where bw.STATUS = '0' and ART.ASSIGNEE_ = #{userLoginName,jdbcType=NVARCHAR} AND ART.SUSPENSION_STATE_ = '1';
+  <select id="getAllBizwarnCountByTeam" parameterType="java.lang.String" resultType="java.lang.Integer">
+  		select count(1) from(SELECT t.CASE_CODE AS caseCode,t.PROPERTY_ADDR AS propertyAddress,t.WARN_TYPE as warnType,t.WARN_TIME as warnDatetime,
+					t.STATUS as status,t.RELIEVE_TIME as relieveDatetime,t.pkid as PKID FROM
+					(SELECT distinct bw.CASE_CODE 
+				      ,ttpi.PROPERTY_ADDR 
+				      ,bw.WARN_TYPE
+				      ,bw.WARN_TIME
+				      ,bw.STATUS
+				      ,bw.RELIEVE_TIME 
+				      ,c.pkid,ART.ASSIGNEE_
+		              ,ART.SUSPENSION_STATE_
+		              ,bw.CREATE_TIME
+					  ,c.ORG_ID
+				  FROM sctrans.T_TO_BIZ_WARN bw
+				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
+				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
+				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
+				  LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
+				  where t.SUSPENSION_STATE_ = '1' AND t.STATUS = '0' and t.ASSIGNEE_ = #{userLoginName,jdbcType=NVARCHAR}  
+			  ) t
+  </select> 
+  
+  <select id="getAllBizwarnCountByDistinct" parameterType="java.lang.String" resultType="java.lang.Integer">
+	    select count(1) from(SELECT t.CASE_CODE AS caseCode,t.PROPERTY_ADDR AS propertyAddress,t.WARN_TYPE as warnType,t.WARN_TIME as warnDatetime,
+					t.STATUS as status,t.RELIEVE_TIME as relieveDatetime,t.pkid as PKID FROM
+					(SELECT distinct bw.CASE_CODE 
+				      ,ttpi.PROPERTY_ADDR 
+				      ,bw.WARN_TYPE
+				      ,bw.WARN_TIME
+				      ,bw.STATUS
+				      ,bw.RELIEVE_TIME 
+				      ,c.pkid,ART.ASSIGNEE_
+		              ,ART.SUSPENSION_STATE_
+		              ,bw.CREATE_TIME
+					  ,c.ORG_ID
+				  FROM sctrans.T_TO_BIZ_WARN bw
+				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
+				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
+				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
+				  LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
+				  where t.SUSPENSION_STATE_ = '1' AND t.STATUS = '0' AND t.ORG_ID IN (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+				  WHERE (orgHierarchy.TEAM_ID = #{currentOrgId,jdbcType=NVARCHAR} or orgHierarchy.DISTRICT_ID = #{currentOrgId,jdbcType=NVARCHAR} or orgHierarchy.hq_id = #{currentOrgId,jdbcType=NVARCHAR}))  
+			  ) t
   </select> 
   
 </mapper>

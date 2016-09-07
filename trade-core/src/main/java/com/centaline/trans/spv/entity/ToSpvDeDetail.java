@@ -17,6 +17,9 @@ public class ToSpvDeDetail {
     private Long payeeAccountId;
 
     private String isDeleted;
+    
+    //存储account表账户类型
+    private String payeeAccountType;
 
     private Date createTime;
 
@@ -81,8 +84,16 @@ public class ToSpvDeDetail {
     public void setIsDeleted(String isDeleted) {
         this.isDeleted = isDeleted == null ? null : isDeleted.trim();
     }
+ 
+    public String getPayeeAccountType() {
+		return payeeAccountType;
+	}
 
-    public Date getCreateTime() {
+	public void setPayeeAccountType(String payeeAccountType) {
+		this.payeeAccountType = payeeAccountType;
+	}
+
+	public Date getCreateTime() {
         return createTime;
     }
 

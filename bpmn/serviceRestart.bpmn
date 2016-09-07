@@ -2,9 +2,9 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
   <process id="serviceRestart" isExecutable="true">
     <startEvent id="sid-52BD2C88-362C-4C83-86B6-66211F862512"></startEvent>
-    <userTask id="serviceRestartApply" name="服务重启申请" activiti:candidateGroups="consultant" activiti:formKey="/task/serviceRestartService/apply/process"></userTask>
+    <userTask id="serviceRestartApply" name="服务重启申请" activiti:assignee="${consultant}" activiti:formKey="/service/apply/process"></userTask>
     <sequenceFlow id="sid-5AD822EF-0CE0-4058-AD4F-89599D6AF4D1" sourceRef="sid-52BD2C88-362C-4C83-86B6-66211F862512" targetRef="serviceRestartApply"></sequenceFlow>
-    <userTask id="serviceRestartApprove" name="服务重启审批" activiti:candidateGroups="Manager" activiti:formKey="/task/serviceRestartService/approve/process"></userTask>
+    <userTask id="serviceRestartApprove" name="服务重启审批" activiti:assignee="${Manager}" activiti:formKey="/service/approve/process"></userTask>
     <sequenceFlow id="sid-BB1AF854-9723-4BCF-AFD1-319D0142496E" sourceRef="serviceRestartApply" targetRef="serviceRestartApprove"></sequenceFlow>
     <exclusiveGateway id="sid-EAB90E23-2E0C-4310-87BA-B48DC050F5BD"></exclusiveGateway>
     <sequenceFlow id="sid-1F13C0E7-46C6-422C-A318-BB0626250B33" sourceRef="serviceRestartApprove" targetRef="sid-EAB90E23-2E0C-4310-87BA-B48DC050F5BD"></sequenceFlow>

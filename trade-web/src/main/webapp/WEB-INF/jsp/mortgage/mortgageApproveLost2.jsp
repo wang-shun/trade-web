@@ -319,15 +319,17 @@
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- Custom and plugin javascript --> <script
-		src="${ctx}/js/inspinia.js"></script> <script
-		src="${ctx}/js/plugins/pace/pace.min.js"></script> <!-- 选择组织控件 --> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <!-- 分页控件  -->
+	<!-- Custom and plugin javascript --> 
+	<script		src="${ctx}/js/inspinia.js"></script> 
+	<script		src="${ctx}/js/plugins/pace/pace.min.js"></script>
+	 <!-- 选择组织控件 --> 
+	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+	<!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/plugins/jquery.custom.js"></script> <script
-		id="template_myMortgageApproveLostList" type="text/html">
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script		src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<script		id="template_myMortgageApproveLostList" type="text/html">
           {{each rows as item index}}
  					{{if index%2 == 0}}
  				     	<tr class="tr-1">
