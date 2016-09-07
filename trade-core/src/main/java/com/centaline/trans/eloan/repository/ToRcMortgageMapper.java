@@ -2,7 +2,7 @@ package com.centaline.trans.eloan.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eloan.entity.ToRcMortgage;
-
+@MyBatisRepository
 public interface ToRcMortgageMapper {
     int deleteByPrimaryKey(Long pkid);
 
