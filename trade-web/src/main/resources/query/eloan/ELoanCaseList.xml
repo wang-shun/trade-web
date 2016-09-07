@@ -58,7 +58,6 @@
 			FROM sctrans.T_TO_ELOAN_CASE ec
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =  ec.CASE_CODE
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
-			left join sctrans.T_TO_CASE t on t.CASE_CODE=ec.CASE_CODE and t.LEADING_PROCESS_ID=u.ID
 			WHERE 1=1 
 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
 			    <if test="releaseTimeStart !='' ||releaseTimeStart !=''">
@@ -74,14 +73,12 @@
 		        <if test="serviceJobCode == 'consultant' ">
 		        and ec.EXCUTOR_ID = #sessionUserId#
 		        </if>
-		        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team' and serviceJobCode != 'TeamAssistant'">
+		        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team' ">
 		        and (ec.EXCUTOR_TEAM =#serviceDepId# or ec.EXCUTOR_ID = #sessionUserId#)
 		        </if>
-		        <if test="serviceJobCode == 'TeamAssistant' and serviceDepHierarchy == 'yucui_team' ">
-		        and ec.EXCUTOR_DISTRICT=(select  top 1 e.EXCUTOR_DISTRICT FROM sctrans.T_TO_ELOAN_CASE e  where e.EXCUTOR_ID=#sessionUserId#)
-		        </if>
+		       
 		        <if test="serviceDepHierarchy == 'BUSIGRP'">
-		        and ec.EXCUTOR_ID =#serviceDepId#
+		        and ec.EXCUTOR_ID =#serviceDepId#  
 		        </if>
 		        <if test="serviceDepHierarchy == 'yucui_district'">
 		        and ec.EXCUTOR_DISTRICT =#serviceDepId#
