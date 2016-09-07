@@ -269,6 +269,35 @@ public class PropertyCortroller {
 		return "property/sourceList";
 	}
 	
+	/**
+	 * 产调来源清单
+	 * @param model
+	 * @return
+	 */
+	
+	@RequestMapping(value="sourceReport")
+    public String propertySourceReport(Model model) {
+		SessionUser user = uamSessionService.getSessionUser();
+		Org orgSrc = uamUserOrgService.getOrgById(user.getServiceDepId());
+
+		if(orgSrc.getDepHierarchy().equals(DepTypeEnum.TYCTEAM.getCode())) {
+			model.addAttribute("prDistrictId", orgSrc.getParentId());
+			model.addAttribute("prDep", DepTypeEnum.TYCQY.getCode());
+		} else if(orgSrc.getDepHierarchy().equals(DepTypeEnum.TYCQY.getCode())) {
+			model.addAttribute("prDistrictId", orgSrc.getId());
+			model.addAttribute("prDep", DepTypeEnum.TYCQY.getCode());
+		} else {
+			model.addAttribute("prDep", DepTypeEnum.TYCZB.getCode());
+		}
+		
+		Org org = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		if(org != null) {
+			model.addAttribute("serviceDepId", org.getId());
+		}
+		
+		return "property/sourceReport";
+	}
+	
 }
 
 
