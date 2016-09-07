@@ -8,7 +8,7 @@
 		<version>1.1.23-SNAPSHOT</version>
 	</parent>
 	
-	<artifactId>trade-web</artifactId>
+	<artifactId>trade-service</artifactId>
 	<packaging>jar</packaging>
 	<name>trade-service</name>
 	<url>http://maven.apache.org</url>
