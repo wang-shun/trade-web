@@ -403,6 +403,13 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		if(signAmount != null && signAmount != ''){
+			if(!isNumber(signAmount)){
+				alert("请填写正确的网签金额！");
+				return false;
+			}
+		}
+		
 		var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
 		var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
 		if((buyerAccountName == null || buyerAccountName == '') || (sellerAccountName == null || sellerAccountName == '')){
@@ -658,4 +665,13 @@ $(document).ready(function(){
 	         return false; 
 	     }
 	     return true;
+	}
+	
+	//金额验证(两位小数)
+	function isNumber(num){
+		var reg=/^[1-9]{1}\d*(\.\d{1,2})?$/;
+		if(!reg.test(num)){
+			return false;
+		}
+		return true;
 	}

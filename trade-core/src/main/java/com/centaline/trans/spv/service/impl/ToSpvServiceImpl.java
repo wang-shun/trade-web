@@ -617,7 +617,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		// 查询风控专员和总监
     	Map<String, Object> vars = new HashMap<String,Object>();
     	String orgId = "81E586DCB7354D438A4C38C7EAFBF53E";
-    	vars.put("spvPkid", spvBaseInfoVO.getToSpv().getPkid());
+    	String spvPkid = spvBaseInfoVO.getToSpv().getPkid().toString();
+    	vars.put("spvPkid", spvPkid);
     	vars.put("RiskControlOfficer", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZY").get(0).getUsername());
     	vars.put("RiskControlDirector", uamUserOrgService.getUserByOrgIdAndJobCode(orgId,"JYFKZJ").get(0).getUsername());
     	
@@ -706,7 +707,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	 * 获取流程变量并查询拼接spvBaseInfoVO
 	 */
 	public SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request,String instCode){
-		Long pkid = (Long)workFlowManager.getVar(instCode, "spvPkid").getValue();
+		Long pkid = Long.parseLong((String)workFlowManager.getVar(instCode, "spvPkid").getValue());
 		return findSpvBaseInfoVOByPkid(request,pkid);
 	}
 
