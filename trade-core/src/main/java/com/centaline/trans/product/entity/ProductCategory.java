@@ -1,8 +1,9 @@
 package com.centaline.trans.product.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ProductCategory {
+public class ProductCategory implements Serializable {
 	private Long pkid;
 
 	private String prdcCode;
