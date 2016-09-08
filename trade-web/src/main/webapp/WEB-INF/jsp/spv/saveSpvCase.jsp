@@ -523,14 +523,15 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
-								<label for="" class="lable-one"><i style="color:red;">*</i> 托管账户名称</label> <input name="toSpvAccountList[2].name"
-								    value="${spvBaseInfoVO.toSpvAccountList[2].name }"
-									type="text" class="form-control input-one" placeholder="">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 托管账户名称</label> 
+								<select name="toSpvAccountList[2].name" <%-- value="${spvBaseInfoVO.toSpvAccountList[2].name }" --%> class="form-control input-two">
+								<option>上海中原物业顾问有限公司</option>
+								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account"
-								    value="${spvBaseInfoVO.toSpvAccountList[2].account }"
+								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -538,9 +539,11 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[3].pkid" value="${spvBaseInfoVO.toSpvAccountList[3].pkid }"/>
 								<input type="hidden" name="toSpvAccountList[3].accountType" value="FUND" />
-								<label for="" class="lable-one">资金方账户名称</label> <input name="toSpvAccountList[3].name"
-								    value="${spvBaseInfoVO.toSpvAccountList[3].name }"
-									type="text" class="form-control input-one" placeholder="">
+								<label for="" class="lable-one">资金方账户名称</label>
+								<select name="toSpvAccountList[3].name" value="${spvBaseInfoVO.toSpvAccountList[3].name }" class="form-control input-two">
+								<option value="1">搜易贷（北京）金融信息服务有限公司</option>
+								<option value="2">上海嘉定及时雨小额贷款股份有限公司</option>
+								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"
@@ -711,12 +714,29 @@
 		<script>
 		$(document).ready(function(){
 			
-			if('${spvBaseInfoVO.toSpvProperty.signAmount}' != ''){				
-			   $("#signAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.signAmount*10000}'));
-			    }
-			if('${spvBaseInfoVO.toSpvProperty.leftAmount}' != ''){				
-				   $("#leftAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.leftAmount*10000}'));
-				}			
+			$("select[name='toSpvAccountList[3].name']").change(function(){
+				var val = $(this).val();
+				switch(val){
+				case '1':
+					$("input[name='toSpvAccountList[3].account']").val("137441512010000275");
+					break;
+				case '2':
+					$("input[name='toSpvAccountList[3].account']").val("457263590104");
+					break;
+				}
+			});
+			
+			$("select[name='toSpvAccountList[3].name']").change();
+
+			$("input[name='toSpvProperty.signAmount']").blur(function(){
+				$("#signAmountDX").val(DX($(this).val()*10000));
+			});
+			$("input[name='toSpvProperty.leftAmount']").blur(function(){
+				$("#leftAmountDX").val(DX($(this).val()*10000));
+			});			
+	 			
+			$("input[name='toSpvProperty.signAmount']").blur();
+			$("input[name='toSpvProperty.leftAmount']").blur();
 			
 	       	getParentBank($("#bank_1"),$("select[name='toSpvAccountList[1].bank']"),'${spvBaseInfoVO.toSpvAccountList[1].bank }');
 	       	getParentBank($("#bank_0"),$("select[name='toSpvAccountList[0].bank']"),'${spvBaseInfoVO.toSpvAccountList[0].bank }');

@@ -7,33 +7,51 @@ $(document).ready(function(){
 
 		$("select[name='toSpv.buyerPayment']").change(function(){
 			var val = $(this).val();
+			var amountOwn_ = $("input[name='toSpv.amountOwn']");
 			var amountMort_ = $("input[name='toSpv.amountMort']");
 			var amountMortCom_ = $("input[name='toSpv.amountMortCom']");
 			var amountMortPsf_ = $("input[name='toSpv.amountMortPsf']");
+			amountOwn_.parent().find("i").remove();
+			amountMort_.parent().find("i").remove();
+			amountMortCom_.parent().find("i").remove();
+			amountMortPsf_.parent().find("i").remove();
 			switch(val){
 			case '1':
 				//全款
 				amountMort_.prop("disabled",true);
+				amountMort_.val('');
+				amountOwn_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",true);
+				amountMortCom_.val('');
 				amountMortPsf_.prop("disabled",true);
+				amountMortPsf_.val('');
 				break;
 			case '2':
 				//纯商贷
 				amountMort_.prop("disabled",false);
+                amountMort_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",false);
+				amountMortCom_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortPsf_.prop("disabled",true);
+				amountMortPsf_.val('');
 				break;
 			case '3':
 				//组合贷
 				amountMort_.prop("disabled",false);
+				amountMort_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",false);
+				amountMortCom_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortPsf_.prop("disabled",false);
+				amountMortPsf_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				break;
 			case '4':
 				//公积金贷
 				amountMort_.prop("disabled",false);
+				amountMort_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",true);
+				amountMortCom_.val('');
 				amountMortPsf_.prop("disabled",false);
+				amountMortPsf_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				break;
 			} 
 		});
@@ -511,14 +529,32 @@ $(document).ready(function(){
         	return false;
         }
 
-        var amountMort = $("input[name='toSpv.amountMort']").val();
-        var amountMortCom = $("input[name='toSpv.amountMortCom']").val();
-        var amountMortPsf = $("input[name='toSpv.amountMortPsf']").val();
-        amountMort = amountMort?parseInt(amountMort):0;
-        amountMortCom = amountMortCom?parseInt(amountMortCom):0;
-        amountMortPsf = amountMortPsf?parseInt(amountMortPsf):0;
+        var amountOwn = $("input[name='toSpv.amountOwn']");
+        var amountMort = $("input[name='toSpv.amountMort']");
+        var amountMortCom = $("input[name='toSpv.amountMortCom']");
+        var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
+        amountMortV = amountMort.val()?parseInt(amountMort.val()):0;
+        amountMortComV = amountMortCom.val()?parseInt(amountMortCom.val()):0;
+        amountMortPsfV = amountMortPsf.val()?parseInt(amountMortPsf.val()):0;  
 
-        if(amountMort != (amountMortCom+amountMortPsf)){
+        if(amountOwn.parent().find("i").length>0 && (amountOwn.val() == null || amountOwn.val() == '')){
+        	alert("请填写自筹资金！");
+        	return false;
+        }  
+        if(amountMort.parent().find("i").length>0 && (amountMort.val() == null || amountMort.val() == '')){
+        	alert("请填写贷款资金！");
+        	return false;
+        }
+        if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() == null || amountMortCom.val() == '')){
+        	alert("请填写商业贷款！");
+        	return false;
+        }
+        if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() == null || amountMortPsf.val() == '')){
+        	alert("请填写公积金贷款！");
+        	return false;
+        }
+
+        if(amountMortV != (amountMortComV + amountMortPsfV)){
         	alert("贷款资金需等于商业贷款与公积金贷款之和！");
         	return false;
         }
@@ -526,14 +562,20 @@ $(document).ready(function(){
 		var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
 		//var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
 		if(buyerAccountName == null || buyerAccountName == ''){
-			alert("请填写买方收款账户名称！");
+			alert("请填写买方退款账户名称！");
 			return false;
 		}
 		
 		var buyerAccount = $("input[name='toSpvAccountList[0].account']").val();
 		if(buyerAccount == null || buyerAccount == ''){
-			alert("请填写买方收款账号！");
+			alert("请填写买方退款账号！");
 			return false;
+		}
+		if(buyerAccount != null && buyerAccount != ''){
+		    if(!isNumber(buyerAccount)){
+		    	alert("请填写有效的买方退款账号！");
+		    	return false;
+		    }
 		}
 		
 		var buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
@@ -703,6 +745,48 @@ $(document).ready(function(){
 		return true;
 	}
 	
+	function getPrdCategorys(selector,selectorBranch,prdCode){
+		
+		var prdHtml = "<option value=''>请选择</option>";
+	    $.ajax({
+	    	cache:true,
+	    	url:ctx+"/spv/queryPrdCategorys",
+			method:"post",
+			dataType:"json",
+			async:false,
+			data:{},
+			success:function(data){
+				if(data != null){
+					for(var i = 0;i<data.length;i++){
+						if(data[i].prdcCode == prdCode){
+							prdHtml+="<option value='"+data[i].prdcCode+"' selected='selected' >"+data[i].prdcName+"</option>";
+						}else{
+							prdHtml+="<option value='"+data[i].prdcCode+"' >"+data[i].prdcName+"</option>";
+						}
+						
+					}
+				}
+			}
+	     });
+	     selector.find('option').remove();
+		 selector.append($(prdHtml));
+		 $.ajax({
+			    url:ctx+"/manage/queryParentBankInfo",
+			    method:"post",
+			    dataType:"json",
+				async:false,
+			    data:{finOrgCode:finOrgCode},
+			    success:function(data){
+		    		if(data != null){
+		    			selector.val(data.content);
+		    		}
+		    	}
+			});
+		 getBranchBankList(selectorBranch,selector.val(),finOrgCode);
+		 return bankHtml;
+	}
+	
+/*********************************************************************************************************************************************/
 	 // 身份证号验证 (日期)
 	 function isIdCard(cardid) {
 	     //身份证正则表达式(18位) 
