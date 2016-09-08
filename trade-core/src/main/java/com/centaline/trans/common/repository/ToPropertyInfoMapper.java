@@ -5,6 +5,7 @@ import java.util.List;
 import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.vo.OrgVO;
 
 @MyBatisRepository
 public interface ToPropertyInfoMapper {
@@ -32,5 +33,6 @@ public interface ToPropertyInfoMapper {
 	
 	// 根据房屋id 去查询同义词 
 	ViHouseDelBaseVo selectByHoudelCode(String property_agent_id);
+	OrgVO getPropertyDepInfoByuserDepId(String depid);
 	
 }

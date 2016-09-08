@@ -1513,6 +1513,8 @@ public class CaseDetailController {
 		SessionUser user = uamSessionService.getSessionUser();
 	
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepId(user.getServiceDepId());
 		if (toPropertyInfo == null || toPropertyInfo.getPkid() == null)
 			return AjaxResponse.fail("无法找到物业信息！");
 		ToCaseInfo cInfo =toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
@@ -1543,6 +1545,11 @@ public class CaseDetailController {
 		vo.setPrApplyOrgName(user.getServiceDepName());
 		vo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
 		vo.setAgentCode(cInfo.getAgentCode());
+		//记录产调申请人的组织
+		if(pro != null){
+			vo.setPrApplyDepId(pro.getPrApplyDepId());
+			vo.setPrApplyDepName(pro.getPrApplyDepName());
+		}
 		int reInt=toPropertyResarchService.recordProperty(vo);
 		
 		if (reInt == 0)
