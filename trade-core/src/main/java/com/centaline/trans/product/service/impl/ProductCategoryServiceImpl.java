@@ -29,6 +29,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	@Override
+	@Cacheable(value = "ProductCategoryServiceImpl.getAllProductCategoryList")
 	public List<ProductCategory> getAllProductCategoryList() {
 		return productCategoryMapper.getAllProductCategoryList();
 	}
