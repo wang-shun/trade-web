@@ -300,11 +300,11 @@
 													<em>下家付款方式</em> <span>全款</span>
 												</p>
 											</li>
-										<!-- 	<li>
+										     <li>
 												<p>
-													<em>金额大写</em> <span title="">{}</span>
+													<em>金额大写</em> <span name="DX" title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}</span>
 												</p>
-											</li> -->
+											</li> 
 										</ul>
 									</div>
 								</div>
@@ -356,7 +356,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
+														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].account }</dd>
 													</dl>
@@ -371,7 +371,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd>${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
+														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].account }</dd>
 													</dl>
@@ -380,7 +380,7 @@
 										</div>
 									</div>
 								</div>
-								<table class="table table-bordered table-hover customerinfo"
+								<!-- <table class="table table-bordered table-hover customerinfo"
 									style="display: none;">
 									<thead>
 										<tr>
@@ -413,7 +413,7 @@
 											<td></td>
 										</tr>
 									</tbody>
-								</table>
+								</table> -->
 							</div>
 							<div class="tab-pane" id="tab-5">
 								<table
@@ -475,7 +475,45 @@
 					$('a[data-toggle="popover"]').popover('hide');
 				}
 			});
-		</script> </content>
+	        //转大写
+	        var DX = function (num) {  
+			  var strOutput = "";  
+			  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
+			  num += "00";  
+			  var intPos = num.indexOf('.');  
+			  if (intPos >= 0)  
+			    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
+			  strUnit = strUnit.substr(strUnit.length - num.length);  
+			  for (var i=0; i < num.length; i++)  
+			    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
+			    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
+			};  
+			
+			/*获取银行列表*/
+			function getBank(pcode){
+				var bank = $("#"+pcode);
+				 $.ajax({
+					    url:ctx+"/manage/queryParentBankName",
+					    method:"post",
+					    dataType:"json",
+						async:false,
+					    data:{finOrgCode:bank.html()},
+					    success:function(data){
+				    		if(data != null){
+				    			bank.html(data.content)
+				    		}
+				    	}
+					});
+			}
+			
+			var num=$("span[name='DX']").html();
+			$(document).ready(function(){
+				$("span[name='DX']").html(DX(num*10000))
+				getBank("bank0");
+				getBank("bank1");
+			})
+			
+					</script> </content>
 </body>
 </html>
 

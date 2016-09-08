@@ -75,6 +75,7 @@
 					  isnull(Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000),0) as 'ACTUAL_AMOUNT',
 					  c.ORG_ID,
 					  c.DISTRICT_ID,
+					  C.LEADING_PROCESS_ID,
 					  caseInfo.GRP_NAME,
 					  caseInfo.QJDS_NAME,
 					  finOrg.FIN_ORG_NAME as 'finOrgName',
@@ -138,6 +139,7 @@ SELECT
 					ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT',
 					c.ORG_ID,
 					c.DISTRICT_ID,
+					C.LEADING_PROCESS_ID,
 					caseInfo.GRP_NAME,
 					caseInfo.QJDS_NAME,
 					finOrg.FIN_ORG_NAME as 'finOrgName',
@@ -213,9 +215,12 @@ SELECT
 				
 				<column type="both" name="DISTRICT_ID" display="贵宾服务部ID" title="贵宾服务部ID"/>
 				<column type="virtual" name="DISTRICT_NAME" customDict="getOrgNameByOrgId" referencecol="DISTRICT_ID"  display="贵宾服务部" title="贵宾服务部"/>
+				
+				<column type="both" name="LEADING_PROCESS_ID" display="归属人ID" title="归属人ID"/>
+				<column type="virtual" name="LEADING_PROCESS_NAME" referencecol="LEADING_PROCESS_ID"  customDict="getUserNameByUserId"  display="归属人" title="归属人"/>
 
 				<column type="both" name="ORG_ID" display="誉翠组ID" title="誉翠组ID"/>
-				<column type="virtual" name="ORG_NAME" customDict="getOrgNameByOrgId" referencecol="ORG_ID"  display="所属组别" title="所属组别"/>
+				<column type="virtual" name="ORG_NAME" customDict="getUserNameByUserId" referencecol="ORG_ID"  display="所属组别" title="所属组别"/>
 
 				<column type="both" name="GRP_NAME" display="所属分行" title="所属分行"/>
 				<column type="both" name="QJDS_NAME" display="区董" title="区董"/>

@@ -500,8 +500,7 @@
         $(document).ready(function () {
         	function showAndHide(loanSrvCode,finOrgCode,month){
         		
-        		if((loanSrvCode == "30004014" && finOrgCode == "W0003" && month != "" && month <= 12)
-        				|| (finOrgCode == "W0003" && month != "" && month <= 12)){
+        		if(loanSrvCode == "30004014" && finOrgCode == "W0003" && month != "" && month <= 12){
         			$("#liChargeAndRemark").show();
         			$("#divCharge").show();
         			$("#divRemark").show();
@@ -584,7 +583,7 @@
 				}
 			})
 			
-			function checkChargeAndRemark(flag,applyAmount){
+			function checkChargeAndRemark(applyAmount){
 				var charge = $("#charge").val();
 				 
 				 if(charge == ""){
@@ -596,24 +595,13 @@
 				 applyAmount = Number(applyAmount);
 				 var num = charge / (applyAmount * 10000);
 				 
-				 if(flag == "30004014"){
-					 if(!(num >= 0.01 && num <= 0.02)){
-						 var remark = $("#remark").val();
-						 
-						 if(remark == ""){
-							 alert("请填写情况说明！");
-							 return false;
-						 }
-					 }
-				 }
-				 else if(flag == "W0003"){
-					 if(num > 0.02){
-						 var remark = $("#remark").val();
-						 
-						 if(remark == ""){
-							 alert("请填写情况说明！");
-							 return false;
-						 }
+				 
+				 if(!(num >= 0.01 && num <= 0.02)){
+					 var remark = $("#remark").val();
+					 
+					 if(remark == ""){
+						 alert("请填写情况说明！");
+						 return false;
 					 }
 				 }
 				 
@@ -652,10 +640,7 @@
 				 
 				 var isVerifySuccess = true;
 				 if(loanSrvCode == "30004014" && finOrgCode == "W0003" && month <= 12){
-					 isVerifySuccess = checkChargeAndRemark("30004014",applyAmount);
-				 }
-				 else if(finOrgCode == "W0003" && month <= 12){
-					 isVerifySuccess = checkChargeAndRemark("W0003",applyAmount);
+					 isVerifySuccess = checkChargeAndRemark(applyAmount);
 				 }
 				 
 				 if(!isVerifySuccess){

@@ -156,6 +156,18 @@ public class TsFinOrgController {
 		}
 		return response;
 	}
+	
+	@RequestMapping(value = "queryParentBankName")
+	@ResponseBody
+	public AjaxResponse<String> queryParentBankName(String finOrgCode) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		if (StringUtils.isNotBlank(finOrgCode)) {
+			TsFinOrg org = tsFinOrgService.findBankByFinOrg(finOrgCode);
+			response.setContent(org.getFinOrgName());
+		
+		}
+		return response;
+	}
 
 	@RequestMapping(value = "queryFin")
 	@ResponseBody
