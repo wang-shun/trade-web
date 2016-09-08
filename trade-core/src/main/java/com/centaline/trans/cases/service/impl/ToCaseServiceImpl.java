@@ -354,6 +354,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	}
 	@Override
 	public void caseAssign(String caseCode,String userId,SessionUser sessionUser){
+		String orgId = sessionUser.getServiceDepId();
+		Org org = uamUserOrgService.getOrgById(orgId);
 		//案件信息更新
 		ToCase toCase = findToCaseByCaseCode(caseCode);
 		
@@ -376,12 +378,18 @@ public class ToCaseServiceImpl implements ToCaseService {
 			toCase.setStatus(CaseStatusEnum.YFD.getCode());
 			toCase.setCreateTime(new Date());
 			toCase.setLeadingProcessId(userId);
-			toCase.setOrgId(sessionUser.getServiceDepId());
+			//填写誉翠组
+			toCase.setOrgId(orgId);
+			//填写贵宾服务部
+			toCase.setDistrictId(org==null?null:org.getParentId());
 			int caseCount = insertSelective(toCase);
 			if(caseCount == 0)throw new BusinessException("无主案件基本表新增失败！");
 		} else {
     		toCase.setLeadingProcessId(userId);
-    		toCase.setOrgId(sessionUser.getServiceDepId());
+    		//填写誉翠组
+    		toCase.setOrgId(orgId);
+    		//填写贵宾服务部
+			toCase.setDistrictId(org==null?null:org.getParentId());
     		if(!CaseStatusEnum.WFD.getCode().equals(toCase.getStatus())){
     			throw new BusinessException( "数据已经被修改！");
     		}

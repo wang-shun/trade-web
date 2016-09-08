@@ -39,6 +39,10 @@
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+
+
 <style type="text/css">
 #selectDiv {
 	width: 480px;
@@ -70,98 +74,9 @@ text-decoration: underline !important;
 }
 .slash{font-weight:bold !important;}
 
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-}
-
 </style> 
+
+
 </head>
 
 <body>
@@ -249,7 +164,7 @@ text-decoration: underline !important;
                        </th>
 					<th ><span class="sort" sortColumn="tw.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 					<th >流程环节</th>
-					<th >案件地址</th>
+					<th >产证地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 					<th >上家</th>
 					<th >下家</th>
@@ -271,7 +186,6 @@ text-decoration: underline !important;
 	  
     </div>
     
-	
 		    
 	<content tag="local_script"> 
 
@@ -291,6 +205,9 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	 
 <script id="template_myTaskList" type= "text/html">
          {{each rows as item index}}
@@ -372,24 +289,31 @@ text-decoration: underline !important;
                             
 					</td>
 					<td class="t-left">
-						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+</p><p>
 {{item.PROPERTY_ADDR}}
 {{/if}}						 
 
-						</span><br/>
-						<span>
-							<i class="salesman-icon"></i>
- 							<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} " data-toggle="tooltip" data-placement="top" >
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+						</p>
+							<p><i class="salesman-icon"> </i>
+ 							
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11}}	
+<a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息：{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}} "  >
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}						
+{{else}}
+</a>
+<a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}    "  >
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}
 {{/if}}	
-							</a>						 
-						</span>
+						</a></p>
 					</td>
 					<td>
 
@@ -417,9 +341,11 @@ text-decoration: underline !important;
 						{{/if}}
                     </td>
                     <td class="center">
-                          <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
+						<p>
+                          
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
+<a class="demo-top" title="上家信息: {{item.SELLER}}">
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
@@ -428,21 +354,20 @@ text-decoration: underline !important;
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
-}}</br>
+}}</br></a>
 {{/if}}
 {{else}}
-{{ if item.SELLER.length>4}}
-{{item.SELLER.substring(0,4)}}...
-{{else}}
+
 {{item.SELLER}}
-{{/if}}
-{{/if}}                          </span>
+{{/if}}                          </p>
                          
                     </td>
                     <td class="center">
-                          <span  class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}">
+					<p>
+                           
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
+<a class="demo-left" title="下家信息:{{item.BUYER}}">
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
@@ -452,15 +377,11 @@ text-decoration: underline !important;
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
 }}</br>
-{{/if}}
-{{else}}
-{{ if item.BUYER.length>4}}
-{{item.BUYER.substring(0,4)}}...
+{{/if}}</a>
 {{else}}
 {{item.BUYER}}
-{{/if}}
 {{/if}}                                              
-                          </span>
+                          </p>
                           
                     </td>
 					
@@ -480,6 +401,53 @@ text-decoration: underline !important;
 		}); 
 	 </script>
 	
-	</content>
+<script type="text/javascript">
+$(function(){
+		//left
+		$('.demo-left').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//right
+		$('.demo-right').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'right',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//top
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//bottom
+		$('.demo-bottom').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'bottom',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
+</script>
+</content>
 </body>
 </html>

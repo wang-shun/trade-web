@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>本组待办任务列表11</title>
+<title>本组待办任务列表</title>
 <%-- <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
@@ -47,63 +47,10 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
-
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 <style type="text/css">
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-			position: absolute;
-			opacity: 0;
-			z-index: 1000000;
-			-webkit-transition: 0.3s ease;
-			-moz-transition: 0.3s ease;
-  pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-			color: white;
-			padding: 8px 10px;
-			font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-.data-wrap-in .bg-assgin{
-	background-image: url("../img/ico_assign.png");
-}
-
 
 </style>
 </head>
@@ -134,14 +81,14 @@
 			<div class="form_content space">
 				<div class="add_btn">
 					<button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
-					<button onclick="showOptUsers();" type="button" class="btn btn_blue" >批量分配</button>
+					<button onclick="showOptUsers();" type="button" class="btn btn_blue" disabled="true" id="caseDistributeButton">批量分配</button>
 				</div>
 			</div>
 		</form>
 		
 	</div>
 	
-	<div class="table_content">
+	<div class="table_content">  <form id="form1"> <input type="hidden" id="h_userId" name="userId">
 		<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped table-bordered table-hover ">
 			<thead>
 				<tr>
@@ -157,14 +104,14 @@
 					<th >流程环节</th>
 					<th >案件地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
-					<th >经办人</th>
+					<th >执行人</th>
 					<th >操作</th>
 				</tr>
 			</thead>
 			<tbody id="myTaskList">
 				
 			</tbody>
-		</table>
+		</table>  </form>
 	</div>
 			
 	<div class="text-center page_box">
@@ -201,6 +148,8 @@
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script id="template_myTaskList" type= "text/html">
                {{each rows as item index}}
@@ -263,35 +212,44 @@
 						</p>
 					</td>
 					<td >
-						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+						
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+</p><p>
 {{item.PROPERTY_ADDR}}
-{{/if}}						 
-
-						</span><br/>
- 							<span class="tooltip-demo">
-                                  <i class="salesman-icon"> </i>
-<a class="hint  hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} ">
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11}}	
+ <a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}   经纪人信息: {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}" >	
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}					
+{{else}}
+</a>
+ <a class="demo-top" title="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}  " >
 {{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}
-{{/if}}		
-</a>							  
-							</span>
+{{/if}}	
+								 </a>
+							</p>
 					</td>
 					<td >
  						
 						{{if item.CREATE_TIME!=null}}
 						   <p>  
-                              <i class="sign_normal">申</i>
+                              <i class="sign_normal">创</i>
                                  {{item.CREATE_TIME}}          
                           </p>
 						{{else}}
                             <p>  
-                              <i class="sign_grey">申</i>
+                              <i class="sign_grey">创</i>
                                  {{item.CREATE_TIME}}          
                            </p>
 						{{/if}}
@@ -309,7 +267,7 @@
 
 					</td>
 					<td class="center">
- 						 <span class="manager">执行人：<a href="#">金娇娇</a></span>
+ 						 <p>执行人：{{item.assignee}}</p>
 					</td>
 					<td class="text-center">
  						 <i class="iconfont icon_revise" onclick="showOptUsers('{{item.ID}}','{{item.CASE_CODE}}')" target="_blank">&#xe603;

@@ -1,24 +1,44 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
+import com.aist.message.core.remote.UamMessageService;
+import com.aist.message.core.remote.vo.Message;
+import com.aist.message.core.remote.vo.MessageType;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.template.remote.UamTemplateService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -46,6 +66,18 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
+	
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private PropertyUtilsServiceImpl propertyUtilsService;
+	@Autowired(required = true)
+	UamSessionService uamSessionService;	
+	@Autowired
+	private UamTemplateService uamTemplateService;
+	@Qualifier("uamMessageServiceClient")
+    @Autowired
+    private UamMessageService uamMessageService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -204,12 +236,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					}
 				}
 			}
-			mort.setComAmount(mort.getComAmount() != null ? mort.getComAmount()
+/*			mort.setComAmount(mort.getComAmount() != null ? mort.getComAmount()
 					.divide(new BigDecimal(10000)) : null);
 			mort.setMortTotalAmount(mort.getMortTotalAmount() != null ?mort.getMortTotalAmount().divide(
 					new BigDecimal(10000)):null);
 			mort.setPrfAmount(mort.getPrfAmount() != null ? mort.getPrfAmount()
 					.divide(new BigDecimal(10000)) : null);
+					*/
 			mort.setToSupDocu(toSupDocu);
 
 			return mort;
@@ -349,5 +382,212 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				workFlowManager.setVariableByProcessInsId(wordkFlowDB.getInstCode(), variableName, restVariable);
 			}
 	}
+
+	@Override
+	public StartProcessInstanceVo startTmpBankWorkFlow(String caseCode) {
+		/*流程引擎相关*/
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
+		String orgId = te.getOrgId();
+		SessionUser user = uamSessionService.getSessionUser();
+		//查询主管
+		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
+		String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
+		//查询高级主管
+		User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+		//查询总监
+		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
+		
+		variables.add(new RestVariable("Manager",manager.getUsername()));
+		variables.add(new RestVariable("SeniorManager",seniorManager == null?null:seniorManager.getUsername()));
+		variables.add(new RestVariable("director",director.getUsername()));
+
+		//启动 
+		ProcessInstance process = new ProcessInstance(
+				propertyUtilsService.getProcessTmpBankAuditDfKey(), caseCode, variables);
+		StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, manager.getUsername(),caseCode);
+		//插入工作流表
+		ToWorkFlow toWorkFlow = new ToWorkFlow();
+		toWorkFlow.setBusinessKey("TempBankAudit_Process");
+		toWorkFlow.setCaseCode(caseCode);
+		toWorkFlow.setInstCode(vo.getId());
+		toWorkFlow.setProcessDefinitionId(propertyUtilsService.getProcessTmpBankAuditDfKey());
+		toWorkFlow.setProcessOwner(user.getId());
+		toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+		toWorkFlowService.insertSelective(toWorkFlow);
+		
+		//更新贷款表临时银行状态为默认：‘’
+		ToMortgage mortageDb = findToMortgageByCaseCode2(caseCode);
+		if(mortageDb != null){
+			mortageDb.setComAmount(mortageDb.getComAmount() != null?mortageDb.getComAmount().multiply(new BigDecimal(10000)):null);
+			mortageDb.setMortTotalAmount(mortageDb.getMortTotalAmount() != null?mortageDb.getMortTotalAmount().multiply(new BigDecimal(10000)):null);
+			mortageDb.setPrfAmount(mortageDb.getPrfAmount() != null?mortageDb.getPrfAmount().multiply(new BigDecimal(10000)):null);
+			mortageDb.setTmpBankStatus(TmpBankStatusEnum.DEFAULT.getCode());
+			updateToMortgage(mortageDb);
+		}
+		
+		return vo;
+	}
+
+	@Override
+	public AjaxResponse<?> tmpBankThriceAduit(ToMortgage mortage, String prAddress, String tmpBankName, String tmpBankCheck,
+			String taskId, String bankCode, String temBankRejectReason, String processInstanceId, String caseCode,
+			String post) {
+		SessionUser user=uamSessionService.getSessionUser();
+
+		if("manager".equals(post)){
+			boolean isManagerApprove = false;
+			if("true".equals(tmpBankCheck)){
+				isManagerApprove = true;
+			}
+				
+			//更新案件信息
+			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
+
+			if(!isManagerApprove){
+//				mortageDb.setRecLetterNo("");
+//				mortageDb.setTmpBankUpdateBy("");
+//				mortageDb.setIsTmpBank("0");
+//				mortageDb.setLastLoanBank("");
+//				mortageDb.setFinOrgCode("");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
+				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+				//更新流程状态为‘4’：已完成
+				ToWorkFlow twf = new ToWorkFlow();
+				twf.setBusinessKey("TempBankAudit_Process");
+				twf.setCaseCode(caseCode);
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+				if(record != null){
+					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+					toWorkFlowService.updateByPrimaryKeySelective(record);
+				}
+
+			}else{
+				mortageDb.setFinOrgCode(bankCode);
+				mortageDb.setTmpBankUpdateBy(user.getId());
+				mortageDb.setTmpBankUpdateTime(new Date());
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.INAPPROVAL.getCode());
+				mortageDb.setTmpBankRejectReason("");
+			}
+			updateToMortgage(mortageDb);	
+	
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			variables.add(new RestVariable("isManagerApprove",isManagerApprove));
+			
+			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+
+		}else if("seniorManager".equals(post)){
+			boolean isSeniorManagerApprove = false;
+			if("true".equals(tmpBankCheck)){
+				isSeniorManagerApprove = true;
+			}
+
+			//更新案件信息
+			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
+
+			if(!isSeniorManagerApprove ){
+//				mortageDb.setRecLetterNo("");
+//				mortageDb.setTmpBankUpdateBy("");
+//				mortageDb.setIsTmpBank("0");
+//				mortageDb.setLastLoanBank("");
+//				mortageDb.setFinOrgCode("");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
+				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+				//更新流程状态为‘4’：已完成
+				ToWorkFlow twf = new ToWorkFlow();
+				twf.setBusinessKey("TempBankAudit_Process");
+				twf.setCaseCode(caseCode);
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+				if(record != null){
+					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+					toWorkFlowService.updateByPrimaryKeySelective(record);
+				}
+			}else{
+
+				//mortageDb.setTmpBankUpdateBy(user.getId());
+				mortageDb.setTmpBankUpdateTime(new Date());
+			}
+			updateToMortgage(mortageDb);			
+			
+			
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			variables.add(new RestVariable("isSeniorManagerApprove",isSeniorManagerApprove ));
+			
+			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+		}else if("director".equals(post)){	
+			
+			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
+			ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
+			//更新案件信息
+			if("false".equals(tmpBankCheck)){
+//				mortageDb.setRecLetterNo("");
+//				mortageDb.setTmpBankUpdateBy("");
+//				mortageDb.setIsTmpBank("0");
+//				mortageDb.setLastLoanBank("");
+//				mortageDb.setFinOrgCode("");
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
+				mortageDb.setTmpBankRejectReason(temBankRejectReason);
+			}else if("true".equals(tmpBankCheck)){
+				mortageDb.setTmpBankStatus(TmpBankStatusEnum.AGREE.getCode());
+
+				//mortageDb.setTmpBankUpdateBy(user.getId());
+				mortageDb.setTmpBankUpdateTime(new Date());
+			}
+
+			updateToMortgage(mortageDb);		
+			
+			//更新流程状态为‘4’：已完成
+			ToWorkFlow twf = new ToWorkFlow();
+			twf.setBusinessKey("TempBankAudit_Process");
+			twf.setCaseCode(caseCode);
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			if(record != null){
+				record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateByPrimaryKeySelective(record);
+			}
+			
+			Map<String, Object>params=new HashMap<String, Object>();
+			params.put("case_code", mortageDb.getCaseCode());
+			params.put("property_address", prAddress);
+			params.put("bank", tmpBankName);
+			
+			String content = uamTemplateService.mergeTemplate("TMP_BANK_REMINDER", params);
+			Message message = new Message();
+			// 消息标题
+			message.setTitle("临时银行处理提醒");
+			// 消息类型
+			message.setType(MessageType.SITE);
+			/* 设置提醒列别 */
+
+			message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
+
+			/* 内容 */
+			message.setContent(content);
+			/* 发送人 */
+			String senderId = user.getId();
+			/* 设置发送人 */
+			message.setSenderId(senderId);
+
+			uamMessageService.sendMessageByUser(message, c.getLeadingProcessId());
+			
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+			}
+		
+		return AjaxResponse.success();
+	}
+
+	
+	@Override
+	public ToMortgage getMortgageByCaseCode(String caseCode) {
+		return toMortgageMapper.getMortgageByCaseCode(caseCode);
+	}
+
+	@Override
+	public int updateTmpBankStatus(String caseCode) {
+		return toMortgageMapper.updateTmpBankStatus(caseCode);
+	}
+	
+	
 
 }

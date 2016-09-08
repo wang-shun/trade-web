@@ -1,17 +1,8 @@
-/**
- * 佣金管理 wanggh
- */
+
 
 $(document).ready(function() {
+	
 	loadGrid(1);
-	/*$(window).bind('resize', function() {
-		var width = $('.jqGrid_wrapper').width();
-		$('#table_list_1').setGridWidth(width);
-
-	});
-	 $('.contact-box').each(function() {
-         animationHover(this, 'pulse');
-     });*/
 					
 });
 
@@ -50,7 +41,7 @@ $('#datepicker').datepicker({
 
 /*获取未分配案件列表*/
 function loadGrid(page) {
-
+	$("#caseChangeTeamButton").attr("disabled", true);
 	var data = getQueryParams(page);
 	var ctx = $("#ctx").val();
 	
@@ -72,6 +63,26 @@ function loadGrid(page) {
         	$("#myCaseList").html(myCaseList);
 			// 显示分页 
             initpage(data.total,data.pagesize,data.page, data.records);
+            $('.demo-left').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'left',
+    			alignY: 'center',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
+
+    		//top
+    		$('.demo-top').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'center',
+    			alignY: 'top',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -265,4 +276,69 @@ function radioOrgSelectCallBack(array){
 		$("#oriGrpId").val("");
 	}
 }
+
+/*全选框绑定全选/全不选属性*/
+$('#checkAllNot').click(function(){
+	var my_checkboxes = $('input[name="ckb_task"]');
+	//var parE=$(event.target).closest('td');
+	if($(this).prop('checked')){
+		for(var i=0; i<my_checkboxes.length; i++){
+			$('input[name="ckb_task"]:eq('+i+')').prop('checked',true);
+			//parE.find("input[name='taskIds']").attr("disabled",true);
+			//parE.find("input[name='caseCodes']").attr("disabled",true);
+			$("#caseChangeTeamButton").attr("disabled", false);
+		}
+	}else{
+		for(var i=0; i<my_checkboxes.length; i++){
+			$('input[name="ckb_task"]:eq('+i+')').prop('checked',false);
+			//parE.find("input[name='taskIds']").removeAttr("disabled");
+			//parE.find("input[name='caseCodes']").removeAttr("disabled");
+			$("#caseChangeTeamButton").attr("disabled", true);
+		}
+	}
+});
+
+
+
+
+/*function ckbChange(){
+	
+	$("#caseChangeTeamButton").attr("disabled", false);
+	var parE=$(event.target).closest('td');
+	if($(event.target).attr('checked')){
+		parE.find("input[name='taskIds']").attr("disabled",true);
+		parE.find("input[name='caseCodes']").attr("disabled",true);
+	}else{
+		parE.find("input[name='taskIds']").removeAttr("disabled");
+		parE.find("input[name='caseCodes']").removeAttr("disabled");	
+	}
+	
+}*/
+
+
+/*单选框*/
+function ckbChange(){
+	var my_checkboxes = $('input[name="ckb_task"]');
+	var flag =false;
+	var count=0;
+	$.each(my_checkboxes, function(j, item){
+		if($('input[name="ckb_task"]:eq('+j+')').prop('checked')){
+			flag=true;
+			++count;
+		}
+	});
+	if(flag){
+		$("#caseChangeTeamButton").attr("disabled", false);
+		if(count==my_checkboxes.length){
+			$('#checkAllNot').prop('checked', true);
+		}else if(count<my_checkboxes.length){
+			$('#checkAllNot').prop('checked', false);
+		}
+	}else{
+		$("#caseChangeTeamButton").attr("disabled", true);
+		$('#checkAllNot').prop('checked', false);
+	}
+}
+
+
 

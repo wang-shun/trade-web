@@ -28,9 +28,12 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">    
     
+    	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+    
 	<!-- owner -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
-    <link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
+    <link href="${ctx}/static/trans/css/property/popmac.css" rel="stylesheet" />
 	
 	<script type="text/javascript">
 		var optTransferRole=false;
@@ -244,7 +247,7 @@
         				</table>
 		            </form>
                 </div>
-                <div class="modal-footer text-center" style="padding-top:20px !important;">
+                <div class="modal-footer btn-center" style="padding-top:20px !important;">
                     <input type="button" class="btn btn-success" id="btn_save" value="保存"> 
                     <input type="button" class="btn btn-success" id="btn_done" value="完成">
                 </div>
@@ -267,7 +270,8 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>    
     <!-- 自定义扩展jQuery库 -->
     <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-    <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+   <%--  <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script> --%>
+    <script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
     
 	<!-- 上传附件相关 -->
 	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
@@ -291,17 +295,26 @@
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
 	<script src="${ctx}/js/trunk/task/attachment.js"></script>    
-    
+
+	<!-- 必须JS -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+   
     <!-- owner -->
     <script src="${ctx}/static/trans/js/property/processingList.js"></script>
     <script id="template_processingList" type="text/html">
 		{{each rows as item index}}
 		<tr>
 			<td>
-				<p class="big deep_grey">{{item.DIST_CODE}}</p>
 				<p class="big deep_grey" style="color:#808080;">{{item.applyOrgName}}</p>
+					{{if item.IS_SUCCESS == '是'}}
+						<span class="yes_color">有效</span>
+					{{else if item.IS_SUCCESS == '否'}}
+						<span class="no_color">无效</span><a class="demo-right" title="{{item.UNSUCCESS_REASON}}"><i class="icon iconfont" style="font-size: 20px;color:#808080">&#xe609;</i></a>
+					{{else}}
+					{{/if}}
 			</td>
             <td>
+				<p class="big deep_grey">{{item.DIST_CODE}}</p>
                 <p class="big tint_grey">{{item.PROPERTY_ADDR}}</p>
             </td>
             <td>
@@ -309,15 +322,7 @@
                 <p class="smll_sign"><i class="sign_normal">受</i>{{item.PR_ACCPET_TIME}}</p>
             </td>
             <td>
-				{{if item.IS_SUCCESS == '是'}}
-                	<p class="smll_sign"><i class="sign_sharp52bdbd">是</i></p>
-				{{else if item.IS_SUCCESS == '否'}}
-                	<p class="smll_sign"><i class="sign_grey">否</i><em style="word-break:break-all">{{item.UNSUCCESS_REASON}}</em></p>
-				{{else}}
-				{{/if}}
-            </td>
-            <td>
-            	<span class="manager">
+            	<span class="manager" style="margin:0px !important;">
 					<a href="#"><em>申请人：{{item.PR_APPLIANT}}</em></a>
 					{{if item.CHANNEL == '经纪人'}}
 						<i class="sign_red">经</i>
@@ -325,15 +330,16 @@
 						<i class="sign_normal">誉</i>
 					{{/if}}
 				</span>
-                <span class="manager"><a href="#"><em>执行人：{{item.PR_EXECUTOR}}</em></a></span>
-                <span class="manager"><a href="#"><em>区董：{{item.orgMgr}}</em></a></span>
+                <span class="manager" style="margin:0px !important;"><a href="#"><em>执行人：{{item.PR_EXECUTOR}}</em></a></span>
+                <span class="manager" style="margin:0px !important;"><a href="#"><em>区董：{{item.orgMgr}}</em></a></span>
             </td>
             <td class="text-center">
 				{{if wrapperData.optTransferRole}}
-					<p><button type="button" class="btn btn-success" id="teamCode" name="teamCode" readonly="readonly" onclick="showOrgSelect({{item.PKID}})" value='' >转组</button></p>
+					<p><button type="button" style="padding:0px 5px;" class="btn btn-success" id="teamCode" name="teamCode" readonly="readonly" onclick="showOrgSelect({{item.PKID}})" value='' >转组</button></p>
+					<p><button type="button" style="padding:0px 5px;" onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class="btn btn-success">处理</button></p>
 				{{else}}
-				{{/if}}
 				<p><button type="button" onclick="showAttchBox('{{item.CASE_CODE}}','{{item.PR_CODE}}','{{item.PART_CODE}}','{{item.PKID}}','{{item.IS_SUCCESS}}','{{rep(item.UNSUCCESS_REASON?item.UNSUCCESS_REASON:'')}}','{{item.PROPERTY_ADDR}}','{{item.PR_CAT}}','{{item.applyOrgName}}','{{item.orgMgr}}','{{item.DIST_CODE}}','{{item.PR_EXECUTORID}}','{{item.PR_EXECUTOR}}');" class="btn btn-success">处理</button></p>
+				{{/if}}
             </td>
 		</tr>
 		{{/each}}
@@ -342,6 +348,11 @@
 		  template.helper("rep", function(a){  
 	          return a.replace(/[\r\n]/g,"");  
 	      });
-	</script>    
+	</script>
+    <script type="text/javascript">
+$(function(){
+	setStyle();
+});
+</script>	    
 </content>
 </html>

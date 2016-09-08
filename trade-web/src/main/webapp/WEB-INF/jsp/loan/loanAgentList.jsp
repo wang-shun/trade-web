@@ -105,7 +105,7 @@ text-decoration: underline !important;
 										   expandNodeId:''})" />
 										 <input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">  -->
 										  <input type="text" class="form-control tbsporg" id="orgName" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   startOrgId:'${isProduct==true?'ff8080814f459a78014f45a73d820006':serviceDepId}',expandNodeId:'${isProduct==true?'ff8080814f459a78014f45a73d820006':serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value='${serOrgName }'>
                                           <input type="hidden" id="yuCuiOriGrpId" value="${serOrgId==null?serviceDepId:serOrgId}">
 									</div>
@@ -137,7 +137,7 @@ text-decoration: underline !important;
 									<div class="col-md-8"> 	
 										<aist:dict id="loanSrvCode" name="loanSrvCode"
 											clazz="btn btn-white " display="select"
-											defaultvalue="" dictType="yu_serv_cat_code_tree" tag="eplus"/>
+											defaultvalue="" dictType="yu_serv_cat_code_tree" tag="eplus,Eloan"/>
 									</div>
 								</div>
 							</div>
@@ -298,7 +298,12 @@ text-decoration: underline !important;
 	     var argu_signTime = "${argu_signTime}";
 	     var argu_releaseTime = "${argu_releaseTime}";
 	     var argu_yuCuiOriGrpId = "${orgId}";
-	     
+	     // 如果是产品部，查询所有的
+	     var isProduct = "${isProduct}";
+	     if(isProduct=="true") {
+	    	 argu_yuCuiOriGrpId = '';
+	    	 $("#yuCuiOriGrpId").val('');
+	     }
 	 	 var orgName = "${sUserName}";
 	 	 
 	 	 aist.sortWrapper({
@@ -362,7 +367,7 @@ text-decoration: underline !important;
         	aist.exportExcel({
     	    	ctx : "${ctx}",
     	    	queryId : 'loanAgentListQuery',
-    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','LOAN_SRV_CODE','EXECUTOR_ID','PARENT_ORG_NAME','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','EVAL_FEE','RECORD_TIME','CREATE_TIME'],
+    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','LOAN_SRV_CODE','EXECUTOR_ID','DISTRICT_NAME','ORG_NAME','QJDS_NAME','finOrgName','custName','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','EVAL_FEE','RECORD_TIME','CREATE_TIME'],
     	    	data : params
     	    }) 
         }

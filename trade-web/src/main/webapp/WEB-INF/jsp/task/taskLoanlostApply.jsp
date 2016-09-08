@@ -143,10 +143,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">自办贷款确认函编号</label>
+						<label class="col-sm-2 control-label">贷款自办确认函编号</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="recLetterNo"
-								name="recLetterNo" value="${mortgage.recLetterNo}">
+							<input type="text" class="form-control" id="loanLostConfirmCode"
+								name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}"> 
 						</div>
 					</div>
 
@@ -255,6 +255,9 @@
 												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
 												<div id="picContainer${accesory.pkid }" class="files"
 													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<!-- 用于'贷款自办确认函'验证 -->
+												<input type="hidden" id="fileFlagCode${accesory.pkid }"
+											    value="${accesory.accessoryCode }">
 												<span class=" fileinput-button "
 													style="margin-left: 10px !important; width: 80px;">
 													<div id="chandiaotuBtn" class=""
@@ -481,7 +484,7 @@
 
 			/**提交数据*/
 			function submit() {
-				if (checkAttachment()) {
+				if (checkAttachmentForLoanLost($("#loanLostConfirmCode").val())) {
 					save(true);
 				}
 			}

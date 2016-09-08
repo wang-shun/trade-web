@@ -36,6 +36,8 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 
 <style type="text/css">
@@ -73,97 +75,6 @@ text-decoration: underline !important;
 .table-fenpei th{text-align:center;}
 .data-wrap-in .fenpei{padding:0 8px;display:inline-block;height: 30px;line-height: 30px;background-color:#ddd;border-radius: 3px;}
 
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:80px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-}
 
 </style>	
 
@@ -290,6 +201,8 @@ text-decoration: underline !important;
 
 <!-- 分页控件  -->
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script id="template_unlocatedTask" type="text/html">
          {{each rows as item index}}
@@ -316,25 +229,30 @@ text-decoration: underline !important;
                                </p>
                         </td>
 						<td>
-                       <span class="hint  hint-top" data-hint="{{item.propertyAddr}}">
+
+
 {{if item.propertyAddr != null && item.propertyAddr!="" && item.propertyAddr.length>24}}
+<p class="demo-top" title="{{item.propertyAddr}}">
 {{item.propertyAddr.substring(item.propertyAddr.length-24,item.propertyAddr.length)}}
-{{else}}
+{{else}}</p><p>
 {{item.propertyAddr}}
-{{/if}}						 
-
-						</span><br/>
-
-							<span class="tooltip-demo">
-                                  <i class="salesman-icon"> </i>
-<a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}} ">
-{{if item.GRP_NAME !="" && item.GRP_NAME !=null && item.GRP_NAME.length>8}}							
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}" >
+{{if item.GRP_NAME !="" && item.GRP_NAME !=null && item.GRP_NAME.length>11}}		
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME.substring(0,11)}}...
+{{/if}}					
+{{else}}
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.GRP_NAME}}
-{{/if}}		
-</a>							  
-							</span>
+{{/if}}	
+								 </a>
+							</p>
+
                         </td>
 						<td>
                                 <p class="big">
@@ -346,7 +264,7 @@ text-decoration: underline !important;
                         </td>
 						<td>
                                <p class="smll_sign">
-                                       	<i class="sign_normal">申</i>
+                                       	<i class="sign_normal">创</i>
                                      		{{item.createTime}}    
 										</i>      
                                 </p>
@@ -492,6 +410,26 @@ function fetchData(p){
                   $("#tab_unlocatedTask").html(tsAwardBaseList);
                   
                  initpage(data.total,data.pagesize,data.page, data.records);
+                 $('.demo-left').poshytip({
+         			className: 'tip-twitter',
+         			showTimeout: 1,
+         			alignTo: 'target',
+         			alignX: 'left',
+         			alignY: 'center',
+         			offsetX: 8,
+         			offsetY: 5,
+         		});
+
+         		//top
+         		$('.demo-top').poshytip({
+         			className: 'tip-twitter',
+         			showTimeout: 1,
+         			alignTo: 'target',
+         			alignX: 'center',
+         			alignY: 'top',
+         			offsetX: 8,
+         			offsetY: 5,
+         		});
  	          }
  	     });
 } 

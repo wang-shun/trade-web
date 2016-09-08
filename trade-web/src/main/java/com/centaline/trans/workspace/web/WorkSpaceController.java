@@ -263,6 +263,8 @@ public class WorkSpaceController {
 
 	@RequestMapping(value = "dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		
 		/*判断是否为移动端登录*/
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
@@ -279,7 +281,7 @@ public class WorkSpaceController {
 		int redLight = workSpaceService.countLight(wk);
 		wk.setColor(1);
 		int yeLight = workSpaceService.countLight(wk);
-		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount();   //获取所有的状态为生效的商贷预警数
+		int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
 		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
 		model.addAttribute("yeLight", yeLight);
@@ -708,33 +710,6 @@ public class WorkSpaceController {
 					args.add(toOrgVo.getId());
 				}
 			}
-			work.setOrgs(args);			
-		
-			work.setRankCat("loan_amount");
-			map.put("loanAmountRankList", workSpaceService.topRankList(work));
-			work.setRankCat("sign_amount");
-			map.put("signAmountRankList", workSpaceService.topRankList(work));
-			work.setRankCat("actual_amount");
-			map.put("actualAmountRankList", workSpaceService.topRankList(work));
-			
-			work.setRankCat("loan_amount");
-			map.put("loanAmountRank", workSpaceService.getRank(work));
-			work.setRankCat("sign_amount");
-			map.put("signAmountRank", workSpaceService.getRank(work));
-			work.setRankCat("actual_amount");
-			map.put("actualAmountRank", workSpaceService.getRank(work));
-			
-		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
-			work.setRankType(TransJobs.TJYZG.getCode());
-			work.setOrgId(null);
-			/* 主管只看当前组织
-			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
-					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
-			if (CollectionUtils.isNotEmpty(orgList)) {
-				for (Org toOrgVo : orgList) {
-					args.add(toOrgVo.getId());
-				}
-			}*/
 			args.add(user.getServiceDepId());
 			work.setOrgs(args);			
 		
@@ -745,6 +720,36 @@ public class WorkSpaceController {
 			work.setRankCat("actual_amount");
 			map.put("actualAmountRankList", workSpaceService.topRankList(work));
 			
+			work.setOrgId(user.getServiceDepId());
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRank", workSpaceService.getRank(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRank", workSpaceService.getRank(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRank", workSpaceService.getRank(work));
+			
+		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) { //(高级)交易主管
+			work.setRankType(TransJobs.TJYZG.getCode());
+			work.setOrgId(null);
+			// 主管只看当前组织
+			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+					uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
+			if (CollectionUtils.isNotEmpty(orgList)) {
+				for (Org toOrgVo : orgList) {
+					args.add(toOrgVo.getId());
+				}
+			}
+			args.add(user.getServiceDepId());
+			work.setOrgs(args);			
+		
+			work.setRankCat("loan_amount");
+			map.put("loanAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("sign_amount");
+			map.put("signAmountRankList", workSpaceService.topRankList(work));
+			work.setRankCat("actual_amount");
+			map.put("actualAmountRankList", workSpaceService.topRankList(work));
+			
+			work.setOrgId(user.getServiceDepId());
 			work.setRankCat("loan_amount");
 			map.put("loanAmountRank", workSpaceService.getRank(work));
 			work.setRankCat("sign_amount");
@@ -941,6 +946,8 @@ public class WorkSpaceController {
 		Double loanAmount = workSpaceService.staLoanAgentLoanAmount(work);
 		Double signAmount = workSpaceService.staLoanAgentSignAmount(work);
 		Double convRate = workSpaceService.staLoanAgentTransferRate(work);
+		Double efConverRt = workSpaceService.staEvaFeeCount(work);//评估费转化率
+		
 
 		NumberFormat formatter = new DecimalFormat("###,##0.00万");
 		NumberFormat formatter2 = new DecimalFormat("###,##0.00");
@@ -969,6 +976,12 @@ public class WorkSpaceController {
 			m.put("convRate", formatter2.format(convRate*100) + "%");
 		}
 		
+		if (efConverRt == null) {
+			m.put("efConverRt", "0.00%");
+		} else {
+			m.put("efConverRt", formatter2.format(efConverRt) + "%");
+		}
+		
 		Map m1 = workSpaceService.staEvaFee(work);
 		if (m1 != null) {
 			m.putAll(m1);
@@ -984,9 +997,9 @@ public class WorkSpaceController {
 			m.put("efConvRate", formatter2.format(m.get("efConvRate")) + "%");
 		}
 		
+		//m.put("transferCount", workSpaceService.staTransferCount(work));
 		m.put("receiveCount", workSpaceService.staReceiveCount(work));
 		m.put("signCount", workSpaceService.staSignCount(work));
-		//m.put("transferCount", workSpaceService.staTransferCount(work));
 		m.put("loanApplyCount", workSpaceService.staLoanApplyCount(work));
 		m.put("closeCount", workSpaceService.staCloseCount(work));
 

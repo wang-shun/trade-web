@@ -17,6 +17,8 @@ $('#searchButton').click(function(){
 });
 //search
 function searchMethod(page){
+	$("#caseDistributeButton").attr("disabled", true);
+	$("#caseChangeTeamButton").attr("disabled", true);
 	var data = getQueryParams(page);
     aist.wrap(data);
 	reloadGrid(data);
@@ -86,8 +88,29 @@ function reloadGrid(data) {
         	var myCaseList = template('template_myCaseList' , data);
         	$("#myCaseList").empty();
         	$("#myCaseList").html(myCaseList);
+        	
 			// 显示分页 
             initpage(data.total,data.pagesize,data.page, data.records);
+            $('.demo-left').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'left',
+    			alignY: 'center',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
+
+    		//top
+    		$('.demo-top').poshytip({
+    			className: 'tip-twitter',
+    			showTimeout: 1,
+    			alignTo: 'target',
+    			alignX: 'center',
+    			alignY: 'top',
+    			offsetX: 8,
+    			offsetY: 5,
+    		});
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -123,7 +146,8 @@ function initpage(totalCount,pageSize,currentPage,records) {
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(page);
+			//reloadGrid(page);
+			searchMethod(page);
 	    }
 	});
 }
@@ -373,7 +397,10 @@ function distributeCase(index){
 									alert("分配成功");
 									$('#modal-form').modal("hide");
 									//jqGrid reload
-									reloadGrid(1);
+									/*
+									reloadGrid(1);*/
+									$("#checkAllNot").attr('checked',false);
+									searchMethod(1);
 								}else{
 									alert(data.message);
 								}
@@ -464,7 +491,10 @@ function changeCaseTeam(){
 					alert("分配成功");
 					$('#team-modal-form').modal("hide");
 					//jqGrid reload
-					reloadGrid(1);
+					/*
+					reloadGrid(1);*/
+					$("#checkAllNot").attr('checked',false);
+					searchMethod(1);
 				}else{
 					alert(data.message);
 				}

@@ -39,6 +39,9 @@
 	<result column="TMP_BANK_STATUS"  property="tmpBankStatus" jdbcType="VARCHAR"/>
 	<result column="TMP_BANK_REJECT_REASON" property="tmpBankRejectReason" jdbcType="VARCHAR"/>
 	<result column="LOANLOST_APPLY_REASON" property="loanLostApplyReason" jdbcType="VARCHAR"/>
+	<result column="LOANLOST_CONFIRM_CODE" property="loanLostConfirmCode" jdbcType="VARCHAR"/>
+	<result column="LOAN_AGENT" property="loanAgent" jdbcType="VARCHAR"/>
+	<result column="LOAN_AGENT_TEAM" property="loanAgentTeam" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
     <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
@@ -48,7 +51,8 @@
     COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, LEND_WAY, HOUSE_NUM, IS_LOANER_ARRIVE, 
     SIGN_DATE, APPR_DATE, TAZHENG_ARR_DATE, LEND_DATE, CUST_COMPANY, IF_REPORT_BEFORE_LEND, 
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
-    IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON
+    IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
+    TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE
   </sql>
   <sql id="Blob_Column_List" >
     REMARK
@@ -178,6 +182,15 @@
       <if test="loanLostApplyReason !=null">
       	LOANLOST_APPLY_REASON,
       </if>
+      <if test="loanLostConfirmCode !=null">
+      	LOANLOST_CONFIRM_CODE,
+      </if>
+      <if test="loanAgent !=null">
+      	LOAN_AGENT,
+      </if>
+      <if test="loanAgentTeam !=null">
+      	LOAN_AGENT_TEAM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
@@ -286,8 +299,21 @@
       <if test="loanLostApplyReason != null">
       	#{loanLostApplyReason,jdbcType=VARCHAR},
       </if>
+      <if test="loanLostConfirmCode != null">
+      	#{loanLostConfirmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgent != null">
+      	#{loanAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgentTeam != null">
+      	#{loanAgentTeam,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  <update id="updateTmpBankStatus" parameterType="java.lang.String" >
+  		 update sctrans.T_TO_MORTGAGE set is_Tmp_Bank = '0' where case_code=#{caseCode,jdbcType=VARCHAR};
+  </update>
+  
   <update id="update" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
     update sctrans.T_TO_MORTGAGE
     <set >
@@ -397,10 +423,19 @@
         TMP_BANK_STATUS=#{tmpBankStatus,jdbcType=VARCHAR},
       </if>
       <if test="tmpBankRejectReason != null">
-        TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR}
+        TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR},
       </if>
       <if test="loanLostApplyReason !=null">
-      	LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR}      	
+      	LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR},      	
+      </if>
+      <if test="loanLostConfirmCode !=null">
+      	LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgent != null">
+      	LOAN_AGENT = #{loanAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgentTeam != null">
+      	LOAN_AGENT_TEAM = #{loanAgentTeam,jdbcType=VARCHAR},
       </if>
     </set>
     ,IS_ACTIVE='1'
@@ -409,11 +444,15 @@
     
   </update>
   <update id="inActiveMortageByCaseCode" parameterType="java.lang.String" >
-    update sctrans.T_TO_MORTGAGE set IS_ACTIVE='0',LAST_LOAN_BANK=NULL,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},TMP_BANK_UPDATE_BY=null,TMP_BANK_STATUS=null,TMP_BANK_REASON=null,TMP_BANK_REJECT_REASON=null,TMP_BANK_UPDATE_TIME=null where case_code =#{0}
+    update sctrans.T_TO_MORTGAGE set IS_ACTIVE='0',LAST_LOAN_BANK=NULL,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},TMP_BANK_UPDATE_BY=null,TMP_BANK_STATUS=null,TMP_BANK_REASON=null,TMP_BANK_REJECT_REASON=null,TMP_BANK_UPDATE_TIME=null,LOAN_AGENT=null,LOAN_AGENT_TEAM=null where case_code =#{0}
     </update>
  
  <select id="findToMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and last_loan_bank is not null and IS_ACTIVE='1'
+ </select>
+ 
+ <select id="getMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_TMP_BANK = '1'
  </select>
  
  <select id="findToMortgageByCaseCodeNoBlank" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >

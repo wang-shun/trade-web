@@ -41,15 +41,13 @@ $(document).ready(function() {
 	    data : data,
 	    wrapperData : data,
 	    columns : [{
-	           		   colName :"行政区域"
+	           		   colName :"来源归属"
 	    		  },{
 	    	           colName :"产证地址"
 	    	      },{
 	    	           colName :"产调申请时间"
     	          },{
-	    	           colName :"是否有效"
-    	          },{
-		    	       colName :"产调申请"
+		    	       colName :"负责人"
 	    	      },{
 	    	           colName :"操作"
 	     }]
@@ -84,6 +82,7 @@ function reloadGrid() {
 	    data : data,
 	    wrapperData : data
     });
+    setStyle();
 };
 
 function getParams() {
@@ -330,3 +329,49 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 			}
 		});
 	}
+
+	function setStyle(){
+		//left
+		$('.demo-left').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//right
+		$('.demo-right').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'right',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//top
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//bottom
+		$('.demo-bottom').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'bottom',
+			offsetX: 8,
+			offsetY: 5,
+		});	
+	}	

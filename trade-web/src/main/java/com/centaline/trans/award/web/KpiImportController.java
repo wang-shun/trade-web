@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +27,11 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.kpi.entity.TsAwardKpiPay;
 import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
@@ -58,6 +62,8 @@ public class KpiImportController {
 	@Autowired
 	private TsAwardKpiPayService tsAwardKpiPayService;
 	
+	private String months[] = {"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"}; 
+	
 	@RequestMapping(value = "/personBonus")
 	public String personBonus(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
@@ -67,10 +73,28 @@ public class KpiImportController {
 
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
+		
+		
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
 		return "award/kpiImport";
 	}
+	
+	@RequestMapping(value = "/import2")
+	public String kpiImport2(HttpServletRequest request) {
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
+		return "award/kpiImport2";
+	}	
 	
 	@RequestMapping(value = "/bonus")
 	public String bonus(HttpServletRequest request) {
@@ -109,6 +133,8 @@ public class KpiImportController {
 		} else {
 			request.setAttribute("fList", fList);
 		}
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
 		return "award/kpiImport";
 	}
 

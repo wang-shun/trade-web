@@ -12,7 +12,10 @@ import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.utils.WorkFlowUtils;
+import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 /**
  * 
@@ -108,4 +111,24 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
 		return (StartProcessInstanceVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HIS_INSTANCES_KEY,
 				StartProcessInstanceVo.class, vars, null);
 	}
+	@Override
+	@SuppressWarnings("rawtypes")
+	public PageableVo getByBusinessKey(String businessKey){
+		Map<String, String> vars = new HashMap<>();
+		vars.put("businessKey", businessKey);
+		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_PROCESS_INSTANCES_KEY, PageableVo.class, vars);
+		WorkFlowUtils.convertPageableData(vo, StartProcessInstanceVo.class);
+		return vo;
+	}
+	@Override
+	public void deleteByBusinessKey(String businessKey){
+		PageableVo pageable= getByBusinessKey(businessKey);
+		if(pageable.getSize()>0){
+			for (Object obj : pageable.getData()) {
+				StartProcessInstanceVo vo= (StartProcessInstanceVo)obj;
+				deleteProcess(vo.getId());
+			}
+		}
+	}
+	
 }

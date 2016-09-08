@@ -1,8 +1,9 @@
-
+var startList=0;//判断是不是应该显示列表
 $(document).ready(function() {
 	
 	var data = getParams(1);
     aist.wrap(data);
+    startList=0;
 	reloadGrid(data);
 });
 
@@ -14,13 +15,41 @@ function reloadGrid(data) {
         dataType: "json",
         data: data,
         success: function(data){
-        	console.log("数据"+JSON.stringify(data));
+        	//console.log("数据"+JSON.stringify(data));
       	  var myTaskList = template('template_myTaskList' , data);
-			  $("#myTaskList").empty();
-			  $("#myTaskList").html(myTaskList);
-			  // 显示分页 
-              initpage(data.total,data.pagesize,data.page, data.records);
+      	    $("#myTaskList").empty();
+      	    
+      	     if(startList==1 ){
+      	      
+   			  $("#myTaskList").html(myTaskList);
+   			  // 显示分页 
+   			initpage(data.total,data.pagesize,data.page, data.records);
+                 $('.demo-left').poshytip({
+           			className: 'tip-twitter',
+           			showTimeout: 1,
+           			alignTo: 'target',
+           			alignX: 'left',
+           			alignY: 'center',
+           			offsetX: 8,
+           			offsetY: 5,
+           		});
+
+           		//top
+           		$('.demo-top').poshytip({
+           			className: 'tip-twitter',
+           			showTimeout: 1,
+           			alignTo: 'target',
+           			alignX: 'center',
+           			alignY: 'top',
+           			offsetX: 8,
+           			offsetY: 5,
+           		});
+           		startList=0;
+      	     }else{
+			 
+      	     }
               $.unblockUI(); 
+             
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -75,6 +104,7 @@ function searchMethod(page){
 }
 //查询
  $('#searchButton').click(function() {
+	
 	searchMethod(1);
 }); 
 
@@ -82,9 +112,14 @@ function getParams(page) {
 	if(!page) {
 		page = 1;
 	}
-	var propertyAddr = $('#caseAddress').val();
-	var caseCode = $("#caseCode").val();
-	var ctmCode = $("#ctmCode").val();
+	var propertyAddr =  $.trim($('#caseAddress').val());
+	var caseCode = $.trim($("#caseCode").val());
+	var ctmCode = $.trim($("#ctmCode").val());
+	if(propertyAddr.length>0|| caseCode.length>0 || ctmCode.length>0 ){
+		startList=1;
+	}else{
+		startList=0;
+	}
 	var data = {
 			search_propertyAddr: propertyAddr,
 			search_caseCode:caseCode,

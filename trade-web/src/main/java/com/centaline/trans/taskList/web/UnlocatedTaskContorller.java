@@ -33,8 +33,23 @@ public class UnlocatedTaskContorller {
 			request.setAttribute("orgId", user.getServiceDepId());
 		}
 
-		return "/task/unlocatedTask";
+		//return "/task/unlocatedTask";
+		return "/task/unlocatedTask3";
 	}
+	/*@RequestMapping("/a")
+	public String unlocatedTaska(HttpServletRequest request) {
+		SessionUser user = uamSesstionService.getSessionUser();
+		String jobCode = user.getServiceJobCode();
+		request.setAttribute("candidateId", user.getUsername());
+		if (!TransJobs.TJYZG.getCode().equals(jobCode)) {
+			request.setAttribute("managerFlag", "1");
+		} else {
+			request.setAttribute("orgId", user.getServiceDepId());
+		}
+		
+		//return "/task/unlocatedTask";
+		return "/task/unlocatedTask3";
+	}*/
 
 	/**
 	 * 分配任务

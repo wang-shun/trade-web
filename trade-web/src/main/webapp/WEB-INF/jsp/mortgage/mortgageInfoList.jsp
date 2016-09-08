@@ -104,9 +104,6 @@ text-decoration: underline !important;
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-					
-					<div class="row ${isConsultant ? 'hideDiv' : ''}">
-					
 					            <div class="row">
 									<div class="col-md-12 col-sm-12">
 										<div class="form-group ">
@@ -136,15 +133,14 @@ text-decoration: underline !important;
 									<div class="col-md-12">
 										<div class="form-group ">
 											<label class="col-md-1 control-label m-l">客户姓名</label>
-											<div class="col-md-10">
+											<div class="col-md-10 dizhi">
 												<input type="text" class="form-control" id="custName"
 													name="custName" value="" />
 											</div>
 										</div>
 									</div>
 								</div>
-								
-                          </div>
+
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group ">
@@ -195,8 +191,8 @@ text-decoration: underline !important;
 						</div>
 						</div>
 							</div>
-					</div>	
-						
+					</div>
+	
 						<div class="row m-t-sm">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -227,8 +223,7 @@ text-decoration: underline !important;
 						<th class="t-left pd-l"><span>贷款机构</span></th>
 						<th class="t-left pd-l"><span>客户姓名</span></th>
 						<th class="t-left pd-l"><span>商贷金额(万元)</span></th>
-					    <th class="t-left pd-l"><span>商贷年限</span></th>
-					    <th class="t-left pd-l"><span>商贷利率折扣</span></th>
+					    <th class="t-left pd-l"><span>公积金金额(万元)</span></th>
 					    <th class="t-left pd-l"><span class='sort' sortColumn='m.SIGN_DATE' sord='desc'>签约时间</span></th>
 					    <th class="t-left pd-l"><span class='sort' sortColumn='m.LEND_DATE' sord='desc'>放款时间</span></th>
 					    <th class="t-left pd-l"><span>临时银行</span></th>
@@ -295,8 +290,7 @@ text-decoration: underline !important;
                         <td class="t-left pd-l">{{item.FIN_ORG_CODE}}</td>
                         <td class="t-left pd-l">{{item.CUST_NAME}}</td>
                         <td class="t-left pd-l">{{item.MORT_TOTAL_AMOUNT}}</td>
-                        <td class="t-left pd-l">{{item.COM_YEAR}}</td>
-                        <td class="t-left pd-l">{{item.COM_DISCOUNT}}</td>
+                        <td class="t-left pd-l">{{item.PRF_AMOUNT}}</td>
                         <td class="t-left pd-l">{{item.SIGN_DATE}}</td>
                         <td class="t-left pd-l">{{item.LEND_DATE}}</td>
                         <td class="t-left pd-l">{{item.IS_TMP_BANK}}</td>

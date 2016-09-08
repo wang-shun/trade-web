@@ -16,7 +16,7 @@ public interface BizWarnInfoService {
 	 * 获取所有的状态为生效的商贷预警案件数
 	 * @return 返回商贷预警案件个数
 	 */
-	public int getAllBizwarnCount();
+	public int getAllBizwarnCount(String userLoginName);
 
 	/**
 	 * 通过案件编号获取商贷预警信息

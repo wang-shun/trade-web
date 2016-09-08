@@ -26,9 +26,9 @@
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
-<!-- aist列表样式 -->
+<!-- aist列表样式 --><%-- 
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/style.css" rel="stylesheet"> --%>
 <!-- 分页控件 -->									
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />									
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />  									
@@ -44,119 +44,11 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 
 <style type="text/css">
-
-
-.hint { position: relative; display: inline-block; }
-
-.hint:before, .hint:after {
-	position: absolute;
-	opacity: 0;
-	z-index: 1000000;
-	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	pointer-events: none;
-}		
-.hint:hover:before, .hint:hover:after {
-	opacity: 1;
-}
-.hint:before {
-	content: '';
-	position: absolute;
-	background: transparent;
-	border: 6px solid transparent;
-	position: absolute;
-}	
-.hint:after {
-	content: attr(data-hint);
-	background: rgba(0, 0, 0, 0.8);
-	color: white;
-	padding: 8px 10px;
-	font-size: 12px;
-	white-space: nowrap;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* top */
-.hint-top:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top:after {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top:hover:after {
-	margin-bottom: 2px;
-}
-
-/* top */
-.hint-top1:before {
-	bottom: 100%;
-	left: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top1:after {
-    bottom: 100%;
-	margin-bottom: 2px;
-	width:130px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-.hint-top1:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top1:hover:after {
-	margin-bottom: 2px;
-	width:130px!important;
-	white-space: normal!important;
-	word-break:break-all!important;
-}
-/* top */
-.hint-top2:before {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top2:after {
-	bottom: 100%;
-	right: 50%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top2:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top2:hover:after {
-	margin-bottom: 2px;
-}
-/* top */
-.hint-top3:before {
-	bottom: 100%;
-	right: 15%;
-	margin: 0 0 -18px 0;
-	border-top-color: rgba(0, 0, 0, 0.8);
-}		
-.hint-top3:after {
-	bottom: 100%;
-	right: 15%;
-	margin: 0 0 -6px -10px;
-}
-.hint-top3:hover:before {
-	margin-bottom: -10px;
-}
-.hint-top3:hover:after {
-	margin-bottom: 2px;
-}
 
 
 </style>
@@ -200,7 +92,7 @@
 			<thead>
 				<tr>
 					<th ><span class="sort" sortColumn="A.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
-					<th >产权地址</th>
+					<th >产证地址</th>
 					<th >上家</th>
 					<th >下家</th>
 					<th >经办人</th>
@@ -246,6 +138,8 @@
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 
 <script id="template_myTaskList" type= "text/html">
@@ -257,37 +151,47 @@
                    {{/if}}
 					<td >
  						<p class="big">
-							<a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
+							{{item.CASE_CODE}}
 						</p>
  						<p class="big">
 							<i class="tag_sign">c</i>{{item.CTM_CODE}}
 						</p>
 					</td>
 					<td >
- 						<span class="hint  hint-top" data-hint="{{item.PROPERTY_ADDR}}">
+
+
 {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
 {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 {{else}}
+</p><p>
 {{item.PROPERTY_ADDR}}
-{{/if}}						 
-
-						</span><br/>
- 							<span class="tooltip-demo">
-                                  <i class="salesman-icon"> </i>
-								  <a class="hint  hint-top" data-hint="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}} ">
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>8}}							
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11}}	
+ <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
 {{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}						
+</a></p><p>
+{{else}}<a>
 {{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
-{{/if}}		
-							</a>
-							</span>
-						</p>
+{{/if}}	
+								</a>
+							</p>
 					</td>
 					<td >
- <span  class="hint  hint-top1" data-hint="上家信息: {{item.SELLER}}">
+
+ <p  >
+						
 {{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 {{if item.SELLER.split("/").length-1 >1}}
+<a  class="demo-left" title="上家信息:{{item.SELLER}}" >
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
@@ -298,19 +202,20 @@
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
 }}</br>
 {{/if}}
-{{else}}
-{{ if item.SELLER.length>4}}
-{{item.SELLER.substring(0,4)}}...
-{{else}}
+{{else}}</a></p><p>
 {{item.SELLER}}
 {{/if}}
-{{/if}}                          </span>
+						
+						</p>
+
 
 					</td>
 					<td >
-  <span  class="hint  hint-top2" data-hint="下家信息:{{item.BUYER}}">
+  <p  >
+							
 {{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 {{if item.BUYER.split("/").length-1 >1}}
+<a class="demo-left" title="下家信息:{{item.BUYER}}" >
 {{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
@@ -320,31 +225,15 @@
 {{
 (item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
 }}</br>
-{{/if}}
-{{else}}
-{{ if item.BUYER.length>4}}
-{{item.BUYER.substring(0,4)}}...
+{{/if}}</a></p><p>
 {{else}}
 {{item.BUYER}}
 {{/if}}
-{{/if}}                                              
-                        </span>
+                          </p>
 					</td>
 					<td >
-					<span class="manager" ><a class="hint  hint-top3" data-hint="{{item.PROCESSOR_ID}}" ><em>经办人：</em>
-						{{ if item.PROCESSOR_ID !="" && item.PROCESSOR_ID !=null && item.PROCESSOR_ID.indexOf("/") >-1 }}
-                        		{{item.PROCESSOR_ID.substring(0,item.PROCESSOR_ID.indexOf("/"))}}...
-						{{else}}
-							    {{item.PROCESSOR_ID}}
-						{{/if}}
-						</a></span>
-						<span class="manager" ><a class="hint  hint-top3" data-hint="{{item.MANAGER}}" ><em>主&nbsp;&nbsp;&nbsp;&nbsp;管：</em>
-						{{ if item.MANAGER !="" && item.MANAGER !=null && item.MANAGER.indexOf(";") >-1 }}
-                        	{{item.MANAGER.substring(0,item.MANAGER.indexOf(";"))}}...
-						{{else}}
-							{{item.MANAGER}}
-						{{/if}}
-						</a></span>
+					   <p >经办人：{{item.PROCESSOR_ID}}</p>
+					   <p>主&nbsp;&nbsp;&nbsp;&nbsp;管：{{item.MANAGER}}</p>
 					</td>
 
 					<td >

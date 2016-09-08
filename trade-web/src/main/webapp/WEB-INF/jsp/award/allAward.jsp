@@ -138,7 +138,7 @@
                            {{each rows as item index}}
  							  <tr class="border-e7">
                                     <td></td>
-                                    <td>{{item.CASE_CODE}}</td>
+                                    <td><a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
                                     <td>{{item.GUOHU_TIME}}</td>
 									<td>{{item.PAID_TIME}}</td>
@@ -176,7 +176,7 @@
                                                     <td>{{item.SRV_PART_IN}}/{{item.SRV_PART_TOTAL}}</td>
 
 													<td>{{item.SATISFACTION}}</td>
-													<td></td>
+													<td>{{item.SRV_PART}}</td>
 													<td>{{item.FIN_ORDER}}
 															{{if item.FIN_ORDER != null && item.FIN_ORDER_ROLL != null }}+{{/if}}
 														{{item.FIN_ORDER_ROLL}}

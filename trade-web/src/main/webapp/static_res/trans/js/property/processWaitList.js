@@ -22,13 +22,13 @@ $(document).ready(function() {
 	    data : data,
 	    wrapperData : data,
 	    columns : [{
-	    	           colName :"行政区域"
+	    	           colName :"来源归属"
 	    	      },{
 	    	           colName :"产证地址"
 	    	      },{
 	    	           colName :"产调申请时间"
     	          },{
-		    	       colName :"产调申请"
+		    	       colName :"负责人"
 	    	      },{
 	    	           colName :"操作"
 	    	      }]

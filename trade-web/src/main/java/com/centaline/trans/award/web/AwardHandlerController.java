@@ -72,7 +72,24 @@ public class AwardHandlerController {
 		c2.add(Calendar.DATE, -1);
 		request.setAttribute("guohuEnd", sdf.format(c2.getTime()));//上个月最后 一天 
 
-		return "award/kjjianCase";
+		return "award/kjjianCase2";
+	}
+	@RequestMapping(value = "kjjianCase2")
+	public String kjjianCase2(HttpServletRequest request) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		// 默认显示上个月的数据
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.add(Calendar.MONTH, -1);
+		c1.set(Calendar.DAY_OF_MONTH, 1);
+		request.setAttribute("guohuStart", sdf.format(c1.getTime()));//上个月第一天
+		
+		c2.set(Calendar.DAY_OF_MONTH, 1); 
+		c2.add(Calendar.DATE, -1);
+		request.setAttribute("guohuEnd", sdf.format(c2.getTime()));//上个月最后 一天 
+		
+		return "award/kjjianCase2";
 	}
 
 	@RequestMapping(value = "allBaseAwardCount")

@@ -2,11 +2,27 @@ package com.centaline.trans.mortgage.service;
 
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
 public interface ToMortgageService {
+	
+	/**
+	 * 更新临时案件状态
+	 * @param caseCode 案件编号
+	 * @return 如果返回1,说明更新成功;如果返回0,说明更新失败。
+	 */
+	public int updateTmpBankStatus(String caseCode);
+	
+	/**
+	 * 根据案件编号查询贷款信息
+	 * @param caseCode 案件编号
+	 * @return 返回贷款信息
+	 */
+	ToMortgage getMortgageByCaseCode(String caseCode);
 
 	/**
 	 * 保存按揭贷款信息
@@ -71,5 +87,31 @@ public interface ToMortgageService {
 	void submitMortgage(ToMortgage toMortgage,List<RestVariable> variables,String taskId,String processInstanceId);
 
 	void deleteTmpBankProcess(ToWorkFlow twf);
+
+	/**
+	 * 启动临时银行流程
+	 * @param caseCode
+	 * @return
+	 */
+	StartProcessInstanceVo startTmpBankWorkFlow(String caseCode);
+	
+    /**
+     * 临时银行三级审批
+     * @param mortage
+     * @param prAddress
+     * @param tmpBankName
+     * @param tmpBankCheck
+     * @param taskId
+     * @param bankCode
+     * @param temBankRejectReason
+     * @param processInstanceId
+     * @param caseCode
+     * @param post
+     * @return
+     */
+	AjaxResponse<?> tmpBankThriceAduit(ToMortgage mortage,String prAddress,
+			String tmpBankName,String tmpBankCheck,String taskId,
+			String bankCode,String temBankRejectReason,
+			String processInstanceId,String caseCode,String post);
 
 }
