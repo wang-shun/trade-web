@@ -1,4 +1,5 @@
 var isRTL = false;
+
 if ($('body').css('direction') === 'rtl') {
 	isRTL = true;
 }
@@ -121,7 +122,7 @@ $(document).ready(function() {
 						// original position after the drag
 		});
 	});
-	
+	var backEvents = [];
 	// 获取待办事项数据
 	$.ajax({
 		//url : ctx + '/transplan/getToTransPlan', //mybatis查询
@@ -130,33 +131,36 @@ $(document).ready(function() {
 		type : "post",
 		dataType : "json",
 		async : true,
-		success : function(data) {			
+		success : function(data) {
+			//console.log("！！！！！！！！！Result！！！！！！！！"+JSON.stringify(data));
 			if (data.toTransPlanOrToPropertyInfoList == null)
 				return;			
-				
+			
 			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;			
-			var events = []
+			//var events = [];		
 			for (var i = 0; i < toTransPlanOrToPropertyInfoList.length; i++) {
 				
 				var calssstyle = "popy";
 				var partCode = toTransPlanOrToPropertyInfoList[i].partCode;
 				var estPartTimes = toTransPlanOrToPropertyInfoList[i].estPartTime;
 				var propertyAddr = toTransPlanOrToPropertyInfoList[i].propertyAddr;
-				if (propertyAddr == undefined) {
+				
+				if (partCode == undefined || partCode=='' || partCode==null) {
+					continue;
+				}
+				if (propertyAddr == undefined || propertyAddr=='' || propertyAddr==null) {
 					propertyAddr = "无";
 				}
-				if(estPartTimes == undefined || estPartTimes=='') {
-					return true;
-				}
-				
-				events.push({
+				if(estPartTimes == undefined || estPartTimes=='' || estPartTimes==null) {
+					continue;
+				}			
+				backEvents.push({
 					title : partCode + "\n 物业地址:" + propertyAddr,
 					start : estPartTimes,
 					backgroundColor : '#f8ac59',
 					borderColor : "#f8ac59"
 				});		
 			}
-			console.log("calendar.size="+$('#calendar').size())
 			$('#calendar').fullCalendar({
 				header : {
 					left : 'prev,next,month,basicWeek,today',
@@ -164,13 +168,15 @@ $(document).ready(function() {
 					right : ''
 				},
 				editable : false,
-				events : events
+				events : backEvents
 
 			});	
+
 			
 		}
 	});
-
+	
+	
 
 	$("#ionrange_4").ionRangeSlider({
 		values : [ "一月", "二月", "三月", "四月", "五月", "六月",
