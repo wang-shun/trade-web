@@ -347,7 +347,7 @@ p.line span{
 ul.light_info li.light {
   line-height:22px;
 }
-ul.light_info li.active {
+ul.light_info li.pass {
   background: #edfcfd;
 }
 .icon {
@@ -362,6 +362,9 @@ ul.light_info li.active {
 }
 .grey {
   color: #ccc;
+}
+.green {
+  color: #52bdbd;
 }
 .martop20 {
   margin-top: 20px;

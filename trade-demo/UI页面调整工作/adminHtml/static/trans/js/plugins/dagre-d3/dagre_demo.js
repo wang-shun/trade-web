@@ -10,6 +10,37 @@ var g = new dagreD3.graphlib.Graph().setGraph({});
 
 // States and transitions from RFC 793
 var states = {
+    //picture-7
+  "开始7": {
+    description: "" ,
+    style: "fill: #f4f4f4",
+  },
+  "结束7": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "X7": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "X77": {
+    description: "" ,
+    style: "fill: #d9f8fd",
+  },
+  "主管审批1": {
+    description: "" ,
+    style: "fill: #ffeeee",
+  },
+
+  "高级主管审批": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+   "总监审批": {
+    description: "2016年，张晓辉贷款申请确认" ,
+    style: "fill: #ffeeee",
+  },
+
   //picture-1
   "开始": {
     description: "" ,
@@ -194,36 +225,6 @@ var states = {
     style: "fill: #ffeeee",
   },
 
-   //picture-7
-  "开始7": {
-    description: "" ,
-    style: "fill: #f4f4f4",
-  },
-  "结束7": {
-    description: "" ,
-    style: "fill: #d9f8fd",
-  },
-  "X7": {
-    description: "" ,
-    style: "fill: #d9f8fd",
-  },
-  "X77": {
-    description: "" ,
-    style: "fill: #d9f8fd",
-  },
-  "主管审批1": {
-    description: "" ,
-    style: "fill: #ffeeee",
-  },
-
-  "高级主管审批": {
-    description: "2016年，张晓辉贷款申请确认" ,
-    style: "fill: #ffeeee",
-  },
-   "总监审批": {
-    description: "2016年，张晓辉贷款申请确认" ,
-    style: "fill: #ffeeee",
-  },
 
 
 //picture-8
@@ -377,6 +378,17 @@ g.setEdge("主管审批",     "结案审核",     {
   label: "Arrowhead class",
   lineInterpolate: 'basis',
 });*/
+
+//picture-7
+g.setEdge("开始7", "主管审批1", { label: "" });
+g.setEdge("主管审批1", "X7", { label:"" });
+g.setEdge("X7", "高级主管审批", { label:"" });
+g.setEdge("高级主管审批", "X77", { label:"" });
+g.setEdge("X7", "总监审批", { label:"" });
+g.setEdge("总监审批", "结束7", { label:""});
+g.setEdge("X7", "结束7", { label:"" });
+g.setEdge("X77", "总监审批", { label:"" });
+g.setEdge("X77", "结束7", { label:"" });
 //picture-1
 g.setEdge("开始", "商业贷款办理", { label: "" });
 g.setEdge("商业贷款办理", "结束", { label:""});
@@ -432,16 +444,7 @@ g.setEdge("X6", "服务重启申请", { label:"" });
 g.setEdge("X6", "结束6", { label:""});
 
 
-//picture-7
-g.setEdge("开始7", "主管审批1", { label: "" });
-g.setEdge("主管审批1", "X7", { label:"" });
-g.setEdge("X7", "高级主管审批", { label:"" });
-g.setEdge("高级主管审批", "X77", { label:"" });
-g.setEdge("X7", "总监审批", { label:"" });
-g.setEdge("总监审批", "结束7", { label:""});
-g.setEdge("X7", "结束7", { label:"" });
-g.setEdge("X77", "总监审批", { label:"" });
-g.setEdge("X77", "结束7", { label:"" });
+
 
 //picture-8
 g.setEdge("开始8", "资金监管申请", { label: "" });
