@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.productcategory.repository.ProductCategoryMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.productcategory.entity.ProductCategory" >
+<mapper namespace="com.centaline.trans.product.repository.ProductCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.product.entity.ProductCategory" >
     <result column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="PRDC_CODE" property="prdcCode" jdbcType="VARCHAR" />
     <result column="PRDC_NAME" property="prdcName" jdbcType="NVARCHAR" />

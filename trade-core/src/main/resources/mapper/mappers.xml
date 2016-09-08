@@ -171,7 +171,7 @@
 		<mapper resource="mapper/eloan/ToEloanRelMapper.xml" />
 		
 		<!-- 产品类别接口 -->
-		<mapper resource="mapper/productcategory/ProductCategoryMapper.xml" />
+		<mapper resource="mapper/product/ProductCategoryMapper.xml" />
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />

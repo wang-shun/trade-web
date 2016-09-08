@@ -269,7 +269,7 @@
 											</li>
 											<li>
 												<p>
-													<em>房产权利人</em> <span>${spvBaseInfoVO.toSpvProperty.prOwnerName }</span>
+													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
 												</p>
 											</li>
 										</ul>
@@ -286,11 +286,11 @@
 													<em>网签合同号</em> <span>${spvBaseInfoVO.toSpvProperty.signNo }</span>
 												</p>
 											</li>
-											<li>
+											  <li>
 												<p>
-													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
+													<em>金额大写</em> <span name="DX" title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}</span>
 												</p>
-											</li>
+											</li> 
 										</ul>
 									</div>
 									<div class="col-md-3">
@@ -300,11 +300,12 @@
 													<em>下家付款方式</em> <span>全款</span>
 												</p>
 											</li>
-										     <li>
+											<li>
 												<p>
-													<em>金额大写</em> <span name="DX" title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}</span>
+													<em>房产权利人</em> <span>${spvBaseInfoVO.toSpvProperty.prOwnerName }</span>
 												</p>
-											</li> 
+											</li>
+										   
 										</ul>
 									</div>
 								</div>
