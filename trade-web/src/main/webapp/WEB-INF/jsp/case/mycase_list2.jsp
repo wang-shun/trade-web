@@ -206,7 +206,7 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="more" type="button" class="btn  btn-default btn_more"> 更多搜索条件<i class="fa fa-caret-up"></i> </button>
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							
+							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							 <!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
@@ -214,7 +214,7 @@ text-decoration: underline !important;
 								</shiro:hasPermission>
 								
 							<!-- </div>  -->
-							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>
+							
 							
 						</div>
 					</div>
