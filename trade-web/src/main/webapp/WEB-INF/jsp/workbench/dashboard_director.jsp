@@ -99,7 +99,7 @@
 					<h5 class="main_titile"
 						style="position: absolute; top: 0; left: 25px; font-size: 14px;">案件分布统计</h5>
 						
-					<div class="col-dash-8">
+					<div class="col-md-8">
 						<div id="mainwe" style="width: 100%; height: 250px;"></div>
 					</div>
 					
@@ -120,7 +120,7 @@
 							</p>
 						</div>
 					</div> --%>
-					<div class="col-md-4 pull-right">
+					<div class="col-md-4">
                     	<ul class="light_info">
                     		<li><i class="icon iconfont icon40 pink">&#xe631;</i>
 								<p>
