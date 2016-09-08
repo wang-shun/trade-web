@@ -3,6 +3,9 @@ package com.centaline.trans.workspace.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+
+import com.aist.common.quickQuery.bo.JQGridParam;
 import com.centaline.trans.workspace.entity.LoanStaDetails;
 import com.centaline.trans.workspace.entity.OrgCount;
 import com.centaline.trans.workspace.entity.Rank;
@@ -65,4 +68,6 @@ public interface WorkSpaceService {
 	public Integer getUnlocatedCaseCount();
 	/* 无主任务预警数     */
 	public Integer getUnlocatedTaskCount(Map map);
+	
+	public Page<Map<String, Object>> findPageForSqlServer(JQGridParam gp);
 }
