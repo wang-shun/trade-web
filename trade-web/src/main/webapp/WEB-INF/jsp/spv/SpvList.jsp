@@ -58,43 +58,38 @@
 			<form class="form-inline" id="serachForm">
 				<div class="form-row form-rowbot">
 					<div class="form-group form-margin form-space-one">
-						<label for="" class="lable-one">案件编号</label> <input type="text"
-							class="form-control input-one" placeholder="请输入案件编号" name="caseCode">
+						<label for="" class="lable-one">合约编号</label> <input type="text"
+							class="form-control input-one" placeholder="请输入合约编号" name="spvCode">
 					</div>
-					<div class="form-group form-margin form-space-one">
-						<label for="" class="lable-one">网签编号</label> <input type="text"
-							class="form-control input-one" placeholder="请输入网签编号" name="signNo">
-					</div>
-					<div class="form-group form-margin form-space-one">
-						<label for="" class="lable-one">协议状态</label> <select
-							class="form-control select-one" name="status"  id="status">
-							<option value="">请选择</option>
-							<option value="0">起草</option>
-							<option value="1">申请</option>
-							<option value="2">签约</option>
-							<option value="3d">完成</option>
+					<div class="form-group form-margin form-space-one ">
+						<label class="lable-one"> 时间搜索项 </label> <select
+							id="sel_time" class="form-control select-one" style="width: 113px;">
+							<option value="applyTime">申请时间</option>
+							<option value="signTime">面签时间</option>
+							<option value="close">放款时间</option>
 						</select>
+						<div id="datepicker_0"
+							class="input-medium date-picker input-daterange sign_right_speciale"
+							data-date-format="yyyy-mm-dd">
+							<input id="dtBegin_0" name="dtBegin"
+								class="form-control input-one" type="text" value=""
+								placeholder="起始日期"> <span class="input-group-addon" style="float:none;">到</span>
+							<input id="dtEnd_0" name="dtEnd" class="form-control input-one"
+								type="text" value="" placeholder="结束日期">
+						</div>
+
 					</div>
-				<!-- 	<div class="form-group form-margin">
-						<label for="" class="lable-one">交易状态</label> <select
-							class="form-control select-one" id="status" name="status">
-							<option value="">请选择</option>
-							<option value="0">起草</option>
-							<option value="1">申请</option>
-							<option value="2">签约</option>
-							<option value="3d">完成</option>
-						</select>
-					</div> -->
 				</div>
 				<div class="form-row">
-					<div class="form-group form-margin toright">
-						<label class="font-noraml lable-one">申请时间</label>
-						<div class="input-daterange input-group"
-							data-date-format="yyyy-mm-dd" id="datepicker_0">
-							<input type="text" class="form-control date-width" name="startDate"
-								value=""> <span class="input-group-addon">到</span> <input
-								type="text" class="form-control date-width" name="endDate" value="">
-						</div>
+					<div class="form-group form-margin form-space-one">
+						<label for="" class="lable-one">协议状态</label> <select
+							class="form-control input-one" name="status"  id="status">
+							<option value="">请选择</option>
+							<option value="0">起草</option>
+							<option value="1">申请</option>
+							<option value="2">签约</option>
+							<option value="3d">完成</option>
+						</select>
 					</div>
 					<div class="form-group form-margin">
 						<label for="" class="lable-one">物业地址</label> <input type="text"
@@ -129,7 +124,9 @@
 			</div>
 		</div>
 	</div>
-
+                                        <!--     <p>
+                                                <i class="tag_sign">c</i>{{item.CTM_CODE}}
+                                            </p> -->
 	<!-- main End -->
 
 	<content tag="local_script"> <!-- Peity --> <script
@@ -157,13 +154,11 @@
                                        
                                         <td>
                                             <p class="big">
-                                                <a href="${ctx}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
-								                     {{item.CASE_CODE}}
+                                                <a href="${ctx}/spv/spvDetail?pkid={{item.PKID}}" target="_blank">
+								                     {{item.SPV_CODE}}
 							                    </a>
                                             </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>{{item.CTM_CODE}}
-                                            </p>
+
                                         </td>
                                         <td>
                                                 <p class="big">
@@ -179,29 +174,54 @@
                                                 监管金额<span>{{item.AMOUNT>0?item.AMOUNT/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>{{item.ru>0?item.ru/10000:0}}万</span>
+                                                入账金额<span>0万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>{{item.chu>0?item.chu/10000:0}}万</span>
+                                                出账金额<span>0万</span>
                                             </p>
                                         </td>
                                         <td>
                                             <p class="smll_sign">
-                                                <i class="sign_normal">申</i>
-                                                {{item.CREATE_TIME}}
+                                              	  {{if item.STATUS==0}}
+                                                   <i class="sign_grey">草稿</i>
+												  {{/if}}
                                             </p>
+                    <p class="smll_sign">                          
+					 {{if item.STATUS!=0}}
+					 {{if item.applyTime==undefined}}
+						<i class="sign_grey">申</i>
+                      {{else}}
+						<i class="sign_normal">申</i>
+                      {{/if}}
+					       {{item.applyTime}}
+					</p>
+					<p class="smll_sign">
+					  {{if item.signTime==undefined}}
+						<i class="sign_grey">签</i>
+                      {{else}}
+						<i class="sign_normal">签</i>
+                      {{/if}}
+					       {{item.signTime}}
+					</p>
+					<p class="smll_sign">
+					 {{if item.closeTime==undefined}}
+						<i class="sign_grey">完</i>
+                      {{else}}
+						<i class="sign_normal">完</i>
+                      {{/if}}
+					       {{item.releaseTime}}
+					</p>
+                    {{/if}}
                                         </td>
                                         <td class="center">
                                             <span class="manager">
-                                                <a href="#"><em>申请人：--</em></a>
+                                                <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
                                             </span>
                                             <span class="manager">
                                                 <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
-                                        <td class="text-center"><a class="btn btn-success btn-one "
-                                         style="font-size:10px;padding:2px 10px; margin-bottom:3px;"
- 										href="${ctx}/spv/spvDetail?pkid={{item.PKID}}">  查看</a>
+                                        <td class="text-center">
 										  {{if item.STATUS==0}}
                                         <a class="btn btn-success btn-one"style="font-size:10px; padding:2px 10px;"
                                            href="${ctx}/spv/saveHTML?pkid={{item.PKID}}">修改</a>
@@ -240,12 +260,12 @@
 						$("#btn_search")
 								.click(
 										function() {
-											params.search_caseCode=$(
-											"input[name='caseCode']")
+											params.search_spvCode=$(
+											"input[name='spvCode']")
 											.val();
-											params.search_signNo=$(
+											/* params.search_signNo=$(
 											"input[name='signNo']")
-											.val();
+											.val() */;
 											params.search_startDate=$(
 											"input[name='startDate']")
 											.val();
@@ -261,6 +281,38 @@
 											params.search_status=$(
 											"select[name='status']")
 											.val();
+											params.search_applyTimeStart=null;		
+											params.search_applyTimeEnd=null;
+											params.search_signTimeStart=null;
+											params.search_signTimeEnd=null;
+											params.search_closeTimeStart=null;
+											params.search_closeTimeEnd=null;
+											var sel_time = $("#sel_time").val();
+											if (sel_time == "applyTime") {
+												params.search_applyTimeStart = $(
+														"input[name='dtBegin']")
+														.val();
+												params.search_applyTimeEnd = $(
+														"input[name='dtEnd']")
+														.val();
+											} 
+											 else if (sel_time == "signTime") {
+												    params.search_signTimeStart = $(
+															"input[name='dtBegin']")
+															.val();
+													params.search_signTimeEnd = $(
+															"input[name='dtEnd']")
+															.val();
+										    }
+											else if (sel_time == "closeTime") {
+												params.search_closeTimeStart = $(
+														"input[name='dtBegin']")
+														.val();
+												params.search_closeTimeEnd = $(
+														"input[name='dtEnd']")
+														.val();
+												params.search_closeTimeEnd+=" 23:59:59";
+											}
 											initData();
 										})
 
@@ -294,7 +346,7 @@
 															colName : ""
 														}, */
 														{
-															colName : "<span>案件编码</span><a href='#'><i class='fa fa-sort-desc fa_down'></i></a>"
+															colName : "<span>合约编码</span><a href='#'><i class='fa fa-sort-desc fa_down'></i></a>"
 														}, {
 															colName : "产证地址"
 														}, {
