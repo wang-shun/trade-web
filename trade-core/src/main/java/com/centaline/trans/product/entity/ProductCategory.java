@@ -1,4 +1,4 @@
-package com.centaline.trans.productcategory.entity;
+package com.centaline.trans.product.entity;
 
 import java.util.Date;
 

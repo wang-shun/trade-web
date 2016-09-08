@@ -1,9 +1,9 @@
-package com.centaline.trans.productcategory.repository;
+package com.centaline.trans.product.repository;
 
 import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.productcategory.entity.ProductCategory;
+import com.centaline.trans.product.entity.ProductCategory;
 
 @MyBatisRepository
 public interface ProductCategoryMapper {
