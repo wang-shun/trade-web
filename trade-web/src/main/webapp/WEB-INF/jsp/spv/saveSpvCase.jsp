@@ -501,7 +501,7 @@
 									type="text" class="form-control input-one" placeholder="">
 							</div>
                             <div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input name="toSpvAccountList[0].account"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input name="toSpvAccountList[0].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].account }" type="text"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -523,13 +523,13 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
-								<label for="" class="lable-one">托管账户名称</label> <input name="toSpvAccountList[2].name"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 托管账户名称</label> <input name="toSpvAccountList[2].name"
 								    value="${spvBaseInfoVO.toSpvAccountList[2].name }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
-								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[2].account"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[2].account }"
 									class="form-control input-two" placeholder="">
 							</div>

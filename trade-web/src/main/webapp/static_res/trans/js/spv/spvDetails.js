@@ -7,35 +7,30 @@ $(document).ready(function(){
 
 		$("select[name='toSpv.buyerPayment']").change(function(){
 			var val = $(this).val();
-			var amountOwn_ = $("input[name='toSpv.amountOwn']");
 			var amountMort_ = $("input[name='toSpv.amountMort']");
 			var amountMortCom_ = $("input[name='toSpv.amountMortCom']");
 			var amountMortPsf_ = $("input[name='toSpv.amountMortPsf']");
 			switch(val){
 			case '1':
 				//全款
-				amountOwn_.prop("disabled",false);
 				amountMort_.prop("disabled",true);
 				amountMortCom_.prop("disabled",true);
 				amountMortPsf_.prop("disabled",true);
 				break;
 			case '2':
 				//纯商贷
-				amountOwn_.prop("disabled",true);
 				amountMort_.prop("disabled",false);
 				amountMortCom_.prop("disabled",false);
 				amountMortPsf_.prop("disabled",true);
 				break;
 			case '3':
 				//组合贷
-				amountOwn_.prop("disabled",true);
 				amountMort_.prop("disabled",false);
 				amountMortCom_.prop("disabled",false);
 				amountMortPsf_.prop("disabled",false);
 				break;
 			case '4':
 				//公积金贷
-				amountOwn_.prop("disabled",true);
 				amountMort_.prop("disabled",false);
 				amountMortCom_.prop("disabled",true);
 				amountMortPsf_.prop("disabled",false);
@@ -535,6 +530,12 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		var buyerAccount = $("input[name='toSpvAccountList[0].account']").val();
+		if(buyerAccount == null || buyerAccount == ''){
+			alert("请填写买方收款账号！");
+			return false;
+		}
+		
 		var buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
 		//var sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
 		if(buyerAccountTelephone == null || buyerAccountTelephone == ''){
@@ -557,6 +558,19 @@ $(document).ready(function(){
 		var buyerBank = $("select[name='toSpvAccountList[0].bank'] option:selected").val();
 		if(buyerBank == null || buyerBank == ''){
 			alert("请选择买方开户行！");
+			return false;
+		}
+		
+		var spvAccountName = $("input[name='toSpvAccountList[2].name']").val();
+		//var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
+		if(spvAccountName == null || spvAccountName == ''){
+			alert("请填写托管账户名称！");
+			return false;
+		}
+		
+		var spvAccount = $("input[name='toSpvAccountList[2].account']").val();
+		if(spvAccount == null || spvAccount == ''){
+			alert("请填写托管账号！");
 			return false;
 		}
 				
