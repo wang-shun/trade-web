@@ -171,8 +171,8 @@ public class WorkSpaceController {
 		} else {
 			map.put("orgId", user.getServiceDepId());
 		}
-		int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
-		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
+		/*int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
+		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);*/
 		
 /*		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
@@ -192,6 +192,8 @@ public class WorkSpaceController {
 		String userId = user.getId();
 		String userOrgId = user.getServiceDepId();
 		Date now = new Date();
+		
+		model.addAttribute("jobCode", jobCode);
 		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
 			/*各个贵宾服务部*/
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgId, DepTypeEnum.TYCQY.getCode());

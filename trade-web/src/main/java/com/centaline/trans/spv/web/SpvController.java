@@ -35,7 +35,9 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
+import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -110,9 +112,16 @@ public class SpvController {
 		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
 		//人物信息
 		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		//风控总监
+		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
+		User FKZJ=new User();
+		if(zj.size()>0){
+			FKZJ=zj.get(0);
+		}
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
+	    request.setAttribute("zj",FKZJ);
 		return "spv/SpvDetail";
 	}
 	
@@ -388,7 +397,7 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-    @RequestMapping("task/spvApply/process")
+    @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	
         SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
@@ -434,7 +443,7 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("task/spvApprove/process")
+	@RequestMapping("task/SpvApprove/process")
 	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
@@ -477,7 +486,7 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-	@RequestMapping("task/spvSign/process")
+	@RequestMapping("task/SpvSign/process")
 	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	

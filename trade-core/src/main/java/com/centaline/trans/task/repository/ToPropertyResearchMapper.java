@@ -73,7 +73,7 @@ public interface ToPropertyResearchMapper {
 	void updateProcessingListPrCompleteTime(long parseLong);
 
 	/**
-	 * 未完成产调
+	 * 未完成产调getUnProcessListByDistrict
 	 * 
 	 * @param caseCode
 	 */

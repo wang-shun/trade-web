@@ -70,15 +70,10 @@
 			                    <!-- <div class="ibox"> -->
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
-                            <c:if test="${role == null }">
+                            <c:if test="${empty role}">
                             <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
                             </c:if>
-                            <c:if test="${caseCode == null}">
-								<div class="case_content" style="display:none;">
-							</c:if>
-                            <c:if test="${caseCode != null}">
-								<div class="case_content">
-							</c:if>
+						   <div class="case_content" ${empty caseCode?'style="display:none;"':''}>
                            <div class="case_row">
                                <div class="case_lump">
                                    <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseCode}</span></p>
@@ -207,20 +202,20 @@
 						<div class="form-row form-rowbot">
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
-								<label for="" class="lable-one">委托人姓名</label> <input type="text" name="spvCustList[0].agentName"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人姓名</label> <input type="text" name="spvCustList[0].agentName"
 								    value="${spvBaseInfoVO.spvCustList[0].agentName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
-								<label for="" class="lable-one">委托人证件类型</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人证件类型</label> 
 									<aist:dict  id="spvCustList[0].agentIdType" name="spvCustList[0].agentIdType" clazz="form-control input-one"
 									display="select"  dictType="CERT_TYPE"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[0].agentIdType }"></aist:dict>
 								
 							</div>
 							<div class="form-group form-margin form-space-one buyinfo">
-								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[0].agentIdCode"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件编号</label> <input type="text" name="spvCustList[0].agentIdCode"
 								    value="${spvBaseInfoVO.spvCustList[0].agentIdCode }"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -299,19 +294,19 @@
 						<div class="form-row form-rowbot">
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
-								<label for="" class="lable-one">委托人姓名</label> <input type="text" name="spvCustList[1].agentName"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人姓名</label> <input type="text" name="spvCustList[1].agentName"
 								    value="${spvBaseInfoVO.spvCustList[1].agentName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
-								<label for="" class="lable-one">委托人证件类型</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人证件类型</label> 
 										<aist:dict  id="spvCustList[1].agentIdType" name="spvCustList[1].agentIdType" clazz="form-control input-one"
 									display="select"   dictType="CERT_TYPE"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[1].agentIdType }"></aist:dict>
 							</div>
 							<div class="form-group form-margin form-space-one sellinfo">
-								<label for="" class="lable-one">证件编号</label> <input type="text" name="spvCustList[1].agentIdCode"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件编号</label> <input type="text" name="spvCustList[1].agentIdCode"
 								    value="${spvBaseInfoVO.spvCustList[1].agentIdCode }"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -324,7 +319,7 @@
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 房产权利人</label> <input name="toSpvProperty.prOwnerName" type="text"
-									class="form-control input-one" placeholder="" value="${spvBaseInfoVO.toSpvProperty.prOwnerName }">
+									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prOwnerName?spvBaseInfoVO.toSpvProperty.prOwnerName:sellerName }">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvProperty.pkid" value="${spvBaseInfoVO.toSpvProperty.pkid }" />
@@ -421,18 +416,23 @@
 					<form class="form-inline">
 					    <input type="hidden" name="toSpv.pkid" value="${spvBaseInfoVO.toSpv.pkid }"/>
 					    <input type="hidden" name="toSpv.caseCode" value="${caseCode }"/>
+					    <input type="hidden" name="toSpv.applyTime" value="${spvBaseInfoVO.toSpv.applyTime }" />
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">监管产品</label> <input id="toSpvSpvInsti" name="toSpv.spvInsti"
-								value="${spvBaseInfoVO.toSpv.spvInsti }" type="text"
-									class="form-control input-one" placeholder="">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> 
+								<%-- <aist:dict id="toSpv.prdCode" name="toSpv.prdCode" clazz="form-control input-one"
+									display="select"  dictType="SPV_PRD"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.toSpv.prdCode }"></aist:dict>	 --%>
+									<input name="toSpv.prdCode"
+								    <%-- value="${spvBaseInfoVO.toSpv.prdCode }" --%>  type="text"
+									class="form-control input-two" value="光大四方资金监管" placeholder="">
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>
@@ -488,9 +488,9 @@
 								class="form-control input-one" placeholder="">
 						</div>
 						<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label> <input name="toSpvAccountList[1].bank"
-								    value="${spvBaseInfoVO.toSpvAccountList[1].bank }" type="text"
-									class="form-control input-four" placeholder="">
+								<label for="" class="lable-one">开户行</label>
+									<select id="bank_1" class="form-control input-one"></select>
+									<select name="toSpvAccountList[1].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[1].bank }"></select>
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -515,9 +515,9 @@
 									class="form-control input-one" placeholder="">
 							</div>	
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label> <input name="toSpvAccountList[0].bank"
-								    value="${spvBaseInfoVO.toSpvAccountList[0].bank }" type="text"
-									class="form-control input-four" placeholder="">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>
+									<select id="bank_0" class="form-control input-one"></select>
+									<select name="toSpvAccountList[0].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].bank }"></select>
 							</div>	
 						</div>
 						<div class="form-row form-rowbot">
@@ -571,20 +571,24 @@
 								  <input type="hidden" name="ToSpvDe.pkid" value="${spvBaseInfoVO.toSpvDe.pkid}" />
 								  <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
 									<tr align="center">
-										<td class="text-left"><select name="toSpvDeDetailList[${status.index }].deCondCode" class="table-select">
-												<option value="1" ${toSpvDeDetail.deCondCode eq '1'?'selected="selected"':''}>买方贷款审批完成</option>
-										</select></td>
-										<td class="text-left"><select name="toSpvDeDetailList[${status.index }].payeeAccountId" class="table-select">
-												<option value="1" ${toSpvDeDetail.payeeAccountId == 1?'selected="selected"':''} >资金方</option>
-												<option value="2" ${toSpvDeDetail.payeeAccountId == 2?'selected="selected"':''} >卖方</option>
-										</select></td>
+										<td class="text-left">
+										<aist:dict id="toSpvDeDetailList[${status.index }].deCondCode" name="toSpvDeDetailList[${status.index }].deCondCode" clazz="form-control input-one"
+									    display="select"  dictType="SPV_DE_COND"  
+									    ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }"></aist:dict>	
+									    
+										</td>
+										<td class="text-left">
+										<aist:dict id="toSpvDeDetailList[${status.index }].payeeAccountType" name="toSpvDeDetailList[${status.index }].payeeAccountType" clazz="form-control input-one"
+									    display="select"  dictType="SPV_POSITION" tag="DE" 
+									    ligerui='none' defaultvalue="${toSpvDeDetail.payeeAccountType }"></aist:dict>	
+										</td>
 										<td><input name="toSpvDeDetailList[${status.index }].deAmount" value="<fmt:formatNumber type="number" value="${toSpvDeDetail.deAmount }" pattern="0.00" maxFractionDigits="2"/>" class="table-input-one" type="text"
 											placeholder="请输入金额" />万元</td>
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
 										<c:if test="${empty role }">
-										<a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+										<a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 										</c:if>
 									</tr>
@@ -614,25 +618,18 @@
 									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
-							
-							<c:if test="${role eq 'RiskOfficer' }">
-							    <div>
-									<a id="riskOfficerApply"class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
-								</div>
-							</c:if>
 													
-							<c:if test="${role eq 'RiskOfficer2' }">
+							<c:if test="${role eq 'RiskOfficer' }">
 							    <div>
 									<a id="RiskOfficer2Sign" class="btn btn-success">签约</a>
 									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
-							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' and role ne 'RiskOfficer2' }">
+							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='spvList';" class="btn btn-default">取消</a>
+									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>		
 							</div>
@@ -714,12 +711,22 @@
 		</script>
 		<script>
 		$(document).ready(function(){
+			
 			if('${spvBaseInfoVO.toSpvProperty.signAmount}' != ''){				
 			   $("#signAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.signAmount*10000}'));
 			    }
 			if('${spvBaseInfoVO.toSpvProperty.leftAmount}' != ''){				
 				   $("#leftAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.leftAmount*10000}'));
-				}
+				}			
+			
+	       	getParentBank($("#bank_1"),$("select[name='toSpvAccountList[1].bank']"),'${spvBaseInfoVO.toSpvAccountList[1].bank }');
+	       	getParentBank($("#bank_0"),$("select[name='toSpvAccountList[0].bank']"),'${spvBaseInfoVO.toSpvAccountList[0].bank }');
+	       	$("#bank_1").change(function(){
+				getBranchBankList($("select[name='toSpvAccountList[1].bank']"),$("#bank_1").val());
+		    });
+	       	$("#bank_0").change(function(){
+				getBranchBankList($("select[name='toSpvAccountList[0].bank']"),$("#bank_0").val());
+	    });
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
@@ -796,6 +803,33 @@
 		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
 		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
 		};  
+		
+		var sum = parseInt($("#toSpvDeDetailListSize").val()); //定义sum为全局变量
+		function getAtr(i) {
+		$str = '';
+		$str += "<tr align='center'>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].deCondCode' name='toSpvDeDetailList["+sum+"].deCondCode' clazz='form-control input-one' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountType' name='toSpvDeDetailList["+sum+"].payeeAccountType' tag='DE' clazz='form-control input-one' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
+		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万元</td>";
+		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
+		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
+		$str += "</tr>";
+		$("#addTr").append($str);
+		sum++;
+		if(sum > 0){
+			$('#example').hide();
+		}
+		$("#sum").html(sum);
+		}
+		
+		function getDel(k) {
+		$(k).parents('tr').remove();
+		sum--;
+		if(sum == 0){
+			$('#example').show();
+		}
+		$("#sum").html(sum);
+	}
 		
 		</script> 
 		</content>

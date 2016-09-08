@@ -117,28 +117,28 @@ function StatusEchart(jiedan, qianyue, guohu, jiean,xAxis) {
 		series : [ {
 			name : '接单',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#f784a5'),
 			data : jiedan
 		}, {
 			name : '签约',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#ffad6b'),
 			data : qianyue
 		}, {
 			name : '过户',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#52bdbd'),
 			data : guohu
 		}, {
 			name : '结案',
 			type : 'bar',
-			barWidth : 40,
+			barWidth : 34,
 			stack : '7月',
 			itemStyle : getColor('#295aa5'),
 			data : jiean

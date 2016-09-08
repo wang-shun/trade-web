@@ -96,7 +96,7 @@
 				<div class="row" style="position: relative;">
 					<h5 class="main_titile"
 						style="position: absolute; top: 0; left: 25px; font-size: 14px;">案件分布统计</h5>
-					<div class="col-md-8">
+					<div class="col-dash-8">
 						<div id="mainwe" style="width: 100%; height: 250px;"></div>
 					</div>
 					<%-- <div class="col-md-3">
@@ -118,24 +118,25 @@
                         	</p>                        	
                     	</div>
                     </div> --%>
-					<div class="col-md-4">
+					<div class="col-md-4 pull-right">
 						<ul class="light_info">
-							<li><i class="icon iconfont icon40 yellow">&#xe632;</i>
-								<p>
-									黄灯任务<br /> <span id="yeLightCount"></span>
-								</p></li>
 							<li><i class="icon iconfont icon40 pink">&#xe631;</i>
 								<p>
 									红灯任务<br /> <span id="redLightCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe630;</i>
+							<li><i class="icon iconfont icon40 yellow">&#xe632;</i>
 								<p>
-									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+									黄灯任务<br /> <span id="yeLightCount"></span>
 								</p></li>
 							<li><i class="icon iconfont icon40 grey">&#xe633;</i>
 								<p>
 									计划变更<br /> <span id="planeChange"></span>
 								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe630;</i>
+								<p>
+									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+								</p></li>
+							
 							<li><i class="icon iconfont icon40 grey">&#xe639;</i>
 								<p>
 									e+转化<br /> <span id="eloanChange"></span>
@@ -144,22 +145,26 @@
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe636;</i>
+							<c:if test="${jobCode!='consultant' && jobCode!='director' }">
+							    <li><i class="icon iconfont icon40 pink">&#xe636;</i>
 								<p>
 									无主案件<br> <span id="unLocatedCaseCount"></span>
 								</p></li>
-							<li><i class="icon iconfont icon40 grey">&#xe637;</i>
+							</c:if>
+							<c:if test="${jobCode!='director' }">
+							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
 								<p>
 									无主任务<br> <span id="unLocatedTaskCount"></span>
 								</p></li>
+							</c:if>
 							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
 								<p>
-									无主资源<br> <span id="caseDistributeCount"></span>
+									无主资源<br> <span id="unLocatedResourcesCount"></span>
 								</p></li>
 						</ul>
 					</div>
 				</div>
-				<div class="row space_line">
+				<div class="row space_line" style="padding-top: 30px">
 					<div class="col-md-8">
 						<div id="ionrange_4" class="ionr"></div>
 					</div>

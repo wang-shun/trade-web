@@ -37,6 +37,14 @@ public class ToSpv {
     private String remark;
 
     private String isDeleted;
+    
+    private String buyerPayment;
+    
+    private Date applyTime;
+    
+    private Date closeTime;
+    
+    private String applyUser;
 
     private Date createTime;
 
@@ -182,7 +190,39 @@ public class ToSpv {
         this.isDeleted = isDeleted == null ? null : isDeleted.trim();
     }
 
-    public Date getCreateTime() {
+    public String getBuyerPayment() {
+		return buyerPayment;
+	}
+
+	public void setBuyerPayment(String buyerPayment) {
+		this.buyerPayment = buyerPayment;
+	}
+
+	public Date getApplyTime() {
+		return applyTime;
+	}
+
+	public void setApplyTime(Date applyTime) {
+		this.applyTime = applyTime;
+	}
+
+	public Date getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
+	}
+
+	public String getApplyUser() {
+		return applyUser;
+	}
+
+	public void setApplyUser(String applyUser) {
+		this.applyUser = applyUser;
+	}
+
+	public Date getCreateTime() {
         return createTime;
     }
 

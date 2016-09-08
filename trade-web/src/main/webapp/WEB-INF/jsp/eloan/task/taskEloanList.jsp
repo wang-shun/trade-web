@@ -96,7 +96,7 @@
 							</button>
 							<a type="button" class="btn btn_blue "
 								href="${ctx}/eloan/task/eloanApply/process"> <i
-								class="icon_add iconfont">&#xe617;</i>&nbsp;新增
+								class=" iconfont">&#xe617;</i>&nbsp;新增
 							</a>
 						</div>
 					</div>
@@ -137,7 +137,7 @@
 				</td>
 				<td>
                            <a class="hint hint-top" data-hint="{{item.phone}}">
-                                <p class="bb"> {{item.excutorName}}</p>
+                                <p class="bb"> {{item.REAL_NAME}}</p>
                            </a>
 				</td>
 				<td class="center">
@@ -204,8 +204,8 @@
 	    
 						//初始化数据
 						 var  rule=false;
-						var serviceJobCode=$("#serviceJobCode").val();
-						var serviceDepHierarchy=$("#serviceDepHierarchy").val();
+						var serviceJobCode=$("#serviceJobCode").val(); 
+						var serviceDepHierarchy=$("#serviceDepHierarchy").val(); 
 						if(serviceJobCode=='consultant'){
 							rule=true;
 						}
