@@ -195,6 +195,7 @@
     	<property name="deptId" value="yucui_team"></property>
     	<property name="prop" value="realName"></property>
     </bean>
+    <!--根据组织id查询交易主管  -->
     <bean name="qqcdYuCuiFhjlPhone" class="com.centaline.trans.common.service.impl.QuickQueryUserOrgJobCustomDictServiceImpl">
     	<property name="jobCode" value="Manager"></property>
     	<property name="deptId" value="yucui_team"></property>

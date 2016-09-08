@@ -49,9 +49,9 @@
 			<baseSql>
 				<![CDATA[
 			SELECT
-			    C.PKID,								
-				EC.CASE_CODE,
-				EC.ELOAN_CODE,
+				DISTINCT(EC.ELOAN_CODE),
+			    C.PKID,							
+				EC.CASE_CODE,				
 				EC.LOAN_SRV_CODE,
 				INFO.PROPERTY_ADDR,
 			    EC.EXCUTOR_ID,
@@ -63,13 +63,14 @@
 				EC.APPLY_TIME,
 				EC.SIGN_TIME,
 			    (select MAX(RELEASE_TIME) from sctrans.T_TO_ELOAN_REL WHERE ELOAN_CODE = EC.ELOAN_CODE) as RELEASETIME,
-			    EC.APPLY_AMOUNT
+			    EC.APPLY_AMOUNT,
+			    ER.CONFIRM_STATUS
 			FROM 
 				sctrans.T_TO_ELOAN_CASE EC
-				LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =  EC.CASE_CODE
-				LEFT JOIN  sctrans.SYS_USER U ON EC.EXCUTOR_ID=U.ID
-				INNER JOIN sctrans.T_TO_CASE C ON C.CASE_CODE=EC.CASE_CODE
-			
+				LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO 		ON INFO.CASE_CODE =  EC.CASE_CODE
+				LEFT JOIN  sctrans.SYS_USER U 					ON EC.EXCUTOR_ID=U.ID
+			    INNER JOIN sctrans.T_TO_CASE C 					ON C.CASE_CODE=EC.CASE_CODE
+				LEFT JOIN sctrans.T_TO_ELOAN_REL ER				ON EC.ELOAN_CODE=ER.ELOAN_CODE
 			WHERE 1=1 
 <!-- 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
 			    <if test="releaseTimeStart !='' || releaseTimeStart !='' || releaseTimeStart !=null ">
@@ -83,21 +84,21 @@
 			    </if>
 			 ) -->
 		        <if test="serviceJobCode == 'consultant' ">
-		        and ec.EXCUTOR_ID = #sessionUserId#
+		        	and ec.EXCUTOR_ID = #sessionUserId#
 		        </if>
 		        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
-		        and (ec.EXCUTOR_TEAM =#serviceDepId# or ec.EXCUTOR_ID = #sessionUserId#)
+		        	and (ec.EXCUTOR_TEAM =#serviceDepId# or ec.EXCUTOR_ID = #sessionUserId#)
 		        </if>
 		        <if test="serviceDepHierarchy == 'BUSIGRP'">
-		        and ec.EXCUTOR_ID =#serviceDepId#
+		       		and ec.EXCUTOR_ID =#serviceDepId#
 		        </if>
 		        <if test="serviceDepHierarchy == 'yucui_district'">
-		        and ec.EXCUTOR_DISTRICT =#serviceDepId#
+		        	and ec.EXCUTOR_DISTRICT =#serviceDepId#
 		        </if>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  		ORDER BY  ec.PKID
+			  		ORDER BY  C.PKID
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -127,6 +128,7 @@
 				<column  name="CUST_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="SIGN_TIME" title="面签时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="RELEASETIME" title="放款时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable=""/>
+				<column  name="CONFIRM_STATUS" title="审核状态"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 	<!-- 		<column  name="status" title="确认状态"  index="" customDict="qqcdDictApplyStatus" checkbox=""  default="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> -->
 				
 			</table-row>

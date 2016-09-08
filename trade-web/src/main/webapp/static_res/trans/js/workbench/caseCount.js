@@ -145,7 +145,9 @@ function queryGetRankBank(){
 							"<div class='media-body'>"+
 							"<span class='pull-right'>"+
 							"<strong class='fa-2x text-danger'>"+
-							 +toDecimal2((loanAmountRankList1[i].RANK_VALUE/10000))+"万"+							
+							//"<fmt:formatNumber	value='"+ loanAmountRankList1[i].RANK_VALUE/10000 +"'"+
+							//"pattern='###,##0.00' />万"+
+							+toDecimal2((loanAmountRankList1[i].RANK_VALUE/10000))+"万"+							
 							"</strong>"+
 							"</span> <strong>"+loanAmountRankList1[i].REAL_NAME+
 							"</strong><br>"+

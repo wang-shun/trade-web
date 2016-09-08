@@ -101,7 +101,7 @@
 								class="control-label sign_left_small select_style mend_select">
 								申请时间 </label>
 							<div class="input-group sign-right dataleft input-daterange"
-								data-date-format="yyyy-mm-dd">
+								data-date-format="yyyy-mm-dd" id="datepicker">
 								<input id="dtBegin_0" name="dtBegin_0" class="form-control data_style" type="text"
 									value="" placeholder="起始日期"> <span
 									class="input-group-addon">到</span> <input id="dtEnd_0" name="dtEnd_0"
@@ -199,7 +199,15 @@
              </a>
         	 </p>
             <p>
-            	<span class="yes_color">通过</span>          
+				{{if  item.CONFIRM_STATUS=='0' || item.CONFIRM_STATUS==NULL || item.CONFIRM_STATUS==""}}
+                      	 <span class="waiting_color">等待中</span>
+				{{/if}}
+                {{if  item.LOANTYPE=='1'}}
+                      	 <span class="no_color">未通过</span> 
+				{{/if}}
+				{{if  item.LOANTYPE=='2'}}
+                      	 <span class="yes_color">已通过</span> 
+				{{/if}}      
         	</p>
        	 </td>
 		 <td>
@@ -509,6 +517,16 @@ function eloanCodeSort() {
 		$("#eloanCodeSorti").attr("class", 'fa fa-sort-desc fa_down');
 	}
 }
+
+// 日期控件
+$('#datepicker').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+
 </script> 
 </content>
 </body>
