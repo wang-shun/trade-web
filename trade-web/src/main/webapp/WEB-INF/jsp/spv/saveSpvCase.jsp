@@ -79,7 +79,7 @@
                                    <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseCode}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>产权地址</em><span class="span_two" id="content_propertyAddr">${propertyAddr}</span></p>
+                                   <p><em>产证地址</em><span class="span_two" id="content_propertyAddr">${propertyAddr}</span></p>
                                </div>
                            </div>
                            <div class="case_row">
@@ -339,7 +339,7 @@
 									class="date_icon">㎡</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 房屋地址</label> <input name="toSpvProperty.prAddr" type="text"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 产证地址</label> <input name="toSpvProperty.prAddr" type="text"
 									class="form-control input-five" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prAddr?spvBaseInfoVO.toSpvProperty.prAddr:propertyAddr }">
 							</div>
 						</div>

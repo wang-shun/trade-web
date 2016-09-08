@@ -199,9 +199,7 @@
                     {{/if}}
                                         </td>
                                         <td class="center">
-                                            <span class="manager">
-                                                <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
-                                            </span>
+                                            
                                             <span class="manager">
                                                 <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
@@ -221,7 +219,7 @@
 												    </shiro:hasPermission>
 													<shiro:hasPermission name="TRADE.SPV.DELETE">
 												 		{{if item.STATUS==0}}
-                                                    	<li><a href="#">删除</a></li>
+                                                    	<li><a onclick="deleteSpv({{item.PKID}})" href="#">删除</a></li>
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">
@@ -243,7 +241,6 @@
 	    </script> <script>
 						//初始化数据
 						var params = {
-							rows : 10,
 							page : 1,
 							sessionUserId : $("#userId").val(),
 							servicDepId : $("#serviceDepId").val(),
@@ -251,22 +248,34 @@
 							serviceDepHierarchy : $("#serviceDepHierarchy")
 									.val()
 						};
-						//查询数据
+						//清空数据
 						function clearForm(){  
 						 $("#serachForm").find("input").val("")
 						 $("#status option:first").prop("selected", 'selected');
 						/*  $("#qicao option:first").prop("selected", 'selected'); */
 						}
-						//选中全部
-						function changeAll(){
-							var falg=$("#all").prop("checked")
-							  var checkboxs = document.getElementsByName("item");  
-							  for ( var i = 0; i < checkboxs.length; i+=1) {  
-							    checkboxs[i].checked = falg;  
-							  }  
+
+						//删除
+						function deleteSpv(pkid){
+							$.ajax({
+							 url:ctx+"/spv/deleteSpv",
+							 method:"post",
+							 dataType:"json",
+							 data:{pkid:pkid},
+							 success:function(data){
+								 if(data.ajaxResponse.success==true){
+									 alert(data.ajaxResponse.message);
+								 }else{
+									 alert("删除出错！");
+								 } 
+								 initData();
+							 }
+									
+						})
+							
 						}
 					 
-						//清空数据
+						//查询
 						$("#btn_search")
 								.click(
 										function() {
@@ -345,6 +354,7 @@
 											{
 												ctx : "${ctx}",
 												queryId : 'ToSpvCaseListQuery',
+												   rows : '12',
 												templeteId : 'queryMortgageApproveLost',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,
@@ -356,7 +366,7 @@
 																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >合约编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
 									    		    	           sortColumn : "SPV_CODE",
 									    		    	           sord: "desc",
-									    		    	           sortActive : false
+									    		    	           sortActive : true
 														}, {
 															colName : "产证地址"
 														}, {
@@ -371,6 +381,7 @@
 
 											});
 						}
+						//排序
 						function caseCodeSort(){
 							if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
 								$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
