@@ -80,11 +80,20 @@ public class ToTransPlanContorller {
 			for(int i=0;i<GetTransPlanListResult.getContent().size();i++){
 				ToTransPlanOrToPropertyInfo ti = new ToTransPlanOrToPropertyInfo();			
 				try {
-					ti.setCaseCode(GetTransPlanListResult.getContent().get(i).get("caseCode").toString());
-					ti.setEstPartTime(sim.parse(GetTransPlanListResult.getContent().get(i).get("estParTtime").toString()));
-					ti.setPartCode(GetTransPlanListResult.getContent().get(i).get("partCode").toString());
-					ti.setPropertyAddr(GetTransPlanListResult.getContent().get(i).get("propertyAddr").toString());
+					if(GetTransPlanListResult.getContent().get(i).get("caseCode")!=null){
+						ti.setCaseCode(GetTransPlanListResult.getContent().get(i).get("caseCode").toString());
+					}
+					if(GetTransPlanListResult.getContent().get(i).get("estParTtime")!=null){
+						ti.setEstPartTime(sim.parse(GetTransPlanListResult.getContent().get(i).get("estParTtime").toString()));
+					}
+					if(GetTransPlanListResult.getContent().get(i).get("partCode")!=null){
+						ti.setPartCode(GetTransPlanListResult.getContent().get(i).get("partCode").toString());
+					}
+					if(GetTransPlanListResult.getContent().get(i).get("propertyAddr")!=null){
+						ti.setPropertyAddr(GetTransPlanListResult.getContent().get(i).get("propertyAddr").toString());
+					}						
 					toTransPlanList.add(ti);
+					
 				} catch (Exception e) {				
 					e.printStackTrace();
 				}
