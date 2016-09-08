@@ -171,8 +171,8 @@ public class WorkSpaceController {
 		} else {
 			map.put("orgId", user.getServiceDepId());
 		}
-		int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
-		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);
+		/*int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
+		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);*/
 		
 /*		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
 		model.addAttribute("redLight", redLight);
