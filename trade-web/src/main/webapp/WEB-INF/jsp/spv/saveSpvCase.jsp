@@ -367,6 +367,12 @@
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
+						    <div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 下家付款方式</label>
+								<aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
+									display="select"  dictType="SPV_BUYER_PAYMENT"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.toSpv.buyerPayment }"></aist:dict>
+							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent pledgeinfo">
 								<label for="" class="lable-one">未偿还金额</label> <input name="toSpvProperty.leftAmount"
@@ -374,16 +380,10 @@
 									class="form-control input-one" placeholder=""><span
 									class="date_icon">万元</span>
 							</div>
-                     <!-- 	<div class="form-group form-margin form-space-one pledgeinfo">
+                            <div class="form-group form-margin form-space-one pledgeinfo">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
-									class="form-control input-one" placeholder="">
-							</div>	 -->	
-                            <div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">下家付款方式</label>
-								<aist:dict id="" name="" clazz="form-control input-one"
-									display="select"  dictType="SPV_BUYER_PAYMENT"  
-									ligerui='none' defaultvalue=""></aist:dict>
-							</div>
+									class="form-control input-three" placeholder="">
+							</div>	 	
 						</div>
 						<div class="form-row form-rowbot">
 
@@ -402,14 +402,13 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-						</div>
-						<!-- <div class="form-row form-rowbot">
-							
 							<div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
-									class="form-control input-three" placeholder="">
-							</div> -->
-						</div>
+							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
+								class="form-control input-three" placeholder="">
+						    </div> 
+						</div>	
+
+
 					</form>
 				</div>
 				<div class="ibox-content" id="spvtwo_info">
@@ -420,7 +419,7 @@
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
@@ -470,7 +469,7 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[1].pkid" value="${spvBaseInfoVO.toSpvAccountList[1].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[1].accountType" value="SELLER" />
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方收款账号名称</label> <input name="toSpvAccountList[1].name"
+								<label for="" class="lable-one">卖方收款账号名称</label> <input name="toSpvAccountList[1].name"
 								 value="${spvBaseInfoVO.toSpvAccountList[1].name }"
 								 type="text" class="form-control input-one" placeholder="">
 							</div>
@@ -483,7 +482,7 @@
 						</div>
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one">
-							<label for="" class="lable-one"><i style="color:red;">*</i> 电话</label> <input name="toSpvAccountList[1].telephone"
+							<label for="" class="lable-one">电话</label> <input name="toSpvAccountList[1].telephone"
 							    value="${spvBaseInfoVO.toSpvAccountList[1].telephone }" type="text"
 								class="form-control input-one" placeholder="">
 						</div>
