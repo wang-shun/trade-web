@@ -624,6 +624,15 @@ public class ToSpvServiceImpl implements ToSpvService {
     	
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getSpvProcessDfKey(),spvBaseInfoVO.getToSpv().getSpvCode(),vars);
 
+    	//提交申请任务
+    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
+    	List<TaskVo> taskList = pageableVo.getData();
+    	for(TaskVo task : taskList) {
+    		if("SpvApply".equals(task.getTaskDefinitionKey())){
+        		taskService.complete(task.getId()+"");
+    		}
+    	}
+    	
     	ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		workFlow.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
@@ -633,14 +642,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
 		
+		//首次开启流程时间为申请时间
+		if(spvBaseInfoVO.getToSpv().getApplyTime() == null){
+			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
+		}	
 		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.INPROGRESS.getCode());
-		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
-    	
-//    	PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
-//    	List<TaskVo> taskList = pageableVo.getData();
-//    	for(TaskVo task : taskList) {
-//    		taskService.complete(task.getId()+"");
-//    	}
+		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv()); 	
+
 	}
 	
 	private String createSpvCode() {
