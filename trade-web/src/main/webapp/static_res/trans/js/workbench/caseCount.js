@@ -110,7 +110,7 @@ function queryBizwarnCaseCount(){
 	 });
 }
 queryBizwarnCaseCount();
-//预警灯提示
+//龙虎榜
 function queryGetRankBank(){
 	 $.ajax({		
 		 	url  : ctx+'/workspace/qqGetRank',
@@ -166,7 +166,7 @@ function queryGetRankBank(){
 						var  signAmountRankListHtmlForShow='';							
 						for( var i=0;i<signAmountRankList1.length;i++){							
 							var  colorClass= signAmountRankList1[i].RANK_NO==1 ?"badge-danger":signAmountRankList1[i].RANK_NO==2 ? "badge-orange": signAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
-							var  picture2="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";	
+							var  picture2="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+signAmountRankList1[i].EMP_CODE+".jpg";	
 							signAmountRankListHtml = 
 								"<div class='feed-element'>"+"" +
 								"<a href='#' class='pull-left'> "+
@@ -200,7 +200,7 @@ function queryGetRankBank(){
 							var  actualAmountRankListHtmlForShow='';							
 							for( var i=0;i<actualAmountRankList1.length;i++){							
 								var  colorClass= actualAmountRankList1[i].RANK_NO==1 ?"badge-danger":actualAmountRankList1[i].RANK_NO==2 ? "badge-orange": actualAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
-								var  picture3="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";
+								var  picture3="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+actualAmountRankList1[i].EMP_CODE+".jpg";
 								actualAmountRankListHtml = 
 									"<div class='feed-element'>"+"" +
 									"<a href='#' class='pull-left'> "+
