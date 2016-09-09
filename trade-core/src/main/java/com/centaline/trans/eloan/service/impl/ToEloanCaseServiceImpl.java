@@ -62,11 +62,22 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	//转介人姓名、转介人员工编号、合作人姓名、合作人员工编号、产品部合作人、分成比例贷款。
     	//E+编号
 		
+		//如果当前用户和提交用户是同一个人，用户部门就用当前session部门  deptype-- yes:同一个用户 no:不同用户
+		String depType = "no";
+		if(user != null && tEloanCase != null && user.getId().equals(tEloanCase.getExcutorId())){
+			depType = "yes";
+		}
 		//申请人信息
 		User excutor = uamUserOrgService.getUserById(tEloanCase.getExcutorId());
 		Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(excutor.getOrgId(), DepTypeEnum.TYCQY.getCode());
 		if(excutor!=null) {
-			tEloanCase.setExcutorTeam(excutor.getOrgId());
+			//如果当前用户和提交用户是同一个人，用户部门就用当前session部门  deptype-- yes:同一个用户 no:不同用户
+			if(depType.equals("yes")){
+				tEloanCase.setExcutorTeam(user.getServiceCompanyId());
+				depType = "no";
+			}else{
+				tEloanCase.setExcutorTeam(excutor.getOrgId());
+			}
 		}
 		if(districtOrg!=null) {
 			tEloanCase.setExcutorDistrict(districtOrg.getId());
@@ -76,7 +87,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	
     	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
     	Map<String, Object> vars = new HashMap<String,Object>();
-    	vars.put("Consultant", excutor.getUsername());
+    	//vars.put("Consultant", excutor.getUsername());
+    	vars.put("Consultant", user.getUsername());
     	//当前申请人是否是主管   
     	String jobCode=user.getServiceJobCode();
     	if("Manager".equals(jobCode)){

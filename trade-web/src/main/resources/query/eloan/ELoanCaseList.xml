@@ -54,6 +54,7 @@
 			    ec.PKID as pkId,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
 			    ec.EXCUTOR_ID as excutorName,u.MOBILE as phone, ec.CUST_NAME as custName,ec.APPLY_TIME as applyTime,ec.SIGN_TIME as signTime,
 			   (select MAX(RELEASE_TIME) from sctrans.T_TO_ELOAN_REL WHERE ELOAN_CODE = ec.ELOAN_CODE)as releaseTime,ec.APPLY_AMOUNT as Applymoney
+			    ,u.REAL_NAME as REAL_NAME
 			FROM sctrans.T_TO_ELOAN_CASE ec
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =  ec.CASE_CODE
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
@@ -72,11 +73,14 @@
 		        <if test="serviceJobCode == 'consultant' ">
 		        and ec.EXCUTOR_ID = #sessionUserId#
 		        </if>
-		        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+		        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team' and serviceJobCode != 'TeamAssistant' ">
 		        and (ec.EXCUTOR_TEAM =#serviceDepId# or ec.EXCUTOR_ID = #sessionUserId#)
 		        </if>
+		         <if test="serviceJobCode == 'TeamAssistant' and serviceDepHierarchy == 'yucui_team' ">
+		        and ec.EXCUTOR_DISTRICT=#serviceOrgId#
+		        </if>
 		        <if test="serviceDepHierarchy == 'BUSIGRP'">
-		        and ec.EXCUTOR_ID =#serviceDepId#
+		        and ec.EXCUTOR_ID =#serviceDepId#  
 		        </if>
 		        <if test="serviceDepHierarchy == 'yucui_district'">
 		        and ec.EXCUTOR_DISTRICT =#serviceDepId#
@@ -95,13 +99,14 @@
 				<column  name="loanSrvCode"  customDict="qqcdDictServCode" title="产品类型"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="applyTime" title="创建时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="propertyAddress" title="产权地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column  name="excutorName" title="案件归属人" customDict="getUserNameByUserId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="excutorName" title="案件归属人" referencecol="CASE_CODE" customDict="getUserNameByUserId"  index="" default="" checkbox=""  sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="phone" title="申请金额"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="custName" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="signTime" title="面签时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="releaseTime" title="放款时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable=""/>
 	<!-- 			<column  name="status" title="确认状态"  index="" customDict="qqcdDictApplyStatus" checkbox=""  default="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> -->
 				<column  name="Applymoney" title="申请金额"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="REAL_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

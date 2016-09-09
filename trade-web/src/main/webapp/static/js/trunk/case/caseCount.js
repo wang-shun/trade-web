@@ -22,6 +22,7 @@ function queryConutCaseByDate(){
 	var isConsult = $('#isConsult').val();
 	
 	 $.ajax({
+		 	// 请求controller 由service实现
 			url  : ctx+'/workspace/workSpaceSta',
 		    data : [{
 				name : 'mo',
@@ -34,7 +35,7 @@ function queryConutCaseByDate(){
 			dataType: "json",
 			async : false,
 			success: function(data) {
-				$("#sp_loanAmount").text(data.loanAmount);
+				$("#sp_loanAmount").text(data.loanAmount);//E+申请金额  查询值得替换
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
 				$("#sp_actualAmount").text(data.actualAmount);

@@ -2,12 +2,22 @@ package com.centaline.trans.spv.service;
 
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
+import com.centaline.trans.spv.entity.ToSpvCust;
+import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
+import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.entity.ToSpvProperty;
+import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -33,6 +43,12 @@ public interface ToSpvService {
      * @param spvVo
      */
     void saveToSpv(SpvVo spvVo);
+    
+    /**
+     * 保存资金监管签约信息
+     * @param spvVo
+     */
+    void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
     
     /**
      * 根据案件编号查询资金监管签约信息
@@ -152,5 +168,47 @@ public interface ToSpvService {
 
 	int countToSignByIdList(List<String> idList, String startDate,
 			String endDate);
+	
+	/**
+	 * 查询spvBaseInfoVO
+	 * @param pkid
+	 * @return
+	 * */
+	SpvBaseInfoVO findSpvBaseInfoVOByPkid(ServletRequest request,Long pkid);
+	
+	/**
+	 * 查询spv 通过Pkid
+	 */
+	ToSpv  selectByPrimaryKey(long pkid);
+	/**
+	 * 查询买卖双方的信息
+	 * @param spvCode
+	 * @return
+	 */
+	List<ToSpvCust> findCustBySpvCode(String spvCode);
+	/**
+	 * 查询房屋信息
+	 * @param spvCode
+	 * @return
+	 */
+	ToSpvProperty findPropertyBySpvCode(String spvCode);
+	/**
+	 * 查询账户信息
+	 * @param spvCode
+	 * @return
+	 */
+	List<ToSpvAccount> findAccountBySpvCode(String spvCode);
+	
+	ToSpvDe findSpvDeBySpvCode(String spvcode);
+	
+	List<ToSpvDeDetail> findDeDetailByDeId(Long deId);
+
+	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
+
+	SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode);
+	
+	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode);
+
+	void setAttribute(ServletRequest request, String caseCode);
 
 }

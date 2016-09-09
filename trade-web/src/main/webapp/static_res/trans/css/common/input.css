@@ -17,6 +17,16 @@
   right: 6px;
 }
 
+.btn-save {
+  background: #f784a5;
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: #f784a5;
+  color: #f3f3f3;
+}
+
 .btn-grey {
   background: #eee;
   color: #1c84c6;
@@ -30,6 +40,18 @@
 .organize_icon {
   font-size: 18px;
   color: #52cdec;
+}
+
+.form-control, .single-line {
+  border-radius: 2px;
+}
+
+.pt10 {
+  padding-top: 10px;
+}
+
+.pt20 {
+  padding-top: 20px;
 }
 
 .form_list label {
@@ -302,4 +324,99 @@ input {
   color: #428fcc;
   background-color: #e4e4e4;
   border-color: #e4e4e4;
+}
+
+.date_icon {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+}
+
+.info_content .line {
+  overflow: hidden;
+}
+.info_content .line p {
+  float: left;
+  margin: 7px 28px 7px 0px;
+  font-size: 14px;
+}
+.info_content .line label {
+  float: left;
+  width: 100px;
+  margin-right: 20px;
+  font-weight: normal;
+  color: #808080;
+  text-align: right;
+}
+.info_content .line .info {
+  float: left;
+  display: inline-block;
+  width: 185px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.info_content .line .info_one {
+  float: left;
+  display: inline-block;
+  width: 120px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.btn-space {
+  margin: 0px 10px;
+}
+
+.big {
+  font-size: 14px;
+}
+
+.marspace {
+  margin: 4px 0;
+}
+
+.btn-pink {
+  background: #f784a5;
+  color: #fff;
+}
+
+.btn-pink:hover {
+  background: #f47599;
+  color: #fff;
+}
+
+.add_space {
+  line-height: 34px;
+  margin-left: 20px;
+}
+
+.mar24 {
+  margin-right: 24px !important;
+}
+
+.mt15 {
+  margin-top: 15px;
+}
+
+.dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: #1c84c6;
+}
+
+.mr15 {
+  margin-right: 15px;
+}
+
+.btn-new {
+  padding: 7px 12px;
+  font-family: "Microsoft Yahei";
+}
+
+.btn-padding {
+  padding: 7px 12px;
 }

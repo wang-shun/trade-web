@@ -291,3 +291,104 @@ body {
 .smaller {
   font-weight: normal;
 }
+
+.contract-icon-block {
+  text-align: center;
+  float: left;
+  width: 44px;
+  margin-right: 7px;
+  margin-top: -5px;
+}
+
+.feed-element .icon_blue {
+  color: #52cdec;
+}
+
+.feed-element .icon {
+  font-size: 34px;
+}
+
+.news-title {
+  background-color: #fff;
+  color: inherit;
+  padding: 10px 0px 7px 0px;
+  min-height: 48px;
+}
+.news-title h5 {
+  display: inline-block;
+  float: left;
+}
+.news-title .ibox-tools {
+  display: inline-block;
+  float: right;
+}
+
+.panel-box {
+  margin-bottom: 10px;
+  padding: 5px 15px 10px;
+  border: 1px solid #f6f6f6;
+  border-radius: 5px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+.pannel_info {
+  border-top: 3px solid #92d1e3;
+}
+
+ul.light_info {
+  padding: 0;
+  list-style: none;
+}
+
+ul.light_info li {
+  float: left;
+  width: 100px;
+  height: 62px;
+  margin: 2px;
+  background: #f4f4f4;
+  line-height: 62px;
+}
+ul.light_info li p.line {
+  margin-top: 10px;
+  float: left;
+  line-height: 22px;
+}
+ul.light_info li p.line span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #155e90;
+}
+
+ul.light_info li.light {
+  line-height: 22px;
+}
+
+ul.light_info li.active {
+  background: #edfcfd;
+}
+
+.icon {
+  float: left;
+  font-size: 40px !important;
+}
+
+.yellow {
+  color: #fead6b;
+}
+
+.pink {
+  color: #f784a5;
+}
+
+.grey {
+  color: #ccc;
+}
+
+.martop20 {
+  margin-top: 20px;
+}
+
+.white {
+  color: white !important;
+}

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="userDict" beanName="qqcdUserIdName" />
+		<customDict id="getDistCode" beanName="qqDistCode" />
+		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
+		<customDict id="getIsSuccess" beanName="qqisSuccess" />
+		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="querySourceList">
+		<searchCondition>
+		<!--
+		    <condition field="SYSUAPP.REAL_NAME" name="sysUApp" label="产调申请人" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_COST_ORG_MGR" name="prMgr" label="成本归属" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_STATUS" name="prStatus" label="状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="SYSUEXE.REAL_NAME" name="sysUExe" label="贵宾服务部" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_APPLY_ORG_NAME" name="prAppOrg" label="产调来源" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_APPLY_TIME" name="prApplyTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue="" />
+			<condition field="PR.PR_APPLY_TIME" name="prApplyTimeStop" label="" searchType="LTE" showType="" showCallback="" defaultValue="" />
+			<condition field="PR.IS_SUCCESS" name="prIsSuccess" label="是否有效" searchType="EQ" showType="" showCallback="" defaultValue="" />
+		-->	
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT
+					PR.PR_CODE, 
+					PR.IS_SUCCESS AS IS_SUCCESS_OLD, 
+					PR.UNSUCCESS_REASON,
+					PR.DIST_CODE AS DIST_CODE_OLD, 
+					DICT.NAME,
+					PR.PR_ADDRESS, 
+					PR.PR_APPLY_ORG_ID, 
+					PR.PR_EXECUTOR,
+					SYSUEXE.REAL_NAME AS EXE_RNAME,
+					PR.PR_APPLIANT,
+					SYSUAPP.REAL_NAME AS APP_RNAME,
+					PR.PR_APPLY_ORG_NAME,
+					PR.PR_COST_ORG_MGR,
+					PR.PR_COST_ORG_NAME,
+					PR.PR_APPLY_TIME,
+					PR.PR_ACCPET_TIME,
+					PR.PR_COMPLETE_TIME,
+					PR.PR_DISTRICT_ID,
+					SYSORG.ORG_NAME,
+					PR.PR_APPLY_DEP_NAME,
+					PR.PR_STATUS
+				FROM sctrans_dev.sctrans.T_TO_PROPERTY_RESEARCH AS PR
+				
+				LEFT JOIN scpf_dev.dbo.SYS_DICT AS DICT 
+				ON PR.DIST_CODE = DICT.CODE
+				LEFT JOIN scpf_dev.dbo.SYS_USER AS SYSUEXE
+				ON PR.PR_EXECUTOR = SYSUEXE.ID
+				LEFT JOIN scpf_dev.dbo.SYS_USER AS SYSUAPP
+				ON PR.PR_APPLIANT = SYSUAPP.ID
+				LEFT JOIN scpf_dev.dbo.SYS_ORG AS SYSORG
+				ON PR.PR_DISTRICT_ID = SYSORG.ID
+				
+				WHERE 1=1
+				
+				<if test="sPrDep == 'yucui_district' ">
+				    AND PR.PR_DISTRICT_ID = #sPrDistrictId#
+			    </if>
+			    
+			    <ifNotNull sPrApp>
+					AND SYSUAPP.REAL_NAME = #sPrApp#
+				</ifNotNull>
+				
+				<ifNotNull sPrCostMgr>
+					AND PR.PR_COST_ORG_MGR = #sPrCostMgr#
+				</ifNotNull>
+				
+				<ifNotNull sPrStatus>
+					AND PR.PR_STATUS = #sPrStatus#
+				</ifNotNull>
+				
+				<ifNotNull sPrDistName>
+					AND SYSORG.ORG_NAME = #sPrDistName#
+				</ifNotNull>
+				
+				<ifNotNull sPrAppDep>
+					AND PR.PR_APPLY_DEP_NAME = #sPrAppDep#
+				</ifNotNull>
+				
+				<ifNotNull sTimeType>
+					<if test="sTimeType == 0">
+						<if test="sStartTime != ''">
+						    AND PR.PR_APPLY_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_APPLY_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+			    	<if test="sTimeType == 1">
+						<if test="sStartTime != ''">
+						    AND PR.PR_ACCPET_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_ACCPET_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+			    	<if test="sTimeType == 2">
+						<if test="sStartTime != ''">
+						    AND PR.PR_COMPLETE_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_COMPLETE_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+				</ifNotNull>
+				
+				<ifNotNull sPrIsSuccess>
+					AND PR.IS_SUCCESS = #sPrIsSuccess#
+				</ifNotNull>
+			    
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PR_CODE" index="" checkbox="" display="产调编码" title="产调编码" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="IS_SUCCESS_OLD" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="IS_SUCCESS"  display="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" />	
+				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" display="无效原因" title="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="DIST_CODE_OLD" index="" checkbox="" display="行政区域" title="行政区域" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="DIST_CODE"  display="行政区域" title="行政区域" referencecol="DIST_CODE_OLD"  customDict="getDistCode" isSort="true" />
+				<column type="both" name="PR_ADDRESS" index="" checkbox="" display="物业地址" title="物业地址" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="APP_RNAME" index="" checkbox="" display="申请人" title="申请人" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_APPLY_ORG_NAME" index="" checkbox="" display="申请人所在组织" title="申请人所在组织" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_APPLY_DEP_NAME" index="" checkbox="" display="产调来源" title="产调来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ORG_NAME" index="" checkbox="" display="贵宾服务部" title="贵宾服务部" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="EXE_RNAME" index="" checkbox="" display="执行人" title="执行人" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_COST_ORG_MGR" index="" checkbox="" display="区董" title="区董" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_COST_ORG_NAME" index="" checkbox="" display="成本区" title="成本区" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" title="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" title="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" title="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>				
+			</table-row>
+		</grid>
+	</query>
+
+</querys>

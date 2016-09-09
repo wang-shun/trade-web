@@ -28,6 +28,8 @@
 				</div>
 				<div class="ibox-content" style="padding-bottom: 5px;">
 					<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id ='myForm'>
+						<input type="hidden" name="currentOrgId" id="currentOrgId" value="${currentUser.serviceCompanyId }" /> 
+						<input type="hidden" name="currentDepHierarchy" id="currentDepHierarchy" value="${currentUser.serviceDepHierarchy }"
 					    <div class="jqGrid_wrapper">
 					    	<input type="hidden" id="ctx" value="${ctx}"/>
 					    	<div class="row form-group">
@@ -83,7 +85,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
     
 	<div class="main">
 		<div class="apply-wrap">

@@ -23,8 +23,6 @@ import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -32,19 +30,15 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
@@ -52,10 +46,7 @@ import com.centaline.trans.mortgage.entity.MortStep;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.TsMsgSendHistory;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
-import com.centaline.trans.utils.NumberUtil;
 
 @Controller
 @RequestMapping(value="/task")
@@ -128,7 +119,9 @@ public class ToMortgageController {
 			
 			//临时银行开启时不允许反选
 			ToWorkFlow twf = new ToWorkFlow();
-			twf.setBusinessKey("TempBankAudit_Process");
+
+			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+
 			twf.setCaseCode(toMortgage.getCaseCode());
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 			if(record != null){

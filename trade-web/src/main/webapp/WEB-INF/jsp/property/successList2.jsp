@@ -147,11 +147,11 @@
 
         </form>
     </div>
-    <div class="row">
+ <div class="row">
         <div class="col-md-12">
             <div id="successList" class="table_content"></div>
         </div>
-    </div>
+    </div> 
     
 	<div class="modal fade manageWindow" id="modal-form" aria-hidden="true">
         <div class="modal-dialog">

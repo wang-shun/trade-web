@@ -5,9 +5,9 @@
 package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,32 +18,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
-import com.centaline.trans.engine.bean.ProcessInstance;
+import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.product.entity.Product;
+import com.centaline.trans.product.entity.ProductCategory;
+import com.centaline.trans.product.service.ProductCategoryService;
+import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
-import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.entity.ToHouseTransfer;
-import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 
@@ -56,12 +57,115 @@ public class SpvController {
 	
 	@Autowired
 	private UamSessionService uamSessionService;
-	
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToCaseService toCaseService;
 	 
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
+	MessageService messageService;
+	@Autowired
+	ProductCategoryService productCategoryService;
+	@Autowired
+	ProductService productService;
+	
+	//列表页面
+	@RequestMapping("spvList")
+	public String spvList(){
+		return "spv/SpvList";
+	}
+	
+	//新增页面
+	@RequestMapping("saveHTML")
+	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
+		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
+		return "spv/saveSpvCase";
+	}
+
+	/**
+	 * 详情
+	 * @param pkid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("spvDetail")
+	public String SpvDetail(long pkid ,ServletRequest request){
+/*		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
+		//合约基本信息
+
+		baseInfoVO.setToSpv(spv);
+		//买卖双方信息
+		List<ToSpvCust> custs=toSpvService.findCustBySpvCode(spv.getSpvCode());
+		baseInfoVO.setSpvCustList(custs);
+		//房屋信息
+		ToSpvProperty spvProperty=toSpvService.findPropertyBySpvCode(spv.getSpvCode());
+		baseInfoVO.setToSpvProperty(spvProperty);
+		//资金账户
+		List<ToSpvAccount> accounts=toSpvService.findAccountBySpvCode(spv.getSpvCode());
+		baseInfoVO.setToSpvAccountList(accounts);
+		*/
+		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(request,pkid);
+		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
+		String name=user.getRealName();
+		String phone=user.getMobile();
+		spvBaseInfoVO.getToSpv().setCreateBy(name);
+		//经办人
+		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
+		//人物信息
+		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		//风控总监
+		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
+		User FKZJ=new User();
+		if(zj.size()>0){
+			FKZJ=zj.get(0);
+		}
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		request.setAttribute("createPhone", phone);
+		request.setAttribute("jingban", jingban.getRealName());
+	    request.setAttribute("zj",FKZJ);
+		return "spv/SpvDetail";
+	}
+	/**
+	 * 删除
+	 * @param pkid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("deleteSpv")
+	public AjaxResponse<String>  deleteSpv(long pkid ,ServletRequest request){
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(request,pkid);
+		spvBaseInfoVO.getToSpv().setIsDeleted("1");
+		spvBaseInfoVO.getToSpvDe().setIsDeleted("1");
+		spvBaseInfoVO.getToSpvProperty().setIsDeleted("1");
+        for (int i=0;i<spvBaseInfoVO.getSpvCustList().size();i++) {
+        	if(spvBaseInfoVO.getSpvCustList().get(i)!=null){
+        		spvBaseInfoVO.getSpvCustList().get(i).setIsDeleted("1");
+        	}
+		}
+        for (int i=0;i<spvBaseInfoVO.getToSpvAccountList().size();i++) {
+        	spvBaseInfoVO.getToSpvAccountList().get(i).setIsDeleted("1");
+		}
+        for (int i=0;i<spvBaseInfoVO.getToSpvDeDetailList().size();i++) {
+        	spvBaseInfoVO.getToSpvDeDetailList().get(i).setIsDeleted("1");
+		}
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.saveNewSpv(spvBaseInfoVO,user);
+    		response.setSuccess(true);
+    		response.setMessage("监管合约删除成功！");
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    	}
+    	return response;
+	}
 	
 	@RequestMapping("spvOutApply/process")
 	public String toSpvOutApplyProcess(HttpServletRequest request,
@@ -152,6 +256,46 @@ public class SpvController {
     	}catch(Exception e){
     		response.setMessage(e.getMessage());
     		
+    	}
+    	return response;
+    }
+    
+    /**
+     * 保存资金监管签约
+     */
+    @RequestMapping(value="saveNewSpv")
+    @ResponseBody
+    public AjaxResponse<String> saveNewSpv(SpvBaseInfoVO spvBaseInfoVO){   	
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.saveNewSpv(spvBaseInfoVO,user);
+    		response.setSuccess(true);
+    		response.setMessage("保存房款监管签约成功！");
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    	}
+    	return response;
+    }
+    
+    /**
+     * 保存资金监管签约
+     */
+    @RequestMapping(value="submitNewSpv")
+    @ResponseBody
+    public AjaxResponse<String> submitNewSpv(SpvBaseInfoVO spvBaseInfoVO){
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.submitNewSpv(spvBaseInfoVO,user);
+    		response.setSuccess(true);
+    		response.setMessage("开启资金监管流程成功！");
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
     	}
     	return response;
     }
@@ -284,6 +428,176 @@ public class SpvController {
     	}
     	return response;
     }
+    
+    /**
+     * 资金监管申请页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+    @RequestMapping("task/SpvApply/process")
+	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
+    	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+ 
+    	request.setAttribute("taskId", taskId); 
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("pkid", pkid);
+		request.setAttribute("source", source);
+		
+		return "spv/saveSpvCase";
+	}
+    
+    /**
+     * 资金监管申请操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+    @RequestMapping("spvApply/deal")
+	public AjaxResponse<?> spvApply(String caseCode,String source,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
+		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
+		
+		return AjaxResponse.success();
+	}
+    
+    /**
+     * 资金监管审批页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("task/SpvApprove/process")
+	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
+		
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
+		request.setAttribute("taskId", taskId);
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("source", source);
+		request.setAttribute("role", "RiskDirector");
+		return "spv/saveSpvCase";
+	}
+
+	/**
+     * 资金监管审批操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("spvApprove/deal")
+	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+
+		return AjaxResponse.success();
+	}
+	
+    /**
+     * 资金监管签约页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("task/SpvSign/process")
+	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
+		
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
+		request.setAttribute("taskId", taskId);
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("source", source);
+		request.setAttribute("role", "RiskOfficer");
+		return "spv/saveSpvCase";
+	}
+	
+	/**
+     * 资金监管签约操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+	@RequestMapping("spvSign/deal")
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		// (签约)发送消息
+		//messageService.sendSpvFinishMsgByIntermi(instCode);
+
+		return AjaxResponse.success();
+	}
+	
+	
+	/**
+	 * 查询所有的产品分类
+	 */
+	@RequestMapping("queryPrdCategorys")
+	@ResponseBody
+	public List<ProductCategory> queryPrdCategorys() {
+
+		List<ProductCategory> prdList = productCategoryService.getAllProductCategoryList();
+		
+		return prdList;
+	}
+	
+	/**
+	 * 查询分类下所有的产品
+	 */
+	@RequestMapping("queryProdByPrdcCode")
+	@ResponseBody
+	public List<Product> queryPrdByCateCode(String prdcCode) {
+
+		List<Product> prdList = productService.getProductListByProductCategoryCode(prdcCode);
+		
+		return prdList;
+	}
+	
+	/**
+	 * 查询产品所属分类
+	 */
+	@RequestMapping("queryPrdcCodeByProdCode")
+	@ResponseBody
+	public Product queryPrdcCodeByProdCode(String prodCode) {
+		
+		Product product = productService.getProductByCode(prodCode);
+		
+		return product;
+	}
 
 }
 

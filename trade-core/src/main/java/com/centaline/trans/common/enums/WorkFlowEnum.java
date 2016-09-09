@@ -10,12 +10,15 @@ public enum WorkFlowEnum {
 	SRV_BUSSKEY("service_change", "businessKey"), 
 	EVA_WBUSSKEY("OfflineEva", "businessKey"),
 	ELOAN_BUSSKEY("EloanProcess", "businessKey"), 
+	SPV_BUSSKEY("SpvProcess", "businessKey"), 
+	TMP_BANK_BUSSKEY("TempBankAudit_Process","businessKey"),
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),
 	LOANLOST_PROCESS("LoanLost_Process:1:641492","LoanLost_Process"),
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId");
+	
 	private String name;
 	private String code;
 

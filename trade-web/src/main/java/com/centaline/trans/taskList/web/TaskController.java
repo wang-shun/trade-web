@@ -43,6 +43,7 @@ import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -426,7 +427,7 @@ public class TaskController {
         		request.setAttribute("processInstanceId", instCode);
         	}
      		
-    	}else if("MortgageSelect".equals(taskitem)){
+    	}else if(ToAttachmentEnum.MORTGAGESELECT.getCode().equals(taskitem)){
     		ToTransPlan plan=new ToTransPlan();
     		plan.setCaseCode(caseCode);
     		plan.setPartCode("LoanRelease");//放款

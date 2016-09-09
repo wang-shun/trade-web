@@ -1,8 +1,9 @@
 var isRTL = false;
-var events = [];
+
 if ($('body').css('direction') === 'rtl') {
 	isRTL = true;
 }
+//
 function setStaDetailDef() {
 	$("tr[id^='sta_tr']").find('td:gt(0)').each(function(i) {
 		$(this).html('金额：<span>0.00万</span>单数：<span>0</span>转化率：<span>0.00%</span>');
@@ -77,6 +78,8 @@ var handleScrollers = function() {
 	});
 };
 handleScrollers();
+
+//待办事项数据
 $(document).ready(function() {
 	new messageGrid().init({
 		e : $("#div_messagelist1"),
@@ -119,52 +122,62 @@ $(document).ready(function() {
 						// original position after the drag
 		});
 	});
-	
+	var backEvents = [];
 	// 获取待办事项数据
 	$.ajax({
-		url : ctx + '/transplan/getToTransPlan',
+		//url : ctx + '/transplan/getToTransPlan', //mybatis查询
+		url : ctx + '/transplan/qqToGetTransPlan', //快速查询		
 		data : "",
 		type : "post",
 		dataType : "json",
-		async : false,
+		async : true,
 		success : function(data) {
-			// console.info(data);
+			//console.log("！！！！！！！！！Result！！！！！！！！"+JSON.stringify(data));
 			if (data.toTransPlanOrToPropertyInfoList == null)
-				return;
-			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;
+				return;			
+			
+			var toTransPlanOrToPropertyInfoList = data.toTransPlanOrToPropertyInfoList;			
+			//var events = [];		
 			for (var i = 0; i < toTransPlanOrToPropertyInfoList.length; i++) {
+				
 				var calssstyle = "popy";
 				var partCode = toTransPlanOrToPropertyInfoList[i].partCode;
 				var estPartTimes = toTransPlanOrToPropertyInfoList[i].estPartTime;
 				var propertyAddr = toTransPlanOrToPropertyInfoList[i].propertyAddr;
-				if (propertyAddr == undefined) {
+				
+				if (partCode == undefined || partCode=='' || partCode==null) {
+					continue;
+				}
+				if (propertyAddr == undefined || propertyAddr=='' || propertyAddr==null) {
 					propertyAddr = "无";
 				}
-				if(estPartTimes == undefined || estPartTimes=='') {
-					return true;
-				}
-				events.push({
+				if(estPartTimes == undefined || estPartTimes=='' || estPartTimes==null) {
+					continue;
+				}			
+				backEvents.push({
 					title : partCode + "\n 物业地址:" + propertyAddr,
 					start : estPartTimes,
 					backgroundColor : '#f8ac59',
 					borderColor : "#f8ac59"
-				});
+				});		
 			}
+			$('#calendar').fullCalendar({
+				header : {
+					left : 'prev,next,month,basicWeek,today',
+					center : 'title',
+					right : ''
+				},
+				editable : false,
+				events : backEvents
 
+			});	
+
+			
 		}
 	});
-
-	$('#calendar').fullCalendar({
-		header : {
-			left : 'prev,next,month,basicWeek,today',
-			center : 'title',
-			right : ''
-		},
-		editable : false,
-		events : events
-
-	});	
 	
+	
+
 	$("#ionrange_4").ionRangeSlider({
 		values : [ "一月", "二月", "三月", "四月", "五月", "六月",
 			"七月", "八月", "九月", "十月", "十一月", "十二月" 

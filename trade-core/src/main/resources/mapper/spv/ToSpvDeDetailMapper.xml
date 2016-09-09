@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvDeDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvDeDetail" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="DE_ID" property="deId" jdbcType="BIGINT" />
+    <result column="DE_COND_CODE" property="deCondCode" jdbcType="VARCHAR" />
+    <result column="DE_ADDITION" property="deAddition" jdbcType="NVARCHAR" />
+    <result column="DE_AMOUNT" property="deAmount" jdbcType="DECIMAL" />
+    <result column="PAYEE_ACCOUNT_ID" property="payeeAccountId" jdbcType="BIGINT" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, DE_ID, DE_COND_CODE, DE_ADDITION, DE_AMOUNT, PAYEE_ACCOUNT_ID, IS_DELETED, 
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_DE_DETAIL
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByDeId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_DE_DETAIL
+    where DE_ID = #{spvCode,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByDeId" >
+    delete from sctrans.T_TO_SPV_DE_DETAIL    
+    where DE_ID = #{deId}
+  </delete>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_DE_DETAIL
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvDeDetail" >
+    insert into sctrans.T_TO_SPV_DE_DETAIL (PKID, DE_ID, DE_COND_CODE, 
+      DE_ADDITION, DE_AMOUNT, PAYEE_ACCOUNT_ID, 
+      IS_DELETED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{deId,jdbcType=BIGINT}, #{deCondCode,jdbcType=VARCHAR}, 
+      #{deAddition,jdbcType=NVARCHAR}, #{deAmount,jdbcType=DECIMAL}, #{payeeAccountId,jdbcType=BIGINT}, 
+      #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeDetail" >
+    insert into sctrans.T_TO_SPV_DE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="deId != null" >
+        DE_ID,
+      </if>
+      <if test="deCondCode != null" >
+        DE_COND_CODE,
+      </if>
+      <if test="deAddition != null" >
+        DE_ADDITION,
+      </if>
+      <if test="deAmount != null" >
+        DE_AMOUNT,
+      </if>
+      <if test="payeeAccountId != null" >
+        PAYEE_ACCOUNT_ID,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="deId != null" >
+        #{deId,jdbcType=BIGINT},
+      </if>
+      <if test="deCondCode != null" >
+        #{deCondCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deAddition != null" >
+        #{deAddition,jdbcType=NVARCHAR},
+      </if>
+      <if test="deAmount != null" >
+        #{deAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payeeAccountId != null" >
+        #{payeeAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvDeDetail" >
+    update sctrans.T_TO_SPV_DE_DETAIL
+    <set >
+      <if test="deId != null" >
+        DE_ID = #{deId,jdbcType=BIGINT},
+      </if>
+      <if test="deCondCode != null" >
+        DE_COND_CODE = #{deCondCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deAddition != null" >
+        DE_ADDITION = #{deAddition,jdbcType=NVARCHAR},
+      </if>
+      <if test="deAmount != null" >
+        DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payeeAccountId != null" >
+        PAYEE_ACCOUNT_ID = #{payeeAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvDeDetail" >
+    update sctrans.T_TO_SPV_DE_DETAIL
+    set DE_ID = #{deId,jdbcType=BIGINT},
+      DE_COND_CODE = #{deCondCode,jdbcType=VARCHAR},
+      DE_ADDITION = #{deAddition,jdbcType=NVARCHAR},
+      DE_AMOUNT = #{deAmount,jdbcType=DECIMAL},
+      PAYEE_ACCOUNT_ID = #{payeeAccountId,jdbcType=BIGINT},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

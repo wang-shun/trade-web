@@ -5,8 +5,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.workspace.entity.LoanStaDetails;
@@ -21,6 +24,8 @@ import com.centaline.trans.workspace.service.WorkSpaceService;
 
 @Service
 public class WorkSpaceServiceImpl implements WorkSpaceService {
+	@Autowired
+	private QuickGridService quickGridService;
 	@Autowired
 	private WorkSpaceMapper mapper;
 	@Autowired
@@ -200,4 +205,22 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 	@Cacheable(value="WorkSpaceServiceImpl.staEvaFeeCount", key="#work")
 	public Double staEvaFeeCount(WorkSpace work) {
 		return mapper.staEvaFeeCount(work);
-	}}
+	}
+
+	@Override
+	public Integer getUnlocatedCaseCount() {
+		return mapper.getUnlocatedCaseCount();
+	}
+
+	@Override
+	public Integer getUnlocatedTaskCount(Map map) {
+		return mapper.getUnlocatedTaskCount(map);
+	}
+	
+	@Override
+	@Cacheable(value="WorkSpaceServiceImpl.findPageForSqlServer", key="#gp")
+	public Page<Map<String, Object>> findPageForSqlServer(JQGridParam gp){
+        return quickGridService.findPageForSqlServer(gp, null);
+    }
+	
+}

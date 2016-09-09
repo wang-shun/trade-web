@@ -186,7 +186,7 @@ text-decoration: underline !important;
                 </div>
 <div class="wrapper wrapper-content">
 	<div class="row">
-                        <div class="col-md-9 " id="div_target">
+                        <div class="col-dash-8 " id="div_target">
                             <div class="ibox float-e-margins no-records">
                                 <div class="ibox-title">
                                     <h5>案件分布统计</h5>
@@ -1047,7 +1047,7 @@ text-decoration: underline !important;
 
 	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
     <script src="${ctx}/js/trunk/case/caseCount.js"></script>
-        <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
+    <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
     <script src="${ctx}/js/aist-modal.js"  type="text/javascript"></script>
 	<script src="${ctx}/js/bootstrap-modal.js" type="text/javascript"></script>
 	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript"></script>

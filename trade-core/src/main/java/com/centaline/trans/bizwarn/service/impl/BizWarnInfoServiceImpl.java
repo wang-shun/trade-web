@@ -12,26 +12,26 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 
 /**
  * 商贷预警业务接口实现
+ * 
  * @author yinjf2
  * @date 2016年8月5日
  */
 @Service
 public class BizWarnInfoServiceImpl implements BizWarnInfoService {
 
-	
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
-	
+
 	@Override
 	public BizWarnInfo getBizWarnInfoByCaseCode(String caseCode) {
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(caseCode);
-		
+
 		return bizWarnInfo;
 	}
 
 	@Override
 	public int insertSelective(BizWarnInfo bizWarnInfo) {
-		
+
 		return bizWarnInfoMapper.insertSelective(bizWarnInfo);
 	}
 
@@ -51,8 +51,13 @@ public class BizWarnInfoServiceImpl implements BizWarnInfoService {
 	}
 
 	@Override
-	public int getAllBizwarnCount(String userLoginName) {
-		return bizWarnInfoMapper.getAllBizwarnCount(userLoginName);
+	public int getAllBizwarnCountByTeam(String userLoginName) {
+		return bizWarnInfoMapper.getAllBizwarnCountByTeam(userLoginName);
+	}
+
+	@Override
+	public int getAllBizwarnCountByDistinct(String currentOrgId) {
+		return bizWarnInfoMapper.getAllBizwarnCountByDistinct(currentOrgId);
 	}
 
 }
