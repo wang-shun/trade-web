@@ -391,8 +391,8 @@ on org2.ID=uoj1.ORG_ID
 				<column type="both" name="realName1"  title="总监" customDict=""  hidden="false" />
 				<column type="both" name="orgName2"  title="组别" customDict=""  hidden="false"/>
 				<column type="both" name="realName2"  title="主管" customDict=""  hidden="false" />
-				<column type="both" name="red"  title="黄灯1" customDict=""  hidden="false" expType="java.lang.Integer" />
-				<column type="both" name="yellow"  title="红灯" customDict=""  hidden="false"  expType="java.lang.Integer"/>
+				<column type="both" name="red"  title="黄灯" customDict=""  hidden="false" expType="Integer" />
+				<column type="both" name="yellow"  title="红灯" customDict=""  hidden="false"  expType="Integer"/>
 				<column type="both" name="allcolor"  title="合计" customDict=""  hidden="false"  expType="Integer"/>
 				<column type="both" name="importtime"  title="导出时间" customDict=""  hidden="false"  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
 				<column type="both" name="id"  title="" customDict=""  hidden="false"/>
@@ -746,8 +746,8 @@ t1 inner join(select * from (
 				<column type="both" name="orgName2"  title="组别" customDict=""  hidden="false"/>
 				<column type="both" name="realName2" title="主管" customDict=""  hidden="false"/>
 				
-				<column type="both" name="color" title="红黄灯" customDict="" hidden="false"/>
-				<column type="virtual" name="color1" title="红黄灯" referencecol="color"  customDict="convertColor" hidden="false"/>
+				<column type="both" name="color" title="红黄灯" customDict="" hidden="false" />
+				<column type="virtual" name="color1" title="红黄灯" referencecol="color"  customDict="convertColor" hidden="false" />
 				<column type="both" name="CASE_CODE"  title="案件编号" customDict=""  hidden="false"/>
 				<column type="both" name="TASKNAME"  title="任务名" customDict=""  hidden="false"/>
 				<column type="both" name="PROPERTY_ADDR"  title="产证地址" customDict="" hidden="false"/>
