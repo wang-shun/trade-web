@@ -48,6 +48,8 @@
 		value="${sessionUser.serviceDepId }">
 	<input type="hidden" id="serviceJobCode"
 		value="${sessionUser.serviceJobCode }">
+	<input type="hidden" id="orgId"
+		value="${orgId }">
 
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="row">
@@ -214,6 +216,7 @@
 							page : 1,
 							sessionUserId : $("#userId").val(),
 							serviceDepId : $("#serviceDepId").val(),
+							serviceOrgId : $("#orgId").val(),
 							serviceJobCode : serviceJobCode,
 							serviceDepHierarchy :serviceDepHierarchy,
 							releaseTimeStart:'',

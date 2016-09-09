@@ -56,6 +56,7 @@ import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
+import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.utils.DateUtil;
 
 @Controller
@@ -99,7 +100,12 @@ public class WarnListController {
 	
 	//E+列表
 	@RequestMapping("Eloanlist")
-	public String submit() {
+	public String submit(HttpServletRequest request) {
+		SessionUser user = uamSessionService.getSessionUser();
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepIdEloan(user.getServiceDepId());
+		if(pro != null)
+			request.setAttribute("orgId", pro.getPrApplyDepId());
 		return "/eloan/task/taskEloanList";
 	}
 	@RequestMapping(value="/task/eloanApply/process")

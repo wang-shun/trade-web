@@ -24,4 +24,6 @@ public interface ToPropertyInfoService {
     ViHouseDelBaseVo getHouseBaseByHoudelCode(String delCode);
     
     ToPropertyResearchVo getPropertyDepInfoByuserDepId(String depId);
+    
+    ToPropertyResearchVo getPropertyDepInfoByuserDepIdEloan(String depId);
 }
