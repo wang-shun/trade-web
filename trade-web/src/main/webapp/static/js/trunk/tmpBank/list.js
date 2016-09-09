@@ -109,10 +109,21 @@ function getBranchBankList(faFinOrgCode){
 }
 
 function exportExcel(){
+	var depHierarchy = $("#depHierarchy").val();
+	
+	var queryId = "";
+	if(depHierarchy == "yucui_team"){
+		queryId = "queryTmpBankCastListItemListByTeam";
+	}
+	else {
+		queryId = "queryTmpBankCastListItemListByDistinct";
+	}
+	
 	var data = getParams();
+	
 	$.exportExcel({
 		ctx : "..",
-		queryId : 'queryTmpBankCastListItemList',
+		queryId : queryId,
 		colomns : ['caseCode','propertyAddress','realName','orgName','parentOrgName','mainBankName','branchBankName','tmpBankStatus1','approver','auditDateTime','applyDateTime','currentProcess1'],
 		data:data
 	});

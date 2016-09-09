@@ -113,8 +113,22 @@
                                    <div class="case_lump">
                                        <p><em>申请期数</em><span class="span_one">${eloanCase.month}月</span></p>
                                    </div>
-                                   
                                 </div>
+                                
+                                <c:if test="${!empty eloanCase.chargeAmount}">
+                                	<div class="case_row">
+	                                   <div class="case_lump">
+	                                       <p><em>手续费</em><span class="span_one">${eloanCase.chargeAmount}</span></p>
+	                                   </div>
+	                                   
+	                                   <c:if test="${!empty eloanCase.remark}">
+	                                   		<div class="case_lump">
+		                                       <p><em>情况说明</em><span class="span_one">${eloanCase.remark}</span></p>
+		                                   </div>
+	                                   </c:if>
+	                                </div>
+                                </c:if>
+                                
                                 <div class="case_row">
                                    <div class="case_lump">
                                        <p><em>转介人姓名</em><span class="span_one">${eloanCase.zjName}</span></p>
