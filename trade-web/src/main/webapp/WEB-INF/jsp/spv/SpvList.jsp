@@ -172,7 +172,6 @@
                                         </td>
                                         <td>
                     <p class="smll_sign">                          
-					 {{if item.STATUS!=0}}
 					 {{if item.applyTime==undefined}}
 						<i class="sign_grey">申</i>
                       {{else}}
@@ -196,7 +195,6 @@
                       {{/if}}
 					       {{item.releaseTime}}
 					</p>
-                    {{/if}}
                                         </td>
                                         <td class="center">
                                             
@@ -204,11 +202,10 @@
                                                 <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
-                                        <td class="text-center">
-
-
+                                        <td class="text-center"> 
+                                        
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">操作
+                                                <button type="button" class="btn btn-success dropdown-toggle"  data-toggle="dropdown" >操作
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu" style="left:-95px;">
