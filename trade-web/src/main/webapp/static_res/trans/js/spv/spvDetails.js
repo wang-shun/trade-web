@@ -359,13 +359,13 @@ $(document).ready(function(){
 			return false;
 		}
 		if(buyerIdCode != null && buyerIdCode != ''){
-			if(!isIdCardSimple(buyerIdCode) && !new RegExp("/^\d{15}$/").test(buyerIdCode)){
+			if(!isIdCardSimple(buyerIdCode)){
 				alert("请填写有效的买方证件编号！");
 				return false;
 			}
 		}	
 		if(sellerIdCode != null && sellerIdCode != ''){
-			if(!isIdCardSimple(sellerIdCode)  && !new RegExp("/^\d{15}$/").test(sellerIdCode)){
+			if(!isIdCardSimple(sellerIdCode)){
 				alert("请填写有效的卖方证件编号！");
 				return false;
 			}
@@ -533,9 +533,9 @@ $(document).ready(function(){
         var amountMort = $("input[name='toSpv.amountMort']");
         var amountMortCom = $("input[name='toSpv.amountMortCom']");
         var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
-        amountMortV = amountMort.val()?parseInt(amountMort.val()):0;
-        amountMortComV = amountMortCom.val()?parseInt(amountMortCom.val()):0;
-        amountMortPsfV = amountMortPsf.val()?parseInt(amountMortPsf.val()):0;  
+        amountMortV = amountMort.val()?amountMort.val():0;
+        amountMortComV = amountMortCom.val()?amountMortCom.val():0;
+        amountMortPsfV = amountMortPsf.val()?amountMortPsf.val():0;  
 
         if(amountOwn.parent().find("i").length>0 && (amountOwn.val() == null || amountOwn.val() == '')){
         	alert("请填写自筹资金！");
@@ -603,7 +603,7 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var spvAccountName = $("input[name='toSpvAccountList[2].name']").val();
+		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
 		//var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
 		if(spvAccountName == null || spvAccountName == ''){
 			alert("请填写托管账户名称！");
@@ -616,11 +616,11 @@ $(document).ready(function(){
 			return false;
 		}
 				
-		toSpvAmount = toSpvAmount?parseInt(toSpvAmount):0;
+		toSpvAmount = toSpvAmount?toSpvAmount:0;
 
 		var sumNum = 0;
 		$("input[name$='deAmount']").each(function(i,e){
-			 sumNum += e.val()?parseInt(e.val()):0;
+			 sumNum += e.val()?e.val():0;
 		});
 		if(sumNum != toSpvAmount){
 			alert("监管总金额需等于出款约定金额总和！");
