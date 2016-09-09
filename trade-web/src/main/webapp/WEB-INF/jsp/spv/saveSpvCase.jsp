@@ -418,14 +418,14 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one left-extent">
+							<%-- <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
-									<input name="toSpv.prdCode"
-								    value="${spvBaseInfoVO.toSpv.prdCode }"  type="text"
-									class="form-control input-two" value="光大四方资金监管" placeholder=""> 
-									<%-- <select id="prd" class="form-control input-one"></select>
-									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select> --%>
-							</div>
+									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
+									<option value="1">光大四方资金监管</option>
+									</select>
+									<select id="prd" class="form-control input-one"></select>
+									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select>
+							</div> --%>
 						</div>
 						<div class="title">监管资金的支付</div>
 						<div class="form-row form-rowbot">

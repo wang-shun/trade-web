@@ -542,11 +542,11 @@ $(document).ready(function(){
         	return false;
         }
         
-        var toSpvPrdCode = $("select[name='toSpv.prdCode'] option:selected").val();
+/*        var toSpvPrdCode = $("select[name='toSpv.prdCode'] option:selected").val();
         if(toSpvPrdCode == null || toSpvPrdCode == ''){
         	alert("请选择监管产品！");
         	return false;
-        }
+        }*/
 
         var amountOwn = $("input[name='toSpv.amountOwn']");
         var amountMort = $("input[name='toSpv.amountMort']");
