@@ -559,7 +559,7 @@ $(document).ready(function(){
         	alert("请填写自筹资金！");
         	return false;
         }  
-        if(amountOwn.parent().find("i").length>0 && (amountOwn.val() != null && amountOwn.val() != '')){
+        if(amountOwn.val() != null && amountOwn.val() != ''){
         	if(!isNumber(amountOwn.val())){
         		alert("请填写有效的自筹资金！");
         		return false;
@@ -569,7 +569,7 @@ $(document).ready(function(){
         	alert("请填写贷款资金！");
         	return false;
         }
-        if(amountMort.parent().find("i").length>0 && (amountMort.val() != null && amountMort.val() != '')){
+        if(amountMort.val() != null && amountMort.val() != ''){
         	if(!isNumber(amountMort.val())){
         		alert("请填写有效的贷款资金！");
         		return false;
@@ -579,7 +579,7 @@ $(document).ready(function(){
         	alert("请填写商业贷款！");
         	return false;
         }
-        if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() != null && amountMortCom.val() != '')){
+        if(amountMortCom.val() != null && amountMortCom.val() != ''){
         	if(!isNumber(amountMortCom.val())){
         		alert("请填写有效的商业贷款！");
         		return false;
@@ -589,7 +589,7 @@ $(document).ready(function(){
         	alert("请填写公积金贷款！");
         	return false;
         }
-        if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() != null && amountMortPsf.val() != '')){
+        if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
         	if(!isNumber(amountMortPsf.val())){
         		alert("请填写有效的公积金贷款！");
         		return false;
