@@ -114,7 +114,7 @@
 				<column type="both" name="CHANGE_DATE" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width= "90" align="" halign="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CUST_NAME" index="" checkbox="" display="客户姓名" title="客户姓名" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
-				<column type="both" name="LOAN_AMOUNT" index="" checkbox="" display="申请金额" title="申请金额" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOAN_AMOUNT" index="" checkbox="" display="申请金额" expType="Double"  title="申请金额" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

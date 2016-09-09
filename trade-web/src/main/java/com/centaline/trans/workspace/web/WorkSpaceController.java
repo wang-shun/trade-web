@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
-import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -49,7 +47,6 @@ import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LightColorEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
 import com.centaline.trans.task.vo.TransPlanVO;
@@ -77,8 +74,9 @@ public class WorkSpaceController {
 	UamSessionService uamSessionService;
 	
 	//快速查询接口
-	@Resource(name = "quickGridService")
-	private QuickGridService quickGridService;
+	//@Resource(name = "quickGridService")
+	@Autowired
+	private WorkSpaceService quickGridService;
 
 	@Autowired
 	private UamBasedataService uamBasedataService;

@@ -33,11 +33,11 @@ import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.product.entity.ProductCategory;
+import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
-import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -66,6 +66,8 @@ public class SpvController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	MessageService messageService;
+	@Autowired
+	ProductCategoryService productCategoryService;
 	
 	//列表页面
 	@RequestMapping("spvList")
@@ -123,6 +125,42 @@ public class SpvController {
 		request.setAttribute("jingban", jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
 		return "spv/SpvDetail";
+	}
+	/**
+	 * 删除
+	 * @param pkid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("deleteSpv")
+	public AjaxResponse<String>  deleteSpv(long pkid ,ServletRequest request){
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(request,pkid);
+		spvBaseInfoVO.getToSpv().setIsDeleted("1");
+		spvBaseInfoVO.getToSpvDe().setIsDeleted("1");
+		spvBaseInfoVO.getToSpvProperty().setIsDeleted("1");
+        for (int i=0;i<spvBaseInfoVO.getSpvCustList().size();i++) {
+        	if(spvBaseInfoVO.getSpvCustList().get(i)!=null){
+        		spvBaseInfoVO.getSpvCustList().get(i).setIsDeleted("1");
+        	}
+		}
+        for (int i=0;i<spvBaseInfoVO.getToSpvAccountList().size();i++) {
+        	spvBaseInfoVO.getToSpvAccountList().get(i).setIsDeleted("1");
+		}
+        for (int i=0;i<spvBaseInfoVO.getToSpvDeDetailList().size();i++) {
+        	spvBaseInfoVO.getToSpvDeDetailList().get(i).setIsDeleted("1");
+		}
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.saveNewSpv(spvBaseInfoVO,user);
+    		response.setSuccess(true);
+    		response.setMessage("监管合约删除成功！");
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    	}
+    	return response;
 	}
 	
 	@RequestMapping("spvOutApply/process")
@@ -407,7 +445,6 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
-		request.setAttribute("role", "RiskOfficer");
 		
 		return "spv/saveSpvCase";
 	}
@@ -496,7 +533,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
-		request.setAttribute("role", "RiskOfficer2");
+		request.setAttribute("role", "RiskOfficer");
 		return "task/spv/saveSpvCase";
 	}
 	
@@ -519,6 +556,19 @@ public class SpvController {
 		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
 		return AjaxResponse.success();
+	}
+	
+	
+	/**
+	 * 
+	 */
+	@RequestMapping("queryPrdCategorys")
+	@ResponseBody
+	public List<ProductCategory> queryPrdCategorys() {
+
+		List<ProductCategory> prdList = productCategoryService.getAllProductCategoryList();
+		
+		return prdList;
 	}
 
 }
