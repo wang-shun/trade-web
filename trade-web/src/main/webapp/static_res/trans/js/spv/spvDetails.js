@@ -292,6 +292,11 @@ $(document).ready(function(){
         		return false;
         	}
         }
+        
+        var amountOwn = $("input[name='toSpv.amountOwn']");
+        var amountMort = $("input[name='toSpv.amountMort']");
+        var amountMortCom = $("input[name='toSpv.amountMortCom']");
+        var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
         if(amountOwn.val() != null && amountOwn.val() != ''){
         	if(!isNumber(amountOwn.val())){
         		alert("请填写有效的自筹资金！");
@@ -727,7 +732,7 @@ $(document).ready(function(){
 		$("input[name$='deAmount']").each(function(i,e){
 			 if(!isNumber($(e).val())){
 				 alert("请填写有效的监管资金金额！");
-				 return fasle;
+				 return false;
 			 }
 			 sumNum += $(e).val()?parseFloat($(e).val()):0;
 		});
