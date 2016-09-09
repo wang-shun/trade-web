@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.task.entity.ToPropertyResearchVo;
 
 public interface ToPropertyInfoService {
 	ToPropertyInfo findToPropertyInfoByCaseCode(String caseCode);
@@ -21,4 +22,6 @@ public interface ToPropertyInfoService {
     ToPropertyInfo findToPropertyInfoByCaseCodeAndAddr(ToPropertyInfo record);
     
     ViHouseDelBaseVo getHouseBaseByHoudelCode(String delCode);
+
+    ToPropertyResearchVo getPropertyDepInfoByuserDepIdEloan(String depId);
 }

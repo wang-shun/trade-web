@@ -33,8 +33,10 @@ import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.product.entity.Product;
 import com.centaline.trans.product.entity.ProductCategory;
 import com.centaline.trans.product.service.ProductCategoryService;
+import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
@@ -68,6 +70,8 @@ public class SpvController {
 	MessageService messageService;
 	@Autowired
 	ProductCategoryService productCategoryService;
+	@Autowired
+	ProductService productService;
 	
 	//列表页面
 	@RequestMapping("spvList")
@@ -490,7 +494,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskDirector");
-		return "task/spv/saveSpvCase";
+		return "spv/saveSpvCase";
 	}
 
 	/**
@@ -534,7 +538,7 @@ public class SpvController {
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskOfficer");
-		return "task/spv/saveSpvCase";
+		return "spv/saveSpvCase";
 	}
 	
 	/**
@@ -560,7 +564,7 @@ public class SpvController {
 	
 	
 	/**
-	 * 
+	 * 查询所有的产品分类
 	 */
 	@RequestMapping("queryPrdCategorys")
 	@ResponseBody
@@ -569,6 +573,30 @@ public class SpvController {
 		List<ProductCategory> prdList = productCategoryService.getAllProductCategoryList();
 		
 		return prdList;
+	}
+	
+	/**
+	 * 查询分类下所有的产品
+	 */
+	@RequestMapping("queryProdByPrdcCode")
+	@ResponseBody
+	public List<Product> queryPrdByCateCode(String prdcCode) {
+
+		List<Product> prdList = productService.getProductListByProductCategoryCode(prdcCode);
+		
+		return prdList;
+	}
+	
+	/**
+	 * 查询产品所属分类
+	 */
+	@RequestMapping("queryPrdcCodeByProdCode")
+	@ResponseBody
+	public Product queryPrdcCodeByProdCode(String prodCode) {
+		
+		Product product = productService.getProductByCode(prodCode);
+		
+		return product;
 	}
 
 }

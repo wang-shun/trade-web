@@ -197,10 +197,10 @@
 									aria-expanded="true">买卖双方</a></li>
 								<li class=""><a href="#tab-2" data-toggle="tab"
 									aria-expanded="false">房产及交易</a></li>
-								<li class=""><a href="#tab-3" data-toggle="tab">
-										监管资金的支付 </a></li>
 								<li class=""><a href="#tab-4" data-toggle="tab">资金监管及账户</a>
 								</li>
+								<li class=""><a href="#tab-3" data-toggle="tab">
+										监管资金 </a></li>
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
 								</li>
 							</ul>
@@ -217,15 +217,19 @@
 												<span>买家信息</span>
 												<div class="ibox-conn ibox-text">
 
-													<dl class="dl-horizontal">
+													<dl class="dl-horizontal" style="height:auto">
 														<dt>客户姓名</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].name }</dd>
 														<dt>性别</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].gender eq '1'?'男':'女' }</dd>
 														<dt>家庭住址</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].homeAddr }</dd>
-														<dt>身份证</dt>
+														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
+									                        display="onlyLabel"  dictType="CERT_TYPE"  
+									                        ligerui='none' dictCode="${spvBaseInfoVO.spvCustList[0].idType}"></aist:dict></dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].idCode }</dd>
+														<dt>手机号</dt>
+														<dd>${spvBaseInfoVO.spvCustList[0].phone }</dd>
 														<dt>证件有效期</dt>
 														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
 													</dl>
@@ -234,15 +238,20 @@
 											<div class="info_box info_box_one col-md-6 ">
 												<span>卖家信息</span>
 												<div class="ibox-conn ibox-text">
-													<dl class="dl-horizontal">
+													<dl class="dl-horizontal" style="height:auto">
 														<dt>客户姓名</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].name }</dd>
 														<dt>性别</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].gender eq '1'?'男':'女' }</dd>
 														<dt>家庭住址</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].homeAddr }</dd>
-														<dt>身份证</dt>
+														<dt><aist:dict id="idType1" name="idType1" clazz="form-control input-one"
+															display="onlyLabel"  dictType="CERT_TYPE"  
+															ligerui='none'  dictCode="${spvBaseInfoVO.spvCustList[1].idType}"></aist:dict>
+									                   </dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].idCode }</dd>
+														<dt>手机号</dt>
+														<dd>${spvBaseInfoVO.spvCustList[1].phone }</dd>
 														<dt>证件有效期</dt>
 														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
 													</dl>
@@ -255,7 +264,7 @@
 							</div>
 							<div class="tab-pane" id="tab-2">
 								<div class="row" id="">
-									<div class="col-md-5">
+									<div class="col-md-3">
 										<ul class="real-estate">
 											<li>
 												<p>
@@ -264,21 +273,7 @@
 											</li>
 											<li>
 												<p>
-													<em>房屋住址</em> <span>${spvBaseInfoVO.toSpvProperty.prAddr }</span>
-												</p>
-											</li>
-											<li>
-												<p>
-													<em>买方自有金额支付金额</em> <span title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
-												</p>
-											</li>
-										</ul>
-									</div>
-									<div class="col-md-4">
-										<ul class="real-estate">
-											<li>
-												<p>
-													<em>面积</em> <span>${spvBaseInfoVO.toSpvProperty.prSize }平方米</span>
+													<em>房产权利人</em> <span>${spvBaseInfoVO.toSpvProperty.prOwnerName }</span>
 												</p>
 											</li>
 											<li>
@@ -286,9 +281,24 @@
 													<em>网签合同号</em> <span>${spvBaseInfoVO.toSpvProperty.signNo }</span>
 												</p>
 											</li>
-											  <li>
+										</ul>
+									</div>
+									<div class="col-md-6">
+										<ul class="real-estate">
+											<li>
 												<p>
-													<em>金额大写</em> <span name="DX" title="">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}</span>
+													<em>面积</em> <span>${spvBaseInfoVO.toSpvProperty.prSize }平方米</span>
+												</p>
+											</li>
+											<li>	
+												<p>
+													<em>网签金额</em> <span title="">${spvBaseInfoVO.toSpvProperty.signAmount>0?spvBaseInfoVO.toSpvProperty.signAmount:0}万元</span>
+												</p>
+											</li>
+											  <li>
+												
+												<p>
+													<em>产证地址</em> <span>${spvBaseInfoVO.toSpvProperty.prAddr }</span>
 												</p>
 											</li> 
 										</ul>
@@ -297,12 +307,14 @@
 										<ul class="real-estate">
 											<li>
 												<p>
-													<em>下家付款方式</em> <span>全款</span>
+													<em>下家付款方式</em> <span><aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
+									display="onlyLabel"  dictType="SPV_BUYER_PAYMENT"  
+									 ligerui='none'  defaultvalue="${spvBaseInfoVO.toSpv.buyerPayment}"></aist:dict></span>
 												</p>
 											</li>
 											<li>
 												<p>
-													<em>房产权利人</em> <span>${spvBaseInfoVO.toSpvProperty.prOwnerName }</span>
+													<em>金额大写</em> <span name="DX" title="">${spvBaseInfoVO.toSpvProperty.signAmount>0?spvBaseInfoVO.toSpvProperty.signAmount:0}</span>
 												</p>
 											</li>
 										   
@@ -314,22 +326,22 @@
 								<div class="row" id="">
 									<div class="col-md-4">
 										<ul class="real-estate">
-											<li>
+										  <li>
 												<p>
-													<em>买方自有资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
+													<em>监管总金额</em> <span>${spvBaseInfoVO.toSpv.amount>0?spvBaseInfoVO.toSpv.amount:0}万元</span>
 												</p>
 											</li>
 											<li>
 												<p>
-													<em>买方贷款资金支付金额</em> <span>${spvBaseInfoVO.toSpv.amountMort>0?spvBaseInfoVO.toSpv.amountMort:0}万元</span>
+													<em>自筹资金</em> <span>${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}万元</span>
 												</p>
 											</li>
-
-										</ul>
-									</div>
-									<div class="col-md-4">
-										<ul class="real-estate">
 											<li>
+												<p>
+													<em>买方贷款总金额</em> <span>${spvBaseInfoVO.toSpv.amountMort>0?spvBaseInfoVO.toSpv.amountMort:0}万元</span>
+												</p>
+											</li>
+	                                           <li>
 												<p>
 													<em>商业贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortCom>0?spvBaseInfoVO.toSpv.amountMortCom:0}万元</span>
 												</p>
@@ -337,6 +349,35 @@
 											<li>
 												<p>
 													<em>公积金贷款金额</em> <span>${spvBaseInfoVO.toSpv.amountMortPsf>0?spvBaseInfoVO.toSpv.amountMortPsf:0}万元</span>
+												</p>
+											</li>
+										</ul>
+									</div>
+									<div class="col-md-5">
+										<ul class="real-estate">
+										<li>
+												<p>
+													<em>监管总金额大写</em> <span name="DX">${spvBaseInfoVO.toSpv.amount>0?spvBaseInfoVO.toSpv.amount:0}</span>
+												</p>
+											</li>
+											<li>
+												<p>
+													<em>自筹资金大写</em> <span name="DX">${spvBaseInfoVO.toSpv.amountOwn>0?spvBaseInfoVO.toSpv.amountOwn:0}</span>
+												</p>
+											</li>
+											<li>
+												<p>
+													<em>买方贷款总金额大写</em> <span name="DX">${spvBaseInfoVO.toSpv.amountMort>0?spvBaseInfoVO.toSpv.amountMort:0}</span>
+												</p>
+											</li>
+	                                           <li>
+												<p>
+													<em>商业贷款金额大写</em> <span name="DX">${spvBaseInfoVO.toSpv.amountMortCom>0?spvBaseInfoVO.toSpv.amountMortCom:0}</span>
+												</p>
+											</li>
+											<li>
+												<p>
+													<em>公积金贷款金额大写</em> <span name="DX">${spvBaseInfoVO.toSpv.amountMortPsf>0?spvBaseInfoVO.toSpv.amountMortPsf:0}</span>
 												</p>
 											</li>
 										</ul>
@@ -360,6 +401,8 @@
 														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].account }</dd>
+														<dt>电话</dt>
+														<dd>${spvBaseInfoVO.toSpvAccountList[1].telephone }</dd>
 													</dl>
 												</div>
 											</div>
@@ -375,48 +418,19 @@
 														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].account }</dd>
+														<dt>电话</dt>
+														<dd>${spvBaseInfoVO.toSpvAccountList[0].telephone }</dd>
 													</dl>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<!-- <table class="table table-bordered table-hover customerinfo"
-									style="display: none;">
-									<thead>
-										<tr>
-											<th>账户归属</th>
-											<th>姓名</th>
-											<th>归属地</th>
-											<th>开户行</th>
-											<th>账号</th>
-											<th>买方自有金额支付金额</th>
-											<th>金额大写</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>收款账户</td>
-											<td><a href="javascript:void(0);" title=""> 胡飞 </a></td>
-											<td>上海市</td>
-											<td>上海市普陀区光大江苏路分行</td>
-											<td>110548754562525252</td>
-											<td>5500000</td>
-											<td>伍佰伍拾万元整</td>
-										</tr>
-										<tr>
-											<td>退款账户</td>
-											<td><a href="javascript:void(0);" title=""> 李磊 </a></td>
-											<td>上海市</td>
-											<td>上海市中山公园龙之梦分行</td>
-											<td>232325256895856852</td>
-											<td></td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table> -->
 							</div>
 							<div class="tab-pane" id="tab-5">
+							<p>
+							监管资金次数合计<span id="sum">${spvBaseInfoVO.toSpvDeDetailList.size() }</span> 次
+						    </p>
 								<table
 									class="table table-bordered table-hover customerinfo col-md-6">
 									<thead>
@@ -506,10 +520,11 @@
 				    	}
 					});
 			}
-			
-			var num=$("span[name='DX']").html();
 			$(document).ready(function(){
-				$("span[name='DX']").html(DX(num*10000))
+				$("span[name='DX']").each(function(index,element){
+					$(element).html(DX($(element).html()*10000));
+				});
+				
 				getBank("bank0");
 				getBank("bank1");
 			})

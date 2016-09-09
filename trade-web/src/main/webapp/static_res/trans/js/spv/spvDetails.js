@@ -20,11 +20,14 @@ $(document).ready(function(){
 				//全款
 				amountMort_.prop("disabled",true);
 				amountMort_.val('');
+				amountMort_.blur();
 				amountOwn_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",true);
 				amountMortCom_.val('');
+				amountMortCom_.blur();
 				amountMortPsf_.prop("disabled",true);
 				amountMortPsf_.val('');
+				amountMortPsf_.blur();
 				break;
 			case '2':
 				//纯商贷
@@ -34,6 +37,7 @@ $(document).ready(function(){
 				amountMortCom_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortPsf_.prop("disabled",true);
 				amountMortPsf_.val('');
+				amountMortPsf_.blur();
 				break;
 			case '3':
 				//组合贷
@@ -50,6 +54,7 @@ $(document).ready(function(){
 				amountMort_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",true);
 				amountMortCom_.val('');
+				amountMortCom_.blur();
 				amountMortPsf_.prop("disabled",false);
 				amountMortPsf_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				break;
@@ -272,6 +277,58 @@ $(document).ready(function(){
 			alert("请选择关联案件");
 			return false;	
 		}
+		
+		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
+		if(signAmount != null && signAmount != ''){
+			if(!isNumber(signAmount)){
+				alert("请填写有效的网签金额！");
+				return false;
+			}
+		}	
+		var toSpvAmount = $("input[name='toSpv.amount']").val();
+        if(toSpvAmount != null && toSpvAmount != ''){
+        	if(!isNumber(toSpvAmount)){
+        		alert("请填写有效的监管总金额！");
+        		return false;
+        	}
+        }
+        
+        var amountOwn = $("input[name='toSpv.amountOwn']");
+        var amountMort = $("input[name='toSpv.amountMort']");
+        var amountMortCom = $("input[name='toSpv.amountMortCom']");
+        var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
+        if(amountOwn.val() != null && amountOwn.val() != ''){
+        	if(!isNumber(amountOwn.val())){
+        		alert("请填写有效的自筹资金！");
+        		return false;
+        	}
+        }
+        if(amountMort.val() != null && amountMort.val() != ''){
+        	if(!isNumber(amountMort.val())){
+        		alert("请填写有效的贷款资金！");
+        		return false;
+        	}
+        }
+        if(amountMortCom.val() != null && amountMortCom.val() != ''){
+        	if(!isNumber(amountMortCom.val())){
+        		alert("请填写有效的商业贷款！");
+        		return false;
+        	}
+        }
+        if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
+        	if(!isNumber(amountMortPsf.val())){
+        		alert("请填写有效的公积金贷款！");
+        		return false;
+        	}
+        }
+        $("input[name$='deAmount']").each(function(i,e){
+        	if($(e).val() != null && $(e).val() != ''){
+        		if(!isNumber($(e).val())){
+   				 alert("请填写有效的监管资金金额！");
+   				 return fasle;
+   			 }
+        	} 
+		});
 /*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
         	alert("请填写监管总金额");
@@ -517,6 +574,8 @@ $(document).ready(function(){
 			}
 		}
 		
+		var signAmountV = signAmount?Number(signAmount):0;
+		
         var toSpvAmount = $("input[name='toSpv.amount']").val();
 		var toSpvAmountV = toSpvAmount?parseFloat(toSpvAmount):0;
         if(toSpvAmount == null || toSpvAmount == ''){
@@ -534,45 +593,76 @@ $(document).ready(function(){
         	return false;
         }
         
-        var toSpvPrdCode = $("input[name='toSpv.prdCode']").val();
-        if(toSpvPrdCode == null || toSpvPrdCode == ''){
-        	alert("请填写监管产品！");
+		var toSpvAmountV = toSpvAmount?Number(toSpvAmount):0;
+        
+        if(toSpvAmountV > signAmountV){
+        	alert("监管总金额需小于等于网签金额！");
         	return false;
         }
+        
+/*        var toSpvPrdCode = $("select[name='toSpv.prdCode'] option:selected").val();
+        if(toSpvPrdCode == null || toSpvPrdCode == ''){
+        	alert("请选择监管产品！");
+        	return false;
+        }*/
 
         var amountOwn = $("input[name='toSpv.amountOwn']");
         var amountMort = $("input[name='toSpv.amountMort']");
         var amountMortCom = $("input[name='toSpv.amountMortCom']");
-        var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
-        
-        var amountOwnV = amountOwn.val()?parseFloat(amountOwn.val()):0;
-        var amountMortV = amountMort.val()?parseFloat(amountMort.val()):0;
-        var amountMortComV = amountMortCom.val()?parseFloat(amountMortCom.val()):0;
-        var amountMortPsfV = amountMortPsf.val()?parseFloat(amountMortPsf.val()):0;  
+        var amountMortPsf = $("input[name='toSpv.amountMortPsf']"); 
 
         if(amountOwn.parent().find("i").length>0 && (amountOwn.val() == null || amountOwn.val() == '')){
         	alert("请填写自筹资金！");
         	return false;
         }  
+        if(amountOwn.val() != null && amountOwn.val() != ''){
+        	if(!isNumber(amountOwn.val())){
+        		alert("请填写有效的自筹资金！");
+        		return false;
+        	}
+        }
         if(amountMort.parent().find("i").length>0 && (amountMort.val() == null || amountMort.val() == '')){
         	alert("请填写贷款资金！");
         	return false;
+        }
+        if(amountMort.val() != null && amountMort.val() != ''){
+        	if(!isNumber(amountMort.val())){
+        		alert("请填写有效的贷款资金！");
+        		return false;
+        	}
         }
         if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() == null || amountMortCom.val() == '')){
         	alert("请填写商业贷款！");
         	return false;
         }
+        if(amountMortCom.val() != null && amountMortCom.val() != ''){
+        	if(!isNumber(amountMortCom.val())){
+        		alert("请填写有效的商业贷款！");
+        		return false;
+        	}
+        }
         if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() == null || amountMortPsf.val() == '')){
         	alert("请填写公积金贷款！");
         	return false;
         }
+        if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
+        	if(!isNumber(amountMortPsf.val())){
+        		alert("请填写有效的公积金贷款！");
+        		return false;
+        	}
+        }
+        
+        var amountOwnV = amountOwn.val()?Number(amountOwn.val()):0;
+        var amountMortV = amountMort.val()?Number(amountMort.val()):0;
+        var amountMortComV = amountMortCom.val()?Number(amountMortCom.val()):0;
+        var amountMortPsfV = amountMortPsf.val()?Number(amountMortPsf.val()):0; 
 
-        if(amountMortV != (amountMortComV + amountMortPsfV)){
+        if(amountMortV != accAdd(amountMortComV,amountMortPsfV)){
         	alert("贷款资金需等于商业贷款与公积金贷款之和！");
         	return false;
         }
         
-        if(toSpvAmountV != (amountOwnV + amountMortV)){
+        if(toSpvAmountV != accAdd(amountOwnV,amountMortV)){
         	alert("监管总金额需等于自筹资金与贷款资金之和！");
         	return false;
         }
@@ -646,7 +736,11 @@ $(document).ready(function(){
 		}
 		var sumNum = 0;
 		$("input[name$='deAmount']").each(function(i,e){
-			 sumNum += e.val()?parseFloat(e.val()):0;
+			 if(!isNumber($(e).val())){
+				 alert("请填写有效的监管资金金额！");
+				 return false;
+			 }
+			 sumNum = accAdd(sumNum,$(e).val()?Number($(e).val()):0);
 		});
 		if(sumNum != toSpvAmount){
 			alert("监管总金额需等于出款约定金额总和！");
@@ -771,9 +865,24 @@ $(document).ready(function(){
 		return true;
 	}
 	
-	function getPrdCategorys(selector,selectorBranch,prdCode){
+	function getPrdCategory(selector,selectorBranch,prodCode){	
+		var prodHtml = "<option value=''>请选择</option>";
+		var prdcCode = '';
+		$.ajax({
+		    url:ctx+"/spv/queryPrdcCodeByProdCode",
+		    method:"post",
+		    dataType:"json",
+			async:false,
+		    data:{prodCode:prodCode},
+		    success:function(data){
+		    	console.log(data);
+	    		if(data != null){
+	    			selector.val(data.prdcCode);
+	    			prdcCode = data.prdcCode;
+	    		}
+	    	}
+		});
 		
-		var prdHtml = "<option value=''>请选择</option>";
 	    $.ajax({
 	    	cache:true,
 	    	url:ctx+"/spv/queryPrdCategorys",
@@ -784,32 +893,46 @@ $(document).ready(function(){
 			success:function(data){
 				if(data != null){
 					for(var i = 0;i<data.length;i++){
-						if(data[i].prdcCode == prdCode){
-							prdHtml+="<option value='"+data[i].prdcCode+"' selected='selected' >"+data[i].prdcName+"</option>";
+						if(data[i].prdcCode == prdcCode){
+							prodHtml+="<option value='"+data[i].prdcCode+"' selected='selected'>"+data[i].prdcName+"</option>";
 						}else{
-							prdHtml+="<option value='"+data[i].prdcCode+"' >"+data[i].prdcName+"</option>";
+							prodHtml+="<option value='"+data[i].prdcCode+"' >"+data[i].prdcName+"</option>";		
+						}		
 						}
-						
 					}
 				}
-			}
 	     });
 	     selector.find('option').remove();
-		 selector.append($(prdHtml));
+		 selector.append($(prodHtml));
+		 
+		 getPrdDetail(selectorBranch,selector.val(),prodCode);
+		 return prodHtml;
+	}
+	
+	function getPrdDetail(selectorBranch,selector,prodCode){
+		selectorBranch.find('option').remove();
+		selectorBranch[0];
+		selectorBranch.append($("<option value=''>请选择</option>"));
 		 $.ajax({
-			    url:ctx+"/manage/queryParentBankInfo",
+			cache:true,
+		    url:ctx+"/spv/queryProdByPrdcCode",
 			    method:"post",
 			    dataType:"json",
 				async:false,
-			    data:{finOrgCode:finOrgCode},
+		    data:{prdcCode:selector},
 			    success:function(data){
 		    		if(data != null){
-		    			selector.val(data.content);
+	    			for(var i = 0;i<data.length;i++){	
+						var option = $("<option value='"+data[i].prodCode+"'>"+data[i].prodName+"</option>");
+						if(data[i].prodCode==prodCode){
+							option.attr("selected",true);
 		    		}
+						selectorBranch.append(option);
 		    	}
+	    		}
+	    	}
 			});
-		 getBranchBankList(selectorBranch,selector.val(),finOrgCode);
-		 return bankHtml;
+		return true;
 	}
 	
 /*********************************************************************************************************************************************/
@@ -885,7 +1008,7 @@ $(document).ready(function(){
 	
 	//金额验证(两位小数)
 	function isNumber(num){
-		var reg=/^[1-9]{1}\d*(\.\d{1,2})?$/;
+		var reg=/^[1-9]{1}\d*|0(\.\d{1,2})?$/;
 		if(!reg.test(num)){
 			return false;
 		}
@@ -901,3 +1024,67 @@ $(document).ready(function(){
 		return true;
 	}
 
+/***************************************************************************************************************************/
+//除法函数，用来得到精确的除法结果
+//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+//调用：accDiv(arg1,arg2)
+//返回值：arg1除以arg2的精确结果
+function accDiv(arg1,arg2){
+    var t1=0,t2=0,r1,r2;
+    try{t1=arg1.toString().split(".")[1].length}catch(e){}
+    try{t2=arg2.toString().split(".")[1].length}catch(e){}
+    with(Math){
+        r1=Number(arg1.toString().replace(".",""));
+        r2=Number(arg2.toString().replace(".",""));
+        return (r1/r2)*pow(10,t2-t1);
+    }
+}
+//给Number类型增加一个div方法，调用起来更加方便。
+Number.prototype.div = function (arg){
+    return accDiv(this, arg);
+};
+//乘法函数，用来得到精确的乘法结果
+//说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+//调用：accMul(arg1,arg2)
+//返回值：arg1乘以arg2的精确结果
+function accMul(arg1,arg2)
+{
+    var m=0,s1=arg1.toString(),s2=arg2.toString();
+    try{m+=s1.split(".")[1].length}catch(e){}
+    try{m+=s2.split(".")[1].length}catch(e){}
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+}
+//给Number类型增加一个mul方法，调用起来更加方便。
+Number.prototype.mul = function (arg){
+    return accMul(arg, this);
+};
+//加法函数，用来得到精确的加法结果
+//说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+//调用：accAdd(arg1,arg2)
+//返回值：arg1加上arg2的精确结果
+function accAdd(arg1,arg2){
+    var r1,r2,m;
+    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+    m=Math.pow(10,Math.max(r1,r2));
+    return (arg1*m+arg2*m)/m;
+}
+//给Number类型增加一个add方法，调用起来更加方便。
+Number.prototype.add = function (arg){
+    return accAdd(arg,this);
+}
+//减法函数
+function accSub(arg1,arg2){
+     var r1,r2,m,n;
+     try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+     try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+     m=Math.pow(10,Math.max(r1,r2));
+     //last modify by deeka
+     //动态控制精度长度
+     n=(r1>=r2)?r1:r2;
+     return ((arg2*m-arg1*m)/m).toFixed(n);
+}
+///给number类增加一个sub方法，调用起来更加方便
+Number.prototype.sub = function (arg){
+    return accSub(arg,this);
+}

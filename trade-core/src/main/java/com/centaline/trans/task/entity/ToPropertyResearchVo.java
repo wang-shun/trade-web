@@ -23,6 +23,8 @@ public class ToPropertyResearchVo {
 	
 	private String appliant;
 	
+	private String prApplyDepId;
+	
 	
 	public String getAgentCode(){
 		return this.agentCode;
@@ -183,6 +185,13 @@ public class ToPropertyResearchVo {
 
 	public void setAppliant(String appliant) {
 		this.appliant = appliant;
+	}
+	
+	public String getPrApplyDepId() {
+		return prApplyDepId;
+	}
+	public void setPrApplyDepId(String prApplyDepId) {
+		this.prApplyDepId = prApplyDepId;
 	}
 
 }

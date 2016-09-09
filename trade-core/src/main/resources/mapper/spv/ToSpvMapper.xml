@@ -343,7 +343,7 @@
     
    <!-- , <include refid="Blob_Column_List" /> -->
     from sctrans.T_TO_SPV
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and is_deleted = 0
   </select>
   
   <select id="findToSpvBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >

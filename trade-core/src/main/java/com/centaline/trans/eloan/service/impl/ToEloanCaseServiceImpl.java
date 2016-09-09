@@ -87,7 +87,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	
     	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
     	Map<String, Object> vars = new HashMap<String,Object>();
-    	vars.put("Consultant", excutor.getUsername());
+    	//vars.put("Consultant", excutor.getUsername());
+    	vars.put("Consultant", user.getUsername());
     	//当前申请人是否是主管   
     	String jobCode=user.getServiceJobCode();
     	if("Manager".equals(jobCode)){

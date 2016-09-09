@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="userDict" beanName="qqcdUserIdName" />
+		<customDict id="getDistCode" beanName="qqDistCode" />
+		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
+		<customDict id="getIsSuccess" beanName="qqisSuccess" />
+		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="querySourceReport">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT 
+					PR.IS_SUCCESS,
+					PR.PR_APPLY_DEP_name,
+					COUNT(PR.PKID) AS PR_COUNT
+				
+				FROM sctrans_dev.sctrans.T_TO_PROPERTY_RESEARCH AS PR
+				
+				WHERE 1=1
+				
+				AND PR.IS_SUCCESS IS NOT NULL 
+				AND PR.PR_APPLY_DEP_name IS NOT NULL
+				
+				<if test="sPrDep == 'yucui_district' ">
+				    AND PR.PR_DISTRICT_ID = #sPrDistrictId#
+			    </if>
+			    
+				]]>
+			</baseSql>
+			<groupSql>
+				GROUP BY PR.PR_APPLY_DEP_name, PR.IS_SUCCESS
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<!-- <column type="virtual" name="IS_SUCCESS"  display="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" /> -->
+				<column type="both" name="PR_APPLY_DEP_NAME" index="" checkbox="" display="产调来源" title="产调来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			    <column type="both" name="PR_COUNT" index="" checkbox="" display="产调数量" title="产调数量" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+</querys>

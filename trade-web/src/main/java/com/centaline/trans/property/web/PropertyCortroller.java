@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -247,6 +248,7 @@ public class PropertyCortroller {
 	 */
 	
 	@RequestMapping(value="sourceList")
+	@RequiresPermissions("TRADE.PRSOURCE.LIST")
     public String propertySourceList(Model model) {
 		SessionUser user = uamSessionService.getSessionUser();
 		Org orgSrc = uamUserOrgService.getOrgById(user.getServiceDepId());
@@ -276,6 +278,7 @@ public class PropertyCortroller {
 	 */
 	
 	@RequestMapping(value="sourceReport")
+	@RequiresPermissions("TRADE.PRSOURCE.REPORT")
     public String propertySourceReport(Model model) {
 		SessionUser user = uamSessionService.getSessionUser();
 		Org orgSrc = uamUserOrgService.getOrgById(user.getServiceDepId());
