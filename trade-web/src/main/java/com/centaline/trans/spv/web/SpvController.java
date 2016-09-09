@@ -494,7 +494,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskDirector");
-		return "task/spv/saveSpvCase";
+		return "spv/saveSpvCase";
 	}
 
 	/**
@@ -538,7 +538,7 @@ public class SpvController {
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("role", "RiskOfficer");
-		return "task/spv/saveSpvCase";
+		return "spv/saveSpvCase";
 	}
 	
 	/**
