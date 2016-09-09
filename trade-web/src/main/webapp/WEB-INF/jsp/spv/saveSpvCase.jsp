@@ -461,7 +461,7 @@
 							</div>		
 						</div>
 						<div class="form-row form-rowbot">
-						    <div class="form-group form-margin form-space-one" style="margin-left:20px;">
+						    <div class="form-group form-margin form-space-one" style="margin-left:28px;">
 								<label for="" class="rate">其中： 商业贷款</label> <input name="toSpv.amountMortCom"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountMortCom }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
@@ -473,7 +473,7 @@
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
-						    <div class="form-group form-margin form-space-one" style="margin-left:47px;">
+						    <div class="form-group form-margin form-space-one" style="margin-left:55px;">
 								<label for="" class="rate">公积金贷款</label> <input name="toSpv.amountMortPsf"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountMortPsf }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
