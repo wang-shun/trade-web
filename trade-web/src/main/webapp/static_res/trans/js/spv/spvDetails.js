@@ -618,6 +618,10 @@ $(document).ready(function(){
 				
 		toSpvAmount = toSpvAmount?toSpvAmount:0;
 
+		if($("input[name$='deAmount']").length == 0){
+			alert("请至少添加一条资金出款约定！");
+			return false;
+		}
 		var sumNum = 0;
 		$("input[name$='deAmount']").each(function(i,e){
 			 sumNum += e.val()?e.val():0;
