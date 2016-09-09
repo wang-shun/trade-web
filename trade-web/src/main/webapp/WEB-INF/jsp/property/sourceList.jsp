@@ -71,9 +71,12 @@
 							<!-- <input type="hidden" id="prStatus" name="search_prStatus"
 								value="2" /> -->
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 申请人查询 </label> <input
-									class="teamcode input_type" type="text" id="prApp"
-									name="searchPrApp" placeholder="" value="" />
+								<label class="control-label sign_left_small"> 申请人查询 </label> 
+								<!-- <input class="teamcode input_type" type="text" id="prApp"
+									name="searchPrApp" placeholder="" value="" /> -->
+								<input type="text" id="prApp" name="searchPrApp" class="teamcode input_type" 
+							           readonly="readonly" onclick="userSelect({startOrgId:'105DB2C289397D50E0532429030A3DE0',expandNodeId:'105DB2C289397D50E0532429030A3DE0',
+										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 成本归属 </label> <input
@@ -188,12 +191,16 @@
 	<!-- owner --> 
 	<script src="${ctx}/js/trunk/property/propertySourceList.js"></script> 
 	
+	
+	
 	<script id="template_sourceList" type="text/html">
 		{{each rows as item index}}
 			<tr>
 				<td>
                     <p class="big">
-					    {{item.PR_CODE}}
+					    <a href='../mobile/property/box/show?prCode={{item.PR_CODE}}' style="text-decoration: none;" target='_blank'>
+						    {{item.PR_CODE}}
+                        </a>
                     </p>
                     {{if item.IS_SUCCESS == '是'}}
 						<span class="yes_color">有效</span>
@@ -216,7 +223,7 @@
                     <span class="manager"><i class="sign_normal">处理</i><em>{{item.ORG_NAME}}</em></span>
                 </td>	
                 <td>
-                    <span class="manager"><a href="#">{{item.PR_COST_ORG_MGR}}</a></span>
+                    <span class="manager">{{item.PR_COST_ORG_MGR}}</a></span>
                     <span class="manager">{{item.PR_COST_ORG_NAME}}</span>
                 </td>
                 <td>

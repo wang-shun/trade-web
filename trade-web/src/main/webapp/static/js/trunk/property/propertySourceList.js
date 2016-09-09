@@ -44,6 +44,8 @@ $(document).ready(function() {
 	$('#sourceList table').addClass("table table_blue table-striped table-bordered table-hover");
 	
 	reloadGrid();
+	
+	$(this).hide();
 });
 
 function reloadGrid(){

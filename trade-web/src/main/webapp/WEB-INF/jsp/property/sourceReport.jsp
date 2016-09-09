@@ -47,9 +47,6 @@
 <link rel="stylesheet"
 	href="${ctx}/css/trans/css/propertyresearch/successList.css" />
 
-<script src="${ctx}/js/plugins/chartJs/echarts.js"
-	type="text/javascript"></script>
-
 </head>
 
 <body>
@@ -57,40 +54,40 @@
 		<div class="col-md-12">
 			<!--*********************** HTML_main*********************** -->
 			<div class="wrapper wrapper-content animated fadeInRight">
-				<div class="ibox-content border-bottom clearfix space_box">
-					<!-- 					<h4>已完成产调</h4> -->
+				<div class="ibox-content border-bottom clearfix space_box" id="reportblock">
+					<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> <input
+						type="hidden" id="queryId" name="queryId" value="querySourceList" /> <input type="hidden" id="ctx" value="${ctx}" /> <input type="hidden" id="prDistrictId" name="search_prDistrictId"
+						value="${prDistrictId}" /> <input type="hidden" id="prDep"
+						name="search_prDep" value="${prDep}" />
 					<h2 class="title">产调来源报表</h2>
 					<div class="row">
 						<div class="col-lg-4">
 							<div class="ibox float-e-margins no-records msGrid">
 								<div class="ibox-title">
-									<span class="label label-success pull-right">0</span>
+									<span class="label label-success pull-right" id="labelAll">0</span>
 									<h5>全部产调</h5>
 								</div>
-								<div class="ibox-content">
-									
+								<div class="ibox-content" style="width: 380px; height: 400px;" id="pieChartAll">
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-4">
 							<div class="ibox float-e-margins no-records msGrid">
 								<div class="ibox-title">
-									<span class="label label-success pull-right">0</span>
+									<span class="label label-success pull-right" id="labelS">0</span>
 									<h5>有效产调</h5>
 								</div>
-								<div class="ibox-content">
-									
+								<div class="ibox-content" style="width: 380px; height: 400px;" id="pieChartOne">
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-4">
 							<div class="ibox float-e-margins no-records msGrid">
 								<div class="ibox-title">
-									<span class="label label-success pull-right">0</span>
+									<span class="label label-success pull-right" id="labelUS">0</span>
 									<h5>无效产调</h5>
 								</div>
-								<div class="ibox-content">
-									
+								<div class="ibox-content" style="width: 380px; height: 400px;" id="pieChartZero">
 								</div>
 							</div>
 						</div>
@@ -99,4 +96,36 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div id="sourceReport" class="table_content"></div>
+		</div>
+	</div>
+
+	<content tag="local_script"> 
+	
+	<script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
+
+	<!-- js模板引擎 -->
+	<script src="${ctx}/static/js/template.js"></script>
+	<!-- 分页控件  -->
+	<script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<!-- 自定义扩展jQuery库 -->
+	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
+	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
+
+	<!-- datapicker -->
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+	<!-- 必须JS -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<!-- owner -->
+	<script src="${ctx}/js/trunk/property/propertySourceReport.js"></script>
+	
+	<script id="template_sourceReport" type="text/html">
+	</script>
+	    
+    </content>
+	
 </body>
