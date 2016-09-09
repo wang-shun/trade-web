@@ -268,5 +268,8 @@
   		SELECT DISTRICT_CODE, BUILD_END_YEAR, BUILD_SIZE, FLOOR, 
   			TOTAL_FLOOR FROM sctrans.vi_HM_HouseDelBase where HOUDEL_CODE=#{property_agent_id,jdbcType=VARCHAR}
   </select>
+  <select id="getPropertyDepInfoByuserDepIdEloan" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.OrgVO">
+  		select t.PARENT_ID as orgId,t.ORG_NAME as orgName,t.ID  as orgParentId from sctrans.SYS_ORG t where t.ID=#{depId,jdbcType=VARCHAR}
+  </select>
   
 </mapper>
