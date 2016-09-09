@@ -63,7 +63,7 @@
 					  loanAgent.CASE_CODE,
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
-					  loanAgent.EXECUTOR_ID AS EXECUTOR_ID_OLD,
+					  loanAgent.CREATOR_ID AS CREATE_ID_OLD,   --创建人
 					  --loanAgent.executor_team as 'PARENT_ORG_NAME_OLD',
 					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
@@ -127,7 +127,7 @@ SELECT
 					  loanAgent.CASE_CODE,
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
-					  loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
+					  loanAgent.CREATE_BY AS CREATE_ID_OLD,
 					  --loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
 					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
@@ -196,8 +196,8 @@ SELECT
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="LOAN_SRV_CODE_OLD" index="" checkbox="" display="产品名称" title="产品名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="LOAN_SRV_CODE" customDict="qqcdDictServCode" referencecol="LOAN_SRV_CODE_OLD"  display="产品名称" title="产品名称"/>
-				<column type="both" name="EXECUTOR_ID_OLD" index="" checkbox="" display="执行人" title="执行人" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="EXECUTOR_ID" customDict="getUserNameByUserId" referencecol="EXECUTOR_ID_OLD"  display="执行人" title="执行人"/>
+				<column type="both" name="CREATE_ID_OLD" index="" checkbox="" display="创建人" title="创建人" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CREATE_ID" customDict="getUserNameByUserId" referencecol="CREATE_ID_OLD"  display="创建人" title="创建人"/>
 				<!-- 
 				<column type="both" name="PARENT_ORG_NAME_OLD" index="" checkbox="" display="所属服务部" title="所属服务部" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="PARENT_ORG_NAME" customDict="getParentOrgNameByOrgId" referencecol="PARENT_ORG_NAME_OLD"  display="所属服务部" title="所属服务部"/>
@@ -220,7 +220,7 @@ SELECT
 				<column type="virtual" name="LEADING_PROCESS_NAME" referencecol="LEADING_PROCESS_ID"  customDict="getUserNameByUserId"  display="归属人" title="归属人"/>
 
 				<column type="both" name="ORG_ID" display="誉翠组ID" title="誉翠组ID"/>
-				<column type="virtual" name="ORG_NAME" customDict="getUserNameByUserId" referencecol="ORG_ID"  display="所属组别" title="所属组别"/>
+				<column type="virtual" name="ORG_NAME" customDict="getOrgNameByOrgId" referencecol="ORG_ID"  display="所属组别" title="所属组别"/>
 
 				<column type="both" name="GRP_NAME" display="所属分行" title="所属分行"/>
 				<column type="both" name="QJDS_NAME" display="区董" title="区董"/>
