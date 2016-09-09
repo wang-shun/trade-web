@@ -570,7 +570,7 @@ $(document).ready(function(){
         	return false;
         }
         if(amountMort.parent().find("i").length>0 && (amountMort.val() != null && amountMort.val() != '')){
-        	if(isNumber(amountMort.val())){
+        	if(!isNumber(amountMort.val())){
         		alert("请填写有效的贷款资金！");
         		return false;
         	}
@@ -580,7 +580,7 @@ $(document).ready(function(){
         	return false;
         }
         if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() != null && amountMortCom.val() != '')){
-        	if(isNumber(amountMortCom.val())){
+        	if(!isNumber(amountMortCom.val())){
         		alert("请填写有效的商业贷款！");
         		return false;
         	}
@@ -590,7 +590,7 @@ $(document).ready(function(){
         	return false;
         }
         if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() != null && amountMortPsf.val() != '')){
-        	if(isNumber(amountMortPsf.val())){
+        	if(!isNumber(amountMortPsf.val())){
         		alert("请填写有效的公积金贷款！");
         		return false;
         	}
