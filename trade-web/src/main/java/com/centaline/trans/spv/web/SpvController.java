@@ -576,15 +576,27 @@ public class SpvController {
 	}
 	
 	/**
-	 * 查询所有的产品分类
+	 * 查询分类下所有的产品
 	 */
-	@RequestMapping("queryPrdByCateCode")
+	@RequestMapping("queryProdByPrdcCode")
 	@ResponseBody
 	public List<Product> queryPrdByCateCode(String prdcCode) {
 
 		List<Product> prdList = productService.getProductListByProductCategoryCode(prdcCode);
 		
 		return prdList;
+	}
+	
+	/**
+	 * 查询产品所属分类
+	 */
+	@RequestMapping("queryPrdcCodeByProdCode")
+	@ResponseBody
+	public Product queryPrdcCodeByProdCode(String prodCode) {
+		
+		Product product = productService.getProductByCode(prodCode);
+		
+		return product;
 	}
 
 }

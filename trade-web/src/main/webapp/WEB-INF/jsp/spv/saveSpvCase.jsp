@@ -193,7 +193,7 @@
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[0].hasDele" id="BuyRadio1" value="1" ${spvBaseInfoVO.spvCustList[0].hasDele eq '1'?'checked="checked"':'' } > 是
-								</label> <label class="radio-inline"> <input type="radio" checked="checked"
+								</label> <label class="radio-inline"> <input type="radio"
 									name="spvCustList[0].hasDele" id="BuyRadio2" value="0" ${spvBaseInfoVO.spvCustList[0].hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
@@ -286,7 +286,7 @@
 								<label for="" class="lable-one">是否委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[1].hasDele" id="SellRadio1" value="1" ${spvBaseInfoVO.spvCustList[1].hasDele eq '1'?'checked="checked"':'' }> 是
-								</label> <label class="radio-inline"> <input type="radio" checked="checked"
+								</label> <label class="radio-inline"> <input type="radio"
 									name="spvCustList[1].hasDele" id="SellRadio2" value="0" ${spvBaseInfoVO.spvCustList[1].hasDele eq '0'?'checked="checked"':'' }> 否
 								</label>
 							</div>
@@ -419,23 +419,24 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label> 
-								<%-- <aist:dict id="toSpv.prdCode" name="toSpv.prdCode" clazz="form-control input-one"
-									display="select"  dictType="SPV_PRD"  
-									ligerui='none' defaultvalue="${spvBaseInfoVO.toSpv.prdCode }"></aist:dict>	 --%>
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
 									<input name="toSpv.prdCode"
-								    <%-- value="${spvBaseInfoVO.toSpv.prdCode }" --%>  type="text"
-									class="form-control input-two" value="光大四方资金监管" placeholder="">
+								    value="${spvBaseInfoVO.toSpv.prdCode }"  type="text"
+									class="form-control input-two" value="光大四方资金监管" placeholder=""> 
+									<%-- <select id="prd" class="form-control input-one"></select>
+									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select> --%>
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>
 						<div class="form-row form-rowbot">
-							<div class="form-group form-margin form-space-one left-extent">
+						    <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 下家付款方式</label>
 								<aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
 									display="select"  dictType="SPV_BUYER_PAYMENT"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.toSpv.buyerPayment }"></aist:dict>
 							</div>
+						</div>
+						<div class="form-row form-rowbot">	
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">自筹资金</label> <input name="toSpv.amountOwn"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountOwn }" pattern="0.00" maxFractionDigits="2"/>" type="text"
@@ -457,8 +458,7 @@
 							<div class="form-group form-margin form-space-one pledgeinfo">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"
 									class="form-control input-two" placeholder="">
-							</div>
-							
+							</div>		
 						</div>
 						<div class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one" style="margin-left:20px;">
@@ -471,7 +471,9 @@
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"
 									class="form-control input-two" placeholder="">
 							</div>
-						    <div class="form-group form-margin form-space-one">
+						</div>
+						<div class="form-row form-rowbot">
+						    <div class="form-group form-margin form-space-one" style="margin-left:47px;">
 								<label for="" class="rate">公积金贷款</label> <input name="toSpv.amountMortPsf"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountMortPsf }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
@@ -482,7 +484,6 @@
 									class="form-control input-two" placeholder="">
 						    </div>
 						</div>
-						<div class="form-row form-rowbot"></div>
 						<div class="title">资金监管账号信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -803,7 +804,12 @@
 		    });
 	       	$("#bank_0").change(function(){
 				getBranchBankList($("select[name='toSpvAccountList[0].bank']"),$("#bank_0").val());
-	    });
+	        });
+	       	
+	       	/* getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
+	       	$("#prd").change(function(){
+	       		getPrdDetail($("select[name='toSpv.prdCode']"),$("#prd option:selected").val());
+		    }); */
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",

@@ -20,11 +20,14 @@ $(document).ready(function(){
 				//全款
 				amountMort_.prop("disabled",true);
 				amountMort_.val('');
+				amountMort_.blur();
 				amountOwn_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",true);
 				amountMortCom_.val('');
+				amountMortCom_.blur();
 				amountMortPsf_.prop("disabled",true);
 				amountMortPsf_.val('');
+				amountMortPsf_.blur();
 				break;
 			case '2':
 				//纯商贷
@@ -34,6 +37,7 @@ $(document).ready(function(){
 				amountMortCom_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortPsf_.prop("disabled",true);
 				amountMortPsf_.val('');
+				amountMortPsf_.blur();
 				break;
 			case '3':
 				//组合贷
@@ -50,6 +54,7 @@ $(document).ready(function(){
 				amountMort_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				amountMortCom_.prop("disabled",true);
 				amountMortCom_.val('');
+				amountMortCom_.blur();
 				amountMortPsf_.prop("disabled",false);
 				amountMortPsf_.siblings("label").prepend("<i style='color:red;'>*</i> ");
 				break;
@@ -534,9 +539,9 @@ $(document).ready(function(){
         	return false;
         }
         
-        var toSpvPrdCode = $("input[name='toSpv.prdCode']").val();
+        var toSpvPrdCode = $("select[name='toSpv.prdCode'] option:selected").val();
         if(toSpvPrdCode == null || toSpvPrdCode == ''){
-        	alert("请填写监管产品！");
+        	alert("请选择监管产品！");
         	return false;
         }
 
@@ -554,17 +559,41 @@ $(document).ready(function(){
         	alert("请填写自筹资金！");
         	return false;
         }  
+        if(amountOwn.parent().find("i").length>0 && (amountOwn.val() != null && amountOwn.val() != '')){
+        	if(!isNumber(amountOwn.val())){
+        		alert("请填写有效的自筹资金！");
+        		return false;
+        	}
+        }
         if(amountMort.parent().find("i").length>0 && (amountMort.val() == null || amountMort.val() == '')){
         	alert("请填写贷款资金！");
         	return false;
+        }
+        if(amountMort.parent().find("i").length>0 && (amountMort.val() != null && amountMort.val() != '')){
+        	if(isNumber(amountMort.val())){
+        		alert("请填写有效的贷款资金！");
+        		return false;
+        	}
         }
         if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() == null || amountMortCom.val() == '')){
         	alert("请填写商业贷款！");
         	return false;
         }
+        if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() != null && amountMortCom.val() != '')){
+        	if(isNumber(amountMortCom.val())){
+        		alert("请填写有效的商业贷款！");
+        		return false;
+        	}
+        }
         if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() == null || amountMortPsf.val() == '')){
         	alert("请填写公积金贷款！");
         	return false;
+        }
+        if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() != null && amountMortPsf.val() != '')){
+        	if(isNumber(amountMortPsf.val())){
+        		alert("请填写有效的公积金贷款！");
+        		return false;
+        	}
         }
 
         if(amountMortV != (amountMortComV + amountMortPsfV)){
@@ -771,9 +800,24 @@ $(document).ready(function(){
 		return true;
 	}
 	
-	function getPrdCategory(selector,selectorBranch,prdCode){
+	function getPrdCategory(selector,selectorBranch,prodCode){	
+		var prodHtml = "<option value=''>请选择</option>";
+		var prdcCode = '';
+		$.ajax({
+		    url:ctx+"/spv/queryPrdcCodeByProdCode",
+		    method:"post",
+		    dataType:"json",
+			async:false,
+		    data:{prodCode:prodCode},
+		    success:function(data){
+		    	console.log(data);
+	    		if(data != null){
+	    			selector.val(data.prdcCode);
+	    			prdcCode = data.prdcCode;
+	    		}
+	    	}
+		});
 		
-		var prdHtml = "<option value=''>请选择</option>";
 	    $.ajax({
 	    	cache:true,
 	    	url:ctx+"/spv/queryPrdCategorys",
@@ -784,47 +828,44 @@ $(document).ready(function(){
 			success:function(data){
 				if(data != null){
 					for(var i = 0;i<data.length;i++){
-						if(data[i].prdcCode == prdCode){
-							var prdcCode = data[i].prdcCode;
-							prdHtml+="<option value='"+data[i].prdcCode+"' selected='selected' >"+data[i].prdcName+"</option>";
+						if(data[i].prdcCode == prdcCode){
+							prodHtml+="<option value='"+data[i].prdcCode+"' selected='selected'>"+data[i].prdcName+"</option>";
 						}else{
-							prdHtml+="<option value='"+data[i].prdcCode+"' >"+data[i].prdcName+"</option>";
-						}
-						
+							prodHtml+="<option value='"+data[i].prdcCode+"' >"+data[i].prdcName+"</option>";		
+						}		
 					}
 				}
 			}
 	     });
 	     selector.find('option').remove();
-		 selector.append($(prdHtml));
-		 getPrdDetail(selectorBranch,selector.val(),prdcCode);
-		 return bankHtml;
+		 selector.append($(prodHtml));
+		 
+		 getPrdDetail(selectorBranch,selector.val(),prodCode);
+		 return prodHtml;
 	}
 	
-	function getBranchBankList(selectorBranch,selector,prdcCode){
+	function getPrdDetail(selectorBranch,selector,prodCode){
 		selectorBranch.find('option').remove();
 		selectorBranch[0];
 		selectorBranch.append($("<option value=''>请选择</option>"));
 		$.ajax({
 			cache:true,
-		    url:ctx+"/spv/queryPrdByCateCode",
+		    url:ctx+"/spv/queryProdByPrdcCode",
 		    method:"post",
 		    dataType:"json",
 			async:false,
-		    data:{prdcCode:prdcCode},
-		    	success:function(data){
-		    		if(data != null){
-		    			for(var i = 0;i<data.length;i++){
-							var coLevelStr='('+data[i].coLevelStr+')';
-				
-							var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
-							if(data[i].finOrgCode==finOrgCode){
-								option.attr("selected",true);
-							}
-							selectorBranch.append(option);
-		    			}
-		    		}
-		    	}
+		    data:{prdcCode:selector},
+	    	success:function(data){
+	    		if(data != null){
+	    			for(var i = 0;i<data.length;i++){	
+						var option = $("<option value='"+data[i].prodCode+"'>"+data[i].prodName+"</option>");
+						if(data[i].prodCode==prodCode){
+							option.attr("selected",true);
+						}
+						selectorBranch.append(option);
+	    			}
+	    		}
+	    	}
 		 });
 		return true;
 	}
