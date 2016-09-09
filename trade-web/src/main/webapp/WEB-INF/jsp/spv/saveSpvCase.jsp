@@ -79,7 +79,7 @@
                                    <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseCode}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>产权地址</em><span class="span_two" id="content_propertyAddr">${propertyAddr}</span></p>
+                                   <p><em>产证地址</em><span class="span_two" id="content_propertyAddr">${propertyAddr}</span></p>
                                </div>
                            </div>
                            <div class="case_row">
@@ -339,7 +339,7 @@
 									class="date_icon">㎡</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 房屋地址</label> <input name="toSpvProperty.prAddr" type="text"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 产证地址</label> <input name="toSpvProperty.prAddr" type="text"
 									class="form-control input-five" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prAddr?spvBaseInfoVO.toSpvProperty.prAddr:propertyAddr }">
 							</div>
 						</div>
@@ -374,16 +374,10 @@
 									class="form-control input-one" placeholder=""><span
 									class="date_icon">万元</span>
 							</div>
-                     <!-- 	<div class="form-group form-margin form-space-one pledgeinfo">
+                            <div class="form-group form-margin form-space-one pledgeinfo">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
-									class="form-control input-one" placeholder="">
-							</div>	 -->	
-                            <div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">下家付款方式</label>
-								<aist:dict id="" name="" clazz="form-control input-one"
-									display="select"  dictType="SPV_BUYER_PAYMENT"  
-									ligerui='none' defaultvalue=""></aist:dict>
-							</div>
+									class="form-control input-two" placeholder="">
+							</div>	 	
 						</div>
 						<div class="form-row form-rowbot">
 
@@ -402,14 +396,13 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-						</div>
-						<!-- <div class="form-row form-rowbot">
-							
 							<div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
-									class="form-control input-three" placeholder="">
-							</div> -->
-						</div>
+							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
+								class="form-control input-two" placeholder="">
+						    </div> 
+						</div>	
+
+
 					</form>
 				</div>
 				<div class="ibox-content" id="spvtwo_info">
@@ -420,7 +413,7 @@
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input id="toSpvAmount" name="toSpv.amount"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
@@ -438,10 +431,20 @@
 						<div class="title">监管资金的支付</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 下家付款方式</label>
+								<aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
+									display="select"  dictType="SPV_BUYER_PAYMENT"  
+									ligerui='none' defaultvalue="${spvBaseInfoVO.toSpv.buyerPayment }"></aist:dict>
+							</div>
+							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">自筹资金</label> <input name="toSpv.amountOwn"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountOwn }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
+							</div>
+							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX"
+									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -451,18 +454,33 @@
 									class="form-control input-one" placeholder="">
 									<span class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one">
+							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"
+									class="form-control input-two" placeholder="">
+							</div>
+							
+						</div>
+						<div class="form-row form-rowbot">
+						    <div class="form-group form-margin form-space-one" style="margin-left:20px;">
 								<label for="" class="rate">其中： 商业贷款</label> <input name="toSpv.amountMortCom"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountMortCom }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one">
+							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"
+									class="form-control input-two" placeholder="">
+							</div>
+						    <div class="form-group form-margin form-space-one">
 								<label for="" class="rate">公积金贷款</label> <input name="toSpv.amountMortPsf"
 								    value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amountMortPsf }" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
+							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"
+									class="form-control input-two" placeholder="">
+						    </div>
 						</div>
 						<div class="form-row form-rowbot"></div>
 						<div class="title">资金监管账号信息</div>
@@ -470,7 +488,7 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[1].pkid" value="${spvBaseInfoVO.toSpvAccountList[1].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[1].accountType" value="SELLER" />
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方收款账号名称</label> <input name="toSpvAccountList[1].name"
+								<label for="" class="lable-one">卖方收款账号名称</label> <input name="toSpvAccountList[1].name"
 								 value="${spvBaseInfoVO.toSpvAccountList[1].name }"
 								 type="text" class="form-control input-one" placeholder="">
 							</div>
@@ -483,7 +501,7 @@
 						</div>
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one">
-							<label for="" class="lable-one"><i style="color:red;">*</i> 电话</label> <input name="toSpvAccountList[1].telephone"
+							<label for="" class="lable-one">电话</label> <input name="toSpvAccountList[1].telephone"
 							    value="${spvBaseInfoVO.toSpvAccountList[1].telephone }" type="text"
 								class="form-control input-one" placeholder="">
 						</div>
@@ -502,7 +520,7 @@
 									type="text" class="form-control input-one" placeholder="">
 							</div>
                             <div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input name="toSpvAccountList[0].account"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input name="toSpvAccountList[0].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].account }" type="text"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -524,14 +542,15 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
-								<label for="" class="lable-one">托管账户名称</label> <input name="toSpvAccountList[2].name"
-								    value="${spvBaseInfoVO.toSpvAccountList[2].name }"
-									type="text" class="form-control input-one" placeholder="">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 托管账户名称</label> 
+								<select name="toSpvAccountList[2].name" <%-- value="${spvBaseInfoVO.toSpvAccountList[2].name }" --%> class="form-control input-two">
+								<option value="1">上海中原物业顾问有限公司</option>
+								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
-								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[2].account"
-								    value="${spvBaseInfoVO.toSpvAccountList[2].account }"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account"
+								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -539,14 +558,28 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[3].pkid" value="${spvBaseInfoVO.toSpvAccountList[3].pkid }"/>
 								<input type="hidden" name="toSpvAccountList[3].accountType" value="FUND" />
-								<label for="" class="lable-one">资金方账户名称</label> <input name="toSpvAccountList[3].name"
-								    value="${spvBaseInfoVO.toSpvAccountList[3].name }"
-									type="text" class="form-control input-one" placeholder="">
+								<label for="" class="lable-one">资金方账户名称</label>
+								<select name="toSpvAccountList[3].name" value="${spvBaseInfoVO.toSpvAccountList[3].name }" class="form-control input-two">
+								<option value="1">搜易贷（北京）金融信息服务有限公司</option>
+								<option value="2">上海嘉定及时雨小额贷款股份有限公司</option>
+								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
 									class="form-control input-two" placeholder="">
+							</div>
+						</div>
+						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
+						    <div class="form-group form-margin form-space-one">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 资金监管协议编号</label> <input type="text" name="toSpv.spvConCode"
+								    value="${spvBaseInfoVO.toSpv.spvConCode }"
+									class="form-control input-two" placeholder="">
+							</div>
+							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 签约时间</label> 
+								<input name="toSpv.signTime" class="form-control input-one date-picker" 
+								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
 					</form>
@@ -712,12 +745,56 @@
 		<script>
 		$(document).ready(function(){
 			
-			if('${spvBaseInfoVO.toSpvProperty.signAmount}' != ''){				
-			   $("#signAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.signAmount*10000}'));
-			    }
-			if('${spvBaseInfoVO.toSpvProperty.leftAmount}' != ''){				
-				   $("#leftAmountDX").val(DX('${spvBaseInfoVO.toSpvProperty.leftAmount*10000}'));
-				}			
+			
+			/*签约环节需添加的内容：资金监管协议编号、签约时间
+	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
+			if($("#role").val() == 'RiskOfficer'){
+				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false);
+				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false);
+				$("#bank_1").prop("disabled",false);
+				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false);
+				$("#signDiv").show();
+			}
+			
+			$("select[name='toSpvAccountList[3].name']").change(function(){
+				var val = $(this).val();
+				switch(val){
+				case '1':
+					$("input[name='toSpvAccountList[3].account']").val("137441512010000275");
+					break;
+				case '2':
+					$("input[name='toSpvAccountList[3].account']").val("457263590104");
+					break;
+				}
+			});
+			
+			$("select[name='toSpvAccountList[3].name']").change();
+
+			$("input[name='toSpv.amountOwn']").blur(function(){
+				$("#amountOwnDX").val(DX($(this).val()*10000));
+			});
+			$("input[name='toSpv.amountMort']").blur(function(){
+				$("#amountMortDX").val(DX($(this).val()*10000));
+			});
+			$("input[name='toSpv.amountMortCom']").blur(function(){
+				$("#amountMortComDX").val(DX($(this).val()*10000));
+			});
+			$("input[name='toSpv.amountMortPsf']").blur(function(){
+				$("#amountMortPsfDX").val(DX($(this).val()*10000));
+			});
+			$("input[name='toSpvProperty.signAmount']").blur(function(){
+				$("#signAmountDX").val(DX($(this).val()*10000));
+			});
+			$("input[name='toSpvProperty.leftAmount']").blur(function(){
+				$("#leftAmountDX").val(DX($(this).val()*10000));
+			});			
+	 			
+			$("input[name='toSpv.amountOwn']").blur();
+			$("input[name='toSpv.amountMort']").blur();
+			$("input[name='toSpv.amountMortCom']").blur();
+			$("input[name='toSpv.amountMortPsf']").blur();
+			$("input[name='toSpvProperty.signAmount']").blur();
+			$("input[name='toSpvProperty.leftAmount']").blur();
 			
 	       	getParentBank($("#bank_1"),$("select[name='toSpvAccountList[1].bank']"),'${spvBaseInfoVO.toSpvAccountList[1].bank }');
 	       	getParentBank($("#bank_0"),$("select[name='toSpvAccountList[0].bank']"),'${spvBaseInfoVO.toSpvAccountList[0].bank }');
