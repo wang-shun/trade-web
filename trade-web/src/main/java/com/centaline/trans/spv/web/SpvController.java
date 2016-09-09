@@ -33,12 +33,11 @@ import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
+import com.centaline.trans.product.entity.ProductCategory;
+import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvAccount;
-import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
-import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -67,6 +66,8 @@ public class SpvController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	MessageService messageService;
+	@Autowired
+	ProductCategoryService productCategoryService;
 	
 	//列表页面
 	@RequestMapping("spvList")
@@ -444,7 +445,6 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
-		request.setAttribute("role", "RiskOfficer");
 		
 		return "spv/saveSpvCase";
 	}
@@ -533,7 +533,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
-		request.setAttribute("role", "RiskOfficer2");
+		request.setAttribute("role", "RiskOfficer");
 		return "task/spv/saveSpvCase";
 	}
 	
@@ -556,6 +556,19 @@ public class SpvController {
 		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
 		return AjaxResponse.success();
+	}
+	
+	
+	/**
+	 * 
+	 */
+	@RequestMapping("queryPrdCategorys")
+	@ResponseBody
+	public List<ProductCategory> queryPrdCategorys() {
+
+		List<ProductCategory> prdList = productCategoryService.getAllProductCategoryList();
+		
+		return prdList;
 	}
 
 }
