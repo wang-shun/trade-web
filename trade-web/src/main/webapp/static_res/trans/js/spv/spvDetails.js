@@ -277,6 +277,53 @@ $(document).ready(function(){
 			alert("请选择关联案件");
 			return false;	
 		}
+		
+		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
+		if(signAmount != null && signAmount != ''){
+			if(!isNumber(signAmount)){
+				alert("请填写有效的网签金额！");
+				return false;
+			}
+		}	
+		var toSpvAmount = $("input[name='toSpv.amount']").val();
+        if(toSpvAmount != null && toSpvAmount != ''){
+        	if(!isNumber(toSpvAmount)){
+        		alert("请填写有效的监管总金额！");
+        		return false;
+        	}
+        }
+        if(amountOwn.val() != null && amountOwn.val() != ''){
+        	if(!isNumber(amountOwn.val())){
+        		alert("请填写有效的自筹资金！");
+        		return false;
+        	}
+        }
+        if(amountMort.val() != null && amountMort.val() != ''){
+        	if(!isNumber(amountMort.val())){
+        		alert("请填写有效的贷款资金！");
+        		return false;
+        	}
+        }
+        if(amountMortCom.val() != null && amountMortCom.val() != ''){
+        	if(!isNumber(amountMortCom.val())){
+        		alert("请填写有效的商业贷款！");
+        		return false;
+        	}
+        }
+        if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
+        	if(!isNumber(amountMortPsf.val())){
+        		alert("请填写有效的公积金贷款！");
+        		return false;
+        	}
+        }
+        $("input[name$='deAmount']").each(function(i,e){
+        	if($(e).val() != null && $(e).val() != ''){
+        		if(!isNumber($(e).val())){
+   				 alert("请填写有效的监管资金金额！");
+   				 return fasle;
+   			 }
+        	} 
+		});
 /*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
         	alert("请填写监管总金额");
@@ -678,7 +725,11 @@ $(document).ready(function(){
 		}
 		var sumNum = 0;
 		$("input[name$='deAmount']").each(function(i,e){
-			 sumNum += e.val()?parseFloat(e.val()):0;
+			 if(!isNumber($(e).val())){
+				 alert("请填写有效的监管资金金额！");
+				 return fasle;
+			 }
+			 sumNum += $(e).val()?parseFloat($(e).val()):0;
 		});
 		if(sumNum != toSpvAmount){
 			alert("监管总金额需等于出款约定金额总和！");
@@ -946,7 +997,7 @@ $(document).ready(function(){
 	
 	//金额验证(两位小数)
 	function isNumber(num){
-		var reg=/^[1-9]{1}\d*(\.\d{1,2})?$/;
+		var reg=/^[1-9]{1}\d*|0(\.\d{1,2})?$/;
 		if(!reg.test(num)){
 			return false;
 		}

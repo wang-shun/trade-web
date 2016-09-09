@@ -375,7 +375,7 @@
 									class="date_icon">万元</span>
 							</div>
                             <div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>	 	
 						</div>
@@ -397,7 +397,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one pledgeinfo">
-							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"
+							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  disabled="disabled"
 								class="form-control input-two" placeholder="">
 						    </div> 
 						</div>	
@@ -417,6 +417,10 @@
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
+							</div>
+							<div class="form-group form-margin form-space-one pledgeinfo">
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" disabled="disabled"
+									class="form-control input-two" placeholder="">
 							</div>
 							<%-- <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
@@ -444,7 +448,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -456,7 +460,7 @@
 									<span class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>		
 						</div>
@@ -468,7 +472,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -480,7 +484,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 						    </div>
 						</div>
@@ -771,6 +775,9 @@
 			
 			$("select[name='toSpvAccountList[3].name']").change();
 
+			$("input[name='toSpv.amount']").blur(function(){
+				$("#amountDX").val(DX($(this).val()*10000));
+			});
 			$("input[name='toSpv.amountOwn']").blur(function(){
 				$("#amountOwnDX").val(DX($(this).val()*10000));
 			});
@@ -790,6 +797,7 @@
 				$("#leftAmountDX").val(DX($(this).val()*10000));
 			});			
 	 			
+			$("input[name='toSpv.amount']").blur();
 			$("input[name='toSpv.amountOwn']").blur();
 			$("input[name='toSpv.amountMort']").blur();
 			$("input[name='toSpv.amountMortCom']").blur();
