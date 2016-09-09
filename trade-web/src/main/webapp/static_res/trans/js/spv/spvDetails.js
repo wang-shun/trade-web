@@ -573,7 +573,7 @@ $(document).ready(function(){
 			}
 		}
 		
-		var signAmountV = signAmount?parseFloat(signAmount):0;
+		var signAmountV = signAmount?Number(signAmount):0;
 		
         var toSpvAmount = $("input[name='toSpv.amount']").val();
         if(toSpvAmount == null || toSpvAmount == ''){
@@ -587,7 +587,7 @@ $(document).ready(function(){
         	}
         }
         
-		var toSpvAmountV = toSpvAmount?parseFloat(toSpvAmount):0;
+		var toSpvAmountV = toSpvAmount?Number(toSpvAmount):0;
         
         if(toSpvAmountV > signAmountV){
         	alert("监管总金额需小于等于网签金额！");
@@ -646,17 +646,17 @@ $(document).ready(function(){
         	}
         }
         
-        var amountOwnV = amountOwn.val()?parseFloat(amountOwn.val()):0;
-        var amountMortV = amountMort.val()?parseFloat(amountMort.val()):0;
-        var amountMortComV = amountMortCom.val()?parseFloat(amountMortCom.val()):0;
-        var amountMortPsfV = amountMortPsf.val()?parseFloat(amountMortPsf.val()):0; 
+        var amountOwnV = amountOwn.val()?Number(amountOwn.val()):0;
+        var amountMortV = amountMort.val()?Number(amountMort.val()):0;
+        var amountMortComV = amountMortCom.val()?Number(amountMortCom.val()):0;
+        var amountMortPsfV = amountMortPsf.val()?Number(amountMortPsf.val()):0; 
 
-        if(amountMortV != (amountMortComV + amountMortPsfV)){
+        if(amountMortV != accAdd(amountMortComV,amountMortPsfV)){
         	alert("贷款资金需等于商业贷款与公积金贷款之和！");
         	return false;
         }
         
-        if(toSpvAmountV != (amountOwnV + amountMortV)){
+        if(toSpvAmountV != accAdd(amountOwnV,amountMortV)){
         	alert("监管总金额需等于自筹资金与贷款资金之和！");
         	return false;
         }
@@ -734,7 +734,7 @@ $(document).ready(function(){
 				 alert("请填写有效的监管资金金额！");
 				 return false;
 			 }
-			 sumNum += $(e).val()?parseFloat($(e).val()):0;
+			 sumNum = accAdd(sumNum,$(e).val()?Number($(e).val()):0);
 		});
 		if(sumNum != toSpvAmount){
 			alert("监管总金额需等于出款约定金额总和！");
@@ -1018,3 +1018,67 @@ $(document).ready(function(){
 		return true;
 	}
 
+/***************************************************************************************************************************/
+//除法函数，用来得到精确的除法结果
+//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+//调用：accDiv(arg1,arg2)
+//返回值：arg1除以arg2的精确结果
+function accDiv(arg1,arg2){
+    var t1=0,t2=0,r1,r2;
+    try{t1=arg1.toString().split(".")[1].length}catch(e){}
+    try{t2=arg2.toString().split(".")[1].length}catch(e){}
+    with(Math){
+        r1=Number(arg1.toString().replace(".",""));
+        r2=Number(arg2.toString().replace(".",""));
+        return (r1/r2)*pow(10,t2-t1);
+    }
+}
+//给Number类型增加一个div方法，调用起来更加方便。
+Number.prototype.div = function (arg){
+    return accDiv(this, arg);
+};
+//乘法函数，用来得到精确的乘法结果
+//说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+//调用：accMul(arg1,arg2)
+//返回值：arg1乘以arg2的精确结果
+function accMul(arg1,arg2)
+{
+    var m=0,s1=arg1.toString(),s2=arg2.toString();
+    try{m+=s1.split(".")[1].length}catch(e){}
+    try{m+=s2.split(".")[1].length}catch(e){}
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+}
+//给Number类型增加一个mul方法，调用起来更加方便。
+Number.prototype.mul = function (arg){
+    return accMul(arg, this);
+};
+//加法函数，用来得到精确的加法结果
+//说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+//调用：accAdd(arg1,arg2)
+//返回值：arg1加上arg2的精确结果
+function accAdd(arg1,arg2){
+    var r1,r2,m;
+    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+    m=Math.pow(10,Math.max(r1,r2));
+    return (arg1*m+arg2*m)/m;
+}
+//给Number类型增加一个add方法，调用起来更加方便。
+Number.prototype.add = function (arg){
+    return accAdd(arg,this);
+}
+//减法函数
+function accSub(arg1,arg2){
+     var r1,r2,m,n;
+     try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+     try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+     m=Math.pow(10,Math.max(r1,r2));
+     //last modify by deeka
+     //动态控制精度长度
+     n=(r1>=r2)?r1:r2;
+     return ((arg2*m-arg1*m)/m).toFixed(n);
+}
+///给number类增加一个sub方法，调用起来更加方便
+Number.prototype.sub = function (arg){
+    return accSub(arg,this);
+}
