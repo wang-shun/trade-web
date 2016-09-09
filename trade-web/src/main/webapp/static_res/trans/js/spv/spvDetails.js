@@ -510,7 +510,6 @@ $(document).ready(function(){
 		}
 				
 		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
-		var signAmountV = signAmount?parseFloat(signAmount):0;
 		if(signAmount == null || signAmount == ''){
 			alert("请填写网签金额！");
 			return false;
@@ -522,8 +521,9 @@ $(document).ready(function(){
 			}
 		}
 		
+		var signAmountV = signAmount?parseFloat(signAmount):0;
+		
         var toSpvAmount = $("input[name='toSpv.amount']").val();
-		var toSpvAmountV = toSpvAmount?parseFloat(toSpvAmount):0;
         if(toSpvAmount == null || toSpvAmount == ''){
         	alert("请填写监管总金额！");
         	return false;
@@ -534,6 +534,9 @@ $(document).ready(function(){
         		return false;
         	}
         }
+        
+		var toSpvAmountV = toSpvAmount?parseFloat(toSpvAmount):0;
+        
         if(toSpvAmountV > signAmountV){
         	alert("监管总金额需小于等于网签金额！");
         	return false;
@@ -548,12 +551,7 @@ $(document).ready(function(){
         var amountOwn = $("input[name='toSpv.amountOwn']");
         var amountMort = $("input[name='toSpv.amountMort']");
         var amountMortCom = $("input[name='toSpv.amountMortCom']");
-        var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
-        
-        var amountOwnV = amountOwn.val()?parseFloat(amountOwn.val()):0;
-        var amountMortV = amountMort.val()?parseFloat(amountMort.val()):0;
-        var amountMortComV = amountMortCom.val()?parseFloat(amountMortCom.val()):0;
-        var amountMortPsfV = amountMortPsf.val()?parseFloat(amountMortPsf.val()):0;  
+        var amountMortPsf = $("input[name='toSpv.amountMortPsf']"); 
 
         if(amountOwn.parent().find("i").length>0 && (amountOwn.val() == null || amountOwn.val() == '')){
         	alert("请填写自筹资金！");
@@ -595,6 +593,11 @@ $(document).ready(function(){
         		return false;
         	}
         }
+        
+        var amountOwnV = amountOwn.val()?parseFloat(amountOwn.val()):0;
+        var amountMortV = amountMort.val()?parseFloat(amountMort.val()):0;
+        var amountMortComV = amountMortCom.val()?parseFloat(amountMortCom.val()):0;
+        var amountMortPsfV = amountMortPsf.val()?parseFloat(amountMortPsf.val()):0; 
 
         if(amountMortV != (amountMortComV + amountMortPsfV)){
         	alert("贷款资金需等于商业贷款与公积金贷款之和！");
