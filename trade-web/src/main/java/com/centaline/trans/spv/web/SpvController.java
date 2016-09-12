@@ -450,7 +450,7 @@ public class SpvController {
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApply");
-		if(spvBaseInfoVO.getToSpv().getCaseCode()!=null){
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
 		return "spv/saveSpvCase";
