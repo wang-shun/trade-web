@@ -731,12 +731,33 @@ $(document).ready(function(){
 		    }
 		}
 
+			
+			
+		
 		if($("input[name$='deAmount']").length == 0){
 			alert("请至少添加一条资金出款约定！");
 			return false;
 		}
+		var deCondCode = true;
+		$("select[name$='deCondCode']").each(function(i,e){ 	
+			if($(e).val()==""){
+				deCondCode = false;
+				 alert("请选择划转条件！");
+				 return false;//此处代码仅表示
+			}
+		  })
+		  if(!deCondCode) return false;
+		   var payeeAccountType = true;
+			$("select[name$='payeeAccountType']").each(function(i,e){
+			if($(e).val()==""){
+				payeeAccountType = false;
+				 alert("请选择账号！");
+				 return false;//此处代码仅表示
+			}
+		})
+		if(!payeeAccountType) return false;
 		var sumNum = 0;
-		var flag = true;
+		var flag = true
 		$("input[name$='deAmount']").each(function(i,e){
 			 if(!isNumber($(e).val())){
 				 flag = false;
@@ -745,11 +766,14 @@ $(document).ready(function(){
 			 }
 			 sumNum = accAdd(sumNum,$(e).val()?Number($(e).val()):0);
 		});
-		if(!flag) return false;
+
 		if(sumNum != toSpvAmount){
 			alert("监管总金额需等于出款约定金额总和！");
 			return false;
 		}
+		  if(!flag) return false;
+
+
 
 		 return true;
 	}
