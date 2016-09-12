@@ -198,7 +198,7 @@
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[0].hasDele" id="BuyRadio1" value="1" ${spvBaseInfoVO.spvCustList[0].hasDele eq '1'?'checked="checked"':'' } > 是
 								</label> <label class="radio-inline"> <input type="radio"
-									name="spvCustList[0].hasDele" id="BuyRadio2" value="0" ${spvBaseInfoVO.spvCustList[0].hasDele eq '0'?'checked="checked"':'' }> 否
+									name="spvCustList[0].hasDele" id="BuyRadio2" value="0" ${spvBaseInfoVO.spvCustList[0].hasDele ne '1'?'checked="checked"':'' }> 否
 								</label>
 							</div>
 
@@ -291,7 +291,7 @@
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[1].hasDele" id="SellRadio1" value="1" ${spvBaseInfoVO.spvCustList[1].hasDele eq '1'?'checked="checked"':'' }> 是
 								</label> <label class="radio-inline"> <input type="radio"
-									name="spvCustList[1].hasDele" id="SellRadio2" value="0" ${spvBaseInfoVO.spvCustList[1].hasDele eq '0'?'checked="checked"':'' }> 否
+									name="spvCustList[1].hasDele" id="SellRadio2" value="0" ${spvBaseInfoVO.spvCustList[1].hasDele ne '1'?'checked="checked"':'' }> 否
 								</label>
 							</div>
 						</div>
@@ -400,7 +400,7 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one pledgeinfo">
+							<div class="form-group form-margin form-space-one">
 							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  disabled="disabled"
 								class="form-control input-two" placeholder="">
 						    </div> 
@@ -422,18 +422,18 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one pledgeinfo">
+							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
-							<%-- <div class="form-group form-margin form-space-one left-extent">
+							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
-									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
+									<%-- <select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
 									<option value="1">光大四方资金监管</option>
-									</select>
+									</select> --%>
 									<select id="prd" class="form-control input-one"></select>
 									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select>
-							</div> --%>
+							</div>
 						</div>
 						<div class="title">监管资金的支付</div>
 						<div class="form-row form-rowbot">
@@ -451,7 +451,7 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one pledgeinfo">
+							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -463,7 +463,7 @@
 									class="form-control input-one" placeholder="">
 									<span class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one pledgeinfo">
+							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>		
@@ -475,7 +475,7 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one pledgeinfo">
+							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -487,7 +487,7 @@
 									class="form-control input-one" placeholder=""> <span
 									class="date_icon">万元</span>
 							</div>
-							<div class="form-group form-margin form-space-one pledgeinfo">
+							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 						    </div>
@@ -753,8 +753,7 @@
 		</script>
 		<script>
 		$(document).ready(function(){
-			
-			
+					
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
@@ -818,10 +817,10 @@
 				getBranchBankList($("select[name='toSpvAccountList[0].bank']"),$("#bank_0").val());
 	        });
 	       	
-	       	/* getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
+	       	getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
 	       	$("#prd").change(function(){
 	       		getPrdDetail($("select[name='toSpv.prdCode']"),$("#prd option:selected").val());
-		    }); */
+		    }); 
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",

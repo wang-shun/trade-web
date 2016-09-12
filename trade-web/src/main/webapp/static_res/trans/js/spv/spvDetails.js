@@ -717,7 +717,7 @@ $(document).ready(function(){
 		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
 		//var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
 		if(spvAccountName == null || spvAccountName == ''){
-			alert("请填写托管账户名称！");
+			alert("请选择托管账户名称！");
 			return false;
 		}
 		
