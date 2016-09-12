@@ -210,5 +210,11 @@ public interface ToSpvService {
 	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode);
 
 	void setAttribute(ServletRequest request, String caseCode);
+	/**
+	 * 更新监管合约状态
+	 * @param record
+	 * @return
+	 */
+	int updateByPrimaryKey(ToSpv record);
 
 }

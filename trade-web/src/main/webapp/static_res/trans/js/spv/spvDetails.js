@@ -250,10 +250,13 @@ $(document).ready(function(){
        });
        
        //风控总监审批驳回
-       $("#riskDirectorApproveN").click(function(){
-    	   var pkid=$("#pkid").val();
-    	   riskAjaxRequest(false,pkid,ctx+'/spv/spvApprove/deal');
-
+       $("#riskDirectorApproveN").click(function(){    	 
+    	   var passOrRefuseReason = $("#passOrRefuseReason").val();
+    	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
+    		   alert("请在备注栏填写驳回原因！");
+    		   return;
+    	   }    	   
+    	   riskAjaxRequest(false,ctx+'/spv/spvApprove/deal');
        });
        
        $("#RiskOfficerSign").click(function(){
