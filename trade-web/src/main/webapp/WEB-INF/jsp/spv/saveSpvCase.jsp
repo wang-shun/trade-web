@@ -653,6 +653,14 @@
 								  </c:if>
 								</tbody>					
 							</table>
+							
+							<div class="table-box">
+								<label style="width: 16%;">备注</label>
+								<label>
+									<textarea rows="3"  id="passOrRefuseReason"	name="passOrRefuseReason"></textarea>
+								</label>
+							</div>
+							
 							<div class="form-btn">
 							<input type="hidden" id="handle" value="${handle }">
 							<c:if test="${handle eq 'SpvApprove' }">
