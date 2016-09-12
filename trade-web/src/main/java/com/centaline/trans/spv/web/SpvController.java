@@ -495,6 +495,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApprove");
+		request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		return "spv/saveSpvCase";
 	}
 
@@ -514,7 +515,10 @@ public class SpvController {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
-
+		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		spv.setStatus("0");
+		toSpvService.updateByPrimaryKey(spv);
+		
 		return AjaxResponse.success();
 	}
 	

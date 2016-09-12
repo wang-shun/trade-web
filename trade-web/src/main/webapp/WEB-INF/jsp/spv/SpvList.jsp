@@ -193,7 +193,7 @@
                       {{else}}
 						<i class="sign_normal">完</i>
                       {{/if}}
-					       {{item.releaseTime}}
+					       {{item.closeTime}}
 					</p>
                                         </td>
                                         <td class="center">

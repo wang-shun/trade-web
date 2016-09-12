@@ -898,4 +898,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		return toSpvDeDetailMapper.selectByDeId(deId);
 	}
 
+	@Override
+	public int updateByPrimaryKey(ToSpv record) {
+		return toSpvMapper.updateByPrimaryKey(record);
+	}
+
 }

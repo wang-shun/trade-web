@@ -17,6 +17,10 @@
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" />
 <link rel="stylesheet" href="${ctx}/static/css/style.css" />
 
+<!-- Data range select -->
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
 <!-- Data Tables -->
 <link rel="stylesheet"
 	href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
@@ -55,11 +59,12 @@
 			<!--*********************** HTML_main*********************** -->
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="ibox-content border-bottom clearfix space_box" id="reportblock">
-					<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> <input
-						type="hidden" id="queryId" name="queryId" value="querySourceList" /> <input type="hidden" id="ctx" value="${ctx}" /> <input type="hidden" id="prDistrictId" name="search_prDistrictId"
-						value="${prDistrictId}" /> <input type="hidden" id="prDep"
-						name="search_prDep" value="${prDep}" />
-					<h2 class="title">产调来源报表</h2>
+					<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> 
+					<input type="hidden" id="queryId" name="queryId" value="querySourceList" /> 
+					<input type="hidden" id="ctx" value="${ctx}" /> 
+					<input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}" /> 
+					<input type="hidden" id="prDep" name="search_prDep" value="${prDep}" />
+					<h2 class="title" id="reportTitle">产调来源报表</h2>
 					<div class="row">
 						<div class="col-lg-4">
 							<div class="ibox float-e-margins no-records msGrid">
@@ -87,9 +92,34 @@
 									<span class="label label-success pull-right" id="labelUS">0</span>
 									<h5>无效产调</h5>
 								</div>
-								<div class="ibox-content" style="width: 380px; height: 400px;" id="pieChartZero">
+								<div class="ibox-content" style="width: 380px; height: 400px;"
+									id="pieChartZero"></div>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="line">
+								<div class="form_content">
+									<select name="searchTimeType" id="timeType"
+										class="form-control mend_select sign_left_small"
+										style="width: 105px; margin-right: 0px;">
+										<option value="0" selected="selected">申请时间</option>
+										<option value="1">受理时间</option>
+										<option value="2">完成时间</option>
+									</select>
 								</div>
 							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="line">
+								<div class="add_btn" style="margin-left: 0px;">
+									<button id="searchBtn" type="button" class="btn btn-success">
+										<i class="icon iconfont"></i> 查询
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<div id="datarange" class="ionr"></div>
 						</div>
 					</div>
 				</div>
@@ -117,6 +147,11 @@
 
 	<!-- datapicker -->
 	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	
+	<!-- 日期拖拽 -->
+	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>
+	<!-- <script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script> -->
+	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>
 
 	<!-- 必须JS -->
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
