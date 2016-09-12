@@ -170,8 +170,12 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
-				     alert("数据保存成功！");
-				     window.location.href = ctx+"/spv/spvList";
+				     if($("#handle").val() == 'SpvApply'){    	 
+				    	 window.location.href = ctx+"/task/myTaskList";
+				     }else{
+				    	 alert("数据保存成功！");
+				    	 window.location.href = ctx+"/spv/spvList";
+				     }
 					 $.unblockUI();
 				},		
 			error : function(errors) {
@@ -184,6 +188,9 @@ $(document).ready(function(){
        $("#submitBtn").click(function(){
     	 //保存时必须选择关联案件，监管总金额，监管机构
      	  if(!checkFormSubmit()){
+     		  return;
+     	  }
+     	  if(!confirm("确定提交并开启流程吗！")){
      		  return;
      	  }
       	  var totalArr = [];
@@ -216,10 +223,12 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
-				     if($("#handle").val() != 'SpvApply'){
+				     if($("#handle").val() == 'SpvApply'){    	 
+				    	 window.location.href = ctx+"/task/myTaskList";
+				     }else{
 				    	 alert("流程开启成功！");
+				    	 window.location.href = ctx+"/spv/spvList";
 				     }
-				     window.location.href = ctx+"/spv/spvList";
 					 $.unblockUI();
 				},		
 			error : function(errors) {
@@ -232,22 +241,23 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,ctx+'/spv/spvApply/deal');	
+    	   riskAjaxRequest(null,'spvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
-    	   riskAjaxRequest(true,ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(true,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        //风控总监审批驳回
        $("#riskDirectorApproveN").click(function(){
     	   var pkid=$("#pkid").val();
     	   riskAjaxRequest(false,pkid,ctx+'/spv/spvApprove/deal');
+
        });
        
        $("#RiskOfficerSign").click(function(){
-    	   riskAjaxRequest(null,ctx+'/spv/spvSign/deal');
+    	   riskAjaxRequest(null,'spvSign',ctx+'/spv/spvSign/deal');
        });
 
        $('#chat-discussion').hide();
@@ -745,11 +755,12 @@ $(document).ready(function(){
 	}
 	
 	//风控总监审批公共方法   
-    function riskAjaxRequest(SpvApplyApprove,url){
+    function riskAjaxRequest(SpvApplyApprove,handle,url){
     	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),source:$("#source").val()};
     	    if(SpvApplyApprove != null){
     	    	data.SpvApplyApprove = SpvApplyApprove;
     	    }
+
 			$.ajax({
 				url:url,
 				method:"post",
@@ -772,13 +783,7 @@ $(document).ready(function(){
 						/*if(data.message){
 							alert(data.message);
 						}*/
-						 if(window.opener)
-					     {
-							 window.close();
-							 window.opener.callback();
-					     } else {
-					    	 window.location.href = ctx+"/task/myTaskList";
-					     }
+					     window.location.href = ctx+"/task/myTaskList";
 						 $.unblockUI();
 					},
 					
@@ -793,6 +798,8 @@ $(document).ready(function(){
     function readOnlyRiskForm(){
     	$("input").attr("readOnly",true);
     	$(":radio").attr("disabled",true);
+    	$("input[name='spvCustList[0].idValiDate']").attr("disabled",true);
+    	$("input[name='spvCustList[1].idValiDate']").attr("disabled",true);
     	$("select").attr("disabled",true);
     }
     

@@ -632,7 +632,7 @@
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
-										<c:if test="${empty handle }">
+										<c:if test="${empty handle  or handle eq 'SpvApply'}">
 										<a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 										</c:if>
@@ -646,7 +646,7 @@
 										<td></td>
 										<td class="text-left"></td>
 										<td align="center">
-										<c:if test="${empty handle }">
+										<c:if test="${empty handle or handle eq 'SpvApply'}">
 										    <a href="javascript:void(0)" onClick="javascript:getAtr(this);">添加</a>
 										</c:if>    
 										</td>	
@@ -655,7 +655,14 @@
 								</tbody>					
 							</table>
 							<div class="form-btn">
-							<input type="hidden" id="handle" value="${handle }">
+							<input type="hidden" id="handle" value="${handle }">												
+							<c:if test="${handle eq 'SpvApply' }">
+							    <div>
+									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
+									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
+								</div>
+							</c:if>
+							
 							<c:if test="${handle eq 'SpvApprove' }">
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
@@ -671,12 +678,12 @@
 								</div>
 							</c:if>
 							
-							<c:if test="${handle ne 'SpvApprove' and handle ne 'SpvSign' }">
+							<c:if test="${handle ne 'SpvApply' and handle ne 'SpvApprove' and handle ne 'SpvSign' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
 									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
 								</div>
-							</c:if>		
+							</c:if>			
 							</div>
 						</div>
 					</form>
@@ -762,9 +769,11 @@
 			if($("#handle").val() == 'SpvSign'){
 				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false);
 				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false);
+				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false);
 				$("#bank_1").prop("disabled",false);
 				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false);
 				$("#signDiv").show();
+				$("#signDiv").find("input").prop("readOnly",false);
 			}
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){
