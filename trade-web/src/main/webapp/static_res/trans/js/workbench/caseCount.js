@@ -10,7 +10,7 @@ function queryBizwarnCaseCount(){
 			success: function(data) {				
 				
 				//待分配的案件
-				if(data.caseDistributeCount!=undefined && data.caseDistributeCount>=0){
+				/*if(data.caseDistributeCount!=undefined && data.caseDistributeCount>=0){
 					//$('.light_info').prepend($("#caseDistributeCount").parents("li"));
 					$("#caseDistributeCount").html(data.caseDistributeCount).parent('p').siblings("i").addClass('martop20');
 					$("#caseDistributeCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
@@ -23,7 +23,7 @@ function queryBizwarnCaseCount(){
 					$("#caseDistributeCount").parents("li").children().wrapAll(function() {
 						  return '<a href="'+ctx+'/case/caseDistribute" target="_blank"></a>';
 					});
-				}
+				}*/
 				
 				//无主任务
 				if(data.unLocatedTaskCount!=undefined && data.unLocatedTaskCount>=0){
