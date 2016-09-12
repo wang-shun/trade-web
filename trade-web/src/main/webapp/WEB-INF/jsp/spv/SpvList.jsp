@@ -254,6 +254,10 @@
 
 						//删除
 						function deleteSpv(pkid){
+							var deleteItem= confirm("确定要删除这条数据吗？")
+							if(!deleteItem){
+							return
+							}
 							$.ajax({
 							 url:ctx+"/spv/deleteSpv",
 							 method:"post",
