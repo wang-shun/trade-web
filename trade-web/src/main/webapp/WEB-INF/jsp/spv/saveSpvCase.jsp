@@ -955,7 +955,8 @@
 		  for (var i=0; i < num.length; i++)  
 		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
 		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-		};  
+		};
+		
 		
 		var sum = parseInt($("#toSpvDeDetailListSize").val()); //定义sum为全局变量
 		function getAtr(i) {
