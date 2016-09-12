@@ -256,7 +256,7 @@ $(document).ready(function(){
     		   alert("请在备注栏填写驳回原因！");
     		   return;
     	   }    	   
-    	   riskAjaxRequest(false,ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(false,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        $("#RiskOfficerSign").click(function(){
