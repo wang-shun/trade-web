@@ -250,7 +250,11 @@ $(document).ready(function(){
        });
        
        //风控总监审批驳回
-       $("#riskDirectorApproveN").click(function(){    	 
+       $("#riskDirectorApproveN").click(function(){  
+    	   
+    	   if(!confirm("是否确定驳回！")){
+      		  return;
+      	  }
     	   var passOrRefuseReason = $("#passOrRefuseReason").val();
     	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
     		   alert("请在备注栏填写驳回原因！");
