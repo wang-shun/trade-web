@@ -97,6 +97,7 @@ public class CaseDistributeController {
 	@Autowired(required = true)
 	TsTeamScopeTargetService tsTeamScopeTargetService;
 	
+	
 	/**
 	 * 页面初始化
 	 * @return String    返回类型
@@ -146,6 +147,18 @@ public class CaseDistributeController {
 	public String unlocatedCase(Model model, ServletRequest request){
 		Org o= uamUserOrgService.getOrgByCode("033F275");
 		model.addAttribute("nonBusinessOrg", o);
+		//无主案件后台主管不允许分配
+		SessionUser user = uamSessionService.getSessionUser();
+		String jobCode = user.getServiceJobCode();
+		//判断组织是否为后台的
+		TsTeamProperty tp = tsTeamPropertyService.findTeamPropertyByTeamCode(user.getServiceDepCode());
+		boolean isBackTeam = false;
+		if (tp != null) {
+			isBackTeam = "yu_back".equals(tp.getTeamProperty());
+		}		
+		model.addAttribute("isBackTeam", isBackTeam);
+		model.addAttribute("jobCode", jobCode);
+		
 		return "case/unlocatedCase2";
 	}
 	/*@RequestMapping(value="unlocatedCase2")

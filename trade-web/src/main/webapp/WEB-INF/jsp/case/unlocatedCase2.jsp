@@ -87,7 +87,14 @@
 					 	<div class="add_btn">		
 					        <button type="button" class="btn btn-success" onclick="javascript:loadGrid(1)"> <i class="icon iconfont"></i>查询 </button>	
 					        <button type="button" class="btn btn-success" onclick="javascript:clean()"> 清空 </button>	
+					        <c:if test="${isBackTeam != true }">
 					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>	
+					        </c:if>
+					        <c:if test="${isBackTeam == true }">
+					           <c:if test="${jobCode!='Senior_Manager' && jobCode!='Manager' }">
+					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>
+					           </c:if>	
+					        </c:if>
 					     </div>
 					 </div>
 			    </div>
@@ -100,7 +107,9 @@
 						<table class="table table_blue table-striped table-bordered table-hover " id="table_list_1" name="table_list_1" >
 						<thead>
 						<tr>
+						<c:if test="${isBackTeam != true }">
 							<th ><input type="checkbox" id="checkAllNot" class="i-checks"  /></th>
+						</c:if>
 							<th >案件编号</th>
 							<th >产证地址</th>
 							<th >导入时间</th>
@@ -191,11 +200,22 @@
             {{else}}
             	<tr class="tr-2">
             {{/if}}
+				<c:if test="${isBackTeam != true }">
 				<td class="center">
 					<input type="checkbox" name="ckb_task" onclick="ckbChange();" value="{{item.CASE_CODE}}" style="margin-top: 9px;float: left;"  /> 
 							<input type='hidden'  disabled>
 							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
 				</td>
+				</c:if>
+				<c:if test="${isBackTeam == true }">
+					           <c:if test="${jobCode!='Senior_Manager' && jobCode!='Manager' }">
+					       <td class="center">
+					<input type="checkbox" name="ckb_task" onclick="ckbChange();" value="{{item.CASE_CODE}}" style="margin-top: 9px;float: left;"  /> 
+							<input type='hidden'  disabled>
+							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
+				</td>
+					           </c:if>	
+			    </c:if>
 				<td >
 						<p class="big">
 							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">
