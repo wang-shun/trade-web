@@ -279,7 +279,7 @@ $(document).ready(function(){
     
     //保存必填项
 	function checkFormSave(){
-		var ds = $('.case_content').css('display');
+		/*var ds = $('.case_content').css('display');
 		if(ds=='none'){
 			alert("请选择关联案件");
 			return false;	
@@ -335,7 +335,7 @@ $(document).ready(function(){
    				 return fasle;
    			 }
         	} 
-		});
+		});*/
 /*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
         	alert("请填写监管总金额");
@@ -346,6 +346,14 @@ $(document).ready(function(){
         	alert("请填写监管产品");
         	return false;
         }*/
+        
+        $("#addTr tr").each(function(){
+        	console.log(this);
+        });
+        
+        return false;
+        
+        
 		 return true;
 	}
 	

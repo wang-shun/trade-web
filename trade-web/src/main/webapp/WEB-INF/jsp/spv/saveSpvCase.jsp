@@ -763,7 +763,7 @@
 		</script>
 		<script>
 		$(document).ready(function(){
-					
+			
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
