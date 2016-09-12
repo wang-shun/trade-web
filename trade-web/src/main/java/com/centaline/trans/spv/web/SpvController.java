@@ -450,7 +450,7 @@ public class SpvController {
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApply");
-		
+		request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		return "spv/saveSpvCase";
 	}
     
@@ -565,6 +565,26 @@ public class SpvController {
 		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
 		return AjaxResponse.success();
+	}
+	
+	@RequestMapping("queryByCaseCode")
+	public AjaxResponse<String> queryByCaseCode(String caseCode){
+        
+        AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
+    		if(toSpv != null){
+    			response.setSuccess(true);
+    			response.setMessage("该案件已经关联合约，不得重复关联！");
+    			response.setContent("1");
+    		} else{
+    			response.setSuccess(true);
+    		}
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());	
+    	}
+    	return response;
 	}
 	
 	
