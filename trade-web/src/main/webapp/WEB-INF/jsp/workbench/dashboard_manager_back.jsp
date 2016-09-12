@@ -52,15 +52,15 @@
 <link rel="stylesheet" type="text/css"
 	href="${ctx}/static/css/jquery.fancybox-thumbs.css?v=1.0.7" />
 
-<link href="${ctx}/static/trans/css/common/stickDash.css"
-	rel="stylesheet">
+<link href="${ctx}/static/trans/css/common/stickDash.css" rel="stylesheet">
 
 <!-- iCheck -->
-<link href="${ctx}/static/css/plugins/iCheck/custom.css"
-	rel="stylesheet">
-
+<link href="${ctx}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
 <!-- index_css  -->
-<link href="${ctx}/static/trans/css/workbench/dashboard/dashboard.css"
+<link href="${ctx}/css/trans/css/workbench/dashboard/dashboard.css"
+	rel="stylesheet">
+<!-- 图标 -->
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css"
 	rel="stylesheet">
 </head>
 
