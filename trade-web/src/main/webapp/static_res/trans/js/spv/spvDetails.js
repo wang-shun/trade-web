@@ -759,7 +759,7 @@ $(document).ready(function(){
 	
 	//风控总监审批公共方法   
     function riskAjaxRequest(SpvApplyApprove,handle,url){
-    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),source:$("#source").val()};
+    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
     	    if(SpvApplyApprove != null){
     	    	data.SpvApplyApprove = SpvApplyApprove;
     	    }

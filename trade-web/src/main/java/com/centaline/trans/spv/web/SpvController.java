@@ -510,7 +510,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
