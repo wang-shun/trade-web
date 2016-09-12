@@ -129,7 +129,7 @@ public class WorkSpaceController {
 	
 	
 	
-	@RequestMapping(value = "dashboard")
+	@RequestMapping(value = "/dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SessionUser user = uamSessionService.getSessionUser();
 		//SessionUser currentUser = uamSessionService.getSessionUser();		

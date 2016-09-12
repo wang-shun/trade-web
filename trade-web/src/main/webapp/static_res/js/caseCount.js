@@ -22,7 +22,8 @@ function queryConutCaseByDate(){
 	var isConsult = $('#isConsult').val();
 	
 	 $.ajax({
-			url  : ctx+'/workspace/workSpaceSta',
+			//url  : ctx+'/workspace/workSpaceSta',
+			url  : ctx+'/workspace/newWorkSpaceSta',
 		    data : [{
 				name : 'mo',
 				value : month
@@ -34,6 +35,7 @@ function queryConutCaseByDate(){
 			dataType: "json",
 			async : false,
 			success: function(data) {
+				//console.log("===Result==="+JSON.stringify(data));
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);

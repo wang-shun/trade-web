@@ -601,38 +601,16 @@
 											<div class="col-md-6">
 												<div class="panel panel-danger">
 													<div class="panel-heading">
-														E+金融申请榜
-														<c:if test="${not empty rank.loanAmountRank}">
+														E+金融申请榜													
 															<span class="btn btn-xs btn-white pull-right"> <strong id="loanAmountRank"
 																class="text-danger">
 																	</strong>
-															</span>
-														</c:if>
+															</span>														
 														
 													</div>
 													<div class="panel-body">
 														<div class="feed-activity-list" id="loanAmountRankList">
-		<%-- 													<c:forEach items="${rank.loanAmountRankList}" var="item">
-																<div class="feed-element">
-																	<a href="#" class="pull-left"> <span class="shead">
-																			<img class="himg" style="height: 38px; width: 38px;"
-																			src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
-																			onload="javascript:imgLoad(this);">
-																	</span> <span class="badge ${ item.rankNo == 1 ? "
-																		badge-danger" : item.rankNo== 2 ? "badge-orange" :
-																		item.rankNo==3?"badge-warning" : "text-white" }">${item.rankNo }</span>
-																	</a>
-																	<div class="media-body ">
-																		<span class="pull-right"> <strong
-																			class="fa-2x text-danger"> <fmt:formatNumber
-																					value="${item.rankValue/10000}"
-																					pattern='###,##0.00' />万
-																		</strong>
-																		</span> <strong>${item.realName }</strong><br> <small
-																			class="text-muted">${item.belongOrgName }</small>
-																	</div>
-																</div>
-															</c:forEach> --%>
+
 														</div>
 													</div>
 												</div>
@@ -640,38 +618,14 @@
 											<div class="col-md-6">
 												<div class="panel panel-warning">
 													<div class="panel-heading">
-														E+金融签约榜
-														<c:if test="${not empty rank.signAmountRank}">
+														E+金融签约榜														
 															<span class="btn btn-xs btn-white pull-right"> <strong id="signAmountRank"
 																class="text-danger"> </strong>
 															</span>
-														</c:if>
 														
 													</div>
 													<div class="panel-body">
 														<div class="feed-activity-list" id="signAmountRankList">
-<%-- 															<c:forEach items="${rank.signAmountRankList}" var="item">
-																<div class="feed-element">
-																	<a class="pull-left"> <span
-																		class="shead img-circle"> <img class="himg"
-																			style="height: 38px; width: 38px;"
-																			src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
-																			onload="javascript:imgLoad(this);">
-																	</span> <span class="badge ${ item.rankNo == 1 ? "
-																		badge-danger" : item.rankNo== 2 ? "badge-orange" :
-																		item.rankNo==3?"badge-warning" : "text-white" }">${item.rankNo }</span>
-																	</a>
-																	<div class="media-body ">
-																		<span class="pull-right"> <strong
-																			class="fa-2x text-danger"> <fmt:formatNumber
-																					value="${item.rankValue/10000 }"
-																					pattern='###,##0.00' />万
-																		</strong>
-																		</span> <strong>${item.realName }</strong><br> <small
-																			class="text-muted">${item.belongOrgName }</small>
-																	</div>
-																</div>
-															</c:forEach> --%>
 														</div>
 													</div>
 												</div>
@@ -681,39 +635,16 @@
 											<div class="col-md-6">
 												<div class="panel panel-info">
 													<div class="panel-heading">
-														E+金融放款榜
-														<c:if test="${ not empty rank.actualAmountRank}">
+														E+金融放款榜													
 															<span class="btn btn-xs btn-white pull-right"> <strong id="actualAmountRank"
 																class="text-danger"></strong>
 															</span>
-														</c:if>
+														
 														
 													</div>
 													<div class="panel-body">
 														<div class="feed-activity-list" id="actualAmountRankList">
-<%-- 															<c:forEach items="${rank.actualAmountRankList}"
-																var="item">
-																<div class="feed-element">
-																	<a href="#" class="pull-left"> <span
-																		class="shead img-circle"> <img class="himg"
-																			style="height: 38px; width: 38px;"
-																			src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${item.empCode }.jpg"
-																			onload="javascript:imgLoad(this);">
-																	</span> <span class="badge ${ item.rankNo == 1 ? "
-																		badge-danger" : item.rankNo== 2 ? "badge-orange" :
-																		item.rankNo==3?"badge-warning" : "text-white" }">${item.rankNo }</span>
-																	</a>
-																	<div class="media-body ">
-																		<span class="pull-right"> <strong
-																			class="fa-2x text-danger"> <fmt:formatNumber
-																					value="${item.rankValue/10000 }"
-																					pattern='###,##0.00' />万
-																		</strong>
-																		</span> <strong>${item.realName }</strong><br> <small
-																			class="text-muted">${item.belongOrgName }</small>
-																	</div>
-																</div>
-															</c:forEach> --%>
+							
 														</div>
 													</div>
 												</div>
@@ -753,13 +684,14 @@
     <script src="${ctx}/static/js/plugins/morris/morris.js"></script> --%>
 
 	<!-- iCheck --> <script
-		src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script> <!-- ECharts.js -->
-	<script src="${ctx}/static/js/echarts.min.js"></script> <!-- owner -->
-	<script src="${ctx}/static/trans/js/workbench/stickDash.js"></script> <script
-		src="${ctx}/static/trans/js/workbench/caseCount.js"></script> <script
-		src="${ctx}/static/trans/js/workbench/dashboard.js"></script> <script
-		src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script> <script
-		type="text/javascript">
+		src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script> 
+		<!-- ECharts.js -->
+		<script src="${ctx}/static/js/echarts.min.js"></script> <!-- owner -->
+		<script src="${ctx}/static/trans/js/workbench/stickDash.js"></script> 
+		<script	src="${ctx}/static/trans/js/workbench/caseCount.js"></script> 
+		<script	src="${ctx}/static/trans/js/workbench/dashboard.js"></script> 
+		<script	src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script> 
+		<script	type="text/javascript">
 			$(document).ready(function() {
 				//加载echarts
 				reloadStatus();
@@ -769,7 +701,7 @@
 				queryConutCaseByDate();
 				//查询警示案件数
 				queryBizwarnCaseCount();
-				//查询警示案件数
+				//龙虎榜数据查询
 				queryGetRankBank();
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
