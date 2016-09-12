@@ -198,9 +198,8 @@
 				</td>
 				<td >
 						<p class="big">
-							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">
+							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank"></a>
                           		{{item.CASE_CODE}}
-							</a>
                          </p>
                         <p>
                           <i class="tag_sign">c</i>
