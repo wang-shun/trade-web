@@ -171,13 +171,7 @@ $(document).ready(function(){
 						alert(data.message);
 					}*/
 				     alert("数据保存成功！");
-					 if(window.opener)
-				     {
-						 window.close();
-						 window.opener.callback();
-				     } else {
-				    	 window.location.href = ctx+"/spv/spvList";
-				     }
+				     window.location.href = ctx+"/spv/spvList";
 					 $.unblockUI();
 				},		
 			error : function(errors) {
@@ -225,14 +219,7 @@ $(document).ready(function(){
 				     if($("#handle").val() != 'SpvApply'){
 				    	 alert("流程开启成功！");
 				     }
-				     
-					 if(window.opener)
-				     {
-						 window.close();
-						 window.opener.callback();
-				     } else {
-				    	 window.location.href = ctx+"/spv/spvList";
-				     }
+				     window.location.href = ctx+"/spv/spvList";
 					 $.unblockUI();
 				},		
 			error : function(errors) {

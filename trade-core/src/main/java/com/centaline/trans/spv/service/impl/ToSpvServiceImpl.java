@@ -715,18 +715,16 @@ public class ToSpvServiceImpl implements ToSpvService {
 		StringBuffer buyer = new StringBuffer();
 		StringBuffer buyerMobil = new StringBuffer();
 		for (TgGuestInfo guest : guestList) {
-			if (seller.length() == 0 && guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
 				seller.append(guest.getGuestName());
 				sellerMobil.append(guest.getGuestPhone());
-//				seller.append("/");
-//				sellerMobil.append("/");
-			}
-
-			if (buyer.length() == 0 && guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
 				buyer.append(guest.getGuestName());
 				buyerMobil.append(guest.getGuestPhone());
-//				buyer.append("/");
-//				buyerMobil.append("/");
+				buyer.append("/");
+				buyerMobil.append("/");
 			}
 		}
 
@@ -746,10 +744,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		request.setAttribute("propertySquare", toPropertyInfo.getSquare());
 		request.setAttribute("processorName", consultUser == null ? "" : consultUser.getRealName());
 		request.setAttribute("agentName", agentUser == null ? "" : agentUser.getRealName());
-		request.setAttribute("sellerName", seller.toString());
-		request.setAttribute("sellerMobil", sellerMobil.toString());
-		request.setAttribute("buyerName", buyer.toString());
-		request.setAttribute("buyerMobil", buyerMobil.toString());
+		request.setAttribute("sellerName", seller.indexOf("/") == -1?seller:seller.substring(0, seller.indexOf("/")));
+		request.setAttribute("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
+		request.setAttribute("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
+		request.setAttribute("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
 	}
 
 	/**
