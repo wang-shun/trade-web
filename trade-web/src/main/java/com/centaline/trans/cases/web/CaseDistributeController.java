@@ -157,6 +157,7 @@ public class CaseDistributeController {
 			isBackTeam = "yu_back".equals(tp.getTeamProperty());
 		}		
 		model.addAttribute("isBackTeam", isBackTeam);
+		model.addAttribute("jobCode", jobCode);
 		
 		return "case/unlocatedCase2";
 	}

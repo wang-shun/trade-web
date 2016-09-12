@@ -90,6 +90,11 @@
 					        <c:if test="${isBackTeam != true }">
 					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>	
 					        </c:if>
+					        <c:if test="${isBackTeam == true }">
+					           <c:if test="${jobCode!='Senior_Manager' && jobCode!='Manager' }">
+					        <button type="button" class="btn btn-success" onclick="javascript:caseChangeTeam()" id="caseChangeTeamButton" disabled="true"> 案件分配 </button>
+					           </c:if>	
+					        </c:if>
 					     </div>
 					 </div>
 			    </div>
@@ -202,6 +207,15 @@
 							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
 				</td>
 				</c:if>
+				<c:if test="${isBackTeam == true }">
+					           <c:if test="${jobCode!='Senior_Manager' && jobCode!='Manager' }">
+					       <td class="center">
+					<input type="checkbox" name="ckb_task" onclick="ckbChange();" value="{{item.CASE_CODE}}" style="margin-top: 9px;float: left;"  /> 
+							<input type='hidden'  disabled>
+							<input type='hidden' name='caseCodes'{{index}} value="{{item.CASE_CODE}}" disabled>
+				</td>
+					           </c:if>	
+			    </c:if>
 				<td >
 						<p class="big">
 							<a href="{{ctx}}/trade-web/case/caseDetail?caseId={{item.PKID}}" target="_blank">

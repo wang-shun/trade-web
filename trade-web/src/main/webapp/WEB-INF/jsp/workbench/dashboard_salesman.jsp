@@ -129,6 +129,10 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe637;</i>
+								<p>
+									无主任务<br> <span id="unLocatedTaskCount"></span>
+								</p></li>
 							<c:choose>
 							<c:when test="${jobCode!='MiddleOffice' }">
 							    <li><i class="icon iconfont icon40 pink">&#xe636;</i>
@@ -143,20 +147,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 								</p></li>
 							</c:otherwise>
 							</c:choose>
-							<c:choose>
-							<c:when test="${jobCode!='MiddleOffice' }">
-							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
-								<p>
-									无主任务<br> <span id="unLocatedTaskCount"></span>
-								</p></li>
-							</c:when>
-							<c:otherwise>
-							   <li><i class="icon iconfont icon40 grey">&#xe637;</i>
-								<p>
-									无主任务<br> <span id=""></span>
-								</p></li>
-							</c:otherwise>
-							</c:choose>
+							
 							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
 								<p>
 									无主资源<br> <span id="unLocatedResourcesCount"></span>
