@@ -45,6 +45,7 @@
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<input id="pkid" type="hidden" value="${spvBaseInfoVO.toSpv.pkid }">
 	<div id="wrapper">
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
@@ -583,7 +584,7 @@
 						</div>
 						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
 						    <div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 资金监管协议编号</label> <input type="text" name="toSpv.spvConCode"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管合同号</label> <input type="text" name="toSpv.spvConCode"
 								    value="${spvBaseInfoVO.toSpv.spvConCode }"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -659,13 +660,13 @@
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
-									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
+									<a onclick="back()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
 							<c:if test="${handle eq 'SpvSign' }">
 							    <div>
-									<a id="RiskOfficerSign" class="btn btn-success">签约</a>
+									<a id="RiskOfficerSign" class="btn btn-success">提交签约</a>
 									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
@@ -864,7 +865,12 @@
  			});
  			
         });
-        
+		//返回代办任务
+		function back(){
+			window.close();
+			window.opener.callback();
+		}
+
         function reloadGrid() {
         	var propertyAddr = $("#propertyAddr").val();
     	    $(".eloanApply-table").reloadGrid({

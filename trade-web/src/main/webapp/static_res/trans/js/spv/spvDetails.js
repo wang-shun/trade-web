@@ -242,7 +242,8 @@ $(document).ready(function(){
        
        //风控总监审批驳回
        $("#riskDirectorApproveN").click(function(){
-    	   riskAjaxRequest(false,ctx+'/spv/spvApprove/deal');
+    	   var pkid=$("#pkid").val();
+    	   riskAjaxRequest(false,pkid,ctx+'/spv/spvApprove/deal');
        });
        
        $("#RiskOfficerSign").click(function(){

@@ -60,7 +60,9 @@
 									<dt>产权地址</dt>
 									<dd>${spvBaseInfoVO.toSpvProperty.prAddr}</dd>
 									<dt>合作机构</dt>
-									<dd>${spvBaseInfoVO.toSpv.spvInsti}</dd>
+									<dd id="pcode">${spvBaseInfoVO.toSpv.prdCode}</dd>
+									<dt>监管合同号</dt>
+									<dd >${spvBaseInfoVO.toSpv.spvConCode}</dd>
 								</dl>
 							</div>
 							<div class="col-lg-3" id="cluster_info">
@@ -114,7 +116,7 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>申请</span> 
+													<span>申请（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.applyTime}" pattern="yyyy-MM-dd" />）</span> 
 												</dd>
 											</dl>
 										</div>
@@ -135,7 +137,7 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>签约</span> 
+													<span>签约（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime}" pattern="yyyy-MM-dd" />）</span> 
 												</dd>
 											</dl>
 										</div>
@@ -156,7 +158,7 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>结束</span>
+													<span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
 												</dd>
 											</dl>
 										</div>
@@ -309,7 +311,7 @@
 												<p>
 													<em>下家付款方式</em> <span><aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
 									display="onlyLabel"  dictType="SPV_BUYER_PAYMENT"  
-									 ligerui='none'  defaultvalue="${spvBaseInfoVO.toSpv.buyerPayment}"></aist:dict></span>
+									 ligerui='none'  dictCode="${spvBaseInfoVO.toSpv.buyerPayment}"></aist:dict></span>
 												</p>
 											</li>
 											<li>
@@ -520,15 +522,31 @@
 				    	}
 					});
 			}
+			/*获取产品列表*/
+			function getPcode(pcode){
+				var pcode = $("#"+pcode);
+				 $.ajax({
+					    url:ctx+"/spv/queryPrdcCodeByProdCode",
+					    method:"post",
+					    dataType:"json",
+						async:false,
+					    data:{prodCode:pcode.html()},
+					    success:function(data){
+				    		if(data != null){
+				    			pcode.html(data.prodName)
+				    		}
+				    	}
+					});
+			}
 			$(document).ready(function(){
 				$("span[name='DX']").each(function(index,element){
 					$(element).html(DX($(element).html()*10000));
 				});
-				
+				getPcode("pcode");
 				getBank("bank0");
 				getBank("bank1");
 			})
-			
+			queryPrdcCodeByProdCode
 					</script> </content>
 </body>
 </html>
