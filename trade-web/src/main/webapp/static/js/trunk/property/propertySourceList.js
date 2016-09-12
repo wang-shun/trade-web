@@ -90,3 +90,53 @@ function getParams() {
 	
 	return data;
 } 
+
+function chooseApplicant(id) {
+	userSelect({
+		startOrgId : id,
+		expandNodeId : id,
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+		jobCode : 'consultant',
+		callBack : applicantSelectUserBack
+	});
+}
+
+function applicantSelectUserBack(array) {
+	if (array && array.length > 0) {
+		$("#prApp").val(array[0].username);
+		$("#prApp").attr('hVal', array[0].userId);
+
+	} else {
+		$("#prApp").val("");
+		$("#prApp").attr('hVal', "");
+	}
+}
+
+function chooseDist(id) {
+	
+	orgSelect({
+		displayId: 'oriGrpId',
+		displayName: 'radioOrgName', 
+		startOrgId: id, 
+		expandNodeId: id,
+		orgType:'', 
+		departmentType:'', 
+		departmentHeriarchy:'',
+		chkStyle:'radio',
+		callBack: distSelectOrgBack
+	});
+}
+
+function distSelectOrgBack(array) {
+		if (array && array.length > 0) {
+			$("#prDistName").val(array[0].name);
+			$("#prDistName").attr('hVal', array[0].id);
+		} else {
+			$("#prDistName").val("");
+			$("#prDistName").attr('hVal', "");
+		}
+}
