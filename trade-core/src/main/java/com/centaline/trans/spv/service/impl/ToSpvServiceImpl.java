@@ -715,16 +715,18 @@ public class ToSpvServiceImpl implements ToSpvService {
 		StringBuffer buyer = new StringBuffer();
 		StringBuffer buyerMobil = new StringBuffer();
 		for (TgGuestInfo guest : guestList) {
-			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+			if (seller.length() == 0 && guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
 				seller.append(guest.getGuestName());
 				sellerMobil.append(guest.getGuestPhone());
-				seller.append("/");
-				sellerMobil.append("/");
-			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+//				seller.append("/");
+//				sellerMobil.append("/");
+			}
+
+			if (buyer.length() == 0 && guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
 				buyer.append(guest.getGuestName());
 				buyerMobil.append(guest.getGuestPhone());
-				buyer.append("/");
-				buyerMobil.append("/");
+//				buyer.append("/");
+//				buyerMobil.append("/");
 			}
 		}
 

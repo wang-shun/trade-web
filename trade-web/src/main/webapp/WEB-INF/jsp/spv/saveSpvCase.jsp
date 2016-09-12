@@ -558,7 +558,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
-								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" readOnly="readOnly"
 								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -574,7 +574,7 @@
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"
+								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  readOnly="readOnly"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
 									class="form-control input-two" placeholder="">
 							</div>
