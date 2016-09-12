@@ -360,8 +360,7 @@
 												<div class="panel panel-warning">
 													<div class="panel-heading">
 														E+金融签约榜 <span class="btn btn-xs btn-white pull-right">
-															<strong id="signAmountRank" class="text-danger">
-														</strong>
+														<strong id="signAmountRank" class="text-danger"></strong>
 														</span> 
 													</div>
 													<div class="panel-body">

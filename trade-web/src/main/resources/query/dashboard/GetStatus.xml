@@ -108,7 +108,7 @@
 				 	AND A.TEAM_ID IN  (#orgs#)			 
 				 </if>
 				 <if test="mo != null">
-				  	AND DatePart(m, A.RECEIVED_TIME) = #mo#
+				  	AND DATEDIFF(YYYY, A.RECEIVED_TIME, GETDATE())=0 AND DatePart(m, A.RECEIVED_TIME) = #mo#
 				 </if>
 			]]>
 			</baseSql>
@@ -161,7 +161,7 @@
 						AND historyTask.ORG IN	(#orgs#)
 					 </if>
 					<if test="mo != null">
-						AND DATEPART(m,historyTask.END_TIME)=#mo#
+						AND DATEDIFF(YYYY, historyTask.END_TIME, GETDATE())=0  AND  DATEPART(m,historyTask.END_TIME) = #mo#
 				  	</if>
 				]]>
 			</baseSql>
@@ -215,7 +215,7 @@
 						AND historyTask.ORG IN	(#orgs#)
 					 </if>
 					<if test="mo != null">
-						AND DATEPART(m,historyTask.END_TIME) = #mo#
+						AND DATEDIFF(YYYY, historyTask.END_TIME, GETDATE())=0  AND DATEPART(m,historyTask.END_TIME) = #mo#
 				  	</if>
 				]]>
 			</baseSql>
@@ -270,7 +270,7 @@
 						AND historyTask.ORG IN	(#orgs#)
 					 </if>
 					<if test="mo != null">
-						AND DATEPART(m,historyTask.END_TIME) = #mo#
+						AND DATEDIFF(YYYY, historyTask.END_TIME, GETDATE())=0  AND DATEPART(m,historyTask.END_TIME) = #mo#
 				  	</if>
 				]]>
 			</baseSql>
@@ -763,6 +763,7 @@
 										   left join sctrans.LAMP_RULE l				 on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
 										   left join sctrans.SYS_USER as u 				 on ta.ASSIGNEE_=u.USERNAME
 										   left join sctrans.v_user_org_job as uoj   	 on uoj.[USER_ID]=u.ID
+									 	   left join sctrans.t_to_case as tc	    	 on tc.case_code =t.case_code
 									 where u.id is not null
 								  	 <if test="user_Id != null">
 									 	and u.ID = #user_Id#
@@ -773,7 +774,7 @@
 									 <if test="orgs != null">
 									 	and uoj.ORG_ID in (#orgs#)					 
 									 </if>
-									 group by t.pkid
+									 group by tc.pkid,t.CASE_CODE,t.PART_CODE,tp.PROPERTY_ADDR,uoj.REAL_NAME,t.EST_PART_TIME,ta.ID_,ta.PROC_INST_ID_
 					 			 ) as a where a.color = #color# 
 				]]>
 			</baseSql>
