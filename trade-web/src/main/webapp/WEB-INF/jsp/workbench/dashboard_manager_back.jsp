@@ -84,12 +84,6 @@
 			<li class="menuItem"><a href="#zj_info">资金流水</a></li>
 		</ul>
 	</div>
-
-<<<<<<< .mine
-
-=======
-            
->>>>>>> .theirs
 <div class="row">
 	<div class="wrapper wrapper-content animated fadeInUp">
 	
@@ -190,39 +184,6 @@
                     </div>
             </div>
         </div>
-
-	<div class="row">
-		<div class="wrapper wrapper-content animated fadeInUp">
-
-			<!-- <div class="ibox"> -->
-			<div class="ibox-content" id="base_info">
-				<div class="row" style="position: relative;">
-					<h5 class="main_titile"
-						style="position: absolute; top: 0; left: 25px; font-size: 14px;">案件分布统计</h5>
-					<div class="col-dash-8">
-						<div id="mainwe" style="width: 100%; height: 250px;"></div>
-					</div>
-					<div class="col-md-3">
-						<div class="task_light">
-							<p class="fa_red">
-								<i class="fa fa-bell "></i> 红灯任务 <small><a
-									href="${ctx }/workspace/ryLightList?color=0" target="_blank">
-										${redLight }</a></small>
-							</p>
-							<p class="fa_orange">
-								<i class="fa fa-bell "></i> 黄灯任务 <small><a
-									href="${ctx }/workspace/ryLightList?color=1" target="_blank">${yeLight }</a></small>
-							</p>
-							<p class="fa_orange">
-								<i class="fa fa-bell "></i> 流失预警 <small><a
-									href="${ctx }/bizwarn/list?status=0" target="_blank">${bizwarnCaseCount }</a></small>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
 
 			<div class="ibox-content" id="zj_info">
 				<div class="row m-t-sm" id="">
