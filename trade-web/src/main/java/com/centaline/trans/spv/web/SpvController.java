@@ -449,6 +449,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
+		request.setAttribute("handle", "SpvApply");
 		
 		return "spv/saveSpvCase";
 	}
@@ -493,7 +494,7 @@ public class SpvController {
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
-		request.setAttribute("role", "RiskDirector");
+		request.setAttribute("handle", "SpvApprove");
 		return "spv/saveSpvCase";
 	}
 
@@ -537,7 +538,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
-		request.setAttribute("role", "RiskOfficer");
+		request.setAttribute("handle", "SpvSign");
 		return "spv/saveSpvCase";
 	}
 	

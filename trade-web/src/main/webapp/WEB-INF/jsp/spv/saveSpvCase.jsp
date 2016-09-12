@@ -60,20 +60,23 @@
 				<li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 			</ul>
+			<c:if test="${handle ne 'SpvApprove' and handle ne 'SpvSign' }">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
 				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
+			</c:if>
 		</div>
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 			                    <!-- <div class="ibox"> -->
+			      <c:if test="${empty handle}">
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
-                            <c:if test="${empty role}">
+                            
                             <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
-                            </c:if>
-						   <div class="case_content" ${empty caseCode?'style="display:none;"':''}>
+						    <div class="case_content" ${empty caseCode?'style="display:none;"':''}>
+						    
                            <div class="case_row">
                                <div class="case_lump">
                                    <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseCode}</span></p>
@@ -98,6 +101,7 @@
                                    <p><em>下家姓名</em><span class="span_two" id="content_buyer">${buyerName}</span></p>
                                </div>
                            </div>
+                           
                        </div>
 
                             <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -123,11 +127,11 @@
                                             </i></button>
                                             <div class="eloanApply-table">
                                             </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </c:if>
 				<!-- <div class="ibox"> -->
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline">
@@ -625,7 +629,7 @@
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
-										<c:if test="${empty role }">
+										<c:if test="${empty handle }">
 										<a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 										</c:if>
@@ -639,7 +643,7 @@
 										<td></td>
 										<td class="text-left"></td>
 										<td align="center">
-										<c:if test="${empty role }">
+										<c:if test="${empty handle }">
 										    <a href="javascript:void(0)" onClick="javascript:getAtr(this);">添加</a>
 										</c:if>    
 										</td>	
@@ -648,8 +652,8 @@
 								</tbody>					
 							</table>
 							<div class="form-btn">
-							<input type="hidden" id="role" value="${role }">
-							<c:if test="${role eq 'RiskDirector' }">
+							<input type="hidden" id="handle" value="${handle }">
+							<c:if test="${handle eq 'SpvApprove' }">
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
@@ -657,14 +661,14 @@
 								</div>
 							</c:if>
 													
-							<c:if test="${role eq 'RiskOfficer' }">
+							<c:if test="${handle eq 'SpvSign' }">
 							    <div>
-									<a id="RiskOfficer2Sign" class="btn btn-success">签约</a>
+									<a id="RiskOfficerSign" class="btn btn-success">签约</a>
 									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
-							<c:if test="${role ne 'RiskOfficer' and role ne 'RiskDirector' }">
+							<c:if test="${handle ne 'SpvApprove' and handle ne 'SpvSign' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
 									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
@@ -753,11 +757,11 @@
 			
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
-			if($("#role").val() == 'RiskOfficer'){
+			if($("#handle").val() == 'SpvSign'){
 				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false);
 				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false);
 				$("#bank_1").prop("disabled",false);
-				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false);
+				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false);
 				$("#signDiv").show();
 			}
 			

@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 		//流程开启后只读表单
-		if($("#role").val() != null && $("#role").val() != ''){
+		if($("#handle").val() != null && $("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
 		    readOnlyRiskForm();
 		}
 
@@ -170,6 +170,7 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
+				     alert("数据保存成功！");
 					 if(window.opener)
 				     {
 						 window.close();
@@ -221,6 +222,10 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
+				     if($("#handle").val() != 'SpvApply'){
+				    	 alert("流程开启成功！");
+				     }
+				     
 					 if(window.opener)
 				     {
 						 window.close();
@@ -251,6 +256,10 @@ $(document).ready(function(){
        //风控总监审批驳回
        $("#riskDirectorApproveN").click(function(){
     	   riskAjaxRequest(false,ctx+'/spv/spvApprove/deal');
+       });
+       
+       $("#RiskOfficerSign").click(function(){
+    	   riskAjaxRequest(null,ctx+'/spv/spvSign/deal');
        });
 
        $('#chat-discussion').hide();
@@ -729,13 +738,16 @@ $(document).ready(function(){
 			return false;
 		}
 		var sumNum = 0;
+		var flag = true;
 		$("input[name$='deAmount']").each(function(i,e){
 			 if(!isNumber($(e).val())){
+				 flag = false;
 				 alert("请填写有效的监管资金金额！");
-				 return false;
+				 return false;//此处代码仅表示退出循环，继续往下
 			 }
 			 sumNum = accAdd(sumNum,$(e).val()?Number($(e).val()):0);
 		});
+		if(!flag) return false;
 		if(sumNum != toSpvAmount){
 			alert("监管总金额需等于出款约定金额总和！");
 			return false;
@@ -746,7 +758,7 @@ $(document).ready(function(){
 	
 	//风控总监审批公共方法   
     function riskAjaxRequest(SpvApplyApprove,url){
-    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instId:$("#instId").val(),source:$("#source").val()};
+    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),source:$("#source").val()};
     	    if(SpvApplyApprove != null){
     	    	data.SpvApplyApprove = SpvApplyApprove;
     	    }

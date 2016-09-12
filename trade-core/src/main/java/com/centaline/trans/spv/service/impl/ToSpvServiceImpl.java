@@ -465,13 +465,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
+
 		if (spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getPkid() == null) {
 			String caseCode_ = spvBaseInfoVO.getToSpv().getCaseCode();
 			ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode_);
 			if(toSpv != null){
-				throw new BusinessException("已存在改案件的资金监管信息！");
+				throw new BusinessException("保存失败：已存在改案件的资金监管信息！");
 			}
 		}
+		
 		// 生成spvCode
 		String spvCode = createSpvCode();
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
@@ -633,19 +635,16 @@ public class ToSpvServiceImpl implements ToSpvService {
 		// throw new BusinessException("启动失败：流程已经启动或结束！");
 		// }
 		// }
-
+	
 		ToWorkFlow twf = new ToWorkFlow();
 		twf.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-		ToSpv row = new ToSpv();
-		if (spvBaseInfoVO.getToSpv() != null) {
-			row = toSpvMapper.selectByPrimaryKey(spvBaseInfoVO.getToSpv().getPkid());
-		}
-		if (record != null || SpvStatusEnum.COMPLETE.equals(row.getStatus())) {
-			throw new BusinessException("启动失败：该案件的流程已经启动或完成！");
-		}
 
+		if (record != null) {
+			throw new BusinessException("流程启动失败：该案件的流程已开启！");
+		}
+		
 		saveNewSpv(spvBaseInfoVO, user);
 
 		// ToCase
@@ -755,7 +754,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	 * 获取流程变量并查询拼接spvBaseInfoVO
 	 */
 	public SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode) {
-		Long pkid = Long.parseLong((String) workFlowManager.getVar(instCode, "spvPkid").getValue());
+		Long pkid = Long.parseLong(workFlowManager.getVar(instCode, "spvPkid").getValue().toString());
 		return findSpvBaseInfoVOByPkid(request, pkid);
 	}
 
@@ -764,7 +763,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request, pkid);
 		/** 查询案件相关信息 */
 		if (!StringUtils.isEmpty(caseCode)) {
-			setAttribute(request, caseCode);
+				setAttribute(request, caseCode);
 		} else {
 			if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null) {
 				setAttribute(request, spvBaseInfoVO.getToSpv().getCaseCode());
