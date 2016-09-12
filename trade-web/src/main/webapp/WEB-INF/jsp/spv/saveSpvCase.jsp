@@ -877,10 +877,43 @@
     	 	// 关联案件
    	 		$('.eloanApply-table').on("click",'.linkCase',function(){	 			
    	 			var index = $(this).attr("id");
-   	 		    //刷新回到原页面
-   	 			window.location.href = "${ctx}/spv/saveHTML?&caseCode="+$("#modal_caseCode"+index).html();
- 			});
- 			
+   	 		$.ajax({
+   	      		url:ctx+"/spv/queryByCaseCode",
+   	      		method:"post",
+   	      		dataType:"json",
+   	      		data:{caseCode:$("#modal_caseCode"+index).html()},   		        				        		    
+   	       		beforeSend:function(){  
+   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+   					$(".blockOverlay").css({'z-index':'9998'});
+   	            },
+   		        complete: function() {
+   		                 $.unblockUI(); 
+   		                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+   			          	  Modal.alert(
+   						  {
+   						    msg:"抱歉，系统处理超时。"
+   						  }); 
+   				                } 
+   				            } ,   
+   				success : function(data) {   
+   						/*if(data.message){
+   							alert(data.message);
+   						}*/
+   					     if(data.ajaxResponse.content == '1'){
+   					    	 alert(data.ajaxResponse.message);
+   					    	 window.location.href = "${ctx}/spv/saveHTML";
+   					     }else{
+   					    	//刷新回到原页面
+   			   	 			window.location.href = "${ctx}/spv/saveHTML?&caseCode="+$("#modal_caseCode"+index).html();
+   					     }
+   						 $.unblockUI();
+   					},		
+   				error : function(errors) {
+   						$.unblockUI();   
+   						alert("数据保存出错:"+JSON.stringify(errors));
+   					}  
+   	       });
+   	     });		   
         });
 		//返回代办任务
 		function back(){
