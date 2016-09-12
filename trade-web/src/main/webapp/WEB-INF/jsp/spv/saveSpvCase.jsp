@@ -655,12 +655,13 @@
 								</tbody>					
 							</table>
 							
-							<div class="table-box">
-								<label style="width: 16%;">备注</label>
+							<div class="form-group form-margin ">
+								<label class="lable-one"  style="text-align: right;">备注</label>
 								<label>
-									<textarea rows="3"  id="passOrRefuseReason"	name="passOrRefuseReason">${spvBaseInfoVO.toSpv.remark }</textarea>
+									<textarea class="form-control input-five" rows="3"  id="passOrRefuseReason"	name="passOrRefuseReason">${spvBaseInfoVO.toSpv.remark }</textarea>
 								</label>
 							</div>
+							
 							
 							<div class="form-btn">
 							<input type="hidden" id="handle" value="${handle }">												
