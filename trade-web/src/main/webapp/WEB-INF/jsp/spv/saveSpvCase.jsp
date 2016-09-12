@@ -426,13 +426,15 @@
 								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one left-extent">
+						</div>
+						<div class="form-row form-rowbot">
+						    <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
-									<%-- <select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
+									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
 									<option value="1">光大四方资金监管</option>
-									</select> --%>
-									<select id="prd" class="form-control input-one"></select>
-									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select>
+									</select>
+									<%-- <select id="prd" class="form-control input-one"></select>
+									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select> --%>
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>
@@ -817,10 +819,10 @@
 				getBranchBankList($("select[name='toSpvAccountList[0].bank']"),$("#bank_0").val());
 	        });
 	       	
-	       	getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
+	       	/* getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
 	       	$("#prd").change(function(){
 	       		getPrdDetail($("select[name='toSpv.prdCode']"),$("#prd option:selected").val());
-		    }); 
+		    }); */ 
 
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
