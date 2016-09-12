@@ -351,8 +351,8 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-two">是否偿清</label> <label
-									class="radio-inline"> <input type="radio" checked="checked"
-									name="toSpvProperty.isMortClear" id="Pledge1" value="1" ${spvBaseInfoVO.toSpvProperty.isMortClear eq '1'?'checked="checked"':'' }> 是
+									class="radio-inline"> <input type="radio"
+									name="toSpvProperty.isMortClear" id="Pledge1" value="1" ${spvBaseInfoVO.toSpvProperty.isMortClear ne '0'?'checked="checked"':'' }> 是
 								</label> <label class="radio-inline"> <input type="radio" 
 									name="toSpvProperty.isMortClear" id="Pledge2" value="0" ${spvBaseInfoVO.toSpvProperty.isMortClear eq '0'?'checked="checked"':'' }> 否
 								</label> <span class="span-tag pledgeinfo">交易房屋抵押贷信息</span>
