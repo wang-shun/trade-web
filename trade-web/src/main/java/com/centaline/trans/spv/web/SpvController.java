@@ -517,6 +517,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		spv.setStatus("0");
+		spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
 		
 		return AjaxResponse.success();

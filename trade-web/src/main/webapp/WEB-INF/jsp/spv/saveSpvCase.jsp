@@ -658,7 +658,7 @@
 							<div class="table-box">
 								<label style="width: 16%;">备注</label>
 								<label>
-									<textarea rows="3"  id="passOrRefuseReason"	name="passOrRefuseReason"></textarea>
+									<textarea rows="3"  id="passOrRefuseReason"	name="passOrRefuseReason">${spvBaseInfoVO.toSpv.remark }</textarea>
 								</label>
 							</div>
 							
