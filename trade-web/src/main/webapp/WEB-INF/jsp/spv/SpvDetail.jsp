@@ -210,8 +210,10 @@
 										监管资金 </a></li>
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
 								</li>
+								<c:if test="${spvBaseInfoVO.toSpv.status==0&&spvBaseInfoVO.toSpv.applyTime!=undefined}">
 								<li class=""><a href="#tab-6" data-toggle="tab">驳回原因</a>
 								</li>
+								</c:if>
 							</ul>
 						</div>
 					</div>

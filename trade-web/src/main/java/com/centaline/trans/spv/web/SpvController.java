@@ -140,7 +140,7 @@ public class SpvController {
 			FKZJ=zj.get(0);
 		}
 		//驳回原因
-
+if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
 		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		record.setCaseCode(spv.getCaseCode());
@@ -155,7 +155,7 @@ public class SpvController {
 		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
-				
+      }
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
