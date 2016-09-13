@@ -1,4 +1,4 @@
-﻿(function(c, ea, aa, M) {
+(function(c, ea, aa, M) {
 	var ba = 0,
 	r, N = function() {
 		var c = M.userAgent,

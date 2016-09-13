@@ -1,3 +1,7 @@
+em, i {
+  font-style: normal;
+}
+
 .feed-element .icon {
   font-size: 34px;
 }
@@ -61,10 +65,6 @@
   padding: 25px 30px;
 }
 
-.auditor {
-  float: right;
-}
-
 .space30 {
   padding-bottom: 30px !important;
 }
@@ -112,4 +112,63 @@
 
 .boderbbt {
   border-bottom: 1px solid #eeeeee !important;
+}
+
+.view-content {
+  padding: 25px 30px 0px;
+  margin-top: 20px;
+}
+
+.view-box {
+  clear: both;
+  height: 140px;
+  padding: 20px;
+  overflow: hidden;
+  overflow-y: scroll;
+  border: 1px solid #eee;
+}
+
+.view {
+  margin-bottom: 20px;
+  color: gray !important;
+}
+.view p {
+  line-height: 24px;
+}
+.view .auditor {
+  margin-right: 15px;
+}
+.view em {
+  color: #333;
+}
+.view .pink_bg {
+  padding: 2px 3px;
+  background: #f784a5;
+  color: #fff;
+  border-radius: 3px;
+}
+.view .time {
+  float: right;
+}
+.view .view_content {
+  display: inline-block;
+  float: right;
+  width: 93%;
+  padding: 5px 15px;
+  color: #666;
+  background: #f3f3f4;
+  border-radius: 3px;
+}
+.view .auditing {
+  display: inline-block;
+  float: left;
+  padding-top: 5px;
+}
+
+.submitter {
+  margin-top: 30px;
+  color: #808080;
+}
+.submitter span {
+  color: #333;
 }
