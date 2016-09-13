@@ -236,12 +236,12 @@ $(document).ready(function(){
   	  if(!checkFormSave()){
   		  return false;
   	  }
-  	  
-  	  if(handle == 'SpvApply'){
+
+  	  if(handle == 'spvApply'){
 	  		if(!confirm("是否确定提交申请！")){
 	  		  return false;
 	  	  }
-  	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
+  	  }else if(handle == 'spvApprove' && SpvApplyApprove){
 	   	   if(!confirm("是否确定通过！")){
 	 		  return false;
 	 	  }
@@ -250,11 +250,11 @@ $(document).ready(function(){
      		   alert("请在备注栏填写驳回原因！");
      		   return false;
      	   }
-  	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
+  	  }else if(handle == 'spvApprove' && !SpvApplyApprove){
 	  		if(!confirm("是否确定驳回！")){
-	     		  return;
+	     		  return false;
 	     	  }
-  	  }else if(handle == 'SpvSign'){
+  	  }else if(handle == 'spvSign'){
 	   	   if(!confirm("是否确定签约！")){
 	 		  return false;
 	 	  }
