@@ -29,10 +29,14 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.product.entity.Product;
@@ -79,7 +83,10 @@ public class SpvController {
 	ProductCategoryService productCategoryService;
 	@Autowired
 	ProductService productService;
-	
+	@Autowired
+	ToWorkFlowService flowService;
+	@Autowired
+	ProcessInstanceService processInstanceService;
 	//列表页面
 	@RequestMapping("spvList")
 	public String spvList(){
@@ -132,6 +139,23 @@ public class SpvController {
 		if(zj.size()>0){
 			FKZJ=zj.get(0);
 		}
+		//驳回原因
+
+		ToWorkFlow record=new ToWorkFlow();
+		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		record.setCaseCode(spv.getCaseCode());
+	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+		 
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(workFlow.getInstCode());
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+				
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
@@ -575,7 +599,7 @@ public class SpvController {
 		toApproveRecord.setProcessInstance(instCode);		
 		
 		toApproveRecordService.insertToApproveRecord(toApproveRecord);
-		
+
 		return AjaxResponse.success();
 	}
 	
