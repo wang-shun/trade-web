@@ -687,6 +687,21 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		var mortgageeName = $("input[name='toSpvProperty.mortgageeName']").val();
+		var isMortClear = $("input[name='toSpvProperty.isMortClear'][value='0']").is(":checked");
+		if(isMortClear && (mortgageeName == null || mortgageeName == '')){
+			alert("请填写抵押方！");
+			changeClass($("input[name='toSpvProperty.mortgageeName']"));
+			return false;
+		}
+		
+		var mortgageeBank = $("input[name='toSpvProperty.mortgageeBank']").val();
+		if(isMortClear && (mortgageeBank == null || mortgageeBank == '')){
+			alert("请填写开户行！");
+			changeClass($("input[name='toSpvProperty.mortgageeBank']"));
+			return false;
+		}
+		
 		var signNo = $("input[name='toSpvProperty.signNo']").val();
 		if(signNo == ""){
 			alert("请填写网签合同号！");
