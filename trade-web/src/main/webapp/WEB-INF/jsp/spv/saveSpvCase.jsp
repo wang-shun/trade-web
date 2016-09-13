@@ -594,6 +594,16 @@
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
+						
+						
+					<div class="form-row form-rowbot">						
+						<div class="form-group form-margin form-space-one">
+							<label class="lable-one"  style="text-align: right;">备注</label>
+							<div class="form-group form-margin form-space-one left-extent">
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${spvBaseInfoVO.toSpv.remark }</textarea>
+							</div>
+						</div>
+					</div>
 					</form>
 				</div>
 				<div class="ibox-content" id="spvthree_info" >
@@ -653,15 +663,7 @@
 								  </tr>
 								  </c:if>
 								</tbody>					
-							</table>
-							
-							<div class="form-group form-margin ">
-								<label class="lable-one"  style="text-align: right;">备注</label>
-								<label>
-									<textarea class="form-control input-five" rows="3"  id="passOrRefuseReason"	name="passOrRefuseReason">${spvBaseInfoVO.toSpv.remark }</textarea>
-								</label>
-							</div>
-							
+							</table>							
 							
 							<div class="form-btn">
 							<input type="hidden" id="handle" value="${handle }">												

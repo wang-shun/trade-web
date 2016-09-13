@@ -497,7 +497,9 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApprove");
-		request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
 		return "spv/saveSpvCase";
 	}
 
