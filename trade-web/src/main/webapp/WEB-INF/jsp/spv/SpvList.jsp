@@ -296,32 +296,19 @@
 											params.search_closeTimeStart=null;
 											params.search_closeTimeEnd=null;
 											var sel_time = $("#sel_time").val();
+											var start= $("input[name='dtBegin']").val();
+											var end=$("input[name='dtEnd']").val()==""?$("input[name='dtEnd']").val():$("input[name='dtEnd']").val()+" 23:59:59";
 											if (sel_time == "applyTime") {
-												params.search_applyTimeStart = $(
-														"input[name='dtBegin']")
-														.val();
-												params.search_applyTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-												params.search_applyTimeEnd+=" 23:59:59";
+												params.search_applyTimeStart = start;
+												params.search_applyTimeEnd = end;
 											} 
 											 else if (sel_time == "signTime") {
-												    params.search_signTimeStart = $(
-															"input[name='dtBegin']")
-															.val();
-													params.search_signTimeEnd = $(
-															"input[name='dtEnd']")
-															.val();
-													params.search_signTimeEnd+=" 23:59:59";
+												    params.search_signTimeStart =start;
+													params.search_signTimeEnd = end;
 										    }
 											else if (sel_time == "closeTime") {
-												params.search_closeTimeStart = $(
-														"input[name='dtBegin']")
-														.val();
-												params.search_closeTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-												params.search_closeTimeEnd+=" 23:59:59";
+												params.search_closeTimeStart = start;
+												params.search_closeTimeEnd = end;
 											}
 											initData();
 										})
