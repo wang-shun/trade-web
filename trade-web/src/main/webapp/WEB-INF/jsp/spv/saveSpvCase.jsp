@@ -785,10 +785,9 @@
 			 //驳回原因显示问题
 			 var remark = $("#passOrRefuseReason").val();	
 			 //当前用户标示 前者是风控专员，后者是风控总监
-			 var handle = $("#handle").val();
-			
+			 var handle = $("#handle").val();			
 			 if(remark == '' || remark == null){				
-				 if(handle=="SpvApply" || handle=='SpvSign'){					
+				 if(handle=="SpvApply" || handle=='SpvSign' || handle==''){					
 					 $("#passOrRefuseReasonForShow").hide();					 
 				 }else if(handle=="SpvApprove"){
 					 $("#passOrRefuseReasonForShow").show();
