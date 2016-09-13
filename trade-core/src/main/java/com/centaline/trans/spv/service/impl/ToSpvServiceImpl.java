@@ -661,7 +661,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				uamUserOrgService.getUserByOrgIdAndJobCode(orgId, "JYFKZJ").get(0).getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
-				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getSpvCode(), vars);
+				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getCaseCode(), vars);
 
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
