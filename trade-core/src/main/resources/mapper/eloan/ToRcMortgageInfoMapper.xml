@@ -22,9 +22,24 @@
     from sctrans.T_TO_RC_MORTGAGE_INFO
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  <select id="getToRcMortgageInfoByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.eloan.entity.RcRiskControl" >
+		SELECT 
+		mortgageInfo.MORTGAGE_CATEGORY,
+		mortgageInfo.MORTGAGE_NAME
+		FROM sctrans.T_RC_RISK_CONTROL riskControl 
+		INNER JOIN  sctrans.T_TO_RC_MORTGAGE_INFO  mortgageInfo
+		ON riskControl.PKID = mortgageInfo.RISK_CONTROL_ID
+		WHERE riskControl.RISK_TYPE = #{riskType,jdbcType=VARCHAR}
+		AND riskControl.ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_RC_MORTGAGE_INFO
     where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+   <delete id="deleteToRcMortgageInfoByRcId" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_RC_MORTGAGE_INFO
+    where RISK_CONTROL_ID = #{riskControlId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
     insert into sctrans.T_TO_RC_MORTGAGE_INFO (PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, 
@@ -54,18 +69,10 @@
       <if test="mortgageName != null" >
         MORTGAGE_NAME,
       </if>
-      <if test="createBy != null" >
         CREATE_BY,
-      </if>
-      <if test="createTime != null" >
         CREATE_TIME,
-      </if>
-      <if test="updateTime != null" >
         UPDATE_TIME,
-      </if>
-      <if test="updateBy != null" >
         UPDATE_BY,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -83,18 +90,10 @@
       <if test="mortgageName != null" >
         #{mortgageName,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
+        @{SESSION_USER_ID},
+ 		GETDATE(),
+        GETDATE(),
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >

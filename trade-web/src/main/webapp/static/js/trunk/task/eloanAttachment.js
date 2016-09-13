@@ -110,18 +110,16 @@ function getExplPicByhouseCode() {
 				$.each(data.attList,function(index, value) {
 					if(value.preFileCode==accValue.accessoryCode){
 						dataLength++;
-						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
-						trStr+="<div class=\"preview span12\">";
+						trStr+="<li id='picContainers"+value.pkid+"' id=\"WU_FILE_0\" name=\"allPicDiv1\" class=\"template-download fade in\">";
+						trStr+="<p class=\"imgWrap\">";
 						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
 						trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
+						trStr+="</p>";
+						trStr+="<div class=\"file-panel\">";
+						trStr+="<span class=\"file-name\">公证书</span>";
+						trStr+="<span class=\"cancel pull-right delete span2\">删除</span>";
 						trStr+="</div>";
-						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
-						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
-						trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
-						trStr+="<i class=\"icon-remove\"></i>";
-						trStr+="</button>";
-						trStr+="</div>";
-						trStr+="</div>";
+						trStr+="</li>";
 						
 					}
 				});

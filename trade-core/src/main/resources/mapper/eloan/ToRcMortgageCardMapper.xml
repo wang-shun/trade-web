@@ -17,11 +17,24 @@
     PKID, RC_ID, CARD_PERSON, CARD_TIME, IS_MODIFY_PHONE, PHONE_NUMBER, CREATE_BY, CREATE_TIME, 
     UPDATE_TIME, UPDATE_BY
   </sql>
+  <sql id="Card_Base_Column_List" >
+    mortgageCard.PKID, mortgageCard.RC_ID, mortgageCard.CARD_PERSON, mortgageCard.CARD_TIME, mortgageCard.IS_MODIFY_PHONE, mortgageCard.PHONE_NUMBER, mortgageCard.CREATE_BY, mortgageCard.CREATE_TIME, 
+    mortgageCard.UPDATE_TIME, mortgageCard.UPDATE_BY
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_RC_MORTGAGE_CARD
     where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="getMortgageCardByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.eloan.entity.RcRiskControl" >
+		SELECT 
+		 <include refid="Card_Base_Column_List" />
+		FROM sctrans.T_RC_RISK_CONTROL riskControl 
+		INNER JOIN  sctrans.T_TO_RC_MORTGAGE_CARD  mortgageCard
+		ON riskControl.PKID = mortgageCard.RC_ID
+		WHERE riskControl.RISK_TYPE = #{riskType,jdbcType=VARCHAR}
+		AND riskControl.ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_RC_MORTGAGE_CARD
@@ -58,18 +71,10 @@
       <if test="phoneNumber != null" >
         PHONE_NUMBER,
       </if>
-      <if test="createBy != null" >
         CREATE_BY,
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME,
-      </if>
-      <if test="updateTime != null" >
+        CREATE_TIME,  
         UPDATE_TIME,
-      </if>
-      <if test="updateBy != null" >
         UPDATE_BY,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -90,18 +95,10 @@
       <if test="phoneNumber != null" >
         #{phoneNumber,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
+        @{SESSION_USER_ID},
+ 		GETDATE(),
+        GETDATE(),
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageCard" >
@@ -136,6 +133,36 @@
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+   <update id="updateMortgageCardByRcId" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageCard" >
+    update sctrans.T_TO_RC_MORTGAGE_CARD
+    <set >
+      <if test="cardPerson != null" >
+        CARD_PERSON = #{cardPerson,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardTime != null" >
+        CARD_TIME = #{cardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isModifyPhone != null" >
+        IS_MODIFY_PHONE = #{isModifyPhone,jdbcType=CHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RC_ID = #{rcId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageCard" >
     update sctrans.T_TO_RC_MORTGAGE_CARD

@@ -3,93 +3,104 @@ package com.centaline.trans.eloan.entity;
 import java.util.Date;
 
 public class ToRcMortgageInfo {
-    private Long pkid;
+	private Long pkid;
 
-    private Long riskControlId;
+	private Long riskControlId;
 
-    private String mortgageCategory;
+	private String mortgageCategory;
 
-    private String mortgageCode;
+	private String mortgageCode;
 
-    private String mortgageName;
+	private String mortgageName;
 
-    private String createBy;
+	private String createBy;
 
-    private Date createTime;
+	private Date createTime;
 
-    private Date updateTime;
+	private Date updateTime;
 
-    private String updateBy;
+	private String updateBy;
 
-    public Long getPkid() {
-        return pkid;
-    }
+	private String riskType;
 
-    public void setPkid(Long pkid) {
-        this.pkid = pkid;
-    }
+	public Long getPkid() {
+		return pkid;
+	}
 
-    public Long getRiskControlId() {
-        return riskControlId;
-    }
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
 
-    public void setRiskControlId(Long riskControlId) {
-        this.riskControlId = riskControlId;
-    }
+	public Long getRiskControlId() {
+		return riskControlId;
+	}
 
-    public String getMortgageCategory() {
-        return mortgageCategory;
-    }
+	public void setRiskControlId(Long riskControlId) {
+		this.riskControlId = riskControlId;
+	}
 
-    public void setMortgageCategory(String mortgageCategory) {
-        this.mortgageCategory = mortgageCategory == null ? null : mortgageCategory.trim();
-    }
+	public String getMortgageCategory() {
+		return mortgageCategory;
+	}
 
-    public String getMortgageCode() {
-        return mortgageCode;
-    }
+	public void setMortgageCategory(String mortgageCategory) {
+		this.mortgageCategory = mortgageCategory == null ? null : mortgageCategory.trim();
+	}
 
-    public void setMortgageCode(String mortgageCode) {
-        this.mortgageCode = mortgageCode == null ? null : mortgageCode.trim();
-    }
+	public String getMortgageCode() {
+		return mortgageCode;
+	}
 
-    public String getMortgageName() {
-        return mortgageName;
-    }
+	public void setMortgageCode(String mortgageCode) {
+		this.mortgageCode = mortgageCode == null ? null : mortgageCode.trim();
+	}
 
-    public void setMortgageName(String mortgageName) {
-        this.mortgageName = mortgageName == null ? null : mortgageName.trim();
-    }
+	public String getMortgageName() {
+		return mortgageName;
+	}
 
-    public String getCreateBy() {
-        return createBy;
-    }
+	public void setMortgageName(String mortgageName) {
+		this.mortgageName = mortgageName == null ? null : mortgageName.trim();
+	}
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy == null ? null : createBy.trim();
-    }
+	public String getCreateBy() {
+		return createBy;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy == null ? null : createBy.trim();
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
-    public String getUpdateBy() {
-        return updateBy;
-    }
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy == null ? null : updateBy.trim();
-    }
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy == null ? null : updateBy.trim();
+	}
+
+	public String getRiskType() {
+		return riskType;
+	}
+
+	public void setRiskType(String riskType) {
+		this.riskType = riskType;
+	}
+
 }

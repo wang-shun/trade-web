@@ -103,26 +103,7 @@ public class WarnListController {
 		return "/eloan/task/taskEloanList";
 	}
 	
-	//押卡
-	@RequestMapping("guarantycards")
-	public String guarantycards(Long pkid, Model model) {
-		getDetailByPkId(pkid, model);
-		return "/eloan/guarantycards";
-	}
 	
-	//抵押
-	@RequestMapping("guarantymortgage")
-	public String guarantymortgage(Long pkid, Model model) {
-		getDetailByPkId(pkid, model);
-		return "/eloan/guarantymortgage";
-	}
-	
-	//强制公正
-	@RequestMapping("guarantyfair")
-	public String guarantyfair(Long pkid, Model model) {
-		getDetailByPkId(pkid, model);
-		return "/eloan/guarantyfair";
-	}
 	
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
@@ -271,6 +252,7 @@ public class WarnListController {
 			model.addAttribute("info", object);
 			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
+			model.addAttribute("pkid", pkid);
 		}
 		return model;
 	}

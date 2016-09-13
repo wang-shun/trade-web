@@ -1,21 +1,21 @@
 var divIndex = 1;
 function getAtr(i){
-    $str='';
-    $str+= '<div class="line" id="addTr_' + divIndex + '">'
+    var divTr = $('#hideAddTr').clone();
+    divTr.show();
+    /*$str+= '<div class="line" id="addTr_' + divIndex + '">'
                 + '<div class="form_content">'
                 + '<label class="control-label sign_left_small mar24">抵押物品类别</label>'
-                + '<select name="" id="" class="select_control sign_right_one">'
-                + '<option value="">身份证</option>'
-                + '<option value="">银行卡</option>'
-                + '</select>'
+                +                     '<aist:dict id="mortgageCategory" name="mortgageCategory" clazz="select_control sign_right_one"'
+				+ 'display="select"  dictType="MORTGAGE_TYPE" tag="card"'
+				+ 'ligerui="none" defaultvalue=""></aist:dict>'
                 + '</div>'
                 + '<div class="form_content">'
                 + '<label class="control-label sign_left_small mar24">抵押物品名称</label>'
-                + '<input type="text" placeholder="" class="select_control teamcode">'
+                + '<input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName">'
                 + '</div>'
                 + '<a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
-                + '</div>'
-    $(".form_list").append($str);
+                + '</div>'*/
+    $("#mortgageList").append(divTr);
     divIndex++;
 }
 
@@ -27,7 +27,7 @@ function getDel(k){
 $(function() {
 
 /*开关按钮*/
-  $('[name="status"]').bootstrapSwitch({
+  $('[name="isModifyPhone"]').bootstrapSwitch({
       onText:"未修改",
       offText:"已修改",
       onColor:"primary",

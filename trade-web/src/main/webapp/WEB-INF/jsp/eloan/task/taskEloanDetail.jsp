@@ -32,7 +32,10 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/uplodydome.css">
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css">
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
-
+<!-- 分页控件 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- aist列表样式 -->
+<%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
 </head>
 <body>
    <div id="wrapper">
@@ -307,11 +310,13 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" id="tab-fk">
                                                        <div class="guaranty_btn">
-                                                        <a href="${ctx}/eloan/guarantycards?pkid=${pkId}"><button class="btn btn-success btn-space">押卡</button></a>
-                                                        <a href="${ctx}/eloan/guarantymortgage?pkid=${pkId}"><button class="btn btn-success btn-space">抵押</button>
-                                                        </a><a href="${ctx}/eloan/guarantyfair?pkid=${pkId}"><button class="btn btn-success">强制公正</button></a>
+                                                        <a href="${ctx}/riskControl/guarantycards?pkid=${pkId}"><button class="btn btn-success btn-space">押卡</button></a>
+                                                        <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"><button class="btn btn-success btn-space">抵押</button>
+                                                        </a><a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"><button class="btn btn-success">强制公正</button></a>
                                                         </div>
-                                                        <table class="table table-striped">
+                                                        <div class="riskControl-table">
+        												</div>
+                                                        <!-- <table class="table table-striped">
                                                             <thead>
                                                                 <tr>
                                                                     <th>风控项目</th>
@@ -347,7 +352,7 @@
                                                                 </tr>
 
                                                             </tbody>
-                                                        </table>
+                                                        </table> -->
                                                     </div>
                                                     <div class="tab-pane" id="tab-hk">
                                                         <table class="table table-striped">
@@ -453,7 +458,41 @@
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
        <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+       <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+       <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+       <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+       <script id="queryRiskControlList" type= "text/html">
+                        {{each rows as item index}}
+ 				                 <tr>
+                                    <td>{{item.RISK_TYPE}}</td>
+                                    <td>{{item.CREATE_TIME}}</td>
+                                    <td>{{item.CREATE_BY}}</td>
+                                    <td>{{item.RISK_COMMENT}}</td>
+                                </tr>
+						{{/each}}
+	    </script>
 	   <script>
+		   jQuery(document).ready(function() {
+			   var eloanCode = "${eloanCase.eloanCode }";
+			   $(".riskControl-table").aistGrid({
+					ctx : "${ctx}",
+					queryId : 'riskControlListQuery',
+				    templeteId : 'queryRiskControlList',
+				    gridClass : 'table table-striped',
+				    data : {eloanCode : eloanCode},
+				    columns : [{
+				    	           colName :"风控项目"
+				    	      },{
+				    	           colName :"执行时间"
+				    	      },{
+				    	           colName :"执行人"
+			    	          },{
+		  		    	           colName :"备注"
+				    	      }]
+				
+				}); 
+		   })
+	  
 			//点击浏览器任何位置隐藏提示信息
 			$("body").bind("click", function(evt) {
 				if ($(evt.target).attr("data-toggle") != 'popover') {

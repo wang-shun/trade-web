@@ -34,12 +34,13 @@
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/uplodydome.css">
     <link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_detail.css">
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+    <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css">
 
     <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
-
 <body>
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
             <!-- main Start -->
             <div class="row">
@@ -49,7 +50,8 @@
                     </div>
 
                     <div class="ibox-content ibox-space">
-                        <form method="get" class="form_list">
+                        <form method="get" class="form_list" id="mortgageForm">
+                         	<input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageVO.toRcMortgage.rcId }">
                             <div class="modal_title">
                                 押卡信息登记
                             </div>
@@ -58,22 +60,22 @@
                                     <label class="control-label sign_left_small">
                                         抵押合同编号
                                     </label>
-                                    <input type="text" placeholder="" class="select_control sign_right_one">
+                                    <input type="text" placeholder="" class="select_control sign_right_one" name="mortgageContractCode" id="mortgageContractCode" value="${toRcMortgageVO.toRcMortgage.mortgageContractCode }">
                                 </div>
-                                <div class="form_content">
+                                <div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
                                     <label class="control-label sign_left_small">
                                         抵押登记时间
                                     </label>
-                                    <input type="text" placeholder="" class="select_control sign_right_one">
-                                    <span class="date_icon">
-
-                                    </span>
+                                    <input class="input_type sign_right_two" value="<fmt:formatDate value="${toRcMortgageVO.toRcMortgage.mortgageTime}" pattern="yyyy-MM-dd" />" name="mortgageTime" id="mortgageTime" />
+                                    <div class="input-group date_icon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         抵押物业地址
                                     </label>
-                                    <input type="text" placeholder="" class="select_control teamcode">
+                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgagePropertyAddress" name="mortgagePropertyAddress" value="${toRcMortgageVO.toRcMortgage.mortgagePropertyAddress }">
                                 </div>
                             </div>
                             <div class="line">
@@ -81,13 +83,13 @@
                                     <label class="control-label sign_left_small">
                                         产权人姓名
                                     </label>
-                                    <input type="text" placeholder="" class="select_control sign_right_one">
+                                    <input type="text" placeholder="" class="select_control sign_right_one" id="propertyName" name="propertyName" value="${toRcMortgageVO.toRcMortgage.propertyName }">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         产证编号
                                     </label>
-                                    <input type="text" placeholder="" class="select_control sign_right_one">
+                                    <input type="text" placeholder="" class="select_control sign_right_one" id="propertyCode" name="propertyCode" value="${toRcMortgageVO.toRcMortgage.propertyCode }">
                                     <span class="date_icon">
 
                                     </span>
@@ -96,10 +98,18 @@
                                     <label class="control-label sign_left_small">
                                         他证编号
                                     </label>
-                                    <input type="text" placeholder="" class="select_control sign_right_one">
+                                    <input type="text" placeholder="" class="select_control sign_right_one" id="otherCode" name="otherCode" value="${toRcMortgageVO.toRcMortgage.otherCode }">
                                 </div>
                             </div>
                             <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                                       备注
+                                    </label>
+                                    <input class="sign_right_one input_type" value="${toRcMortgageVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
+                                </div>
+                            </div> 
+                           <!--  <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         卡证管理员
@@ -109,29 +119,68 @@
                                         <option value="">小黄</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
+                             <div id="mortgageList">
+                            <c:forEach items="${toRcMortgageVO.toRcMortgageInfoList}" var="item">
                             <div class="line" id="addTr">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         抵押物品类别
                                     </label>
-                                    <select name="" id="" class="select_control sign_right_one">
-                                        <option value="">身份证</option>
-                                        <option value="">银行卡</option>
-                                    </select>
+			                  <aist:dict id="mortgageCategory" name="mortgageCategory" clazz="select_control sign_right_one"
+							display="select"  dictType="MORTGAGE_TYPE" tag="mortgage"
+							ligerui='none' defaultvalue="${item.mortgageCategory}"></aist:dict>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         抵押物品名称
                                     </label>
-                                    <input type="text" placeholder="" class="select_control teamcode">
+                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="${item.mortgageName}">
                                 </div>
                                 <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
                             </div>
-
+                             </c:forEach>
+                            <c:if test="${empty toRcMortgageVO.toRcMortgageInfoList}">
+								<div class="line" id="addTr">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        抵押物品类别
+                                    </label>
+			                  <aist:dict id="mortgageCategory" name="mortgageCategory" clazz="select_control sign_right_one"
+							display="select"  dictType="MORTGAGE_TYPE" tag="mortgage"
+							ligerui='none' defaultvalue=""></aist:dict>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        抵押物品名称
+                                    </label>
+                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="">
+                                </div>
+                                <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
+                            </div>					
+							</c:if>
+                             <div class="line" id="hideAddTr" style="display:none;">
+	                                <div class="form_content"> 
+	                                    <label class="control-label sign_left_small">
+	                                        抵押物品类别
+	                                    </label>
+	                                          <aist:dict id="mortgageCategory" name="mortgageCategory" clazz="select_control sign_right_one"
+							display="select"  dictType="MORTGAGE_TYPE" tag="mortgage"
+							ligerui='none' defaultvalue=""></aist:dict>
+	                                </div>
+	                                <div class="form_content">
+	                                    <label class="control-label sign_left_small">
+	                                        抵押物品名称
+	                                    </label>
+	                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName">
+	                                </div>
+	                                <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
+	                                <a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>
+	                            </div>
+                            </div>
                         </form>
                         <div class="status_btn text-center mt15">
-                            <button class="btn btn-success btn-space">提交</button>
+                            <button class="btn btn-success btn-space submit_btn">提交</button>
                             <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
                         </div>
                         <button type="button" class="close close_blue" style="display:none;" data-dismiss="modal">
@@ -157,13 +206,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
- 		</div>
             <!-- main End -->
     </div>
 <content tag="local_script"> 
@@ -176,12 +218,115 @@
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static/js/inspinia.js"></script>
     <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+    <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="${ctx}/static/trans/js/plugins/poshytip/jquery.poshytip.js"></script>
-
+    <script src="${ctx}/js/jquery.blockui.min.js"></script>
     <!-- 开关按钮js -->
     <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
     <script src="${ctx}/static/trans/js/eloan/eloan_guarant.js"></script>
+    <script>
+	    $(document).ready(function () {
+	    	$('.input-daterange').datepicker({
+	        	format : 'yyyy-mm-dd',
+	    		weekStart : 1,
+	    		autoclose : true,
+	    		todayBtn : 'linked',
+	    		language : 'zh-CN'
+	        });
+	    	
+	    	var eloanCode =  "${eloanCase.eloanCode }";
+        	var pkid = "${pkid}";
+        	
+        	
+        	 $('.submit_btn').click(function(){
+             	var toRcMortgageInfoList = new Array();
+             	$("#mortgageList .line").each(function(i){
+             		if(this.style.display == 'none')
+                    {
+                        return true;
+                    }
+             		var mortgageCategory = $(this).find("#mortgageCategory").val();
+             		var mortgageName = $(this).find("#mortgageName").val();
+             		
+             		var toRcMortgageInfo = {
+             			mortgageCategory : mortgageCategory,
+             			mortgageName : mortgageName
+             		}
+             		toRcMortgageInfoList.push(toRcMortgageInfo);
+             	})
+             	
+             	var toRcMortgage = {
+             		mortgageContractCode : $('#mortgageContractCode').val(),
+             		mortgageTime : $('#mortgageTime').val(),
+             		mortgagePropertyAddress : $('#mortgagePropertyAddress').val(),
+             		propertyName : $('#propertyName').val(),
+             		propertyCode : $('#propertyCode').val(),
+             		otherCode :$('#otherCode').val()
+             	}
+            	var rcRiskControl = {
+             		pkid : $('#riskControlId').val(),
+             		eloanCode : eloanCode,
+             		riskComment : $('#riskComment').val(),
+             		riskType : 'mortgage'
+                }
+             	var toRcMortgageVO = {
+             		toRcMortgageInfoList : toRcMortgageInfoList,
+             		toRcMortgage : toRcMortgage,
+             		rcRiskControl : rcRiskControl
+             	}
+             	
+             	var url = "${ctx}/riskControl/saveRcMortgage";
+     			$.ajax({
+     				cache : true,
+     				async : false,//false同步，true异步
+     				type : "POST",
+     				url : url,
+     				dataType : "json",
+     				contentType:"application/json",  
+     				data : JSON.stringify(toRcMortgageVO),
+     				beforeSend : function() {
+     					$.blockUI({
+     						message : $("#salesLoading"),
+     						css : {
+     							'border' : 'none',
+     							'z-index' : '9999'
+     						}
+     					});
+     					$(".blockOverlay").css({
+     						'z-index' : '9998'
+     					});
+     				},
+     				complete : function() {
+     					$.unblockUI();
+     				},
+     				success : function(data) {
+     					alert(data.message);
+     					window.close();
+     					//window.opener.callback();
+     					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
+     				},
+     				error : function(errors) {
+     					alert("数据保存出错");
+     				}
+     			});
+             	
+             	
+             })
+	    })
+	    
+	    var divIndex = 1;
+		function getAtr(i){
+		    var addTr=$('#hideAddTr').clone();
+		    addTr.show();
+		    $("#mortgageList").append(addTr);
+		    divIndex++;
+		}
+		
+		function getDel(k){
+		    $(k).parents('.line').remove();
+		    divIndex--;
+		}
+    </script>
 </content>
 </body>
-
 </html>

@@ -19,11 +19,24 @@
     PKID, RC_ID, MORTGAGE_CONTRACT_CODE, MORTGAGE_TIME, MORTGAGE_PROPERTY_ADDRESS, PROPERTY_NAME, 
     PROPERTY_CODE, OTHER_CODE, CREATE_BY, CREATE_TIME, UPDATE_TIME, UPDATE_BY
   </sql>
+  <sql id="Mortgage_Base_Column_List" >
+    mortgage.PKID, mortgage.RC_ID, mortgage.MORTGAGE_CONTRACT_CODE, mortgage.MORTGAGE_TIME, mortgage.MORTGAGE_PROPERTY_ADDRESS, mortgage.PROPERTY_NAME, 
+    mortgage.PROPERTY_CODE, mortgage.OTHER_CODE, mortgage.CREATE_BY, mortgage.CREATE_TIME, mortgage.UPDATE_TIME, mortgage.UPDATE_BY
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_RC_MORTGAGE
     where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="getMortgageByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.eloan.entity.RcRiskControl" >
+		SELECT 
+		 <include refid="Mortgage_Base_Column_List" />
+		FROM sctrans.T_RC_RISK_CONTROL riskControl 
+		INNER JOIN  sctrans.T_TO_RC_MORTGAGE  mortgage
+		ON riskControl.PKID = mortgage.RC_ID
+		WHERE riskControl.RISK_TYPE = #{riskType,jdbcType=VARCHAR}
+		AND riskControl.ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_RC_MORTGAGE
@@ -158,6 +171,42 @@
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateMortgageByRcId" parameterType="com.centaline.trans.eloan.entity.ToRcMortgage" >
+    update sctrans.T_TO_RC_MORTGAGE
+    <set >
+      <if test="mortgageContractCode != null" >
+        MORTGAGE_CONTRACT_CODE = #{mortgageContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mortgageTime != null" >
+        MORTGAGE_TIME = #{mortgageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mortgagePropertyAddress != null" >
+        MORTGAGE_PROPERTY_ADDRESS = #{mortgagePropertyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyName != null" >
+        PROPERTY_NAME = #{propertyName,jdbcType=NVARCHAR},
+      </if>
+      <if test="propertyCode != null" >
+        PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCode != null" >
+        OTHER_CODE = #{otherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RC_ID = #{rcId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToRcMortgage" >
     update sctrans.T_TO_RC_MORTGAGE
