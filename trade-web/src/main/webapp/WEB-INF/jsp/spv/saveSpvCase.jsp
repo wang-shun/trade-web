@@ -578,8 +578,9 @@
 								<input type="hidden" name="toSpvAccountList[3].accountType" value="FUND" />
 								<label for="" class="lable-one">资金方账户名称</label>
 								<select name="toSpvAccountList[3].name" value="${spvBaseInfoVO.toSpvAccountList[3].name }" class="form-control input-two">
-								<option value="1">搜易贷（北京）金融信息服务有限公司</option>
-								<option value="2">上海嘉定及时雨小额贷款股份有限公司</option>
+								<option value="">请选择</option>
+								<option value="1" ${spvBaseInfoVO.toSpvAccountList[3].name eq '1'?'selected="selected"':'' }>搜易贷（北京）金融信息服务有限公司</option>
+								<option value="2" ${spvBaseInfoVO.toSpvAccountList[3].name eq '2'?'selected="selected"':'' }>上海嘉定及时雨小额贷款股份有限公司</option>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
@@ -796,6 +797,9 @@
 			$("select[name='toSpvAccountList[3].name']").change(function(){
 				var val = $(this).val();
 				switch(val){
+				case '':
+					$("input[name='toSpvAccountList[3].account']").val("");
+					break;
 				case '1':
 					$("input[name='toSpvAccountList[3].account']").val("137441512010000275");
 					break;
