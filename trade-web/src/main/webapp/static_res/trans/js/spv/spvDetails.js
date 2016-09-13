@@ -137,7 +137,7 @@ $(document).ready(function(){
        
        
        $("#saveBtn").click(function(){
-    	   saveBtnClick()
+    	   saveBtnClick($("#handle").val(),null);
        });
 
        
@@ -198,38 +198,20 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   if(!confirm("是否确定提交申请！")){
-       		  return;
-       	  }
     	   riskAjaxRequest(null,'spvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
-    	   if(!confirm("是否确定通过！")){
-        		  return;
-        	  }
     	   riskAjaxRequest(true,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        //风控总监审批驳回
-       $("#riskDirectorApproveN").click(function(){  
-    	   
-    	   if(!confirm("是否确定驳回！")){
-      		  return;
-      	  }
-    	   var passOrRefuseReason = $("#passOrRefuseReason").val();
-    	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
-    		   alert("请在备注栏填写驳回原因！");
-    		   return;
-    	   }    	   
+       $("#riskDirectorApproveN").click(function(){      	   
     	   riskAjaxRequest(false,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        $("#RiskOfficerSign").click(function(){
-    	   if(!confirm("是否确定签约！")){
-        		  return;
-        	  }
     	   riskAjaxRequest(null,'spvSign',ctx+'/spv/spvSign/deal');
        });
 
@@ -249,11 +231,37 @@ $(document).ready(function(){
 
     }); 
 });
-    function saveBtnClick(){
+    function saveBtnClick(handle,SpvApplyApprove){
  	   //保存时必须选择关联案件，监管总金额，监管机构
   	  if(!checkFormSave()){
   		  return false;
   	  }
+  	  
+  	  if(handle == 'SpvApply'){
+	  		if(!confirm("是否确定提交申请！")){
+	  		  return false;
+	  	  }
+  	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
+	   	   if(!confirm("是否确定通过！")){
+	 		  return false;
+	 	  }
+     	   var passOrRefuseReason = $("#passOrRefuseReason").val();
+     	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
+     		   alert("请在备注栏填写驳回原因！");
+     		   return false;
+     	   }
+  	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
+	  		if(!confirm("是否确定驳回！")){
+	     		  return;
+	     	  }
+  	  }else if(handle == 'SpvSign'){
+	   	   if(!confirm("是否确定签约！")){
+	 		  return false;
+	 	  }
+  	  }else{
+  		  //do nothing
+  	  }
+	   
   	  
   	  	var isSuccess = false;
    	  	var totalArr = [];
@@ -1091,7 +1099,7 @@ $(document).ready(function(){
 	    	data.SpvApplyApprove = SpvApplyApprove;
 	    }
 	    //验证参数是否填写正确
-    	var startWorkfollow = saveBtnClick();
+    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove);
 
 	    //是否启动流程标记，false不启动，true启动
 	    if(!startWorkfollow){
