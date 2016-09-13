@@ -191,6 +191,11 @@
 			</div>
 
 			<div class="ibox-content clearfix" id="base_info">
+			<c:if test="${spvBaseInfoVO.toSpv.status==0 }">
+			<shiro:hasPermission name="TRADE.SPV.UPDATE">
+            		<a style="float: right; href="${ctx}/spv/saveHTML?pkid=${spvBaseInfoVO.toSpv.pkid}">我要修改</a>
+		    </shiro:hasPermission>
+            </c:if> 
 				<div class="panel blank-panel">
 					<div class="panel-heading">
 						<div class="panel-options">
