@@ -5,6 +5,7 @@
 package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
@@ -45,6 +46,8 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 
@@ -54,6 +57,9 @@ public class SpvController {
 	
 	@Autowired
 	private ToSpvService toSpvService;
+	
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	
 	@Autowired
 	private UamSessionService uamSessionService;
@@ -442,7 +448,18 @@ public class SpvController {
     @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	
+    	
         SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(instCode);
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
  
     	request.setAttribute("taskId", taskId); 
@@ -490,9 +507,19 @@ public class SpvController {
 	@RequestMapping("task/SpvApprove/process")
 	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
 		
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);
 		
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(instCode);
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+		
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
@@ -500,6 +527,7 @@ public class SpvController {
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
+		
 		return "spv/saveSpvCase";
 	}
 
@@ -515,14 +543,30 @@ public class SpvController {
      */
 	@RequestMapping("spvApprove/deal")
 	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
-
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		spv.setStatus("0");
-		spv.setRemark(remark);
+		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
+		
+		//条件审核记录到ToApproveRecord
+		ToApproveRecord toApproveRecord=new ToApproveRecord();
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(remark);
+		toApproveRecord.setApproveType("0");//todo
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setTaskId(taskId);
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
+		toApproveRecord.setProcessInstance(instCode);		
+		
+		toApproveRecordService.insertToApproveRecord(toApproveRecord);
 		
 		return AjaxResponse.success();
 	}

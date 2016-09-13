@@ -5,7 +5,9 @@ import java.util.List;
 import com.centaline.trans.task.entity.ToApproveRecord;
 
 public interface ToApproveRecordService {
-
+	
+	public ToApproveRecord queryToApproveRecordForSpvApply(ToApproveRecord toApproveRecord);
+	
 	public ToApproveRecord queryToApproveRecord(ToApproveRecord toApproveRecord);
 	
 	public void saveToApproveRecord(ToApproveRecord toApproveRecord);
