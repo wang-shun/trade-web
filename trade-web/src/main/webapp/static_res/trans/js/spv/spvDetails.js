@@ -243,11 +243,17 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
+    	   if(!confirm("是否确定提交申请！")){
+       		  return;
+       	  }
     	   riskAjaxRequest(null,'spvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
+    	   if(!confirm("是否确定通过！")){
+        		  return;
+        	  }
     	   riskAjaxRequest(true,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
@@ -266,6 +272,9 @@ $(document).ready(function(){
        });
        
        $("#RiskOfficerSign").click(function(){
+    	   if(!confirm("是否确定签约！")){
+        		  return;
+        	  }
     	   riskAjaxRequest(null,'spvSign',ctx+'/spv/spvSign/deal');
        });
 
@@ -793,14 +802,14 @@ $(document).ready(function(){
 			amountMort = Number(amountMort);
 			amountMortCom = Number(amountMortCom);
 			
-			if((amountMort + amountOwn) != amount){
+			if(accAdd(amountMort,amountOwn) != amount){
 				alert("监管总金额等于自筹资金+贷款资金之和");
 				changeClass($("input[name='toSpv.amountMort']"));
 				return false;
 			}
 			
 			if(amountMortCom != amountMort){
-				alert("贷款资金应等于其中：商业贷款金额！");
+				alert("贷款资金应等于商业贷款金额！");
 				changeClass($("input[name='toSpv.amountMortCom']"));
 				return false;
 			}
@@ -854,14 +863,14 @@ $(document).ready(function(){
 			amountMortCom = Number(amountMortCom);
 			amountMortPsf = Number(amountMortPsf);
 			
-			if((amountMort + amountOwn) != amount){
+			if(accAdd(amountMort,amountOwn) != amount){
 				alert("监管总金额等于自筹资金+贷款资金之和");
 				changeClass($("input[name='toSpv.amountMort']"));
 				return false;
 			}
 			
-			if((amountMortCom + amountMortPsf) != amountMort){
-				alert("贷款资金应等于其中：商业贷款金额+公积金贷款金额之和！");
+			if(accAdd(amountMortCom,amountMortPsf) != amountMort){
+				alert("贷款资金应等于商业贷款金额+公积金贷款金额之和！");
 				changeClass($("input[name='toSpv.amountMortCom']"));
 				return false;
 			}
@@ -899,7 +908,7 @@ $(document).ready(function(){
 			amountMort = Number(amountMort);
 			amountMortPsf = Number(amountMortPsf);
 			
-			if((amountMort + amountOwn) != amount){
+			if(accAdd(amountMort,amountOwn) != amount){
 				alert("监管总金额等于自筹资金+贷款资金之和");
 				changeClass($("input[name='toSpv.amountMort']"));
 				return false;
@@ -1384,7 +1393,7 @@ function accSub(arg1,arg2){
      //last modify by deeka
      //动态控制精度长度
      n=(r1>=r2)?r1:r2;
-     return ((arg2*m-arg1*m)/m).toFixed(n);
+     return ((arg2*m-arg1*m)/m).toFixed(2);
 }
 ///给number类增加一个sub方法，调用起来更加方便
 Number.prototype.sub = function (arg){
