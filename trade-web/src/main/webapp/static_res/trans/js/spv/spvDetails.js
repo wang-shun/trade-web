@@ -799,7 +799,6 @@ $(document).ready(function(){
 		}
 		
 		
-		
 		/** ------监管资金的支付信息验证结束--------  **/
 		
 		/** ------资金监管账号信息验证开始--------  **/
@@ -877,33 +876,41 @@ $(document).ready(function(){
 		var isVerify = true;
 		var isRepeat = false;
 		var totalAmount = 0;
+		var pkid = $("input[name='spvCustList[0].pkid']").val();
 		
-		if(length > 1){
-			$("#addTr tr:visible").each(function(index){
-				var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
-	    		var payeeAccountType = $("select[name='toSpvDeDetailList[" + index + "].payeeAccountType'] option:selected").val();
-	    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();
-	    		
-	    		if(deCondCode == "" || payeeAccountType == "" || deAmount == ""){
-	    			isVerify = false;
-	    			return false;
-	    		}
-	    		
-	    		$("#addTr tr:visible").each(function(index1){
-	    			if(index != index1 && deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val()){
-	    				isRepeat = true;
-	    				return false;
-	    			}
-	    		});
-	    		
-	    		deAmount = Number(deAmount);
-	    		totalAmount += deAmount;
-	        });
+		if(pkid == ""){
+			if(length <= 1){
+				alert("请至少添加一条资金出款约定！");
+				return false;
+			}
 		}
 		else {
-			alert("请至少添加一条资金出款约定！");
-			return false;
+			if(length < 1){
+				alert("请至少添加一条资金出款约定！");
+				return false;
+			}
 		}
+		
+		$("#addTr tr:visible").each(function(index){
+			var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
+    		var payeeAccountType = $("select[name='toSpvDeDetailList[" + index + "].payeeAccountType'] option:selected").val();
+    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();
+    		
+    		if(deCondCode == "" || payeeAccountType == "" || deAmount == ""){
+    			isVerify = false;
+    			return false;
+    		}
+    		
+    		$("#addTr tr:visible").each(function(index1){
+    			if(index != index1 && deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val()){
+    				isRepeat = true;
+    				return false;
+    			}
+    		});
+    		
+    		deAmount = Number(deAmount);
+    		totalAmount += deAmount;
+        });
 		
 		if(isRepeat){
 			alert("划转条件不能重复！");
