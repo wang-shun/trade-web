@@ -210,10 +210,9 @@
 										监管资金 </a></li>
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
 								</li>
-								<c:if test="${spvBaseInfoVO.toSpv.status==0&&spvBaseInfoVO.toSpv.applyTime!=undefined}">
+								
 								<li class=""><a href="#tab-6" data-toggle="tab">驳回原因</a>
 								</li>
-								</c:if>
 							</ul>
 						</div>
 					</div>
@@ -245,6 +244,13 @@
 														<dd>${spvBaseInfoVO.spvCustList[0].phone }</dd>
 														<dt>证件有效期</dt>
 														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+														<dt>委托人</dt>
+														<dd>${spvBaseInfoVO.spvCustList[0].agentName}</dd>
+														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
+									                        display="onlyLabel"  dictType="CERT_TYPE"  
+									                        ligerui='none' dictCode="${spvBaseInfoVO.spvCustList[0].agentIdType}"></aist:dict></dt>
+														<dd>${spvBaseInfoVO.spvCustList[0].agentIdCode}</dd>
+														
 													</dl>
 												</div>
 											</div>
@@ -269,6 +275,12 @@
 														<dd>${spvBaseInfoVO.spvCustList[1].phone }</dd>
 														<dt>证件有效期</dt>
 														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+													   <dt>委托人</dt>
+														<dd>${spvBaseInfoVO.spvCustList[1].agentName}</dd>
+														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
+									                        display="onlyLabel"  dictType="CERT_TYPE"  
+									                        ligerui='none' dictCode="${spvBaseInfoVO.spvCustList[1].agentIdType}"></aist:dict></dt>
+														<dd>${spvBaseInfoVO.spvCustList[1].agentIdCode}</dd>
 													</dl>
 												</div>
 											</div>
@@ -492,7 +504,7 @@
 
 												
 												<p><strong>驳回原因</strong> <p>
-												<div style="margin-left:50px;"class="ibox-conn ibox-text">
+												<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
                                               ${toApproveRecord.content} 
 												</div>
                             	</div>
