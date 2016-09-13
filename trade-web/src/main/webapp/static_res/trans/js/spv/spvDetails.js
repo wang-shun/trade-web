@@ -243,11 +243,17 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
+    	   if(!confirm("是否确定提交申请！")){
+       		  return;
+       	  }
     	   riskAjaxRequest(null,'spvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
+    	   if(!confirm("是否确定通过！")){
+        		  return;
+        	  }
     	   riskAjaxRequest(true,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
@@ -266,6 +272,9 @@ $(document).ready(function(){
        });
        
        $("#RiskOfficerSign").click(function(){
+    	   if(!confirm("是否确定签约！")){
+        		  return;
+        	  }
     	   riskAjaxRequest(null,'spvSign',ctx+'/spv/spvSign/deal');
        });
 

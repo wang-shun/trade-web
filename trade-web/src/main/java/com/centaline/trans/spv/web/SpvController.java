@@ -494,6 +494,12 @@ public class SpvController {
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
+		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+
+		//spv.setRemark(remark);
+		toSpvService.updateByPrimaryKey(spv);
+		
 		return AjaxResponse.success();
 	}
     
@@ -597,10 +603,12 @@ public class SpvController {
 		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
-		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvSign");
 		request.setAttribute("urlType", "myTask");
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
 		return "spv/saveSpvCase";
 	}
 	

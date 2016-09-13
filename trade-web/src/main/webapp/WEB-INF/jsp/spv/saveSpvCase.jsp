@@ -639,6 +639,7 @@
 								  <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
 									<tr align="center">
 										<td class="text-left">
+										<input type="hidden" name="toSpvDeDetailList[${status.index }].pkid" value="${toSpvDeDetail.pkid}" />
 										<aist:dict id="toSpvDeDetailList[${status.index }].deCondCode" name="toSpvDeDetailList[${status.index }].deCondCode" clazz="form-control input-one"
 									    display="select"  dictType="SPV_DE_COND"  
 									    ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }"></aist:dict>	
