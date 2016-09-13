@@ -58,7 +58,7 @@
 			<form class="form-inline" id="serachForm">
 				<div class="form-row form-rowbot">
 					<div class="form-group form-margin form-space-one">
-						<label for="" class="lable-one">合约编号</label> <input type="text"
+						<label for="" class="lable-one">合约编号</label> <input type="text" style="width:160px;"
 							class="form-control input-one" placeholder="请输入合约编号" name="spvCode">
 					</div>
 					<div class="form-group form-margin form-space-one">
