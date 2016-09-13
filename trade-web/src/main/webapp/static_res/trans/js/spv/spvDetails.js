@@ -508,6 +508,37 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		var buyerHasDele = $("input[name='spvCustList[0].hasDele'][value='1']").is(":checked");
+		var buyerAgentName = $("input[name='spvCustList[0].agentName']").val();
+		
+		if(buyerHasDele && (buyerAgentName == null || buyerAgentName == '')){
+			alert("请填写买方委托人姓名！");
+			changeClass($("input[name='spvCustList[0].agentName']"));
+			return false;
+		}
+		
+		if(buyerHasDele && (buyerAgentName != null && buyerAgentName != '')){
+			if(!isName(buyerAgentName)){
+				alert("请填写有效的买方委托人姓名！");
+				changeClass($("input[name='spvCustList[0].agentName']"));
+				return false;
+			}
+		}
+		
+		var buyerAgentIdCode = $("input[name='spvCustList[0].agentIdCode']").val();
+		if(buyerHasDele && (buyerAgentIdCode == null || buyerAgentIdCode == '')){
+			alert("请填写买方委托人证件编号！");
+			changeClass($("input[name='spvCustList[0].agentIdCode']"));
+			return false;
+		}
+		if(buyerHasDele && buyerAgentIdCode != null && buyerAgentIdCode != ''){
+			if(!isIdCardSimple(buyerAgentIdCode) && !new RegExp("/^\d{15}$/").test(buyerAgentIdCode)){
+				alert("请填写有效的买方委托人证件编号！");
+				changeClass($("input[name='spvCustList[0].agentIdCode']"));
+				return false;
+			}
+		}	
+		
 		/** ------买方信息验证结束--------  **/
 		
 		/** ------卖方信息验证开始--------  **/
@@ -570,6 +601,37 @@ $(document).ready(function(){
 			alert("请填写卖方家庭地址！");
 			changeClass($("input[name='spvCustList[1].homeAddr']"));
 			return false;
+		}
+		
+		var sellerHasDele = $("input[name='spvCustList[1].hasDele'][value='1']").is(":checked");
+		
+		var sellerAgentName = $("input[name='spvCustList[1].agentName']").val();
+		if(sellerHasDele && (sellerAgentName == null || sellerAgentName == '')){
+			alert("请填写卖方委托人姓名！");
+			changeClass($("input[name='spvCustList[1].agentName']"));
+			return false;
+		}
+		
+		if(sellerHasDele && (sellerAgentName != null && sellerAgentName != '')){
+			if(!isName(sellerAgentName)){
+				alert("请填写有效的卖方委托人姓名！");
+				changeClass($("input[name='spvCustList[1].agentName']"));
+				return false;
+			}
+		}
+		
+		var sellerAgentIdCode = $("input[name='spvCustList[1].agentIdCode']").val();
+		if(sellerHasDele && (sellerAgentIdCode == null || sellerAgentIdCode == '')){
+			alert("请填写卖方委托人证件编号！");
+			changeClass($("input[name='spvCustList[1].agentIdCode']"));
+			return false;
+		}
+		if(sellerHasDele && sellerAgentIdCode != null && sellerAgentIdCode != ''){
+			if(!isIdCardSimple(sellerAgentIdCode) && !new RegExp("/^\d{15}$/").test(sellerAgentIdCode)){
+				alert("请填写有效的卖方委托人证件编号！");
+				changeClass($("input[name='spvCustList[1].agentIdCode']"));
+				return false;
+			}
 		}
 		
 		/** ------卖方信息验证结束--------  **/
