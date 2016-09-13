@@ -530,6 +530,10 @@
 			/*获取产品列表*/
 			function getPcode(pcode){
 				var pcode = $("#"+pcode);
+				if(pcode.html()==1){
+					pcode.html("光大四方资金监管");
+					return;
+				}
 				 $.ajax({
 					    url:ctx+"/spv/queryPrdcCodeByProdCode",
 					    method:"post",
