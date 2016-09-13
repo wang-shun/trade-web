@@ -728,7 +728,7 @@
 		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 
-		<script id="queryCastListItemList" type= "text/html">
+		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}
     	<tr>
         <td>
@@ -762,12 +762,12 @@
         </td>
         <td class="center">
             <p class="big">
-           		<span id="modal_seller{{index}}">{{item.SELLER}}</span>
+           		<span id="modal_seller{{index}}">{{item.SELLER.substring(0,item.SELLER.indexOf("/") == -1?item.SELLER.length:item.SELLER.indexOf("/"))}}</span>
             </p>
         </td>
         <td class="center">
             <p class="big">
-          	   <span id="modal_buyer{{index}}"> {{item.BUYER}}</span>
+          	   <span id="modal_buyer{{index}}">{{item.BUYER.substring(0,item.BUYER.indexOf("/") == -1?item.BUYER.length:item.BUYER.indexOf("/"))}}</span>
             </p>
         </td>
         <td class="text-left">
@@ -854,7 +854,7 @@
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
     			queryId : 'queryCastListItemList',
-    		    templeteId : 'queryCastListItemList',
+    		    templeteId : 'queryCastListItemList2',
     		    rows : '6',
     		    gridClass : 'table table_blue table-striped table-bordered table-hover',
     		    data : '',
@@ -869,7 +869,7 @@
     		    	      },{
    		    	                colName :"工作人员"
 		    	          },{
-	   		    	           colName :"上家"
+	   		    	           colName :"上家"  	           
 			    	      },{
 			    	           colName :"下家"
 			    	      },{
@@ -936,7 +936,7 @@
     	    	ctx : "${ctx}",
     	    	rows : '6',
     			queryId : 'queryCastListItemList',
-    		    templeteId : 'queryCastListItemList',
+    		    templeteId : 'queryCastListItemList2',
     		    wrapperData :{ctx : ctx},
     		    data : {propertyAddr:propertyAddr}
     	    })
