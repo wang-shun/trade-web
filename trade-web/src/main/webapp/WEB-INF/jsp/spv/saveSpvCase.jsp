@@ -809,14 +809,14 @@
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
-				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false);
-				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false);
-				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false);
-				$("#bank_1").prop("disabled",false);
-				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false);
-				$("#signDiv").show();
-				$("#signDiv").find("input").prop("readOnly",false);
-			}
+  				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("#bank_1").prop("disabled",false);
+  				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("#signDiv").show();
+  				$("#signDiv").find("input").prop("readOnly",false);
+	         }
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){
 				var val = $(this).val();

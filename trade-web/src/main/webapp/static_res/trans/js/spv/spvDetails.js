@@ -293,7 +293,7 @@ $(document).ready(function(){
 			alert("请选择关联案件！");
 			return false;	
 		}
-		/*
+		
 		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
 		if(signAmount != null && signAmount != ''){
 			if(!isNumber(signAmount)){
@@ -344,7 +344,7 @@ $(document).ready(function(){
    				 return fasle;
    			 }
         	} 
-		});*/
+		});
 		
 /*        var toSpvAmount = $("#toSpvAmount").val();
         if(toSpvAmount == null || toSpvAmount == ''){
@@ -383,6 +383,46 @@ $(document).ready(function(){
 			alert("划转条件、账户、金额这三项信息不能为空！");
 			return false;
 		}*/
+		
+		//签约时判断
+		  if($("#handle").val() == 'SpvSign'){
+			  var spvAccountName = $("input[name='toSpvAccountList[1].name']").val();
+			  if(spvAccountName == null || spvAccountName == ''){
+				  alert("请填写卖方收款账号名称！");
+				  return false;
+			  }
+			  var spvAccountAcc = $("input[name='toSpvAccountList[1].account']").val();
+			  if(spvAccountAcc == null || spvAccountAcc == ''){
+				  alert("请填写卖方收款账号！");
+				  return false;
+			  }
+			  var spvAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
+			  if(spvAccountTelephone == null || spvAccountTelephone == ''){
+				  alert("请填写卖方电话！");
+				  return false;
+			  }
+			  if(spvAccountTelephone != null && spvAccountTelephone != ''){
+				  if(!isMobile(spvAccountTelephone)){
+					  alert("请填写有效的卖方电话!");
+					  return false;
+				  }
+			  }
+			  var spvAccountBank = $("select[name='toSpvAccountList[1].bank'] option:selected").val();
+			  if(spvAccountBank == null || spvAccountBank == ''){
+				  alert("请填写卖方收款账号开户行！");
+				  return false;
+			  }
+			  var spvConCode = $("input[name='toSpv.spvConCode']").val();
+			  if(spvConCode == null || spvConCode == ''){
+				  alert("请填写签约合同号！");
+				  return false;
+			  }
+			  var signTime = $("input[name='toSpv.signTime']").val();
+			  if(signTime == null || signTime == ''){
+				  alert("请填写签约时间！");
+				  return false;
+			  }
+		  }
 		
 		 return true;
 	}
