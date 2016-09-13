@@ -61,9 +61,15 @@
 				<li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 			</ul>
-			<c:if test="${handle ne 'SpvApprove' and handle ne 'SpvSign' }">
+			<c:if test="${empty handle or handle eq 'SpvApply'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
+				<button id="saveBtn" class="btn btn-warning">保存</button>
+			</div>
+			</c:if>
+			<c:if test="${handle eq 'SpvSign'}">
+			<div class="menu_btn"
+				style="margin-left: 960px; margin-top: 7px;display:none;" >
 				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 			</c:if>

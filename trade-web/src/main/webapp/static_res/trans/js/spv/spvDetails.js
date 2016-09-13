@@ -791,7 +791,10 @@ $(document).ready(function(){
     	    if(SpvApplyApprove != null){
     	    	data.SpvApplyApprove = SpvApplyApprove;
     	    }
-
+    	    
+    	    if(handle == 'spvApply' || handle == 'spvSign'){
+    	    	$("#saveBtn").click();
+    	    }
 			$.ajax({
 				url:url,
 				method:"post",
