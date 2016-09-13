@@ -135,56 +135,11 @@ $(document).ready(function(){
 
        });
        
+       
        $("#saveBtn").click(function(){
-    	  //保存时必须选择关联案件，监管总金额，监管机构
-    	  if(!checkFormSave()){
-    		  return;
-    	  }
-     	  var totalArr = [];
-     	  $("form").each(function(){
-     		 var obj = $(this).serializeArray();
-     		for(var i in obj){
-          		totalArr.push(obj[i]);
-     		}
-     	  }); 
+    	   saveBtnClick()
+       });
 
-     	  $.ajax({
-       		url:ctx+"/spv/saveNewSpv",
-       		method:"post",
-       		dataType:"json",
-       		data:totalArr,	 
-       		beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
-            },
-	        complete: function() {
-	                 $.unblockUI(); 
-	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
-		          	  Modal.alert(
-					  {
-					    msg:"抱歉，系统处理超时。"
-					  }); 
-			                } 
-			            } ,   
-			success : function(data) {   
-					/*if(data.message){
-						alert(data.message);
-					}*/
-				     if($("#urlType").val() == 'myTask'){    	 
-				    	 window.opener.location.reload(); //刷新父窗口
-			        	 window.close(); //关闭子窗口.
-				     }else{
-				    	 alert("数据保存成功！");
-				    	 window.location.href = ctx+"/spv/spvList";
-				     }
-					 $.unblockUI();
-				},		
-			error : function(errors) {
-					$.unblockUI();   
-					alert("数据保存出错:"+JSON.stringify(errors));
-				}	 
-        });
-     });
        
        $("#submitBtn").click(function(){
     	 //保存时必须选择关联案件，监管总金额，监管机构
@@ -294,6 +249,60 @@ $(document).ready(function(){
 
     }); 
 });
+    function saveBtnClick(){
+ 	   //保存时必须选择关联案件，监管总金额，监管机构
+  	  if(!checkFormSave()){
+  		  return false;
+  	  }
+  	  
+  	  	var isSuccess = false;
+   	  	var totalArr = [];
+	      	  $("form").each(function(){
+	      		 var obj = $(this).serializeArray();
+	      		for(var i in obj){
+	           		totalArr.push(obj[i]);
+	      		}
+	      	  }); 
+
+	      	  $.ajax({
+	        		url:ctx+"/spv/saveNewSpv",
+	        		method:"post",
+	        		dataType:"json",
+	        		data:totalArr,
+	        		async:false,
+	        		beforeSend:function(){  
+	 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	 				$(".blockOverlay").css({'z-index':'9998'});
+	             },
+	 	        complete: function() {
+	 	                 $.unblockUI(); 
+	 	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+	 		          	  Modal.alert(
+	 					  {
+	 					    msg:"抱歉，系统处理超时。"
+	 					  }); 
+	 			                } 
+	 			            } ,   
+	 			success : function(data) {   
+				    	 isSuccess = true;
+	 				     if($("#urlType").val() == 'myTask'){    	 
+	 				    	 window.opener.location.reload(); //刷新父窗口
+	 			        	 window.close(); //关闭子窗口.
+	 				     }else{
+	 				    	 alert("数据保存成功！");
+	 				    	 window.location.href = ctx+"/spv/spvList";
+	 				     }
+	 					 $.unblockUI();
+	 				},		
+	 			error : function(errors) {
+	 					$.unblockUI();   
+	 					alert("数据保存出错:"+JSON.stringify(errors));
+	 				}	 
+	      	  });
+	      	  
+ 	   return isSuccess;
+    }
+    
     
     //保存必填项
 	function checkFormSave(){
@@ -516,37 +525,6 @@ $(document).ready(function(){
 			changeClass($("input[name='spvCustList[0].homeAddr']"));
 			return false;
 		}
-		
-		var buyerHasDele = $("input[name='spvCustList[0].hasDele'][value='1']").is(":checked");
-		var buyerAgentName = $("input[name='spvCustList[0].agentName']").val();
-		
-		if(buyerHasDele && (buyerAgentName == null || buyerAgentName == '')){
-			alert("请填写买方委托人姓名！");
-			changeClass($("input[name='spvCustList[0].agentName']"));
-			return false;
-		}
-		
-		if(buyerHasDele && (buyerAgentName != null && buyerAgentName != '')){
-			if(!isName(buyerAgentName)){
-				alert("请填写有效的买方委托人姓名！");
-				changeClass($("input[name='spvCustList[0].agentName']"));
-				return false;
-			}
-		}
-		
-		var buyerAgentIdCode = $("input[name='spvCustList[0].agentIdCode']").val();
-		if(buyerHasDele && (buyerAgentIdCode == null || buyerAgentIdCode == '')){
-			alert("请填写买方委托人证件编号！");
-			changeClass($("input[name='spvCustList[0].agentIdCode']"));
-			return false;
-		}
-		if(buyerHasDele && buyerAgentIdCode != null && buyerAgentIdCode != ''){
-			if(!isIdCardSimple(buyerAgentIdCode) && !new RegExp("/^\d{15}$/").test(buyerAgentIdCode)){
-				alert("请填写有效的买方委托人证件编号！");
-				changeClass($("input[name='spvCustList[0].agentIdCode']"));
-				return false;
-			}
-		}	
 		
 		/** ------买方信息验证结束--------  **/
 		
@@ -1047,7 +1025,8 @@ $(document).ready(function(){
     		});
     		
     		deAmount = Number(deAmount);
-    		totalAmount += deAmount;
+
+    		totalAmount = accAdd(totalAmount,deAmount);
         });
 		
 		if(isRepeat){
@@ -1070,53 +1049,57 @@ $(document).ready(function(){
 		return true;
 	}
 	
+	function ajaxCall(url,data){
+		$.ajax({
+			url:url,
+			method:"post",
+			dataType:"json",
+			data:data,
+			beforeSend:function(){  
+    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+    				$(".blockOverlay").css({'z-index':'9998'});
+                },
+            complete: function() {
+	                 $.unblockUI(); 
+                     if(status=='timeout'){ //超时,status还有success,error等值的情况
+    	          	  Modal.alert(
+    				  {
+    				    msg:"抱歉，系统处理超时。"
+    				  }); 
+    		                } 
+    		            } ,   
+			success : function(data) {
+				if($("#urlType").val() == 'myTask'){    	 
+			    	 window.opener.location.reload(); //刷新父窗口
+		        	 window.close(); //关闭子窗口.
+				     }else{
+				    	 window.location.href = ctx+"/spv/spvList";
+				     }
+					 $.unblockUI();
+				},
+				error : function(errors) {
+					$.unblockUI();   
+					alert("数据保存出错:"+JSON.stringify(errors));
+				}
+		});
+	}
+	
 	//风控总监审批公共方法   
     function riskAjaxRequest(SpvApplyApprove,handle,url){
-    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
-    	    if(SpvApplyApprove != null){
-    	    	data.SpvApplyApprove = SpvApplyApprove;
-    	    }
-    	    
-    	    if(handle == 'spvApply' || handle == 'spvSign'){
-    	    	$("#saveBtn").click();
-    	    }
-			$.ajax({
-				url:url,
-				method:"post",
-				dataType:"json",
-				data:data,
-				beforeSend:function(){  
-	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	    				$(".blockOverlay").css({'z-index':'9998'});
-	                },
-	            complete: function() {
-		                 $.unblockUI(); 
-	                     if(status=='timeout'){ //超时,status还有success,error等值的情况
-	    	          	  Modal.alert(
-	    				  {
-	    				    msg:"抱歉，系统处理超时。"
-	    				  }); 
-	    		                } 
-	    		            } ,   
-				success : function(data) {   
-						/*if(data.message){
-							alert(data.message);
-						}*/
-					    // window.location.href = ctx+"/task/myTaskList";
-					     if($("#urlType").val() == 'myTask'){    	 
-					    	 window.opener.location.reload(); //刷新父窗口
-				        	 window.close(); //关闭子窗口.
-					     }else{
-					    	 window.location.href = ctx+"/spv/spvList";
-					     }
-						 $.unblockUI();
-					},
-					
-					error : function(errors) {
-						$.unblockUI();   
-						alert("数据保存出错:"+JSON.stringify(errors));
-					}
-			});
+	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
+	    if(SpvApplyApprove != null){
+	    	data.SpvApplyApprove = SpvApplyApprove;
+	    }
+	    //验证参数是否填写正确
+    	var startWorkfollow = saveBtnClick();
+
+	    //是否启动流程标记，false不启动，true启动
+	    if(!startWorkfollow){
+	    	return false;
+    	}
+
+	    //调用ajax方法
+	    ajaxCall(url,data);
     }
     
     //风控申请审批时只读表单

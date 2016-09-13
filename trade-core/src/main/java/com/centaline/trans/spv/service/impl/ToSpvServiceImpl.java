@@ -578,47 +578,48 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}*/
 
 			//重构toSpvDeDetailList
-			List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
-			if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
-				for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
-					if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
-						toSpvDeDetailNewList.add(toSpvDeDetail);
-					}
-				}
-			}
-			List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
-			for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
-				toSpvDeDetail.setUpdateBy(user.getId());
-				toSpvDeDetail.setUpdateTime(new Date());
-				toSpvDeDetail.setIsDeleted("1");
-				toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-			}
-			if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
-				// PayeeAccountType -> PayeeAccountId
-				for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
-					if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
-						for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-							if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
-								toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
-							}
+			if(!"SpvApprove".equals(spvBaseInfoVO.getHandle()) && !"SpvSign".equals(spvBaseInfoVO.getHandle())){
+				List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
+				if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
+					for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+						if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
+							toSpvDeDetailNewList.add(toSpvDeDetail);
 						}
 					}
-					
-					if(toSpvDeDetail.getPkid() != null){
-						toSpvDeDetail.setUpdateBy(user.getId());
-						toSpvDeDetail.setUpdateTime(new Date());
-						toSpvDeDetail.setIsDeleted("0");
-						toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-					}else{
-						toSpvDeDetail.setCreateBy(user.getId());
-						toSpvDeDetail.setCreateTime(new Date());
-						toSpvDeDetail.setDeId(toSpvDe.getPkid());
-						toSpvDeDetail.setIsDeleted("0");
-						toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+				}
+				List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
+				for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
+					toSpvDeDetail.setUpdateBy(user.getId());
+					toSpvDeDetail.setUpdateTime(new Date());
+					toSpvDeDetail.setIsDeleted("1");
+					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+				}
+				if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
+					// PayeeAccountType -> PayeeAccountId
+					for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
+						if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
+							for (ToSpvAccount toSpvAccount : toSpvAccountList) {
+								if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
+									toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
+								}
+							}
+						}
+						
+						if(toSpvDeDetail.getPkid() != null){
+							toSpvDeDetail.setUpdateBy(user.getId());
+							toSpvDeDetail.setUpdateTime(new Date());
+							toSpvDeDetail.setIsDeleted("0");
+							toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+						}else{
+							toSpvDeDetail.setCreateBy(user.getId());
+							toSpvDeDetail.setCreateTime(new Date());
+							toSpvDeDetail.setDeId(toSpvDe.getPkid());
+							toSpvDeDetail.setIsDeleted("0");
+							toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+						}
 					}
 				}
 			}
-
 		/** 6.保存到‘资金监管房屋信息’表 */
 		// ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		if (toSpvProperty != null) {

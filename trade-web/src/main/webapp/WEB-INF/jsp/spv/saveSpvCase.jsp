@@ -679,7 +679,7 @@
 							</table>							
 							
 							<div class="form-btn">
-							<input type="hidden" id="handle" value="${handle }">												
+							<input type="hidden" id="handle" name="handle" value="${handle }">							
 							<c:if test="${handle eq 'SpvApply' }">
 							    <div>
 									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
