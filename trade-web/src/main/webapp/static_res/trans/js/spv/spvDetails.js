@@ -170,8 +170,9 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
-				     if($("#handle").val() == 'SpvApply'){    	 
-				    	 window.location.href = ctx+"/task/myTaskList";
+				     if($("#urlType").val() == 'myTask'){    	 
+				    	 window.opener.location.reload(); //刷新父窗口
+			        	 window.close(); //关闭子窗口.
 				     }else{
 				    	 alert("数据保存成功！");
 				    	 window.location.href = ctx+"/spv/spvList";
@@ -223,8 +224,9 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
-				     if($("#handle").val() == 'SpvApply'){    	 
-				    	 window.location.href = ctx+"/task/myTaskList";
+				     if($("#urlType").val() == 'myTask'){    	 
+				    	 window.opener.location.reload(); //刷新父窗口
+			        	 window.close(); //关闭子窗口.
 				     }else{
 				    	 alert("流程开启成功！");
 				    	 window.location.href = ctx+"/spv/spvList";
@@ -817,7 +819,13 @@ $(document).ready(function(){
 						/*if(data.message){
 							alert(data.message);
 						}*/
-					     window.location.href = ctx+"/task/myTaskList";
+					    // window.location.href = ctx+"/task/myTaskList";
+					     if($("#urlType").val() == 'myTask'){    	 
+					    	 window.opener.location.reload(); //刷新父窗口
+				        	 window.close(); //关闭子窗口.
+					     }else{
+					    	 window.location.href = ctx+"/spv/spvList";
+					     }
 						 $.unblockUI();
 					},
 					
@@ -1123,3 +1131,12 @@ function accSub(arg1,arg2){
 Number.prototype.sub = function (arg){
     return accSub(arg,this);
 }
+
+function rescCallbocak(){
+ 	   if($("#urlType").val() == 'myTask'){    	 
+ 		   window.opener.location.reload(); //刷新父窗口
+     	   window.close(); //关闭子窗口.
+	     }else{
+	    	 window.location.href = ctx+"/spv/spvList";
+	     }
+	}

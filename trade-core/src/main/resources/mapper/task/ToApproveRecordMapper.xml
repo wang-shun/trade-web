@@ -198,9 +198,38 @@
       </if>
       <if test="taskId != null" >
         and task_id = #{taskId,jdbcType=VARCHAR}
-      </if>
-      
+      </if>      
   </select>
+  
+  
+    <select id="findApproveRecordByRecordForSpvApply" resultMap="ResultMapWithBLOBs" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
+	    select  top 1
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+	    from sctrans.T_TO_APPROVE_RECORD
+	    where 1=1 
+	    <if test="caseCode != null" >
+	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	    </if>
+      <if test="approveType != null" >
+        and APPROVE_TYPE = #{approveType,jdbcType=VARCHAR}
+      </if>
+      <if test="operator != null" >
+        and OPERATOR = #{operator,jdbcType=VARCHAR}
+      </if>
+      <if test="partCode != null" >
+        and PART_CODE = #{partCode,jdbcType=VARCHAR}
+      </if>
+      <if test="processInstance != null" >
+        and process_instance = #{processInstance,jdbcType=VARCHAR}
+      </if>
+      <if test="taskId != null" >
+        and task_id = #{taskId,jdbcType=VARCHAR}
+      </if>
+       order by UPDATE_TIME DESC
+  </select>
+  
   <select id="findApproveRecordByList" resultType="java.lang.String" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
 	    select OPERATOR
 	    from sctrans.T_TO_APPROVE_RECORD

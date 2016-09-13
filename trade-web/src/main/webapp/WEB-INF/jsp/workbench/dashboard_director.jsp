@@ -147,18 +147,14 @@
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
-							<c:if test="${jobCode!='consultant' && jobCode!='director' }">
-							    <li><i class="icon iconfont icon40 pink">&#xe636;</i>
+							<li><i class="icon iconfont icon40 pink">&#xe636;</i>
 								<p>
 									无主案件<br> <span id="unLocatedCaseCount"></span>
 								</p></li>
-							</c:if>
-							<c:if test="${jobCode!='director' }">
 							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
 								<p>
 									无主任务<br> <span id="unLocatedTaskCount"></span>
 								</p></li>
-							</c:if>
 							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
 								<p>
 									无主资源<br> <span id="unLocatedResourcesCount"></span>
@@ -769,7 +765,7 @@
 				queryConutCaseByDate();
 				//查询警示案件数
 				queryBizwarnCaseCount();
-				//查询警示案件数
+				//龙虎榜
 				queryGetRankBank();
 				$('#sp_evalFee').on('click', evalFeeClick);
 			});
