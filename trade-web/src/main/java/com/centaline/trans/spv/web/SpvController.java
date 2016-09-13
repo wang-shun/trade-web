@@ -651,6 +651,10 @@ if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		spv.setStatus("2");
+		toSpvService.updateByPrimaryKey(spv);
 		// (签约)发送消息
 		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
