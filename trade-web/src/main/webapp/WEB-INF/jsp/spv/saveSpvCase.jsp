@@ -41,6 +41,10 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <!-- stickUp fixed css -->
+<style>
+	.borderClass {border:1px solid red!important;resize: none;}
+	.borderClass:focus {border:1px solid red!important;resize: none;}
+</style>
 </head>
 
 <body>
@@ -155,7 +159,7 @@
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input 
-										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
+										type="radio" name="spvCustList[0].gender" id="sex1" value="1" <c:if test="${empty spvBaseInfoVO.spvCustList[0].gender }">checked="checked"</c:if> <c:if test="${spvBaseInfoVO.spvCustList[0].gender == '1' }">checked="checked"</c:if> >
 										男
 								</label> <label class="radio-inline"> <input 
 								        type="radio" name="spvCustList[0].gender" id="sex2" value="0" ${spvBaseInfoVO.spvCustList[0].gender eq '0'?'checked="checked"':'' }> 女
@@ -247,7 +251,7 @@
 							<div class="form-group form-margin form-space-one ">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input 
-										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
+										type="radio" name="spvCustList[1].gender" id="sex3" value="1" <c:if test="${empty spvBaseInfoVO.spvCustList[1].gender }">checked="checked"</c:if> <c:if test="${spvBaseInfoVO.spvCustList[1].gender == '1' }">checked="checked"</c:if>>
 										男
 								</label> <label class="radio-inline"> <input type="radio"
 										name="spvCustList[1].gender" id="sex4" value="0" ${spvBaseInfoVO.spvCustList[1].gender eq '0'?'checked="checked"':'' }> 女
