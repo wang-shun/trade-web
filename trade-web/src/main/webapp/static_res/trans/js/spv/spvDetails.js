@@ -460,6 +460,12 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		var buyerGender = $("input[name='spvCustList[0].gender']:checked").val();
+		if(buyerGender == null || buyerGender == ''){
+			alert("请选择买方性别！");
+			return false;
+		}
+		
 		var buyerMobile = $("input[name='spvCustList[0].phone']").val();
 		if(buyerMobile == ""){
 			alert("请填写买方手机号码！");
@@ -515,6 +521,12 @@ $(document).ready(function(){
 		if(!isName(sellerName)){
 			alert("请填写有效的卖方姓名！");
 			changeClass($("input[name='spvCustList[1].name']"));
+			return false;
+		}
+		
+		var sellerGender = $("input[name='spvCustList[1].gender']:checked").val();
+		if(sellerGender == null || sellerGender == ''){
+			alert("请选择卖方性别！");
 			return false;
 		}
 		
