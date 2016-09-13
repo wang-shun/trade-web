@@ -228,7 +228,9 @@
 														<dt>客户姓名</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].name }</dd>
 														<dt>性别</dt>
-														<dd>${spvBaseInfoVO.spvCustList[0].gender eq '1'?'男':'女' }</dd>
+														<dd>${spvBaseInfoVO.spvCustList[0].gender eq '1'?'男':'' }
+														${spvBaseInfoVO.spvCustList[0].gender eq '0'?'女':'' }
+														</dd>
 														<dt>家庭住址</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].homeAddr }</dd>
 														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
@@ -249,7 +251,9 @@
 														<dt>客户姓名</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].name }</dd>
 														<dt>性别</dt>
-														<dd>${spvBaseInfoVO.spvCustList[1].gender eq '1'?'男':'女' }</dd>
+														<dd>${spvBaseInfoVO.spvCustList[1].gender eq '1'?'男':'' }
+														${spvBaseInfoVO.spvCustList[1].gender eq '0'?'女':'' }
+														</dd>
 														<dt>家庭住址</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].homeAddr }</dd>
 														<dt><aist:dict id="idType1" name="idType1" clazz="form-control input-one"
