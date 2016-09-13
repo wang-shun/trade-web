@@ -170,8 +170,9 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
-				     if($("#handle").val() == 'SpvApply'){    	 
-				    	 window.location.href = ctx+"/task/myTaskList";
+				     if($("#urlType").val() == 'myTask'){    	 
+				    	 window.opener.location.reload(); //刷新父窗口
+			        	 window.close(); //关闭子窗口.
 				     }else{
 				    	 alert("数据保存成功！");
 				    	 window.location.href = ctx+"/spv/spvList";
@@ -223,8 +224,9 @@ $(document).ready(function(){
 					/*if(data.message){
 						alert(data.message);
 					}*/
-				     if($("#handle").val() == 'SpvApply'){    	 
-				    	 window.location.href = ctx+"/task/myTaskList";
+				     if($("#urlType").val() == 'myTask'){    	 
+				    	 window.opener.location.reload(); //刷新父窗口
+			        	 window.close(); //关闭子窗口.
 				     }else{
 				    	 alert("流程开启成功！");
 				    	 window.location.href = ctx+"/spv/spvList";
@@ -250,13 +252,17 @@ $(document).ready(function(){
        });
        
        //风控总监审批驳回
-       $("#riskDirectorApproveN").click(function(){    	 
+       $("#riskDirectorApproveN").click(function(){  
+    	   
+    	   if(!confirm("是否确定驳回！")){
+      		  return;
+      	  }
     	   var passOrRefuseReason = $("#passOrRefuseReason").val();
     	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
     		   alert("请在备注栏填写驳回原因！");
     		   return;
     	   }    	   
-    	   riskAjaxRequest(false,ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(false,'spvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        $("#RiskOfficerSign").click(function(){
@@ -921,11 +927,14 @@ $(document).ready(function(){
 	
 	//风控总监审批公共方法   
     function riskAjaxRequest(SpvApplyApprove,handle,url){
-    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),source:$("#source").val()};
+    	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
     	    if(SpvApplyApprove != null){
     	    	data.SpvApplyApprove = SpvApplyApprove;
     	    }
-
+    	    
+    	    if(handle == 'spvApply' || handle == 'spvSign'){
+    	    	$("#saveBtn").click();
+    	    }
 			$.ajax({
 				url:url,
 				method:"post",
@@ -948,7 +957,13 @@ $(document).ready(function(){
 						/*if(data.message){
 							alert(data.message);
 						}*/
-					     window.location.href = ctx+"/task/myTaskList";
+					    // window.location.href = ctx+"/task/myTaskList";
+					     if($("#urlType").val() == 'myTask'){    	 
+					    	 window.opener.location.reload(); //刷新父窗口
+				        	 window.close(); //关闭子窗口.
+					     }else{
+					    	 window.location.href = ctx+"/spv/spvList";
+					     }
 						 $.unblockUI();
 					},
 					
@@ -1202,7 +1217,7 @@ function accDiv(arg1,arg2){
     with(Math){
         r1=Number(arg1.toString().replace(".",""));
         r2=Number(arg2.toString().replace(".",""));
-        return (r1/r2)*pow(10,t2-t1);
+        return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
     }
 }
 //给Number类型增加一个div方法，调用起来更加方便。
@@ -1218,7 +1233,7 @@ function accMul(arg1,arg2)
     var m=0,s1=arg1.toString(),s2=arg2.toString();
     try{m+=s1.split(".")[1].length}catch(e){}
     try{m+=s2.split(".")[1].length}catch(e){}
-    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+    return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(2);
 }
 //给Number类型增加一个mul方法，调用起来更加方便。
 Number.prototype.mul = function (arg){
@@ -1233,7 +1248,7 @@ function accAdd(arg1,arg2){
     try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
     try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
     m=Math.pow(10,Math.max(r1,r2));
-    return (arg1*m+arg2*m)/m;
+    return ((arg1*m+arg2*m)/m).toFixed(2);
 }
 //给Number类型增加一个add方法，调用起来更加方便。
 Number.prototype.add = function (arg){
@@ -1254,3 +1269,12 @@ function accSub(arg1,arg2){
 Number.prototype.sub = function (arg){
     return accSub(arg,this);
 }
+
+function rescCallbocak(){
+ 	   if($("#urlType").val() == 'myTask'){    	 
+ 		   window.opener.location.reload(); //刷新父窗口
+     	   window.close(); //关闭子窗口.
+	     }else{
+	    	 window.location.href = ctx+"/spv/spvList";
+	     }
+	}

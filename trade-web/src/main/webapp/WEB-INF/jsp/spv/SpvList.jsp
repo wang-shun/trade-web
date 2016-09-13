@@ -58,7 +58,7 @@
 			<form class="form-inline" id="serachForm">
 				<div class="form-row form-rowbot">
 					<div class="form-group form-margin form-space-one">
-						<label for="" class="lable-one">合约编号</label> <input type="text"
+						<label for="" class="lable-one">合约编号</label> <input type="text" style="width:160px;"
 							class="form-control input-one" placeholder="请输入合约编号" name="spvCode">
 					</div>
 					<div class="form-group form-margin form-space-one">
@@ -283,18 +283,6 @@
 											params.search_spvCode=$(
 											"input[name='spvCode']")
 											.val();
-											/* params.search_signNo=$(
-											"input[name='signNo']")
-											.val() */;
-											params.search_startDate=$(
-											"input[name='startDate']")
-											.val();
-											params.search_endDate=$(
-											"input[name='endDate']")
-											.val();
-											if(params.search_endDate!=null && params.search_endDate!=""){
-												params.search_endDate+=" 23:59:59";
-											}
 											params.search_prAddress=$(
 											"input[name='prAddress']")
 											.val();
@@ -308,30 +296,19 @@
 											params.search_closeTimeStart=null;
 											params.search_closeTimeEnd=null;
 											var sel_time = $("#sel_time").val();
+											var start= $("input[name='dtBegin']").val();
+											var end=$("input[name='dtEnd']").val()==""?$("input[name='dtEnd']").val():$("input[name='dtEnd']").val()+" 23:59:59";
 											if (sel_time == "applyTime") {
-												params.search_applyTimeStart = $(
-														"input[name='dtBegin']")
-														.val();
-												params.search_applyTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
+												params.search_applyTimeStart = start;
+												params.search_applyTimeEnd = end;
 											} 
 											 else if (sel_time == "signTime") {
-												    params.search_signTimeStart = $(
-															"input[name='dtBegin']")
-															.val();
-													params.search_signTimeEnd = $(
-															"input[name='dtEnd']")
-															.val();
+												    params.search_signTimeStart =start;
+													params.search_signTimeEnd = end;
 										    }
 											else if (sel_time == "closeTime") {
-												params.search_closeTimeStart = $(
-														"input[name='dtBegin']")
-														.val();
-												params.search_closeTimeEnd = $(
-														"input[name='dtEnd']")
-														.val();
-												params.search_closeTimeEnd+=" 23:59:59";
+												params.search_closeTimeStart = start;
+												params.search_closeTimeEnd = end;
 											}
 											initData();
 										})
