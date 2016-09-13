@@ -562,7 +562,7 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=new ToApproveRecord();
 		toApproveRecord.setCaseCode(caseCode);
 		toApproveRecord.setContent(remark);
-		toApproveRecord.setApproveType("0");//todo
+		toApproveRecord.setApproveType("8");//todo
 		toApproveRecord.setOperator(user.getId());
 		toApproveRecord.setTaskId(taskId);
 		toApproveRecord.setOperatorTime(new Date());
