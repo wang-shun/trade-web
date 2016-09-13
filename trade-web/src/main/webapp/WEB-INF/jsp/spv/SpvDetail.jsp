@@ -191,6 +191,11 @@
 			</div>
 
 			<div class="ibox-content clearfix" id="base_info">
+			<c:if test="${spvBaseInfoVO.toSpv.status==0 }">
+			<shiro:hasPermission name="TRADE.SPV.UPDATE">
+            		<a style="float: right; margin-right: 0px; margin-top: 0px;" href="${ctx}/spv/saveHTML?pkid=${spvBaseInfoVO.toSpv.pkid}">我要修改</a>
+		    </shiro:hasPermission>
+            </c:if> 
 				<div class="panel blank-panel">
 					<div class="panel-heading">
 						<div class="panel-options">
@@ -525,6 +530,10 @@
 			/*获取产品列表*/
 			function getPcode(pcode){
 				var pcode = $("#"+pcode);
+				if(pcode.html()==1){
+					pcode.html("光大四方资金监管");
+					return;
+				}
 				 $.ajax({
 					    url:ctx+"/spv/queryPrdcCodeByProdCode",
 					    method:"post",

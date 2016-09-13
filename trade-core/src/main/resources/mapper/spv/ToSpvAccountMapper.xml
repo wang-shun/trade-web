@@ -49,7 +49,7 @@
       #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvAccount" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvAccount"   useGeneratedKeys="true" keyProperty="pkid" >
     insert into sctrans.T_TO_SPV_ACCOUNT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

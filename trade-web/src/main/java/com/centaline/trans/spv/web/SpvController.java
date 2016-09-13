@@ -89,6 +89,7 @@ public class SpvController {
 	@RequestMapping("saveHTML")
 	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
+		request.setAttribute("urlType", "spv");
 		return "spv/saveSpvCase";
 	}
 
@@ -467,6 +468,7 @@ public class SpvController {
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApply");
+		request.setAttribute("urlType", "myTask");
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
@@ -524,6 +526,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApprove");
+		request.setAttribute("urlType", "myTask");
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
@@ -592,6 +595,7 @@ public class SpvController {
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvSign");
+		request.setAttribute("urlType", "myTask");
 		return "spv/saveSpvCase";
 	}
 	

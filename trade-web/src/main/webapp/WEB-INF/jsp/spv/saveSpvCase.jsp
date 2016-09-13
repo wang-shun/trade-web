@@ -52,6 +52,7 @@
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
+		<input type="hidden" id="urlType" name="source" value="${urlType}">
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -676,7 +677,7 @@
 							<c:if test="${handle eq 'SpvApply' }">
 							    <div>
 									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
@@ -684,21 +685,21 @@
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
-									<a onclick="back()" class="btn btn-default">取消</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
 							<c:if test="${handle eq 'SpvSign' }">
 							    <div>
 									<a id="RiskOfficerSign" class="btn btn-success">提交签约</a>
-									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
 							<c:if test="${handle ne 'SpvApply' and handle ne 'SpvApprove' and handle ne 'SpvSign' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>			
 							</div>

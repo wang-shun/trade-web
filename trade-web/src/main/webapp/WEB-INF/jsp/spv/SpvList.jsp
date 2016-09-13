@@ -283,18 +283,6 @@
 											params.search_spvCode=$(
 											"input[name='spvCode']")
 											.val();
-											/* params.search_signNo=$(
-											"input[name='signNo']")
-											.val() */;
-											params.search_startDate=$(
-											"input[name='startDate']")
-											.val();
-											params.search_endDate=$(
-											"input[name='endDate']")
-											.val();
-											if(params.search_endDate!=null && params.search_endDate!=""){
-												params.search_endDate+=" 23:59:59";
-											}
 											params.search_prAddress=$(
 											"input[name='prAddress']")
 											.val();
@@ -315,6 +303,7 @@
 												params.search_applyTimeEnd = $(
 														"input[name='dtEnd']")
 														.val();
+												params.search_applyTimeEnd+=" 23:59:59";
 											} 
 											 else if (sel_time == "signTime") {
 												    params.search_signTimeStart = $(
@@ -323,6 +312,7 @@
 													params.search_signTimeEnd = $(
 															"input[name='dtEnd']")
 															.val();
+													params.search_signTimeEnd+=" 23:59:59";
 										    }
 											else if (sel_time == "closeTime") {
 												params.search_closeTimeStart = $(
