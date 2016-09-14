@@ -999,7 +999,6 @@ $(document).ready(function(){
 		var length = $("#addTr tr").length;
 		var isVerify = true;
 		var isRepeat = false;
-		var totalAmount = 0;
 		var pkid = $("input[name='spvCustList[0].pkid']").val();
 		
 		if(pkid == ""){
@@ -1014,6 +1013,8 @@ $(document).ready(function(){
 				return false;
 			}
 		}
+		//验证表格汇总金额是否大于监管金额。
+		
 		
 		$("#addTr tr:visible").each(function(index){
 			var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
@@ -1025,29 +1026,29 @@ $(document).ready(function(){
     			return false;
     		}
     		
+    		if(!isVerify){
+    			alert("划转条件、账户、金额这三项信息不能为空！");
+    			return false;
+    		}
+    		
     		$("#addTr tr:visible").each(function(index1){
-    			if(index != index1 && deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val()){
+    			if(index != index1 && 
+    					deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val() &&
+    					payeeAccountType == $("select[name='toSpvDeDetailList[" + index1 + "].payeeAccountType'] option:selected").val()){
     				isRepeat = true;
     				return false;
     			}
     		});
+    		    		
+    		if(isRepeat){
+    			alert("划转条件不能重复！");
+    			return false;
+    		}
     		
-    		deAmount = Number(deAmount);
-
-    		totalAmount = accAdd(totalAmount,deAmount);
         });
-		
-		if(isRepeat){
-			alert("划转条件不能重复！");
-			return false;
-		}
-		
-		if(!isVerify){
-			alert("划转条件、账户、金额这三项信息不能为空！");
-			return false;
-		}
-		
-		if(totalAmount != amount){
+	
+		var rowsAmount = getRowsAmount();
+		if(rowsAmount != amount){
 			alert("监管总金额应等于资金出款约定金额之和！");
 			return false;
 		}
@@ -1055,6 +1056,43 @@ $(document).ready(function(){
 		/** ------资金出款约定验证结束--------  **/
 		
 		return true;
+	}
+	
+	
+	//汇总出款约定表格金额
+	function getRowsAmount(){
+		var total = 0;
+		var rows = $("#addTr tr:visible");
+		for(var row in rows){
+    		var deAmount = row.val();
+    		if(deAmount == ""){
+    			continue;
+    		}
+			total = accAdd(total,Number(deAmount));
+		}
+		return total;
+	}
+	
+	//判断是否有条件重复的行
+	function hasDupRow(){
+		$("#addTr tr:visible").each(function(index,element){
+			var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
+    		var payeeAccountType = $("select[name='toSpvDeDetailList[" + index + "].payeeAccountType'] option:selected").val();
+    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();
+    		
+    		if(deCondCode == "" || payeeAccountType == "" || deAmount == ""){
+    			isVerify = false;
+    			return false;
+    		}
+    		
+/*    		$("#addTr tr:visible").each(function(index1){
+    			if(index != index1 && deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val()){
+    				isRepeat = true;
+    				return false;
+    			}
+    		});*/
+        });
+		
 	}
 	
 	function ajaxCall(url,data){
