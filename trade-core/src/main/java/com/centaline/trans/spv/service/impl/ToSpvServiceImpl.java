@@ -572,38 +572,54 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/** 5.保存到‘监管资金出入账约定’表 */
 		// List<ToSpvDeDetail> toSpvDeDetailList =
 		// spvBaseInfoVO.getToSpvDeDetailList();
-		if (toSpvDe.getIsDeleted() != "1") {
 			/** 清空所有deid记录 */
-			if (toSpvDe != null && toSpvDe.getPkid() != null) {
+/*			if (toSpvDe != null && toSpvDe.getPkid() != null) {
 				toSpvDeDetailMapper.deleteByDeId(toSpvDe.getPkid());
-			}
+			}*/
 
-			if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
-				// PayeeAccountType -> PayeeAccountId
-				for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList) {
-					if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
-						for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-							if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
-								toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
-							}
+			//重构toSpvDeDetailList
+			if(!"SpvApprove".equals(spvBaseInfoVO.getHandle()) && !"SpvSign".equals(spvBaseInfoVO.getHandle())){
+				List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
+				if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
+					for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+						if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
+							toSpvDeDetailNewList.add(toSpvDeDetail);
 						}
 					}
-					toSpvDeDetail.setCreateBy(user.getId());
-					toSpvDeDetail.setCreateTime(new Date());
-					toSpvDeDetail.setDeId(toSpvDe.getPkid());
-
-					toSpvDeDetail.setIsDeleted("0");
-					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+				}
+				List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
+				for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
+					toSpvDeDetail.setUpdateBy(user.getId());
+					toSpvDeDetail.setUpdateTime(new Date());
+					toSpvDeDetail.setIsDeleted("1");
+					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+				}
+				if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
+					// PayeeAccountType -> PayeeAccountId
+					for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
+						if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
+							for (ToSpvAccount toSpvAccount : toSpvAccountList) {
+								if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
+									toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
+								}
+							}
+						}
+						
+						if(toSpvDeDetail.getPkid() != null){
+							toSpvDeDetail.setUpdateBy(user.getId());
+							toSpvDeDetail.setUpdateTime(new Date());
+							toSpvDeDetail.setIsDeleted("0");
+							toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+						}else{
+							toSpvDeDetail.setCreateBy(user.getId());
+							toSpvDeDetail.setCreateTime(new Date());
+							toSpvDeDetail.setDeId(toSpvDe.getPkid());
+							toSpvDeDetail.setIsDeleted("0");
+							toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+						}
+					}
 				}
 			}
-		} else {
-			for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList) {
-				toSpvDeDetail.setUpdateBy(user.getId());
-				toSpvDeDetail.setUpdateTime(new Date());
-				toSpvDeDetailMapper.updateByPrimaryKey(toSpvDeDetail);
-			}
-		}
-
 		/** 6.保存到‘资金监管房屋信息’表 */
 		// ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		if (toSpvProperty != null) {
@@ -661,7 +677,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				uamUserOrgService.getUserByOrgIdAndJobCode(orgId, "JYFKZJ").get(0).getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
-				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getSpvCode(), vars);
+				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getCaseCode(), vars);
 
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
@@ -896,6 +912,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public List<ToSpvDeDetail> findDeDetailByDeId(Long deId) {
 		return toSpvDeDetailMapper.selectByDeId(deId);
+	}
+
+	@Override
+	public int updateByPrimaryKey(ToSpv record) {
+		return toSpvMapper.updateByPrimaryKey(record);
 	}
 
 }

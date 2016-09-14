@@ -60,7 +60,9 @@
 									<dt>产权地址</dt>
 									<dd>${spvBaseInfoVO.toSpvProperty.prAddr}</dd>
 									<dt>合作机构</dt>
-									<dd>${spvBaseInfoVO.toSpv.spvInsti}</dd>
+									<dd id="pcode">${spvBaseInfoVO.toSpv.prdCode}</dd>
+									<dt>监管合同号</dt>
+									<dd >${spvBaseInfoVO.toSpv.spvConCode}</dd>
 								</dl>
 							</div>
 							<div class="col-lg-3" id="cluster_info">
@@ -114,7 +116,7 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>申请</span> 
+													<span>申请（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.applyTime}" pattern="yyyy-MM-dd" />）</span> 
 												</dd>
 											</dl>
 										</div>
@@ -135,7 +137,7 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>签约</span> 
+													<span>签约（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime}" pattern="yyyy-MM-dd" />）</span> 
 												</dd>
 											</dl>
 										</div>
@@ -156,7 +158,7 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>结束</span>
+													<span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
 												</dd>
 											</dl>
 										</div>
@@ -189,6 +191,11 @@
 			</div>
 
 			<div class="ibox-content clearfix" id="base_info">
+			<c:if test="${spvBaseInfoVO.toSpv.status==0&&spvBaseInfoVO.toSpv.applyTime==undefined}">
+			<shiro:hasPermission name="TRADE.SPV.UPDATE">
+            		<a style="float: right; margin-right: 0px; margin-top: 0px;" href="${ctx}/spv/saveHTML?pkid=${spvBaseInfoVO.toSpv.pkid}">我要修改</a>
+		    </shiro:hasPermission>
+            </c:if> 
 				<div class="panel blank-panel">
 					<div class="panel-heading">
 						<div class="panel-options">
@@ -202,6 +209,9 @@
 								<li class=""><a href="#tab-3" data-toggle="tab">
 										监管资金 </a></li>
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
+								</li>
+								
+								<li class=""><a href="#tab-6" data-toggle="tab">驳回原因</a>
 								</li>
 							</ul>
 						</div>
@@ -221,7 +231,9 @@
 														<dt>客户姓名</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].name }</dd>
 														<dt>性别</dt>
-														<dd>${spvBaseInfoVO.spvCustList[0].gender eq '1'?'男':'女' }</dd>
+														<dd>${spvBaseInfoVO.spvCustList[0].gender eq '1'?'男':'' }
+														${spvBaseInfoVO.spvCustList[0].gender eq '0'?'女':'' }
+														</dd>
 														<dt>家庭住址</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].homeAddr }</dd>
 														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
@@ -232,6 +244,13 @@
 														<dd>${spvBaseInfoVO.spvCustList[0].phone }</dd>
 														<dt>证件有效期</dt>
 														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+														<dt>委托人</dt>
+														<dd>${spvBaseInfoVO.spvCustList[0].agentName}</dd>
+														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
+									                        display="onlyLabel"  dictType="CERT_TYPE"  
+									                        ligerui='none' dictCode="${spvBaseInfoVO.spvCustList[0].agentIdType}"></aist:dict></dt>
+														<dd>${spvBaseInfoVO.spvCustList[0].agentIdCode}</dd>
+														
 													</dl>
 												</div>
 											</div>
@@ -242,7 +261,9 @@
 														<dt>客户姓名</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].name }</dd>
 														<dt>性别</dt>
-														<dd>${spvBaseInfoVO.spvCustList[1].gender eq '1'?'男':'女' }</dd>
+														<dd>${spvBaseInfoVO.spvCustList[1].gender eq '1'?'男':'' }
+														${spvBaseInfoVO.spvCustList[1].gender eq '0'?'女':'' }
+														</dd>
 														<dt>家庭住址</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].homeAddr }</dd>
 														<dt><aist:dict id="idType1" name="idType1" clazz="form-control input-one"
@@ -254,6 +275,12 @@
 														<dd>${spvBaseInfoVO.spvCustList[1].phone }</dd>
 														<dt>证件有效期</dt>
 														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+													   <dt>委托人</dt>
+														<dd>${spvBaseInfoVO.spvCustList[1].agentName}</dd>
+														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
+									                        display="onlyLabel"  dictType="CERT_TYPE"  
+									                        ligerui='none' dictCode="${spvBaseInfoVO.spvCustList[1].agentIdType}"></aist:dict></dt>
+														<dd>${spvBaseInfoVO.spvCustList[1].agentIdCode}</dd>
 													</dl>
 												</div>
 											</div>
@@ -309,7 +336,7 @@
 												<p>
 													<em>下家付款方式</em> <span><aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
 									display="onlyLabel"  dictType="SPV_BUYER_PAYMENT"  
-									 ligerui='none'  defaultvalue="${spvBaseInfoVO.toSpv.buyerPayment}"></aist:dict></span>
+									 ligerui='none'  dictCode="${spvBaseInfoVO.toSpv.buyerPayment}"></aist:dict></span>
 												</p>
 											</li>
 											<li>
@@ -438,6 +465,7 @@
 										   <th>划转条件</th> 
 										    <th>账户</th>
 											<th>划转金额</th>
+											<th>备注</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -466,11 +494,22 @@
 										</c:choose>	
 											</td>
 											<td>${item.deAmount>0?item.deAmount:0}万元</td>
+											<td>${item.deAddition}</td>
 										</tr>
 										</c:forEach>
 										
 									</tbody>
 								</table>
+							</div>
+							<div class="tab-pane" id="tab-6">
+							<div class="info_box info_box_one col-md-8 ">
+
+												
+												<p><strong>驳回原因</strong> <p>
+												<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
+                                              ${toApproveRecord.content} 
+												</div>
+                            	</div>
 							</div>
 						</div>
 					</div>
@@ -520,15 +559,35 @@
 				    	}
 					});
 			}
+			/*获取产品列表*/
+			function getPcode(pcode){
+				var pcode = $("#"+pcode);
+				if(pcode.html()==1){
+					pcode.html("光大四方资金监管");
+					return;
+				}
+				 $.ajax({
+					    url:ctx+"/spv/queryPrdcCodeByProdCode",
+					    method:"post",
+					    dataType:"json",
+						async:false,
+					    data:{prodCode:pcode.html()},
+					    success:function(data){
+				    		if(data != null){
+				    			pcode.html(data.prodName)
+				    		}
+				    	}
+					});
+			}
 			$(document).ready(function(){
 				$("span[name='DX']").each(function(index,element){
 					$(element).html(DX($(element).html()*10000));
 				});
-				
+				getPcode("pcode");
 				getBank("bank0");
 				getBank("bank1");
 			})
-			
+			queryPrdcCodeByProdCode
 					</script> </content>
 </body>
 </html>

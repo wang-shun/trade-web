@@ -5,6 +5,7 @@
 package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
@@ -28,9 +29,14 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.product.entity.Product;
@@ -45,6 +51,8 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 
@@ -54,6 +62,9 @@ public class SpvController {
 	
 	@Autowired
 	private ToSpvService toSpvService;
+	
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	
 	@Autowired
 	private UamSessionService uamSessionService;
@@ -72,7 +83,10 @@ public class SpvController {
 	ProductCategoryService productCategoryService;
 	@Autowired
 	ProductService productService;
-	
+	@Autowired
+	ToWorkFlowService flowService;
+	@Autowired
+	ProcessInstanceService processInstanceService;
 	//列表页面
 	@RequestMapping("spvList")
 	public String spvList(){
@@ -83,6 +97,7 @@ public class SpvController {
 	@RequestMapping("saveHTML")
 	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
+		request.setAttribute("urlType", "spv");
 		return "spv/saveSpvCase";
 	}
 
@@ -124,6 +139,23 @@ public class SpvController {
 		if(zj.size()>0){
 			FKZJ=zj.get(0);
 		}
+		//驳回原因
+if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
+		ToWorkFlow record=new ToWorkFlow();
+		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		record.setCaseCode(spv.getCaseCode());
+	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+		 
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(workFlow.getInstCode());
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+      }
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
@@ -442,7 +474,18 @@ public class SpvController {
     @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	
+    	
         SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(instCode);
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
  
     	request.setAttribute("taskId", taskId); 
@@ -450,7 +493,10 @@ public class SpvController {
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApply");
-		
+		request.setAttribute("urlType", "myTask");
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
 		return "spv/saveSpvCase";
 	}
     
@@ -472,6 +518,12 @@ public class SpvController {
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
+		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+
+		//spv.setRemark(remark);
+		toSpvService.updateByPrimaryKey(spv);
+		
 		return AjaxResponse.success();
 	}
     
@@ -488,13 +540,28 @@ public class SpvController {
 	@RequestMapping("task/SpvApprove/process")
 	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
 		
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);
 		
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(instCode);
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+		
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApprove");
+		request.setAttribute("urlType", "myTask");
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
+		
 		return "spv/saveSpvCase";
 	}
 
@@ -509,11 +576,35 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
-
+	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		if(!SpvApplyApprove){
+			spv.setStatus(SpvStatusEnum.DEFAULT.getCode());
+		}else{
+			spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+		}
+		//spv.setRemark(remark);
+		toSpvService.updateByPrimaryKey(spv);
+		
+		//条件审核记录到ToApproveRecord
+		ToApproveRecord toApproveRecord=new ToApproveRecord();
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(remark);
+		toApproveRecord.setApproveType("8");//todo
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setTaskId(taskId);
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
+		toApproveRecord.setProcessInstance(instCode);		
+		
+		toApproveRecordService.insertToApproveRecord(toApproveRecord);
 
 		return AjaxResponse.success();
 	}
@@ -536,9 +627,12 @@ public class SpvController {
 		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
-		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvSign");
+		request.setAttribute("urlType", "myTask");
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
 		return "spv/saveSpvCase";
 	}
 	
@@ -557,10 +651,34 @@ public class SpvController {
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		spv.setStatus("2");
+		toSpvService.updateByPrimaryKey(spv);
 		// (签约)发送消息
 		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
 		return AjaxResponse.success();
+	}
+	
+	@RequestMapping("queryByCaseCode")
+	public AjaxResponse<String> queryByCaseCode(String caseCode){
+        
+        AjaxResponse<String> response = new AjaxResponse<String>();
+    	try{
+    		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
+    		if(toSpv != null){
+    			response.setSuccess(true);
+    			response.setMessage("该案件已经关联合约，不得重复关联！");
+    			response.setContent("1");
+    		} else{
+    			response.setSuccess(true);
+    		}
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());	
+    	}
+    	return response;
 	}
 	
 	

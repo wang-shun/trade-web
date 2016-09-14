@@ -41,16 +41,22 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <!-- stickUp fixed css -->
+<style>
+	.borderClass {border:1px solid red!important;resize: none;}
+	.borderClass:focus {border:1px solid red!important;resize: none;}
+</style>
 </head>
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<input id="pkid" type="hidden" value="${spvBaseInfoVO.toSpv.pkid }">
 	<div id="wrapper">
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
+		<input type="hidden" id="urlType" name="source" value="${urlType}">
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -60,9 +66,15 @@
 				<li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 			</ul>
-			<c:if test="${handle ne 'SpvApprove' and handle ne 'SpvSign' }">
+			<c:if test="${empty handle or handle eq 'SpvApply'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
+				<button id="saveBtn" class="btn btn-warning">保存</button>
+			</div>
+			</c:if>
+			<c:if test="${handle eq 'SpvSign'}">
+			<div class="menu_btn"
+				style="margin-left: 960px; margin-top: 7px;display:none;" >
 				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 			</c:if>
@@ -339,8 +351,8 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 面积</label> <input name="toSpvProperty.prSize" type="text"
-									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prSize?spvBaseInfoVO.toSpvProperty.prSize:propertySquare }"> <span
-									class="date_icon">㎡</span>
+									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prSize?spvBaseInfoVO.toSpvProperty.prSize:propertySquare }"> 
+									<span class="date_icon">㎡</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 产证地址</label> <input name="toSpvProperty.prAddr" type="text"
@@ -571,8 +583,9 @@
 								<input type="hidden" name="toSpvAccountList[3].accountType" value="FUND" />
 								<label for="" class="lable-one">资金方账户名称</label>
 								<select name="toSpvAccountList[3].name" value="${spvBaseInfoVO.toSpvAccountList[3].name }" class="form-control input-two">
-								<option value="1">搜易贷（北京）金融信息服务有限公司</option>
-								<option value="2">上海嘉定及时雨小额贷款股份有限公司</option>
+								<option value="">请选择</option>
+								<option value="1" ${spvBaseInfoVO.toSpvAccountList[3].name eq '1'?'selected="selected"':'' }>搜易贷（北京）金融信息服务有限公司</option>
+								<option value="2" ${spvBaseInfoVO.toSpvAccountList[3].name eq '2'?'selected="selected"':'' }>上海嘉定及时雨小额贷款股份有限公司</option>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
@@ -583,7 +596,7 @@
 						</div>
 						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
 						    <div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 资金监管协议编号</label> <input type="text" name="toSpv.spvConCode"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 监管合同号</label> <input type="text" name="toSpv.spvConCode"
 								    value="${spvBaseInfoVO.toSpv.spvConCode }"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -593,6 +606,16 @@
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
+						
+						
+					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" >						
+						<div class="form-group form-margin form-space-one">
+							<label class="lable-one"  style="text-align: right;">驳回原因</label>							
+							<div class="form-group form-margin form-space-one left-extent" >
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${toApproveRecord.content }</textarea>
+							</div>
+						</div>
+					</div>
 					</form>
 				</div>
 				<div class="ibox-content" id="spvthree_info" >
@@ -616,6 +639,7 @@
 								  <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status">
 									<tr align="center">
 										<td class="text-left">
+										<input type="hidden" name="toSpvDeDetailList[${status.index }].pkid" value="${toSpvDeDetail.pkid}" />
 										<aist:dict id="toSpvDeDetailList[${status.index }].deCondCode" name="toSpvDeDetailList[${status.index }].deCondCode" clazz="form-control input-one"
 									    display="select"  dictType="SPV_DE_COND"  
 									    ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }"></aist:dict>	
@@ -631,7 +655,7 @@
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
-										<c:if test="${empty handle }">
+										<c:if test="${empty handle  or handle eq 'SpvApply'}">
 										<a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 										</c:if>
@@ -645,37 +669,45 @@
 										<td></td>
 										<td class="text-left"></td>
 										<td align="center">
-										<c:if test="${empty handle }">
+										<c:if test="${empty handle or handle eq 'SpvApply'}">
 										    <a href="javascript:void(0)" onClick="javascript:getAtr(this);">添加</a>
 										</c:if>    
 										</td>	
 								  </tr>
 								  </c:if>
 								</tbody>					
-							</table>
+							</table>							
+							
 							<div class="form-btn">
-							<input type="hidden" id="handle" value="${handle }">
+							<input type="hidden" id="handle" name="handle" value="${handle }">							
+							<c:if test="${handle eq 'SpvApply' }">
+							    <div>
+									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+								</div>
+							</c:if>
+							
 							<c:if test="${handle eq 'SpvApprove' }">
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
-									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
 							<c:if test="${handle eq 'SpvSign' }">
 							    <div>
-									<a id="RiskOfficerSign" class="btn btn-success">签约</a>
-									<a onclick="javascript:window.location.href='${ctx}/task/myTaskList';" class="btn btn-default">取消</a>
+									<a id="RiskOfficerSign" class="btn btn-success">提交签约</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
-							<c:if test="${handle ne 'SpvApprove' and handle ne 'SpvSign' }">
+							<c:if test="${handle ne 'SpvApply' and handle ne 'SpvApprove' and handle ne 'SpvSign' }">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="javascript:window.location.href='${ctx}/spv/spvList';" class="btn btn-default">取消</a>
+									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
 								</div>
-							</c:if>		
+							</c:if>			
 							</div>
 						</div>
 					</form>
@@ -703,7 +735,7 @@
 		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 
-		<script id="queryCastListItemList" type= "text/html">
+		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}
     	<tr>
         <td>
@@ -737,12 +769,12 @@
         </td>
         <td class="center">
             <p class="big">
-           		<span id="modal_seller{{index}}">{{item.SELLER}}</span>
+           		<span id="modal_seller{{index}}">{{item.SELLER.substring(0,item.SELLER.indexOf("/") == -1?item.SELLER.length:item.SELLER.indexOf("/"))}}</span>
             </p>
         </td>
         <td class="center">
             <p class="big">
-          	   <span id="modal_buyer{{index}}"> {{item.BUYER}}</span>
+          	   <span id="modal_buyer{{index}}">{{item.BUYER.substring(0,item.BUYER.indexOf("/") == -1?item.BUYER.length:item.BUYER.indexOf("/"))}}</span>
             </p>
         </td>
         <td class="text-left">
@@ -755,20 +787,44 @@
 		</script>
 		<script>
 		$(document).ready(function(){
-					
+			 //驳回原因显示问题
+			 var remark = $("#passOrRefuseReason").val();	
+			 //当前用户标示 前者是风控专员，后者是风控总监
+			 var handle = $("#handle").val();			
+			 if(remark == '' || remark == null){				
+				 if(handle=="SpvApply" || handle=='SpvSign' || handle==''){					
+					 $("#passOrRefuseReasonForShow").hide();					 
+				 }else if(handle=="SpvApprove"){
+					 $("#passOrRefuseReasonForShow").show();
+					 $("#passOrRefuseReason").attr("disabled",false);
+				 }	
+			 }else{				 
+				 if(handle=="SpvApply" || handle=='SpvSign'){
+					 $("#passOrRefuseReasonForShow").show();
+					 $("#passOrRefuseReason").attr("disabled",true);
+				 }else if(handle=="SpvApprove"){
+					 $("#passOrRefuseReasonForShow").show();
+					 $("#passOrRefuseReason").attr("disabled",false);
+				 }					 
+			 }
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
-				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false);
-				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false);
-				$("#bank_1").prop("disabled",false);
-				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false);
-				$("#signDiv").show();
-			}
+  				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("#bank_1").prop("disabled",false);
+  				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("#signDiv").show();
+  				$("#signDiv").find("input").prop("readOnly",false);
+	         }
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){
 				var val = $(this).val();
 				switch(val){
+				case '':
+					$("input[name='toSpvAccountList[3].account']").val("");
+					break;
 				case '1':
 					$("input[name='toSpvAccountList[3].account']").val("137441512010000275");
 					break;
@@ -827,7 +883,7 @@
 			$(".eloanApply-table").aistGrid({
     			ctx : "${ctx}",
     			queryId : 'queryCastListItemList',
-    		    templeteId : 'queryCastListItemList',
+    		    templeteId : 'queryCastListItemList2',
     		    rows : '6',
     		    gridClass : 'table table_blue table-striped table-bordered table-hover',
     		    data : '',
@@ -842,7 +898,7 @@
     		    	      },{
    		    	                colName :"工作人员"
 		    	          },{
-	   		    	           colName :"上家"
+	   		    	           colName :"上家"  	           
 			    	      },{
 			    	           colName :"下家"
 			    	      },{
@@ -859,19 +915,57 @@
     	 	// 关联案件
    	 		$('.eloanApply-table').on("click",'.linkCase',function(){	 			
    	 			var index = $(this).attr("id");
-   	 		    //刷新回到原页面
-   	 			window.location.href = "${ctx}/spv/saveHTML?&caseCode="+$("#modal_caseCode"+index).html();
- 			});
- 			
+   	 		$.ajax({
+   	      		url:ctx+"/spv/queryByCaseCode",
+   	      		method:"post",
+   	      		dataType:"json",
+   	      		data:{caseCode:$("#modal_caseCode"+index).html()},   		        				        		    
+   	       		beforeSend:function(){  
+   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+   					$(".blockOverlay").css({'z-index':'9998'});
+   	            },
+   		        complete: function() {
+   		                 $.unblockUI(); 
+   		                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+   			          	  Modal.alert(
+   						  {
+   						    msg:"抱歉，系统处理超时。"
+   						  }); 
+   				                } 
+   				            } ,   
+   				success : function(data) {   
+   						/*if(data.message){
+   							alert(data.message);
+   						}*/
+   					     if(data.ajaxResponse.content == '1'){
+   					    	 alert(data.ajaxResponse.message);
+   					    	 window.location.href = "${ctx}/spv/saveHTML";
+   					     }else{
+   					    	//刷新回到原页面
+   			   	 			window.location.href = "${ctx}/spv/saveHTML?&caseCode="+$("#modal_caseCode"+index).html();
+   					     }
+   						 $.unblockUI();
+   					},		
+   				error : function(errors) {
+   						$.unblockUI();   
+   						alert("数据保存出错:"+JSON.stringify(errors));
+   					}  
+   	       });
+   	     });		   
         });
-        
+		//返回代办任务
+		function back(){
+			window.close();
+			window.opener.callback();
+		}
+
         function reloadGrid() {
         	var propertyAddr = $("#propertyAddr").val();
     	    $(".eloanApply-table").reloadGrid({
     	    	ctx : "${ctx}",
     	    	rows : '6',
     			queryId : 'queryCastListItemList',
-    		    templeteId : 'queryCastListItemList',
+    		    templeteId : 'queryCastListItemList2',
     		    wrapperData :{ctx : ctx},
     		    data : {propertyAddr:propertyAddr}
     	    })
@@ -898,7 +992,8 @@
 		  for (var i=0; i < num.length; i++)  
 		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
 		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-		};  
+		};
+		
 		
 		var sum = parseInt($("#toSpvDeDetailListSize").val()); //定义sum为全局变量
 		function getAtr(i) {
