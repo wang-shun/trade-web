@@ -1041,7 +1041,7 @@ $(document).ready(function(){
     		});
     		    		
     		if(isRepeat){
-    			alert("划转条件不能重复！");
+    			alert("同一划转条件同一账户只允许一条监管合约！");
     			return false;
     		}
     		
