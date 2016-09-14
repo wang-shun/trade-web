@@ -6,7 +6,6 @@
 		<customDict id="getDistCode" beanName="qqDistCode" />
 		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
 		<customDict id="getIsSuccess" beanName="qqisSuccess" />
-		<customDict id="qqcdUserOrgName" beanName="qqcdUser‰OrgName" />
 	</dicts>
 
 	<formatters>
