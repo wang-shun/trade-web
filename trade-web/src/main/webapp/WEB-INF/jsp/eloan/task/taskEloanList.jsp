@@ -50,6 +50,9 @@
 		value="${sessionUser.serviceJobCode }">
 		<input type="hidden" id="orgId"
 		value="${orgId }">
+		
+		<input type="hidden" id="orgId"
+		value="${sessionUser.serviceCompanyId }">
 
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="row">
