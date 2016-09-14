@@ -1062,14 +1062,15 @@ $(document).ready(function(){
 	//汇总出款约定表格金额
 	function getRowsAmount(){
 		var total = 0;
-		var rows = $("#addTr tr:visible");
-		for(var row in rows){
-    		var deAmount = row.val();
+	
+		$("#addTr tr:visible").each(function(index){
+    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();		
     		if(deAmount == ""){
-    			continue;
+    			return true;
     		}
-			total = accAdd(total,Number(deAmount));
-		}
+    		total = accAdd(total,Number(deAmount));
+        });
+		
 		return total;
 	}
 	
