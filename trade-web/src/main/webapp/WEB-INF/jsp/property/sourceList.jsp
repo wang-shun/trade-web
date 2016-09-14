@@ -46,6 +46,9 @@
 
 <link rel="stylesheet"
 	href="${ctx}/css/trans/css/propertyresearch/successList.css" />
+	
+	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 </head>
 
@@ -56,7 +59,7 @@
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="ibox-content border-bottom clearfix space_box">
 					<!-- 					<h4>已完成产调</h4> -->
-					<h2 class="title">产调来源清单</h2>
+					<h2 class="title">产调来源清单e</h2>
 					<form method="post" class="form_list" id="sourceForm" action="${ctx}/quickGrid/findPage?xlsx">
 						<div class="line">
 							<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> 
@@ -240,7 +243,7 @@
                 </td>
                 <td>
                     <p class="smll_sign">
-						{{if item.PR_STATUS == 0}}
+						{{if item.PR_STATUS >= 0}}
                         	<i class="sign_normal">申</i>
 						{{else}}
 							<i class="sign_grey">申</i>
@@ -248,7 +251,7 @@
                         {{item.PR_APPLY_TIME}}
                     </p>
                     <p class="smll_sign">
-						{{if item.PR_STATUS == 1}}
+						{{if item.PR_STATUS >= 1}}
                         	<i class="sign_normal">受</i>
 						{{else}}
 							<i class="sign_grey">受</i>
@@ -256,7 +259,7 @@
                         {{item.PR_ACCEPT_TIME}}
                     </p>
                     <p class="smll_sign">
-						{{if item.PR_STATUS == 2}}
+						{{if item.PR_STATUS >= 2}}
                         	<i class="sign_normal">完</i>
 						{{else}}
 							<i class="sign_grey">完</i>
@@ -292,16 +295,19 @@
             $('.input-daterange').datepicker({
                 keyboardNavigation: false,
                 forceParse: false,
-                autoclose: true
+                autoclose: true,
+                todayBtn : 'linked',
+            	language : 'zh-CN'
             });
         });
+		
 	</script> 
 	
-<!-- 	<script type="text/javascript">
+    <script type="text/javascript">
 		$(function() {
 			setStyle();
 		});
-	</script> -->
+	</script>
 	    
     </content>
 	
