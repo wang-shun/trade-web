@@ -1,4 +1,4 @@
-﻿//Flot Bar Chart
+//Flot Bar Chart
 $(function() {
     var barOptions = {
         series: {

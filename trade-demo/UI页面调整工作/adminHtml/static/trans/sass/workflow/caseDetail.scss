@@ -1,36 +1,36 @@
 
 #basicInfo {
 	.sign {
-    position: absolute;
-    width: 55px;
-    height: 40px;
-    padding-top:5px;
-    color: #fff;
-    text-align:center;
-    font-family: "Microsoft Yahei";
-    font-size: 14px;
-}
-.sign-red {
-    background:url(../../img/qizi-01.png) no-repeat;
-    top:0px;
-    left:130px;
-    width: 36px;
-    height: 35px;
-}
-.sign-blue {
-	background:url(../../img/qizi-02.png) no-repeat;
-    top:0px;
-    left:190px;
-    width: 52px;
-    height: 35px;
-}
+		position: absolute;
+		width: 55px;
+		height: 40px;
+		padding-top:5px;
+		color: #fff;
+		text-align:center;
+		font-family: "Microsoft Yahei";
+		font-size: 14px;
+	}
+	.sign-red {
+		background:url(../../img/qizi-01.png) no-repeat;
+		top:0px;
+		left:130px;
+		width: 36px;
+		height: 35px;
+	}
+	.sign-blue {
+		background:url(../../img/qizi-02.png) no-repeat;
+		top:0px;
+		left:190px;
+		width: 52px;
+		height: 35px;
+	}
 }
 .title {
 	float: left;
-    font-size: 14px;
-    font-weight: 700;
-    font-family: "Microsoft Yahei";
-    margin-top: 5px;
+	font-size: 14px;
+	font-weight: 700;
+	font-family: "Microsoft Yahei";
+	margin-top: 5px;
 }
 .title_sign_left {
 	margin-left: 30px;
@@ -40,8 +40,8 @@
 	padding: 2px 7px;
 	font-size: 14px;
 	font-style: normal;
-    color: #fff;
-    border-radius: 2px;
+	color: #fff;
+	border-radius: 2px;
 }
 .title_sign_red {
 	background-color: #ed5565;
@@ -131,7 +131,7 @@
 }
 
 .row:nth-last-child(2) .form-control-static, .row:nth-last-child(1) .form-control-static
-	{
+{
 	margin-left: -2px;
 }
 
@@ -252,7 +252,7 @@ p.title {
 
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus
-	{
+{
 	color: #555 !important;
 	cursor: default !important;
 	background-color: #fff !important;
@@ -267,8 +267,8 @@ p.title {
 }
 
 
- .wrapper .top12{
-   margin-top:12px !important;
+.wrapper .top12{
+	margin-top:12px !important;
 }
 .scroll_box .navbar {
 	margin-top: 20px;
@@ -297,12 +297,15 @@ p.title {
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus,
-	.navbar-default .navbar-nav>.active>a:hover {
+.navbar-default .navbar-nav>.active>a:hover {
 	color: #fff;
 	background-color: #faab58 !important;
 }
 
 @media ( min-width : 768px) {
+	.ibox-conn .dl-horizontal {
+		margin: 0;
+	}
 	.ibox-conn .dl-horizontal dt {
 		width: 60px;
 		line-height: 22px;
@@ -314,6 +317,19 @@ p.title {
 	}
 }
 
+.mt15 {
+	margin-top: 15px;
+}
+.cards {
+	min-height: 63px;
+}
+.ibox-conn .cards-bg {
+	font-family: "Microsoft Yahei";
+	font-size: 13px;
+	font-weight: normal;
+	border-radius: 3px;
+	background-color: #00CFEC;
+}
 .navbar {
 	margin-bottom: 0px;
 }
@@ -339,7 +355,7 @@ dt {
 }
 
 .isStuck{
-z-index:1500;width:100%
+	z-index:1500;width:100%
 }
 
 .hint {position: relative; display: inline-block;}

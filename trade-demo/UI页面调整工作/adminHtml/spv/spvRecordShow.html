@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>入账审批</title>
+    <title>申请审批意见</title>
 
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css">
@@ -247,11 +247,32 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="active">
+                            <li class="">
                                 <a href="../spv/spvCaseList.html">
                                     <i class="fa ">
                                     </i>
                                     监管合约列表
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../spv/waterDetail.html">
+                                    <i class="fa ">
+                                    </i>
+                                    监管资金出入账流水
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../spv/spvRecorded2.html">
+                                    <i class="fa ">
+                                    </i>
+                                    审批驳回
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="../spv/spvRecordShow.html">
+                                    <i class="fa ">
+                                    </i>
+                                    申请审批意见
                                 </a>
                             </li>
                         </ul>
@@ -932,6 +953,7 @@
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <!-- <div class="ibox"> -->
 
+
                     <div class="ibox-content space30" >
                         <div class="agree-tile">
                             资金入账申请
@@ -1024,12 +1046,56 @@
                         </form>
 
                     </div>
+
+
+
+
                     <div class="ibox-content clearfix space30">
                         <div class="title">
-                            <strong>填写审核意见</strong>
+                            <strong>审核意见</strong>
                         </div>
-                        <div class="auditor">
-                            提交人：<span>业务员 张三</span>
+                        <div class="view-content">
+                            <div class="view-box">
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                   <span class="result pink_bg">未通过</span>
+                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">账号与附件不一致，重新填写</em>
+                                </p>
+                            </div>
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                   <span class="result pink_bg">未通过</span>
+                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写</em>
+                                </p>
+                            </div>
+
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                   <span class="result pink_bg">未通过</span>
+                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">账号与附件不一致，重新填写</em>
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+
+
+                        <div class="submitter">
+                            提交人：<span>张三(业务员)</span>
                         </div>
                         <div class="excuse">
                             <form action="">
