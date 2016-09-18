@@ -85,7 +85,15 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		bindServItem(tEloanCase);
     	toEloanCaseMapper.insertSelective(tEloanCase);    	
     	
-    	User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
+    	// start
+    	User manager=new User();
+    	if(excutor.getId().equals(user.getId())) {
+    		 manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "Manager");
+    	} else {
+    		 manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(excutor.getOrgId(), "Manager");
+    	}
+    	// end
+    	
     	Map<String, Object> vars = new HashMap<String,Object>();
     	//vars.put("Consultant", excutor.getUsername());
     	vars.put("Consultant", user.getUsername());

@@ -191,7 +191,7 @@
 			</div>
 
 			<div class="ibox-content clearfix" id="base_info">
-			<c:if test="${spvBaseInfoVO.toSpv.status==0 }">
+			<c:if test="${spvBaseInfoVO.toSpv.status==0&&spvBaseInfoVO.toSpv.applyTime==undefined}">
 			<shiro:hasPermission name="TRADE.SPV.UPDATE">
             		<a style="float: right; margin-right: 0px; margin-top: 0px;" href="${ctx}/spv/saveHTML?pkid=${spvBaseInfoVO.toSpv.pkid}">我要修改</a>
 		    </shiro:hasPermission>
@@ -465,6 +465,7 @@
 										   <th>划转条件</th> 
 										    <th>账户</th>
 											<th>划转金额</th>
+											<th>备注</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -493,6 +494,7 @@
 										</c:choose>	
 											</td>
 											<td>${item.deAmount>0?item.deAmount:0}万元</td>
+											<td>${item.deAddition}</td>
 										</tr>
 										</c:forEach>
 										
