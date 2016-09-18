@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.ReservationMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.Reservation" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="RES_NO" property="resNo" jdbcType="VARCHAR" />
+    <result column="RES_TYPE" property="resType" jdbcType="VARCHAR" />
+    <result column="CHECK IN_TIME" property="checkInTime" jdbcType="TIMESTAMP" />
+    <result column="CHECKED_OUT_TIME" property="checkedOutTime" jdbcType="TIMESTAMP" />
+    <result column="RES_PERSON_ORG_ID" property="resPersonOrgId" jdbcType="VARCHAR" />
+    <result column="RES_PERSON_ID" property="resPersonId" jdbcType="CHAR" />
+    <result column="RES_ORG_ID" property="resOrgId" jdbcType="CHAR" />
+    <result column="RES_STATUS" property="resStatus" jdbcType="VARCHAR" />
+    <result column="SCHEDULE_ID" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PROPERTY_ADDRESS" property="propertyAddress" jdbcType="NVARCHAR" />
+    <result column="SIGNING_CENTER" property="signingCenter" jdbcType="NVARCHAR" />
+    <result column="NUMBER_OF_PARTICIPANTS" property="numberOfParticipants" jdbcType="INTEGER" />
+    <result column="TRANSACT_ITEM_CODE" property="transactItemCode" jdbcType="VARCHAR" />
+    <result column="SPECIAL_REQUIREMENT" property="specialRequirement" jdbcType="NVARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" >
+    insert into T_RM_RESERVATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="resNo != null" >
+        RES_NO,
+      </if>
+      <if test="resType != null" >
+        RES_TYPE,
+      </if>
+      <if test="checkInTime != null" >
+        "CHECK IN_TIME",
+      </if>
+      <if test="checkedOutTime != null" >
+        CHECKED_OUT_TIME,
+      </if>
+      <if test="resPersonOrgId != null" >
+        RES_PERSON_ORG_ID,
+      </if>
+      <if test="resPersonId != null" >
+        RES_PERSON_ID,
+      </if>
+      <if test="resOrgId != null" >
+        RES_ORG_ID,
+      </if>
+      <if test="resStatus != null" >
+        RES_STATUS,
+      </if>
+      <if test="scheduleId != null" >
+        SCHEDULE_ID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="propertyAddress != null" >
+        PROPERTY_ADDRESS,
+      </if>
+      <if test="signingCenter != null" >
+        SIGNING_CENTER,
+      </if>
+      <if test="numberOfParticipants != null" >
+        NUMBER_OF_PARTICIPANTS,
+      </if>
+      <if test="transactItemCode != null" >
+        TRANSACT_ITEM_CODE,
+      </if>
+      <if test="specialRequirement != null" >
+        SPECIAL_REQUIREMENT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="resNo != null" >
+        #{resNo,jdbcType=VARCHAR},
+      </if>
+      <if test="resType != null" >
+        #{resType,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInTime != null" >
+        #{checkInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedOutTime != null" >
+        #{checkedOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resPersonOrgId != null" >
+        #{resPersonOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="resPersonId != null" >
+        #{resPersonId,jdbcType=CHAR},
+      </if>
+      <if test="resOrgId != null" >
+        #{resOrgId,jdbcType=CHAR},
+      </if>
+      <if test="resStatus != null" >
+        #{resStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAddress != null" >
+        #{propertyAddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="signingCenter != null" >
+        #{signingCenter,jdbcType=NVARCHAR},
+      </if>
+      <if test="numberOfParticipants != null" >
+        #{numberOfParticipants,jdbcType=INTEGER},
+      </if>
+      <if test="transactItemCode != null" >
+        #{transactItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRequirement != null" >
+        #{specialRequirement,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
