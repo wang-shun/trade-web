@@ -23,7 +23,9 @@ public class SpvBaseInfoVO {
 	private ToSpvDe toSpvDe;
 
 	private List<ToSpvDeDetail> toSpvDeDetailList = new ArrayList<ToSpvDeDetail>();
-
+	
+	private String handle;
+	
 	public List<ToSpvCust> getSpvCustList() {
 		return spvCustList;
 	}
@@ -71,5 +73,10 @@ public class SpvBaseInfoVO {
 	public void setToSpv(ToSpv toSpv) {
 		this.toSpv = toSpv;
 	}
-
+	public void setHandle(String handle) {
+		this.handle = handle;
+	}
+	public String getHandle() {
+		return handle;
+	}
 }

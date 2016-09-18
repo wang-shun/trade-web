@@ -45,6 +45,8 @@ $(document).ready(function() {
 	
 	reloadGrid();
 	
+	
+	
 	$(this).hide();
 });
 
@@ -62,6 +64,8 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
+	
+	setStyle();
 }
 
 function getParams() {
@@ -90,3 +94,99 @@ function getParams() {
 	
 	return data;
 } 
+
+function chooseApplicant(id) {
+	userSelect({
+		startOrgId : id,
+		expandNodeId : id,
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+		jobCode : 'consultant',
+		callBack : applicantSelectUserBack
+	});
+}
+
+function applicantSelectUserBack(array) {
+	if (array && array.length > 0) {
+		$("#prApp").val(array[0].username);
+		$("#prApp").attr('hVal', array[0].userId);
+
+	} else {
+		$("#prApp").val("");
+		$("#prApp").attr('hVal', "");
+	}
+}
+
+function chooseDist(id) {
+	
+	orgSelect({
+		displayId: 'oriGrpId',
+		displayName: 'radioOrgName', 
+		startOrgId: id, 
+		expandNodeId: id,
+		orgType:'', 
+		departmentType:'', 
+		departmentHeriarchy:'',
+		chkStyle:'radio',
+		callBack: distSelectOrgBack
+	});
+}
+
+function distSelectOrgBack(array) {
+		if (array && array.length > 0) {
+			$("#prDistName").val(array[0].name);
+			$("#prDistName").attr('hVal', array[0].id);
+		} else {
+			$("#prDistName").val("");
+			$("#prDistName").attr('hVal', "");
+		}
+}
+
+function setStyle(){
+	//left
+	$('.demo-left').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'left',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
+
+	//right
+	$('.demo-right').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
+
+	//top
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
+
+	//bottom
+	$('.demo-bottom').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'bottom',
+		offsetX: 8,
+		offsetY: 5,
+	});	
+}

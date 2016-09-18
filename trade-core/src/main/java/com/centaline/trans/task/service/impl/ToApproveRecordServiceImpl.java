@@ -20,6 +20,13 @@ public class ToApproveRecordServiceImpl implements ToApproveRecordService {
 	public ToApproveRecord queryToApproveRecord(ToApproveRecord toApproveRecord) {
 		return toApproveRecordMapper.findApproveRecordByRecord(toApproveRecord);
 	}
+	
+	@Override
+	public ToApproveRecord queryToApproveRecordForSpvApply(ToApproveRecord toApproveRecord) {
+		return toApproveRecordMapper.findApproveRecordByRecordForSpvApply(toApproveRecord);
+	}
+	
+	
 
 	@Override
 	public void saveToApproveRecord(ToApproveRecord toApproveRecord) {

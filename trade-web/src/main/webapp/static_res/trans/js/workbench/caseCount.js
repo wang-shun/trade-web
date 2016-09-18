@@ -364,6 +364,7 @@ function queryConutCaseByDate(){
 				}
 				
 				setStaDetailDef();
+				//页面贷款详情显示
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
    	 			//d1 = toDonutData($(data.staLoanSign),'count');
    	 			//d2 = toDonutData($(data.staLoanSign),'amount');
