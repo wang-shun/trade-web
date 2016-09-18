@@ -80,9 +80,8 @@ $(function() {
 	});
 	/**上传备件初始化结束*/
 	
-	
-	getExplPicByhouseCode();
-	
+    getExplPicByhouseCode();
+
 });
 
 //

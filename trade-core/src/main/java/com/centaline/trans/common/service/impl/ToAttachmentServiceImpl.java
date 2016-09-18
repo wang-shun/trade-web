@@ -2,6 +2,7 @@ package com.centaline.trans.common.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,10 @@ import com.centaline.trans.common.enums.ToPropertyResearchEnum;
 import com.centaline.trans.common.repository.ToAttachmentMapper;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.vo.FileUploadVO;
+import com.centaline.trans.eloan.entity.RcRiskControl;
+import com.centaline.trans.eloan.entity.ToRcAttachment;
+import com.centaline.trans.eloan.repository.RcRiskControlMapper;
+import com.centaline.trans.eloan.repository.ToRcAttachmentMapper;
 
 @Service
 public class ToAttachmentServiceImpl implements ToAttachmentService {
@@ -18,6 +23,12 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 
 	@Autowired
 	private ToAttachmentMapper toAttachmentMapper; 
+	
+	@Autowired
+	private RcRiskControlMapper rcRiskControlMapper; 
+	
+	@Autowired
+	private ToRcAttachmentMapper toRcAttachmentMapper; 
 	
 	@Override
 	public void saveToAttachment(ToAttachment toAttachment){
@@ -50,6 +61,26 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 			toAttachment.setPreFileCode(preFileCodes.get(i));
 			if(toAttachmentMapper.findAttachmentByCount(toAttachment) == 0) {
 				toAttachmentMapper.insertSelective(toAttachment);
+				saveRcAttachment(fileUploadVO.getCaseCode(),fileUploadVO.getPartCode(),toAttachment.getPkid());
+			}
+		}
+	}
+	
+	/***
+	 *   风控维持附件表的一个关联关系
+	 */
+	private void saveRcAttachment(String caseCode,String partCode,Long toAttachmentPkId) {
+		if("RiskControl".equals(partCode)) {
+			// 查询风控项目为强制公证
+			RcRiskControl property = new RcRiskControl();
+			property.setEloanCode(caseCode);
+			property.setRiskType("forceRegister");
+			List<RcRiskControl> rcRiskControlList = rcRiskControlMapper.getRiskControlByProperty(property);
+			if(CollectionUtils.isNotEmpty(rcRiskControlList)) {
+				ToRcAttachment record = new ToRcAttachment();
+				record.setRiskControlId(rcRiskControlList.get(0).getPkid());
+				record.setAttachmentId(toAttachmentPkId);
+				toRcAttachmentMapper.insertSelective(record);
 			}
 		}
 	}
