@@ -23,6 +23,8 @@ public interface ToApproveRecordMapper {
     
     ToApproveRecord findApproveRecordByRecord(ToApproveRecord record);
     
+    ToApproveRecord findApproveRecordByRecordForSpvApply(ToApproveRecord record);   
+        
     List<String> findApproveRecordByList(ToApproveRecord record);
 
 	ToApproveRecord findLastApproveRecord(ToApproveRecord toApproveRecord);

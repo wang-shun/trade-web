@@ -6,7 +6,6 @@
 		<customDict id="getDistCode" beanName="qqDistCode" />
 		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
 		<customDict id="getIsSuccess" beanName="qqisSuccess" />
-		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
 	</dicts>
 
 	<formatters>
@@ -162,6 +161,7 @@
 				<column type="both" name="EXE_RNAME" index="" checkbox="" display="执行人" title="执行人" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_COST_ORG_MGR" index="" checkbox="" display="区董" title="区董" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_COST_ORG_NAME" index="" checkbox="" display="成本区" title="成本区" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
+				<column type="both" name="PR_STATUS" display="状态" title="状态" customDict="" width="60" isSort="true" />			
 				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" title="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" title="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" title="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>				

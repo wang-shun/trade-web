@@ -46,6 +46,9 @@
 
 <link rel="stylesheet"
 	href="${ctx}/css/trans/css/propertyresearch/successList.css" />
+	
+	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 </head>
 
@@ -56,7 +59,7 @@
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="ibox-content border-bottom clearfix space_box">
 					<!-- 					<h4>已完成产调</h4> -->
-					<h2 class="title">产调来源清单</h2>
+					<h2 class="title">产调来源清单e</h2>
 					<form method="post" class="form_list" id="sourceForm" action="${ctx}/quickGrid/findPage?xlsx">
 						<div class="line">
 							<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> 
@@ -67,16 +70,21 @@
 							<input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
 		    				<input type="hidden" name="colomns" value="PR_CODE,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,
 		    					PR_ADDRESS,APP_RNAME,PR_APPLY_ORG_NAME,PR_APPLY_DEP_NAME,ORG_NAME,EXE_RNAME,PR_COST_ORG_MGR,
-		    					PR_COST_ORG_NAME,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME">
+		    					PR_COST_ORG_NAME,PR_STATUS,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME">
 							<!-- <input type="hidden" id="prStatus" name="search_prStatus"
 								value="2" /> -->
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 申请人查询 </label> 
+								<label class="control-label sign_left_small"> 申请人查询 </label>
 								<!-- <input class="teamcode input_type" type="text" id="prApp"
 									name="searchPrApp" placeholder="" value="" /> -->
-								<input type="text" id="prApp" name="searchPrApp" class="teamcode input_type" 
-							           readonly="readonly" onclick="userSelect({startOrgId:'105DB2C289397D50E0532429030A3DE0',expandNodeId:'105DB2C289397D50E0532429030A3DE0',
-										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+								<input type="text" id="prApp" name="searchPrApp"
+									class="teamcode input_type" readonly="readonly"
+									onclick="chooseApplicant('105DB2C289397D50E0532429030A3DE0')"
+									hVal="" />
+								<div class="input-group float_icon organize_icon"
+									id="propertySourceListOnclick">
+									<i class="icon iconfont"></i>
+								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 成本归属 </label> <input
@@ -97,7 +105,9 @@
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 贵宾服务部 </label> <input
 									class="teamcode input_type" type="text" id="prDistName"
-									name="searchPrDistName" placeholder="" value="" />
+									name="searchPrDistName" readonly="readonly"
+										   onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
+										   hVal="" placeholder="" value="" />
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont"></i>
 								</div>
@@ -191,6 +201,7 @@
 	<!-- owner --> 
 	<script src="${ctx}/js/trunk/property/propertySourceList.js"></script> 
 	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	
 	
 	<script id="template_sourceList" type="text/html">
@@ -227,20 +238,32 @@
                     <span class="manager">{{item.PR_COST_ORG_NAME}}</span>
                 </td>
                 <td>
-                    <span class="manager"><a href="#">{{item.APP_RNAME}}</a></span>
+                    <span class="manager">{{item.APP_RNAME}}</span>
                     <span class="manager">{{item.PR_APPLY_ORG_NAME}}</span>
                 </td>
                 <td>
                     <p class="smll_sign">
-                        <i class="sign_normal">申</i>
+						{{if item.PR_STATUS >= 0}}
+                        	<i class="sign_normal">申</i>
+						{{else}}
+							<i class="sign_grey">申</i>
+						{{/if}}
                         {{item.PR_APPLY_TIME}}
                     </p>
                     <p class="smll_sign">
-                        <i class="sign_normal">受</i>
+						{{if item.PR_STATUS >= 1}}
+                        	<i class="sign_normal">受</i>
+						{{else}}
+							<i class="sign_grey">受</i>
+						{{/if}}
                         {{item.PR_ACCEPT_TIME}}
                     </p>
                     <p class="smll_sign">
-                        <i class="sign_grey">完</i>
+						{{if item.PR_STATUS >= 2}}
+                        	<i class="sign_normal">完</i>
+						{{else}}
+							<i class="sign_grey">完</i>
+						{{/if}}
                         {{item.PR_COMPLETE_TIME}}
                     </p>
                 </td>
@@ -272,16 +295,19 @@
             $('.input-daterange').datepicker({
                 keyboardNavigation: false,
                 forceParse: false,
-                autoclose: true
+                autoclose: true,
+                todayBtn : 'linked',
+            	language : 'zh-CN'
             });
         });
+		
 	</script> 
 	
-<!-- 	<script type="text/javascript">
+    <script type="text/javascript">
 		$(function() {
 			setStyle();
 		});
-	</script> -->
+	</script>
 	    
     </content>
 	

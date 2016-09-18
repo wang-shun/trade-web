@@ -203,7 +203,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			List<KpiSrvCaseVo> t = new ArrayList<>();
 			
 			for(KpiSrvCaseVo x:listVOs){
-				if(x.getSalesSignScore()!=null){//上家签约
+				if(StringUtils.isNotBlank(x.getSalesSignScore())){//上家签约
 					try{
 					if(Double.valueOf(x.getSalesSignScore())%1!=0){
 						x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
@@ -223,7 +223,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					}
 					
 				}
-				if(x.getAccompanyRepayLoanScore()!=null){//上家陪同还贷
+				if(StringUtils.isNotBlank(x.getAccompanyRepayLoanScore())){//上家陪同还贷
 					try{
 						if(Double.valueOf(x.getAccompanyRepayLoanScore())%1!=0){
 							x.setMsg("该案件数据上家陪同还贷满意度不是[0-10]的整数");
@@ -243,7 +243,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					}
 					
 				}
-				if(x.getSalesTransferScore()!=null){//上家过户
+				if(StringUtils.isNotBlank(x.getSalesTransferScore())){//上家过户
 					try{
 						if(Double.valueOf(x.getSalesTransferScore())%1!=0){
 							x.setMsg("该案件数据上家过户满意度不是[0-10]的整数");
@@ -263,7 +263,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					}
 					
 				}
-				if(x.getSignScore()!=null){//下家签约
+				if(StringUtils.isNotBlank(x.getSignScore())){//下家签约
 					try{
 						if(Double.valueOf(x.getSignScore())%1!=0){
 							x.setMsg("该案件数据下家签约满意度不是[0-10]的整数");
@@ -283,7 +283,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					}
 					
 				}
-				if(x.getComLoanScore()!=null){//下家贷款
+				if(StringUtils.isNotBlank(x.getComLoanScore())){//下家贷款
 					try{
 						if(Double.valueOf(x.getComLoanScore())%1!=0){
 							x.setMsg("该案件数据下家贷款满意度不是[0-10]的整数");
@@ -303,7 +303,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					}
 					
 				}
-				if(x.getAccuFundScore()!=null){//下家纯公积金
+				if(StringUtils.isNotBlank(x.getAccuFundScore())){//下家纯公积金
 					try{
 						if(Double.valueOf(x.getAccuFundScore())%1!=0){
 							x.setMsg("该案件数据下家纯公积金满意度不是[0-10]的整数");
@@ -323,7 +323,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					}
 					
 				}
-				if(x.getTransferScore()!=null){//下家过户
+				if(StringUtils.isNotBlank(x.getTransferScore())){//下家过户
 					try{
 						if(Double.valueOf(x.getTransferScore())%1!=0){
 							x.setMsg("该案件数据上家签约满意度不是[0-10]的整数");
@@ -344,7 +344,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					
 				}
 				
-				if(x.getSalesCallBack()!=null){//上家电话接通
+				if(StringUtils.isNotBlank(x.getSalesCallBack())){//上家电话接通
 					if(x.getSalesCallBack().equals("通") || x.getSalesCallBack().equals("不通")){
 					}else{
 						x.setMsg("该案件数据上家电话接通须填写通或不通");
@@ -356,7 +356,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					t.add(x);
 					continue;
 				}
-				if(x.getCallBack()!=null){//下家电话接通
+				if(StringUtils.isNotBlank(x.getCallBack())){//下家电话接通
 					if(x.getCallBack().equals("通") || x.getCallBack().equals("不通")){
 					}else{
 						x.setMsg("该案件数据下家电话接通须填写通或不通");
@@ -435,28 +435,35 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		entity.setType(KPI_SRV_CASE_TYPE_IMP);
 		entity.setCreateTime(new Date());
 
-		listEntity.add(generateNewEntity(entity, "TransSign", salesCallBack ? Double.valueOf(vo.getSalesSignScore()) : null,
-				buyerCallBack ? Double.valueOf(vo.getSignScore()) : null, true,
-				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 签约
-
-		listEntity.add(generateNewEntity(entity, "LoanClose", salesCallBack ? Double.valueOf(vo.getAccompanyRepayLoanScore()) : null,
-				null, false, StrToBo(entity.getSalerCallback())));// 上家贷款结清
-
-		listEntity.add(generateNewEntity(entity, "Guohu", salesCallBack ? Double.valueOf(vo.getSalesTransferScore()) : null,
-				buyerCallBack ? Double.valueOf(vo.getTransferScore()) : null, true,
-				StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 过户
+		listEntity.add(generateNewEntity(entity, "TransSign", 
+				salesCallBack && StringUtils.isNotBlank(vo.getSalesSignScore()) ? Double.valueOf(vo.getSalesSignScore()) : null,
+				buyerCallBack && StringUtils.isNotBlank(vo.getSignScore()) ? Double.valueOf(vo.getSignScore()) : null, true,
+						StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 签约
+		
+		//if(StringUtils.isNotBlank(vo.getAccompanyRepayLoanScore())){
+			listEntity.add(generateNewEntity(entity, "LoanClose", 
+					salesCallBack && StringUtils.isNotBlank(vo.getAccompanyRepayLoanScore()) ? Double.valueOf(vo.getAccompanyRepayLoanScore()) : null,
+					null, false, StrToBo(entity.getSalerCallback())));// 上家贷款结清
+		//}
+		
+		listEntity.add(generateNewEntity(entity, "Guohu", 
+				salesCallBack && StringUtils.isNotBlank(vo.getSalesTransferScore()) ? Double.valueOf(vo.getSalesTransferScore()) : null,
+				buyerCallBack && StringUtils.isNotBlank(vo.getTransferScore())? Double.valueOf(vo.getTransferScore()) : null, true,
+						StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback())));// 过户
 		
 		/* 下家贷款为空的话则不插入数据页面不显示   20160823*/
-		if(vo.getComLoanScore()!=null){
-			listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, buyerCallBack ? Double.valueOf(vo.getComLoanScore()) : null,
+		//if(StringUtils.isNotBlank(vo.getComLoanScore())){
+			listEntity.add(generateNewEntity(entity, "ComLoanProcess", null, 
+					buyerCallBack && StringUtils.isNotBlank(vo.getComLoanScore())? Double.valueOf(vo.getComLoanScore()) : null,
 					false, StrToBo(entity.getBuyerCallback())));// 下家贷款
-		}
+		//}
 		
 		/* 下家纯公积金为空的话则不插入数据页面不显示   20160823*/
-		if(vo.getAccuFundScore()!=null){
-			listEntity.add(generateNewEntity(entity, "PSFSign", null, buyerCallBack ? Double.valueOf(vo.getAccuFundScore()) : null, false,
+		//if(StringUtils.isNotBlank(vo.getAccuFundScore())){
+			listEntity.add(generateNewEntity(entity, "PSFSign", null, 
+					buyerCallBack && StringUtils.isNotBlank(vo.getAccuFundScore())? Double.valueOf(vo.getAccuFundScore()) : null, false,
 					StrToBo(entity.getBuyerCallback())));// 公积金贷款
-		}
+		//}
 		
 
 		return listEntity;

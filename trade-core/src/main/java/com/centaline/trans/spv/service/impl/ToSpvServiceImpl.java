@@ -465,13 +465,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
+
 		if (spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getPkid() == null) {
 			String caseCode_ = spvBaseInfoVO.getToSpv().getCaseCode();
 			ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode_);
 			if(toSpv != null){
-				throw new BusinessException("已存在改案件的资金监管信息！");
+				throw new BusinessException("保存失败：已存在改案件的资金监管信息！");
 			}
 		}
+		
 		// 生成spvCode
 		String spvCode = createSpvCode();
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
@@ -570,38 +572,54 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/** 5.保存到‘监管资金出入账约定’表 */
 		// List<ToSpvDeDetail> toSpvDeDetailList =
 		// spvBaseInfoVO.getToSpvDeDetailList();
-		if (toSpvDe.getIsDeleted() != "1") {
 			/** 清空所有deid记录 */
-			if (toSpvDe != null && toSpvDe.getPkid() != null) {
+/*			if (toSpvDe != null && toSpvDe.getPkid() != null) {
 				toSpvDeDetailMapper.deleteByDeId(toSpvDe.getPkid());
-			}
+			}*/
 
-			if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
-				// PayeeAccountType -> PayeeAccountId
-				for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList) {
-					if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
-						for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-							if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
-								toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
-							}
+			//重构toSpvDeDetailList
+			if(!"SpvApprove".equals(spvBaseInfoVO.getHandle()) && !"SpvSign".equals(spvBaseInfoVO.getHandle())){
+				List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
+				if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
+					for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+						if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
+							toSpvDeDetailNewList.add(toSpvDeDetail);
 						}
 					}
-					toSpvDeDetail.setCreateBy(user.getId());
-					toSpvDeDetail.setCreateTime(new Date());
-					toSpvDeDetail.setDeId(toSpvDe.getPkid());
-
-					toSpvDeDetail.setIsDeleted("0");
-					toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+				}
+				List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
+				for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
+					toSpvDeDetail.setUpdateBy(user.getId());
+					toSpvDeDetail.setUpdateTime(new Date());
+					toSpvDeDetail.setIsDeleted("1");
+					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+				}
+				if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
+					// PayeeAccountType -> PayeeAccountId
+					for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
+						if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
+							for (ToSpvAccount toSpvAccount : toSpvAccountList) {
+								if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
+									toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
+								}
+							}
+						}
+						
+						if(toSpvDeDetail.getPkid() != null){
+							toSpvDeDetail.setUpdateBy(user.getId());
+							toSpvDeDetail.setUpdateTime(new Date());
+							toSpvDeDetail.setIsDeleted("0");
+							toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+						}else{
+							toSpvDeDetail.setCreateBy(user.getId());
+							toSpvDeDetail.setCreateTime(new Date());
+							toSpvDeDetail.setDeId(toSpvDe.getPkid());
+							toSpvDeDetail.setIsDeleted("0");
+							toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
+						}
+					}
 				}
 			}
-		} else {
-			for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList) {
-				toSpvDeDetail.setUpdateBy(user.getId());
-				toSpvDeDetail.setUpdateTime(new Date());
-				toSpvDeDetailMapper.updateByPrimaryKey(toSpvDeDetail);
-			}
-		}
-
 		/** 6.保存到‘资金监管房屋信息’表 */
 		// ToSpvProperty toSpvProperty = spvBaseInfoVO.getToSpvProperty();
 		if (toSpvProperty != null) {
@@ -633,19 +651,16 @@ public class ToSpvServiceImpl implements ToSpvService {
 		// throw new BusinessException("启动失败：流程已经启动或结束！");
 		// }
 		// }
-
+	
 		ToWorkFlow twf = new ToWorkFlow();
 		twf.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-		ToSpv row = new ToSpv();
-		if (spvBaseInfoVO.getToSpv() != null) {
-			row = toSpvMapper.selectByPrimaryKey(spvBaseInfoVO.getToSpv().getPkid());
-		}
-		if (record != null || SpvStatusEnum.COMPLETE.equals(row.getStatus())) {
-			throw new BusinessException("启动失败：该案件的流程已经启动或完成！");
-		}
 
+		if (record != null) {
+			throw new BusinessException("流程启动失败：该案件的流程已开启！");
+		}
+		
 		saveNewSpv(spvBaseInfoVO, user);
 
 		// ToCase
@@ -662,7 +677,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				uamUserOrgService.getUserByOrgIdAndJobCode(orgId, "JYFKZJ").get(0).getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
-				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getSpvCode(), vars);
+				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getCaseCode(), vars);
 
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
@@ -745,17 +760,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 		request.setAttribute("propertySquare", toPropertyInfo.getSquare());
 		request.setAttribute("processorName", consultUser == null ? "" : consultUser.getRealName());
 		request.setAttribute("agentName", agentUser == null ? "" : agentUser.getRealName());
-		request.setAttribute("sellerName", seller.toString());
-		request.setAttribute("sellerMobil", sellerMobil.toString());
-		request.setAttribute("buyerName", buyer.toString());
-		request.setAttribute("buyerMobil", buyerMobil.toString());
+		request.setAttribute("sellerName", seller.indexOf("/") == -1?seller:seller.substring(0, seller.indexOf("/")));
+		request.setAttribute("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
+		request.setAttribute("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
+		request.setAttribute("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
 	}
 
 	/**
 	 * 获取流程变量并查询拼接spvBaseInfoVO
 	 */
 	public SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode) {
-		Long pkid = Long.parseLong((String) workFlowManager.getVar(instCode, "spvPkid").getValue());
+		Long pkid = Long.parseLong(workFlowManager.getVar(instCode, "spvPkid").getValue().toString());
 		return findSpvBaseInfoVOByPkid(request, pkid);
 	}
 
@@ -764,7 +779,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request, pkid);
 		/** 查询案件相关信息 */
 		if (!StringUtils.isEmpty(caseCode)) {
-			setAttribute(request, caseCode);
+				setAttribute(request, caseCode);
 		} else {
 			if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null) {
 				setAttribute(request, spvBaseInfoVO.getToSpv().getCaseCode());
@@ -897,6 +912,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public List<ToSpvDeDetail> findDeDetailByDeId(Long deId) {
 		return toSpvDeDetailMapper.selectByDeId(deId);
+	}
+
+	@Override
+	public int updateByPrimaryKey(ToSpv record) {
+		return toSpvMapper.updateByPrimaryKey(record);
 	}
 
 }

@@ -121,7 +121,8 @@ public class ToSpvProperty {
     }
 
     public void setPrSize(BigDecimal prSize) {
-        this.prSize = prSize;
+    	
+        this.prSize = prSize == null ? new BigDecimal(0) :prSize;
     }
 
     public String getIsMortClear() {
