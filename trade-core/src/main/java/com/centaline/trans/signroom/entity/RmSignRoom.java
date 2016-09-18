@@ -1,0 +1,161 @@
+package com.centaline.trans.signroom.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 签约室
+ * 
+ * @author zhoujp7
+ *
+ */
+public class RmSignRoom implements Serializable {
+
+	private static final long serialVersionUID = 2713653054466978616L;
+
+	private Long pkid;
+	private String roomType;// 房间类型
+	private String roomNo;// 房间编号
+	private String tradeCenter;// 交易中心
+	private String tradeCenterId;// 交易中心ID
+	private String orgId;// 归属贵宾服务中心ID
+	private String orgName;// 归属贵宾服务中心
+	private int numbeOfAccommodatePeople;// 可容纳人数
+	private String remark;// 备注
+	private Date closeTime;// 关闭时间
+	private String roomStatus;// 房间状态
+	private int isDelete;// 是否删除
+	private Date createTime;// 创建时间
+	private String createBy;// 创建人
+	private Date updateTime;// 更新时间
+	private String updateBy;// 更新人
+
+	public Long getPkid() {
+		return pkid;
+	}
+
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public String getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
+	}
+
+	public String getTradeCenter() {
+		return tradeCenter;
+	}
+
+	public void setTradeCenter(String tradeCenter) {
+		this.tradeCenter = tradeCenter;
+	}
+
+	public String getTradeCenterId() {
+		return tradeCenterId;
+	}
+
+	public void setTradeCenterId(String tradeCenterId) {
+		this.tradeCenterId = tradeCenterId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+
+	public int getNumbeOfAccommodatePeople() {
+		return numbeOfAccommodatePeople;
+	}
+
+	public void setNumbeOfAccommodatePeople(int numbeOfAccommodatePeople) {
+		this.numbeOfAccommodatePeople = numbeOfAccommodatePeople;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Date getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
+	}
+
+	public String getRoomStatus() {
+		return roomStatus;
+	}
+
+	public void setRoomStatus(String roomStatus) {
+		this.roomStatus = roomStatus;
+	}
+
+	public int getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(int isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
+
+}
