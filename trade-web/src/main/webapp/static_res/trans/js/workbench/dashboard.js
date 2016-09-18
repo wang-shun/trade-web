@@ -47,7 +47,7 @@ function setStaValItem(d, c) {
 			var _this = this;
 /*			var showhtml = "金额：<span>" + _this.amount + "</span>单数：<span>"
 				+ _this.count + "</span>转化率：<span>" + (_this.convRate?_this.convRate:'00.0') + "%</span>";*/
-			var showhtml = "金额：<span>" + (_this.amount/10000).toFixed(2) + "</span>单数：<span>"
+			var showhtml = "金额：<span>" + (_this.amount/10000).toFixed(2) + "万</span>单数：<span>"
 			+ _this.count + "</span>转化率：<span>" + (_this.convRate?_this.convRate:'00.0') + "%</span>";
 			$("#sta_tr_" + _this.staItem).find(c).html(showhtml);
 		});
