@@ -238,7 +238,7 @@
                     <span class="manager">{{item.PR_COST_ORG_NAME}}</span>
                 </td>
                 <td>
-                    <span class="manager"><a href="#">{{item.APP_RNAME}}</a></span>
+                    <span class="manager">{{item.APP_RNAME}}</span>
                     <span class="manager">{{item.PR_APPLY_ORG_NAME}}</span>
                 </td>
                 <td>
