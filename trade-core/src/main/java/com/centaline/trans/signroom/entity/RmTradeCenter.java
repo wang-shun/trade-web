@@ -3,7 +3,7 @@ package com.centaline.trans.signroom.entity;
 import java.io.Serializable;
 
 /**
- * 签约中心表
+ * 签约中心表(T_RM_TRADE_CENTER)
  * 
  * @author zhoujp7
  *

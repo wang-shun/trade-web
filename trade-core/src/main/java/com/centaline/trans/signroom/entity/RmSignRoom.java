@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 签约室
+ * 签约室(T_RM_SIGN_ROOM)
  * 
  * @author zhoujp7
  *
