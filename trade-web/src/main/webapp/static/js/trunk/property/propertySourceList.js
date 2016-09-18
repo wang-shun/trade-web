@@ -39,6 +39,27 @@ $(document).ready(function() {
     $('#searchBtn').click(function(){
 		reloadGrid();
 	});
+    
+    $('#exportBtn').click(function(){
+    	
+    	var queryId = "querySourceList";
+    	
+    	var data = getParams();
+    	
+    	data.sPrDistrictId = prDistrictId;
+        data.sPrDep = prDep;
+    	
+    	$.exportExcel({
+    		ctx : ctx,
+    		queryId : queryId,
+    		colomns : ['PR_CODE','IS_SUCCESS','UNSUCCESS_REASON','DIST_CODE',
+    				   'PR_ADDRESS','APP_RNAME','PR_APPLY_ORG_NAME','PR_APPLY_DEP_NAME','ORG_NAME',
+    				   'EXE_RNAME','PR_COST_ORG_MGR','PR_COST_ORG_NAME','PR_STATUS','PR_APPLY_TIME',
+    				   'PR_ACCPET_TIME','PR_COMPLETE_TIME'],
+    		data:data
+    		});
+    	
+    });
 	
 	//$('#sourceList table').addClass("apply-table");
 	$('#sourceList table').addClass("table table_blue table-striped table-bordered table-hover");
@@ -190,3 +211,23 @@ function setStyle(){
 		offsetY: 5,
 	});	
 }
+
+/*function exportExcel(){
+	
+	var queryId = "querySourceList";
+	
+	var data = getParams();
+	
+	data.sPrDistrictId = prDistrictId;
+    data.sPrDep = prDep;
+	
+	$.exportExcel({
+		ctx : "..",
+		queryId : queryId,
+		colomns : ['PR_CODE','IS_SUCCESS','UNSUCCESS_REASON','DIST_CODE',
+				   'PR_ADDRESS','APP_RNAME','PR_APPLY_ORG_NAME','PR_APPLY_DEP_NAME','ORG_NAME',
+				   'EXE_RNAME','PR_COST_ORG_MGR','PR_COST_ORG_NAME','PR_STATUS','PR_APPLY_TIME',
+				   'PR_ACCPET_TIME','PR_COMPLETE_TIME'],
+		data:data
+	});
+}*/
