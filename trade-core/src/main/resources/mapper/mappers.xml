@@ -175,5 +175,8 @@
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />
+		
+		<!-- 产品信息接口 -->
+		<mapper resource="mapper/signroom/ReservationMapper.xml" />
 	</mappers>
 </configuration>

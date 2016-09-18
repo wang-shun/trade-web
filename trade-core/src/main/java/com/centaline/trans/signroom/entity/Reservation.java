@@ -38,7 +38,7 @@ public class Reservation {
 
 	private Integer numberOfParticipants; // 参与人数
 
-	private String transactItemCode; // 办理事项编号
+	private String transactItemCode; // 办理事项编号(签合同:contract,办贷款:doLoan,E+贷款:Eloan)
 
 	private String specialRequirement; // 特殊需求
 

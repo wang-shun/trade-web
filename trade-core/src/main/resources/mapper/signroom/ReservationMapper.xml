@@ -24,11 +24,8 @@
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" >
-    insert into T_RM_RESERVATION
+    insert into sctrans.T_RM_RESERVATION
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        PKID,
-      </if>
       <if test="resNo != null" >
         RES_NO,
       </if>
@@ -88,9 +85,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        #{pkid,jdbcType=BIGINT},
-      </if>
       <if test="resNo != null" >
         #{resNo,jdbcType=VARCHAR},
       </if>
