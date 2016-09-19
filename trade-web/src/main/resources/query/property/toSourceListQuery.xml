@@ -52,7 +52,7 @@
 				<![CDATA[
 				SELECT
 					PR.PR_CODE, 
-					PR.IS_SUCCESS AS IS_SUCCESS_OLD, 
+					PR.IS_SUCCESS, 
 					PR.UNSUCCESS_REASON,
 					PR.DIST_CODE AS DIST_CODE_OLD, 
 					DICT.NAME,
@@ -148,8 +148,9 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PR_CODE" index="" checkbox="" display="产调编码" title="产调编码" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="IS_SUCCESS_OLD" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="virtual" name="IS_SUCCESS"  display="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" />	
+				<!-- <column type="both" name="IS_SUCCESS_OLD" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="virtual" name="IS_SUCCESS"  display="是否有效" title="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" />	 -->
+				<column type="both" name="IS_SUCCESS" customDict="getIsSuccess" display="是否有效" title="是否有效"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column type="both" name="UNSUCCESS_REASON" index="" checkbox="" display="无效原因" title="无效原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="DIST_CODE_OLD" index="" checkbox="" display="行政区域" title="行政区域" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="DIST_CODE"  display="行政区域" title="行政区域" referencecol="DIST_CODE_OLD"  customDict="getDistCode" isSort="true" />
@@ -161,7 +162,7 @@
 				<column type="both" name="EXE_RNAME" index="" checkbox="" display="执行人" title="执行人" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_COST_ORG_MGR" index="" checkbox="" display="区董" title="区董" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_COST_ORG_NAME" index="" checkbox="" display="成本区" title="成本区" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
-				<column type="both" name="PR_STATUS" display="状态" title="状态" customDict="" width="60" isSort="true" />			
+				<column type="both" name="PR_STATUS" display="状态" title="状态" customDict="getPrStatusCode" width="60" isSort="true" />			
 				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="产调申请时间" title="产调申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="产调受理时间" title="产调受理时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="产调完成时间" title="产调完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable=""/>				

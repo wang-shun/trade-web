@@ -59,7 +59,7 @@
 			<div class="wrapper wrapper-content animated fadeInRight">
 				<div class="ibox-content border-bottom clearfix space_box">
 					<!-- 					<h4>已完成产调</h4> -->
-					<h2 class="title">产调来源清单e</h2>
+					<h2 class="title">产调来源清单</h2>
 					<form method="post" class="form_list" id="sourceForm" action="${ctx}/quickGrid/findPage?xlsx">
 						<div class="line">
 							<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> 
@@ -70,7 +70,7 @@
 							<input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
 		    				<input type="hidden" name="colomns" value="PR_CODE,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,
 		    					PR_ADDRESS,APP_RNAME,PR_APPLY_ORG_NAME,PR_APPLY_DEP_NAME,ORG_NAME,EXE_RNAME,PR_COST_ORG_MGR,
-		    					PR_COST_ORG_NAME,PR_STATUS,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME">
+		    					PR_COST_ORG_NAME,PR_STATUS,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME" />
 							<!-- <input type="hidden" id="prStatus" name="search_prStatus"
 								value="2" /> -->
 							<div class="form_content">
@@ -165,7 +165,8 @@
 								<button id="searchBtn" type="button" class="btn btn-success">
 									<i class="icon iconfont"></i> 查询
 								</button>
-								<button type="button" class="btn btn-success" onclick="submitForm()">导出列表</button>
+								<!-- <button type="button" class="btn btn-success" onclick="submitForm()">导出列表</button> -->
+								<button id="exportBtn" type="button" class="btn btn-success">导出列表</button> 
 								<button id="cleanBtn" type="reset" class="btn btn-grey">清空</button>
 							</div>
 						</div>
@@ -190,8 +191,9 @@
 	<!-- 分页控件  --> 
 	<script	src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<!-- 自定义扩展jQuery库 --> 
-	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script> 
-	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+<!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 
 	<!-- datapicker -->
 	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -273,9 +275,9 @@
 	    
 	<script>
 	
-		function submitForm(){
+		/* function submitForm(){
 			$('#sourceForm').submit();
-		}
+		} */
 		
 	    // 清空搜索内容
 		$('#cleanBtn').click(function() {
