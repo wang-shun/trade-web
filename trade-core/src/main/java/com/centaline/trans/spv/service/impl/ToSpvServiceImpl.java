@@ -470,7 +470,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			String caseCode_ = spvBaseInfoVO.getToSpv().getCaseCode();
 			ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode_);
 			if(toSpv != null){
-				throw new BusinessException("保存失败：已存在改案件的资金监管信息！");
+				throw new BusinessException("保存失败：已存在该案件的资金监管信息！");
 			}
 		}
 		
@@ -640,17 +640,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
-
-		// 先查询流程是否已经开启，若开启则提示用户不能再次开启
-		// if(spvBaseInfoVO.getToSpv() != null){
-		// ToSpv row =
-		// toSpvMapper.selectByPrimaryKey(spvBaseInfoVO.getToSpv().getPkid());
-		// if(row != null &&
-		// (SpvStatusEnum.INPROGRESS.getCode().equals(row.getStatus()) ||
-		// SpvStatusEnum.COMPLETE.getCode().equals(row.getStatus()))){
-		// throw new BusinessException("启动失败：流程已经启动或结束！");
-		// }
-		// }
 	
 		ToWorkFlow twf = new ToWorkFlow();
 		twf.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
@@ -663,18 +652,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		saveNewSpv(spvBaseInfoVO, user);
 
-		// ToCase
-		// te=toCaseService.findToCaseByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-		// String orgId = te.getOrgId();
 		// 查询风控专员和总监
 		Map<String, Object> vars = new HashMap<String, Object>();
-		String orgId = "81E586DCB7354D438A4C38C7EAFBF53E";
 		String spvPkid = spvBaseInfoVO.getToSpv().getPkid().toString();
 		vars.put("spvPkid", spvPkid);
-		vars.put("RiskControlOfficer",
-				uamUserOrgService.getUserByOrgIdAndJobCode(orgId, "JYFKZY").get(0).getUsername());
-		vars.put("RiskControlDirector",
-				uamUserOrgService.getUserByOrgIdAndJobCode(orgId, "JYFKZJ").get(0).getUsername());
+		vars.put("RiskControlOfficer",user.getUsername());
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getAdminOrg(), "JYFKZJ");
+		vars.put("RiskControlDirector",riskControlDirector.getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getCaseCode(), vars);
@@ -786,6 +770,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}
 
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+		}
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 	}
 
