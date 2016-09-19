@@ -46,6 +46,9 @@
 
 <link rel="stylesheet"
 	href="${ctx}/css/trans/css/propertyresearch/successList.css" />
+	
+	<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
 </head>
 
@@ -67,16 +70,21 @@
 							<input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
 		    				<input type="hidden" name="colomns" value="PR_CODE,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,
 		    					PR_ADDRESS,APP_RNAME,PR_APPLY_ORG_NAME,PR_APPLY_DEP_NAME,ORG_NAME,EXE_RNAME,PR_COST_ORG_MGR,
-		    					PR_COST_ORG_NAME,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME">
+		    					PR_COST_ORG_NAME,PR_STATUS,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME" />
 							<!-- <input type="hidden" id="prStatus" name="search_prStatus"
 								value="2" /> -->
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 申请人查询 </label> 
+								<label class="control-label sign_left_small"> 申请人查询 </label>
 								<!-- <input class="teamcode input_type" type="text" id="prApp"
 									name="searchPrApp" placeholder="" value="" /> -->
-								<input type="text" id="prApp" name="searchPrApp" class="teamcode input_type" 
-							           readonly="readonly" onclick="userSelect({startOrgId:'105DB2C289397D50E0532429030A3DE0',expandNodeId:'105DB2C289397D50E0532429030A3DE0',
-										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+								<input type="text" id="prApp" name="searchPrApp"
+									class="teamcode input_type" readonly="readonly"
+									onclick="chooseApplicant('105DB2C289397D50E0532429030A3DE0')"
+									hVal="" />
+								<div class="input-group float_icon organize_icon"
+									id="propertySourceListOnclick">
+									<i class="icon iconfont"></i>
+								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 成本归属 </label> <input
@@ -97,7 +105,9 @@
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 贵宾服务部 </label> <input
 									class="teamcode input_type" type="text" id="prDistName"
-									name="searchPrDistName" placeholder="" value="" />
+									name="searchPrDistName" readonly="readonly"
+										   onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
+										   hVal="" placeholder="" value="" />
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont"></i>
 								</div>
@@ -155,7 +165,8 @@
 								<button id="searchBtn" type="button" class="btn btn-success">
 									<i class="icon iconfont"></i> 查询
 								</button>
-								<button type="button" class="btn btn-success" onclick="submitForm()">导出列表</button>
+								<!-- <button type="button" class="btn btn-success" onclick="submitForm()">导出列表</button> -->
+								<button id="exportBtn" type="button" class="btn btn-success">导出列表</button> 
 								<button id="cleanBtn" type="reset" class="btn btn-grey">清空</button>
 							</div>
 						</div>
@@ -180,8 +191,9 @@
 	<!-- 分页控件  --> 
 	<script	src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<!-- 自定义扩展jQuery库 --> 
-	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script> 
-	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+<!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 
 	<!-- datapicker -->
 	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -191,6 +203,7 @@
 	<!-- owner --> 
 	<script src="${ctx}/js/trunk/property/propertySourceList.js"></script> 
 	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	
 	
 	<script id="template_sourceList" type="text/html">
@@ -227,20 +240,32 @@
                     <span class="manager">{{item.PR_COST_ORG_NAME}}</span>
                 </td>
                 <td>
-                    <span class="manager"><a href="#">{{item.APP_RNAME}}</a></span>
+                    <span class="manager">{{item.APP_RNAME}}</span>
                     <span class="manager">{{item.PR_APPLY_ORG_NAME}}</span>
                 </td>
                 <td>
                     <p class="smll_sign">
-                        <i class="sign_normal">申</i>
+						{{if item.PR_STATUS >= 0}}
+                        	<i class="sign_normal">申</i>
+						{{else}}
+							<i class="sign_grey">申</i>
+						{{/if}}
                         {{item.PR_APPLY_TIME}}
                     </p>
                     <p class="smll_sign">
-                        <i class="sign_normal">受</i>
+						{{if item.PR_STATUS >= 1}}
+                        	<i class="sign_normal">受</i>
+						{{else}}
+							<i class="sign_grey">受</i>
+						{{/if}}
                         {{item.PR_ACCEPT_TIME}}
                     </p>
                     <p class="smll_sign">
-                        <i class="sign_grey">完</i>
+						{{if item.PR_STATUS >= 2}}
+                        	<i class="sign_normal">完</i>
+						{{else}}
+							<i class="sign_grey">完</i>
+						{{/if}}
                         {{item.PR_COMPLETE_TIME}}
                     </p>
                 </td>
@@ -250,9 +275,9 @@
 	    
 	<script>
 	
-		function submitForm(){
+		/* function submitForm(){
 			$('#sourceForm').submit();
-		}
+		} */
 		
 	    // 清空搜索内容
 		$('#cleanBtn').click(function() {
@@ -272,16 +297,19 @@
             $('.input-daterange').datepicker({
                 keyboardNavigation: false,
                 forceParse: false,
-                autoclose: true
+                autoclose: true,
+                todayBtn : 'linked',
+            	language : 'zh-CN'
             });
         });
+		
 	</script> 
 	
-<!-- 	<script type="text/javascript">
+    <script type="text/javascript">
 		$(function() {
 			setStyle();
 		});
-	</script> -->
+	</script>
 	    
     </content>
 	

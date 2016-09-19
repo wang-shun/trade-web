@@ -329,5 +329,9 @@
     <!-- 获取临时银行案件报表状态 -->
     <bean name="getTmpBankCaseStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetTmpBankCaseStatusServiceImpl"></bean>
     
+   <bean name="getRiskControlType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RISK_CONTROL_TYPE"></property>
+    </bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

@@ -52,7 +52,7 @@
       #{preFileCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, #{fileCat,jdbcType=NVARCHAR}, 
       #{fileName,jdbcType=NVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToAttachment" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToAttachment" useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_TO_ATTACHMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

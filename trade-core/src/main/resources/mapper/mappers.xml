@@ -177,5 +177,12 @@
 		<mapper resource="mapper/product/ProductMapper.xml" />
 		<!-- 任务提交日记 -->
 		<mapper resource="mapper/task/TlTaskSubmitLogMapper.xml"/>
+		
+		<mapper resource="mapper/eloan/RcRiskControlMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcAttachmentMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcForceRegisterMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcMortgageCardMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcMortgageInfoMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcMortgageMapper.xml" />
 	</mappers>
 </configuration>
