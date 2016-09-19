@@ -37,7 +37,7 @@
 		    <condition field="spv.CREATE_TIME" name="startDate" label="开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.CREATE_TIME" name="endDate" label="结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.STATUS" name="status" label="合约状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.SPV_CODE" name="spvCode" label="合约编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.SPV_CODE" name="spvCode" label="合约编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>

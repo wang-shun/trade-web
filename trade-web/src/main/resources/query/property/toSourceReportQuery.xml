@@ -57,6 +57,33 @@
 				    AND PR.PR_DISTRICT_ID = #sPrDistrictId#
 			    </if>
 			    
+			    <ifNotNull sTimeType>
+					<if test="sTimeType == 0">
+						<if test="sStartTime != ''">
+						    AND PR.PR_APPLY_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_APPLY_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+			    	<if test="sTimeType == 1">
+						<if test="sStartTime != ''">
+						    AND PR.PR_ACCPET_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_ACCPET_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+			    	<if test="sTimeType == 2">
+						<if test="sStartTime != ''">
+						    AND PR.PR_COMPLETE_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_COMPLETE_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+				</ifNotNull>
+			    
 				]]>
 			</baseSql>
 			<groupSql>

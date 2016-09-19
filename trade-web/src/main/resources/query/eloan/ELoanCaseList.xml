@@ -71,10 +71,10 @@
 			    </if>
 			 )
 		        <if test="serviceJobCode == 'consultant' ">
-		        and ec.EXCUTOR_ID = #sessionUserId#
+		        and ec.EXCUTOR_ID = #sessionUserId# and ec.EXCUTOR_TEAM =#serviceDepId#
 		        </if>
 		        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team' and serviceJobCode != 'TeamAssistant' ">
-		        and (ec.EXCUTOR_TEAM =#serviceDepId# or ec.EXCUTOR_ID = #sessionUserId#)
+		        and (ec.EXCUTOR_TEAM =#serviceDepId# )
 		        </if>
 		         <if test="serviceJobCode == 'TeamAssistant' and serviceDepHierarchy == 'yucui_team' ">
 		        and ec.EXCUTOR_DISTRICT=#serviceOrgId#

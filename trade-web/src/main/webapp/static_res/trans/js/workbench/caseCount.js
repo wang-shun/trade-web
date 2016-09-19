@@ -10,7 +10,7 @@ function queryBizwarnCaseCount(){
 			success: function(data) {				
 				
 				//待分配的案件
-				if(data.caseDistributeCount!=undefined && data.caseDistributeCount>=0){
+				/*if(data.caseDistributeCount!=undefined && data.caseDistributeCount>=0){
 					//$('.light_info').prepend($("#caseDistributeCount").parents("li"));
 					$("#caseDistributeCount").html(data.caseDistributeCount).parent('p').siblings("i").addClass('martop20');
 					$("#caseDistributeCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
@@ -23,7 +23,7 @@ function queryBizwarnCaseCount(){
 					$("#caseDistributeCount").parents("li").children().wrapAll(function() {
 						  return '<a href="'+ctx+'/case/caseDistribute" target="_blank"></a>';
 					});
-				}
+				}*/
 				
 				//无主任务
 				if(data.unLocatedTaskCount!=undefined && data.unLocatedTaskCount>=0){
@@ -110,8 +110,8 @@ function queryBizwarnCaseCount(){
 	 });
 }
 queryBizwarnCaseCount();
-//预警灯提示
-function queryGetRankBank(){
+//龙虎榜
+function queryGetRankBank(){	
 	 $.ajax({		
 		 	url  : ctx+'/workspace/qqGetRank',
 		    data : "",
@@ -166,7 +166,7 @@ function queryGetRankBank(){
 						var  signAmountRankListHtmlForShow='';							
 						for( var i=0;i<signAmountRankList1.length;i++){							
 							var  colorClass= signAmountRankList1[i].RANK_NO==1 ?"badge-danger":signAmountRankList1[i].RANK_NO==2 ? "badge-orange": signAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
-							var  picture2="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";	
+							var  picture2="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+signAmountRankList1[i].EMP_CODE+".jpg";	
 							signAmountRankListHtml = 
 								"<div class='feed-element'>"+"" +
 								"<a href='#' class='pull-left'> "+
@@ -200,7 +200,7 @@ function queryGetRankBank(){
 							var  actualAmountRankListHtmlForShow='';							
 							for( var i=0;i<actualAmountRankList1.length;i++){							
 								var  colorClass= actualAmountRankList1[i].RANK_NO==1 ?"badge-danger":actualAmountRankList1[i].RANK_NO==2 ? "badge-orange": actualAmountRankList1[i].RANK_NO==3 ? "badge-warning" : "text-white";
-								var  picture3="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+loanAmountRankList1[i].EMP_CODE+".jpg";
+								var  picture3="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+actualAmountRankList1[i].EMP_CODE+".jpg";
 								actualAmountRankListHtml = 
 									"<div class='feed-element'>"+"" +
 									"<a href='#' class='pull-left'> "+
@@ -229,8 +229,7 @@ function queryGetRankBank(){
 
 				}	
 			}
-	 });
-
+	 });	
 }
 
 
@@ -289,7 +288,7 @@ function queryConutCaseByDate(){
 			dataType: "json",
 			async : false,
 			success: function(data) {
-				console.log("===Result==="+JSON.stringify(data));
+				console.log("==Result=="+JSON.stringify(data));
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);
@@ -365,6 +364,7 @@ function queryConutCaseByDate(){
 				}
 				
 				setStaDetailDef();
+				//页面贷款详情显示
 				setStaVal($(data.staLoanApply),$(data.staLoanSign),$(data.staLoanRelease));
    	 			//d1 = toDonutData($(data.staLoanSign),'count');
    	 			//d2 = toDonutData($(data.staLoanSign),'amount');
