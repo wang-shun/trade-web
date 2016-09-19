@@ -26,7 +26,7 @@
 	href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
 <link rel="stylesheet"
 	href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-
+<link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
@@ -92,7 +92,13 @@
 				<div class="form-row">
 					<div class="form-group form-margin pull-left">
 						<label for="" class="lable-one">物业地址</label> <input type="text"
-							class="form-control input-widest" placeholder="" name="prAddress">
+							class="form-control  input-five" placeholder="" name="prAddress">
+					</div>
+					<div class="form-group form-margin  pull-left">
+						<label for="" class="lable-one">申请人</label> 
+			       <input type="text" id="realName" name="applyUser" style="background-color:#FFFFFF; width:120px;" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value=''>
+							
 					</div>
 					<div class="btn-left btn-left-space" style="margin-left:40px;">
 						<button type="button" id="btn_search" class="btn btn-success mr15">
@@ -292,6 +298,9 @@
 											params.search_status=$(
 											"select[name='status']")
 											.val();
+											params.search_applyUser=$(
+											"input[name='applyUser']")
+											.attr('hVal');
 											params.search_applyTimeStart=null;		
 											params.search_applyTimeEnd=null;
 											params.search_signTimeStart=null;
@@ -372,7 +381,40 @@
 								$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 							}
 						}
-
+						
+						/**
+						 * 选择用户
+						 * @param param
+						 */
+						function userSelect(param){
+							var options = {
+							        dialogId : "selectUserDialog", //指定别名，自定义关闭时需此参数
+							        dialog : { 
+										height: 463
+									   ,width: 756
+									   ,title:'选择用户'
+									   ,url: appCtx['aist-uam-web']+'/userOrgSelect/userSelect.html'
+									   ,data:param
+									   ,buttons: [
+							                      { text: '确定', onclick: function (item, dialog) { dialog.frame.save();}},
+							                      { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
+							                   ]
+									}
+							    };
+							openDialog(options);
+						} 
+						/**
+						 * 更新input的值
+						 */
+						function selectUserBack(array){
+							if(array && array.length >0){
+						        $("#realName").val(array[0].username);
+								$("#realName").attr('hVal',array[0].userId);
+							}else{
+								$("#realName").val("");
+								$("#realName").attr('hVal',"");
+							}
+						}
 						//初始化
 						jQuery(document).ready(function() {
 							initData();
