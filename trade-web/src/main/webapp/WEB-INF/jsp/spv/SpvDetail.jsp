@@ -181,7 +181,7 @@
 									<div class="icon icon_blue iconfont">&#xe607;</div>
 								</div>
 								<div class="media-body">
-									<strong><a>${spvBaseInfoVO.toSpv.caseCode}</a></strong><br />经办人
+									<strong><a href="${ctx}/case/caseCodeDetail?caseCode=${spvBaseInfoVO.toSpv.caseCode}">${spvBaseInfoVO.toSpv.caseCode}</a></strong><br />经办人
 									<strong>${jingban}</strong> <br /> 
 								</div>
 							</div>
