@@ -1040,14 +1040,13 @@ $(document).ready(function(){
     				isRepeat = true;
     				return false;
     			}
-    		});
-    		    		
-    		if(isRepeat){
-    			alert("同一划转条件同一账户只允许一条监管合约！");
-    			return false;
-    		}
-    		
+    		});  		
         });
+		
+		if(isRepeat){
+			alert("同一划转条件同一账户只允许一条监管合约！");
+			return false;
+		}
 	
 		var rowsAmount = getRowsAmount();
 		if(rowsAmount != amount){
