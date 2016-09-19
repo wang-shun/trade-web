@@ -54,14 +54,7 @@
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script>
-      $(function(){
-/*     		$("#caseCommentList").caseCommentGrid({
-				caseCode : null,
-				srvCode : null
-		}); */
-      });
-</script>
+
 </content>
 </body>
 

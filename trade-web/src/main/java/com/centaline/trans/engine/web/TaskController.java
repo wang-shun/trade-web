@@ -103,7 +103,7 @@ public class TaskController {
 			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();		
 			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
 		} else {	
-			return "redirect:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
+			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
 		}
 
 	}

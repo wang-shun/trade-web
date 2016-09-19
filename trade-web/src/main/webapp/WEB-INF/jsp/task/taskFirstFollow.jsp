@@ -453,7 +453,7 @@
 				var id = $(this).attr("id");
 				$("span[id='"+id+"']").changeSelect();
 			});
-			
+	
 		});
 		
 		/*设置div显示或隐藏*/
