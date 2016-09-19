@@ -67,8 +67,6 @@ public class AwardHandlerController {
 	@RequestMapping(value = "kjjianCase")
 	public String kjjianCase(HttpServletRequest request) {
 
-		uamPermissionService.getAppByAppName("");
-
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// 默认显示上个月的数据
 		Calendar c1 = Calendar.getInstance();
