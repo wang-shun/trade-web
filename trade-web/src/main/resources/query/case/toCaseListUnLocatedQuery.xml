@@ -53,7 +53,7 @@
 					FROM
 						sctrans.T_TO_CASE_INFO AS TCI
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS PI ON TCI.CASE_CODE = PI.CASE_CODE
-						WHERE TCI.TARGET_CODE is null or ltrim(TCI.TARGET_CODE) = ''
+						WHERE (TCI.TARGET_CODE is null or ltrim(TCI.TARGET_CODE) = '')
  				]]>
 			</baseSql>
 			<orderBySql>
