@@ -211,7 +211,7 @@
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
 								</li>
 								
-								<li class=""><a href="#tab-6" data-toggle="tab">驳回原因</a>
+								<li class=""><a href="#tab-6" data-toggle="tab">审批记录</a>
 								</li>
 							</ul>
 						</div>
