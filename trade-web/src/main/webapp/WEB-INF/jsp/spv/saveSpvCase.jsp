@@ -618,7 +618,7 @@
 						
 					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" style="display:none;">						
 						<div class="form-group form-margin form-space-one">
-							<label class="lable-one"  style="text-align: right;">驳回原因</label>							
+							<label class="lable-one"  style="text-align: right;">审批记录</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
 								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${toApproveRecord.content }</textarea>
 							</div>

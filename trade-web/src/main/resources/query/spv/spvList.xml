@@ -44,6 +44,7 @@
             <condition field="spv.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.close_time" name="closeTimeStart" label="完成开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.close_time" name="closeTimeEnd" label="完成结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.APPLY_USER" name="applyUser" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>

@@ -303,6 +303,9 @@ p.title {
 }
 
 @media ( min-width : 768px) {
+	.ibox-conn {
+		font-family: "Microsoft Yahei";
+	}
 	.ibox-conn .dl-horizontal {
 		margin: 0;
 	}
@@ -344,6 +347,9 @@ dt {
 	margin-right: 12px;
 }
 
+.ibox-content-head {
+	font-family: "Microsoft Yahei";
+}
 .ibox-content-head h5 {
 	margin-left: 20px;
 	float: left;
