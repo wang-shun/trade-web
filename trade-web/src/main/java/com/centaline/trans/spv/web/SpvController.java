@@ -131,6 +131,8 @@ public class SpvController {
 		spvBaseInfoVO.getToSpv().setCreateBy(name);
 		//经办人
 		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
+		//申请人
+		User applyUser =uamUserOrgService.getUserById(spv.getApplyUser());
 		//人物信息
 		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		//风控总监
@@ -140,7 +142,7 @@ public class SpvController {
 			FKZJ=zj.get(0);
 		}
 		//驳回原因
-if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
+    if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
 		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		record.setCaseCode(spv.getCaseCode());
@@ -160,6 +162,7 @@ if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
+	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
 	}
 	/**
