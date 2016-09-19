@@ -45,6 +45,8 @@ public class ToSpv {
     private Date closeTime;
     
     private String applyUser;
+    
+    private String applyTeam;
 
     private Date createTime;
 
@@ -220,6 +222,14 @@ public class ToSpv {
 
 	public void setApplyUser(String applyUser) {
 		this.applyUser = applyUser;
+	}
+
+	public String getApplyTeam() {
+		return applyTeam;
+	}
+
+	public void setApplyTeam(String applyTeam) {
+		this.applyTeam = applyTeam;
 	}
 
 	public Date getCreateTime() {

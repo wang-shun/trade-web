@@ -391,7 +391,7 @@
 									class="date_icon">万元</span>
 							</div>
                             <div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  disabled="disabled"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  readonly="readonly"
 									class="form-control input-two" placeholder="">
 							</div>	 	
 						</div>
@@ -413,7 +413,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  disabled="disabled"
+							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  readonly="readonly"
 								class="form-control input-two" placeholder="">
 						    </div> 
 						</div>	
@@ -435,7 +435,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" disabled="disabled"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" readonly="readonly"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -451,7 +451,7 @@
 						</div>
 						<div class="title">监管资金的支付</div>
 						<div class="form-row form-rowbot">
-						    <div class="form-group form-margin form-space-one left-extent">
+							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 下家付款方式</label>
 								<aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
 									display="select"  dictType="SPV_BUYER_PAYMENT"  
@@ -466,7 +466,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" disabled="disabled"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" readonly="readonly"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -478,7 +478,7 @@
 									<span class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  disabled="disabled"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  readonly="readonly"
 									class="form-control input-two" placeholder="">
 							</div>		
 						</div>
@@ -490,7 +490,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  disabled="disabled"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  readonly="readonly"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -502,7 +502,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  disabled="disabled"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  readonly="readonly"
 									class="form-control input-two" placeholder="">
 						    </div>
 						</div>
@@ -594,6 +594,14 @@
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
+						
+						<div class="form-row form-rowbot">
+						    <div class="form-group form-margin form-space-one">
+						        <label for="" class="lable-one">申请人</label> <input type="text" id="realName" name="toSpv.applyUser" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${spvBaseInfoVO.toSpv.applyUser }'>
+							<input type="hidden" id="team" name="toSpv.applyTeam"  value='${spvBaseInfoVO.toSpv.applyTeam }'></div>
+					    </div>
+					    
 						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
 						    <div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管合同号</label> <input type="text" name="toSpv.spvConCode"
@@ -608,7 +616,7 @@
 						</div>
 						
 						
-					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" >						
+					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" style="display:none;">						
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;">驳回原因</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
@@ -734,6 +742,7 @@
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
 		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
 
 		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}
@@ -873,7 +882,7 @@
 		    });
 	       	$("#bank_0").change(function(){
 				getBranchBankList($("select[name='toSpvAccountList[0].bank']"),$("#bank_0").val());
-	        });
+	    });
 	       	
 	       	/* getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
 	       	$("#prd").change(function(){
@@ -1021,6 +1030,45 @@
 		}
 		$("#sum").html(sum);
 	}
+		
+		/**
+		 * 选择用户
+		 * @param param
+		 */
+		function userSelect(param){
+			var options = {
+			        dialogId : "selectUserDialog", //指定别名，自定义关闭时需此参数
+			        dialog : { 
+						height: 463
+					   ,width: 756
+					   ,title:'选择用户'
+					   ,url: appCtx['aist-uam-web']+'/userOrgSelect/userSelect.html'
+					   ,data:param
+					   ,buttons: [
+			                      { text: '确定', onclick: function (item, dialog) { dialog.frame.save();}},
+			                      { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
+			                   ]
+					}
+			    };
+			openDialog(options);
+		} 
+		
+		/**
+		 * 更新input的值
+		 */
+		function selectUserBack(array){
+			if(array && array.length >0){
+		        $("#realName").val(array[0].username);
+				$("#realName").attr('hVal',array[0].userId);
+                $("#team").val(array[0].orgName);
+                $("#team").attr('hVal',array[0].orgId);
+			}else{
+				$("#realName").val("");
+				$("#realName").attr('hVal',"");
+				$("#team").val("");
+                $("#team").attr('hVal',"");
+			}
+		}
 		
 		</script> 
 		</content>
