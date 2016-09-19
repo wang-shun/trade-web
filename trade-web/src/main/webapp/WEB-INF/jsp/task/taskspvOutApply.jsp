@@ -45,13 +45,6 @@
 	} else {
 		var idList = [];
 	}
-	
-	$(function(){
-/* 		$("#caseCommentList").caseCommentGrid({
-			caseCode : caseCode,
-			srvCode : taskitem
-		}); */
-	});
 </script>
 </head>
 <body>

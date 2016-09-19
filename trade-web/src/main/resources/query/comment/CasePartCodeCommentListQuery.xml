@@ -29,7 +29,7 @@
 	
 	<query id="queryCasePartCommentList">
 		<searchCondition>
-			<condition field="CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue="" />
+			<!-- <condition field="CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue="" /> -->
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -44,6 +44,14 @@
 						UPDATE_TIME
 					FROM sctrans.T_TO_CASE_COMMENT 
 					where 1=1
+					<choose>
+						<when test="caseCode!=null and caseCode != ''">
+							AND CASE_CODE = #caseCode#
+						</when>
+						<otherwise>
+						    AND CASE_CODE IS NULL
+						</otherwise>
+					</choose>
 				]]>
 			</baseSql>
 			<orderBySql>

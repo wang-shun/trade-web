@@ -142,11 +142,7 @@
                 $('#table_list_2').setGridWidth(width);
                
             });
-            
-/* 	  	$("#caseCommentList").caseCommentGrid({
-			caseCode : null,
-			srvCode : null
-	});  */
+
         });
 
         

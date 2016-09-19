@@ -304,10 +304,6 @@
                
             });
             
-/* 	  	$("#caseCommentList").caseCommentGrid({
-			caseCode : null,
-			srvCode : null
-		}); */
         });
 
         
