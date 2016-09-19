@@ -197,7 +197,9 @@
 					</p>
                                         </td>
                                         <td class="center">
-                                            
+                                            <span class="manager">
+												 <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
+                                            </span>
                                             <span class="manager">
                                                 <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
@@ -205,7 +207,8 @@
                                         <td class="text-center"> 
                                         
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle"  data-toggle="dropdown" >操作
+                                                <button type="button" class="btn btn-success dropdown-toggle"                                                  
+                                                data-toggle="dropdown" >操作
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu" style="left:-95px;">
