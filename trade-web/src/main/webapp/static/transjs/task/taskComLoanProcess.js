@@ -894,7 +894,7 @@ function getCompleteMortInfo(isMainLoanBank){
 
 	    			if(!!~~data.content.isTmpBank){
 	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
-	    				if(data.content.tmpBankStatus == '1') f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
+	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
 	    				f.find('#sp_is_tmp_bank').text("是");
 	    				f.find('#fl_is_tmp_bank').val("1");
 	    				f.find(".tmpBankDiv").show();
