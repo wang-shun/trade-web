@@ -786,6 +786,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}
 
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+		}
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 	}
 

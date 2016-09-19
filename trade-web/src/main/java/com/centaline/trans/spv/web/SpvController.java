@@ -101,7 +101,7 @@ public class SpvController {
 		String currentDeptId = currentUser.getServiceDepId();
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
-		
+
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
 		
 		request.setAttribute("orgId", parentOrg.getId());
