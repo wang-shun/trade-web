@@ -37,13 +37,14 @@
 		    <condition field="spv.CREATE_TIME" name="startDate" label="开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.CREATE_TIME" name="endDate" label="结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.STATUS" name="status" label="合约状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.SPV_CODE" name="spvCode" label="合约编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.SPV_CODE" name="spvCode" label="合约编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.close_time" name="closeTimeStart" label="完成开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="spv.close_time" name="closeTimeEnd" label="完成结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.APPLY_USER" name="applyUser" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -81,9 +82,19 @@
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON spv.CASE_CODE=a.CASE_CODE
 					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
 					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=spv.case_code
+					LEFT JOIN sctrans.sys_org org ON spv.APPLY_TEAM=org.ID
                    where spv.IS_DELETED=0
                       <if test="serviceJobCode == 'JYFKZY' ">
 			           and spv.CREATE_BY = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode == 'consultant' ">
+			        and spv.APPLY_USER = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+			        and spv.APPLY_TEAM =#serviceDepId#
+			        </if>
+			        <if test="serviceDepHierarchy == 'yucui_district'">
+			        and org.parent_id =#serviceDepId#
 			        </if>
 				]]>
 			</baseSql>
@@ -94,9 +105,7 @@
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SPV_CODE" index="" checkbox="" display="SPV_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-<!-- 				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="RED_LOCK" index="" checkbox="" display="红灯记录" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
- -->				<column type="both" name="CREATE_TIME" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
+                <column type="both" name="CREATE_TIME" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CREATE_BY" index="" checkbox="" display="CREATE_BY" customDict="getUserNameByUserId"   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PR_ADDR" index="" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="STATUS" index="" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
@@ -111,7 +120,7 @@
 				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="caseId" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+			    <column type="both" name="caseId" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 			<!-- <column type="both" name="ru" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 			<column type="both" name="chu" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/> -->
 			</table-row>

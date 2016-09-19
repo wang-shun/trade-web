@@ -3,12 +3,12 @@
   <message id="SpvFinishMsg" name="SpvFinishMsg"></message>
   <process id="SpvProcess" name="SpvProcess" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="SpvApply" name="资金监管申请" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvApply/process"></userTask>
+    <userTask id="SpvApply" name="资金监管申请" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvApply/process?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="SpvApply"></sequenceFlow>
-    <userTask id="SpvApprove" name="资金监管审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/SpvApprove/process"></userTask>
+    <userTask id="SpvApprove" name="资金监管审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/SpvApprove/process?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow2" sourceRef="SpvApply" targetRef="SpvApprove"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
-    <userTask id="SpvSign" name="资金监管签约" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvSign/process"></userTask>
+    <userTask id="SpvSign" name="资金监管签约" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvSign/process?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow3" sourceRef="SpvApprove" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="SpvSign">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvApplyApprove}]]></conditionExpression>

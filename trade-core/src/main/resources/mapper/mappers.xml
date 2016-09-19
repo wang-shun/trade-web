@@ -175,6 +175,9 @@
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />
+		<!-- 任务提交日记 -->
+		<mapper resource="mapper/task/TlTaskSubmitLogMapper.xml"/>
+		
 		<mapper resource="mapper/eloan/RcRiskControlMapper.xml" />
 		<mapper resource="mapper/eloan/ToRcAttachmentMapper.xml" />
 		<mapper resource="mapper/eloan/ToRcForceRegisterMapper.xml" />

@@ -77,11 +77,11 @@
 							</div>
 							<div class="col-lg-3">
 								<dl class="dl-horizontal">
-									<!-- <dt>申请人</dt>
+									<dt>申请人</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：137 9541 0234">--</a>
-									</dd> -->
+											data-placement="right" data-content="手机：${applyUser.phone}">${applyUser.realName}</a>
+									</dd>
 									<dt>风控专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
@@ -211,7 +211,7 @@
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
 								</li>
 								
-								<li class=""><a href="#tab-6" data-toggle="tab">驳回原因</a>
+								<li class=""><a href="#tab-6" data-toggle="tab">审批记录</a>
 								</li>
 							</ul>
 						</div>

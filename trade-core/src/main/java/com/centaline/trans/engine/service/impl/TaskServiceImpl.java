@@ -11,6 +11,7 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.engine.WorkFlowConstant;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.core.WorkFlowEngine;
+import com.centaline.trans.engine.service.TaskSubmitLogService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.utils.WorkFlowUtils;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -27,59 +28,61 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private WorkFlowEngine engine;
-
+	@Autowired
+	private TaskSubmitLogService taskCompleteService;
 	@Override
-	public TaskVo claim(String taskId, String assignee) {
-		return claim(taskId, assignee, null);
+	public void claim(String taskId, String assignee) {
+		 claim(taskId, assignee, null);
 	}
 
 	@Override
-	public TaskVo claim(String taskId, String assignee, Map<String, Object> vars) {
-		return operaterTask(taskId, "claim", assignee, vars);
+	public void claim(String taskId, String assignee, Map<String, Object> vars) {
+		operaterTask(taskId, "claim", assignee, vars);
 	}
 
 	@Override
-	public TaskVo complete(String taskId) {
-		return complete(taskId, null);
+	public void complete(String taskId) {
+		complete(taskId, null);
 	}
 
 	@Override
-	public TaskVo complete(String taskId, Map<String, Object> vars) {
-		return operaterTask(taskId, "complete", null, vars);
+	public void complete(String taskId, Map<String, Object> vars) {
+		taskCompleteService.record(taskId); 
+		operaterTask(taskId, "complete", null, vars);
 	}
 
 	@Override
-	public TaskVo delegate(String taskId, String assignee) {
-		return delegate(taskId, assignee, null);
+	public void delegate(String taskId, String assignee) {
+		 delegate(taskId, assignee, null);
 	}
 
 	@Override
-	public TaskVo delegate(String taskId, String assignee, Map<String, Object> vars) {
-		return operaterTask(taskId, "delegate", assignee, vars);
+	public void delegate(String taskId, String assignee, Map<String, Object> vars) {
+		 operaterTask(taskId, "delegate", assignee, vars);
 	}
 
 	@Override
-	public TaskVo resolve(String taskId) {
-		return resolve(taskId, null);
+	public void resolve(String taskId) {
+		 resolve(taskId, null);
 	}
 
 	@Override
-	public TaskVo resolve(String taskId, Map<String, Object> vars) {
-		return operaterTask(taskId, "resolve", null, vars);
+	public void resolve(String taskId, Map<String, Object> vars) {
+		 operaterTask(taskId, "resolve", null, vars);
 	}
 
 	@Override
-	public TaskVo submitTask(String taskId) {
-		return submitTask(taskId);
+	public void submitTask(String taskId) {
+		 submitTask(taskId);
 	}
 
 	@Override
-	public TaskVo submitTask(String taskId, Map<String, Object> vars) {
+	public void submitTask(String taskId, Map<String, Object> vars) {
 		TaskVo task = getTask(taskId);
 		if (WorkFlowEnum.WSPENDING.getCode().equals(task.getDelegationState())) {
 			this.resolve(taskId);
 		}
-		return this.complete(taskId, vars);
+		this.complete(taskId, vars);
 	}
 
 	@Override
@@ -238,11 +241,18 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskVo updateAssignee(String taskId, String assignee) {
+	public void updateAssignee(String taskId, String assignee) {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("taskId", taskId);
 		TaskVo nVo = new TaskVo();
 		nVo.setAssignee(assignee);
-		return (TaskVo) engine.RESTfulWorkFlow(WorkFlowConstant.PUT_UPDATE_TASK_KEY, TaskVo.class, nVo, vars);
+		 engine.RESTfulWorkFlow(WorkFlowConstant.PUT_UPDATE_TASK_KEY, TaskVo.class, nVo, vars);
+	}
+
+	@Override
+	public TaskVo getHistTask(String taskId) {
+		Map<String, String> vars = new HashMap<>();
+		vars.put("taskId", taskId);
+		return (TaskVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HIS_TASK_KEY, TaskVo.class, vars, null);
 	}
 }
