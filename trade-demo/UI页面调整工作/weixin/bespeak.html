@@ -8,18 +8,19 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="iconfont/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/validate.css" />
 
 </head>
 <body class="white">
     <header class="aui-bar aui-bar-nav">
-        <a class="aui-pull-left aui-btn">
+        <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
             <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">预约取号</div>
     </header>
-    <form action="">
+    <form action="" id="form1">
         <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative">
-            <input type="text" id="input" placeholder="交易单地址" class="excend10 font-small">
+            <input type="text" id="input" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
             <i class="dingwei iconfont orange">&#xe60a;</i>
         </div>
         <section class="aui-content">
@@ -27,8 +28,8 @@
                 <div class="aui-col-xs-3 linehgl30">
                     参与人数
                 </div>
-                <div class="aui-col-xs-5 ">
-                    <input id="sum" type="number"  min="1" max="5" class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" required>
+                <div class="aui-col-xs-5">
+                    <input id="sum" type="number"   class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
                 </div>
             </div>
             <div class="aui-row pad10">
@@ -37,14 +38,14 @@
                 </div>
                 <div class="aui-col-xs-9 add-select">
                     <div class="choiceoption">
-                          <input type="button" id="choices1" class="aui-border-btn" name="choices" value="签合同"></input>
+                          <input type="button" id="choices1"  class="aui-border-btn" name="choices" value="签合同" data-required="true" data-descriptions="choices" />
                         <!--<i class="iconfont right-mark">&#xe607;</i>-->
                     </div>
                     <div class="choiceoption">
-                        <input type="button" id="choices2" class="aui-border-btn right-mark" name="choices" value="办贷款"></input>
+                        <input type="button" id="choices2" class="aui-border-btn right-mark" name="choices" value="办贷款" data-required="true" data-descriptions="choices" />
                     </div>
                     <div class="choiceoption">
-                        <input type="button" id="choices3" class="aui-border-btn" name="choices" value="e+贷款"></input>
+                        <input type="button" id="choices3" class="aui-border-btn" name="choices" value="e+贷款" data-required="true" data-descriptions="choices" />
                     </div>
                 </div>
             </div>
@@ -53,10 +54,10 @@
                     备注信息：
                 </div>
                 <div class="textarea">
-                    <textarea name="" id="" cols="30" rows="3" class="" placeholder="如有其他特殊要求可填入此栏"></textarea>
+                    <textarea name="" id="" cols="30" rows="3" class="" placeholder="如有其他特殊要求可填入此栏" ></textarea>
                 </div>
             </div>
-            <div class="plr30"><input type="submit" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号" onclick="myOpen()"></div>
+            <div class="plr30"><input type="submit" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号"></div>
         </section>
     </form>
 </body>
@@ -68,22 +69,64 @@
 <script type="text/javascript" src="script/layer.js"></script>
 <script type="text/javascript" src="script/jquery-ui.min.js"></script>
 <script type="text/javascript" src="script/bespeak.js"></script>
+<script type="text/javascript" src="script/jquery-mvalidate.js"></script>
+
 
 <script type="text/javascript">
+
+</script>
+<script>
+    $(function(){
+        $.mvalidateExtend({
+            phone:{
+                required : true,
+                pattern : /^120$|^((1[0-1]|[1-9])?\d)$/,
+                each:function(){
+                },
+                descriptions:{
+                    required : '<div class="field-invalidmsg">请输入参与人数</div>',
+                    pattern : '<div class="field-invalidmsg">领取失败，暂无20人以上的签约室</div>',
+                    valid : '<div class="field-validmsg">正确</div>'
+                }
+            }
+        });
+        $("#form1").mvalidate({
+            type:1,
+            onKeyup:true,
+            sendForm:true,
+            firstInvalidFocus:false,
+            valid:function(event,options){
+                //点击提交按钮时,表单通过验证触发函数
+                myOpen();
+                event.preventDefault();
+            },
+
+            descriptions:{
+                address:{
+                    required : '请输入交易单地址'
+                },
+                choices:{
+                    required : '请选择办理事项'
+                },
+            }
+        });
+    })
+
     function myOpen(){
         layer.open({
             type: 0,
             title: '',
-            content: '<div class="dialog-user"><i class="iconfont iconfont70 mt20 cyan">&#xe606;</i><h2 class="dialog-head mt20 font18">恭喜你预约成功</h2><div class="dialog-info"><p class="font14 mt20">房间号<span class="yellow font18">A-234</span>（最大容纳6人）</p><p class="mt5 font12">时间：2016-08-12&nbsp;&nbsp;10:00-12:00</p></div><div class="btn-box mt20"><a href="myorder.html"><div class="aui-btn aui-btn-primary aui-margin-r-10">我的预约</div></a><a href="index.html"><div class="aui-btn aui-btn-grey aui-margin-l-10">继续预约</div></a></div>'
+            content: '<div class="dialog-user">'+
+                        '<i class="iconfont iconfont70 mt20 cyan">&#xe606;</i>'
+                        + '<h2 class="dialog-head mt20 font18">恭喜你预约成功</h2>'
+                        + '<div class="dialog-info">'
+                        + '<p class="font14 mt20">房间号<span class="yellow font18">A-234</span>（最大容纳6人）</p>'
+                        + '<p class="mt5 font12">时间：2016-08-12&nbsp;&nbsp;10:00-12:00</p></div>'
+                        + '<div class="btn-box mt20">'
+                        + '<a href="myorder.html"><div class="aui-btn aui-btn-primary aui-margin-r-10">我的预约</div></a>'
+                        + '<a href="index.html"><div class="aui-btn aui-btn-grey aui-margin-l-10">继续预约</div></a>'
+                        + '</div>'
         });
-    };
-</script>
-<script>
-    sum.oninput=function(){
-        sum.setCustomValidity("");
-    };
-    sum.oninvalid=function(){
-        sum.setCustomValidity("领取失败，暂无20人以上的签约室");
     };
 </script>
 </html>
