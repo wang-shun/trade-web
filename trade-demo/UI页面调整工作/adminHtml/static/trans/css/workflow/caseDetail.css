@@ -23,6 +23,14 @@
   height: 35px;
 }
 
+#basicInfo .sign-yellow {
+  background: url(../../img/qizi-03.png) no-repeat;
+  top: 0px;
+  left: 265px;
+  width: 52px;
+  height: 35px;
+}
+
 .title {
   float: left;
   font-size: 14px;
@@ -304,6 +312,10 @@ p.title {
 }
 
 @media (min-width: 768px) {
+  .ibox-conn {
+    font-family: "Microsoft Yahei";
+  }
+
   .ibox-conn .dl-horizontal {
     margin: 0;
   }
@@ -347,6 +359,10 @@ dt {
 .page-wrapper {
   margin-left: 12px;
   margin-right: 12px;
+}
+
+.ibox-content-head {
+  font-family: "Microsoft Yahei";
 }
 
 .ibox-content-head h5 {
