@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.TlTaskSubmitLogMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.TlTaskSubmitLog">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="TASK_ID" jdbcType="BIGINT" property="taskId" />
+    <result column="EXECUTOR" jdbcType="VARCHAR" property="executor" />
+    <result column="EXECUTOR_ID" jdbcType="CHAR" property="executorId" />
+    <result column="TEAM_ID" jdbcType="CHAR" property="teamId" />
+    <result column="DISTRICT_ID" jdbcType="CHAR" property="districtId" />
+    <result column="HQ_ID" jdbcType="CHAR" property="hqId" />
+    <result column="MANAGER_ID" jdbcType="CHAR" property="managerId" />
+    <result column="DIRECTOR_ID" jdbcType="CHAR" property="directorId" />
+    <result column="GENERAL_MANAGER_ID" jdbcType="CHAR" property="generalManagerId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, TASK_ID, EXECUTOR, EXECUTOR_ID, TEAM_ID, DISTRICT_ID, HQ_ID, MANAGER_ID, DIRECTOR_ID, 
+    GENERAL_MANAGER_ID, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TL_TASK_SUBMIT_LOG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TL_TASK_SUBMIT_LOG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.TlTaskSubmitLog">
+    insert into sctrans.T_TL_TASK_SUBMIT_LOG (PKID, TASK_ID, EXECUTOR, 
+      EXECUTOR_ID, TEAM_ID, DISTRICT_ID, 
+      HQ_ID, MANAGER_ID, DIRECTOR_ID, 
+      GENERAL_MANAGER_ID, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{executor,jdbcType=VARCHAR}, 
+      #{executorId,jdbcType=CHAR}, #{teamId,jdbcType=CHAR}, #{districtId,jdbcType=CHAR}, 
+      #{hqId,jdbcType=CHAR}, #{managerId,jdbcType=CHAR}, #{directorId,jdbcType=CHAR}, 
+      #{generalManagerId,jdbcType=CHAR},GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.TlTaskSubmitLog">
+    insert into sctrans.T_TL_TASK_SUBMIT_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="executor != null">
+        EXECUTOR,
+      </if>
+      <if test="executorId != null">
+        EXECUTOR_ID,
+      </if>
+      <if test="teamId != null">
+        TEAM_ID,
+      </if>
+      <if test="districtId != null">
+        DISTRICT_ID,
+      </if>
+      <if test="hqId != null">
+        HQ_ID,
+      </if>
+      <if test="managerId != null">
+        MANAGER_ID,
+      </if>
+      <if test="directorId != null">
+        DIRECTOR_ID,
+      </if>
+      <if test="generalManagerId != null">
+        GENERAL_MANAGER_ID,
+      </if>
+        CREATE_TIME,
+
+        CREATE_BY,
+
+        UPDATE_TIME,
+
+        UPDATE_BY,
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="executor != null">
+        #{executor,jdbcType=VARCHAR},
+      </if>
+      <if test="executorId != null">
+        #{executorId,jdbcType=CHAR},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=CHAR},
+      </if>
+      <if test="districtId != null">
+        #{districtId,jdbcType=CHAR},
+      </if>
+      <if test="hqId != null">
+        #{hqId,jdbcType=CHAR},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=CHAR},
+      </if>
+      <if test="directorId != null">
+        #{directorId,jdbcType=CHAR},
+      </if>
+      <if test="generalManagerId != null">
+        #{generalManagerId,jdbcType=CHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.TlTaskSubmitLog">
+    update sctrans.T_TL_TASK_SUBMIT_LOG
+    <set>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="executor != null">
+        EXECUTOR = #{executor,jdbcType=VARCHAR},
+      </if>
+      <if test="executorId != null">
+        EXECUTOR_ID = #{executorId,jdbcType=CHAR},
+      </if>
+      <if test="teamId != null">
+        TEAM_ID = #{teamId,jdbcType=CHAR},
+      </if>
+      <if test="districtId != null">
+        DISTRICT_ID = #{districtId,jdbcType=CHAR},
+      </if>
+      <if test="hqId != null">
+        HQ_ID = #{hqId,jdbcType=CHAR},
+      </if>
+      <if test="managerId != null">
+        MANAGER_ID = #{managerId,jdbcType=CHAR},
+      </if>
+      <if test="directorId != null">
+        DIRECTOR_ID = #{directorId,jdbcType=CHAR},
+      </if>
+      <if test="generalManagerId != null">
+        GENERAL_MANAGER_ID = #{generalManagerId,jdbcType=CHAR},
+      </if>
+        UPDATE_TIME = GETDATE(),
+
+        UPDATE_BY = @{SESSION_USER_ID},
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.TlTaskSubmitLog">
+    update sctrans.T_TL_TASK_SUBMIT_LOG
+    set TASK_ID = #{taskId,jdbcType=BIGINT},
+      EXECUTOR = #{executor,jdbcType=VARCHAR},
+      EXECUTOR_ID = #{executorId,jdbcType=CHAR},
+      TEAM_ID = #{teamId,jdbcType=CHAR},
+      DISTRICT_ID = #{districtId,jdbcType=CHAR},
+      HQ_ID = #{hqId,jdbcType=CHAR},
+      MANAGER_ID = #{managerId,jdbcType=CHAR},
+      DIRECTOR_ID = #{directorId,jdbcType=CHAR},
+      GENERAL_MANAGER_ID = #{generalManagerId,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+ 
+</mapper>

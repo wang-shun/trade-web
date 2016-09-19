@@ -19,7 +19,7 @@ public interface TaskService {
 	 * @param assignee
 	 * @return
 	 */
-	TaskVo claim(String taskId, String assignee);
+	void claim(String taskId, String assignee);
 
 	/**
 	 * 任务签收
@@ -29,7 +29,7 @@ public interface TaskService {
 	 * @param vars
 	 * @return
 	 */
-	TaskVo claim(String taskId, String assignee, Map<String, Object> vars);
+	void claim(String taskId, String assignee, Map<String, Object> vars);
 
 	/**
 	 * 任务完成
@@ -37,7 +37,7 @@ public interface TaskService {
 	 * @param taskId
 	 * @return
 	 */
-	TaskVo complete(String taskId);
+	void complete(String taskId);
 
 	/**
 	 * 任务完成
@@ -46,7 +46,7 @@ public interface TaskService {
 	 * @param vars
 	 * @return
 	 */
-	TaskVo complete(String taskId, Map<String, Object> vars);
+	void complete(String taskId, Map<String, Object> vars);
 
 	/**
 	 * 任务委派
@@ -55,7 +55,7 @@ public interface TaskService {
 	 * @param assignee
 	 * @return
 	 */
-	TaskVo delegate(String taskId, String assignee);
+	void delegate(String taskId, String assignee);
 
 	/**
 	 * 任务委派
@@ -65,7 +65,7 @@ public interface TaskService {
 	 * @param vars
 	 * @return
 	 */
-	TaskVo delegate(String taskId, String assignee, Map<String, Object> vars);
+	void delegate(String taskId, String assignee, Map<String, Object> vars);
 
 	/**
 	 * 撤消委托
@@ -73,7 +73,7 @@ public interface TaskService {
 	 * @param taskId
 	 * @return
 	 */
-	TaskVo resolve(String taskId);
+	void resolve(String taskId);
 
 	/**
 	 * 撤消委托
@@ -82,7 +82,7 @@ public interface TaskService {
 	 * @param vars
 	 * @return
 	 */
-	TaskVo resolve(String taskId, Map<String, Object> vars);
+	void resolve(String taskId, Map<String, Object> vars);
 
 	/**
 	 * 任务提交
@@ -90,7 +90,7 @@ public interface TaskService {
 	 * @param taskId
 	 * @return
 	 */
-	TaskVo submitTask(String taskId);
+	void submitTask(String taskId);
 
 	/**
 	 * 任务提交
@@ -99,7 +99,7 @@ public interface TaskService {
 	 * @param vars
 	 * @return
 	 */
-	TaskVo submitTask(String taskId, Map<String, Object> vars);
+	void submitTask(String taskId, Map<String, Object> vars);
 
 	/**
 	 * 根据taskId获得一个TaskVo对象
@@ -171,6 +171,8 @@ public interface TaskService {
 	@SuppressWarnings("rawtypes")
 	PageableVo listHistTasks(String processInstanceId, Boolean finished, Boolean processFinished, String assignee);
 
-	TaskVo updateAssignee(String taskId, String assignee);
+	void updateAssignee(String taskId, String assignee);
+
+	TaskVo getHistTask(String taskId);
 
 }
