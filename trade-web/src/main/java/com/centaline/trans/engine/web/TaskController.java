@@ -23,6 +23,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.utils.UriUtility;
+import com.opensymphony.module.sitemesh.RequestConstants;
 
 /**
  * 流程引擎 任务处理
@@ -37,14 +38,12 @@ public class TaskController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private UamPermissionService uamPermissionService;
-	
+
 	@Autowired
 	private UamBasedataService uamBasedataService;
-	
+
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
-	
-	
 
 	/**
 	 * 任务处理跳转
@@ -60,7 +59,7 @@ public class TaskController {
 	@RequestMapping("{taskId}/process")
 	public String process(@PathVariable String taskId, String source, String caseCode, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes attr) {
-		
+
 		TaskVo task = workFlowManager.getHistoryTask(taskId);
 		String instCode = task.getProcessInstanceId();
 		String formKey = task.getFormKey();
@@ -69,8 +68,7 @@ public class TaskController {
 			StartProcessInstanceVo processInstance = workFlowManager.getHistoryInstances(instCode);
 			businessKey = processInstance.getBusinessKey();
 		}
-		
-		
+
 		Map<String, String> queryParameters = new HashMap<String, String>();
 
 		queryParameters.put("processInstanceId", instCode);
@@ -79,33 +77,52 @@ public class TaskController {
 		queryParameters.put("taskitem", task.getTaskDefinitionKey());
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);
-		queryParameters.put("caseCode", caseCode!=null?caseCode:businessKey);
+		queryParameters.put("caseCode", caseCode != null ? caseCode : businessKey);
 		queryParameters.put("businessKey", businessKey);
 		Boolean sameSever = false;// 是否同服务器
 		if (StringUtils.isNotBlank(formKey)) {
 			if (!formKey.contains(":")) {
 				sameSever = true;
 			}
-		} else {			
+		} else {
 			return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
 		}
-
 		if (sameSever) {
 			request.setAttribute("processInstanceId", instCode);
 			request.setAttribute("taskitem", task.getTaskDefinitionKey());
 			request.setAttribute("taskId", taskId);
 			request.setAttribute("source", source);
 			request.setAttribute("businessKey", businessKey);
-			request.setAttribute("caseCode", caseCode!=null?caseCode:businessKey);
+			request.setAttribute("caseCode", caseCode != null ? caseCode : businessKey);
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");
-			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();		
+			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();
 			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
-		} else {	
-			return "redirect:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
+		} else {
+			String decorator = getDecorator(task.getFormKey());
+			if (!StringUtils.isBlank(decorator)) {
+				request.setAttribute(RequestConstants.DECORATOR, decorator);
+			}
+			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
+
 		}
 
 	}
 
+	/**
+	 * 获得模板参数
+	 * 
+	 * @param formKey
+	 * @return
+	 */
+	private String getDecorator(String formKey) {
+		if (!StringUtils.isBlank(formKey)) {
+			Map<String, String> maps = UriUtility.parseQueryParameters(UriUtility.extractQueryString(formKey), null);
+			if (maps.containsKey("__decorator")){
+				return maps.get("__decorator");
+			}
+		}
+		return null;
+	}
 }

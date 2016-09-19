@@ -20,7 +20,7 @@
 	</decorator>
 	
 	<!-- 新模板 -->
-	 <decorator name="dashbord" page="INSPINIA_template_new.jsp">
+	 <decorator name="UI_V2" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
 		<!-- 个人工作台测试 -->
 		<pattern>/workspaceTransform/dashboard</pattern>
