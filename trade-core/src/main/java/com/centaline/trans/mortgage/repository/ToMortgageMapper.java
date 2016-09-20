@@ -15,6 +15,10 @@ public interface ToMortgageMapper {
 
     int update(ToMortgage record);
     
+    int updateBySign(ToMortgage record);
+    
+    int updateCustNameByCasecode(String caseCode);
+    
     ToMortgage findToMortgageByCaseCode(String caseCode);
     
     List<ToMortgage> findToMortgageByCaseCodeNoBlank(String caseCode);
@@ -31,4 +35,6 @@ public interface ToMortgageMapper {
     public ToMortgage getMortgageByCaseCode(String caseCode);
     
     public int updateTmpBankStatus(String caseCode);
+    
+    ToMortgage  findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
 }
