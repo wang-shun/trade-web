@@ -35,6 +35,10 @@ public class TransPlanController {
 	public String toProcess(HttpServletRequest request, HttpServletResponse response,
 			String caseCode, String source, String taskitem, String instCode) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+		if ( cou >0) {
+			caseBaseVO.setLoanType("30004005");
+		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 

@@ -77,6 +77,10 @@ public class CaseCloseApproveController {
 		SessionUser user=uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+		if ( cou >0) {
+			caseBaseVO.setLoanType("30004005");
+		}
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("approveType", "3");
 		request.setAttribute("operator", user != null ? user.getId():"");
