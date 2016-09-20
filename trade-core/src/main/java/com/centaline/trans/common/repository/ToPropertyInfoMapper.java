@@ -33,6 +33,8 @@ public interface ToPropertyInfoMapper {
 	
 	// 根据房屋id 去查询同义词 
 	ViHouseDelBaseVo selectByHoudelCode(String property_agent_id);
+	OrgVO getPropertyDepInfoByuserDepId(String depid);
+	OrgVO getPropertyDepInfoByuserDepIdEloan(String depid);
 	
 	OrgVO getPropertyDepInfoByuserDepIdEloan(String depid);
 	
