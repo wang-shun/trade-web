@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.RmSignRoomMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.RmSignRoom" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ROOM_TYPE" property="roomType" jdbcType="VARCHAR" />
+    <result column="ROOM_NO" property="roomNo" jdbcType="VARCHAR" />
+    <result column="TRADE_CENTER" property="tradeCenter" jdbcType="NVARCHAR" />
+    <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="CHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="ORG_NAME" property="orgName" jdbcType="NVARCHAR" />
+    <result column="NUMBE_OF_ACCOMMODATE_PEOPLE" property="numbeOfAccommodatePeople" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="NVARCHAR" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
+    <result column="ROOM_STATUS" property="roomStatus" jdbcType="VARCHAR" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    PKID, ROOM_TYPE, ROOM_NO, TRADE_CENTER, TRADE_CENTER_ID, ORG_ID, ORG_NAME, NUMBE_OF_ACCOMMODATE_PEOPLE,REMARK,CLOSE_TIME,ROOM_STATUS,IS_DELETE,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+  </sql>
+  
+  <select id="findRmSignRooms"  resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_RM_SIGN_ROOM
+  </select>
+  
+  <insert id="addRmSignRoom" parameterType="com.centaline.trans.signroom.entity.RmSignRoom" useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_RM_SIGN_ROOM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roomType != null" >
+        ROOM_TYPE,
+      </if>
+      <if test="roomNo != null" >
+        ROOM_NO,
+      </if>
+      <if test="tradeCenter != null" >
+        TRADE_CENTER,
+      </if>
+      <if test="tradeCenterId != null" >
+        TRADE_CENTER_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="orgName != null" >
+        ORG_NAME,
+      </if>
+      <if test="numbeOfAccommodatePeople != null" >
+        NUMBE_OF_ACCOMMODATE_PEOPLE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME,
+      </if>
+      <if test="roomStatus != null" >
+        ROOM_STATUS,
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roomType != null" >
+        #{ROOM_TYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNo != null" >
+        #{ROOM_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCenter != null" >
+        #{TRADE_CENTER,jdbcType=NVARCHAR},
+      </if>
+      <if test="tradeCenterId != null" >
+        #{TRADE_CENTER_ID,jdbcType=CHAR},
+      </if>
+      <if test="orgId != null" >
+        #{ORG_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{ORG_NAME,jdbcType=NVARCHAR},
+      </if>
+      <if test="numbeOfAccommodatePeople != null" >
+        #{NUMBE_OF_ACCOMMODATE_PEOPLE,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{REMARK,jdbcType=NVARCHAR},
+      </if>
+      <if test="closeTime != null" >
+        #{CLOSE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomStatus != null" >
+        #{ROOM_STATUS,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{IS_DELETE,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{CREATE_BY,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{UPDATE_BY,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateRmSignRoom" parameterType="com.centaline.trans.signroom.entity.RmSignRoom" >
+    update sctrans.T_RM_SIGN_ROOM
+    <set >
+     <if test="roomType != null" >
+        #{ROOM_TYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNo != null" >
+        #{ROOM_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCenter != null" >
+        #{TRADE_CENTER,jdbcType=NVARCHAR},
+      </if>
+      <if test="tradeCenterId != null" >
+        #{TRADE_CENTER_ID,jdbcType=CHAR},
+      </if>
+      <if test="orgId != null" >
+        #{ORG_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{ORG_NAME,jdbcType=NVARCHAR},
+      </if>
+      <if test="numbeOfAccommodatePeople != null" >
+        #{NUMBE_OF_ACCOMMODATE_PEOPLE,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{REMARK,jdbcType=NVARCHAR},
+      </if>
+      <if test="closeTime != null" >
+        #{CLOSE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomStatus != null" >
+        #{ROOM_STATUS,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{IS_DELETE,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{CREATE_BY,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{UPDATE_BY,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <delete id="deleteRmSignRoom" parameterType="java.lang.Long" >
+    delete from sctrans.T_RM_SIGN_ROOM where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  
+</mapper>
