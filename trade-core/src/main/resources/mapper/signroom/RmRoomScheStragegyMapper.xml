@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.RmRoomScheStragegyMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ROOM_ID" property="roomId" jdbcType="BIGINT" />
+    <result column="STRAGEGY_WEEK_VAL" property="stragegyWeekVal" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, ROOM_ID, STRAGEGY_WEEK_VAL
+  </sql>
+  <select id="selectByRmRoomScheStragegy" resultMap="BaseResultMap" parameterType="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
+    select
+    <include refid="Base_Column_List" />
+    from T_RM_ROOM_SCHE_STRAGEGY
+    <where>
+    	<if test="pkid != null" >
+        PKID = #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomId != null" >
+        AND ROOM_ID = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stragegyWeekVal != null" >
+        AND STRAGEGY_WEEK_VAL = #{stragegyWeekVal,jdbcType=BIGINT},
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteRmRoomScheStragegyByRoomId" parameterType="java.lang.Long" >
+    delete from T_RM_ROOM_SCHE_STRAGEGY
+    <where>
+      <if test="_parameter != null" >
+        ROOM_ID = #{_parameter}
+     </if>
+    </where>
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
+    insert into T_RM_ROOM_SCHE_STRAGEGY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="roomId != null" >
+        ROOM_ID,
+      </if>
+      <if test="stragegyWeekVal != null" >
+        STRAGEGY_WEEK_VAL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="stragegyWeekVal != null" >
+        #{stragegyWeekVal,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateRmRoomScheStragegy" parameterType="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
+    update T_RM_ROOM_SCHE_STRAGEGY
+    <set >
+      <if test="stragegyWeekVal != null" >
+        STRAGEGY_WEEK_VAL = #{stragegyWeekVal,jdbcType=BIGINT},
+      </if>
+    </set>
+    <where>
+       <if test="pkid != null" >
+        PKID = #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null" >
+        AND ROOM_ID = #{roomId,jdbcType=BIGINT},
+      </if>
+    </where>
+  </update>
+
+</mapper>

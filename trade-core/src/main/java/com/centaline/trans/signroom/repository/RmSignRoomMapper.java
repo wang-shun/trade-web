@@ -13,23 +13,23 @@ public interface RmSignRoomMapper {
 	 * @param rmSignRoom
 	 * @return
 	 */
-	void addRmSignRoom(RmSignRoom rmSignRoom);
+	int addRmSignRoom(RmSignRoom rmSignRoom);
 	
 	/**
 	 * 更新签约室
 	 * @param rmSignRoom
 	 */
-	void updateRmSignRoom(RmSignRoom rmSignRoom);
+	int updateRmSignRoom(RmSignRoom rmSignRoom);
 	/**
 	 * 删除一个签约室
 	 * @param rmSignRoom
 	 */
-	void deleteRmSignRoom(Long pkid);
+	int deleteRmSignRoomById(Long pkid);
 	
 	/**
 	 * 查询签约室列表
 	 * @return
 	 */
-	List<RmSignRoom> findRmSignRooms();
+	List<RmSignRoom> findRmSignRooms(RmSignRoom rmSignRoom);
 
 }
