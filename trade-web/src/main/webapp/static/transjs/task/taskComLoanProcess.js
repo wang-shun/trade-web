@@ -615,17 +615,19 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find("input[name='recLetterNo']").prop('disabled',false);
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
-		    		
-		    			if((!!data.content.tmpBankUpdateBy && data.content.tmpBankUpdateBy != '')|| data.code == '1'){
-		    				f.find("input[name='isTmpBank']").attr('readOnly',true);
-		    				f.find("select[name='bank_type']").attr('disabled',true);
-		    				f.find("select[name='finOrgCode']").attr('disabled',true);
-		    			}else{
+		    			
+		    			//两种情况下可选：1.流程还未开启 2.申请被驳回 
+		    			if((data.code == '0' && !data.content.tmpBankUpdateBy) 
+		    					|| data.content.tmpBankStatus == '0'){
 		    				f.find("input[name='isTmpBank']").attr('readOnly',false);
 		    				f.find("select[name='bank_type']").attr('disabled',false);
 		    				f.find("select[name='finOrgCode']").attr('disabled',false);
+		    			}else{
+		    				f.find("input[name='isTmpBank']").attr('readOnly',true);
+		    				f.find("select[name='bank_type']").attr('disabled',true);
+		    				f.find("select[name='finOrgCode']").attr('disabled',true);
 		    			}
-	    			
+		
 	    		}
 	    	}
 	  });
@@ -866,16 +868,16 @@ function getCompleteMortInfo(isMainLoanBank){
 	var caseCode = $("#caseCode").val();
 	 $.ajax({
 	    url:ctx+"/task/getMortgageInfo",
+	    async:false,
 	    method:"post",
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
 	    	success:function(data){
 	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);    		
-	    		
 	    		if(data.content != null){
 	    			if(data.content.tmpBankStatus == '0'){
 		    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
-			    		$("#tmpBankRejectReason").text("已拒绝:"+reason);
+			    		$("#tmpBankRejectReason").text("已拒绝:("+reason+")");
 		    		}else if(data.content.tmpBankStatus == '1'){
 		    			$("#tmpBankRejectReason").text("已通过！");
 		    		}else if(data.content.tmpBankStatus == '2'){
@@ -892,7 +894,7 @@ function getCompleteMortInfo(isMainLoanBank){
 
 	    			if(!!~~data.content.isTmpBank){
 	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
-	    				if(data.content.tmpBankStatus == '1') f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
+	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
 	    				f.find('#sp_is_tmp_bank').text("是");
 	    				f.find('#fl_is_tmp_bank').val("1");
 	    				f.find(".tmpBankDiv").show();
@@ -1322,9 +1324,6 @@ $(document).ready(function () {
 	 				return deleteAndModify();
 	 			}
 	 			return false;
-	 		}else if(currentIndex == 4 && newIndex == 5){
-	 			//离开报告步骤执行临时银行审批流程
-	 			startTmpBankWorkFlow();
 	 		}
 
 	 		return true;
@@ -1343,7 +1342,9 @@ $(document).ready(function () {
 	 		}else if(currentIndex == 4){
 	 			getMortgageInfo($("#caseCode").val(),1);
 	 			getReportList("table_list_4","pager_list_4",1);
-	 		}else if(currentIndex == 5){
+	 		}else if(currentIndex == 5 && priorIndex == 4){
+	 			//离开报告步骤执行临时银行审批流程
+	 			startTmpBankWorkFlow();
 	 			getCompleteMortInfo(1);
 	 		}
 	 	},
@@ -1410,7 +1411,8 @@ $(document).ready(function () {
  		}else if(currentIndex == 4){
  			getMortgageInfo($("#caseCode").val(),0);
  			getReportList("table_list_6","pager_list_6",0);
- 		}else if(currentIndex == 5){
+ 		}else if(currentIndex == 5 && priorIndex == 4){
+ 			//startTmpBankWorkFlow();
  			getCompleteMortInfo(0);
  		}
  	},

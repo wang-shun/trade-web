@@ -297,9 +297,15 @@
 		
 		function fCheck(){
 			if(''==$("#finOrgCode").val()){
-				alert('请选择贷款支行');
+				alert('请选择贷款支行！');
 				return false;
 			}
+			//驳回时驳回原因必填 
+			if($("#optionsRadios2").prop("checked") && !$("#temBankRejectReason").val()){
+				alert("请填写驳回原因！");
+				return false;
+			}
+
 			return true;
 		}
 	</script> 
