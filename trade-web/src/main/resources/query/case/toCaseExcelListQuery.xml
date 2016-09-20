@@ -165,6 +165,7 @@
 						E.PRF_AMOUNT,
 						E.LOANER_NAME,
 						(CASE E.IS_LOANER_ARRIVE WHEN '0' THEN '否' WHEN '1' THEN '是' ELSE '' END) IS_LOANER_ARRIVE,
+						(CASE firstFollow.IS_PERCHASE_RESERACH_NEED WHEN '0' THEN '否' WHEN '1' THEN '是' ELSE '' END) IS_PERCHASE_RESERACH_NEED,
 						E.COM_DISCOUNT,
 						E.SIGN_DATE,
 						E.APPR_DATE,
@@ -252,7 +253,7 @@
 					left join  sctrans.T_TO_PROPERTY_INFO as tpi on tpi.case_code=e.case_code
 					left join sctrans.t_yucui_org_hierarchy yoh on yoh.org_id=b.ORG_ID 
 					left join sctrans.SYS_ORG orgd on orgd.id= yoh.DISTRICT_ID
-					
+					left join sctrans.T_TO_FIRST_FOLLOW firstFollow on firstFollow.CASE_CODE = B.CASE_CODE
 
 					LEFT JOIN sctrans.t_HI_workflow w ON B.CASE_CODE = w.CASE_CODE
 					AND w.BUSINESS_KEY = 'operation_process'
@@ -547,6 +548,8 @@
 					customDict="" referencecol="CASE_CODE" hidden="true" />
 				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"
 					customDict="" referencecol="CASE_CODE" hidden="true" />
+				<column type="both" name="IS_PERCHASE_RESERACH_NEED" title="是否查限购"
+					customDict="" hidden="true"/>
 
 				<column type="both" name="EVA_ORG_CODE" title="评估公司Code"
 					customDict="" referencecol="" hidden="true" />
