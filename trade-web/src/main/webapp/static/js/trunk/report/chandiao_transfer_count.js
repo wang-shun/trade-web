@@ -220,11 +220,13 @@ function getParamsValue() {
 }
 
 
-function queryChandiaoDetail(id){
+function queryChandiaoDetail(id,teamcode){
 	var url = "/report/chandiaoDetail?flag=1";
 	var ctx = $("#ctx").val();
 	var params = getParamsValue();
+	//params.teamCode = teamcode;
 	//params.organId = id; + jQuery.param(params)
+	$("#teamCode").val(teamcode);
 	url = ctx + url;
 	$('#chandiaoDetail').attr('action', url);
 	$("#organId").val(id);

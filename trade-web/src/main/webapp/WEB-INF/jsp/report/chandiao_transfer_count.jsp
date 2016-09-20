@@ -223,7 +223,7 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.acceptanceTime}}</td>
 						<td class="t-left pd-l">{{item.completeTime}}</td>
 						<td class="t-left pd-l">{{item.departName}}</td>
-						<td class="t-left pd-l"><a href="javascript:queryChandiaoDetail('{{item.id}}');" target="_blank">查看详细</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryChandiaoDetail('{{item.id}}','{{item.departName}}');" target="_blank">查看详细</a></td>
 						
 				  </tr>
        {{/each}}
