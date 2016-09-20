@@ -36,13 +36,13 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">
-                            签约室分配
+                            	签约室分配
                         </h2>
                         <form method="get" class="form_list">
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small select_style mend_select">
-                                        时间
+                                       	 时间
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd" >
                                         <input name="" class=" data_style input_type" type="text" value="" placeholder="">
@@ -50,27 +50,25 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        房间类型
+                                        	房间类型
                                     </label>
                                     <select class="select_control sign_right_one">
-                                        <option value="">
-                                            请选择
-                                        </option>
+                                        <option value="">请选择</option>
                                         <option value="0">普通房间</option>
                                         <option value="1">机动房间</option>
                                     </select>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        状态
+                                        	状态
                                     </label>
                                     <select class="select_control sign_right_one">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            已预约
-                                        </option>
+                                        <option value="">请选择</option>
+                                        <option value="N">空置</option>
+                                        <option value="0">预约中</option>
+                                        <option value="1">已过期</option>
+                                        <option value="2">已使用</option>
+                                        <option value="3">使用中</option>
                                     </select>
                                 </div>
                             </div>
@@ -79,10 +77,10 @@
                                 <div class="add_btn" style="float:left;margin-left:126px;">
                                     <button type="button" class="btn btn-success">
                                         <i class="icon iconfont">&#xe635;</i>
-                                        查询
+                                       	 查询
                                     </button>
                                     <button type="button" class="btn btn-grey">
-                                        清空
+                                      	  清空
                                     </button>
                                 </div>
                             </div>
@@ -95,13 +93,13 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                房间号
+                                                	房间号
                                             </th>
                                             <th>
-                                                归属贵宾服务部
+                                                	归属贵宾服务部
                                             </th>
                                             <th>
-                                                人数
+                                                	人数
                                             </th>
                                             <th>
                                                 08：00-10:00
