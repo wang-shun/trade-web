@@ -188,6 +188,8 @@ public class ToPropertyResarchServiceImpl implements ToPropertyResearchService {
 		record.setPrCostOrgId(vo.getPrCostOrgId());
 		record.setPrCostOrgMgr(vo.getPrCostOrgMgr());
 		record.setPrCostOrgName(vo.getPrCostOrgName());
+		record.setPrApplyDepId(vo.getPrApplyDepId());
+		record.setPrApplyDepName(vo.getPrApplyDepName());
 		return record;
 	}
 

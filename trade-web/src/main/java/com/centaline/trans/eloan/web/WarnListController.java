@@ -204,12 +204,72 @@ public class WarnListController {
 			model.addAttribute("info", object);
 			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
+			model.addAttribute("pkId", pkid);
 		}
 
 		return "/eloan/task/taskEloanDetail";
 	}
 	
-	//保存  E+信息
+	private Model getDetailByPkId(Long pkid, Model model) {
+		if (pkid != null) {
+			ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
+			ToCase toCase= toCaseService.findToCaseByCaseCode(eloanCase.getCaseCode());
+			//人物信息
+			User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+			User excutor =uamUserOrgService.getUserById(eloanCase.getExcutorId());
+			Map<String,Object> object = new HashMap<String,Object>();
+			if(excutor!=null){
+			object.put("excutorName", excutor.getRealName());
+			object.put("excutorPhone", excutor.getMobile());
+			}
+			object.put("jingbanName", jingban.getRealName());
+			object.put("jingbanPhone",jingban.getMobile());
+			// 物业信息
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+			object.put("propertyAddr", toPropertyInfo.getPropertyAddr());
+			//放款信息
+			BigDecimal releaseAmount=new BigDecimal(0);
+			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+			for (ToEloanRel toEloanRel : eloanRels) {
+				if(toEloanRel.getConfirmStatus().equals("1")){
+					releaseAmount=releaseAmount.add(toEloanRel.getReleaseAmount());
+				
+				}
+			}
+			object.put("releaseAmount",releaseAmount);
+			//状态
+			String status="";
+			if(eloanCase.getApplyTime()!=null){
+				status="apply";
+			}
+			if(eloanCase.getApplyConfTime()!=null){
+				status="confirmApply";
+			}
+			if(eloanCase.getSignTime()!=null){
+				status="sign";
+			}
+		    if(eloanCase.getSignConfTime()!=null){
+				status="confirmSign";
+			}
+			if(eloanRels.size()>0){
+				status="release";
+			}
+			object.put("status",status);
+			//申请时间
+			SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+			String applyTime=dateFormat.format(eloanCase.getApplyTime());
+			object.put("applyTime",applyTime );
+			//合作机构查询
+			String finOrgName=finorgService.findBankByFinOrg(eloanCase.getFinOrgCode()).getFinOrgName();
+			object.put("finOrgName",finOrgName );
+			model.addAttribute("info", object);
+			model.addAttribute("eloanRelList", eloanRels);
+			model.addAttribute("eloanCase", eloanCase);
+			model.addAttribute("pkid", pkid);
+		}
+		return model;
+	}
+	
 	@RequestMapping(value="saveEloanApply")
 	@ResponseBody
 	public AjaxResponse<String> saveEloanApply(Model model,ToEloanCase tEloanCase){
