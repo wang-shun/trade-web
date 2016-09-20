@@ -110,7 +110,9 @@ table.dataTable thead .sorting:after {
 .smll_sign {
   margin: 2px 0px;
 }
-
+.blue_bg {
+  background: #1c84c6!important;
+}
 .tooltip-demo a {
   text-decoration: none !important;
   font-size: 13px;
@@ -154,7 +156,55 @@ table.dataTable thead .sorting:after {
 .tint_grey {
   color: #808080;
 }
+.grey_no {
+  color: #c9c9c9;
+}
+.user_red {
+  color: #ff5e80;
+}
 
+.popup-box {
+  padding:30px 15px 50px 15px;
+}
+.popup-box .modal_title {
+  font-family: 'Microsoft Yahei';
+  font-size: 14px;
+  font-weight:bold;
+}
+.popup-text {
+  line-height: 30px;
+  margin-left: 5px;
+}
+.pop-name {
+  width: 100px;
+}
+.sign_right_pop {
+  width: 470px;
+}
+.text-white {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+.selected {
+  border: 1px solid #428fcc;
+}
 .tag_sign {
   width: 13px;
   height: 14px;
@@ -424,7 +474,21 @@ table thead tr th {
   color: #fff;
   border-radius: 2px;
 }
+.ml5 {
+  margin-left: 5px;
+}
+.yellow_bg {
+  padding: 1px 2px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background: #f8ac59;
+}
 
+.underline {
+  text-decoration: underline;
+}
 .no_color {
   margin-left: 5px;
   margin-right: 5px;
