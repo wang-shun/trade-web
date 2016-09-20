@@ -236,19 +236,19 @@
 					{{else}}
                         <div class="btn-group">
 							{{if item.RISKTYPE == '押卡'}}
-								<a href = "${ctx}/riskControl/guarantycards?pkid={{item.ELOANPKID}}">
+								<a href = "${ctx}/riskControl/guarantycardsvonly?pkid={{item.ELOANPKID}}">
                             	<button type="button" class="btn btn-success">
                                 	查看
                             	</button>
 								</a>
 							{{else if item.RISKTYPE == '抵押'}}
-                                <a href = "${ctx}/riskControl/guarantymortgage?pkid={{item.ELOANPKID}}">
+                                <a href = "${ctx}/riskControl/guarantymortgagevonly?pkid={{item.ELOANPKID}}">
                             	<button type="button" class="btn btn-success">
                                 	查看
                             	</button>
 								</a>
                             {{else if item.RISKTYPE == '强制公证'}}
-                                <a href = "${ctx}/riskControl/guarantyfair?pkid={{item.ELOANPKID}}">
+                                <a href = "${ctx}/riskControl/guarantyfairvonly?pkid={{item.ELOANPKID}}">
                             	<button type="button" class="btn btn-success">
                                 	查看
                             	</button>
