@@ -64,6 +64,7 @@
 		<pattern>/unlocatedTasks/a</pattern>
 		<pattern>/awards/kjjianCase</pattern>
 		<pattern>/eloan/task/newEloanApply/process</pattern>
+		<pattern>/signroom/signRoomAllotList</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
