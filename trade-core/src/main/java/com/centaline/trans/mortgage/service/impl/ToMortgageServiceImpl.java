@@ -578,7 +578,23 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	public int updateTmpBankStatus(String caseCode) {
 		return toMortgageMapper.updateTmpBankStatus(caseCode);
 	}
-	
-	
+
+	@Override
+	public ToMortgage findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage) {
+		// TODO Auto-generated method stub
+		return toMortgageMapper.findToMortgageByCaseCodeAndCustcode(toMortgage);
+	}
+
+	@Override
+	public void updateToMortgageByCode(String caseCode) {
+		// TODO Auto-generated method stub
+		toMortgageMapper.updateCustNameByCasecode(caseCode);
+	}
+
+	@Override
+	public void updateToMortgageBySign(ToMortgage toMortgage) {
+		// TODO Auto-generated method stub
+		toMortgageMapper.updateBySign(toMortgage);
+	}
 
 }
