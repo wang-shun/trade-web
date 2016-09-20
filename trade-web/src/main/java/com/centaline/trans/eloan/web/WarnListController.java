@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -682,6 +683,21 @@ public class WarnListController {
 		
 		
 		return "/eloan/task/taskEloanContract";
+	}
+	
+	/**
+	 * 产调来源报表
+	 * @param model
+	 * @return
+	 */
+	
+	@RequestMapping(value="eloanRiskCtlList")
+	@RequiresPermissions("TRADE.ELOAN.RCLIST")
+    public String propertySourceReport(Model model) {
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("userId", user.getId());
+		
+		return "eloan/eloanRiskCtlList";
 	}
 	
 }
