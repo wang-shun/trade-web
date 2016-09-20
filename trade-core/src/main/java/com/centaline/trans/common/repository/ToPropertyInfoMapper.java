@@ -36,6 +36,4 @@ public interface ToPropertyInfoMapper {
 	OrgVO getPropertyDepInfoByuserDepId(String depid);
 	OrgVO getPropertyDepInfoByuserDepIdEloan(String depid);
 	
-	OrgVO getPropertyDepInfoByuserDepIdEloan(String depid);
-	
 }

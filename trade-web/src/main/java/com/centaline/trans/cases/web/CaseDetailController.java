@@ -739,10 +739,10 @@ public class CaseDetailController {
 			reVo.setCaseProperty(te.getCaseProperty());
 		}
 		
-		int cou = toCaseService.findToLoanAgentByCaseCode(toCase.getCaseCode());
+	/*	int cou = toCaseService.findToLoanAgentByCaseCode(toCase.getCaseCode());
 		if ( cou >0) {
 			reVo.setLoanType("30004005");
-		}
+		}*/
 
 		// 物业信息
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());

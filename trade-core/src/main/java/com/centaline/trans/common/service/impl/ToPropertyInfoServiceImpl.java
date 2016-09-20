@@ -94,27 +94,5 @@ public class ToPropertyInfoServiceImpl implements ToPropertyInfoService {
 		}
 		return null;
 	}
-	/**
-	 * 根据当前用户部门id得到 根节点下第二级组织信息
-	 */
-	@Override
-	public ToPropertyResearchVo getPropertyDepInfoByuserDepIdEloan(String depId) {
-		
-		OrgVO orgvo = toPropertyInfoMapper.getPropertyDepInfoByuserDepIdEloan(depId);
-		String type = "no";
-		//1D29BB468F504774ACE653B946A393EE 营业部  ff8080814e01474e014e2e97c8b30036 非营业部
-		if(orgvo.getOrgId().equals("ff8080814f459a78014f45a73d820006") ){
-			ToPropertyResearchVo pinfo = new ToPropertyResearchVo();
-			pinfo.setPrApplyDepId(orgvo.getOrgParentId());
-			//pinfo.setPrApplyDepName(orgvo.getOrgName());
-			type = "yes";
-			return pinfo;
-			
-		}else{
-			if(type.equals("no"))
-				return getPropertyDepInfoByuserDepIdEloan(orgvo.getOrgId());
-		}
-		return null;
-	}
 
 }
