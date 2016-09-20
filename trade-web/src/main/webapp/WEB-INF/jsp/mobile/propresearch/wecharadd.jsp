@@ -50,6 +50,7 @@ float: none;
 		enctype="application/x-www-form-urlencoded; charset=UTF-8 ">
 		<input type="hidden" id="txt_prCat" name="prCat">
 		<input type="hidden" name="username" value="${username }">
+		<input type="hidden" name="prApplyDepId" value="${depId }">
 		<input type="hidden" name="prCostOrgId" id="prCostOrgId">
 		<input type="hidden" name="prCostOrgName" id="prCostOrgName">
 		<input type="hidden" name="prCostOrgMgr" id="prCostOrgMgr">

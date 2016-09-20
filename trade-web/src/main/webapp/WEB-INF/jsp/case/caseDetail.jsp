@@ -1292,7 +1292,7 @@
 			height : 250,
 			autowidth : true,
 			shrinkToFit : true,
-			rowNum : 20,
+			rowNum : 50,
 			/*   rowList: [10, 20, 30], */
 			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
 			colModel : [ {

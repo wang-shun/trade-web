@@ -74,6 +74,7 @@ public class PropertyController {
 		if("dev".equals(propertyService.getEnvironment())){
 			SessionUser u= uamSesstionService.getSessionUser();
 			request.setAttribute("username", u.getUsername());
+			request.setAttribute("depId", u.getServiceDepId());
 			
 			// 查询战区和区蕫相关信息
 			getOrgAndUserInfo(request, u.getServiceDepId());
@@ -179,7 +180,13 @@ public class PropertyController {
 			result.setMessage("未授权用户");
 			return result;
 		}
-
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = propertyInfoService.getPropertyDepInfoByuserDepId(vo.getPrApplyDepId());
+		//记录产调申请人的组织
+		if(pro != null){
+			vo.setPrApplyDepId(pro.getPrApplyDepId());
+			vo.setPrApplyDepName(pro.getPrApplyDepName());
+		}
 		propertyService.recordProperty(vo);
 		request.setAttribute("result", "scuess");
 		AjaxResponse result = new AjaxResponse<>(true);
