@@ -24,7 +24,8 @@ public interface ToCaseMapper {
     int updateByCaseCodeSelective(ToCase record);
     
 
-	ToCase findToCaseByCaseCode(String caseCode);
+    ToCase findToCaseByCaseCode(String caseCode);
+    int findToLoanAgentByCaseCode(String caseCode);
 
 	/**
 	 * 查询统计

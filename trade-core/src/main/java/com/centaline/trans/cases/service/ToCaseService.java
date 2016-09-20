@@ -12,6 +12,7 @@ public interface ToCaseService {
 	
 	ToCase selectByPrimaryKey(Long pkid);
     ToCase findToCaseByCaseCode(String caseCode);
+    int findToLoanAgentByCaseCode(String caseCode);
     int updateByPrimaryKey(ToCase record);
     int updateByPrimaryKeySelective(ToCase record);
     /**

@@ -164,6 +164,9 @@
 	                   	</c:if>
 	                   </div>                   		
                    	</c:if>
+                   	<c:if test="${caseDetailVO.loanType=='30004005'}">
+                  		<div class="sign sign-yellow">税费卡</div>
+                  	</c:if> 
 					<div class="panel-body">
 						<div class="ibox-content-head">
 							<h5>案件基本信息</h5>

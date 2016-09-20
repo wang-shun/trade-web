@@ -26,6 +26,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.entity.ToLoanAgent;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -124,6 +125,11 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public ToCase findToCaseByCaseCode(String caseCode) {
 		// TODO Auto-generated method stub
 		return toCaseMapper.findToCaseByCaseCode(caseCode);
+	}
+	@Override
+	public int findToLoanAgentByCaseCode(String caseCode) {
+		// TODO Auto-generated method stub
+		return toCaseMapper.findToLoanAgentByCaseCode(caseCode);
 	}
 
 	@Override

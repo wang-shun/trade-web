@@ -81,7 +81,10 @@ public class CaseDetailShowVO {
     private String propertyAddress;//物业地址
     private String loanLostType;//贷款流失类型
     
-    public String getLoanLostType() {
+    private String loanType;//税费卡类型
+    
+
+	public String getLoanLostType() {
 		return loanLostType;
 	}
 
@@ -519,5 +522,12 @@ public class CaseDetailShowVO {
 		this.propertyAddress = propertyAddress;
 	}
 
+	public String getLoanType() {
+		return loanType;
+	}
+
+	public void setLoanType(String loanType) {
+		this.loanType = loanType;
+	}
 	
 }

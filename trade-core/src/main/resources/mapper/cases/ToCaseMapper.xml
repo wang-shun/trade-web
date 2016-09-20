@@ -166,6 +166,11 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 
   </select>
+<select id="findToLoanAgentByCaseCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+    
+ select count(*) from sctrans.T_TO_LOAN_AGENT t where t.loan_srv_code='30004005' and t.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+
+  </select>
  <select id="queryConutCase" parameterType="com.centaline.trans.cases.entity.ToCase" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
   SELECT 
   	COUNT(CASE_CODE) AS countJDS
