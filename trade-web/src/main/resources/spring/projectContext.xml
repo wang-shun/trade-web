@@ -135,6 +135,10 @@
     <bean name="qqcdDictServCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_serv_cat_code_tree"></property>
     </bean>
+    <!-- 风控措施编码 -->
+    <bean name="qqcdRiskTypeDict" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RISK_CONTROL_TYPE"></property>
+    </bean>
     <!-- 金融产品申请状态  -->
     <bean name="qqcdDictApplyStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_eplus_status"></property>

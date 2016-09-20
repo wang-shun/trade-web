@@ -90,7 +90,13 @@ public class SpvController {
 	ProcessInstanceService processInstanceService;
 	//列表页面
 	@RequestMapping("spvList")
-	public String spvList(){
+	public String spvList(HttpServletRequest request){
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		String currentDeptId = currentUser.getServiceDepId();
+		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
+		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+	
+		request.setAttribute("orgId", parentOrg.getId());
 		return "spv/SpvList";
 	}
 	
@@ -101,7 +107,7 @@ public class SpvController {
 		String currentDeptId = currentUser.getServiceDepId();
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
-		
+
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
 		
 		request.setAttribute("orgId", parentOrg.getId());

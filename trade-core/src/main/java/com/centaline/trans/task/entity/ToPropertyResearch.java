@@ -46,6 +46,14 @@ public class ToPropertyResearch {
 	private String updateBy;
 
 	private String distCode;
+	
+	//记录产调申请人的组织
+	private String prApplyDepId;
+
+
+	private String prApplyDepName;
+	
+
 	public String getPrAddress() {
 		return prAddress;
 	}
@@ -271,5 +279,21 @@ public class ToPropertyResearch {
 
 	public void setDistCode(String distCode) {
 		this.distCode = distCode;
+	}
+	
+	public String getPrApplyDepId() {
+		return prApplyDepId;
+	}
+
+	public void setPrApplyDepId(String prApplyDepId) {
+		this.prApplyDepId = prApplyDepId;
+	}
+
+	public String getPrApplyDepName() {
+		return prApplyDepName;
+	}
+
+	public void setPrApplyDepName(String prApplyDepName) {
+		this.prApplyDepName = prApplyDepName;
 	}
 }

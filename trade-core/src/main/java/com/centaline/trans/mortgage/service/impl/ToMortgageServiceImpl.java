@@ -455,11 +455,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
 
 			if(!isManagerApprove){
-//				mortageDb.setRecLetterNo("");
-//				mortageDb.setTmpBankUpdateBy("");
-//				mortageDb.setIsTmpBank("0");
-//				mortageDb.setLastLoanBank("");
-//				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 				//更新流程状态为‘4’：已完成
@@ -496,11 +491,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
 
 			if(!isSeniorManagerApprove ){
-//				mortageDb.setRecLetterNo("");
-//				mortageDb.setTmpBankUpdateBy("");
-//				mortageDb.setIsTmpBank("0");
-//				mortageDb.setLastLoanBank("");
-//				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 				//更新流程状态为‘4’：已完成
@@ -513,9 +503,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 			}else{
-
-				//mortageDb.setTmpBankUpdateBy(user.getId());
-				mortageDb.setTmpBankUpdateTime(new Date());
+				//mortageDb.setTmpBankUpdateTime(new Date());
 			}
 			updateToMortgage(mortageDb);			
 			
@@ -530,18 +518,11 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
 			//更新案件信息
 			if("false".equals(tmpBankCheck)){
-//				mortageDb.setRecLetterNo("");
-//				mortageDb.setTmpBankUpdateBy("");
-//				mortageDb.setIsTmpBank("0");
-//				mortageDb.setLastLoanBank("");
-//				mortageDb.setFinOrgCode("");
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 			}else if("true".equals(tmpBankCheck)){
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.AGREE.getCode());
-
-				//mortageDb.setTmpBankUpdateBy(user.getId());
-				mortageDb.setTmpBankUpdateTime(new Date());
+				//mortageDb.setTmpBankUpdateTime(new Date());
 			}
 
 			updateToMortgage(mortageDb);		

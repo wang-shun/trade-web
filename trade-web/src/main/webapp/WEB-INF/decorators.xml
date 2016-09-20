@@ -36,6 +36,7 @@
 		<pattern>/eloan/Eloanlist</pattern>
 		<pattern>/eloan/getEloanCaseDetails</pattern>
 		<pattern>/eloan/task/eloanApply/process</pattern>
+		<pattern>/eloan/eloanRiskCtlList</pattern>
 		<pattern>/mortgage/mortgageApproveLost</pattern>
 		<pattern>/mortgageInfo/list</pattern>
 		<pattern>/spv/spvList</pattern>

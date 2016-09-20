@@ -23,8 +23,11 @@ public class ToPropertyResearchVo {
 	
 	private String appliant;
 	
+	//记录产调申请人的组织
 	private String prApplyDepId;
-	
+
+	private String prApplyDepName;
+
 	
 	public String getAgentCode(){
 		return this.agentCode;
@@ -192,6 +195,12 @@ public class ToPropertyResearchVo {
 	}
 	public void setPrApplyDepId(String prApplyDepId) {
 		this.prApplyDepId = prApplyDepId;
+	}
+	public String getPrApplyDepName() {
+		return prApplyDepName;
+	}
+	public void setPrApplyDepName(String prApplyDepName) {
+		this.prApplyDepName = prApplyDepName;
 	}
 
 }

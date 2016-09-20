@@ -597,9 +597,12 @@
 						
 						<div class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
-						        <label for="" class="lable-one">申请人</label> <input type="text" id="realName" name="toSpv.applyUser" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${spvBaseInfoVO.toSpv.applyUser }'>
-							<input type="hidden" id="team" name="toSpv.applyTeam"  value='${spvBaseInfoVO.toSpv.applyTeam }'></div>
+						        <label for="" class="lable-one">申请人</label>
+						        <input type="hidden" id="userName" name="toSpv.applyUser" value='${spvBaseInfoVO.toSpv.applyUser }'>
+						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control tbspuser" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${applyUserName }'>
+							    <input type="hidden" id="team" name="toSpv.applyTeam"  value='${spvBaseInfoVO.toSpv.applyTeam }'>
+							</div>
 					    </div>
 					    
 						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
@@ -618,7 +621,7 @@
 						
 					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" style="display:none;">						
 						<div class="form-group form-margin form-space-one">
-							<label class="lable-one"  style="text-align: right;">审批记录</label>							
+							<label class="lable-one"  style="text-align: right;">驳回原因</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
 								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${toApproveRecord.content }</textarea>
 							</div>
@@ -741,6 +744,7 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
 		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
+		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
 
@@ -1059,14 +1063,12 @@
 		function selectUserBack(array){
 			if(array && array.length >0){
 		        $("#realName").val(array[0].username);
-				$("#realName").attr('hVal',array[0].userId);
-                $("#team").val(array[0].orgName);
-                $("#team").attr('hVal',array[0].orgId);
+				$("#userName").val(array[0].userId);
+                $("#team").val(array[0].orgId);
 			}else{
 				$("#realName").val("");
-				$("#realName").attr('hVal',"");
+				$("#userName").val("");
 				$("#team").val("");
-                $("#team").attr('hVal',"");
 			}
 		}
 		

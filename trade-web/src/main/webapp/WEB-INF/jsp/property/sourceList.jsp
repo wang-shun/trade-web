@@ -245,7 +245,7 @@
                 </td>
                 <td>
                     <p class="smll_sign">
-						{{if item.PR_STATUS >= 0}}
+						{{if item.PR_STATUS_OLD >= 0}}
                         	<i class="sign_normal">申</i>
 						{{else}}
 							<i class="sign_grey">申</i>
@@ -253,15 +253,15 @@
                         {{item.PR_APPLY_TIME}}
                     </p>
                     <p class="smll_sign">
-						{{if item.PR_STATUS >= 1}}
+						{{if item.PR_STATUS_OLD >= 1}}
                         	<i class="sign_normal">受</i>
 						{{else}}
 							<i class="sign_grey">受</i>
 						{{/if}}
-                        {{item.PR_ACCEPT_TIME}}
+                        {{item.PR_ACCPET_TIME}}
                     </p>
                     <p class="smll_sign">
-						{{if item.PR_STATUS >= 2}}
+						{{if item.PR_STATUS_OLD >= 2}}
                         	<i class="sign_normal">完</i>
 						{{else}}
 							<i class="sign_grey">完</i>
