@@ -27,9 +27,6 @@ public class TaskSubmitLogServiceImpl implements TaskSubmitLogService {
 	@Override
 	public void record(TaskVo task) {
 		SessionUser user = uamSessionService.getSessionUser();
-		user.getServiceDepCode();
-		user.getServiceDepName();
-		user.getServiceDepId();
 		TlTaskSubmitLog taskSubmitLog = new TlTaskSubmitLog();
 		taskSubmitLog.setExecutor(user.getUsername());
 		taskSubmitLog.setExecutorId(user.getId());
@@ -53,6 +50,9 @@ public class TaskSubmitLogServiceImpl implements TaskSubmitLogService {
 			}
 			if (extProps.get("generalManagerId") != null) {
 				taskSubmitLog.setGeneralManagerId(extProps.get("generalManagerId").toString());
+			}
+			if (extProps.get("seniorManagerId") != null) {
+				taskSubmitLog.setSeniorManagerId(extProps.get("seniorManagerId").toString());
 			}
 		}
 		taskSubmitLogMapper.insertSelective(taskSubmitLog);

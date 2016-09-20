@@ -12,6 +12,8 @@
     <result column="MANAGER_ID" jdbcType="CHAR" property="managerId" />
     <result column="DIRECTOR_ID" jdbcType="CHAR" property="directorId" />
     <result column="GENERAL_MANAGER_ID" jdbcType="CHAR" property="generalManagerId" />
+    <result column="SENIOR_MANAGER_ID" jdbcType="CHAR" property="seniorManagerId" />
+    
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
@@ -19,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     PKID, TASK_ID, EXECUTOR, EXECUTOR_ID, TEAM_ID, DISTRICT_ID, HQ_ID, MANAGER_ID, DIRECTOR_ID, 
-    GENERAL_MANAGER_ID, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    GENERAL_MANAGER_ID, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,SENIOR_MANAGER_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,12 +37,12 @@
     insert into sctrans.T_TL_TASK_SUBMIT_LOG (PKID, TASK_ID, EXECUTOR, 
       EXECUTOR_ID, TEAM_ID, DISTRICT_ID, 
       HQ_ID, MANAGER_ID, DIRECTOR_ID, 
-      GENERAL_MANAGER_ID, CREATE_TIME, CREATE_BY, 
+      GENERAL_MANAGER_ID,SENIOR_MANAGER_ID, CREATE_TIME, CREATE_BY, 
       UPDATE_TIME, UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{executor,jdbcType=VARCHAR}, 
       #{executorId,jdbcType=CHAR}, #{teamId,jdbcType=CHAR}, #{districtId,jdbcType=CHAR}, 
       #{hqId,jdbcType=CHAR}, #{managerId,jdbcType=CHAR}, #{directorId,jdbcType=CHAR}, 
-      #{generalManagerId,jdbcType=CHAR},GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID})
+      #{generalManagerId,jdbcType=CHAR}, #{seniorManagerId,jdbcType=CHAR},GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.TlTaskSubmitLog">
     insert into sctrans.T_TL_TASK_SUBMIT_LOG
@@ -74,6 +76,9 @@
       </if>
       <if test="generalManagerId != null">
         GENERAL_MANAGER_ID,
+      </if>
+      <if test="seniorManagerId != null">
+        SENIOR_MANAGER_ID,
       </if>
         CREATE_TIME,
 
@@ -115,6 +120,9 @@
       <if test="generalManagerId != null">
         #{generalManagerId,jdbcType=CHAR},
       </if>
+       <if test="seniorManagerId != null">
+        #{seniorManagerId,jdbcType=CHAR},
+      </if>
       GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -148,6 +156,9 @@
       <if test="generalManagerId != null">
         GENERAL_MANAGER_ID = #{generalManagerId,jdbcType=CHAR},
       </if>
+      <if test="seniorManagerId != null">
+        SENIOR_MANAGER_ID = #{seniorManagerId,jdbcType=CHAR},
+      </if>
         UPDATE_TIME = GETDATE(),
 
         UPDATE_BY = @{SESSION_USER_ID},
@@ -165,6 +176,7 @@
       MANAGER_ID = #{managerId,jdbcType=CHAR},
       DIRECTOR_ID = #{directorId,jdbcType=CHAR},
       GENERAL_MANAGER_ID = #{generalManagerId,jdbcType=CHAR},
+      SENIOR_MANAGER_ID = #{seniorManagerId,jdbcType=CHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
