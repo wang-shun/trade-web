@@ -56,7 +56,9 @@ import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
+import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.utils.DateUtil;
 
 @Controller
@@ -70,6 +72,9 @@ public class WarnListController {
 	
 	@Autowired(required = true)
 	UamUserOrgService uamUserOrgService;
+	
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	
 	@Autowired
 	LoanAgentService loanAgentService;
@@ -109,6 +114,8 @@ public class WarnListController {
 
 		return "/eloan/task/taskEloanList";
 	}
+	
+	//E+申请页面 ，填写信息保存
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
 			String taskitem, String processInstanceId){
@@ -124,6 +131,7 @@ public class WarnListController {
     	return "eloan/task/taskEloanApply";
 	}
 	
+	//E+ 改版新增页面
 	@RequestMapping(value="/task/newEloanApply/process")
 	public String newEloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
 			String taskitem, String processInstanceId){
@@ -139,6 +147,7 @@ public class WarnListController {
     	return "eloan/task/taskNewEloanApply";
 	}
 	
+	//获取E+详细信息
 	@RequestMapping("getEloanCaseDetails")
 	public String getEloanDetail(Long pkid, Model model) {
 		if (pkid != null) {
@@ -200,6 +209,7 @@ public class WarnListController {
 		return "/eloan/task/taskEloanDetail";
 	}
 	
+	//保存  E+信息
 	@RequestMapping(value="saveEloanApply")
 	@ResponseBody
 	public AjaxResponse<String> saveEloanApply(Model model,ToEloanCase tEloanCase){
@@ -267,9 +277,10 @@ public class WarnListController {
     	return "eloan/task/taskEloanApplyConfirm";
 	}
 	
+	//主管审批    保存E+申请记录
 	@RequestMapping(value="saveEloanApplyConfirm")
 	@ResponseBody
-	public AjaxResponse<String> saveEloanApplyConfirm(Model model,String taskId,String approved,String eloanCode){
+	public AjaxResponse<String> saveEloanApplyConfirm(Model model,String taskId,String approved,String eloanCode,String processInstanceId,String caseCode,String eContent){
 		SessionUser user = uamSessionService.getSessionUser();
 		try  {
 			ToEloanCase toEloanCase = new ToEloanCase();
@@ -286,6 +297,18 @@ public class WarnListController {
 				map.put("ApplyApprove", false);
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
+			
+			//E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();			
+			toApproveRecord.setCaseCode(caseCode);
+			toApproveRecord.setContent(eContent);
+			toApproveRecord.setApproveType("9");
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("eApplyApprove");//e+借贷
+			toApproveRecord.setProcessInstance(processInstanceId);
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 			
 			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {

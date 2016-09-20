@@ -22,6 +22,8 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.utils.UriUtility;
 
 /**
@@ -39,10 +41,7 @@ public class TaskController {
 	private UamPermissionService uamPermissionService;
 	
 	@Autowired
-	private UamBasedataService uamBasedataService;
-	
-	@Autowired
-	private BizWarnInfoService bizWarnInfoService;
+	private ToApproveRecordService toApproveRecordService;
 	
 	
 
@@ -81,6 +80,7 @@ public class TaskController {
 		queryParameters.put("source", source);
 		queryParameters.put("caseCode", caseCode!=null?caseCode:businessKey);
 		queryParameters.put("businessKey", businessKey);
+		
 		Boolean sameSever = false;// 是否同服务器
 		if (StringUtils.isNotBlank(formKey)) {
 			if (!formKey.contains(":")) {
@@ -97,6 +97,13 @@ public class TaskController {
 			request.setAttribute("source", source);
 			request.setAttribute("businessKey", businessKey);
 			request.setAttribute("caseCode", caseCode!=null?caseCode:businessKey);
+			//E+ 申请查询审核结果
+			ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
+						
+			toApproveRecordForItem.setProcessInstance(instCode);
+			toApproveRecordForItem.setPartCode("eApplyApprove");		
+			ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+			request.setAttribute("toApproveRecord", toApproveRecord);
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");

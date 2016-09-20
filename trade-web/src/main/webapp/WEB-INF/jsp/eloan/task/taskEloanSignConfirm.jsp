@@ -196,7 +196,7 @@
                                        <option value="1">同意</option>
                                        <option value="0">驳回</option>
                                     </select>
-                                </div>
+                                </div> 
                             </li>
                         </ul>
                         <input type="button" class="btn btn-success submit_btn" value="确认"/>
