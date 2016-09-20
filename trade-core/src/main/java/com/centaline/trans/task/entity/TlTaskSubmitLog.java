@@ -22,6 +22,8 @@ public class TlTaskSubmitLog {
     private String directorId;
 
     private String generalManagerId;
+    
+    private String seniorManagerId;
 
     private Date createTime;
 
@@ -142,4 +144,12 @@ public class TlTaskSubmitLog {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public String getSeniorManagerId() {
+		return seniorManagerId;
+	}
+
+	public void setSeniorManagerId(String seniorManagerId) {
+		this.seniorManagerId = seniorManagerId;
+	}
 }

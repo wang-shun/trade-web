@@ -142,88 +142,7 @@
                                         <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong">
                                                 &#xe60a;
                                             </i></button>
-                                            <div class="eloanApply-table">
-                                        <!-- <table class="table table_blue table-striped table-bordered table-hover " id="editable">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
-                                                    </th>
-                                                    <th>
-                                                        产证地址
-                                                    </th>
-                                                    <th>
-                                                        工作人员
-                                                    </th>
-                                                    <th>
-                                                        上家
-                                                    </th>
-                                                    <th>
-                                                        下家
-                                                    </th>
-                                                    <th>
-                                                        操作
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            <a href="javascript:;">
-                                                                ZY-AJ-201605-0952
-                                                            </a>
-                                                        </p>
-                                                        <p>
-                                                            <i class="tag_sign">c</i>
-                                                            BKS-2-451341-2154
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="big">
-                                                            上海杨浦区平路街道（内环）鞍山八村29号0608室
-                                                        </p>
-                                                        <p class="tooltip-demo">
-                                                            <i class="salesman-icon">
-                                                            </i>
-                                                            <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title=" 张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体">
-                                                                张春伟/15026784858/ACCDGB.东方曼哈顿分行二组全体
-                                                            </a>
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="name">
-                                                            <span>交易顾问：</span><a href="#" class="a_blue">龙一思</a>
-                                                        </p>
-                                                        <p class="name">
-                                                            <span>经纪人：</span><a href="#" class="a_blue">唐丽娜</a>
-                                                        </p>
-                                                    </td>
-                                                    <td class="center">
-                                                        <p class="big">
-                                                            张春伟
-                                                        </p>
-                                                        <p class="big">
-                                                            张伟伟
-                                                        </p>
-                                                    </td>
-                                                    <td class="center">
-                                                        <p class="big">
-                                                            陈一财
-                                                        </p>
-                                                        <p class="big">
-                                                            陈一财
-                                                        </p>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        关联案件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table> -->
-                                    </div>
+                                            <div class="eloanApply-table"></div>
 
                                     </div>
                                 </div>
@@ -402,6 +321,15 @@
                                     </div>
                                 </div>
                             </li>
+                            
+                            
+                           <li>
+                                <div class="form_content" id="eapplyPassOrRefuseReasonForShow">
+                                    <label class="control-label sign_left_two pull-left">驳回原因</label>
+									<textarea class="input_type sign_right pull-left"  rows="2"  id="eContent"	name="eContent" style="margin-left: 4px;width: 757px;
+    											height: 71px;resize:none;">${toApproveRecord.content }</textarea>
+                                </div>
+                            </li>
                         </ul>
                         <input type="button" class="btn btn-success submit_btn" value="提交" />
 
@@ -415,14 +343,6 @@
 
     <!-- Mainly scripts -->
     <content tag="local_script">
-   <%--  <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script> 
-    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
-    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>--%>
 
     <!-- stickup plugin -->
     <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
@@ -498,6 +418,14 @@
 	</script>
     <script>
         $(document).ready(function () {
+			 //驳回原因显示问题
+			 var eContent = $("#eContent").val();
+ 			 if(eContent == '' || eContent == null){			
+				$("#eapplyPassOrRefuseReasonForShow").hide();				
+			 } else{
+				 $("#eContent").attr("disabled",true);
+			 }
+        	
         	function showAndHide(loanSrvCode,finOrgCode,month){
         		
         		if(loanSrvCode == "30004014" && finOrgCode == "W0003" && month != "" && month <= 12){

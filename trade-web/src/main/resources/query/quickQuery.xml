@@ -47,7 +47,7 @@
 	<!-- E贷款 -->
 	<import resource="query/eloan/warnListQuery.xml" />
 	<import resource="query/eloan/changeListQuery.xml" />
-	<import resource="query/eloan/RiskControlQuery.xml" />
+	<import resource="query/eloan/eloanRiskCtlList.xml" />
 	
 	<!-- 审批记录 -->
 	<import resource="query/task/toApproveRecordQuery.xml" />

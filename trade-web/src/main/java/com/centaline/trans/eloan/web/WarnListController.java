@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,9 @@ import com.centaline.trans.loan.entity.LoanAgent;
 import com.centaline.trans.loan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
+import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.utils.DateUtil;
 
 @Controller
@@ -70,6 +73,9 @@ public class WarnListController {
 	
 	@Autowired(required = true)
 	UamUserOrgService uamUserOrgService;
+	
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	
 	@Autowired
 	LoanAgentService loanAgentService;
@@ -110,8 +116,7 @@ public class WarnListController {
 		return "/eloan/task/taskEloanList";
 	}
 	
-	
-	
+	//E+申请页面 ，填写信息保存
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
 			String taskitem, String processInstanceId){
@@ -127,6 +132,7 @@ public class WarnListController {
     	return "eloan/task/taskEloanApply";
 	}
 	
+	//E+ 改版新增页面
 	@RequestMapping(value="/task/newEloanApply/process")
 	public String newEloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
 			String taskitem, String processInstanceId){
@@ -142,6 +148,7 @@ public class WarnListController {
     	return "eloan/task/taskNewEloanApply";
 	}
 	
+	//获取E+详细信息
 	@RequestMapping("getEloanCaseDetails")
 	public String getEloanDetail(Long pkid, Model model) {
 		if (pkid != null) {
@@ -331,9 +338,10 @@ public class WarnListController {
     	return "eloan/task/taskEloanApplyConfirm";
 	}
 	
+	//主管审批    保存E+申请记录
 	@RequestMapping(value="saveEloanApplyConfirm")
 	@ResponseBody
-	public AjaxResponse<String> saveEloanApplyConfirm(Model model,String taskId,String approved,String eloanCode){
+	public AjaxResponse<String> saveEloanApplyConfirm(Model model,String taskId,String approved,String eloanCode,String processInstanceId,String caseCode,String eContent){
 		SessionUser user = uamSessionService.getSessionUser();
 		try  {
 			ToEloanCase toEloanCase = new ToEloanCase();
@@ -350,6 +358,18 @@ public class WarnListController {
 				map.put("ApplyApprove", false);
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
+			
+			//E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();			
+			toApproveRecord.setCaseCode(caseCode);
+			toApproveRecord.setContent(eContent);
+			toApproveRecord.setApproveType("9");
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("eApplyApprove");//e+借贷
+			toApproveRecord.setProcessInstance(processInstanceId);
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 			
 			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
@@ -682,6 +702,21 @@ public class WarnListController {
 		
 		
 		return "/eloan/task/taskEloanContract";
+	}
+	
+	/**
+	 * 产调来源报表
+	 * @param model
+	 * @return
+	 */
+	
+	@RequestMapping(value="eloanRiskCtlList")
+	@RequiresPermissions("TRADE.ELOAN.RCLIST")
+    public String propertySourceReport(Model model) {
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("userId", user.getId());
+		
+		return "eloan/eloanRiskCtlList";
 	}
 	
 }

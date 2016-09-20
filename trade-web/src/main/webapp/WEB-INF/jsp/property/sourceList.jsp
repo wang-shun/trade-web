@@ -258,7 +258,7 @@
 						{{else}}
 							<i class="sign_grey">受</i>
 						{{/if}}
-                        {{item.PR_ACCEPT_TIME}}
+                        {{item.PR_ACCPET_TIME}}
                     </p>
                     <p class="smll_sign">
 						{{if item.PR_STATUS_OLD >= 2}}

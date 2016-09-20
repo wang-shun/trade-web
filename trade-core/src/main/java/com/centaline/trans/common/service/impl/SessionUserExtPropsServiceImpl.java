@@ -57,20 +57,27 @@ public class SessionUserExtPropsServiceImpl implements SessionUserExtPropsServic
 		if (hqId != null) {
 			extProps.put("hqId", hqId);
 			User u = getLeaderUserIdByOrgIdAndJobCode(hqId, TransJobs.TZJL.getCode());
-			if (u != null)
+			if (u != null){
 				extProps.put("generalManagerId", u.getId());
+			}
 		}
 		if (districtId != null) {
 			extProps.put("districtId", districtId);
 			User u = getLeaderUserIdByOrgIdAndJobCode(districtId, TransJobs.TZJ.getCode());
-			if (u != null)
+			if (u != null){
 				extProps.put("directorId", u.getId());
+			}
 		}
 		if (teamId != null) {
 			extProps.put("teamId", teamId);
 			User u = getLeaderUserIdByOrgIdAndJobCode(teamId, TransJobs.TJYZG.getCode());
-			if (u != null)
+			if (u != null){	
 				extProps.put("managerId", u.getId());
+			}
+			User u1 = getLeaderUserIdByOrgIdAndJobCode(teamId, TransJobs.TSJYZG.getCode());
+			if (u1 != null){
+				extProps.put("seniorManagerId", u1.getId());
+			}
 		}
 		return extProps;
 	}
