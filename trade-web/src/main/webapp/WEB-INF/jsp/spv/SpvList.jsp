@@ -94,11 +94,13 @@
 						<label for="" class="lable-one">物业地址</label> <input type="text"
 							class="form-control  input-five" placeholder="" name="prAddress">
 					</div>
-					<div class="form-group form-margin  pull-left">
-						<label for="" class="lable-one">申请人</label> 
-			       <input type="text" id="realName" name="applyUser" style="background-color:#FFFFFF; width:120px;" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+					<div class="form-group form-margin pull-left">
+						
+						        <label for="" class="lable-one">申请人</label>
+						        <input type="hidden" id="userName" name="applyUser" value=''>
+						        <input type="text" id="realName"  style="background-color:#FFFFFF;width:120px;" readonly="readonly" class="form-control tbspuser" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value=''>
-							
+							    <input type="hidden" id="team" name="toSpv.applyTeam"  value=''>
 					</div>
 					<div class="btn-left btn-left-space" style="margin-left:40px;">
 						<button type="button" id="btn_search" class="btn btn-success mr15">
@@ -126,7 +128,12 @@
                                             </p> -->
 	<!-- main End -->
 
-	<content tag="local_script"> <!-- Peity --> <script
+	<content tag="local_script"> <!-- Peity -->
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
+
+	 <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
@@ -300,7 +307,7 @@
 											.val();
 											params.search_applyUser=$(
 											"input[name='applyUser']")
-											.attr('hVal');
+											.val();
 											params.search_applyTimeStart=null;		
 											params.search_applyTimeEnd=null;
 											params.search_signTimeStart=null;
@@ -408,11 +415,11 @@
 						 */
 						function selectUserBack(array){
 							if(array && array.length >0){
-						        $("#realName").val(array[0].username);
-								$("#realName").attr('hVal',array[0].userId);
+								 $("#realName").val(array[0].username);
+								$("#userName").val(array[0].userId);
 							}else{
-								$("#realName").val("");
-								$("#realName").attr('hVal',"");
+								 $("#realName").val("");
+								$("#userName").val("");
 							}
 						}
 						//初始化
