@@ -80,7 +80,7 @@
 									<dt>申请人</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${applyUser.phone}">${applyUser.realName}</a>
+											data-placement="right" data-content="手机：${applyUser.mobile}">${applyUser.realName}</a>
 									</dd>
 									<dt>风控专员</dt>
 									<dd>
