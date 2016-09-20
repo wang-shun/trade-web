@@ -80,7 +80,7 @@
 									<dt>申请人</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${applyUser.phone}">${applyUser.realName}</a>
+											data-placement="right" data-content="手机：${applyUser.mobile}">${applyUser.realName}</a>
 									</dd>
 									<dt>风控专员</dt>
 									<dd>
@@ -505,7 +505,7 @@
 							<div class="info_box info_box_one col-md-8 ">
 
 												
-												<p><strong>驳回原因</strong> <p>
+												<p><strong>审批记录</strong> <p>
 												<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
                                               ${toApproveRecord.content} 
 												</div>
