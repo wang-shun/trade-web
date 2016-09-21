@@ -5,6 +5,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 /**
  * 签约室控制器
@@ -28,6 +33,8 @@ public class SignRoomController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private RmSignRoomService rmSignRoomService;
+	@Resource
+	ReservationService reservationService;
 
 	/**
 	 * 签约室分配列表
@@ -51,12 +58,25 @@ public class SignRoomController {
 	 */
 	@RequestMapping("/generatePageDate")
 	@ResponseBody
-	public AjaxResponse<Map> generatePageDate(Model model){
+	public AjaxResponse<Map> generatePageDate(Model model,HttpServletRequest requst){
 		SessionUser user= uamSessionService.getSessionUser();
 		String busigrpId  = user.getBusigrpId();//店组
+		
+		String orgId = reservationService.getOrgIdByGrpcode(busigrpId);//返回贵宾服务部id
+		orgId = "d5878adf8b0c4032aeae895c701ed693";
+		String roomType = requst.getParameter("roomType");//房间类型
+		String useStatus = requst.getParameter("useStatus");//使用状态
 		Map map = new HashMap();
-		map.put("busigrpId", busigrpId);
-		map.put("curDate", "2016-10-3");
+		map.put("curDate", requst.getParameter("curDate"));//当前日期
+		if(!StringUtil.isBlank(roomType)){
+			map.put("roomType",roomType);
+		}
+		if(!StringUtil.isBlank(useStatus)){
+			map.put("useStatus", useStatus);
+		}
+		if(!StringUtil.isBlank(orgId)){
+			map.put("orgId", orgId);
+		}
 		AjaxResponse<Map> response =  rmSignRoomService.generatePageDate(map);
 		
 		return response;

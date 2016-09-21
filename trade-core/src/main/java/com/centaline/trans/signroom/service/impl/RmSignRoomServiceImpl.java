@@ -36,18 +36,18 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	public AjaxResponse<Map> generatePageDate(Map map) {
 		AjaxResponse<Map> response = new AjaxResponse<Map>();
 		try{
-			List<RmSignRoom> signRomms =  rmSignRoomMapper.getSignRoomInfos(map);//签约室信息
-			List<RmRoomSchedule> rmRommSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);//排期信息
+			List<RmSignRoom> signRooms =  rmSignRoomMapper.getSignRoomInfos(map);//签约室信息
+			List<RmRoomSchedule> rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);//排期信息
 			List<RmRoomSchedule> rrs = null;
-			if(signRomms!=null && ! signRomms.isEmpty() && rmRommSchedules!=null && !rmRommSchedules.isEmpty()){
-				for(RmSignRoom signRomm:signRomms){
+			if(signRooms!=null && ! signRooms.isEmpty() && rmRoomSchedules!=null && !rmRoomSchedules.isEmpty()){
+				for(RmSignRoom signRoom:signRooms){
 					rrs = new ArrayList<RmRoomSchedule>();
-					for(RmRoomSchedule rmRoomSchedule:rmRommSchedules){
-						if(signRomm.getPkid().equals(rmRoomSchedule.getRoomId())){
+					for(RmRoomSchedule rmRoomSchedule:rmRoomSchedules){
+						if(signRoom.getPkid().equals(rmRoomSchedule.getRoomId())){
 							rrs.add(rmRoomSchedule);
 						}
 					}
-					signRomm.setRmRoomSchedules(rrs);
+					signRoom.setRmRoomSchedules(rrs);
 				}
 				
 			}
@@ -58,7 +58,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 				timeslots = StringUtils.split(timeslot,",");
 			}
 			Map res = new HashMap();
-			res.put("signRomms", signRomms);
+			res.put("signRooms", signRooms);
 			res.put("timeslots", timeslots);
 			
 			response.setContent(res);

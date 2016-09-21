@@ -232,17 +232,34 @@
   </delete>
   
   <select id="getSignRoomInfos" resultMap="BaseResultMap" parameterType="java.util.Map" >
-		SELECT  PKID,DISTINCT R.ROOM_NO,R.ROOM_TYPE,R.ORG_NAME,R.NUMBE_OF_ACCOMMODATE_PEOPLE
+		SELECT  DISTINCT R.PKID, R.ROOM_NO,R.ROOM_TYPE,R.ORG_NAME,R.NUMBE_OF_ACCOMMODATE_PEOPLE
 		FROM    
 		sctrans.T_RM_SIGN_ROOM R INNER JOIN
-		sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID	        
+		sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID	
+		LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID        
 		WHERE   
 			T.IS_DELETE = '0'
 			AND R.IS_DELETE = '0'
 			<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #{curDate}) = 0
 			</if>
-			        
+			<if test="orgId != null">
+				 AND R.ORG_ID = #{orgId}
+			</if>
+			<if test="roomType != null">
+				 AND R.ROOM_TYPE = #{roomType}
+			</if>
+			<if test="useStatus != null">
+			    <choose>
+			      <when test='useStatus == "N"'>
+			      	 AND RTrim(T.USE_STATUS) = 'N'
+			      </when>
+			      <otherwise>
+			         AND S.RES_STATUS = #{useStatus,jdbcType=VARCHAR}
+			      </otherwise>
+			    </choose>
+			</if>
+			  order by R.ROOM_NO      
   </select>
   
   <select id="getTimeSlots" resultType="java.lang.String">

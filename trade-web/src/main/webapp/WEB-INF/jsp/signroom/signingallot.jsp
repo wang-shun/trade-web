@@ -79,7 +79,7 @@
                                         <i class="icon iconfont">&#xe635;</i>
                                        	 查询
                                     </button>
-                                    <button type="button" class="btn btn-grey">
+                                    <button type="button" class="btn btn-grey" id="clearBtn">
                                       	  清空
                                     </button>
                                 </div>
@@ -89,7 +89,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table_content">
-                                <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                                <table class="table table_blue table-striped table-bordered table-hover " id="signRoomTable" >
                                     <thead>
                                         <tr>
                                             <th>
@@ -101,203 +101,9 @@
                                             <th>
                                                 	人数
                                             </th>
-                                            <th>
-                                                08：00-10:00
-                                            </th>
-                                            <th>
-                                                10：00-12:00
-                                            </th>
-                                            <th>
-                                                12：00-14:00
-                                            </th>
-                                            <th>
-                                                14：00-16:00
-                                            </th>
-                                            <th>
-                                                16：00-18:00
-                                            </th>
-                                            <th>
-                                                19：00-21:00
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    SQ-01<em class="yellow_bg ml5">机动</em>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    市区贵宾中心
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    6
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big">已预约</span>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big">已预约</span>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big">已预约</span>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big">已预约</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    SQ-02<em class="yellow_bg ml5">机动</em>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    市区贵宾中心
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    8
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <span class="user_red">使用中</span>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    SQ-03<em class="yellow_bg ml5">机动</em>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    市区贵宾中心
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    10
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    SQ-04<em class="yellow_bg ml5">机动</em>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    市区贵宾中心
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    12
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <span class="user_red">使用中</span>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    SQ-05<em class="yellow_bg ml5">机动</em>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    市区贵宾中心
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    20
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <span class="user_red">使用中</span>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                            <td>
-                                                <span class="grey_no big"></span>已预约
-                                            </td>
-                                        </tr>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -309,13 +115,13 @@
                     <div class="modal-dialog" style="width: 790px;">
                         <div class="modal-content animated fadeIn popup-box">
                             <div class="modal_title">
-                                临时分配
+                                	临时分配
                             </div>
                             <form action="" class="form_list clearfix">
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">
-                                            房间号
+                                          	  房间号
                                         </label>
                                         <div class="pull-left popup-text">
                                                 SQ-01<em class="yellow_bg ml5">机动</em>
@@ -323,7 +129,7 @@
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">
-                                            预约日期
+                                            	预约日期
                                         </label>
                                         <div class="pull-left popup-text">
                                             09/04
@@ -331,7 +137,7 @@
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">
-                                            预约时间
+                                            	预约时间
                                         </label>
                                         <div class="pull-left popup-text">
                                             08:00~10:00
@@ -341,7 +147,7 @@
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
-                                            经纪人用户名
+                                            	经纪人用户名
                                         </label>
                                         <input class="pop-name input_type" placeholder="" value="" />
                                     </div>
@@ -349,14 +155,14 @@
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
-                                            交易地址
+                                            	交易地址
                                         </label>
                                         <select class="select_control sign_right_pop">
                                             <option value="">
-                                                上海市浦东二区
+                                                	上海市浦东二区
                                             </option>
                                             <option value="">
-                                                上海市普陀三区
+                                                	上海市普陀三区
                                             </option>
                                         </select>
                                     </div>
@@ -364,7 +170,7 @@
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
-                                            容纳人数
+                                            	容纳人数
                                         </label>
                                         <input class="pop-name input_type" type="text" placeholder="" value="6" />
                                     </div>
@@ -372,13 +178,13 @@
                                 <div class="line">
                                     <div class="form_content choices">
                                         <label class="control-label sign_left_small">
-                                            办理事项
+                                            	办理事项
                                         </label>
                                         <span name="srvcode" class="text-white mr5 "  value="">
-                                            签合同
+                                            	签合同
                                         </span>
                                         <span name="srvcode" class="text-white mr5 "  value="">
-                                            办贷款
+                                            	办贷款
                                         </span>
                                         <span name="srvcode" class="text-white mr5 "  value="">
                                             e+贷款
@@ -388,10 +194,10 @@
                                 <div class="line">
                                     <div class="add_btn" style="float:left;margin:15px 126px;">
                                         <button type="button" class="btn btn-success">
-                                            分配
+                                           	 分配
                                         </button>
                                         <button type="reset" class="btn btn-grey" data-dismiss="modal">
-                                            关闭
+                                            	关闭
                                         </button>
                                     </div>
                                 </div>
