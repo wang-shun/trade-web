@@ -110,6 +110,8 @@ public class SpvController {
 
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
 		
+		toAccesoryListService.getAccesoryList(request, "SpvApply");
+		
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/saveSpvCase";
@@ -504,6 +506,8 @@ public class SpvController {
 		request.setAttribute("toApproveRecord", toApproveRecord);
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
+		toAccesoryListService.getAccesoryList(request, "SpvApply");
  
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
