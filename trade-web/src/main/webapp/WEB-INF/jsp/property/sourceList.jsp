@@ -172,13 +172,12 @@
 						</div>
 					</form>
 				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div id="sourceList" class="table_content"></div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<div id="sourceList" class="table_content"></div>
 		</div>
 	</div>
 	
