@@ -220,7 +220,7 @@
                                         <td class="text-center"> 
                                         
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != JYFKZY}} disabled="true" {{/if}}                                  
+                                                <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
                                                 data-toggle="dropdown" >操作{{serviceJobCode}}
                                                     <span class="caret"></span>
                                                 </button>
