@@ -13,7 +13,7 @@ $(function () {
     });
     
     $("#clearBtn").click(function(){
-    	$('#roomType').val("");
+    	$('#roomTypeSlot').val("");
     	$('#useStatus').val("");
     });
 })
@@ -21,7 +21,7 @@ $(function () {
 function getParamsValue() {
 	
 	var curDate = $('#curDate').val();
-	var roomType = $('#roomType').val();
+	var roomType = $('#roomTypeSlot').val();
 	var useStatus = $('#useStatus').val();
 	
 	//设置查询参数
@@ -33,12 +33,6 @@ function getParamsValue() {
 	return params;
 }
 
-function goSlotRoom(obj1,obj2,obj3){
-	alert(obj1);
-	alert(obj2);
-	alert(obj3);
-}
-
 function ajaxSubmit(obj) {
 	$("#signRoomTable tbody tr").remove();
 	var params = getParamsValue();
@@ -48,7 +42,6 @@ function ajaxSubmit(obj) {
 		dataType:"json",
 		data : params,
 		success:function(data){
-			console.log(data);
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -63,7 +56,7 @@ function ajaxSubmit(obj) {
 				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].orgName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
 					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N'){
-						  th+="<td><a href='#' onclick='goSlotRoom('+data.content.signRooms[i].roomNo+',"+roomType+","+data.content.signRooms[i].rmRoomSchedules[j].timeSlot+")' class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
+						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot + "')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
@@ -75,10 +68,17 @@ function ajaxSubmit(obj) {
 					  }
 				  }
 				  th+="</tr>";
+				  
 			   }
 			   $("#signRoomTable tbody").append(th);
 		    }
 		}
     });
+}
+
+function goSlotRoom(obj1,obj2,obj3){
+	$("#roomNo").html(obj1);
+	$("#roomType").html(obj2);
+	$("#slotTime").html(obj3);
 }
 

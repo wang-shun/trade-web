@@ -52,7 +52,7 @@
                                     <label class="control-label sign_left_small">
                                         	房间类型
                                     </label>
-                                    <select class="select_control sign_right_one" name="roomType" id="roomType">
+                                    <select class="select_control sign_right_one" name="roomTypeSlot" id="roomTypeSlot">
                                         <option value="">请选择</option>
                                         <option value="0">普通房间</option>
                                         <option value="1">机动房间</option>
@@ -124,7 +124,7 @@
                                           	  房间号
                                         </label>
                                         <div class="pull-left popup-text">
-                                                SQ-01<em class="yellow_bg ml5">机动</em>
+                                                <span id="roomNo" name="roomNo"></span><em class="yellow_bg ml5" id="roomType" name="roomType"></em>
                                         </div>
                                     </div>
                                     <div class="form_content">
@@ -140,7 +140,8 @@
                                             	预约时间
                                         </label>
                                         <div class="pull-left popup-text">
-                                            08:00~10:00
+                                            
+                                            <span id="slotTime" name="slotTime">08:00~10:00</span>
                                         </div>
                                     </div>
                                 </div>
