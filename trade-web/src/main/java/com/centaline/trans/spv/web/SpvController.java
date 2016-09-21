@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.permission.remote.UamPermissionService;
+import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -32,6 +34,7 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
@@ -88,6 +91,9 @@ public class SpvController {
 	ToWorkFlowService flowService;
 	@Autowired
 	ProcessInstanceService processInstanceService;
+	@Autowired
+	private UamPermissionService uamPermissionService;
+	
 	//列表页面
 	@RequestMapping("spvList")
 	public String spvList(HttpServletRequest request){
@@ -110,7 +116,9 @@ public class SpvController {
 
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
 		
-		toAccesoryListService.getAccesoryList(request, "SpvApply");
+		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
+	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
@@ -507,7 +515,9 @@ public class SpvController {
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
-		toAccesoryListService.getAccesoryList(request, "SpvApply");
+		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
+	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());
  
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
@@ -572,6 +582,10 @@ public class SpvController {
 		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
+		
+		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
+	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);		
 		request.setAttribute("taskId", taskId);
@@ -645,6 +659,10 @@ public class SpvController {
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(request,instCode);	
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
+		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
+	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);

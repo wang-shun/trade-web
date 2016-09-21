@@ -58,7 +58,7 @@
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
-	var taskitem = "SpvApply";
+	var taskitem = "SpvApplyApprove";
 	var caseCode = "${caseCode}";
 	var source = "${source}";
 	if ("${idList}" != "") {
