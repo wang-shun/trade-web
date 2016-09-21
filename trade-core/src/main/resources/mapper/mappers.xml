@@ -176,7 +176,10 @@
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />
 		
-		<!-- 产品信息接口 -->
+		<!-- 预约取号信息接口 -->
 		<mapper resource="mapper/signroom/ReservationMapper.xml" />
+		
+		<!-- 交易中心信息接口 -->
+		<mapper resource="mapper/signroom/TradeCenterMapper.xml" />
 	</mappers>
 </configuration>
