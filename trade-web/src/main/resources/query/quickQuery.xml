@@ -163,4 +163,5 @@
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
 	<!-- 金额监管列表 -->
 	<import resource="query/spv/spvList.xml" />
+	<import resource="query/eloan/RiskControlQuery.xml" />
 </queryConfig>
