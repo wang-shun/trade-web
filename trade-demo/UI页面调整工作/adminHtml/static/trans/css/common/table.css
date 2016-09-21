@@ -66,7 +66,27 @@ table.dataTable thead .sorting:after {
 .task-list tr td .case-ctm {
   font-size: 12px;
 }
-
+.blue-block {
+  display: block;
+  float: left;
+  margin-right: 1px;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  padding: 3px 9px;
+  background-color: #428fcc;
+}
+.blue-block:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.blue-block:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.grey-block {
+  background-color: #dcdcdc;
+}
 .sign_blue {
   display: inline-block;
   color: #fff;
@@ -77,6 +97,15 @@ table.dataTable thead .sorting:after {
   margin-right: 5px;
   border-radius: 3px;
   background-color: #52cdec;
+}
+.sign_blue_small {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  padding: 1px 3px;
+  border-radius: 3px;
+  background-color: #428fcc;
 }
 
 .manager {
@@ -159,6 +188,9 @@ table.dataTable thead .sorting:after {
 .grey_no {
   color: #c9c9c9;
 }
+.grey95 {
+  color: #959595;
+}
 .user_red {
   color: #ff5e80;
 }
@@ -204,6 +236,28 @@ table.dataTable thead .sorting:after {
 }
 .selected {
   border: 1px solid #428fcc;
+}
+.textarearoom {
+  width: 678px;
+  height: 100px;
+  max-width: 678px;
+  max-height: 100px;
+  margin-left: 4px;
+  padding:5px 7px;
+  border: 1px solid #e5e6e7;
+  border-radius: 2px;
+  outline:0;
+}
+.textareasmall {
+  width: 462px;
+  height: 100px;
+  max-width: 462px;
+  max-height: 100px;
+  margin-left: 4px;
+  padding:5px 7px;
+  border: 1px solid #e5e6e7;
+  border-radius: 2px;
+  outline:0;
 }
 .tag_sign {
   width: 13px;
@@ -368,6 +422,12 @@ table thead tr th {
   font-style: normal;
   border-radius: 2px;
   background-color: #52cdec;
+}
+.sign_qing_bg {
+  background-color: #19aa8d;
+}
+.sign_blue_bg {
+  background-color: #428fcc;
 }
 
 .sign_grey {
