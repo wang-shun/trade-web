@@ -195,9 +195,9 @@ function setOptions(options, values) {
 			trigger : 'item',
 			formatter : "{a} <br/>{b} : {c} ({d}%)"
 		},
-
-		colors : [ '#f784a5', '#ffad6b', '#52bdbd', '#87d6c6' ],
-
+		
+		color:['#f784a5', '#52bdbd','#ffad6b','#87d6c6'],
+		
 		series : [ {
 			name : '产调来源',
 			type : 'pie',
@@ -353,7 +353,7 @@ function setOptions(options, values) {
 			} ].sort(function(a, b) {
 				return a.value - b.value
 			}),
-			roseType : 'angle',
+			//roseType : 'angle',
 			label : {
 				normal : {
 					textStyle : {
@@ -371,12 +371,12 @@ function setOptions(options, values) {
 					length2 : 20
 				}
 			},
-			itemStyle : {
+			/*itemStyle : {
 				normal : {
-					shadowBlur : 200,
+					shadowBlur : 0,
 					shadowColor : 'rgba(0, 0, 0, 0.5)'
 				}
-			},
+			},*/
 		} ]
 	};
 
