@@ -1094,11 +1094,14 @@ $(document).ready(function(){
     
     //风控申请审批时只读表单
     function readOnlyRiskForm(){
-    	$("input").attr("readOnly",true);
-    	$(":radio").attr("disabled",true);
-    	$("input[name='spvCustList[0].idValiDate']").attr("disabled",true);
-    	$("input[name='spvCustList[1].idValiDate']").attr("disabled",true);
-    	$("select").attr("disabled",true);
+    	$("input").prop("readOnly",true);
+    	$(":radio").prop("disabled",true);
+    	$("input[name='spvCustList[0].idValiDate']").prop("disabled",true);
+    	$("input[name='spvCustList[1].idValiDate']").prop("disabled",true);
+    	$("select").prop("disabled",true);
+    	$("#realName").prop("disabled",true);
+    	$("input[id^=picFileupload]").prop("disabled",true);
+    	$("img").prop("disabled",true);
     }
     
     function getParentBank(selector,selectorBranch,finOrgCode){

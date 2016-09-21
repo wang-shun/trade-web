@@ -1022,39 +1022,29 @@
 					$("input[name='toSpvAccountList[3].account']").val("457263590104");
 					break;
 				}
-			});
+			}).change();
 			
-			$("select[name='toSpvAccountList[3].name']").change();
-
 			$("input[name='toSpv.amount']").blur(function(){
 				$("#amountDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountOwn']").blur(function(){
 				$("#amountOwnDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountMort']").blur(function(){
 				$("#amountMortDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountMortCom']").blur(function(){
 				$("#amountMortComDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountMortPsf']").blur(function(){
 				$("#amountMortPsfDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpvProperty.signAmount']").blur(function(){
 				$("#signAmountDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpvProperty.leftAmount']").blur(function(){
 				$("#leftAmountDX").val(DX($(this).val()*10000));
-			});			
-	 			
-			$("input[name='toSpv.amount']").blur();
-			$("input[name='toSpv.amountOwn']").blur();
-			$("input[name='toSpv.amountMort']").blur();
-			$("input[name='toSpv.amountMortCom']").blur();
-			$("input[name='toSpv.amountMortPsf']").blur();
-			$("input[name='toSpvProperty.signAmount']").blur();
-			$("input[name='toSpvProperty.leftAmount']").blur();
+			}).blur();			
 			
 	       	getParentBank($("#bank_1"),$("select[name='toSpvAccountList[1].bank']"),'${spvBaseInfoVO.toSpvAccountList[1].bank }');
 	       	getParentBank($("#bank_0"),$("select[name='toSpvAccountList[0].bank']"),'${spvBaseInfoVO.toSpvAccountList[0].bank }');
