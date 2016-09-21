@@ -24,6 +24,8 @@ public class RmRoomSchedule implements Serializable {
 	private String createBy;// 创建人
 	private Date updateTime;// 更新时间
 	private String updateBy;// 更新人
+	
+	private String timeSlot;//时间段
 
 	public Long getPkid() {
 		return pkid;
@@ -120,5 +122,15 @@ public class RmRoomSchedule implements Serializable {
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
 	}
+
+	public String getTimeSlot() {
+		return timeSlot;
+	}
+
+	public void setTimeSlot(String timeSlot) {
+		this.timeSlot = timeSlot;
+	}
+	
+	
 
 }

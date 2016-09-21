@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf" %>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include> 
+<html>
+<head>
+<meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>
+            签约室分配
+        </title>
+        <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+        <link href="${ctx}/css/animate.css" rel="stylesheet"/>
+        <link href="${ctx}/css/style.css" rel="stylesheet"/>
+        <!-- Data Tables -->
+        <link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+        <link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet"/>
+        <link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet"/>
+        <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+         <!-- index_css -->
+        <link rel="stylesheet" href="${ctx}/css/common/base.css" />
+        <link rel="stylesheet" href="${ctx}/css/common/table.css" />
+        <link rel="stylesheet" href="${ctx}/css/common/input.css" />
+        <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
+</head>
+<body>
+<!--*********************** HTML_main*********************** -->
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="ibox-content border-bottom clearfix space_box">
+                        <h2 class="title">
+                            	签约室分配
+                        </h2>
+                        <form method="get" class="form_list">
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small select_style mend_select">
+                                       	 时间
+                                    </label>
+                                    <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd" >
+                                        <input name="curDate" id="curDate" class=" data_style input_type" type="text" value="${curDate }" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        	房间类型
+                                    </label>
+                                    <select class="select_control sign_right_one" name="roomType" id="roomType">
+                                        <option value="">请选择</option>
+                                        <option value="0">普通房间</option>
+                                        <option value="1">机动房间</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        	状态
+                                    </label>
+                                    <select class="select_control sign_right_one" name="useStatus" id="useStatus">
+                                        <option value="">请选择</option>
+                                        <option value="N">空置</option>
+                                        <option value="0">预约中</option>
+                                        <option value="1">已过期</option>
+                                        <option value="2">已使用</option>
+                                        <option value="3">使用中</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line">
+
+                                <div class="add_btn" style="float:left;margin-left:126px;">
+                                    <button type="button" class="btn btn-success" id="searchBtn">
+                                        <i class="icon iconfont">&#xe635;</i>
+                                       	 查询
+                                    </button>
+                                    <button type="button" class="btn btn-grey">
+                                      	  清空
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table_content">
+                                <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                	房间号
+                                            </th>
+                                            <th>
+                                                	归属贵宾服务部
+                                            </th>
+                                            <th>
+                                                	人数
+                                            </th>
+                                            <th>
+                                                08：00-10:00
+                                            </th>
+                                            <th>
+                                                10：00-12:00
+                                            </th>
+                                            <th>
+                                                12：00-14:00
+                                            </th>
+                                            <th>
+                                                14：00-16:00
+                                            </th>
+                                            <th>
+                                                16：00-18:00
+                                            </th>
+                                            <th>
+                                                19：00-21:00
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    SQ-01<em class="yellow_bg ml5">机动</em>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    市区贵宾中心
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    6
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big">已预约</span>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big">已预约</span>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big">已预约</span>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big">已预约</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    SQ-02<em class="yellow_bg ml5">机动</em>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    市区贵宾中心
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    8
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <span class="user_red">使用中</span>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    SQ-03<em class="yellow_bg ml5">机动</em>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    市区贵宾中心
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    10
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    SQ-04<em class="yellow_bg ml5">机动</em>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    市区贵宾中心
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    12
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <span class="user_red">使用中</span>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    SQ-05<em class="yellow_bg ml5">机动</em>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    市区贵宾中心
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    20
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <span class="user_red">使用中</span>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <a href="#" class="underline big" data-toggle="modal" data-target="#myModal">空置</a>
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                            <td>
+                                                <span class="grey_no big"></span>已预约
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
+                    <div class="modal-dialog" style="width: 790px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                                临时分配
+                            </div>
+                            <form action="" class="form_list clearfix">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            房间号
+                                        </label>
+                                        <div class="pull-left popup-text">
+                                                SQ-01<em class="yellow_bg ml5">机动</em>
+                                        </div>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            预约日期
+                                        </label>
+                                        <div class="pull-left popup-text">
+                                            09/04
+                                        </div>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            预约时间
+                                        </label>
+                                        <div class="pull-left popup-text">
+                                            08:00~10:00
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            经纪人用户名
+                                        </label>
+                                        <input class="pop-name input_type" placeholder="" value="" />
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            交易地址
+                                        </label>
+                                        <select class="select_control sign_right_pop">
+                                            <option value="">
+                                                上海市浦东二区
+                                            </option>
+                                            <option value="">
+                                                上海市普陀三区
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            容纳人数
+                                        </label>
+                                        <input class="pop-name input_type" type="text" placeholder="" value="6" />
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content choices">
+                                        <label class="control-label sign_left_small">
+                                            办理事项
+                                        </label>
+                                        <span name="srvcode" class="text-white mr5 "  value="">
+                                            签合同
+                                        </span>
+                                        <span name="srvcode" class="text-white mr5 "  value="">
+                                            办贷款
+                                        </span>
+                                        <span name="srvcode" class="text-white mr5 "  value="">
+                                            e+贷款
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="add_btn" style="float:left;margin:15px 126px;">
+                                        <button type="button" class="btn btn-success">
+                                            分配
+                                        </button>
+                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                </div>
+                <!--*********************** HTML_main*********************** -->
+                
+ <!-- Mainly scripts -->
+ <content tag="local_script"> 
+        <script src="${ctx}/js/jquery-2.1.1.js"></script>
+        <script src="${ctx}/js/bootstrap.min.js"></script>
+        <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- Custom and plugin javascript -->
+        <script src="${ctx}/js/inspinia.js"></script>
+        <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+
+        <script src="${ctx}/transjs/signing/siging.js"></script>
+        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('.input-daterange').datepicker({
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    autoclose: true
+                });
+            });
+        </script>
+</content>
+</body>
+</html>
