@@ -11,7 +11,22 @@
 <meta name="viewpoart" content="width=device-width, initial-scale=1.0">
 
 <title>监管合约</title>
-
+<!-- 上传相关 -->
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	rel="stylesheet">
+<!-- 展示相关 -->
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+	rel="stylesheet">
+<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<!-- 备件相关结束 -->
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css"
 	rel="stylesheet">
@@ -41,6 +56,17 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <!-- stickUp fixed css -->
+<script type="text/javascript">
+	var ctx = "${ctx}";
+	var taskitem = "SpvApplyApprove";
+	var caseCode = "${caseCode}";
+	var source = "${source}";
+	if ("${idList}" != "") {
+		var idList = eval("(" + "${idList}" + ")");
+	} else {
+		var idList = [];
+	}
+</script>
 <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
@@ -54,6 +80,7 @@
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+		<input type="hidden" id="taskitem" name="taskitem" value="${taskitem }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="source" value="${urlType}">
@@ -65,6 +92,7 @@
 				<li class="menuItem"><a href="#spvone_info">房产及交易信息</a></li>
 				<li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
+				<li class="menuItem"><a href="#spvfour_info">上传备件</a></li>
 			</ul>
 			<c:if test="${empty handle or handle eq 'SpvApply'}">
 			<div class="menu_btn"
@@ -688,7 +716,137 @@
 								  </c:if>
 								</tbody>					
 							</table>							
-							
+						</div>
+					</form>
+				</div>
+				
+				<div class="ibox-content" id="spvfour_info" >
+				<div class="ibox-title" style="height: auto;">
+				<c:choose>
+					<c:when test="${accesoryList!=null}">
+						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
+						<c:forEach var="accesory" items="${accesoryList}"
+							varStatus="status">
+							<div class="" id="fileupload_div_pic">
+								<form id="fileupload"
+									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect"
+											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.accessoryCode }">
+									</noscript>
+									<c:if test="${status.index != 0}">
+										<h5 align="left">
+											<br>${accesory.accessoryName }</h5>
+									</c:if>
+									<div class="row-fluid fileupload-buttonbar">
+										<div class="" style="height: auto">
+											<div role="presentation" class="table table-striped "
+												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+												<div id="picContainer${accesory.pkid }" class="files"
+													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<span class=" fileinput-button "
+													style="margin-left: 10px !important; width: 80px;">
+													<div id="chandiaotuBtn" class=""
+														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+														<i class="fa fa-plus"></i>
+													</div> <input id="picFileupload${accesory.pkid }" type="file"
+													name="files[]" multiple
+													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													data-sequential-uploads="true">
+												</span>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+		
+							<div class="row-fluid">
+								<div class="">
+									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+									<!--图片缩图  -->
+							        <div class="preview"><span class="fade"></span></div>
+									<!--  错误信息 -->
+							        {% if (file.error) { %}
+							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else if (o.files.valid && !i) { %}
+									<!-- 单个对应的按钮  -->
+							            <div class="start span1" style="display: none">
+										{% if (!o.options.autoUpload) { %}
+							                <button class="btn">
+							                    <i class="icon-upload icon-white"></i>
+							                    <span>上传</span>
+							                </button>
+							            {% } %}
+										</div>
+							        {% } else { %}
+							            <div class="span1" colspan="2"></div>
+							        {% } %}
+							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
+									{% if (!i) { %}
+							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        {% } %}
+									</div>
+							    </div>
+							{% } %}
+						</script>
+									<script id="templateDownload${accesory.pkid }"
+										type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							        {% if (file.error) { %}
+							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else { %}
+							            <div class="preview span12">
+										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
+										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
+										<input type="hidden" name="picName" value="{%=file.name%}"></input>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}</div>
+							        {% } %}
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        </div>
+							    </div>
+							{% } %}
+						</script>
+								</div>
+							</div>
+						</c:forEach>
+		
+						<div class="row-fluid" style="display: none;">
+							<div class="span4">
+								<div class="control-group">
+									<a class="btn blue start" id="startUpload"
+										style="height: 30px; width: 50px"> <i
+										class="icon-upload icon-white"></i> <span>上传</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<h5>
+							上传备件<br>无需上传备件
+						</h5>
+					</c:otherwise>
+				</c:choose>
+		        </div>
+				</div>
+				<div class="ibox-content" id="spvthree_info" >			
 							<div class="form-btn">
 							<input type="hidden" id="handle" name="handle" value="${handle }">							
 							<c:if test="${handle eq 'SpvApply' }">
@@ -720,8 +878,6 @@
 								</div>
 							</c:if>			
 							</div>
-						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -740,6 +896,27 @@
 		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
 	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> <script
 		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+			
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script

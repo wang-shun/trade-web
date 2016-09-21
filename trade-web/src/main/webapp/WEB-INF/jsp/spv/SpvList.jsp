@@ -100,7 +100,7 @@
 						        <input type="hidden" id="userName" name="applyUser" value=''>
 						        <input type="text" id="realName"  style="background-color:#FFFFFF;width:120px;" readonly="readonly" class="form-control tbspuser" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value=''>
-							    <input type="hidden" id="team" name="toSpv.applyTeam"  value=''>
+
 					</div>
 					<div class="btn-left btn-left-space" style="margin-left:40px;">
 						<button type="button" id="btn_search" class="btn btn-success mr15">
@@ -214,16 +214,17 @@
 												 <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
+                                                <a href="#"><em>经办人{{}}：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"> 
                                         
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle"                                                  
-                                                data-toggle="dropdown" >操作
+                                                <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
+                                                data-toggle="dropdown" >操作{{serviceJobCode}}
                                                     <span class="caret"></span>
                                                 </button>
+                                               
                                                 <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                                     <shiro:hasPermission name="TRADE.SPV.UPDATE">
 												 		{{if item.STATUS==0&&item.applyTime==undefined}}
@@ -256,7 +257,7 @@
 						var params = {
 							page : 1,
 							sessionUserId : $("#userId").val(),
-							servicDepId : $("#serviceDepId").val(),
+							serviceDepId : $("#serviceDepId").val(),
 							serviceJobCode : $("#serviceJobCode").val(),
 							serviceDepHierarchy : $("#serviceDepHierarchy")
 									.val()
@@ -355,6 +356,7 @@
 												templeteId : 'queryMortgageApproveLost',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,
+												wrapperData : {job : $("#serviceJobCode").val()},
 												columns : [
 										/* 				{
 															colName : ""
