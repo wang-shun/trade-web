@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 签约室(T_RM_SIGN_ROOM)
@@ -29,6 +30,8 @@ public class RmSignRoom implements Serializable {
 	private String createBy;// 创建人
 	private Date updateTime;// 更新时间
 	private String updateBy;// 更新人
+	
+	private List<RmRoomSchedule> rmRoomSchedules;//签约室对应的排期
 
 	public Long getPkid() {
 		return pkid;
@@ -157,5 +160,15 @@ public class RmSignRoom implements Serializable {
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
 	}
+
+	public List<RmRoomSchedule> getRmRoomSchedules() {
+		return rmRoomSchedules;
+	}
+
+	public void setRmRoomSchedules(List<RmRoomSchedule> rmRoomSchedules) {
+		this.rmRoomSchedules = rmRoomSchedules;
+	}
+	
+	
 
 }

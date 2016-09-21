@@ -76,6 +76,6 @@
         AND ROOM_ID = #{roomId,jdbcType=BIGINT},
       </if>
     </where>
-  </update>
+  </update>  
 
 </mapper>

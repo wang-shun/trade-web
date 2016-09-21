@@ -231,4 +231,29 @@
     delete from sctrans.T_RM_SIGN_ROOM where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   
+  <select id="getSignRoomInfos" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		SELECT  PKID,DISTINCT R.ROOM_NO,R.ROOM_TYPE,R.ORG_NAME,R.NUMBE_OF_ACCOMMODATE_PEOPLE
+		FROM    
+		sctrans.T_RM_SIGN_ROOM R INNER JOIN
+		sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID	        
+		WHERE   
+			T.IS_DELETE = '0'
+			AND R.IS_DELETE = '0'
+			<if test="curDate != null">
+				 AND DATEDIFF(DAY, T.START_DATE, #{curDate}) = 0
+			</if>
+			        
+  </select>
+  
+  <select id="getTimeSlots" resultType="java.lang.String">
+  		SELECT  v.value as timeSlot
+FROM    [sctrans].SYS_PARAM_DEFINE d
+        LEFT JOIN [sctrans].SYS_PARAM_VALUE v ON d.id = v.DEF_ID
+WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
+  </select>
+  
+  
+  
+  
+  
 </mapper>

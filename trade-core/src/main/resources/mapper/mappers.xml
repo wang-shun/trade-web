@@ -178,5 +178,9 @@
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/signroom/ReservationMapper.xml" />
+		
+		<!-- 签约室 -->
+		<mapper resource="mapper/signroom/RmRoomScheduleMapper.xml" />
+		<mapper resource="mapper/signroom/RmSignRoomMapper.xml" />
 	</mappers>
 </configuration>

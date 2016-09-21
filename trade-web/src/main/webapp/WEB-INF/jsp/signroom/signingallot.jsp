@@ -45,14 +45,14 @@
                                        	 时间
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd" >
-                                        <input name="" class=" data_style input_type" type="text" value="" placeholder="">
+                                        <input name="curDate" id="curDate" class=" data_style input_type" type="text" value="${curDate }" placeholder="">
                                     </div>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         	房间类型
                                     </label>
-                                    <select class="select_control sign_right_one">
+                                    <select class="select_control sign_right_one" name="roomType" id="roomType">
                                         <option value="">请选择</option>
                                         <option value="0">普通房间</option>
                                         <option value="1">机动房间</option>
@@ -62,7 +62,7 @@
                                     <label class="control-label sign_left_small">
                                         	状态
                                     </label>
-                                    <select class="select_control sign_right_one">
+                                    <select class="select_control sign_right_one" name="useStatus" id="useStatus">
                                         <option value="">请选择</option>
                                         <option value="N">空置</option>
                                         <option value="0">预约中</option>
@@ -75,7 +75,7 @@
                             <div class="line">
 
                                 <div class="add_btn" style="float:left;margin-left:126px;">
-                                    <button type="button" class="btn btn-success">
+                                    <button type="button" class="btn btn-success" id="searchBtn">
                                         <i class="icon iconfont">&#xe635;</i>
                                        	 查询
                                     </button>

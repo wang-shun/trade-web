@@ -1,9 +1,11 @@
 package com.centaline.trans.signroom.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
+import com.centaline.trans.signroom.entity.RmSignRoom;
 
 @MyBatisRepository
 public interface RmRoomScheStragegyMapper {
@@ -34,5 +36,5 @@ public interface RmRoomScheStragegyMapper {
      * @return
      */
     int updateRmRoomScheStragegy(RmRoomScheStragegy record);
-
+    
 }

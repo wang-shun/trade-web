@@ -6,6 +6,25 @@ $(function () {
             $(this).addClass("selected");
         }
 
-    })
+    });
+    
+    $.ajax({
+		url:ctx+"/signroom/generatePageDate",
+		method:"post",
+		dataType:"json",
+		data:{
+			curDate : $("#curDate").val()
+		},
+		success:function(data){
+			alert(JSON.stringify(data));
+			console.log(data);
+			
+		}
+	});
+    
+    
+    
+    
+    
 })
 

@@ -1,6 +1,7 @@
 package com.centaline.trans.signroom.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.signroom.entity.RmSignRoom;
@@ -31,5 +32,17 @@ public interface RmSignRoomMapper {
 	 * @return
 	 */
 	List<RmSignRoom> findRmSignRooms(RmSignRoom rmSignRoom);
+	
+	/**
+     * 获取某天某个贵宾服务部下的房间信息
+     * @param map
+     * @return
+     */
+    List<RmSignRoom> getSignRoomInfos(Map map);
+    
+    /**
+     * 获取排期时间段
+     */
+    String getTimeSlots();
 
 }
