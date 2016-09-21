@@ -76,9 +76,9 @@
 								<select name="searchEloanRiskType" id="eloanRiskType"
 									class="select_control sign_right_one">
 									<option value="" selected="selected">请选择</option>
-									<option value="0">押卡</option>
-									<option value="1">抵押</option>
-									<option value="2">强制公正</option>
+									<option value="card">押卡</option>
+									<option value="mortgage">抵押</option>
+									<option value="forceRegister">强制公正</option>
 								</select>
 							</div>
 						</div>
@@ -115,8 +115,11 @@
 
 						<div class="line">
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 贷款归属组织 </label> 
-								<input class="teamcode input_type" id="exeTeam" name="searchExeTeam" placeholder="" value="" />
+								<label class="control-label sign_left_small"> 贷款归属组织 </label> <input
+									class="teamcode input_type" type="text" id="exeTeam"
+									name="searchExeTeam" readonly="readonly"
+										   onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
+										   hVal="" placeholder="" value="" />
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont">&#xe61b;</i>
 								</div>
@@ -266,10 +269,17 @@
 	</script>
 	    
 	<script>
-	
-		/* function submitForm(){
-			$('#sourceForm').submit();
-		} */
+		
+		 // 清空搜索内容
+		$('#cleanBtn').click(function() {
+			$("input[name='searchEloanCode']").val('');
+			$("select[name='searchEloanRiskType']").val('');
+			$("select[name='searchEloanChooseRole']").val('');
+			$("input[name='searchEloanName']").val('');
+			$('input[name="searchStartTime"]').val('');
+			$("input[name='searchEndTime']").val('');
+			$("input[name='searchExeTeam']").val('');
+		});
 	    
 		$(document).ready(function () {
 
