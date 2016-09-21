@@ -211,6 +211,12 @@
 					    <when test="USER_JOBCODE=='consultant' ">
 							AND RCDATA.EXECUTORID = #userId#
 					    </when>
+					    <when test="USER_JOBCODE=='JYFKZY' ">
+							AND RCDATA.RCEXEID = #userId#
+					    </when>
+					    <when test="USER_JOBCODE=='JPKZG' ">
+							AND 1=1
+					    </when>
 					    <otherwise>
 					    	AND 1=0
 					    </otherwise>
