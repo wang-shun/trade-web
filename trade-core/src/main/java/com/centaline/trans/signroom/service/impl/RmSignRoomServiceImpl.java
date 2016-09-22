@@ -8,14 +8,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
+import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
+import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 
 /**
@@ -30,6 +31,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	RmSignRoomMapper rmSignRoomMapper;
 	@Resource
 	RmRoomScheduleMapper rmRoomScheduleMapper;
+	@Resource
+	TradeCenterMapper tradeCenterMapper;
 	
 
 	@Override
@@ -73,6 +76,84 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		}
 		
 		return response;
+	}
+
+
+	@Override
+	public List<TradeCenter> getTradeCenters() {
+		return tradeCenterMapper.getTradeCenterList();
+	}
+
+
+	@Override
+	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(Map map) {
+		AjaxResponse<List<RmSignRoom>> response = new AjaxResponse<List<RmSignRoom>>();
+		List<RmSignRoom> rmSignRooms = rmSignRoomMapper.getRmSignRoomAndStragegy(map);
+		try{
+			if(rmSignRooms!=null && !rmSignRooms.isEmpty()){
+				for(RmSignRoom rmSignRoom:rmSignRooms){
+					generateSchedule(rmSignRoom);
+				}
+			}
+			response.setCode("400");
+			response.setMessage("签约室配置管理列表查询成功！");
+			response.setContent(rmSignRooms);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("签约室配置管理列表查询失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
+	
+	/**
+	 * 根据策略值生成星期几
+	 * @param rmSignRoom
+	 * @return
+	 */
+	public RmSignRoom generateSchedule(RmSignRoom rmSignRoom){
+		
+		Long stragegyWeekVal = rmSignRoom.getStragegyWeekVal();
+		
+		Map map = new HashMap();
+		if((stragegyWeekVal&(int)Math.pow(2, 1))>0){
+			map.put("1", true);
+		}else{
+			map.put("1", false);
+		}
+		if((stragegyWeekVal&(int)Math.pow(2, 2))>0){
+			map.put("2", true);
+		}else{
+			map.put("2", false);
+		}
+		if((stragegyWeekVal&(int)Math.pow(2, 3))>0){
+			map.put("3", true);
+		}else{
+			map.put("3", false);
+		}
+		if((stragegyWeekVal&(int)Math.pow(2, 4))>0){
+			map.put("4", true);
+		}else{
+			map.put("4", false);
+		}
+		if((stragegyWeekVal&(int)Math.pow(2, 5))>0){
+			map.put("5", true);
+		}else{
+			map.put("5", false);
+		}
+		if((stragegyWeekVal&(int)Math.pow(2, 6))>0){
+			map.put("6", true);
+		}else{
+			map.put("6", false);
+		}
+		if((stragegyWeekVal&(int)Math.pow(2, 7))>0){
+			map.put("7", true);
+		}else{
+			map.put("7", false);
+		}
+		rmSignRoom.setWeeks(map);
+		return rmSignRoom;
 	}
 
 }

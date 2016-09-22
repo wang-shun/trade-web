@@ -71,6 +71,8 @@ function ajaxSubmit(obj) {
 				  
 			   }
 			   $("#signRoomTable tbody").append(th);
+		    }else{
+		    	alert(data.message);
 		    }
 		}
     });

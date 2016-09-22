@@ -3,6 +3,7 @@ package com.centaline.trans.signroom.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 签约室(T_RM_SIGN_ROOM)
@@ -32,6 +33,12 @@ public class RmSignRoom implements Serializable {
 	private String updateBy;// 更新人
 	
 	private List<RmRoomSchedule> rmRoomSchedules;//签约室对应的排期
+	
+	private Long stragegyPkid;//策略值pkid
+	private Long stragegyWeekVal;//策略值
+	private Map weeks;//测量值对应选中的星期几
+	
+	
 
 	public Long getPkid() {
 		return pkid;
@@ -168,6 +175,34 @@ public class RmSignRoom implements Serializable {
 	public void setRmRoomSchedules(List<RmRoomSchedule> rmRoomSchedules) {
 		this.rmRoomSchedules = rmRoomSchedules;
 	}
+
+	public Long getStragegyPkid() {
+		return stragegyPkid;
+	}
+
+	public void setStragegyPkid(Long stragegyPkid) {
+		this.stragegyPkid = stragegyPkid;
+	}
+
+	public Long getStragegyWeekVal() {
+		return stragegyWeekVal;
+	}
+
+	public void setStragegyWeekVal(Long stragegyWeekVal) {
+		this.stragegyWeekVal = stragegyWeekVal;
+	}
+
+	public Map getWeeks() {
+		return weeks;
+	}
+
+	public void setWeeks(Map weeks) {
+		this.weeks = weeks;
+	}
+
+	
+	
+	
 	
 	
 

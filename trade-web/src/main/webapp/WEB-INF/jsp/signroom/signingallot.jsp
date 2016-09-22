@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <!--*********************** HTML_main*********************** -->
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">

@@ -44,5 +44,10 @@ public interface RmSignRoomMapper {
      * 获取排期时间段
      */
     String getTimeSlots();
+    /**
+     * 获取签约室信息及策略值
+     * @return
+     */
+    List<RmSignRoom> getRmSignRoomAndStragegy(Map map);
 
 }

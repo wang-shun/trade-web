@@ -18,6 +18,8 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="stragegyPkid" property="stragegyPkid" jdbcType="BIGINT" />
+    <result column="stragegyWeekVal" property="stragegyWeekVal" jdbcType="BIGINT" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -269,6 +271,39 @@ FROM    [sctrans].SYS_PARAM_DEFINE d
 WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
   </select>
   
+    <select id="getRmSignRoomAndStragegy" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		SELECT  T.PKID,
+        T.ROOM_TYPE,
+        T.ROOM_NO,
+        T.TRADE_CENTER,
+        T.TRADE_CENTER_ID,
+        T.ORG_ID,
+        T.ORG_NAME,
+        T.NUMBE_OF_ACCOMMODATE_PEOPLE,
+        T.REMARK,
+        T.CLOSE_TIME,
+        T.ROOM_STATUS ,
+        T.IS_DELETE,
+        T.CREATE_TIME ,
+        T.CREATE_BY ,
+        T.UPDATE_TIME,
+        T.UPDATE_BY ,
+        R.PKID AS stragegyPkid,
+        R.STRAGEGY_WEEK_VAL AS stragegyWeekVal
+FROM    [sctrans].[T_RM_SIGN_ROOM] T
+        INNER JOIN [sctrans].T_RM_ROOM_SCHE_STRAGEGY R ON T.PKID = R.ROOM_ID
+        <where>
+          <if test="orgId!=null">
+          	T.ORG_ID = #{orgId}
+          </if>
+          <if test="roomType!=null">
+          	AND T.ROOM_TYPE = #{roomType}
+          </if>
+          <if test="roomStatus!=null">
+          	AND T.ROOM_STATUS = #{roomStatus}
+          </if>
+        </where>
+  </select>
   
   
   
