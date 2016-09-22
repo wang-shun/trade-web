@@ -128,7 +128,13 @@ public class SignRoomController {
 	@ResponseBody
 	public AjaxResponse<T> addOrUpdateSignRoom(Model model,HttpServletRequest requst,RmSignRoom rmSignRoom){
 		SessionUser user= uamSessionService.getSessionUser();
+		
 		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			rmSignRoomService.saveOrUpdateSignRoomSchedual(rmSignRoom);
+		}catch(Exception e){
+			
+		}
 		
 		return response;
 	}

@@ -6,7 +6,7 @@
     <result column="ROOM_TYPE" property="roomType" jdbcType="VARCHAR" />
     <result column="ROOM_NO" property="roomNo" jdbcType="VARCHAR" />
     <result column="TRADE_CENTER" property="tradeCenter" jdbcType="NVARCHAR" />
-    <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="CHAR" />
+    <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="BIGINT" />
     <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
     <result column="ORG_NAME" property="orgName" jdbcType="NVARCHAR" />
     <result column="NUMBE_OF_ACCOMMODATE_PEOPLE" property="numbeOfAccommodatePeople" jdbcType="INTEGER" />

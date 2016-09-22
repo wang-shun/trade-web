@@ -11,9 +11,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.repository.RmRoomScheStragegyMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
@@ -33,6 +35,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	RmRoomScheduleMapper rmRoomScheduleMapper;
 	@Resource
 	TradeCenterMapper tradeCenterMapper;
+	@Resource
+	RmRoomScheStragegyMapper rmRoomScheStragegyMapper;
 	
 
 	@Override
@@ -154,6 +158,38 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		}
 		rmSignRoom.setWeeks(map);
 		return rmSignRoom;
+	}
+
+
+	@Override
+	public void saveOrUpdateSignRoomSchedual(RmSignRoom rmSignRoom) {
+		
+		Long pkid = rmSignRoom.getPkid();
+		Map map = new HashMap();
+		map.put("orgId", rmSignRoom.getOrgId());
+		TradeCenter  tradeCenter  =tradeCenterMapper.getTradeCenter(map);//获取签约中心信息
+		if(tradeCenter!=null){
+			rmSignRoom.setTradeCenter(tradeCenter.getCenterName());
+			rmSignRoom.setTradeCenterId(tradeCenter.getPkid());
+		}
+		
+		if(pkid!=null){
+			
+			rmSignRoomMapper.updateRmSignRoom(rmSignRoom);
+			RmRoomScheStragegy rmRoomScheStragegy = new RmRoomScheStragegy();
+			rmRoomScheStragegy.setRoomId(pkid);
+			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom.getStragegyWeekVal());
+			rmRoomScheStragegyMapper.updateRmRoomScheStragegy(rmRoomScheStragegy);
+			
+		}else{
+			rmSignRoomMapper.addRmSignRoom(rmSignRoom);
+			RmRoomScheStragegy rmRoomScheStragegy = new RmRoomScheStragegy();
+			rmRoomScheStragegy.setRoomId(rmSignRoom.getPkid());
+			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom.getStragegyWeekVal());
+			rmRoomScheStragegyMapper.insertSelective(rmRoomScheStragegy);
+		}
+		
+		
 	}
 
 }

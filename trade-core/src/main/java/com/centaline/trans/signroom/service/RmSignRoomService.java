@@ -27,5 +27,11 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	AjaxResponse<List<RmSignRoom>> signRoomShedualList(Map map);
+	
+	/**
+	 * 保存和更新签约室及策略值信息
+	 * @param rmSignRoom
+	 */
+	void saveOrUpdateSignRoomSchedual(RmSignRoom rmSignRoom);
 
 }

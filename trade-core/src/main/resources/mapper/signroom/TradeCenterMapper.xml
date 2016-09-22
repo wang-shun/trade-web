@@ -18,4 +18,18 @@
     from sctrans.T_RM_TRADE_CENTER
   </select>
   
+  <select id="getTradeCenter" resultType="com.centaline.trans.signroom.entity.TradeCenter" parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_RM_TRADE_CENTER
+    <where>
+       <if test="pkid!=null">
+           PKID = #{pkid}
+       </if>
+    	<if test="orgId!=null">
+           AND  ORG_ID = #{orgId}
+       </if>
+    </where>
+  </select>
+  
 </mapper>
