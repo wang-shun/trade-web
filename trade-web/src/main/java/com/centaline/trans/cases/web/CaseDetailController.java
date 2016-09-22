@@ -1526,6 +1526,15 @@ public class CaseDetailController {
 		}
 		ToPropertyResearchVo vo = new ToPropertyResearchVo();
 		vo.setCaseCode(caseCode);
+		
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepId(user.getServiceDepId());
+		//记录产调申请人的组织
+		if(pro != null){
+			vo.setPrApplyDepId(pro.getPrApplyDepId());
+			vo.setPrApplyDepName(pro.getPrApplyDepName());
+		}
+		
 		// 产调项目
 		StringBuffer prCat = new StringBuffer();
 		for (String prCode : prItems) {

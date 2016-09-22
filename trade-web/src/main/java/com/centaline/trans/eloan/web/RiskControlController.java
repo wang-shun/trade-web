@@ -103,6 +103,16 @@ public class RiskControlController {
 		return "/eloan/guarantycards";
 	}
 	
+	//只读押卡信息
+	@RequestMapping("guarantycardsvonly")
+	public String guarantycardsvonly(Long pkid, Model model) {
+		getDetailByPkId(pkid, model);
+		ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
+		ToRcMortgageCardVO toRcMortgageCardVO = toRcMortgageService.getRcMortgageCardInfoByProperty("card", eloanCase.getEloanCode());
+		model.addAttribute("toRcMortgageCardVO", toRcMortgageCardVO);
+		return "/eloan/guarantycardsvonly";
+	}
+	
 	//抵押
 	@RequestMapping("guarantymortgage")
 	public String guarantymortgage(Long pkid, Model model) {
@@ -112,7 +122,17 @@ public class RiskControlController {
 		model.addAttribute("toRcMortgageVO", toRcMortgageVO);
 		return "/eloan/guarantymortgage";
 	}
-	
+
+	//只读抵押信息
+	@RequestMapping("guarantymortgagevonly")
+	public String guarantymortgagevonly(Long pkid, Model model) {
+		getDetailByPkId(pkid, model);
+		ToEloanCase eloanCase = toEloanCaseService.getToEloanCaseByPkId(pkid);
+		ToRcMortgageVO toRcMortgageVO = toRcMortgageService.getMortgageByProperty("mortgage", eloanCase.getEloanCode());
+		model.addAttribute("toRcMortgageVO", toRcMortgageVO);
+		return "/eloan/guarantymortgagevonly";
+	}
+
 	//强制公正
 	@RequestMapping("guarantyfair")
 	public String guarantyfair(Long pkid,HttpServletRequest request, Model model) {
@@ -126,12 +146,28 @@ public class RiskControlController {
 		model.addAttribute("rcRiskControl", toRcForceRegisterVO.getRcRiskControl());
 		return "/eloan/guarantyfair";
 	}
-	
-	 /**
-     * 读取上传附件备件表
-     * @param request
-     * @param taskitem
-     */
+
+	//只读强制公正信息
+	@RequestMapping("guarantyfairvonly")
+	public String guarantyfairvonly(Long pkid, HttpServletRequest request, Model model) {
+		getDetailByPkId(pkid, model);
+		// 查找强制公证需要上传那些附件
+		getAccesoryList(request, "RiskControl");
+
+		ToEloanCase eloanCase = toEloanCaseService.getToEloanCaseByPkId(pkid);
+		ToRcForceRegisterVO toRcForceRegisterVO = toRcForceRegisterService.getRcForceRegisterByProperty("forceRegister",
+				eloanCase.getEloanCode());
+		model.addAttribute("toRcForceRegister", toRcForceRegisterVO.getToRcForceRegister());
+		model.addAttribute("rcRiskControl", toRcForceRegisterVO.getRcRiskControl());
+		return "/eloan/guarantyfairvonly";
+	}
+
+	/**
+	 * 读取上传附件备件表
+	 * 
+	 * @param request
+	 * @param taskitem
+	 */
     private void getAccesoryList(HttpServletRequest request, String taskitem) {
 		ToAccesoryList toAccesoryList = new ToAccesoryList();
 		toAccesoryList.setPartCode(taskitem);

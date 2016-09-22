@@ -113,7 +113,9 @@
 			<div class="bonus-table "></div>
 		</div>
 	</div>
-
+	<!--                 <shiro:hasPermission name="TRADE.ELONE.DELETE">
+				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
+                    </shiro:hasPermission>    -->
 	<!-- main End -->
 
 	<content tag="local_script"> <!-- Peity --> <script
@@ -198,9 +200,7 @@
 					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
 				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">详情</button>
 				   </a>		
-	                <shiro:hasPermission name="TRADE.ELONE.DELETE">
-				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
-                    </shiro:hasPermission>                 
+              
                </td>
 			</tr>
 			{{/each}}          

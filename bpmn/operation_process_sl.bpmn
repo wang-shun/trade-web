@@ -16,7 +16,7 @@
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-DDD2D396-D4F6-491B-A9FB-0ABFE9C82203" sourceRef="sid-4F567B8D-CE60-482E-865B-44304AC514A1" targetRef="FirstFollow"></sequenceFlow>
-    <userTask id="InvalidCaseApprove" name="无效案件审批" activiti:assignee="#{commonUserService.getAssignee(execution,'Manager')}" activiti:formKey="/task/invalidCaseApprove/process">
+    <userTask id="InvalidCaseApprove" name="无效案件审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Manager')}" activiti:formKey="/task/invalidCaseApprove/process">
       <extensionElements>
         <activiti:formProperty id="InvalidCaseApprove" name="同意案件置为无效" type="boolean"></activiti:formProperty>
       </extensionElements>

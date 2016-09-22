@@ -66,17 +66,7 @@
 							a.AGENT_NAME,
 							a.agent_phone as MOBILE,
 							SYSUSER.ORG_ID,
-							c.pkid as caseId<!-- ,
-							(
-                    SELECT SUM(sde.DE_AMOUNT) FROM sctrans.T_TO_SPV_DE_DETAIL sde
-                     left join sctrans.T_TO_SPV_ACCOUNT sa on sa.PKID=sde.PAYEE_ACCOUNT_ID
-                     left JOIN sctrans.T_TO_SPV sp on  sp.SPV_CODE=sa.SPV_CODE
-                     where sa.ACCOUNT_TYPE='SPV') as ru,
-                     (
-                    SELECT SUM(sde.DE_AMOUNT) FROM sctrans.T_TO_SPV_DE_DETAIL sde
-                     left join sctrans.T_TO_SPV_ACCOUNT sa on sa.PKID=sde.PAYEE_ACCOUNT_ID
-                     left JOIN sctrans.T_TO_SPV sp on  sp.SPV_CODE=sa.SPV_CODE
-                     where sa.ACCOUNT_TYPE !='SPV' ) as chu -->
+							c.pkid as caseId
 							FROM sctrans.T_TO_SPV spv
 					LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp on spv.SPV_CODE=sp.SPV_CODE
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON spv.CASE_CODE=a.CASE_CODE
@@ -91,10 +81,10 @@
 			        and spv.APPLY_USER = #sessionUserId#
 			        </if>
 			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
-			        and spv.APPLY_TEAM =#serviceDepId#
+			        and spv.APPLY_TEAM = #serviceDepId#
 			        </if>
 			        <if test="serviceDepHierarchy == 'yucui_district'">
-			        and org.parent_id =#serviceDepId#
+			        and org.PARENT_ID = #serviceDepId#
 			        </if>
 				]]>
 			</baseSql>

@@ -54,6 +54,8 @@
                     <div class="ibox-content ibox-space">
                         <form method="get" class="form_list">
                             <input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageCardVO.toRcMortgageCard.rcId }">
+                            <input type="hidden" id="viewOption" name="viewOption" value="${viewOnly}">
+                            <input type="hidden" id="viewOp2" name="viewOp2" value="${viewTest}">
                             <div class="modal_title">
                                 押卡信息登记
                             </div>
@@ -63,7 +65,7 @@
                                         押卡对象
                                     </label>
                                     <div id="cardPersonParent" style="display:inline-block;"> 
-	                                    <select name="cardPerson" id="cardPerson" class="select_control sign_right_one">
+	                                    <select name="cardPerson" id="cardPerson" class="select_control sign_right_one" disabled="disabled">
 	                                     <!--<option value="">房东A</option>
 	                                         <option value="">房东B</option> -->
 	                                         	<c:if test="${toRcMortgageCardVO.toRcMortgageCard.cardPerson !=null}">
@@ -76,7 +78,7 @@
                                     <label class="control-label sign_left_small">
                                         押卡时间
                                     </label>
-                                    <input class="input_type sign_right_two" value="<fmt:formatDate value="${toRcMortgageCardVO.toRcMortgageCard.cardTime}" pattern="yyyy-MM-dd" />" name="cardTime" id="cardTime" />
+                                    <input disabled="disabled" class="input_type sign_right_two" value="<fmt:formatDate value="${toRcMortgageCardVO.toRcMortgageCard.cardTime}" pattern="yyyy-MM-dd" />" name="cardTime" id="cardTime" />
                                     <div class="input-group date_icon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
@@ -88,17 +90,17 @@
                                         银行卡密码
                                     </label>
                                     <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='0' || toRcMortgageCardVO.toRcMortgageCard.isModifyPhone == null}">
-										<input name="isModifyPhone" type="checkbox" checked="" data-size="small"  id="isModifyPhone">	
+										<input disabled="disabled" name="isModifyPhone" type="checkbox" checked="" data-size="small"  id="isModifyPhone">	
 									</c:if>
                                     <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='1'}">
-										<input name="isModifyPhone" type="checkbox" data-size="small"  id="isModifyPhone">	
+										<input disabled="disabled" name="isModifyPhone" type="checkbox" data-size="small"  id="isModifyPhone">	
 									</c:if>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label mr10" style="margin-left: 51px;">
                                             修改后到账手机号
                                     </label>
-                                    <input class="sign_right_one input_type" value="${toRcMortgageCardVO.toRcMortgageCard.phoneNumber }" placeholder="请输入" id="phoneNumber" name="phoneNumber">
+                                    <input disabled="disabled" class="sign_right_one input_type" value="${toRcMortgageCardVO.toRcMortgageCard.phoneNumber }" placeholder="请输入" id="phoneNumber" name="phoneNumber">
                                 </div>
                             </div>
                             <div class="line">
@@ -106,7 +108,7 @@
                                     <label class="control-label sign_left_small">
                                                        备注
                                     </label>
-                                    <input class="sign_right_one input_type" value="${toRcMortgageCardVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
+                                    <input disabled="disabled" class="sign_right_one input_type" value="${toRcMortgageCardVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
                                 </div>
                             </div> 
                            <!--  <div class="line">
@@ -135,9 +137,8 @@
 	                                    <label class="control-label sign_left_small">
 	                                        抵押物品名称
 	                                    </label>
-	                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="${item.mortgageName}">
+	                                    <input disabled="disabled" type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="${item.mortgageName}">
 	                                </div>
-	                                <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
 	                            </div>
 	                            </c:forEach>
 	                            <c:if test="${empty toRcMortgageCardVO.toRcMortgageInfoList}">
@@ -154,10 +155,7 @@
 	                                    <label class="control-label sign_left_small">
 	                                        抵押物品名称
 	                                    </label>
-	                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="">
-	                                </div>
-	                                <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
-	                            	</div>					
+	                                    <input disabled="disabled" type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="">				
 								</c:if>
 	                            <div class="line" id="hideAddTr" style="display:none;">
 	                                <div class="form_content"> 
@@ -172,45 +170,15 @@
 	                                    <label class="control-label sign_left_small">
 	                                        抵押物品名称
 	                                    </label>
-	                                    <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName">
+	                                    <input disabled="disabled" type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName">
 	                                </div>
-	                                <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
-	                                <a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>
 	                            </div>
                             </div>
                         </form>
-                        <div class="status_btn text-center mt15">
-                            <button class="btn btn-success btn-space submit_btn">提交</button>
-                            <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
-                        </div>
-                        <button type="button" class="close close_blue" style="display:none;" data-dismiss="modal">
-                            <i class="iconfont icon_rong">&#xe60a;
-                            </i>
-                        </button>
                     </div>
 
                 </div>
             </div>
-            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content animated fadeIn">
-                        <div class="modal-body" style="background:#fff;">
-                            <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
-                        </div>
-                        <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="btn btn-save submit_btn">确认保存</button>
-                            <!-- <button type="button" class="btn btn-success">我要删除</button> -->
-                            <button type="button" class="btn close_btn" data-dismiss="modal">取消</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
             <!-- main End -->
         </div>
     </div>
@@ -331,6 +299,17 @@
  					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
              })
              
+             var viewOp = $('#viewOption').val();
+             
+             if(viewOp == 'true') {
+            	 $('.submit_btn').hide();
+             }
+             
+			var viewOpTest = $('#viewOp2').val();
+             
+             if(viewOpTest == 'false') {
+            	 $('.submit_btn').hide();
+             }
         });
 		function getCustomerName(case_code){
 			$.ajax({

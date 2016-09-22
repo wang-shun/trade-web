@@ -16,6 +16,9 @@ public class CaseBaseVO {
 	private BuyerSellerInfo buyerSellerInfo;
 
 	private AgentManagerInfo agentManagerInfo;
+	//税费卡
+	private String loanType;
+
 
 	public ToCase getToCase() {
 		return toCase;
@@ -57,4 +60,11 @@ public class CaseBaseVO {
 		this.agentManagerInfo = agentManagerInfo;
 	}
 
+	public String getLoanType() {
+		return loanType;
+	}
+
+	public void setLoanType(String loanType) {
+		this.loanType = loanType;
+	}
 }

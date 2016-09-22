@@ -1,7 +1,7 @@
 package com.centaline.trans.common.enums;
 
 public enum SpvStatusEnum {
-DEFAULT("0", "默认"),INPROGRESS("1","进行中"),COMPLETE("2","结束");
+DEFAULT("0", "默认"),INPROGRESS("1","进行中"),APPLY("2","申请"),SIGN("3","签约"),COMPLETE("4","结束");
 	
 	private String name;
 	private String code;
