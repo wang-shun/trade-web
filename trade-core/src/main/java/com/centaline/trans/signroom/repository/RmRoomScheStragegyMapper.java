@@ -15,6 +15,12 @@ public interface RmRoomScheStragegyMapper {
 	 * @return
 	 */
     int deleteRmRoomScheStragegyByRoomId(Long roomId);
+    /**
+	 * 跟进pkid删除一个策略值
+	 * @param pkid
+	 * @return
+	 */
+    int deleteRmRoomScheStragegyByPkid(Long pkid);
 
     /**
      * 插入策略值

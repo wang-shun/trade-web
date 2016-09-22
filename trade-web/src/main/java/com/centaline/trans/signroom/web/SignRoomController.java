@@ -127,15 +127,38 @@ public class SignRoomController {
 	@RequestMapping("/addOrUpdateSignRoom")
 	@ResponseBody
 	public AjaxResponse<T> addOrUpdateSignRoom(Model model,HttpServletRequest requst,RmSignRoom rmSignRoom){
-		SessionUser user= uamSessionService.getSessionUser();
-		
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
 			rmSignRoomService.saveOrUpdateSignRoomSchedual(rmSignRoom);
+			response.setCode("400");
+			response.setMessage("保存成功！");
+			response.setSuccess(true);
 		}catch(Exception e){
-			
+			response.setCode("500");
+			response.setMessage("保存失败！");
+			response.setSuccess(false);
 		}
-		
+		return response;
+	}
+	
+	/**
+	 * 添加或修改签约室
+	 * @return
+	 */
+	@RequestMapping("/deleteSignRoom")
+	@ResponseBody
+	public AjaxResponse<T> deleteSignRoom(Model model,HttpServletRequest requst,RmSignRoom rmSignRoom){
+		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			rmSignRoomService.deleteSignRoom(rmSignRoom);
+			response.setCode("400");
+			response.setMessage("删除成功！");
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("删除失败！");
+			response.setSuccess(false);
+		}
 		return response;
 	}
 	

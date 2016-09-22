@@ -12,7 +12,7 @@
   <select id="selectByRmRoomScheStragegy" resultMap="BaseResultMap" parameterType="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
     select
     <include refid="Base_Column_List" />
-    from T_RM_ROOM_SCHE_STRAGEGY
+    from sctrans.T_RM_ROOM_SCHE_STRAGEGY
     <where>
     	<if test="pkid != null" >
         PKID = #{pkid,jdbcType=BIGINT},
@@ -27,16 +27,25 @@
   </select>
   
   <delete id="deleteRmRoomScheStragegyByRoomId" parameterType="java.lang.Long" >
-    delete from T_RM_ROOM_SCHE_STRAGEGY
+    delete from sctrans.T_RM_ROOM_SCHE_STRAGEGY
     <where>
-      <if test="_parameter != null" >
+     <if test="_parameter != null" >
         ROOM_ID = #{_parameter}
      </if>
     </where>
   </delete>
   
+  <delete id="deleteRmRoomScheStragegyByPkid" parameterType="java.lang.Long" >
+    delete from sctrans.T_RM_ROOM_SCHE_STRAGEGY
+    <where>
+     <if test="_parameter != null" >
+        PKID = #{_parameter}
+     </if>
+    </where>
+  </delete>
+  
   <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
-    insert into T_RM_ROOM_SCHE_STRAGEGY
+    insert into sctrans.T_RM_ROOM_SCHE_STRAGEGY
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
         PKID,
@@ -62,7 +71,7 @@
   </insert>
   
   <update id="updateRmRoomScheStragegy" parameterType="com.centaline.trans.signroom.entity.RmRoomScheStragegy" >
-    update T_RM_ROOM_SCHE_STRAGEGY
+    update sctrans.T_RM_ROOM_SCHE_STRAGEGY
     <set >
       <if test="stragegyWeekVal != null" >
         STRAGEGY_WEEK_VAL = #{stragegyWeekVal,jdbcType=BIGINT},
@@ -70,10 +79,10 @@
     </set>
     <where>
        <if test="pkid != null" >
-        PKID = #{pkid,jdbcType=BIGINT},
+        PKID = #{pkid,jdbcType=BIGINT}
       </if>
       <if test="roomId != null" >
-        AND ROOM_ID = #{roomId,jdbcType=BIGINT},
+        AND ROOM_ID = #{roomId,jdbcType=BIGINT}
       </if>
     </where>
   </update>  

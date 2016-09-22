@@ -34,4 +34,10 @@ public interface RmSignRoomService {
 	 */
 	void saveOrUpdateSignRoomSchedual(RmSignRoom rmSignRoom);
 
+	/**
+	 * 删除签约室信息
+	 * @param rmSignRoom
+	 */
+	void deleteSignRoom(RmSignRoom rmSignRoom);
+
 }

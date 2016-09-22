@@ -20,7 +20,7 @@
   
   <select id="getTradeCenter" resultType="com.centaline.trans.signroom.entity.TradeCenter" parameterType="java.util.Map">
     select 
-    <include refid="Base_Column_List" />
+    PKID as pkid, ORG_ID as orgId, ORG_NAME as orgName, CENTER_NAME as centerName
     from sctrans.T_RM_TRADE_CENTER
     <where>
        <if test="pkid!=null">
