@@ -469,11 +469,11 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			}else{
 				mortageDb.setFinOrgCode(bankCode);
-				mortageDb.setTmpBankUpdateBy(user.getId());
-				mortageDb.setTmpBankUpdateTime(new Date());
 				mortageDb.setTmpBankStatus(TmpBankStatusEnum.INAPPROVAL.getCode());
 				mortageDb.setTmpBankRejectReason("");
 			}
+			mortageDb.setTmpBankUpdateBy(user.getId());
+			mortageDb.setTmpBankUpdateTime(new Date());
 			updateToMortgage(mortageDb);	
 	
 			List<RestVariable> variables = new ArrayList<RestVariable>();
