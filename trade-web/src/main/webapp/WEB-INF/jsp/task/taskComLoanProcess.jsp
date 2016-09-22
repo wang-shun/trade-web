@@ -1806,6 +1806,7 @@ function checkInt(obj){
 		
 	 	$.ajax({
 		    url:ctx+"/mortgage/tmpBankAudit/start",
+		    async:false,
 	    	method:"post",
 	    	dataType:"json",
 	    	data:{caseCode:$("#caseCode").val()},

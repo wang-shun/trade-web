@@ -23,6 +23,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
@@ -96,7 +97,14 @@ public class SpvController {
 	//新增页面
 	@RequestMapping("saveHTML")
 	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		String currentDeptId = currentUser.getServiceDepId();
+		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
+		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
+		
+		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/saveSpvCase";
 	}
@@ -131,6 +139,8 @@ public class SpvController {
 		spvBaseInfoVO.getToSpv().setCreateBy(name);
 		//经办人
 		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
+		//申请人
+		User applyUser =uamUserOrgService.getUserById(spv.getApplyUser());
 		//人物信息
 		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		//风控总监
@@ -140,7 +150,7 @@ public class SpvController {
 			FKZJ=zj.get(0);
 		}
 		//驳回原因
-if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
+    if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
 		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
 		record.setCaseCode(spv.getCaseCode());
@@ -160,6 +170,7 @@ if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
+	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
 	}
 	/**

@@ -245,15 +245,17 @@ $(document).ready(function(){
 	   	   if(!confirm("是否确定通过！")){
 	 		  return false;
 	 	  }
-     	   var passOrRefuseReason = $("#passOrRefuseReason").val();
+
+  	  }else if(handle == 'spvApprove' && !SpvApplyApprove){
+    	   var passOrRefuseReason = $("#passOrRefuseReason").val();
      	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
      		   alert("请在备注栏填写驳回原因！");
      		   return false;
      	   }
-  	  }else if(handle == 'spvApprove' && !SpvApplyApprove){
 	  		if(!confirm("是否确定驳回！")){
 	     		  return false;
 	     	  }
+
   	  }else if(handle == 'spvSign'){
 	   	   if(!confirm("是否确定签约！")){
 	 		  return false;
@@ -1038,14 +1040,13 @@ $(document).ready(function(){
     				isRepeat = true;
     				return false;
     			}
-    		});
-    		    		
-    		if(isRepeat){
-    			alert("同一划转条件同一账户只允许一条监管合约！");
-    			return false;
-    		}
-    		
+    		});  		
         });
+		
+		if(isRepeat){
+			alert("同一划转条件同一账户只允许一条监管合约！");
+			return false;
+		}
 	
 		var rowsAmount = getRowsAmount();
 		if(rowsAmount != amount){

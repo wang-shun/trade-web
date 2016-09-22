@@ -136,9 +136,17 @@
        	  UPDATE_BY,
 	      UPDATE_TIME,
 
-           <if test="distCode != null">
+       <if test="distCode != null">
         dist_Code ,
       </if>
+       <if test="prApplyDepId != null">
+        PR_APPLY_DEP_ID ,
+      </if>
+       <if test="prApplyDepName != null">
+        PR_APPLY_DEP_NAME ,
+      </if>
+      
+      
       
       
     </trim>
@@ -214,6 +222,12 @@
         GETDATE(),
       <if test="distCode != null">
          #{distCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prApplyDepId != null">
+         #{prApplyDepId,jdbcType=VARCHAR},
+      </if>
+      <if test="prApplyDepName != null">
+         #{prApplyDepName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

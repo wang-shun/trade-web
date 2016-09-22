@@ -17,13 +17,15 @@ public interface ToMortgageService {
 	 */
 	public int updateTmpBankStatus(String caseCode);
 	
+	void updateToMortgageBySign(ToMortgage toMortgage);
+	
 	/**
 	 * 根据案件编号查询贷款信息
 	 * @param caseCode 案件编号
 	 * @return 返回贷款信息
 	 */
 	ToMortgage getMortgageByCaseCode(String caseCode);
-
+	
 	/**
 	 * 保存按揭贷款信息
 	 * @param toMortgage
@@ -35,6 +37,9 @@ public interface ToMortgageService {
 	 * @param toMortgage
 	 */
 	void updateToMortgage(ToMortgage toMortgage);
+	
+	
+	void updateToMortgageByCode(String caseCode);
 	
 	/**
 	 * 根据案件编号查询最终贷款信息
@@ -69,6 +74,12 @@ public interface ToMortgageService {
 	 * @return
 	 */
 	ToMortgage findToMortgageByCaseCode(ToMortgage toMortgage);
+	
+	
+	/*签约时同步更新贷款主贷人信息
+	 * 获取casecode和custcode获取贷款表信息
+	 */
+	ToMortgage  findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
 	
 	ToMortgage findToMortgageByMortTypeAndCaseCode(String caseCode,String mortType);
 	

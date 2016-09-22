@@ -8,6 +8,7 @@ public class OrgVO {
 	private String orgParentId;
 
 
+
 	public String getOrgId() {
 		return orgId;
 	}
@@ -23,6 +24,7 @@ public class OrgVO {
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
+	
 
 	public String getOrgParentId() {
 		return orgParentId;
@@ -31,4 +33,5 @@ public class OrgVO {
 	public void setOrgParentId(String orgParentId) {
 		this.orgParentId = orgParentId;
 	}
+
 }

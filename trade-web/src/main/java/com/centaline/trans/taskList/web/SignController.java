@@ -24,6 +24,8 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.SignService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.TransSignVO;
@@ -34,6 +36,9 @@ public class SignController {
 	
 	@Autowired
 	private SignService signService;
+	
+	@Autowired
+	private ToMortgageService toMortgageService;
 
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
@@ -72,6 +77,34 @@ public class SignController {
 	@RequestMapping(value="/saveSign")
 	public String saveSign(HttpServletRequest request, TransSignVO transSignVO) {
 		signService.insertGuestInfo(transSignVO);
+		
+		//同时需要修改贷款表里面的 主贷人信息	
+		ToMortgage toMortgage=new ToMortgage();		
+		List<Long>  pkidDownList=new ArrayList<Long>();
+		if(null!=transSignVO){
+			toMortgage.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+			pkidDownList = transSignVO.getPkidDown();
+			for(int i=0;i<pkidDownList.size();i++){
+				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+				ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+				if(null != getMortgageByCode){
+					//不为空 说明更新了主贷人信息
+					ToMortgage toMortgageForUpdate=new ToMortgage();
+					toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+					toMortgageForUpdate.setCustCode(String.valueOf(pkidDownList.get(i)));
+					TgGuestInfo tgGuestInfo=tgGuestInfoService.findTgGuestInfoById(pkidDownList.get(i));
+					if(tgGuestInfo!=null){
+						toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName()==null?"":tgGuestInfo.getGuestName());
+					}					
+					toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
+				}else{
+					//为空 说明已选的主贷人已被删除、清空主贷表对应casecode的主贷人信息
+					toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+				}
+			}
+			
+		}
+		
 		return "task/task"+transSignVO.getPartCode();
 	}
 	
@@ -79,7 +112,37 @@ public class SignController {
 	@RequestMapping(value="submitSign")
 	@ResponseBody
 	public Result submitSign(HttpServletRequest request, TransSignVO transSignVO) {
+		//签约保存信息先更新 客户信息表 
 		signService.insertGuestInfo(transSignVO);
+		
+		//同时需要修改贷款表里面的 主贷人信息	
+		ToMortgage toMortgage=new ToMortgage();		
+		List<Long>  pkidDownList=new ArrayList<Long>();
+		if(null!=transSignVO){
+			toMortgage.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+			pkidDownList = transSignVO.getPkidDown();
+			for(int i=0;i<pkidDownList.size();i++){
+				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+				ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+				if(null != getMortgageByCode){
+					//不为空 说明更新了主贷人信息
+					ToMortgage toMortgageForUpdate=new ToMortgage();
+					toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+					toMortgageForUpdate.setCustCode(String.valueOf(pkidDownList.get(i)));
+					TgGuestInfo tgGuestInfo=tgGuestInfoService.findTgGuestInfoById(pkidDownList.get(i));
+					if(tgGuestInfo!=null){
+						toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName()==null?"":tgGuestInfo.getGuestName());
+					}					
+					toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
+				}else{
+					//为空 说明已选的主贷人已被删除、清空主贷表对应casecode的主贷人信息
+					toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+				}
+			}
+			
+		}
+		
+		//toMortgageService.updateToMortgage(toMortgage);
 		
 		try{
 		/*流程引擎相关*/

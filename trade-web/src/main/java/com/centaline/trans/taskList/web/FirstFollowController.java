@@ -99,6 +99,7 @@ public class FirstFollowController {
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
 		request.setAttribute("bizWarnInfo", bizWarnInfo);
+		request.setAttribute("caseCode", caseCode);
 		return "task/taskFirstFollow";
 	}
 
