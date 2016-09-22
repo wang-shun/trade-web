@@ -1,10 +1,11 @@
 package com.centaline.trans.signroom.service;
 
+import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.signroom.entity.RmSignRoom;
+import com.centaline.trans.signroom.entity.TradeCenter;
 
 public interface RmSignRoomService {
 	/**
@@ -13,5 +14,18 @@ public interface RmSignRoomService {
      * @return
      */
 	AjaxResponse<Map> generatePageDate(Map map);
+	
+	/**
+	 * 获取交易中心信息
+	 * @return
+	 */
+	List<TradeCenter> getTradeCenters();
+
+	/**
+	 * 获取签约室列表及策略值信息
+	 * @param map
+	 * @return
+	 */
+	AjaxResponse<List<RmSignRoom>> signRoomShedualList(Map map);
 
 }

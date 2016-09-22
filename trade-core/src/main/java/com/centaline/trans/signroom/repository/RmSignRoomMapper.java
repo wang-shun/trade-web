@@ -60,4 +60,11 @@ public interface RmSignRoomMapper {
 	 */
 	public RmSignRoom getSignRoomInfoById(Long roomId);
 
+	/**
+	 * 获取签约室信息及策略值
+	 * 
+	 * @return
+	 */
+	List<RmSignRoom> getRmSignRoomAndStragegy(Map map);
+
 }
