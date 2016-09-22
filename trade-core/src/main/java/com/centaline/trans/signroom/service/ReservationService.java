@@ -3,8 +3,11 @@ package com.centaline.trans.signroom.service;
 import java.util.List;
 
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
+import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.TransactItemVo;
 
 public interface ReservationService {
 
@@ -13,9 +16,12 @@ public interface ReservationService {
 	 * 
 	 * @param reservation
 	 *            预约取号信息对象
-	 * @return 如果返回1,则说明保存成功;如果返回0,则说明保存失败。
+	 * @param reservationVo
+	 *            从前台传到后台的预约信息
+	 * @return 返回预约房间信息
 	 */
-	public int saveReservation(Reservation reservation);
+	public FreeRoomInfo saveReservation(Reservation reservation,
+			ReservationVo reservationVo);
 
 	/**
 	 * 获取预约时间段信息
@@ -43,5 +49,21 @@ public interface ReservationService {
 	 */
 	public List<ReservationInfo> getSignRoomInfoListByCondition(
 			ReservationSearchVo reservationSearchVo);
+
+	/**
+	 * 获取办理事项列表
+	 * 
+	 * @return 办理事项列表信息
+	 */
+	public List<TransactItemVo> getTransactItemList();
+
+	/**
+	 * 获取达到特定条件的闲置房间信息
+	 * 
+	 * @param reservationVo
+	 * 
+	 * @return 闲置房间信息
+	 */
+	public FreeRoomInfo getFreeRoomByCondition(ReservationVo reservationVo);
 
 }

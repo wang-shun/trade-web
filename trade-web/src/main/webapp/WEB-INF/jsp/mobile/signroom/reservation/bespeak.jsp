@@ -26,9 +26,11 @@
     	<input type="hidden" id="orgId" value="${orgId }"/>
 		<input type="hidden" id="selDate" name="${selDate }"/>
 		<input type="hidden" id="bespeakTime" name="${bespeakTime }"/>
+		<input type="hidden" id="agentCode" value="${agentCode }"/>
+		<input type="hidden" id="caseCode"/>
 		
         <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative">
-            <input type="text" id="input" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
+            <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
             <i class="dingwei iconfont orange">&#xe60a;</i>
         </div>
         <section class="aui-content">
@@ -37,7 +39,7 @@
                     参与人数
                 </div>
                 <div class="aui-col-xs-5">
-                    <input id="sum" type="number"   class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
+                    <input id="numberOfPeople" name="numberOfPeople" type="number" class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
                 </div>
             </div>
             <div class="aui-row pad10">
@@ -45,27 +47,31 @@
                     办理事项
                 </div>
                 <div class="aui-col-xs-9 add-select">
-                    <div class="choiceoption">
-                          <input type="button" id="choices1"  class="aui-border-btn" name="choices" value="签合同" data-required="true" data-descriptions="choices" />
-                        <!--<i class="iconfont right-mark">&#xe607;</i>-->
-                    </div>
-                    <div class="choiceoption">
-                        <input type="button" id="choices2" class="aui-border-btn right-mark" name="choices" value="办贷款" data-required="true" data-descriptions="choices" />
-                    </div>
-                    <div class="choiceoption">
-                        <input type="button" id="choices3" class="aui-border-btn" name="choices" value="e+贷款" data-required="true" data-descriptions="choices" />
-                    </div>
+                	<c:forEach items="${transactItemVoList}" var="transactItemVo">
+	                    <div class="choiceoption">
+	                          <input type="button" id="${transactItemVo.code }" class="aui-border-btn" name="transactItemCode" value="${transactItemVo.name }" data-required="true" data-descriptions="choices" />
+	                    </div>
+                    </c:forEach>
                 </div>
             </div>
+            
+            <div class="field-tooltipWrap" style="display:none;">
+            	<div class="field-tooltipInner">
+            		<div class="field-tooltip fieldTipBounceIn"><div class="zvalid-resultformat">请输入交易单地址</div>
+            	</div>
+            </div>
+            </div>
+            
+            
             <div class="aui-row pad10">
                 <div class="">
                     备注信息：
                 </div>
                 <div class="textarea">
-                    <textarea name="" id="" cols="30" rows="3" class="" placeholder="如有其他特殊要求可填入此栏" ></textarea>
+                    <textarea name="" id="specialRequirement" cols="30" rows="3" class="" placeholder="如有其他特殊要求可填入此栏" ></textarea>
                 </div>
             </div>
-            <div class="plr30"><input type="submit" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号"></div>
+            <div class="plr30"><input type="button" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号" id="btnBespoke"></div>
         </section>
     </form>
 </body>
@@ -79,5 +85,6 @@
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-mvalidate.js"></script>
+
 
 </html>

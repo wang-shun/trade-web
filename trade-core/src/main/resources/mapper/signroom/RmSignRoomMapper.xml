@@ -252,8 +252,17 @@ FROM    [sctrans].SYS_PARAM_DEFINE d
 WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
   </select>
   
+  <select id="getTimeSlots" resultType="java.lang.String">
+  		SELECT  v.value as timeSlot
+FROM    [sctrans].SYS_PARAM_DEFINE d
+        LEFT JOIN [sctrans].SYS_PARAM_VALUE v ON d.id = v.DEF_ID
+WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
+  </select>
   
-  
-  
+    <select id="getSignRoomInfoById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  		select <include refid="Base_Column_List" />
+    	from sctrans.T_RM_SIGN_ROOM
+    	where PKID = #{roomId,jdbcType=BIGINT}
+    </select>
   
 </mapper>

@@ -41,7 +41,9 @@ ORDER BY t.START_DATE ASC;
 			        
   </select>
   
-  
+  <update id="updateFreeRoomStatus" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo">
+  		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'Y',CAN_RES = 0,RES_ID = #{resId,jdbcType=BIGINT},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{scheduleId,jdbcType=VARCHAR};
+  </update>
   
 
 </mapper>

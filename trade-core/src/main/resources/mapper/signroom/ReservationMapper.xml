@@ -23,7 +23,7 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
-  <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_RM_RESERVATION
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="resNo != null" >
@@ -162,5 +162,23 @@
 		WHERE rs.IS_DELETE = 0 AND rs.USE_STATUS = 'N' AND rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr.ORG_ID = #{orgId,jdbcType=VARCHAR}
 		GROUP BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE;
   </select>
+  
+  <select id="getTransactItemList" resultType="com.centaline.trans.signroom.vo.TransactItemVo">
+    	SELECT CODE AS code,NAME AS name FROM sctrans.SYS_DICT
+		WHERE TYPE = 'transactItem' AND PARENT_ID != '';
+  </select>
+  
+   <select id="getFreeRoomByCondition" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo" resultType="com.centaline.trans.signroom.vo.FreeRoomInfo">
+    	SELECT rs.PKID AS scheduleId,rs.ROOM_ID AS roomId,sr.ROOM_NO AS roomNo,sr.ORG_ID AS orgId,sr.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,rs.START_DATE AS startDate,rs.END_DATE AS endDate FROM sctrans.T_RM_SIGN_ROOM sr
+		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
+		where sr.ORG_ID = #{orgId,jdbcType=VARCHAR} AND sr.NUMBE_OF_ACCOMMODATE_PEOPLE >= #{numberOfParticipants,jdbcType=INTEGER} AND sr.ROOM_STATUS = '1' AND sr.IS_DELETE = 0
+		AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND rs.CAN_RES = 1 AND rs.USE_STATUS = 'N' AND rs.IS_DELETE = 0
+		ORDER BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE ASC
+		OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
+  </select>
+  
+  <update id="updateReservationInfo" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo">
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_ORG_ID = #{resOrgId,jdbcType=VARCHAR},SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},SIGNING_CENTER = #{signingCenter,jdbcType=VARCHAR},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
+  </update>
   
 </mapper>

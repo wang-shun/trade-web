@@ -20,6 +20,36 @@ public class ReservationVo {
 
 	private String specialRequirement; // 特殊需求
 
+	private String orgId; // 所在机构id
+
+	private String selDate; // 预约日期
+
+	private String bespeakTime; // 预约时间段
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getSelDate() {
+		return selDate;
+	}
+
+	public void setSelDate(String selDate) {
+		this.selDate = selDate;
+	}
+
+	public String getBespeakTime() {
+		return bespeakTime;
+	}
+
+	public void setBespeakTime(String bespeakTime) {
+		this.bespeakTime = bespeakTime;
+	}
+
 	public String getResType() {
 		return resType;
 	}

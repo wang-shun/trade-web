@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.TradeCenterService;
+import com.centaline.trans.signroom.vo.FreeRoomInfo;
+import com.centaline.trans.signroom.vo.PropertyAddrInfoVo;
+import com.centaline.trans.signroom.vo.PropertyAddrSearchVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
 import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.TransactItemVo;
 
 /**
  * 预约取号信息controller
@@ -43,6 +48,9 @@ public class ReservationController {
 
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+
+	@Autowired
+	private ToPropertyInfoService toPropertyInfoService;
 
 	/**
 	 * 签约室预约列表
@@ -95,13 +103,20 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "bespeakUI")
 	public String bespeakUI(Model model, HttpServletRequest request) {
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+
 		String orgId = request.getParameter("orgId");
 		String selDate = request.getParameter("inputSelDate");
 		String bespeakTime = request.getParameter("inputBespeakTime");
+		List<TransactItemVo> transactItemVoList = reservationService
+				.getTransactItemList();
 
+		request.setAttribute("transactItemVoList", transactItemVoList);
 		request.setAttribute("orgId", orgId);
 		request.setAttribute("selDate", selDate);
 		request.setAttribute("bespeakTime", bespeakTime);
+		// request.setAttribute("agentCode", sessionUser.getId());
+		request.setAttribute("agentCode", "E39F5661B6614F968F27E7BD24BA324A");
 
 		return "mobile/signroom/reservation/bespeak";
 	}
@@ -115,20 +130,33 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "save")
 	@ResponseBody
-	public String save(ReservationVo reservationVo) {
+	public FreeRoomInfo save(ReservationVo reservationVo) {
+		FreeRoomInfo freeRoomInfo = reservationService
+				.getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
+
+		if (freeRoomInfo == null) {
+			freeRoomInfo = new FreeRoomInfo();
+			freeRoomInfo.setIsSuccess("noRoom");
+
+			return freeRoomInfo;
+		}
+
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		Reservation reservation = new Reservation();
 		reservation.setResNo("20160918001"); // 预约编号是根据某一规则自动生成，现在是为了测试先写死
-		reservation.setResType("0");
+		reservation.setResType(reservationVo.getResType());
 		reservation.setResPersonId(reservationVo.getResPersonId());
-		reservation.setResPersonOrgId("预约人组织id"); // 预约人组织id,现在为了测试先写死,到时候根据预约人id查询出对应的组织信息
-		reservation.setResOrgId("归属组织(贵宾服务部)id"); // 归属组织(贵宾服务部)id,现在为了测试先写死,到时候根据resId(预约单id)查询出对应的归属组织信息
+
+		String orgId = reservationService.getOrgIdByGrpcode(currentUser
+				.getBusigrpId());
+
+		// reservation.setResPersonOrgId(orgId); //TODO
+		reservation.setResPersonOrgId("6a84979158b942b78a8a5921cc30b8c3");
 		reservation.setResStatus("0");
 		reservation.setScheduleId(reservationVo.getScheduleId());
 		reservation.setCaseCode(reservationVo.getCaseCode());
 		reservation.setPropertyAddress(reservationVo.getPropertyAddress());
-		reservation.setSigningCenter("签约中心"); // 签约中心(交易中心)，现在为了测试先写死,到时候根据resId(预约单id)查询出对应的归属组织信息
 		reservation.setNumberOfParticipants(reservationVo
 				.getNumberOfParticipants());
 		reservation.setTransactItemCode(reservationVo.getTransactItemCode());
@@ -140,14 +168,7 @@ public class ReservationController {
 		reservation.setUpdateTime(new Date());
 		reservation.setUpdateBy(currentUser.getId());
 
-		int count = 0;
-		try {
-			count = reservationService.saveReservation(reservation);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return count > 0 ? "true" : "false";
+		return reservationService.saveReservation(reservation, reservationVo);
 	}
 
 	/**
@@ -194,9 +215,29 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "getPropertyAddressList")
 	@ResponseBody
-	public List<String> getPropertyAddressList(HttpServletRequest request) {
+	public List<PropertyAddrInfoVo> getPropertyAddressList(
+			HttpServletRequest request) {
+		String agentCode = request.getParameter("agentCode");
 		String inputValue = request.getParameter("inputValue");
 
-		return null;
+		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
+		propertyAddrSearchVo.setAgentCode(agentCode);
+		propertyAddrSearchVo.setInputValue(inputValue);
+
+		return toPropertyInfoService
+				.getPropertyInfoListByInputValue(propertyAddrSearchVo);
+	}
+
+	/**
+	 * ajax根据产证地址获取对应的案件编号
+	 * 
+	 * @return 案件编号
+	 */
+	@RequestMapping(value = "getCaseCodeByPropertyAddr")
+	@ResponseBody
+	public String getCaseCodeByPropertyAddr(HttpServletRequest request) {
+		String propertyAddress = request.getParameter("propertyAddress");
+
+		return toPropertyInfoService.getCaseCodeByPropertyAddr(propertyAddress);
 	}
 }

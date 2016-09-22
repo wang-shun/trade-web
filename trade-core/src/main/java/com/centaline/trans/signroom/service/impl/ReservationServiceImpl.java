@@ -7,10 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.repository.ReservationMapper;
+import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
+import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.service.ReservationService;
+import com.centaline.trans.signroom.vo.FreeRoomInfo;
+import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
+import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.TransactItemVo;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -18,9 +25,51 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	private ReservationMapper reservationMapper;
 
+	@Autowired
+	private RmRoomScheduleMapper rmRoomScheduleMapper;
+
+	@Autowired
+	private RmSignRoomMapper rmSignRoomMapper;
+
 	@Override
-	public int saveReservation(Reservation reservation) {
-		return reservationMapper.insertSelective(reservation);
+	public FreeRoomInfo saveReservation(Reservation reservation,
+			ReservationVo reservationVo) {
+		String isSuccss = "true";
+		FreeRoomInfo freeRoomInfo = null;
+
+		try {
+			reservationMapper.insertSelective(reservation);
+
+			Long resId = reservation.getPkid(); // 预约单id
+
+			freeRoomInfo = getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
+
+			FreeRoomVo freeRoomVo = new FreeRoomVo();
+			freeRoomVo.setResId(resId);
+			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
+
+			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
+
+			freeRoomVo = new FreeRoomVo();
+
+			RmSignRoom rmSignRoom = rmSignRoomMapper
+					.getSignRoomInfoById(freeRoomInfo.getRoomId());
+
+			freeRoomVo.setResOrgId(rmSignRoom.getOrgId());
+			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
+			freeRoomVo.setSigningCenter(rmSignRoom.getTradeCenter());
+			freeRoomVo.setResId(resId);
+
+			reservationMapper.updateReservationInfo(freeRoomVo); // 更新预约单的信息
+
+		} catch (Exception e) {
+			isSuccss = "false";
+			e.printStackTrace();
+		}
+
+		freeRoomInfo.setIsSuccess(isSuccss);
+
+		return freeRoomInfo;
 	}
 
 	@Override
@@ -50,5 +99,37 @@ public class ReservationServiceImpl implements ReservationService {
 			ReservationSearchVo reservationSearchVo) {
 		return reservationMapper
 				.getSignRoomInfoListByCondition(reservationSearchVo);
+	}
+
+	@Override
+	public List<TransactItemVo> getTransactItemList() {
+		return reservationMapper.getTransactItemList();
+	}
+
+	@Override
+	public FreeRoomInfo getFreeRoomByCondition(ReservationVo reservationVo) {
+		String orgId = reservationVo.getOrgId(); // 贵宾服务部id(对应T_RM_TRADE_CENTER表的ORG_ID)
+		String selDate = reservationVo.getSelDate(); // 预约日期
+		String bespeakTime = reservationVo.getBespeakTime(); // 预约时间段
+		int numberOfParticipants = reservationVo.getNumberOfParticipants(); // 参与人数
+
+		FreeRoomVo freeRoomVo = new FreeRoomVo();
+		freeRoomVo.setOrgId(orgId);
+		freeRoomVo.setNumberOfParticipants(numberOfParticipants);
+		freeRoomVo.setStartDate(selDate + " "
+				+ bespeakTime.substring(0, bespeakTime.indexOf("-")));
+
+		freeRoomVo.setEndDate(selDate
+				+ " "
+				+ bespeakTime.substring(bespeakTime.indexOf("-") + 1,
+						bespeakTime.length()));
+
+		FreeRoomInfo freeRoomInfo = reservationMapper
+				.getFreeRoomByCondition(freeRoomVo);
+
+		freeRoomInfo.setSelDate(selDate);
+		freeRoomInfo.setBespeakTime(bespeakTime);
+
+		return freeRoomInfo;
 	}
 }

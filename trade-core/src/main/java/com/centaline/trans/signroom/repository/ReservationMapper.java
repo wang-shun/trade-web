@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.vo.FreeRoomInfo;
+import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
+import com.centaline.trans.signroom.vo.TransactItemVo;
 
 @MyBatisRepository
 public interface ReservationMapper {
@@ -45,4 +48,29 @@ public interface ReservationMapper {
 	 */
 	public List<ReservationInfo> getSignRoomInfoListByCondition(
 			ReservationSearchVo reservationSearchVo);
+
+	/**
+	 * 获取办理事项列表
+	 * 
+	 * @return 办理事项列表信息
+	 */
+	public List<TransactItemVo> getTransactItemList();
+
+	/**
+	 * 获取达到特定条件的闲置房间信息
+	 * 
+	 * @param freeRoomVo
+	 *            闲置房间查询条件
+	 * @return 闲置房间信息
+	 */
+	public FreeRoomInfo getFreeRoomByCondition(FreeRoomVo freeRoomVo);
+
+	/**
+	 * 更新预约单信息
+	 * 
+	 * @param freeRoomVo
+	 *            闲置房间信息
+	 * @return 如果返回1,更新成功;如果返回0,更新失败;
+	 */
+	public int updateReservationInfo(FreeRoomVo freeRoomVo);
 }
