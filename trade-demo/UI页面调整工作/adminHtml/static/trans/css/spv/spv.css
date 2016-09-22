@@ -1,6 +1,39 @@
 em, i {
   font-style: normal;
 }
+.nomargin {
+  margin: 0!important;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mr15 {
+  margin-right: 15px;
+}
+.sign_normal {
+  margin-right: 5px;
+  padding: 0px 1px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background-color: #52cdec;
+}
+.navy_bg {
+  background-color: #53bdbd;
+}
+
+.navy {
+  color: #53bdbd;
+}
+
+.pink {
+  color: #f784a5;
+}
+
+.pink_bg {
+  background-color: #f784a5;
+}
 
 .feed-element .icon {
   font-size: 34px;
