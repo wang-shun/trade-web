@@ -26,6 +26,10 @@
   right: 6px;
 }
 
+.week label {
+  margin-right: 20px;
+  margin-bottom: 5px;
+}
 .btn-save {
   background: #f784a5;
   color: #fff;
@@ -151,7 +155,33 @@ input {
 .teamcode {
   width: 230px;
 }
-
+.seldata {
+  float: left;
+  margin-top: 7px;
+  margin-left: 10px;
+}
+.width89 {
+  width: 89px!important;
+}
+.width165 {
+  width: 165px!important;
+}
+.icon-blue {
+  color: #428fcc;
+}
+.date-time {
+  padding: 2px 3px;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.today {
+  background:#f8ac59;
+}
+.tommrow {
+  background-color: #428fcc;
+}
 .form_content .controls {
   display: inline-block;
   margin-left: 20px;

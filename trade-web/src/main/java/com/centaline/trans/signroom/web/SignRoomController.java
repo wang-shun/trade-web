@@ -43,13 +43,18 @@ public class SignRoomController {
 	@RequestMapping("/signRoomAllotList")
 	public String signRoomAllotList(Model model){
 		SessionUser user= uamSessionService.getSessionUser();
-		String busigrpId  = user.getBusigrpId();//店组
 		Calendar cd = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
-		model.addAttribute("busigrpId", busigrpId);
 		return "/signroom/signingallot";
+	}
+	
+	@RequestMapping("/signingManage")
+	public String signingManage(Model model){
+		SessionUser user= uamSessionService.getSessionUser();
+		
+		return "/signroom/signingmanage";
 	}
 	
 	/**
