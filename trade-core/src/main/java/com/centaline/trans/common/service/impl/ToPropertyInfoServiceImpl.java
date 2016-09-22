@@ -57,7 +57,7 @@ public class ToPropertyInfoServiceImpl implements ToPropertyInfoService {
 		OrgVO orgvo = toPropertyInfoMapper.getPropertyDepInfoByuserDepIdEloan(depId);
 		String type = "no";
 		//1D29BB468F504774ACE653B946A393EE 营业部  ff8080814e01474e014e2e97c8b30036 非营业部
-		if(orgvo.getOrgId().equals("ff8080814f459a78014f45a73d820006") ){
+		if(null!= orgvo && null !=orgvo.getOrgId() && !orgvo.getOrgId().equals("") && orgvo.getOrgId().equals("ff8080814f459a78014f45a73d820006") ){
 			ToPropertyResearchVo pinfo = new ToPropertyResearchVo();
 			pinfo.setPrApplyDepId(orgvo.getOrgParentId());
 			//pinfo.setPrApplyDepName(orgvo.getOrgName());
@@ -81,7 +81,7 @@ public class ToPropertyInfoServiceImpl implements ToPropertyInfoService {
 		OrgVO orgvo = toPropertyInfoMapper.getPropertyDepInfoByuserDepId(depId);
 		String type = "no";
 		//1D29BB468F504774ACE653B946A393EE 营业部  ff8080814e01474e014e2e97c8b30036 非营业部
-		if(orgvo.getOrgId().equals("1D29BB468F504774ACE653B946A393EE") || orgvo.getOrgId().equals("ff8080814e01474e014e2e97c8b30036")){
+		if(null!= orgvo && null !=orgvo.getOrgId() && !orgvo.getOrgId().equals("") && orgvo.getOrgId().equals("1D29BB468F504774ACE653B946A393EE") || orgvo.getOrgId().equals("ff8080814e01474e014e2e97c8b30036")){
 			ToPropertyResearchVo pinfo = new ToPropertyResearchVo();
 			pinfo.setPrApplyDepId(depId);
 			pinfo.setPrApplyDepName(orgvo.getOrgName());
