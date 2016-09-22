@@ -122,7 +122,12 @@ public class WarnListController {
 			String taskitem, String processInstanceId){
 		SessionUser user = uamSessionService.getSessionUser();
 		Org parentOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
+		
+		Org curentOrg = uamUserOrgService.getOrgById(user.getServiceDepId());
+		Org yucui = uamUserOrgService.getOrgById(curentOrg.getParentId());
+		
 		request.setAttribute("orgId", parentOrg.getId());
+		request.setAttribute("yucuiOrgId", yucui.getId());
 		request.setAttribute("excutorId", user.getId());
 		request.setAttribute("excutorName", user.getRealName());
 		
@@ -147,6 +152,14 @@ public class WarnListController {
 		}
     	return "eloan/task/taskNewEloanApply";
 	}
+	
+	//得到人的员工编号
+		@RequestMapping(value="/EmployeeCode")
+		public User getEmployeeCode(HttpServletRequest request,String userId){
+			User u=uamUserOrgService.getUserById(userId);
+	        return u;
+		}
+		
 	
 	//获取E+详细信息
 	@RequestMapping("getEloanCaseDetails")
