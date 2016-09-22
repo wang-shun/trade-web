@@ -29,7 +29,9 @@
 input, .form-control {
   border-radius: 2px !important;
 }
-
+.clear {
+  clear:both;
+}
 .title {
   margin-bottom: 25px;
   font-family: "Microsoft Yahei";
@@ -89,7 +91,7 @@ input, .form-control {
   width: 235px;
 }
 .form-margin .input-five {
-  width: 371px;
+  width: 387px;
 }
 .form-margin .input-widest {
   width: 447px;
