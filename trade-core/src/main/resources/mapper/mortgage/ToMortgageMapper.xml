@@ -503,5 +503,20 @@
  	 where case_code =#{caseCode,jdbcType=VARCHAR} and PKID !=#{pkid,jdbcType=BIGINT} and 
 	        mort_type in ('30016001','30016002');
  </update>
+  <update id="updateCustNameByCasecode" parameterType="java.lang.String" >
+ 	update sctrans.T_TO_MORTGAGE  set CUST_CODE = null,CUST_NAME= null 	
+ 	where case_code =#{caseCode,jdbcType=VARCHAR} and IS_ACTIVE='1'	       
+ </update>
+ 
+ <update id="updateBySign" parameterType="com.centaline.trans.mortgage.entity.ToMortgage">
+    update sctrans.T_TO_MORTGAGE
+    set CUST_NAME = #{custName,jdbcType=VARCHAR},
+     	update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}     
+    where case_code =#{caseCode,jdbcType=VARCHAR}  and  CUST_CODE =#{custCode,jdbcType=VARCHAR} 
+  </update>
+ 
+  <select id="findToMortgageByCaseCodeAndCustcode" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_ACTIVE='1' and CUST_CODE=#{custCode,jdbcType=VARCHAR} 	
+ </select>
  
 </mapper>

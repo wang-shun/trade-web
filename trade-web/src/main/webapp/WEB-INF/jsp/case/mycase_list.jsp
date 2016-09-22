@@ -346,7 +346,7 @@ text-decoration: underline !important;
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
 		src="${ctx}/js/plugins/jquery.custom.js"></script> <script
 		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/case/mycase_list.js?v=1.1"></script> <jsp:include
+	<script src="${ctx}/js/trunk/case/mycase_list.js?v=1.2"></script> <jsp:include
 		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script
 		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
