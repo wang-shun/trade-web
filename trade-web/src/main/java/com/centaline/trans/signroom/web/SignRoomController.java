@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -114,6 +115,20 @@ public class SignRoomController {
 			map.put("orgId", orgId);
 		}
 		AjaxResponse<List<RmSignRoom>> response =  rmSignRoomService.signRoomShedualList(map);
+		
+		return response;
+	}
+	
+	
+	/**
+	 * 添加或修改签约室
+	 * @return
+	 */
+	@RequestMapping("/addOrUpdateSignRoom")
+	@ResponseBody
+	public AjaxResponse<T> addOrUpdateSignRoom(Model model,HttpServletRequest requst,RmSignRoom rmSignRoom){
+		SessionUser user= uamSessionService.getSessionUser();
+		AjaxResponse<T> response = new AjaxResponse<T>();
 		
 		return response;
 	}

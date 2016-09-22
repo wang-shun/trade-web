@@ -261,7 +261,7 @@
 			      </otherwise>
 			    </choose>
 			</if>
-			  order by R.ROOM_NO      
+			  order by R.ROOM_NO
   </select>
   
   <select id="getTimeSlots" resultType="java.lang.String">
