@@ -141,7 +141,7 @@
                                    <p><em>下家姓名</em><span class="span_two" id="content_buyer">${buyerName}</span></p>
                                </div>
                            </div>
-                           
+                           </div>
                        </div>
 
                             <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -721,10 +721,10 @@
 				</div>
 				
 				<div class="ibox-content" id="spvfour_info" >
-				<div class="ibox-title" style="height: auto;">
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
-						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
+					<div class="title">上传备件<br> <br></div>
+						<h5 align="left">${accesoryList[0].accessoryName }</h5>
 						<c:forEach var="accesory" items="${accesoryList}"
 							varStatus="status">
 							<div class="" id="fileupload_div_pic">
@@ -844,7 +844,6 @@
 						</h5>
 					</c:otherwise>
 				</c:choose>
-		        </div>
 				</div>
 				<div class="ibox-content" id="spvthree_info" >			
 							<div class="form-btn">
