@@ -58,17 +58,16 @@ public class TaskController {
 	 * @return
 	 */
 	@RequestMapping("{taskId}/process")
-	public String process(@PathVariable String taskId, String source, String caseCode, HttpServletRequest request,
+	public String process(@PathVariable String taskId, String source, HttpServletRequest request,
 			HttpServletResponse response, RedirectAttributes attr) {
 
 		TaskVo task = workFlowManager.getHistoryTask(taskId);
 		String instCode = task.getProcessInstanceId();
 		String formKey = task.getFormKey();
 		String businessKey = "";
-		if (caseCode == null) {
-			StartProcessInstanceVo processInstance = workFlowManager.getHistoryInstances(instCode);
-			businessKey = processInstance.getBusinessKey();
-		}
+
+		StartProcessInstanceVo processInstance = workFlowManager.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
 
 		Map<String, String> queryParameters = new HashMap<String, String>();
 
@@ -78,7 +77,6 @@ public class TaskController {
 		queryParameters.put("taskitem", task.getTaskDefinitionKey());
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);
-		queryParameters.put("caseCode", caseCode != null ? caseCode : businessKey);
 		queryParameters.put("businessKey", businessKey);
 		
 		Boolean sameSever = false;// 是否同服务器
@@ -95,7 +93,7 @@ public class TaskController {
 			request.setAttribute("taskId", taskId);
 			request.setAttribute("source", source);
 			request.setAttribute("businessKey", businessKey);
-			request.setAttribute("caseCode", caseCode != null ? caseCode : businessKey);
+			request.setAttribute("caseCode",  businessKey);//兼容老代码
 			//E+ 申请查询审核结果
 			ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
 						
