@@ -2,10 +2,10 @@ package com.centaline.trans.spv.entity;
 
 import java.util.Date;
 
-public class toSpvVoucher {
+public class ToSpvCashFlowApplyAttach {
     private Long pkid;
 
-    private String cashflowId;
+    private String applyId;
 
     private String type;
 
@@ -31,12 +31,12 @@ public class toSpvVoucher {
         this.pkid = pkid;
     }
 
-    public String getCashflowId() {
-        return cashflowId;
+    public String getApplyId() {
+        return applyId;
     }
 
-    public void setCashflowId(String cashflowId) {
-        this.cashflowId = cashflowId == null ? null : cashflowId.trim();
+    public void setApplyId(String applyId) {
+        this.applyId = applyId == null ? null : applyId.trim();
     }
 
     public String getType() {

@@ -2,7 +2,7 @@ package com.centaline.trans.spv.entity;
 
 import java.util.Date;
 
-public class toSpvReceipt {
+public class ToSpvReceipt {
     private Long pkid;
 
     private String cashflowId;
