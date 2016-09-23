@@ -1,31 +1,33 @@
 package com.centaline.trans.signroom.vo;
 
+import java.io.Serializable;
+
 /**
  * 产证地址信息
  * 
  * @author yinjf2
  *
  */
-public class PropertyAddrInfoVo {
+public class PropertyAddrInfoVo implements Serializable {
 
-	private String caseCode; // 案件编号
+	private String value; // 案件编号
 
-	private String propertyAddress; // 产证地址
+	private String label; // 产证地址
 
-	public String getCaseCode() {
-		return caseCode;
+	public String getValue() {
+		return value;
 	}
 
-	public void setCaseCode(String caseCode) {
-		this.caseCode = caseCode;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	public String getPropertyAddress() {
-		return propertyAddress;
+	public String getLabel() {
+		return label;
 	}
 
-	public void setPropertyAddress(String propertyAddress) {
-		this.propertyAddress = propertyAddress;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 }

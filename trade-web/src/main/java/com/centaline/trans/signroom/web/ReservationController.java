@@ -180,6 +180,10 @@ public class ReservationController {
 	 */
 	@RequestMapping(value = "myReservationList")
 	public String myReservationList(Model model, HttpServletRequest request) {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+
+		// request.setAttribute("agentCode", currentUser.getId());
+		request.setAttribute("agentCode", "E39F5661B6614F968F27E7BD24BA324A");
 
 		return "mobile/signroom/reservation/myReservationList";
 	}
@@ -218,14 +222,14 @@ public class ReservationController {
 	public List<PropertyAddrInfoVo> getPropertyAddressList(
 			HttpServletRequest request) {
 		String agentCode = request.getParameter("agentCode");
-		String inputValue = request.getParameter("inputValue");
 
 		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
 		propertyAddrSearchVo.setAgentCode(agentCode);
-		propertyAddrSearchVo.setInputValue(inputValue);
 
-		return toPropertyInfoService
+		List<PropertyAddrInfoVo> propertyAddrInfoVoList = toPropertyInfoService
 				.getPropertyInfoListByInputValue(propertyAddrSearchVo);
+
+		return propertyAddrInfoVoList;
 	}
 
 	/**
@@ -240,4 +244,18 @@ public class ReservationController {
 
 		return toPropertyInfoService.getCaseCodeByPropertyAddr(propertyAddress);
 	}
+
+	/**
+	 * ajax取消预约
+	 * 
+	 * @return 如果返回true,预约成功;返回false,预约失败。
+	 */
+	@RequestMapping(value = "cancelReservation")
+	@ResponseBody
+	public String cancelReservation(HttpServletRequest request) {
+		Long resId = Long.parseLong(request.getParameter("resId"));
+
+		return reservationService.cancelReservation(resId);
+	}
+
 }

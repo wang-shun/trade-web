@@ -66,4 +66,13 @@ public interface ReservationService {
 	 */
 	public FreeRoomInfo getFreeRoomByCondition(ReservationVo reservationVo);
 
+	/**
+	 * 取消预约
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 如果返回true,预约成功;返回false,预约失败。
+	 */
+	public String cancelReservation(Long resId);
+
 }

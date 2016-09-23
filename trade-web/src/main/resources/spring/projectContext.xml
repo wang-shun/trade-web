@@ -329,5 +329,14 @@
     <!-- 获取临时银行案件报表状态 -->
     <bean name="getTmpBankCaseStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetTmpBankCaseStatusServiceImpl"></bean>
     
+    <!-- 获取我的预约列表预约状态 -->
+    <bean name="getShowResStatusStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResStatusServiceImpl"></bean>
+    
+    <!-- 获取我的预约列表开始预约时间 -->
+    <bean name="getShowResStartTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResStartTimeServiceImpl"></bean>
+    
+    <!-- 获取我的预约列表预约结束时间 -->
+    <bean name="getShowResEndTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResEndTimeServiceImpl"></bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

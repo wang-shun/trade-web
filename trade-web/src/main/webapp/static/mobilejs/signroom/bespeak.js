@@ -4,7 +4,7 @@ $(function() {
 	var agentCode = $("#agentCode").val();
 	
 	//产证地址文本框失去焦点获取对应的caseCode
-	$("#propertyAddress").blur(function(){
+	/*$("#propertyAddress").blur(function(){
 		var propertyAddress = this.value;
 		
 		if(propertyAddress != ""){
@@ -20,10 +20,45 @@ $(function() {
 				}
 			});
 		}
-	});
+	});*/
+	
 	
    //文本框自动填充
-   $("#propertyAddress").autocomplete({
+   $("#propertyAddress").keyup(function(){
+	   var inputValue = this.value;
+	   
+	   if(inputValue != ""){
+		   $.ajax({
+				cache:false,
+				async:false,
+				type:"POST",
+				dataType:"json",
+				url: ctx + "/mobile/reservation/getPropertyAddressList",
+				data: {inputValue: $("#propertyAddress").val(),agentCode : agentCode},
+				success:function(data){
+					if(data.length > 0){
+						 $("#propertyAddress").autocompleter({
+						       highlightMatches: true,
+						       source: data,
+						       hint: true,
+						       empty: false,
+						       limit: 3,
+						       callback: function (value, index, selected) {
+						           if (selected) {
+						               $('.icon').css('background-color');
+						           }
+						           alert(value);
+						       }
+						   });
+					}
+				}
+			});
+	   }
+   });
+   
+  
+	
+   /*$("#propertyAddress").autocomplete({
 	 maxHeight:300,
 	 source: function(request, response) {
 		 $.ajax({
@@ -44,7 +79,7 @@ $(function() {
 		 }
 	 });
 	 }
-	 });
+	 });*/
 	
 	
 /*	$('#propertyAddress').autocompleter({
@@ -177,6 +212,28 @@ $(function() {
                         + '</div>'
         });
     };
+    
+    //获取产证地址列表
+    function getPropertyAddress(){
+    	$.ajax({
+			cache:false,
+			async:false,
+			type:"POST",
+			dataType:"json",
+			url: ctx + "/mobile/reservation/getPropertyAddressList",
+			data: {agentCode : agentCode},
+			success:function(data){
+				if(data.length > 0){
+					 $("#propertyAddress").autocompleter({
+					       highlightMatches: true,
+					       source: data,
+					       hint: false,
+					       empty: false
+					   });
+				}
+			}
+		});
+    }
     
 });
 

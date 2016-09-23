@@ -142,4 +142,23 @@ public class ReservationServiceImpl implements ReservationService {
 
 		return freeRoomInfo;
 	}
+
+	@Override
+	public String cancelReservation(Long resId) {
+		String result = "true";
+
+		try {
+			Reservation reservation = reservationMapper
+					.getReservationById(resId);
+
+			reservationMapper.cancelReservation(resId); // 将预约单的状态更改为已取消状态
+			rmRoomScheduleMapper
+					.updateToFreeStatus(reservation.getScheduleId()); // 将已预约的房间重新恢复到闲置状态
+		} catch (Exception e) {
+			result = "false";
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 }

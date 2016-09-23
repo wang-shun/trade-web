@@ -5,7 +5,7 @@
     <result column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="RES_NO" property="resNo" jdbcType="VARCHAR" />
     <result column="RES_TYPE" property="resType" jdbcType="VARCHAR" />
-    <result column="CHECK IN_TIME" property="checkInTime" jdbcType="TIMESTAMP" />
+    <result column="CHECK_IN_TIME" property="checkInTime" jdbcType="TIMESTAMP" />
     <result column="CHECKED_OUT_TIME" property="checkedOutTime" jdbcType="TIMESTAMP" />
     <result column="RES_PERSON_ORG_ID" property="resPersonOrgId" jdbcType="VARCHAR" />
     <result column="RES_PERSON_ID" property="resPersonId" jdbcType="CHAR" />
@@ -23,6 +23,12 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <sql id="Base_Column_List" >
+    PKID, RES_NO,RES_TYPE,CHECK_IN_TIME,CHECKED_OUT_TIME,RES_PERSON_ORG_ID,RES_PERSON_ID,RES_ORG_ID,RES_STATUS,SCHEDULE_ID,CASE_CODE,PROPERTY_ADDRESS,
+    SIGNING_CENTER,NUMBER_OF_PARTICIPANTS,NUMBER_OF_PARTICIPANTS,TRANSACT_ITEM_CODE,SPECIAL_REQUIREMENT,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+  </sql>
+  
   <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_RM_RESERVATION
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -174,16 +180,26 @@
   </select>
   
    <select id="getFreeRoomByCondition" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo" resultType="com.centaline.trans.signroom.vo.FreeRoomInfo">
-    	SELECT rs.PKID AS scheduleId,rs.ROOM_ID AS roomId,sr.ROOM_NO AS roomNo,sr.ORG_ID AS orgId,sr.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,rs.START_DATE AS startDate,rs.END_DATE AS endDate FROM sctrans.T_RM_SIGN_ROOM sr
+    	SELECT rs.PKID AS scheduleId,rs.ROOM_ID AS roomId,sr.ROOM_NO AS roomNo,sr.ROOM_TYPE AS roomType,sr.ORG_ID AS orgId,sr.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,rs.START_DATE AS startDate,rs.END_DATE AS endDate FROM sctrans.T_RM_SIGN_ROOM sr
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
 		where sr.ORG_ID = #{orgId,jdbcType=VARCHAR} AND sr.NUMBE_OF_ACCOMMODATE_PEOPLE >= #{numberOfParticipants,jdbcType=INTEGER} AND sr.ROOM_STATUS = '1' AND sr.IS_DELETE = 0
 		AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND rs.CAN_RES = 1 AND rs.USE_STATUS = 'N' AND rs.IS_DELETE = 0
-		ORDER BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE ASC
+		ORDER BY sr.ROOM_TYPE ASC,sr.NUMBE_OF_ACCOMMODATE_PEOPLE ASC
 		OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
   </select>
   
   <update id="updateReservationInfo" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo">
   		UPDATE sctrans.T_RM_RESERVATION SET RES_ORG_ID = #{resOrgId,jdbcType=VARCHAR},SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},SIGNING_CENTER = #{signingCenter,jdbcType=VARCHAR},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
+  </update>
+  
+  <select id="getReservationById" parameterType="java.lang.Long" resultMap="BaseResultMap">	
+		SELECT <include refid="Base_Column_List" />
+		FROM sctrans.T_RM_RESERVATION
+		WHERE PKID = #{resId,jdbcType=BIGINT};
+  </select>
+  
+  <update id="cancelReservation" parameterType="java.lang.Long">
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '4',UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
   </update>
   
 </mapper>

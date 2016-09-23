@@ -172,6 +172,8 @@ function getSignRoomByTime(orgId,selDate,realSelBespeakTime){
 
 function getSignRoomInfo(orgId,startTime,endTime,selDate,selBespeakTime){
 	var subStrHtml = "";
+	var startDateTime;
+	var endDateTime;
 	
 	$.ajax({
 		cache:false,
@@ -182,6 +184,8 @@ function getSignRoomInfo(orgId,startTime,endTime,selDate,selBespeakTime){
 		data:{orgId:orgId,startTime:startTime,endTime:endTime},
 		success:function(data){
 			if(data.length > 0){
+				var currentDateTime = new Date();
+				
 				subStrHtml = "<article class='aui-content'><ul class='aui-list aui-list-in white'>"
 		            + " <li class='aui-list-header header_grey_bg'><i class='iconfont blue mr5'>&#xe605;</i>" + selBespeakTime + "&nbsp;<span class='color80;'>" + selDate + "</span></li>";
 				
@@ -191,13 +195,26 @@ function getSignRoomInfo(orgId,startTime,endTime,selDate,selBespeakTime){
 						+ "<span class='num'>" + data[i].numberOfPeople + "人间</span></div></div>"
 						+ "<div class='aui-info-item'>剩余间数：<span class='aui-text-warning'>" + data[i].residualNumber + "</span>";
                 
-                    if(data[i].residualNumber == 0){
-                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
-                    } 
-                    else {
-                    	subStrHtml += "<a href='javascript:void(0);' class='quhao'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
-                    }
-                    
+					if(selBespeakTime != ""){
+						var strStartDateTime = selDate + " " + selBespeakTime.substring(0,selBespeakTime.indexOf("-"));
+						var strEndDateTime = selDate + " " + selBespeakTime.substring(selBespeakTime.indexOf("-") + 1,selBespeakTime.length);
+						
+						startDateTime = new Date(strStartDateTime);
+						endDateTime = new Date(strEndDateTime);
+					}
+					
+					if(currentDateTime > endDateTime){
+						subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div>";
+					}
+					else {
+						if(data[i].residualNumber == 0){
+	                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
+	                    } 
+	                    else {
+	                    	subStrHtml += "<a href='javascript:void(0);' class='quhao'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
+	                    }
+					}
+
                     subStrHtml += "</li></ul></article>";     
 				}
 			}

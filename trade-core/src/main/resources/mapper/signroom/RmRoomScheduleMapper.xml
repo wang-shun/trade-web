@@ -53,5 +53,8 @@ ORDER BY t.START_DATE ASC;
   		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'Y',CAN_RES = 0,RES_ID = #{resId,jdbcType=BIGINT},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{scheduleId,jdbcType=VARCHAR};
   </update>
   
+  <update id="updateToFreeStatus" parameterType="java.lang.String">
+  		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'N',CAN_RES = 1,UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{scheduleId,jdbcType=VARCHAR};
+  </update>
 
 </mapper>

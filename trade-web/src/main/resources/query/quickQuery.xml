@@ -162,4 +162,7 @@
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
 	<!-- 金额监管列表 -->
 	<import resource="query/spv/spvList.xml" />
+	
+	<!-- 我的预约列表 -->
+	<import resource="query/signroom/myReservationList.xml" />
 </queryConfig>

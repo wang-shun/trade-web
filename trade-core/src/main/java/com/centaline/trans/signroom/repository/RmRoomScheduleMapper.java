@@ -27,4 +27,13 @@ public interface RmRoomScheduleMapper {
 	 */
 	public int updateFreeRoomStatus(FreeRoomVo freeRoomVo);
 
+	/**
+	 * 更新预约中的房间状态至闲置状态
+	 * 
+	 * @param scheduleId
+	 *            签约室安排标识
+	 * @return 如果返回1,更新成功。如果返回0,更新失败。
+	 */
+	public int updateToFreeStatus(String scheduleId);
+
 }

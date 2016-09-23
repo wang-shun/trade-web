@@ -73,4 +73,22 @@ public interface ReservationMapper {
 	 * @return 如果返回1,更新成功;如果返回0,更新失败;
 	 */
 	public int updateReservationInfo(FreeRoomVo freeRoomVo);
+
+	/**
+	 * 根据预约单标识获取对应的预约单信息
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 预约单信息
+	 */
+	public Reservation getReservationById(Long resId);
+
+	/**
+	 * 取消预约
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 返回1,更新成功;返回0,更新失败。
+	 */
+	public int cancelReservation(Long resId);
 }
