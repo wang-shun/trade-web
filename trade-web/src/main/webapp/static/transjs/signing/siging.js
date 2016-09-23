@@ -7,6 +7,28 @@ $(function () {
         }
 
     });
+    
+  //今天明天选择
+    function Appendzero (obj) {
+        if (obj < 10) return "0" + obj; else return obj;
+    }
+    function getDateWeek (x) {
+        var now = new Date();
+        var year = now.getFullYear ();//获取四位数年数
+        var month = now.getMonth () + 1;
+        var date = now.getDate () + x;
+        var s = year + "-" + Appendzero (month) + "-" + Appendzero (date) ;
+        return s;
+    }
+    $("#today").click(function(){
+        $(".datatime").val(getDateWeek(0));
+        ajaxSubmit(1);
+    });
+    $("#tommrow").click(function(){
+        $(".datatime").val(getDateWeek(1));
+        ajaxSubmit(1);
+    });
+    
     ajaxSubmit(0);
     $("#searchBtn").click(function(){
     	ajaxSubmit(1);
@@ -38,47 +60,58 @@ $(function () {
 	
 	//保存 临时分配数据
 	$("#saveBtn").click(function(){
-	  	  //添加时校验
-	  	  if(!checkFormSave()){
-	  		  return;
-	  	  }
-	  	 return; 
-	  	var orgId = $.trim($("select[name='rmSignRoom.orgId']").val());
-	  	var orgName = $("select[name='rmSignRoom.orgId']").find("option:selected").text();
-	  	
-	  	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
-	  	var numbeOfAccommodatePeople = $.trim($("input[name='rmSignRoom.numbeOfAccommodatePeople']").val());
-	  	var roomType = $.trim($("input[name='rmSignRoom.roomType']").val());
-	  	var remark = $.trim($("textarea[name='rmSignRoom.remark']").val());
-	  	
-	  	var stragegyWeekVal=0 ;
-	  	$('input[type=checkbox][name=items]').each(function(){
-	        if($(this).prop("checked") == true && $(this).prop("id")!='CheckedAll'){
-	        	stragegyWeekVal |= 1<<$(this).val();
-	        }
+		
+  	   //添加时校验
+  	   if(!checkFormSave()){
+  		  return;
+  	   }
+	  	var caseCode = $("#caseCode").val();//案件编号
+	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
+    	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
+    	var resOrgId = $("#orgId").val(); //归属组织id
+    	var propertyAddress = $.trim($("#propertyAddress").val());//产证地址
+    	var transactItemCode='';//办理事项编号
+		$('.choices span').each(function(){
+			if($(this).hasClass("selected")) {
+				transactItemCode += $(this).prop("id")+",";
+	        } 
 	    });
+		transactItemCode = transactItemCode.substring(0,transactItemCode.length-1);
+		
+		var scheduleId = $("#scheduleId").val(); //签约室安排id
+		var signingCenter = $("#tradeCenter").val();  //签约中心
+		var roomId = $("#roomId").val(); //房间ID
+		var resPersonOrgId = $("#resPersonOrgId").val();//预约人组织ID
+		
+		/*var slotTime = $("#slotTime").html();
+		var curDate = $("#curDate").val();*/
+		
+		/*var startDate = curDate +' '+slotTime.substring(0,slotTime.indexOf('-'));
+		var endDate = curDate +' '+slotTime.substr(slotTime.indexOf('-')+1);*/
 	  	
-	  	var roomStatus = $.trim($("input[name='rmSignRoom.roomStatus']").val());
-	  	var pkid = $("#pkid").val();
-	  	
-	   	  $.ajax({
+	   	$.ajax({
 	     		url:ctx+"/signroom/addReservation",
 	     		method:"post",
 	     		dataType:"json",
-	     		data : { resType : '0',
+	     		data : { resType : '1',
 	     			     resPersonId : agentCode,
 	     			     caseCode : caseCode,
 	     			     propertyAddress : propertyAddress,
-	     			     numberOfParticipants : numberOfPeople,
-	     			     transactItemCode : transactItem,
-	     			     specialRequirement : specialRequirement,
-	     			     orgId : orgId,
-	     			     selDate : selDate,
-	     			     bespeakTime:bespeakTime},	 
+	     			     numberOfParticipants : numberOfParticipants,
+	     			     transactItemCode : transactItemCode,
+	     			     resOrgId : resOrgId,
+	     			     scheduleId : scheduleId,
+	     			     signingCenter : signingCenter,
+	     			     roomId : roomId,
+	     			     resStatus : '0',
+	     			     resPersonOrgId : resPersonOrgId
+	     			     /*startDate : startDate,
+	     			     endDate : endDate*/
+	     		},	 
 				success : function(data) {   
 						if(data.success){
 							alert(data.message);
-							window.location.href = ctx+"/signroom/signingManage";
+							window.location.href = ctx+"/signroom/signRoomAllotList";
 						}else{
 							alert(data.message);
 						}
@@ -89,6 +122,24 @@ $(function () {
 	      });
 	   });
     
+	//产证地址文本框失去焦点获取对应的caseCode
+	$("#propertyAddress").blur(function(){
+		var propertyAddress = this.value;
+		
+		if(propertyAddress != ""){
+			$.ajax({
+				cache:false,
+				async:false,
+				type:"POST",
+				dataType:"text",
+				url:ctx+"/mobile/reservation/getCaseCodeByPropertyAddr",
+				data: {propertyAddress:propertyAddress},
+				success:function(data){
+					$("#caseCode").val(data);
+				}
+			});
+		}
+	});
     
     
 })
@@ -111,40 +162,50 @@ function chooseManager(id) {
 
 //选取人员的回调函数
 function signRoomSelectUserBack(array) {
-	console.log(array);
 	if (array && array.length > 0) {
 		$("#jjrName").val(array[0].username);
 		$("#jjrName").attr('hVal', array[0].userId);
+		$("#resPersonOrgId").val(array[0].orgId);//预约人组织ID
 
 	} else {
 		$("#jjrName").val("");
 		$("#jjrName").attr('hVal', "");
+		$("#resPersonOrgId").val("");
 	}
 	
 	var agentCode = $("#jjrName").attr('hVal');
-	   //文本框自动填充
-	   $("#propertyAddress").autocomplete({
-		 maxHeight:300,
-		 source: function(request, response) {
-			 $.ajax({
-				 url: ctx + "/mobile/reservation/getPropertyAddressList",
-				 dataType: "json",
-				 data: {
-				 inputValue: $("#propertyAddress").val(),
-				 agentCode : 'E39F5661B6614F968F27E7BD24BA324A'
-			 },
-			 success: function(data) {
-					 response($.map(data, function(item) {
-						 return {
-						 label: item.propertyAddress,
-						 value: item.propertyAddress,
-						 caseCode: item.caseCode
-					 }
-			 	}));
-			 }
-		 });
-		 }
-		 });
+	
+	//文本框自动填充
+	   $("#propertyAddress").keyup(function(){
+		   var inputValue = this.value;
+		   
+		   if(inputValue != ""){
+			   $.ajax({
+					cache:false,
+					async:false,
+					type:"POST",
+					dataType:"json",
+					url: ctx + "/mobile/reservation/getPropertyAddressList",
+					data: {inputValue: $("#propertyAddress").val(),agentCode : 'E39F5661B6614F968F27E7BD24BA324A'},
+					success:function(data){
+						if(data.length > 0){
+							 $("#propertyAddress").autocompleter({
+							       highlightMatches: true,
+							       source: data,
+							       hint: true,
+							       empty: false,
+							       limit: 3,
+							       callback: function (value, index, selected) {
+							           if (selected) {
+							               $('.icon').css('background-color');
+							           }
+							       }
+							   });
+						}
+					}
+				});
+		   }
+	   });
 	
 }
 
@@ -172,6 +233,7 @@ function ajaxSubmit(obj) {
 		dataType:"json",
 		data : params,
 		success:function(data){
+			console.log(data);
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -186,7 +248,7 @@ function ajaxSubmit(obj) {
 				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].orgName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
 					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N'){
-						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot + "')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
+						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot + "','"+data.content.signRooms[i].orgId+"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].pkid+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
@@ -208,10 +270,18 @@ function ajaxSubmit(obj) {
     });
 }
 
-function goSlotRoom(obj1,obj2,obj3){
-	$("#roomNo").html(obj1);
-	$("#roomType").html(obj2);
-	$("#slotTime").html(obj3);
+function goSlotRoom(roomNo,roomType,slotTime,orgId,scheduleId,tradeCenter,roomId){
+	$("#roomNo").html(roomNo);
+	$("#roomType").html(roomType);
+	$("#slotTime").html(slotTime);
+	$("#orgId").val(orgId);
+	$("#scheduleId").val(scheduleId);
+	$("#tradeCenter").val(tradeCenter);
+	$("#roomId").val(roomId);
+	
+	var curdate = $("#curDate").val();
+	$("#signDate").html(curdate.substring(5,7)+'/'+curdate.substr(8));
+	
 }
 
 function checkFormSave(){
@@ -259,4 +329,46 @@ function checkZhengShu(num)
      var te= /^[1-9]+[0-9]*]*$/;
      return te.test(num);
 }
+
+var json =
+    [
+        {
+            "label": "上哈斯是",
+            "rgb": "(239, 222, 205)"
+        },
+        {
+            "label": "上海市长宁区",
+            "rgb": "(205, 149, 117)"
+        },
+        {
+            "label": "上海市长宁区1号",
+            "rgb": "(205, 149, 117)"
+        },
+        {
+            "label": "上海市长",
+            "rgb": "(205, 149, 117)"
+        },
+        {
+            "label": "上海市长宁区1号2",
+            "rgb": "(205, 149, 117)"
+        },
+        {
+            "label": "上海",
+            "rgb": "(253, 217, 181)"
+        },
+        {
+            "label": "上周",
+            "rgb": "(120, 219, 226)"
+        },
+        {
+            "label": "上火",
+            "rgb": "(135, 169, 107)"
+        }
+
+
+    ];
+
+
+
+
 

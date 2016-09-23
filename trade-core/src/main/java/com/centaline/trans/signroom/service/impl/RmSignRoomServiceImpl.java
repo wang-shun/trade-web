@@ -15,15 +15,19 @@ import org.springframework.stereotype.Service;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheStragegyMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.FreeRoomVo;
+import com.centaline.trans.signroom.vo.ReservationInfoVo;
 
 /**
  * 签约室业务类
@@ -43,6 +47,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	TradeCenterMapper tradeCenterMapper;
 	@Resource
 	RmRoomScheStragegyMapper rmRoomScheStragegyMapper;
+	@Autowired
+	private ReservationMapper reservationMapper;
 	
 
 	@Override
@@ -209,6 +215,37 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		//rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
 		rmSignRoomMapper.deleteRmSignRoomById(rmSignRoom.getPkid());
 		
+		
+	}
+
+	@Override
+	public void addReservation(ReservationInfoVo reservationInfoVo) {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		Reservation reservation = new Reservation();
+		if(reservationInfoVo!=null){
+			reservation.setResNo(reservationInfoVo.getResNo());
+			reservation.setResType(reservationInfoVo.getResType());
+			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
+			reservation.setResPersonId(reservationInfoVo.getResPersonId());
+			reservation.setResOrgId(reservationInfoVo.getResOrgId());
+			reservation.setResStatus(reservationInfoVo.getResStatus());
+			reservation.setScheduleId(reservationInfoVo.getScheduleId());
+			reservation.setCaseCode(reservationInfoVo.getCaseCode());
+			reservation.setPropertyAddress(reservationInfoVo.getPropertyAddress());
+			reservation.setSigningCenter(reservationInfoVo.getSigningCenter());
+			reservation.setNumberOfParticipants(reservationInfoVo.getNumberOfParticipants());
+			reservation.setTransactItemCode(reservationInfoVo.getTransactItemCode());
+			reservation.setCreateTime(Calendar.getInstance().getTime());
+			reservation.setCreateBy(currentUser.getId());
+			reservation.setUpdateTime(Calendar.getInstance().getTime());
+			reservation.setUpdateBy(currentUser.getId());
+			reservationMapper.insertSelective(reservation);//插入临时分配的信息
+			
+			FreeRoomVo freeRoomVo = new FreeRoomVo();
+			freeRoomVo.setResId(reservation.getPkid());
+			freeRoomVo.setScheduleId(reservationInfoVo.getScheduleId());
+			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
+		}
 		
 	}
 

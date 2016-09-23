@@ -24,6 +24,7 @@ import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.ReservationInfoVo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
 /**
  * 签约室控制器
@@ -170,5 +171,28 @@ public class SignRoomController {
 		}
 		return response;
 	}
+	
+	/**
+	 * 添加或修改签约室
+	 * @return
+	 */
+	@RequestMapping("/addReservation")
+	@ResponseBody
+	public AjaxResponse<T> addReservation(Model model,HttpServletRequest requst,ReservationInfoVo reservationInfoVo){
+		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			rmSignRoomService.addReservation(reservationInfoVo);
+			response.setCode("400");
+			response.setMessage("分配成功！");
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("分配失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
+	
+	
 	
 }

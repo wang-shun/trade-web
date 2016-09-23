@@ -29,6 +29,8 @@
         <link rel="stylesheet" href="${ctx}/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/css/common/input.css" />
         <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
+        
+        <link rel="stylesheet" href="${ctx}/js/plugins/autocomplete/autocompleter.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -41,22 +43,22 @@
                         <form method="get" class="form_list">
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
+                                    <%-- <label class="control-label sign_left_small select_style mend_select">
                                        	 时间
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd" >
                                         <input name="curDate" id="curDate" class=" data_style input_type" type="text" value="${curDate }" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        	房间类型
+                                    </div> --%>
+                                    <label class="control-label sign_left_small select_style mend_select">
+                                        预约日期
                                     </label>
-                                    <select class="select_control sign_right_one" name="roomTypeSlot" id="roomTypeSlot">
-                                        <option value="">请选择</option>
-                                        <option value="0">普通房间</option>
-                                        <option value="1">机动房间</option>
-                                    </select>
+                                    <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                        <input name="curDate" id="curDate" class="input_type data_style datatime" type="text" value="${curDate }" placeholder="">
+                                    </div>
+                                    <div class="seldata">
+                                        <span id="today" class="today date-time">今</span>
+                                        <span id="tommrow" class="tommrow date-time">明</span>
+                                    </div>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -70,10 +72,21 @@
                                         <option value="2">已使用</option>
                                         <option value="3">使用中</option>
                                     </select>
+                                    
                                 </div>
+                               
                             </div>
                             <div class="line">
-
+								 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        	房间类型
+                                    </label>
+                                    <select class="select_control sign_right_one" name="roomTypeSlot" id="roomTypeSlot">
+                                        <option value="">请选择</option>
+                                        <option value="0">普通房间</option>
+                                        <option value="1">机动房间</option>
+                                    </select>
+                                </div>
                                 <div class="add_btn" style="float:left;margin-left:126px;">
                                     <button type="button" class="btn btn-success" id="searchBtn">
                                         <i class="icon iconfont">&#xe635;</i>
@@ -118,7 +131,13 @@
                                 	临时分配
                             </div>
                             <form action="" class="form_list clearfix">
-                                <div class="line">
+                            	<input type="hidden" id="caseCode" value=""/>
+                            	<input type="hidden" id="orgId" value=""/>
+                            	<input type="hidden" id="scheduleId" value=""/>
+                            	<input type="hidden" id="tradeCenter" value=""/>
+                            	<input type="hidden" id="roomId" value=""/>
+                            	<input type="hidden" id="resPersonOrgId" value=""/>
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">
                                           	  房间号
@@ -131,8 +150,8 @@
                                         <label class="control-label sign_left_small select_style mend_select">
                                             	预约日期
                                         </label>
-                                        <div class="pull-left popup-text">
-                                            09/04
+                                        <div class="pull-left popup-text" id="signDate">
+                                            
                                         </div>
                                     </div>
                                     <div class="form_content">
@@ -146,7 +165,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                            	 经纪人用户名
@@ -158,16 +177,17 @@
                                     </div>
                                 </div>
                                 
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            	交易地址
+            							<label class="control-label sign_left_small">
+                                          	  交易地址
                                         </label>
-                                        <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
-            							<i class="dingwei iconfont orange">&#xe60a;</i>
+                                        <div style="position: relative;display: inline;">
+                                        <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" data-required="true"  maxlength="40" class=" input_type width400" />
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                             	参与人数
@@ -175,19 +195,19 @@
                                         <input class="pop-name input_type" type="text" placeholder="" id="numberOfParticipants" name="numberOfParticipants"  value="" />
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content choices">
                                         <label class="control-label sign_left_small">
                                             	办理事项
                                         </label>
                                         <c:forEach items="${transactItemVoList}" var="transactItemVo">
-                                             <span name="srvcode" class="text-white mr5 "  value="${transactItemVo.code }">
+                                             <span name="srvcode" class="text-white mr5 "  id="${transactItemVo.code }">
                                             	${transactItemVo.name }
                                         </span>
                                         </c:forEach>
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="add_btn" style="float:left;margin:15px 126px;">
                                         <button type="button" class="btn btn-success" id="saveBtn">
                                            	 分配
@@ -213,7 +233,8 @@
 		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	    <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
-	    <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	    <script src="${ctx}/js/plugins/autocomplete/jquery.autocompleter.js"></script>
+	    <%-- <script src="${ctx}/js/plugins/autocomplete/autocompleter.js"></script> --%>
 		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
 		<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>

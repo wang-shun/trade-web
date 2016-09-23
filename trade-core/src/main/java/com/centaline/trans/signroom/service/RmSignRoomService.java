@@ -6,6 +6,7 @@ import java.util.Map;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.vo.ReservationInfoVo;
 
 public interface RmSignRoomService {
 	/**
@@ -39,5 +40,11 @@ public interface RmSignRoomService {
 	 * @param rmSignRoom
 	 */
 	void deleteSignRoom(RmSignRoom rmSignRoom);
+
+	/**
+	 * 临时分配签约室
+	 * @param reservationInfoVo
+	 */
+	void addReservation(ReservationInfoVo reservationInfoVo);
 
 }
