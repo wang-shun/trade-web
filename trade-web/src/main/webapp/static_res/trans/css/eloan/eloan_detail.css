@@ -1,7 +1,7 @@
 @media (min-width: 768px) {
   .dl-horizontal dt {
     float: left;
-    width: 80px;
+    width: 100px;
     overflow: hidden;
     text-align: right;
     text-overflow: ellipsis;
@@ -21,9 +21,22 @@
   font-family: "Microsoft Yahei";
 }
 
+.ykqing {
+    background: #0aa5d7!important;
+    border: 1px solid #0aa5d7;
+}
+
 .wrapper-content .ibox-content {
   padding: 10px 20px 10px 15px;
   margin-top: 10px;
+}
+
+.width125 {
+    width: 125px!important;
+}
+
+.mt6 {
+    margin-top: 6px!important;
 }
 
 .wrapper-content .ibox-content .row {

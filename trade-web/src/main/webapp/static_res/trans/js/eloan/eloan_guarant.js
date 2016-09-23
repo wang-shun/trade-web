@@ -27,7 +27,7 @@ function getDel(k){
 $(function() {
 
 /*开关按钮*/
-  $('[name="isModifyPhone"]').bootstrapSwitch({
+ /* $('[name="isModifyPhone"]').bootstrapSwitch({
       onText:"未修改",
       offText:"已修改",
       onColor:"primary",
@@ -40,7 +40,7 @@ $(function() {
               $(this).val("2");
           }
       }
-  })
+  })*/
 
 
   /*poshytip 提示框JS*/

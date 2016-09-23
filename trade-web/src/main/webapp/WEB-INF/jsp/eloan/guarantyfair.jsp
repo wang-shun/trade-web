@@ -67,13 +67,13 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                       公正处名称
+                                       <font color="red">*</font>公正处名称
                                     </label>
                                     <input type="text" placeholder="" class="select_control sign_right_one" id="notaryName" name="notaryName" value="${toRcForceRegister.notaryName }">
                                 </div>
                                 <div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
                                     <label class="control-label sign_left_small">
-                                        执行时间
+                                        <font color="red">*</font>执行时间
                                     </label>
                                     
                                     <input class="input_type sign_right_two" value="<fmt:formatDate value="${toRcForceRegister.executeTime}" pattern="yyyy-MM-dd" />" name="executeTime" id="executeTime" />
@@ -272,7 +272,7 @@
                         <div class="modal-footer" style="text-align:center;">
                             <button type="button" class="btn btn-save submit_btn">确认保存</button>
                            <!--  <button type="button" class="btn btn-success">我要删除</button> -->
-                            <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-white close_btn" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>
@@ -340,6 +340,16 @@
         	var eloanCode =  "${eloanCase.eloanCode }";
         	
         	 $('.submit_btn').click(function(){
+        		var notaryName = $("#notaryName").val();
+ 				var executeTime = $("#executeTime").val();
+ 				if(notaryName == ""){
+ 					 alert("请填写公正处名称！");
+ 					 return false;
+ 				}
+ 				if(executeTime == ""){
+ 					 alert("请填写执行时间！");
+ 					 return false;
+ 				}
              	var toRcForceRegister = {
              		rcId : $('#riskControlId').val(),
              		notaryName : $('#notaryName').val(),
@@ -394,6 +404,11 @@
      			// 保存附件相关信息
      			deleteAndModify();
         	 });
+        	 
+             $(".close_btn").click(function(){
+         		window.close();
+					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
+          		})
 	    });
     
     </script>

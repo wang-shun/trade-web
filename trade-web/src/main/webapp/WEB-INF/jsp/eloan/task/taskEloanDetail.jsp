@@ -38,6 +38,7 @@
 <%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
    <div id="wrapper">
             <!-- main Start -->
             <div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -48,9 +49,6 @@
                     <li class="menuItem"><a href="#reportFour">担保人信息</a></li>
                     <li class="menuItem"><a href="#reportFive">申请材料</a></li>
                 </ul>
-                <div class="menu_btn" style="margin-left: 850px;margin-top: 7px;">
-                    <button class="btn btn-save">保存</button>
-                </div>
             </div>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
@@ -295,12 +293,12 @@
                                                         <li class="active">
                                                             <a href="#tab-fk" data-toggle="tab">风控准备</a>
                                                         </li>
-                                                        <li class="">
+                                                        <!-- <li class="">
                                                             <a href="#tab-hk" data-toggle="tab">回款方案</a>
-                                                        </li>
-                                                        <li class="">
+                                                        </li> -->
+                                                       <!--  <li class="">
                                                             <a href="#tab-hz" data-toggle="tab">合作信息</a>
-                                                        </li>
+                                                        </li> -->
                                                     </ul>
 
                                                 </div>
@@ -310,9 +308,9 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" id="tab-fk">
                                                        <div class="guaranty_btn">
-                                                        <a href="${ctx}/riskControl/guarantycards?pkid=${pkId}"><button class="btn btn-success btn-space">押卡</button></a>
-                                                        <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"><button class="btn btn-success btn-space">抵押</button>
-                                                        </a><a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"><button class="btn btn-success">强制公正</button></a>
+                                                        <%-- <a href="${ctx}/riskControl/guarantycards?pkid=${pkId}"> --%><button class="btn btn-success btn-space ykqing cardButton">押卡</button>
+                                                        <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%><button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
+                                                        <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%><button class="btn btn-success ykqing forceFairButton">强制公正</button>
                                                         </div>
                                                         <div class="riskControl-table">
         												</div>
@@ -468,18 +466,30 @@
                                     <td>{{item.CREATE_TIME}}</td>
                                     <td>{{item.CREATE_BY}}</td>
                                     <td>{{item.RISK_COMMENT}}</td>
+									<td>
+ 											{{if item.RISK_TYPE == '押卡'}}
+                                                <a href="${ctx}/riskControl/guarantycards?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 修改  </button></a>
+                                            {{else if item.RISK_TYPE == '抵押'}}
+                                                <a href="${ctx}/riskControl/guarantymortgage?pkid={{wrapperData.pkId}}"><button type="button" class="btn btn-success"> 修改  </button> </a>
+                                            {{else}}
+                                                <a href="${ctx}/riskControl/guarantyfair?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 修改  </button> </a>
+                                            {{/if}}
+                                                <a href="${ctx}/riskControl/deleteRiskControl?pkid={{item.PKID}}&riskType={{item.RISK_TYPE}}&eloanPkId={{wrapperData.pkId}}"><button type="reset" class="btn btn-grey">删除</button></a>
+                                     </td>
                                 </tr>
 						{{/each}}
 	    </script>
 	   <script>
 		   jQuery(document).ready(function() {
 			   var eloanCode = "${eloanCase.eloanCode }";
+			   var pkId = "${pkId}";
 			   $(".riskControl-table").aistGrid({
 					ctx : "${ctx}",
 					queryId : 'riskControlListQuery',
 				    templeteId : 'queryRiskControlList',
 				    gridClass : 'table table-striped',
 				    data : {eloanCode : eloanCode},
+				    wrapperData : {pkId : pkId},
 				    columns : [{
 				    	           colName :"风控项目"
 				    	      },{
@@ -488,9 +498,38 @@
 				    	           colName :"执行人"
 			    	          },{
 		  		    	           colName :"备注"
+				    	      },{
+		  		    	           colName :"操作"
 				    	      }]
 				
 				}); 
+			   
+			   $(".cardButton").click(function() {
+				   var type="card";
+				   if(isExistsType(type,eloanCode)) {
+					   alert('已经存在该风控类型，你只能修改!');
+				   } else {
+					   window.location.href = "${ctx}/riskControl/guarantycards?pkid=${pkId}";
+				   }
+			   });
+			   
+ 			   $(".mortgageButton").click(function() {
+ 				   var type="mortgage";
+ 				   if(isExistsType(type,eloanCode)) {
+ 					   alert('已经存在该风控类型，你只能修改!');
+				   } else {
+					   window.location.href = "${ctx}/riskControl/guarantymortgage?pkid=${pkId}";
+				   }
+			   });
+ 
+ 			   $(".forceFairButton").click(function() {
+ 				  var type="forceRegister";
+ 				  if(isExistsType(type,eloanCode)) {
+ 					 alert('已经存在该风控类型，你只能修改!');
+				  } else {
+					 window.location.href = "${ctx}/riskControl/guarantyfair?pkid=${pkId}";
+				  }
+ 			   });
 		   })
 	  
 			//点击浏览器任何位置隐藏提示信息
@@ -499,6 +538,42 @@
 					$('a[data-toggle="popover"]').popover('hide');
 				}
 			});
+		   // 验证押卡是否已经存在
+		   function isExistsType(type,eloanCode) {
+			    var isExist = false;
+				var url = "${ctx}/riskControl/validateRiskControlType";
+				$.ajax({
+					cache : false,
+					async : false,//false同步，true异步
+					type : "POST",
+					url : url,
+					dataType : "json",
+					//contentType:"application/json",  
+					data : {'type': type,'eloanCode':eloanCode},
+					beforeSend : function() {
+						$.blockUI({
+							message : $("#salesLoading"),
+							css : {
+								'border' : 'none',
+								'z-index' : '1900'
+							}
+						});
+						$(".blockOverlay").css({
+							'z-index' : '1900'
+						});
+					},
+					complete : function() {
+						$.unblockUI();
+					},
+					success : function(data) {
+						isExist = data.ajaxResponse.success;
+					},
+					error : function(errors) {
+						alert("数据保存出错");
+					}
+				});
+				return isExist;
+			}
 	   </script> 
 	</content>
 </body>

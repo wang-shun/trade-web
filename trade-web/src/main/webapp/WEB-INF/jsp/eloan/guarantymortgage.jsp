@@ -58,13 +58,13 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        抵押合同编号
+                                       <font color="red">*</font> 抵押合同编号
                                     </label>
                                     <input type="text" placeholder="" class="select_control sign_right_one" name="mortgageContractCode" id="mortgageContractCode" value="${toRcMortgageVO.toRcMortgage.mortgageContractCode }">
                                 </div>
                                 <div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
                                     <label class="control-label sign_left_small">
-                                        抵押登记时间
+                                        <font color="red">*</font>抵押登记时间
                                     </label>
                                     <input class="input_type sign_right_two" value="<fmt:formatDate value="${toRcMortgageVO.toRcMortgage.mortgageTime}" pattern="yyyy-MM-dd" />" name="mortgageTime" id="mortgageTime" />
                                     <div class="input-group date_icon">
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        抵押物业地址
+                                        <font color="red">*</font>抵押物业地址
                                     </label>
                                     <input type="text" placeholder="" class="select_control teamcode" id="mortgagePropertyAddress" name="mortgagePropertyAddress" value="${toRcMortgageVO.toRcMortgage.mortgagePropertyAddress }">
                                 </div>
@@ -81,13 +81,13 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产权人姓名
+                                        <font color="red">*</font>产权人姓名
                                     </label>
                                     <input type="text" placeholder="" class="select_control sign_right_one" id="propertyName" name="propertyName" value="${toRcMortgageVO.toRcMortgage.propertyName }">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产证编号
+                                        <font color="red">*</font>产证编号
                                     </label>
                                     <input type="text" placeholder="" class="select_control sign_right_one" id="propertyCode" name="propertyCode" value="${toRcMortgageVO.toRcMortgage.propertyCode }">
                                     <span class="date_icon">
@@ -96,19 +96,11 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        他证编号
+                                        <font color="red">*</font>他证编号
                                     </label>
                                     <input type="text" placeholder="" class="select_control sign_right_one" id="otherCode" name="otherCode" value="${toRcMortgageVO.toRcMortgage.otherCode }">
                                 </div>
                             </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                                       备注
-                                    </label>
-                                    <input class="sign_right_one input_type" value="${toRcMortgageVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
-                                </div>
-                            </div> 
                            <!--  <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -178,9 +170,17 @@
 	                                <a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>
 	                            </div>
                             </div>
+                              <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                                                                                      备注
+                                    </label>
+                                    <input class="sign_right_one input_type" value="${toRcMortgageVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
+                                </div>
+                            </div> 
                         </form>
                         <div class="status_btn text-center mt15">
-                            <button class="btn btn-success btn-space submit_btn">提交</button>
+                            <button class="btn btn-success btn-space submit_btn">保存</button>
                             <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
                         </div>
                         <button type="button" class="close close_blue" style="display:none;" data-dismiss="modal">
@@ -196,12 +196,12 @@
                 <div class="modal-dialog">
                     <div class="modal-content animated fadeIn">
                         <div class="modal-body" style="background:#fff;">
-                            <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
+                            <p class="text-center" style="font-size: 20px;">选择保存按钮可保存本次填写信息！</p>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
                             <button type="button" class="btn btn-save">确认保存</button>
-                            <button type="button" class="btn btn-success">我要删除</button>
-                            <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                            <!-- <button type="button" class="btn btn-success">我要删除</button> -->
+                            <button type="button" class="btn btn-white close_btn" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>
@@ -239,6 +239,36 @@
         	
         	
         	 $('.submit_btn').click(function(){
+        		var mortgageContractCode = $("#mortgageContractCode").val();
+				var mortgageTime = $("#mortgageTime").val();
+				var mortgagePropertyAddress = $("#mortgagePropertyAddress").val();
+				var propertyName = $("#propertyName").val();
+				var propertyCode = $("#propertyCode").val();
+				var otherCode = $("#otherCode").val();
+				if(mortgageContractCode == ""){
+					 alert("请填写抵押合同编号！");
+					 return false;
+				}
+				if(mortgageTime == ""){
+					 alert("请填写抵押登记时间！");
+					 return false;
+				}
+				if(mortgagePropertyAddress == ""){
+					 alert("请填写抵押物业地址！");
+					 return false;
+				}
+				if(propertyName == ""){
+					 alert("请填写 产权人姓名！");
+					 return false;
+				}
+				if(propertyCode == ""){
+					 alert("请填写产证编号！");
+					 return false;
+				}
+				if(otherCode == ""){
+					 alert("请填写他证编号！");
+					 return false;
+				}
              	var toRcMortgageInfoList = new Array();
              	$("#mortgageList .line").each(function(i){
              		if(this.style.display == 'none')
@@ -311,6 +341,11 @@
      			});
              	
              	
+             });
+             
+             $(".close_btn").click(function(){
+            		window.close();
+ 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
              })
 	    })
 	    
