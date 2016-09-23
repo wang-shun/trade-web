@@ -23,7 +23,7 @@ $(function() {
 	});
 	
    //文本框自动填充
-   /*$("#propertyAddress").autocomplete({
+   $("#propertyAddress").autocomplete({
 	 maxHeight:300,
 	 source: function(request, response) {
 		 $.ajax({
@@ -44,10 +44,10 @@ $(function() {
 		 }
 	 });
 	 }
-	 });*/
+	 });
 	
 	
-	$('#propertyAddress').autocompleter({
+/*	$('#propertyAddress').autocompleter({
 	        // marker for autocomplete matches
 	        highlightMatches: true,
 
@@ -60,7 +60,7 @@ $(function() {
 	            alert(value);
 	        }
 	    });
-
+*/
 	//点击切换效果
     $(".add-select input").click(function() {
         if($(this).hasClass("selected-mark")) {
