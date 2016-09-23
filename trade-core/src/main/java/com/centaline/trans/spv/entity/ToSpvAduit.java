@@ -2,7 +2,7 @@ package com.centaline.trans.spv.entity;
 
 import java.util.Date;
 
-public class toSpvAduit {
+public class ToSpvAduit {
     private Long pkid;
 
     private String applyId;

@@ -2,7 +2,7 @@ package com.centaline.trans.spv.entity;
 
 import java.util.Date;
 
-public class toSpvCashFlowApply {
+public class ToSpvCashFlowApply {
     private Long pkid;
 
     private String spvCode;
