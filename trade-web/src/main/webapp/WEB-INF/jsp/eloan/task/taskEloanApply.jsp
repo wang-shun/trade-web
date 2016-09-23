@@ -262,10 +262,14 @@
                             
                             <li>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">
+                                  <label class="control-label sign_left_two">
                                         转介人姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.zjName}" name="zjName" id="zjName">
+                                <input type="text"name="zjName" id="zjName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${yucuiOrgId}',expandNodeId:'${yucuiOrgId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectZjUser})" value='${eloanCase.zjName}'>
+                                	<div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe627;</i>
+                                    </div>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -280,22 +284,26 @@
                                     <label class="control-label sign_left_two">
                                         产品部姓名
                                     </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.pdName}" name="pdName" id="pdName">
+						           <input type="text"name="pdName" id="pdName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${yucuiOrgId}',expandNodeId:'${yucuiOrgId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectPdUser})" value='${eloanCase.pdName}'>
+                                	<div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe627;</i>
+                                    </div>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         产品部员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.pdCode}" name="pdCode" id="pdCode">
+                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" name="pdCode" id="pdCode">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         产品部分成比例
-                                    </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.pdPart}" name="pdPart" id="pdPart">
-                                    <div class="input-group date_icon">
-                                        <span class="danwei">%</span>
-                                    </div>
+                                    </label> 
+                                    <select class="input_type sign_right_two" name="pdPart" id="pdPart">
+                                    <option value="10%">10%</option>
+                                    <option value="20%">20%</option>
+                                    </select>
                                 </div>
                             </li>
                             <li>
@@ -397,6 +405,8 @@
         <p class="name">
             <span>经纪人：</span><a href="#" class="a_blue" id="modal_agentName{{index}}">{{item.AGENT_NAME}}</a>
         </p>
+            <input type="hidden" id="modal_agentCode{{index}}"  value="{{item.AGENT_CODE}}">
+            <input type="hidden" id="modal_employeeCode{{index}}"  value="{{item.EMPLOYEE_CODE}}">
     </td>
     <td class="center">
         <p class="big">
@@ -621,6 +631,9 @@
    	            $("#content_buyer").html($("#modal_buyer"+index).html());
              	$("#content_agentName").html($("#modal_agentName"+index).html());
    	            $("#content_seller").html($("#modal_seller"+index).html());
+   	            $("#content_agentName").html($("#modal_agentName"+index).html());
+   	            $("#zjName").val($("#modal_agentName"+index).html());
+   	            $("#zjCode").val($("#modal_employeeCode"+index).val());
  				$('.case_content').show();
  				$('#myModal').modal('hide');
  				
@@ -821,6 +834,69 @@
 			}else{
 				$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 			}
+		}
+		/**
+		 * 选择用户
+		 * @param param
+		 */
+		function userSelect(param){
+			var options = {
+			        dialogId : "selectUserDialog", //指定别名，自定义关闭时需此参数
+			        dialog : { 
+						height: 463
+					   ,width: 756
+					   ,title:'选择用户'
+					   ,url: appCtx['aist-uam-web']+'/userOrgSelect/userSelect.html'
+					   ,data:param
+					   ,buttons: [
+			                      { text: '确定', onclick: function (item, dialog) { dialog.frame.save();}},
+			                      { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
+			                   ]
+					}
+			    };
+			openDialog(options);
+		} 
+		/**
+		 * 更新input的值
+		 */
+		function selectPdUser(array){
+			if(array && array.length >0){
+				 $("#pdName").val(array[0].username);
+					$.ajax({
+						url:ctx+"/eloan/EmployeeCode",
+						method:"post",
+						dataType:"json",
+						data:{"userId":array[0].userId},
+						success:function(data){
+						$("#pdCode").val(data.user.employeeCode);
+						 }
+						})
+			}else{
+				 $("#pdName").val("");
+				$("#pdCode").val("");
+			}
+		}
+		
+		function selectZjUser(array){
+			if(array && array.length >0){
+				 $("#zjName").val(array[0].username);
+					$.ajax({
+						url:ctx+"/eloan/EmployeeCode",
+						method:"post",
+						dataType:"json",
+						data:{"userId":array[0].userId},
+						success:function(data){
+						$("#zjCode").val(data.user.employeeCode);
+						 }
+						})
+				
+			}else{
+				 $("#zjName").val("");
+				$("#pdCode").val("");
+			}
+		}
+		function returnEmployeeCode(userId){
+
 		}
     </script>
     </content>

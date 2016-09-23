@@ -43,10 +43,10 @@
  						 on pr.PR_APPLIANT=u.id
   						 where PR_STATUS=2 
   						 <ifNotNull prApplyTime>
-  						       and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
+  						       and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
   						 </ifNotNull> 
   						 <ifNotNull prApplyTimeEnd>
-  						       and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
+  						       and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0 
   						 </ifNotNull>  
   						 <ifNotNull prAccpetTimeStart>
 							AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
@@ -96,10 +96,10 @@
   					on pr.PR_APPLIANT=u.id
   					where PR_STATUS=2 
   					 <ifNotNull prApplyTime>
-  					      AND datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;1 
+  					      AND datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
   					 </ifNotNull>
   					 <ifNotNull prApplyTimeEnd>
-  						  AND datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;1 
+  						  AND datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0
   					 </ifNotNull>  
   					 <ifNotNull prAccpetTimeStart>
 						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#

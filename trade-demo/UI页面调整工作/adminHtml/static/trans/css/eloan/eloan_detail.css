@@ -127,7 +127,12 @@
   background-color: #e4e4e4;
   border-color: #e4e4e4;
 }
-
+.mt6 {
+  margin-top: 6px!important;
+}
+.width125 {
+  width: 125px!important;
+}
 .btn-save {
   background: #f784a5;
   color: #fff;
@@ -137,7 +142,14 @@
   background: #f784a5;
   color: #f3f3f3;
 }
-
+.ykqing {
+  background:#0aa5d7!important;
+  border: 1px solid #0aa5d7;
+}
+.ykqing:hover {
+  background:#0aa5d7!important;
+  border: 1px solid #0aa5d7;
+}
 .info_bg {
   background: url(../../img/bg.png) no-repeat;
   width: 438px;
