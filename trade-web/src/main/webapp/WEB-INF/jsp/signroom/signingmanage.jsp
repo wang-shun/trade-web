@@ -245,16 +245,22 @@
                 
  <!-- Mainly scripts -->
  <content tag="local_script"> 
-        <script src="${ctx}/js/jquery-2.1.1.js"></script>
-        <script src="${ctx}/js/bootstrap.min.js"></script>
-        <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-        <!-- Custom and plugin javascript -->
-        <script src="${ctx}/js/inspinia.js"></script>
-        <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
-
-        <script src="${ctx}/transjs/signing/sigingManager.js"></script>
-        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        
+        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+ 		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+ 		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+ 		<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	    <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	    <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+		<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+       
+         <script src="${ctx}/transjs/signing/sigingManager.js"></script>
         <script>
             $(document).ready(function () {
                 //全选

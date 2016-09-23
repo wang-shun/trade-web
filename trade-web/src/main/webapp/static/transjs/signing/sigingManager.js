@@ -74,6 +74,33 @@ $(function () {
     $("#addSignRoom").click(function(){
     	$("#title").html("添加签约室");
     	$("#btnName").html("添加");
+    	
+    	$("#pkid").val("");
+    	$("select[name='rmSignRoom.orgId']").val("");
+      	$("input[name='rmSignRoom.roomNo']").val("");
+      	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val("");
+      	$("input[name='rmSignRoom.roomType']").each(function(){
+           if($(this).prop("value")=="0"){
+                $(this).prop("checked",true);
+            }else{
+            	$(this).prop("checked",false);
+            }
+        });
+      	
+      	$("textarea[name='rmSignRoom.remark']").val("");
+      	
+      	$('input[type=checkbox][name=items]').each(function(){
+      		$(this).prop("checked",false);	
+        });
+      	
+      	$("input[name='rmSignRoom.roomStatus']").each(function(){
+           if($(this).prop("value")=="1"){
+                $(this).prop("checked",true);
+            }else{
+            	$(this).prop("checked",false);
+            }
+        });
+    	
     });
     
     

@@ -17,6 +17,34 @@ $(function () {
     	$('#useStatus').val("");
     });
 })
+//选取营业部经纪人
+function chooseManager(id) {
+	var serviceDepId = id;
+	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
+	userSelect({
+		startOrgId : '1D29BB468F504774ACE653B946A393EE',
+		expandNodeId : '1D29BB468F504774ACE653B946A393EE',
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+		jobCode : 'JWYGW',
+		callBack : signRoomSelectUserBack
+	});
+}
+
+//选取人员的回调函数
+function signRoomSelectUserBack(array) {
+	if (array && array.length > 0) {
+		$("#managerName").val(array[0].username);
+		$("#managerName").attr('hVal', array[0].userId);
+
+	} else {
+		$("#managerName").val("");
+		$("#managerName").attr('hVal', "");
+	}
+}
 
 function getParamsValue() {
 	

@@ -7,7 +7,6 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf" %>
-<jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include> 
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -146,27 +145,26 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
-                                            	经纪人用户名
+                                           	 经纪人用户名
                                         </label>
-                                        <input class="pop-name input_type" placeholder="" value="" />
+                                        <input class="teamcode input_type" id="managerName" name="managerName" readonly="readonly" placeholder="" value="" onclick="chooseManager('${serviceDepId}')">
+                                        <div class="input-group float_icon organize_icon">
+                                            <i class="icon iconfont"></i>
+                                        </div>
                                     </div>
                                 </div>
+                                
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                             	交易地址
                                         </label>
-                                        <select class="select_control sign_right_pop">
-                                            <option value="">
-                                                	上海市浦东二区
-                                            </option>
-                                            <option value="">
-                                                	上海市普陀三区
-                                            </option>
-                                        </select>
+                                        <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
+            							<i class="dingwei iconfont orange">&#xe60a;</i>
                                     </div>
                                 </div>
                                 <div class="line">
@@ -211,16 +209,24 @@
                 
  <!-- Mainly scripts -->
  <content tag="local_script"> 
-        <script src="${ctx}/js/jquery-2.1.1.js"></script>
-        <script src="${ctx}/js/bootstrap.min.js"></script>
-        <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-        <!-- Custom and plugin javascript -->
-        <script src="${ctx}/js/inspinia.js"></script>
-        <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
-
+ 
+ 		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+ 		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+ 		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+ 		<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	    <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	    <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+		<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
         <script src="${ctx}/transjs/signing/siging.js"></script>
-        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script id="template_signRoomList" type="text/html">
+ 			
+		</script>
         <script>
             $(document).ready(function () {
 
