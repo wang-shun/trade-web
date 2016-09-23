@@ -309,6 +309,13 @@
                                     出账
                                 </a>
                             </li>
+                            <li class="">
+                                <a href="../spv/spvRecorded.html">
+                                    <i class="fa ">
+                                    </i>
+                                    入账
+                                </a>
+                            </li>
                         </ul>
 
 
@@ -989,50 +996,7 @@
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <!-- <div class="ibox"> -->
 
-                    <div class="ibox-content clearfix space30">
-                        <div class="title">
-                            <strong>审核意见</strong>
-                        </div>
-                        <div class="view-content ">
-                            <div class="view-box">
-                                <div class="view clearfix">
-                                    <p>
-                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                        <span class="result pink_bg">未通过</span>
-                                        <span class="time">审核日期:<em>2016-9-12</em></span>
-                                    </p>
-                                    <p>
-                                        <span class="auditing">审核意见</span>
-                                        <em class="view_content">账号与附件不一致，重新填写</em>
-                                    </p>
-                                </div>
-                                <div class="view clearfix">
-                                    <p>
-                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                        <span class="result pink_bg">未通过</span>
-                                        <span class="time">审核日期:<em>2016-9-12</em></span>
-                                    </p>
-                                    <p>
-                                        <span class="auditing">审核意见</span>
-                                        <em class="view_content">账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写</em>
-                                    </p>
-                                </div>
 
-                                <div class="view clearfix">
-                                    <p>
-                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                        <span class="result pink_bg">未通过</span>
-                                        <span class="time">审核日期:<em>2016-9-12</em></span>
-                                    </p>
-                                    <p>
-                                        <span class="auditing">审核意见</span>
-                                        <em class="view_content">账号与附件不一致，重新填写</em>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
 
 
                     <div class="ibox-content space30" >
@@ -1085,99 +1049,115 @@
                                 </p>
                             </div>
                         </div>
-                        <form class="form-inline table-capital">
-                            <div class="table-box" >
-                                <table class="table table-bordered customerinfo">
-                                    <thead>
-                                        <th style="width: 100px;">付款人姓名</th>
-                                        <th>付款人账户</th>
-                                        <th style="width: 100px;">入账金额</th>
-                                        <th style="width: 120px;">贷记凭证编号</th>
-                                        <th>付款方式</th>
-                                        <th>凭证附件</th>
-                                        <th>操作</th>
-                                    </thead>
-                                    <tbody id="addTr">
-                                        <tr>
-                                            <td>
-                                                <input class="table-input-one" type="text" value="林小胖" />
-                                            </td>
-                                            <td>
-                                                <p><input class="table_input" type="text" value="1234567890123456789" /></p>
-                                                <p>
-                                                <p><input class="table_input" type="text" value="中国农村合作信用社" /></p>
-                                                <p>
-                                            </td>
+                        <div class="mt20">
+                            <div class="agree-tile">
+                                入账申请信息
+                            </div>
 
-                                            <td class="text-left" >
-                                                <input style="border:none;width: 50px;" type="text" value="500" />万元
-                                            </td>
-                                            <td>
-                                                <input class="table_input" type="text" value="DJZP-000001" />
-                                            </td>
-                                            <td>
-                                                <select name="" class="table-select">
-                                                    <option value="">转账凭证</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证1"><button type="button" class="btn btn-sm btn-default" >凭证1<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证2"><button type="button" class="btn btn-sm btn-default" >凭证2<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <span class="btn_file">
-                                                    <input type="file" class="file" />
-                                                    <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
-                                                </span>
-                                            </td>
-                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" />
-                                            </td>
-                                            <td>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
-                                                <p>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
-                                                <p>
-                                            </td>
+                            <form class="form-inline table-capital">
+                                <div class="table-box" >
+                                    <table class="table table-bordered customerinfo">
+                                        <thead>
+                                            <th style="width: 100px;">付款人姓名</th>
+                                            <th>付款人账户</th>
+                                            <th style="width: 100px;">入账金额</th>
+                                            <th style="width: 120px;">贷记凭证编号</th>
+                                            <th>付款方式</th>
+                                            <th>凭证附件</th>
+                                            <th>操作</th>
+                                        </thead>
+                                        <tbody id="addTr">
+                                            <tr>
+                                                <td>
+                                                    <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" />
+                                                </td>
+                                                <td>
+                                                    <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
+                                                    <p>
+                                                    <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
+                                                    <p>
+                                                </td>
 
-                                            <td class="text-left" >
-                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" />万元
-                                            </td>
-                                            <td>
-                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" />
-                                            </td>
-                                            <td>
-                                                <select name="" class="table-select boderbbt">
-                                                    <option value="">请选择</option>
-                                                    <option value="">转账凭证</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <span class="btn_file">
-                                                    <input type="file" class="file" />
-                                                    <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
-                                                </span>
-                                            </td>
-                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
-                                            </td>
-                                        </tr>
+                                                <td class="text-left" >
+                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" />万元
+                                                </td>
+                                                <td>
+                                                    <input class="table_input boderbbt" type="text" placeholder="请输入编号" />
+                                                </td>
+                                                <td>
+                                                    <select name="" class="table-select boderbbt">
+                                                        <option value="">请选择</option>
+                                                        <option value="">转账凭证</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                    <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                    <span class="btn_file">
+                                                        <input type="file" class="file" />
+                                                        <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
+                                                    </span>
+                                                </td>
+                                                <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                                </td>
+                                            </tr>
 
-                                    </tbody>
-                                </table>
-                                <div class="form-btn">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success mr15">保存</button>
-                                <button type="submit" class="btn btn-default mr15">关闭</button>
-                                <a href="../spv/spvRecordShow.html" class="btn btn-success">提交</a>
+                                        </tbody>
+                                    </table>
+                                    <div class="form-btn">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success mr15">保存</button>
+                                    <button type="submit" class="btn btn-default mr15">关闭</button>
+                                    <a href="../spv/spvRecordShow.html" class="btn btn-success">提交</a>
+                                </div>
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                     <div class="ibox-content clearfix space30">
+                        <div class="title">
+                            <strong>审核意见</strong>
+                        </div>
+                        <div class="view-content ">
+                            <div class="view-box">
+                                <div class="view clearfix">
+                                    <p>
+                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                        <span class="result pink_bg">未通过</span>
+                                        <span class="time">审核日期:<em>2016-9-12</em></span>
+                                    </p>
+                                    <p>
+                                        <span class="auditing">审核意见</span>
+                                        <em class="view_content">账号与附件不一致，重新填写</em>
+                                    </p>
+                                </div>
+                                <div class="view clearfix">
+                                    <p>
+                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                        <span class="result pink_bg">未通过</span>
+                                        <span class="time">审核日期:<em>2016-9-12</em></span>
+                                    </p>
+                                    <p>
+                                        <span class="auditing">审核意见</span>
+                                        <em class="view_content">账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写</em>
+                                    </p>
+                                </div>
+
+                                <div class="view clearfix">
+                                    <p>
+                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                        <span class="result pink_bg">未通过</span>
+                                        <span class="time">审核日期:<em>2016-9-12</em></span>
+                                    </p>
+                                    <p>
+                                        <span class="auditing">审核意见</span>
+                                        <em class="view_content">账号与附件不一致，重新填写</em>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                            </div>
-                        </form>
-
                     </div>
 
                 </div>

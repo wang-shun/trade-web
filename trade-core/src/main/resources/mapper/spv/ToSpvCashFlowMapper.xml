@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvCashFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvCashFlow" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
+    <result column="CASHFLOW_APPLY_ID" property="cashflowApplyId" jdbcType="BIGINT" />
+    <result column="DIRECTION" property="direction" jdbcType="VARCHAR" />
+    <result column="VOUCHER_NO" property="voucherNo" jdbcType="VARCHAR" />
+    <result column="RECEIPT_NO" property="receiptNo" jdbcType="VARCHAR" />
+    <result column="RECEIPT_TIME" property="receiptTime" jdbcType="TIMESTAMP" />
+    <result column="RECEIVER" property="receiver" jdbcType="NVARCHAR" />
+    <result column="RECEIVER_ACC" property="receiverAcc" jdbcType="VARCHAR" />
+    <result column="RECEIVER_BANK" property="receiverBank" jdbcType="NVARCHAR" />
+    <result column="PAYER" property="payer" jdbcType="NVARCHAR" />
+    <result column="PAYER_ACC" property="payerAcc" jdbcType="VARCHAR" />
+    <result column="PAYER_BANK" property="payerBank" jdbcType="VARCHAR" />
+    <result column="FLOW_CONDITION" property="flowCondition" jdbcType="NVARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
+    <result column="INPUT_TIME" property="inputTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, SPV_CODE, CASHFLOW_APPLY_ID, DIRECTION, VOUCHER_NO, RECEIPT_NO, RECEIPT_TIME, 
+    RECEIVER, RECEIVER_ACC, RECEIVER_BANK, PAYER, PAYER_ACC, PAYER_BANK, FLOW_CONDITION, 
+    AMOUNT, STATUS, CLOSE_TIME, INPUT_TIME, IS_DELETED, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+    UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_CASHFLOW
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_CASHFLOW
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlow" >
+    insert into sctrans.T_TO_SPV_CASHFLOW (PKID, SPV_CODE, CASHFLOW_APPLY_ID, 
+      DIRECTION, VOUCHER_NO, RECEIPT_NO, 
+      RECEIPT_TIME, RECEIVER, RECEIVER_ACC, 
+      RECEIVER_BANK, PAYER, PAYER_ACC, 
+      PAYER_BANK, FLOW_CONDITION, AMOUNT, 
+      STATUS, CLOSE_TIME, INPUT_TIME, 
+      IS_DELETED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{cashflowApplyId,jdbcType=BIGINT}, 
+      #{direction,jdbcType=VARCHAR}, #{voucherNo,jdbcType=VARCHAR}, #{receiptNo,jdbcType=VARCHAR}, 
+      #{receiptTime,jdbcType=TIMESTAMP}, #{receiver,jdbcType=NVARCHAR}, #{receiverAcc,jdbcType=VARCHAR}, 
+      #{receiverBank,jdbcType=NVARCHAR}, #{payer,jdbcType=NVARCHAR}, #{payerAcc,jdbcType=VARCHAR}, 
+      #{payerBank,jdbcType=VARCHAR}, #{flowCondition,jdbcType=NVARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{closeTime,jdbcType=TIMESTAMP}, #{inputTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlow" >
+    insert into sctrans.T_TO_SPV_CASHFLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="spvCode != null" >
+        SPV_CODE,
+      </if>
+      <if test="cashflowApplyId != null" >
+        CASHFLOW_APPLY_ID,
+      </if>
+      <if test="direction != null" >
+        DIRECTION,
+      </if>
+      <if test="voucherNo != null" >
+        VOUCHER_NO,
+      </if>
+      <if test="receiptNo != null" >
+        RECEIPT_NO,
+      </if>
+      <if test="receiptTime != null" >
+        RECEIPT_TIME,
+      </if>
+      <if test="receiver != null" >
+        RECEIVER,
+      </if>
+      <if test="receiverAcc != null" >
+        RECEIVER_ACC,
+      </if>
+      <if test="receiverBank != null" >
+        RECEIVER_BANK,
+      </if>
+      <if test="payer != null" >
+        PAYER,
+      </if>
+      <if test="payerAcc != null" >
+        PAYER_ACC,
+      </if>
+      <if test="payerBank != null" >
+        PAYER_BANK,
+      </if>
+      <if test="flowCondition != null" >
+        FLOW_CONDITION,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME,
+      </if>
+      <if test="inputTime != null" >
+        INPUT_TIME,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null" >
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cashflowApplyId != null" >
+        #{cashflowApplyId,jdbcType=BIGINT},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="voucherNo != null" >
+        #{voucherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptNo != null" >
+        #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptTime != null" >
+        #{receiptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=NVARCHAR},
+      </if>
+      <if test="receiverAcc != null" >
+        #{receiverAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverBank != null" >
+        #{receiverBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="payer != null" >
+        #{payer,jdbcType=NVARCHAR},
+      </if>
+      <if test="payerAcc != null" >
+        #{payerAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="payerBank != null" >
+        #{payerBank,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCondition != null" >
+        #{flowCondition,jdbcType=NVARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputTime != null" >
+        #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlow" >
+    update sctrans.T_TO_SPV_CASHFLOW
+    <set >
+      <if test="spvCode != null" >
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cashflowApplyId != null" >
+        CASHFLOW_APPLY_ID = #{cashflowApplyId,jdbcType=BIGINT},
+      </if>
+      <if test="direction != null" >
+        DIRECTION = #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="voucherNo != null" >
+        VOUCHER_NO = #{voucherNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptNo != null" >
+        RECEIPT_NO = #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptTime != null" >
+        RECEIPT_TIME = #{receiptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        RECEIVER = #{receiver,jdbcType=NVARCHAR},
+      </if>
+      <if test="receiverAcc != null" >
+        RECEIVER_ACC = #{receiverAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverBank != null" >
+        RECEIVER_BANK = #{receiverBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="payer != null" >
+        PAYER = #{payer,jdbcType=NVARCHAR},
+      </if>
+      <if test="payerAcc != null" >
+        PAYER_ACC = #{payerAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="payerBank != null" >
+        PAYER_BANK = #{payerBank,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCondition != null" >
+        FLOW_CONDITION = #{flowCondition,jdbcType=NVARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputTime != null" >
+        INPUT_TIME = #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlow" >
+    update sctrans.T_TO_SPV_CASHFLOW
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      CASHFLOW_APPLY_ID = #{cashflowApplyId,jdbcType=BIGINT},
+      DIRECTION = #{direction,jdbcType=VARCHAR},
+      VOUCHER_NO = #{voucherNo,jdbcType=VARCHAR},
+      RECEIPT_NO = #{receiptNo,jdbcType=VARCHAR},
+      RECEIPT_TIME = #{receiptTime,jdbcType=TIMESTAMP},
+      RECEIVER = #{receiver,jdbcType=NVARCHAR},
+      RECEIVER_ACC = #{receiverAcc,jdbcType=VARCHAR},
+      RECEIVER_BANK = #{receiverBank,jdbcType=NVARCHAR},
+      PAYER = #{payer,jdbcType=NVARCHAR},
+      PAYER_ACC = #{payerAcc,jdbcType=VARCHAR},
+      PAYER_BANK = #{payerBank,jdbcType=VARCHAR},
+      FLOW_CONDITION = #{flowCondition,jdbcType=NVARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      INPUT_TIME = #{inputTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

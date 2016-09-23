@@ -19,6 +19,12 @@
   float: left;
   margin: 0px 5px 15px 0px;
 }
+.trade {
+  height: 50px;
+}
+.width400 {
+  width: 400px;
+}
 
 .float_icon {
   position: absolute;
