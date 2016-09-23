@@ -21,6 +21,8 @@
         <link rel="stylesheet" href="../static/trans/css/common/table.css" />
         <link rel="stylesheet" href="../static/trans/css/common/input.css" />
         <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+        <link rel="stylesheet" href="../static/trans/js/plugins/autocompleter/autocompleter.css">
+
     </head>
     <body>
         <div id="wrapper">
@@ -1282,7 +1284,7 @@
                                 临时分配
                             </div>
                             <form action="" class="form_list clearfix">
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">
                                             房间号
@@ -1308,7 +1310,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                             经纪人用户名
@@ -1319,30 +1321,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                             交易地址
                                         </label>
-                                        <select class="select_control sign_right_pop">
-                                            <option value="">
-                                                上海市浦东二区
-                                            </option>
-                                            <option value="">
-                                                上海市普陀三区
-                                            </option>
-                                        </select>
+                                        <div style="position: relative;display: inline;">
+                                        <input type="text" name="nope" id="nope" placeholder="" maxlength="40" class=" input_type width400" />
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                             容纳人数
                                         </label>
-                                        <input class="pop-name input_type" type="text" placeholder="" value="6" />
+                                            <input class="pop-name input_type" type="text" placeholder="" value="6" />
+
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="form_content choices">
                                         <label class="control-label sign_left_small">
                                             办理事项
@@ -1358,7 +1356,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="line">
+                                <div class="trade">
                                     <div class="add_btn" style="float:left;margin:15px 126px;">
                                         <button type="button" class="btn btn-success">
                                             分配
@@ -1370,7 +1368,7 @@
                                 </div>
                             </form>
                         </div>
-                        <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                        </div>
                 </div>
                 <!--*********************** HTML_main*********************** -->
             </div>
@@ -1394,6 +1392,13 @@
         <script src="../static/trans/js/signing/siging.js">
         </script>
         <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+
+        <!--自动完成-->
+        <script src="../static/trans/js/plugins/autocompleter/jquery.autocompleter.js"></script>
+        <script src="../static/trans/js/plugins/autocompleter/autocompleter.js"></script>
+
+
         <script>
             $(document).ready(function () {
 
