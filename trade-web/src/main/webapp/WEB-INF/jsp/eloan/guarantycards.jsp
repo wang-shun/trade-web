@@ -273,6 +273,14 @@
 					 alert("请填写押卡时间！");
 					 return false;
 				 }
+				 var phoneNumber = $("#phoneNumber").val();
+				 if(phoneNumber!=null & phoneNumber!=''){
+					 checkGuestPhone = checkContactNumber(phoneNumber);
+					 if (!checkGuestPhone) {
+							return false;
+					 }
+				 }
+			
              	var toRcMortgageInfoList = new Array();
              	/* $("#mortgageList .line").each(function(i){
              		if(this.style.display == 'none')
@@ -384,6 +392,47 @@
 					});
 				}
 			});				
+		}
+		//验证手机和电话号码
+		function checkContactNumber(ContactNumber) {
+			
+			var mobile = $.trim(ContactNumber);				
+			var number=/^[0-9]*$/;	//数字			
+			var isValid = true;
+			
+			if(!number.exec(mobile)){					
+				alert("电话号码只能由数字组成！");
+				isValid = false;
+				return isValid;
+			}
+			if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
+				alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				isValid = false;
+				return isValid;
+			}
+			
+			if(isUniqueChar(mobile)){
+				alert("电话号码不能为全部相同的数字！");
+				isValid = false;
+				return isValid;
+			}
+			return isValid;
+		}
+		//判断是否有重复字符
+		function isUniqueChar(value){
+			if(!value){
+				return false;
+			}
+			var uniqueMap   = {};
+			for(i=0;i<value.length;i++){
+				var val = value.charAt(i);
+				uniqueMap[val]=val;
+			}
+			var result = ""
+			for(var key in uniqueMap){
+				result +=key;
+			}
+			return (result.length==1);
 		}
        </script>
 	</content>
