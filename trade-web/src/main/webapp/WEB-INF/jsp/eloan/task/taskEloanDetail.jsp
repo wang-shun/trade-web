@@ -308,9 +308,14 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" id="tab-fk">
                                                        <div class="guaranty_btn">
-                                                        <%-- <a href="${ctx}/riskControl/guarantycards?pkid=${pkId}"> --%><button class="btn btn-success btn-space ykqing cardButton">押卡</button>
-                                                        <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%><button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
-                                                        <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%><button class="btn btn-success ykqing forceFairButton">强制公正</button>
+                                                        <%-- <a href="${ctx}/riskControl/guarantycards?pkid=${pkId}"> --%>
+                                                        <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
+                                                        <button class="btn btn-success btn-space ykqing cardButton">押卡</button>
+                                                        <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%>
+                                                        <button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
+                                                        <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%>
+                                                        <button class="btn btn-success ykqing forceFairButton">强制公正</button>
+                                                        </shiro:hasPermission>
                                                         </div>
                                                         <div class="riskControl-table">
         												</div>
@@ -467,6 +472,7 @@
                                     <td>{{item.CREATE_BY}}</td>
                                     <td>{{item.RISK_COMMENT}}</td>
 									<td>
+                                            <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
  											{{if item.RISK_TYPE == '押卡'}}
                                                 <a href="${ctx}/riskControl/guarantycards?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 修改  </button></a>
                                             {{else if item.RISK_TYPE == '抵押'}}
@@ -474,7 +480,10 @@
                                             {{else}}
                                                 <a href="${ctx}/riskControl/guarantyfair?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 修改  </button> </a>
                                             {{/if}}
-                                                <a href="${ctx}/riskControl/deleteRiskControl?pkid={{item.PKID}}&riskType={{item.RISK_TYPE}}&eloanPkId={{wrapperData.pkId}}"><button type="reset" class="btn btn-grey">删除</button></a>
+                                            </shiro:hasPermission>
+											<shiro:hasPermission name="TRADE.RISKCONTROL.DELETE">
+                                            <a href="${ctx}/riskControl/deleteRiskControl?pkid={{item.PKID}}&riskType={{item.RISK_TYPE}}&eloanPkId={{wrapperData.pkId}}"><button type="reset" class="btn btn-grey">删除</button></a>
+											</shiro:hasPermission>
                                      </td>
                                 </tr>
 						{{/each}}
