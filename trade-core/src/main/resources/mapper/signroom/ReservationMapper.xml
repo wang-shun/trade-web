@@ -157,10 +157,15 @@
   </select>
   
    <select id="getSignRoomInfoListByCondition" parameterType="com.centaline.trans.signroom.vo.ReservationSearchVo" resultType="com.centaline.trans.signroom.vo.ReservationInfo">
-    	SELECT sr.NUMBE_OF_ACCOMMODATE_PEOPLE as numberOfPeople,COUNT(*) AS residualNumber FROM sctrans.T_RM_SIGN_ROOM sr
+    	SELECT DISTINCT sr.NUMBE_OF_ACCOMMODATE_PEOPLE as numberOfPeople,
+		(
+		SELECT count(*) FROM sctrans.T_RM_SIGN_ROOM sr1
+		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON rs1.ROOM_ID = sr1.PKID
+		WHERE rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs1.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		) as residualNumber
+		FROM sctrans.T_RM_SIGN_ROOM sr
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-		WHERE rs.IS_DELETE = 0 AND rs.USE_STATUS = 'N' AND rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr.ORG_ID = #{orgId,jdbcType=VARCHAR}
-		GROUP BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE;
+		WHERE rs.IS_DELETE = 0 AND rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr.ORG_ID = #{orgId,jdbcType=VARCHAR};
   </select>
   
   <select id="getTransactItemList" resultType="com.centaline.trans.signroom.vo.TransactItemVo">

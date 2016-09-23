@@ -116,19 +116,29 @@ public class ReservationServiceImpl implements ReservationService {
 		FreeRoomVo freeRoomVo = new FreeRoomVo();
 		freeRoomVo.setOrgId(orgId);
 		freeRoomVo.setNumberOfParticipants(numberOfParticipants);
-		freeRoomVo.setStartDate(selDate + " "
-				+ bespeakTime.substring(0, bespeakTime.indexOf("-")));
 
-		freeRoomVo.setEndDate(selDate
-				+ " "
-				+ bespeakTime.substring(bespeakTime.indexOf("-") + 1,
-						bespeakTime.length()));
+		String formatStartDate = "";
+		String formatEndDate = "";
+		if (bespeakTime != null && !"".equals(bespeakTime)) {
+			formatStartDate = selDate + " "
+					+ bespeakTime.substring(0, bespeakTime.indexOf("-"));
+
+			formatEndDate = selDate
+					+ " "
+					+ bespeakTime.substring(bespeakTime.indexOf("-") + 1,
+							bespeakTime.length());
+		}
+
+		freeRoomVo.setStartDate(formatStartDate);
+		freeRoomVo.setEndDate(formatEndDate);
 
 		FreeRoomInfo freeRoomInfo = reservationMapper
 				.getFreeRoomByCondition(freeRoomVo);
 
-		freeRoomInfo.setSelDate(selDate);
-		freeRoomInfo.setBespeakTime(bespeakTime);
+		if (freeRoomInfo != null) {
+			freeRoomInfo.setSelDate(selDate);
+			freeRoomInfo.setBespeakTime(bespeakTime);
+		}
 
 		return freeRoomInfo;
 	}

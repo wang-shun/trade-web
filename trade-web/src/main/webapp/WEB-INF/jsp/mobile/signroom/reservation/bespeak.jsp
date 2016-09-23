@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/iconfont/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/validate.css" />
-
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/autocompleter.css" />
 </head>
 <body class="white">
     <header class="aui-bar aui-bar-nav">
@@ -24,8 +24,8 @@
     <form action="" id="form1">
     	<input type="hidden" id="ctx" value="${ctx }"/>
     	<input type="hidden" id="orgId" value="${orgId }"/>
-		<input type="hidden" id="selDate" name="${selDate }"/>
-		<input type="hidden" id="bespeakTime" name="${bespeakTime }"/>
+		<input type="hidden" id="selDate" value="${selDate }"/>
+		<input type="hidden" id="bespeakTime" value="${bespeakTime }"/>
 		<input type="hidden" id="agentCode" value="${agentCode }"/>
 		<input type="hidden" id="caseCode"/>
 		
@@ -83,6 +83,7 @@
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/layer.js"></script>
 
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery.autocompleter.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-mvalidate.js"></script>
 

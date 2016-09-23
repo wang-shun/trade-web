@@ -42,7 +42,7 @@
 }
 .excend10 {
     min-height: 1.5rem!important;
-    padding-left: 0.7rem!important;
+    padding-left: 1.2rem!important;
 }
 .plr10 {
     padding: 0px 10px;
@@ -261,7 +261,7 @@ select {
     right: 0;
     width: 70px;
     height: 70px;
-    background: url(../../../image/jintian.png) no-repeat top right;
+    background: url(../image/jintian.png) no-repeat top right;
     background-size:55% 55%;
 }
 .baoman {
@@ -270,7 +270,7 @@ select {
     right: 0;
     width: 70px;
     height: 70px;
-    background: url(../../../image/baoman.png) no-repeat top right;
+    background: url(../image/baoman.png) no-repeat top right;
     background-size:55% 55%;
 }
 .trans_bg {
