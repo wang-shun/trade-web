@@ -24,6 +24,7 @@ import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.TransactItemVo;
 /**
  * 签约室控制器
  * @author zhoujp7
@@ -50,6 +51,9 @@ public class SignRoomController {
 		Calendar cd = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
+		List<TransactItemVo> transactItemVoList = reservationService
+				.getTransactItemList();
+		model.addAttribute("transactItemVoList", transactItemVoList);
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
 		return "/signroom/signingallot";
 	}

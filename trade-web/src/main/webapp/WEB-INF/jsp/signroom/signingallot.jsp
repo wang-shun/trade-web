@@ -151,7 +151,7 @@
                                         <label class="control-label sign_left_small">
                                            	 经纪人用户名
                                         </label>
-                                        <input class="teamcode input_type" id="managerName" name="managerName" readonly="readonly" placeholder="" value="" onclick="chooseManager('${serviceDepId}')">
+                                        <input class="teamcode input_type" id="jjrName" name="jjrName" readonly="readonly" placeholder="" value="" onclick="chooseManager('${serviceDepId}')">
                                         <div class="input-group float_icon organize_icon">
                                             <i class="icon iconfont"></i>
                                         </div>
@@ -170,9 +170,9 @@
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
-                                            	容纳人数
+                                            	参与人数
                                         </label>
-                                        <input class="pop-name input_type" type="text" placeholder="" value="6" />
+                                        <input class="pop-name input_type" type="text" placeholder="" id="numberOfParticipants" name="numberOfParticipants"  value="" />
                                     </div>
                                 </div>
                                 <div class="line">
@@ -180,20 +180,16 @@
                                         <label class="control-label sign_left_small">
                                             	办理事项
                                         </label>
-                                        <span name="srvcode" class="text-white mr5 "  value="">
-                                            	签合同
+                                        <c:forEach items="${transactItemVoList}" var="transactItemVo">
+                                             <span name="srvcode" class="text-white mr5 "  value="${transactItemVo.code }">
+                                            	${transactItemVo.name }
                                         </span>
-                                        <span name="srvcode" class="text-white mr5 "  value="">
-                                            	办贷款
-                                        </span>
-                                        <span name="srvcode" class="text-white mr5 "  value="">
-                                            e+贷款
-                                        </span>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <div class="line">
                                     <div class="add_btn" style="float:left;margin:15px 126px;">
-                                        <button type="button" class="btn btn-success">
+                                        <button type="button" class="btn btn-success" id="saveBtn">
                                            	 分配
                                         </button>
                                         <button type="reset" class="btn btn-grey" data-dismiss="modal">
@@ -223,6 +219,7 @@
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		
         <script src="${ctx}/transjs/signing/siging.js"></script>
         <script id="template_signRoomList" type="text/html">
  			

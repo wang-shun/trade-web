@@ -11,11 +11,86 @@ $(function () {
     $("#searchBtn").click(function(){
     	ajaxSubmit(1);
     });
-    
+    //清空条件
     $("#clearBtn").click(function(){
     	$('#roomTypeSlot').val("");
     	$('#useStatus').val("");
     });
+    
+  //产证地址文本框失去焦点获取对应的caseCode
+	$("#propertyAddress").blur(function(){
+		var propertyAddress = this.value;
+		
+		if(propertyAddress != ""){
+			$.ajax({
+				cache:false,
+				async:false,
+				type:"POST",
+				dataType:"text",
+				url:ctx+"/mobile/reservation/getCaseCodeByPropertyAddr",
+				data: {propertyAddress:propertyAddress},
+				success:function(data){
+					$("#caseCode").val(data);
+				}
+			});
+		}
+	});
+	
+	//保存 临时分配数据
+	$("#saveBtn").click(function(){
+	  	  //添加时校验
+	  	  if(!checkFormSave()){
+	  		  return;
+	  	  }
+	  	 return; 
+	  	var orgId = $.trim($("select[name='rmSignRoom.orgId']").val());
+	  	var orgName = $("select[name='rmSignRoom.orgId']").find("option:selected").text();
+	  	
+	  	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
+	  	var numbeOfAccommodatePeople = $.trim($("input[name='rmSignRoom.numbeOfAccommodatePeople']").val());
+	  	var roomType = $.trim($("input[name='rmSignRoom.roomType']").val());
+	  	var remark = $.trim($("textarea[name='rmSignRoom.remark']").val());
+	  	
+	  	var stragegyWeekVal=0 ;
+	  	$('input[type=checkbox][name=items]').each(function(){
+	        if($(this).prop("checked") == true && $(this).prop("id")!='CheckedAll'){
+	        	stragegyWeekVal |= 1<<$(this).val();
+	        }
+	    });
+	  	
+	  	var roomStatus = $.trim($("input[name='rmSignRoom.roomStatus']").val());
+	  	var pkid = $("#pkid").val();
+	  	
+	   	  $.ajax({
+	     		url:ctx+"/signroom/addReservation",
+	     		method:"post",
+	     		dataType:"json",
+	     		data : { resType : '0',
+	     			     resPersonId : agentCode,
+	     			     caseCode : caseCode,
+	     			     propertyAddress : propertyAddress,
+	     			     numberOfParticipants : numberOfPeople,
+	     			     transactItemCode : transactItem,
+	     			     specialRequirement : specialRequirement,
+	     			     orgId : orgId,
+	     			     selDate : selDate,
+	     			     bespeakTime:bespeakTime},	 
+				success : function(data) {   
+						if(data.success){
+							alert(data.message);
+							window.location.href = ctx+"/signroom/signingManage";
+						}else{
+							alert(data.message);
+						}
+					},		
+				error : function(errors) {
+						alert("数据保存出错:"+JSON.stringify(errors));
+					}	 
+	      });
+	   });
+    
+    
+    
 })
 //选取营业部经纪人
 function chooseManager(id) {
@@ -36,14 +111,41 @@ function chooseManager(id) {
 
 //选取人员的回调函数
 function signRoomSelectUserBack(array) {
+	console.log(array);
 	if (array && array.length > 0) {
-		$("#managerName").val(array[0].username);
-		$("#managerName").attr('hVal', array[0].userId);
+		$("#jjrName").val(array[0].username);
+		$("#jjrName").attr('hVal', array[0].userId);
 
 	} else {
-		$("#managerName").val("");
-		$("#managerName").attr('hVal', "");
+		$("#jjrName").val("");
+		$("#jjrName").attr('hVal', "");
 	}
+	
+	var agentCode = $("#jjrName").attr('hVal');
+	   //文本框自动填充
+	   $("#propertyAddress").autocomplete({
+		 maxHeight:300,
+		 source: function(request, response) {
+			 $.ajax({
+				 url: ctx + "/mobile/reservation/getPropertyAddressList",
+				 dataType: "json",
+				 data: {
+				 inputValue: $("#propertyAddress").val(),
+				 agentCode : 'E39F5661B6614F968F27E7BD24BA324A'
+			 },
+			 success: function(data) {
+					 response($.map(data, function(item) {
+						 return {
+						 label: item.propertyAddress,
+						 value: item.propertyAddress,
+						 caseCode: item.caseCode
+					 }
+			 	}));
+			 }
+		 });
+		 }
+		 });
+	
 }
 
 function getParamsValue() {
@@ -110,5 +212,51 @@ function goSlotRoom(obj1,obj2,obj3){
 	$("#roomNo").html(obj1);
 	$("#roomType").html(obj2);
 	$("#slotTime").html(obj3);
+}
+
+function checkFormSave(){
+	
+	if($("#jjrName").val()==''){
+		alert("请选择经纪人！");
+		$("#jjrName").focus();
+		return false;
+	}
+	if($.trim($("#propertyAddress").val())==''){
+		alert("请输入交易地址！");
+		$("#propertyAddress").focus();
+		return false;
+	}
+	if($.trim($("#numberOfParticipants").val())==''){
+		alert("请输入参与人数！");
+		$("#numberOfParticipants").focus();
+		return false;
+	}else if(!checkZhengShu($("#numberOfParticipants").val())){
+		alert("请输入正确的参与人数！");
+		$("#numberOfParticipants").focus();
+		return false;
+	}
+	
+	var flag=false;
+	$('.choices span').each(function(){
+		if($(this).hasClass("selected")) {
+			flag = true;
+        } 
+    });
+	if(!flag){
+		alert("请选择办理事项！");
+		return false;
+	}
+	
+	return true;
+	
+}
+
+/**
+ * 校验正整数
+ */
+function checkZhengShu(num)  
+{  
+     var te= /^[1-9]+[0-9]*]*$/;
+     return te.test(num);
 }
 
