@@ -64,12 +64,12 @@
                         </div>
                     </div>
                     <div class="aui-list-item-media listspace">
-						{{if item.resStatus == '0'}}
-								<div class="aui-btn cancel" id="{{item.resId}}">取消预约</div>
-						{{else}}
-							{{if item.currentTime > item.endDate}}
+						{{if item.currentTime > item.endDate}}
 								<div class="aui-btn trans_bg">已过期</div>
-							{{else}}
+						{{else}}
+								{{if item.resStatus == '0'}}
+									<div class="aui-btn cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+								{{/if}}
 
 								{{if item.resStatus == '4'}}
 									<div class="aui-btn trans_bg red">已取消</div>
@@ -83,8 +83,6 @@
 									div class="aui-btn trans_bg">使用完</div>
 								{{/if}}
 						{{/if}}
-						{{/if}}
-						
 						
                     </div>
 

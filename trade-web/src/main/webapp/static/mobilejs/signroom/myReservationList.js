@@ -15,11 +15,6 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
-	
-	$(".cancel").click(function(){
-		var resId = $(this).attr("id");
-		openConfirm(resId);
-	});
 }
 
 function getParams() {
@@ -45,6 +40,25 @@ function openConfirm(resId){
         + "</div>"
     });
 }
+
+//打开取消预约确定弹出框
+var dialog = new auiDialog({})
+function openDialog(text,resId){
+    dialog.alert({
+        title:"",
+        msg:'您确定要取消本次预约吗?',
+        buttons:['取消','确定']
+    },function(ret){
+        if(ret){
+            if(ret.buttonIndex == 2) {
+            	cancelReservation(resId);
+            } else {
+                return false;
+            }
+        }
+    })
+}
+
 
 //取消预约
 function cancelReservation(resId){

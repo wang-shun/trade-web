@@ -3,8 +3,10 @@ $(function() {
 	var ctx = $("#ctx").val();
 	var agentCode = $("#agentCode").val();
 	
+	getPropertyAddress();
+	
 	//产证地址文本框失去焦点获取对应的caseCode
-	/*$("#propertyAddress").blur(function(){
+	$("#propertyAddress").blur(function(){
 		var propertyAddress = this.value;
 		
 		if(propertyAddress != ""){
@@ -20,82 +22,9 @@ $(function() {
 				}
 			});
 		}
-	});*/
+	});
 	
-	
-   //文本框自动填充
-   $("#propertyAddress").keyup(function(){
-	   var inputValue = this.value;
-	   
-	   if(inputValue != ""){
-		   $.ajax({
-				cache:false,
-				async:false,
-				type:"POST",
-				dataType:"json",
-				url: ctx + "/mobile/reservation/getPropertyAddressList",
-				data: {inputValue: $("#propertyAddress").val(),agentCode : agentCode},
-				success:function(data){
-					if(data.length > 0){
-						 $("#propertyAddress").autocompleter({
-						       highlightMatches: true,
-						       source: data,
-						       hint: true,
-						       empty: false,
-						       limit: 3,
-						       callback: function (value, index, selected) {
-						           if (selected) {
-						               $('.icon').css('background-color');
-						           }
-						           alert(value);
-						       }
-						   });
-					}
-				}
-			});
-	   }
-   });
-   
   
-	
-   /*$("#propertyAddress").autocomplete({
-	 maxHeight:300,
-	 source: function(request, response) {
-		 $.ajax({
-			 url: ctx + "/mobile/reservation/getPropertyAddressList",
-			 dataType: "json",
-			 data: {
-			 inputValue: $("#propertyAddress").val(),
-			 agentCode : agentCode
-		 },
-		 success: function(data) {
-				 response($.map(data, function(item) {
-					 return {
-					 label: item.propertyAddress,
-					 value: item.propertyAddress,
-					 caseCode: item.caseCode
-				 }
-		 	}));
-		 }
-	 });
-	 }
-	 });*/
-	
-	
-/*	$('#propertyAddress').autocompleter({
-	        // marker for autocomplete matches
-	        highlightMatches: true,
-
-	        // object to local or url to remote search
-	        source: ctx + "/mobile/reservation/getPropertyAddressList",
-	        callback: function (value, index, selected) {
-	            if (selected) {
-	                $('.icon').css('background-color');
-	            }
-	            alert(value);
-	        }
-	    });
-*/
 	//点击切换效果
     $(".add-select input").click(function() {
         if($(this).hasClass("selected-mark")) {
@@ -227,7 +156,7 @@ $(function() {
 					 $("#propertyAddress").autocompleter({
 					       highlightMatches: true,
 					       source: data,
-					       hint: false,
+					       hint: true,
 					       empty: false
 					   });
 				}
