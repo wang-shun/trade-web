@@ -18,6 +18,7 @@ import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
+import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
@@ -216,5 +217,7 @@ public interface ToSpvService {
 	 * @return
 	 */
 	int updateByPrimaryKey(ToSpv record);
+
+	SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCode(String cashFlowApplyCode);
 
 }

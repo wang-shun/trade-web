@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 
 public interface ToSpvCashFlowMapper {
@@ -10,6 +12,8 @@ public interface ToSpvCashFlowMapper {
     int insertSelective(ToSpvCashFlow record);
 
     ToSpvCashFlow selectByPrimaryKey(Long pkid);
+    
+    List<ToSpvCashFlow> selectByCashFlowApplyId(Long cashFlowApplyId);
 
     int updateByPrimaryKeySelective(ToSpvCashFlow record);
 

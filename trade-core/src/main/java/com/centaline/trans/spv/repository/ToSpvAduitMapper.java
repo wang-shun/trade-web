@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.spv.entity.ToSpvAduit;
 
 public interface ToSpvAduitMapper {
@@ -10,6 +12,8 @@ public interface ToSpvAduitMapper {
     int insertSelective(ToSpvAduit record);
 
     ToSpvAduit selectByPrimaryKey(Long pkid);
+    
+    List<ToSpvAduit> selectByCashFlowApplyId(Long cashFlowApplyId);
 
     int updateByPrimaryKeySelective(ToSpvAduit record);
 

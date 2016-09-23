@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,17 +54,27 @@ import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAccount;
+import com.centaline.trans.spv.entity.ToSpvAduit;
+import com.centaline.trans.spv.entity.ToSpvCashFlow;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.entity.ToSpvProperty;
+import com.centaline.trans.spv.entity.ToSpvReceipt;
+import com.centaline.trans.spv.entity.ToSpvVoucher;
 import com.centaline.trans.spv.enums.CashDirectionEnum;
 import com.centaline.trans.spv.enums.SpvExceptionEnum;
 import com.centaline.trans.spv.enums.SpvTypeEnum;
 import com.centaline.trans.spv.repository.ToCashFlowMapper;
 import com.centaline.trans.spv.repository.ToSpvAccountMapper;
+import com.centaline.trans.spv.repository.ToSpvAduitMapper;
+import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
+import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
+import com.centaline.trans.spv.repository.ToSpvCashFlowMapper;
 import com.centaline.trans.spv.repository.ToSpvCustMapper;
 import com.centaline.trans.spv.repository.ToSpvDeCondMapper;
 import com.centaline.trans.spv.repository.ToSpvDeDetailMapper;
@@ -71,8 +82,11 @@ import com.centaline.trans.spv.repository.ToSpvDeMapper;
 import com.centaline.trans.spv.repository.ToSpvDeRecMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
 import com.centaline.trans.spv.repository.ToSpvPropertyMapper;
+import com.centaline.trans.spv.repository.ToSpvReceiptMapper;
+import com.centaline.trans.spv.repository.ToSpvVoucherMapper;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
+import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -86,34 +100,24 @@ public class ToSpvServiceImpl implements ToSpvService {
 	private ToSpvMapper toSpvMapper;
 	@Autowired
 	private ToCashFlowMapper toCashFlowMapper;
-
 	@Autowired
 	private ToSpvDeCondMapper toSpvDeCondMapper;
-
 	@Autowired
 	private ToSpvDeRecMapper toSpvDeRecMapper;
-
 	@Autowired
 	private PropertyUtilsServiceImpl propertyUtilsService;
-
 	@Autowired
 	private ToCaseService toCaseService;
-
 	@Autowired
 	private WorkFlowManager workFlowManager;
-
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
-
 	@Autowired
 	private UamSessionService uamSessionService;
-
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
-
 	@Autowired
 	private ToApproveRecordService toApproveRecordService;
-
 	@Autowired
 	private ProcessInstanceService processInstanceService;
 	@Autowired
@@ -137,6 +141,18 @@ public class ToSpvServiceImpl implements ToSpvService {
 	private ToSpvDeDetailMapper toSpvDeDetailMapper;
 	@Autowired
 	private ToSpvPropertyMapper toSpvPropertyMapper;
+	@Autowired
+	private ToSpvCashFlowApplyMapper toSpvCashFlowApplyMapper;	
+	@Autowired
+	private ToSpvCashFlowMapper toSpvCashFlowMapper;
+	@Autowired
+	private ToSpvAduitMapper toSpvAduitMapper;
+	@Autowired
+	private ToSpvVoucherMapper toSpvVoucherMapper;
+	@Autowired
+	private ToSpvReceiptMapper toSpvReceiptMapper;
+	@Autowired
+	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
 
 	/**
 	 * 房款监管签约记录
@@ -657,11 +673,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 		String spvPkid = spvBaseInfoVO.getToSpv().getPkid().toString();
 		vars.put("spvPkid", spvPkid);
 		vars.put("RiskControlOfficer",user.getUsername());
-		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getAdminOrg(), "JYFKZJ");
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 		vars.put("RiskControlDirector",riskControlDirector.getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
-				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getCaseCode(), vars);
+				propertyUtilsService.getSpvProcessDfKey(), spvBaseInfoVO.getToSpv().getSpvCode(), vars);
 
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
@@ -905,6 +921,46 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public int updateByPrimaryKey(ToSpv record) {
 		return toSpvMapper.updateByPrimaryKey(record);
+	}
+
+	@Override
+	public SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCode(String cashFlowApplyCode) {
+		SpvChargeInfoVO spvChargeOutInfoVO = new SpvChargeInfoVO();
+		
+		/**1.查询申请*/
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByPrimaryCashFlowApplyCode(cashFlowApplyCode);
+		
+		if(toSpvCashFlowApply == null) throw new BusinessException("不存在该申请号！");
+		
+		Long cashFlowApplyId = toSpvCashFlowApply.getPkid();
+		/**2.查询流水*/
+		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(cashFlowApplyId);
+		/**3.查询审核记录*/
+		List<ToSpvAduit> toSpvAduitList = toSpvAduitMapper.selectByCashFlowApplyId(cashFlowApplyId);
+		/**4.查询贷记凭证*/
+		List<ToSpvVoucher> toSpvVoucherList = new ArrayList<ToSpvVoucher>();
+		/**5.查询小票、回单*/
+		List<ToSpvReceipt> toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(cashFlowApplyId);
+		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
+		while(iterator.hasNext()){
+			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid());
+			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid());
+			toSpvVoucherList.addAll(tempListV);
+			toSpvReceiptList.addAll(tempListR);
+		}
+
+		/**6.查询申请附件*/
+		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(cashFlowApplyId);
+		
+		/**装载属性*/
+		spvChargeOutInfoVO.setToSpvCashFlowApply(toSpvCashFlowApply);
+		spvChargeOutInfoVO.setToSpvCashFlowList(toSpvCashFlowList);
+		spvChargeOutInfoVO.setToSpvAduitList(toSpvAduitList);
+		spvChargeOutInfoVO.setToSpvVoucherList(toSpvVoucherList);
+		spvChargeOutInfoVO.setToSpvReceiptList(toSpvReceiptList);
+		spvChargeOutInfoVO.setToSpvCashFlowApplyAttachList(toSpvCashFlowApplyAttachList);
+		
+		return spvChargeOutInfoVO;
 	}
 
 }

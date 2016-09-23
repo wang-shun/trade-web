@@ -10,6 +10,8 @@ public interface ToSpvCashFlowApplyMapper {
     int insertSelective(ToSpvCashFlowApply record);
 
     ToSpvCashFlowApply selectByPrimaryKey(Long pkid);
+    
+    ToSpvCashFlowApply selectByPrimaryCashFlowApplyCode(String cashFlowApplyCode);
 
     int updateByPrimaryKeySelective(ToSpvCashFlowApply record);
 

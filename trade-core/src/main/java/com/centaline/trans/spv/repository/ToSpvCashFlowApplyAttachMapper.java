@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 
 public interface ToSpvCashFlowApplyAttachMapper {
@@ -14,4 +16,6 @@ public interface ToSpvCashFlowApplyAttachMapper {
     int updateByPrimaryKeySelective(ToSpvCashFlowApplyAttach record);
 
     int updateByPrimaryKey(ToSpvCashFlowApplyAttach record);
+
+	List<ToSpvCashFlowApplyAttach> selectByCashFlowApplyId(Long cashFlowApplyId);
 }

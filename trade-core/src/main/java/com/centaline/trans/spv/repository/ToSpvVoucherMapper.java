@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.spv.entity.ToSpvVoucher;
 
 public interface ToSpvVoucherMapper {
@@ -14,4 +16,6 @@ public interface ToSpvVoucherMapper {
     int updateByPrimaryKeySelective(ToSpvVoucher record);
 
     int updateByPrimaryKey(ToSpvVoucher record);
+
+	List<ToSpvVoucher> selectByCashFlowId(Long cashFlowId);
 }

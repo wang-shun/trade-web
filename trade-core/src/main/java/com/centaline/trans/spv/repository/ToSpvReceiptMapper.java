@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.spv.entity.ToSpvReceipt;
 
 public interface ToSpvReceiptMapper {
@@ -14,4 +16,6 @@ public interface ToSpvReceiptMapper {
     int updateByPrimaryKeySelective(ToSpvReceipt record);
 
     int updateByPrimaryKey(ToSpvReceipt record);
+
+	List<ToSpvReceipt> selectByCashFlowId(Long cashFlowId);
 }
