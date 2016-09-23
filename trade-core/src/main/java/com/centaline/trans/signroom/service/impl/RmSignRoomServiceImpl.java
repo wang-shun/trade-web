@@ -206,7 +206,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 
 	@Override
 	public void deleteSignRoom(RmSignRoom rmSignRoom) {
-		rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
+		//rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
 		rmSignRoomMapper.deleteRmSignRoomById(rmSignRoom.getPkid());
 		
 		

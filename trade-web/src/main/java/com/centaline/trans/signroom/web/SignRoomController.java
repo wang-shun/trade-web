@@ -54,6 +54,11 @@ public class SignRoomController {
 		return "/signroom/signingallot";
 	}
 	
+	/**
+	 * 签约室配置管理列表
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/signingManage")
 	public String signingManage(Model model){
 		SessionUser user= uamSessionService.getSessionUser();
@@ -93,7 +98,7 @@ public class SignRoomController {
 	}
 	
 	/**
-	 * 签约室分配页面数据生成
+	 * 签约室配置管理列表
 	 * @return
 	 */
 	@RequestMapping("/signRoomShedualList")

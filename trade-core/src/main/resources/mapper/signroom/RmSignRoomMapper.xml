@@ -230,7 +230,7 @@
   </update>
   
   <delete id="deleteRmSignRoomById" parameterType="java.lang.Long" >
-    delete from sctrans.T_RM_SIGN_ROOM where PKID = #{pkid,jdbcType=BIGINT}
+    update sctrans.T_RM_SIGN_ROOM set IS_DELETE = '1' where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   
   <select id="getSignRoomInfos" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -292,9 +292,10 @@ WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
         R.STRAGEGY_WEEK_VAL AS stragegyWeekVal
 FROM    [sctrans].[T_RM_SIGN_ROOM] T
         INNER JOIN [sctrans].T_RM_ROOM_SCHE_STRAGEGY R ON T.PKID = R.ROOM_ID
-        <where>
+        where T.IS_DELETE = 0
+        
           <if test="orgId!=null">
-          	T.ORG_ID = #{orgId}
+          	AND T.ORG_ID = #{orgId}
           </if>
           <if test="roomType!=null">
           	AND T.ROOM_TYPE = #{roomType}
@@ -302,7 +303,7 @@ FROM    [sctrans].[T_RM_SIGN_ROOM] T
           <if test="roomStatus!=null">
           	AND T.ROOM_STATUS = #{roomStatus}
           </if>
-        </where>
+       
   </select>
   
     <select id="getSignRoomInfoById" parameterType="java.lang.Long" resultMap="BaseResultMap">
