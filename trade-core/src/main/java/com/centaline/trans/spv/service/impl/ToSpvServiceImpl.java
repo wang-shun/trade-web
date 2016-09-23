@@ -949,7 +949,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/**4.查询贷记凭证*/
 		List<ToSpvVoucher> toSpvVoucherList = new ArrayList<ToSpvVoucher>();
 		/**5.查询小票、回单*/
-		List<ToSpvReceipt> toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(cashFlowApplyId);
+		List<ToSpvReceipt> toSpvReceiptList = new ArrayList<ToSpvReceipt>();
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
 			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid());
