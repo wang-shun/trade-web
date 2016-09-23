@@ -172,13 +172,12 @@
 						</div>
 					</form>
 				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div id="sourceList" class="table_content"></div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<div id="sourceList" class="table_content"></div>
 		</div>
 	</div>
 	
@@ -258,7 +257,7 @@
 						{{else}}
 							<i class="sign_grey">受</i>
 						{{/if}}
-                        {{item.PR_ACCEPT_TIME}}
+                        {{item.PR_ACCPET_TIME}}
                     </p>
                     <p class="smll_sign">
 						{{if item.PR_STATUS_OLD >= 2}}
