@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.spv.repository.toSpvVoucherMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.toSpvVoucher" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASHFLOW_ID" property="cashflowId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="ATTACH_ID" property="attachId" jdbcType="VARCHAR" />
+    <result column="COMMENT" property="comment" jdbcType="NVARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASHFLOW_ID, TYPE, ATTACH_ID, COMMENT, IS_DELETED, CREATE_TIME, CREATE_BY, 
+    UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_VOUCHER
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCashFlowId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_VOUCHER
+    where CASHFLOW_ID = #{cashFlowId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_SPV_VOUCHER
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.toSpvVoucher" >
+    insert into sctrans.T_TO_SPV_VOUCHER (PKID, CASHFLOW_ID, TYPE, 
+      ATTACH_ID, COMMENT, IS_DELETED, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{cashflowId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{attachId,jdbcType=VARCHAR}, #{comment,jdbcType=NVARCHAR}, #{isDeleted,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.toSpvVoucher" >
+    insert into sctrans.T_TO_SPV_VOUCHER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="cashflowId != null" >
+        CASHFLOW_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="attachId != null" >
+        ATTACH_ID,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="cashflowId != null" >
+        #{cashflowId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="attachId != null" >
+        #{attachId,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=NVARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.toSpvVoucher" >
+    update sctrans.T_TO_SPV_VOUCHER
+    <set >
+      <if test="cashflowId != null" >
+        CASHFLOW_ID = #{cashflowId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="attachId != null" >
+        ATTACH_ID = #{attachId,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=NVARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.toSpvVoucher" >
+    update sctrans.T_TO_SPV_VOUCHER
+    set CASHFLOW_ID = #{cashflowId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      ATTACH_ID = #{attachId,jdbcType=VARCHAR},
+      COMMENT = #{comment,jdbcType=NVARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

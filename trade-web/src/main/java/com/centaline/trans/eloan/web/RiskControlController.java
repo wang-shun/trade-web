@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,12 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.eloan.entity.RcRiskControl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
 import com.centaline.trans.eloan.entity.ToRcForceRegister;
+import com.centaline.trans.eloan.enums.RiskTypeEnum;
+import com.centaline.trans.eloan.service.RcRiskControlService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.eloan.service.ToRcForceRegisterService;
@@ -91,7 +95,8 @@ public class RiskControlController {
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	ToRcForceRegisterService toRcForceRegisterService;
-	
+	@Autowired
+	RcRiskControlService rcRiskControlService;
 	
 	//押卡
 	@RequestMapping("guarantycards")
@@ -121,6 +126,16 @@ public class RiskControlController {
 		ToRcMortgageVO toRcMortgageVO = toRcMortgageService.getMortgageByProperty("mortgage", eloanCase.getEloanCode());
 		model.addAttribute("toRcMortgageVO", toRcMortgageVO);
 		return "/eloan/guarantymortgage";
+	}
+	
+	@RequestMapping("validateRiskControlType")
+	public AjaxResponse<String> validateRiskControlType(String type,String eloanCode, Model model) {
+		List<RcRiskControl> rcRiskControlList = rcRiskControlService.getRcRiskControlByProperty(type, eloanCode);
+		if(CollectionUtils.isEmpty(rcRiskControlList)) {
+			return AjaxResponse.fail("不存在此风控类型");
+		} else {
+			return AjaxResponse.success("存在此风控类型");
+		}
 	}
 
 	//只读抵押信息
@@ -160,6 +175,12 @@ public class RiskControlController {
 		model.addAttribute("toRcForceRegister", toRcForceRegisterVO.getToRcForceRegister());
 		model.addAttribute("rcRiskControl", toRcForceRegisterVO.getRcRiskControl());
 		return "/eloan/guarantyfairvonly";
+	}
+	
+	@RequestMapping("deleteRiskControl")
+	public String deleteRiskControl(Long pkid,String riskType,Long eloanPkId, HttpServletRequest request, Model model) {
+		rcRiskControlService.deleteReferRiskControlByProperty(RiskTypeEnum.getCode(riskType),pkid);
+		return "redirect:/eloan/getEloanCaseDetails?pkid="+eloanPkId;
 	}
 
 	/**

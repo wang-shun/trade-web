@@ -37,6 +37,23 @@
     delete from sctrans.T_RC_RISK_CONTROL
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteReferRiskControlByProperty" parameterType="com.centaline.trans.eloan.entity.RcRiskControl" >
+    delete from sctrans.T_RC_RISK_CONTROL
+    where PKID = #{pkid,jdbcType=BIGINT};
+    
+    <if test="riskType == 'card'" >
+       delete from sctrans.T_TO_RC_MORTGAGE_CARD where RC_ID = #{pkid,jdbcType=BIGINT};
+       delete from sctrans.T_TO_RC_MORTGAGE_INFO where RISK_CONTROL_ID = #{pkid,jdbcType=BIGINT};
+    </if>
+    <if test="riskType == 'mortgage'" >
+       delete from sctrans.T_TO_RC_MORTGAGE where RC_ID = #{pkid,jdbcType=BIGINT};
+       delete from sctrans.T_TO_RC_MORTGAGE_INFO where RISK_CONTROL_ID = #{pkid,jdbcType=BIGINT};
+    </if>
+    <if test="riskType == 'forceRegister'" >
+       delete from sctrans.T_TO_RC_FORCE_REGISTER where RC_ID = #{pkid,jdbcType=BIGINT};
+       delete from sctrans.T_TO_RC_ATTACHMENT where RISK_CONTROL_ID = #{pkid,jdbcType=BIGINT};
+    </if>
+  </delete>
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.RcRiskControl" >
     insert into sctrans.T_RC_RISK_CONTROL (PKID, ELOAN_CODE, RISK_TYPE, 
       RISK_COMMENT, CREATE_BY, CREATE_TIME, 

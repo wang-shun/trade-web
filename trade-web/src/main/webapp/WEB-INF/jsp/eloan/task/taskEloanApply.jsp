@@ -485,10 +485,10 @@
                 }
         	});
         	
-        	$('#custName').editableSelect({
+        	/* $('#custName').editableSelect({
         		effects: 'slide',
         		filter: false
-        	});
+        	}); */
         	
             $('.input-daterange').datepicker({
             	format : 'yyyy-mm-dd',
@@ -796,7 +796,7 @@
 					$.each(data, function(i, item){
 						if(i==0) {
 							txt +=  "<option value='"+ item.guestName+"' selected>" + item.guestName+"</option>";
-							cusPhone.val(data[i].guestPhone);
+							/*cusPhone.val(data[i].guestPhone);*/
 						} else {
 							txt +=  "<option value='"+ item.guestName+"'>" + item.guestName+"</option>";
 						} 
@@ -805,13 +805,14 @@
 								
 					$('#custName').editableSelect({
 						effects: 'slide',
-						filter: false,
+						filter: false
+						/* ,
 						onSelect: function (element) {
 							var myIndex = $(element).index();
 							if(myIndex>=0){
 								cusPhone.val(data[myIndex].guestPhone);
 							}
-						}
+						} */
 					});
 				}
 			});				

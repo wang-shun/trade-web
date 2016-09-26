@@ -60,7 +60,7 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        押卡对象
+                                        <font color="red">*</font>押卡对象
                                     </label>
                                     <div id="cardPersonParent" style="display:inline-block;"> 
 	                                    <select name="cardPerson" id="cardPerson" class="select_control sign_right_one">
@@ -72,43 +72,43 @@
 	                                    </select>
                                     </div>
                                 </div>
-                                <div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
+                                <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        押卡时间
+                                        <font color="red">*</font>押卡时间
                                     </label>
+                                    <span class="input-daterange">
                                     <input class="input_type sign_right_two" value="<fmt:formatDate value="${toRcMortgageCardVO.toRcMortgageCard.cardTime}" pattern="yyyy-MM-dd" />" name="cardTime" id="cardTime" />
                                     <div class="input-group date_icon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
+                                    </span>
                                 </div>
                             </div>
                             <div class="line">
-                                <div class="form_content">
+                                <div class="form_content mt6">
                                     <label class="control-label sign_left_small">
-                                        银行卡密码
+                                        <font color="red">*</font>银行卡密码
                                     </label>
-                                    <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='0' || toRcMortgageCardVO.toRcMortgageCard.isModifyPhone == null}">
-										<input name="isModifyPhone" type="checkbox" checked="" data-size="small"  id="isModifyPhone">	
-									</c:if>
-                                    <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='1'}">
-										<input name="isModifyPhone" type="checkbox" data-size="small"  id="isModifyPhone">	
-									</c:if>
+                                    
+                                    <div class="checkbox i-checks radio-inline sign ">
+                                        <label>
+                                            <input type="radio" value="1" id="isModifyPhone" name="isModifyPhone" <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='1'}">checked="checked"</c:if>>
+                                            已修改
+                                        </label>
+                                        <label>
+                                            <input type="radio" value="0" id="isModifyPhone" name="isModifyPhone" <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='0' || toRcMortgageCardVO.toRcMortgageCard.isModifyPhone == null}">checked="checked"</c:if>>
+                                            未修改
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label mr10" style="margin-left: 51px;">
-                                            修改后到账手机号
+                                     <label class="control-label sign_left width125">
+                                        修改到账后手机号
                                     </label>
-                                    <input class="sign_right_one input_type" value="${toRcMortgageCardVO.toRcMortgageCard.phoneNumber }" placeholder="请输入" id="phoneNumber" name="phoneNumber">
+                                    <input class="select_control sign_right_one" value="${toRcMortgageCardVO.toRcMortgageCard.phoneNumber }" placeholder="请输入" id="phoneNumber" name="phoneNumber">
                                 </div>
                             </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                                       备注
-                                    </label>
-                                    <input class="sign_right_one input_type" value="${toRcMortgageCardVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
-                                </div>
-                            </div> 
+                        
                            <!--  <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -120,7 +120,8 @@
                                     </select>
                                 </div>
                             </div> -->
-                            <div id="mortgageList">
+                            
+                            <%-- <div id="mortgageList">
                               <c:forEach items="${toRcMortgageCardVO.toRcMortgageInfoList}" var="item">
 	                            <div class="line" id="addTr">
 	                                <div class="form_content"> 
@@ -177,10 +178,18 @@
 	                                <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
 	                                <a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>
 	                            </div>
-                            </div>
+                            </div> --%>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                                       物品信息备注
+                                    </label>
+                                    <textarea class="sign_right_two" id="riskComment" name="riskComment">${toRcMortgageCardVO.rcRiskControl.riskComment }</textarea>
+                                </div>
+                            </div> 
                         </form>
                         <div class="status_btn text-center mt15">
-                            <button class="btn btn-success btn-space submit_btn">提交</button>
+                            <button class="btn btn-success btn-space submit_btn">保存</button>
                             <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
                         </div>
                         <button type="button" class="close close_blue" style="display:none;" data-dismiss="modal">
@@ -195,7 +204,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content animated fadeIn">
                         <div class="modal-body" style="background:#fff;">
-                            <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
+                            <p class="text-center" style="font-size: 20px;">选择保存按钮可保存本次填写信息！</p>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
                             <button type="button" class="btn btn-save submit_btn">确认保存</button>
@@ -228,6 +237,12 @@
              <script src="${ctx}/js/jquery.blockui.min.js"></script>
        <script>
         $(document).ready(function () {
+        	$('#cardPerson').editableSelect({
+        		effects: 'slide',
+        		filter: false
+        	});
+        	
+        	/**日期组件*/
         	$('.input-daterange').datepicker({
             	format : 'yyyy-mm-dd',
         		weekStart : 1,
@@ -235,21 +250,39 @@
         		todayBtn : 'linked',
         		language : 'zh-CN'
             });
-        	$('#cardPerson').editableSelect({
-        		effects: 'slide',
-        		filter: false
-        	});
+  
     	    //初始化押卡对象
     	    var caseCode = "${eloanCase.caseCode }";
-        	getCustomerName(caseCode);
+    	    var person = "${toRcMortgageCardVO.toRcMortgageCard.cardPerson}";
+    	    if(person == null || person=="") {
+    	    	 getCustomerNameAndTel(caseCode);
+    	    }
         	
         	var eloanCode =  "${eloanCase.eloanCode }";
         	var pkid = "${pkid}";
         	
         	
         	 $('.submit_btn').click(function(){
+				 var cardPerson = $("#cardPerson").val();
+				 var cardTime = $("#cardTime").val();
+				 if(cardPerson == ""){
+					 alert("请填写押卡对象！");
+					 return false;
+				 }
+				 if(cardTime == ""){
+					 alert("请填写押卡时间！");
+					 return false;
+				 }
+				 var phoneNumber = $("#phoneNumber").val();
+				 if(phoneNumber!=null & phoneNumber!=''){
+					 checkGuestPhone = checkContactNumber(phoneNumber);
+					 if (!checkGuestPhone) {
+							return false;
+					 }
+				 }
+			
              	var toRcMortgageInfoList = new Array();
-             	$("#mortgageList .line").each(function(i){
+             	/* $("#mortgageList .line").each(function(i){
              		if(this.style.display == 'none')
                     {
                         return true;
@@ -262,19 +295,12 @@
              			mortgageName : mortgageName
              		}
              		toRcMortgageInfoList.push(toRcMortgageInfo);
-             	})
-             	
-             	var isModifyPhone = '0';
-             	if($("#isModifyPhone").val() == 'on') {
-             		isModifyPhone = '0';
-             	} else {
-             		isModifyPhone = '1';
-             	}
+             	}) */
              	
              	var toRcMortgageCard = {
              		cardPerson : $('#cardPerson').val(),
              		cardTime : $('#cardTime').val(),
-             		isModifyPhone : isModifyPhone,
+             		isModifyPhone : $('input[name="isModifyPhone"]:checked').val(),
              		phoneNumber :$('#phoneNumber').val()
              	}
             	var rcRiskControl = {
@@ -332,24 +358,81 @@
              })
              
         });
-		function getCustomerName(case_code){
+        /*绑定时获取客户名和客户电话号码并生成下拉框*/
+		function getCustomerNameAndTel(case_code){
 			$.ajax({
 				url:ctx+"/eloan/getCaseDetails",
 				method:"post",
 				dataType:"json",
 				data:{"caseCode":case_code},
 				success:function(data){
-					var txt='';
+					//var cusPhone = $('#custPhone');
+					var txt='<select class="select_control sign_right_one" id="cardPerson" name="cardPerson">';
+								
 					$.each(data, function(i, item){
 						if(i==0) {
 							txt +=  "<option value='"+ item.guestName+"' selected>" + item.guestName+"</option>";
+							/*cusPhone.val(data[i].guestPhone);*/
 						} else {
 							txt +=  "<option value='"+ item.guestName+"'>" + item.guestName+"</option>";
 						} 
 					});
-					$('#cardPerson').empty().append(txt);	
+					$('#cardPersonParent').empty().append(txt+'</select>');	
+								
+					$('#cardPerson').editableSelect({
+						effects: 'slide',
+						filter: false
+						/* ,
+						onSelect: function (element) {
+							var myIndex = $(element).index();
+							if(myIndex>=0){
+								cusPhone.val(data[myIndex].guestPhone);
+							}
+						} */
+					});
 				}
 			});				
+		}
+		//验证手机和电话号码
+		function checkContactNumber(ContactNumber) {
+			
+			var mobile = $.trim(ContactNumber);				
+			var number=/^[0-9]*$/;	//数字			
+			var isValid = true;
+			
+			if(!number.exec(mobile)){					
+				alert("电话号码只能由数字组成！");
+				isValid = false;
+				return isValid;
+			}
+			if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
+				alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				isValid = false;
+				return isValid;
+			}
+			
+			if(isUniqueChar(mobile)){
+				alert("电话号码不能为全部相同的数字！");
+				isValid = false;
+				return isValid;
+			}
+			return isValid;
+		}
+		//判断是否有重复字符
+		function isUniqueChar(value){
+			if(!value){
+				return false;
+			}
+			var uniqueMap   = {};
+			for(i=0;i<value.length;i++){
+				var val = value.charAt(i);
+				uniqueMap[val]=val;
+			}
+			var result = ""
+			for(var key in uniqueMap){
+				result +=key;
+			}
+			return (result.length==1);
 		}
        </script>
 	</content>

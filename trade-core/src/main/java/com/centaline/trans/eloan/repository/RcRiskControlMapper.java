@@ -19,4 +19,6 @@ public interface RcRiskControlMapper {
     int updateByPrimaryKeySelective(RcRiskControl record);
 
     int updateByPrimaryKey(RcRiskControl record);
+    
+    int deleteReferRiskControlByProperty(RcRiskControl record);
 }

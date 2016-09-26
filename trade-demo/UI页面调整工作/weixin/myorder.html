@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="aui-list-item-media listspace">
-                        <div class="aui-btn">取消预约</div>
+                        <div class="aui-btn" onclick="cancel();">取消预约</div>
                     </div>
                     <span class="shuxing"></span>
                 </div>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="aui-list-item-media listspace">
-                        <div class="aui-btn">取消预约</div>
+                        <div class="aui-btn" onclick="openDialog('text')"">取消预约</div>
                     </div>
                 </div>
             </li>
@@ -119,14 +119,36 @@
 
 
 <script type="text/javascript">
-    function myOpen(){
+    function cancel(){
         layer.open({
             type: 0,
             title: '',
-            content: '<div class="dialog-user"><i class="iconfont iconfont70 mt20 cyan">&#xe606;</i><h2 class="dialog-head mt20 font18">恭喜你预约成功</h2><div class="dialog-info"><p class="font14 mt20">房间号<span class="yellow font18">A-234</span>（最大容纳6人）</p><p class="mt5 font12">时间：2016-08-12&nbsp;&nbsp;10:00-12:00</p></div><div class="btn-box mt20"><a href="index.html"><div class="aui-btn aui-btn-primary aui-margin-r-10">我的预约</div></a><div class="aui-btn aui-btn-grey aui-margin-l-10">继续预约</div></div>'
+            anim: 'up',
+            yes: function(index){
+                alert('点击了是')
+                layer.close(index)
+            }
+            ,btn: ['确认', '取消'],
+            content: '<h2 class="dialog-head mt20 font18">您确定要取消本次预约吗？</h2>'
         });
     };
 
+    var dialog = new auiDialog({})
+    function openDialog(text){
+        dialog.alert({
+            title:"",
+            msg:'您确定要取消本次预约吗?',
+            buttons:['取消','确定']
+        },function(ret){
+            if(ret){
+                if(ret.buttonIndex == 2) {
+                    alert("你选择的是2");
+                } else {
+                    return false;
+                }
+            }
+        })
+    }
 
 
 </script>

@@ -340,7 +340,7 @@ public class SpvController {
     }
     
     /**
-     * 保存资金监管签约
+     * 提交资金监管签约
      */
     @RequestMapping(value="submitNewSpv")
     @ResponseBody
@@ -517,8 +517,14 @@ public class SpvController {
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
- 
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());	    
+		
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		String currentDeptId = currentUser.getServiceDepId();
+		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
+		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+		
+		request.setAttribute("orgId", parentOrg.getId());
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("pkid", pkid);
