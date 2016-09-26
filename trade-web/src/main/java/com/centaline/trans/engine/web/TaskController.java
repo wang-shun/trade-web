@@ -95,13 +95,13 @@ public class TaskController {
 			request.setAttribute("source", source);
 			request.setAttribute("businessKey", businessKey);
 			request.setAttribute("caseCode",  businessKey);//兼容老代码
-			//E+ 申请查询审核结果
+/*			//E+ 申请查询审核结果
 			ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
 						
 			toApproveRecordForItem.setProcessInstance(instCode);
 			toApproveRecordForItem.setPartCode("eApplyApprove");		
 			ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
-			request.setAttribute("toApproveRecord", toApproveRecord);
+			request.setAttribute("toApproveRecord", toApproveRecord);*/
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");
@@ -135,4 +135,5 @@ public class TaskController {
 		}
 		return null;
 	}
+
 }

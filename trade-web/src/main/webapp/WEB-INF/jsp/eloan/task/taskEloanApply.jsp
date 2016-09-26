@@ -249,7 +249,7 @@
                                     <label class="control-label sign_left_two">
                                         	<i class="red">* </i>手续费
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="charge">
+                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="chargeAmount">
                                 </div>
                                 <div class="form_content" id="divRemark">
                                     <label class="control-label sign_left_two">
@@ -474,7 +474,7 @@
         		showAndHide(loanSrvCode,value,month);
         	});
         	
-        	$("#charge").blur(function(){
+        	$("#chargeAmount").blur(function(){
         		var value = $.trim(this.value);
         		var applyAmount = $.trim($("#applyAmount").val());
         		
@@ -523,7 +523,7 @@
 			})
 			
 			function checkChargeAndRemark(applyAmount){
-				var charge = $("#charge").val();
+				var charge = $("#chargeAmount").val();
 				 
 				 if(charge == ""){
 					 alert("请填写手续费！");
@@ -705,11 +705,11 @@
 			}
 		})
 		function validateEloanApply() {
-		
+			alert(1111);
 			var flag = false;
-			var jsonData = $("#eloanApplyForm").serializeArray();
+			var jsonData = $("#eloanApplyForm").serializeArray();			
 			var url = "${ctx}/eloan/validateEloanApply";
-			//alert(url);
+			alert(url);
 			$.ajax({				
 				cache : false,
 				async : false,//false同步，true异步
@@ -737,9 +737,10 @@
 					flag = data.content;
 				},			
 				error : function(errors) {
-					alert("数据保存出错");
+					alert("检测CaseCode绑定案件信息出错");
 				}
-			});			
+			});	
+			alert(flag);
 			return flag;
 		}
 		
