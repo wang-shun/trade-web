@@ -26,18 +26,18 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
-  <select id="selectByCashFlowApplyId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByCashFlowApplyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_AUDIT
-    where APPLY_ID = #{cashFlowApplyId,jdbcType=BIGINT}
+    where APPLY_ID = #{cashFlowApplyId,jdbcType=VARCHAR}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_SPV_AUDIT
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.centaline.trans.spv.entity.toSpvAduit" >
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvAduit" >
     insert into sctrans.T_TO_SPV_AUDIT (PKID, APPLY_ID, ACT_PROC_ID, 
       TASK_DEF_KEY, TASK_ID, OPERATOR, 
       RESULT, CONTENT, CREATE_TIME, 
@@ -49,7 +49,7 @@
       #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.toSpvAduit" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvAduit" >
     insert into sctrans.T_TO_SPV_AUDIT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -128,7 +128,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.toSpvAduit" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvAduit" >
     update sctrans.T_TO_SPV_AUDIT
     <set >
       <if test="applyId != null" >
@@ -167,7 +167,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.toSpvAduit" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvAduit" >
     update sctrans.T_TO_SPV_AUDIT
     set APPLY_ID = #{applyId,jdbcType=VARCHAR},
       ACT_PROC_ID = #{actProcId,jdbcType=VARCHAR},
