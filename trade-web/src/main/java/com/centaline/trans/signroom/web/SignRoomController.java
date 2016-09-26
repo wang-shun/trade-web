@@ -12,14 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
@@ -82,22 +85,26 @@ public class SignRoomController {
 		SessionUser user= uamSessionService.getSessionUser();
 		String busigrpId  = user.getBusigrpId();//店组
 		
-		String orgId = reservationService.getOrgIdByGrpcode(busigrpId);//返回贵宾服务部id
-		orgId = "d5878adf8b0c4032aeae895c701ed693";
+		String gbOrgId = reservationService.getOrgIdByGrpcode(busigrpId);//返回贵宾服务部id
+		gbOrgId = "d5878adf8b0c4032aeae895c701ed693";
 		String roomType = requst.getParameter("roomType");//房间类型
 		String useStatus = requst.getParameter("useStatus");//使用状态
-		Map map = new HashMap();
-		map.put("curDate", requst.getParameter("curDate"));//当前日期
+		
+		JQGridParam gp = new JQGridParam();
+		gp.put("curDate", requst.getParameter("curDate"));//当前日期
 		if(!StringUtil.isBlank(roomType)){
-			map.put("roomType",roomType);
+			gp.put("roomType", roomType);
 		}
 		if(!StringUtil.isBlank(useStatus)){
-			map.put("useStatus", useStatus);
+			gp.put("useStatus", useStatus);
 		}
-		if(!StringUtil.isBlank(orgId)){
-			map.put("orgId", orgId);
+		if(!StringUtil.isBlank(gbOrgId)){
+			gp.put("gbOrgId", gbOrgId);
 		}
-		AjaxResponse<Map> response =  rmSignRoomService.generatePageDate(map);
+
+		//Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		
+		AjaxResponse<Map> response =  rmSignRoomService.generatePageDate(gp);
 		
 		return response;
 	}
@@ -111,20 +118,25 @@ public class SignRoomController {
 	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(Model model,HttpServletRequest requst){
 		SessionUser user= uamSessionService.getSessionUser();
 		
-		String orgId = requst.getParameter("orgId");//房间类型
+		String gbOrgId = requst.getParameter("orgId");//签约中心贵宾orgId
 		String roomType = requst.getParameter("roomType");//房间类型
 		String roomStatus = requst.getParameter("roomStatus");//房间状态
-		Map map = new HashMap();
+	
+		
+		JQGridParam gp = new JQGridParam();
+		gp.put("curDate", requst.getParameter("curDate"));//当前日期
 		if(!StringUtil.isBlank(roomType)){
-			map.put("roomType",roomType);
+			gp.put("roomType", roomType);
 		}
 		if(!StringUtil.isBlank(roomStatus)){
-			map.put("roomStatus", roomStatus);
+			gp.put("roomStatus", roomStatus);
 		}
-		if(!StringUtil.isBlank(orgId)){
-			map.put("orgId", orgId);
+		if(!StringUtil.isBlank(gbOrgId)){
+			gp.put("gbOrgId", gbOrgId);
 		}
-		AjaxResponse<List<RmSignRoom>> response =  rmSignRoomService.signRoomShedualList(map);
+		
+		
+		AjaxResponse<List<RmSignRoom>> response =  rmSignRoomService.signRoomShedualList(gp);
 		
 		return response;
 	}

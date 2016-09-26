@@ -12,6 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -28,7 +30,7 @@ import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
-
+import org.springframework.data.domain.Page;
 /**
  * 签约室业务类
  * @author zhoujp7
@@ -50,13 +52,43 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	@Autowired
 	private ReservationMapper reservationMapper;
 	
+	@Autowired
+	private QuickGridService quickGridService;
+	
 
 	@Override
-	public AjaxResponse<Map> generatePageDate(Map map) {
+	public AjaxResponse<Map> generatePageDate(JQGridParam gp) {
 		AjaxResponse<Map> response = new AjaxResponse<Map>();
 		try{
-			List<RmSignRoom> signRooms =  rmSignRoomMapper.getSignRoomInfos(map);//签约室信息
-			List<RmRoomSchedule> rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);//排期信息
+			
+			gp.setCountOnly(false);
+			gp.setPagination(false);
+			gp.setQueryId("querySignRoomAllotList");
+			/*List<RmSignRoom> signRooms =  rmSignRoomMapper.getSignRoomInfos(map);
+			List<RmRoomSchedule> rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);
+*/			
+			Page<Map<String, Object>> room = quickGridService.findPageForSqlServer(gp);
+			List<Map<String, Object>> rooms = room.getContent();//签约室信息
+			gp.setQueryId("queryRmRoomSchedualList");
+			Page<Map<String, Object>> schedual = quickGridService.findPageForSqlServer(gp);
+			List<Map<String, Object>> scheduals = schedual.getContent();//排期信息
+			
+			
+			List<RmSignRoom> signRooms = new ArrayList<RmSignRoom>();
+			List<RmRoomSchedule> rmRoomSchedules = new ArrayList<RmRoomSchedule>();//map转object
+			if(rooms!=null && ! rooms.isEmpty()){
+				for(Map<String, Object> rm:rooms){
+					RmSignRoom sr = (RmSignRoom) mapToObject(rm,RmSignRoom.class);
+					signRooms.add(sr);
+				}
+			}
+			if(scheduals!=null && ! scheduals.isEmpty()){
+				for(Map<String, Object> sd:scheduals){
+					RmRoomSchedule sr = (RmRoomSchedule) mapToObject(sd,RmRoomSchedule.class);
+					rmRoomSchedules.add(sr);
+				}
+			}
+			
 			List<RmRoomSchedule> rrs = null;
 			if(signRooms!=null && ! signRooms.isEmpty() && rmRoomSchedules!=null && !rmRoomSchedules.isEmpty()){
 				for(RmSignRoom signRoom:signRooms){
@@ -102,10 +134,24 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 
 
 	@Override
-	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(Map map) {
+	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(JQGridParam gp) {
 		AjaxResponse<List<RmSignRoom>> response = new AjaxResponse<List<RmSignRoom>>();
-		List<RmSignRoom> rmSignRooms = rmSignRoomMapper.getRmSignRoomAndStragegy(map);
+		/*List<RmSignRoom> rmSignRooms = rmSignRoomMapper.getRmSignRoomAndStragegy(map);*/
+		gp.setCountOnly(false);
+		gp.setPagination(false);
+		gp.setQueryId("queryRmSignRoomAndStragegy");
+		Page<Map<String, Object>> rs = quickGridService.findPageForSqlServer(gp);
+		List<Map<String, Object>> rss = rs.getContent();
+		List<RmSignRoom> rmSignRooms = null;
 		try{
+			if(rss!=null && ! rss.isEmpty()){
+				rmSignRooms = new ArrayList<RmSignRoom>();
+				for(Map<String, Object> rm:rss){
+					RmSignRoom sr = (RmSignRoom) mapToObject(rm,RmSignRoom.class);
+					rmSignRooms.add(sr);
+				}
+			}
+			
 			if(rmSignRooms!=null && !rmSignRooms.isEmpty()){
 				for(RmSignRoom rmSignRoom:rmSignRooms){
 					generateSchedule(rmSignRoom);
@@ -248,5 +294,17 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		}
 		
 	}
+	
+	//map转object
+	public  Object mapToObject(Map<String, Object> map, Class<?> beanClass) throws Exception {    
+        if (map == null)  
+            return null;  
+  
+        Object obj = beanClass.newInstance();  
+  
+        org.apache.commons.beanutils.BeanUtils.populate(obj, map);  
+  
+        return obj;  
+    }
 
 }

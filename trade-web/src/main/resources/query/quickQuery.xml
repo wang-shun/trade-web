@@ -165,4 +165,7 @@
 	
 	<!-- 我的预约列表 -->
 	<import resource="query/signroom/myReservationList.xml" />
+	<!-- 签约室 -->
+	<import resource="query/signroom/signRoomAllotList.xml" />
+	<import resource="query/signroom/rmRoomSchedual.xml" />
 </queryConfig>
