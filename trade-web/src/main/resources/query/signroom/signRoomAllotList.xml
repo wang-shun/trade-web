@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getShowResStatusStatus" beanName="getShowResStatusStatus"></customDict> 
+		<customDict id="getShowResStartTime" beanName="getShowResStartTime"></customDict>
+		<customDict id="getShowResEndTime" beanName="getShowResEndTime"></customDict> 
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy/MM/dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="querySignRoomAllotList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT  DISTINCT R.PKID AS pkid, R.ROOM_NO AS roomNo,R.ROOM_TYPE AS roomType,R.TRADE_CENTER AS tradeCenter,R.ORG_ID AS orgId,R.ORG_NAME AS orgName,R.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople
+		FROM    
+		sctrans.T_RM_SIGN_ROOM R INNER JOIN
+		sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID	
+		LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID        
+		WHERE   
+			T.IS_DELETE = '0'
+			AND R.IS_DELETE = '0'
+			<if test="curDate != null">
+				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
+			</if>
+			<if test="gbOrgId != null">
+				 AND R.ORG_ID = #gbOrgId#
+			</if>
+			<if test="roomType != null">
+				 AND R.ROOM_TYPE = #roomType#
+			</if>
+			<if test="useStatus != null">
+			    <choose>
+			      <when test='useStatus == "N"'>
+			      	 AND RTrim(T.USE_STATUS) = 'N'
+			      </when>
+			      <otherwise>
+			         AND S.RES_STATUS = #useStatus#
+			      </otherwise>
+			    </choose>
+			</if>
+				]]>
+			</baseSql>
+			<orderBySql>
+				order by R.ROOM_NO
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display="pkid" />
+				<column type="both" name="roomNo" index="" checkbox="" display="roomNo" title="roomNo" />
+				<column type="both" name="roomType" index="" checkbox="" display="roomType" title="roomType" customDict="" />
+				<column type="both" name="tradeCenter" index="" checkbox="" display="tradeCenter" title="tradeCenter" />
+				<column type="both" name="orgId" index="" checkbox="" display="orgId" title="orgId" />
+				<column type="both" name="orgName" index="" checkbox="" display="orgName" title="orgName" />
+				<column type="both" name="numbeOfAccommodatePeople" title="numbeOfAccommodatePeople" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
