@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
@@ -30,6 +32,9 @@ import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
+import com.centaline.trans.utils.BeanToMapUtils;
+import com.centaline.trans.utils.DateUtil;
+
 import org.springframework.data.domain.Page;
 /**
  * 签约室业务类
@@ -54,6 +59,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	
 	@Autowired
 	private QuickGridService quickGridService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 	
 
 	@Override
@@ -78,13 +85,13 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			List<RmRoomSchedule> rmRoomSchedules = new ArrayList<RmRoomSchedule>();//map转object
 			if(rooms!=null && ! rooms.isEmpty()){
 				for(Map<String, Object> rm:rooms){
-					RmSignRoom sr = (RmSignRoom) mapToObject(rm,RmSignRoom.class);
+					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(RmSignRoom.class, rm);
 					signRooms.add(sr);
 				}
 			}
 			if(scheduals!=null && ! scheduals.isEmpty()){
 				for(Map<String, Object> sd:scheduals){
-					RmRoomSchedule sr = (RmRoomSchedule) mapToObject(sd,RmRoomSchedule.class);
+					RmRoomSchedule sr = (RmRoomSchedule) BeanToMapUtils.convertMap(RmRoomSchedule.class, sd);
 					rmRoomSchedules.add(sr);
 				}
 			}
@@ -147,7 +154,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			if(rss!=null && ! rss.isEmpty()){
 				rmSignRooms = new ArrayList<RmSignRoom>();
 				for(Map<String, Object> rm:rss){
-					RmSignRoom sr = (RmSignRoom) mapToObject(rm,RmSignRoom.class);
+					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(RmSignRoom.class, rm);
 					rmSignRooms.add(sr);
 				}
 			}
@@ -268,8 +275,12 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	public void addReservation(ReservationInfoVo reservationInfoVo) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 		Reservation reservation = new Reservation();
+		
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
+		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
+		
 		if(reservationInfoVo!=null){
-			reservation.setResNo(reservationInfoVo.getResNo());
+			reservation.setResNo(resNo);
 			reservation.setResType(reservationInfoVo.getResType());
 			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());

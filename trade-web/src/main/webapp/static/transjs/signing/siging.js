@@ -186,7 +186,7 @@ function signRoomSelectUserBack(array) {
 					type:"POST",
 					dataType:"json",
 					url: ctx + "/mobile/reservation/getPropertyAddressList",
-					data: {inputValue: $("#propertyAddress").val(),agentCode : 'E39F5661B6614F968F27E7BD24BA324A'},
+					data: {inputValue: $("#propertyAddress").val(),agentCode : agentCode},
 					success:function(data){
 						if(data.length > 0){
 							 $("#propertyAddress").autocompleter({

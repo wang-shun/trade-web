@@ -41,14 +41,8 @@
                             	签约室分配
                         </h2>
                         <form method="get" class="form_list">
-                            <div class="line">
+                        	<div class="line">
                                 <div class="form_content">
-                                    <%-- <label class="control-label sign_left_small select_style mend_select">
-                                       	 时间
-                                    </label>
-                                    <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd" >
-                                        <input name="curDate" id="curDate" class=" data_style input_type" type="text" value="${curDate }" placeholder="">
-                                    </div> --%>
                                     <label class="control-label sign_left_small select_style mend_select">
                                         预约日期
                                     </label>
@@ -62,24 +56,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        	状态
-                                    </label>
-                                    <select class="select_control sign_right_one" name="useStatus" id="useStatus">
-                                        <option value="">请选择</option>
-                                        <option value="N">空置</option>
-                                        <option value="0">预约中</option>
-                                        <option value="1">已过期</option>
-                                        <option value="2">已使用</option>
-                                        <option value="3">使用中</option>
-                                    </select>
-                                    
-                                </div>
-                               
-                            </div>
-                            <div class="line">
-								 <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        	房间类型
+                                        房间类型
                                     </label>
                                     <select class="select_control sign_right_one" name="roomTypeSlot" id="roomTypeSlot">
                                         <option value="">请选择</option>
@@ -87,13 +64,13 @@
                                         <option value="1">机动房间</option>
                                     </select>
                                 </div>
-                                <div class="add_btn" style="float:left;margin-left:126px;">
+                                <div class="add_btn" style="float:left;margin-left:26px;">
                                     <button type="button" class="btn btn-success" id="searchBtn">
-                                        <i class="icon iconfont">&#xe635;</i>
-                                       	 查询
+                                        <i class="icon iconfont"></i>
+                                        查询
                                     </button>
                                     <button type="button" class="btn btn-grey" id="clearBtn">
-                                      	  清空
+                                        清空
                                     </button>
                                 </div>
                             </div>
