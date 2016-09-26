@@ -78,7 +78,7 @@ public class TaskController {
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);
 		queryParameters.put("businessKey", businessKey);
-		queryParameters.put("caseCode", businessKey);
+		queryParameters.put("caseCode", businessKey); //兼容老代码
 		
 		Boolean sameSever = false;// 是否同服务器
 		if (StringUtils.isNotBlank(formKey)) {
