@@ -249,7 +249,7 @@
                                     <label class="control-label sign_left_two">
                                         	<i class="red">* </i>手续费
                                     </label>
-                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="charge">
+                                    <input class="input_type sign_right_two" value="" name="chargeAmount" id="chargeAmount">
                                 </div>
                                 <div class="form_content" id="divRemark">
                                     <label class="control-label sign_left_two">
@@ -265,7 +265,7 @@
                                   <label class="control-label sign_left_two">
                                         转介人姓名
                                     </label>
-                                <input type="text"name="zjName" id="zjName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${yucuiOrgId}',expandNodeId:'${yucuiOrgId}',
+                                <input type="text"name="zjName" id="zjName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'1D29BB468F504774ACE653B946A393EE',expandNodeId:'1D29BB468F504774ACE653B946A393EE',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectZjUser})" value='${eloanCase.zjName}'>
                                 	<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
@@ -275,7 +275,7 @@
                                     <label class="control-label sign_left_two">
                                         转介人员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
+                                    <input class="input_type sign_right_two" readonly="readonly" value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
                                 </div>
 
                             </li>
@@ -284,7 +284,7 @@
                                     <label class="control-label sign_left_two">
                                         产品部姓名
                                     </label>
-						           <input type="text"name="pdName" id="pdName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${yucuiOrgId}',expandNodeId:'${yucuiOrgId}',
+						           <input type="text"name="pdName" id="pdName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'419B20D1643F4CAB8521DB9BEF963C7E',expandNodeId:'419B20D1643F4CAB8521DB9BEF963C7E',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectPdUser})" value='${eloanCase.pdName}'>
                                 	<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
@@ -294,7 +294,7 @@
                                     <label class="control-label sign_left_two">
                                         产品部员工编号
                                     </label>
-                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" name="pdCode" id="pdCode">
+                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" readonly="readonly" name="pdCode" id="pdCode">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -339,8 +339,11 @@
                                 </div>
                             </li>
                         </ul>
-                        <input type="button" class="btn btn-success submit_btn" value="提交" />
-
+                        <p class="text-center">
+                          <input type="button" class="btn btn-success submit_From" value="提交">
+                           <a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+                        </p>
+                      
                         </form>
                     </div>
 
@@ -474,7 +477,7 @@
         		showAndHide(loanSrvCode,value,month);
         	});
         	
-        	$("#charge").blur(function(){
+        	$("#chargeAmount").blur(function(){
         		var value = $.trim(this.value);
         		var applyAmount = $.trim($("#applyAmount").val());
         		
@@ -501,7 +504,7 @@
 			// 初始化银行列表
 			getBankList('');
 			
-			$('.submit_btn').click(function(){
+			$('.submit_From').click(function(){
 				//关联案件必须填写
 				if(!checkForm()){
 					return;
@@ -513,16 +516,17 @@
 					alert('请选择关联案件');
 					return false;
 				}
-				if(validateEloanApply()) {
-					saveEloanApply();
-				} else {
+				//alert("21d2qdqdqdw===="+validateEloanApply());
+				if(validateEloanApply()) {					
+					saveEloanApply();				
+				} else {					
 					alert('该案件的产品已经存在，不允许重复添加');
 					return false;
 				}
 			})
 			
 			function checkChargeAndRemark(applyAmount){
-				var charge = $("#charge").val();
+				var charge = $("#chargeAmount").val();
 				 
 				 if(charge == ""){
 					 alert("请填写手续费！");
@@ -571,8 +575,17 @@
 				 if(month==null||month==''){
 					 alert("请填写申请期数");
 					 return false;	
-				 }
-				 
+				 }pdName
+				 var pdName=$('#pdName').val();
+				 if(pdName==null||pdName==''){
+					 alert("请填写产品部姓名");
+					 return false;	
+				 }   
+				 var zjName=$('#zjName').val();
+				 if(zjName==null||zjName==''){
+					 alert("请填写转介人");
+					 return false;	
+				 } 
 				 var loanSrvCode = $("#loanSrvCode option:selected").val();
 				 var finOrgCode = $("#finOrgCode option:selected").val();
 				 
@@ -703,11 +716,13 @@
 				$("#pdPart").attr("readonly",false);	
 			}
 		})
-		function validateEloanApply() { 
+		function validateEloanApply() {
+			alert(1111);
 			var flag = false;
-			var jsonData = $("#eloanApplyForm").serializeArray();
+			var jsonData = $("#eloanApplyForm").serializeArray();			
 			var url = "${ctx}/eloan/validateEloanApply";
-			$.ajax({
+			alert(url);
+			$.ajax({				
 				cache : false,
 				async : false,//false同步，true异步
 				type : "POST",
@@ -715,7 +730,7 @@
 				dataType : "json",
 				//contentType:"application/json",  
 				data : jsonData,
-				beforeSend : function() {
+ 				beforeSend : function() {
 					$.blockUI({
 						message : $("#salesLoading"),
 						css : {
@@ -729,14 +744,15 @@
 				},
 				complete : function() {
 					$.unblockUI();
-				},
+				}, 
 				success : function(data) {
 					flag = data.content;
-				},
+				},			
 				error : function(errors) {
-					alert("数据保存出错");
+					alert("检测CaseCode绑定案件信息出错");
 				}
-			});
+			});	
+			alert(flag);
 			return flag;
 		}
 		

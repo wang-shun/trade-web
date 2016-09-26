@@ -78,6 +78,7 @@ public class TaskController {
 		queryParameters.put("taskId", taskId);
 		queryParameters.put("source", source);
 		queryParameters.put("businessKey", businessKey);
+		queryParameters.put("caseCode", businessKey);
 		
 		Boolean sameSever = false;// 是否同服务器
 		if (StringUtils.isNotBlank(formKey)) {
@@ -85,6 +86,7 @@ public class TaskController {
 				sameSever = true;
 			}
 		} else {
+			System.out.println("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
 			return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
 		}
 		if (sameSever) {
@@ -94,23 +96,25 @@ public class TaskController {
 			request.setAttribute("source", source);
 			request.setAttribute("businessKey", businessKey);
 			request.setAttribute("caseCode",  businessKey);//兼容老代码
-			//E+ 申请查询审核结果
+/*			//E+ 申请查询审核结果
 			ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
 						
 			toApproveRecordForItem.setProcessInstance(instCode);
 			toApproveRecordForItem.setPartCode("eApplyApprove");		
 			ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
-			request.setAttribute("toApproveRecord", toApproveRecord);
+			request.setAttribute("toApproveRecord", toApproveRecord);*/
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");
 			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();
+			System.out.println("result2==="+UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters));
 			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
 		} else {
 			String decorator = getDecorator(task.getFormKey());
 			if (!StringUtils.isBlank(decorator)) {
 				request.setAttribute(RequestConstants.DECORATOR, decorator);
-		}
+		}	
+			System.out.println("result3==="+UriUtility.getQueryString(task.getFormKey(), queryParameters));
 			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
 
 	}
@@ -132,4 +136,5 @@ public class TaskController {
 		}
 		return null;
 	}
+
 }

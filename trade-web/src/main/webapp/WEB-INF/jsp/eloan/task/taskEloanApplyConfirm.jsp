@@ -160,7 +160,7 @@
 								<div class="form_content input-daterange"
 									data-date-format="yyyy-mm-dd">
 									<label class="control-label sign_left_two"> 申请时间 </label> <input
-										class="input_type sign_right_two" name="month" id="month"
+										class="input_type sign_right_two" name="applyTime" id="applyTime"
 										value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />">
 									<div class="input-group date_icon">
 										<i class="fa fa-calendar"></i>
@@ -267,8 +267,10 @@
 								</div>
 							</li>
 						</ul>
-						<input type="button" class="btn btn-success submit_btn" value="确认" />
-
+                         <p class="text-center" >
+                            <input type="button" class="btn btn-success submit_From" value="确认">
+                           <input type="button" onclick="closeWindow()" class="btn btn-grey ml5" value="关闭">
+                        </p>
 					</form>
 				</div>
 
@@ -306,10 +308,15 @@
 				$("input:not([type='button'])").attr("disabled", true);
 				$("input[type='hidden']").attr("disabled", false);
 				$("select:not([name='approved'])").attr("disabled", true);
-
+				
+				$("input[name='custName']").attr("disabled", false);
+				$("input[name='custPhone']").attr("disabled", false);
+				$("input[name='applyAmount']").attr("disabled", false);
+				$("input[name='month']").attr("disabled", false);			
+				
 				getBankList($("#finOrgCode").val());
 
-				$(".submit_btn").click(function() {
+				$(".submit_From").click(function() {
 					 //提交之前先验证 是否驳回
 					 var eContent = $("#eContent").val();				
 			    	 var approved = $("#approved").val();
@@ -322,6 +329,10 @@
 					saveEloanApplyConfirm();
 				})
 			});
+			function closeWindow(){
+				window.close();
+				window.opener.callback();
+			}
 			/*获取银行列表*/
 			function getBankList(pcode) {
 				var friend = $("#finOrgCode");

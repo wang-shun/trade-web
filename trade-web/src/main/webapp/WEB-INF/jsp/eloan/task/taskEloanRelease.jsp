@@ -236,11 +236,13 @@
                                        <option value="0">否</option>
                                     </select>
                                 </div>
-                                <p>
+                                <p class="text-center">
                                 <input type="hidden" name="eloanCode" id="eloanCode" value="${eloanCase.eloanCode}"/>
                                 <input type="hidden" name="taskId" id="taskId" value="${taskId}"/>
-                        <input type="button" class="btn btn-success submit_btn" value="提交" />
-						</p>
+						  <input type="button" class="btn btn-success submit_From" value="提交">
+                           <input type="button" onclick="closeWindow()" class="btn btn-grey ml5" value="关闭">
+                        </p>
+                      
                         </form>
                     </div>
 
@@ -309,8 +311,12 @@
           		todayBtn : 'linked',
           		language : 'zh-CN'
             });
+			function closeWindow(){
+				window.close();
+				window.opener.callback();
+			}
             
-            $('.submit_btn').click(function(){
+            $('.submit_From').click(function(){
             	var eloanRelList = new Array();
             	var eloanCode =  $('#eloanCode').val();
             	var isRelFinish = $('#isRelFinish').val();

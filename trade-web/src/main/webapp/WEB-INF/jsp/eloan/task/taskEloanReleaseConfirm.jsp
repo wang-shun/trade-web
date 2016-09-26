@@ -227,8 +227,10 @@
                                 </div>
                             </li>
                         </ul>
-                        <input type="button" class="btn btn-success submit_btn" value="确认"/>
-
+                         <p class="text-center">
+                         <input type="button" class="btn btn-success submit_From" value="提交">
+                           <input type="button" onclick="closeWindow()" class="btn btn-grey ml5" value="关闭">
+                        </p>
                         </form>
                     </div>
 
@@ -277,11 +279,14 @@
           		language : 'zh-CN'
             });
             
-            $('.submit_btn').click(function(){
+            $('.submit_From').click(function(){
             	saveReleaseConfirm();
             })
         });
-        
+    	function closeWindow(){
+			window.close();
+			window.opener.callback();
+		}
         /*获取银行列表*/
 		function getBankList(){
 			var finOrgCode = $("#finOrgCode").attr('value');
