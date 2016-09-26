@@ -46,7 +46,7 @@
 					PR.PR_APPLY_DEP_name,
 					COUNT(PR.PKID) AS PR_COUNT
 				
-				FROM sctrans_dev.sctrans.T_TO_PROPERTY_RESEARCH AS PR
+				FROM sctrans.T_TO_PROPERTY_RESEARCH AS PR
 				
 				WHERE 1=1
 				
