@@ -3,14 +3,12 @@
 <mapper namespace="com.centaline.trans.signroom.repository.TradeCenterMapper" >
   <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.TradeCenter" >
     <result column="PKID" property="pkid" jdbcType="BIGINT" />
-    <result column="ORG_ID" property="orgId" jdbcType="CHAR" />
-    <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
     <result column="CENTER_NAME" property="centerName" jdbcType="VARCHAR" />
     <result column="CENTER_ADDRESS" property="centerAddress" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    PKID, ORG_ID, ORG_NAME, CENTER_NAME,CENTER_ADDRESS
+    PKID, CENTER_NAME,CENTER_ADDRESS
   </sql>
   <select id="getTradeCenterList" resultMap="BaseResultMap">
     select 
@@ -20,14 +18,11 @@
   
   <select id="getTradeCenter" resultType="com.centaline.trans.signroom.entity.TradeCenter" parameterType="java.util.Map">
     select 
-    PKID as pkid, ORG_ID as orgId, ORG_NAME as orgName, CENTER_NAME as centerName
+    PKID as pkid, CENTER_NAME as centerName
     from sctrans.T_RM_TRADE_CENTER
     <where>
        <if test="pkid!=null">
            PKID = #{pkid}
-       </if>
-    	<if test="orgId!=null">
-           AND  ORG_ID = #{orgId}
        </if>
     </where>
   </select>

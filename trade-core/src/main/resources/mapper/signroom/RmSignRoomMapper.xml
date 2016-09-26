@@ -7,8 +7,6 @@
     <result column="ROOM_NO" property="roomNo" jdbcType="VARCHAR" />
     <result column="TRADE_CENTER" property="tradeCenter" jdbcType="NVARCHAR" />
     <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="BIGINT" />
-    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
-    <result column="ORG_NAME" property="orgName" jdbcType="NVARCHAR" />
     <result column="NUMBE_OF_ACCOMMODATE_PEOPLE" property="numbeOfAccommodatePeople" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="NVARCHAR" />
     <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
@@ -23,7 +21,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    PKID, ROOM_TYPE, ROOM_NO, TRADE_CENTER, TRADE_CENTER_ID, ORG_ID, ORG_NAME, NUMBE_OF_ACCOMMODATE_PEOPLE,REMARK,CLOSE_TIME,ROOM_STATUS,IS_DELETE,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+    PKID, ROOM_TYPE, ROOM_NO, TRADE_CENTER, TRADE_CENTER_ID, NUMBE_OF_ACCOMMODATE_PEOPLE,REMARK,CLOSE_TIME,ROOM_STATUS,IS_DELETE,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
   </sql>
   
   <select id="findRmSignRooms"  resultMap="BaseResultMap" parameterType="com.centaline.trans.signroom.entity.RmSignRoom">
@@ -42,12 +40,6 @@
       </if>
       <if test="tradeCenterId != null" >
         AND TRADE_CENTER_ID = #{tradeCenterId,jdbcType=CHAR},
-      </if>
-      <if test="orgId != null" >
-        AND ORG_ID = #{orgId,jdbcType=VARCHAR},
-      </if>
-      <if test="orgName != null" >
-        AND ORG_NAME = #{orgName,jdbcType=NVARCHAR},
       </if>
       <if test="numbeOfAccommodatePeople != null" >
         AND NUMBE_OF_ACCOMMODATE_PEOPLE = #{numbeOfAccommodatePeople,jdbcType=INTEGER},
@@ -94,12 +86,6 @@
       <if test="tradeCenterId != null" >
         TRADE_CENTER_ID,
       </if>
-      <if test="orgId != null" >
-        ORG_ID,
-      </if>
-      <if test="orgName != null" >
-        ORG_NAME,
-      </if>
       <if test="numbeOfAccommodatePeople != null" >
         NUMBE_OF_ACCOMMODATE_PEOPLE,
       </if>
@@ -140,12 +126,6 @@
       </if>
       <if test="tradeCenterId != null" >
         #{tradeCenterId,jdbcType=CHAR},
-      </if>
-      <if test="orgId != null" >
-        #{orgId,jdbcType=VARCHAR},
-      </if>
-      <if test="orgName != null" >
-        #{orgName,jdbcType=NVARCHAR},
       </if>
       <if test="numbeOfAccommodatePeople != null" >
         #{numbeOfAccommodatePeople,jdbcType=INTEGER},
@@ -192,12 +172,6 @@
       <if test="tradeCenterId != null" >
         TRADE_CENTER_ID = #{tradeCenterId,jdbcType=CHAR},
       </if>
-      <if test="orgId != null" >
-        ORG_ID = #{orgId,jdbcType=VARCHAR},
-      </if>
-      <if test="orgName != null" >
-        ORG_NAME = #{orgName,jdbcType=NVARCHAR},
-      </if>
       <if test="numbeOfAccommodatePeople != null" >
         NUMBE_OF_ACCOMMODATE_PEOPLE = #{numbeOfAccommodatePeople,jdbcType=INTEGER},
       </if>
@@ -234,7 +208,7 @@
   </delete>
   
   <select id="getSignRoomInfos" resultMap="BaseResultMap" parameterType="java.util.Map" >
-		SELECT  DISTINCT R.PKID, R.ROOM_NO,R.ROOM_TYPE,R.TRADE_CENTER,R.ORG_ID,R.ORG_NAME,R.NUMBE_OF_ACCOMMODATE_PEOPLE
+		SELECT  DISTINCT R.PKID, R.ROOM_NO,R.ROOM_TYPE,R.TRADE_CENTER,R.NUMBE_OF_ACCOMMODATE_PEOPLE
 		FROM    
 		sctrans.T_RM_SIGN_ROOM R INNER JOIN
 		sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID	
@@ -244,9 +218,6 @@
 			AND R.IS_DELETE = '0'
 			<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #{curDate}) = 0
-			</if>
-			<if test="orgId != null">
-				 AND R.ORG_ID = #{orgId}
 			</if>
 			<if test="roomType != null">
 				 AND R.ROOM_TYPE = #{roomType}
@@ -277,8 +248,6 @@ WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
         T.ROOM_NO,
         T.TRADE_CENTER,
         T.TRADE_CENTER_ID,
-        T.ORG_ID,
-        T.ORG_NAME,
         T.NUMBE_OF_ACCOMMODATE_PEOPLE,
         T.REMARK,
         T.CLOSE_TIME,
@@ -293,10 +262,7 @@ WHERE   d.CODE = 'SIGN_ROOM_OPEN_DATE'
 FROM    [sctrans].[T_RM_SIGN_ROOM] T
         INNER JOIN [sctrans].T_RM_ROOM_SCHE_STRAGEGY R ON T.PKID = R.ROOM_ID
         where T.IS_DELETE = 0
-        
-          <if test="orgId!=null">
-          	AND T.ORG_ID = #{orgId}
-          </if>
+          
           <if test="roomType!=null">
           	AND T.ROOM_TYPE = #{roomType}
           </if>

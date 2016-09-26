@@ -20,8 +20,6 @@ public class RmSignRoom implements Serializable {
 	private String roomNo;// 房间编号
 	private String tradeCenter;// 交易中心
 	private Long tradeCenterId;// 交易中心ID
-	private String orgId;// 归属贵宾服务中心ID
-	private String orgName;// 归属贵宾服务中心
 	private int numbeOfAccommodatePeople;// 可容纳人数
 	private String remark;// 备注
 	private Date closeTime;// 关闭时间
@@ -80,22 +78,6 @@ public class RmSignRoom implements Serializable {
 
 	public void setTradeCenterId(Long tradeCenterId) {
 		this.tradeCenterId = tradeCenterId;
-	}
-
-	public String getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
-
-	public String getOrgName() {
-		return orgName;
-	}
-
-	public void setOrgName(String orgName) {
-		this.orgName = orgName;
 	}
 
 	public int getNumbeOfAccommodatePeople() {
