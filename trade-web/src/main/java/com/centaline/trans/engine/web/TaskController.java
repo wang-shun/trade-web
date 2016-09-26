@@ -85,6 +85,7 @@ public class TaskController {
 				sameSever = true;
 			}
 		} else {
+			System.out.println("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
 			return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
 		}
 		if (sameSever) {
@@ -105,12 +106,14 @@ public class TaskController {
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");
 			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();
+			System.out.println("result2==="+UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters));
 			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
 		} else {
 			String decorator = getDecorator(task.getFormKey());
 			if (!StringUtils.isBlank(decorator)) {
 				request.setAttribute(RequestConstants.DECORATOR, decorator);
-		}
+		}	
+			System.out.println("result3==="+UriUtility.getQueryString(task.getFormKey(), queryParameters));
 			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
 
 	}

@@ -354,13 +354,22 @@ public class WarnListController {
 	//主管审批    保存E+申请记录
 	@RequestMapping(value="saveEloanApplyConfirm")
 	@ResponseBody
-	public AjaxResponse<String> saveEloanApplyConfirm(Model model,String taskId,String approved,String eloanCode,String processInstanceId,String caseCode,String eContent){
+/*	Model model,String taskId,String approved,String eloanCode,String processInstanceId,
+	String caseCode,String eContent,String custName,String custPhone,String month,String applyAmount*/
+	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase,String eContent,String approved,String taskId){
+
 		SessionUser user = uamSessionService.getSessionUser();
 		try  {
 			ToEloanCase toEloanCase = new ToEloanCase();
 			toEloanCase.setApplyConfUser(user.getId());
 			toEloanCase.setApplyConfTime(new Date());
-			toEloanCase.setEloanCode(eloanCode);
+			if(null != eloanCase){
+				toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
+				toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
+				toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
+				toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
+				toEloanCase.setMonth(eloanCase.getMonth());
+			}
 			
 			boolean isUpdate = false;
 			Map<String,Object> map = new HashMap<String,Object>();
@@ -369,19 +378,20 @@ public class WarnListController {
 				isUpdate = true;
 			} else {
 				map.put("ApplyApprove", false);
+				isUpdate = true;
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
 			
 			//E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
 			ToApproveRecord toApproveRecord=new ToApproveRecord();			
-			toApproveRecord.setCaseCode(caseCode);
+			toApproveRecord.setCaseCode(eloanCase.getCaseCode());
 			toApproveRecord.setContent(eContent);
 			toApproveRecord.setApproveType("9");
 			toApproveRecord.setOperator(user.getId());
 			toApproveRecord.setTaskId(taskId);
 			toApproveRecord.setOperatorTime(new Date());
 			toApproveRecord.setPartCode("eApplyApprove");//e+借贷
-			toApproveRecord.setProcessInstance(processInstanceId);
+			toApproveRecord.setProcessInstance(eloanCase.getProcessInstanceId());
 			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 			
 			return AjaxResponse.success("操作成功");
