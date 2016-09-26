@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
+  <process id="ChargeOutProcess" name="ChargeOutProcess" isExecutable="true">
+    <userTask id="SpvCashflowInApply" name="入款申请" activiti:formKey="/spv/task/spvCashflowInAppr/process?handle=apply"></userTask>
+    <userTask id="SpvCashflowInDirectorAduit" name="入款总监审批" activiti:formKey="/spv/task/spvCashflowInAppr/process?handle=directorAduit"></userTask>
+    <sequenceFlow id="flow1" sourceRef="SpvCashflowInApply" targetRef="SpvCashflowInDirectorAduit"></sequenceFlow>
+    <userTask id="SpvCashflowInFinanceAduit" name="入款财务审核" activiti:formKey="/spv/task/spvCashflowInAppr/process?handle=financeAduit"></userTask>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="SpvCashflowInFinanceAduit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAduit}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="SpvCashflowInApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAduit == false}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow7" sourceRef="SpvCashflowInFinanceAduit" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="SpvCashflowInApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAduit == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="SpvCashflowInDirectorAduit" targetRef="exclusivegateway1"></sequenceFlow>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <sequenceFlow id="flow11" sourceRef="startevent1" targetRef="SpvCashflowInApply"></sequenceFlow>
+    <endEvent id="endevent2" name="End"></endEvent>
+    <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="endevent2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAduit}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ChargeOutProcess">
+    <bpmndi:BPMNPlane bpmnElement="ChargeOutProcess" id="BPMNPlane_ChargeOutProcess">
+      <bpmndi:BPMNShape bpmnElement="SpvCashflowInApply" id="BPMNShape_SpvCashflowInApply">
+        <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SpvCashflowInDirectorAduit" id="BPMNShape_SpvCashflowInDirectorAduit">
+        <omgdc:Bounds height="55.0" width="105.0" x="370.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SpvCashflowInFinanceAduit" id="BPMNShape_SpvCashflowInFinanceAduit">
+        <omgdc:Bounds height="55.0" width="105.0" x="600.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="510.0" y="127.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="750.0" y="127.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="60.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1090.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="305.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="370.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="550.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="530.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="530.0" y="238.0"></omgdi:waypoint>
+        <omgdi:waypoint x="252.0" y="238.0"></omgdi:waypoint>
+        <omgdi:waypoint x="252.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="705.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="750.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="770.0" y="127.0"></omgdi:waypoint>
+        <omgdi:waypoint x="770.0" y="58.0"></omgdi:waypoint>
+        <omgdi:waypoint x="252.0" y="58.0"></omgdi:waypoint>
+        <omgdi:waypoint x="252.0" y="120.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="475.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="95.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="200.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="790.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1090.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

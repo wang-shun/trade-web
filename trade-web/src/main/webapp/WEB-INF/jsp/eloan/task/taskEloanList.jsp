@@ -99,10 +99,12 @@
 							<button type="button" class="btn btn_blue" id="btn_search">
 								<i class="icon iconfont"></i> 查询
 							</button>
+							 <shiro:hasPermission name="TRADE.ELONE.ADD">
 							<a type="button" class="btn btn_blue "
 								href="${ctx}/eloan/task/eloanApply/process"> <i
 								class=" iconfont">&#xe617;</i>&nbsp;新增
 							</a>
+							</shiro:hasPermission>
 						</div>
 					</div>
 				</form>
@@ -339,7 +341,10 @@
 												}, {
 													colName : "客户"
 												}, {
-													colName : "流程时间"
+													 colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流程时间</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+						    		    	           sortColumn : "APPLY_TIME",
+						    		    	           sord: "desc",
+						    		    	           sortActive : true
 												}, {
 													colName : "状态"
 												}, {

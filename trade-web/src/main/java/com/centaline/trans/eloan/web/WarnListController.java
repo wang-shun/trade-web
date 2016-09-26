@@ -125,9 +125,8 @@ public class WarnListController {
 		SessionUser user = uamSessionService.getSessionUser();
 		Org parentOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode());
 		
-		Org curentOrg = uamUserOrgService.getOrgById(user.getServiceDepId());
-		Org yucui = uamUserOrgService.getOrgById(curentOrg.getParentId());
-		
+		Org yucui = uamUserOrgService.getOrgById(parentOrg.getParentId());
+
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("yucuiOrgId", yucui.getId());
 		request.setAttribute("excutorId", user.getId());

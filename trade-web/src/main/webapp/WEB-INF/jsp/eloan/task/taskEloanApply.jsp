@@ -265,7 +265,7 @@
                                   <label class="control-label sign_left_two">
                                         转介人姓名
                                     </label>
-                                <input type="text"name="zjName" id="zjName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${yucuiOrgId}',expandNodeId:'${yucuiOrgId}',
+                                <input type="text"name="zjName" id="zjName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'1D29BB468F504774ACE653B946A393EE',expandNodeId:'1D29BB468F504774ACE653B946A393EE',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectZjUser})" value='${eloanCase.zjName}'>
                                 	<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
@@ -275,7 +275,7 @@
                                     <label class="control-label sign_left_two">
                                         转介人员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
+                                    <input class="input_type sign_right_two" readonly="readonly" value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
                                 </div>
 
                             </li>
@@ -284,7 +284,7 @@
                                     <label class="control-label sign_left_two">
                                         产品部姓名
                                     </label>
-						           <input type="text"name="pdName" id="pdName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${yucuiOrgId}',expandNodeId:'${yucuiOrgId}',
+						           <input type="text"name="pdName" id="pdName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'419B20D1643F4CAB8521DB9BEF963C7E',expandNodeId:'419B20D1643F4CAB8521DB9BEF963C7E',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectPdUser})" value='${eloanCase.pdName}'>
                                 	<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
@@ -294,7 +294,7 @@
                                     <label class="control-label sign_left_two">
                                         产品部员工编号
                                     </label>
-                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" name="pdCode" id="pdCode">
+                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" readonly="readonly" name="pdCode" id="pdCode">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -339,8 +339,11 @@
                                 </div>
                             </li>
                         </ul>
-                        <input type="button" class="btn btn-success submit_btn" value="提交" />
-
+                        <p class="text-center">
+                          <input type="button" class="btn btn-success submit_From" value="提交">
+                           <a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+                        </p>
+                      
                         </form>
                     </div>
 
@@ -501,7 +504,7 @@
 			// 初始化银行列表
 			getBankList('');
 			
-			$('.submit_btn').click(function(){
+			$('.submit_From').click(function(){
 				//关联案件必须填写
 				if(!checkForm()){
 					return;
@@ -572,8 +575,17 @@
 				 if(month==null||month==''){
 					 alert("请填写申请期数");
 					 return false;	
-				 }
-				 
+				 }pdName
+				 var pdName=$('#pdName').val();
+				 if(pdName==null||pdName==''){
+					 alert("请填写产品部姓名");
+					 return false;	
+				 }   
+				 var zjName=$('#zjName').val();
+				 if(zjName==null||zjName==''){
+					 alert("请填写转介人");
+					 return false;	
+				 } 
 				 var loanSrvCode = $("#loanSrvCode option:selected").val();
 				 var finOrgCode = $("#finOrgCode option:selected").val();
 				 
