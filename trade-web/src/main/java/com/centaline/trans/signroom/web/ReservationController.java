@@ -1,5 +1,6 @@
 package com.centaline.trans.signroom.web;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.signroom.entity.Reservation;
@@ -26,6 +28,7 @@ import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
 import com.centaline.trans.signroom.vo.ReservationVo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
+import com.centaline.trans.utils.DateUtil;
 
 /**
  * 预约取号信息controller
@@ -51,6 +54,9 @@ public class ReservationController {
 
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
+
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	/**
 	 * 签约室预约列表
@@ -127,10 +133,11 @@ public class ReservationController {
 	 * @param reservationVo
 	 *            预约取号前台传的参数对象
 	 * @return 返回true,说明保存成功;返回false,保存失败。
+	 * @throws ParseException
 	 */
 	@RequestMapping(value = "save")
 	@ResponseBody
-	public FreeRoomInfo save(ReservationVo reservationVo) {
+	public FreeRoomInfo save(ReservationVo reservationVo) throws ParseException {
 		FreeRoomInfo freeRoomInfo = reservationService
 				.getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
 
@@ -143,15 +150,18 @@ public class ReservationController {
 
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
+		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
+
 		Reservation reservation = new Reservation();
-		reservation.setResNo("20160918001"); // 预约编号是根据某一规则自动生成，现在是为了测试先写死
+		reservation.setResNo(resNo);
 		reservation.setResType(reservationVo.getResType());
 		reservation.setResPersonId(reservationVo.getResPersonId());
 
 		String orgId = reservationService.getOrgIdByGrpcode(currentUser
 				.getBusigrpId());
 
-		// reservation.setResPersonOrgId(orgId); //TODO
+		// reservation.setResPersonOrgId(orgId);
 		reservation.setResPersonOrgId("6a84979158b942b78a8a5921cc30b8c3");
 		reservation.setResStatus("0");
 		reservation.setScheduleId(reservationVo.getScheduleId());
