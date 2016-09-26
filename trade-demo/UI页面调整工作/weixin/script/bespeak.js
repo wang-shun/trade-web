@@ -9,7 +9,7 @@
 
 $(function() {
 	//输入框自动完成提示
-	var availableTagsJSON = [
+	/*var availableTagsJSON = [
 		"上海浦东二区祝桥片区航亭环路399弄71号0302室",
 		"上海浦东一区塘桥片区浦明路1199弄2号0902室",
 		"东余杭路333号商丘路399弄2号501",
@@ -19,7 +19,7 @@ $(function() {
 	];
 	$( "#input" ).autocomplete({
 		source: availableTagsJSON
-	});
+	});*/
 
 
 	/*$("#input").autocomplete({

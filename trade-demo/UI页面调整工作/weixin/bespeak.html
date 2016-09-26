@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/aui.2.0.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="iconfont/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/autocompleter.css" />
     <link rel="stylesheet" type="text/css" href="css/validate.css" />
 
 </head>
@@ -19,7 +19,7 @@
         <div class="aui-title">预约取号</div>
     </header>
     <form action="" id="form1">
-        <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative">
+        <div class="aui-content  margin10 border_grey radius3 linehgl30 relative">
             <input type="text" id="input" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
             <i class="dingwei iconfont orange">&#xe60a;</i>
         </div>
@@ -67,14 +67,12 @@
 <script type="text/javascript" src="script/aui-dialog.js"></script>
 <script type="text/javascript" src="script/aui-main.js"></script>
 <script type="text/javascript" src="script/layer.js"></script>
-<script type="text/javascript" src="script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="script/jquery.autocompleter.js"></script>
+<script type="text/javascript" src="script/autocompleter.js"></script>
 <script type="text/javascript" src="script/bespeak.js"></script>
 <script type="text/javascript" src="script/jquery-mvalidate.js"></script>
 
 
-<script type="text/javascript">
-
-</script>
 <script>
     $(function(){
         $.mvalidateExtend({
@@ -110,6 +108,7 @@
                 },
             }
         });
+
     })
 
     function myOpen(){
@@ -128,5 +127,7 @@
                         + '</div>'
         });
     };
+
+
 </script>
 </html>

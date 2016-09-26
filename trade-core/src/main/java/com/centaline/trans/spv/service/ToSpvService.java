@@ -220,4 +220,6 @@ public interface ToSpvService {
 
 	SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCode(String cashFlowApplyCode);
 
+	void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO);
+
 }

@@ -1,7 +1,9 @@
 package com.centaline.trans.spv.repository;
 
-import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 
+import com.centaline.trans.common.MyBatisRepository;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
+@MyBatisRepository
 public interface ToSpvCashFlowApplyMapper {
     int deleteByPrimaryKey(Long pkid);
 
@@ -11,7 +13,7 @@ public interface ToSpvCashFlowApplyMapper {
 
     ToSpvCashFlowApply selectByPrimaryKey(Long pkid);
     
-    ToSpvCashFlowApply selectByPrimaryCashFlowApplyCode(String cashFlowApplyCode);
+    ToSpvCashFlowApply selectByCashFlowApplyCode(String cashFlowApplyCode);
 
     int updateByPrimaryKeySelective(ToSpvCashFlowApply record);
 

@@ -923,14 +923,23 @@ public class ToSpvServiceImpl implements ToSpvService {
 		return toSpvMapper.updateByPrimaryKey(record);
 	}
 
+	/**
+	 * @Title: findSpvChargeInfoVOByCashFlowApplyCode 
+	 * @Description: 通过cashFlowApplyCode查询SpvChargeInfoVO
+	 * @author: gongjd 
+	 * @param cashFlowApplyCode
+	 * @return SpvChargeInfoVO
+	 * @throws
+	 */
 	@Override
 	public SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCode(String cashFlowApplyCode) {
+		
 		SpvChargeInfoVO spvChargeOutInfoVO = new SpvChargeInfoVO();
 		
 		/**1.查询申请*/
-		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByPrimaryCashFlowApplyCode(cashFlowApplyCode);
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
 		
-		if(toSpvCashFlowApply == null) throw new BusinessException("不存在该申请号！");
+		if(toSpvCashFlowApply == null) throw new BusinessException("找不到该申请号对应的申请！");
 		
 		Long cashFlowApplyId = toSpvCashFlowApply.getPkid();
 		/**2.查询流水*/
@@ -940,7 +949,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/**4.查询贷记凭证*/
 		List<ToSpvVoucher> toSpvVoucherList = new ArrayList<ToSpvVoucher>();
 		/**5.查询小票、回单*/
-		List<ToSpvReceipt> toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(cashFlowApplyId);
+		List<ToSpvReceipt> toSpvReceiptList = new ArrayList<ToSpvReceipt>();
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
 			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid());
@@ -961,6 +970,117 @@ public class ToSpvServiceImpl implements ToSpvService {
 		spvChargeOutInfoVO.setToSpvCashFlowApplyAttachList(toSpvCashFlowApplyAttachList);
 		
 		return spvChargeOutInfoVO;
+	}
+
+	/**
+	 * @Title: saveSpvChargeInfoVO 
+	 * @Description: 保存saveSpvChargeInfoVO信息
+	 * @author: gongjd 
+	 * @param spvChargeInfoVO
+	 * @throws
+	 */
+	@Override
+	public void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) {
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
+		
+		/**1.申请*/
+		ToSpvCashFlowApply toSpvCashFlowApply = spvChargeInfoVO.getToSpvCashFlowApply();
+		if(toSpvCashFlowApply.getPkid() == null){
+			toSpvCashFlowApply.setCreateBy(user.getId());
+			toSpvCashFlowApply.setCreateTime(new Date());
+			toSpvCashFlowApply.setIsDeleted("0");
+			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
+		}else{
+			toSpvCashFlowApply.setUpdateBy(user.getId());
+			toSpvCashFlowApply.setUpdateTime(new Date());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
+		}
+		
+		/**2.流水*/
+		List<ToSpvCashFlow> toSpvCashFlowList = spvChargeInfoVO.getToSpvCashFlowList();
+		if(toSpvCashFlowList != null && !toSpvCashFlowList.isEmpty()){
+			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
+				if(toSpvCashFlow.getPkid() == null){
+					toSpvCashFlow.setCreateBy(user.getId());
+					toSpvCashFlow.setCreateTime(new Date());
+					toSpvCashFlow.setIsDeleted("0");
+					toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
+				}else{
+					toSpvCashFlow.setUpdateBy(user.getId());
+					toSpvCashFlow.setUpdateTime(new Date());
+					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+				}
+			}
+		}
+		
+		/**3.审批记录*/
+		List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
+		if(toSpvAduitList != null && !toSpvAduitList.isEmpty()){
+			for(ToSpvAduit toSpvAduit:toSpvAduitList){
+				if(toSpvAduit.getPkid() == null){
+					toSpvAduit.setCreateBy(user.getId());
+					toSpvAduit.setCreateTime(new Date());
+					toSpvAduitMapper.insertSelective(toSpvAduit);
+				}else{
+					toSpvAduit.setUpdateBy(user.getId());
+					toSpvAduit.setUpdateTime(new Date());
+					toSpvAduitMapper.updateByPrimaryKeySelective(toSpvAduit);
+				}
+			}
+		}
+		
+		/**4.贷记凭证*/
+		List<ToSpvVoucher> toSpvVoucherList = spvChargeInfoVO.getToSpvVoucherList();
+		if(toSpvVoucherList != null && !toSpvVoucherList.isEmpty()){
+			for(ToSpvVoucher toSpvVoucher:toSpvVoucherList){
+				if(toSpvVoucher.getPkid() == null){
+					toSpvVoucher.setCreateBy(user.getId());
+					toSpvVoucher.setCreateTime(new Date());
+					toSpvVoucher.setIsDeleted("0");
+					toSpvVoucherMapper.insertSelective(toSpvVoucher);
+				}else{
+					toSpvVoucher.setUpdateBy(user.getId());
+					toSpvVoucher.setUpdateTime(new Date());
+					toSpvVoucherMapper.updateByPrimaryKeySelective(toSpvVoucher);
+				}
+			}
+		}
+		
+		/**5.小票、回单*/
+		List<ToSpvReceipt> toSpvReceiptList = spvChargeInfoVO.getToSpvReceiptList();
+		if(toSpvReceiptList != null && !toSpvReceiptList.isEmpty()){
+			for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
+				if(toSpvReceipt.getPkid() == null){
+					toSpvReceipt.setCreateBy(user.getId());
+					toSpvReceipt.setCreateTime(new Date());
+					toSpvReceipt.setIsDeleted("0");
+					toSpvReceiptMapper.insertSelective(toSpvReceipt);
+				}else{
+					toSpvReceipt.setUpdateBy(user.getId());
+					toSpvReceipt.setUpdateTime(new Date());
+					toSpvReceiptMapper.updateByPrimaryKeySelective(toSpvReceipt);
+				}
+			}
+		}
+		/**6.申请附件*/
+		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
+		if(toSpvCashFlowApplyAttachList != null && !toSpvCashFlowApplyAttachList.isEmpty()){
+			for(ToSpvCashFlowApplyAttach toSpvCashFlowApplyAttach:toSpvCashFlowApplyAttachList){
+				if(toSpvCashFlowApplyAttach.getPkid() == null){
+					toSpvCashFlowApplyAttach.setCreateBy(user.getId());
+					toSpvCashFlowApplyAttach.setCreateTime(new Date());
+					toSpvCashFlowApplyAttach.setIsDeleted("0");
+					toSpvCashFlowApplyAttachMapper.insertSelective(toSpvCashFlowApplyAttach);
+				}else{
+					toSpvCashFlowApplyAttach.setUpdateBy(user.getId());
+					toSpvCashFlowApplyAttach.setUpdateTime(new Date());
+					toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);
+				}
+			}
+		}
+		
 	}
 
 }
