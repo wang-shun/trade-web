@@ -263,7 +263,7 @@
                             <li>
                                 <div class="form_content">
                                   <label class="control-label sign_left_two">
-                                        转介人姓名
+                                       <i class="red">* </i> 转介人姓名
                                     </label>
                                 <input type="text"name="zjName" id="zjName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'1D29BB468F504774ACE653B946A393EE',expandNodeId:'1D29BB468F504774ACE653B946A393EE',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectZjUser})" value='${eloanCase.zjName}'>
@@ -273,16 +273,16 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        转介人员工编号
+                                     转介人员工编号
                                     </label>
-                                    <input class="input_type sign_right_two" readonly="readonly" value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
+                                    <input class="input_type sign_right_two" disabled="disabled"  value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
                                 </div>
 
                             </li>
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产品部姓名
+                                       <i class="red">* </i> 产品部姓名
                                     </label>
 						           <input type="text"name="pdName" id="pdName" style="background-color:#FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'419B20D1643F4CAB8521DB9BEF963C7E',expandNodeId:'419B20D1643F4CAB8521DB9BEF963C7E',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectPdUser})" value='${eloanCase.pdName}'>
@@ -292,18 +292,18 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产品部员工编号
+                                       产品部员工编号
                                     </label>
-                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" readonly="readonly" name="pdCode" id="pdCode">
+                                    <input class="input_type  sign_right_two" value="${eloanCase.pdCode}" disabled="disabled" name="pdCode" id="pdCode">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
-                                        产品部分成比例
+                                       产品部分成比例
                                     </label> 
-                                    <select class="input_type sign_right_two" name="pdPart" id="pdPart">
-                                    <option value="10%">10%</option>
-                                    <option value="20%">20%</option>
-                                    </select>
+                                  <input class="input_type sign_right_two" value="${eloanCase.pdPart}" disabled="disabled" name="pdPart" id="pdPart">
+                                    <div class="input-group date_icon">
+                                        <span class="danwei">%</span>
+                                    </div>
                                 </div>
                             </li>
                             <li>
@@ -707,13 +707,9 @@
 			var finOrgCode=$("#finOrgCode").val();
 			if(finOrgCode=="W0001"){
 				$("#pdPart").val(20);
-				$("#pdPart").attr("readonly",true);
+
 			}else if(finOrgCode=="W0003"||finOrgCode=="W0004"){
-				$("#pdPart").val(10);
-				$("#pdPart").attr("readonly",true);
-			}else{
-				$("#pdPart").val('');
-				$("#pdPart").attr("readonly",false);	
+				$("#pdPart").val(10);	
 			}
 		})
 		function validateEloanApply() {
