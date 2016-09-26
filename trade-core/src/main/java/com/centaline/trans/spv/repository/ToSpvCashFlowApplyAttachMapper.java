@@ -1,7 +1,10 @@
 package com.centaline.trans.spv.repository;
 
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
+import java.util.List;
 
+import com.centaline.trans.common.MyBatisRepository;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
+@MyBatisRepository
 public interface ToSpvCashFlowApplyAttachMapper {
     int deleteByPrimaryKey(Long pkid);
 
@@ -14,4 +17,6 @@ public interface ToSpvCashFlowApplyAttachMapper {
     int updateByPrimaryKeySelective(ToSpvCashFlowApplyAttach record);
 
     int updateByPrimaryKey(ToSpvCashFlowApplyAttach record);
+
+	List<ToSpvCashFlowApplyAttach> selectByCashFlowApplyId(Long cashFlowApplyId);
 }

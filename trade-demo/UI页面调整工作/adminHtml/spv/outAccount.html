@@ -1046,65 +1046,88 @@
                                 </p>
                             </div>
                         </div>
-
                         <div class="mt20">
                             <div class="agree-tile">
-                                出账申请信息
+                                资金放款方案
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
-                                    <table class="table table-bordered customerinfo">
+                                    <table class="table table-bordered  customerinfo">
                                         <thead>
-                                        <th style="width: 100px;">付款人姓名</th>
-                                        <th>付款人账户</th>
-                                        <th style="width: 100px;">入账金额</th>
-                                        <th style="width: 120px;">贷记凭证编号</th>
-                                        <th>付款方式</th>
-                                        <th>凭证附件</th>
-                                        <th>操作</th>
+                                        <tr>
+                                            <th>
+                                                次数
+                                            </th>
+                                            <th>
+                                                划转条件
+                                            </th>
+                                            <th>
+                                                每次划转金额
+                                            </th>
+                                            <th>
+                                                卖方账户
+                                            </th>
+                                            <th>
+                                                资金方
+                                            </th>
+                                        </tr>
                                         </thead>
-                                        <tbody id="addTr">
-
+                                        <tbody>
                                         <tr>
                                             <td>
-                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" />
+                                                2
                                             </td>
                                             <td>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
-                                                <p>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
-                                                <p>
-                                            </td>
-
-                                            <td class="text-left" >
-                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" />万元
+                                                申请交易过户登记后
                                             </td>
                                             <td>
-                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" />
+                                                240万
                                             </td>
                                             <td>
-                                                <select name="" class="table-select boderbbt">
-                                                    <option value="">请选择</option>
-                                                    <option value="">转账凭证</option>
-                                                </select>
+                                                100万
                                             </td>
                                             <td>
-                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <span class="btn_file">
-                                                    <input type="file" class="file" />
-                                                    <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
-                                                </span>
-                                            </td>
-                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                                140万
                                             </td>
                                         </tr>
-
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                标准交易过户申请后
+                                            </td>
+                                            <td>
+                                                180万
+                                            </td>
+                                            <td>
+                                                180万
+                                            </td>
+                                            <td>
+                                                0万
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                合计
+                                            </td>
+                                            <td>
+                                                300万
+                                            </td>
+                                            <td>
+                                                250万
+                                            </td>
+                                            <td>
+                                                50万
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </form>
                         </div>
+
                         <div class="mt20">
                             <div class="agree-tile">
                                 出入账记录
@@ -1218,14 +1241,74 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="form-btn">
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-success mr15">保存</button>
-                                            <button type="submit" class="btn btn-default mr15">关闭</button>
-                                            <a href="../spv/spvRecordShow.html" class="btn btn-success">提交</a>
-                                        </div>
-                                    </div>
+
                         </div>
+                        <div class="mt20">
+                            <div class="agree-tile">
+                                出账申请信息
+                            </div>
+                            <form class="form-inline table-capital">
+                                <div class="table-box" >
+                                    <table class="table table-bordered customerinfo">
+                                        <thead>
+                                        <th style="width: 100px;">付款人姓名</th>
+                                        <th>付款人账户</th>
+                                        <th style="width: 100px;">入账金额</th>
+                                        <th style="width: 120px;">贷记凭证编号</th>
+                                        <th>付款方式</th>
+                                        <th>凭证附件</th>
+                                        <th>操作</th>
+                                        </thead>
+                                        <tbody id="addTr">
+
+                                        <tr>
+                                            <td>
+                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" />
+                                            </td>
+                                            <td>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
+                                                <p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
+                                                <p>
+                                            </td>
+
+                                            <td class="text-left" >
+                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" />万元
+                                            </td>
+                                            <td>
+                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" />
+                                            </td>
+                                            <td>
+                                                <select name="" class="table-select boderbbt">
+                                                    <option value="">请选择</option>
+                                                    <option value="">转账凭证</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <span class="btn_file">
+                                                    <input type="file" class="file" />
+                                                    <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
+                                                </span>
+                                            </td>
+                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="form-btn">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success mr15">保存</button>
+                                <button type="submit" class="btn btn-default mr15">关闭</button>
+                                <a href="../spv/spvRecordShow.html" class="btn btn-success">提交</a>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="ibox-content clearfix space30">
                         <div class="title">

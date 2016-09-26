@@ -1,7 +1,10 @@
 package com.centaline.trans.spv.repository;
 
-import com.centaline.trans.spv.entity.ToSpvVoucher;
+import java.util.List;
 
+import com.centaline.trans.common.MyBatisRepository;
+import com.centaline.trans.spv.entity.ToSpvVoucher;
+@MyBatisRepository
 public interface ToSpvVoucherMapper {
     int deleteByPrimaryKey(Long pkid);
 
@@ -14,4 +17,6 @@ public interface ToSpvVoucherMapper {
     int updateByPrimaryKeySelective(ToSpvVoucher record);
 
     int updateByPrimaryKey(ToSpvVoucher record);
+
+	List<ToSpvVoucher> selectByCashFlowId(Long cashFlowId);
 }
