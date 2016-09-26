@@ -31,6 +31,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.druid.pool.vendor.SybaseExceptionSorter;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.MyCaseListService;
@@ -61,6 +62,7 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.utils.DateUtil;
+import com.centaline.trans.utils.UriUtility;
 
 @Controller
 @RequestMapping(value="/eloan")
@@ -134,6 +136,14 @@ public class WarnListController {
 		if(StringUtils.isNotBlank(processInstanceId)) {
 			setAttribute(request,response,businessKey,taskitem,processInstanceId);
 		}
+		
+		
+		//E+ 申请查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();					
+		toApproveRecordForItem.setProcessInstance((String)request.getAttribute("instCode"));
+		toApproveRecordForItem.setPartCode("eApplyApprove");
+		getApproveRecordForItem(toApproveRecordForItem,request);
+		
     	return "eloan/task/taskEloanApply";
 	}
 	
@@ -302,9 +312,10 @@ public class WarnListController {
 		}
 	}
 	
-	@RequestMapping(value="validateEloanApply")
+	@RequestMapping(value="/validateEloanApply")
 	@ResponseBody
 	public AjaxResponse<Boolean> validateEloanApply(Model model,ToEloanCase tEloanCase){
+System.out.println("---------------------");
 		AjaxResponse<Boolean> response = new AjaxResponse<Boolean>();
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
@@ -405,11 +416,19 @@ public class WarnListController {
 	public String eloanSign(HttpServletRequest request, HttpServletResponse response, String businessKey,
 			String taskitem, String processInstanceId){	
 		setAttribute(request,response,businessKey,taskitem,processInstanceId);
+		
+		
+		//E+ 申请查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();					
+		toApproveRecordForItem.setProcessInstance((String)request.getAttribute("instCode"));
+		toApproveRecordForItem.setPartCode("eSignApprove");
+		getApproveRecordForItem(toApproveRecordForItem,request);
+		
     	return "eloan/task/taskEloanSign";
 	}
 	
 	private void setAttribute(HttpServletRequest request, HttpServletResponse response, String businessKey,
-			String taskitem, String processInstanceId) {
+			String taskitem, String processInstanceId) {		
 		ToEloanCase property = new ToEloanCase();
 		property.setEloanCode(businessKey);
 		List<ToEloanCase> eloanCaseList = toEloanCaseService.getToEloanCaseListByProperty(property);
@@ -489,23 +508,47 @@ public class WarnListController {
 	
 	@RequestMapping(value="saveEloanSignConfirm")
 	@ResponseBody
-	public AjaxResponse<String> saveEloanSignConfirm(Model model,String taskId,String approved,String eloanCode){
+	/*public AjaxResponse<String> saveEloanSignConfirm(Model model,String taskId,String approved,String eloanCode){*/
+	public AjaxResponse<String> saveEloanSignConfirm(ToEloanCase eloanCase,String taskId,String approved,String eSignContent){
+		
 		SessionUser user = uamSessionService.getSessionUser();
 		try  {
 			ToEloanCase toEloanCase = new ToEloanCase();
 			toEloanCase.setSignConfUser(user.getId());
 			toEloanCase.setSignConfTime(new Date());
-			toEloanCase.setEloanCode(eloanCode);
+			//toEloanCase.setEloanCode(eloanCode);
+			if(null != eloanCase){
+				toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
+				toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
+				toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
+				toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
+				toEloanCase.setMonth(eloanCase.getMonth());
+				toEloanCase.setSignAmount(eloanCase.getSignAmount());
+			}
 			
-			boolean isUpdate = false;
+			//boolean isUpdate = false;
+			boolean isUpdate = true;
 			Map<String,Object> map = new HashMap<String,Object>();
 			if("1".equals(approved)) {
 				map.put("SignApprove", true);
-				isUpdate = true;
+				//isUpdate = true;
 			} else {
-				map.put("SignApprove", false);
+				map.put("SignApprove", false);				
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
+			
+			//E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();			
+			toApproveRecord.setCaseCode(eloanCase.getCaseCode());
+			toApproveRecord.setContent(eSignContent);
+			toApproveRecord.setApproveType("10");
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("eSignApprove");//e+借贷
+			toApproveRecord.setProcessInstance(eloanCase.getProcessInstanceId());
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
+			
 			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+签约确认失败", e);
@@ -740,6 +783,19 @@ public class WarnListController {
 		model.addAttribute("userId", user.getId());
 		
 		return "eloan/eloanRiskCtlList";
+	}
+	
+	
+	private boolean getApproveRecordForItem(ToApproveRecord toApproveRecord,HttpServletRequest request) {
+		boolean flag = false;
+		//E+ 申请查询审核结果		
+		ToApproveRecord toApproveRecord2=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecord);	
+		if(toApproveRecord != null){
+			flag=true;
+			request.setAttribute("toApproveRecord", toApproveRecord2);
+		}		
+		
+		return flag;
 	}
 	
 }

@@ -97,22 +97,25 @@
 										<em>归属人</em><span class="span_one">${excutorName}</span>
 									</p>
 								</div>
-                                   <div class="case_lump">
+        <%--                            <div class="case_lump">
                                        <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>
                                    <div class="case_lump">
                                        <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
-                                   </div>
+                                   </div> --%>
                                 </div>
                                 <div class="case_row">
-                                   <div class="case_lump">
+<%--                                    <div class="case_lump">
                                        <p><em>申请金额</em><span class="span_one">${eloanCase.applyAmount}万</span></p>
-                                   </div>
+                                   </div> --%>
                                    <div class="case_lump">
                                        <p><em>申请时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" /></span></p>
                                    </div>
-                                   <div class="case_lump">
+<%--                                    <div class="case_lump">
                                        <p><em>申请期数</em><span class="span_one">${eloanCase.month}月</span></p>
+                                   </div> --%>
+                                   <div class="case_lump">
+                                       <p><em>面签时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.signTime}" pattern="yyyy-MM-dd" /></span></p>
                                    </div>
                                 </div>
                                 
@@ -160,7 +163,7 @@
                                        <p><em>分成比例贷款</em><span class="span_one">${eloanCase.coPart}%</span></p>
                                    </div>
                                 </div>
-                                <div class="case_row">
+<%--                                 <div class="case_row">
                                    <div class="case_lump">
                                        <p><em>面签金额</em><span class="span_one">${eloanCase.signAmount}万</span></p>
                                    </div>
@@ -169,7 +172,7 @@
                                    </div>
                                    <div class="case_lump">
                                    </div>
-                                </div>
+                                </div> --%>
                             </div>
                         </div>
                     </div>
@@ -187,6 +190,50 @@
 					     <!--  -->
 					     <input type="hidden" id="eloanCode" name="eloanCode" value="${eloanCase.eloanCode}">
                        	 <ul class="form_lump">
+                       	 	                       		<li>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_two">
+                                        	客户姓名
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.custName}" name="custName" id="custName">
+                                </div>
+                                <div class="input-group">
+                                    <label class="control-label sign_left_two">
+                                        	客户电话
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.custPhone}"  name="custPhone" id="custPhone"/>
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_two">
+                                        	申请金额
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
+                                    <div class="input-group date_icon">
+                                        <span class="danwei">万</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label class="control-label sign_left_two">
+                                        	申请期数
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.month}"  name="month" id="month"/>
+<!--                                     <div class="input-group date_icon">
+                                        <span class="danwei">月</span>
+                                    </div> -->
+                                   
+                                   <label class="control-label sign_left_two">
+                                        	面签金额
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.signAmount}" name="signAmount" id="signAmount">
+                                    <div class="input-group date_icon">
+                                        <span class="danwei">万</span>
+                                    </div>
+                                </div>
+                            </li>
+                       	 	
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -197,7 +244,15 @@
                                        <option value="0">驳回</option>
                                     </select>
                                 </div> 
-                            </li>
+                            </li>                            
+                            <li>
+								<div class="form_content" id="eapplyPassOrRefuseReasonForShow">
+									<!-- style="display:none;" -->
+									<label class="control-label sign_left_two pull-left">审批意见</label>
+									<textarea class="input_type sign_right pull-left"  rows="2"  id="eSignContent"	name="eSignContent" style="margin-left: 4px;width: 757px;
+    											height: 71px;resize:none;">${toApproveRecord.content }</textarea>
+								</div>
+							</li>
                         </ul>
                         <input type="button" class="btn btn-success submit_btn" value="确认"/>
 
