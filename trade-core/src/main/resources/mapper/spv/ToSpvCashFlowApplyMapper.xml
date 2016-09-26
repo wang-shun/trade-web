@@ -30,7 +30,7 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
-  <select id="selectByPrimaryCashFlowApplyCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByCashFlowApplyCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_CASHFLOW_APPLY

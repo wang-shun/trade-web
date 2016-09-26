@@ -937,7 +937,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		SpvChargeInfoVO spvChargeOutInfoVO = new SpvChargeInfoVO();
 		
 		/**1.查询申请*/
-		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByPrimaryCashFlowApplyCode(cashFlowApplyCode);
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
 		
 		if(toSpvCashFlowApply == null) throw new BusinessException("找不到该申请号对应的申请！");
 		
