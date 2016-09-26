@@ -104,6 +104,15 @@
 		<mapper resource="mapper/spv/ToSpvDeDetailMapper.xml" />
 		<mapper resource="mapper/spv/ToSpvDeMapper.xml" />
 		<mapper resource="mapper/spv/ToSpvPropertyMapper.xml" />
+		
+		<!-- 出入款 -->
+   		<mapper resource="mapper/spv/ToSpvCashFlowApplyMapper.xml"/>
+  		<mapper resource="mapper/spv/ToSpvAduitMapper.xml"/> 
+ 		<!-- <mapper resource="mapper/spv/ToSpvCashFlowMapper.xml"/>
+		<mapper resource="mapper/spv/ToSpvVoucherMapper.xml"/>
+		<mapper resource="mapper/spv/ToSpvReceiptMapper.xml"/> 
+		<mapper resource="mapper/spv/ToSpvCashFlowApplyAttachMapper.xml"/> --> 
+		
 
 		<!-- 知识库 -->
 		<mapper resource="mapper/knowledge/KnowledgeRepoMapper.xml" />

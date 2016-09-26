@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.spv.repository.toSpvAduitMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.toSpvAduit" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvAduitMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvAduit" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
     <result column="ACT_PROC_ID" property="actProcId" jdbcType="VARCHAR" />
