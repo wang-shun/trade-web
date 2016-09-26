@@ -513,9 +513,10 @@
 					alert('请选择关联案件');
 					return false;
 				}
-				if(validateEloanApply()) {
-					saveEloanApply();
-				} else {
+				//alert("21d2qdqdqdw===="+validateEloanApply());
+				if(validateEloanApply()) {					
+					saveEloanApply();				
+				} else {					
 					alert('该案件的产品已经存在，不允许重复添加');
 					return false;
 				}
@@ -703,11 +704,13 @@
 				$("#pdPart").attr("readonly",false);	
 			}
 		})
-		function validateEloanApply() { 
+		function validateEloanApply() {
+		
 			var flag = false;
 			var jsonData = $("#eloanApplyForm").serializeArray();
 			var url = "${ctx}/eloan/validateEloanApply";
-			$.ajax({
+			//alert(url);
+			$.ajax({				
 				cache : false,
 				async : false,//false同步，true异步
 				type : "POST",
@@ -715,7 +718,7 @@
 				dataType : "json",
 				//contentType:"application/json",  
 				data : jsonData,
-				beforeSend : function() {
+ 				beforeSend : function() {
 					$.blockUI({
 						message : $("#salesLoading"),
 						css : {
@@ -729,14 +732,14 @@
 				},
 				complete : function() {
 					$.unblockUI();
-				},
+				}, 
 				success : function(data) {
 					flag = data.content;
-				},
+				},			
 				error : function(errors) {
 					alert("数据保存出错");
 				}
-			});
+			});			
 			return flag;
 		}
 		

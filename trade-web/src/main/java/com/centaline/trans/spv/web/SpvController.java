@@ -760,7 +760,7 @@ public class SpvController {
 		
 		Product product = productService.getProductByCode(prodCode);
 		
-		return product;
+		return  product;
 	}
 
 }
