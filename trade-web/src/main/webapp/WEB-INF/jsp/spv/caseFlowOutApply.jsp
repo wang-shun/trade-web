@@ -18,15 +18,15 @@
     <!-- stickUp fixed css -->
     <link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/common/stickmenu.css">
-    <link rel="stylesheet" href="${ctx}/static_res/css/plugins/aist-steps/steps.css">
+    <link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
     <link rel="stylesheet" href="${ctx}/static/css/plugins/toastr/toastr.min.css">
     <!-- index_css  -->
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/common/input.css" />
+    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
 
 
 </head>
@@ -178,8 +178,7 @@
                                             <td>
                                                 <p class="big">
                                                     <span class="sign_normal navy_bg">
-                                                    <c:if test="${spvChargeInfoVO.toSpvCashFlowApply.usage eq '1'}">入账</c:if>
-                                                    <c:if test="${spvChargeInfoVO.toSpvCashFlowApply.usage eq '2'}">出账</c:if>
+                                                    ${spvChargeInfoVO.toSpvCashFlowApply.usage eq in?'入账':'出账' }
                                                     </span>
                                                 </p>
                                                 <p class="big">
@@ -187,17 +186,17 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <p><span class="pink">付：</span>${toSpvCashFlow.payer }&nbsp;&nbsp;toSpvCashFlow.payerAcc }/${toSpvCashFlow.payerBank }</p>
+                                                <p><span class="pink">付：</span>${toSpvCashFlow.payer }&nbsp;&nbsp;${toSpvCashFlow.payerAcc }/${toSpvCashFlow.payerBank }</p>
                                                 <p><span class="navy">收：</span>${toSpvCashFlow.receiver }&nbsp;&nbsp;${toSpvCashFlow.receiverAcc }/${toSpvCashFlow.receiverBank }</p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
                                                     <i class="sign_normal">录入</i>
-                                                    <a href="javascript:void(0)">${toSpvCashFlow.createBy }&nbsp;</a>${toSpvCashFlow.createTime }
+                                                    <a href="javascript:void(0)">${createByName }&nbsp;</a><fmt:formatDate value="${toSpvCashFlow.createTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">结束</i>
-                                                    ${toSpvCashFlow.closeTime }
+                                                    <i class="sign_normal">结束</i>             
+                                                    <fmt:formatDate value="${toSpvCashFlow.closeTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                             </td>
                                             <td>
@@ -206,7 +205,7 @@
                                                 </p>
                                                 <p class="smll_sign">
                                                     审核人：<a href="javascript:void(0)">
-                                                    ${spvChargeInfoVO.toSpvCashFlowApply.applyAuditor }&gt;${spvChargeInfoVO.toSpvCashFlowApply.ftPreAuditor }&gt;${spvChargeInfoVO.toSpvCashFlowApply.ftPostAuditor }</a>
+                                                    ${applyAuditorName }&gt;${ftPreAuditorName }&gt;${ftPostAuditorName }</a>
                                                 </p>
                                             </td>
                                         </tr>
@@ -233,6 +232,7 @@
                                         <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
+                                        <input type="hidden" id="sum" value="${fn:length(spvChargeInfoVO.toSpvVoucherList) }" />
                                         <tr>
                                             <td>
                                                 <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="" value="" />
@@ -257,11 +257,11 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
                                                 <span class="btn_file">
                                                     <input type="file" class="file" />
-                                                    <img class="bnt-flie" src="" alt="" />
+                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
                                                 </span>
                                             </td>
                                             <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
@@ -292,15 +292,15 @@
 
     <!-- Mainly scripts -->
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/js/bootstrap.min.js"></script>
-    <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${ctx}/static/js/bootstrap.min.js"></script>
+    <script src="${ctx}/static_res/js/jquery.metisMenu.js"></script>
+    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/js/inspinia.js"></script>
-    <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+    <script src="${ctx}/static/js/inspinia.js"></script>
+    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
     <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
-    <script src="${ctx}/js/spv/jkresponsivegallery.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 
 <script>
 
@@ -313,6 +313,30 @@ $(function() {
 
 });
 $('.response').responsivegallery();
+
+
+var sum = $("#sum").val();
+
+function getAtr(i){
+    $str='';
+    $str+="<tr>";
+    $str+=" <td><input class='table-input-one' type='text' value='请输入姓名' /></td>";
+    $str+="<td><p><input class='table_input' type='text' value='请输入银行卡号' /></p><p><input class='table_input' type='text' value='请输入银行名称' /></p></td>";
+    $str+="<td><input style='border:none;width: 50px;' type='text' value='金额' />万元</td>";
+    $str+="<td><input class='table_input' type='text' value='请输入编号' /></td>";
+    $str+="<td><select name='' class='table-select'><option value=''>请选择</option><option value=''>转账凭证</option></select></td>";
+    $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
+    $str+="<td class='btn-height'><a href='javascript:;'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
+    $str+="</tr>";
+    $("#addTr").append($str);
+    $("#sum").html(sum);
+}
+
+function getDel(k){
+    $(k).parents('tr').remove();
+    $("#sum").html(sum);
+}
+
 </script>
 
 </body>

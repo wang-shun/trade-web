@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
@@ -76,6 +77,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
+        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
+        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	request.setAttribute("applyAuditorName", applyAuditorName);
+        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
+        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
+        	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
         }        
@@ -127,6 +136,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
+        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
+        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	request.setAttribute("applyAuditorName", applyAuditorName);
+        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
+        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
+        	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
         }        
@@ -153,6 +170,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
+        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
+        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	request.setAttribute("applyAuditorName", applyAuditorName);
+        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
+        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
+        	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
         }        
@@ -181,6 +206,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
+        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
+        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	request.setAttribute("applyAuditorName", applyAuditorName);
+        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
+        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
+        	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
         }        
@@ -209,6 +242,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
+        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
+        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	request.setAttribute("applyAuditorName", applyAuditorName);
+        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
+        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
+        	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
         }        
@@ -237,7 +278,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
-        	
+        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
+        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	request.setAttribute("applyAuditorName", applyAuditorName);
+        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
+        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
+        	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
         }        
