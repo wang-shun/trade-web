@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.RmSignRoomOrgMappingMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.RmSignRoomOrgMapping" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
+    <result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
+    <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="BIGINT" />
+    <result column="DISTRICT_NAME" property="districtName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.centaline.trans.signroom.entity.RmSignRoomOrgMapping" >
+    insert into T_RM_SIGN_ROOM_ORG_MAPPING (PKID, TEAM_ID, DISTRICT_ID, 
+      TRADE_CENTER_ID, DISTRICT_NAME)
+    values (#{pkid,jdbcType=BIGINT}, #{teamId,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, 
+      #{tradeCenterId,jdbcType=BIGINT}, #{districtName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.RmSignRoomOrgMapping" >
+    insert into T_RM_SIGN_ROOM_ORG_MAPPING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="teamId != null" >
+        TEAM_ID,
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID,
+      </if>
+      <if test="tradeCenterId != null" >
+        TRADE_CENTER_ID,
+      </if>
+      <if test="districtName != null" >
+        DISTRICT_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCenterId != null" >
+        #{tradeCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

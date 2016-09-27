@@ -83,9 +83,8 @@ public class SignRoomController {
 	@ResponseBody
 	public AjaxResponse<Map> generatePageDate(Model model,HttpServletRequest requst){
 		SessionUser user= uamSessionService.getSessionUser();
-		String busigrpId  = user.getBusigrpId();//店组
 		
-		String gbOrgId = reservationService.getOrgIdByGrpcode(busigrpId);//返回贵宾服务部id
+		String gbOrgId = reservationService.getOrgIdByGrpcode("");//返回贵宾服务部id
 		gbOrgId = "d5878adf8b0c4032aeae895c701ed693";
 		String roomType = requst.getParameter("roomType");//房间类型
 		String useStatus = requst.getParameter("useStatus");//使用状态
