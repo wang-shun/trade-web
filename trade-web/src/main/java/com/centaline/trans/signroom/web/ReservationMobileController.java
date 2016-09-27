@@ -129,6 +129,8 @@ public class ReservationMobileController {
 		request.setAttribute("tradeCenterId", tradeCenterId);
 		request.setAttribute("selDate", selDate);
 		request.setAttribute("bespeakTime", bespeakTime);
+		// request.setAttribute("agentCode", sessionUser.getId());
+		request.setAttribute("agentCode", "E39F5661B6614F968F27E7BD24BA324A");
 
 		return "mobile/signroom/reservation/bespeak";
 	}

@@ -171,7 +171,7 @@
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-		WHERE rs.IS_DELETE = 0 AND rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = '2016-10-03 11:00:00' AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+		WHERE rs.IS_DELETE = 0 AND rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
   </select>
   
   <select id="getTransactItemList" resultType="com.centaline.trans.signroom.vo.TransactItemVo">

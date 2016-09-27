@@ -26,6 +26,7 @@
     	<input type="hidden" id="tradeCenterId" value="${tradeCenterId }"/>
 		<input type="hidden" id="selDate" value="${selDate }"/>
 		<input type="hidden" id="bespeakTime" value="${bespeakTime }"/>
+		<input type="hidden" id="agentCode" value="${agentCode }"/>
 		<input type="hidden" id="caseCode"/>
 		
         <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative">

@@ -2,6 +2,7 @@
 $(function() {
 	var ctx = $("#ctx").val();
 	var tradeCenterId = $("#tradeCenterId").val();
+	var agentCode = $("#agentCode").val();
 	
 	getPropertyAddress();
 	
