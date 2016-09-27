@@ -57,9 +57,9 @@ function init(){
 }
 
 function initCalendar(){
-	var currYear = (new Date()).getFullYear(); 
-	start=currYear - 20;
-	end= currYear + 20 ;
+	 var currYear = (new Date()).getFullYear(); // 获取年  
+     var currMonth = (new Date()).getMonth(); // 获取月  
+     var currDay = (new Date()).getDate(); // 获取日
 	$("#SelDate").mobiscroll().date({ 
 		theme: 'android-ics light', //皮肤样式
         display: 'modal', //显示方式
@@ -71,6 +71,10 @@ function initCalendar(){
         nowText: "今天",
         dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
         yearText: '年', monthText: '月', dayText: '日', //面板中年月日文字
+        startDay: currDay,  
+        startMonth: currMonth, // 开始月份  
+        startYear: currYear, //开始年份 
+        endYear: currYear + 20, //结束年份 
         headerText: function (valueText) { array = valueText.split('-'); return array[0] + "年" + array[1] + "月"+array[2]+"日"; }, //自定义弹出框头部格式
 		//点击确定的事件
 		onSelect:function(valueText,inst){
@@ -82,6 +86,40 @@ function initCalendar(){
 		}
 	}); 
 	
+}
+
+// 求两个时间的天数差 日期格式为 YYYY-MM-dd
+function daysBetween(strDateStart,strDateEnd){
+	var date3= strDateEnd.getTime() - strDateStart.getTime();  //时间差的毫秒数
+	//计算出相差天数
+	var days=Math.floor(date3/(24*3600*1000));
+	 
+	//计算出小时数
+	var leave1=date3%(24*3600*1000);    //计算天数后剩余的毫秒数
+	var hours=Math.floor(leave1/(3600*1000));
+	//计算相差分钟数
+	var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+	var minutes=Math.floor(leave2/(60*1000));
+	//计算相差秒数
+	var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
+	var seconds=Math.round(leave3/1000);
+	
+	return days + 1;
+}
+
+//获取当前日期
+function getCurrentDate(){
+	var d = new Date()
+	var vYear = d.getFullYear()
+	var vMon = d.getMonth() + 1
+	var vDay = d.getDate()
+	var h = d.getHours(); 
+	var m = d.getMinutes(); 
+	var se = d.getSeconds(); 
+	
+	var currentDate = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
+	
+	return currentDate;
 }
 
 function getTradeCenterList(){
@@ -186,6 +224,13 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 			if(data.length > 0){
 				var currentDateTime = new Date();
 				
+				//用来比较日期相差天数
+				var currentDate = getCurrentDate();
+				var selDateTime = new Date(selDate);
+				var currentTime = new Date(currentDate);
+				
+				var days = daysBetween(currentTime,selDateTime);
+				
 				subStrHtml = "<article class='aui-content'><ul class='aui-list aui-list-in white'>"
 		            + " <li class='aui-list-header header_grey_bg'><i class='iconfont blue mr5'>&#xe605;</i>" + selBespeakTime + "&nbsp;<span class='color80;'>" + selDate + "</span></li>";
 				
@@ -207,12 +252,17 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 						subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div>";
 					}
 					else {
-						if(data[i].residualNumber == 0){
-	                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
-	                    } 
-	                    else {
-	                    	subStrHtml += "<a href='javascript:void(0);' class='quhao'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
-	                    }
+						if(days <= 7){
+							if(data[i].residualNumber == 0){
+		                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
+		                    } 
+		                    else {
+		                    	subStrHtml += "<a href='javascript:void(0);' class='quhao'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
+		                    }
+						}
+						else {
+							subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div>";
+						}
 					}
 
                     subStrHtml += "</li></ul></article>";     
