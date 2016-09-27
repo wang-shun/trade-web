@@ -277,7 +277,6 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			reservation.setResType(reservationInfoVo.getResType());
 			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());
-			reservation.setResOrgId(reservationInfoVo.getResOrgId());
 			reservation.setResStatus(reservationInfoVo.getResStatus());
 			reservation.setScheduleId(reservationInfoVo.getScheduleId());
 			reservation.setCaseCode(reservationInfoVo.getCaseCode());
