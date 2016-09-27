@@ -1,38 +1,31 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>监管资金出入账申请</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="../static/css/animate.css" />
+    <link rel="stylesheet" href="../static/css/style.css" />
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../static/css/plugins/datapicker/datepicker3.css">
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
+    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
 
-    <title>资金监管信息填写</title>
-
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css">
-
-    <link rel="stylesheet" href="../static/css/animate.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/style.css" rel="stylesheet">
-
-    <!-- stickUp fixed css -->
-    <link rel="stylesheet" href="../static/css/plugins/stickup/stickup.css">
-    <link rel="stylesheet" href="../static/trans/css/common/stickmenu.css">
-
-    <link rel="stylesheet" href="../static/css/plugins/aist-steps/steps.css">
-    <link rel="stylesheet" href="../static/css/plugins/toastr/toastr.min.css">
-
-    <!-- index_css  -->
-    <link rel="stylesheet" href="../static/trans/css/spv/table.css" />
-    <link rel="stylesheet" href="../static/trans/css/spv/input.css" />
-    <link rel="stylesheet" href="../static/trans/css/spv/see.css" />
+    <!-- index_css -->
+    <link rel="stylesheet" href="../static/trans/css/common/base.css" />
+    <link rel="stylesheet" href="../static/trans/css/common/table.css" />
+    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="../static/trans/css/common/inputSec.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
-
 
 
 </head>
 
 <body>
-
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
@@ -183,60 +176,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a href="#">
                             <i class="fa fa-cny">
                             </i>
                             <span class="nav-label">
                                 佣金管理
-                            </span>
-                            <span class="fa arrow">
-                            </span>
-                        </a>
-                        <ul class="nav nav-second-level collapse">
-                            <li>
-                                <a href="../award/read.html">
-                                    <i class="fa ">
-                                    </i>
-                                    佣金查看
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="../award/personBonus.html">
-                                    <i class="fa ">
-                                    </i>
-                                    我的计件奖金
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="../award/baseAward.html">
-                                    <i class="fa ">
-                                    </i>
-                                    我的基础计件奖金
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="../award/baseAwardReport.html">
-                                    <i class="fa ">
-                                    </i>
-                                    计件奖金报表
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="../award/baseAwardReport.html">
-                                    <i class="fa ">
-                                    </i>
-                                    可计件奖金案件筛选
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="active">
-                        <a href="">
-                            <i class="fa fa-glass">
-                            </i>
-                            <span class="nav-label">
-                                资金监管
                             </span>
                             <span class="fa arrow">
                             </span>
@@ -256,7 +201,7 @@
                                     资金监管详情
                                 </a>
                             </li>
-                            <li class="active">
+                            <li class="">
                                 <a href="../spv/spvDetails.html">
                                     <i class="fa ">
                                     </i>
@@ -270,7 +215,7 @@
                                     监管资金出入账流水
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="active">
                                 <a href="../spv/spvApply.html">
                                     <i class="fa ">
                                     </i>
@@ -320,9 +265,6 @@
                                 </a>
                             </li>
                         </ul>
-
-
-
                     </li>
                     <li class="">
                         <a href="#">
@@ -841,15 +783,23 @@
                 </ul>
             </div>
         </nav>
-
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
-                </div>
-                <div class="navbar-header" style="margin-left: 30%;"><h2 class="welcome">欢迎使用誉萃交易平台！</h2><iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
-                <ul class="nav navbar-top-links navbar-right">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#">
+                            <i class="fa fa-bars">
+                            </i>
+                        </a>
+                    </div>
+                    <div class="navbar-header" style="margin-left: 30%;">
+                        <h2 class="welcome">
+                            欢迎使用誉萃交易平台！
+                        </h2>
+                        <iframe id="tmp_downloadhelper_iframe" style="display:none;">
+                        </iframe>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <span class="m-r-sm text-muted welcome-message">    </span>
                     </li>
@@ -991,510 +941,419 @@
                     <li><a href="javascript:void(0);" onclick="orgJob.changeOrgJob(&quot;8dc9766035cc47819e7eb28ad2c16bc6&quot;,&quot;ff8080814f459a78014f45ab2c39000d&quot;)">交易顾问@虹口杨浦贵宾服务部A组</a></li></ul>
                     </li>
                 </ul>
-            </nav>
+                </nav>
             </div>
 
-            <!-- main Start -->
-            <div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
-               <ul class="nav navbar-nav">
-                    <li class="menuItem active"><a href="#base_info">客户信息</a></li>
-                    <li class="menuItem"><a href="#spvone_info">房产及交易信息</a></li>
-                    <li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
-                    <li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
-                </ul>
-                <div class="menu_btn" style="margin-left: 850px;margin-top: 7px;">
-                    <button class="btn btn-save">保存</button>
+            <!--*********************** HTML_main*********************** -->
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="ibox-content border-bottom clearfix space_box">
+                    <h2 class="title">
+                        监管资金出入账申请
+                    </h2>
+                    <form method="get" class="form-horizontal form_box clear">
+                            <div class="row clearfix">
+                                <div class="form_content">
+                                    <div id="dateDiv_0">
+                                        <div class="sign_left">
+                                            <select name="case_date" class="form-control" id="case_date_0">
+                                                <option value="" selected="selected">
+                                                    请选择
+                                                </option>
+                                                <option value="">
+                                                    签约日期
+                                                </option>
+                                                <option value="">
+                                                    过户日期
+                                                </option>
+                                                <option value="">
+                                                    领证日期
+                                                </option>
+
+                                            </select>
+                                        </div>
+                                        <div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                            <input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px; width: 159px; border-radius: 0px;" type="text" value="" placeholder="起始日期">
+                                            <span class="input-group-addon">
+                                                到
+                                            </span>
+                                            <input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px; width: 159px; border-radius: 0px;" type="text" value="" placeholder="结束日期">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="sign_left control-label">
+                                        监管机构
+                                    </label>
+                                    <div class="sign_right big_pad">
+                                        <select id="" name="" class="form-control patch_formatone">
+                                            <option value="" selected="selected">
+                                                请选择
+                                            </option>
+                                            <option value="">
+                                                光大银行
+                                            </option>
+                                            <option value="">
+                                                光大银行
+                                            </option>
+                                            <option value="">
+                                                光大银行
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row clearfix">
+                                <div class="form_content">
+                                    <a class="add_btn" href="javascript:void(0);" id="addBtn">
+                                        <span class="retrieve">
+                                            添加日期检索
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-sm">
+                                <div class="form_content">
+                                    <div class="more_btn">
+                                        <button id="searchButton" type="button" class="btn btn-success mr15"><i class="icon iconfont"></i>
+                                            查询
+                                        </button>
+                                        <button type="reset" class="btn btn-grey mr15">
+                                            清空
+                                        </button>
+                                        <button type="button" class="btn btn-success mr15">
+                                            导出列表
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="exportExcel">
+                            </div>
+                        </form>
                 </div>
-            </div>
-            <div class="row">
-                <div class="wrapper wrapper-content animated fadeInUp">
-                    <!-- <div class="ibox"> -->
-
-                    <div class="ibox-content" id="base_info">
-                        <form class="form-inline">
-                            <div class="title">
-                                买方客户信息
-                            </div>
-
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >姓名</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >手机号码</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one ">
-                                    <label for="" class="lable-one" >性别</label>
-                                    <span class="sex-char">
-                                        <label class="radio-inline">
-                                          <input type="radio" name="sex" id="sex1" value="option1" checked=""> 男
-                                        </label>
-                                        <label class="radio-inline">
-                                          <input type="radio" name="sex" id="sex2" value="option2"> 女
-                                        </label>
-                                    </span>
-                                </div>
-
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >证件类型</label>
-                                    <select name="" id="" class="form-control input-one">
-                                        <option value="">证件类型</option>
-                                    </select>
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >证件有效期</label>
-                                    <input type="text" class="form-control input-one" placeholder="如：2010-08">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >家庭地址</label>
-                                    <input type="text" class="form-control input-five" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >发证机关</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >委托他人办理</label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="BuyRadio1" value="option1"> 是
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="BuyRadio2" value="option2" checked="checked"> 否
-                                    </label>
-                                </div>
-
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent buyinfo">
-                                    <label for="" class="lable-one" >姓名</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent buyinfo">
-                                    <label for="" class="lable-one" >证件类型</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one buyinfo">
-                                    <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                        </form>
-                        <form class="form-inline">
-                            <div class="title">
-                                卖方客户信息
-                            </div>
-
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >姓名</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >手机号码</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one ">
-                                    <label for="" class="lable-one" >性别</label>
-                                    <span class="sex-char">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="sex" id="sex3" value="option1" checked=""> 男
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="sex" id="sex4" value="option2"> 女
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >证件类型</label>
-                                    <select name="" id="" class="form-control input-one">
-                                        <option value="">证件类型</option>
-                                    </select>
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >证件有效期</label>
-                                    <input type="text" class="form-control input-one" placeholder="如：2010-08">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >家庭地址</label>
-                                    <input type="text" class="form-control input-five" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >发证机关</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >委托他人办理</label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="SellRadio1" value="option1"> 是
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="SellRadio2" value="option2" checked="checked"> 否
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent sellinfo">
-                                    <label for="" class="lable-one" >姓名</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent sellinfo">
-                                    <label for="" class="lable-one" >证件类型</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one sellinfo">
-                                    <label for="" class="lable-one" >证件编号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ibox-content" id="spvone_info">
-                        <form class="form-inline">
-                            <div class="title">
-                                房产及交易信息
-                            </div>
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >房产证号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >房产权利人</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >委托人姓名</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >面积</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="date_icon">平方米</span>
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >房屋地址</label>
-                                    <input type="text" class="form-control input-five" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-two" >是否偿清</label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="Pledge1" value="option1"> 是
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="RadioOptions" id="Pledge2" value="option2" checked="checked"> 否
-                                    </label>
-                                    <span class="span-tag pledgeinfo">交易房屋抵押贷信息</span>
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent pledgeinfo">
-                                    <label for="" class="lable-one" >抵押方</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one pledgeinfo">
-                                    <label for="" class="lable-one" >开户行</label>
-                                    <input type="text" class="form-control input-four" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent pledgeinfo">
-                                    <label for="" class="lable-one" >未偿还金额</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one pledgeinfo">
-                                    <label for="" class="lable-one" >金额大写</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >网签合同号</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >下家付款方式</label>
-                                    <select class="form-control input-one">
-                                        <option value="">全数</option>
-                                    </select>
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >网签金额</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="date_icon">元</span>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ibox-content" id="spvtwo_info">
-                        <form class="form-inline">
-                            <div class="title">
-                                监管资金及账户信息
-                            </div>
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >监管总金额</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="date_icon">元</span>
-                                </div>
-                            </div>
-                            <div class="title">
-                                监管资金的支付
-                            </div>
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >自筹资金</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="date_icon">元</span>
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >贷款资金</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="rate" >其中： 商业贷款</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="date_icon">元</span>
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="rate" >公积金贷款</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                    <span class="date_icon">元</span>
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-
-                            </div>
-                            <div class="title">
-                                资金监管账号信息
-                            </div>
-                            <div class="form-row form-rowbot clear">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >卖方收款账号名称</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >开户行</label>
-                                    <input type="text" class="form-control input-five" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >电话</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >买方退款账号名称</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >开户行</label>
-                                    <input type="text" class="form-control input-five" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >电话</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >托管账户名称</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row form-rowbot">
-                                <div class="form-group form-margin form-space-one left-extent">
-                                    <label for="" class="lable-one" >资金方账户名称</label>
-                                    <input type="text" class="form-control input-one" placeholder="">
-                                </div>
-                                <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one" >账号</label>
-                                    <input type="text" class="form-control input-two" placeholder="">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ibox-content" id="spvthree_info">
-                            <div class="agree-tile">
-                                资金出款约定
-                            </div>
-                        <form class="form-inline table-capital">
-                            <p>监管资金次数合计<span id="sum"> 1</span> 次</p>
-                            <div class="table-box" >
-                                <table class="table table-bordered customerinfo">
-                                    <thead>
-                                        <th>划转条件</th>
-                                        <th>账户</th>
-                                        <th style="width: 16%;">金额</th>
-                                        <th>备注</th>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table_content">
+                            <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                                <thead>
+                                    <tr>
+                                        <th>监管流水编号</th>
+                                        <th>监管合约编号</th>
+                                        <th>金额</th>
+                                        <th>类别</th>
+                                        <th>物业地址</th>
+                                        <th>创建</th>
+                                        <th>审批状态</th>
                                         <th>操作</th>
-                                    </thead>
-                                    <tbody id="addTr">
-                                        <tr align="center">
-                                            <td class="text-left">
-                                                <select class="table-select" >
-                                                    <option value="">买方贷款审批完成</option>
-                                                </select>
-                                            </td>
-                                            <td class="text-left">
-                                                <select class="table-select">
-                                                    <option value="">资金方</option>
-                                                    <option value="">卖方</option>
-                                                </select>
-                                            </td>
-                                            <td><input class="table-input-one" type="text" placeholder="请输入金额" />元</td>
-                                            <td class="text-left" ><input class="table-input" type="text" placeholder="" /></td>
-                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="form-btn">
-                            <div >
-                                <button type="submit" class="btn btn-success">提交申请</button>
-                                <button type="submit" class="btn btn-default">取消</button>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-656565656
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-656565656
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                500万元
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="sign_normal navy_bg">入账</span>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                上海市长宁区延安西路998号1弄202
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <a href="javascript:void(0)">张三&nbsp;</a> 2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <i class="sign_blue">
+                                                    总监审批
+                                                </i>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a href="" class="spread underline">收起</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="spread_line">
+                                        <td colspan="8" class="spread_td">
+                                        <table class="table spread_tab table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>凭证</th>
+                                                <th>金额</th>
+                                                <th>付款方式</th>
+                                                <th>付款人账户信息</th>
+                                                <th>收款人账户信息</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>PZ154215454585</td>
+
+                                                <td>
+                                                    <p class="big">
+                                                    200万元</p>
+                                                </td>
+                                                <td>
+                                                    <p class="big">
+                                                    转账</p>
+                                                </td>
+                                                <td>
+                                                    <p>程序猿&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                                <td>
+                                                    <p>李晓明&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PZ154215454585</td>
+
+                                                <td>
+                                                    <p class="big">
+                                                    300万元</p>
+                                                </td>
+                                                <td>
+                                                    <p class="big">
+                                                    转账</p>
+                                                </td>
+                                                <td>
+                                                    <p>程序猿&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                                <td>
+                                                    <p>李晓明&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-656565656
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-656565656
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                500万元
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="sign_normal pink_bg">出账</span>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                上海市长宁区延安西路998号1弄202
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <a href="javascript:void(0)">张三&nbsp;</a> 2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <i class="sign_blue">
+                                                    总监审批
+                                                </i>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a href="" class="spread underline">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-656565656
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    ZY-656565656
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                500万元
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="sign_normal navy_bg">入账</span>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                上海市长宁区延安西路998号1弄202
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <a href="javascript:void(0)">张三&nbsp;</a> 2016-05-30
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <i class="sign_blue">
+                                                    总监审批
+                                                </i>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a href="" class="spread underline">展开</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center page_box">
+                                <span id="currentTotalPage">
+                                    <strong>
+                                        1/8
+                                    </strong>
+                                </span>
+                                <span class="ml15">
+                                    共
+                                    <strong id="totalP">
+                                        144
+                                    </strong>
+                                    条
+                                </span>
+                                &nbsp;
+                                <div id="pageBar" class="pagination text-center">
+                                    <ul class="pagination">
+                                        <li class="first disabled">
+                                            <a href="#"><i class="fa fa-step-backward"></i></a>
+                                        </li>
+                                        <li class="prev disabled">
+                                            <a href="#"><i class="fa fa-chevron-left"></i></a>
+                                        </li>
+                                        <li class="page active">
+                                            <a href="#">
+                                                1
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                2
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                3
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                4
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                5
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                6
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                7
+                                            </a>
+                                        </li>
+                                        <li class="page">
+                                            <a href="#">
+                                                8
+                                            </a>
+                                        </li>
+                                        <li class="next">
+                                            <a href="#"><i class="fa fa-chevron-right"></i></a>
+                                        </li>
+                                        <li class="last">
+                                            <a href="#"><i class="fa fa-step-forward"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="pagergoto">
+                                        <span class="go_text">
+                                            跳转至
+                                        </span>
+                                        <span>
+                                        <input type="text" class="go_input" value="">
+                                        <input type="button" class="go_btn" value="GO"></span>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                            </div>
-                        </form>
-
                     </div>
-
                 </div>
             </div>
-            <!-- main End -->
-
-
+            <!--*********************** HTML_main*********************** -->
         </div>
     </div>
-
     <!-- Mainly scripts -->
     <script src="../static/js/jquery-2.1.1.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
     <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
     <!-- Custom and plugin javascript -->
     <script src="../static/js/inspinia.js"></script>
     <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-    <!-- stickup plugin -->
-    <script src="../static/js/plugins/stickup/stickUp.js"></script>
-    <script src="../static/trans/js/spv/spvDetails.js"></script>
+    <script src="../static/trans/js/spv/waterDetail.js"></script>
 
     <script>
-        $(".buyinfo, .sellinfo, .pledgeinfo").hide();
-        $("#BuyRadio1").on("click",function() {
-            $(".buyinfo").show();
-        });
-        $("#BuyRadio2").on("click",function() {
-            $(".buyinfo").hide();
-        });
-        $("#SellRadio1").on("click",function() {
-            $(".sellinfo").show();
-        });
-        $("#SellRadio2").on("click",function() {
-            $(".sellinfo").hide();
-        });
-        $("#Pledge1").on("click",function() {
-            $(".pledgeinfo").show();
-        });
-        $("#Pledge2").on("click",function() {
-            $(".pledgeinfo").hide();
+        $(document).ready(function () {
+
+            $('.input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+
         });
     </script>
-<script>
-var sum=1; //定义sum为全局变量
-/*$(function(){
-    $("#getAtr").click(function(){
-        $str='';
-        $str+="<tr align='center'>";
-        $str+="<td>2</td>";
-        $str+="<td>2</td>";
-        $str+="<td>2</td>";
-        $str+="<td>2</td>";
-        $str+="<td onClick='getDel(this)'><a href='javascript:void(0)'>删除</a></td>";
-        $str+="</tr>";
-        $("#addTr").append($str);
-        sum ++;
-        $("#sum").html(sum);
-    });
-});*/
-
-
-
-function getAtr(i){
-    $str='';
-    $str+="<tr align='center'>";
-    $str+="<td class='text-left'><select class='table-select'><option value=''>买方贷款审批完成</option></select></td>";
-    $str+="<td class='text-left'><select class='table-select'><option value=''>资金方</option><option value=''>卖方</option></select></td>";
-
-    $str+="<td><input class='table-input-one' type='text' placeholder='请输入金额'>元</td>";
-    $str+="<td class='text-left' ><input class='table-input' type='text' placeholder='' /></td>";
-    $str+="<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
-    $str+="</tr>";
-    $("#addTr").append($str);
-    sum ++;
-    $("#sum").html(sum);
-}
-function getDel(k){
-    $(k).parents('tr').remove();
-    sum --;
-    $("#sum").html(sum);
-}
-
-
-</script>
-
 
 </body>
-
 </html>

@@ -87,7 +87,7 @@
                                     <label class="control-label sign_left_small">
                                                        备注
                                     </label>
-                                    <input class="sign_right_one input_type" value="${rcRiskControl.riskComment }" id="riskComment" name="riskComment">
+                                    <textarea class="sign_right_two" value="${rcRiskControl.riskComment }" id="riskComment" name="riskComment" style="width:400px;height:100px;"></textarea>
                                 </div>
                             </div> 
 
@@ -270,7 +270,7 @@
                             <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="btn btn-save submit_btn">确认保存</button>
+                            <button type="button" class="btn btn-success submit_btn" style="margin-left:0px;">确认保存</button>
                            <!--  <button type="button" class="btn btn-success">我要删除</button> -->
                             <button type="button" class="btn btn-white close_btn" data-dismiss="modal">取消</button>
                         </div>

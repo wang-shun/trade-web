@@ -18,5 +18,5 @@ public interface ToSpvVoucherMapper {
 
     int updateByPrimaryKey(ToSpvVoucher record);
 
-	List<ToSpvVoucher> selectByCashFlowId(Long cashFlowId);
+	List<ToSpvVoucher> selectByCashFlowId(String cashFlowId);
 }

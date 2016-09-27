@@ -941,7 +941,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		if(toSpvCashFlowApply == null) throw new BusinessException("找不到该申请号对应的申请！");
 		
-		Long cashFlowApplyId = toSpvCashFlowApply.getPkid();
+		String cashFlowApplyId = toSpvCashFlowApply.getPkid().toString();
 		/**2.查询流水*/
 		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(cashFlowApplyId);
 		/**3.查询审核记录*/
@@ -952,8 +952,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		List<ToSpvReceipt> toSpvReceiptList = new ArrayList<ToSpvReceipt>();
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
-			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid());
-			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid());
+			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid().toString());
+			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid().toString());
 			toSpvVoucherList.addAll(tempListV);
 			toSpvReceiptList.addAll(tempListR);
 		}
