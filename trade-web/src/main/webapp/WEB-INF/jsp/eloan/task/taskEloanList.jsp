@@ -201,6 +201,9 @@
 				<td class="text-center">
 					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
 				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">详情</button>
+				   </a>	
+					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">
+				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">修改</button>
 				   </a>		
               
                </td>

@@ -176,15 +176,18 @@
 
 			<div class="ibox-content" id="zj_info">
 				<form method="get" class="form_list" id="eloanApplyForm">
-					<input type="hidden" name="caseCode" id="caseCode"		value="${caseCode}" />
-					<input type="hidden" id="excutorId" name="excutorId" value="${excutorId}" />
+					<input type="hidden" name="caseCode" id="caseCode"
+						value="${caseCode}" /> <input type="hidden" id="excutorId"
+						name="excutorId" value="${excutorId}" />
 
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId"		name="processInstanceId" value="${processInstanceId}"> 
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+					<input type="hidden" id="processInstanceId"
+						name="processInstanceId" value="${processInstanceId}"> <input
+						type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!--  -->
-					<input type="hidden" id="eloanCode" name="eloanCode"	value="${eloanCase.eloanCode}">
+					<input type="hidden" id="eloanCode" name="eloanCode"
+						value="${eloanCase.eloanCode}">
 					<ul class="form_lump">
 						<li>
 							<div class="form_content">
@@ -782,6 +785,88 @@
 			})
 		}
 
+		function checkChargeAndRemark(applyAmount) {
+			var charge = $("#chargeAmount").val();
+
+			if (charge == "") {
+				alert("请填写手续费！");
+				return false;
+			}
+
+			charge = Number(charge);
+			applyAmount = Number(applyAmount);
+			var num = charge / (applyAmount * 10000);
+
+			if (!(num >= 0.01 && num <= 0.02)) {
+				var remark = $("#remark").val();
+
+				if (remark == "") {
+					alert("请填写情况说明！");
+					return false;
+				}
+			}
+
+			return true;
+		}
+		//必填项
+		function checkForm() {
+			var ds = $('.case_content').css('display');
+			if (ds == 'none') {
+				alert("请选择关联案件");
+				return false;
+			}
+			var loanSrvCode = $("#loanSrvCode").val();
+			if (loanSrvCode == null || loanSrvCode == '') {
+				alert("请选择产品类型");
+				return false;
+			}
+			var custPhone = $('#custPhone').val();
+			if (custPhone == null || custPhone == '') {
+				alert("请填写客户电话");
+				return false;
+			}
+			var applyAmount = $("#applyAmount").val();
+			if (applyAmount == null || applyAmount == '') {
+				alert("请填写申请金额");
+				return false;
+			}
+			var date = $("#applyTime").val();
+			if (date == null || date == '') {
+				alert("请选择申请时间");
+				return false;
+			}
+			var month = $('#month').val();
+			if (month == null || month == '') {
+				alert("请填写申请期数");
+				return false;
+			}
+			pdName
+			var pdName = $('#pdName').val();
+			if (pdName == null || pdName == '') {
+				alert("请填写产品部姓名");
+				return false;
+			}
+			var zjName = $('#zjName').val();
+			if (zjName == null || zjName == '') {
+				alert("请填写转介人");
+				return false;
+			}
+			var loanSrvCode = $("#loanSrvCode option:selected").val();
+			var finOrgCode = $("#finOrgCode option:selected").val();
+
+			var isVerifySuccess = true;
+			if (loanSrvCode == "30004014" && finOrgCode == "W0003"
+					&& month <= 12) {
+				isVerifySuccess = checkChargeAndRemark(applyAmount);
+			}
+
+			if (!isVerifySuccess) {
+				return false;
+			}
+
+			return true;
+		}
+
 		/*获取银行列表*/
 		function getBankList(pcode) {
 			var fiCode = $("#finOrgCode").attr("value");
@@ -953,7 +1038,53 @@
 							} */
 							});
 						}
-					});
+					})
+		}
+		function getCustomerNameAndTel(case_code) {
+			$
+					.ajax({
+						url : ctx + "/eloan/getCaseDetails",
+						method : "post",
+						dataType : "json",
+						data : {
+							"caseCode" : case_code
+						},
+						success : function(data) {
+							var cusPhone = $('#custPhone');
+							var txt = '<select class="select_control sign_right_two" id="custName" name="custName">';
+
+							$
+									.each(
+											data,
+											function(i, item) {
+												if (i == 0) {
+													txt += "<option value='"+ item.guestName+"' selected>"
+															+ item.guestName
+															+ "</option>";
+													cusPhone
+															.val(item.guestPhone);
+												} else {
+													txt += "<option value='"+ item.guestName+"'>"
+															+ item.guestName
+															+ "</option>";
+												}
+											});
+							$('#custNameParent').empty().append(
+									txt + '</select>');
+
+							$('#custName').editableSelect({
+								effects : 'slide',
+								filter : false
+							/* ,
+							onSelect: function (element) {
+								var myIndex = $(element).index();
+								if(myIndex>=0){
+									cusPhone.val(data[myIndex].guestPhone);
+								}
+							} */
+							});
+						}
+					})
 		}
 		function selectUserBack(array) {
 			if (array && array.length > 0) {

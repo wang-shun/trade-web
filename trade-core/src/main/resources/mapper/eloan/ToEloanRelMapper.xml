@@ -18,12 +18,14 @@
     PKID, ELOAN_CODE, RELEASE_AMOUNT, RELEASE_TIME, CONFIRM_TIME, CONFIRM_STATUS, CONFIRM_USER, 
     CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ELOAN_REL
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  
   <select id="getEloanRelByEloanCode" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
     <include refid="Base_Column_List" />
@@ -189,4 +191,35 @@
     ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </select>
  
+ 
+    <update id="updateEloanRelByEloanCodeForModify" parameterType="java.util.List" >
+    
+    <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+           update sctrans.T_TO_ELOAN_REL
+               <set>
+			      <if test="releaseAmount != null" >
+			        RELEASE_AMOUNT = ${item.releaseAmount},
+			      </if>
+			      <if test="releaseTime != null" >
+			        RELEASE_TIME = ${item.releaseTime},
+			      </if>
+			      <if test="confirmTime != null" >
+			        CONFIRM_TIME = ${item.confirmTime},
+			      </if>
+			      <if test="confirmStatus != null" >
+			        CONFIRM_STATUS = ${item.confirmStatus},
+			      </if>
+			      <if test="confirmUser != null" >
+			        CONFIRM_USER = ${item.confirmUser},
+			      </if>
+			        CREATE_TIME = GETDATE(),
+			        CREATE_BY = @{SESSION_USER_ID},
+			        UPDATE_TIME = GETDATE(),
+			        UPDATE_BY = @{SESSION_USER_ID},
+			    </set>
+         		where ELOAN_CODE = ${item.eloanCode}  
+          		AND CONFIRM_TIME IS NULL
+          		AND PKID =   ${item.pkid}  
+    </foreach>  
+  </update> 
 </mapper>
