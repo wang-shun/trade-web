@@ -148,7 +148,7 @@ function chooseManager(id) {
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
 	userSelect({
-		startOrgId : '1D29BB468F504774ACE653B946A393EE',
+		startOrgId : '1D29BB468F504774ACE653B946A393EE',//营业部
 		expandNodeId : '1D29BB468F504774ACE653B946A393EE',
 		nameType : 'long|short',
 		orgType : '',
