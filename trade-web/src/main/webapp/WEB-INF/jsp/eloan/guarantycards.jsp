@@ -92,11 +92,11 @@
                                     
                                     <div class="checkbox i-checks radio-inline sign ">
                                         <label>
-                                            <input type="radio" value="1" id="isModifyPhone" name="isModifyPhone" <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='1'}">checked="checked"</c:if>>
+                                            <input type="radio" value="1" id="isModifyPhone1" name="isModifyPhone" <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='1'}">checked="checked"</c:if>>
                                             已修改
                                         </label>
                                         <label>
-                                            <input type="radio" value="0" id="isModifyPhone" name="isModifyPhone" <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='0' || toRcMortgageCardVO.toRcMortgageCard.isModifyPhone == null}">checked="checked"</c:if>>
+                                            <input type="radio" value="0" id="isModifyPhone0" name="isModifyPhone" <c:if test="${toRcMortgageCardVO.toRcMortgageCard.isModifyPhone =='0' || toRcMortgageCardVO.toRcMortgageCard.isModifyPhone == null}">checked="checked"</c:if>>
                                             未修改
                                         </label>
                                     </div>
@@ -181,10 +181,10 @@
                             </div> --%>
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small">
+                                    <label class="control-label sign_left_small"style="float:left">
                                                        物品信息备注
                                     </label>
-                                    <textarea class="sign_right_two" id="riskComment" name="riskComment" style="width:400px;height:100px;">${toRcMortgageCardVO.rcRiskControl.riskComment }</textarea>
+                                    <textarea class=" select_control" id="riskComment" name="riskComment" >${toRcMortgageCardVO.rcRiskControl.riskComment }</textarea>
                                 </div>
                             </div> 
                         </form>
@@ -204,12 +204,14 @@
                 <div class="modal-dialog">
                     <div class="modal-content animated fadeIn">
                         <div class="modal-body" style="background:#fff;">
-                            <p class="text-center" style="font-size: 20px;">选择保存按钮可保存本次填写信息！</p>
+                          <!--   <p class="text-center" style="font-size: 20px;">选择保存按钮可保存本次填写信息！</p> -->
+                          <p class="text-center" style="font-size: 20px;">请确认填写的信息是否保存，确认后将不保存信息！</p>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="btn btn-success submit_btn" style="margin-left:0px;">确认保存</button>
+                        <!--     <button type="button" class="btn btn-success submit_btn" style="margin-left:0px;">确认保存</button> -->
                             <!-- <button type="button" class="btn btn-success">我要删除</button> -->
-                            <button type="button" class="btn close_btn" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn  btn-success close_btn" data-win="modal">确定</button>
+                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>
@@ -265,6 +267,8 @@
         	 $('.submit_btn').click(function(){
 				 var cardPerson = $("#cardPerson").val();
 				 var cardTime = $("#cardTime").val();
+				 var isModifyPhone=$("input[name='isModifyPhone']:checked").val();
+				  var phoneNumber = $("#phoneNumber").val();
 				 if(cardPerson == ""){
 					 alert("请填写押卡对象！");
 					 return false;
@@ -273,7 +277,10 @@
 					 alert("请填写押卡时间！");
 					 return false;
 				 }
-				 var phoneNumber = $("#phoneNumber").val();
+				 if(isModifyPhone==1&&phoneNumber== ""){
+					 alert("请填写修改到账后手机号！");
+					 return false;
+				 }
 				 if(phoneNumber!=null & phoneNumber!=''){
 					 checkGuestPhone = checkContactNumber(phoneNumber);
 					 if (!checkGuestPhone) {
