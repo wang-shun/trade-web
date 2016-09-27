@@ -58,13 +58,13 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        抵押合同编号
+                                       <font color="red">*</font> 抵押合同编号
                                     </label>
                                     <input disabled="disabled" type="text" placeholder="" class="select_control sign_right_one" name="mortgageContractCode" id="mortgageContractCode" value="${toRcMortgageVO.toRcMortgage.mortgageContractCode }">
                                 </div>
                                 <div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
                                     <label class="control-label sign_left_small">
-                                        抵押登记时间
+                                        <font color="red">*</font>抵押登记时间
                                     </label>
                                     <input disabled="disabled" class="input_type sign_right_two" value="<fmt:formatDate value="${toRcMortgageVO.toRcMortgage.mortgageTime}" pattern="yyyy-MM-dd" />" name="mortgageTime" id="mortgageTime" />
                                     <div class="input-group date_icon">
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        抵押物业地址
+                                        <font color="red">*</font>抵押物业地址
                                     </label>
                                     <input disabled="disabled" type="text" placeholder="" class="select_control teamcode" id="mortgagePropertyAddress" name="mortgagePropertyAddress" value="${toRcMortgageVO.toRcMortgage.mortgagePropertyAddress }">
                                 </div>
@@ -81,13 +81,13 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产权人姓名
+                                        <font color="red">*</font>产权人姓名
                                     </label>
                                     <input disabled="disabled" type="text" placeholder="" class="select_control sign_right_one" id="propertyName" name="propertyName" value="${toRcMortgageVO.toRcMortgage.propertyName }">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产证编号
+                                        <font color="red">*</font>产证编号
                                     </label>
                                     <input disabled="disabled" type="text" placeholder="" class="select_control sign_right_one" id="propertyCode" name="propertyCode" value="${toRcMortgageVO.toRcMortgage.propertyCode }">
                                     <span class="date_icon">
@@ -96,19 +96,11 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        他证编号
+                                        <font color="red">*</font>他证编号
                                     </label>
                                     <input disabled="disabled" type="text" placeholder="" class="select_control sign_right_one" id="otherCode" name="otherCode" value="${toRcMortgageVO.toRcMortgage.otherCode }">
                                 </div>
                             </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                                       备注
-                                    </label>
-                                    <input disabled="disabled" class="sign_right_one input_type" value="${toRcMortgageVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment">
-                                </div>
-                            </div> 
                            <!--  <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -174,8 +166,18 @@
 	                                </div>
 	                            </div>
                             </div>
+                              <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                                                                                      备注
+                                    </label>
+                                    <textarea disabled="disabled" class="sign_right_two" value="${toRcMortgageVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment" style="width:400px;height:100px;"></textarea>
+                                </div>
+                            </div> 
                         </form>
                     </div>
+
+
                 </div>
             </div>
             <!-- main End -->
@@ -211,6 +213,36 @@
         	
         	
         	 $('.submit_btn').click(function(){
+        		var mortgageContractCode = $("#mortgageContractCode").val();
+				var mortgageTime = $("#mortgageTime").val();
+				var mortgagePropertyAddress = $("#mortgagePropertyAddress").val();
+				var propertyName = $("#propertyName").val();
+				var propertyCode = $("#propertyCode").val();
+				var otherCode = $("#otherCode").val();
+				if(mortgageContractCode == ""){
+					 alert("请填写抵押合同编号！");
+					 return false;
+				}
+				if(mortgageTime == ""){
+					 alert("请填写抵押登记时间！");
+					 return false;
+				}
+				if(mortgagePropertyAddress == ""){
+					 alert("请填写抵押物业地址！");
+					 return false;
+				}
+				if(propertyName == ""){
+					 alert("请填写 产权人姓名！");
+					 return false;
+				}
+				if(propertyCode == ""){
+					 alert("请填写产证编号！");
+					 return false;
+				}
+				if(otherCode == ""){
+					 alert("请填写他证编号！");
+					 return false;
+				}
              	var toRcMortgageInfoList = new Array();
              	$("#mortgageList .line").each(function(i){
              		if(this.style.display == 'none')
@@ -283,6 +315,13 @@
      			});
              	
              	
+             });
+        	 
+        	 $('select.select_control').attr('disabled', 'disabled');
+             
+             $(".close_btn").click(function(){
+            		window.close();
+ 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
              })
 	    })
 	    

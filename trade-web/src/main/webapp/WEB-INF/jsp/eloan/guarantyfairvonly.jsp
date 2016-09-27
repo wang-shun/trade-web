@@ -76,15 +76,17 @@
 						<div class="modal_title">强制公正信息登记</div>
 						<div class="line">
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 公正处名称 </label> <input disabled="disabled" 
-								    type="text" placeholder=""
+								<label class="control-label sign_left_small"> <font
+									color="red">*</font>公正处名称
+								</label> <input disabled="disabled" type="text" placeholder=""
 									class="select_control sign_right_one" id="notaryName"
 									name="notaryName" value="${toRcForceRegister.notaryName }">
 							</div>
 							<div class="form_content input-daterange"
 								data-date-format="yyyy-mm-dd">
-								<label class="control-label sign_left_small"> 执行时间 </label> <input disabled="disabled" 
-									class="input_type sign_right_two"
+								<label class="control-label sign_left_small"> <font
+									color="red">*</font>执行时间
+								</label> <input disabled="disabled" class="input_type sign_right_two"
 									value="<fmt:formatDate value="${toRcForceRegister.executeTime}" pattern="yyyy-MM-dd" />"
 									name="executeTime" id="executeTime" />
 								<div class="input-group date_icon">
@@ -94,17 +96,55 @@
 						</div>
 						<div class="line">
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 备注 </label> <input disabled="disabled" 
-									class="sign_right_one input_type"
+								<label class="control-label sign_left_small"> 备注 </label>
+								<textarea disabled="disabled" class="sign_right_two"
 									value="${rcRiskControl.riskComment }" id="riskComment"
-									name="riskComment">
+									name="riskComment" style="width: 400px; height: 100px;"></textarea>
 							</div>
 						</div>
+
+						<button type="button" class="close close_blue"
+							style="display: none;" data-dismiss="modal">
+							<i class="iconfont icon_rong">&#xe60a; </i>
+						</button>
+						<%--  <table class="table table_blue ">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                公证书
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <ul class="filelist">
+                                                    <li id="WU_FILE_0">
+                                                        <p class="imgWrap">
+                                                            <img src="${ctx}/static/trans/img/uplody01.png">
+                                                        </p>
+                                                        <div class="file-panel" >
+                                                            <span class="file-name">公证书1</span>
+                                                            <span class="cancel pull-right">删除</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <p class="imgWrap fileposition">
+                                                            <img src="${ctx}/static/trans/img/uplody02.png">
+                                                            <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table> --%>
 
 						<div class="ibox-title" style="height: auto;">
 							<c:choose>
 								<c:when test="${accesoryList!=null}">
-									<h5>${accesoryList[0].accessoryName }</h5>
+									<h5>
+										附件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
 									<c:forEach var="accesory" items="${accesoryList}"
 										varStatus="status">
 										<div class="" id="fileupload_div_pic">
@@ -144,26 +184,7 @@
 									<!--  错误信息 -->
 							        {% if (file.error) { %}
 							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
 							        {% } %}
-							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
 							    </div>
 							{% } %}
 						</script>
@@ -186,11 +207,6 @@
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
 							    </div>
 							{% } %}
 						</script>
@@ -240,7 +256,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/eloan/attachmentvonly.js"></script>
 
 	<script>
 	    if ("${idList}" != "") {
@@ -259,13 +275,22 @@
 	    		autoclose : true,
 	    		todayBtn : 'linked',
 	    		language : 'zh-CN'
-	        });
-	    	
+	        });	    	
 	    
         	var pkid = "${pkid}";
         	var eloanCode =  "${eloanCase.eloanCode }";
         	
         	 $('.submit_btn').click(function(){
+        		var notaryName = $("#notaryName").val();
+ 				var executeTime = $("#executeTime").val();
+ 				if(notaryName == ""){
+ 					 alert("请填写公正处名称！");
+ 					 return false;
+ 				}
+ 				if(executeTime == ""){
+ 					 alert("请填写执行时间！");
+ 					 return false;
+ 				}
              	var toRcForceRegister = {
              		rcId : $('#riskControlId').val(),
              		notaryName : $('#notaryName').val(),
@@ -320,6 +345,11 @@
      			// 保存附件相关信息
      			deleteAndModify();
         	 });
+        	 
+             $(".close_btn").click(function(){
+         		window.close();
+					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
+          		})
 	    });
     
     </script> </content>
