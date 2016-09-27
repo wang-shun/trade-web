@@ -23,8 +23,8 @@ $(function () {
   		  return;
   	  }
   	  
-  	var orgId = $.trim($("select[name='rmSignRoom.orgId']").val());
-  	var orgName = $("select[name='rmSignRoom.orgId']").find("option:selected").text();
+  	var centerId = $.trim($("select[name='rmSignRoom.centerId']").val());
+  	var centerName = $("select[name='rmSignRoom.centerId']").find("option:selected").text();
   	
   	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
   	var numbeOfAccommodatePeople = $.trim($("input[name='rmSignRoom.numbeOfAccommodatePeople']").val());
@@ -46,8 +46,8 @@ $(function () {
      		method:"post",
      		dataType:"json",
      		data : {
-     			'orgId' : orgId,
-     			'orgName' : orgName,
+     			'tradeCenterId' : centerId,
+     			'tradeCenter' : centerName,
      			'roomNo' : roomNo,
      			'numbeOfAccommodatePeople' : numbeOfAccommodatePeople,
      			'roomType' : roomType,
@@ -76,7 +76,7 @@ $(function () {
     	$("#btnName").html("添加");
     	
     	$("#pkid").val("");
-    	$("select[name='rmSignRoom.orgId']").val("");
+    	$("select[name='rmSignRoom.centerId']").val("");
       	$("input[name='rmSignRoom.roomNo']").val("");
       	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val("");
       	$("input[name='rmSignRoom.roomType']").each(function(){
@@ -107,9 +107,9 @@ $(function () {
 })
 
 function checkFormSave(){
-	if($("select[name='rmSignRoom.orgId']").val()==''){
+	if($("select[name='rmSignRoom.centerId']").val()==''){
 		alert("请选择签约中心！");
-		$("select[name='rmSignRoom.orgId']").focus();
+		$("select[name='rmSignRoom.centerId']").focus();
 		return false;
 	}
 	if($.trim($("input[name='rmSignRoom.roomNo']").val())==''){
@@ -148,11 +148,11 @@ function getParamsValue() {
 	
 	var roomType = $('#roomTypeSlot').val();
 	var roomStatus = $('#roomStatus').val();
-	var orgId = $('#orgId').val();
+	var centerId = $('#centerId').val();
 	
 	//设置查询参数
 	var params = {
-			orgId : orgId,
+			centerId : centerId,
 			roomType : roomType,
 			roomStatus : roomStatus
 	};
@@ -229,7 +229,7 @@ function ajaxSubmit() {
 					   }
 					   th+= "</td>";
 					   th+="<td><p class='big'>"+roomStatus+"</p></td><td><p class='big'>"+data.content[i].remark+"</p></td>";
-					   th+="<td class='text-center'><button type='button' class='btn btn-success mr5' data-toggle='modal' data-target='#myModal' onclick=\"updateSignRoom('"+data.content[i].orgId+"','"+data.content[i].roomNo+"','"+data.content[i].numbeOfAccommodatePeople+"','"+data.content[i].roomType+"','"+data.content[i].remark+"','"+data.content[i].roomStatus+"','"+week+"','"+data.content[i].pkid+"')\">修改</button><button type='button' onclick=\"deleteSignRoom('"+data.content[i].pkid+"','"+data.content[i].stragegyPkid+"')\" class='btn btn-grey'>删除</button></td></tr>";
+					   th+="<td class='text-center'><button type='button' class='btn btn-success mr5' data-toggle='modal' data-target='#myModal' onclick=\"updateSignRoom('"+data.content[i].centerId+"','"+data.content[i].roomNo+"','"+data.content[i].numbeOfAccommodatePeople+"','"+data.content[i].roomType+"','"+data.content[i].remark+"','"+data.content[i].roomStatus+"','"+week+"','"+data.content[i].pkid+"')\">修改</button><button type='button' onclick=\"deleteSignRoom('"+data.content[i].pkid+"','"+data.content[i].stragegyPkid+"')\" class='btn btn-grey'>删除</button></td></tr>";
 				 }
 				
 			   $("#schedualable tbody").append(th);
@@ -241,11 +241,11 @@ function ajaxSubmit() {
 }
 
 
-function updateSignRoom(orgId,roomNo,numbeOfAccommodatePeople,roomType,remark,roomStatus,week,pkid){
+function updateSignRoom(centerId,roomNo,numbeOfAccommodatePeople,roomType,remark,roomStatus,week,pkid){
 	$("#title").html("修改签约室");
 	$("#btnName").html("修改");
 	$("#pkid").val(pkid);
-	$("select[name='rmSignRoom.orgId']").val(orgId);
+	$("select[name='rmSignRoom.centerId']").val(centerId);
   	$("input[name='rmSignRoom.roomNo']").val(roomNo);
   	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val(numbeOfAccommodatePeople);
   	$("input[name='rmSignRoom.roomType']").each(function(){

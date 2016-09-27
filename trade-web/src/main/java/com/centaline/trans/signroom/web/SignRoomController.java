@@ -83,9 +83,8 @@ public class SignRoomController {
 	@ResponseBody
 	public AjaxResponse<Map> generatePageDate(Model model,HttpServletRequest requst){
 		SessionUser user= uamSessionService.getSessionUser();
+		String depId = user.getServiceDepId();//获取登陆用户的组别id
 		
-		String gbOrgId = reservationService.getOrgIdByGrpcode("");//返回贵宾服务部id
-		gbOrgId = "d5878adf8b0c4032aeae895c701ed693";
 		String roomType = requst.getParameter("roomType");//房间类型
 		String useStatus = requst.getParameter("useStatus");//使用状态
 		
@@ -97,8 +96,8 @@ public class SignRoomController {
 		if(!StringUtil.isBlank(useStatus)){
 			gp.put("useStatus", useStatus);
 		}
-		if(!StringUtil.isBlank(gbOrgId)){
-			gp.put("gbOrgId", gbOrgId);
+		if(!StringUtil.isBlank(depId)){
+			gp.put("depId", depId);
 		}
 
 		//Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
@@ -115,9 +114,8 @@ public class SignRoomController {
 	@RequestMapping("/signRoomShedualList")
 	@ResponseBody
 	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(Model model,HttpServletRequest requst){
-		SessionUser user= uamSessionService.getSessionUser();
 		
-		String gbOrgId = requst.getParameter("orgId");//签约中心贵宾orgId
+		String centerId = requst.getParameter("centerId");//签约中心Id
 		String roomType = requst.getParameter("roomType");//房间类型
 		String roomStatus = requst.getParameter("roomStatus");//房间状态
 	
@@ -130,8 +128,8 @@ public class SignRoomController {
 		if(!StringUtil.isBlank(roomStatus)){
 			gp.put("roomStatus", roomStatus);
 		}
-		if(!StringUtil.isBlank(gbOrgId)){
-			gp.put("gbOrgId", gbOrgId);
+		if(!StringUtil.isBlank(centerId)){
+			gp.put("centerId", centerId);
 		}
 		
 		
@@ -163,7 +161,7 @@ public class SignRoomController {
 	}
 	
 	/**
-	 * 添加或修改签约室
+	 * 删除 签约室
 	 * @return
 	 */
 	@RequestMapping("/deleteSignRoom")

@@ -45,10 +45,10 @@
                                     <label class="control-label sign_left_small">
                                         	签约中心
                                     </label>
-                                    <select class="select_control " id="orgId" name="orgId">
+                                    <select class="select_control " id="centerId" name="centerId">
                                         <option value="">请选择</option>
                                         <c:forEach items="${tradeCenters }" var="tradeCenter">
-                                        	<option value="${tradeCenter.orgId }">${tradeCenter.orgName }</option>
+                                        	<option value="${tradeCenter.pkid }">${tradeCenter.centerName }</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -120,10 +120,10 @@
                                         <label class="control-label sign_left_small">
                                             签约中心选择
                                         </label>
-                                        <select class="select_control " name="rmSignRoom.orgId" id="rmSignRoom.orgId">
+                                        <select class="select_control " name="rmSignRoom.centerId" id="rmSignRoom.centerId">
                                             <option value="">请选择</option>
                                             <c:forEach items="${tradeCenters }" var="tradeCenter">
-                                        	<option value="${tradeCenter.orgId }">${tradeCenter.orgName }</option>
+                                        	<option value="${tradeCenter.pkid }">${tradeCenter.centerName }</option>
                                         </c:forEach>
                                         </select>
                                     </div>
