@@ -99,8 +99,6 @@ public class SignRoomController {
 		if(!StringUtil.isBlank(depId)){
 			gp.put("depId", depId);
 		}
-
-		//Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
 		
 		AjaxResponse<Map> response =  rmSignRoomService.generatePageDate(gp);
 		
