@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="../static/trans/css/spv/input.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/see.css" />
+    <link rel="stylesheet" href="../static/trans/css/common/input.css" />
+
+
 
 
 </head>
@@ -1105,9 +1108,152 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="btn_group">
+                                    <button type="button" class="btn btn-success btn-qing" data-toggle="modal" data-target="#myModal">
+                                        通知
+                                    </button>
+                                    <a href="#"><button class="btn btn-success btn-space btn-qing">预警</button></a>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                <!--********** 弹窗页面 **********-->
+                <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
+                    <div class="modal-dialog" style="width: 930px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                                通知划款至中原中原账户
+                            </div>
+                            <form method="get" class="form_list">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            借款人
+                                        </label>
+                                        <span>李民</span>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            联系方式
+                                        </label>
+                                        <span>13898989371</span>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            网签合同号
+                                        </label>
+                                        <span>wq13898989371</span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            贷款类型
+                                        </label>
+                                        <select class="select_control ">
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                            <option value="">
+                                                纯商贷
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form_content mt5">
+                                        <label class="control-label sign_left_small">
+                                            贷款金额
+                                        </label>
+                                        <span>200万</span>
+                                    </div>
+                                    <div class="form_content mt5">
+                                        <label class="control-label sign_left_small">
+                                            金额大写
+                                        </label>
+                                        <span>贰百万</span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            贷款银行
+                                        </label>
+                                        <span>光大银行</span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            卖方
+                                        </label>
+                                        <span>郑一</span>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            联系方式
+                                        </label>
+                                        <span>13659865986</span>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            账号
+                                        </label>
+                                        <span>62139930023884756</span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            监管账户名称
+                                        </label>
+                                        <span>上海中原物业顾问有限公司</span>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            账号
+                                        </label>
+                                        <span>62155930023889865</span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small pull-left">
+                                            通知人员
+                                        </label>
+                                        <div class="pull-left notice">
+                                            <label>
+                                                <input type="checkbox"  name="items">
+                                                光大银行贷款专员
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small pull-left">
+                                            通知模版
+                                        </label>
+                                            <textarea name="" id="" class="pull-left textarearoom" placeholder="" >交易前请带好身份证及相关资料，谢谢</textarea>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="add_btn" style="float:left;margin:15px 126px;">
+                                        <button type="button" class="btn btn-success">
+                                            通知
+                                        </button>
+                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <!--********** 弹窗页面 **********-->
+
+
 
                     <div class="ibox-content clearfix" id="base_info">
                         <div class="panel blank-panel">
