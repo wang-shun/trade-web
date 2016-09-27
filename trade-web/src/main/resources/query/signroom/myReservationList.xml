@@ -36,7 +36,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT r.PKID as resId,r.RES_NO as resNo,r.PROPERTY_ADDRESS as propertyAddr,
-					(select DISTRICT_NAME from sctrans.T_RM_SIGN_ROOM_ORG_MAPPING where TRADE_CENTER_ID = r.SIGNING_CENTER_ID) as distinctName,rs.START_DATE as startDate,rs.END_DATE as endDate,r.RES_STATUS as resStatus,getdate() as currentDate,rs.START_DATE AS resDate,getdate() as currentTime FROM sctrans.T_RM_RESERVATION r
+					(select DISTRICT_NAME from sctrans.T_RM_SIGN_ROOM_ORG_MAPPING where TRADE_CENTER_ID = r.SIGNING_CENTER_ID ORDER BY PKID OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as distinctName,rs.START_DATE as startDate,rs.END_DATE as endDate,r.RES_STATUS as resStatus,getdate() as currentDate,rs.START_DATE AS resDate,getdate() as currentTime FROM sctrans.T_RM_RESERVATION r
 					LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.PKID = rs.RES_ID
 					LEFT JOIN sctrans.T_RM_SIGN_ROOM sr ON rs.ROOM_ID = sr.PKID
 					WHERE r.RES_PERSON_ID = #resPersonId# AND sr.ROOM_STATUS = 1 AND sr.IS_DELETE = 0
