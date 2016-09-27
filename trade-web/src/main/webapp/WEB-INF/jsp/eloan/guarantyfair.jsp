@@ -84,10 +84,10 @@
                             </div>
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small">
+                                    <label class="control-label sign_left_small"style="float:left">
                                                        备注
                                     </label>
-                                    <textarea class="sign_right_two" value="${rcRiskControl.riskComment }" id="riskComment" name="riskComment" style="width:400px;height:100px;"></textarea>
+                                    <textarea class="select_control sign_right_two" value="${rcRiskControl.riskComment }" id="riskComment" name="riskComment" style="width:400px;height:100px; display:block;margin-left:124px"></textarea>
                                 </div>
                             </div> 
 
@@ -263,7 +263,7 @@
 
                 </div>
             </div>
-            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+         <!--    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content animated fadeIn">
                         <div class="modal-body" style="background:#fff;">
@@ -271,8 +271,23 @@
                         </div>
                         <div class="modal-footer" style="text-align:center;">
                             <button type="button" class="btn btn-success submit_btn" style="margin-left:0px;">确认保存</button>
-                           <!--  <button type="button" class="btn btn-success">我要删除</button> -->
+                            <button type="button" class="btn btn-success">我要删除</button>
                             <button type="button" class="btn btn-white close_btn" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->  <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content animated fadeIn">
+                        <div class="modal-body" style="background:#fff;">
+                          <!--   <p class="text-center" style="font-size: 20px;">选择保存按钮可保存本次填写信息！</p> -->
+                          <p class="text-center" style="font-size: 20px;">请确认填写的信息是否保存，确认后将不保存信息！</p>
+                        </div>
+                        <div class="modal-footer" style="text-align:center;">
+                        <!--     <button type="button" class="btn btn-success submit_btn" style="margin-left:0px;">确认保存</button> -->
+                            <!-- <button type="button" class="btn btn-success">我要删除</button> -->
+                            <button type="button" class="btn  btn-success close_btn" data-win="modal">确定</button>
+                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         </div>
                     </div>
                 </div>

@@ -66,9 +66,8 @@ function changeTaskAssignee(sendData){
 		}
 	});
 }
-$(document).ready(
-		function() {
-			
+$(document).ready(function() {
+
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
 				var taskDfKey=_this.val();
@@ -185,8 +184,10 @@ $(document).ready(
 				dispCols.push('操作');
 				colModels.push({width : 90,formatter : function(cellvalue,options,rawObject) {
 					//未处理的案件  && 1.任务已有执行人->执行人对应的主管可重新分配 2.没有执行人->案件主办的的主管可分配任务
-						if((serivceDepId==rawObject.ORG_ID || (''==rawObject.ASSIGNEE &&isCaseManager)) && !rawObject.END_TIME){
-							return "<button type=\"button\" class=\"btn btn-warning pull-left\" onclick=\"showOptUsers('"+rawObject.ID+"','"+serivceDepId+"')\">分配</button>";
+						if(resourceDistributionBtn){
+							if((serivceDepId==rawObject.ORG_ID || (''==rawObject.ASSIGNEE &&isCaseManager)) && !rawObject.END_TIME){
+								return "<button type=\"button\" class=\"btn btn-warning distribution pull-left\" onclick=\"showOptUsers('"+rawObject.ID+"','"+serivceDepId+"')\">分配</button>";
+							}
 						}
 						return "";
 					}});
