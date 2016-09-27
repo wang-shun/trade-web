@@ -311,10 +311,9 @@ public class WarnListController {
 		}
 	}
 	
-	@RequestMapping(value="/validateEloanApply")
+	@RequestMapping(value="validateEloanApply")
 	@ResponseBody
-	public AjaxResponse<Boolean> validateEloanApply(Model model,ToEloanCase tEloanCase){
-System.out.println("---------------------");
+	public AjaxResponse<Boolean> validateEloanApply(Model model,ToEloanCase tEloanCase){		
 		AjaxResponse<Boolean> response = new AjaxResponse<Boolean>();
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
