@@ -76,27 +76,23 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			 * rmSignRoomMapper.getSignRoomInfos(map); List<RmRoomSchedule>
 			 * rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);
 			 */
-			Page<Map<String, Object>> room = quickGridService
-					.findPageForSqlServer(gp);
+			Page<Map<String, Object>> room = quickGridService.findPageForSqlServer(gp);
 			List<Map<String, Object>> rooms = room.getContent();// 签约室信息
 			gp.setQueryId("queryRmRoomSchedualList");
-			Page<Map<String, Object>> schedual = quickGridService
-					.findPageForSqlServer(gp);
+			Page<Map<String, Object>> schedual = quickGridService.findPageForSqlServer(gp);
 			List<Map<String, Object>> scheduals = schedual.getContent();// 排期信息
 
 			List<RmSignRoom> signRooms = new ArrayList<RmSignRoom>();
 			List<RmRoomSchedule> rmRoomSchedules = new ArrayList<RmRoomSchedule>();// map转object
 			if (rooms != null && !rooms.isEmpty()) {
 				for (Map<String, Object> rm : rooms) {
-					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(
-							RmSignRoom.class, rm);
+					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(RmSignRoom.class, rm);
 					signRooms.add(sr);
 				}
 			}
 			if (scheduals != null && !scheduals.isEmpty()) {
 				for (Map<String, Object> sd : scheduals) {
-					RmRoomSchedule sr = (RmRoomSchedule) BeanToMapUtils
-							.convertMap(RmRoomSchedule.class, sd);
+					RmRoomSchedule sr = (RmRoomSchedule) BeanToMapUtils.convertMap(RmRoomSchedule.class, sd);
 					rmRoomSchedules.add(sr);
 				}
 			}
@@ -107,8 +103,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 				for (RmSignRoom signRoom : signRooms) {
 					rrs = new ArrayList<RmRoomSchedule>();
 					for (RmRoomSchedule rmRoomSchedule : rmRoomSchedules) {
-						if (signRoom.getPkid().equals(
-								rmRoomSchedule.getRoomId())) {
+						if (signRoom.getPkid().equals(rmRoomSchedule.getRoomId())) {
 							rrs.add(rmRoomSchedule);
 						}
 					}
@@ -155,16 +150,14 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		gp.setCountOnly(false);
 		gp.setPagination(false);
 		gp.setQueryId("queryRmSignRoomAndStragegy");
-		Page<Map<String, Object>> rs = quickGridService
-				.findPageForSqlServer(gp);
+		Page<Map<String, Object>> rs = quickGridService.findPageForSqlServer(gp);
 		List<Map<String, Object>> rss = rs.getContent();
 		List<RmSignRoom> rmSignRooms = null;
 		try {
 			if (rss != null && !rss.isEmpty()) {
 				rmSignRooms = new ArrayList<RmSignRoom>();
 				for (Map<String, Object> rm : rss) {
-					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(
-							RmSignRoom.class, rm);
+					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(RmSignRoom.class, rm);
 					rmSignRooms.add(sr);
 				}
 			}
@@ -247,10 +240,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			rmSignRoomMapper.updateRmSignRoom(rmSignRoom);
 			RmRoomScheStragegy rmRoomScheStragegy = new RmRoomScheStragegy();
 			rmRoomScheStragegy.setRoomId(pkid);
-			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom
-					.getStragegyWeekVal());
-			rmRoomScheStragegyMapper
-					.updateRmRoomScheStragegy(rmRoomScheStragegy);
+			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom.getStragegyWeekVal());
+			rmRoomScheStragegyMapper.updateRmRoomScheStragegy(rmRoomScheStragegy);
 
 		} else {// 新增
 			rmSignRoom.setCreateBy(user.getId());
@@ -260,8 +251,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			rmSignRoomMapper.addRmSignRoom(rmSignRoom);
 			RmRoomScheStragegy rmRoomScheStragegy = new RmRoomScheStragegy();
 			rmRoomScheStragegy.setRoomId(rmSignRoom.getPkid());
-			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom
-					.getStragegyWeekVal());
+			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom.getStragegyWeekVal());
 			rmRoomScheStragegyMapper.insertSelective(rmRoomScheStragegy);
 		}
 
@@ -285,19 +275,15 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		if (reservationInfoVo != null) {
 			reservation.setResNo(resNo);
 			reservation.setResType(reservationInfoVo.getResType());
-			reservation
-					.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
+			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());
 			reservation.setResStatus(reservationInfoVo.getResStatus());
 			reservation.setScheduleId(reservationInfoVo.getScheduleId());
 			reservation.setCaseCode(reservationInfoVo.getCaseCode());
-			reservation.setPropertyAddress(reservationInfoVo
-					.getPropertyAddress());
+			reservation.setPropertyAddress(reservationInfoVo.getPropertyAddress());
 			reservation.setSigningCenter(reservationInfoVo.getSigningCenter());
-			reservation.setNumberOfParticipants(reservationInfoVo
-					.getNumberOfParticipants());
-			reservation.setTransactItemCode(reservationInfoVo
-					.getTransactItemCode());
+			reservation.setNumberOfParticipants(reservationInfoVo.getNumberOfParticipants());
+			reservation.setTransactItemCode(reservationInfoVo.getTransactItemCode());
 			reservation.setCreateTime(Calendar.getInstance().getTime());
 			reservation.setCreateBy(currentUser.getId());
 			reservation.setUpdateTime(Calendar.getInstance().getTime());
