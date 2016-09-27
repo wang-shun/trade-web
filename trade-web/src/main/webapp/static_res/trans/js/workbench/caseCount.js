@@ -370,7 +370,7 @@ function queryConutCaseByDate(){
    	 			//d2 = toDonutData($(data.staLoanSign),'amount');
    	 			//setDonut(d1,d2);
 				var d1 = getData($(data.staLoanSign), 'count');
-				var d2 = getData($(data.staLoanSign), 'amount');
+				var d2 = getDataForBigData($(data.staLoanSign), 'amount');
    	 			if (!d1 || $.isEmptyObject(d1)) {
    	 				$("#bt_1").addClass("hide");
    	 			} else {
@@ -399,6 +399,24 @@ function getData(d, it) {
 		}else if(typeof(this[it])=='number'){
 			data.push({
 				value : parseFloat(this[it]).toFixed(2),
+				name : item.staItemStr
+			});			
+		}
+	});
+	return data;
+}
+
+function getDataForBigData(d, it) {
+	var data = [];
+	$.each(d, function(i, item){
+		if(typeof(this[it])=='string'){
+			data.push({
+				value : (parseFloat(this[it].replace(/,/g,''))/10000).toFixed(2),
+				name : item.staItemStr
+			});
+		}else if(typeof(this[it])=='number'){
+			data.push({
+				value : (parseFloat(this[it])/10000).toFixed(2),
 				name : item.staItemStr
 			});			
 		}
