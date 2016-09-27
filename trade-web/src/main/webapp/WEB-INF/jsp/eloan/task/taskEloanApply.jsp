@@ -515,8 +515,7 @@
 				if($.isBlank($("#caseCode").val())) {
 					alert('请选择关联案件');
 					return false;
-				}
-				//alert("21d2qdqdqdw===="+validateEloanApply());
+				}				
 				if(validateEloanApply()) {					
 					saveEloanApply();				
 				} else {					
@@ -716,12 +715,10 @@
 				$("#pdPart").attr("readonly",false);	
 			}
 		})
-		function validateEloanApply() {
-			alert(1111);
+		function validateEloanApply() {			
 			var flag = false;
 			var jsonData = $("#eloanApplyForm").serializeArray();			
-			var url = "${ctx}/eloan/validateEloanApply";
-			alert(url);
+			var url = "${ctx}/eloan/validateEloanApply";			
 			$.ajax({				
 				cache : false,
 				async : false,//false同步，true异步
@@ -751,8 +748,7 @@
 				error : function(errors) {
 					alert("检测CaseCode绑定案件信息出错");
 				}
-			});	
-			alert(flag);
+			});				
 			return flag;
 		}
 		

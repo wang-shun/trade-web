@@ -96,12 +96,12 @@
                                 <div class="case_lump">
                                        <p><em>归属人</em><span class="span_one">${excutorName}</span></p>
                                    </div>
-<%--                                    <div class="case_lump">
+                                   <div class="case_lump">
                                        <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>
                                    <div class="case_lump">
                                        <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
-                                   </div> --%>
+                                   </div> 
 <%--                                    <div class="case_lump">
                                        <p><em>客户姓名</em><input  class="span_one" name="custName"  id="custName" value="${eloanCase.custName}"></p>
                                    </div>
@@ -110,15 +110,15 @@
                                    </div> --%>
                                 </div>
                                 <div class="case_row">
-<%--                                    <div class="case_lump">
-                                       <p><em>申请金额</em><input  class="span_one" name="applyAmount"  id="applyAmount" value="${eloanCase.applyAmount}">万</p>
-                                   </div> --%>
+                                    <div class="case_lump">
+                                       <p><em>申请金额</em><span class="span_one">${eloanCase.applyAmount}万</span></p>
+                                   </div> 
                                    <div class="case_lump">
                                        <p><em>申请时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" /></span></p>
                                    </div>
-<%--                                    <div class="case_lump">
-                                       <p><em>申请期数</em><input  class="span_one" name="month"  id="month" value="${eloanCase.month}">月</p>
-                                   </div> --%>
+                                   <div class="case_lump">
+                                       <p><em>申请期数</em><span class="span_one">${eloanCase.month}月</span></p>
+                                   </div> 
                                 </div>
                                 
                                 <c:if test="${!empty eloanCase.chargeAmount}">
@@ -182,7 +182,7 @@
 					     <!--  -->
 					     <input type="hidden" id="eloanCode" name="eloanCode" value="${eloanCase.eloanCode}">
                        	<ul class="form_lump">
-                       		<li>
+<%--                        		<li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         	客户姓名
@@ -216,7 +216,7 @@
                                         <span class="danwei">月</span>
                                     </div>
                                 </div>
-                            </li>  
+                            </li>   --%>
                        	
                             <li>
                                 <div class="form_content">
@@ -297,12 +297,12 @@
 				 $("#eSignContent").attr("disabled",true);
 			 }
         	//面签时间不能修改
-        	var signTime=$("#signTime").val();
+/*         	var signTime=$("#signTime").val();
         	if(signTime=='' || signTime== null ){
         		$("input[name='signTime']").attr("disabled", false);
         	}else{
         		$("input[name='signTime']").attr("disabled", true);
-        	}	
+        	}	 */
         	getBankList();
         	
         	$('.input-daterange').datepicker({
