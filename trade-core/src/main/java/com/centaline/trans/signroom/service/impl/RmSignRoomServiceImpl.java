@@ -240,13 +240,6 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	public void saveOrUpdateSignRoomSchedual(RmSignRoom rmSignRoom) {
 		SessionUser user = uamSessionService.getSessionUser();
 		Long pkid = rmSignRoom.getPkid();
-		Map map = new HashMap();
-		// map.put("orgId", rmSignRoom.getOrgId());
-		TradeCenter tradeCenter = tradeCenterMapper.getTradeCenter(map);// 获取签约中心信息
-		if (tradeCenter != null) {
-			rmSignRoom.setTradeCenter(tradeCenter.getCenterName());
-			rmSignRoom.setTradeCenterId(tradeCenter.getPkid());
-		}
 
 		if (pkid != null) {// 更新
 			rmSignRoom.setUpdateBy(user.getId());
@@ -295,7 +288,6 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			reservation
 					.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());
-			// reservation.setResOrgId(reservationInfoVo.getResOrgId());
 			reservation.setResStatus(reservationInfoVo.getResStatus());
 			reservation.setScheduleId(reservationInfoVo.getScheduleId());
 			reservation.setCaseCode(reservationInfoVo.getCaseCode());

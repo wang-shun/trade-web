@@ -35,19 +35,24 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT  DISTINCT R.PKID AS pkid, R.ROOM_NO AS roomNo,R.ROOM_TYPE AS roomType,R.TRADE_CENTER AS tradeCenter,R.ORG_ID AS orgId,R.ORG_NAME AS orgName,R.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople
-		FROM    
-		sctrans.T_RM_SIGN_ROOM R INNER JOIN
-		sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID	
-		LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID        
-		WHERE   
-			T.IS_DELETE = '0'
-			AND R.IS_DELETE = '0'
+		SELECT  DISTINCT
+        R.PKID AS pkid ,
+        R.ROOM_NO AS roomNo ,
+        R.ROOM_TYPE AS roomType ,
+        R.TRADE_CENTER AS tradeCenter ,
+        R.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople
+FROM    sctrans.T_RM_SIGN_ROOM R
+        INNER JOIN sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID
+        LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID
+        LEFT JOIN sctrans.T_RM_TRADE_CENTER M ON R.TRADE_CENTER_ID = M.PKID
+        INNER JOIN sctrans.T_RM_SIGN_ROOM_ORG_MAPPING O ON M.PKID = O.TRADE_CENTER_ID
+WHERE   T.IS_DELETE = '0'
+        AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL)
+            <if test="depId != null">
+				 AND O.TEAM_ID = #depId#
+			</if>
 			<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
-			</if>
-			<if test="gbOrgId != null">
-				 AND R.ORG_ID = #gbOrgId#
 			</if>
 			<if test="roomType != null">
 				 AND R.ROOM_TYPE = #roomType#
@@ -76,8 +81,6 @@
 				<column type="both" name="roomNo" index="" checkbox="" display="roomNo" title="roomNo" />
 				<column type="both" name="roomType" index="" checkbox="" display="roomType" title="roomType" customDict="" />
 				<column type="both" name="tradeCenter" index="" checkbox="" display="tradeCenter" title="tradeCenter" />
-				<column type="both" name="orgId" index="" checkbox="" display="orgId" title="orgId" />
-				<column type="both" name="orgName" index="" checkbox="" display="orgName" title="orgName" />
 				<column type="both" name="numbeOfAccommodatePeople" title="numbeOfAccommodatePeople" />
 			</table-row>
 		</grid>

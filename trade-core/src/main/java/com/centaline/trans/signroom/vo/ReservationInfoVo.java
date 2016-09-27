@@ -17,8 +17,6 @@ public class ReservationInfoVo {
 
 	private String resPersonId; // 预约人id
 
-	private String resOrgId; // 归属组织(贵宾服务部)id
-
 	private String resStatus; // 预约状态(预约中:0,使用中:1,使用完:2,已过期:3,已取消:4)
 
 	private String scheduleId; // 签约室安排id
@@ -79,14 +77,6 @@ public class ReservationInfoVo {
 
 	public void setResPersonId(String resPersonId) {
 		this.resPersonId = resPersonId;
-	}
-
-	public String getResOrgId() {
-		return resOrgId;
-	}
-
-	public void setResOrgId(String resOrgId) {
-		this.resOrgId = resOrgId;
 	}
 
 	public String getResStatus() {
