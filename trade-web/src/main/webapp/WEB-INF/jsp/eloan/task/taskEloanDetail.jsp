@@ -264,14 +264,11 @@
 									</div>
 									<div class="case_lump">
 										<p>
-											<em>放款状态</em><span class="" id="content_caseCode"> <c:if
-													test="${item.confirmStatus==1}">
-																		审批通过
-																	</c:if> <c:if test="${item.confirmStatus==2}">
-																		审批拒绝
-																	</c:if> <c:if test="${item.confirmStatus==0}">
-																		待确认
-																	</c:if>
+											<em>放款状态</em>
+											<span class="" id="content_caseCode"> 
+												<c:if	test="${item.confirmStatus==1}">	审批通过     </c:if> 
+												<c:if 	test="${item.confirmStatus==2}">	审批拒绝     </c:if> 
+												<c:if 	test="${item.confirmStatus==0}">	待确认	</c:if>
 											</span>
 										</p>
 									</div>
