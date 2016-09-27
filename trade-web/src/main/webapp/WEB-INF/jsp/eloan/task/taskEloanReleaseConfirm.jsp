@@ -215,6 +215,51 @@
 					     <!--  -->
 					     <input type="hidden" id="eloanCode" name="eloanCode" value="${eloanCase.eloanCode}">
                        	 <ul class="form_lump">
+<%--                        	 	                       	 	                       		<li>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_two">
+                                        	客户姓名
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.custName}" name="custName" id="custName">
+                                </div>
+                                <div class="input-group">
+                                    <label class="control-label sign_left_two">
+                                        	客户电话
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.custPhone}"  name="custPhone" id="custPhone"/>
+
+                                    <label class="control-label sign_left_two">
+                                        	申请期数
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.month}"  name="month" id="month"/>
+                                     <div class="input-group date_icon">
+                                        <span class="danwei">月</span>
+                                    </div> 
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_two">
+                                        	申请金额
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
+                                    <div class="input-group date_icon">
+                                        <span class="danwei">万</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">                                    
+                                   <label class="control-label sign_left_two">
+                                        	面签金额
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.signAmount}" name="signAmount" id="signAmount">
+                                    <div class="input-group date_icon">
+                                        <span class="danwei">万</span>
+                                    </div>
+                                </div>
+                            </li> --%>
+                       	 	
                             <li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
@@ -226,9 +271,20 @@
                                     </select>
                                 </div>
                             </li>
+                            
+                            <li>
+								<div class="form_content" id="eLoanPassOrRefuseReasonForShow">
+									<!-- style="display:none;" -->
+									<label class="control-label sign_left_two pull-left">审批意见</label>
+									<textarea class="input_type sign_right pull-left"  rows="2"  id="eLoanContent"	name="eLoanContent" style="margin-left: 4px;width: 757px;
+    											height: 71px;resize:none;">${toApproveRecord.content }</textarea>
+								</div>
+							</li>
                         </ul>
-                        <input type="button" class="btn btn-success submit_btn" value="确认"/>
-
+                         <p class="text-center">
+                         <input type="button" class="btn btn-success submit_From" value="提交">
+                           <input type="button" onclick="closeWindow()" class="btn btn-grey ml5" value="关闭">
+                        </p>
                         </form>
                     </div>
 
@@ -277,11 +333,14 @@
           		language : 'zh-CN'
             });
             
-            $('.submit_btn').click(function(){
+            $('.submit_From').click(function(){
             	saveReleaseConfirm();
             })
         });
-        
+    	function closeWindow(){
+			window.close();
+			window.opener.callback();
+		}
         /*获取银行列表*/
 		function getBankList(){
 			var finOrgCode = $("#finOrgCode").attr('value');

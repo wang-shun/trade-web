@@ -3,14 +3,15 @@ package com.centaline.trans.eloan.vo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
 
 public class ToEloanRelListVO {
 	private List<ToEloanRel> eloanRelList = new ArrayList<ToEloanRel>();
 
 	private String isRelFinish;
-
-	private String taskId;
+	
+	private String taskId;	
 
 	public List<ToEloanRel> getEloanRelList() {
 		return eloanRelList;
@@ -35,5 +36,6 @@ public class ToEloanRelListVO {
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
 	}
+	
 
 }

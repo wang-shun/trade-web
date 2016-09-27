@@ -18,5 +18,5 @@ public interface ToSpvCashFlowApplyAttachMapper {
 
     int updateByPrimaryKey(ToSpvCashFlowApplyAttach record);
 
-	List<ToSpvCashFlowApplyAttach> selectByCashFlowApplyId(Long cashFlowApplyId);
+	List<ToSpvCashFlowApplyAttach> selectByCashFlowApplyId(String cashFlowApplyId);
 }

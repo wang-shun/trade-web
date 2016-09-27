@@ -72,8 +72,8 @@
                                        	 过户时间
                                     </label>
                                     <div id="datepicker_1" class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
-                                        <input id="guohuStart" name="guohuStart"  class="form-control data_style" type="text" value="${guohuStart}"  placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input id="guohuEnd" name="guohuEnd" class="form-control data_style" type="text" value="${guohuEnd}" placeholder="结束日期">
+                                        <input id="guohuStart" name="guohuStart"  class="form-control data_style" type="text" value=""  placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input id="guohuEnd" name="guohuEnd" class="form-control data_style" type="text" value="" placeholder="结束日期">
                                     </div>
                                 </div>
                                  <div class="form_content">

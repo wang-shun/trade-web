@@ -14,7 +14,7 @@ public interface ToSpvAduitMapper {
 
     ToSpvAduit selectByPrimaryKey(Long pkid);
     
-    List<ToSpvAduit> selectByCashFlowApplyId(Long cashFlowApplyId);
+    List<ToSpvAduit> selectByCashFlowApplyId(String cashFlowApplyId);
 
     int updateByPrimaryKeySelective(ToSpvAduit record);
 

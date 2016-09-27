@@ -14,7 +14,7 @@ public interface ToSpvCashFlowMapper {
 
     ToSpvCashFlow selectByPrimaryKey(Long pkid);
     
-    List<ToSpvCashFlow> selectByCashFlowApplyId(Long cashFlowApplyId);
+    List<ToSpvCashFlow> selectByCashFlowApplyId(String cashFlowApplyId);
 
     int updateByPrimaryKeySelective(ToSpvCashFlow record);
 
