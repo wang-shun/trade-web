@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.TradeCenterMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.TradeCenter" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CENTER_NAME" property="centerName" jdbcType="VARCHAR" />
+    <result column="CENTER_ADDRESS" property="centerAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    PKID, CENTER_NAME,CENTER_ADDRESS
+  </sql>
+  <select id="getTradeCenterList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_RM_TRADE_CENTER
+  </select>
+  
+  <select id="getTradeCenter" resultType="com.centaline.trans.signroom.entity.TradeCenter" parameterType="java.util.Map">
+    select 
+    PKID as pkid, CENTER_NAME as centerName
+    from sctrans.T_RM_TRADE_CENTER
+    <where>
+       <if test="pkid!=null">
+           PKID = #{pkid}
+       </if>
+    </where>
+  </select>
+  
+</mapper>

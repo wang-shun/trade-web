@@ -1093,7 +1093,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <a href="" class="spread underline">收起</a>
+                                            <a href="javascript:void(0)" class="spread" onclick="javascript:this.innerHTML=(this.innerHTML=='收起'?'展开':'收起');">收起</a>
                                         </td>
                                     </tr>
                                     <tr class="spread_line">
@@ -1192,7 +1192,60 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <a href="" class="spread underline">展开</a>
+                                            <a href="javascript:void(0)" class="spread" onclick="javascript:this.innerHTML=(this.innerHTML=='收起'?'展开':'收起');">收起</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="spread_line">
+                                        <td colspan="8" class="spread_td">
+                                        <table class="table spread_tab table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>凭证</th>
+                                                <th>金额</th>
+                                                <th>付款方式</th>
+                                                <th>付款人账户信息</th>
+                                                <th>收款人账户信息</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>PZ154215454585</td>
+
+                                                <td>
+                                                    <p class="big">
+                                                    200万元</p>
+                                                </td>
+                                                <td>
+                                                    <p class="big">
+                                                    转账</p>
+                                                </td>
+                                                <td>
+                                                    <p>程序猿&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                                <td>
+                                                    <p>李晓明&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PZ154215454585</td>
+
+                                                <td>
+                                                    <p class="big">
+                                                    300万元</p>
+                                                </td>
+                                                <td>
+                                                    <p class="big">
+                                                    转账</p>
+                                                </td>
+                                                <td>
+                                                    <p>程序猿&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                                <td>
+                                                    <p>李晓明&nbsp;&nbsp;6228480408889224870/光大银行上海北支行</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1238,7 +1291,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <a href="" class="spread underline">展开</a>
+                                            <a href="javascript:void(0)" class="spread" onclick="javascript:this.innerHTML=(this.innerHTML=='收起'?'展开':'收起');">展开</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -1343,16 +1396,15 @@
     <script src="../static/trans/js/spv/waterDetail.js"></script>
 
     <script>
-        $(document).ready(function () {
 
-            $('.input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
+        $(function() {
+            $(".spread").click(function(){
+             $(this).parents("tr").next(".spread_line").animate({height: 'toggle', opacity: 'toggle'}, "slow");
+           },function(){
+            $(this).parents("tr").next(".spread_line").animate({height: 'toggle', opacity: 'toggle'}, "slow");
+               });
+        })
 
-
-        });
     </script>
 
 </body>
