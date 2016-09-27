@@ -9,91 +9,97 @@ public interface CashFlowOutService {
 	/**
 	 * @Title: cashFlowOutPage 
 	 * @Description: 出款申请新增、修改页面
-	 * @author: gongjd 
-	 * @return: String 
+	 * @author: gongjd  
 	 * @throws
 	 */
-	String cashFlowOutPage(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey);
+	void cashFlowOutPage(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 * @Title: cashFlowOutPageDeal 
 	 * @Description: 出款申请新增、修改操作
 	 * @author: gongjd 
-	 * @return: AjaxResponse<?>
 	 * @throws
 	 */
-    AjaxResponse<?> cashFlowOutPageDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
+    void cashFlowOutPageDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
 	
 	/** 
 	 * @Title: cashFlowOutApplyProcess 
 	 * @Description: 出款申请页面
 	 * @author: gongjd  
-	 * @return : String
 	 * @throws
 	 */
-	String cashFlowOutApplyProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey);
+    void cashFlowOutApplyProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 * @Title: cashFlowOutApplyDeal 
 	 * @Description: 出款申请操作
 	 * @author: gongjd 
-	 * @return: AjaxResponse<?>
 	 * @throws
 	 */
-	AjaxResponse<?> cashFlowOutApplyDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
+	void cashFlowOutApplyDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
 	
 	/**
 	 * @Title: cashFlowOutDirectorAduitProcess 
 	 * @Description: 出款总监审批页面
-	 * @author: gongjd  
-	 * @return : String
+	 * @author: gongjd 
 	 * @throws
 	 */
-	String cashFlowOutDirectorAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey);
+	void cashFlowOutDirectorAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 * @Title: cashFlowOutDirectorAduitDeal 
 	 * @Description: 出款总监审批操作
 	 * @author: gongjd 
-	 * @return: AjaxResponse<?>
 	 * @throws
 	 */
-	AjaxResponse<?> cashFlowOutDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 	
 	/**
 	 * @Title: cashFlowOutFinanceAduitProcess 
 	 * @Description: 出款财务初审页面
 	 * @author: gongjd  
-	 * @return: String
 	 * @throws
 	 */
-	String cashFlowOutFinanceAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey);
+	void cashFlowOutFinanceAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 * @Title: cashFlowOutFinanceAduitDeal 
 	 * @Description: 出款财务初审操作
-	 * @author: gongjd 
-	 * @return: AjaxResponse<?> 
+	 * @author: gongjd  
 	 * @throws
 	 */
-	AjaxResponse<?> cashFlowOutFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 	
 	/**
 	 * @Title: cashFlowOutFinanceSecondAduitProcess 
 	 * @Description: 出款财务复审页面
 	 * @author: gongjd  
-	 * @return: String
 	 * @throws
 	 */
-	String cashFlowOutFinanceSecondAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey);
+	void cashFlowOutFinanceSecondAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 * @Title: cashFlowOutFinanceSecondAduitDeal 
 	 * @Description: 出款财务复审操作
-	 * @author: gongjd 
-	 * @return: AjaxResponse<?> 
+	 * @author: gongjd  
 	 * @throws
 	 */
-	AjaxResponse<?> cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 
+	/**
+	 * @Title: cashFlowOutFinanceSecondAduitProcess 
+	 * @Description: 财务出款页面
+	 * @author: gongjd  
+	 * @throws
+	 */
+	void cashFlowOutDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
+	
+	/**
+	 * @Title: cashFlowOutFinanceSecondAduitDeal 
+	 * @Description: 财务出款操作
+	 * @author: gongjd 
+	 * @throws
+	 */
+	void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	
 }

@@ -47,7 +47,7 @@
 		<pattern>/spv/task/SpvApprove/process</pattern>
 		<pattern>/spv/task/SpvSign/process</pattern>	
 		<pattern>/spv/cashflowApply/saveHTML</pattern>	
-		
+		<pattern>/spv/task/cashFlowOutAppr/process</pattern>
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->
