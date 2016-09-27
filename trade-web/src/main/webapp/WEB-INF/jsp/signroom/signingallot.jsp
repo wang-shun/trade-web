@@ -109,9 +109,9 @@
                             </div>
                             <form action="" class="form_list clearfix">
                             	<input type="hidden" id="caseCode" value=""/>
-                            	<input type="hidden" id="orgId" value=""/>
                             	<input type="hidden" id="scheduleId" value=""/>
                             	<input type="hidden" id="tradeCenter" value=""/>
+                            	<input type="hidden" id="tradeCenterId" value=""/>
                             	<input type="hidden" id="roomId" value=""/>
                             	<input type="hidden" id="resPersonOrgId" value=""/>
                                 <div class="trade">

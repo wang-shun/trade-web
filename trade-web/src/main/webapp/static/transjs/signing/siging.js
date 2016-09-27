@@ -68,7 +68,6 @@ $(function () {
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
     	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
-    	var resOrgId = $("#orgId").val(); //归属组织id
     	var propertyAddress = $.trim($("#propertyAddress").val());//产证地址
     	var transactItemCode='';//办理事项编号
 		$('.choices span').each(function(){
@@ -80,6 +79,7 @@ $(function () {
 		
 		var scheduleId = $("#scheduleId").val(); //签约室安排id
 		var signingCenter = $("#tradeCenter").val();  //签约中心
+		var signingCenterId = $("#tradeCenterId").val();//签约中心id
 		var roomId = $("#roomId").val(); //房间ID
 		var resPersonOrgId = $("#resPersonOrgId").val();//预约人组织ID
 		
@@ -99,9 +99,9 @@ $(function () {
 	     			     propertyAddress : propertyAddress,
 	     			     numberOfParticipants : numberOfParticipants,
 	     			     transactItemCode : transactItemCode,
-	     			     resOrgId : resOrgId,
 	     			     scheduleId : scheduleId,
 	     			     signingCenter : signingCenter,
+	     			     signingCenterId : signingCenterId,
 	     			     roomId : roomId,
 	     			     resStatus : '0',
 	     			     resPersonOrgId : resPersonOrgId
@@ -233,7 +233,6 @@ function ajaxSubmit(obj) {
 		dataType:"json",
 		data : params,
 		success:function(data){
-			console.log(data);
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -245,10 +244,10 @@ function ajaxSubmit(obj) {
 				}
 			   for(var i=0;i<data.content.signRooms.length;i++){
 				   var roomType = $.trim(data.content.signRooms[i].roomType)=='0'?'普通房间':'机动房间';
-				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].orgName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
+				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].districtName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
 					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N'){
-						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot + "','"+data.content.signRooms[i].orgId+"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].pkid+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
+						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
@@ -270,13 +269,13 @@ function ajaxSubmit(obj) {
     });
 }
 
-function goSlotRoom(roomNo,roomType,slotTime,orgId,scheduleId,tradeCenter,roomId){
+function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterId,roomId){
 	$("#roomNo").html(roomNo);
 	$("#roomType").html(roomType);
 	$("#slotTime").html(slotTime);
-	$("#orgId").val(orgId);
 	$("#scheduleId").val(scheduleId);
 	$("#tradeCenter").val(tradeCenter);
+	$("#tradeCenterId").val(tradeCenterId);
 	$("#roomId").val(roomId);
 	
 	var curdate = $("#curDate").val();

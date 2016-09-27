@@ -35,6 +35,7 @@ public class RmSignRoom implements Serializable {
 	private Long stragegyPkid;//策略值pkid
 	private Long stragegyWeekVal;//策略值
 	private Map weeks;//测量值对应选中的星期几
+	private String districtName;//所属贵宾服务部
 	
 	
 
@@ -69,8 +70,6 @@ public class RmSignRoom implements Serializable {
 	public void setTradeCenter(String tradeCenter) {
 		this.tradeCenter = tradeCenter;
 	}
-
-	
 
 	public Long getTradeCenterId() {
 		return tradeCenterId;
@@ -182,6 +181,14 @@ public class RmSignRoom implements Serializable {
 
 	public void setWeeks(Map weeks) {
 		this.weeks = weeks;
+	}
+
+	public String getDistrictName() {
+		return districtName;
+	}
+
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
 	}
 
 	

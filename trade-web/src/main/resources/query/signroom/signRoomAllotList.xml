@@ -40,7 +40,9 @@
         R.ROOM_NO AS roomNo ,
         R.ROOM_TYPE AS roomType ,
         R.TRADE_CENTER AS tradeCenter ,
-        R.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople
+        R.TRADE_CENTER_ID AS tradeCenterId,
+        R.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople,
+        O.DISTRICT_NAME as districtName
 FROM    sctrans.T_RM_SIGN_ROOM R
         INNER JOIN sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID
         LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID
@@ -81,7 +83,9 @@ WHERE   T.IS_DELETE = '0'
 				<column type="both" name="roomNo" index="" checkbox="" display="roomNo" title="roomNo" />
 				<column type="both" name="roomType" index="" checkbox="" display="roomType" title="roomType" customDict="" />
 				<column type="both" name="tradeCenter" index="" checkbox="" display="tradeCenter" title="tradeCenter" />
+				<column type="both" name="tradeCenterId" index="" checkbox="" display="tradeCenterId" title="tradeCenterId" />
 				<column type="both" name="numbeOfAccommodatePeople" title="numbeOfAccommodatePeople" />
+				<column type="both" name="districtName" index="" checkbox="" display="districtName" title="districtName" />
 			</table-row>
 		</grid>
 	</query>

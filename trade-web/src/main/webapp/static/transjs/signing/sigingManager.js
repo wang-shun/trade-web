@@ -175,7 +175,7 @@ function ajaxSubmit() {
 				 for(var i=0;i<data.content.length;i++){
 					 var roomType = $.trim(data.content[i].roomType)=='0'?'普通房间':'机动房间';
 					 var roomStatus = $.trim(data.content[i].roomStatus)=='0'?'关闭':'开放';
-					   th+="<tr><td><p class='big'>"+data.content[i].roomNo+"</p></td><td><p><i class='sign_blue'>"+roomType+"</i></p></td><td><p class='big'>"+data.content[i].orgName+"</p></td><td><p class='big'>"+data.content[i].numbeOfAccommodatePeople+"</p></td>";
+					   th+="<tr><td><p class='big'>"+data.content[i].roomNo+"</p></td><td><p><i class='sign_blue'>"+roomType+"</i></p></td><td><p class='big'>"+data.content[i].tradeCenter+"</p></td><td><p class='big'>"+data.content[i].numbeOfAccommodatePeople+"</p></td>";
 					   th+="<td>";
 					   var week='';
 					   if(data.content[i].weeks[1]){
@@ -229,7 +229,7 @@ function ajaxSubmit() {
 					   }
 					   th+= "</td>";
 					   th+="<td><p class='big'>"+roomStatus+"</p></td><td><p class='big'>"+data.content[i].remark+"</p></td>";
-					   th+="<td class='text-center'><button type='button' class='btn btn-success mr5' data-toggle='modal' data-target='#myModal' onclick=\"updateSignRoom('"+data.content[i].centerId+"','"+data.content[i].roomNo+"','"+data.content[i].numbeOfAccommodatePeople+"','"+data.content[i].roomType+"','"+data.content[i].remark+"','"+data.content[i].roomStatus+"','"+week+"','"+data.content[i].pkid+"')\">修改</button><button type='button' onclick=\"deleteSignRoom('"+data.content[i].pkid+"','"+data.content[i].stragegyPkid+"')\" class='btn btn-grey'>删除</button></td></tr>";
+					   th+="<td class='text-center'><button type='button' class='btn btn-success mr5' data-toggle='modal' data-target='#myModal' onclick=\"updateSignRoom('"+data.content[i].tradeCenterId+"','"+data.content[i].roomNo+"','"+data.content[i].numbeOfAccommodatePeople+"','"+data.content[i].roomType+"','"+data.content[i].remark+"','"+data.content[i].roomStatus+"','"+week+"','"+data.content[i].pkid+"')\">修改</button><button type='button' onclick=\"deleteSignRoom('"+data.content[i].pkid+"','"+data.content[i].stragegyPkid+"')\" class='btn btn-grey'>删除</button></td></tr>";
 				 }
 				
 			   $("#schedualable tbody").append(th);

@@ -26,6 +26,8 @@ public class ReservationInfoVo {
 	private String propertyAddress; // 产证地址
 
 	private String signingCenter; // 签约中心(交易中心)
+	
+	private Long signingCenterId; // 签约中心标识
 
 	private Integer numberOfParticipants; // 参与人数
 
@@ -197,6 +199,14 @@ public class ReservationInfoVo {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public Long getSigningCenterId() {
+		return signingCenterId;
+	}
+
+	public void setSigningCenterId(Long signingCenterId) {
+		this.signingCenterId = signingCenterId;
 	}
 	
 	
