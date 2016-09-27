@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getShowResStatusStatus" beanName="getShowResStatusStatus"></customDict> 
+		<customDict id="getShowResStartTime" beanName="getShowResStartTime"></customDict>
+		<customDict id="getShowResEndTime" beanName="getShowResEndTime"></customDict> 
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy/MM/dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="querySignRoomAllotList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+		SELECT  DISTINCT
+        R.PKID AS pkid ,
+        R.ROOM_NO AS roomNo ,
+        R.ROOM_TYPE AS roomType ,
+        R.TRADE_CENTER AS tradeCenter ,
+        R.TRADE_CENTER_ID AS tradeCenterId,
+        R.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople,
+        O.DISTRICT_NAME as districtName
+FROM    sctrans.T_RM_SIGN_ROOM R
+        INNER JOIN sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID
+        LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID
+        LEFT JOIN sctrans.T_RM_TRADE_CENTER M ON R.TRADE_CENTER_ID = M.PKID
+        INNER JOIN sctrans.T_RM_SIGN_ROOM_ORG_MAPPING O ON M.PKID = O.TRADE_CENTER_ID
+WHERE   T.IS_DELETE = '0'
+        AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL)
+            <if test="depId != null">
+				 AND O.TEAM_ID = #depId#
+			</if>
+			<if test="curDate != null">
+				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
+			</if>
+			<if test="roomType != null">
+				 AND R.ROOM_TYPE = #roomType#
+			</if>
+			<if test="useStatus != null">
+			    <choose>
+			      <when test='useStatus == "N"'>
+			      	 AND RTrim(T.USE_STATUS) = 'N'
+			      </when>
+			      <otherwise>
+			         AND S.RES_STATUS = #useStatus#
+			      </otherwise>
+			    </choose>
+			</if>
+				]]>
+			</baseSql>
+			<orderBySql>
+				order by R.ROOM_NO
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display="pkid" />
+				<column type="both" name="roomNo" index="" checkbox="" display="roomNo" title="roomNo" />
+				<column type="both" name="roomType" index="" checkbox="" display="roomType" title="roomType" customDict="" />
+				<column type="both" name="tradeCenter" index="" checkbox="" display="tradeCenter" title="tradeCenter" />
+				<column type="both" name="tradeCenterId" index="" checkbox="" display="tradeCenterId" title="tradeCenterId" />
+				<column type="both" name="numbeOfAccommodatePeople" title="numbeOfAccommodatePeople" />
+				<column type="both" name="districtName" index="" checkbox="" display="districtName" title="districtName" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

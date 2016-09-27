@@ -13,6 +13,7 @@
 		<pattern>/index.jsp</pattern>
 		<pattern>/mobile/case/box/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
+		<pattern>/mobile/reservation/*</pattern>
 	</excludes>
 
 	<decorator name="default" page="INSPINIA_template.jsp">
@@ -72,6 +73,8 @@
 		<pattern>/unlocatedTasks/a</pattern>
 		<pattern>/awards/kjjianCase</pattern>
 		<pattern>/eloan/task/newEloanApply/process</pattern>
+		<pattern>/signroom/signRoomAllotList</pattern>
+		<pattern>/signroom/signingManage</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

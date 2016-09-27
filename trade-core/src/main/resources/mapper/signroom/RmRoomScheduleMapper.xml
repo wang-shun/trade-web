@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.RmRoomScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.RmRoomSchedule" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ROOM_ID" property="roomId" jdbcType="BIGINT" />
+    <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="RES_ID" property="resId" jdbcType="BIGINT" />
+    <result column="USE_STATUS" property="useStatus" jdbcType="CHAR" />
+    <result column="CAN_RES" property="canRes" jdbcType="INTEGER" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="timeSlot" property="timeSlot" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    PKID, ROOM_ID, STRAGEGY_WEEK_VAL
+  </sql>
+  
+  <select id="getRmRoomSchedules" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		SELECT  T.PKID,T.ROOM_ID,SUBSTRING(CONVERT(varchar(100), T.START_DATE, 24),1,5) +'-'+ SUBSTRING(CONVERT(varchar(100), T.END_DATE, 24),1,5) AS timeSlot ,
+        CASE WHEN T.USE_STATUS = 'N' THEN T.USE_STATUS
+             ELSE R.RES_STATUS
+        END USE_STATUS
+FROM    sctrans.T_RM_ROOM_SCHEDULE T
+        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
+WHERE   
+		T.IS_DELETE = '0'
+		<if test="curDate != null">
+				 AND DATEDIFF(DAY, T.START_DATE, #{curDate}) = 0
+		</if>
+		<if test="useStatus != null ">
+			    <choose>
+			      <when test='useStatus=="N"'>
+			      	 AND RTrim(T.USE_STATUS) = 'N'
+			      </when>
+			      <otherwise>
+			         AND R.RES_STATUS = #{useStatus}
+			      </otherwise>
+			    </choose>
+		</if>
+		
+ORDER BY t.START_DATE ASC;
+
+			        
+  </select>
+  
+  <update id="updateFreeRoomStatus" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo">
+  		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'Y',CAN_RES = 0,RES_ID = #{resId,jdbcType=BIGINT},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{scheduleId,jdbcType=VARCHAR};
+  </update>
+  
+  <update id="updateToFreeStatus" parameterType="java.lang.String">
+  		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'N',CAN_RES = 1,UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{scheduleId,jdbcType=VARCHAR};
+  </update>
+
+</mapper>

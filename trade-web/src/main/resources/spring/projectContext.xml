@@ -336,6 +336,19 @@
    <bean name="getRiskControlType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="RISK_CONTROL_TYPE"></property>
     </bean>
+
+    <!-- 获取我的预约列表预约状态 -->
+    <bean name="getShowResStatusStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResStatusServiceImpl"></bean>
+    
+    <!-- 获取我的预约列表开始预约时间 -->
+    <bean name="getShowResStartTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResStartTimeServiceImpl"></bean>
+    
+    <!-- 获取我的预约列表预约结束时间 -->
+    <bean name="getShowResEndTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResEndTimeServiceImpl"></bean>
+    
+    <!-- 格式化时间 -->
+    <bean name="getShowTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowTimeServiceImpl"></bean>
+
     
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
