@@ -24,8 +24,6 @@ public class Reservation {
 
 	private String resPersonId; // 预约人id
 
-	private String resOrgId; // 归属组织(贵宾服务部)id
-
 	private String resStatus; // 预约状态(预约中:0,使用中:1,使用完:2,已过期:3,已取消:4)
 
 	private String scheduleId; // 签约室安排id
@@ -35,6 +33,8 @@ public class Reservation {
 	private String propertyAddress; // 产证地址
 
 	private String signingCenter; // 签约中心(交易中心)
+
+	private Long signingCenterId; // 签约中心标识
 
 	private Integer numberOfParticipants; // 参与人数
 
@@ -49,6 +49,14 @@ public class Reservation {
 	private Date updateTime; // 更新时间
 
 	private String updateBy; // 更新人
+
+	public Long getSigningCenterId() {
+		return signingCenterId;
+	}
+
+	public void setSigningCenterId(Long signingCenterId) {
+		this.signingCenterId = signingCenterId;
+	}
 
 	public Long getPkid() {
 		return pkid;
@@ -105,14 +113,6 @@ public class Reservation {
 
 	public void setResPersonId(String resPersonId) {
 		this.resPersonId = resPersonId == null ? null : resPersonId.trim();
-	}
-
-	public String getResOrgId() {
-		return resOrgId;
-	}
-
-	public void setResOrgId(String resOrgId) {
-		this.resOrgId = resOrgId == null ? null : resOrgId.trim();
 	}
 
 	public String getResStatus() {

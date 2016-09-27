@@ -1,6 +1,7 @@
 package com.centaline.trans.signroom.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class TradeCenterServiceImpl implements TradeCenterService {
 	@Override
 	public List<TradeCenter> getTradeCenterList() {
 		return tradeCenterMapper.getTradeCenterList();
+	}
+
+	@Override
+	public TradeCenter getTradeCenter(Map map) {
+		return tradeCenterMapper.getTradeCenter(map);
 	}
 
 }

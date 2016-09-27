@@ -8,6 +8,11 @@
     <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="BIGINT" />
     <result column="DISTRICT_NAME" property="districtName" jdbcType="VARCHAR" />
   </resultMap>
+  
+   <sql id="Base_Column_List" >
+   	PKID,TEAM_ID,DISTRICT_ID,TRADE_CENTER_ID,DISTRICT_NAME
+  </sql>
+  
   <insert id="insert" parameterType="com.centaline.trans.signroom.entity.RmSignRoomOrgMapping" >
     insert into T_RM_SIGN_ROOM_ORG_MAPPING (PKID, TEAM_ID, DISTRICT_ID, 
       TRADE_CENTER_ID, DISTRICT_NAME)
@@ -51,4 +56,10 @@
       </if>
     </trim>
   </insert>
+  
+  <select id="getOrgMappingInfoByTradeCenterId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  		SELECT <include refid="Base_Column_List" />
+		FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING
+		WHERE TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT};
+  </select>
 </mapper>

@@ -1,7 +1,7 @@
 
 var ctx = $("#ctx").val();
 
-var orgId = $("#orgId").val();
+var defaultTradeCenterId = $("#defaultTradeCenterId").val();
 var selDate = $("#SelDate").val();
 var selBespeakTime = $("#selBespeakTime option:selected").val();
 
@@ -10,28 +10,28 @@ $(function(){
 	init();
 	
 	$("#selBespeakTime").change(function(){
-		orgId = $("#selTradeCenter option:selected").val();
+		defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 		selDate = $("#SelDate").val();
 		selBespeakTime = $("#selBespeakTime option:selected").val();
 		
-		getSignRoomList(orgId,selDate,selBespeakTime);
+		getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime);
 	});
 	
 	$("#selTradeCenter").change(function(){
-		orgId = this.value;
+		defaultTradeCenterId = this.value;
 		selDate = $("#SelDate").val();
 		selBespeakTime = $("#selBespeakTime option:selected").val();
 		
-		getSignRoomList(orgId,selDate,selBespeakTime);
+		getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime);
 	});
 	
 	//" + ctx + "/mobile/reservation/bespeakUI
 	$(".quhao").click(function(){
-		orgId = $("#selTradeCenter option:selected").val();
+		defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 		selDate = $("#SelDate").val();
 		selBespeakTime = $(this).siblings("input[name='actBespeakTime']").val();
 		
-		$("#orgId").val(orgId);
+		$("#defaultTradeCenterId").val(defaultTradeCenterId);
 		$("#inputSelDate").val(selDate);
 		$("#inputBespeakTime").val(selBespeakTime);
 		
@@ -53,7 +53,7 @@ function init(){
 	getBespeakTime();
 	
 	//获取签约室预约列表
-	getSignRoomList(orgId,selDate,selBespeakTime);
+	getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime);
 }
 
 function initCalendar(){
@@ -74,11 +74,11 @@ function initCalendar(){
         headerText: function (valueText) { array = valueText.split('-'); return array[0] + "年" + array[1] + "月"+array[2]+"日"; }, //自定义弹出框头部格式
 		//点击确定的事件
 		onSelect:function(valueText,inst){
-			orgId = $("#selTradeCenter option:selected").val();
+			defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 			selDate = valueText;
 			selBespeakTime = $("#selBespeakTime option:selected").val();
 			
-			getSignRoomList(orgId,selDate,selBespeakTime);
+			getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime);
 		}
 	}); 
 	
@@ -96,11 +96,11 @@ function getTradeCenterList(){
 		success:function(data){
 			if(data.length > 0){
 				for(var i=0;i<data.length;i++){
-					if(orgId == data[i].orgId){
-						strHtml += "<option value='"+ data[i].orgId + "' selected='selected'>" + data[i].centerName + "</option>";
+					if(defaultTradeCenterId == data[i].pkid){
+						strHtml += "<option value='"+ data[i].pkid + "' selected='selected'>" + data[i].centerName + "</option>";
 					}
 					else{
-						strHtml += "<option value='"+ data[i].orgId + "'>" + data[i].centerName + "</option>";
+						strHtml += "<option value='"+ data[i].pkid + "'>" + data[i].centerName + "</option>";
 					}
 				}
 			}
@@ -131,7 +131,7 @@ function getBespeakTime(){
 	$("#selBespeakTime").html(strHtml);
 }
 
-function getSignRoomList(orgId,selDate,selBespeakTime){
+function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 	var strHtml = "";
 	
 	$.ajax({
@@ -144,11 +144,11 @@ function getSignRoomList(orgId,selDate,selBespeakTime){
 			if(data.length > 0){
 				if(selBespeakTime == ""){
 					for(var i=0;i<data.length;i++){
-						strHtml += getSignRoomByTime(orgId,selDate,data[i]);
+						strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,data[i]);
 					}
 				}
 				else {
-					strHtml += getSignRoomByTime(orgId,selDate,selBespeakTime);
+					strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,selBespeakTime);
 				}
 			}
 		}
@@ -158,19 +158,19 @@ function getSignRoomList(orgId,selDate,selBespeakTime){
 	
 }
 
-function getSignRoomByTime(orgId,selDate,realSelBespeakTime){
+function getSignRoomByTime(defaultTradeCenterId,selDate,realSelBespeakTime){
 	var startTime = realSelBespeakTime.substring(0,realSelBespeakTime.indexOf("-"));
 	var endTime = realSelBespeakTime.substring(realSelBespeakTime.indexOf("-") + 1,realSelBespeakTime.length);
 	
 	var startDate = selDate + " " + startTime + ":00";
 	var endDate = selDate + " " + endTime + ":00";
 	
-	var subStrHtml = getSignRoomInfo(orgId,startDate,endDate,selDate,realSelBespeakTime);
+	var subStrHtml = getSignRoomInfo(defaultTradeCenterId,startDate,endDate,selDate,realSelBespeakTime);
 	
 	return subStrHtml;
 }
 
-function getSignRoomInfo(orgId,startTime,endTime,selDate,selBespeakTime){
+function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespeakTime){
 	var subStrHtml = "";
 	var startDateTime;
 	var endDateTime;
@@ -181,7 +181,7 @@ function getSignRoomInfo(orgId,startTime,endTime,selDate,selBespeakTime){
 		type:"POST",
 		dataType:"json",
 		url:ctx+"/mobile/reservation/getSignRoomInfoList",
-		data:{orgId:orgId,startTime:startTime,endTime:endTime},
+		data:{tradeCenterId:defaultTradeCenterId,startTime:startTime,endTime:endTime},
 		success:function(data){
 			if(data.length > 0){
 				var currentDateTime = new Date();

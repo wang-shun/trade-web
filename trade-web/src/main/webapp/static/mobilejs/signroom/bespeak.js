@@ -1,7 +1,7 @@
 
 $(function() {
 	var ctx = $("#ctx").val();
-	var agentCode = $("#agentCode").val();
+	var tradeCenterId = $("#tradeCenterId").val();
 	
 	getPropertyAddress();
 	
@@ -74,7 +74,7 @@ $(function() {
     function save(propertyAddress,numberOfPeople,transactItem){
     	var caseCode = $("#caseCode").val();
     	var specialRequirement = $("#specialRequirement").val();
-    	var orgId = $("#orgId").val();
+    	var tradeCenterId = $("#tradeCenterId").val();
     	var selDate = $("#selDate").val();
     	var bespeakTime = $("#bespeakTime").val();
     	
@@ -84,7 +84,7 @@ $(function() {
     		type:"POST",
     		dataType:"json",
     		url:ctx+"/mobile/reservation/save",
-    		data: {resType:'0',resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,orgId:orgId,selDate:selDate,bespeakTime:bespeakTime},
+    		data: {resType:'0',resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
     		success:function(data){
     			if(data.isSuccess == "true"){
     				myOpenSuccess(data.roomNo,data.numberOfPeople,data.selDate,data.bespeakTime);

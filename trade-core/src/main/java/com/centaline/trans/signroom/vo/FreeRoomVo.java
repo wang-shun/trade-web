@@ -8,7 +8,7 @@ package com.centaline.trans.signroom.vo;
  */
 public class FreeRoomVo {
 
-	private String orgId; // 机构id
+	private Long tradeCenterId; // 交易中心标识
 
 	private int numberOfParticipants; // 参与人数
 
@@ -56,14 +56,6 @@ public class FreeRoomVo {
 		this.resId = resId;
 	}
 
-	public String getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
-
 	public int getNumberOfParticipants() {
 		return numberOfParticipants;
 	}
@@ -86,6 +78,14 @@ public class FreeRoomVo {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public Long getTradeCenterId() {
+		return tradeCenterId;
+	}
+
+	public void setTradeCenterId(Long tradeCenterId) {
+		this.tradeCenterId = tradeCenterId;
 	}
 
 }

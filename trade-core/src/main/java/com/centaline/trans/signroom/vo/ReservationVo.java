@@ -20,18 +20,18 @@ public class ReservationVo {
 
 	private String specialRequirement; // 特殊需求
 
-	private String orgId; // 所在机构id
+	private Long tradeCenterId; // 交易中心标识
 
 	private String selDate; // 预约日期
 
 	private String bespeakTime; // 预约时间段
 
-	public String getOrgId() {
-		return orgId;
+	public Long getTradeCenterId() {
+		return tradeCenterId;
 	}
 
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
+	public void setTradeCenterId(Long tradeCenterId) {
+		this.tradeCenterId = tradeCenterId;
 	}
 
 	public String getSelDate() {

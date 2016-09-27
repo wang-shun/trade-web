@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.signroom.entity.Reservation;
-import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
@@ -51,13 +50,7 @@ public class ReservationServiceImpl implements ReservationService {
 			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
 
 			freeRoomVo = new FreeRoomVo();
-
-			RmSignRoom rmSignRoom = rmSignRoomMapper
-					.getSignRoomInfoById(freeRoomInfo.getRoomId());
-
-			freeRoomVo.setResOrgId(rmSignRoom.getOrgId());
 			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
-			freeRoomVo.setSigningCenter(rmSignRoom.getTradeCenter());
 			freeRoomVo.setResId(resId);
 
 			reservationMapper.updateReservationInfo(freeRoomVo); // 更新预约单的信息
@@ -108,13 +101,13 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public FreeRoomInfo getFreeRoomByCondition(ReservationVo reservationVo) {
-		String orgId = reservationVo.getOrgId(); // 贵宾服务部id(对应T_RM_TRADE_CENTER表的ORG_ID)
+		Long tradeCenterId = reservationVo.getTradeCenterId();
 		String selDate = reservationVo.getSelDate(); // 预约日期
 		String bespeakTime = reservationVo.getBespeakTime(); // 预约时间段
 		int numberOfParticipants = reservationVo.getNumberOfParticipants(); // 参与人数
 
 		FreeRoomVo freeRoomVo = new FreeRoomVo();
-		freeRoomVo.setOrgId(orgId);
+		freeRoomVo.setTradeCenterId(tradeCenterId);
 		freeRoomVo.setNumberOfParticipants(numberOfParticipants);
 
 		String formatStartDate = "";
@@ -160,5 +153,10 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public List<Long> getTradeCenterIdListByGrpCode(String grpCode) {
+		return reservationMapper.getTradeCenterIdListByGrpCode(grpCode);
 	}
 }

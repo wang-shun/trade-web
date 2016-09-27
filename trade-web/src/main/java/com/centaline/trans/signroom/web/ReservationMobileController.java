@@ -3,9 +3,11 @@ package com.centaline.trans.signroom.web;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +20,10 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.entity.RmSignRoomOrgMapping;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
+import com.centaline.trans.signroom.service.RmSignRoomOrgMappingService;
 import com.centaline.trans.signroom.service.TradeCenterService;
 import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.PropertyAddrInfoVo;
@@ -31,14 +35,14 @@ import com.centaline.trans.signroom.vo.TransactItemVo;
 import com.centaline.trans.utils.DateUtil;
 
 /**
- * 预约取号信息controller
+ * 预约取号微信端controller
  * 
  * @author yinjf2
  *
  */
 @Controller
 @RequestMapping(value = "mobile/reservation")
-public class ReservationController {
+public class ReservationMobileController {
 
 	@Autowired
 	private ReservationService reservationService;
@@ -58,6 +62,9 @@ public class ReservationController {
 	@Autowired
 	private UamBasedataService uamBasedataService;
 
+	@Autowired
+	private RmSignRoomOrgMappingService rmSignRoomOrgMappingService;
+
 	/**
 	 * 签约室预约列表
 	 * 
@@ -68,18 +75,18 @@ public class ReservationController {
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
-		String orgId = reservationService.getOrgIdByGrpcode(currentUser
-				.getBusigrpId());
 
-		/*
-		 * if ("A433968FA56D4D8596C3C709AFDF77C4".equals(orgId)) {
-		 * request.setAttribute("orgId", orgId); } else { Org org =
-		 * uamUserOrgService.getOrgById(orgId);
-		 * 
-		 * request.setAttribute("orgId", org.getParentId()); }
-		 */
+		// List<Long> tradeCenterIdList = reservationService
+		// .getTradeCenterIdListByGrpCode(currentUser.getBusigrpId());
+		List<Long> tradeCenterIdList = reservationService
+				.getTradeCenterIdListByGrpCode("033H054");
 
-		request.setAttribute("orgId", "6a84979158b942b78a8a5921cc30b8c3");
+		Long defaultTradeCenterId = 0L;
+		if (tradeCenterIdList != null && tradeCenterIdList.size() > 0) {
+			defaultTradeCenterId = tradeCenterIdList.get(0);
+		}
+
+		request.setAttribute("defaultTradeCenterId", defaultTradeCenterId);
 
 		return "mobile/signroom/reservation/list";
 	}
@@ -111,18 +118,17 @@ public class ReservationController {
 	public String bespeakUI(Model model, HttpServletRequest request) {
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 
-		String orgId = request.getParameter("orgId");
+		Long tradeCenterId = Long.parseLong(request
+				.getParameter("defaultTradeCenterId"));
 		String selDate = request.getParameter("inputSelDate");
 		String bespeakTime = request.getParameter("inputBespeakTime");
 		List<TransactItemVo> transactItemVoList = reservationService
 				.getTransactItemList();
 
 		request.setAttribute("transactItemVoList", transactItemVoList);
-		request.setAttribute("orgId", orgId);
+		request.setAttribute("tradeCenterId", tradeCenterId);
 		request.setAttribute("selDate", selDate);
 		request.setAttribute("bespeakTime", bespeakTime);
-		// request.setAttribute("agentCode", sessionUser.getId());
-		request.setAttribute("agentCode", "E39F5661B6614F968F27E7BD24BA324A");
 
 		return "mobile/signroom/reservation/bespeak";
 	}
@@ -158,11 +164,17 @@ public class ReservationController {
 		reservation.setResType(reservationVo.getResType());
 		reservation.setResPersonId(reservationVo.getResPersonId());
 
-		String orgId = reservationService.getOrgIdByGrpcode(currentUser
-				.getBusigrpId());
+		RmSignRoomOrgMapping rmSignRoomOrgMapping = rmSignRoomOrgMappingService
+				.getOrgMappingInfoByTradeCenterId(reservationVo
+						.getTradeCenterId());
 
-		// reservation.setResPersonOrgId(orgId);
-		reservation.setResPersonOrgId("6a84979158b942b78a8a5921cc30b8c3");
+		Map<String, Object> map = new HashedMap<String, Object>();
+		map.put("pkid", reservationVo.getTradeCenterId());
+		TradeCenter tradeCenter = tradeCenterService.getTradeCenter(map);
+
+		reservation.setResPersonOrgId(rmSignRoomOrgMapping.getTeamId());
+		reservation.setSigningCenterId(reservationVo.getTradeCenterId());
+		reservation.setSigningCenter(tradeCenter.getCenterName());
 		reservation.setResStatus("0");
 		reservation.setScheduleId(reservationVo.getScheduleId());
 		reservation.setCaseCode(reservationVo.getCaseCode());

@@ -8,19 +8,11 @@ package com.centaline.trans.signroom.vo;
  */
 public class ReservationSearchVo {
 
-	private String orgId; // 机构标识
+	private Long tradeCenterId; // 交易中心标识
 
 	private String startTime; // 预约开始时间
 
 	private String endTime; // 预约结束时间
-
-	public String getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
 
 	public String getStartTime() {
 		return startTime;
@@ -36,6 +28,14 @@ public class ReservationSearchVo {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public Long getTradeCenterId() {
+		return tradeCenterId;
+	}
+
+	public void setTradeCenterId(Long tradeCenterId) {
+		this.tradeCenterId = tradeCenterId;
 	}
 
 }

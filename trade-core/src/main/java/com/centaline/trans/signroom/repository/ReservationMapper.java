@@ -91,4 +91,13 @@ public interface ReservationMapper {
 	 * @return 返回1,更新成功;返回0,更新失败。
 	 */
 	public int cancelReservation(Long resId);
+
+	/**
+	 * 根据三级市场人员的code获取所属的交易中心标识集合
+	 * 
+	 * @param grpCode
+	 *            三级市场人员code
+	 * @return 交易中心的标识集合
+	 */
+	public List<Long> getTradeCenterIdListByGrpCode(String grpCode);
 }

@@ -15,9 +15,10 @@ public interface TradeCenterMapper {
 	 * @return 交易中心信息列表
 	 */
 	public List<TradeCenter> getTradeCenterList();
-	
+
 	/**
 	 * 取得签约中心信息
+	 * 
 	 * @param map
 	 * @return
 	 */

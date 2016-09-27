@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
@@ -35,9 +36,9 @@ import com.centaline.trans.signroom.vo.ReservationInfoVo;
 import com.centaline.trans.utils.BeanToMapUtils;
 import com.centaline.trans.utils.DateUtil;
 
-import org.springframework.data.domain.Page;
 /**
  * 签约室业务类
+ * 
  * @author zhoujp7
  *
  */
@@ -56,111 +57,120 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	RmRoomScheStragegyMapper rmRoomScheStragegyMapper;
 	@Autowired
 	private ReservationMapper reservationMapper;
-	
+
 	@Autowired
 	private QuickGridService quickGridService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
-	
 
 	@Override
 	public AjaxResponse<Map> generatePageDate(JQGridParam gp) {
 		AjaxResponse<Map> response = new AjaxResponse<Map>();
-		try{
-			
+		try {
+
 			gp.setCountOnly(false);
 			gp.setPagination(false);
 			gp.setQueryId("querySignRoomAllotList");
-			/*List<RmSignRoom> signRooms =  rmSignRoomMapper.getSignRoomInfos(map);
-			List<RmRoomSchedule> rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);
-*/			
-			Page<Map<String, Object>> room = quickGridService.findPageForSqlServer(gp);
-			List<Map<String, Object>> rooms = room.getContent();//签约室信息
+			/*
+			 * List<RmSignRoom> signRooms =
+			 * rmSignRoomMapper.getSignRoomInfos(map); List<RmRoomSchedule>
+			 * rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);
+			 */
+			Page<Map<String, Object>> room = quickGridService
+					.findPageForSqlServer(gp);
+			List<Map<String, Object>> rooms = room.getContent();// 签约室信息
 			gp.setQueryId("queryRmRoomSchedualList");
-			Page<Map<String, Object>> schedual = quickGridService.findPageForSqlServer(gp);
-			List<Map<String, Object>> scheduals = schedual.getContent();//排期信息
-			
-			
+			Page<Map<String, Object>> schedual = quickGridService
+					.findPageForSqlServer(gp);
+			List<Map<String, Object>> scheduals = schedual.getContent();// 排期信息
+
 			List<RmSignRoom> signRooms = new ArrayList<RmSignRoom>();
-			List<RmRoomSchedule> rmRoomSchedules = new ArrayList<RmRoomSchedule>();//map转object
-			if(rooms!=null && ! rooms.isEmpty()){
-				for(Map<String, Object> rm:rooms){
-					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(RmSignRoom.class, rm);
+			List<RmRoomSchedule> rmRoomSchedules = new ArrayList<RmRoomSchedule>();// map转object
+			if (rooms != null && !rooms.isEmpty()) {
+				for (Map<String, Object> rm : rooms) {
+					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(
+							RmSignRoom.class, rm);
 					signRooms.add(sr);
 				}
 			}
-			if(scheduals!=null && ! scheduals.isEmpty()){
-				for(Map<String, Object> sd:scheduals){
-					RmRoomSchedule sr = (RmRoomSchedule) BeanToMapUtils.convertMap(RmRoomSchedule.class, sd);
+			if (scheduals != null && !scheduals.isEmpty()) {
+				for (Map<String, Object> sd : scheduals) {
+					RmRoomSchedule sr = (RmRoomSchedule) BeanToMapUtils
+							.convertMap(RmRoomSchedule.class, sd);
 					rmRoomSchedules.add(sr);
 				}
 			}
-			
+
 			List<RmRoomSchedule> rrs = null;
-			if(signRooms!=null && ! signRooms.isEmpty() && rmRoomSchedules!=null && !rmRoomSchedules.isEmpty()){
-				for(RmSignRoom signRoom:signRooms){
+			if (signRooms != null && !signRooms.isEmpty()
+					&& rmRoomSchedules != null && !rmRoomSchedules.isEmpty()) {
+				for (RmSignRoom signRoom : signRooms) {
 					rrs = new ArrayList<RmRoomSchedule>();
-					for(RmRoomSchedule rmRoomSchedule:rmRoomSchedules){
-						if(signRoom.getPkid().equals(rmRoomSchedule.getRoomId())){
+					for (RmRoomSchedule rmRoomSchedule : rmRoomSchedules) {
+						if (signRoom.getPkid().equals(
+								rmRoomSchedule.getRoomId())) {
 							rrs.add(rmRoomSchedule);
 						}
 					}
 					signRoom.setRmRoomSchedules(rrs);
 				}
-				
+
 			}
-			
-			String timeslot = rmSignRoomMapper.getTimeSlots();//获取时间段
-			String[]  timeslots = null;
-			if(timeslot!=null && timeslot.length()>0){
-				timeslots = StringUtils.split(timeslot,",");
+
+			String timeslot = rmSignRoomMapper.getTimeSlots();// 获取时间段
+			String[] timeslots = null;
+			if (timeslot != null && timeslot.length() > 0) {
+				timeslots = StringUtils.split(timeslot, ",");
 			}
 			Map res = new HashMap();
 			res.put("signRooms", signRooms);
 			res.put("timeslots", timeslots);
-			
+
 			response.setContent(res);
 			response.setCode("400");
 			response.setMessage("查询成功！");
 			response.setSuccess(true);
-			
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			response.setCode("500");
 			response.setMessage("查询失败！");
 			response.setSuccess(false);
 		}
-		
+
 		return response;
 	}
-
 
 	@Override
 	public List<TradeCenter> getTradeCenters() {
 		return tradeCenterMapper.getTradeCenterList();
 	}
 
-
 	@Override
 	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(JQGridParam gp) {
 		AjaxResponse<List<RmSignRoom>> response = new AjaxResponse<List<RmSignRoom>>();
-		/*List<RmSignRoom> rmSignRooms = rmSignRoomMapper.getRmSignRoomAndStragegy(map);*/
+		/*
+		 * List<RmSignRoom> rmSignRooms =
+		 * rmSignRoomMapper.getRmSignRoomAndStragegy(map);
+		 */
 		gp.setCountOnly(false);
 		gp.setPagination(false);
 		gp.setQueryId("queryRmSignRoomAndStragegy");
-		Page<Map<String, Object>> rs = quickGridService.findPageForSqlServer(gp);
+		Page<Map<String, Object>> rs = quickGridService
+				.findPageForSqlServer(gp);
 		List<Map<String, Object>> rss = rs.getContent();
 		List<RmSignRoom> rmSignRooms = null;
-		try{
-			if(rss!=null && ! rss.isEmpty()){
+		try {
+			if (rss != null && !rss.isEmpty()) {
 				rmSignRooms = new ArrayList<RmSignRoom>();
-				for(Map<String, Object> rm:rss){
-					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(RmSignRoom.class, rm);
+				for (Map<String, Object> rm : rss) {
+					RmSignRoom sr = (RmSignRoom) BeanToMapUtils.convertMap(
+							RmSignRoom.class, rm);
 					rmSignRooms.add(sr);
 				}
 			}
-			
-			if(rmSignRooms!=null && !rmSignRooms.isEmpty()){
-				for(RmSignRoom rmSignRoom:rmSignRooms){
+
+			if (rmSignRooms != null && !rmSignRooms.isEmpty()) {
+				for (RmSignRoom rmSignRoom : rmSignRooms) {
 					generateSchedule(rmSignRoom);
 				}
 			}
@@ -168,86 +178,88 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			response.setMessage("签约室配置管理列表查询成功！");
 			response.setContent(rmSignRooms);
 			response.setSuccess(true);
-		}catch(Exception e){
+		} catch (Exception e) {
 			response.setCode("500");
 			response.setMessage("签约室配置管理列表查询失败！");
 			response.setSuccess(false);
 		}
 		return response;
 	}
-	
+
 	/**
 	 * 根据策略值生成星期几
+	 * 
 	 * @param rmSignRoom
 	 * @return
 	 */
-	public RmSignRoom generateSchedule(RmSignRoom rmSignRoom){
-		
+	public RmSignRoom generateSchedule(RmSignRoom rmSignRoom) {
+
 		Long stragegyWeekVal = rmSignRoom.getStragegyWeekVal();
-		
+
 		Map map = new HashMap();
-		if((stragegyWeekVal&(int)Math.pow(2, 1))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 1)) > 0) {
 			map.put("1", true);
-		}else{
+		} else {
 			map.put("1", false);
 		}
-		if((stragegyWeekVal&(int)Math.pow(2, 2))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 2)) > 0) {
 			map.put("2", true);
-		}else{
+		} else {
 			map.put("2", false);
 		}
-		if((stragegyWeekVal&(int)Math.pow(2, 3))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 3)) > 0) {
 			map.put("3", true);
-		}else{
+		} else {
 			map.put("3", false);
 		}
-		if((stragegyWeekVal&(int)Math.pow(2, 4))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 4)) > 0) {
 			map.put("4", true);
-		}else{
+		} else {
 			map.put("4", false);
 		}
-		if((stragegyWeekVal&(int)Math.pow(2, 5))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 5)) > 0) {
 			map.put("5", true);
-		}else{
+		} else {
 			map.put("5", false);
 		}
-		if((stragegyWeekVal&(int)Math.pow(2, 6))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 6)) > 0) {
 			map.put("6", true);
-		}else{
+		} else {
 			map.put("6", false);
 		}
-		if((stragegyWeekVal&(int)Math.pow(2, 7))>0){
+		if ((stragegyWeekVal & (int) Math.pow(2, 7)) > 0) {
 			map.put("7", true);
-		}else{
+		} else {
 			map.put("7", false);
 		}
 		rmSignRoom.setWeeks(map);
 		return rmSignRoom;
 	}
 
-
 	@Override
 	public void saveOrUpdateSignRoomSchedual(RmSignRoom rmSignRoom) {
-		SessionUser user= uamSessionService.getSessionUser();
+		SessionUser user = uamSessionService.getSessionUser();
 		Long pkid = rmSignRoom.getPkid();
 		Map map = new HashMap();
-		map.put("orgId", rmSignRoom.getOrgId());
-		TradeCenter  tradeCenter  =tradeCenterMapper.getTradeCenter(map);//获取签约中心信息
-		if(tradeCenter!=null){
+		// map.put("orgId", rmSignRoom.getOrgId());
+		TradeCenter tradeCenter = tradeCenterMapper.getTradeCenter(map);// 获取签约中心信息
+		if (tradeCenter != null) {
 			rmSignRoom.setTradeCenter(tradeCenter.getCenterName());
 			rmSignRoom.setTradeCenterId(tradeCenter.getPkid());
 		}
-		
-		if(pkid!=null){//更新
+
+		if (pkid != null) {// 更新
 			rmSignRoom.setUpdateBy(user.getId());
 			rmSignRoom.setUpdateTime(Calendar.getInstance().getTime());
 			rmSignRoomMapper.updateRmSignRoom(rmSignRoom);
 			RmRoomScheStragegy rmRoomScheStragegy = new RmRoomScheStragegy();
 			rmRoomScheStragegy.setRoomId(pkid);
-			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom.getStragegyWeekVal());
-			rmRoomScheStragegyMapper.updateRmRoomScheStragegy(rmRoomScheStragegy);
-			
-		}else{//新增
+			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom
+					.getStragegyWeekVal());
+			rmRoomScheStragegyMapper
+					.updateRmRoomScheStragegy(rmRoomScheStragegy);
+
+		} else {// 新增
 			rmSignRoom.setCreateBy(user.getId());
 			rmSignRoom.setUpdateBy(user.getId());
 			rmSignRoom.setCreateTime(Calendar.getInstance().getTime());
@@ -255,67 +267,70 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			rmSignRoomMapper.addRmSignRoom(rmSignRoom);
 			RmRoomScheStragegy rmRoomScheStragegy = new RmRoomScheStragegy();
 			rmRoomScheStragegy.setRoomId(rmSignRoom.getPkid());
-			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom.getStragegyWeekVal());
+			rmRoomScheStragegy.setStragegyWeekVal(rmSignRoom
+					.getStragegyWeekVal());
 			rmRoomScheStragegyMapper.insertSelective(rmRoomScheStragegy);
 		}
-		
-		
-	}
 
+	}
 
 	@Override
 	public void deleteSignRoom(RmSignRoom rmSignRoom) {
-		//rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
+		// rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
 		rmSignRoomMapper.deleteRmSignRoomById(rmSignRoom.getPkid());
-		
-		
+
 	}
 
 	@Override
 	public void addReservation(ReservationInfoVo reservationInfoVo) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 		Reservation reservation = new Reservation();
-		
+
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
 		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
-		
-		if(reservationInfoVo!=null){
+
+		if (reservationInfoVo != null) {
 			reservation.setResNo(resNo);
 			reservation.setResType(reservationInfoVo.getResType());
-			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
+			reservation
+					.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());
-			reservation.setResOrgId(reservationInfoVo.getResOrgId());
+			// reservation.setResOrgId(reservationInfoVo.getResOrgId());
 			reservation.setResStatus(reservationInfoVo.getResStatus());
 			reservation.setScheduleId(reservationInfoVo.getScheduleId());
 			reservation.setCaseCode(reservationInfoVo.getCaseCode());
-			reservation.setPropertyAddress(reservationInfoVo.getPropertyAddress());
+			reservation.setPropertyAddress(reservationInfoVo
+					.getPropertyAddress());
 			reservation.setSigningCenter(reservationInfoVo.getSigningCenter());
-			reservation.setNumberOfParticipants(reservationInfoVo.getNumberOfParticipants());
-			reservation.setTransactItemCode(reservationInfoVo.getTransactItemCode());
+			reservation.setNumberOfParticipants(reservationInfoVo
+					.getNumberOfParticipants());
+			reservation.setTransactItemCode(reservationInfoVo
+					.getTransactItemCode());
 			reservation.setCreateTime(Calendar.getInstance().getTime());
 			reservation.setCreateBy(currentUser.getId());
 			reservation.setUpdateTime(Calendar.getInstance().getTime());
 			reservation.setUpdateBy(currentUser.getId());
-			reservationMapper.insertSelective(reservation);//插入临时分配的信息
-			
+			reservationMapper.insertSelective(reservation);// 插入临时分配的信息
+
 			FreeRoomVo freeRoomVo = new FreeRoomVo();
 			freeRoomVo.setResId(reservation.getPkid());
 			freeRoomVo.setScheduleId(reservationInfoVo.getScheduleId());
 			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
 		}
-		
+
 	}
-	
-	//map转object
-	public  Object mapToObject(Map<String, Object> map, Class<?> beanClass) throws Exception {    
-        if (map == null)  
-            return null;  
-  
-        Object obj = beanClass.newInstance();  
-  
-        org.apache.commons.beanutils.BeanUtils.populate(obj, map);  
-  
-        return obj;  
-    }
+
+	// map转object
+	public Object mapToObject(Map<String, Object> map, Class<?> beanClass)
+			throws Exception {
+		if (map == null)
+			return null;
+
+		Object obj = beanClass.newInstance();
+
+		org.apache.commons.beanutils.BeanUtils.populate(obj, map);
+
+		return obj;
+	}
 
 }

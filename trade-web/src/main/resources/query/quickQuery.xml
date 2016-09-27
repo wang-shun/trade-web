@@ -168,4 +168,7 @@
 	<!-- 签约室 -->
 	<import resource="query/signroom/signRoomAllotList.xml" />
 	<import resource="query/signroom/rmRoomSchedual.xml" />
+	
+	<!-- 签约室列表 -->
+	<import resource="query/signroom/signingList.xml" />
 </queryConfig>

@@ -58,7 +58,7 @@
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title">{{item.orgName}}<span class="ml10">预约号：<em class="yellow">{{item.resNo}}</em></span></div>
+                        <div class="aui-list-item-title font15 order-title">{{item.distinctName}}<span class="ml10">预约号：<em class="yellow">{{item.resNo}}</em></span></div>
                         <div class="aui-list-item-text font12">
                             房屋地址：{{item.propertyAddr}}
                         </div>
@@ -76,11 +76,11 @@
 								{{/if}}
 
 								{{if item.resStatus == '1'}}
-									div class="aui-btn trans_bg">使用中</div>
+									<div class="aui-btn trans_bg">使用中</div>
 								{{/if}}
 
 								{{if item.resStatus == '2'}}
-									div class="aui-btn trans_bg">使用完</div>
+									<div class="aui-btn trans_bg">使用完</div>
 								{{/if}}
 						{{/if}}
 						

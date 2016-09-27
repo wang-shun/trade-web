@@ -18,7 +18,7 @@
 <body>
 
 	<form id="form1" action="${ctx }/mobile/reservation/bespeakUI" method="post">
-		<input type="hidden" id="orgId" name="orgId" value="${orgId }"/>
+		<input type="hidden" id="defaultTradeCenterId" name="defaultTradeCenterId" value="${defaultTradeCenterId }"/>
 		<input type="hidden" id="inputSelDate" name="inputSelDate"/>
 		<input type="hidden" id="inputBespeakTime" name="inputBespeakTime"/>
 	</form>
