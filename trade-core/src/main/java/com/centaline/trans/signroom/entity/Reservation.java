@@ -214,4 +214,5 @@ public class Reservation {
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy == null ? null : updateBy.trim();
 	}
+
 }

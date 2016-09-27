@@ -187,6 +187,7 @@
 		<mapper resource="mapper/signroom/RmRoomScheduleMapper.xml" />
 		<mapper resource="mapper/signroom/RmSignRoomMapper.xml" />
 		<mapper resource="mapper/signroom/RmRoomScheStragegyMapper.xml" />
+		<mapper resource="mapper/signroom/RmSignRoomOrgMappingMapper.xml" />
 		
 	</mappers>
 </configuration>

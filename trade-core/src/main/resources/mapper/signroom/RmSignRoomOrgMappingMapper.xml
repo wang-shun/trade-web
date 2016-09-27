@@ -57,7 +57,7 @@
     </trim>
   </insert>
   
-  <select id="getOrgMappingInfoByTradeCenterId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="getOrgMappingInfoByTradeCenterId" parameterType="java.lang.Long" resultType="com.centaline.trans.signroom.entity.RmSignRoomOrgMapping">
   		SELECT <include refid="Base_Column_List" />
 		FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING
 		WHERE TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT};

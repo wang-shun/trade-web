@@ -60,7 +60,8 @@ public class ReservationServiceImpl implements ReservationService {
 			e.printStackTrace();
 		}
 
-		freeRoomInfo.setIsSuccess(isSuccss);
+		if (freeRoomInfo != null)
+			freeRoomInfo.setIsSuccess(isSuccss);
 
 		return freeRoomInfo;
 	}

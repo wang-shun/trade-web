@@ -18,9 +18,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.signroom.entity.Reservation;
-import com.centaline.trans.signroom.entity.RmSignRoomOrgMapping;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomOrgMappingService;
@@ -157,6 +157,8 @@ public class ReservationMobileController {
 		}
 
 		SessionUser currentUser = uamSessionService.getSessionUser();
+		User resPerson = uamUserOrgService.getUserById(reservationVo
+				.getResPersonId());
 
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
 		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
@@ -166,15 +168,11 @@ public class ReservationMobileController {
 		reservation.setResType(reservationVo.getResType());
 		reservation.setResPersonId(reservationVo.getResPersonId());
 
-		RmSignRoomOrgMapping rmSignRoomOrgMapping = rmSignRoomOrgMappingService
-				.getOrgMappingInfoByTradeCenterId(reservationVo
-						.getTradeCenterId());
-
 		Map<String, Object> map = new HashedMap<String, Object>();
 		map.put("pkid", reservationVo.getTradeCenterId());
 		TradeCenter tradeCenter = tradeCenterService.getTradeCenter(map);
 
-		reservation.setResPersonOrgId(rmSignRoomOrgMapping.getTeamId());
+		reservation.setResPersonOrgId(resPerson.getOrgId());
 		reservation.setSigningCenterId(reservationVo.getTradeCenterId());
 		reservation.setSigningCenter(tradeCenter.getCenterName());
 		reservation.setResStatus("0");
