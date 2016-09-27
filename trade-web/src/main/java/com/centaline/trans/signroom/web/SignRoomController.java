@@ -145,6 +145,17 @@ public class SignRoomController {
 	@ResponseBody
 	public AjaxResponse<T> addOrUpdateSignRoom(Model model,HttpServletRequest requst,RmSignRoom rmSignRoom){
 		AjaxResponse<T> response = new AjaxResponse<T>();
+		boolean isExist = false;
+		if (rmSignRoom.getPkid() == null) {
+			isExist = rmSignRoomService.isExist(rmSignRoom);
+			if(isExist){
+				response.setCode("500");
+				response.setMessage("该签约室已存在！");
+				response.setSuccess(false);
+				return response;
+			}
+		}
+		
 		try{
 			rmSignRoomService.saveOrUpdateSignRoomSchedual(rmSignRoom);
 			response.setCode("400");

@@ -38,7 +38,12 @@ $(function () {
         }
     });
   	
-  	var roomStatus = $.trim($("input[name='rmSignRoom.roomStatus']").val());
+  	var roomStatus = 1;
+  	$("input[name='rmSignRoom.roomStatus']").each(function(){
+  		if($(this).prop("checked")){
+  			roomStatus = $(this).prop("value");
+  		}
+     });
   	var pkid = $("#pkid").val();
   	
    	  $.ajax({
@@ -280,27 +285,29 @@ function updateSignRoom(centerId,roomNo,numbeOfAccommodatePeople,roomType,remark
 }
 
 function deleteSignRoom(pkid,stragegyPkid){
-  	
- 	  $.ajax({
-   		url:ctx+"/signroom/deleteSignRoom",
-   		method:"post",
-   		dataType:"json",
-   		data : {
-   			'pkid' : pkid,
-   			'stragegyPkid' : stragegyPkid
-   		},	 
-			success : function(data) {   
-					if(data.success){
-						alert(data.message);
-						window.location.href = ctx+"/signroom/signingManage";
-					}else{
-						alert(data.message);
-					}
-				},		
-			error : function(errors) {
-					alert("数据保存出错:"+JSON.stringify(errors));
-				}	 
-    });
+	
+	if(confirm("是否确定解除？")){
+		$.ajax({
+	   		url:ctx+"/signroom/deleteSignRoom",
+	   		method:"post",
+	   		dataType:"json",
+	   		data : {
+	   			'pkid' : pkid,
+	   			'stragegyPkid' : stragegyPkid
+	   		},	 
+				success : function(data) {   
+						if(data.success){
+							alert(data.message);
+							window.location.href = ctx+"/signroom/signingManage";
+						}else{
+							alert(data.message);
+						}
+					},		
+				error : function(errors) {
+						alert("数据保存出错:"+JSON.stringify(errors));
+					}	 
+	    });
+	}
 	
 }
 

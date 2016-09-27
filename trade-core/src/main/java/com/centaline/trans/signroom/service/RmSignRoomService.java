@@ -47,5 +47,12 @@ public interface RmSignRoomService {
 	 * @param reservationInfoVo
 	 */
 	void addReservation(ReservationInfoVo reservationInfoVo);
+	
+	/**
+	 * 判断是否存在该签约室 
+	 * @param rmSignRoom
+	 * @return
+	 */
+	boolean isExist(RmSignRoom rmSignRoom);
 
 }

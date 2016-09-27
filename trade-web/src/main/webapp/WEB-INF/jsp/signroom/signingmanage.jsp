@@ -76,7 +76,7 @@
                             <div class="line">
                                 <div class="add_btn" style="float:left;margin-left:126px;">
                                     <button type="button" class="btn btn-success" id="searchBtn">
-                                        	筛选
+                                        	查询
                                     </button>
                                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" id="addSignRoom">
                                        	 添加

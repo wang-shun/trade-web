@@ -312,4 +312,14 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return obj;
 	}
 
+	@Override
+	public boolean isExist(RmSignRoom rmSignRoom) {
+		
+		int num = rmSignRoomMapper.getRmSignRoomCount(rmSignRoom);
+		if(num>0){
+			return true;
+		}
+		return false;
+	}
+
 }

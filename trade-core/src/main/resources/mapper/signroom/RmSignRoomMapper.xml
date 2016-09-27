@@ -30,43 +30,58 @@
     from sctrans.T_RM_SIGN_ROOM
     <where>
       	 <if test="roomType != null" >
-        ROOM_TYPE = #{roomType,jdbcType=VARCHAR},
+        ROOM_TYPE = #{roomType,jdbcType=VARCHAR}
       </if>
       <if test="roomNo != null" >
-        AND ROOM_NO = #{roomNo,jdbcType=VARCHAR},
+        AND ROOM_NO = #{roomNo,jdbcType=VARCHAR}
       </if>
       <if test="tradeCenter != null" >
-        AND TRADE_CENTER = #{tradeCenter,jdbcType=NVARCHAR},
+        AND TRADE_CENTER = #{tradeCenter,jdbcType=NVARCHAR}
       </if>
       <if test="tradeCenterId != null" >
-        AND TRADE_CENTER_ID = #{tradeCenterId,jdbcType=CHAR},
+        AND TRADE_CENTER_ID = #{tradeCenterId,jdbcType=CHAR}
       </if>
       <if test="numbeOfAccommodatePeople != null" >
-        AND NUMBE_OF_ACCOMMODATE_PEOPLE = #{numbeOfAccommodatePeople,jdbcType=INTEGER},
+        AND NUMBE_OF_ACCOMMODATE_PEOPLE = #{numbeOfAccommodatePeople,jdbcType=INTEGER}
       </if>
       <if test="remark != null" >
-        AND REMARK = #{remark,jdbcType=NVARCHAR},
+        AND REMARK = #{remark,jdbcType=NVARCHAR}
       </if>
       <if test="closeTime != null" >
-        AND CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+        AND CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP}
       </if>
       <if test="roomStatus != null" >
-        AND ROOM_STATUS = #{roomStatus,jdbcType=VARCHAR},
+        AND ROOM_STATUS = #{roomStatus,jdbcType=VARCHAR}
       </if>
       <if test="isDelete != null" >
-        AND IS_DELETE = #{isDelete,jdbcType=INTEGER},
+        AND IS_DELETE = #{isDelete,jdbcType=INTEGER}
       </if>
       <if test="createTime != null" >
-        AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
       </if>
       <if test="createBy != null" >
-        AND CREATE_BY=#{createBy,jdbcType=VARCHAR},
+        AND CREATE_BY=#{createBy,jdbcType=VARCHAR}
       </if>
       <if test="updateTime != null" >
-        AND UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+        AND UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
       </if>
       <if test="updateBy != null" >
-        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+        AND UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <select id="getRmSignRoomCount"  resultType="java.lang.Integer" parameterType="com.centaline.trans.signroom.entity.RmSignRoom">
+    select 
+      count(1)
+    from sctrans.T_RM_SIGN_ROOM
+    <where>
+      	 
+      <if test="roomNo != null" >
+        ROOM_NO = #{roomNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeCenterId != null" >
+        AND TRADE_CENTER_ID = #{tradeCenterId,jdbcType=CHAR}
       </if>
     </where>
   </select>
