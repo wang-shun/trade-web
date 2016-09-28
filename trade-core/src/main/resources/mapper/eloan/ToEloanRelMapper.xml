@@ -192,34 +192,26 @@
   </select>
  
  
-    <update id="updateEloanRelByEloanCodeForModify" parameterType="java.util.List" >
-    
-    <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+    <update id="updateEloanRelByEloanCodeForModify" parameterType="java.util.List" >    
+    	<foreach collection="list" item="item" index="index" open="" close="" separator=";">  
            update sctrans.T_TO_ELOAN_REL
-               <set>
-			      <if test="releaseAmount != null" >
-			        RELEASE_AMOUNT = ${item.releaseAmount},
-			      </if>
-			      <if test="releaseTime != null" >
-			        RELEASE_TIME = ${item.releaseTime},
-			      </if>
-			      <if test="confirmTime != null" >
-			        CONFIRM_TIME = ${item.confirmTime},
-			      </if>
-			      <if test="confirmStatus != null" >
-			        CONFIRM_STATUS = ${item.confirmStatus},
-			      </if>
-			      <if test="confirmUser != null" >
-			        CONFIRM_USER = ${item.confirmUser},
-			      </if>
+               <set>			     
+			        RELEASE_AMOUNT = #{item.releaseAmount,jdbcType=DECIMAL},			      
+			     
+			        RELEASE_TIME = #{item.releaseTime,jdbcType=TIMESTAMP},
+			     
+			        CONFIRM_TIME = #{item.confirmTime,jdbcType=TIMESTAMP},
+			    
+			        CONFIRM_STATUS = #{item.confirmStatus,jdbcType=CHAR},
+			     
+			        CONFIRM_USER = #{item.confirmUser,jdbcType=VARCHAR},
+			     
 			        CREATE_TIME = GETDATE(),
 			        CREATE_BY = @{SESSION_USER_ID},
 			        UPDATE_TIME = GETDATE(),
 			        UPDATE_BY = @{SESSION_USER_ID},
 			    </set>
-         		where ELOAN_CODE = ${item.eloanCode}  
-          		AND CONFIRM_TIME IS NULL
-          		AND PKID =   ${item.pkid}  
-    </foreach>  
+         		where  PKID =   #{item.pkid}  
+   		 </foreach>  
   </update> 
 </mapper>

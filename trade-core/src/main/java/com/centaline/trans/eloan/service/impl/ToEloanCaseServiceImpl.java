@@ -265,5 +265,11 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		toEloanCaseMapper.deleteByPrimaryKey(pkid);
 	}
 
+	@Override
+	public void eloanInfoForUpdate(ToEloanCase toEloanCase) {
+		// TODO Auto-generated method stub
+		toEloanCaseMapper.eloanInfoForUpdate(toEloanCase);
+	}
+
 
 }

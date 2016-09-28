@@ -183,11 +183,12 @@
                                 </div>
                             </li> 
                           	</ul>
-                            <ul class="releaseInfoForShow"> 
+                            <ul class=" form_lump releaseInfoForShow"> 
                             <c:forEach items="${eloanRelList}" var="item">
  
                             <li id="releaseInfoForShow">    
-                            	<input type="hidden" value="${item.pkid}"  name="pkid" id="pkid">        		
+                            	<input type="hidden" value="${item.pkid}"  name="pkid" id="pkid">  
+                            	<input type="hidden" value="${item.confirmStatus}"  name="confirmStatus" id="confirmStatus">         		
                            		<div class="form_content">
                                     <label class="control-label sign_left_two">放款金额</label>
                                     <input class="input_type sign_right_two" value="${item.releaseAmount}"  name="releaseAmount" id="releaseAmount">
@@ -261,7 +262,7 @@
  
  			function saveEloanInfoForUpdate(){
 			   
-	           	var eloanRelList = new Array();
+	           	var eloanRelList = [];
 	        	var eloanCode =  $('#eloanCode').val();	        	
 	            var custName = $('#custName').val();
 	        	var custPhone = $('#custPhone').val();            	
@@ -284,16 +285,21 @@
             		sumAmount+=Number(releaseAmount);
             		var releaseTime = $(this).find("#releaseTime").val();
             		var pkid = $(this).find("#pkid").val();
+            		var confirmStatus = $(this).find("#confirmStatus").val();
             		
             		var eloanRel = {
-            			releaseAmount : releaseAmount,
+             			releaseAmount : releaseAmount,
             			releaseTime : releaseTime,
             			eloanCode : eloanCode, 
-            			pkid :pkid
-            		}            		
+            			pkid :pkid,
+            			confirmStatus : confirmStatus
+            		}             		
             		eloanRelList.push(eloanRel);
             	}) 
-			   
+			   if(sumAmount > signAmount){
+				   alert("放款总金额不能大于面签金额");
+				   return;
+			   }
             	
 				var eloanRelListVO = {
              		eloanRelList : eloanRelList,
@@ -309,7 +315,7 @@
 					async : false,//false同步，true异步
 					type : "POST",
 					url : url,
-					data :JSON.stringify(eloanRelListVO),
+					data : jsonData,//{"eloanRelList":JSON.stringify(eloanRelList),"toEloanCase":JSON.stringify(toEloanCase)},  
     				dataType : "json",
     				contentType : 'application/json;charset=utf-8',
 					beforeSend : function() {
@@ -324,27 +330,22 @@
 							'z-index' : '1900'
 						}); 
 					},
-					success : function(data) {
-					     rescCallbocak();
-						 $.unblockUI();
+					success : function(data) {	
+						if(data.success == true){
+							 alert("数据修改成功");
+							 window.location.reload(); 
+						} 
 					},
 					error : function(errors) {
 						$.unblockUI();   
-						alert("数据保存出错:"+JSON.stringify(errors));
+						alert("数据保存出错");
 					}
 				});
 			}
 		   
 		   
-		   function rescCallbocak(){
-			   
+		   function rescCallbocak(){			   
 			   window.location.href = "${ctx}/eloan/Eloanlist";
-/* 		 	   if($("#urlType").val() == 'myTask'){    	 
-		 		   window.opener.location.reload(); //刷新父窗口
-		     	   window.close(); //关闭子窗口.
-			     }else{
-			    	 window.location.href = ctx+"/spv/spvList";
-			     } */
 			}
 	   </script> 
 	</content>
