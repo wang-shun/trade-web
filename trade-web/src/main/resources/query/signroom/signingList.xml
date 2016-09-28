@@ -2,12 +2,25 @@
 <querys>
 	<dicts>
 		<customDict id="getShowTime" beanName="getShowTime"></customDict>
+		<customDict id="getFlowupInfoList" beanName="getFlowupInfoList"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy/MM/dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter2" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref=""
@@ -33,10 +46,11 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT r.PKID AS resId,r.RES_NO AS resNo,rs.START_DATE AS resDateTime,getdate() as currentDate,sr.ROOM_NO AS roomNO,
+					SELECT r.PKID AS resId,r.RES_NO AS resNo,rs.START_DATE AS resDateTime,getdate() as currentDate,sr.ROOM_NO AS roomNO,sr.ROOM_TYPE as roomType,
 					sr.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,rs.START_DATE AS startTime,rs.END_DATE AS endTime,
 					r.CHECK_IN_TIME AS checkInTime,r.CHECKED_OUT_TIME AS checkOutTime,r.RES_STATUS AS resStatus,getdate() as currentTime,
 					r.RES_PERSON_ID AS resPersonId,u.REAL_NAME AS realName,u.MOBILE AS mobile,r.SPECIAL_REQUIREMENT AS specialReq,
+					(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
 					(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime
 					FROM sctrans.T_RM_RESERVATION r
 					LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.SCHEDULE_ID = rs.PKID
@@ -95,10 +109,12 @@
 		<grid>
 			<table-row>
 				<column type="both" name="resId" index="" checkbox="" display="resId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="virtual" name="flowupInfoList" title="跟进信息列表" referencecol="resId" customDict="getFlowupInfoList" />
 				<column type="both" name="resNo" index="" checkbox="" display="预约单编号" title="预约单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="resDateTime"  index="" checkbox="" display="预约日期" title="预约日期" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="currentDate"  index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="resDateTime"  index="" checkbox="" display="预约日期" title="预约日期" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="currentDate"  index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="roomNO" index="" checkbox="" display="房间编号" title="房间编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="roomType" index="" checkbox="" display="房间类型" title="房间类型" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="numberOfPeople" index="" checkbox="" display="房间容纳人数" title="房间容纳人数" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="startTime" index="" checkbox="" display="预约开始时间" title="预约开始时间" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="virtual" name="actStartTime" title="预约开始时间" referencecol="startTime" customDict="getShowTime" />
@@ -112,8 +128,9 @@
 				<column type="both" name="realName" index="" checkbox="" display="预约人姓名" title="预约人姓名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="mobile" index="" checkbox="" display="手机号" title="手机号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="specialReq" index="" checkbox="" display="特殊需求" title="特殊需求" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="followDateTime"  index="" checkbox="" display="最新跟进时间" title="最新跟进时间" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="followDateTime"  index="" checkbox="" display="最新跟进时间" title="最新跟进时间" beanFormatter="dateFormatter2" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="currentTime" index="" checkbox="" display="当前时间" title="当前时间" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="latestComment" index="" checkbox="" display="最新跟进信息" title="最新跟进信息" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

@@ -317,7 +317,7 @@
 					url : url,
 					data : jsonData,//{"eloanRelList":JSON.stringify(eloanRelList),"toEloanCase":JSON.stringify(toEloanCase)},  
     				dataType : "json",
-    				contentType:"application/json",  
+    				contentType : 'application/json;charset=utf-8',
 					beforeSend : function() {
 					 	$.blockUI({
 							message : $("#salesLoading"),

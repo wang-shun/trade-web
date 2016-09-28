@@ -84,4 +84,22 @@ public interface ReservationService {
 	 */
 	public List<Long> getTradeCenterIdListByGrpCode(String grpCode);
 
+	/**
+	 * 签约室开始使用
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 返回1,操作成功;返回0,操作失败。
+	 */
+	public int startUse(Long resId);
+
+	/**
+	 * 签约室结束使用
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 返回1,操作成功;返回0,操作失败。
+	 */
+	public int endUse(Long resId);
+
 }
