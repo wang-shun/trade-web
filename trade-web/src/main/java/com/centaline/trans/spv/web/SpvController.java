@@ -858,6 +858,9 @@ public class SpvController {
 			    case "financeSecondAduit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;
+			    case "cashFlowOut":
+	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, handle, spvChargeInfoVO, chargeOutAppr);
+	                break;    
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
