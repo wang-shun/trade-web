@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
@@ -285,30 +286,36 @@ public class WarnListController {
 	//E+  产品部分信息修改
 	@RequestMapping("modifyEloanCaseInfo")	
 	@ResponseBody
-	public String modifyEloanCaseInfo(ToEloanRelListVO eloanRelListVO){//ToEloanCase eloanCase,List<ToEloanRel> eloanRelList) {
-/*		ToEloanCase  toEloanCase  = new  ToEloanCase();
-		if(null != eloanCase){		
-				toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
-				toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
-				toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
-				toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
-				toEloanCase.setMonth(eloanCase.getMonth());
-		}
-		toEloanCaseService.eloanProcessConfirm(null, null, toEloanCase,true);
+	public AjaxResponse<String> modifyEloanCaseInfo(@RequestBody ToEloanRelListVO eloanRelListVO){
+	/*public String modifyEloanCaseInfo(@RequestBody ToEloanRelListVO eloanRelListVO){*/
 		
-		if(eloanRelList!=null && eloanRelList.length>0){
-			for(int i=0;i<eloanRelList.length;i++){
-				System.out.println(eloanRelList[i]);
-				//toEloanRelService.updateEloanRelByEloanCodeForModify(eloanRelList[i]);
+		ToEloanCase  toEloanCase  = new  ToEloanCase();
+		try{
+			if(null != eloanRelListVO){
+				ToEloanCase  eloanCase = eloanRelListVO.getToEloanCase();
+				if(null != eloanCase){		
+					toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
+					toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
+					toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
+					toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
+					toEloanCase.setMonth(eloanCase.getMonth());
+				}
+				
+				List<ToEloanRel> eloanRelList = eloanRelListVO.getEloanRelList();
+				if (null != eloanRelList && eloanRelList.size()>0) {
+					toEloanRelService.updateEloanRelByEloanCodeForModify(eloanRelList);
+				}
+				
 			}
-			//toEloanRelService.updateEloanRelByEloanCodeForModify(eloanRelList);
+			toEloanCaseService.eloanInfoForUpdate(toEloanCase);	
+			return AjaxResponse.success("操作成功");
+					
+		} catch(Exception e) {
+			logger.debug("修改E+贷款信息失败", e);
+			return AjaxResponse.fail("操作失败");
 		}
-		if (null != eloanRelList) {
-			//List<ToEloanRel> eloanRelList = eloanRelListVO.getEloanRelList();
-			toEloanRelService.updateEloanRelByEloanCodeForModify(eloanRelList);
-			
-		}*/
-		return  "/eloan/task/taskEloanList";
+		
+		//return  "";
 	}
 	
 	
@@ -334,7 +341,7 @@ public class WarnListController {
 			BigDecimal releaseAmount=new BigDecimal(0);
 			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
 			for (ToEloanRel toEloanRel : eloanRels) {
-				if(toEloanRel.getConfirmStatus().equals("1")){
+				if(toEloanRel.getConfirmStatus().equals("1")){//1审批通过
 					releaseAmount=releaseAmount.add(toEloanRel.getReleaseAmount());
 				
 				}
