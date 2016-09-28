@@ -285,7 +285,13 @@ public class WarnListController {
 	//E+  产品部分信息修改
 	@RequestMapping("modifyEloanCaseInfo")	
 	@ResponseBody
-	public String modifyEloanCaseInfo(ToEloanRelListVO eloanRelListVO){//ToEloanCase eloanCase,List<ToEloanRel> eloanRelList) {
+	public String modifyEloanCaseInfo(@RequestBody ToEloanRelListVO eloanRelListVO){//ToEloanCase eloanCase,List<ToEloanRel> eloanRelList) {
+		System.out.println(eloanRelListVO);
+		System.out.println(eloanRelListVO.getToEloanCase());
+		System.out.println(eloanRelListVO.getEloanRelList());
+		System.out.println(eloanRelListVO.getEloanRelList().size());
+		System.out.println(eloanRelListVO.getToEloanCase().getCustName());
+		
 /*		ToEloanCase  toEloanCase  = new  ToEloanCase();
 		if(null != eloanCase){		
 				toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());

@@ -309,9 +309,9 @@
 					async : false,//false同步，true异步
 					type : "POST",
 					url : url,
-					data :jsonData,
+					data :JSON.stringify(eloanRelListVO),
     				dataType : "json",
-    				  
+    				contentType : 'application/json;charset=utf-8',
 					beforeSend : function() {
 					 	$.blockUI({
 							message : $("#salesLoading"),
