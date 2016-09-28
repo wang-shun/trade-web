@@ -22,10 +22,12 @@ $(function () {
     }
     $("#today").click(function(){
         $(".datatime").val(getDateWeek(0));
+        $('.datatime').datepicker('update');
         ajaxSubmit(1);
     });
     $("#tommrow").click(function(){
         $(".datatime").val(getDateWeek(1));
+        $('.datatime').datepicker('update');
         ajaxSubmit(1);
     });
     
