@@ -87,9 +87,12 @@ public class SignRoomController {
 		
 		String roomType = requst.getParameter("roomType");//房间类型
 		String useStatus = requst.getParameter("useStatus");//使用状态
+		String curDate = requst.getParameter("curDate");//预约日期
 		
 		JQGridParam gp = new JQGridParam();
-		gp.put("curDate", requst.getParameter("curDate"));//当前日期
+		if(!StringUtil.isBlank(curDate)){
+			gp.put("curDate", curDate);
+		}
 		if(!StringUtil.isBlank(roomType)){
 			gp.put("roomType", roomType);
 		}

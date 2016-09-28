@@ -31,6 +31,11 @@ $(function () {
     
     ajaxSubmit(0);
     $("#searchBtn").click(function(){
+    	var curDate = $.trim($('#curDate').val());
+    	if(curDate==''){
+    		alert("请选择预约日期！");
+    		return;
+    	}
     	ajaxSubmit(1);
     });
     //清空条件

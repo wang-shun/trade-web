@@ -226,6 +226,7 @@
             $(document).ready(function () {
 
                 $('.input-daterange').datepicker({
+                	startDate:new Date(),
                     keyboardNavigation: false,
                     forceParse: false,
                     autoclose: true
