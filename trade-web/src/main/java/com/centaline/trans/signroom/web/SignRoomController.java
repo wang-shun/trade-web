@@ -191,7 +191,7 @@ public class SignRoomController {
 	}
 	
 	/**
-	 * 添加或修改签约室
+	 * 临时分配签约室
 	 * @return
 	 */
 	@RequestMapping("/addReservation")
@@ -199,10 +199,19 @@ public class SignRoomController {
 	public AjaxResponse<T> addReservation(Model model,HttpServletRequest requst,ReservationInfoVo reservationInfoVo){
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
-			rmSignRoomService.addReservation(reservationInfoVo);
-			response.setCode("400");
-			response.setMessage("分配成功！");
-			response.setSuccess(true);
+			//先判断房间是否已经被预约
+			boolean isUsed = rmSignRoomService.isUsedByRmRoomSchedule(reservationInfoVo);
+			if(isUsed==true){//未被预约
+				rmSignRoomService.addReservation(reservationInfoVo);
+				response.setCode("400");
+				response.setMessage("分配成功！");
+				response.setSuccess(true);
+			}else{
+				response.setCode("500");
+				response.setMessage("预约失败，该时间段已被人预定！");
+				response.setSuccess(true);
+			}
+			
 		}catch(Exception e){
 			response.setCode("500");
 			response.setMessage("分配失败！");
