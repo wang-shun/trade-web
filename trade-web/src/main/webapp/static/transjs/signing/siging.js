@@ -65,6 +65,7 @@ $(function () {
   	   if(!checkFormSave()){
   		  return;
   	   }
+  	   $("#propertyAddress").blur();
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
     	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
@@ -233,6 +234,7 @@ function ajaxSubmit(obj) {
 		dataType:"json",
 		data : params,
 		success:function(data){
+			console.log(data);
 			if(data.success){
 				var th='';
 				if(obj==0){
