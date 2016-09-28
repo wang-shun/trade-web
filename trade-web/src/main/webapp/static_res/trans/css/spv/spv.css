@@ -44,3 +44,9 @@
   color: #555;
   cursor: default;
 }
+.spread_tab thead tr th {
+    height: 35px;
+    background: #f9f9f9;
+    color: #343434;
+    border: 1px solid #f3f3f4;
+}

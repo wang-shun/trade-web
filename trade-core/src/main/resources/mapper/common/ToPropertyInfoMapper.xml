@@ -272,8 +272,25 @@
   		select t.PARENT_ID as orgId,t.ORG_NAME as orgName,t.ID  as orgParentId from sctrans.SYS_ORG t where t.ID=#{depId,jdbcType=VARCHAR}
   </select>
   
+
   <select id="getPropertyDepInfoByuserDepId" parameterType="java.lang.String" resultType="com.centaline.trans.common.vo.OrgVO">
   		select t.PARENT_ID as orgId,t.ORG_NAME as orgName from sctrans.SYS_ORG t where t.ID=#{depId,jdbcType=VARCHAR}
+  </select>
+
+   
+   <select id="getPropertyInfoListByInputValue" parameterType="com.centaline.trans.signroom.vo.PropertyAddrSearchVo" resultType="com.centaline.trans.signroom.vo.PropertyAddrInfoVo">
+   SELECT pi.PROPERTY_ADDR as label,pi.PROPERTY_ADDR as value FROM sctrans.T_TO_CASE_INFO ci
+LEFT JOIN sctrans.V_CASE_LIST_BASE b ON b.CASE_CODE = ci.CASE_CODE
+LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ci.CASE_CODE
+WHERE ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR} AND b.CASE_PROPERTY != '30003002' AND (b.CASE_PROPERTY = '30003003' OR b.CASE_PROPERTY = '30003004');
+  </select>
+  
+  <select id="getCaseCodeByPropertyAddr" parameterType="com.centaline.trans.signroom.vo.PropertyAddrSearchVo" resultType="java.lang.String">
+  	SELECT pi.CASE_CODE FROM sctrans.T_TO_PROPERTY_INFO pi
+	LEFT JOIN sctrans.T_TO_CASE_INFO ci ON ci.CASE_CODE = pi.CASE_CODE
+	WHERE pi.PROPERTY_ADDR = #{inputValue,jdbcType=VARCHAR} and ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR}
+	ORDER BY pi.CREATE_TIME DESC
+	OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
   </select>
   
 </mapper>

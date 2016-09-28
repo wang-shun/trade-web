@@ -205,7 +205,9 @@
 					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">
 				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">修改</button>
 				   </a>		
-              
+                    <shiro:hasPermission name="TRADE.ELONE.DELETE">
+				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
+                    </shiro:hasPermission> 
                </td>
 			</tr>
 			{{/each}}          

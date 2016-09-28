@@ -184,6 +184,7 @@
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />
+
 		<!-- 任务提交日记 -->
 		<mapper resource="mapper/task/TlTaskSubmitLogMapper.xml"/>
 		
@@ -193,5 +194,21 @@
 		<mapper resource="mapper/eloan/ToRcMortgageCardMapper.xml" />
 		<mapper resource="mapper/eloan/ToRcMortgageInfoMapper.xml" />
 		<mapper resource="mapper/eloan/ToRcMortgageMapper.xml" />
+
+		
+		<!-- 预约取号信息接口 -->
+		<mapper resource="mapper/signroom/ReservationMapper.xml" />
+		
+
+		<!-- 交易中心信息接口 -->
+		<mapper resource="mapper/signroom/TradeCenterMapper.xml" />
+
+		<!-- 签约室 -->
+		<mapper resource="mapper/signroom/RmRoomScheduleMapper.xml" />
+		<mapper resource="mapper/signroom/RmSignRoomMapper.xml" />
+		<mapper resource="mapper/signroom/RmRoomScheStragegyMapper.xml" />
+		<mapper resource="mapper/signroom/RmSignRoomOrgMappingMapper.xml" />
+		
+
 	</mappers>
 </configuration>

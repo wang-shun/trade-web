@@ -175,7 +175,7 @@ public interface ToSpvService {
 	 * @param pkid
 	 * @return
 	 * */
-	SpvBaseInfoVO findSpvBaseInfoVOByPkid(ServletRequest request,Long pkid);
+	SpvBaseInfoVO findSpvBaseInfoVOByPkid(Long pkid);
 	
 	/**
 	 * 查询spv 通过Pkid
@@ -206,7 +206,7 @@ public interface ToSpvService {
 
 	void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user);
 
-	SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode);
+	SpvBaseInfoVO findSpvBaseInfoVOByInstCode(String instCode);
 	
 	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode);
 
@@ -220,6 +220,6 @@ public interface ToSpvService {
 
 	SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCode(String cashFlowApplyCode);
 
-	void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO);
+	void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
 
 }

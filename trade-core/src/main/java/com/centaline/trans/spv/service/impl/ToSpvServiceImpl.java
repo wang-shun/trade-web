@@ -769,14 +769,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 	/**
 	 * 获取流程变量并查询拼接spvBaseInfoVO
 	 */
-	public SpvBaseInfoVO findSpvBaseInfoVOByInstCode(HttpServletRequest request, String instCode) {
+	public SpvBaseInfoVO findSpvBaseInfoVOByInstCode(String instCode) {
 		Long pkid = Long.parseLong(workFlowManager.getVar(instCode, "spvPkid").getValue().toString());
-		return findSpvBaseInfoVOByPkid(request, pkid);
+		return findSpvBaseInfoVOByPkid(pkid);
 	}
 
 	@Override
 	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request, Long pkid, String caseCode) {
-		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(request, pkid);
+		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(pkid);
 		/** 查询案件相关信息 */
 		if (!StringUtils.isEmpty(caseCode)) {
 				setAttribute(request, caseCode);
@@ -796,7 +796,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	/**
 	 * 查询拼接spvBaseInfoVO
 	 */
-	public SpvBaseInfoVO findSpvBaseInfoVOByPkid(ServletRequest request, Long pkid) {
+	public SpvBaseInfoVO findSpvBaseInfoVOByPkid(Long pkid) {
 
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
 
@@ -936,16 +936,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		SpvChargeInfoVO spvChargeOutInfoVO = new SpvChargeInfoVO();
 		
+		cashFlowApplyCode = "ZY-JGLS-201609-001";
 		/**1.查询申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
 		
 		if(toSpvCashFlowApply == null) throw new BusinessException("找不到该申请号对应的申请！");
 		
-		String cashFlowApplyId = toSpvCashFlowApply.getPkid().toString();
+		Long cashFlowApplyId = toSpvCashFlowApply.getPkid();
 		/**2.查询流水*/
 		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(cashFlowApplyId);
 		/**3.查询审核记录*/
-		List<ToSpvAduit> toSpvAduitList = toSpvAduitMapper.selectByCashFlowApplyId(cashFlowApplyId);
+		List<ToSpvAduit> toSpvAduitList = toSpvAduitMapper.selectByCashFlowApplyId(cashFlowApplyId.toString());
 		/**4.查询贷记凭证*/
 		List<ToSpvVoucher> toSpvVoucherList = new ArrayList<ToSpvVoucher>();
 		/**5.查询小票、回单*/
@@ -959,7 +960,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 
 		/**6.查询申请附件*/
-		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(cashFlowApplyId);
+		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(cashFlowApplyId.toString());
 		
 		/**装载属性*/
 		spvChargeOutInfoVO.setToSpvCashFlowApply(toSpvCashFlowApply);
@@ -982,9 +983,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) {
 		SessionUser user = uamSessionService.getSessionUser();
-		
-		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
-		
+
 		/**1.申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = spvChargeInfoVO.getToSpvCashFlowApply();
 		if(toSpvCashFlowApply.getPkid() == null){
