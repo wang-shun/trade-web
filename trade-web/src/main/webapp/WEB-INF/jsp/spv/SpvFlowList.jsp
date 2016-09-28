@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
  <link rel="stylesheet" href="${ctx}/static/trans/css/common/inputSec.css" />
-
+<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <!-- 分页控件 -->
 <link href="${ctx}/static/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
@@ -277,7 +277,7 @@
 					    		queryId : "ToSpvCaseFlowListQuery",
 					    		colomns : ['CASHFLOW_APPLY_CODE','SPV_CODE','amount',
 					    		           'USAGE', 'PR_ADDR', 'applyerName',
-					    		           'createTime', 'applyAuditorName',
+					    		            'applyAuditorName',
 					    		           'ftPreAuditorName', 'ftPostAuditorName','STATUS'],
 					    		data:""
 					    		});
