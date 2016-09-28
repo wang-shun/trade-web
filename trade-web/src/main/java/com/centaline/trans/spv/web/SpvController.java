@@ -111,6 +111,18 @@ public class SpvController {
 		return "spv/SpvList";
 	}
 	
+	//流水列表页面
+	@RequestMapping("spvFlowList")
+	public String spvFlowList(HttpServletRequest request){
+/*		SessionUser currentUser = uamSessionService.getSessionUser();
+		String currentDeptId = currentUser.getServiceDepId();
+		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
+		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+	
+		request.setAttribute("orgId", parentOrg.getId());*/
+		return "spv/SpvFlowList";
+	}
+	
 	//新增页面
 	@RequestMapping("saveHTML")
 	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
