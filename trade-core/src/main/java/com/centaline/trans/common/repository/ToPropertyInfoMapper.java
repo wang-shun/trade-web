@@ -55,10 +55,11 @@ public interface ToPropertyInfoMapper {
 	/**
 	 * 根据产证地址获取对应的案件编号
 	 * 
-	 * @param propertyAddress
-	 *            产证地址
+	 * @param propertyAddrSearchVo
+	 *            产证地址条件
 	 * @return 案件编号
 	 */
-	public String getCaseCodeByPropertyAddr(String propertyAddress);
+	public String getCaseCodeByPropertyAddr(
+			PropertyAddrSearchVo propertyAddrSearchVo);
 
 }

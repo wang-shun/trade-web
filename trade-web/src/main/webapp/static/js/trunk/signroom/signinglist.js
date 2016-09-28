@@ -100,15 +100,6 @@ function init(){
 function reloadGrid(){
 	var data = getParams();
 	
-	console.log("resPersonId:" + data.resPersonId);
-	console.log("resNo:" + data.resNo);
-	console.log("mobile:" + data.mobile);
-	console.log("startDateTime:" + data.startDateTime);
-	console.log("endDateTime:" + data.endDateTime);
-	console.log("startResTime:" + data.startResTime);
-	console.log("endResTime:" + data.endResTime);
-	console.log("resStatus:" + data.resStatus);
-	
 	$("#signinglist").reloadGrid({
     	ctx : ctx,
 		queryId : "signingList",
