@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
  <link rel="stylesheet" href="${ctx}/static/trans/css/common/inputSec.css" />
-  <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv2.css" />
+
 <!-- 分页控件 -->
 <link href="${ctx}/static/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
@@ -131,7 +131,7 @@
                                         <button type="reset" class="btn btn-grey mr15">
                                             清空
                                         </button>
-                                        <button type="button" class="btn btn-success mr15">
+                                        <button type="button" id="exportBtn" class="btn btn-success mr15">
                                             导出列表
                                         </button>
 
@@ -159,7 +159,10 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
-
+	<!-- 自定义扩展jQuery库 --> 
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+<!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	 <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -176,6 +179,7 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
        <script src="${ctx}/static/trans/js/spv/FlowDetail.js"></script>
+
 	<script id="querSpvCaseFlowList" type="text/html">
          {{each rows as item index}}
                              <tr>
@@ -264,67 +268,61 @@
 						/*  $("#qicao option:first").prop("selected", 'selected'); */
 						}
 
-/* 						//删除
-						function deleteSpv(pkid){
-							var deleteItem= confirm("确定要删除这条数据吗？")
-							if(!deleteItem){
-							return
+					 	$('#exportBtn').click(function(){
+ 	                        getParams();
+					    	
+					    	$.exportExcel({
+					    		ctx : ctx,
+					    		method:"post",
+					    		queryId : "ToSpvCaseFlowListQuery",
+					    		colomns : ['CASHFLOW_APPLY_CODE','SPV_CODE','amount',
+					    		           'USAGE', 'PR_ADDR', 'applyerName',
+					    		           'createTime', 'applyAuditorName',
+					    		           'ftPreAuditorName', 'ftPostAuditorName','STATUS'],
+					    		data:""
+					    		});
+					    	
+					    });
+					 	function getParams(){
+					 		params.search_spvCode=$(
+							"input[name='spvCode']")
+							.val();
+							params.search_prAddress=$(
+							"input[name='prAddress']")
+							.val();
+							params.search_status=$(
+							"select[name='status']")
+							.val();
+							params.search_applyUser=$(
+							"input[name='applyUser']")
+							.val();
+							params.search_applyTimeStart=null;		
+							params.search_applyTimeEnd=null;
+							params.search_signTimeStart=null;
+							params.search_signTimeEnd=null;
+							params.search_closeTimeStart=null;
+							params.search_closeTimeEnd=null;
+							var sel_time = $("#sel_time").val();
+							var start= $("input[name='dtBegin']").val();
+							var end=$("input[name='dtEnd']").val()==""?$("input[name='dtEnd']").val():$("input[name='dtEnd']").val()+" 23:59:59";
+							if (sel_time == "applyTime") {
+								params.search_applyTimeStart = start;
+								params.search_applyTimeEnd = end;
+							} 
+							 else if (sel_time == "signTime") {
+								    params.search_signTimeStart =start;
+									params.search_signTimeEnd = end;
+						    }
+							else if (sel_time == "closeTime") {
+								params.search_closeTimeStart = start;
+								params.search_closeTimeEnd = end;
 							}
-							$.ajax({
-							 url:ctx+"/spv/deleteSpv",
-							 method:"post",
-							 dataType:"json",
-							 data:{pkid:pkid},
-							 success:function(data){
-								 if(data.ajaxResponse.success==true){
-									 alert(data.ajaxResponse.message);
-								 }else{
-									 alert("删除出错！");
-								 } 
-								 initData();
-							 }
-									
-						})
-							
-						} */
+					 	}
+					 	
 					 
 						//查询
-						$("#btn_search")
-								.click(
-										function() {
-											params.search_spvCode=$(
-											"input[name='spvCode']")
-											.val();
-											params.search_prAddress=$(
-											"input[name='prAddress']")
-											.val();
-											params.search_status=$(
-											"select[name='status']")
-											.val();
-											params.search_applyUser=$(
-											"input[name='applyUser']")
-											.val();
-											params.search_applyTimeStart=null;		
-											params.search_applyTimeEnd=null;
-											params.search_signTimeStart=null;
-											params.search_signTimeEnd=null;
-											params.search_closeTimeStart=null;
-											params.search_closeTimeEnd=null;
-											var sel_time = $("#sel_time").val();
-											var start= $("input[name='dtBegin']").val();
-											var end=$("input[name='dtEnd']").val()==""?$("input[name='dtEnd']").val():$("input[name='dtEnd']").val()+" 23:59:59";
-											if (sel_time == "applyTime") {
-												params.search_applyTimeStart = start;
-												params.search_applyTimeEnd = end;
-											} 
-											 else if (sel_time == "signTime") {
-												    params.search_signTimeStart =start;
-													params.search_signTimeEnd = end;
-										    }
-											else if (sel_time == "closeTime") {
-												params.search_closeTimeStart = start;
-												params.search_closeTimeEnd = end;
-											}
+						$("#btn_search").click(function() {
+							               getParams();
 											initData();
 										})
 
@@ -342,8 +340,8 @@
 
 						function show(pkid){
 							var hide=$("#cashFlow"+pkid).css("display");
-							$("#caozuo"+pkid).html(hide=="none"?"收起":"展开");
 							$("#cashFlow"+pkid).slideToggle("slow");
+							$("#caozuo"+pkid).html(hide=="none"?"收起":"展开");
 							if(hide!="none")return;
 							$.ajax({
 								url:ctx+"/quickGrid/findPage",
