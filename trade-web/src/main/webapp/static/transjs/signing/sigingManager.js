@@ -84,6 +84,9 @@ $(function () {
     	$("select[name='rmSignRoom.centerId']").val("");
       	$("input[name='rmSignRoom.roomNo']").val("");
       	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val("");
+      	
+      	$("input[name='rmSignRoom.roomNo']").removeAttr("readonly");
+      	
       	$("input[name='rmSignRoom.roomType']").each(function(){
            if($(this).prop("value")=="0"){
                 $(this).prop("checked",true);
