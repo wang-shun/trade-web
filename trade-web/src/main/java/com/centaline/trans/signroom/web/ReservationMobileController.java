@@ -177,7 +177,8 @@ public class ReservationMobileController {
 		reservation.setSigningCenter(tradeCenter.getCenterName());
 		reservation.setResStatus("0");
 		reservation.setScheduleId(reservationVo.getScheduleId());
-		reservation.setCaseCode(reservationVo.getCaseCode());
+		reservation.setCaseCode(toPropertyInfoService
+				.getCaseCodeByPropertyAddr(reservationVo.getPropertyAddress()));
 		reservation.setPropertyAddress(reservationVo.getPropertyAddress());
 		reservation.setNumberOfParticipants(reservationVo
 				.getNumberOfParticipants());

@@ -42,6 +42,48 @@
 					LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.SCHEDULE_ID = rs.PKID
 					LEFT JOIN sctrans.T_RM_SIGN_ROOM sr ON rs.ROOM_ID = sr.PKID
 					LEFT JOIN sctrans.SYS_USER u ON r.RES_PERSON_ID = u.ID
+					where 1=1
+					<ifNotNull resPersonId>	
+   						and r.RES_PERSON_ID = #resPersonId# 
+				    </ifNotNull>
+				    
+				    <ifNotNull resNo>	
+   						and r.RES_NO like '%' + #resNo# + '%'
+				    </ifNotNull>
+				    
+				    <ifNotNull mobile>	
+   						and u.MOBILE like '%' + #mobile# + '%'
+				    </ifNotNull>
+				    
+				    <ifNotNull startDateTime>
+				    	and CONVERT(varchar(100),rs.START_DATE, 23) >= #startDateTime#
+				    </ifNotNull>
+				    
+				    <ifNotNull endDateTime>
+				    	and CONVERT(varchar(100),rs.START_DATE, 23) &lt;= #endDateTime#
+				    </ifNotNull>
+				    
+				    <ifNotNull startResTime>
+				    	and CONVERT(varchar(100), rs.START_DATE, 8) = #startResTime#
+				    </ifNotNull>
+				    
+				    <ifNotNull endResTime>
+				    	and CONVERT(varchar(100), rs.END_DATE, 8) = #endResTime#
+				    </ifNotNull>
+				    
+				    <if test="resStatus != null and resStatus != ''">
+				    	<if test="resStatus==0">
+				    		and r.RES_STATUS = #resStatus# and rs.END_DATE >= GETDATE()
+				    	</if> 
+				    	
+				    	<if test="resStatus==1 or resStatus==2 or resStatus==4">
+				    		and r.RES_STATUS = #resStatus#
+				    	</if>
+				    	
+				    	<if test="resStatus==3">
+				    		and GETDATE() > rs.END_DATE
+				    	</if>
+				    </if>
 				]]>
 			</baseSql>
 			<orderBySql>
