@@ -27,13 +27,26 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
-
-
 </head>
-
+<script type="text/javascript">
+	var ctx = "${ctx}";
+	var source = "${source}";
+	if ("${idList}" != "") {
+		var idList = eval("(" + "${idList}" + ")");
+	} else {
+		var idList = [];
+	}
+</script>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
+        <%-- 流程相关 --%>
+		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
+		<input type="hidden" id="source" name="source" value="${source}">
+		<input type="hidden" id="urlType" name="source" value="${urlType}">
+		<input type="hidden" id="handle" name="handle" value="${handle }">
+		<!-- main Start -->
             <!-- main Start -->
 
             <div class="row">
@@ -164,7 +177,7 @@
                                         <tr>
                                             <td>
                                                 <p class="big">
-                                                    <a href="javascript:;">
+                                                    <a href="javascript:void(0);">
                                                         ${spvChargeInfoVO.toSpvCashFlowApply.cashflowApplyCode }
                                                     </a>
                                                 </p>
@@ -277,30 +290,54 @@
 
                         <div class="form-btn">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success mr15">保存</button>
-                                <button type="submit" class="btn btn-default mr15">关闭</button>
-                                <a href="../spv/spvRecordShow.html" class="btn btn-success">提交</a>
+                            <c:if test="${empty handle }">
+                                <button id="none_save_btn" class="btn btn-success mr15">保存</button>
+                                <button id="none_submit_btn" class="btn btn-success mr15">提交</button>
+                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
+                            </c:if>
+                            <c:if test="${handle eq 'apply' }">
+                                <button id="apply_save_btn" class="btn btn-success mr15">保存</button>
+                                <button id="apply_submit_btn" class="btn btn-success mr15">提交</button>
+                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
+                            </c:if>
+                            <c:if test="${handle eq 'directorAduit' }">
+                                <button id="directorAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="directorAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
+                            </c:if>
+                            <c:if test="${handle eq 'financeAduit' }">
+                                <button id="financeAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
+                            </c:if>
+                            <c:if test="${handle eq 'financeSecondAduit' }">
+                                <button id="financeSecondAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeSecondAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
+                            </c:if>
+                            <c:if test="${handle eq 'cashFlowOut' }">
+                                <button id="cashFlowOut_submit_btn" class="btn btn-success mr15">提交</button>
+                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
+                            </c:if>    
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- main End -->
-
         </div>
-    </div>
 
     <!-- Mainly scripts -->
-    <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static_res/js/jquery.metisMenu.js"></script>
-    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/jquery-2.1.1.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/bootstrap.min.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/jquery.metisMenu.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/jquery.slimscroll.min.js"></script>
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
-    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
     <!-- stickup plugin -->
-    <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+    <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
 
 <script>
 
@@ -326,7 +363,7 @@ function getAtr(i){
     $str+="<td><input class='table_input' type='text' value='请输入编号' /></td>";
     $str+="<td><select name='' class='table-select'><option value=''>请选择</option><option value=''>转账凭证</option></select></td>";
     $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
-    $str+="<td class='btn-height'><a href='javascript:;'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
+    $str+="<td class='btn-height'><a href='javascript:void(0);'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
     $str+="</tr>";
     $("#addTr").append($str);
     $("#sum").html(sum);

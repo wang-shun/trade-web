@@ -1,8 +1,6 @@
 package com.centaline.trans.spv.service.impl;
 
-import java.beans.SimpleBeanInfo;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,9 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.janino.IClass.IField;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
@@ -21,10 +17,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
-import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.AppTypeEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToWorkFlowService;
@@ -35,8 +30,6 @@ import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvAduit;
-import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -93,13 +86,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	@Override
 	public void cashFlowOutPageDeal(HttpServletRequest request, String instCode, String taskId,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey) throws Exception {
+		SessionUser user = uamSessionService.getSessionUser();
 		//判断流程是否已存在
 		ToWorkFlow  toWorkFlow = toWorkFlowService.queryWorkFlowByInstCode(instCode);
 		if(toWorkFlow != null && !WorkFlowStatus.ACTIVE.getCode().equals(toWorkFlow.getStatus())){
 			throw new BusinessException("流程已经开启!");
 		}
 		
-		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
+/*		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
 		
 		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 		//创建spvApplyCode
@@ -108,13 +102,23 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			cashflowApplyCode = spvApplyCode;
 		}
 		//保存数据
-		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO); 
+		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO); */
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		//开启流程
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
-				propertyUtilsService.getSpvProcessDfKey(), cashflowApplyCode, vars);
+				propertyUtilsService.getSPVCashflowOutProcessDfKey(), createSpvApplyCode(), vars);
 
+		//插入工作流表
+		ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setBusinessKey("SPVCashflowOutProcess");
+		workFlow.setCaseCode("ZY-SH-201609-0022");
+		workFlow.setInstCode(processInstance.getId());
+		workFlow.setProcessDefinitionId("SPVCashflowOutProcess:2:712634");
+		workFlow.setProcessOwner(user.getId());
+		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+		toWorkFlowService.insertSelective(workFlow);
+		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 		List<TaskVo> taskList = pageableVo.getData();
@@ -156,6 +160,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
+		
 		taskService.submitTask(taskId, variables);
 	}
 
@@ -188,10 +193,11 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
 
-		    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
-		
+		    //toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
+		    chargeOutAppr = true;
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("directorAduit",chargeOutAppr);
+			
 			taskService.submitTask(taskId, variables);
 	}
 
@@ -223,11 +229,11 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutFinanceAduitDeal(HttpServletRequest request, String instCode, String taskId,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
-            
-		    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
-		
+
+		    chargeOutAppr = true;
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("financeAduit",chargeOutAppr);
+			
 			taskService.submitTask(taskId, variables);
 	}
 
@@ -259,11 +265,11 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request, String instCode, String taskId,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
-            
-		    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
 		
+		    chargeOutAppr = true;
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("financeSecondAduit",chargeOutAppr);
+			
 			taskService.submitTask(taskId, variables);
 	}
 
@@ -293,16 +299,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 
 	@Override
 	public void cashFlowOutDeal(HttpServletRequest request, String instCode, String taskId, String handle,
-			SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr) throws Exception {
-		
-		    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
+			SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception {
 		
 			Map<String, Object> variables = new HashMap<String, Object>();
+			chargeOutAppr = true;
 			taskService.submitTask(taskId, variables);
 	}	
 	
 	private String createSpvApplyCode() {
-		return uamBasedataService.nextSeqVal("SPV_APPLY_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
+		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMMdd").format(new Date()));
 	}
 
 }

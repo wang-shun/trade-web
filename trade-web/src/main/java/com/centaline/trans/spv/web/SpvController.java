@@ -843,7 +843,7 @@ public class SpvController {
      * @param taskId
      * @param handle
      * @param spvChargeInfoVO
-     * @return AjaxResponse<?>
+     * @return response
      * @throws
      */
     @RequestMapping("cashFlowOutAppr/deal")
@@ -851,11 +851,11 @@ public class SpvController {
 			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-			String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
-			
+			//String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
+			String cashflowApplyCode = "";
 			if(!StringUtils.isBlank(handle)){ 
 				
-				if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
+				//if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
 				
 				switch (handle) {
 				case "apply":
@@ -878,6 +878,29 @@ public class SpvController {
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
 			}
 
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(""+e.getStackTrace());
+			e.printStackTrace();
+		}
+    	
+    	return response;
+	}
+    
+    /** 
+     * @Title: cashFlowOutApprSave 
+     * @Description: 出款保存操作
+     * @author: gongjd 
+     * @param spvChargeInfoVO
+     * @return response
+     * @throws
+     */
+    @RequestMapping("cashFlowOutAppr/save")
+	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	try {
+    		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO); 
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
