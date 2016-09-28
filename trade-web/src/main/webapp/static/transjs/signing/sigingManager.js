@@ -252,6 +252,7 @@ function updateSignRoom(centerId,roomNo,numbeOfAccommodatePeople,roomType,remark
 	$("#pkid").val(pkid);
 	$("select[name='rmSignRoom.centerId']").val(centerId);
   	$("input[name='rmSignRoom.roomNo']").val(roomNo);
+  	$("input[name='rmSignRoom.roomNo']").prop("readonly","readonly");
   	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val(numbeOfAccommodatePeople);
   	$("input[name='rmSignRoom.roomType']").each(function(){
        if($(this).prop("value")==roomType){
