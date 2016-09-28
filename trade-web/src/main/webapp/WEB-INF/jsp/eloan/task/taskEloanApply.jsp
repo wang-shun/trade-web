@@ -1016,53 +1016,8 @@
 													txt += "<option value='"+ item.guestName+"' selected>"
 															+ item.guestName
 															+ "</option>";
-													/*cusPhone.val(data[i].guestPhone);*/
-												} else {
-													txt += "<option value='"+ item.guestName+"'>"
-															+ item.guestName
-															+ "</option>";
-												}
-											});
-							$('#custNameParent').empty().append(
-									txt + '</select>');
-
-							$('#custName').editableSelect({
-								effects : 'slide',
-								filter : false
-							/* ,
-							onSelect: function (element) {
-								var myIndex = $(element).index();
-								if(myIndex>=0){
-									cusPhone.val(data[myIndex].guestPhone);
-								}
-							} */
-							});
-						}
-					})
-		}
-		function getCustomerNameAndTel(case_code) {
-			$
-					.ajax({
-						url : ctx + "/eloan/getCaseDetails",
-						method : "post",
-						dataType : "json",
-						data : {
-							"caseCode" : case_code
-						},
-						success : function(data) {
-							var cusPhone = $('#custPhone');
-							var txt = '<select class="select_control sign_right_two" id="custName" name="custName">';
-
-							$
-									.each(
-											data,
-											function(i, item) {
-												if (i == 0) {
-													txt += "<option value='"+ item.guestName+"' selected>"
-															+ item.guestName
-															+ "</option>";
 													cusPhone
-															.val(item.guestPhone);
+															.val(data[i].guestPhone);
 												} else {
 													txt += "<option value='"+ item.guestName+"'>"
 															+ item.guestName
@@ -1075,13 +1030,13 @@
 							$('#custName').editableSelect({
 								effects : 'slide',
 								filter : false
-							/* ,
+							 ,
 							onSelect: function (element) {
 								var myIndex = $(element).index();
 								if(myIndex>=0){
 									cusPhone.val(data[myIndex].guestPhone);
 								}
-							} */
+							} 
 							});
 						}
 					})
