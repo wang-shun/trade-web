@@ -15,10 +15,12 @@
         <title>
             签约室分配
         </title>
+        
         <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet"/>
         <link href="${ctx}/css/animate.css" rel="stylesheet"/>
         <link href="${ctx}/css/style.css" rel="stylesheet"/>
+        <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
         <!-- Data Tables -->
         <link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
         <link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet"/>
@@ -32,6 +34,8 @@
         <link rel="stylesheet" href="${ctx}/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/css/common/input.css" />
         <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
+        
+        <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -42,6 +46,7 @@
                             签约室
                         </h2>
                         <form method="get" class="form_list">
+                        	<input type="hidden" id="ctx" value="${ctx}"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -108,8 +113,8 @@
                                     <button type="button" class="btn btn-success" id="searchButton">
                                         <i class="icon iconfont">&#xe635;</i>&nbsp;查询
                                     </button>
-                                    <button type="button" class="btn btn-grey">
-                                        清空
+                                    <button type="button" class="btn btn-grey" id="clear">
+                                        	清空
                                     </button>
                                 </div>
                             </div>
@@ -167,6 +172,84 @@
                     </div>
                 </div>
                 
+				<div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
+                    <div class="modal-dialog" style="width: 790px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                               	 最新跟进
+                            </div>
+
+                            <form action="${ctx }/reservation/saveResFlowup" class="form_list clearfix" id="flowupForm" method="post">
+                            	<input type="hidden" name="resId"/>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            	房间号
+                                        </label>
+                                        <div class="pull-left popup-text" id="roomNo">
+                                            SQ-01
+                                         <em class="yellow_bg ml5">机动</em>
+                                        </div>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                           	 预约日期
+                                        </label>
+                                        <div class="pull-left popup-text" id="resDateTime">
+                                            09-04
+                                        </div>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            	预约时间
+                                        </label>
+                                        <div class="pull-left popup-text" id="resTime">
+                                            08:00-10:00
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            	预约人
+                                        </label>
+                                        <div class="pull-left popup-text">
+                                            <span id="realname">小陈</span>
+                                            <span class="grey95" id="mobile">13027425487</span>
+                                        </div>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            	跟进日期
+                                        </label>
+                                        <div class="pull-left popup-text" id="followUpDate">
+                                            2016-10-11&nbsp;10:00
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small pull-left">
+                                            	跟进内容
+                                        </label>
+                                        <textarea name="comment" id="" class="pull-left textareasmall" placeholder=""></textarea>
+                                        <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                                </div>
+                                <div class="line">
+                                    <div class="add_btn" style="float:left;margin:15px 126px;">
+                                        <button type="button" class="btn btn-success" id="btnAddFlowUpInfo">
+                                            	提交
+                                        </button>
+                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                            	关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                </div>
+                
 <content tag="local_script"> 
     <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
@@ -181,6 +264,7 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
     <script src="${ctx}/js/trunk/signroom/signinglist.js?v=1.1"></script>
     
     <script id="template_signingList" type="text/html">
@@ -200,7 +284,7 @@
                    </p>
                 </td>
 				<td>
-                   <p class="smll_sign big">SJ01</p>
+                   <p class="smll_sign big">{{item.roomNO}}</p>
                    <p class="smll_sign"><span class="big tint_grey">{{item.numberOfPeople}}人间</span></p>
                 </td>
 				<td>
@@ -211,12 +295,12 @@
                         <i class="sign_normal">止</i><span class="big tint_grey">{{item.actEndTime}}</span>
                     </p>
                 </td>
-				<td>
+				<td class="tdCheckInAndOutTime">
                     <p class="smll_sign">
-                        <i class="sign_normal sign_blue_bg">起</i><span class="big tint_grey">{{item.actCheckInTime}}</span>
+                        <i class="sign_normal sign_blue_bg">起</i><span class="big tint_grey checkInTime">{{item.actCheckInTime}}</span>
                     </p>
                     <p class="smll_sign">
-                        <i class="sign_normal sign_blue_bg">止</i><span class="big tint_grey">{{item.actCheckOutTime}}</span>
+                        <i class="sign_normal sign_blue_bg">止</i><span class="big tint_grey checkOutTime">{{item.actCheckOutTime}}</span>
                     </p>
                  </td>
 				 <td>
@@ -254,32 +338,62 @@
 					  {{/if}}
                  </td>
 				 <td>
-                      <p class="smll_sign big">2016-10-11 12:55</p>
+                      <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right" title="1.预约浦东贵宾中心6人间 <br>2.预约时间为2016年10月11日10:00~12:00已经和客户电话确认客户已经到达客户已经结束">客户已经开始</a>
+                         <a href="#"  class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.comment}}</br>{{/each}}">
+							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 12}}
+								{{item.latestComment.substring(0,12)}}....
+					  		{{else}}
+								{{item.latestComment}}
+					  		{{/if}}
+						</a>
                       </p>
                  </td>
-				 <td>
+				 <td class="tdOperation">
                       <div class="btn-group">
                           <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">操作
                                 <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
-								{{if item.resStatus == '0'}}
-									<li><a href="#">开始使用</a></li>
+								{{if item.resStatus == '0' && item.currentTime <= item.endTime}}
+									<li><a href="javascript:void(0);" class="startUse">开始使用</a></li>
 								{{/if}}
                                 
 								{{if item.resStatus == '1'}}
-                                	<li><a href="#">结束使用</a></li>
+                                	<li><a href="javascript:void(0);" class="endUse">结束使用</a></li>
 								{{/if}}
 
-                                <li><a href="#" data-toggle="modal" data-target="#myModal">最新跟进</a></li>
+                                <li>
+									<input type="hidden" name="resId" value="{{item.resId}}"/>
+									<input type="hidden" name="roomType" value="{{item.roomType}}"/>
+									<input type="hidden" name="roomNo" value="{{item.roomNO}}"/>
+									<input type="hidden" name="resDateTime" value="{{item.resDateTime}}"/>
+									
+									<input type="hidden" name="startResDateTime" value="{{item.actStartTime}}"/>
+									<input type="hidden" name="endResDateTime" value="{{item.actEndTime}}"/>
+									<input type="hidden" name="realName" value="{{item.realName}}"/>
+									<input type="hidden" name="mobile" value="{{item.mobile}}"/>
+									<a href="#" data-toggle="modal" data-target="#myModal" class="followUp">最新跟进</a>
+								</li>
                           </ul>
 					   </div>
                  </td>	
 		   </tr>
        {{/each}}
 	</script>  
+	<script type="text/javascript">
+		$(function(){
+			$('.demo-right').poshytip({
+				className: 'tip-twitter',
+				showTimeout: 1,
+				alignTo: 'target',
+				alignX: 'right',
+				alignY: 'center',
+				offsetX: 8,
+				offsetY: 5,
+				});
+			});
+	</script>
 </content>
 </body>
 </html>

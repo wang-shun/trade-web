@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.repository.ResFlowupMapper;
 import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
@@ -29,6 +30,9 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private RmSignRoomMapper rmSignRoomMapper;
+
+	@Autowired
+	private ResFlowupMapper resFlowupMapper;
 
 	@Override
 	public FreeRoomInfo saveReservation(Reservation reservation,
@@ -159,5 +163,15 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<Long> getTradeCenterIdListByGrpCode(String grpCode) {
 		return reservationMapper.getTradeCenterIdListByGrpCode(grpCode);
+	}
+
+	@Override
+	public int startUse(Long resId) {
+		return reservationMapper.startUse(resId);
+	}
+
+	@Override
+	public int endUse(Long resId) {
+		return reservationMapper.endUse(resId);
 	}
 }

@@ -100,4 +100,23 @@ public interface ReservationMapper {
 	 * @return 交易中心的标识集合
 	 */
 	public List<Long> getTradeCenterIdListByGrpCode(String grpCode);
+
+	/**
+	 * 签约室开始使用
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 如果返回1,开始使用成功;返回0,开始使用失败。
+	 */
+	public int startUse(Long resId);
+
+	/**
+	 * 签约室结束使用
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 如果返回1,结束使用成功;返回0,结束使用失败。
+	 */
+	public int endUse(Long resId);
+
 }

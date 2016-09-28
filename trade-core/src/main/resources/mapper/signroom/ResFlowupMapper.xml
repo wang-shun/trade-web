@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.ResFlowupMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.ResFlowup" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="COMMENT" property="comment" jdbcType="NVARCHAR" />
+    <result column="RES_ID" property="resId" jdbcType="BIGINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  	PKID,COMMENT,RES_ID,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+  </sql>
+  
+  <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.ResFlowup" >
+    insert into sctrans.T_RM_RES_FLOW_UP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+      <if test="resId != null" >
+        RES_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="comment != null" >
+        #{comment,jdbcType=NVARCHAR},
+      </if>
+      <if test="resId != null" >
+        #{resId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="getResFlowupListByResId" parameterType="java.lang.Long" resultMap="BaseResultMap">	
+		SELECT <include refid="Base_Column_List" />
+		FROM sctrans.T_RM_RES_FLOW_UP
+		WHERE RES_ID = #{resId,jdbcType=BIGINT}
+		order by CREATE_TIME desc;
+  </select>
+  
+</mapper>
