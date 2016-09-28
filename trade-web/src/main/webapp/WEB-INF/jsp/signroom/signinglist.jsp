@@ -24,6 +24,8 @@
         <link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet"/>
         <link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet"/>
         <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+        <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+		<link href="${ctx}/css/transcss/case/case_filter.css" rel="stylesheet">
 
          <!-- index_css -->
         <link rel="stylesheet" href="${ctx}/css/common/base.css" />
@@ -45,19 +47,20 @@
                                     <label class="control-label sign_left_small">
                                         预约人：
                                     </label>
-                                    <input class="pop-name input_type" placeholder="" value="">
+                                    <input class="pop-name input_type" name="resPersonId" id="resPersonId" hVal="" placeholder="" value="" readonly="readonly" placeholder="" value="" onclick="chooseManager('${serviceDepId}')">
+                                	<input type="hidden" name="resPersonOrgId" id="resPersonOrgId"/>
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         预约号
                                     </label>
-                                    <input class="pop-name input_type" placeholder="" value="">
+                                    <input class="pop-name input_type" placeholder="" value="" name="resNo">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         手机号码
                                     </label>
-                                    <input class="input_type width165" placeholder="" value="">
+                                    <input class="input_type width165" placeholder="" value="" name="mobile">
                                 </div>
                             </div>
                             <div class="line">
@@ -66,9 +69,11 @@
                                         预约日期
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                        <input name="" class="form-control data_style datatime" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="" class="form-control data_style datatime" type="text" value="" placeholder="结束日期">
-                                       </div>
+                                        <input name="startDateTime" class="form-control data_style datatime" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input name="endDateTime" class="form-control data_style datatime" type="text" value="" placeholder="结束日期">
+                                    
+                                    	<input type="hidden" name=""/>
+                                    </div>
                                     <div class="seldata">
                                         <span id="today" class="today date-time">今</span>
                                         <span id="tommrow" class="tommrow date-time">明</span>
@@ -78,13 +83,8 @@
                                     <label class="control-label sign_left_small width89">
                                         预约时间
                                     </label>
-                                    <select class="select_control sign_right_one">
-                                        <option value="">
-                                            08:00-10:00
-                                        </option>
-                                        <option value="">
-                                            10:00-12:00
-                                        </option>
+                                    <select class="select_control sign_right_one" id="selResTime">
+                                       
                                     </select>
                                 </div>
 
@@ -95,19 +95,18 @@
                                     <label class="control-label sign_left_small">
                                         状态
                                     </label>
-                                    <select class="select_control sign_right_one">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            机动
-                                        </option>
+                                    <select class="select_control sign_right_one" id="selResStatus">
+                                        <option value="">请选择</option>
+                                        <option value="0">预约中</option>
+                                        <option value="1">使用中</option>
+                                        <option value="2">已使用</option>
+                                        <option value="3">已过期</option>
+                                        <option value="4">已取消</option>
                                     </select>
                                 </div>
                                 <div class="add_btn" style="float:left;margin-left:26px;">
-                                    <button type="button" class="btn btn-success">
-                                        <i class="icon iconfont">&#xe635;</i>
-                                        查询
+                                    <button type="button" class="btn btn-success" id="searchButton">
+                                        <i class="icon iconfont">&#xe635;</i>&nbsp;查询
                                     </button>
                                     <button type="button" class="btn btn-grey">
                                         清空

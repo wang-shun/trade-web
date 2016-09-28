@@ -76,10 +76,10 @@ public class ReservationMobileController {
 	public String list(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
-		// List<Long> tradeCenterIdList = reservationService
-		// .getTradeCenterIdListByGrpCode(currentUser.getBusigrpId());
 		List<Long> tradeCenterIdList = reservationService
-				.getTradeCenterIdListByGrpCode("033H054");
+				.getTradeCenterIdListByGrpCode(currentUser.getBusigrpId());
+		// List<Long> tradeCenterIdList = reservationService
+		// .getTradeCenterIdListByGrpCode("033H054");
 
 		Long defaultTradeCenterId = 0L;
 		if (tradeCenterIdList != null && tradeCenterIdList.size() > 0) {
@@ -129,8 +129,9 @@ public class ReservationMobileController {
 		request.setAttribute("tradeCenterId", tradeCenterId);
 		request.setAttribute("selDate", selDate);
 		request.setAttribute("bespeakTime", bespeakTime);
-		// request.setAttribute("agentCode", sessionUser.getId());
-		request.setAttribute("agentCode", "E39F5661B6614F968F27E7BD24BA324A");
+		request.setAttribute("agentCode", sessionUser.getId());
+		// request.setAttribute("agentCode",
+		// "E39F5661B6614F968F27E7BD24BA324A");
 
 		return "mobile/signroom/reservation/bespeak";
 	}
@@ -177,7 +178,8 @@ public class ReservationMobileController {
 		reservation.setSigningCenter(tradeCenter.getCenterName());
 		reservation.setResStatus("0");
 		reservation.setScheduleId(reservationVo.getScheduleId());
-		reservation.setCaseCode(reservationVo.getCaseCode());
+		reservation.setCaseCode(toPropertyInfoService
+				.getCaseCodeByPropertyAddr(reservationVo.getPropertyAddress()));
 		reservation.setPropertyAddress(reservationVo.getPropertyAddress());
 		reservation.setNumberOfParticipants(reservationVo
 				.getNumberOfParticipants());
@@ -204,8 +206,9 @@ public class ReservationMobileController {
 	public String myReservationList(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
-		// request.setAttribute("agentCode", currentUser.getId());
-		request.setAttribute("agentCode", "E39F5661B6614F968F27E7BD24BA324A");
+		request.setAttribute("agentCode", currentUser.getId());
+		// request.setAttribute("agentCode",
+		// "E39F5661B6614F968F27E7BD24BA324A");
 
 		return "mobile/signroom/reservation/myReservationList";
 	}

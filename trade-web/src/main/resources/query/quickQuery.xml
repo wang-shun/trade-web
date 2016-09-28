@@ -163,10 +163,9 @@
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
 	<!-- 金额监管列表 -->
 	<import resource="query/spv/spvList.xml" />
-
+	<import resource="query/spv/spvFlowList.xml" />
 	<import resource="query/eloan/RiskControlQuery.xml" />
 
-	
 	<!-- 我的预约列表 -->
 	<import resource="query/signroom/myReservationList.xml" />
 	<!-- 签约室 -->
