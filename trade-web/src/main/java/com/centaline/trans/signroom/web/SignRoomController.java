@@ -122,7 +122,6 @@ public class SignRoomController {
 	
 		
 		JQGridParam gp = new JQGridParam();
-		gp.put("curDate", requst.getParameter("curDate"));//当前日期
 		if(!StringUtil.isBlank(roomType)){
 			gp.put("roomType", roomType);
 		}
