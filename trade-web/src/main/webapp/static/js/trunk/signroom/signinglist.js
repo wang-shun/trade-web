@@ -1,6 +1,8 @@
 
 $(function(){
 	
+	var ctx = $("#ctx").val();
+	
 	//页面初始化
 	init();
 	
@@ -87,6 +89,68 @@ $(function(){
         $(".datatime").val(getDateWeek(1));
     });
     
+    $(".followUp").click(function(){
+    	var $obj = $(this);
+    	var resId = $obj.siblings("input[name='resId']").val();
+    	var roomType = $obj.siblings("input[name='roomType']").val();
+    	var roomNo = $obj.siblings("input[name='roomNo']").val();
+    	var resDateTime = $obj.siblings("input[name='resDateTime']").val();
+    	var startResDateTime = $obj.siblings("input[name='startResDateTime']").val();
+    	var endResDateTime = $obj.siblings("input[name='endResDateTime']").val();
+    	var realName = $obj.siblings("input[name='realName']").val();
+    	var mobile = $obj.siblings("input[name='mobile']").val();
+    	
+    	var strRoomNoHtml = roomNo;
+    	if(roomType == 1){
+    		strRoomNoHtml += "<em class='yellow_bg ml5'>机动</em>";
+    	}
+    	
+    	$("#flowupForm input[name='resId']").val(resId);
+    	$("#roomNo").html(strRoomNoHtml);
+    	$("#resDateTime").html(resDateTime);
+    	$("#resTime").html(startResDateTime + "-" + endResDateTime);
+    	$("#realname").html(realName);
+    	$("#mobile").html(mobile);
+    	$("#followUpDate").html(getCurrentTime());
+    });
+    
+    //添加跟进信息
+    $("#btnAddFlowUpInfo").click(function(){
+    	var isSuccess = saveFlowUpInfo();
+    	
+    	if(isSuccess){
+    		$("button[type='reset']").click();
+    		location.href = ctx + "/reservation/list";
+    	}
+    	
+    });
+    
+    //开始使用
+    $(".startUse").click(function(){
+    	var $obj = $(this);
+    	
+    	startAndEndUse($obj,"startUse");
+    });
+    
+  //开始使用
+  $(".endUse").click(function(){
+	var $obj = $(this);
+	
+	startAndEndUse($obj,"endUse");
+   });
+  
+  //清除
+  $("#clear").click(function(){
+	$("input[name='resPersonId']").val("");
+	$("input[name='resPersonId']").attr("hval","");
+	$("input[name='resNo']").val("");
+	$("input[name='mobile']").val("");
+	$("input[name='startDateTime']").val(getCurrentDate());
+	$("input[name='endDateTime']").val(getCurrentDate());
+	$("#selResTime").val("");
+	$("#selResStatus").val("");
+  });
+    
 });
 
 function init(){
@@ -97,17 +161,52 @@ function init(){
 	reloadGrid();
 }
 
+//开始使用
+function startAndEndUse(obj,flag){
+	if(confirm("请确定是否开始使用？")){
+		var resId = obj.parents(".dropdown-menu").find("input[name='resId']").val();
+		
+		$.ajax({
+			cache:false,
+			async:false,
+			type:"POST",
+			dataType:"text",
+			url:ctx+"/reservation/startAndEndUse",
+			data:{resId:resId,flag:flag},
+			success:function(data){
+				if(data == "true"){
+					location.href = ctx + "/reservation/list";
+				}
+			}
+		});
+	}
+}
+
+//保存跟进信息
+function saveFlowUpInfo(){
+	var isSuccess = false;
+	var resId = $("#flowupForm input[name='resId']").val();
+	var comment = $("#flowupForm textarea[name='comment']").val();
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"text",
+		url:ctx+"/reservation/saveResFlowup",
+		data:{resId:resId,comment:comment},
+		success:function(data){
+			if(data == "true"){
+				isSuccess = true;
+			}
+		}
+	});
+	
+	return isSuccess;
+}
+
 function reloadGrid(){
 	var data = getParams();
-	
-	console.log("resPersonId:" + data.resPersonId);
-	console.log("resNo:" + data.resNo);
-	console.log("mobile:" + data.mobile);
-	console.log("startDateTime:" + data.startDateTime);
-	console.log("endDateTime:" + data.endDateTime);
-	console.log("startResTime:" + data.startResTime);
-	console.log("endResTime:" + data.endResTime);
-	console.log("resStatus:" + data.resStatus);
 	
 	$("#signinglist").reloadGrid({
     	ctx : ctx,
@@ -120,8 +219,8 @@ function reloadGrid(){
 
 function getParams() {
 	var resPersonId = $("input[name='resPersonId']").attr("hVal");
-	var resNo = $("input[name='resNo']").val();
-	var mobile = $("input[name='mobile']").val();
+	var resNo = $.trim($("input[name='resNo']").val());
+	var mobile = $.trim($("input[name='mobile']").val());
 	var startDateTime = $("input[name='startDateTime']").val();
 	var endDateTime = $("input[name='endDateTime']").val();
 	var resTime = $("#selResTime option:selected").val();
@@ -229,4 +328,29 @@ function getResTime(){
 	});
 	
 	$("#selResTime").html(strHtml);
+}
+
+function getCurrentTime(){
+	var d = new Date()
+	var vYear = d.getFullYear()
+	var vMon = d.getMonth() + 1
+	var vDay = d.getDate()
+	var h = d.getHours(); 
+	var m = d.getMinutes();
+	
+	var currentDateTime = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay)+ " " + (h<10 ? "0"+ h : h) + ":"+ (m<10 ? "0" + m : m);
+	
+	return currentDateTime;
+}
+
+//获取当前日期
+function getCurrentDate(){
+	var d = new Date()
+	var vYear = d.getFullYear()
+	var vMon = d.getMonth() + 1
+	var vDay = d.getDate();
+	
+	var currentDate = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
+	
+	return currentDate;
 }

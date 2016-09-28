@@ -77,7 +77,8 @@ public class ReservationMobileController {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		List<Long> tradeCenterIdList = reservationService
-				.getTradeCenterIdListByGrpCode(currentUser.getBusigrpId());
+				.getTradeCenterIdListByGrpCode(currentUser
+						.getServiceCompanyCode());
 		// List<Long> tradeCenterIdList = reservationService
 		// .getTradeCenterIdListByGrpCode("033H054");
 
@@ -178,8 +179,13 @@ public class ReservationMobileController {
 		reservation.setSigningCenter(tradeCenter.getCenterName());
 		reservation.setResStatus("0");
 		reservation.setScheduleId(reservationVo.getScheduleId());
+
+		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
+		propertyAddrSearchVo.setInputValue(reservationVo.getPropertyAddress());
+		propertyAddrSearchVo.setAgentCode(currentUser.getId());
+
 		reservation.setCaseCode(toPropertyInfoService
-				.getCaseCodeByPropertyAddr(reservationVo.getPropertyAddress()));
+				.getCaseCodeByPropertyAddr(propertyAddrSearchVo));
 		reservation.setPropertyAddress(reservationVo.getPropertyAddress());
 		reservation.setNumberOfParticipants(reservationVo
 				.getNumberOfParticipants());
@@ -265,9 +271,15 @@ public class ReservationMobileController {
 	@RequestMapping(value = "getCaseCodeByPropertyAddr")
 	@ResponseBody
 	public String getCaseCodeByPropertyAddr(HttpServletRequest request) {
+		SessionUser currentUser = uamSessionService.getSessionUser();
 		String propertyAddress = request.getParameter("propertyAddress");
 
-		return toPropertyInfoService.getCaseCodeByPropertyAddr(propertyAddress);
+		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
+		propertyAddrSearchVo.setInputValue(propertyAddress);
+		propertyAddrSearchVo.setAgentCode(currentUser.getId());
+
+		return toPropertyInfoService
+				.getCaseCodeByPropertyAddr(propertyAddrSearchVo);
 	}
 
 	/**

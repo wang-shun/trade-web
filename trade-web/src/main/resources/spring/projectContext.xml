@@ -349,6 +349,8 @@
     <!-- 格式化时间 -->
     <bean name="getShowTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowTimeServiceImpl"></bean>
 
+    <!-- 根据预约单标识获取跟进信息列表 -->
+    <bean name="getFlowupInfoList" class="com.centaline.trans.common.service.impl.QuickQueryGetFlowupInfoListServiceImpl"></bean>
     
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

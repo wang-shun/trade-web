@@ -35,5 +35,13 @@ public interface RmRoomScheduleMapper {
 	 * @return 如果返回1,更新成功。如果返回0,更新失败。
 	 */
 	public int updateToFreeStatus(String scheduleId);
+	
+	/**
+	 * 根据pkid查询排期信息
+	 * @param pkid
+	 * @return
+	 */
+	public RmRoomSchedule getRmRoomScheduleByPkid(Long pkid);
+	
 
 }

@@ -22,15 +22,22 @@ $(function () {
     }
     $("#today").click(function(){
         $(".datatime").val(getDateWeek(0));
+        $('.datatime').datepicker('update');
         ajaxSubmit(1);
     });
     $("#tommrow").click(function(){
         $(".datatime").val(getDateWeek(1));
+        $('.datatime').datepicker('update');
         ajaxSubmit(1);
     });
     
     ajaxSubmit(0);
     $("#searchBtn").click(function(){
+    	var curDate = $.trim($('#curDate').val());
+    	if(curDate==''){
+    		alert("请选择预约日期！");
+    		return;
+    	}
     	ajaxSubmit(1);
     });
     //清空条件
@@ -38,25 +45,6 @@ $(function () {
     	$('#roomTypeSlot').val("");
     	$('#useStatus').val("");
     });
-    
-  //产证地址文本框失去焦点获取对应的caseCode
-	$("#propertyAddress").blur(function(){
-		var propertyAddress = this.value;
-		
-		if(propertyAddress != ""){
-			$.ajax({
-				cache:false,
-				async:false,
-				type:"POST",
-				dataType:"text",
-				url:ctx+"/mobile/reservation/getCaseCodeByPropertyAddr",
-				data: {propertyAddress:propertyAddress},
-				success:function(data){
-					$("#caseCode").val(data);
-				}
-			});
-		}
-	});
 	
 	//保存 临时分配数据
 	$("#saveBtn").click(function(){
@@ -65,6 +53,7 @@ $(function () {
   	   if(!checkFormSave()){
   		  return;
   	   }
+  	   $("#propertyAddress").blur();
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
     	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
@@ -233,6 +222,7 @@ function ajaxSubmit(obj) {
 		dataType:"json",
 		data : params,
 		success:function(data){
+			console.log(data);
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -251,15 +241,14 @@ function ajaxSubmit(obj) {
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
-						  th+="<td><span class='grey_no big'>已过期</span></td>";
+						  th+="<td><span class='grey_no big'>使用中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='2'){
 						  th+="<td><span class='grey_no big'>已使用</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='3'){
-						  th+="<td><span class='user_red'>使用中</span></td>";
+						  th+="<td><span class='user_red'>已过期</span></td>";
 					  }
 				  }
 				  th+="</tr>";
-				  
 			   }
 			   $("#signRoomTable tbody").append(th);
 		    }else{

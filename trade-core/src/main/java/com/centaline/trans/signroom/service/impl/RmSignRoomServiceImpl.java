@@ -322,4 +322,17 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return false;
 	}
 
+	@Override
+	public boolean isUsedByRmRoomSchedule(ReservationInfoVo reservationInfoVo) {
+		RmRoomSchedule rmRoomSchedule = rmRoomScheduleMapper.getRmRoomScheduleByPkid(Long.valueOf(reservationInfoVo.getScheduleId()));
+		if(rmRoomSchedule!=null){
+			if("Y".equals(rmRoomSchedule.getUseStatus().trim())){//说明该时段排期已被预约
+				return false;
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

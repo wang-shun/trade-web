@@ -55,4 +55,11 @@ public interface RmSignRoomService {
 	 */
 	boolean isExist(RmSignRoom rmSignRoom);
 
+	/**
+	 * 判断某个时间段排期是否已预约
+	 * @param reservationInfoVo
+	 * @return
+	 */
+	boolean isUsedByRmRoomSchedule(ReservationInfoVo reservationInfoVo);
+
 }

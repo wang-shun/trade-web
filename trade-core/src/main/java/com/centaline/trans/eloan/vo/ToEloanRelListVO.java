@@ -8,7 +8,9 @@ import com.centaline.trans.eloan.entity.ToEloanRel;
 
 public class ToEloanRelListVO {
 	private List<ToEloanRel> eloanRelList = new ArrayList<ToEloanRel>();
-
+	
+	private ToEloanCase toEloanCase = new ToEloanCase();
+	
 	private String isRelFinish;
 	
 	private String taskId;	
@@ -36,6 +38,16 @@ public class ToEloanRelListVO {
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
 	}
+
+	public ToEloanCase getToEloanCase() {
+		return toEloanCase;
+	}
+
+	public void setToEloanCase(ToEloanCase toEloanCase) {
+		this.toEloanCase = toEloanCase;
+	}
+
+	
 	
 
 }

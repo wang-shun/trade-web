@@ -285,9 +285,12 @@ LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ci.CASE_CODE
 WHERE ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR} AND b.CASE_PROPERTY != '30003002' AND (b.CASE_PROPERTY = '30003003' OR b.CASE_PROPERTY = '30003004');
   </select>
   
-  <select id="getCaseCodeByPropertyAddr" parameterType="java.lang.String" resultType="java.lang.String">
-   SELECT CASE_CODE FROM sctrans.T_TO_PROPERTY_INFO
-   WHERE PROPERTY_ADDR = #{propertyAddress,jdbcType=VARCHAR};
+  <select id="getCaseCodeByPropertyAddr" parameterType="com.centaline.trans.signroom.vo.PropertyAddrSearchVo" resultType="java.lang.String">
+  	SELECT pi.CASE_CODE FROM sctrans.T_TO_PROPERTY_INFO pi
+	LEFT JOIN sctrans.T_TO_CASE_INFO ci ON ci.CASE_CODE = pi.CASE_CODE
+	WHERE pi.PROPERTY_ADDR = #{inputValue,jdbcType=VARCHAR} and ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR}
+	ORDER BY pi.CREATE_TIME DESC
+	OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
   </select>
   
 </mapper>

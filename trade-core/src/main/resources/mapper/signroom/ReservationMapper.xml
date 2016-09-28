@@ -206,4 +206,12 @@
     	SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE TEAM_ID IN (SELECT ID FROM sctrans.SYS_ORG WHERE ORG_CODE IN (SELECT YU_TEAM_CODE FROM sctrans_dev.sctrans.T_TS_TEAM_SCOPE_TARGET WHERE GRP_CODE = #{grpCode,jdbcType=VARCHAR}));
   </select>
   
+   <update id="startUse" parameterType="java.lang.Long">
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '1',CHECK_IN_TIME = GETDATE() , UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
+  </update>
+  
+   <update id="endUse" parameterType="java.lang.Long">
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '2',CHECKED_OUT_TIME = GETDATE(),UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
+  </update>
+  
 </mapper>

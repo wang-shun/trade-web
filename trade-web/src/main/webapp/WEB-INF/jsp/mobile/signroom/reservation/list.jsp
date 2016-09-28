@@ -63,7 +63,7 @@
     </section>
 </body>
 
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/api.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-dialog.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-main.js"></script>

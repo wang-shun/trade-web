@@ -208,7 +208,7 @@
 		<mapper resource="mapper/signroom/RmSignRoomMapper.xml" />
 		<mapper resource="mapper/signroom/RmRoomScheStragegyMapper.xml" />
 		<mapper resource="mapper/signroom/RmSignRoomOrgMappingMapper.xml" />
-		
+		<mapper resource="mapper/signroom/ResFlowupMapper.xml" />
 
 	</mappers>
 </configuration>

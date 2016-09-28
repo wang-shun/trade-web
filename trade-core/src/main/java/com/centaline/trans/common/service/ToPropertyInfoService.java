@@ -20,8 +20,8 @@ public interface ToPropertyInfoService {
 	List<ToPropertyInfo> getPropertyInfoByUserId(String userId);
 
 	int insertSelective(ToPropertyInfo record);
-    
-    ToPropertyResearchVo getPropertyDepInfoByuserDepId(String depId);
+
+	ToPropertyResearchVo getPropertyDepInfoByuserDepId(String depId);
 
 	ToPropertyInfo findToPropertyInfoByCaseCodeAndAddr(ToPropertyInfo record);
 
@@ -43,10 +43,11 @@ public interface ToPropertyInfoService {
 	/**
 	 * 根据产证地址获取对应的案件编号
 	 * 
-	 * @param propertyAddress
-	 *            产证地址
+	 * @param propertyAddrSearchVo
+	 *            产证地址条件
 	 * @return 案件编号
 	 */
-	public String getCaseCodeByPropertyAddr(String propertyAddress);
+	public String getCaseCodeByPropertyAddr(
+			PropertyAddrSearchVo propertyAddrSearchVo);
 
 }

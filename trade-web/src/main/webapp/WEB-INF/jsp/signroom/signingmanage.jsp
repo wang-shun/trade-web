@@ -131,7 +131,7 @@
                                         <label class="control-label sign_left_small">
                                             房间编号
                                         </label>
-                                        <input class="pop-name input_type" placeholder="" value="" name="rmSignRoom.roomNo" id="rmSignRoom.roomNo"/>
+                                        <input class="pop-name input_type" placeholder="" value="" name="rmSignRoom.roomNo" id="rmSignRoom.roomNo" />
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
