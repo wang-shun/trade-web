@@ -51,7 +51,7 @@
 		<pattern>/spv/cashflowApply/saveHTML</pattern>	
 		<pattern>/spv/task/cashFlowOutAppr/process</pattern>
 		<pattern>/spv/task/cashflowIntApply/spvRecordShow</pattern>	
-		<pattern>/spv/task/cashflowIntApply/spvRecordShow</pattern>	
+		<pattern>/spv/task/cashflowIntApply/spvRecordedApp</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecorded</pattern>
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
