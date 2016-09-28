@@ -88,7 +88,7 @@
 						ligerui='none'></aist:dict></span></p>
                                    </div>
                                    <div class="case_lump">
-                                       <p><em>合作机构</em><span class="span_one" id="finOrgCode" name="finOrgCode" value="${eloanCase.finOrgCode}""></span></p>
+                                       <p><em>合作机构</em><span class="span_one" id="finOrgCode" name="finOrgCode" value="${eloanCase.finOrgCode}"></span></p>
                                    </div>
                                 </div>
                                 <div class="case_row">

@@ -352,14 +352,7 @@
 				$("#eLoanApplyPassOrRefuseReasonForShow").hide();				
 			 } else{
 				 $("#eLoanContent").attr("disabled",true);
-			 }
-	       	//放款时间不能修改
-	       	var releaseAmount=$("#releaseAmount").val();
-	       	if(releaseAmount=='' || releaseAmount== null ){
-	       		$("input[name='releaseAmount']").attr("disabled", false);
-	       	}else{
-	       		$("input[name='releaseAmount']").attr("disabled", true);
-	       	}	
+			 }	
         	
         	$('.input-daterange').datepicker({
               	format : 'yyyy-mm-dd',

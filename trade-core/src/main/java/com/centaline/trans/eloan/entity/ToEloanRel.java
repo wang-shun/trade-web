@@ -24,9 +24,9 @@ public class ToEloanRel {
 
     private Date updateTime;
 
-    private String updateBy;
+    private String updateBy;  
 
-    public Long getPkid() {
+	public Long getPkid() {
         return pkid;
     }
 
@@ -113,4 +113,6 @@ public class ToEloanRel {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+    
+    
 }
