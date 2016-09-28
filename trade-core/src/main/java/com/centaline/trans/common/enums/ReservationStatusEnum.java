@@ -5,11 +5,11 @@ package com.centaline.trans.common.enums;
  * @author zhoujp7
  *
  */
-public enum ReservationStatusEnum {
+public enum ReservationStatusEnum { 
 	QYSYYZ("0","预约中"),
-	QYSYGQ("1","已过期"),
+	QYSSYZ("1","使用中"),
 	QYSYSY("2","已使用"),
-	QYSSYZ("3","使用中"),
+	QYSYGQ("3","已过期"),
 	QYSYQX("4","已取消");
 
 	private String name;

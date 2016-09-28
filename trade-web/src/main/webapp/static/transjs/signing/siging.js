@@ -38,25 +38,6 @@ $(function () {
     	$('#roomTypeSlot').val("");
     	$('#useStatus').val("");
     });
-    
-  //产证地址文本框失去焦点获取对应的caseCode
-	$("#propertyAddress").blur(function(){
-		var propertyAddress = this.value;
-		
-		if(propertyAddress != ""){
-			$.ajax({
-				cache:false,
-				async:false,
-				type:"POST",
-				dataType:"text",
-				url:ctx+"/mobile/reservation/getCaseCodeByPropertyAddr",
-				data: {propertyAddress:propertyAddress},
-				success:function(data){
-					$("#caseCode").val(data);
-				}
-			});
-		}
-	});
 	
 	//保存 临时分配数据
 	$("#saveBtn").click(function(){
@@ -253,15 +234,14 @@ function ajaxSubmit(obj) {
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
-						  th+="<td><span class='grey_no big'>已过期</span></td>";
+						  th+="<td><span class='grey_no big'>使用中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='2'){
 						  th+="<td><span class='grey_no big'>已使用</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='3'){
-						  th+="<td><span class='user_red'>使用中</span></td>";
+						  th+="<td><span class='user_red'>已过期</span></td>";
 					  }
 				  }
 				  th+="</tr>";
-				  
 			   }
 			   $("#signRoomTable tbody").append(th);
 		    }else{

@@ -16,14 +16,14 @@ public class RmSignRoom implements Serializable {
 	private static final long serialVersionUID = 2713653054466978616L;
 
 	private Long pkid;
-	private String roomType;// 房间类型
+	private String roomType;// 房间类型 0；普通房间 1：机动房间
 	private String roomNo;// 房间编号
 	private String tradeCenter;// 交易中心
 	private Long tradeCenterId;// 交易中心ID
 	private int numbeOfAccommodatePeople;// 可容纳人数
 	private String remark;// 备注
 	private Date closeTime;// 关闭时间
-	private String roomStatus;// 房间状态
+	private String roomStatus;// 房间状态 0:关闭 1:开放
 	private int isDelete;// 是否删除
 	private Date createTime;// 创建时间
 	private String createBy;// 创建人

@@ -17,8 +17,8 @@ public class RmRoomSchedule implements Serializable {
 	private Date startDate;// 开始时间
 	private Date endDate;// 结束时间
 	private Long resId;// 预约单ID
-	private String useStatus;// 使用状态
-	private int canRes;// 是否可以预约
+	private String useStatus;// 使用状态  N:空置 Y:已预约
+	private int canRes;// 是否可以预约  1:可预约 0:不可预约
 	private int isDelete;// 是否删除
 	private Date createTime;// 创建时间
 	private String createBy;// 创建人
