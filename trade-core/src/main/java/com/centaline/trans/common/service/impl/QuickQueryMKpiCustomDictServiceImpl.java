@@ -25,7 +25,7 @@ public class QuickQueryMKpiCustomDictServiceImpl implements CustomDictService{
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> key:keys){
 			String val = "";
-			Object status = key.get("status");
+			Object status = key.get("MKPI_OLD");
 			if(status!=null){
 				val = "1".equals(status.toString())?"是":"否";
 			}

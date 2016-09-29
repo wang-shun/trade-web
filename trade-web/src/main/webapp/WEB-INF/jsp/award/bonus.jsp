@@ -304,7 +304,7 @@
 		    		}, function(index){
 		    			$.ajax({
 				    			  async: false,
-				    			  url:ctx+ "/kpi/updateTsAwardKpiPayStatus" ,
+				    			  url:ctx+ "/award/updateTsAwardKpiPayStatus" ,
 				    	          method: "post",
 				    	          dataType: "json",
 				    	          data: {belongMonth:monthSel.getDate().format('yyyy-MM-dd')},
@@ -347,7 +347,7 @@
         	    // 如果已经提交，则不能再次提交
         	    $.ajax({
 	    			  async: true,
-	    	          url:ctx+ "/kpi/getTsAwardKpiPayByStatus" ,
+	    	          url:ctx+ "/award/getTsAwardKpiPayByStatus" ,
 	    	          method: "post",
 	    	          dataType: "json",
 	    	          data: {belongMonth:bm},
