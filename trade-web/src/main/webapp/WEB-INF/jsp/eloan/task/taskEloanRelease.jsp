@@ -374,13 +374,13 @@
             	var custPhone = $('#custPhone').val();            	
             	var applyAmount = $('#applyAmount').val();
             	var month = $('#month').val();
-            	var signAmount = $('#signAmount').val(); */
-            	
+            	var signAmount = $('#signAmount').val(); */            	
             	if(isRelFinish==""){
             		alert("请选择房款是否完成");
             		return;
             	}
             	var sumAmount = 0;
+            	
             	if(clickCount > 0){
                 	$(".loan_ul li").each(function(){
                 		var releaseAmount = $(this).find("#releaseAmount").val();
