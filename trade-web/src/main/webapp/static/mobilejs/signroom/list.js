@@ -25,19 +25,20 @@ $(function(){
 		getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime);
 	});
 	
-	//" + ctx + "/mobile/reservation/bespeakUI
-	$(".quhao").click(function(){
-		defaultTradeCenterId = $("#selTradeCenter option:selected").val();
-		selDate = $("#SelDate").val();
-		selBespeakTime = $(this).siblings("input[name='actBespeakTime']").val();
-		
-		$("#defaultTradeCenterId").val(defaultTradeCenterId);
-		$("#inputSelDate").val(selDate);
-		$("#inputBespeakTime").val(selBespeakTime);
-		
-		$("#form1").submit();
-	});
 });
+
+//取号
+function quhao(obj){
+	defaultTradeCenterId = $("#selTradeCenter option:selected").val();
+	selDate = $("#SelDate").val();
+	selBespeakTime = $(obj).siblings("input[name='actBespeakTime']").val();
+	
+	$("#defaultTradeCenterId").val(defaultTradeCenterId);
+	$("#inputSelDate").val(selDate);
+	$("#inputBespeakTime").val(selBespeakTime);
+	
+	$("#form1").submit();
+}
 
 /**
  * 页面初始化数据
@@ -257,7 +258,7 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 		                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
 		                    } 
 		                    else {
-		                    	subStrHtml += "<a href='javascript:void(0);' class='quhao'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
+		                    	subStrHtml += "<a href='javascript:void(0);' onClick='quhao(this);'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
 		                    }
 						}
 						else {

@@ -39,7 +39,7 @@
                     参与人数
                 </div>
                 <div class="aui-col-xs-5">
-                    <input id="numberOfPeople" name="numberOfPeople" type="number" class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
+                    <input id="numberOfPeople" name="numberOfPeople" type="number" min="1" class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
                 </div>
             </div>
             <div class="aui-row pad10">
