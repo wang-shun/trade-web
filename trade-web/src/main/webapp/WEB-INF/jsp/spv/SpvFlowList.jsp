@@ -57,89 +57,55 @@
 	 <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
-                        监管资金出入账流水查询
+                        监管资金出入账申请
                     </h2>
-                    <form method="get" class="form-horizontal form_box">
-                            <div class="row clearfix">
-                                <div class="form_content">
-                                    <div id="dateDiv_0">
-                                        <div class="sign_left">
-                                            <select name="case_date" class="form-control" id="case_date_0">
-                                                <option value="" selected="selected">
-                                                    请选择
-                                                </option>
-                                                <option value="">
-                                                    签约日期
-                                                </option>
-                                                <option value="">
-                                                    过户日期
-                                                </option>
-                                                <option value="">
-                                                    领证日期
-                                                </option>
+			<form method="get" class="form_list mt5  form-inline clear" id="serachForm">
+                        <div class="row">
 
-                                            </select>
-                                        </div>
-                                        <div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                            <input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px; width: 159px; border-radius: 0px;" type="text" value="" placeholder="起始日期">
-                                            <span class="input-group-addon">
-                                                到
-                                            </span>
-                                            <input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px; width: 159px; border-radius: 0px;" type="text" value="" placeholder="结束日期">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="sign_left control-label">
-                                        监管机构
-                                    </label>
-                                    <div class="sign_right big_pad">
-                                        <select id="" name="" class="form-control patch_formatone">
-                                            <option value="" selected="selected">
-                                                请选择
-                                            </option>
-                                            <option value="">
-                                                光大银行
-                                            </option>
-                                            <option value="">
-                                                光大银行
-                                            </option>
-                                            <option value="">
-                                                光大银行
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
+                            <div class="form_content form_nomargin">
+                                <label class="control-label sign_left">
+                                    监管合约编号
+                                </label>
+                                <input class="input_type ml10" name="spvCode" placeholder="请输入合约编号" value="">
                             </div>
-                            <div class="row clearfix">
-                                <div class="form_content">
-                                    <a class="add_btn" href="javascript:void(0);" id="addBtn">
-                                        <span class="retrieve">
-                                            添加日期检索
-                                        </span>
-                                    </a>
-                                </div>
+                            <div class="form_content form_nomargin">
+                                <label class="control-label sign_left_small">
+                                    出入账类型
+                                </label>
+                                <select class="select_control" name="usage" id="usage">
+                                    <option value="">请选择</option>
+							        <option value="in">入账</option>
+									<option value="out">出帐</option>
+                                </select>
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">
+                                    申请人
+                                </label>
+                               <input type="hidden" id="userName" name="applier" >
+						        <input type="text" id="realName"  style="background-color:#FFFFFF;width:150px;" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'81E586DCB7354D438A4C38C7EAFBF53E',expandNodeId:'81E586DCB7354D438A4C38C7EAFBF53E',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value=''>
+                                 <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe627;</i>
+                                 </div>
                             </div>
 
-                            <div class="row m-t-sm">
-                                <div class="form_content">
-                                    <div class="more_btn">
-                                        <button id="searchButton" type="button" class="btn btn-success mr15"><i class="icon iconfont"></i>
-                                            查询
-                                        </button>
-                                        <button type="reset" class="btn btn-grey mr15">
-                                            清空
-                                        </button>
-                                        <button type="button" id="exportBtn" class="btn btn-success mr15">
-                                            导出列表
-                                        </button>
+                        </div>
+                        <div class="row">
+                            <div class="form_content form_nomargin">
+                                <label class="control-label sign_left">
+                                    物业地址
+                                </label>
+                                <input class="input_type ml10" name="prAddress" style="width: 392px;" placeholder="" value="">
+                            </div>
+                            <div class="form_content" style="margin-left:60px;">
+						<button type="button" id="btn_search" class="btn btn-success mr15">
+							<i class="icon iconfont">&#xe635;</i> 查询
+						</button>
+						<button type="button" onclick="clearForm()" class="btn btn-default mr15 btn-padding">清空</button>
+					</div>
+                        </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="exportExcel">
-                            </div>
                         </form>
                 </div>
                 <div class="row">
@@ -179,7 +145,7 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
        <script src="${ctx}/static/trans/js/spv/FlowDetail.js"></script>
-
+       <script src="${ctx}/static/trans/js/spv/spvFlowList.js"></script>
 	<script id="querSpvCaseFlowList" type="text/html">
          {{each rows as item index}}
                              <tr>
@@ -252,202 +218,6 @@
                                     </tr>
 			{{/each}}          
 	    </script> <script>
-						//初始化数据
-						var params = {
-							page : 1,
-							sessionUserId : $("#userId").val(),
-							serviceDepId : $("#serviceDepId").val(),
-							serviceJobCode : $("#serviceJobCode").val(),
-							serviceDepHierarchy : $("#serviceDepHierarchy")
-									.val()
-						};
-						//清空数据
-						function clearForm(){  
-						 $("#serachForm").find("input").val("")
-						 $("#status option:first").prop("selected", 'selected');
-						/*  $("#qicao option:first").prop("selected", 'selected'); */
-						}
-
-					 	$('#exportBtn').click(function(){
- 	                        getParams();
-					    	
-					    	$.exportExcel({
-					    		ctx : ctx,
-					    		method:"post",
-					    		queryId : "ToSpvCaseFlowListQuery",
-					    		colomns : ['CASHFLOW_APPLY_CODE','SPV_CODE','amount',
-					    		           'USAGE', 'PR_ADDR', 'applyerName',
-					    		            'applyAuditorName',
-					    		           'ftPreAuditorName', 'ftPostAuditorName','STATUS'],
-					    		data:""
-					    		});
-					    	
-					    });
-					 	function getParams(){
-					 		params.search_spvCode=$(
-							"input[name='spvCode']")
-							.val();
-							params.search_prAddress=$(
-							"input[name='prAddress']")
-							.val();
-							params.search_status=$(
-							"select[name='status']")
-							.val();
-							params.search_applyUser=$(
-							"input[name='applyUser']")
-							.val();
-							params.search_applyTimeStart=null;		
-							params.search_applyTimeEnd=null;
-							params.search_signTimeStart=null;
-							params.search_signTimeEnd=null;
-							params.search_closeTimeStart=null;
-							params.search_closeTimeEnd=null;
-							var sel_time = $("#sel_time").val();
-							var start= $("input[name='dtBegin']").val();
-							var end=$("input[name='dtEnd']").val()==""?$("input[name='dtEnd']").val():$("input[name='dtEnd']").val()+" 23:59:59";
-							if (sel_time == "applyTime") {
-								params.search_applyTimeStart = start;
-								params.search_applyTimeEnd = end;
-							} 
-							 else if (sel_time == "signTime") {
-								    params.search_signTimeStart =start;
-									params.search_signTimeEnd = end;
-						    }
-							else if (sel_time == "closeTime") {
-								params.search_closeTimeStart = start;
-								params.search_closeTimeEnd = end;
-							}
-					 	}
-					 	
-					 
-						//查询
-						$("#btn_search").click(function() {
-							               getParams();
-											initData();
-										})
-
-						// 日期控件
-						$('#datepicker_0').datepicker({
-							format : 'yyyy-mm-dd',
-							weekStart : 1,
-							autoclose : true,
-							todayBtn : 'linked'
-						})
-						$("#sel_time").change(function() {
-							$("input[name='dtBegin']").val("");
-							$("input[name='dtEnd']").val("");
-						})
-
-						function show(pkid){
-							var hide=$("#cashFlow"+pkid).css("display");
-							$("#cashFlow"+pkid).slideToggle("slow");
-							$("#caozuo"+pkid).html(hide=="none"?"收起":"展开");
-							if(hide!="none")return;
-							$.ajax({
-								url:ctx+"/quickGrid/findPage",
-								 method:"post",
-								 dataType:"json",
-								 data:{
-									    page : 1,
-										rows : 12,
-										queryId:'ToSpvCashFlowById',
-										id:pkid
-								 },
-								 success:function(data){
-									 var tbodyhtml=$("#tbody"+pkid);
-									 tbodyhtml.html("");
-									 var htmlText="";
-									$.each(data.rows,function(i,item){
-										htmlText+="<tr><td>"+item.VOUCHER_NO+"</td>";
-										htmlText+="<td> <p class='big'>"+(item.AMOUNT>0?item.AMOUNT/10000:0)+"万元</p></td>";
-										htmlText+="<td> <p class='big'>"+item.DIRECTION+"</p></td>";
-										htmlText+="<td> <p>"+item.PAYER+"&nbsp;&nbsp;"+item.PAYER_ACC+"/"+item.PAYER_BANK+"</p></td>";
-										htmlText+="<td> <p>"+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</p></td></tr>";
-									})
-									 tbodyhtml.html(htmlText);	
-							
-							}
-						  })
-						}
-						//加载页面
-						function initData() {
-							$(".bonus-table")
-									.aistGrid({
-												ctx : "${ctx}",
-												queryId : 'ToSpvCaseFlowListQuery',
-												   rows : '12',
-												templeteId : 'querSpvCaseFlowList',
-												gridClass : 'table table_blue table-striped table-bordered table-hover ',
-												data : params,
-												wrapperData : {job : $("#serviceJobCode").val()},
-												columns : [
-														{
-																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流水流水编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
-	/* 								    		    	           sortColumn : "SPV_CODE",
-									    		    	           sord: "desc",
-									    		    	           sortActive : true */
-														},{
-															colName : "监管合约编号"
-														},{
-															colName : "金额"
-														},{
-															colName : "类别"
-														}, {
-															colName : "物业地址"
-														}, {
-															colName : "创建"
-														}, {
-															colName : "审批状态"
-														} , {
-															colName : "操作"
-														}  ]
-
-											});
-						}
-						//排序
-						function caseCodeSort(){
-							if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
-								$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
-							}else if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down icon-chevron-down"){
-								$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up');
-							}else{
-								$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
-							}
-						}
-						
-						/**
-						 * 选择用户
-						 * @param param
-						 */
-						function userSelect(param){
-							var options = {
-							        dialogId : "selectUserDialog", //指定别名，自定义关闭时需此参数
-							        dialog : { 
-										height: 463
-									   ,width: 756
-									   ,title:'选择用户'
-									   ,url: appCtx['aist-uam-web']+'/userOrgSelect/userSelect.html'
-									   ,data:param
-									   ,buttons: [
-							                      { text: '确定', onclick: function (item, dialog) { dialog.frame.save();}},
-							                      { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
-							                   ]
-									}
-							    };
-							openDialog(options);
-						} 
-						/**
-						 * 更新input的值
-						 */
-						function selectUserBack(array){
-							if(array && array.length >0){
-								 $("#realName").val(array[0].username);
-								$("#userName").val(array[0].userId);
-							}else{
-								 $("#realName").val("");
-								$("#userName").val("");
-							}
-						}
 						
 						//初始化
 						jQuery(document).ready(function() {

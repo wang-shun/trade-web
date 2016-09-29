@@ -374,26 +374,33 @@
             	var custPhone = $('#custPhone').val();            	
             	var applyAmount = $('#applyAmount').val();
             	var month = $('#month').val();
-            	var signAmount = $('#signAmount').val(); */
-            	
+            	var signAmount = $('#signAmount').val(); */            	
             	if(isRelFinish==""){
             		alert("请选择房款是否完成");
             		return;
             	}
             	var sumAmount = 0;
-            	$(".loan_ul li").each(function(){
-            		var releaseAmount = $(this).find("#releaseAmount").val();
-            		sumAmount+=Number(releaseAmount);
-            		var releaseTime = $(this).find("#releaseTime").val();
-            		
-            		
+            	
+            	if(clickCount > 0){
+                	$(".loan_ul li").each(function(){
+                		var releaseAmount = $(this).find("#releaseAmount").val();
+                		sumAmount+=Number(releaseAmount);
+                		var releaseTime = $(this).find("#releaseTime").val();            		
+                		
+                		var eloanRel = {
+                			releaseAmount : releaseAmount,
+                			releaseTime : releaseTime,
+                			eloanCode : eloanCode,            			 
+                		}
+                		eloanRelList.push(eloanRel);
+                	})
+            	}else{
             		var eloanRel = {
-            			releaseAmount : releaseAmount,
-            			releaseTime : releaseTime,
-            			eloanCode : eloanCode,            			 
-            		}
+                			eloanCode : eloanCode,            			 
+                		}
             		eloanRelList.push(eloanRel);
-            	})
+            	}
+
             	
 /*             	var toEloanCase = {};
             	toEloanCase.eloanCode = eloanCode;
@@ -515,6 +522,7 @@
 		}
         // 添加日期查询条件
         var divIndex = 1;
+        var clickCount = 0;//判断是否添加了放款金额
         function add_money() {
         	var addMoneyReleaseHtml = template('addMoneyRelease' , {divIndex:divIndex});
         	$(".loan_ul").append(addMoneyReleaseHtml);
@@ -527,10 +535,12 @@
         		language : 'zh-CN'
         	});
         	divIndex++;
+        	clickCount++;
         }
         
         //删除日期控件
         function removeDiv(index) {
+        	clickCount--;
         	$("#releaseDiv" + index).remove();
         }
     </script>

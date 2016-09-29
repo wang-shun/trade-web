@@ -28,7 +28,13 @@ $(function () {
   	
   	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
   	var numbeOfAccommodatePeople = $.trim($("input[name='rmSignRoom.numbeOfAccommodatePeople']").val());
-  	var roomType = $.trim($("input[name='rmSignRoom.roomType']").val());
+  	var roomType = 0;
+  	$("input[name='rmSignRoom.roomType']").each(function(){
+  		if($(this).prop("checked")){
+  			roomType = $(this).prop("value");
+  		}
+     });
+  	
   	var remark = $.trim($("textarea[name='rmSignRoom.remark']").val());
   	
   	var stragegyWeekVal=0 ;
@@ -120,11 +126,18 @@ function checkFormSave(){
 		$("select[name='rmSignRoom.centerId']").focus();
 		return false;
 	}
-	if($.trim($("input[name='rmSignRoom.roomNo']").val())==''){
+	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
+	if(roomNo==''){
 		alert("请输入房间编号！");
 		$("input[name='rmSignRoom.roomNo']").focus();
 		return false;
 	}
+	if(isChineseChar(roomNo)){
+		alert("请输入正确的房间编号");
+		$("input[name='rmSignRoom.roomNo']").focus();
+		return false;
+	}
+	
 	var numbeOfAccommodatePeople = $("input[name='rmSignRoom.numbeOfAccommodatePeople']").val();
 	if($.trim(numbeOfAccommodatePeople)==''){
 		alert("请输入可容纳人数！");
@@ -134,6 +147,15 @@ function checkFormSave(){
 		alert("请输入正确的可容纳人数！");
 		$("input[name='rmSignRoom.numbeOfAccommodatePeople']").focus();
 		return false;
+	}
+	
+	var remark = $.trim($("textarea[name='rmSignRoom.remark']").val());
+	if(remark != ''){
+		if(remark.length<2 || remark.length>20){
+			alert("请输入2~20个字备注！");
+			$("textarea[name='rmSignRoom.remark']").focus();
+			return false;
+		}
 	}
 	
 	var flag=false;
@@ -257,6 +279,7 @@ function updateSignRoom(centerId,roomNo,numbeOfAccommodatePeople,roomType,remark
   	$("input[name='rmSignRoom.roomNo']").val(roomNo);
   	$("input[name='rmSignRoom.roomNo']").prop("readonly","readonly");
   	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val(numbeOfAccommodatePeople);
+  	
   	$("input[name='rmSignRoom.roomType']").each(function(){
        if($(this).prop("value")==roomType){
             $(this).prop("checked",true);
@@ -326,5 +349,12 @@ function checkZhengShu(num)
      return te.test(num);
 }
 
+/**
+ *校验中文
+ */
+function isChineseChar(str){   
+   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+   return reg.test(str);
+}
 
 

@@ -231,11 +231,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		property.setEloanCode(eloanCode);
 		List<ToEloanCase> eloanCaseList = toEloanCaseMapper.getToEloanCaseListByProperty(property);
 		
+		//查询eloanCode对应的面签总金额
 		BigDecimal signAmount = new BigDecimal(0);
 		if(!CollectionUtils.isEmpty(eloanCaseList)) {
 			signAmount = eloanCaseList.get(0).getSignAmount();
 		}
-		// 查询所有的放款记录
+		// 查询所有审批通过的的放款总额
 		Double sumReleaseAmount = toEloanRelMapper.getSumReleaseAmountByEloanCode(eloanCode);
 		BigDecimal sumRelAmount = new BigDecimal(0);
 		if(sumReleaseAmount!=null) {

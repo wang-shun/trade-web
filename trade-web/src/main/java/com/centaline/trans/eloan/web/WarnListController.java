@@ -661,7 +661,12 @@ public class WarnListController {
 	public AjaxResponse<String> saveEloanRelease(Model model,@RequestBody ToEloanRelListVO eloanRelListVO){
 		try {
 			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("ReleaseAmount", eloanRelListVO.getEloanRelList().get(0).getReleaseAmount());
+			if(null != eloanRelListVO.getEloanRelList() && eloanRelListVO.getEloanRelList().size()>0){
+				map.put("ReleaseAmount", eloanRelListVO.getEloanRelList().get(0).getReleaseAmount());
+			}else{
+				map.put("ReleaseAmount", "");
+			}
+			
 			if("1".equals(eloanRelListVO.getIsRelFinish())) {
 				map.put("isRelFinish", true);
 			} else {
@@ -672,7 +677,7 @@ public class WarnListController {
 			toEloanRelService.saveEloanRelease(eloanRelListVO.getTaskId(), eloanRelListVO.getEloanRelList(), map,eloanRelListVO.getIsRelFinish());
 			return AjaxResponse.success("操作放款成功");
 		} catch(Exception e) {
-			logger.debug("保存E+放款失败", e);
+			logger.debug("保存E+放款信息失败", e);
 			return AjaxResponse.fail("操作放款失败");
 		}
 	}

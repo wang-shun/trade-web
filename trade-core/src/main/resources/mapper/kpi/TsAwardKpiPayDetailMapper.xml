@@ -211,11 +211,11 @@
   </update>
   
   <select id="getPAwardKpiRate" parameterMap="getUserMap" statementType="CALLABLE">
-        {CALL [sctrans].[P_AWARD_KPI_RATE](#{belongMonth},#{createBy},#{createTime})}
+        {CALL [sctrans].[P_AWARD_KPI_RATE](#{belongMonth,jdbcType=TIMESTAMP},#{createBy},#{createTime,jdbcType=TIMESTAMP})}
   </select>
   
   <select id="getPAwardKpiRateStatic" parameterMap="getUserMap" statementType="CALLABLE">
-        {CALL [sctrans].[P_AWARD_KPI_RATE_STATIC](#{belongMonth},#{createBy},#{createTime})}
+        {CALL [sctrans].[P_AWARD_KPI_RATE_STATIC](#{belongMonth,jdbcType=TIMESTAMP},#{createBy},#{createTime,jdbcType=TIMESTAMP})}
   </select>
   
   <parameterMap type="java.util.Map" id="getUserMap">

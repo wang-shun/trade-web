@@ -45,27 +45,30 @@
                         <h2 class="title">
                             签约室
                         </h2>
-                        <form method="get" class="form_list">
+                        <form action="${ctx }/reservation/list" method="post" class="form_list" id="searchForm">
                         	<input type="hidden" id="ctx" value="${ctx}"/>
+                        	<input type="hidden" name="resPeopleId" id="resPeopleId" value="${resPeopleId }"/>
+                        	<input type="hidden" name="resTime" value="${resTime }"/>
+                        	<input type="hidden" name="resStatus" value="${resStatus }"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         预约人：
                                     </label>
-                                    <input class="pop-name input_type" name="resPersonId" id="resPersonId" hVal="" placeholder="" value="" readonly="readonly" placeholder="" value="" onclick="chooseManager('${serviceDepId}')">
-                                	<input type="hidden" name="resPersonOrgId" id="resPersonOrgId"/>
+                                    <input class="pop-name input_type" name="resPersonId" id="resPersonId" hVal="${resPeopleId }" placeholder=""  readonly="readonly" placeholder="" value="${resPersonId }" onclick="chooseManager('${serviceDepId}')">
+                                	
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         预约号
                                     </label>
-                                    <input class="pop-name input_type" placeholder="" value="" name="resNo">
+                                    <input class="pop-name input_type" placeholder="" value="${resNo }" name="resNo">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         手机号码
                                     </label>
-                                    <input class="input_type width165" placeholder="" value="" name="mobile">
+                                    <input class="input_type width165" placeholder="" value="${mobile }" name="mobile">
                                 </div>
                             </div>
                             <div class="line">
@@ -74,10 +77,8 @@
                                         预约日期
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                        <input name="startDateTime" class="form-control data_style datatime" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="endDateTime" class="form-control data_style datatime" type="text" value="" placeholder="结束日期">
-                                    
-                                    	<input type="hidden" name=""/>
+                                        <input name="startDateTime" class="form-control data_style datatime" type="text" value="${startDateTime }" placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input name="endDateTime" class="form-control data_style datatime" type="text" value="${endDateTime }" placeholder="结束日期">
                                     </div>
                                     <div class="seldata">
                                         <span id="today" class="today date-time">今</span>
@@ -88,6 +89,7 @@
                                     <label class="control-label sign_left_small width89">
                                         预约时间
                                     </label>
+                                    
                                     <select class="select_control sign_right_one" id="selResTime">
                                        
                                     </select>
@@ -100,13 +102,14 @@
                                     <label class="control-label sign_left_small">
                                         状态
                                     </label>
+                                    
                                     <select class="select_control sign_right_one" id="selResStatus">
-                                        <option value="">请选择</option>
-                                        <option value="0">预约中</option>
-                                        <option value="1">使用中</option>
-                                        <option value="2">已使用</option>
-                                        <option value="3">已过期</option>
-                                        <option value="4">已取消</option>
+                                        <option value=""  <c:if test="${resStatus == '' }">selected="selected"</c:if> >请选择</option>
+                                        <option value="0" <c:if test="${resStatus == '0' }">selected="selected"</c:if> >预约中</option>
+                                        <option value="1" <c:if test="${resStatus == '1' }">selected="selected"</c:if> >使用中</option>
+                                        <option value="2" <c:if test="${resStatus == '2' }">selected="selected"</c:if> >已使用</option>
+                                        <option value="3" <c:if test="${resStatus == '3' }">selected="selected"</c:if> >已过期</option>
+                                        <option value="4" <c:if test="${resStatus == '4' }">selected="selected"</c:if> >已取消</option>
                                     </select>
                                 </div>
                                 <div class="add_btn" style="float:left;margin-left:26px;">
@@ -356,11 +359,11 @@
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0' && item.currentTime <= item.endTime}}
-									<li><a href="javascript:void(0);" class="startUse">开始使用</a></li>
+									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
 								{{/if}}
                                 
 								{{if item.resStatus == '1'}}
-                                	<li><a href="javascript:void(0);" class="endUse">结束使用</a></li>
+                                	<li><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
 								{{/if}}
 
                                 <li>
@@ -373,7 +376,7 @@
 									<input type="hidden" name="endResDateTime" value="{{item.actEndTime}}"/>
 									<input type="hidden" name="realName" value="{{item.realName}}"/>
 									<input type="hidden" name="mobile" value="{{item.mobile}}"/>
-									<a href="#" data-toggle="modal" data-target="#myModal" class="followUp">最新跟进</a>
+									<a href="#" data-toggle="modal" data-target="#myModal" onClick="followup(this);">最新跟进</a>
 								</li>
                           </ul>
 					   </div>
