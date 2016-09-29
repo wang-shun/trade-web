@@ -51,6 +51,15 @@ $(function() {
     		$(".field-tooltipWrap").show(300).delay(1500).hide(300);
     		return false;
     	}
+    	else {
+    		numberOfPeople = Number(numberOfPeople);
+    		
+    		if(numberOfPeople <= 0){
+    			$(".zvalid-resultformat").html("请输入合法的参与人数");
+        		$(".field-tooltipWrap").show(300).delay(1500).hide(300);
+        		return false;
+    		}
+    	}
     	
     	var transactItem = "";
     	var isSelectTransactItem = false;

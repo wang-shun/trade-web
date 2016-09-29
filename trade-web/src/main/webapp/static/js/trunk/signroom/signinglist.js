@@ -8,7 +8,7 @@ $(function(){
 	
 	//条件查询
 	$("#searchButton").click(function(){
-		reloadGrid();
+		$("#searchForm").submit();
 	});
 	
 	 //全选
@@ -89,69 +89,97 @@ $(function(){
         $(".datatime").val(getDateWeek(1));
     });
     
-    $(".followUp").click(function(){
-    	var $obj = $(this);
-    	var resId = $obj.siblings("input[name='resId']").val();
-    	var roomType = $obj.siblings("input[name='roomType']").val();
-    	var roomNo = $obj.siblings("input[name='roomNo']").val();
-    	var resDateTime = $obj.siblings("input[name='resDateTime']").val();
-    	var startResDateTime = $obj.siblings("input[name='startResDateTime']").val();
-    	var endResDateTime = $obj.siblings("input[name='endResDateTime']").val();
-    	var realName = $obj.siblings("input[name='realName']").val();
-    	var mobile = $obj.siblings("input[name='mobile']").val();
-    	
-    	var strRoomNoHtml = roomNo;
-    	if(roomType == 1){
-    		strRoomNoHtml += "<em class='yellow_bg ml5'>机动</em>";
-    	}
-    	
-    	$("#flowupForm input[name='resId']").val(resId);
-    	$("#roomNo").html(strRoomNoHtml);
-    	$("#resDateTime").html(resDateTime);
-    	$("#resTime").html(startResDateTime + "-" + endResDateTime);
-    	$("#realname").html(realName);
-    	$("#mobile").html(mobile);
-    	$("#followUpDate").html(getCurrentTime());
-    });
-    
     //添加跟进信息
     $("#btnAddFlowUpInfo").click(function(){
     	var isSuccess = saveFlowUpInfo();
     	
     	if(isSuccess){
     		$("button[type='reset']").click();
-    		location.href = ctx + "/reservation/list";
+    		$("#searchForm").submit();
     	}
     	
     });
     
-    //开始使用
-    $(".startUse").click(function(){
-    	var $obj = $(this);
-    	
-    	startAndEndUse($obj,"startUse");
-    });
-    
-  //开始使用
-  $(".endUse").click(function(){
-	var $obj = $(this);
-	
-	startAndEndUse($obj,"endUse");
-   });
-  
   //清除
   $("#clear").click(function(){
-	$("input[name='resPersonId']").val("");
-	$("input[name='resPersonId']").attr("hval","");
-	$("input[name='resNo']").val("");
-	$("input[name='mobile']").val("");
-	$("input[name='startDateTime']").val(getCurrentDate());
-	$("input[name='endDateTime']").val(getCurrentDate());
-	$("#selResTime").val("");
+	$("#searchForm input[name='resPersonId']").val("");
+	$("#searchForm input[name='resPersonId']").attr("hval","");
+	$("#searchForm input[name='resPeopleId']").val("");
+	$("#searchForm input[name='resNo']").val("");
+	console.log($("#searchForm input[name='resNo']").val());
+	$("#searchForm input[name='mobile']").val("");
+	$("#searchForm input[name='startDateTime']").val(getCurrentDate());
+	$("#searchForm input[name='endDateTime']").val(getCurrentDate());
+	$("#searchForm #selResTime").val("");
+	$("#searchForm input[name='resTime']").val("");
 	$("#selResStatus").val("");
+	$("#searchForm input[name='resStatus']").val("");
+  });
+  
+  //选择状态事件
+  $("#selResStatus").change(function(){
+	  $("#searchForm input[name='resStatus']").val(this.value);
+  });
+  
+  //选择预约时间事件
+  $("#selResTime").change(function(){
+	  $("#searchForm input[name='resTime']").val(this.value);
   });
     
 });
+
+//签约室开始使用
+function startUse(obj,resDate,startTime,endTime){
+	var $obj = $(obj);
+	
+	var strStartTime = resDate + " " + startTime;
+	var strEndTime = resDate + " " + endTime;
+	
+	var startDateTime = new Date(strStartTime);
+	var endDateTime = new Date(strEndTime);
+	var currentDateTime = new Date();
+	
+	if(currentDateTime >= startDateTime && currentDateTime <= endDateTime){
+		startAndEndUse($obj,"startUse");
+	}
+	else {
+		alert("不能开始，不在预约时间内！");
+	}
+}
+
+//签约室结束使用
+function endUse(obj){
+	var $obj = $(obj);
+	
+	startAndEndUse($obj,"endUse");
+}
+
+//打开跟进信息界面
+function followup(obj){
+	var $obj = $(obj);
+	var resId = $obj.siblings("input[name='resId']").val();
+	var roomType = $obj.siblings("input[name='roomType']").val();
+	var roomNo = $obj.siblings("input[name='roomNo']").val();
+	var resDateTime = $obj.siblings("input[name='resDateTime']").val();
+	var startResDateTime = $obj.siblings("input[name='startResDateTime']").val();
+	var endResDateTime = $obj.siblings("input[name='endResDateTime']").val();
+	var realName = $obj.siblings("input[name='realName']").val();
+	var mobile = $obj.siblings("input[name='mobile']").val();
+	
+	var strRoomNoHtml = roomNo;
+	if(roomType == 1){
+		strRoomNoHtml += "<em class='yellow_bg ml5'>机动</em>";
+	}
+	
+	$("#flowupForm input[name='resId']").val(resId);
+	$("#roomNo").html(strRoomNoHtml);
+	$("#resDateTime").html(resDateTime);
+	$("#resTime").html(startResDateTime + "-" + endResDateTime);
+	$("#realname").html(realName);
+	$("#mobile").html(mobile);
+	$("#followUpDate").html(getCurrentTime());
+}
+
 
 function init(){
 	//加载预约时间
@@ -163,7 +191,17 @@ function init(){
 
 //开始使用
 function startAndEndUse(obj,flag){
-	if(confirm("请确定是否开始使用？")){
+	var message = "";
+	
+	if(flag == "startUse"){
+		message = "请确定是否开始使用？";
+	}
+	else if(flag == "endUse"){
+		message = "请确定是否结束使用？";
+	}
+	
+	
+	if(confirm(message)){
 		var resId = obj.parents(".dropdown-menu").find("input[name='resId']").val();
 		
 		$.ajax({
@@ -175,7 +213,7 @@ function startAndEndUse(obj,flag){
 			data:{resId:resId,flag:flag},
 			success:function(data){
 				if(data == "true"){
-					location.href = ctx + "/reservation/list";
+					$("#searchForm").submit();
 				}
 			}
 		});
@@ -277,12 +315,12 @@ function signRoomSelectUserBack(array) {
 	if (array && array.length > 0) {
 		$("#resPersonId").val(array[0].username);
 		$("#resPersonId").attr('hVal', array[0].userId);
-		$("#resPersonOrgId").val(array[0].orgId);//预约人组织ID
+		$("#resPeopleId").val(array[0].userId);
 
 	} else {
 		$("#resPersonId").val("");
 		$("#resPersonId").attr('hVal', "");
-		$("#resPersonOrgId").val("");
+		$("#resPeopleId").val("");
 	}
 }
 
@@ -311,6 +349,7 @@ function show(){
 //获取预约时间
 function getResTime(){
 	var strHtml = "<option value=''>预约时间</option>";
+	var resTime = $("#searchForm input[name='resTime']").val();
 	
 	$.ajax({
 		cache:false,
@@ -321,7 +360,12 @@ function getResTime(){
 		success:function(data){
 			if(data.length > 0){
 				for(var i=0;i<data.length;i++){
-					strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
+					if(resTime == data[i]){
+						strHtml += "<option value='"+ data[i] + "' selected='selected'>" + data[i] + "</option>";
+					}
+					else {
+						strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
+					}
 				}
 			}
 		}

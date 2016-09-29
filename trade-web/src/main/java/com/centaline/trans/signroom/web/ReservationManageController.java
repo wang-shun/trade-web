@@ -1,5 +1,6 @@
 package com.centaline.trans.signroom.web;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,32 @@ public class ReservationManageController {
 	 */
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String resPersonId = request.getParameter("resPersonId");
+		String resPeopleId = request.getParameter("resPeopleId");
+		String resNo = request.getParameter("resNo");
+		String mobile = request.getParameter("mobile");
+		String startDateTime = request.getParameter("startDateTime");
+		String endDateTime = request.getParameter("endDateTime");
+		String resTime = request.getParameter("resTime");
+		String resStatus = request.getParameter("resStatus");
+
+		if (startDateTime == null || "".equals(startDateTime)) {
+			startDateTime = sdf.format(new Date());
+		}
+
+		if (endDateTime == null || "".equals(endDateTime)) {
+			endDateTime = sdf.format(new Date());
+		}
+
+		request.setAttribute("resPersonId", resPersonId);
+		request.setAttribute("resPeopleId", resPeopleId);
+		request.setAttribute("resNo", resNo);
+		request.setAttribute("mobile", mobile);
+		request.setAttribute("startDateTime", startDateTime);
+		request.setAttribute("endDateTime", endDateTime);
+		request.setAttribute("resTime", resTime);
+		request.setAttribute("resStatus", resStatus);
 
 		return "signroom/signinglist";
 	}
