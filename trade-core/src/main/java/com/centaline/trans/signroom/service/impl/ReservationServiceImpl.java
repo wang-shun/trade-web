@@ -56,6 +56,7 @@ public class ReservationServiceImpl implements ReservationService {
 			freeRoomVo = new FreeRoomVo();
 			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
 			freeRoomVo.setResId(resId);
+			freeRoomVo.setNumberOfPeople(freeRoomInfo.getNumberOfPeople());
 
 			reservationMapper.updateReservationInfo(freeRoomVo); // 更新预约单的信息
 

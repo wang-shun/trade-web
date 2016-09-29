@@ -47,7 +47,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT r.PKID AS resId,r.RES_NO AS resNo,rs.START_DATE AS resDateTime,getdate() as currentDate,sr.ROOM_NO AS roomNO,sr.ROOM_TYPE as roomType,
-					sr.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,rs.START_DATE AS startTime,rs.END_DATE AS endTime,
+					r.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,rs.START_DATE AS startTime,rs.END_DATE AS endTime,
 					r.CHECK_IN_TIME AS checkInTime,r.CHECKED_OUT_TIME AS checkOutTime,r.RES_STATUS AS resStatus,getdate() as currentTime,
 					r.RES_PERSON_ID AS resPersonId,u.REAL_NAME AS realName,u.MOBILE AS mobile,r.SPECIAL_REQUIREMENT AS specialReq,
 					(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
