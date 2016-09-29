@@ -31,6 +31,8 @@ public class TsKpiSrvCase {
     private String teamId;
 
     private String districtId;
+    
+    private String orgId;
 
     private String type;
 	private BigDecimal srvPart;
@@ -201,5 +203,13 @@ public class TsKpiSrvCase {
 
 	public void setSrvPart(BigDecimal srvPart) {
 		this.srvPart = srvPart;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 }
