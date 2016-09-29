@@ -236,6 +236,7 @@
 			   var signAmount = $("#signAmount").val();
 			   if(signAmount =="" || signAmount == null){
 				   $("#signAmountForShow").hide();
+				   $("#signAmountForShow").attr("class","abc");
 			   }			   
 			   var releaseAmount = $("#releaseAmount").val();
 			   var releaseTime = $("#releaseTime").val();
@@ -252,7 +253,10 @@
 	            });
 		   }) 
 		   
-           $("#updateEloanCaseInfo").click(function(){        	  
+           $("#updateEloanCaseInfo").click(function(){          	  
+        	    if(!eloanInfoValidate()){
+        	    	return;
+        	    }
            		saveEloanInfoForUpdate();
            })
            
@@ -346,6 +350,47 @@
 		   
 		   function rescCallbocak(){			   
 			   window.location.href = "${ctx}/eloan/Eloanlist";
+			}
+		   
+		   function eloanInfoValidate(){			   
+			    var flag = true;	        	        	
+	            var custName = $('#custName').val();
+	        	var custPhone = $('#custPhone').val();            	
+	        	var applyAmount = $('#applyAmount').val();
+	        	var month = $('#month').val();
+	        	var signAmount = $('#signAmount').val();				
+	        	var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+	        	var mobile = $.trim(custPhone);	
+	        	
+				if (custName == null || custName == '') {
+					flag = false;					
+					alert("请填写客户姓名");					
+				}	
+				if (custPhone == null || custPhone == '') {
+					flag = false;					
+					alert("请填写客户电话");					
+				}		
+				
+				if(!isMobile.exec(mobile)){					
+					alert("手机号码格式不正确");
+					flag = false;					
+				}
+				
+				if (applyAmount == null || applyAmount == '') {					
+					flag = false;
+					alert("请填写申请金额");
+				}			
+				if (month == null || month == '') {
+					flag = false;
+					alert("请填写申请期数");					
+				}
+				if($('#signAmountForShow').attr("class")!= "abc"){
+					if (signAmount == null || signAmount == '') {
+						flag = false;
+						alert("请填写面签金额");					
+					}
+				}				
+				return flag;
 			}
 	   </script> 
 	</content>
