@@ -882,7 +882,12 @@ public class SpvController {
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(""+e.toString());
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
 			e.printStackTrace();
 		}
     	
@@ -905,7 +910,13 @@ public class SpvController {
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(""+e.toString());
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
+			e.printStackTrace();
 		}
     	
     	return response;

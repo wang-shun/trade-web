@@ -11,20 +11,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出账</title>
-    <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${ctx}/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-    <link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/font-awesome.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/style.css" rel="stylesheet">
     <!-- stickUp fixed css -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/common/stickmenu.css">
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickup.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickmenu.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
     <!-- index_css  -->
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
 </head>
@@ -70,7 +70,7 @@
                                     <label>
                                         监管金额
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpv.amount }</span>
+                                    <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
                                 </p>
 
                                 <p>
@@ -135,20 +135,22 @@
                                         <tr>
                                             <td>
                                                 <c:if test="${status1.count eq 1 }">
-                                                ${fn:length(SpvBaseInfoVO.toSpvDeDetailList) }
+                                                ${fn:length(spvBaseInfoVO.toSpvDeDetailList) }
                                                 </c:if>
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.deCondCode }
+                                                <aist:dict id="" name="" clazz="form-control input-one"
+									            display="select"  dictType="SPV_DE_COND"  
+									            ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }" ></aist:dict>
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.deAmount }
+                                                ${toSpvDeDetail.deAmount }万元
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.payeeAccountType }
+                                                ${toSpvDeDetail.deAmount }万元
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.payeeAccountType }
+                                                ${toSpvDeDetail.deAmount }万元
                                             </td>
                                         </tr>
                                         </c:forEach>                                       
@@ -174,12 +176,12 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${spvChargeInfoVO.toSpvCashFlowList}" var="toSpvCashFlow" varStatus="status2">
+                                        <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
                                         <tr>
                                             <td>
                                                 <p class="big">
                                                     <a href="javascript:void(0);">
-                                                        ${spvChargeInfoVO.toSpvCashFlowApply.cashflowApplyCode }
+                                                        ${spvCaseFlowOutInfoVO.toSpvCashFlowApply.cashflowApplyId }
                                                     </a>
                                                 </p>
                                                 <p>
@@ -192,25 +194,25 @@
                                             <td>
                                                 <p class="big">
                                                     <span class="sign_normal navy_bg">
-                                                    ${spvChargeInfoVO.toSpvCashFlowApply.usage eq in?'入账':'出账' }
+                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlowApply.usage eq in?'入账':'出账' }
                                                     </span>
                                                 </p>
                                                 <p class="big">
-                                                    ${toSpvCashFlow.amount }
+                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }
                                                 </p>
                                             </td>
                                             <td>
-                                                <p><span class="pink">付：</span>${toSpvCashFlow.payer }&nbsp;&nbsp;${toSpvCashFlow.payerAcc }/${toSpvCashFlow.payerBank }</p>
-                                                <p><span class="navy">收：</span>${toSpvCashFlow.receiver }&nbsp;&nbsp;${toSpvCashFlow.receiverAcc }/${toSpvCashFlow.receiverBank }</p>
+                                                <p><span class="pink">付：</span>${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }&nbsp;&nbsp;${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }/${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }</p>
+                                                <p><span class="navy">收：</span>${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }&nbsp;&nbsp;${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }/${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }</p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
                                                     <i class="sign_normal">录入</i>
-                                                    <a href="javascript:void(0)">${createByName }&nbsp;</a><fmt:formatDate value="${toSpvCashFlow.createTime }" pattern="yyyy-MM-dd"/>
+                                                    <a href="javascript:void(0)">${createByName }&nbsp;</a><fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.createTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                                 <p class="smll_sign">
                                                     <i class="sign_normal">结束</i>             
-                                                    <fmt:formatDate value="${toSpvCashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    <fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.closeTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                             </td>
                                             <td>
@@ -245,7 +247,7 @@
                                         <th>凭证类型</th>
                                         <th>凭证附件</th>
                                         </thead>
-                                        <tbody id="addTr">
+                                        <tbody id="addTr2">
                                         <tr>
                                             <td width="310">
                                                 <select name="" class="table-select boderbbt">
@@ -277,30 +279,29 @@
                                         <thead>
                                         <th style="width: 100px;">付款人姓名</th>
                                         <th>付款人账户</th>
-                                        <th style="width: 100px;">入账金额</th>
+                                        <th style="width: 100px;">出账金额</th>
                                         <th style="width: 120px;">贷记凭证编号</th>
                                         <th>付款方式</th>
                                         <th>凭证附件</th>
                                         <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
-                                        <input type="hidden" id="sum" value="${fn:length(spvChargeInfoVO.toSpvVoucherList) }" />
                                         <tr>
                                             <td>
-                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="" value="" />
+                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payer" />
                                             </td>
                                             <td>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerAcc" /></p>
                                                 <p>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerBank" /></p>
                                                 <p>
                                             </td>
 
                                             <td class="text-left" >
-                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="" value="" />万元
+                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.amount" />万元
                                             </td>
                                             <td>
-                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="toSpvVoucher.attachId" value="${spvCashFlowInfoVO.toSpvVoucher.attachId }" />
+                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[0].toSpvVoucher.attachId" />
                                             </td>
                                             <td>
                                                 <select name="" class="table-select boderbbt">
@@ -326,13 +327,35 @@
                                 </div>
                             </form>
                         </div>
-
+                        
+                        <div class="ibox-content clearfix space30">
+                        <div class="title">
+                            <strong>审核意见</strong>
+                        </div>
+                        <div class="view-content">
+                            <div class="view-box">
+                            <c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }(资金监管专员)</em></span>
+                                   <span class="result pink_bg">${toSpvAduit.result }</span>
+                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">${toSpvAduit.content }</em>
+                                </p>
+                            </div>
+                            </c:forEach>
+                        </div>
+                        </div>
+                        
                         <div class="submitter">
                             提交人：<span>张三(业务员)</span>
                         </div>
                         <div class="excuse">
                             <form action="">
-                                <textarea name="" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                                <textarea name="toSpvAduitList[0].content" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
                         <div class="form-btn">
                             <div class="text-center">
@@ -400,7 +423,7 @@ $(function() {
 $('.response').responsivegallery();
 
 
-var sum = $("#sum").val();
+var sum = 0;
 
 function getAtr(i){
     $str='';
@@ -411,14 +434,16 @@ function getAtr(i){
     $str+="<td><input class='table_input' type='text' value='请输入编号' /></td>";
     $str+="<td><select name='' class='table-select'><option value=''>请选择</option><option value=''>转账凭证</option></select></td>";
     $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
-    $str+="<td class='btn-height'><a href='javascript:void(0);'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
+    $str+="<td class='btn-height' align='center'><a href='javascript:void(0);'  onClick='getAtr(this)'  >添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)' >删除</a></td>";
     $str+="</tr>";
     $("#addTr").append($str);
+    sum++;
     $("#sum").html(sum);
 }
 
 function getDel(k){
     $(k).parents('tr').remove();
+    sum--;
     $("#sum").html(sum);
 }
 

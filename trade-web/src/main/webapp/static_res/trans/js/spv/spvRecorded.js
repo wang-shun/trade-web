@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	var handle = $("#handle").val();
+	
+	$(".customerinfo").find("select").prop("disabled",true);
+	
 	//流程开启后只读表单
 	if(handle == 'directorAduit' || handle == 'financeAduit' 
 		&& handle == 'financeSecondAduit' || handle == 'cashFlowOut'){
@@ -81,7 +84,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	  if(!checkFormSubmit()){
 		  return false;
 	  }*/
-	  /*if(!handle){
+	  if(!handle){
 		  if(!confirm("确定提交并开启流程吗！")){
 			  return false;
 		  } 
@@ -145,8 +148,8 @@ function submitBtnClick(handle,chargeOutAppr){
 	  		  return false;
 	  	  }
 	  }
-*/
-	  /*var totalArr = [];
+	  
+	  var totalArr = [];
 	  $("form").each(function(){
 		 var obj = $(this).serializeArray();
 		for(var i in obj){
@@ -155,7 +158,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	  });
 	  
 	  data.spvChargeInfoVO = totalArr;	  
-	  data.chargeOutAppr = chargeOutAppr; */
+	  data.chargeOutAppr = chargeOutAppr; 
 
 	  $.ajax({
 		url:ctx+"/spv/cashFlowOutAppr/deal",
@@ -200,12 +203,12 @@ function submitBtnClick(handle,chargeOutAppr){
 };
 
 function readOnlyRiskForm(){
-/*	$("input").prop("readOnly",true);
+	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("input[name='spvCustList[0].idValiDate']").prop("disabled",true);
 	$("input[name='spvCustList[1].idValiDate']").prop("disabled",true);
 	$("select").prop("disabled",true);
 	$("#realName").prop("disabled",true);
 	$("input[id^=picFileupload]").prop("disabled",true);
-	$("img").prop("disabled",true);*/
+	$("img").prop("disabled",true);
 }
