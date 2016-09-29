@@ -28,7 +28,13 @@ $(function () {
   	
   	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
   	var numbeOfAccommodatePeople = $.trim($("input[name='rmSignRoom.numbeOfAccommodatePeople']").val());
-  	var roomType = $.trim($("input[name='rmSignRoom.roomType']").val());
+  	var roomType = 0;
+  	$("input[name='rmSignRoom.roomType']").each(function(){
+  		if($(this).prop("checked")){
+  			roomType = $(this).prop("value");
+  		}
+     });
+  	
   	var remark = $.trim($("textarea[name='rmSignRoom.remark']").val());
   	
   	var stragegyWeekVal=0 ;
@@ -257,6 +263,7 @@ function updateSignRoom(centerId,roomNo,numbeOfAccommodatePeople,roomType,remark
   	$("input[name='rmSignRoom.roomNo']").val(roomNo);
   	$("input[name='rmSignRoom.roomNo']").prop("readonly","readonly");
   	$("input[name='rmSignRoom.numbeOfAccommodatePeople']").val(numbeOfAccommodatePeople);
+  	
   	$("input[name='rmSignRoom.roomType']").each(function(){
        if($(this).prop("value")==roomType){
             $(this).prop("checked",true);
